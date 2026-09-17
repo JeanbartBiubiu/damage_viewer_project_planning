@@ -1,0 +1,268 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Senna",
+  "sourceNumericId": "235",
+  "clientContentVersion": "16.17.8104348+branch.releases-16-17.content.release",
+  "source": {
+    "url": "https://raw.communitydragon.org/16.17/game/data/characters/senna/senna.bin.json",
+    "path": ".临时原始响应/16.17/Senna.bin.json",
+    "storage": "忽略提交的完整原始响应，可按URL复现",
+    "byteSize": 72788,
+    "sha256": "312a3e983b2940592ac8c396f36f54777c41a07bf162b3e4adbddee57ade6de9",
+    "fetchedAt": "2026-09-06T14:26:36.525Z"
+  },
+  "recordKey": "Characters/Senna/CharacterRecords/Root",
+  "record": {
+    "mCharacterName": "Senna",
+    "baseHPModifiable": {
+      "baseValue": 530,
+      "__type": "ModifiableFloat"
+    },
+    "hpPerLevelModifiable": {
+      "baseValue": 89,
+      "__type": "ModifiableFloat"
+    },
+    "baseStaticHPRegenModifiable": {
+      "baseValue": 0.699999988079071,
+      "__type": "ModifiableFloat"
+    },
+    "hpRegenPerLevelModifiable": {
+      "baseValue": 0.10999999940395355,
+      "__type": "ModifiableFloat"
+    },
+    "healthBarHeight": 90,
+    "primaryAbilityResource": {
+      "arType": 0,
+      "{726ee5cd}": {
+        "baseValue": 350,
+        "__type": "ModifiableFloat"
+      },
+      "{6216bf7b}": {
+        "baseValue": 45,
+        "__type": "ModifiableFloat"
+      },
+      "{c4ab3550}": {
+        "baseValue": 2.299999952316284,
+        "__type": "ModifiableFloat"
+      },
+      "{3a509002}": {
+        "baseValue": 0.14000000059604645,
+        "__type": "ModifiableFloat"
+      },
+      "__type": "AbilityResourceSlotInfo"
+    },
+    "baseDamageModifiable": {
+      "baseValue": 50,
+      "__type": "ModifiableFloat"
+    },
+    "baseArmorModifiable": {
+      "baseValue": 25,
+      "__type": "ModifiableFloat"
+    },
+    "armorPerLevelModifiable": {
+      "baseValue": 4,
+      "__type": "ModifiableFloat"
+    },
+    "baseMR": {
+      "baseValue": 33,
+      "__type": "ModifiableFloat"
+    },
+    "mrPerLevel": {
+      "baseValue": 1.100000023841858,
+      "__type": "ModifiableFloat"
+    },
+    "critDamageMultiplier": 2,
+    "baseMoveSpeedModifiable": {
+      "baseValue": 330,
+      "__type": "ModifiableFloat"
+    },
+    "attackRangeModifiable": {
+      "baseValue": 600,
+      "__type": "ModifiableFloat"
+    },
+    "attackSpeedModifiable": {
+      "baseValue": 0.625,
+      "__type": "ModifiableFloat"
+    },
+    "attackSpeedRatioModifiable": {
+      "baseValue": 0.4000000059604645,
+      "__type": "ModifiableFloat"
+    },
+    "attackSpeedPerLevelModifiable": {
+      "baseValue": 2.5999999046325684,
+      "__type": "ModifiableFloat"
+    },
+    "acquisitionRange": 800,
+    "basicAttack": {
+      "mAttackTotalTime": 1.600000023841858,
+      "mAttackCastTime": 0.550000011920929,
+      "mOverrideAutoattackCastTime": {
+        "mOverrideAutoattackCastTimeCalculation": {
+          "mFormulaParts": [
+            {
+              "mStartValue": 0.5,
+              "mEndValue": 0.3499999940395355,
+              "mScalePastDefaultMaxLevel": false,
+              "__type": "ByCharLevelInterpolationCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "__type": "OverrideAutoAttackCastTimeData"
+      },
+      "mAttackDelayCastOffsetPercentAttackSpeedRatio": 0.6000000238418579,
+      "mAttackProbability": 1,
+      "mAttackName": "SennaBasicAttack",
+      "__type": "AttackSlotData"
+    },
+    "extraAttacks": [
+      {
+        "mAttackName": "SennaBasicAttack2",
+        "__type": "AttackSlotData"
+      },
+      {
+        "mAttackName": "SennaBasicAttack3",
+        "__type": "AttackSlotData"
+      },
+      {
+        "mAttackName": "SennaBasicAttackSouls",
+        "__type": "AttackSlotData"
+      }
+    ],
+    "critAttacks": [
+      {
+        "mAttackTotalTime": 1.600000023841858,
+        "mAttackCastTime": 0.550000011920929,
+        "mOverrideAutoattackCastTime": {
+          "mOverrideAutoattackCastTimeCalculation": {
+            "mFormulaParts": [
+              {
+                "mStartValue": 0.5,
+                "mEndValue": 0.3499999940395355,
+                "mScalePastDefaultMaxLevel": false,
+                "__type": "ByCharLevelInterpolationCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "__type": "OverrideAutoAttackCastTimeData"
+        },
+        "mAttackDelayCastOffsetPercentAttackSpeedRatio": 0.6000000238418579,
+        "mAttackName": "SennaCritAttack",
+        "__type": "AttackSlotData"
+      },
+      {
+        "mAttackName": "SennaCritAttack2",
+        "__type": "AttackSlotData"
+      }
+    ],
+    "deathEventListeningRadius": 2000,
+    "spellNames": [
+      "SennaQAbility/SennaQ",
+      "SennaWAbility/SennaW",
+      "SennaEAbility/SennaE",
+      "SennaRAbility/SennaR"
+    ],
+    "spells": [
+      "Characters/Senna/Spells/SennaQAbility/SennaQ",
+      "Characters/Senna/Spells/SennaWAbility/SennaW",
+      "Characters/Senna/Spells/SennaEAbility/SennaE",
+      "Characters/Senna/Spells/SennaRAbility/SennaR"
+    ],
+    "mAbilities": [
+      "Characters/Senna/Spells/SennaRAbility",
+      "Characters/Senna/Spells/SennaQAbility",
+      "Characters/Senna/Spells/SennaWAbility",
+      "Characters/Senna/Spells/SennaEAbility",
+      "Characters/Senna/Spells/SennaPassiveAbility"
+    ],
+    "criticalAttack": "SennaCritAttack",
+    "passiveName": "Spell_SennaPassive_Name",
+    "passiveLuaName": "SennaPassive",
+    "passiveToolTip": "Spell_SennaPassive_Summary",
+    "passiveSpell": "SennaPassive",
+    "passive1IconName": "assets/characters/senna/hud/icons2d/senna_passive.dds",
+    "name": "game_character_displayname_Senna",
+    "selectionHeight": 170,
+    "selectionRadius": 115,
+    "pathfindingCollisionRadius": 35,
+    "{eb74898c}": 0.17000000178813934,
+    "unitTagsString": "Champion",
+    "mEducationToolData": {
+      "firstItem": 1055,
+      "__type": "ToolEducationData"
+    },
+    "characterToolData": {
+      "mapAIPresence": {
+        "0": {
+          "__type": "ToolAiPresence"
+        },
+        "3": {
+          "__type": "ToolAiPresence"
+        },
+        "4": {
+          "__type": "ToolAiPresence"
+        }
+      },
+      "passiveData": [
+        {
+          "name": "game_character_passiveName_Senna",
+          "level": [
+            1
+          ],
+          "__type": "ToolPassiveData"
+        }
+      ],
+      "searchTags": "support",
+      "searchTagsSecondary": "marksman",
+      "championId": 235,
+      "roles": "ATTACKER",
+      "magicRank": 6,
+      "LevelSpellEffectiveness": 3,
+      "difficultyRank": 7,
+      "description": "game_character_description_Senna",
+      "defenseRank": 2,
+      "ChasingAttackRangePercent": 0.800000011920929,
+      "{aa75da9d}": false,
+      "attackRank": 7,
+      "__type": "CharacterToolData"
+    },
+    "platformEnabled": true,
+    "useRiotRelationships": true,
+    "purchaseIdentities": [
+      "Ranged"
+    ],
+    "mPreferredPerkStyle": "Perks/Styles/Precision",
+    "mCharacterPassiveSpell": "Characters/Senna/Spells/SennaPassiveAbility/SennaPassive",
+    "mCharacterPassiveBuffs": [
+      {
+        "mParentPassiveBuff": "Characters/Senna/Spells/SennaPassiveAbility/SennaPassive",
+        "mComponentBuffs": [
+          "Characters/Senna/Spells/SennaPassiveStacks"
+        ],
+        "__type": "CharacterPassiveData"
+      },
+      {
+        "mParentPassiveBuff": "Characters/Senna/Spells/SennaRunManager",
+        "mComponentBuffs": [
+          "Characters/Senna/Spells/SennaRunVisualBuff",
+          "Characters/Senna/Spells/SennaWalkVisualBuff",
+          "Characters/Senna/Spells/SennaHomeguardVisualBuff"
+        ],
+        "__type": "CharacterPassiveData"
+      },
+      {
+        "mParentPassiveBuff": "Characters/Senna/Spells/SennaSkin56Manager",
+        "SkinFilter": {
+          "skinIds": [
+            56
+          ],
+          "__type": "SkinFilterData"
+        },
+        "__type": "CharacterPassiveData"
+      }
+    ],
+    "{c5c48b41}": 1,
+    "__type": "CharacterRecord"
+  }
+}

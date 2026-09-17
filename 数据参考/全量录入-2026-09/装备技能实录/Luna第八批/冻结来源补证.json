@@ -1,0 +1,1269 @@
+{
+  "at": "2026-09-07T19:20:54.011Z",
+  "version": "16.17.1/客户端16.17",
+  "files": [
+    {
+      "relativePath": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+      "sha256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7",
+      "decodedSha256": "b59ec9320d05acefa344ea8a5ef615cf7f32959078475cafff63833462dc358f"
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+      "sha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+      "decodedSha256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031"
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+      "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973",
+      "decodedSha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973"
+    }
+  ],
+  "items": {
+    "3032": {
+      "root": "Items/3032",
+      "object": {
+        "mDisplayName": "Item_3032_Name",
+        "itemID": 3032,
+        "maxStack": 1,
+        "mItemGroups": [
+          "Items/ItemGroups/Default",
+          "{aba3fe3b}",
+          "{3bbe1bdd}"
+        ],
+        "price": 750,
+        "mItemCalloutSpectator": true,
+        "mCanBeSold": true,
+        "epicness": 5,
+        "recipeItemLinks": [
+          "Items/1038",
+          "Items/3144",
+          "Items/1036"
+        ],
+        "mDataValues": [
+          {
+            "mName": "ASDuration",
+            "mValue": 6,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "CritMax",
+            "mValue": 25,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "Cooldown",
+            "mValue": 30,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "AACDR",
+            "mValue": 1,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "CritCDR",
+            "mValue": 2,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "ASMod",
+            "mValue": 0.30000001192092896,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "CritPerStackMelee",
+            "mValue": 0.4000000059604645,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "StackRangedMultiplier",
+            "mValue": 0.5,
+            "__type": "ItemDataValue"
+          }
+        ],
+        "DataValuesModeOverride": {
+          "ARAM": {
+            "DataValues": [
+              {
+                "mName": "CritPerStackMelee",
+                "mValue": 1,
+                "__type": "ItemDataValue"
+              },
+              {
+                "mName": "StackRangedMultiplier",
+                "mValue": 0.5,
+                "__type": "ItemDataValue"
+              }
+            ],
+            "__type": "ItemDataValues"
+          },
+          "SWIFTPLAY": {
+            "DataValues": [
+              {
+                "mName": "CritPerStackMelee",
+                "mValue": 1,
+                "__type": "ItemDataValue"
+              },
+              {
+                "mName": "StackRangedMultiplier",
+                "mValue": 0.5,
+                "__type": "ItemDataValue"
+              }
+            ],
+            "__type": "ItemDataValues"
+          },
+          "{a110bc47}": {
+            "DataValues": [
+              {
+                "mName": "CritPerStackMelee",
+                "mValue": 1,
+                "__type": "ItemDataValue"
+              },
+              {
+                "mName": "StackRangedMultiplier",
+                "mValue": 0.5,
+                "__type": "ItemDataValue"
+              }
+            ],
+            "__type": "ItemDataValues"
+          },
+          "{bffdf499}": {
+            "DataValues": [
+              {
+                "mName": "CritPerStackMelee",
+                "mValue": 1,
+                "__type": "ItemDataValue"
+              },
+              {
+                "mName": "StackRangedMultiplier",
+                "mValue": 0.5,
+                "__type": "ItemDataValue"
+              }
+            ],
+            "__type": "ItemDataValues"
+          }
+        },
+        "mItemCalculations": {
+          "CritPerStackCalc": {
+            "mFormulaParts": [
+              {
+                "mDataValue": "{52d90ad0}",
+                "__type": "NamedDataValueCalculationPart"
+              }
+            ],
+            "mPrecision": 1,
+            "mRangedMultiplier": {
+              "mDataValue": "{1eea3407}",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            "__type": "{e9a3c91d}"
+          }
+        },
+        "mFlatPhysicalDamageMod": 50,
+        "mPercentAttackSpeedMod": 0.44999998807907104,
+        "mCategories": [
+          "Damage",
+          "CriticalStrike",
+          "AttackSpeed"
+        ],
+        "mItemDataAvailability": {
+          "mInStore": true,
+          "__type": "ItemDataAvailability"
+        },
+        "mItemAttributes": [
+          2
+        ],
+        "mItemDataClient": {
+          "mTooltipData": {
+            "mObjectName": "3032",
+            "mFormat": "{32559c50}",
+            "mLocKeys": {
+              "keyName": "Item_3032_Name",
+              "keyBrief": "Item_3032_Brief",
+              "keyTooltip": "Item_3032_Tooltip",
+              "keyColloquialism": "Item_3032_Colloquialism",
+              "keyFlavorText": "Item_3032_FlavorText",
+              "keyTooltipExternal": "Item_3032_TooltipExternal"
+            },
+            "mLists": {
+              "Stats": {
+                "Elements": [
+                  {
+                    "type": "AttackDamage",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "AttackSpeed",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "CritChance",
+                    "__type": "TooltipInstanceListElement"
+                  }
+                ],
+                "__type": "TooltipInstanceList"
+              }
+            },
+            "__type": "TooltipInstanceItem"
+          },
+          "mDescription": "GeneratedTip_Item_3032_Description",
+          "mDynamicTooltip": "GeneratedTip_Item_3032_TooltipInventory",
+          "mShopTooltip": "GeneratedTip_Item_3032_TooltipShop",
+          "inventoryIcon": "assets/items/icons2d/3032_yuntalwildarrows.dds",
+          "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/6095_YunTalWildarrows44.png",
+          "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/6095_YunTalWildarrows88.png",
+          "epicness": 1,
+          "__type": "ItemDataClient"
+        },
+        "mVFXResourceResolver": {
+          "resourceMap": {
+            "{1e64ce70}": "Items/3032/Particles/3032_Bleed",
+            "{8c0daa2c}": "Items/3032/Particles/3032_Buff_Hands",
+            "{101b1206}": "Items/3032/Particles/3032_Buff_Root"
+          },
+          "__type": "ResourceResolver"
+        },
+        "__type": "ItemData"
+      }
+    },
+    "3050": {
+      "root": "Items/3050",
+      "object": {
+        "mDisplayName": "Item_3050_Name",
+        "itemID": 3050,
+        "maxStack": 1,
+        "mItemGroups": [
+          "Items/ItemGroups/Default",
+          "{31b248b7}"
+        ],
+        "mItemAdviceAttributes": [
+          "{165d7c1f}",
+          "{f3246d2c}"
+        ],
+        "price": 700,
+        "mCanBeSold": true,
+        "epicness": 5,
+        "recipeItemLinks": [
+          "Items/3067",
+          "Items/1029",
+          "Items/1033"
+        ],
+        "mScripts": [
+          "3050"
+        ],
+        "mEffectAmount": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "mDataValues": [
+          {
+            "mName": "Duration",
+            "mValue": 5,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "Cooldown",
+            "mValue": 45,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "SlowAmount",
+            "mValue": 0.30000001192092896,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "DamagePerSecond",
+            "mValue": 30,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "StormRadius",
+            "mValue": 350,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "UltimateHaste",
+            "mValue": 15,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "ReadyDuration",
+            "mValue": 5,
+            "__type": "ItemDataValue"
+          }
+        ],
+        "mAbilityHasteMod": 10,
+        "mFlatHPPoolMod": 300,
+        "mFlatArmorMod": 25,
+        "mFlatSpellBlockMod": 25,
+        "mCategories": [
+          "Health",
+          "SpellBlock",
+          "Armor",
+          "AbilityHaste"
+        ],
+        "mItemDataAvailability": {
+          "mInStore": true,
+          "__type": "ItemDataAvailability"
+        },
+        "mItemAttributes": [
+          32,
+          8
+        ],
+        "mItemDataClient": {
+          "mTooltipData": {
+            "mObjectName": "3050",
+            "mFormat": "{32559c50}",
+            "EnableExtendedTooltip": false,
+            "mLocKeys": {
+              "keyName": "Item_3050_Name",
+              "keyBrief": "Item_3050_Brief",
+              "keyTooltip": "Item_3050_Tooltip",
+              "keyInventoryOnlyText": "Item_3050_InventoryOnlyText",
+              "keyTooltipExternal": "Item_3050_TooltipExternal"
+            },
+            "mLists": {
+              "Stats": {
+                "Elements": [
+                  {
+                    "type": "Health",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "Armor",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "MagicResist",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "AbilityHaste",
+                    "__type": "TooltipInstanceListElement"
+                  }
+                ],
+                "__type": "TooltipInstanceList"
+              }
+            },
+            "__type": "TooltipInstanceItem"
+          },
+          "mDescription": "GeneratedTip_Item_3050_Description",
+          "mDynamicTooltip": "GeneratedTip_Item_3050_TooltipInventory",
+          "mShopTooltip": "GeneratedTip_Item_3050_TooltipShop",
+          "inventoryIcon": "assets/items/icons2d/3050_enchanter_t3_zekesconvergence.dds",
+          "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/3050_Enchanter_T3_ZekesConvergence.png",
+          "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/3050_Enchanter_T3_ZekesConvergence.png",
+          "epicness": 5,
+          "__type": "ItemDataClient"
+        },
+        "mVFXResourceResolver": {
+          "resourceMap": {
+            "{56268477}": "Items/3050/Particles/3050_Mis",
+            "{53b920b5}": "Items/3050/Particles/3050_Mark",
+            "{bf8705e8}": "Items/3050/Particles/3050_InRange",
+            "{d648ce0e}": "Items/3050/Particles/3050_OutOfRange",
+            "{79be870b}": "Items/3050/Particles/3050_Tar",
+            "{b450d50d}": "Items/3050/Particles/3050_FireIce_Storm",
+            "{3fbd4c6f}": "Items/3050/Particles/3050_Sparks_Ice_Fire",
+            "{e7631dfd}": "Items/3050/Particles/3050_Storm_Ready"
+          },
+          "__type": "ResourceResolver"
+        },
+        "__type": "ItemData"
+      }
+    },
+    "3071": {
+      "root": "Items/3071",
+      "object": {
+        "mDisplayName": "Item_3071_Name",
+        "itemID": 3071,
+        "maxStack": 1,
+        "mItemGroups": [
+          "Items/ItemGroups/Default",
+          "{24adb712}",
+          "Items/ItemGroups/LastWhisper"
+        ],
+        "mItemAdviceAttributes": [
+          "{72256343}",
+          "{e625a35a}"
+        ],
+        "price": 225,
+        "mItemCalloutSpectator": true,
+        "mCanBeSold": true,
+        "epicness": 5,
+        "recipeItemLinks": [
+          "Items/3044",
+          "Items/3067",
+          "Items/1037"
+        ],
+        "mDataValues": [
+          {
+            "mName": "DebuffDuration",
+            "mValue": 6,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "MoveSpeedBonus",
+            "mValue": 20,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "MoveSpeedDuration",
+            "mValue": 2,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "InternalCD",
+            "mValue": 0.009999999776482582,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "MaxStacks",
+            "mValue": 5,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "ShredPerStack",
+            "mValue": 0.05999999865889549,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "RangedMod",
+            "mValue": 0.5,
+            "__type": "ItemDataValue"
+          }
+        ],
+        "mItemCalculations": {
+          "MSBonusSplit": {
+            "mExpandedTooltipCalculationDisplay": 5,
+            "mFormulaParts": [
+              {
+                "mDataValue": "MoveSpeedBonus",
+                "__type": "NamedDataValueCalculationPart"
+              }
+            ],
+            "mRangedMultiplier": {
+              "mDataValue": "RangedMod",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            "__type": "{e9a3c91d}"
+          }
+        },
+        "mAbilityHasteMod": 20,
+        "mFlatHPPoolMod": 400,
+        "mFlatPhysicalDamageMod": 45,
+        "mCategories": [
+          "Health",
+          "Damage",
+          "CooldownReduction",
+          "OnHit",
+          "NonbootsMovement",
+          "ArmorPenetration",
+          "AbilityHaste"
+        ],
+        "mItemDataAvailability": {
+          "mInStore": true,
+          "__type": "ItemDataAvailability"
+        },
+        "mItemAttributes": [
+          1
+        ],
+        "mItemDataClient": {
+          "mTooltipData": {
+            "mObjectName": "3071",
+            "mFormat": "{32559c50}",
+            "mLocKeys": {
+              "keyName": "Item_3071_Name",
+              "keyBrief": "Item_3071_Brief",
+              "keyTooltip": "Item_3071_Tooltip",
+              "keyColloquialism": "Item_3071_Colloquialism",
+              "keySecondaryBrief": "Item_Unique_Fatality"
+            },
+            "mLists": {
+              "Stats": {
+                "Elements": [
+                  {
+                    "type": "AttackDamage",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "Health",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "AbilityHaste",
+                    "__type": "TooltipInstanceListElement"
+                  }
+                ],
+                "__type": "TooltipInstanceList"
+              }
+            },
+            "__type": "TooltipInstanceItem"
+          },
+          "mDescription": "GeneratedTip_Item_3071_Description",
+          "mDynamicTooltip": "GeneratedTip_Item_3071_TooltipInventory",
+          "mShopTooltip": "GeneratedTip_Item_3071_TooltipShop",
+          "inventoryIcon": "assets/items/icons2d/3071_fighter_t3_blackcleaver.dds",
+          "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/3071_Fighter_T3_BlackCleaver.png",
+          "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/3071_Fighter_T3_BlackCleaver.png",
+          "epicness": 5,
+          "__type": "ItemDataClient"
+        },
+        "mVFXResourceResolver": {
+          "resourceMap": {
+            "{5f10f7cb}": "Items/3071/Particles/BlackCleaver_Armor_shred_small",
+            "{328386a9}": "Items/3071/Particles/BlackCleaver_Armor_shred_full",
+            "{35688089}": "Items/3071/Particles/BlackCleaver_Full_stack_hit_effect"
+          },
+          "__type": "ResourceResolver"
+        },
+        "__type": "ItemData"
+      }
+    },
+    "3803": {
+      "root": "Items/3803",
+      "object": {
+        "mDisplayName": "Item_3803_Name",
+        "itemID": 3803,
+        "maxStack": 1,
+        "mItemGroups": [
+          "Items/ItemGroups/Default",
+          "Items/ItemGroups/EternityItems"
+        ],
+        "price": 200,
+        "mCanBeSold": true,
+        "epicness": 4,
+        "recipeItemLinks": [
+          "Items/1028",
+          "Items/1028",
+          "Items/1027"
+        ],
+        "mDataValues": [
+          {
+            "mName": "EternityManaRestore",
+            "mValue": 0.10000000149011612,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "EternityHealthRestore",
+            "mValue": 0.25,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "EternityMaxHealPerCast",
+            "mValue": 20,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "EternityCDPerCast",
+            "mValue": 1,
+            "__type": "ItemDataValue"
+          }
+        ],
+        "mFlatHPPoolMod": 300,
+        "flatMPPoolMod": 375,
+        "mCategories": [
+          "Health",
+          "HealthRegen",
+          "Mana",
+          "ManaRegen"
+        ],
+        "mItemDataAvailability": {
+          "mInStore": true,
+          "__type": "ItemDataAvailability"
+        },
+        "mItemAttributes": [
+          8,
+          16
+        ],
+        "mItemDataClient": {
+          "mTooltipData": {
+            "mObjectName": "3803",
+            "mFormat": "{32559c50}",
+            "mLocKeys": {
+              "keyName": "Item_3803_Name",
+              "keyTooltip": "Item_3803_Tooltip",
+              "keyColloquialism": "Item_3803_Colloquialism",
+              "keySecondaryBrief": "Item_Unique_Eternity",
+              "keyTooltipExtended": "Item_3803_TooltipExtended"
+            },
+            "mLists": {
+              "Stats": {
+                "Elements": [
+                  {
+                    "type": "Health",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "Mana",
+                    "__type": "TooltipInstanceListElement"
+                  }
+                ],
+                "__type": "TooltipInstanceList"
+              }
+            },
+            "__type": "TooltipInstanceItem"
+          },
+          "mDescription": "GeneratedTip_Item_3803_Description",
+          "mDynamicTooltip": "GeneratedTip_Item_3803_TooltipInventory",
+          "mShopTooltip": "GeneratedTip_Item_3803_TooltipShop",
+          "inventoryIcon": "assets/items/icons2d/3803_mage_t2_catalystofaeons.dds",
+          "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/3803_Mage_T2_CatalystOfAeons.png",
+          "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/3803_Mage_T2_CatalystOfAeons.png",
+          "epicness": 4,
+          "__type": "ItemDataClient"
+        },
+        "__type": "ItemData"
+      }
+    },
+    "6653": {
+      "root": "Items/6653",
+      "object": {
+        "mDisplayName": "Item_6653_Name",
+        "itemID": 6653,
+        "maxStack": 1,
+        "mItemGroups": [
+          "Items/ItemGroups/Default",
+          "{42600c7d}"
+        ],
+        "mItemAdviceAttributes": [
+          "{e625a35a}"
+        ],
+        "price": 800,
+        "mItemCalloutSpectator": true,
+        "mCanBeSold": true,
+        "epicness": 5,
+        "recipeItemLinks": [
+          "Items/3147",
+          "Items/2508"
+        ],
+        "mDataValues": [
+          {
+            "mName": "BurnDuration",
+            "mValue": 3,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "BurnPercentHealthDamage",
+            "mValue": 0.019999999552965164,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "DamageIncreasePerSecond",
+            "mValue": 0.019999999552965164,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "DamageIncreaseMax",
+            "mValue": 0.05999999865889549,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "TickFrequency",
+            "mValue": 0.5,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "MonsterDamageCap",
+            "mValue": 40,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "MaxDamageHPThreshold",
+            "mValue": 1250,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "BuffCounterDuration",
+            "mValue": 3,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "MaxStackNumber",
+            "mValue": 3,
+            "__type": "ItemDataValue"
+          }
+        ],
+        "DataValuesModeOverride": {
+          "Ruby": {
+            "DataValues": [
+              {
+                "mName": "BurnPercentHealthDamage",
+                "mValue": 0.014999999664723873,
+                "__type": "ItemDataValue"
+              }
+            ],
+            "__type": "ItemDataValues"
+          },
+          "RUBY_TRIAL_1": {
+            "DataValues": [
+              {
+                "mName": "BurnPercentHealthDamage",
+                "mValue": 0.014999999664723873,
+                "__type": "ItemDataValue"
+              }
+            ],
+            "__type": "ItemDataValues"
+          },
+          "RUBY_TRIAL_2": {
+            "DataValues": [
+              {
+                "mName": "BurnPercentHealthDamage",
+                "mValue": 0.014999999664723873,
+                "__type": "ItemDataValue"
+              }
+            ],
+            "__type": "ItemDataValues"
+          },
+          "{aecea60c}": {
+            "DataValues": [
+              {
+                "mName": "BurnPercentHealthDamage",
+                "mValue": 0.014999999664723873,
+                "__type": "ItemDataValue"
+              }
+            ],
+            "__type": "ItemDataValues"
+          },
+          "ARAM": {
+            "DataValues": [
+              {
+                "mName": "BurnPercentHealthDamage",
+                "mValue": 0.017999999225139618,
+                "__type": "ItemDataValue"
+              }
+            ],
+            "__type": "ItemDataValues"
+          }
+        },
+        "mFlatHPPoolMod": 300,
+        "mFlatMagicDamageMod": 60,
+        "mCategories": [
+          "Health",
+          "SpellDamage"
+        ],
+        "mItemDataAvailability": {
+          "mInStore": true,
+          "__type": "ItemDataAvailability"
+        },
+        "mItemAttributes": [
+          16
+        ],
+        "mItemDataClient": {
+          "mTooltipData": {
+            "mObjectName": "6653",
+            "mFormat": "{32559c50}",
+            "EnableExtendedTooltip": false,
+            "mLocKeys": {
+              "keyName": "Item_6653_Name",
+              "keyBrief": "Item_6653_Brief",
+              "keyTooltip": "Item_6653_Tooltip",
+              "keyColloquialism": "Item_6653_Colloquialism",
+              "keyInventoryOnlyText": "Item_6653_InventoryOnlyText"
+            },
+            "mLists": {
+              "Stats": {
+                "Elements": [
+                  {
+                    "type": "AbilityPower",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "Health",
+                    "__type": "TooltipInstanceListElement"
+                  }
+                ],
+                "__type": "TooltipInstanceList"
+              }
+            },
+            "__type": "TooltipInstanceItem"
+          },
+          "mDescription": "GeneratedTip_Item_6653_Description",
+          "mDynamicTooltip": "GeneratedTip_Item_6653_TooltipInventory",
+          "mShopTooltip": "GeneratedTip_Item_6653_TooltipShop",
+          "inventoryIcon": "assets/items/icons2d/6653_mage_t4_liandrysanguish.dds",
+          "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/6653_Mage_T4_LiandrysAnguish.png",
+          "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/6653_Mage_T4_LiandrysAnguish.png",
+          "epicness": 6,
+          "__type": "ItemDataClient"
+        },
+        "mVFXResourceResolver": {
+          "resourceMap": {
+            "{632cdf79}": "Items/6653/Particles/6653_Dot_Tar",
+            "{f8889374}": "Items/6653/Particles/6653_Dot_Debuff"
+          },
+          "__type": "ResourceResolver"
+        },
+        "__type": "ItemData"
+      }
+    },
+    "8010": {
+      "root": "Items/8010",
+      "object": {
+        "mDisplayName": "Item_8010_Name",
+        "itemID": 8010,
+        "maxStack": 1,
+        "mItemGroups": [
+          "Items/ItemGroups/Default",
+          "{6219a9e8}",
+          "Items/ItemGroups/VoidPen"
+        ],
+        "price": 750,
+        "mCanBeSold": true,
+        "epicness": 5,
+        "recipeItemLinks": [
+          "Items/3147",
+          "Items/3108"
+        ],
+        "mDataValues": [
+          {
+            "mName": "ShredPerStack",
+            "mValue": 0.07500000298023224,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "DebuffDuration",
+            "mValue": 6,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "InternalCD",
+            "mValue": 0.30000001192092896,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "MaxStacks",
+            "mValue": 4,
+            "__type": "ItemDataValue"
+          }
+        ],
+        "mAbilityHasteMod": 15,
+        "mFlatHPPoolMod": 400,
+        "mFlatMagicDamageMod": 65,
+        "mCategories": [
+          "Health",
+          "SpellDamage",
+          "CooldownReduction",
+          "MagicPenetration"
+        ],
+        "mItemDataAvailability": {
+          "mInStore": true,
+          "__type": "ItemDataAvailability"
+        },
+        "mItemAttributes": [
+          16
+        ],
+        "LastMajorChangeMajorPatchVersion": 14,
+        "LastMajorChangeMinorPatchVersion": 1,
+        "mItemDataClient": {
+          "mTooltipData": {
+            "mObjectName": "8010",
+            "mFormat": "{32559c50}",
+            "mLocKeys": {
+              "keyName": "Item_8010_Name",
+              "keyTooltip": "Item_8010_Tooltip",
+              "keyBrief": "Item_8010_Brief",
+              "keySummary": "Item_8010_Summary",
+              "keySecondaryBrief": "Item_Unique_Blight",
+              "keyTooltipExtendedRules": "Item_8010_TooltipExtendedRules"
+            },
+            "mLists": {
+              "Stats": {
+                "Elements": [
+                  {
+                    "type": "AbilityPower",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "Health",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "AbilityHaste",
+                    "__type": "TooltipInstanceListElement"
+                  }
+                ],
+                "__type": "TooltipInstanceList"
+              }
+            },
+            "__type": "TooltipInstanceItem"
+          },
+          "mDescription": "GeneratedTip_Item_8010_Description",
+          "mDynamicTooltip": "GeneratedTip_Item_8010_TooltipInventory",
+          "mShopTooltip": "GeneratedTip_Item_8010_TooltipShop",
+          "inventoryIcon": "assets/items/icons2d/8010_bloodletterscurse.dds",
+          "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/8010_BloodlettersCurse44.png",
+          "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/8010_BloodlettersCurse88.png",
+          "epicness": 0,
+          "__type": "ItemDataClient"
+        },
+        "__type": "ItemData"
+      }
+    }
+  },
+  "texts": {
+    "item_3032_name": "育恩塔尔荒野箭",
+    "item_3032_brief": "暴击叠加",
+    "item_3032_tooltip": "<passive>熟能生巧</passive><br>攻击时，永久获得+%i:scaleCrit% @CritPerStackCalc@%暴击几率，至多至@CritMax@%。<br><br><passive>疾风骤雨</passive> {{ Item_Cooldown }}<br>攻击一个敌方英雄时，获得持续@ASDuration@秒的<attackSpeed>@ASMod*100@%攻击速度</attackSpeed>。<br>攻击可使这个冷却时间缩短@AACDR@秒，这个缩减值会在暴击时提升至@CritCDR@秒。",
+    "item_3032_colloquialism": ";yuntal;arrow;yetr;yuentaer;huangyejian;hyj",
+    "item_3032_flavortext": "传承给一个又一个女猎手，打败了一个又一个敌人。",
+    "item_3032_tooltipexternal": "<passive>熟能生巧</passive><br>攻击时，永久获得暴击几率，至多至@CritMax@%。<br><br><passive>疾风骤雨</passive> <br>攻击一个敌方英雄时，获得持续@ASDuration@秒的@ASMod*100@%攻击速度(@Cooldown@秒冷却时间)。<br>攻击可使这个冷却时间缩短@AACDR@秒，这个缩减值会在暴击时提升至@CritCDR@秒。",
+    "generatedtip_item_3032_description": "<section></section><section><attention>%i:scaleAD%@FlatPhysicalDamageMod@</attention>攻击力<br><attention>%i:scaleAS%@PercentAttackSpeedMod*100@%</attention>攻击速度<br><attention>%i:scaleCrit%@FlatCritChanceMod*100@%</attention>暴击几率</section><section><passive>熟能生巧</passive><br>攻击时，永久获得+%i:scaleCrit% @CritPerStackCalc@%暴击几率，至多至@CritMax@%。<br><br><passive>疾风骤雨</passive> {{ Item_Cooldown }}<br>攻击一个敌方英雄时，获得持续@ASDuration@秒的<attackSpeed>@ASMod*100@%攻击速度</attackSpeed>。<br>攻击可使这个冷却时间缩短@AACDR@秒，这个缩减值会在暴击时提升至@CritCDR@秒。</section><section></section><section><flavorText>传承给一个又一个女猎手，打败了一个又一个敌人。</flavorText></section>",
+    "generatedtip_item_3032_tooltipinventory": "<titleLeft><itemName@ItemActiveness@>育恩塔尔荒野箭</itemName@ItemActiveness@></titleLeft><titleRight>{{ Item_Gold_Value_Sell }} <rules>(@SellBackModifier*100@%)</rules></titleRight><subtitleLeft>{{ Item_BriefIcon_@ItemActiveness@ }}暴击叠加</subtitleLeft><subtitleRight></subtitleRight><mainText><section><attention>%i:scaleAD%@FlatPhysicalDamageMod@</attention>攻击力<br><attention>%i:scaleAS%@PercentAttackSpeedMod*100@%</attention>攻击速度<br><attention>%i:scaleCrit%@FlatCritChanceMod*100@%</attention>暴击几率@ExtendedStats@</section><section><passive>熟能生巧</passive><br>攻击时，永久获得+%i:scaleCrit% @CritPerStackCalc@%暴击几率，至多至@CritMax@%。<br><br><passive>疾风骤雨</passive> {{ Item_Cooldown }}<br>攻击一个敌方英雄时，获得持续@ASDuration@秒的<attackSpeed>@ASMod*100@%攻击速度</attackSpeed>。<br>攻击可使这个冷却时间缩短@AACDR@秒，这个缩减值会在暴击时提升至@CritCDR@秒。</section><section></section><section><flavorText>传承给一个又一个女猎手，打败了一个又一个敌人。</flavorText></section></mainText><postScriptLeft></postScriptLeft>",
+    "generatedtip_item_3032_tooltipshop": "<titleLeft><itemName@ItemActiveness@>育恩塔尔荒野箭</itemName@ItemActiveness@></titleLeft><titleRight>{{ Item_Gold_Value }}</titleRight><subtitleLeft>{{ Item_BriefIcon_@ItemActiveness@ }}暴击叠加</subtitleLeft><subtitleRight></subtitleRight><mainText><section></section><section><attention>%i:scaleAD%@FlatPhysicalDamageMod@</attention>攻击力<br><attention>%i:scaleAS%@PercentAttackSpeedMod*100@%</attention>攻击速度<br><attention>%i:scaleCrit%@FlatCritChanceMod*100@%</attention>暴击几率</section><section><passive>熟能生巧</passive><br>攻击时，永久获得+%i:scaleCrit% @CritPerStackCalc@%暴击几率，至多至@CritMax@%。<br><br><passive>疾风骤雨</passive> {{ Item_Cooldown }}<br>攻击一个敌方英雄时，获得持续@ASDuration@秒的<attackSpeed>@ASMod*100@%攻击速度</attackSpeed>。<br>攻击可使这个冷却时间缩短@AACDR@秒，这个缩减值会在暴击时提升至@CritCDR@秒。</section><section></section><section><flavorText>传承给一个又一个女猎手，打败了一个又一个敌人。</flavorText></section></mainText><br>",
+    "generatedtip_item_3032_tooltipinventoryextended": "<titleLeft><itemName@ItemActiveness@>育恩塔尔荒野箭</itemName@ItemActiveness@></titleLeft><titleRight>{{ Item_Gold_Value_Sell }} <rules>(@SellBackModifier*100@%)</rules></titleRight><subtitleLeft>{{ Item_BriefIcon_@ItemActiveness@ }}暴击叠加</subtitleLeft><subtitleRight></subtitleRight><mainText><section><attention>%i:scaleAD%@FlatPhysicalDamageMod@</attention>攻击力<br><attention>%i:scaleAS%@PercentAttackSpeedMod*100@%</attention>攻击速度<br><attention>%i:scaleCrit%@FlatCritChanceMod*100@%</attention>暴击几率@ExtendedStats@</section><section><passive>熟能生巧</passive><br>攻击时，永久获得+%i:scaleCrit% @CritPerStackCalc@%暴击几率，至多至@CritMax@%。<br><br><passive>疾风骤雨</passive> {{ Item_Cooldown }}<br>攻击一个敌方英雄时，获得持续@ASDuration@秒的<attackSpeed>@ASMod*100@%攻击速度</attackSpeed>。<br>攻击可使这个冷却时间缩短@AACDR@秒，这个缩减值会在暴击时提升至@CritCDR@秒。</section><section></section><section></section><section><flavorText>传承给一个又一个女猎手，打败了一个又一个敌人。</flavorText></section></mainText><postScriptTitle><section></section><section></section><section></section><section></section></postScriptTitle>",
+    "generatedtip_item_3032_tooltipshopextended": "<titleLeft><itemName@ItemActiveness@>育恩塔尔荒野箭</itemName@ItemActiveness@></titleLeft><titleRight>{{ Item_Gold_Value }}</titleRight><subtitleLeft>{{ Item_BriefIcon_@ItemActiveness@ }}暴击叠加</subtitleLeft><subtitleRight></subtitleRight><mainText><section></section><section><attention>%i:scaleAD%@FlatPhysicalDamageMod@</attention>攻击力<br><attention>%i:scaleAS%@PercentAttackSpeedMod*100@%</attention>攻击速度<br><attention>%i:scaleCrit%@FlatCritChanceMod*100@%</attention>暴击几率</section><section><passive>熟能生巧</passive><br>攻击时，永久获得+%i:scaleCrit% @CritPerStackCalc@%暴击几率，至多至@CritMax@%。<br><br><passive>疾风骤雨</passive> {{ Item_Cooldown }}<br>攻击一个敌方英雄时，获得持续@ASDuration@秒的<attackSpeed>@ASMod*100@%攻击速度</attackSpeed>。<br>攻击可使这个冷却时间缩短@AACDR@秒，这个缩减值会在暴击时提升至@CritCDR@秒。</section><section></section><section></section><section><flavorText>传承给一个又一个女猎手，打败了一个又一个敌人。</flavorText></section></mainText><postScriptTitle><section></section><section></section><section></section></postScriptTitle>",
+    "generatedtip_item_3032_tooltipinventorywithextendedbehaviorhint": "<titleLeft><itemName@ItemActiveness@>育恩塔尔荒野箭</itemName@ItemActiveness@></titleLeft><titleRight>{{ Item_Gold_Value_Sell }} <rules>(@SellBackModifier*100@%)</rules></titleRight><subtitleLeft>{{ Item_BriefIcon_@ItemActiveness@ }}暴击叠加</subtitleLeft><subtitleRight></subtitleRight><mainText><section><attention>%i:scaleAD%@FlatPhysicalDamageMod@</attention>攻击力<br><attention>%i:scaleAS%@PercentAttackSpeedMod*100@%</attention>攻击速度<br><attention>%i:scaleCrit%@FlatCritChanceMod*100@%</attention>暴击几率@ExtendedStats@</section><section><passive>熟能生巧</passive><br>攻击时，永久获得+%i:scaleCrit% @CritPerStackCalc@%暴击几率，至多至@CritMax@%。<br><br><passive>疾风骤雨</passive> {{ Item_Cooldown }}<br>攻击一个敌方英雄时，获得持续@ASDuration@秒的<attackSpeed>@ASMod*100@%攻击速度</attackSpeed>。<br>攻击可使这个冷却时间缩短@AACDR@秒，这个缩减值会在暴击时提升至@CritCDR@秒。</section><section></section><section><flavorText>传承给一个又一个女猎手，打败了一个又一个敌人。</flavorText></section></mainText><postScriptTitle></postScriptTitle><br><infoArea>按@ExtendedKeybind@键以显示更多信息</infoArea>",
+    "generatedtip_item_3032_tooltipshopwithextendedbehaviorhint": "<titleLeft><itemName@ItemActiveness@>育恩塔尔荒野箭</itemName@ItemActiveness@></titleLeft><titleRight>{{ Item_Gold_Value }}</titleRight><subtitleLeft>{{ Item_BriefIcon_@ItemActiveness@ }}暴击叠加</subtitleLeft><subtitleRight></subtitleRight><mainText><section></section><section><attention>%i:scaleAD%@FlatPhysicalDamageMod@</attention>攻击力<br><attention>%i:scaleAS%@PercentAttackSpeedMod*100@%</attention>攻击速度<br><attention>%i:scaleCrit%@FlatCritChanceMod*100@%</attention>暴击几率</section><section><passive>熟能生巧</passive><br>攻击时，永久获得+%i:scaleCrit% @CritPerStackCalc@%暴击几率，至多至@CritMax@%。<br><br><passive>疾风骤雨</passive> {{ Item_Cooldown }}<br>攻击一个敌方英雄时，获得持续@ASDuration@秒的<attackSpeed>@ASMod*100@%攻击速度</attackSpeed>。<br>攻击可使这个冷却时间缩短@AACDR@秒，这个缩减值会在暴击时提升至@CritCDR@秒。</section><section></section><section><flavorText>传承给一个又一个女猎手，打败了一个又一个敌人。</flavorText></section></mainText><br><infoArea>按@ExtendedKeybind@键以显示更多信息</infoArea>",
+    "item_3050_name": "基克的聚合",
+    "item_3050_brief": "增强终极技能",
+    "item_3050_tooltip": "<passive>冰晶燃烧</passive><br>获得@UltimateHaste@终极技能急速。<br><br><passive>霜火风暴</passive> {{ Item_Cooldown }}<br>施放你的终极技能时会使一个风暴处于就绪状态，持续@ReadyDuration@秒。<br><br>在你处在一个敌方英雄附近时，召唤该风暴环绕于你@Duration@秒，造成每秒<magicDamage>@DamagePerSecond@魔法伤害</magicDamage>和@SlowAmount*100@%<keyword>减速效果</keyword>。",
+    "item_3050_inventoryonlytext": "已造成的伤害：<attention>@f1@</attention><br>",
+    "item_3050_tooltipexternal": "<passive>霜火风暴</passive><br>施放你的终极技能时会召唤一个风暴环绕于你@Duration@秒。这个风暴对敌方英雄们造成每秒<magicDamage>@DamagePerSecond@魔法伤害</magicDamage>和@SlowAmount*100@%<keyword>减速</keyword>。",
+    "generatedtip_item_3050_description": "<section></section><section><attention>%i:scaleHealth%@FlatHPPoolMod@</attention>生命值<br><attention>%i:scaleArmor%@FlatArmorMod@</attention>护甲<br><attention>%i:scaleMR%@FlatSpellBlockMod@</attention>魔法抗性<br><attention>%i:scaleCooldown%@AbilityHasteMod@</attention>技能急速</section><section><passive>冰晶燃烧</passive><br>获得@UltimateHaste@终极技能急速。<br><br><passive>霜火风暴</passive> {{ Item_Cooldown }}<br>施放你的终极技能时会使一个风暴处于就绪状态，持续@ReadyDuration@秒。<br><br>在你处在一个敌方英雄附近时，召唤该风暴环绕于你@Duration@秒，造成每秒<magicDamage>@DamagePerSecond@魔法伤害</magicDamage>和@SlowAmount*100@%<keyword>减速效果</keyword>。</section><section></section><section><flavorText></flavorText></section>",
+    "generatedtip_item_3050_tooltipinventory": "<titleLeft><itemName@ItemActiveness@>基克的聚合</itemName@ItemActiveness@></titleLeft><titleRight>{{ Item_Gold_Value_Sell }} <rules>(@SellBackModifier*100@%)</rules></titleRight><subtitleLeft>{{ Item_BriefIcon_@ItemActiveness@ }}增强终极技能</subtitleLeft><subtitleRight></subtitleRight><mainText><section><attention>%i:scaleHealth%@FlatHPPoolMod@</attention>生命值<br><attention>%i:scaleArmor%@FlatArmorMod@</attention>护甲<br><attention>%i:scaleMR%@FlatSpellBlockMod@</attention>魔法抗性<br><attention>%i:scaleCooldown%@AbilityHasteMod@</attention>技能急速@ExtendedStats@</section><section><passive>冰晶燃烧</passive><br>获得@UltimateHaste@终极技能急速。<br><br><passive>霜火风暴</passive> {{ Item_Cooldown }}<br>施放你的终极技能时会使一个风暴处于就绪状态，持续@ReadyDuration@秒。<br><br>在你处在一个敌方英雄附近时，召唤该风暴环绕于你@Duration@秒，造成每秒<magicDamage>@DamagePerSecond@魔法伤害</magicDamage>和@SlowAmount*100@%<keyword>减速效果</keyword>。</section><section></section><section><flavorText></flavorText></section></mainText><postScriptLeft>已造成的伤害：<attention>@f1@</attention><br></postScriptLeft>",
+    "generatedtip_item_3050_tooltipshop": "<titleLeft><itemName@ItemActiveness@>基克的聚合</itemName@ItemActiveness@></titleLeft><titleRight>{{ Item_Gold_Value }}</titleRight><subtitleLeft>{{ Item_BriefIcon_@ItemActiveness@ }}增强终极技能</subtitleLeft><subtitleRight></subtitleRight><mainText><section></section><section><attention>%i:scaleHealth%@FlatHPPoolMod@</attention>生命值<br><attention>%i:scaleArmor%@FlatArmorMod@</attention>护甲<br><attention>%i:scaleMR%@FlatSpellBlockMod@</attention>魔法抗性<br><attention>%i:scaleCooldown%@AbilityHasteMod@</attention>技能急速</section><section><passive>冰晶燃烧</passive><br>获得@UltimateHaste@终极技能急速。<br><br><passive>霜火风暴</passive> {{ Item_Cooldown }}<br>施放你的终极技能时会使一个风暴处于就绪状态，持续@ReadyDuration@秒。<br><br>在你处在一个敌方英雄附近时，召唤该风暴环绕于你@Duration@秒，造成每秒<magicDamage>@DamagePerSecond@魔法伤害</magicDamage>和@SlowAmount*100@%<keyword>减速效果</keyword>。</section><section></section><section><flavorText></flavorText></section></mainText><br>",
+    "generatedtip_item_3050_tooltipinventorywithextendedbehaviorhint": "<titleLeft><itemName@ItemActiveness@>基克的聚合</itemName@ItemActiveness@></titleLeft><titleRight>{{ Item_Gold_Value_Sell }} <rules>(@SellBackModifier*100@%)</rules></titleRight><subtitleLeft>{{ Item_BriefIcon_@ItemActiveness@ }}增强终极技能</subtitleLeft><subtitleRight></subtitleRight><mainText><section><attention>%i:scaleHealth%@FlatHPPoolMod@</attention>生命值<br><attention>%i:scaleArmor%@FlatArmorMod@</attention>护甲<br><attention>%i:scaleMR%@FlatSpellBlockMod@</attention>魔法抗性<br><attention>%i:scaleCooldown%@AbilityHasteMod@</attention>技能急速@ExtendedStats@</section><section><passive>冰晶燃烧</passive><br>获得@UltimateHaste@终极技能急速。<br><br><passive>霜火风暴</passive> {{ Item_Cooldown }}<br>施放你的终极技能时会使一个风暴处于就绪状态，持续@ReadyDuration@秒。<br><br>在你处在一个敌方英雄附近时，召唤该风暴环绕于你@Duration@秒，造成每秒<magicDamage>@DamagePerSecond@魔法伤害</magicDamage>和@SlowAmount*100@%<keyword>减速效果</keyword>。</section><section></section><section><flavorText></flavorText></section></mainText><postScriptTitle>已造成的伤害：<attention>@f1@</attention><br></postScriptTitle><br><infoArea>按@ExtendedKeybind@键以显示更多信息</infoArea>",
+    "generatedtip_item_3050_tooltipshopextended": "<titleLeft><itemName@ItemActiveness@>基克的聚合</itemName@ItemActiveness@></titleLeft><titleRight>{{ Item_Gold_Value }}</titleRight><subtitleLeft>{{ Item_BriefIcon_@ItemActiveness@ }}增强终极技能</subtitleLeft><subtitleRight></subtitleRight><mainText><section></section><section><attention>%i:scaleHealth%@FlatHPPoolMod@</attention>生命值<br><attention>%i:scaleArmor%@FlatArmorMod@</attention>护甲<br><attention>%i:scaleMR%@FlatSpellBlockMod@</attention>魔法抗性<br><attention>%i:scaleCooldown%@AbilityHasteMod@</attention>技能急速</section><section><passive>冰晶燃烧</passive><br>获得@UltimateHaste@终极技能急速。<br><br><passive>霜火风暴</passive> {{ Item_Cooldown }}<br>施放你的终极技能时会使一个风暴处于就绪状态，持续@ReadyDuration@秒。<br><br>在你处在一个敌方英雄附近时，召唤该风暴环绕于你@Duration@秒，造成每秒<magicDamage>@DamagePerSecond@魔法伤害</magicDamage>和@SlowAmount*100@%<keyword>减速效果</keyword>。</section><section></section><section></section><section><flavorText></flavorText></section></mainText><postScriptTitle><section></section><section></section><section></section></postScriptTitle>",
+    "generatedtip_item_3050_tooltipshopwithextendedbehaviorhint": "<titleLeft><itemName@ItemActiveness@>基克的聚合</itemName@ItemActiveness@></titleLeft><titleRight>{{ Item_Gold_Value }}</titleRight><subtitleLeft>{{ Item_BriefIcon_@ItemActiveness@ }}增强终极技能</subtitleLeft><subtitleRight></subtitleRight><mainText><section></section><section><attention>%i:scaleHealth%@FlatHPPoolMod@</attention>生命值<br><attention>%i:scaleArmor%@FlatArmorMod@</attention>护甲<br><attention>%i:scaleMR%@FlatSpellBlockMod@</attention>魔法抗性<br><attention>%i:scaleCooldown%@AbilityHasteMod@</attention>技能急速</section><section><passive>冰晶燃烧</passive><br>获得@UltimateHaste@终极技能急速。<br><br><passive>霜火风暴</passive> {{ Item_Cooldown }}<br>施放你的终极技能时会使一个风暴处于就绪状态，持续@ReadyDuration@秒。<br><br>在你处在一个敌方英雄附近时，召唤该风暴环绕于你@Duration@秒，造成每秒<magicDamage>@DamagePerSecond@魔法伤害</magicDamage>和@SlowAmount*100@%<keyword>减速效果</keyword>。</section><section></section><section><flavorText></flavorText></section></mainText><br><infoArea>按@ExtendedKeybind@键以显示更多信息</infoArea>",
+    "generatedtip_item_3050_tooltipinventoryextended": "<titleLeft><itemName@ItemActiveness@>基克的聚合</itemName@ItemActiveness@></titleLeft><titleRight>{{ Item_Gold_Value_Sell }} <rules>(@SellBackModifier*100@%)</rules></titleRight><subtitleLeft>{{ Item_BriefIcon_@ItemActiveness@ }}增强终极技能</subtitleLeft><subtitleRight></subtitleRight><mainText><section><attention>%i:scaleHealth%@FlatHPPoolMod@</attention>生命值<br><attention>%i:scaleArmor%@FlatArmorMod@</attention>护甲<br><attention>%i:scaleMR%@FlatSpellBlockMod@</attention>魔法抗性<br><attention>%i:scaleCooldown%@AbilityHasteMod@</attention>技能急速@ExtendedStats@</section><section><passive>冰晶燃烧</passive><br>获得@UltimateHaste@终极技能急速。<br><br><passive>霜火风暴</passive> {{ Item_Cooldown }}<br>施放你的终极技能时会使一个风暴处于就绪状态，持续@ReadyDuration@秒。<br><br>在你处在一个敌方英雄附近时，召唤该风暴环绕于你@Duration@秒，造成每秒<magicDamage>@DamagePerSecond@魔法伤害</magicDamage>和@SlowAmount*100@%<keyword>减速效果</keyword>。</section><section></section><section></section><section><flavorText></flavorText></section></mainText><postScriptTitle><section>已造成的伤害：<attention>@f1@</attention><br></section><section></section><section></section><section></section></postScriptTitle>",
+    "item_3071_name": "黑色切割者",
+    "item_3071_brief": "护甲克星",
+    "item_3071_tooltip": "<passive>切割</passive><br>对英雄造成<physicalDamage>物理伤害</physicalDamage>时会将该目标的<scaleArmor>护甲降低@ShredPerStack*100@%</scaleArmor>，持续@DebuffDuration@秒(可叠加@MaxStacks@次)。<br><br><passive>热烈</passive><br>造成<physicalDamage>物理伤害</physicalDamage>时会提供持续@MoveSpeedDuration@秒的<speed>@MSBonusSplit@移动速度</speed>。",
+    "item_3071_colloquialism": ";黑切;切割者;应对坦克;克制坦克;穿透;Black Cleaver;heiseqiegezhe;hsqgz",
+    "item_unique_fatality": "唯一：夺命",
+    "generatedtip_item_3071_description": "<section></section><section><attention>%i:scaleAD%@FlatPhysicalDamageMod@</attention>攻击力<br><attention>%i:scaleHealth%@FlatHPPoolMod@</attention>生命值<br><attention>%i:scaleCooldown%@AbilityHasteMod@</attention>技能急速</section><section><passive>切割</passive><br>对英雄造成<physicalDamage>物理伤害</physicalDamage>时会将该目标的<scaleArmor>护甲降低@ShredPerStack*100@%</scaleArmor>，持续@DebuffDuration@秒(可叠加@MaxStacks@次)。<br><br><passive>热烈</passive><br>造成<physicalDamage>物理伤害</physicalDamage>时会提供持续@MoveSpeedDuration@秒的<speed>@MSBonusSplit@移动速度</speed>。</section><section></section><section><flavorText></flavorText></section>",
+    "generatedtip_item_3071_tooltipinventory": "<titleLeft><itemName@ItemActiveness@>黑色切割者</itemName@ItemActiveness@></titleLeft><titleRight>{{ Item_Gold_Value_Sell }} <rules>(@SellBackModifier*100@%)</rules></titleRight><subtitleLeft>{{ Item_BriefIcon_@ItemActiveness@ }}护甲克星</subtitleLeft><subtitleRight>唯一：夺命</subtitleRight><mainText><section><attention>%i:scaleAD%@FlatPhysicalDamageMod@</attention>攻击力<br><attention>%i:scaleHealth%@FlatHPPoolMod@</attention>生命值<br><attention>%i:scaleCooldown%@AbilityHasteMod@</attention>技能急速@ExtendedStats@</section><section><passive>切割</passive><br>对英雄造成<physicalDamage>物理伤害</physicalDamage>时会将该目标的<scaleArmor>护甲降低@ShredPerStack*100@%</scaleArmor>，持续@DebuffDuration@秒(可叠加@MaxStacks@次)。<br><br><passive>热烈</passive><br>造成<physicalDamage>物理伤害</physicalDamage>时会提供持续@MoveSpeedDuration@秒的<speed>@MSBonusSplit@移动速度</speed>。</section><section></section><section><flavorText></flavorText></section></mainText><postScriptLeft></postScriptLeft>",
+    "generatedtip_item_3071_tooltipshop": "<titleLeft><itemName@ItemActiveness@>黑色切割者</itemName@ItemActiveness@></titleLeft><titleRight>{{ Item_Gold_Value }}</titleRight><subtitleLeft>{{ Item_BriefIcon_@ItemActiveness@ }}护甲克星</subtitleLeft><subtitleRight>唯一：夺命</subtitleRight><mainText><section></section><section><attention>%i:scaleAD%@FlatPhysicalDamageMod@</attention>攻击力<br><attention>%i:scaleHealth%@FlatHPPoolMod@</attention>生命值<br><attention>%i:scaleCooldown%@AbilityHasteMod@</attention>技能急速</section><section><passive>切割</passive><br>对英雄造成<physicalDamage>物理伤害</physicalDamage>时会将该目标的<scaleArmor>护甲降低@ShredPerStack*100@%</scaleArmor>，持续@DebuffDuration@秒(可叠加@MaxStacks@次)。<br><br><passive>热烈</passive><br>造成<physicalDamage>物理伤害</physicalDamage>时会提供持续@MoveSpeedDuration@秒的<speed>@MSBonusSplit@移动速度</speed>。</section><section></section><section><flavorText></flavorText></section></mainText><br>",
+    "generatedtip_item_3071_tooltipshopextended": "<titleLeft><itemName@ItemActiveness@>黑色切割者</itemName@ItemActiveness@></titleLeft><titleRight>{{ Item_Gold_Value }}</titleRight><subtitleLeft>{{ Item_BriefIcon_@ItemActiveness@ }}护甲克星</subtitleLeft><subtitleRight>唯一：夺命</subtitleRight><mainText><section></section><section><attention>%i:scaleAD%@FlatPhysicalDamageMod@</attention>攻击力<br><attention>%i:scaleHealth%@FlatHPPoolMod@</attention>生命值<br><attention>%i:scaleCooldown%@AbilityHasteMod@</attention>技能急速</section><section><passive>切割</passive><br>对英雄造成<physicalDamage>物理伤害</physicalDamage>时会将该目标的<scaleArmor>护甲降低@ShredPerStack*100@%</scaleArmor>，持续@DebuffDuration@秒(可叠加@MaxStacks@次)。<br><br><passive>热烈</passive><br>造成<physicalDamage>物理伤害</physicalDamage>时会提供持续@MoveSpeedDuration@秒的<speed>@MSBonusSplit@移动速度</speed>。</section><section></section><section></section><section><flavorText></flavorText></section></mainText><postScriptTitle><section></section><section></section><section></section></postScriptTitle>",
+    "generatedtip_item_3071_tooltipinventoryextended": "<titleLeft><itemName@ItemActiveness@>黑色切割者</itemName@ItemActiveness@></titleLeft><titleRight>{{ Item_Gold_Value_Sell }} <rules>(@SellBackModifier*100@%)</rules></titleRight><subtitleLeft>{{ Item_BriefIcon_@ItemActiveness@ }}护甲克星</subtitleLeft><subtitleRight>唯一：夺命</subtitleRight><mainText><section><attention>%i:scaleAD%@FlatPhysicalDamageMod@</attention>攻击力<br><attention>%i:scaleHealth%@FlatHPPoolMod@</attention>生命值<br><attention>%i:scaleCooldown%@AbilityHasteMod@</attention>技能急速@ExtendedStats@</section><section><passive>切割</passive><br>对英雄造成<physicalDamage>物理伤害</physicalDamage>时会将该目标的<scaleArmor>护甲降低@ShredPerStack*100@%</scaleArmor>，持续@DebuffDuration@秒(可叠加@MaxStacks@次)。<br><br><passive>热烈</passive><br>造成<physicalDamage>物理伤害</physicalDamage>时会提供持续@MoveSpeedDuration@秒的<speed>@MSBonusSplit@移动速度</speed>。</section><section></section><section></section><section><flavorText></flavorText></section></mainText><postScriptTitle><section></section><section></section><section></section><section></section></postScriptTitle>",
+    "generatedtip_item_3071_tooltipinventorywithextendedbehaviorhint": "<titleLeft><itemName@ItemActiveness@>黑色切割者</itemName@ItemActiveness@></titleLeft><titleRight>{{ Item_Gold_Value_Sell }} <rules>(@SellBackModifier*100@%)</rules></titleRight><subtitleLeft>{{ Item_BriefIcon_@ItemActiveness@ }}护甲克星</subtitleLeft><subtitleRight>唯一：夺命</subtitleRight><mainText><section><attention>%i:scaleAD%@FlatPhysicalDamageMod@</attention>攻击力<br><attention>%i:scaleHealth%@FlatHPPoolMod@</attention>生命值<br><attention>%i:scaleCooldown%@AbilityHasteMod@</attention>技能急速@ExtendedStats@</section><section><passive>切割</passive><br>对英雄造成<physicalDamage>物理伤害</physicalDamage>时会将该目标的<scaleArmor>护甲降低@ShredPerStack*100@%</scaleArmor>，持续@DebuffDuration@秒(可叠加@MaxStacks@次)。<br><br><passive>热烈</passive><br>造成<physicalDamage>物理伤害</physicalDamage>时会提供持续@MoveSpeedDuration@秒的<speed>@MSBonusSplit@移动速度</speed>。</section><section></section><section><flavorText></flavorText></section></mainText><postScriptTitle></postScriptTitle><br><infoArea>按@ExtendedKeybind@键以显示更多信息</infoArea>",
+    "item_3071_tooltipextendedrules": "<rules>切割的叠加效果对每个目标有@InternalCD@秒冷却时间。</rules>",
+    "generatedtip_item_3071_tooltipshopwithextendedbehaviorhint": "<titleLeft><itemName@ItemActiveness@>黑色切割者</itemName@ItemActiveness@></titleLeft><titleRight>{{ Item_Gold_Value }}</titleRight><subtitleLeft>{{ Item_BriefIcon_@ItemActiveness@ }}护甲克星</subtitleLeft><subtitleRight>唯一：夺命</subtitleRight><mainText><section></section><section><attention>%i:scaleAD%@FlatPhysicalDamageMod@</attention>攻击力<br><attention>%i:scaleHealth%@FlatHPPoolMod@</attention>生命值<br><attention>%i:scaleCooldown%@AbilityHasteMod@</attention>技能急速</section><section><passive>切割</passive><br>对英雄造成<physicalDamage>物理伤害</physicalDamage>时会将该目标的<scaleArmor>护甲降低@ShredPerStack*100@%</scaleArmor>，持续@DebuffDuration@秒(可叠加@MaxStacks@次)。<br><br><passive>热烈</passive><br>造成<physicalDamage>物理伤害</physicalDamage>时会提供持续@MoveSpeedDuration@秒的<speed>@MSBonusSplit@移动速度</speed>。</section><section></section><section><flavorText></flavorText></section></mainText><br><infoArea>按@ExtendedKeybind@键以显示更多信息</infoArea>",
+    "item_3803_name": "万世催化石",
+    "item_3803_tooltip": "<passive>永恒</passive><br>将来自英雄的<scaleMana>@EternityManaRestore*100@%所受伤害</scaleMana>回复为<scaleMana>法力值</scaleMana>。<br>施放一个技能时，<healing>治疗自身相当于@EternityHealthRestore*100@%法力</healing>消耗的生命值。",
+    "item_3803_colloquialism": ";cuihuashenshi;wanshicuihuashi;chss;wschs;Catalyst of Aeons",
+    "item_unique_eternity": "唯一：永恒",
+    "item_3803_tooltipextended": "{{Item_3803_Tooltip}}<br><br><rules>来自<passive>永恒</passive>的法力值是按减免前的伤害值来算的。<br>来自<passive>永恒</passive>的治疗效果上限为每次施放或每秒（维持型技能）<healing>@EternityMaxHealPerCast@生命值</healing>。</rules>",
+    "generatedtip_item_3803_description": "<section></section><section><attention>%i:scaleHealth%@FlatHPPoolMod@</attention>生命值<br><attention>%i:scaleMana% @FlatMPPoolMod@</attention>法力</section><section><passive>永恒</passive><br>将来自英雄的<scaleMana>@EternityManaRestore*100@%所受伤害</scaleMana>回复为<scaleMana>法力值</scaleMana>。<br>施放一个技能时，<healing>治疗自身相当于@EternityHealthRestore*100@%法力</healing>消耗的生命值。</section><section></section><section><flavorText></flavorText></section>",
+    "generatedtip_item_3803_tooltipinventory": "<titleLeft><itemName@ItemActiveness@>万世催化石</itemName@ItemActiveness@></titleLeft><titleRight>{{ Item_Gold_Value_Sell }} <rules>(@SellBackModifier*100@%)</rules></titleRight><subtitleLeft>{{ Item_BriefIcon_@ItemActiveness@ }}</subtitleLeft><subtitleRight>唯一：永恒</subtitleRight><mainText><section><attention>%i:scaleHealth%@FlatHPPoolMod@</attention>生命值<br><attention>%i:scaleMana% @FlatMPPoolMod@</attention>法力@ExtendedStats@</section><section><passive>永恒</passive><br>将来自英雄的<scaleMana>@EternityManaRestore*100@%所受伤害</scaleMana>回复为<scaleMana>法力值</scaleMana>。<br>施放一个技能时，<healing>治疗自身相当于@EternityHealthRestore*100@%法力</healing>消耗的生命值。</section><section></section><section><flavorText></flavorText></section></mainText><postScriptLeft></postScriptLeft>",
+    "generatedtip_item_3803_tooltipshop": "<titleLeft><itemName@ItemActiveness@>万世催化石</itemName@ItemActiveness@></titleLeft><titleRight>{{ Item_Gold_Value }}</titleRight><subtitleLeft>{{ Item_BriefIcon_@ItemActiveness@ }}</subtitleLeft><subtitleRight>唯一：永恒</subtitleRight><mainText><section></section><section><attention>%i:scaleHealth%@FlatHPPoolMod@</attention>生命值<br><attention>%i:scaleMana% @FlatMPPoolMod@</attention>法力</section><section><passive>永恒</passive><br>将来自英雄的<scaleMana>@EternityManaRestore*100@%所受伤害</scaleMana>回复为<scaleMana>法力值</scaleMana>。<br>施放一个技能时，<healing>治疗自身相当于@EternityHealthRestore*100@%法力</healing>消耗的生命值。</section><section></section><section><flavorText></flavorText></section></mainText><br>",
+    "generatedtip_item_3803_tooltipshopwithextendedbehaviorhint": "<titleLeft><itemName@ItemActiveness@>万世催化石</itemName@ItemActiveness@></titleLeft><titleRight>{{ Item_Gold_Value }}</titleRight><subtitleLeft>{{ Item_BriefIcon_@ItemActiveness@ }}</subtitleLeft><subtitleRight>唯一：永恒</subtitleRight><mainText><section></section><section><attention>%i:scaleHealth%@FlatHPPoolMod@</attention>生命值<br><attention>%i:scaleMana% @FlatMPPoolMod@</attention>法力</section><section><passive>永恒</passive><br>将来自英雄的<scaleMana>@EternityManaRestore*100@%所受伤害</scaleMana>回复为<scaleMana>法力值</scaleMana>。<br>施放一个技能时，<healing>治疗自身相当于@EternityHealthRestore*100@%法力</healing>消耗的生命值。</section><section></section><section><flavorText></flavorText></section></mainText><br><infoArea>按@ExtendedKeybind@键以显示更多信息</infoArea>",
+    "generatedtip_item_3803_tooltipinventorywithextendedbehaviorhint": "<titleLeft><itemName@ItemActiveness@>万世催化石</itemName@ItemActiveness@></titleLeft><titleRight>{{ Item_Gold_Value_Sell }} <rules>(@SellBackModifier*100@%)</rules></titleRight><subtitleLeft>{{ Item_BriefIcon_@ItemActiveness@ }}</subtitleLeft><subtitleRight>唯一：永恒</subtitleRight><mainText><section><attention>%i:scaleHealth%@FlatHPPoolMod@</attention>生命值<br><attention>%i:scaleMana% @FlatMPPoolMod@</attention>法力@ExtendedStats@</section><section><passive>永恒</passive><br>将来自英雄的<scaleMana>@EternityManaRestore*100@%所受伤害</scaleMana>回复为<scaleMana>法力值</scaleMana>。<br>施放一个技能时，<healing>治疗自身相当于@EternityHealthRestore*100@%法力</healing>消耗的生命值。</section><section></section><section><flavorText></flavorText></section></mainText><postScriptTitle></postScriptTitle><br><infoArea>按@ExtendedKeybind@键以显示更多信息</infoArea>",
+    "generatedtip_item_3803_tooltipinventoryextended": "<titleLeft><itemName@ItemActiveness@>万世催化石</itemName@ItemActiveness@></titleLeft><titleRight>{{ Item_Gold_Value_Sell }} <rules>(@SellBackModifier*100@%)</rules></titleRight><subtitleLeft>{{ Item_BriefIcon_@ItemActiveness@ }}</subtitleLeft><subtitleRight>唯一：永恒</subtitleRight><mainText><section><attention>%i:scaleHealth%@FlatHPPoolMod@</attention>生命值<br><attention>%i:scaleMana% @FlatMPPoolMod@</attention>法力@ExtendedStats@</section><section>{{Item_3803_Tooltip}}<br><br><rules>来自<passive>永恒</passive>的法力值是按减免前的伤害值来算的。<br>来自<passive>永恒</passive>的治疗效果上限为每次施放或每秒（维持型技能）<healing>@EternityMaxHealPerCast@生命值</healing>。</rules></section><section></section><section></section><section><flavorText></flavorText></section></mainText><postScriptTitle><section></section><section></section><section></section><section></section></postScriptTitle>",
+    "generatedtip_item_3803_tooltipshopextended": "<titleLeft><itemName@ItemActiveness@>万世催化石</itemName@ItemActiveness@></titleLeft><titleRight>{{ Item_Gold_Value }}</titleRight><subtitleLeft>{{ Item_BriefIcon_@ItemActiveness@ }}</subtitleLeft><subtitleRight>唯一：永恒</subtitleRight><mainText><section></section><section><attention>%i:scaleHealth%@FlatHPPoolMod@</attention>生命值<br><attention>%i:scaleMana% @FlatMPPoolMod@</attention>法力</section><section>{{Item_3803_Tooltip}}<br><br><rules>来自<passive>永恒</passive>的法力值是按减免前的伤害值来算的。<br>来自<passive>永恒</passive>的治疗效果上限为每次施放或每秒（维持型技能）<healing>@EternityMaxHealPerCast@生命值</healing>。</rules></section><section></section><section></section><section><flavorText></flavorText></section></mainText><postScriptTitle><section></section><section></section><section></section></postScriptTitle>",
+    "item_6653_name": "兰德里的折磨",
+    "item_6653_brief": "坦克克星",
+    "item_6653_tooltip": "<passive>折磨</passive><br>伤害型技能会灼烧敌人，每秒造成<magicDamage>@BurnPercentHealthDamage*100@%最大生命值的魔法伤害</magicDamage>，持续@BurnDuration@秒。<br><br><passive>受苦</passive><br>在与敌方英雄作战时，每过1秒，就会造成@DamageIncreasePerSecond*100@%额外伤害，至多至@DamageIncreaseMax*100@%。",
+    "item_6653_colloquialism": ";last shadow;ls;burn;灼烧;zhuoshao;最后的阴影;zuihoudeyinying;Liandry's Torment",
+    "item_6653_inventoryonlytext": "已对英雄造成的伤害：<attention>@f2@</attention>",
+    "generatedtip_item_6653_description": "<section></section><section><attention>%i:scaleAP%@FlatMagicDamageMod@</attention>法术强度<br><attention>%i:scaleHealth%@FlatHPPoolMod@</attention>生命值</section><section><passive>折磨</passive><br>伤害型技能会灼烧敌人，每秒造成<magicDamage>@BurnPercentHealthDamage*100@%最大生命值的魔法伤害</magicDamage>，持续@BurnDuration@秒。<br><br><passive>受苦</passive><br>在与敌方英雄作战时，每过1秒，就会造成@DamageIncreasePerSecond*100@%额外伤害，至多至@DamageIncreaseMax*100@%。</section><section></section><section><flavorText></flavorText></section>",
+    "generatedtip_item_6653_tooltipinventory": "<titleLeft><itemName@ItemActiveness@>兰德里的折磨</itemName@ItemActiveness@></titleLeft><titleRight>{{ Item_Gold_Value_Sell }} <rules>(@SellBackModifier*100@%)</rules></titleRight><subtitleLeft>{{ Item_BriefIcon_@ItemActiveness@ }}坦克克星</subtitleLeft><subtitleRight></subtitleRight><mainText><section><attention>%i:scaleAP%@FlatMagicDamageMod@</attention>法术强度<br><attention>%i:scaleHealth%@FlatHPPoolMod@</attention>生命值@ExtendedStats@</section><section><passive>折磨</passive><br>伤害型技能会灼烧敌人，每秒造成<magicDamage>@BurnPercentHealthDamage*100@%最大生命值的魔法伤害</magicDamage>，持续@BurnDuration@秒。<br><br><passive>受苦</passive><br>在与敌方英雄作战时，每过1秒，就会造成@DamageIncreasePerSecond*100@%额外伤害，至多至@DamageIncreaseMax*100@%。</section><section></section><section><flavorText></flavorText></section></mainText><postScriptLeft>已对英雄造成的伤害：<attention>@f2@</attention></postScriptLeft>",
+    "generatedtip_item_6653_tooltipshop": "<titleLeft><itemName@ItemActiveness@>兰德里的折磨</itemName@ItemActiveness@></titleLeft><titleRight>{{ Item_Gold_Value }}</titleRight><subtitleLeft>{{ Item_BriefIcon_@ItemActiveness@ }}坦克克星</subtitleLeft><subtitleRight></subtitleRight><mainText><section></section><section><attention>%i:scaleAP%@FlatMagicDamageMod@</attention>法术强度<br><attention>%i:scaleHealth%@FlatHPPoolMod@</attention>生命值</section><section><passive>折磨</passive><br>伤害型技能会灼烧敌人，每秒造成<magicDamage>@BurnPercentHealthDamage*100@%最大生命值的魔法伤害</magicDamage>，持续@BurnDuration@秒。<br><br><passive>受苦</passive><br>在与敌方英雄作战时，每过1秒，就会造成@DamageIncreasePerSecond*100@%额外伤害，至多至@DamageIncreaseMax*100@%。</section><section></section><section><flavorText></flavorText></section></mainText><br>",
+    "generatedtip_item_6653_tooltipinventorywithextendedbehaviorhint": "<titleLeft><itemName@ItemActiveness@>兰德里的折磨</itemName@ItemActiveness@></titleLeft><titleRight>{{ Item_Gold_Value_Sell }} <rules>(@SellBackModifier*100@%)</rules></titleRight><subtitleLeft>{{ Item_BriefIcon_@ItemActiveness@ }}坦克克星</subtitleLeft><subtitleRight></subtitleRight><mainText><section><attention>%i:scaleAP%@FlatMagicDamageMod@</attention>法术强度<br><attention>%i:scaleHealth%@FlatHPPoolMod@</attention>生命值@ExtendedStats@</section><section><passive>折磨</passive><br>伤害型技能会灼烧敌人，每秒造成<magicDamage>@BurnPercentHealthDamage*100@%最大生命值的魔法伤害</magicDamage>，持续@BurnDuration@秒。<br><br><passive>受苦</passive><br>在与敌方英雄作战时，每过1秒，就会造成@DamageIncreasePerSecond*100@%额外伤害，至多至@DamageIncreaseMax*100@%。</section><section></section><section><flavorText></flavorText></section></mainText><postScriptTitle>已对英雄造成的伤害：<attention>@f2@</attention></postScriptTitle><br><infoArea>按@ExtendedKeybind@键以显示更多信息</infoArea>",
+    "generatedtip_item_6653_tooltipshopextended": "<titleLeft><itemName@ItemActiveness@>兰德里的折磨</itemName@ItemActiveness@></titleLeft><titleRight>{{ Item_Gold_Value }}</titleRight><subtitleLeft>{{ Item_BriefIcon_@ItemActiveness@ }}坦克克星</subtitleLeft><subtitleRight></subtitleRight><mainText><section></section><section><attention>%i:scaleAP%@FlatMagicDamageMod@</attention>法术强度<br><attention>%i:scaleHealth%@FlatHPPoolMod@</attention>生命值</section><section><passive>折磨</passive><br>伤害型技能会灼烧敌人，每秒造成<magicDamage>@BurnPercentHealthDamage*100@%最大生命值的魔法伤害</magicDamage>，持续@BurnDuration@秒。<br><br><passive>受苦</passive><br>在与敌方英雄作战时，每过1秒，就会造成@DamageIncreasePerSecond*100@%额外伤害，至多至@DamageIncreaseMax*100@%。</section><section></section><section></section><section><flavorText></flavorText></section></mainText><postScriptTitle><section></section><section></section><section></section></postScriptTitle>",
+    "item_6653_tooltipextended": "<passive>折磨</passive><br>你的技能伤害会使敌人们灼烧，每秒造成<magicDamage>@BurnPercentHealthDamage*100@%最大生命值的魔法伤害</magicDamage>，持续@BurnDuration@秒。<br><br><passive>受苦</passive><br>在与敌方英雄作战时，每过1秒，就会造成@DamageIncreasePerSecond*100@%额外伤害，至多至@DamageIncreaseMax*100@%。<br><br>已对英雄造成的灼烧伤害：<attention>@f2@</attention>",
+    "generatedtip_item_6653_tooltipshopwithextendedbehaviorhint": "<titleLeft><itemName@ItemActiveness@>兰德里的折磨</itemName@ItemActiveness@></titleLeft><titleRight>{{ Item_Gold_Value }}</titleRight><subtitleLeft>{{ Item_BriefIcon_@ItemActiveness@ }}坦克克星</subtitleLeft><subtitleRight></subtitleRight><mainText><section></section><section><attention>%i:scaleAP%@FlatMagicDamageMod@</attention>法术强度<br><attention>%i:scaleHealth%@FlatHPPoolMod@</attention>生命值</section><section><passive>折磨</passive><br>伤害型技能会灼烧敌人，每秒造成<magicDamage>@BurnPercentHealthDamage*100@%最大生命值的魔法伤害</magicDamage>，持续@BurnDuration@秒。<br><br><passive>受苦</passive><br>在与敌方英雄作战时，每过1秒，就会造成@DamageIncreasePerSecond*100@%额外伤害，至多至@DamageIncreaseMax*100@%。</section><section></section><section><flavorText></flavorText></section></mainText><br><infoArea>按@ExtendedKeybind@键以显示更多信息</infoArea>",
+    "generatedtip_item_6653_tooltipinventoryextended": "<titleLeft><itemName@ItemActiveness@>兰德里的折磨</itemName@ItemActiveness@></titleLeft><titleRight>{{ Item_Gold_Value_Sell }} <rules>(@SellBackModifier*100@%)</rules></titleRight><subtitleLeft>{{ Item_BriefIcon_@ItemActiveness@ }}坦克克星</subtitleLeft><subtitleRight></subtitleRight><mainText><section><attention>%i:scaleAP%@FlatMagicDamageMod@</attention>法术强度<br><attention>%i:scaleHealth%@FlatHPPoolMod@</attention>生命值@ExtendedStats@</section><section><passive>折磨</passive><br>伤害型技能会灼烧敌人，每秒造成<magicDamage>@BurnPercentHealthDamage*100@%最大生命值的魔法伤害</magicDamage>，持续@BurnDuration@秒。<br><br><passive>受苦</passive><br>在与敌方英雄作战时，每过1秒，就会造成@DamageIncreasePerSecond*100@%额外伤害，至多至@DamageIncreaseMax*100@%。</section><section></section><section></section><section><flavorText></flavorText></section></mainText><postScriptTitle><section>已对英雄造成的伤害：<attention>@f2@</attention></section><section></section><section></section><section></section></postScriptTitle>",
+    "item_8010_name": "放血者的诅咒",
+    "item_8010_tooltip": "<passive>恶劣衰朽</passive><br>用技能或被动对英雄造成<magicDamage>魔法伤害</magicDamage>时，会对其造成持续@DebuffDuration@秒的<scaleMR>@ShredPerStack*100@%魔法抗性削减</scaleMR>。(可叠加@MaxStacks@次)。",
+    "item_8010_brief": "法术穿透",
+    "item_8010_summary": "对一名英雄造成技能伤害时会对其造成<scaleMR>魔法抗性</scaleMR>削减，可叠加若干次。",
+    "item_unique_blight": "唯一：枯萎",
+    "item_8010_tooltipextendedrules": "<rules>每段技能施放仅会对每个英雄施加一层【恶劣衰朽】，且每@InternalCD@秒仅限一次。</rules>",
+    "generatedtip_item_8010_description": "<section></section><section><attention>%i:scaleAP%@FlatMagicDamageMod@</attention>法术强度<br><attention>%i:scaleHealth%@FlatHPPoolMod@</attention>生命值<br><attention>%i:scaleCooldown%@AbilityHasteMod@</attention>技能急速</section><section><passive>恶劣衰朽</passive><br>用技能或被动对英雄造成<magicDamage>魔法伤害</magicDamage>时，会对其造成持续@DebuffDuration@秒的<scaleMR>@ShredPerStack*100@%魔法抗性削减</scaleMR>。(可叠加@MaxStacks@次)。</section><section></section><section><flavorText></flavorText></section>",
+    "generatedtip_item_8010_tooltipinventory": "<titleLeft><itemName@ItemActiveness@>放血者的诅咒</itemName@ItemActiveness@></titleLeft><titleRight>{{ Item_Gold_Value_Sell }} <rules>(@SellBackModifier*100@%)</rules></titleRight><subtitleLeft>{{ Item_BriefIcon_@ItemActiveness@ }}法术穿透</subtitleLeft><subtitleRight>唯一：枯萎</subtitleRight><mainText><section><attention>%i:scaleAP%@FlatMagicDamageMod@</attention>法术强度<br><attention>%i:scaleHealth%@FlatHPPoolMod@</attention>生命值<br><attention>%i:scaleCooldown%@AbilityHasteMod@</attention>技能急速@ExtendedStats@</section><section><passive>恶劣衰朽</passive><br>用技能或被动对英雄造成<magicDamage>魔法伤害</magicDamage>时，会对其造成持续@DebuffDuration@秒的<scaleMR>@ShredPerStack*100@%魔法抗性削减</scaleMR>。(可叠加@MaxStacks@次)。</section><section></section><section><flavorText></flavorText></section></mainText><postScriptLeft></postScriptLeft>",
+    "generatedtip_item_8010_tooltipshop": "<titleLeft><itemName@ItemActiveness@>放血者的诅咒</itemName@ItemActiveness@></titleLeft><titleRight>{{ Item_Gold_Value }}</titleRight><subtitleLeft>{{ Item_BriefIcon_@ItemActiveness@ }}法术穿透</subtitleLeft><subtitleRight>唯一：枯萎</subtitleRight><mainText><section></section><section><attention>%i:scaleAP%@FlatMagicDamageMod@</attention>法术强度<br><attention>%i:scaleHealth%@FlatHPPoolMod@</attention>生命值<br><attention>%i:scaleCooldown%@AbilityHasteMod@</attention>技能急速</section><section><passive>恶劣衰朽</passive><br>用技能或被动对英雄造成<magicDamage>魔法伤害</magicDamage>时，会对其造成持续@DebuffDuration@秒的<scaleMR>@ShredPerStack*100@%魔法抗性削减</scaleMR>。(可叠加@MaxStacks@次)。</section><section></section><section><flavorText></flavorText></section></mainText><br>",
+    "generatedtip_item_8010_tooltipshopwithextendedbehaviorhint": "<titleLeft><itemName@ItemActiveness@>放血者的诅咒</itemName@ItemActiveness@></titleLeft><titleRight>{{ Item_Gold_Value }}</titleRight><subtitleLeft>{{ Item_BriefIcon_@ItemActiveness@ }}法术穿透</subtitleLeft><subtitleRight>唯一：枯萎</subtitleRight><mainText><section></section><section><attention>%i:scaleAP%@FlatMagicDamageMod@</attention>法术强度<br><attention>%i:scaleHealth%@FlatHPPoolMod@</attention>生命值<br><attention>%i:scaleCooldown%@AbilityHasteMod@</attention>技能急速</section><section><passive>恶劣衰朽</passive><br>用技能或被动对英雄造成<magicDamage>魔法伤害</magicDamage>时，会对其造成持续@DebuffDuration@秒的<scaleMR>@ShredPerStack*100@%魔法抗性削减</scaleMR>。(可叠加@MaxStacks@次)。</section><section></section><section><flavorText></flavorText></section></mainText><br><infoArea>按@ExtendedKeybind@键以显示更多信息</infoArea>",
+    "generatedtip_item_8010_tooltipshopextended": "<titleLeft><itemName@ItemActiveness@>放血者的诅咒</itemName@ItemActiveness@></titleLeft><titleRight>{{ Item_Gold_Value }}</titleRight><subtitleLeft>{{ Item_BriefIcon_@ItemActiveness@ }}法术穿透</subtitleLeft><subtitleRight>唯一：枯萎</subtitleRight><mainText><section></section><section><attention>%i:scaleAP%@FlatMagicDamageMod@</attention>法术强度<br><attention>%i:scaleHealth%@FlatHPPoolMod@</attention>生命值<br><attention>%i:scaleCooldown%@AbilityHasteMod@</attention>技能急速</section><section><passive>恶劣衰朽</passive><br>用技能或被动对英雄造成<magicDamage>魔法伤害</magicDamage>时，会对其造成持续@DebuffDuration@秒的<scaleMR>@ShredPerStack*100@%魔法抗性削减</scaleMR>。(可叠加@MaxStacks@次)。</section><section></section><section><rules>每段技能施放仅会对每个英雄施加一层【恶劣衰朽】，且每@InternalCD@秒仅限一次。</rules></section><section><flavorText></flavorText></section></mainText><postScriptTitle><section></section><section></section><section></section></postScriptTitle>",
+    "generatedtip_item_8010_tooltipinventoryextended": "<titleLeft><itemName@ItemActiveness@>放血者的诅咒</itemName@ItemActiveness@></titleLeft><titleRight>{{ Item_Gold_Value_Sell }} <rules>(@SellBackModifier*100@%)</rules></titleRight><subtitleLeft>{{ Item_BriefIcon_@ItemActiveness@ }}法术穿透</subtitleLeft><subtitleRight>唯一：枯萎</subtitleRight><mainText><section><attention>%i:scaleAP%@FlatMagicDamageMod@</attention>法术强度<br><attention>%i:scaleHealth%@FlatHPPoolMod@</attention>生命值<br><attention>%i:scaleCooldown%@AbilityHasteMod@</attention>技能急速@ExtendedStats@</section><section><passive>恶劣衰朽</passive><br>用技能或被动对英雄造成<magicDamage>魔法伤害</magicDamage>时，会对其造成持续@DebuffDuration@秒的<scaleMR>@ShredPerStack*100@%魔法抗性削减</scaleMR>。(可叠加@MaxStacks@次)。</section><section></section><section><rules>每段技能施放仅会对每个英雄施加一层【恶劣衰朽】，且每@InternalCD@秒仅限一次。</rules></section><section><flavorText></flavorText></section></mainText><postScriptTitle><section></section><section></section><section></section><section></section></postScriptTitle>",
+    "generatedtip_item_8010_tooltipinventorywithextendedbehaviorhint": "<titleLeft><itemName@ItemActiveness@>放血者的诅咒</itemName@ItemActiveness@></titleLeft><titleRight>{{ Item_Gold_Value_Sell }} <rules>(@SellBackModifier*100@%)</rules></titleRight><subtitleLeft>{{ Item_BriefIcon_@ItemActiveness@ }}法术穿透</subtitleLeft><subtitleRight>唯一：枯萎</subtitleRight><mainText><section><attention>%i:scaleAP%@FlatMagicDamageMod@</attention>法术强度<br><attention>%i:scaleHealth%@FlatHPPoolMod@</attention>生命值<br><attention>%i:scaleCooldown%@AbilityHasteMod@</attention>技能急速@ExtendedStats@</section><section><passive>恶劣衰朽</passive><br>用技能或被动对英雄造成<magicDamage>魔法伤害</magicDamage>时，会对其造成持续@DebuffDuration@秒的<scaleMR>@ShredPerStack*100@%魔法抗性削减</scaleMR>。(可叠加@MaxStacks@次)。</section><section></section><section><flavorText></flavorText></section></mainText><postScriptTitle></postScriptTitle><br><infoArea>按@ExtendedKeybind@键以显示更多信息</infoArea>"
+  },
+  "official": {
+    "3032": {
+      "name": "育恩塔尔荒野箭",
+      "description": "<mainText><stats><attention>50</attention>攻击力<br><attention>45%</attention>攻击速度<br><attention>0%</attention>暴击几率</stats><br><br><passive>熟能生巧</passive><br>攻击时，永久获得暴击几率，至多至25%。<br><br><passive>疾风骤雨</passive> <br>攻击一个敌方英雄时，获得持续6秒的30%攻击速度(30秒冷却时间)。<br>攻击可使这个冷却时间缩短1秒，这个缩减值会在暴击时提升至2秒。</mainText>",
+      "colloq": "",
+      "plaintext": "",
+      "from": [
+        "1038",
+        "3144",
+        "1036"
+      ],
+      "image": {
+        "full": "3032.png",
+        "sprite": "item3.png",
+        "group": "item",
+        "x": 96,
+        "y": 144,
+        "w": 48,
+        "h": 48
+      },
+      "gold": {
+        "base": 750,
+        "purchasable": true,
+        "total": 3000,
+        "sell": 2100
+      },
+      "tags": [
+        "Damage",
+        "CriticalStrike",
+        "AttackSpeed"
+      ],
+      "maps": {
+        "11": true,
+        "12": true,
+        "22": false,
+        "30": false,
+        "453": true
+      },
+      "stats": {
+        "FlatPhysicalDamageMod": 50,
+        "PercentAttackSpeedMod": 0.45
+      },
+      "depth": 3
+    },
+    "3050": {
+      "name": "基克的聚合",
+      "description": "<mainText><stats><attention>300</attention>生命值<br><attention>25</attention>护甲<br><attention>25</attention>魔法抗性<br><attention>10</attention>技能急速</stats><br><br><passive>霜火风暴</passive><br>施放你的终极技能时会召唤一个风暴环绕于你5秒。这个风暴对敌方英雄们造成每秒<magicDamage>30魔法伤害</magicDamage>和30%<keyword>减速</keyword>。</mainText>",
+      "colloq": ";jikedexianqu;jkdxq;Zeke's Convergence",
+      "plaintext": "在你施放终极技能时，为你和你的队友提供加成。",
+      "from": [
+        "3067",
+        "1029",
+        "1033"
+      ],
+      "image": {
+        "full": "3050.png",
+        "sprite": "item3.png",
+        "group": "item",
+        "x": 144,
+        "y": 192,
+        "w": 48,
+        "h": 48
+      },
+      "gold": {
+        "base": 700,
+        "purchasable": true,
+        "total": 2200,
+        "sell": 1540
+      },
+      "tags": [
+        "Health",
+        "SpellBlock",
+        "Armor",
+        "AbilityHaste"
+      ],
+      "maps": {
+        "11": true,
+        "12": true,
+        "22": false,
+        "30": false,
+        "453": true
+      },
+      "stats": {
+        "FlatSpellBlockMod": 25,
+        "FlatHPPoolMod": 300,
+        "FlatArmorMod": 25
+      },
+      "depth": 3
+    },
+    "3071": {
+      "name": "黑色切割者",
+      "description": "<mainText><stats><attention>45</attention>攻击力<br><attention>400</attention>生命值<br><attention>20</attention>技能急速</stats><br><br><passive>切割</passive><br>对英雄造成<physicalDamage>物理伤害</physicalDamage>时会将该目标的<scaleArmor>护甲降低6%</scaleArmor>，持续6秒(可叠加5次)。<br><br><passive>热烈</passive><br>造成<physicalDamage>物理伤害</physicalDamage>时会提供持续2秒的<speed>0移动速度</speed>。</mainText>",
+      "colloq": ";黑切;切割者;应对坦克;克制坦克;穿透;Black Cleaver;heiseqiegezhe;hsqgz",
+      "plaintext": "对敌人造成物理伤害时会减少目标的护甲",
+      "from": [
+        "3044",
+        "3067",
+        "1037"
+      ],
+      "image": {
+        "full": "3071.png",
+        "sprite": "item3.png",
+        "group": "item",
+        "x": 96,
+        "y": 240,
+        "w": 48,
+        "h": 48
+      },
+      "gold": {
+        "base": 225,
+        "purchasable": true,
+        "total": 3000,
+        "sell": 2100
+      },
+      "tags": [
+        "Health",
+        "Damage",
+        "CooldownReduction",
+        "OnHit",
+        "NonbootsMovement",
+        "ArmorPenetration",
+        "AbilityHaste"
+      ],
+      "maps": {
+        "11": true,
+        "12": true,
+        "22": false,
+        "30": false,
+        "453": true
+      },
+      "stats": {
+        "FlatHPPoolMod": 400,
+        "FlatPhysicalDamageMod": 45
+      },
+      "depth": 3
+    },
+    "3803": {
+      "name": "万世催化石",
+      "description": "<mainText><stats><attention>300</attention>生命值<br><attention>375</attention>法力</stats><br><br><passive>永恒</passive><br>将来自英雄的<scaleMana>10%所受伤害</scaleMana>回复为<scaleMana>法力值</scaleMana>。<br>施放一个技能时，<healing>治疗自身相当于25%法力</healing>消耗的生命值。</mainText>",
+      "colloq": "",
+      "plaintext": "",
+      "from": [
+        "1028",
+        "1028",
+        "1027"
+      ],
+      "into": [
+        "4402",
+        "326657",
+        "6657"
+      ],
+      "image": {
+        "full": "3803.png",
+        "sprite": "item4.png",
+        "group": "item",
+        "x": 144,
+        "y": 336,
+        "w": 48,
+        "h": 48
+      },
+      "gold": {
+        "base": 200,
+        "purchasable": true,
+        "total": 1300,
+        "sell": 910
+      },
+      "tags": [
+        "Health",
+        "HealthRegen",
+        "Mana",
+        "ManaRegen"
+      ],
+      "maps": {
+        "11": true,
+        "12": true,
+        "22": false,
+        "30": false,
+        "453": true
+      },
+      "stats": {
+        "FlatMPPoolMod": 375,
+        "FlatHPPoolMod": 300
+      },
+      "depth": 2
+    },
+    "6653": {
+      "name": "兰德里的折磨",
+      "description": "<mainText><stats><attention>60</attention>法术强度<br><attention>300</attention>生命值</stats><br><br><passive>折磨</passive><br>伤害型技能会灼烧敌人，每秒造成<magicDamage>2%最大生命值的魔法伤害</magicDamage>，持续3秒。<br><br><passive>受苦</passive><br>在与敌方英雄作战时，每过1秒，就会造成2%额外伤害，至多至6%。</mainText>",
+      "colloq": "",
+      "plaintext": "在战斗中充能以造成高额持续伤害，尤其是在对抗耐久型敌人时",
+      "from": [
+        "3147",
+        "2508"
+      ],
+      "image": {
+        "full": "6653.png",
+        "sprite": "item6.png",
+        "group": "item",
+        "x": 432,
+        "y": 0,
+        "w": 48,
+        "h": 48
+      },
+      "gold": {
+        "base": 800,
+        "purchasable": true,
+        "total": 3000,
+        "sell": 2100
+      },
+      "tags": [
+        "Health",
+        "SpellDamage"
+      ],
+      "maps": {
+        "11": true,
+        "12": true,
+        "22": false,
+        "30": false,
+        "453": true
+      },
+      "stats": {
+        "FlatHPPoolMod": 300,
+        "FlatMagicDamageMod": 60
+      },
+      "depth": 3
+    },
+    "8010": {
+      "name": "放血者的诅咒",
+      "description": "<mainText><stats><attention>65</attention>法术强度<br><attention>400</attention>生命值<br><attention>15</attention>技能急速</stats><br><br><passive>恶劣衰朽</passive><br>用技能或被动对英雄造成<magicDamage>魔法伤害</magicDamage>时，会对其造成持续6秒的<scaleMR>7.5%魔法抗性削减</scaleMR>。(可叠加4次)。</mainText>",
+      "colloq": "",
+      "plaintext": "",
+      "from": [
+        "3147",
+        "3108"
+      ],
+      "image": {
+        "full": "8010.png",
+        "sprite": "item8.png",
+        "group": "item",
+        "x": 288,
+        "y": 0,
+        "w": 48,
+        "h": 48
+      },
+      "gold": {
+        "base": 750,
+        "purchasable": true,
+        "total": 2900,
+        "sell": 2030
+      },
+      "tags": [
+        "Health",
+        "SpellDamage",
+        "CooldownReduction",
+        "MagicPenetration"
+      ],
+      "maps": {
+        "11": true,
+        "12": true,
+        "22": false,
+        "30": false,
+        "453": true
+      },
+      "stats": {
+        "FlatHPPoolMod": 400,
+        "FlatMagicDamageMod": 65
+      },
+      "depth": 3
+    }
+  },
+  "hashBindings": {
+    "CritPerStackMelee": "52d90ad0",
+    "StackRangedMultiplier": "1eea3407"
+  }
+}

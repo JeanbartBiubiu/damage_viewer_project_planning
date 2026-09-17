@@ -1,0 +1,121 @@
+import { readFile, writeFile } from 'node:fs/promises';
+
+const apiBaseUrl = 'http://127.0.0.1:8080/api/admin/games/lol';
+const token = 'local-entry';
+const candidatePath = new URL('./录入候选.json', import.meta.url);
+const outputPath = new URL('./独立最终回读.json', import.meta.url);
+
+const candidate = JSON.parse(await readFile(candidatePath, 'utf8'));
+const objects = candidate.objects ?? [];
+
+async function request(path) {
+  const response = await fetch(`${apiBaseUrl}${path}`, {
+    headers: { Authorization: `Bearer ${token}` },
+    signal: AbortSignal.timeout(30000)
+  });
+  const text = await response.text();
+  let data = null;
+  if (text) {
+    try { data = JSON.parse(text); } catch { data = text; }
+  }
+  return { status: response.status, data };
+}
+
+function compareFields(expected, actual, path = '', rows = []) {
+  if (expected === null || typeof expected !== 'object') {
+    rows.push({ path, expected, actual, equal: Object.is(expected, actual) });
+    return rows;
+  }
+  if (Array.isArray(expected)) {
+    if (!Array.isArray(actual)) {
+      rows.push({ path, expected, actual, equal: false });
+      return rows;
+    }
+    rows.push({ path: `${path}[]`, expectedCount: expected.length, actualCount: actual.length, equal: expected.length === actual.length });
+    expected.forEach((value, index) => compareFields(value, actual[index], `${path}[${index}]`, rows));
+    return rows;
+  }
+  if (!actual || typeof actual !== 'object' || Array.isArray(actual)) {
+    rows.push({ path, expected, actual, equal: false });
+    return rows;
+  }
+  for (const [key, value] of Object.entries(expected)) {
+    compareFields(value, actual[key], path ? `${path}.${key}` : key, rows);
+  }
+  return rows;
+}
+
+function listItems(data) {
+  return Array.isArray(data) ? data : (Array.isArray(data?.items) ? data.items : []);
+}
+
+const checks = [];
+function addCheck(path, expected, actual, status, kind) {
+  const fields = compareFields(expected, actual);
+  checks.push({ kind, path, status, fieldCount: fields.length, mismatchCount: fields.filter((field) => !field.equal).length, fields });
+}
+
+for (const object of objects) {
+  const skillPath = `/skills/${encodeURIComponent(object.skill.skillKey)}`;
+  const equipmentPath = `/equipment/${encodeURIComponent(object.equipmentKey)}`;
+  const direct = await request(`${equipmentPath}/attributes`);
+  addCheck(`${equipmentPath}/attributes`, object.directAttributes, direct.data?.attributeValues ?? direct.data, direct.status, 'equipment-direct-attributes');
+
+  const skill = await request(skillPath);
+  addCheck(skillPath, object.skill, skill.data, skill.status, 'skill');
+
+  for (const item of object.parameters) {
+    const path = `${skillPath}/parameters/${encodeURIComponent(item.parameterKey)}`;
+    const read = await request(path);
+    addCheck(path, item, read.data, read.status, `parameter:${item.parameterKey}`);
+  }
+  for (const item of object.formulas) {
+    const path = `${skillPath}/formulas/${encodeURIComponent(item.formulaKey)}`;
+    const read = await request(path);
+    addCheck(path, item, read.data, read.status, `formula:${item.formulaKey}`);
+  }
+  for (const item of object.effects) {
+    const path = `${skillPath}/effects/${encodeURIComponent(item.effectKey)}`;
+    const read = await request(path);
+    addCheck(path, item, read.data, read.status, `effect:${item.effectKey}`);
+  }
+  for (const item of object.triggerRules) {
+    const path = `${skillPath}/trigger-rules/${encodeURIComponent(item.ruleKey)}`;
+    const read = await request(path);
+    addCheck(path, item, read.data, read.status, `trigger-rule:${item.ruleKey}`);
+  }
+
+  const relationPath = `/equipment-skill-relations?equipmentKey=${encodeURIComponent(object.equipmentKey)}`;
+  const relationRead = await request(relationPath);
+  const relation = listItems(relationRead.data).find((item) => item.skillKey === object.skill.skillKey);
+  addCheck(relationPath, object.relation, relation, relationRead.status, 'equipment-skill-relation');
+
+  const equipmentImagePath = `${equipmentPath}/representative-image`;
+  const equipmentImage = await request(equipmentImagePath);
+  const imageKey = equipmentImage.data?.image?.imageKey;
+  addCheck(equipmentImagePath, { enabled: true, imageKey }, equipmentImage.data?.image, equipmentImage.status, 'equipment-representative-image');
+  const skillImagePath = `${skillPath}/representative-image`;
+  const skillImage = await request(skillImagePath);
+  addCheck(skillImagePath, { image: { imageKey } }, skillImage.data, skillImage.status, 'skill-representative-image');
+}
+
+const mismatches = checks.filter((check) => check.status < 200 || check.status >= 300 || check.mismatchCount > 0);
+const result = {
+  generatedAt: new Date().toISOString(),
+  mode: '独立最终回读',
+  apiBaseUrl,
+  gameId: 'lol',
+  objects: objects.map((object) => ({ equipmentKey: object.equipmentKey, skillKey: object.skill.skillKey })),
+  checks,
+  summary: {
+    objectCount: objects.length,
+    checkCount: checks.length,
+    fieldCount: checks.reduce((total, check) => total + check.fieldCount, 0),
+    mismatchCount: mismatches.reduce((total, check) => total + Math.max(check.mismatchCount, check.status >= 200 && check.status < 300 ? 0 : 1), 0),
+    failedCheckCount: mismatches.length
+  },
+  note: '每个组件均由本脚本独立发送GET；配置回读不等于运行时或浏览器验证。'
+};
+await writeFile(outputPath, `${JSON.stringify(result, null, 2)}\n`, 'utf8');
+console.log(JSON.stringify({ outputPath: outputPath.pathname, summary: result.summary }, null, 2));
+if (result.summary.failedCheckCount) process.exitCode = 1;

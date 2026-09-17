@@ -1,0 +1,31 @@
+{
+  "at": "2026-09-07T19:11:07.924Z",
+  "mode": "只读核对",
+  "endpoint": "/skills/item_3032_passive/trigger-rules/resolve_attack_speed_on_champion_attack",
+  "passed": true,
+  "before": {
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_TRIGGER_RULE_NOT_FOUND",
+        "details": {
+          "ruleKey": "resolve_attack_speed_on_champion_attack"
+        },
+        "message": "技能触发规则不存在"
+      }
+    }
+  },
+  "action": "已撤回，同值跳过",
+  "after": {
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_TRIGGER_RULE_NOT_FOUND",
+        "details": {
+          "ruleKey": "resolve_attack_speed_on_champion_attack"
+        },
+        "message": "技能触发规则不存在"
+      }
+    }
+  }
+}

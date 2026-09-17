@@ -1,0 +1,211 @@
+{
+  "at": "2026-09-09T10:29:56.695Z",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "browser": "Codex内置浏览器现有标签2",
+  "representativePages": 2,
+  "observations": [
+    {
+      "skillKey": "item_3158_passive",
+      "observed": "列表代表图片可见；参数召唤师技能急速显示整数10。"
+    },
+    {
+      "skillKey": "item_4628_passive",
+      "observed": "列表代表图片可见；参数显示最小施放距离600、持续6000毫秒、增伤比例0.1；合资格伤害为小数运行时输入。公式详情显示当前合资格伤害乘增伤比例，并明确未自动造成伤害。"
+    }
+  ],
+  "GETs": 9,
+  "requests": [
+    {
+      "route": "/skills/item_3158_passive",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T10:01:01.48811Z",
+        "description": "当前16.17绑定说明获得10召唤师技能急速；与已录基础技能急速区分。保留明确数值，召唤师技能范围和冷却修正入口待接。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "明朗之靴·艾欧尼亚的洞悉",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "item_3158_passive",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-09T10:01:01.48811Z"
+      }
+    },
+    {
+      "route": "/skills/item_3158_passive/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T10:01:02.70161Z",
+          "description": "Item_3158_Tooltip绑定SummonerHaste=10；未使用FeatsHaste旧字段。",
+          "fixedValue": 10,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "召唤师技能急速",
+          "parameterKey": "summoner_haste",
+          "skillKey": "item_3158_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T10:01:02.70161Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/item_3158_passive/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/item_3158_passive/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_3158",
+          "name": "item_3158"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_4628_passive",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T10:01:05.823032Z",
+        "description": "从技能施放位置计算，与600码或更远的英雄造成技能伤害后显形6秒，对高能射击显形目标造成10%提升伤害。宠物和陷阱不触发，领域类技能仅初始放置触发。保留唯一敌人增伤分支；触发资格、命中顺序及修正乘区待接，不将仅显形其他敌人的专注支路并入。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "视界专注·高能射击",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "item_4628_passive",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-09T10:01:05.823032Z"
+      }
+    },
+    {
+      "route": "/skills/item_4628_passive/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T10:01:06.8891Z",
+          "description": "当前正文SnipeRange=600；600码或更远，距离从技能施放位置起算。",
+          "fixedValue": 600,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "高能射击最小施放距离",
+          "parameterKey": "minimum_cast_distance",
+          "skillKey": "item_4628_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T10:01:06.8891Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T10:01:08.11321Z",
+          "description": "当前正文BuffDuration=6秒，转换为6000毫秒；不是专注支路的3秒。",
+          "fixedValue": 6000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "高能射击显形持续",
+          "parameterKey": "hypershot_duration_ms",
+          "skillKey": "item_4628_passive",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T10:01:08.11321Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T10:01:09.202388Z",
+          "description": "当前正文DamageAmp*100明确10%提升；保留原值，不使用缺增伤文案的外部简略说明覆盖。",
+          "fixedValue": 0.1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "高能射击伤害提升比例",
+          "parameterKey": "damage_amplification_ratio",
+          "skillKey": "item_4628_passive",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T10:01:09.202388Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T10:01:10.222342Z",
+          "description": "由同一次对高能射击显形目标的合资格伤害结算提供；乘区和取样时点待核，不补零，不默认所有伤害合资格。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "当前合资格伤害值",
+          "parameterKey": "actual_qualified_damage",
+          "skillKey": "item_4628_passive",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T10:01:10.222342Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        }
+      ]
+    },
+    {
+      "route": "/skills/item_4628_passive/formulas",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T10:01:11.351606Z",
+          "description": "当前合资格伤害×0.1，只表达提升部分；触发和修正资格未接，不自动造成伤害。",
+          "formulaKey": "additional_damage",
+          "gameId": "lol",
+          "name": "高能射击额外伤害值",
+          "skillKey": "item_4628_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T10:01:11.351606Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/item_4628_passive/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_4628",
+          "name": "item_4628"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_4628_passive/formulas/additional_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T10:01:11.351606Z",
+        "description": "当前合资格伤害×0.1，只表达提升部分；触发和修正资格未接，不自动造成伤害。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_qualified_damage"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "damage_amplification_ratio"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "additional_damage",
+        "gameId": "lol",
+        "name": "高能射击额外伤害值",
+        "skillKey": "item_4628_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T10:01:11.351606Z"
+      }
+    }
+  ],
+  "passed": true,
+  "apiWrites": 0,
+  "runtimeValidation": "未执行"
+}

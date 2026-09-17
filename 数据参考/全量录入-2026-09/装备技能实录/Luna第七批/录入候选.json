@@ -1,0 +1,1365 @@
+{
+  "generatedAt": "2026-09-07T18:51:09.813Z",
+  "objects": [
+    {
+      "equipmentKey": "item_3003",
+      "equipmentName": "大天使之杖",
+      "directAttributes": {
+        "ability_power": 70,
+        "mana": 600,
+        "ability_haste": 25
+      },
+      "skill": {
+        "skillKey": "item_3003_passive",
+        "name": "大天使之杖·敬畏与法力流",
+        "description": "保存16.17客户端绑定值与官方16.17.1说明共同确证的敬畏1%额外法力转法术强度，以及法力流的8秒、5层、每次5最大法力、英雄命中翻倍和法力流累计增加360最大法力的升级阈值。装备自身70法术强度、600法力和25技能急速不在技能结果中重复施加；本批只把额外法力转法术强度配置为动态属性效果，法力流命中筛选与升级目标待补。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      },
+      "parameters": [
+        {
+          "parameterKey": "ap_from_bonus_mana_ratio",
+          "name": "敬畏额外法力转法术强度比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.01,
+          "levelValues": null,
+          "description": "每1点额外法力提供0.01点法术强度，小数0.01表示1%。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "mana_flow_charge_window_ms",
+          "name": "法力流充能窗口",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 8000,
+          "levelValues": null,
+          "description": "法力流充能窗口为8秒，单位：毫秒。",
+          "sortOrder": 20
+        },
+        {
+          "parameterKey": "mana_flow_max_charges",
+          "name": "法力流最大充能层数",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 5,
+          "levelValues": null,
+          "description": "法力流最多5层充能。",
+          "sortOrder": 30
+        },
+        {
+          "parameterKey": "mana_flow_mana_per_skill_hit",
+          "name": "法力流每次技能命中最大法力",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 5,
+          "levelValues": null,
+          "description": "技能命中提供5点最大法力；英雄命中另由翻倍参数表示。",
+          "sortOrder": 40
+        },
+        {
+          "parameterKey": "mana_flow_hero_hit_multiplier",
+          "name": "法力流英雄命中倍率",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 2,
+          "levelValues": null,
+          "description": "对英雄命中时相对基础5点最大法力取2倍。",
+          "sortOrder": 50
+        },
+        {
+          "parameterKey": "mana_flow_transform_threshold",
+          "name": "法力流累计增加法力升级阈值",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 360,
+          "levelValues": null,
+          "description": "法力流累计增加360最大法力后升级；不是角色总最大法力达到360，装备自身600法力不计入进度。",
+          "sortOrder": 60
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "ap_from_bonus_mana",
+          "name": "额外法力转法术强度",
+          "description": "按来源对象额外法力值乘以敬畏比例计算法术强度。",
+          "sortOrder": 10,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "mana",
+                "attributeValueKind": "BONUS"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_from_bonus_mana_ratio"
+              }
+            ]
+          }
+        }
+      ],
+      "effects": [
+        {
+          "effectKey": "ap_from_bonus_mana",
+          "name": "敬畏额外法力转法术强度",
+          "description": "装备持有者按当前额外法力值获得1%法术强度。",
+          "sortOrder": 10,
+          "lifecycle": {
+            "durationValue": null,
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "instanceScope": "SOURCE",
+            "reapplicationStackMode": "KEEP",
+            "reapplicationDurationMode": null,
+            "expiryMode": "EXPLICIT_ONLY",
+            "periodicIntervalValue": null,
+            "firstPeriodicExecution": null
+          },
+          "results": [
+            {
+              "resultKey": "ap_from_bonus_mana",
+              "name": "额外法力提供的法术强度",
+              "resultType": "ATTRIBUTE_CHANGE",
+              "target": "SOURCE",
+              "description": "每1点额外法力提供0.01点法术强度；按当前时点读取。",
+              "sortOrder": 10,
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "valueReadMode": "MOMENT_EVALUATION",
+                "stackValueMode": "SHARED",
+                "reapplicationValueMode": null,
+                "periodicExecutionMode": null
+              },
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "FORMULA",
+                  "formulaKey": "ap_from_bonus_mana"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": 0,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "attributeKey": "ability_power",
+                "operation": "INCREASE",
+                "modifierZoneKey": "attribute_flat_add"
+              }
+            }
+          ]
+        }
+      ],
+      "triggerRules": [
+        {
+          "ruleKey": "initialize_ap_from_bonus_mana",
+          "name": "初始化敬畏额外法力转法术强度",
+          "description": "装备生效时建立按当前额外法力读取的敬畏属性效果；法力流技能命中筛选不在本规则中扩大。",
+          "sortOrder": 10,
+          "eventSource": {
+            "eventType": "SOURCE_INITIALIZED",
+            "detail": {}
+          },
+          "conditionGroups": [],
+          "actions": [
+            {
+              "actionKey": "execute_ap_from_bonus_mana",
+              "name": "执行敬畏属性效果",
+              "actionType": "EXECUTE_EFFECT",
+              "sortOrder": 10,
+              "targetContext": "EVENT_SOURCE",
+              "detail": {
+                "effectKey": "ap_from_bonus_mana"
+              },
+              "runtimeInputBindings": [],
+              "resultModifiers": []
+            }
+          ],
+          "perTargetCooldown": null,
+          "maxTriggersPerProcess": null
+        }
+      ],
+      "pendingRules": [
+        "法力流需要技能命中事件、8秒充能窗口、每次命中只计一次、英雄目标翻倍和最大法力增长；当前未建立本装备专属命中筛选。",
+        "达到法力流累计增加360最大法力后的炽天使之拥替换目标及装备替换关系未配置；仅保存来源明确的阈值参数。"
+      ],
+      "pendingEffects": [
+        {
+          "effectKey": "mana_flow",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "target": "SOURCE",
+          "reason": "技能命中目标类别、充能消费和最大法力升级替换尚未形成可核对的单一效果形状；本批保留六个确证参数，不伪造命中触发。"
+        }
+      ],
+      "relation": {
+        "equipmentKey": "item_3003",
+        "skillKey": "item_3003_passive",
+        "sortOrder": 10
+      },
+      "sourceRefs": [
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+          "pointer": "Items/3003/mDataValues/APFromMana、ManaPerCharge、ManaChargeAmmoCD、ManaChargeMaxAmmo、MaxMana、Items/3003/mFlatMagicDamageMod、flatMPPoolMod、mAbilityHasteMod、mItemDataClient/mTooltipData/mLocKeys",
+          "evidence": "APFromMana约0.01；ManaPerCharge=5、ManaChargeAmmoCD=8、ManaChargeMaxAmmo=5、MaxMana=360；直接属性为70法术强度、600法力、25技能急速。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+          "pointer": "entries/item_3003_tooltip、entries/generatedtip_item_3003_externaldescription",
+          "evidence": "敬畏为1%额外法力转法术强度；法力流为8秒、最大5层、技能命中提供5最大法力且英雄命中翻倍、360最大法力升级。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+          "pointer": "/data/3003/description、/data/3003/stats",
+          "evidence": "官方16.17.1说明与客户端绑定值交叉核对。"
+        }
+      ],
+      "arithmetic": [
+        {
+          "sample": "100点额外法力的敬畏法术强度",
+          "expected": 1,
+          "actual": 1,
+          "unit": "法术强度点；仅算术样例，未执行运行时"
+        },
+        {
+          "sample": "英雄命中一次法力流最大法力",
+          "expected": 10,
+          "actual": 10,
+          "unit": "最大法力点；仅算术样例，未执行运行时"
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_6675",
+      "equipmentName": "纳沃利烁刃",
+      "directAttributes": {
+        "move_speed_percent": 0.04,
+        "bonus_attack_speed_percent": 0.4,
+        "critical_strike_chance": 0.25
+      },
+      "skill": {
+        "skillKey": "item_6675_passive",
+        "name": "纳沃利烁刃·超凡入圣",
+        "description": "保存冻结16.17客户端与官方16.17.1确证的每次攻击缩短各基础技能15%剩余冷却比例。当前冷却变化结果按毫秒解释，错误0.15毫秒效果已撤；已有SOURCE结果可指持有者，尚缺各受影响技能剩余冷却比例操作。装备直接属性不重复施加。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      },
+      "parameters": [
+        {
+          "parameterKey": "basic_skill_cooldown_reduction_ratio",
+          "name": "基础技能剩余冷却缩短比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.15,
+          "levelValues": null,
+          "description": "每次攻击使基础技能剩余冷却缩短15%，小数0.15表示15%。",
+          "sortOrder": 10
+        }
+      ],
+      "formulas": [],
+      "effects": [],
+      "triggerRules": [],
+      "pendingRules": [
+        "普通攻击命中动作可用CURRENT_TARGET，结果SOURCE仍指持有者；待正确比例操作补齐后再接普通攻击及合法攻击特效链。"
+      ],
+      "pendingEffects": [
+        {
+          "effectKey": "basic_skill_cooldown_reduction",
+          "resultType": "COOLDOWN_CHANGE",
+          "target": "SOURCE",
+          "reason": "现有REDUCE按毫秒，0.15不能代替每个受影响技能的剩余冷却乘15%；需最小比例操作或逐技能剩余冷却供值。"
+        }
+      ],
+      "relation": {
+        "equipmentKey": "item_6675",
+        "skillKey": "item_6675_passive",
+        "sortOrder": 10
+      },
+      "sourceRefs": [
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+          "pointer": "Items/6675/mDataValues/CDRAmount、mPercentMovementSpeedMod、mPercentAttackSpeedMod、mFlatCritChanceMod、mItemDataClient/mTooltipData/mLocKeys",
+          "evidence": "CDRAmount=0.15；直接属性为40%攻击速度、25%暴击几率、4%移动速度。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+          "pointer": "entries/item_6675_tooltip、entries/generatedtip_item_6675_externaldescription",
+          "evidence": "超凡入圣：攻击使各基础技能的冷却时间缩短15%剩余冷却时间。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+          "pointer": "/data/6675/description、/data/6675/stats",
+          "evidence": "官方说明与客户端绑定值交叉核对。"
+        }
+      ],
+      "arithmetic": [
+        {
+          "sample": "剩余冷却1000毫秒的基础技能缩短量",
+          "expected": 150,
+          "actual": 150,
+          "unit": "毫秒；仅算术样例，未执行运行时"
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_4633",
+      "equipmentName": "裂隙制造者",
+      "directAttributes": {
+        "ability_power": 70,
+        "hp": 350,
+        "ability_haste": 15
+      },
+      "skill": {
+        "skillKey": "item_4633_passive",
+        "name": "裂隙制造者·虚空灌注与虚空腐蚀",
+        "description": "保存16.17客户端与官方16.17.1说明共同确证的虚空灌注2%额外生命转法术强度，以及虚空腐蚀每秒2%、最多8%的确证参数。装备自身70法术强度、350生命值和15技能急速不在技能结果中重复施加；虚空腐蚀的敌方英雄战斗筛选、战斗结束层数处理及满强度近战10%/远程6%全能吸血效果留待补配。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      },
+      "parameters": [
+        {
+          "parameterKey": "ap_from_bonus_hp_ratio",
+          "name": "虚空灌注额外生命转法术强度比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.02,
+          "levelValues": null,
+          "description": "每1点额外生命提供0.02点法术强度，小数0.02表示2%。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "void_corrosion_damage_bonus_per_second",
+          "name": "虚空腐蚀每秒伤害增幅",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.02,
+          "levelValues": null,
+          "description": "与敌方英雄作战时每过1秒增加2%额外伤害，小数0.02表示2%；事件筛选待补。",
+          "sortOrder": 20
+        },
+        {
+          "parameterKey": "void_corrosion_damage_bonus_max",
+          "name": "虚空腐蚀最大伤害增幅",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.08,
+          "levelValues": null,
+          "description": "虚空腐蚀额外伤害增幅最多8%，小数0.08表示8%；伤害修正乘区待补。",
+          "sortOrder": 30
+        },
+        {
+          "parameterKey": "void_corrosion_interval_ms",
+          "name": "虚空腐蚀叠层间隔",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1000,
+          "levelValues": null,
+          "description": "每过1秒增加一档伤害增幅，单位：毫秒。",
+          "sortOrder": 40
+        },
+        {
+          "parameterKey": "void_corrosion_melee_omnivamp",
+          "name": "虚空腐蚀满强度近战全能吸血比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.1,
+          "levelValues": null,
+          "description": "当前根VampAmountMelee和绑定扩展说明确证满强度近战10%全能吸血。",
+          "sortOrder": 50
+        },
+        {
+          "parameterKey": "void_corrosion_ranged_omnivamp",
+          "name": "虚空腐蚀满强度远程全能吸血比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.06,
+          "levelValues": null,
+          "description": "当前根VampAmountRanged和绑定扩展说明确证满强度远程6%全能吸血。",
+          "sortOrder": 60
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "ap_from_bonus_hp",
+          "name": "额外生命转法术强度",
+          "description": "按来源对象额外生命值乘以虚空灌注比例计算法术强度。",
+          "sortOrder": 10,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "hp",
+                "attributeValueKind": "BONUS"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_from_bonus_hp_ratio"
+              }
+            ]
+          }
+        }
+      ],
+      "effects": [
+        {
+          "effectKey": "ap_from_bonus_hp",
+          "name": "虚空灌注额外生命转法术强度",
+          "description": "装备持有者按当前额外生命值获得2%法术强度。",
+          "sortOrder": 10,
+          "lifecycle": {
+            "durationValue": null,
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "instanceScope": "SOURCE",
+            "reapplicationStackMode": "KEEP",
+            "reapplicationDurationMode": null,
+            "expiryMode": "EXPLICIT_ONLY",
+            "periodicIntervalValue": null,
+            "firstPeriodicExecution": null
+          },
+          "results": [
+            {
+              "resultKey": "ap_from_bonus_hp",
+              "name": "额外生命提供的法术强度",
+              "resultType": "ATTRIBUTE_CHANGE",
+              "target": "SOURCE",
+              "description": "每1点额外生命提供0.02点法术强度；按当前时点读取。",
+              "sortOrder": 10,
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "valueReadMode": "MOMENT_EVALUATION",
+                "stackValueMode": "SHARED",
+                "reapplicationValueMode": null,
+                "periodicExecutionMode": null
+              },
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "FORMULA",
+                  "formulaKey": "ap_from_bonus_hp"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": 0,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "attributeKey": "ability_power",
+                "operation": "INCREASE",
+                "modifierZoneKey": "attribute_flat_add"
+              }
+            }
+          ]
+        }
+      ],
+      "triggerRules": [
+        {
+          "ruleKey": "initialize_ap_from_bonus_hp",
+          "name": "初始化虚空灌注",
+          "description": "装备生效时建立按当前额外生命读取的虚空灌注属性效果；虚空腐蚀战斗筛选不在本规则中扩大。",
+          "sortOrder": 10,
+          "eventSource": {
+            "eventType": "SOURCE_INITIALIZED",
+            "detail": {}
+          },
+          "conditionGroups": [],
+          "actions": [
+            {
+              "actionKey": "execute_ap_from_bonus_hp",
+              "name": "执行虚空灌注属性效果",
+              "actionType": "EXECUTE_EFFECT",
+              "sortOrder": 10,
+              "targetContext": "EVENT_SOURCE",
+              "detail": {
+                "effectKey": "ap_from_bonus_hp"
+              },
+              "runtimeInputBindings": [],
+              "resultModifiers": []
+            }
+          ],
+          "perTargetCooldown": null,
+          "maxTriggersPerProcess": null
+        }
+      ],
+      "pendingRules": [
+        "虚空腐蚀需要与敌方英雄作战的目标类别与战斗计时，每秒累计至8%；当前管理事件与伤害修正乘区未形成该完整筛选。",
+        "满强度近战10%/远程6%全能吸血已有来源参数；攻击类型、满层条件及战斗结束清理仍待配置。"
+      ],
+      "pendingEffects": [
+        {
+          "effectKey": "void_corrosion_damage_bonus",
+          "resultType": "DAMAGE_MODIFIER",
+          "target": "SOURCE",
+          "reason": "来源确证每秒2%至多8%，但当前未找到可同时表达敌方英雄战斗计时与有效DAMAGE修正乘区的完整结构。"
+        }
+      ],
+      "relation": {
+        "equipmentKey": "item_4633",
+        "skillKey": "item_4633_passive",
+        "sortOrder": 10
+      },
+      "sourceRefs": [
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+          "pointer": "Items/4633/mDataValues/HealthToAPConversionPercent、SecondsInCombat、EternityDamageIncreasePerSecond、EternityDamageIncreaseMax、BuffCounterDuration、VampAmountMelee、VampAmountRanged、Items/4633/mItemCalculations、mFlatMagicDamageMod、mFlatHPPoolMod、mAbilityHasteMod、mItemDataClient/mTooltipData/mLocKeys",
+          "evidence": "HealthToAPConversionPercent=0.02；SecondsInCombat=4、EternityDamageIncreasePerSecond=0.02、EternityDamageIncreaseMax=0.08；直接属性为70法术强度、350生命值、15技能急速。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+          "pointer": "entries/item_4633_tooltip、entries/generatedtip_item_4633_externaldescription",
+          "evidence": "虚空腐蚀每秒2%至多8%；虚空灌注为2%额外生命转法术强度。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+          "pointer": "/data/4633/description、/data/4633/stats",
+          "evidence": "官方说明与客户端绑定值交叉核对。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+          "pointer": "Items/4633/mDataValues/VampAmountMelee,VampAmountRanged",
+          "evidence": "当前绑定值近战0.1、远程0.06，与item_4633_activeinventoryextended一致。"
+        }
+      ],
+      "arithmetic": [
+        {
+          "sample": "500点额外生命的虚空灌注法术强度",
+          "expected": 10,
+          "actual": 10,
+          "unit": "法术强度点；仅算术样例，未执行运行时"
+        },
+        {
+          "sample": "虚空腐蚀四个1秒增幅档位",
+          "expected": 0.08,
+          "actual": 0.08,
+          "unit": "比例，小数0.08等于8%；仅算术样例，未执行运行时"
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_2501",
+      "equipmentName": "霸王血铠",
+      "directAttributes": {
+        "hp": 550,
+        "attack_damage": 30
+      },
+      "skill": {
+        "skillKey": "item_2501_passive",
+        "name": "霸王血铠·专横与报复",
+        "description": "保存16.17客户端与官方16.17.1说明共同确证的专横2.5%额外生命转攻击力，以及报复12%攻击力提升参数。装备自身550生命值和30攻击力不在技能结果中重复施加；本批只把专横的额外生命转攻击力配置为动态属性效果，报复低于30%剩余生命达到最高12%的边界已补参数，中间增长函数留待补证。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      },
+      "parameters": [
+        {
+          "parameterKey": "ad_from_bonus_hp_ratio",
+          "name": "专横额外生命转攻击力比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.025,
+          "levelValues": null,
+          "description": "每1点额外生命提供0.025点攻击力，小数0.025表示2.5%。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "revenge_attack_damage_ratio",
+          "name": "报复攻击力提升比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.12,
+          "levelValues": null,
+          "description": "来源明示报复提供12%攻击力提升，小数0.12表示12%；已损失生命百分比完整函数待补。",
+          "sortOrder": 20
+        },
+        {
+          "parameterKey": "revenge_missing_health_threshold",
+          "name": "报复已损失生命条件阈值",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.7,
+          "levelValues": null,
+          "description": "客户端绑定树记录MissingHealthThreshold=0.7；与报复完整函数的具体组合关系待来源核定，不将其直接当作触发阈值。",
+          "sortOrder": 30
+        },
+        {
+          "parameterKey": "revenge_remaining_health_threshold",
+          "name": "报复达到最高加成的剩余生命比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.3,
+          "levelValues": null,
+          "description": "当前绑定RemainingHealthThreshold计算为1-0.7=0.3，扩展说明明确低于30%生命达到最高12%；中间增长函数尚待补证。",
+          "sortOrder": 40
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "ad_from_bonus_hp",
+          "name": "额外生命转攻击力",
+          "description": "按来源对象额外生命值乘以专横比例计算攻击力。",
+          "sortOrder": 10,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "hp",
+                "attributeValueKind": "BONUS"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ad_from_bonus_hp_ratio"
+              }
+            ]
+          }
+        }
+      ],
+      "effects": [
+        {
+          "effectKey": "ad_from_bonus_hp",
+          "name": "专横额外生命转攻击力",
+          "description": "装备持有者按当前额外生命值获得2.5%攻击力。",
+          "sortOrder": 10,
+          "lifecycle": {
+            "durationValue": null,
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "instanceScope": "SOURCE",
+            "reapplicationStackMode": "KEEP",
+            "reapplicationDurationMode": null,
+            "expiryMode": "EXPLICIT_ONLY",
+            "periodicIntervalValue": null,
+            "firstPeriodicExecution": null
+          },
+          "results": [
+            {
+              "resultKey": "ad_from_bonus_hp",
+              "name": "额外生命提供的攻击力",
+              "resultType": "ATTRIBUTE_CHANGE",
+              "target": "SOURCE",
+              "description": "每1点额外生命提供0.025点攻击力；按当前时点读取。",
+              "sortOrder": 10,
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "valueReadMode": "MOMENT_EVALUATION",
+                "stackValueMode": "SHARED",
+                "reapplicationValueMode": null,
+                "periodicExecutionMode": null
+              },
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "FORMULA",
+                  "formulaKey": "ad_from_bonus_hp"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": 0,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "attributeKey": "attack_damage",
+                "operation": "INCREASE",
+                "modifierZoneKey": "attribute_flat_add"
+              }
+            }
+          ]
+        }
+      ],
+      "triggerRules": [
+        {
+          "ruleKey": "initialize_ad_from_bonus_hp",
+          "name": "初始化专横",
+          "description": "装备生效时建立按当前额外生命读取的专横属性效果；报复完整函数不在本规则中猜测。",
+          "sortOrder": 10,
+          "eventSource": {
+            "eventType": "SOURCE_INITIALIZED",
+            "detail": {}
+          },
+          "conditionGroups": [],
+          "actions": [
+            {
+              "actionKey": "execute_ad_from_bonus_hp",
+              "name": "执行专横属性效果",
+              "actionType": "EXECUTE_EFFECT",
+              "sortOrder": 10,
+              "targetContext": "EVENT_SOURCE",
+              "detail": {
+                "effectKey": "ad_from_bonus_hp"
+              },
+              "runtimeInputBindings": [],
+              "resultModifiers": []
+            }
+          ],
+          "perTargetCooldown": null,
+          "maxTriggersPerProcess": null
+        }
+      ],
+      "pendingRules": [
+        "报复在低于30%剩余生命达到最高12%攻击力已有当前根计算和扩展说明；中间连续增长函数仍未确证，不猜线性关系。"
+      ],
+      "pendingEffects": [
+        {
+          "effectKey": "revenge_attack_damage",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "target": "SOURCE",
+          "reason": "已损失生命百分比函数未确证，不能用单一12%参数伪造动态攻击力效果。"
+        }
+      ],
+      "relation": {
+        "equipmentKey": "item_2501",
+        "skillKey": "item_2501_passive",
+        "sortOrder": 10
+      },
+      "sourceRefs": [
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+          "pointer": "Items/2501/mDataValues/HPToADPercentage、MissingHealthAD、MissingHealthThreshold、Items/2501/mItemCalculations/RemainingHealthThreshold、mFlatPhysicalDamageMod、mFlatHPPoolMod、mItemDataClient/mTooltipData/mLocKeys",
+          "evidence": "HPToADPercentage=0.025、MissingHealthAD=0.12、MissingHealthThreshold=0.7；直接属性为30攻击力、550生命值。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+          "pointer": "entries/item_2501_tooltip、entries/generatedtip_item_2501_externaldescription",
+          "evidence": "专横为2.5%额外生命转攻击力；报复为基于已损失生命百分比的12%攻击力提升。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+          "pointer": "/data/2501/description、/data/2501/stats",
+          "evidence": "官方说明与客户端绑定值交叉核对。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+          "pointer": "Items/2501/mItemCalculations/RemainingHealthThreshold",
+          "evidence": "当前绑定计算1-MissingHealthThreshold=1-0.7=0.3；item_2501_tooltipextendedrules明确低于30%生命达到最高12%。"
+        }
+      ],
+      "arithmetic": [
+        {
+          "sample": "400点额外生命的专横攻击力",
+          "expected": 10,
+          "actual": 10,
+          "unit": "攻击力点；仅算术样例，未执行运行时"
+        },
+        {
+          "sample": "报复明示攻击力提升比例",
+          "expected": 0.12,
+          "actual": 0.12,
+          "unit": "比例，小数0.12等于12%；函数未执行"
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3814",
+      "equipmentName": "夜之锋刃",
+      "directAttributes": {
+        "attack_damage": 50,
+        "armor_pen_flat": 15,
+        "hp": 250
+      },
+      "skill": {
+        "skillKey": "item_3814_passive",
+        "name": "夜之锋刃·废除",
+        "description": "保存冻结16.17客户端与官方16.17.1确证的一层法术护盾、40秒冷却及冷却中受到英雄伤害重新起算。已配置初始化与成功阻挡后显式消费；40秒重获与英雄伤害重置规则待接线，直接装备属性不重复施加。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      },
+      "parameters": [
+        {
+          "parameterKey": "spell_shield_cooldown_ms",
+          "name": "法术护盾冷却时间",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 40000,
+          "levelValues": null,
+          "description": "法术护盾冷却时间为40秒，单位：毫秒；冷却开始与重获条件待补。",
+          "sortOrder": 10
+        }
+      ],
+      "formulas": [],
+      "effects": [
+        {
+          "effectKey": "spell_shield",
+          "name": "法术护盾",
+          "description": "保存格挡下一个敌方技能的法术护盾结果；初始化后的消费和冷却重获规则待补。",
+          "sortOrder": 10,
+          "lifecycle": {
+            "durationValue": null,
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "instanceScope": "SOURCE",
+            "reapplicationStackMode": "KEEP",
+            "reapplicationDurationMode": null,
+            "expiryMode": "EXPLICIT_ONLY",
+            "periodicIntervalValue": null,
+            "firstPeriodicExecution": null
+          },
+          "results": [
+            {
+              "resultKey": "spell_shield",
+              "name": "格挡下一个敌方技能",
+              "resultType": "SPELL_SHIELD",
+              "target": "SOURCE",
+              "description": "格挡下一个敌方技能。",
+              "sortOrder": 10,
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "valueReadMode": null,
+                "stackValueMode": null,
+                "reapplicationValueMode": null,
+                "periodicExecutionMode": null
+              },
+              "spellShieldBlockScope": null,
+              "valueRule": null,
+              "detail": {}
+            }
+          ]
+        },
+        {
+          "effectKey": "consume_spell_shield",
+          "name": "成功格挡后消耗法术护盾",
+          "description": "仅在法术护盾成功阻挡事件中执行，移除本技能的自身护盾。",
+          "sortOrder": 20,
+          "lifecycle": null,
+          "results": [
+            {
+              "resultKey": "remove_spell_shield",
+              "name": "移除已格挡护盾",
+              "resultType": "LIFECYCLE_OPERATION",
+              "target": "SOURCE",
+              "description": null,
+              "sortOrder": 10,
+              "lifecycleBehavior": null,
+              "spellShieldBlockScope": null,
+              "valueRule": null,
+              "detail": {
+                "targetEffectKey": "spell_shield",
+                "operation": "REMOVE"
+              }
+            }
+          ]
+        }
+      ],
+      "triggerRules": [
+        {
+          "ruleKey": "initialize_spell_shield",
+          "name": "初始化废除法术护盾",
+          "description": "装备生效时建立一层法术护盾；成功格挡后的消费和40秒重获规则待补。",
+          "sortOrder": 10,
+          "eventSource": {
+            "eventType": "SOURCE_INITIALIZED",
+            "detail": {}
+          },
+          "conditionGroups": [],
+          "actions": [
+            {
+              "actionKey": "execute_spell_shield",
+              "name": "执行法术护盾",
+              "actionType": "EXECUTE_EFFECT",
+              "sortOrder": 10,
+              "targetContext": "EVENT_SOURCE",
+              "detail": {
+                "effectKey": "spell_shield"
+              },
+              "runtimeInputBindings": [],
+              "resultModifiers": []
+            }
+          ],
+          "perTargetCooldown": null,
+          "maxTriggersPerProcess": null
+        },
+        {
+          "ruleKey": "consume_on_successful_block",
+          "name": "成功格挡后消耗护盾",
+          "description": "法术护盾不自动消费，成功格挡后显式移除；恢复另配。",
+          "sortOrder": 20,
+          "eventSource": {
+            "eventType": "SPELL_SHIELD_BLOCKED",
+            "detail": {
+              "shieldEffectKey": "spell_shield"
+            }
+          },
+          "conditionGroups": [],
+          "actions": [
+            {
+              "actionKey": "consume_shield",
+              "name": "消耗本次格挡护盾",
+              "actionType": "EXECUTE_EFFECT",
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET",
+              "detail": {
+                "effectKey": "consume_spell_shield"
+              },
+              "runtimeInputBindings": [],
+              "resultModifiers": []
+            }
+          ],
+          "perTargetCooldown": null,
+          "maxTriggersPerProcess": null
+        }
+      ],
+      "pendingRules": [
+        "初始化及成功阻挡后的显式消费已配置；40秒恢复和冷却中受到英雄伤害重新起算有绑定扩展说明支持，仍待准确接线。"
+      ],
+      "pendingEffects": [],
+      "relation": {
+        "equipmentKey": "item_3814",
+        "skillKey": "item_3814_passive",
+        "sortOrder": 10
+      },
+      "sourceRefs": [
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+          "pointer": "Items/3814/mDataValues/Cooldown、LethalityAmount、mEffectAmount、mFlatPhysicalDamageMod、mFlatHPPoolMod、mItemDataClient/mTooltipData/mLocKeys",
+          "evidence": "Cooldown=40秒、LethalityAmount=15；直接属性为50攻击力、15固定护甲穿透、250生命值。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+          "pointer": "entries/item_3814_tooltip、entries/generatedtip_item_3814_externaldescription",
+          "evidence": "废除提供一层法术护盾来格挡下一个敌方技能；冷却条件以冻结资料缺口保留。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+          "pointer": "/data/3814/description、/data/3814/stats",
+          "evidence": "官方说明与客户端绑定值交叉核对。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+          "pointer": "entries/item_3814_tooltipextended",
+          "evidence": "装备尚在冷却时受到英雄伤害，冷却重新开始计算。"
+        }
+      ],
+      "arithmetic": [
+        {
+          "sample": "法术护盾冷却换算",
+          "expected": 40000,
+          "actual": 40000,
+          "unit": "毫秒；仅算术样例，未执行运行时"
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_6657",
+      "equipmentName": "时光之杖",
+      "directAttributes": {
+        "ability_power": 45,
+        "hp": 350,
+        "mana": 500
+      },
+      "skill": {
+        "skillKey": "item_6657_passive",
+        "name": "时光之杖·时无限与永恒",
+        "description": "保存冻结16.17客户端与官方16.17.1确证的每60秒增加10生命、30法力和3法强，共10次成长并永久保留。原无限周期已改为有界被动过程与显式逐层属性；直接装备属性不重复施加。满层升1级及永恒的减免前英雄伤害回蓝、实际施法消耗治疗仍待接线。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      },
+      "parameters": [
+        {
+          "parameterKey": "timeless_growth_interval_ms",
+          "name": "时无限成长间隔",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 60000,
+          "levelValues": null,
+          "description": "时无限每60秒增加一层，单位：毫秒。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "timeless_growth_max_stacks",
+          "name": "时无限最大层数",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 10,
+          "levelValues": null,
+          "description": "时无限最多10层。",
+          "sortOrder": 20
+        },
+        {
+          "parameterKey": "timeless_hp_per_stack",
+          "name": "时无限每层生命值",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 10,
+          "levelValues": null,
+          "description": "每层增加10点生命值。",
+          "sortOrder": 30
+        },
+        {
+          "parameterKey": "timeless_mana_per_stack",
+          "name": "时无限每层法力",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 30,
+          "levelValues": null,
+          "description": "每层增加30点法力值。",
+          "sortOrder": 40
+        },
+        {
+          "parameterKey": "timeless_ap_per_stack",
+          "name": "时无限每层法术强度",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 3,
+          "levelValues": null,
+          "description": "每层增加3点法术强度。",
+          "sortOrder": 50
+        },
+        {
+          "parameterKey": "timeless_max_stack_level_bonus",
+          "name": "时无限满层等级提升",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1,
+          "levelValues": null,
+          "description": "达到最大层数时等级提升1级；当前技能效果没有等级提升结果，留待补配。",
+          "sortOrder": 60
+        },
+        {
+          "parameterKey": "eternity_mana_restore_ratio",
+          "name": "永恒受英雄伤害回蓝比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.1,
+          "levelValues": null,
+          "description": "收到来自英雄的减免前伤害，回复其10%的法力；基数按当前根绑定扩展说明，英雄来源及伤害值绑定待配。",
+          "sortOrder": 70
+        },
+        {
+          "parameterKey": "eternity_skill_cost_heal_ratio",
+          "name": "永恒技能消耗治疗比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.25,
+          "levelValues": null,
+          "description": "施放技能时治疗相当于法力消耗25%的生命值，小数0.25表示25%；消耗读取和持续技能规则待补。",
+          "sortOrder": 80
+        },
+        {
+          "parameterKey": "eternity_max_heal_per_cast",
+          "name": "永恒每次施放治疗上限",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 20,
+          "levelValues": null,
+          "description": "当前根EternityMaxHealPerCast与绑定扩展说明确证，每次施放最多治疗20生命。",
+          "sortOrder": 90
+        },
+        {
+          "parameterKey": "eternity_sustained_heal_per_second",
+          "name": "永恒维持型技能每秒治疗上限",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 20,
+          "levelValues": null,
+          "description": "当前绑定扩展说明明确维持型技能每秒最多治疗20生命；不是每次周期都固定治疗20。",
+          "sortOrder": 100
+        }
+      ],
+      "formulas": [],
+      "effects": [
+        {
+          "effectKey": "timeless_growth",
+          "name": "时无限成长层数",
+          "description": "由十次成长过程每分钟施加一层，最多十层并永久保留各层属性。",
+          "sortOrder": 10,
+          "lifecycle": {
+            "durationValue": null,
+            "maxStacksValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "timeless_growth_max_stacks"
+            },
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "instanceScope": "SOURCE",
+            "reapplicationStackMode": "INCREASE",
+            "reapplicationDurationMode": null,
+            "expiryMode": "EXPLICIT_ONLY",
+            "periodicIntervalValue": null,
+            "firstPeriodicExecution": null
+          },
+          "results": [
+            {
+              "resultKey": "timeless_ap_per_stack",
+              "name": "时无限每层法术强度",
+              "resultType": "ATTRIBUTE_CHANGE",
+              "target": "SOURCE",
+              "description": "显式成长每层增加3点法术强度。",
+              "sortOrder": 10,
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "valueReadMode": "APPLICATION_SNAPSHOT",
+                "stackValueMode": "PER_STACK",
+                "reapplicationValueMode": null,
+                "periodicExecutionMode": null
+              },
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "timeless_ap_per_stack"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": 0,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "attributeKey": "ability_power",
+                "operation": "INCREASE",
+                "modifierZoneKey": "attribute_flat_add"
+              }
+            },
+            {
+              "resultKey": "timeless_hp_per_stack",
+              "name": "时无限每层生命值",
+              "resultType": "ATTRIBUTE_CHANGE",
+              "target": "SOURCE",
+              "description": "显式成长每层增加10点生命值。",
+              "sortOrder": 20,
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "valueReadMode": "APPLICATION_SNAPSHOT",
+                "stackValueMode": "PER_STACK",
+                "reapplicationValueMode": null,
+                "periodicExecutionMode": null
+              },
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "timeless_hp_per_stack"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": 0,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "attributeKey": "hp",
+                "operation": "INCREASE",
+                "modifierZoneKey": "attribute_flat_add"
+              }
+            },
+            {
+              "resultKey": "timeless_mana_per_stack",
+              "name": "时无限每层法力",
+              "resultType": "ATTRIBUTE_CHANGE",
+              "target": "SOURCE",
+              "description": "显式成长每层增加30点法力值。",
+              "sortOrder": 30,
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "valueReadMode": "APPLICATION_SNAPSHOT",
+                "stackValueMode": "PER_STACK",
+                "reapplicationValueMode": null,
+                "periodicExecutionMode": null
+              },
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "timeless_mana_per_stack"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": 0,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "attributeKey": "mana",
+                "operation": "INCREASE",
+                "modifierZoneKey": "attribute_flat_add"
+              }
+            }
+          ]
+        }
+      ],
+      "triggerRules": [
+        {
+          "ruleKey": "initialize_timeless_growth",
+          "name": "初始化时无限十次成长",
+          "description": "来源对象初始化时启动一次有界成长过程，满层升级和永恒另行配置。",
+          "sortOrder": 10,
+          "eventSource": {
+            "eventType": "SOURCE_INITIALIZED",
+            "detail": {}
+          },
+          "conditionGroups": [],
+          "actions": [
+            {
+              "actionKey": "start_timeless_growth",
+              "name": "启动时无限十次成长",
+              "actionType": "START_PROCESS",
+              "sortOrder": 10,
+              "targetContext": "EVENT_SOURCE",
+              "detail": {
+                "processKey": "timeless_growth_process"
+              },
+              "runtimeInputBindings": [],
+              "resultModifiers": []
+            }
+          ],
+          "perTargetCooldown": null,
+          "maxTriggersPerProcess": null
+        }
+      ],
+      "pendingRules": [
+        "十次成长过程、显式叠层与初始化已配置；本轮不声称战斗运行验证。",
+        "满10层提升1级尚无等级变更结果；永恒英雄来源、减免前伤害和实际法力消耗绑定继续配置。"
+      ],
+      "pendingEffects": [
+        {
+          "effectKey": "eternity_mana_restore",
+          "resultType": "RESOURCE_CHANGE",
+          "target": "SOURCE",
+          "reason": "来源确证10%受英雄伤害回蓝，但事件目标类别和伤害值绑定尚未在本技能保存为可核对完整形状。"
+        },
+        {
+          "effectKey": "eternity_skill_cost_heal",
+          "resultType": "DIRECT_HEAL",
+          "target": "SOURCE",
+          "reason": "25%实际法力消耗治疗、每次20及维持型每秒20上限已有来源；合法消耗绑定和维持型统计待配。"
+        }
+      ],
+      "relation": {
+        "equipmentKey": "item_6657",
+        "skillKey": "item_6657_passive",
+        "sortOrder": 10
+      },
+      "sourceRefs": [
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+          "pointer": "Items/6657/mDataValues/HealthPerStack、ManaPerStack、APPerStack、MaxStacks、SecondsPerStack、EternityManaRestore、EternityHealthRestore、EternityMaxHealPerCast、EternityCDPerCast、mFlatMagicDamageMod、mFlatHPPoolMod、flatMPPoolMod、mItemDataClient/mTooltipData/mLocKeys",
+          "evidence": "HealthPerStack=10、ManaPerStack=30、APPerStack=3、MaxStacks=10、SecondsPerStack=60、EternityManaRestore=0.1、EternityHealthRestore=0.25；直接属性为45法术强度、350生命值、500法力。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+          "pointer": "entries/item_6657_tooltip、entries/generatedtip_item_6657_externaldescription",
+          "evidence": "时无限每60秒增加10生命、30法力、3法术强度，最多10层并在满层提升1级；永恒为受英雄伤害回10%法力和施法按25%法力消耗治疗。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+          "pointer": "/data/6657/description、/data/6657/stats",
+          "evidence": "官方说明与客户端绑定值交叉核对。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+          "pointer": "entries/item_6657_tooltipextended",
+          "evidence": "减免前英雄伤害按10%回蓝；实际施法消耗25%治疗，每次施放上限20，维持型每秒20。"
+        }
+      ],
+      "arithmetic": [
+        {
+          "sample": "时无限满层生命值",
+          "expected": 100,
+          "actual": 100,
+          "unit": "生命值点；仅算术样例，未执行运行时"
+        },
+        {
+          "sample": "时无限满层法力",
+          "expected": 300,
+          "actual": 300,
+          "unit": "法力点；仅算术样例，未执行运行时"
+        },
+        {
+          "sample": "时无限满层法术强度",
+          "expected": 30,
+          "actual": 30,
+          "unit": "法术强度点；仅算术样例，未执行运行时"
+        }
+      ],
+      "processes": [
+        {
+          "processKey": "timeless_growth_process",
+          "name": "时无限十次成长",
+          "activationType": "PASSIVE",
+          "description": "初始化后每60000毫秒施加一层，首次等待完整间隔，共执行10次。",
+          "sortOrder": 10,
+          "cooldown": null,
+          "steps": [
+            {
+              "stepKey": "growth_tick",
+              "name": "每分钟成长一层",
+              "stepType": "PERIODIC",
+              "description": "第1至第10次分别发生在第1至第10分钟。",
+              "sortOrder": 10,
+              "detail": {
+                "repeatCountValue": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "timeless_growth_max_stacks"
+                },
+                "intervalValue": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "timeless_growth_interval_ms"
+                },
+                "firstExecution": "AFTER_INTERVAL"
+              }
+            }
+          ],
+          "effectBindings": [
+            {
+              "bindingKey": "apply_growth",
+              "effectKey": "timeless_growth",
+              "moment": {
+                "momentType": "STEP_EXECUTION",
+                "stepKey": "growth_tick"
+              },
+              "sortOrder": 10
+            }
+          ],
+          "stateOperations": []
+        }
+      ]
+    }
+  ],
+  "skipped": []
+}

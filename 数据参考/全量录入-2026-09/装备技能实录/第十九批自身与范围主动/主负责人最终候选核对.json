@@ -1,0 +1,178 @@
+{
+  "at": "2026-09-09T09:05:54.750Z",
+  "status": "READY_FOR_GUARDED_APPLY_AFTER_SCRIPT_CHECK",
+  "hashes": {
+    "完整候选.json": "79e35c56d222d1248433f310276a8e3a91784d884ff0075dc4d1837f0d623f71",
+    "最终候选.json": "344cba87cb4fd4288b2c2b4ddd0b50ae8a9795f9d2b28a16d7f7414ca9727bf7",
+    "最终请求.json": "7d526f0b57f4adea338f7731139d838b7fda02c111ae870a8069ae345e06ff0d",
+    "冻结来源.json": "1ce775810bd1a252438386f6959dd8adf7a1de51224e3e055e3ffe8826ad7a79",
+    "写前保护快照.json": "f50a3ac022bc7689dc437a5006b969a85b6ef550f305aa3bd0cf51a6ceeef057"
+  },
+  "checks": [
+    {
+      "name": "完整候选.json散列",
+      "passed": true
+    },
+    {
+      "name": "最终候选.json散列",
+      "passed": true
+    },
+    {
+      "name": "最终请求.json散列",
+      "passed": true
+    },
+    {
+      "name": "冻结来源.json散列",
+      "passed": true
+    },
+    {
+      "name": "写前保护快照.json散列",
+      "passed": true
+    },
+    {
+      "name": "8技能无重键",
+      "passed": true
+    },
+    {
+      "name": "item_3074_active关系与原图一致",
+      "passed": true
+    },
+    {
+      "name": "item_3074_active业务载荷仅批准差异",
+      "passed": true
+    },
+    {
+      "name": "item_3748_passive关系与原图一致",
+      "passed": true
+    },
+    {
+      "name": "item_3748_passive仅移除未写临时生命参数",
+      "passed": true
+    },
+    {
+      "name": "item_3748_passive2处属性引用替换",
+      "passed": true
+    },
+    {
+      "name": "item_3748_passive业务载荷仅批准差异",
+      "passed": true
+    },
+    {
+      "name": "item_3748_active关系与原图一致",
+      "passed": true
+    },
+    {
+      "name": "item_3748_active仅移除未写临时生命参数",
+      "passed": true
+    },
+    {
+      "name": "item_3748_active2处属性引用替换",
+      "passed": true
+    },
+    {
+      "name": "item_3748_active业务载荷仅批准差异",
+      "passed": true
+    },
+    {
+      "name": "item_6698_active关系与原图一致",
+      "passed": true
+    },
+    {
+      "name": "item_6698_active业务载荷仅批准差异",
+      "passed": true
+    },
+    {
+      "name": "item_3107_active关系与原图一致",
+      "passed": true
+    },
+    {
+      "name": "item_3107_active业务载荷仅批准差异",
+      "passed": true
+    },
+    {
+      "name": "item_3190_active关系与原图一致",
+      "passed": true
+    },
+    {
+      "name": "item_3190_active业务载荷仅批准差异",
+      "passed": true
+    },
+    {
+      "name": "item_6664_passive关系与原图一致",
+      "passed": true
+    },
+    {
+      "name": "item_6664_passive业务载荷仅批准差异",
+      "passed": true
+    },
+    {
+      "name": "item_8020_passive关系与原图一致",
+      "passed": true
+    },
+    {
+      "name": "item_8020_passive业务载荷仅批准差异",
+      "passed": true
+    },
+    {
+      "name": "新参数准确值和类型",
+      "passed": true
+    },
+    {
+      "name": "77请求精确对应最终载荷",
+      "passed": true
+    },
+    {
+      "name": "实际原始文件 officialItem",
+      "passed": true
+    },
+    {
+      "name": "实际原始文件 clientItemList",
+      "passed": true
+    },
+    {
+      "name": "实际原始文件 clientItems",
+      "passed": true
+    },
+    {
+      "name": "实际原始文件 clientStringTable",
+      "passed": true
+    },
+    {
+      "name": "最大生命窄证版本",
+      "passed": true
+    },
+    {
+      "name": "原始3748 CalcValue具名节点与外围守卫",
+      "passed": true
+    },
+    {
+      "name": "原始3748 CalcValueC具名节点与外围守卫",
+      "passed": true
+    },
+    {
+      "name": "最终仍不扩大其他属性映射",
+      "passed": true
+    }
+  ],
+  "checkCount": 36,
+  "businessWrites": 0,
+  "sourceFilesVerified": 4,
+  "hpProof": {
+    "file": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/交叉试录/最大生命属性回补/独立来源补证/结论.json",
+    "sha256": "fad969737ef5cc975099e24a55b8948f6410f9f0e9e4ab4d6dc6ba57526dd9ed",
+    "predicates": {
+      "mStat": 12,
+      "mStatFormula": "显式0或省略且构造默认0",
+      "UseNewStats": false,
+      "OutputType": 0,
+      "statType": 13,
+      "{a8cb9c14}": false
+    },
+    "mapping": {
+      "attributeOwner": "SOURCE",
+      "attributeKey": "hp",
+      "attributeValueKind": "TOTAL"
+    }
+  },
+  "note": "复核最终业务差异、原始来源文件、具名生命属性节点守卫和77请求。仍须完成实际写后独立回读、11公式实值核算和代表页面，不表示战斗运行。"
+}

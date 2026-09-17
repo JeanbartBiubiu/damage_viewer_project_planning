@@ -1,0 +1,45 @@
+{
+  "originalSha256": "4b13e12da814a03211c6f1034e6d38d73bd04628c42787f3cdc79f5b8fc9a4de",
+  "notes": [
+    {
+      "id": 2510,
+      "change": "撤一个已解码属性输入，治疗第二项改来源额外生命值；不扩大到12/0或其他枚举。"
+    },
+    {
+      "id": 2524,
+      "change": "恢复被误排除的自身攻速；8秒仅基础分支，补远程0.5；两个数据哈希精确映射，纯队友和空间仍排除。"
+    },
+    {
+      "id": 3042,
+      "change": "技能伤害公式标明仅法力组成，缺失总攻击力系数不能被误读成零。"
+    },
+    {
+      "id": 3083,
+      "change": "补当前扩展绑定的非英雄伤害后3秒自身恢复禁用，不因外部伤害来源是小兵/野怪而删除自身依赖。"
+    }
+  ],
+  "sourceEvidence": {
+    "aftershockSourceObjectSha256": "b740424a9170e82972029bd6f85b438146d66a9cfc7fd6d668bbb757f15eb392",
+    "attackSpeedHashes": {
+      "MeleeAuraAttackSpeed": "{eb8d750f}",
+      "RangedAttackSpeedMultiplier": "{ca6deae2}"
+    }
+  },
+  "precedence": "本最终主审记录取代对象内旧审查说明中的相反范围判断；原资料与历史候选均保留。",
+  "finalSha256": "da379b40dd2b7aca1044b6bee53081e95d68af8d83163c6fbd1cd57cdcb6eac1",
+  "counts": {
+    "equipment": 12,
+    "skills": 12,
+    "parameters": 67,
+    "formulas": 29,
+    "effects": 0,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0,
+    "relations": 12,
+    "representativeImages": 12,
+    "components": 127,
+    "omittedComponents": 21,
+    "pendingComponents": 11
+  }
+}

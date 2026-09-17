@@ -1,0 +1,11 @@
+{
+  "characterKey": "champion_ekko",
+  "characterName": "艾克",
+  "sourceFile": "英雄/等级属性候选/Ekko.json",
+  "savedThrough": "角色管理 > 等级属性表单",
+  "attributeCount": 10,
+  "levelRange": [1, 18],
+  "attributeKeys": ["hp", "hp_regen", "armor", "magic_resistance", "attack_damage", "move_speed", "attack_range", "attack_speed", "mana", "mana_regen"],
+  "readback": {"reopenedAfterSave": true, "allAttributesConfigured": true, "all18LevelsCompared": true, "mismatches": []},
+  "evidence": "保存父窗口后重新打开艾克等级属性弹窗，逐项读取十行 Lv1-Lv18，与源文件逐值比较，全部相等。"
+}

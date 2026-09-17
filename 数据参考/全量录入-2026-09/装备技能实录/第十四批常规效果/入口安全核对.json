@@ -1,0 +1,51 @@
+{
+  "at": "2026-09-08T17:17:24.415Z",
+  "boundary": "纯本地模拟，无业务写入",
+  "checks": [
+    {
+      "name": "幽梦主动被动关系同时存在时按自身键比较",
+      "match": true
+    },
+    {
+      "name": "只缺主动挂载时仍保留已有被动",
+      "match": true
+    },
+    {
+      "name": "拒绝计划外关系",
+      "match": true
+    },
+    {
+      "name": "拒绝重复关系",
+      "match": true
+    },
+    {
+      "name": "完整技能业务字段同值可复用且忽略创建更新时间",
+      "match": true
+    },
+    {
+      "name": "不同说明不允许覆盖",
+      "match": true
+    },
+    {
+      "name": "额外未知业务字段不会静默忽略",
+      "match": true
+    },
+    {
+      "name": "默认只读拒绝写请求",
+      "match": true
+    },
+    {
+      "name": "全局冲突时零请求",
+      "match": true
+    },
+    {
+      "name": "响应中断后独立GET同值，不重放POST",
+      "match": true
+    },
+    {
+      "name": "写前现值变化立即停止且零覆盖请求",
+      "match": true
+    }
+  ],
+  "failures": []
+}

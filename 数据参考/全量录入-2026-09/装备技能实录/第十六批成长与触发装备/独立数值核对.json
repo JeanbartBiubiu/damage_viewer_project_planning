@@ -1,0 +1,639 @@
+{
+  "generatedAt": "2026-09-09T03:23:30.177Z",
+  "stage": "候选独立数值核对；只读取完整候选.json，不调用业务接口",
+  "candidateFile": "完整候选.json",
+  "candidateSha256": "4b13e12da814a03211c6f1034e6d38d73bd04628c42787f3cdc79f5b8fc9a4de",
+  "formulaReferenceCheck": {
+    "objects": 12,
+    "formulas": 27,
+    "passed": true
+  },
+  "formulaCaseCount": 27,
+  "parameterCheckCount": 4,
+  "caseCount": 31,
+  "passed": 31,
+  "failed": 0,
+  "cases": [
+    {
+      "index": 1,
+      "equipmentKey": "item_2510",
+      "formulaKey": "spellblade_damage_value",
+      "inputs": {
+        "parameters": {
+          "spellblade_cooldown_ms": 1500,
+          "spellblade_damage_mstat2_formula1_ratio": 0.75,
+          "spellblade_damage_default_ratio": 0.1,
+          "spellblade_healing_default_ratio": 0.1,
+          "spellblade_healing_mstat12_formula2_ratio": 0.03,
+          "spellblade_damage_mstat2_formula1_input": 100
+        },
+        "attributes": {
+          "SOURCE:ability_power:TOTAL": 50
+        }
+      },
+      "calculation": "咒刃伤害：0.75×100+0.1×SOURCE法术强度50",
+      "expected": 80,
+      "actual": 80,
+      "passed": true
+    },
+    {
+      "index": 2,
+      "equipmentKey": "item_2510",
+      "formulaKey": "spellblade_healing_value",
+      "inputs": {
+        "parameters": {
+          "spellblade_cooldown_ms": 1500,
+          "spellblade_damage_mstat2_formula1_ratio": 0.75,
+          "spellblade_damage_default_ratio": 0.1,
+          "spellblade_healing_default_ratio": 0.1,
+          "spellblade_healing_mstat12_formula2_ratio": 0.03,
+          "spellblade_healing_mstat12_formula2_input": 50
+        },
+        "attributes": {
+          "SOURCE:ability_power:TOTAL": 200
+        }
+      },
+      "calculation": "咒刃治疗：0.1×SOURCE法术强度200+0.03×50",
+      "expected": 21.5,
+      "actual": 21.5,
+      "passed": true
+    },
+    {
+      "index": 3,
+      "equipmentKey": "item_2512",
+      "formulaKey": "barrage_attack_speed_bonus",
+      "inputs": {
+        "parameters": {
+          "ultimate_haste": 30,
+          "barrage_cooldown_ms": 45000,
+          "barrage_duration_ms": 8000,
+          "barrage_extra_true_damage_ratio": 0.15,
+          "barrage_attack_speed_ratio": 0.5,
+          "barrage_attack_count": 3,
+          "barrage_critical_damage_ratio": 0.8
+        },
+        "attributes": {}
+      },
+      "calculation": "开战弹幕攻击速度比例",
+      "expected": 0.5,
+      "actual": 0.5,
+      "passed": true
+    },
+    {
+      "index": 4,
+      "equipmentKey": "item_2512",
+      "formulaKey": "barrage_critical_damage_result",
+      "inputs": {
+        "parameters": {
+          "ultimate_haste": 30,
+          "barrage_cooldown_ms": 45000,
+          "barrage_duration_ms": 8000,
+          "barrage_extra_true_damage_ratio": 0.15,
+          "barrage_attack_speed_ratio": 0.5,
+          "barrage_attack_count": 3,
+          "barrage_critical_damage_ratio": 0.8
+        },
+        "attributes": {}
+      },
+      "calculation": "开战弹幕常规暴击伤害比例",
+      "expected": 0.8,
+      "actual": 0.8,
+      "passed": true
+    },
+    {
+      "index": 5,
+      "equipmentKey": "item_2512",
+      "formulaKey": "barrage_extra_true_damage_result",
+      "inputs": {
+        "parameters": {
+          "ultimate_haste": 30,
+          "barrage_cooldown_ms": 45000,
+          "barrage_duration_ms": 8000,
+          "barrage_extra_true_damage_ratio": 0.15,
+          "barrage_attack_speed_ratio": 0.5,
+          "barrage_attack_count": 3,
+          "barrage_critical_damage_ratio": 0.8
+        },
+        "attributes": {}
+      },
+      "calculation": "开战弹幕额外真实伤害比例",
+      "expected": 0.15,
+      "actual": 0.15,
+      "passed": true
+    },
+    {
+      "index": 6,
+      "equipmentKey": "item_2517",
+      "formulaKey": "melee_haste_from_bonus_attack_damage",
+      "inputs": {
+        "parameters": {
+          "haste_base": 5,
+          "melee_haste_bonus_attack_damage_ratio": 0.13,
+          "ranged_haste_bonus_attack_damage_ratio": 0.1,
+          "takedown_omnivamp_ratio": 0.15,
+          "takedown_omnivamp_duration_ms": 8000,
+          "takedown_damage_window_ms": 3000
+        },
+        "attributes": {
+          "SOURCE:attack_damage:BONUS": 100
+        }
+      },
+      "calculation": "近战饥馑：5+0.13×SOURCE额外攻击力100",
+      "expected": 18,
+      "actual": 18,
+      "passed": true
+    },
+    {
+      "index": 7,
+      "equipmentKey": "item_2517",
+      "formulaKey": "ranged_haste_from_bonus_attack_damage",
+      "inputs": {
+        "parameters": {
+          "haste_base": 5,
+          "melee_haste_bonus_attack_damage_ratio": 0.13,
+          "ranged_haste_bonus_attack_damage_ratio": 0.1,
+          "takedown_omnivamp_ratio": 0.15,
+          "takedown_omnivamp_duration_ms": 8000,
+          "takedown_damage_window_ms": 3000
+        },
+        "attributes": {
+          "SOURCE:attack_damage:BONUS": 100
+        }
+      },
+      "calculation": "远程饥馑：5+0.10×SOURCE额外攻击力100",
+      "expected": 15,
+      "actual": 15,
+      "passed": true
+    },
+    {
+      "index": 8,
+      "equipmentKey": "item_2520",
+      "formulaKey": "ability_damage_value",
+      "inputs": {
+        "parameters": {
+          "ability_damage_cooldown_ms": 20000,
+          "ability_damage_base": 50,
+          "ability_damage_mstat29_ratio": 1.5,
+          "ability_damage_mstat29_input": 40,
+          "ability_damage_ranged_multiplier_input": 0.5
+        },
+        "attributes": {}
+      },
+      "calculation": "成型炸药：(50+1.5×40)×0.5",
+      "expected": 55,
+      "actual": 55,
+      "passed": true
+    },
+    {
+      "index": 9,
+      "equipmentKey": "item_2526",
+      "formulaKey": "harmony_heal_shield_strength_percent_points",
+      "inputs": {
+        "parameters": {
+          "mana_flow_charge_window_ms": 8000,
+          "mana_flow_max_stacks": 5,
+          "mana_flow_mana_per_charge": 4,
+          "mana_flow_hero_hit_multiplier": 2,
+          "mana_flow_transform_threshold": 360,
+          "harmony_resource_percent_point_coefficient": 0.005,
+          "harmony_resource_input": 1000
+        },
+        "attributes": {}
+      },
+      "calculation": "和谐：0.005×1000=5百分数点（5%）",
+      "expected": 5,
+      "actual": 5,
+      "passed": true
+    },
+    {
+      "index": 10,
+      "equipmentKey": "item_2526",
+      "formulaKey": "mana_flow_normal_hit_gain",
+      "inputs": {
+        "parameters": {
+          "mana_flow_charge_window_ms": 8000,
+          "mana_flow_max_stacks": 5,
+          "mana_flow_mana_per_charge": 4,
+          "mana_flow_hero_hit_multiplier": 2,
+          "mana_flow_transform_threshold": 360,
+          "harmony_resource_percent_point_coefficient": 0.005
+        },
+        "attributes": {}
+      },
+      "calculation": "法力流普通命中增加4",
+      "expected": 4,
+      "actual": 4,
+      "passed": true
+    },
+    {
+      "index": 11,
+      "equipmentKey": "item_2526",
+      "formulaKey": "mana_flow_hero_hit_gain",
+      "inputs": {
+        "parameters": {
+          "mana_flow_charge_window_ms": 8000,
+          "mana_flow_max_stacks": 5,
+          "mana_flow_mana_per_charge": 4,
+          "mana_flow_hero_hit_multiplier": 2,
+          "mana_flow_transform_threshold": 360,
+          "harmony_resource_percent_point_coefficient": 0.005
+        },
+        "attributes": {}
+      },
+      "calculation": "法力流英雄命中：4×2",
+      "expected": 8,
+      "actual": 8,
+      "passed": true
+    },
+    {
+      "index": 12,
+      "equipmentKey": "item_2530",
+      "formulaKey": "harmony_heal_shield_strength_percent_points",
+      "inputs": {
+        "parameters": {
+          "harmony_resource_percent_point_coefficient": 0.005,
+          "harmony_resource_input": 1000
+        },
+        "attributes": {}
+      },
+      "calculation": "歌之权冠和谐：0.005×1000=5百分数点（5%）",
+      "expected": 5,
+      "actual": 5,
+      "passed": true
+    },
+    {
+      "index": 13,
+      "equipmentKey": "item_3040",
+      "formulaKey": "bonus_ap_from_max_mana",
+      "inputs": {
+        "parameters": {
+          "bonus_ap_from_max_mana_ratio": 0.02,
+          "lifeline_health_threshold_ratio": 0.3,
+          "lifeline_shield_duration_ms": 3000,
+          "lifeline_cooldown_ms": 90000,
+          "lifeline_shield_resource_ratio": 0.18
+        },
+        "attributes": {
+          "SOURCE:mana:TOTAL": 1000
+        }
+      },
+      "calculation": "敬畏：1000×0.02",
+      "expected": 20,
+      "actual": 20,
+      "passed": true
+    },
+    {
+      "index": 14,
+      "equipmentKey": "item_3040",
+      "formulaKey": "lifeline_shield_value",
+      "inputs": {
+        "parameters": {
+          "bonus_ap_from_max_mana_ratio": 0.02,
+          "lifeline_health_threshold_ratio": 0.3,
+          "lifeline_shield_duration_ms": 3000,
+          "lifeline_cooldown_ms": 90000,
+          "lifeline_shield_resource_ratio": 0.18,
+          "lifeline_shield_resource_input": 500
+        },
+        "attributes": {}
+      },
+      "calculation": "救主灵刃：0.18×500",
+      "expected": 90,
+      "actual": 90,
+      "passed": true
+    },
+    {
+      "index": 15,
+      "equipmentKey": "item_3042",
+      "formulaKey": "bonus_attack_damage_from_max_mana",
+      "inputs": {
+        "parameters": {
+          "bonus_ad_from_max_mana_ratio": 0.02,
+          "on_hit_max_mana_damage_ratio": 0.012,
+          "ranged_ability_max_mana_damage_ratio": 0.03,
+          "melee_ability_max_mana_damage_ratio": 0.04,
+          "champ_range_default_value": 1,
+          "champ_range_ranged_value": 2
+        },
+        "attributes": {
+          "SOURCE:mana:TOTAL": 1000
+        }
+      },
+      "calculation": "魔切敬畏：1000×0.02",
+      "expected": 20,
+      "actual": 20,
+      "passed": true
+    },
+    {
+      "index": 16,
+      "equipmentKey": "item_3042",
+      "formulaKey": "on_hit_damage_from_max_mana",
+      "inputs": {
+        "parameters": {
+          "bonus_ad_from_max_mana_ratio": 0.02,
+          "on_hit_max_mana_damage_ratio": 0.012,
+          "ranged_ability_max_mana_damage_ratio": 0.03,
+          "melee_ability_max_mana_damage_ratio": 0.04,
+          "champ_range_default_value": 1,
+          "champ_range_ranged_value": 2
+        },
+        "attributes": {
+          "SOURCE:mana:TOTAL": 1000
+        }
+      },
+      "calculation": "魔切攻击特效：1000×0.012",
+      "expected": 12,
+      "actual": 12,
+      "passed": true
+    },
+    {
+      "index": 17,
+      "equipmentKey": "item_3042",
+      "formulaKey": "melee_ability_damage_from_max_mana",
+      "inputs": {
+        "parameters": {
+          "bonus_ad_from_max_mana_ratio": 0.02,
+          "on_hit_max_mana_damage_ratio": 0.012,
+          "ranged_ability_max_mana_damage_ratio": 0.03,
+          "melee_ability_max_mana_damage_ratio": 0.04,
+          "champ_range_default_value": 1,
+          "champ_range_ranged_value": 2
+        },
+        "attributes": {
+          "SOURCE:mana:TOTAL": 1000
+        }
+      },
+      "calculation": "魔切近战技能：1000×0.04",
+      "expected": 40,
+      "actual": 40,
+      "passed": true
+    },
+    {
+      "index": 18,
+      "equipmentKey": "item_3042",
+      "formulaKey": "ranged_ability_damage_from_max_mana",
+      "inputs": {
+        "parameters": {
+          "bonus_ad_from_max_mana_ratio": 0.02,
+          "on_hit_max_mana_damage_ratio": 0.012,
+          "ranged_ability_max_mana_damage_ratio": 0.03,
+          "melee_ability_max_mana_damage_ratio": 0.04,
+          "champ_range_default_value": 1,
+          "champ_range_ranged_value": 2
+        },
+        "attributes": {
+          "SOURCE:mana:TOTAL": 1000
+        }
+      },
+      "calculation": "魔切远程技能：1000×0.03",
+      "expected": 30,
+      "actual": 30,
+      "passed": true
+    },
+    {
+      "index": 19,
+      "equipmentKey": "item_3042",
+      "formulaKey": "champ_range_default",
+      "inputs": {
+        "parameters": {
+          "bonus_ad_from_max_mana_ratio": 0.02,
+          "on_hit_max_mana_damage_ratio": 0.012,
+          "ranged_ability_max_mana_damage_ratio": 0.03,
+          "melee_ability_max_mana_damage_ratio": 0.04,
+          "champ_range_default_value": 1,
+          "champ_range_ranged_value": 2
+        },
+        "attributes": {}
+      },
+      "calculation": "魔切默认施法分支",
+      "expected": 1,
+      "actual": 1,
+      "passed": true
+    },
+    {
+      "index": 20,
+      "equipmentKey": "item_3042",
+      "formulaKey": "champ_range_ranged",
+      "inputs": {
+        "parameters": {
+          "bonus_ad_from_max_mana_ratio": 0.02,
+          "on_hit_max_mana_damage_ratio": 0.012,
+          "ranged_ability_max_mana_damage_ratio": 0.03,
+          "melee_ability_max_mana_damage_ratio": 0.04,
+          "champ_range_default_value": 1,
+          "champ_range_ranged_value": 2
+        },
+        "attributes": {}
+      },
+      "calculation": "魔切远程施法分支",
+      "expected": 2,
+      "actual": 2,
+      "passed": true
+    },
+    {
+      "index": 21,
+      "equipmentKey": "item_3073",
+      "formulaKey": "overload_melee_attack_speed_bonus",
+      "inputs": {
+        "parameters": {
+          "overload_ultimate_haste": 30,
+          "overload_duration_ms": 8000,
+          "overload_cooldown_ms": 30000,
+          "melee_attack_speed_bonus_ratio": 0.5,
+          "ranged_attack_speed_bonus_ratio": 0.35,
+          "melee_move_speed_bonus_ratio": 0.2,
+          "ranged_move_speed_bonus_ratio": 0.14
+        },
+        "attributes": {}
+      },
+      "calculation": "过载近战攻击速度50%",
+      "expected": 0.5,
+      "actual": 0.5,
+      "passed": true
+    },
+    {
+      "index": 22,
+      "equipmentKey": "item_3073",
+      "formulaKey": "overload_ranged_attack_speed_bonus",
+      "inputs": {
+        "parameters": {
+          "overload_ultimate_haste": 30,
+          "overload_duration_ms": 8000,
+          "overload_cooldown_ms": 30000,
+          "melee_attack_speed_bonus_ratio": 0.5,
+          "ranged_attack_speed_bonus_ratio": 0.35,
+          "melee_move_speed_bonus_ratio": 0.2,
+          "ranged_move_speed_bonus_ratio": 0.14
+        },
+        "attributes": {}
+      },
+      "calculation": "过载远程攻击速度35%",
+      "expected": 0.35,
+      "actual": 0.35,
+      "passed": true
+    },
+    {
+      "index": 23,
+      "equipmentKey": "item_3073",
+      "formulaKey": "overload_melee_move_speed_bonus",
+      "inputs": {
+        "parameters": {
+          "overload_ultimate_haste": 30,
+          "overload_duration_ms": 8000,
+          "overload_cooldown_ms": 30000,
+          "melee_attack_speed_bonus_ratio": 0.5,
+          "ranged_attack_speed_bonus_ratio": 0.35,
+          "melee_move_speed_bonus_ratio": 0.2,
+          "ranged_move_speed_bonus_ratio": 0.14
+        },
+        "attributes": {}
+      },
+      "calculation": "过载近战移动速度20%",
+      "expected": 0.2,
+      "actual": 0.2,
+      "passed": true
+    },
+    {
+      "index": 24,
+      "equipmentKey": "item_3073",
+      "formulaKey": "overload_ranged_move_speed_bonus",
+      "inputs": {
+        "parameters": {
+          "overload_ultimate_haste": 30,
+          "overload_duration_ms": 8000,
+          "overload_cooldown_ms": 30000,
+          "melee_attack_speed_bonus_ratio": 0.5,
+          "ranged_attack_speed_bonus_ratio": 0.35,
+          "melee_move_speed_bonus_ratio": 0.2,
+          "ranged_move_speed_bonus_ratio": 0.14
+        },
+        "attributes": {}
+      },
+      "calculation": "过载远程移动速度14%",
+      "expected": 0.14,
+      "actual": 0.14,
+      "passed": true
+    },
+    {
+      "index": 25,
+      "equipmentKey": "item_3083",
+      "formulaKey": "warmog_base_healing_value",
+      "inputs": {
+        "parameters": {
+          "warmog_health_threshold": 2000,
+          "warmog_no_champion_damage_duration_ms": 8000,
+          "warmog_healing_ratio": 0.015,
+          "warmog_tooltip_multiplier": 2,
+          "warmog_equipment_health_ratio": 0.12,
+          "warmog_healing_stat_input": 4000
+        },
+        "attributes": {}
+      },
+      "calculation": "狂徒基础治疗：0.015×4000",
+      "expected": 60,
+      "actual": 60,
+      "passed": true
+    },
+    {
+      "index": 26,
+      "equipmentKey": "item_3083",
+      "formulaKey": "warmog_tooltip_healing_value",
+      "inputs": {
+        "parameters": {
+          "warmog_health_threshold": 2000,
+          "warmog_no_champion_damage_duration_ms": 8000,
+          "warmog_healing_ratio": 0.015,
+          "warmog_tooltip_multiplier": 2,
+          "warmog_equipment_health_ratio": 0.12,
+          "warmog_healing_stat_input": 4000
+        },
+        "attributes": {}
+      },
+      "calculation": "狂徒提示治疗：0.015×4000×2",
+      "expected": 120,
+      "actual": 120,
+      "passed": true
+    },
+    {
+      "index": 27,
+      "equipmentKey": "item_3083",
+      "formulaKey": "warmog_bonus_health_from_equipment",
+      "inputs": {
+        "parameters": {
+          "warmog_health_threshold": 2000,
+          "warmog_no_champion_damage_duration_ms": 8000,
+          "warmog_healing_ratio": 0.015,
+          "warmog_tooltip_multiplier": 2,
+          "warmog_equipment_health_ratio": 0.12,
+          "warmog_equipment_health_input": 1000
+        },
+        "attributes": {}
+      },
+      "calculation": "狂徒之活力：1000×0.12",
+      "expected": 120,
+      "actual": 120,
+      "passed": true
+    }
+  ],
+  "parameterChecks": [
+    {
+      "index": 1,
+      "equipmentKey": "item_2523",
+      "parameterKey": "telescope_max_range",
+      "calculation": "高倍望远镜已证上限距离500码",
+      "expected": 500,
+      "actual": 500,
+      "passed": true
+    },
+    {
+      "index": 2,
+      "equipmentKey": "item_2523",
+      "parameterKey": "telescope_max_damage_amp_ratio",
+      "calculation": "高倍望远镜已证上限额外伤害0.1小数比例（10%）",
+      "expected": 0.1,
+      "actual": 0.1,
+      "passed": true
+    },
+    {
+      "index": 3,
+      "equipmentKey": "item_2526",
+      "parameterKey": "harmony_resource_percent_point_coefficient",
+      "calculation": "耳语头环和谐系数0.005，结果按百分数点解释",
+      "expected": 0.005,
+      "actual": 0.005,
+      "passed": true
+    },
+    {
+      "index": 4,
+      "equipmentKey": "item_2530",
+      "parameterKey": "harmony_resource_percent_point_coefficient",
+      "calculation": "歌之权冠和谐系数0.005，结果按百分数点解释",
+      "expected": 0.005,
+      "actual": 0.005,
+      "passed": true
+    }
+  ],
+  "structuralChecks": [
+    {
+      "check": "2520不含破坏支路正常参数或公式",
+      "passed": true
+    },
+    {
+      "check": "2530不含和音第三方治疗正常参数或公式",
+      "passed": true
+    },
+    {
+      "check": "2523不含无证距离插值公式或运行时距离输入",
+      "passed": true
+    },
+    {
+      "check": "2517两个技能急速公式绑定SOURCE额外攻击力",
+      "passed": true
+    },
+    {
+      "check": "2510两个缺省节点绑定SOURCE法术强度",
+      "passed": true
+    }
+  ],
+  "boundary": "算例只证明候选参数、显式输入和运算树的算术结果；不证明触发、状态、周期、目标筛选、冷却消费或战斗运行时。"
+}

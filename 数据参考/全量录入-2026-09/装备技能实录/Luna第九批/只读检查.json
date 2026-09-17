@@ -1,0 +1,2660 @@
+{
+  "generatedAt": "2026-09-08T01:02:31.793Z",
+  "mode": "只读检查",
+  "candidateSha256": "de5b8b935aff26bea8b72a477349c0d96bcbff20c2ac7e01d464f91fb6598c29",
+  "apiBaseUrl": "http://127.0.0.1:8080/api/admin/games/lol",
+  "objects": [
+    {
+      "equipmentKey": "item_2502",
+      "skillKey": "item_2502_passive",
+      "completeEquipment": false,
+      "omittedComponents": [
+        {
+          "kind": "formula",
+          "key": "self_heal_from_drain_damage",
+          "reason": "客户端同次结果引用不能直接作为当前基础公式节点。"
+        },
+        {
+          "kind": "trigger-rule",
+          "key": "drain_damage_and_heal",
+          "reason": "英雄战斗状态开始/结束、4秒周期、650范围目标筛选及实际伤害治疗联动尚待配。"
+        }
+      ],
+      "safeguards": [
+        {
+          "path": "/equipment/item_2502",
+          "status": 200,
+          "fields": [
+            {
+              "path": "createdAt",
+              "expected": "2026-09-06T16:51:42.832785Z",
+              "actual": "2026-09-06T16:51:42.832785Z",
+              "equal": true
+            },
+            {
+              "path": "description",
+              "expected": "来源：官方16.17.1装备2502。 原始说明：400生命值 50护甲 15技能急速 苦楚 在与英雄的战斗状态下，每4秒对附近的敌方英雄们造成魔法伤害，并治疗自身相当于250%已造成伤害的生命值。 被动与主动效果尚待配置。",
+              "actual": "来源：官方16.17.1装备2502。 原始说明：400生命值 50护甲 15技能急速 苦楚 在与英雄的战斗状态下，每4秒对附近的敌方英雄们造成魔法伤害，并治疗自身相当于250%已造成伤害的生命值。 被动与主动效果尚待配置。",
+              "equal": true
+            },
+            {
+              "path": "equipmentKey",
+              "expected": "item_2502",
+              "actual": "item_2502",
+              "equal": true
+            },
+            {
+              "path": "gameId",
+              "expected": "lol",
+              "actual": "lol",
+              "equal": true
+            },
+            {
+              "path": "name",
+              "expected": "无终恨意",
+              "actual": "无终恨意",
+              "equal": true
+            },
+            {
+              "path": "updatedAt",
+              "expected": "2026-09-06T16:51:42.832785Z",
+              "actual": "2026-09-06T16:51:42.832785Z",
+              "equal": true
+            }
+          ]
+        },
+        {
+          "path": "/equipment/item_2502/attributes",
+          "status": 200,
+          "fields": [
+            {
+              "path": "attributeValues.hp",
+              "expected": 400,
+              "actual": 400,
+              "equal": true
+            },
+            {
+              "path": "attributeValues.armor",
+              "expected": 50,
+              "actual": 50,
+              "equal": true
+            },
+            {
+              "path": "attributeValues.ability_haste",
+              "expected": 15,
+              "actual": 15,
+              "equal": true
+            },
+            {
+              "path": "equipmentKey",
+              "expected": "item_2502",
+              "actual": "item_2502",
+              "equal": true
+            }
+          ]
+        },
+        {
+          "path": "/equipment/item_2502/representative-image",
+          "status": 200,
+          "fields": [
+            {
+              "path": "image.enabled",
+              "expected": true,
+              "actual": true,
+              "equal": true
+            },
+            {
+              "path": "image.imageKey",
+              "expected": "item_2502",
+              "actual": "item_2502",
+              "equal": true
+            },
+            {
+              "path": "image.name",
+              "expected": "item_2502",
+              "actual": "item_2502",
+              "equal": true
+            }
+          ]
+        }
+      ],
+      "components": [
+        {
+          "kind": "skill",
+          "path": "/skills/item_2502_passive",
+          "createPath": "/skills",
+          "expected": {
+            "skillKey": "item_2502_passive",
+            "name": "无终恨意·苦楚",
+            "description": "按客户端16.17与官方16.17.1资料保存已确证的独立组成；尚缺的触发、时序和数值联动见第九批待配清单。",
+            "maxLevel": 1,
+            "status": "ENABLED",
+            "sortOrder": 0,
+            "skillCategoryKeys": [
+              "passive"
+            ]
+          },
+          "before": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_2502_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          "state": "missing"
+        },
+        {
+          "kind": "parameter",
+          "path": "/skills/item_2502_passive/parameters/drain_range",
+          "createPath": "/skills/item_2502_passive/parameters",
+          "expected": {
+            "parameterKey": "drain_range",
+            "name": "苦楚作用半径",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 650,
+            "levelValues": null,
+            "description": "当前绑定树DrainRange=650；附近目标判定范围。",
+            "sortOrder": 10
+          },
+          "before": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_2502_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          "state": "missing"
+        },
+        {
+          "kind": "parameter",
+          "path": "/skills/item_2502_passive/parameters/proc_interval_ms",
+          "createPath": "/skills/item_2502_passive/parameters",
+          "expected": {
+            "parameterKey": "proc_interval_ms",
+            "name": "苦楚周期",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 4000,
+            "levelValues": null,
+            "description": "当前绑定树Cooldown=4秒，换算为4000毫秒。",
+            "sortOrder": 20
+          },
+          "before": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_2502_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          "state": "missing"
+        },
+        {
+          "kind": "parameter",
+          "path": "/skills/item_2502_passive/parameters/bonus_health_damage_ratio",
+          "createPath": "/skills/item_2502_passive/parameters",
+          "expected": {
+            "parameterKey": "bonus_health_damage_ratio",
+            "name": "苦楚额外生命值伤害比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.03,
+            "levelValues": null,
+            "description": "当前绑定树BonusHealthDrainPercentage=0.03；同源旁证确认持有者额外生命值。",
+            "sortOrder": 30
+          },
+          "before": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_2502_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          "state": "missing"
+        },
+        {
+          "kind": "parameter",
+          "path": "/skills/item_2502_passive/parameters/heal_multiplier",
+          "createPath": "/skills/item_2502_passive/parameters",
+          "expected": {
+            "parameterKey": "heal_multiplier",
+            "name": "苦楚伤害治疗倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 2.5,
+            "levelValues": null,
+            "description": "当前绑定树HealMultiplier=2.5；治疗基数为本次实际造成伤害。",
+            "sortOrder": 40
+          },
+          "before": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_2502_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          "state": "missing"
+        },
+        {
+          "kind": "formula",
+          "path": "/skills/item_2502_passive/formulas/drain_damage",
+          "createPath": "/skills/item_2502_passive/formulas",
+          "expected": {
+            "formulaKey": "drain_damage",
+            "name": "苦楚魔法伤害",
+            "description": "持有者额外生命值的3%。",
+            "sortOrder": 10,
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "hp",
+                  "attributeValueKind": "BONUS"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_health_damage_ratio"
+                }
+              ]
+            }
+          },
+          "before": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_2502_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          "state": "missing"
+        },
+        {
+          "kind": "effect",
+          "path": "/skills/item_2502_passive/effects/drain_damage",
+          "createPath": "/skills/item_2502_passive/effects",
+          "expected": {
+            "effectKey": "drain_damage",
+            "name": "苦楚单次魔法伤害",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "description": "保存持有者额外生命值3%的单次魔法伤害；英雄战斗状态、4秒周期、650范围筛选和按实际伤害治疗另列待配。",
+            "results": [
+              {
+                "resultKey": "magic_damage",
+                "name": "苦楚魔法伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": "持有者额外生命值3%的独立伤害结果。",
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "drain_damage"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "magic",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampRules": []
+                }
+              }
+            ]
+          },
+          "before": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_2502_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          "state": "missing"
+        },
+        {
+          "kind": "relation",
+          "path": "/equipment-skill-relations?equipmentKey=item_2502",
+          "createPath": "/equipment-skill-relations",
+          "expected": {
+            "equipmentKey": "item_2502",
+            "skillKey": "item_2502_passive",
+            "sortOrder": 10
+          },
+          "before": {
+            "status": 200,
+            "data": {
+              "items": [],
+              "total": 0
+            }
+          },
+          "state": "missing"
+        },
+        {
+          "kind": "representative-image",
+          "path": "/skills/item_2502_passive/representative-image",
+          "createPath": "/skills/item_2502_passive/representative-image",
+          "method": "PUT",
+          "expected": {
+            "imageKey": "item_2502"
+          },
+          "before": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_2502_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          "state": "missing"
+        }
+      ],
+      "status": "待补缺"
+    },
+    {
+      "equipmentKey": "item_2504",
+      "skillKey": "item_2504_passive",
+      "completeEquipment": false,
+      "omittedComponents": [
+        {
+          "kind": "trigger-rule",
+          "key": "grant_and_regrant_magic_shield",
+          "reason": "连续15秒未受魔法伤害的计时、重置与授盾时序待配。"
+        }
+      ],
+      "safeguards": [
+        {
+          "path": "/equipment/item_2504",
+          "status": 200,
+          "fields": [
+            {
+              "path": "createdAt",
+              "expected": "2026-09-06T16:53:10.720397Z",
+              "actual": "2026-09-06T16:53:10.720397Z",
+              "equal": true
+            },
+            {
+              "path": "description",
+              "expected": "来源：官方16.17.1装备2504。 原始说明：400生命值\n80魔法抗性\n100%基础生命回复\n\n法师之祸\n如果连续15秒没有受到魔法伤害，获得魔法护盾。 被动与主动效果尚待配置。",
+              "actual": "来源：官方16.17.1装备2504。 原始说明：400生命值\n80魔法抗性\n100%基础生命回复\n\n法师之祸\n如果连续15秒没有受到魔法伤害，获得魔法护盾。 被动与主动效果尚待配置。",
+              "equal": true
+            },
+            {
+              "path": "equipmentKey",
+              "expected": "item_2504",
+              "actual": "item_2504",
+              "equal": true
+            },
+            {
+              "path": "gameId",
+              "expected": "lol",
+              "actual": "lol",
+              "equal": true
+            },
+            {
+              "path": "name",
+              "expected": "败魔",
+              "actual": "败魔",
+              "equal": true
+            },
+            {
+              "path": "updatedAt",
+              "expected": "2026-09-06T16:53:10.720397Z",
+              "actual": "2026-09-06T16:53:10.720397Z",
+              "equal": true
+            }
+          ]
+        },
+        {
+          "path": "/equipment/item_2504/attributes",
+          "status": 200,
+          "fields": [
+            {
+              "path": "attributeValues.hp",
+              "expected": 400,
+              "actual": 400,
+              "equal": true
+            },
+            {
+              "path": "attributeValues.base_hp_regen_percent",
+              "expected": 1,
+              "actual": 1,
+              "equal": true
+            },
+            {
+              "path": "attributeValues.magic_resistance",
+              "expected": 80,
+              "actual": 80,
+              "equal": true
+            },
+            {
+              "path": "equipmentKey",
+              "expected": "item_2504",
+              "actual": "item_2504",
+              "equal": true
+            }
+          ]
+        },
+        {
+          "path": "/equipment/item_2504/representative-image",
+          "status": 200,
+          "fields": [
+            {
+              "path": "image.enabled",
+              "expected": true,
+              "actual": true,
+              "equal": true
+            },
+            {
+              "path": "image.imageKey",
+              "expected": "item_2504",
+              "actual": "item_2504",
+              "equal": true
+            },
+            {
+              "path": "image.name",
+              "expected": "item_2504",
+              "actual": "item_2504",
+              "equal": true
+            }
+          ]
+        }
+      ],
+      "components": [
+        {
+          "kind": "skill",
+          "path": "/skills/item_2504_passive",
+          "createPath": "/skills",
+          "expected": {
+            "skillKey": "item_2504_passive",
+            "name": "败魔·法师之祸",
+            "description": "按客户端16.17与官方16.17.1资料保存已确证的独立组成；尚缺的触发、时序和数值联动见第九批待配清单。",
+            "maxLevel": 1,
+            "status": "ENABLED",
+            "sortOrder": 0,
+            "skillCategoryKeys": [
+              "passive"
+            ]
+          },
+          "before": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_2504_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          "state": "missing"
+        },
+        {
+          "kind": "parameter",
+          "path": "/skills/item_2504_passive/parameters/shield_ratio",
+          "createPath": "/skills/item_2504_passive/parameters",
+          "expected": {
+            "parameterKey": "shield_ratio",
+            "name": "法师之祸魔法护盾比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.15,
+            "levelValues": null,
+            "description": "当前绑定树ShieldAmount=0.15；同源旁证确认持有者最大生命值。",
+            "sortOrder": 10
+          },
+          "before": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_2504_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          "state": "missing"
+        },
+        {
+          "kind": "parameter",
+          "path": "/skills/item_2504_passive/parameters/no_magic_damage_duration_ms",
+          "createPath": "/skills/item_2504_passive/parameters",
+          "expected": {
+            "parameterKey": "no_magic_damage_duration_ms",
+            "name": "未受魔法伤害等待时间",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 15000,
+            "levelValues": null,
+            "description": "当前绑定树OutOfCombatDuration=15秒，换算为15000毫秒。",
+            "sortOrder": 20
+          },
+          "before": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_2504_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          "state": "missing"
+        },
+        {
+          "kind": "formula",
+          "path": "/skills/item_2504_passive/formulas/magic_shield_amount",
+          "createPath": "/skills/item_2504_passive/formulas",
+          "expected": {
+            "formulaKey": "magic_shield_amount",
+            "name": "法师之祸魔法护盾量",
+            "description": "持有者最大生命值的15%。",
+            "sortOrder": 10,
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "hp",
+                  "attributeValueKind": "TOTAL"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "shield_ratio"
+                }
+              ]
+            }
+          },
+          "before": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_2504_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          "state": "missing"
+        },
+        {
+          "kind": "effect",
+          "path": "/skills/item_2504_passive/effects/magic_shield",
+          "createPath": "/skills/item_2504_passive/effects",
+          "expected": {
+            "effectKey": "magic_shield",
+            "name": "法师之祸魔法护盾",
+            "sortOrder": 10,
+            "description": "保存持有者最大生命值15%的普通魔法护盾；连续15秒未受魔法伤害的授盾和再获取时序另列待配。",
+            "lifecycle": {
+              "durationValue": null,
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "instanceScope": "SOURCE",
+              "reapplicationStackMode": "KEEP",
+              "reapplicationDurationMode": null,
+              "expiryMode": "EXPLICIT_ONLY",
+              "periodicIntervalValue": null,
+              "firstPeriodicExecution": null
+            },
+            "results": [
+              {
+                "resultKey": "magic_shield",
+                "name": "只吸收魔法伤害的普通护盾",
+                "resultType": "NORMAL_SHIELD",
+                "target": "SOURCE",
+                "sortOrder": 10,
+                "description": "普通魔法护盾按数值吸收魔法伤害，不是格挡技能的法术护盾。",
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "valueReadMode": "APPLICATION_SNAPSHOT",
+                  "stackValueMode": "SHARED",
+                  "reapplicationValueMode": "REPLACE",
+                  "periodicExecutionMode": null
+                },
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "magic_shield_amount"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "absorbedDamageTypeKey": "magic",
+                  "decayMode": "NONE"
+                }
+              }
+            ]
+          },
+          "before": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_2504_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          "state": "missing"
+        },
+        {
+          "kind": "relation",
+          "path": "/equipment-skill-relations?equipmentKey=item_2504",
+          "createPath": "/equipment-skill-relations",
+          "expected": {
+            "equipmentKey": "item_2504",
+            "skillKey": "item_2504_passive",
+            "sortOrder": 10
+          },
+          "before": {
+            "status": 200,
+            "data": {
+              "items": [],
+              "total": 0
+            }
+          },
+          "state": "missing"
+        },
+        {
+          "kind": "representative-image",
+          "path": "/skills/item_2504_passive/representative-image",
+          "createPath": "/skills/item_2504_passive/representative-image",
+          "method": "PUT",
+          "expected": {
+            "imageKey": "item_2504"
+          },
+          "before": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_2504_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          "state": "missing"
+        }
+      ],
+      "status": "待补缺"
+    },
+    {
+      "equipmentKey": "item_3026",
+      "skillKey": "item_3026_passive",
+      "completeEquipment": false,
+      "omittedComponents": [
+        {
+          "kind": "effect",
+          "key": "lethal_stasis",
+          "reason": "候选STASIS不是当前接口结果类型；不能改写成普通免疫。"
+        },
+        {
+          "kind": "effect",
+          "key": "revive_restore",
+          "reason": "致命伤害前置、凝滞结束一次性恢复和资源结果类型尚未完整核对。"
+        }
+      ],
+      "safeguards": [
+        {
+          "path": "/equipment/item_3026",
+          "status": 200,
+          "fields": [
+            {
+              "path": "createdAt",
+              "expected": "2026-09-06T17:07:54.678112Z",
+              "actual": "2026-09-06T17:07:54.678112Z",
+              "equal": true
+            },
+            {
+              "path": "description",
+              "expected": "来源：官方16.17.1装备3026。 原始说明：55攻击力 45护甲 重生 你的英雄在受到致命伤害时，会在凝滞4秒后原地复活，恢复50%基础生命值和100%最大法力值。 被动与主动效果尚待配置。",
+              "actual": "来源：官方16.17.1装备3026。 原始说明：55攻击力 45护甲 重生 你的英雄在受到致命伤害时，会在凝滞4秒后原地复活，恢复50%基础生命值和100%最大法力值。 被动与主动效果尚待配置。",
+              "equal": true
+            },
+            {
+              "path": "equipmentKey",
+              "expected": "item_3026",
+              "actual": "item_3026",
+              "equal": true
+            },
+            {
+              "path": "gameId",
+              "expected": "lol",
+              "actual": "lol",
+              "equal": true
+            },
+            {
+              "path": "name",
+              "expected": "守护天使",
+              "actual": "守护天使",
+              "equal": true
+            },
+            {
+              "path": "updatedAt",
+              "expected": "2026-09-06T17:07:54.678112Z",
+              "actual": "2026-09-06T17:07:54.678112Z",
+              "equal": true
+            }
+          ]
+        },
+        {
+          "path": "/equipment/item_3026/attributes",
+          "status": 200,
+          "fields": [
+            {
+              "path": "attributeValues.armor",
+              "expected": 45,
+              "actual": 45,
+              "equal": true
+            },
+            {
+              "path": "attributeValues.attack_damage",
+              "expected": 55,
+              "actual": 55,
+              "equal": true
+            },
+            {
+              "path": "equipmentKey",
+              "expected": "item_3026",
+              "actual": "item_3026",
+              "equal": true
+            }
+          ]
+        },
+        {
+          "path": "/equipment/item_3026/representative-image",
+          "status": 200,
+          "fields": [
+            {
+              "path": "image.enabled",
+              "expected": true,
+              "actual": true,
+              "equal": true
+            },
+            {
+              "path": "image.imageKey",
+              "expected": "item_3026",
+              "actual": "item_3026",
+              "equal": true
+            },
+            {
+              "path": "image.name",
+              "expected": "item_3026",
+              "actual": "item_3026",
+              "equal": true
+            }
+          ]
+        }
+      ],
+      "components": [
+        {
+          "kind": "skill",
+          "path": "/skills/item_3026_passive",
+          "createPath": "/skills",
+          "expected": {
+            "skillKey": "item_3026_passive",
+            "name": "守护天使·重生",
+            "description": "按客户端16.17与官方16.17.1资料保存已确证的独立组成；尚缺的触发、时序和数值联动见第九批待配清单。",
+            "maxLevel": 1,
+            "status": "ENABLED",
+            "sortOrder": 0,
+            "skillCategoryKeys": [
+              "passive"
+            ]
+          },
+          "before": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_3026_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          "state": "missing"
+        },
+        {
+          "kind": "parameter",
+          "path": "/skills/item_3026_passive/parameters/stasis_duration_ms",
+          "createPath": "/skills/item_3026_passive/parameters",
+          "expected": {
+            "parameterKey": "stasis_duration_ms",
+            "name": "重生凝滞时间",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 4000,
+            "levelValues": null,
+            "description": "当前装备对象mEffectAmount[1]=4秒，换算为4000毫秒。",
+            "sortOrder": 10
+          },
+          "before": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_3026_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          "state": "missing"
+        },
+        {
+          "kind": "parameter",
+          "path": "/skills/item_3026_passive/parameters/revive_base_hp_ratio",
+          "createPath": "/skills/item_3026_passive/parameters",
+          "expected": {
+            "parameterKey": "revive_base_hp_ratio",
+            "name": "重生基础生命值比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.5,
+            "levelValues": null,
+            "description": "当前装备对象mEffectAmount[0]=0.5；基数是基础生命值。",
+            "sortOrder": 20
+          },
+          "before": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_3026_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          "state": "missing"
+        },
+        {
+          "kind": "parameter",
+          "path": "/skills/item_3026_passive/parameters/revive_max_mana_ratio",
+          "createPath": "/skills/item_3026_passive/parameters",
+          "expected": {
+            "parameterKey": "revive_max_mana_ratio",
+            "name": "重生最大法力比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 1,
+            "levelValues": null,
+            "description": "当前装备对象mEffectAmount[3]=1；基数是最大法力值。",
+            "sortOrder": 30
+          },
+          "before": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_3026_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          "state": "missing"
+        },
+        {
+          "kind": "parameter",
+          "path": "/skills/item_3026_passive/parameters/revive_cooldown_ms",
+          "createPath": "/skills/item_3026_passive/parameters",
+          "expected": {
+            "parameterKey": "revive_cooldown_ms",
+            "name": "重生冷却时间",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 300000,
+            "levelValues": null,
+            "description": "当前装备对象mEffectAmount[2]=300秒，换算为300000毫秒。",
+            "sortOrder": 40
+          },
+          "before": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_3026_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          "state": "missing"
+        },
+        {
+          "kind": "formula",
+          "path": "/skills/item_3026_passive/formulas/revive_base_health",
+          "createPath": "/skills/item_3026_passive/formulas",
+          "expected": {
+            "formulaKey": "revive_base_health",
+            "name": "重生基础生命恢复量",
+            "description": "持有者基础生命值的50%；只保存恢复量公式，复活时序待配。",
+            "sortOrder": 10,
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "hp",
+                  "attributeValueKind": "BASE"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "revive_base_hp_ratio"
+                }
+              ]
+            }
+          },
+          "before": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_3026_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          "state": "missing"
+        },
+        {
+          "kind": "formula",
+          "path": "/skills/item_3026_passive/formulas/revive_max_mana",
+          "createPath": "/skills/item_3026_passive/formulas",
+          "expected": {
+            "formulaKey": "revive_max_mana",
+            "name": "重生最大法力恢复量",
+            "description": "持有者最大法力值的100%；只保存恢复量公式，复活时序待配。",
+            "sortOrder": 20,
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "mana",
+                  "attributeValueKind": "TOTAL"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "revive_max_mana_ratio"
+                }
+              ]
+            }
+          },
+          "before": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_3026_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          "state": "missing"
+        },
+        {
+          "kind": "relation",
+          "path": "/equipment-skill-relations?equipmentKey=item_3026",
+          "createPath": "/equipment-skill-relations",
+          "expected": {
+            "equipmentKey": "item_3026",
+            "skillKey": "item_3026_passive",
+            "sortOrder": 10
+          },
+          "before": {
+            "status": 200,
+            "data": {
+              "items": [],
+              "total": 0
+            }
+          },
+          "state": "missing"
+        },
+        {
+          "kind": "representative-image",
+          "path": "/skills/item_3026_passive/representative-image",
+          "createPath": "/skills/item_3026_passive/representative-image",
+          "method": "PUT",
+          "expected": {
+            "imageKey": "item_3026"
+          },
+          "before": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_3026_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          "state": "missing"
+        }
+      ],
+      "status": "待补缺"
+    },
+    {
+      "equipmentKey": "item_3084",
+      "skillKey": "item_3084_passive",
+      "completeEquipment": false,
+      "omittedComponents": [
+        {
+          "kind": "formula",
+          "key": "max_health_gain",
+          "reason": "客户端同次DamageProcCalc引用需内联，但永久生命增长时点和实际/折前伤害基数未核。"
+        },
+        {
+          "kind": "effect",
+          "key": "size_increase",
+          "reason": "体型属性结果键未由现有契约确认。"
+        }
+      ],
+      "safeguards": [
+        {
+          "path": "/equipment/item_3084",
+          "status": 200,
+          "fields": [
+            {
+              "path": "createdAt",
+              "expected": "2026-09-06T17:34:29.461214Z",
+              "actual": "2026-09-06T17:34:29.461214Z",
+              "equal": true
+            },
+            {
+              "path": "description",
+              "expected": "来源：官方16.17.1装备3084。 原始说明：900生命值 100%基础生命回复 庞然吞食和歌利亚巨人。 被动与主动效果尚待配置。",
+              "actual": "来源：官方16.17.1装备3084。 原始说明：900生命值 100%基础生命回复 庞然吞食和歌利亚巨人。 被动与主动效果尚待配置。",
+              "equal": true
+            },
+            {
+              "path": "equipmentKey",
+              "expected": "item_3084",
+              "actual": "item_3084",
+              "equal": true
+            },
+            {
+              "path": "gameId",
+              "expected": "lol",
+              "actual": "lol",
+              "equal": true
+            },
+            {
+              "path": "name",
+              "expected": "心之钢",
+              "actual": "心之钢",
+              "equal": true
+            },
+            {
+              "path": "updatedAt",
+              "expected": "2026-09-06T17:34:29.461214Z",
+              "actual": "2026-09-06T17:34:29.461214Z",
+              "equal": true
+            }
+          ]
+        },
+        {
+          "path": "/equipment/item_3084/attributes",
+          "status": 200,
+          "fields": [
+            {
+              "path": "attributeValues.hp",
+              "expected": 900,
+              "actual": 900,
+              "equal": true
+            },
+            {
+              "path": "attributeValues.base_hp_regen_percent",
+              "expected": 1,
+              "actual": 1,
+              "equal": true
+            },
+            {
+              "path": "equipmentKey",
+              "expected": "item_3084",
+              "actual": "item_3084",
+              "equal": true
+            }
+          ]
+        },
+        {
+          "path": "/equipment/item_3084/representative-image",
+          "status": 200,
+          "fields": [
+            {
+              "path": "image.enabled",
+              "expected": true,
+              "actual": true,
+              "equal": true
+            },
+            {
+              "path": "image.imageKey",
+              "expected": "item_3084",
+              "actual": "item_3084",
+              "equal": true
+            },
+            {
+              "path": "image.name",
+              "expected": "item_3084",
+              "actual": "item_3084",
+              "equal": true
+            }
+          ]
+        }
+      ],
+      "components": [
+        {
+          "kind": "skill",
+          "path": "/skills/item_3084_passive",
+          "createPath": "/skills",
+          "expected": {
+            "skillKey": "item_3084_passive",
+            "name": "心之钢·庞然吞食",
+            "description": "按客户端16.17与官方16.17.1资料保存已确证的独立组成；尚缺的触发、时序和数值联动见第九批待配清单。",
+            "maxLevel": 1,
+            "status": "ENABLED",
+            "sortOrder": 0,
+            "skillCategoryKeys": [
+              "passive"
+            ]
+          },
+          "before": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_3084_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          "state": "missing"
+        },
+        {
+          "kind": "parameter",
+          "path": "/skills/item_3084_passive/parameters/per_target_cooldown_ms",
+          "createPath": "/skills/item_3084_passive/parameters",
+          "expected": {
+            "parameterKey": "per_target_cooldown_ms",
+            "name": "庞然吞食每目标冷却",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 30000,
+            "levelValues": null,
+            "description": "当前绑定树PerTargetCooldown=30秒，按目标分别计时。",
+            "sortOrder": 10
+          },
+          "before": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_3084_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          "state": "missing"
+        },
+        {
+          "kind": "parameter",
+          "path": "/skills/item_3084_passive/parameters/base_damage",
+          "createPath": "/skills/item_3084_passive/parameters",
+          "expected": {
+            "parameterKey": "base_damage",
+            "name": "庞然吞食基础伤害",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 70,
+            "levelValues": null,
+            "description": "当前绑定树BaseDamage=70。",
+            "sortOrder": 20
+          },
+          "before": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_3084_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          "state": "missing"
+        },
+        {
+          "kind": "parameter",
+          "path": "/skills/item_3084_passive/parameters/max_health_damage_ratio",
+          "createPath": "/skills/item_3084_passive/parameters",
+          "expected": {
+            "parameterKey": "max_health_damage_ratio",
+            "name": "庞然吞食最大生命伤害比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.06,
+            "levelValues": null,
+            "description": "当前绑定树HPRatio=0.06，基数为持有者最大生命值。",
+            "sortOrder": 30
+          },
+          "before": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_3084_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          "state": "missing"
+        },
+        {
+          "kind": "parameter",
+          "path": "/skills/item_3084_passive/parameters/damage_to_max_health_ratio",
+          "createPath": "/skills/item_3084_passive/parameters",
+          "expected": {
+            "parameterKey": "damage_to_max_health_ratio",
+            "name": "伤害转最大生命值比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.1,
+            "levelValues": null,
+            "description": "当前绑定树DamageToMaxHealthRatio=0.10，基数为本次额外伤害。",
+            "sortOrder": 40
+          },
+          "before": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_3084_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          "state": "missing"
+        },
+        {
+          "kind": "parameter",
+          "path": "/skills/item_3084_passive/parameters/tracking_distance",
+          "createPath": "/skills/item_3084_passive/parameters",
+          "expected": {
+            "parameterKey": "tracking_distance",
+            "name": "庞然吞食跟踪距离",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 700,
+            "levelValues": null,
+            "description": "当前绑定树DistanceToChampion=700。",
+            "sortOrder": 50
+          },
+          "before": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_3084_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          "state": "missing"
+        },
+        {
+          "kind": "parameter",
+          "path": "/skills/item_3084_passive/parameters/tracking_tick_count",
+          "createPath": "/skills/item_3084_passive/parameters",
+          "expected": {
+            "parameterKey": "tracking_tick_count",
+            "name": "庞然吞食跟踪次数",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 6,
+            "levelValues": null,
+            "description": "当前绑定树NumTicksToTrigger=6。",
+            "sortOrder": 60
+          },
+          "before": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_3084_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          "state": "missing"
+        },
+        {
+          "kind": "parameter",
+          "path": "/skills/item_3084_passive/parameters/tracking_tick_interval_ms",
+          "createPath": "/skills/item_3084_passive/parameters",
+          "expected": {
+            "parameterKey": "tracking_tick_interval_ms",
+            "name": "庞然吞食跟踪间隔",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 500,
+            "levelValues": null,
+            "description": "当前绑定树TrackerTickRate=0.5秒，换算为500毫秒。",
+            "sortOrder": 70
+          },
+          "before": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_3084_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          "state": "missing"
+        },
+        {
+          "kind": "parameter",
+          "path": "/skills/item_3084_passive/parameters/tracking_buff_duration_ms",
+          "createPath": "/skills/item_3084_passive/parameters",
+          "expected": {
+            "parameterKey": "tracking_buff_duration_ms",
+            "name": "庞然吞食跟踪状态持续时间",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 5000,
+            "levelValues": null,
+            "description": "当前绑定树RangeTrackingBuffDuration=5秒，换算为5000毫秒。",
+            "sortOrder": 80
+          },
+          "before": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_3084_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          "state": "missing"
+        },
+        {
+          "kind": "parameter",
+          "path": "/skills/item_3084_passive/parameters/health_size_threshold",
+          "createPath": "/skills/item_3084_passive/parameters",
+          "expected": {
+            "parameterKey": "health_size_threshold",
+            "name": "体型提升生命值门槛",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1000,
+            "levelValues": null,
+            "description": "当前绑定树HealthSizeThreshold=1000。",
+            "sortOrder": 90
+          },
+          "before": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_3084_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          "state": "missing"
+        },
+        {
+          "kind": "parameter",
+          "path": "/skills/item_3084_passive/parameters/size_ratio_per_threshold",
+          "createPath": "/skills/item_3084_passive/parameters",
+          "expected": {
+            "parameterKey": "size_ratio_per_threshold",
+            "name": "体型提升比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.03,
+            "levelValues": null,
+            "description": "当前绑定树SizeAmount=0.03。",
+            "sortOrder": 100
+          },
+          "before": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_3084_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          "state": "missing"
+        },
+        {
+          "kind": "parameter",
+          "path": "/skills/item_3084_passive/parameters/size_ratio_cap",
+          "createPath": "/skills/item_3084_passive/parameters",
+          "expected": {
+            "parameterKey": "size_ratio_cap",
+            "name": "体型提升上限",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.3,
+            "levelValues": null,
+            "description": "当前绑定树SizeCap=0.30。",
+            "sortOrder": 110
+          },
+          "before": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_3084_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          "state": "missing"
+        },
+        {
+          "kind": "formula",
+          "path": "/skills/item_3084_passive/formulas/empowered_attack_damage",
+          "createPath": "/skills/item_3084_passive/formulas",
+          "expected": {
+            "formulaKey": "empowered_attack_damage",
+            "name": "庞然吞食额外物理伤害",
+            "description": "70加持有者最大生命值6%。",
+            "sortOrder": 10,
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "hp",
+                      "attributeValueKind": "TOTAL"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "max_health_damage_ratio"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "before": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_3084_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          "state": "missing"
+        },
+        {
+          "kind": "formula",
+          "path": "/skills/item_3084_passive/formulas/tracking_duration_ms",
+          "createPath": "/skills/item_3084_passive/formulas",
+          "expected": {
+            "formulaKey": "tracking_duration_ms",
+            "name": "六次跟踪总时间",
+            "description": "六次跟踪，每次间隔500毫秒，合计3000毫秒。",
+            "sortOrder": 20,
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "tracking_tick_count"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "tracking_tick_interval_ms"
+                }
+              ]
+            }
+          },
+          "before": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_3084_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          "state": "missing"
+        },
+        {
+          "kind": "effect",
+          "path": "/skills/item_3084_passive/effects/empowered_attack",
+          "createPath": "/skills/item_3084_passive/effects",
+          "expected": {
+            "effectKey": "empowered_attack",
+            "name": "充能攻击额外物理伤害",
+            "description": "保存70加持有者最大生命值6%的额外物理伤害；距离跟踪、攻击消费、每目标冷却和永久生命转化另列待核。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "physical_damage",
+                "name": "充能攻击额外物理伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": "当前绑定树已确证的70加持有者最大生命值6%；持有者攻击命中消费时点尚未配置。",
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "empowered_attack_damage"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "physics",
+                  "deliveryKind": "BASIC_ATTACK",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampRules": []
+                }
+              }
+            ]
+          },
+          "before": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_3084_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          "state": "missing"
+        },
+        {
+          "kind": "relation",
+          "path": "/equipment-skill-relations?equipmentKey=item_3084",
+          "createPath": "/equipment-skill-relations",
+          "expected": {
+            "equipmentKey": "item_3084",
+            "skillKey": "item_3084_passive",
+            "sortOrder": 10
+          },
+          "before": {
+            "status": 200,
+            "data": {
+              "items": [],
+              "total": 0
+            }
+          },
+          "state": "missing"
+        },
+        {
+          "kind": "representative-image",
+          "path": "/skills/item_3084_passive/representative-image",
+          "createPath": "/skills/item_3084_passive/representative-image",
+          "method": "PUT",
+          "expected": {
+            "imageKey": "item_3084"
+          },
+          "before": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_3084_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          "state": "missing"
+        }
+      ],
+      "status": "待补缺"
+    },
+    {
+      "equipmentKey": "item_4632",
+      "skillKey": "item_4632_passive",
+      "completeEquipment": false,
+      "omittedComponents": [
+        {
+          "kind": "trigger-rule",
+          "key": "regrant_after_cooldown",
+          "reason": "成功格挡后的60000毫秒恢复与受伤重置待配；初始化和成功消费已保存。"
+        }
+      ],
+      "safeguards": [
+        {
+          "path": "/equipment/item_4632",
+          "status": 200,
+          "fields": [
+            {
+              "path": "createdAt",
+              "expected": "2026-09-06T18:11:13.595834Z",
+              "actual": "2026-09-06T18:11:13.595834Z",
+              "equal": true
+            },
+            {
+              "path": "description",
+              "expected": "来源：官方16.17.1装备4632。 原始说明：40法术强度\n25魔法抗性\n\n废除\n提供一层法术护盾来格挡下一个敌方技能。 被动与主动效果尚待配置。",
+              "actual": "来源：官方16.17.1装备4632。 原始说明：40法术强度\n25魔法抗性\n\n废除\n提供一层法术护盾来格挡下一个敌方技能。 被动与主动效果尚待配置。",
+              "equal": true
+            },
+            {
+              "path": "equipmentKey",
+              "expected": "item_4632",
+              "actual": "item_4632",
+              "equal": true
+            },
+            {
+              "path": "gameId",
+              "expected": "lol",
+              "actual": "lol",
+              "equal": true
+            },
+            {
+              "path": "name",
+              "expected": "翠绿屏障",
+              "actual": "翠绿屏障",
+              "equal": true
+            },
+            {
+              "path": "updatedAt",
+              "expected": "2026-09-06T18:11:13.595834Z",
+              "actual": "2026-09-06T18:11:13.595834Z",
+              "equal": true
+            }
+          ]
+        },
+        {
+          "path": "/equipment/item_4632/attributes",
+          "status": 200,
+          "fields": [
+            {
+              "path": "attributeValues.magic_resistance",
+              "expected": 25,
+              "actual": 25,
+              "equal": true
+            },
+            {
+              "path": "attributeValues.ability_power",
+              "expected": 40,
+              "actual": 40,
+              "equal": true
+            },
+            {
+              "path": "equipmentKey",
+              "expected": "item_4632",
+              "actual": "item_4632",
+              "equal": true
+            }
+          ]
+        },
+        {
+          "path": "/equipment/item_4632/representative-image",
+          "status": 200,
+          "fields": [
+            {
+              "path": "image.enabled",
+              "expected": true,
+              "actual": true,
+              "equal": true
+            },
+            {
+              "path": "image.imageKey",
+              "expected": "item_4632",
+              "actual": "item_4632",
+              "equal": true
+            },
+            {
+              "path": "image.name",
+              "expected": "item_4632",
+              "actual": "item_4632",
+              "equal": true
+            }
+          ]
+        }
+      ],
+      "components": [
+        {
+          "kind": "skill",
+          "path": "/skills/item_4632_passive",
+          "createPath": "/skills",
+          "expected": {
+            "skillKey": "item_4632_passive",
+            "name": "翠绿屏障·废除",
+            "description": "按客户端16.17与官方16.17.1资料保存已确证的独立组成；尚缺的触发、时序和数值联动见第九批待配清单。",
+            "maxLevel": 1,
+            "status": "ENABLED",
+            "sortOrder": 0,
+            "skillCategoryKeys": [
+              "passive"
+            ]
+          },
+          "before": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_4632_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          "state": "missing"
+        },
+        {
+          "kind": "parameter",
+          "path": "/skills/item_4632_passive/parameters/spell_shield_cooldown_ms",
+          "createPath": "/skills/item_4632_passive/parameters",
+          "expected": {
+            "parameterKey": "spell_shield_cooldown_ms",
+            "name": "法术护盾冷却",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 60000,
+            "levelValues": null,
+            "description": "当前绑定树SpellShieldCooldown=60秒，换算为60000毫秒。",
+            "sortOrder": 10
+          },
+          "before": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_4632_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          "state": "missing"
+        },
+        {
+          "kind": "effect",
+          "path": "/skills/item_4632_passive/effects/spell_shield",
+          "createPath": "/skills/item_4632_passive/effects",
+          "expected": {
+            "effectKey": "spell_shield",
+            "name": "废除法术护盾",
+            "description": "保存一层法术护盾；初始化授盾和成功格挡消费已配，60秒恢复与受伤重置待配。",
+            "sortOrder": 10,
+            "lifecycle": {
+              "durationValue": null,
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "instanceScope": "SOURCE",
+              "reapplicationStackMode": "REPLACE",
+              "reapplicationDurationMode": null,
+              "expiryMode": "EXPLICIT_ONLY",
+              "periodicIntervalValue": null,
+              "firstPeriodicExecution": null
+            },
+            "results": [
+              {
+                "resultKey": "spell_shield_block",
+                "name": "格挡下一个敌方技能",
+                "resultType": "SPELL_SHIELD",
+                "target": "SOURCE",
+                "description": "法术护盾结果本身不带数值；具体成功格挡范围由法术护盾事件语义决定。",
+                "sortOrder": 10,
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "valueReadMode": null,
+                  "stackValueMode": null,
+                  "reapplicationValueMode": null,
+                  "periodicExecutionMode": null
+                },
+                "spellShieldBlockScope": null,
+                "valueRule": null,
+                "detail": {}
+              }
+            ]
+          },
+          "before": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_4632_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          "state": "missing"
+        },
+        {
+          "kind": "effect",
+          "path": "/skills/item_4632_passive/effects/consume_spell_shield",
+          "createPath": "/skills/item_4632_passive/effects",
+          "expected": {
+            "effectKey": "consume_spell_shield",
+            "name": "成功格挡后消费法术护盾",
+            "sortOrder": 20,
+            "lifecycle": null,
+            "description": "只由本技能法术护盾成功格挡事件执行，显式移除持有者自身护盾；60秒恢复与受伤重置待配。",
+            "results": [
+              {
+                "resultKey": "remove_spell_shield",
+                "name": "移除已成功格挡的法术护盾",
+                "resultType": "LIFECYCLE_OPERATION",
+                "target": "SOURCE",
+                "sortOrder": 10,
+                "description": "成功格挡后移除来源自身的本技能护盾。",
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": null,
+                "detail": {
+                  "operation": "REMOVE",
+                  "targetEffectKey": "spell_shield"
+                }
+              }
+            ]
+          },
+          "before": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_4632_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          "state": "missing"
+        },
+        {
+          "kind": "trigger-rule",
+          "path": "/skills/item_4632_passive/trigger-rules/initialize_spell_shield",
+          "createPath": "/skills/item_4632_passive/trigger-rules",
+          "expected": {
+            "ruleKey": "initialize_spell_shield",
+            "name": "初始化废除法术护盾",
+            "sortOrder": 10,
+            "description": "装备持有者初始化时建立自身一层法术护盾；成功格挡后的60秒恢复和受伤重置待配。",
+            "eventSource": {
+              "eventType": "SOURCE_INITIALIZED",
+              "detail": {}
+            },
+            "conditionGroups": [],
+            "maxTriggersPerProcess": null,
+            "perTargetCooldown": null,
+            "actions": [
+              {
+                "actionKey": "execute_spell_shield",
+                "name": "授予自身法术护盾",
+                "actionType": "EXECUTE_EFFECT",
+                "sortOrder": 10,
+                "targetContext": "EVENT_SOURCE",
+                "runtimeInputBindings": [],
+                "resultModifiers": [],
+                "detail": {
+                  "effectKey": "spell_shield"
+                }
+              }
+            ]
+          },
+          "before": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_4632_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          "state": "missing"
+        },
+        {
+          "kind": "trigger-rule",
+          "path": "/skills/item_4632_passive/trigger-rules/consume_on_spell_block",
+          "createPath": "/skills/item_4632_passive/trigger-rules",
+          "expected": {
+            "ruleKey": "consume_on_spell_block",
+            "name": "法术护盾成功格挡后消费",
+            "sortOrder": 20,
+            "description": "只接收本技能法术护盾成功格挡事件；普通攻击、自然结束或其他护盾格挡不触发本消费。",
+            "eventSource": {
+              "eventType": "SPELL_SHIELD_BLOCKED",
+              "detail": {
+                "shieldEffectKey": "spell_shield"
+              }
+            },
+            "conditionGroups": [],
+            "maxTriggersPerProcess": null,
+            "perTargetCooldown": null,
+            "actions": [
+              {
+                "actionKey": "consume_shield",
+                "name": "消费自身法术护盾",
+                "actionType": "EXECUTE_EFFECT",
+                "sortOrder": 10,
+                "targetContext": "CURRENT_TARGET",
+                "runtimeInputBindings": [],
+                "resultModifiers": [],
+                "detail": {
+                  "effectKey": "consume_spell_shield"
+                }
+              }
+            ]
+          },
+          "before": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_4632_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          "state": "missing"
+        },
+        {
+          "kind": "relation",
+          "path": "/equipment-skill-relations?equipmentKey=item_4632",
+          "createPath": "/equipment-skill-relations",
+          "expected": {
+            "equipmentKey": "item_4632",
+            "skillKey": "item_4632_passive",
+            "sortOrder": 10
+          },
+          "before": {
+            "status": 200,
+            "data": {
+              "items": [],
+              "total": 0
+            }
+          },
+          "state": "missing"
+        },
+        {
+          "kind": "representative-image",
+          "path": "/skills/item_4632_passive/representative-image",
+          "createPath": "/skills/item_4632_passive/representative-image",
+          "method": "PUT",
+          "expected": {
+            "imageKey": "item_4632"
+          },
+          "before": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_4632_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          "state": "missing"
+        }
+      ],
+      "status": "待补缺"
+    },
+    {
+      "equipmentKey": "item_6672",
+      "skillKey": "item_6672_passive",
+      "completeEquipment": false,
+      "omittedComponents": [
+        {
+          "kind": "trigger-rule",
+          "key": "third_attack_counter",
+          "reason": "攻击计数状态和第三次攻击消费时点未配置。"
+        },
+        {
+          "kind": "result-detail",
+          "key": "missing_health_amplification",
+          "reason": "目标已损失生命到1.75倍上限的连续插值曲线未由冻结源给出。"
+        },
+        {
+          "kind": "parameter",
+          "key": "base_damage_level_one/damage_breakpoint_level/damage_bonus_per_level",
+          "reason": "已由CHARACTER_LEVEL的1至18级展开参数替代，原始断点仍在历史候选与独立核算证据中保留。"
+        }
+      ],
+      "safeguards": [
+        {
+          "path": "/equipment/item_6672",
+          "status": 200,
+          "fields": [
+            {
+              "path": "createdAt",
+              "expected": "2026-09-06T18:11:25.197088Z",
+              "actual": "2026-09-06T18:11:25.197088Z",
+              "equal": true
+            },
+            {
+              "path": "description",
+              "expected": "来源：官方16.17.1装备6672。 原始说明：45攻击力\n40%攻击速度\n4%移动速度\n\n放倒它\n每第三次攻击造成额外物理伤害攻击特效，这个伤害会基于目标的已损失生命值获得提升。 被动与主动效果尚待配置。",
+              "actual": "来源：官方16.17.1装备6672。 原始说明：45攻击力\n40%攻击速度\n4%移动速度\n\n放倒它\n每第三次攻击造成额外物理伤害攻击特效，这个伤害会基于目标的已损失生命值获得提升。 被动与主动效果尚待配置。",
+              "equal": true
+            },
+            {
+              "path": "equipmentKey",
+              "expected": "item_6672",
+              "actual": "item_6672",
+              "equal": true
+            },
+            {
+              "path": "gameId",
+              "expected": "lol",
+              "actual": "lol",
+              "equal": true
+            },
+            {
+              "path": "name",
+              "expected": "海妖杀手",
+              "actual": "海妖杀手",
+              "equal": true
+            },
+            {
+              "path": "updatedAt",
+              "expected": "2026-09-06T18:11:25.197088Z",
+              "actual": "2026-09-06T18:11:25.197088Z",
+              "equal": true
+            }
+          ]
+        },
+        {
+          "path": "/equipment/item_6672/attributes",
+          "status": 200,
+          "fields": [
+            {
+              "path": "attributeValues.move_speed_percent",
+              "expected": 0.04,
+              "actual": 0.04,
+              "equal": true
+            },
+            {
+              "path": "attributeValues.attack_damage",
+              "expected": 45,
+              "actual": 45,
+              "equal": true
+            },
+            {
+              "path": "attributeValues.bonus_attack_speed_percent",
+              "expected": 0.4,
+              "actual": 0.4,
+              "equal": true
+            },
+            {
+              "path": "equipmentKey",
+              "expected": "item_6672",
+              "actual": "item_6672",
+              "equal": true
+            }
+          ]
+        },
+        {
+          "path": "/equipment/item_6672/representative-image",
+          "status": 200,
+          "fields": [
+            {
+              "path": "image.enabled",
+              "expected": true,
+              "actual": true,
+              "equal": true
+            },
+            {
+              "path": "image.imageKey",
+              "expected": "item_6672",
+              "actual": "item_6672",
+              "equal": true
+            },
+            {
+              "path": "image.name",
+              "expected": "item_6672",
+              "actual": "item_6672",
+              "equal": true
+            }
+          ]
+        }
+      ],
+      "components": [
+        {
+          "kind": "skill",
+          "path": "/skills/item_6672_passive",
+          "createPath": "/skills",
+          "expected": {
+            "skillKey": "item_6672_passive",
+            "name": "海妖杀手·放倒它",
+            "description": "按客户端16.17与官方16.17.1资料保存已确证的独立组成；尚缺的触发、时序和数值联动见第九批待配清单。",
+            "maxLevel": 1,
+            "status": "ENABLED",
+            "sortOrder": 0,
+            "skillCategoryKeys": [
+              "passive"
+            ]
+          },
+          "before": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_6672_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          "state": "missing"
+        },
+        {
+          "kind": "parameter",
+          "path": "/skills/item_6672_passive/parameters/attack_count",
+          "createPath": "/skills/item_6672_passive/parameters",
+          "expected": {
+            "parameterKey": "attack_count",
+            "name": "放倒它攻击次数",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 3,
+            "levelValues": null,
+            "description": "当前绑定树AttackCount=3。",
+            "sortOrder": 10
+          },
+          "before": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_6672_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          "state": "missing"
+        },
+        {
+          "kind": "parameter",
+          "path": "/skills/item_6672_passive/parameters/buff_duration_ms",
+          "createPath": "/skills/item_6672_passive/parameters",
+          "expected": {
+            "parameterKey": "buff_duration_ms",
+            "name": "放倒它计数状态持续时间",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 4000,
+            "levelValues": null,
+            "description": "当前绑定树BuffDuration=4秒，换算为4000毫秒。",
+            "sortOrder": 20
+          },
+          "before": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_6672_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          "state": "missing"
+        },
+        {
+          "kind": "parameter",
+          "path": "/skills/item_6672_passive/parameters/maximum_damage_multiplier",
+          "createPath": "/skills/item_6672_passive/parameters",
+          "expected": {
+            "parameterKey": "maximum_damage_multiplier",
+            "name": "放倒它伤害上限倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 1.75,
+            "levelValues": null,
+            "description": "当前绑定树MaxAmpNumber=1.75。",
+            "sortOrder": 30
+          },
+          "before": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_6672_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          "state": "missing"
+        },
+        {
+          "kind": "parameter",
+          "path": "/skills/item_6672_passive/parameters/ranged_damage_multiplier",
+          "createPath": "/skills/item_6672_passive/parameters",
+          "expected": {
+            "parameterKey": "ranged_damage_multiplier",
+            "name": "远程伤害倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.8,
+            "levelValues": null,
+            "description": "当前绑定树RangedDamageMultiplier=0.8；来源攻击类型分支。",
+            "sortOrder": 40
+          },
+          "before": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_6672_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          "state": "missing"
+        },
+        {
+          "kind": "parameter",
+          "path": "/skills/item_6672_passive/parameters/damage_amount_by_character_level",
+          "createPath": "/skills/item_6672_passive/parameters",
+          "expected": {
+            "parameterKey": "damage_amount_by_character_level",
+            "name": "放倒它按角色等级基础伤害",
+            "valueType": "INTEGER",
+            "valueMode": "CHARACTER_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 150,
+              "2": 150,
+              "3": 150,
+              "4": 150,
+              "5": 150,
+              "6": 150,
+              "7": 150,
+              "8": 150,
+              "9": 155,
+              "10": 160,
+              "11": 165,
+              "12": 170,
+              "13": 175,
+              "14": 180,
+              "15": 185,
+              "16": 190,
+              "17": 195,
+              "18": 200
+            },
+            "description": "当前绑定树DamageAmount的角色等级断点已展开为1至18级；不属于技能等级。",
+            "sortOrder": 50
+          },
+          "before": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_6672_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          "state": "missing"
+        },
+        {
+          "kind": "formula",
+          "path": "/skills/item_6672_passive/formulas/maximum_damage",
+          "createPath": "/skills/item_6672_passive/formulas",
+          "expected": {
+            "formulaKey": "maximum_damage",
+            "name": "放倒它伤害上限",
+            "description": "按当前角色等级基础伤害乘客户端MaxAmpNumber=1.75；目标已损失生命插值仍待核。",
+            "sortOrder": 10,
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "damage_amount_by_character_level"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "maximum_damage_multiplier"
+                }
+              ]
+            }
+          },
+          "before": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_6672_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          "state": "missing"
+        },
+        {
+          "kind": "formula",
+          "path": "/skills/item_6672_passive/formulas/ranged_damage",
+          "createPath": "/skills/item_6672_passive/formulas",
+          "expected": {
+            "formulaKey": "ranged_damage",
+            "name": "远程放倒它伤害",
+            "description": "按当前角色等级基础伤害乘客户端RangedDamageMultiplier=0.8；来源攻击类型分支。",
+            "sortOrder": 20,
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "damage_amount_by_character_level"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ranged_damage_multiplier"
+                }
+              ]
+            }
+          },
+          "before": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_6672_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          "state": "missing"
+        },
+        {
+          "kind": "effect",
+          "path": "/skills/item_6672_passive/effects/third_attack_damage",
+          "createPath": "/skills/item_6672_passive/effects",
+          "expected": {
+            "effectKey": "third_attack_damage",
+            "name": "第三次攻击额外物理伤害",
+            "description": "保存按角色等级展开的基础额外物理伤害；目标已损失生命提升、第三击计数和攻击特效接线另列待核。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "physical_damage",
+                "name": "基础额外物理伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": "角色等级1至18的基础值来自当前绑定DamageAmount；已损失生命提升未在本结果中伪造。",
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "damage_amount_by_character_level"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "physics",
+                  "deliveryKind": "BASIC_ATTACK",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampRules": []
+                }
+              }
+            ]
+          },
+          "before": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_6672_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          "state": "missing"
+        },
+        {
+          "kind": "relation",
+          "path": "/equipment-skill-relations?equipmentKey=item_6672",
+          "createPath": "/equipment-skill-relations",
+          "expected": {
+            "equipmentKey": "item_6672",
+            "skillKey": "item_6672_passive",
+            "sortOrder": 10
+          },
+          "before": {
+            "status": 200,
+            "data": {
+              "items": [],
+              "total": 0
+            }
+          },
+          "state": "missing"
+        },
+        {
+          "kind": "representative-image",
+          "path": "/skills/item_6672_passive/representative-image",
+          "createPath": "/skills/item_6672_passive/representative-image",
+          "method": "PUT",
+          "expected": {
+            "imageKey": "item_6672"
+          },
+          "before": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_6672_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          "state": "missing"
+        }
+      ],
+      "status": "待补缺"
+    }
+  ],
+  "summary": {
+    "objectCount": 6,
+    "failedObjectCount": 0,
+    "componentCount": 61,
+    "createdCount": 0,
+    "sameCount": 0,
+    "missingCount": 61,
+    "verifiedWriteCount": 0,
+    "mismatchCount": 0,
+    "counts": {
+      "skill": 0,
+      "parameter": 0,
+      "formula": 0,
+      "effect": 0,
+      "trigger-rule": 0,
+      "relation": 0,
+      "representative-image": 0
+    }
+  }
+}

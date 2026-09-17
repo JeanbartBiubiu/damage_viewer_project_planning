@@ -1,0 +1,2149 @@
+{
+  "startedAt": "2026-09-08T15:21:40.549Z",
+  "mode": "写前只读",
+  "sourceChecks": [
+    {
+      "relativePath": "装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+      "sha256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7"
+    },
+    {
+      "relativePath": "装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+      "sha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e"
+    },
+    {
+      "relativePath": "装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+      "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973"
+    }
+  ],
+  "writes": [],
+  "preflight": {
+    "catalog": [
+      {
+        "attributeKey": "move_speed",
+        "createdAt": "2026-08-22T15:27:35.616234Z",
+        "description": "角色面板移动速度",
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": 0,
+        "name": "移动速度",
+        "sortOrder": 100,
+        "status": "ENABLED",
+        "updatedAt": "2026-08-23T07:43:37.216118Z",
+        "valueType": "DECIMAL"
+      },
+      {
+        "attributeKey": "move_speed_percent",
+        "createdAt": "2026-09-06T14:37:34.305529Z",
+        "description": "移动速度加成比例，1 表示 100%，0.04 表示 4%。资料：16.17.1 装备说明。与固定移动速度分别维护。",
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": null,
+        "name": "移动速度加成比例",
+        "sortOrder": 101,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T14:37:34.305529Z",
+        "valueType": "DECIMAL"
+      },
+      {
+        "attributeKey": "armor_pen_flat",
+        "createdAt": "2026-08-22T15:27:35.850065Z",
+        "description": null,
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": 0,
+        "name": "固定护甲穿透",
+        "sortOrder": 200,
+        "status": "ENABLED",
+        "updatedAt": "2026-08-22T15:27:35.850065Z",
+        "valueType": "DECIMAL"
+      },
+      {
+        "attributeKey": "armor_pen_percent",
+        "createdAt": "2026-08-22T15:27:35.951829Z",
+        "description": null,
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": 0,
+        "name": "百分比护甲穿透",
+        "sortOrder": 210,
+        "status": "ENABLED",
+        "updatedAt": "2026-08-22T15:27:35.951829Z",
+        "valueType": "DECIMAL"
+      },
+      {
+        "attributeKey": "magic_pen_flat",
+        "createdAt": "2026-09-06T14:36:56.874035Z",
+        "description": "固定法术穿透的点数，12 表示 12 点法术穿透。资料：16.17.1 装备说明。与百分比法术穿透分别维护。",
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": null,
+        "name": "固定法术穿透",
+        "sortOrder": 220,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T14:36:56.874035Z",
+        "valueType": "DECIMAL"
+      },
+      {
+        "attributeKey": "magic_pen_percent",
+        "createdAt": "2026-09-06T14:38:47.365241Z",
+        "description": "百分比法术穿透，1 表示 100%，0.4 表示 40%。资料：16.17.1 装备说明。与固定法术穿透分别维护。",
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": null,
+        "name": "百分比法术穿透",
+        "sortOrder": 230,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T14:38:47.365241Z",
+        "valueType": "DECIMAL"
+      },
+      {
+        "attributeKey": "hp",
+        "createdAt": "2026-08-22T15:27:36.051116Z",
+        "description": null,
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": 0,
+        "name": "生命值",
+        "sortOrder": 300,
+        "status": "ENABLED",
+        "updatedAt": "2026-08-22T15:27:36.051116Z",
+        "valueType": "DECIMAL"
+      },
+      {
+        "attributeKey": "hp_regen",
+        "createdAt": "2026-08-30T16:27:54.925024Z",
+        "description": "角色每5秒生命回复；伊泽瑞尔数据按官方 16.17.1 版本录入",
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": 0,
+        "name": "每5秒生命回复",
+        "sortOrder": 305,
+        "status": "ENABLED",
+        "updatedAt": "2026-08-30T16:27:54.925024Z",
+        "valueType": "DECIMAL"
+      },
+      {
+        "attributeKey": "base_hp_regen_percent",
+        "createdAt": "2026-09-06T14:33:14.12308Z",
+        "description": "以角色基础生命回复为基数的加成比例，1 表示 100%，0.5 表示 50%。资料：16.17.1 装备说明。与每5秒固定生命回复分别维护。",
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": null,
+        "name": "基础生命回复加成比例",
+        "sortOrder": 306,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T14:33:14.12308Z",
+        "valueType": "DECIMAL"
+      },
+      {
+        "attributeKey": "mana",
+        "createdAt": "2026-08-22T15:27:36.139767Z",
+        "description": null,
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": 0,
+        "name": "法力值",
+        "sortOrder": 310,
+        "status": "ENABLED",
+        "updatedAt": "2026-08-22T15:27:36.139767Z",
+        "valueType": "DECIMAL"
+      },
+      {
+        "attributeKey": "mana_regen",
+        "createdAt": "2026-08-30T16:27:55.032387Z",
+        "description": "角色每5秒法力回复；伊泽瑞尔数据按官方 16.17.1 版本录入",
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": 0,
+        "name": "每5秒法力回复",
+        "sortOrder": 315,
+        "status": "ENABLED",
+        "updatedAt": "2026-08-30T16:27:55.032387Z",
+        "valueType": "DECIMAL"
+      },
+      {
+        "attributeKey": "base_mana_regen_percent",
+        "createdAt": "2026-09-06T14:33:07.568638Z",
+        "description": "以角色基础法力回复为基数的加成比例，1 表示 100%，0.5 表示 50%。资料：16.17.1 装备说明。与每5秒固定法力回复分别维护。",
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": null,
+        "name": "基础法力回复加成比例",
+        "sortOrder": 316,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T14:33:07.568638Z",
+        "valueType": "DECIMAL"
+      },
+      {
+        "attributeKey": "energy",
+        "createdAt": "2026-08-22T15:27:36.229561Z",
+        "description": null,
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": 0,
+        "name": "能量值",
+        "sortOrder": 320,
+        "status": "ENABLED",
+        "updatedAt": "2026-08-22T15:27:36.229561Z",
+        "valueType": "DECIMAL"
+      },
+      {
+        "attributeKey": "armor",
+        "createdAt": "2026-08-30T16:27:55.143372Z",
+        "description": "角色面板护甲",
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": null,
+        "name": "护甲",
+        "sortOrder": 400,
+        "status": "ENABLED",
+        "updatedAt": "2026-08-30T16:27:55.143372Z",
+        "valueType": "DECIMAL"
+      },
+      {
+        "attributeKey": "magic_resistance",
+        "createdAt": "2026-08-30T16:27:55.24073Z",
+        "description": "角色面板魔法抗性",
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": null,
+        "name": "魔法抗性",
+        "sortOrder": 410,
+        "status": "ENABLED",
+        "updatedAt": "2026-08-30T16:27:55.24073Z",
+        "valueType": "DECIMAL"
+      },
+      {
+        "attributeKey": "tenacity_percent",
+        "createdAt": "2026-09-06T14:37:40.8914Z",
+        "description": "韧性比例，1 表示 100%，0.3 表示 30%。资料：16.17.1 装备说明。控制适用范围和多个来源的组合规则由效果规则维护。",
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": null,
+        "name": "韧性比例",
+        "sortOrder": 420,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T14:37:40.8914Z",
+        "valueType": "DECIMAL"
+      },
+      {
+        "attributeKey": "slow_resist_percent",
+        "createdAt": "2026-09-08T14:32:32.234108Z",
+        "description": "降低减速幅度的比例，1表示100%，0.25表示25%。客户端16.17装备3009根字段mPercentSlowResistMod=0.25，当前说明将减速效果效能降低25%。与韧性和移动速度分别维护；多个来源的组合规则另行核对。",
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": null,
+        "name": "减速抗性比例",
+        "sortOrder": 421,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-08T14:32:32.234108Z",
+        "valueType": "DECIMAL"
+      },
+      {
+        "attributeKey": "attack_damage",
+        "createdAt": "2026-08-30T16:26:29.341938Z",
+        "description": "角色面板攻击力；伊泽瑞尔数据按官方 16.17.1 版本录入",
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": 0,
+        "name": "攻击力",
+        "sortOrder": 500,
+        "status": "ENABLED",
+        "updatedAt": "2026-08-30T16:26:29.341938Z",
+        "valueType": "DECIMAL"
+      },
+      {
+        "attributeKey": "ability_power",
+        "createdAt": "2026-08-30T16:26:39.898635Z",
+        "description": "角色法术强度；基础值为 0，可由装备和效果增加",
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": 0,
+        "name": "法术强度",
+        "sortOrder": 510,
+        "status": "ENABLED",
+        "updatedAt": "2026-08-30T16:26:39.898635Z",
+        "valueType": "DECIMAL"
+      },
+      {
+        "attributeKey": "attack_speed",
+        "createdAt": "2026-08-30T16:27:55.334742Z",
+        "description": "角色每秒攻击次数；等级值已含基础攻速成长",
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": 0,
+        "name": "攻击速度",
+        "sortOrder": 520,
+        "status": "ENABLED",
+        "updatedAt": "2026-08-30T16:27:55.334742Z",
+        "valueType": "DECIMAL"
+      },
+      {
+        "attributeKey": "bonus_attack_speed_percent",
+        "createdAt": "2026-08-30T16:27:55.439812Z",
+        "description": "以 1 表示 100%；用于记录等级成长和咒能高涨等效果",
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": null,
+        "name": "额外攻击速度比例",
+        "sortOrder": 521,
+        "status": "ENABLED",
+        "updatedAt": "2026-08-30T16:27:55.439812Z",
+        "valueType": "DECIMAL"
+      },
+      {
+        "attributeKey": "critical_strike_chance",
+        "createdAt": "2026-08-30T16:27:55.58546Z",
+        "description": "以 1 表示 100% 暴击几率",
+        "gameId": "lol",
+        "maxValue": 1,
+        "minValue": 0,
+        "name": "暴击几率",
+        "sortOrder": 530,
+        "status": "ENABLED",
+        "updatedAt": "2026-08-30T16:27:55.58546Z",
+        "valueType": "DECIMAL"
+      },
+      {
+        "attributeKey": "critical_strike_damage_bonus_percent",
+        "createdAt": "2026-09-06T14:37:27.711233Z",
+        "description": "暴击伤害倍率的额外加成，0.4 表示增加 40 个百分点，不表示最终暴击倍率。资料：16.17.1 装备说明；具体伤害适用范围由效果规则维护。",
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": null,
+        "name": "额外暴击伤害比例",
+        "sortOrder": 531,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T14:37:27.711233Z",
+        "valueType": "DECIMAL"
+      },
+      {
+        "attributeKey": "attack_range",
+        "createdAt": "2026-08-30T16:27:55.678337Z",
+        "description": "角色普通攻击距离",
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": 0,
+        "name": "攻击距离",
+        "sortOrder": 540,
+        "status": "ENABLED",
+        "updatedAt": "2026-08-30T16:27:55.678337Z",
+        "valueType": "DECIMAL"
+      },
+      {
+        "attributeKey": "ability_haste",
+        "createdAt": "2026-09-06T14:29:52.533949Z",
+        "description": "技能急速的固定数值，10 表示 10 点技能急速。资料：16.17.1 装备说明；不将其直接作为冷却缩减比例。",
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": null,
+        "name": "技能急速",
+        "sortOrder": 550,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T14:29:52.533949Z",
+        "valueType": "DECIMAL"
+      },
+      {
+        "attributeKey": "life_steal_percent",
+        "createdAt": "2026-09-06T14:36:43.823597Z",
+        "description": "生命偷取比例，1 表示 100%，0.07 表示 7%。资料：16.17.1 装备说明。具体伤害适用范围由效果规则维护。",
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": null,
+        "name": "生命偷取比例",
+        "sortOrder": 560,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T14:36:43.823597Z",
+        "valueType": "DECIMAL"
+      },
+      {
+        "attributeKey": "omnivamp_percent",
+        "createdAt": "2026-09-06T14:36:50.377635Z",
+        "description": "全能吸血比例，1 表示 100%，0.025 表示 2.5%。资料：16.17.1 装备说明。具体伤害适用范围和折减规则由效果规则维护。",
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": null,
+        "name": "全能吸血比例",
+        "sortOrder": 570,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T14:36:50.377635Z",
+        "valueType": "DECIMAL"
+      },
+      {
+        "attributeKey": "heal_shield_power_percent",
+        "createdAt": "2026-09-06T14:38:40.772253Z",
+        "description": "治疗和护盾强度的加成比例，1 表示 100%，0.08 表示 8%。资料：16.17.1 装备说明。具体适用目标和效果由规则维护。",
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": null,
+        "name": "治疗和护盾强度比例",
+        "sortOrder": 580,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T14:38:40.772253Z",
+        "valueType": "DECIMAL"
+      }
+    ],
+    "equipment": [
+      {
+        "createdAt": "2026-09-06T18:11:09.271903Z",
+        "description": "来源：官方16.17.1装备3803。 原始说明：300生命值\n375法力\n\n永恒\n将来自英雄的10%所受伤害回复为法力值。\n施放一个技能时，治疗自身相当于25%法力消耗的生命值。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3803",
+        "gameId": "lol",
+        "name": "万世催化石",
+        "updatedAt": "2026-09-06T18:11:09.271903Z"
+      },
+      {
+        "createdAt": "2026-09-06T17:31:58.913397Z",
+        "description": "来源：官方16.17.1装备3078。 原始说明：36攻击力 30%攻击速度 333生命值 15技能急速 咒刃和加快。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3078",
+        "gameId": "lol",
+        "name": "三相之力",
+        "updatedAt": "2026-09-06T17:31:58.913397Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:11:25.732634Z",
+        "description": "来源：官方16.17.1装备6673。 原始说明：55攻击力\n25%暴击几率\n\n救主灵刃\n在受到将使你的生命值跌到30%以下的伤害时，提供持续3秒的护盾值。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_6673",
+        "gameId": "lol",
+        "name": "不朽盾弓",
+        "updatedAt": "2026-09-06T18:11:25.732634Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:11:00.538209Z",
+        "description": "来源：官方16.17.1装备3157。 原始说明：105法术强度\n50护甲\n\n\n\n时间停止\n进入凝滞状态2.5秒。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3157",
+        "gameId": "lol",
+        "name": "中娅沙漏",
+        "updatedAt": "2026-09-06T18:11:00.538209Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:11:07.409181Z",
+        "description": "来源：官方16.17.1装备3742。 原始说明：350生命值\n55护甲\n4%移动速度\n\n沉船者\n在移动时，积攒至多20额外移动速度。你的下一次攻击会释放掉已积攒的移动速度来造成额外物理伤害。\n\n永不沉没\n使所受的减速效果的效能降低15%。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3742",
+        "gameId": "lol",
+        "name": "亡者的板甲",
+        "updatedAt": "2026-09-06T18:11:07.409181Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:11:30.649447Z",
+        "description": "来源：官方16.17.1装备6698。 原始说明：55攻击力\n18穿甲\n10技能急速\n\n顺劈\n攻击会对附近的敌人们造成物理伤害。\n邪斩\n对你附近的敌人们造成物理伤害。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_6698",
+        "gameId": "lol",
+        "name": "亵渎九头蛇",
+        "updatedAt": "2026-09-06T18:11:30.649447Z"
+      },
+      {
+        "createdAt": "2026-09-06T14:47:39.512667Z",
+        "description": "16.17.1；基础法力回复 +50%。总价 200 金。资料：官方16.17.1，装备1004。",
+        "equipmentKey": "item_1004",
+        "gameId": "lol",
+        "name": "仙女护符",
+        "updatedAt": "2026-09-06T14:47:39.512667Z"
+      },
+      {
+        "createdAt": "2026-09-06T15:11:36.944245Z",
+        "description": "16.17.1；法术强度 +30；移动速度 +4%。总价 900 金。资料：官方16.17.1，装备3113。",
+        "equipmentKey": "item_3113",
+        "gameId": "lol",
+        "name": "以太精魂",
+        "updatedAt": "2026-09-06T15:11:36.944245Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:11:29.472317Z",
+        "description": "来源：官方16.17.1装备6696。 原始说明：55攻击力\n18穿甲\n20技能急速\n\n涌动\n在你对一名敌方英雄造成伤害后，如果该英雄在3秒内阵亡，则会返还你的终极技能的一些总冷却时间。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_6696",
+        "gameId": "lol",
+        "name": "公理圆弧",
+        "updatedAt": "2026-09-06T18:11:29.472317Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:11:20.889255Z",
+        "description": "来源：官方16.17.1装备6653。 原始说明：60法术强度\n300生命值\n\n折磨\n伤害型技能会灼烧敌人，每秒造成2%最大生命值的魔法伤害，持续3秒。\n\n受苦\n在与敌方英雄作战时，每过1秒，就会造成2%额外伤害，至多至6%。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_6653",
+        "gameId": "lol",
+        "name": "兰德里的折磨",
+        "updatedAt": "2026-09-06T18:11:20.889255Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:10:54.827987Z",
+        "description": "来源：官方16.17.1装备3143。 原始说明：350生命值\n75护甲\n\n复原力\n所受的来自暴击的伤害降低30%。\n谦卑\n对附近敌人造成持续2秒的70%减速。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3143",
+        "gameId": "lol",
+        "name": "兰顿之兆",
+        "updatedAt": "2026-09-06T18:10:54.827987Z"
+      },
+      {
+        "createdAt": "2026-09-06T15:09:56.901103Z",
+        "description": "16.17.1；护甲 +25；法力 +300；技能急速 +10。总价 900 金。资料：官方16.17.1，装备3024。",
+        "equipmentKey": "item_3024",
+        "gameId": "lol",
+        "name": "冰川圆盾",
+        "updatedAt": "2026-09-06T15:09:56.901103Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:11:23.355339Z",
+        "description": "来源：官方16.17.1装备6662。 原始说明：300生命值\n50护甲\n15技能急速\n\n咒刃\n在施放一个技能后，你的下一次攻击造成额外物理伤害攻击特效并生成一个持续2秒的冰冷地带，这个地带可造成减速。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_6662",
+        "gameId": "lol",
+        "name": "冰脉护手",
+        "updatedAt": "2026-09-06T18:11:23.355339Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:10:47.547527Z",
+        "description": "来源：官方16.17.1装备3110。 原始说明：75护甲\n400法力\n20技能急速\n\n凛冬之抚\n使附近敌方英雄的攻击速度降低20%。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3110",
+        "gameId": "lol",
+        "name": "冰霜之心",
+        "updatedAt": "2026-09-06T18:10:47.547527Z"
+      },
+      {
+        "createdAt": "2026-09-06T17:12:16.286902Z",
+        "description": "来源：官方16.17.1装备3044。 原始说明：15攻击力 200生命值 狂怒 攻击会提供持续2秒的移动速度。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3044",
+        "gameId": "lol",
+        "name": "净蚀",
+        "updatedAt": "2026-09-06T17:12:16.286902Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:10:50.385056Z",
+        "description": "来源：官方16.17.1装备3119。 原始说明：550生命值\n500法力\n15技能急速\n\n敬畏\n获得0生命值。\n\n法力流 (8秒，最大4层)\n普攻和技能在命中时会提供3最大法力值(对英雄时翻倍)。\n在360最大法力值时转变为末日寒冬。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3119",
+        "gameId": "lol",
+        "name": "凛冬之临",
+        "updatedAt": "2026-09-06T18:10:50.385056Z"
+      },
+      {
+        "createdAt": "2026-09-06T17:09:32.534046Z",
+        "description": "来源：官方16.17.1装备3033。 原始说明：35攻击力 30%护甲穿透 25%暴击几率 重伤 对敌方英雄造成物理伤害时会施加40%重伤效果，持续3秒。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3033",
+        "gameId": "lol",
+        "name": "凡性的提醒",
+        "updatedAt": "2026-09-06T17:09:32.534046Z"
+      },
+      {
+        "createdAt": "2026-09-06T15:13:28.286352Z",
+        "description": "16.17.1；攻击力 +15；移动速度 +4%。总价 775 金。资料：官方16.17.1，装备6690。",
+        "equipmentKey": "item_6690",
+        "gameId": "lol",
+        "name": "剑翎",
+        "updatedAt": "2026-09-06T15:13:28.286352Z"
+      },
+      {
+        "createdAt": "2026-09-06T14:19:17.739507Z",
+        "description": "攻击力 +25。总价 875 金。资料：官方 Data Dragon 16.17.1，装备 1037；本轮固定资料版本。",
+        "equipmentKey": "item_1037",
+        "gameId": "lol",
+        "name": "十字镐",
+        "updatedAt": "2026-09-06T14:19:17.739507Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:11:24.551729Z",
+        "description": "来源：官方16.17.1装备6665。 原始说明：350生命值\n45护甲\n45魔法抗性\n\n虚空生物的复原力\n在与英雄战斗5秒后，使你的额外护甲和魔法抗性提升30%，持续到战斗结束为止。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_6665",
+        "gameId": "lol",
+        "name": "千变者贾修",
+        "updatedAt": "2026-09-06T18:11:24.551729Z"
+      },
+      {
+        "createdAt": "2026-09-06T17:35:10.390519Z",
+        "description": "来源：官方16.17.1装备3085。 原始说明：40%攻击速度 25%暴击几率 5%移动速度 风怒。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3085",
+        "gameId": "lol",
+        "name": "卢安娜的飓风",
+        "updatedAt": "2026-09-06T17:35:10.390519Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:11:21.505202Z",
+        "description": "来源：官方16.17.1装备6655。 原始说明：100法术强度\n600法力\n10技能急速\n\n回声\n伤害型技能会发射6道回声，对目标和附近的敌人造成额外魔法伤害。剩余回声会对主要目标发射，造成20%伤害。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_6655",
+        "gameId": "lol",
+        "name": "卢登的回声",
+        "updatedAt": "2026-09-06T18:11:21.505202Z"
+      },
+      {
+        "createdAt": "2026-09-06T17:01:47.709927Z",
+        "description": "来源：官方16.17.1装备2525。 原始说明：600生命值\n20技能急速\n\n救主灵刃 (0秒)\n在受到将使你的生命值跌到30%以下的伤害时，获得持续5秒的0最大生命值，然后在此期间持续治疗0生命值。在回复生命值状态下，你获得15%体型增长、10%移动速度、以及25%韧性。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_2525",
+        "gameId": "lol",
+        "name": "原生质护带",
+        "updatedAt": "2026-09-06T17:01:47.709927Z"
+      },
+      {
+        "createdAt": "2026-09-06T16:24:57.518321Z",
+        "description": "来源：官方16.17.1装备1043。\n\n原始说明：15%攻击速度\n\n叮刺\n攻击附带15额外物理伤害 攻击特效。\n\n被动与主动效果尚待配置。",
+        "equipmentKey": "item_1043",
+        "gameId": "lol",
+        "name": "反曲之弓",
+        "updatedAt": "2026-09-06T16:24:57.518321Z"
+      },
+      {
+        "createdAt": "2026-09-06T14:58:45.266475Z",
+        "description": "16.17.1；攻击力 +15；生命偷取 +7%。总价 900 金。资料：官方16.17.1，装备1053。",
+        "equipmentKey": "item_1053",
+        "gameId": "lol",
+        "name": "吸血鬼节杖",
+        "updatedAt": "2026-09-06T14:58:45.266475Z"
+      },
+      {
+        "createdAt": "2026-09-06T16:54:15.207898Z",
+        "description": "来源：官方16.17.1装备2508。 原始说明：30法术强度\n\n激燃\n伤害型技能在3秒里持续造成15额外魔法伤害。 对野怪造成额外的45魔法伤害。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_2508",
+        "gameId": "lol",
+        "name": "命定灰烬",
+        "updatedAt": "2026-09-06T16:54:15.207898Z"
+      },
+      {
+        "createdAt": "2026-09-06T17:14:56.687069Z",
+        "description": "来源：官方16.17.1装备3050。 原始说明：300生命值 25护甲 25魔法抗性 10技能急速 霜火风暴 施放你的终极技能时会召唤一个风暴环绕于你5秒。这个风暴对敌方英雄们造成每秒30魔法伤害和30%减速。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3050",
+        "gameId": "lol",
+        "name": "基克的聚合",
+        "updatedAt": "2026-09-06T17:14:56.687069Z"
+      },
+      {
+        "createdAt": "2026-09-06T14:25:34.869503Z",
+        "description": "法术强度 +20。总价 400 金。资料：官方 Data Dragon 16.17.1，装备 1052。",
+        "equipmentKey": "item_1052",
+        "gameId": "lol",
+        "name": "增幅典籍",
+        "updatedAt": "2026-09-06T14:25:34.869503Z"
+      },
+      {
+        "createdAt": "2026-08-23T12:38:16.372017Z",
+        "description": "16.17.1；攻击力 +10；生命值 +80；全能吸血 +2.5%。总价 450 金。资料：官方16.17.1，装备1055。沿用原装备标识 duolan_jian。",
+        "equipmentKey": "duolan_jian",
+        "gameId": "lol",
+        "name": "多兰之刃",
+        "updatedAt": "2026-09-06T15:13:53.054664Z"
+      },
+      {
+        "createdAt": "2026-09-06T15:00:49.138916Z",
+        "description": "16.17.1；攻击力 +8；攻击速度 +15%；全能吸血 +1.5%。总价 400 金。资料：官方16.17.1，装备1086。",
+        "equipmentKey": "item_1086",
+        "gameId": "lol",
+        "name": "多兰之弓",
+        "updatedAt": "2026-09-06T15:00:49.138916Z"
+      },
+      {
+        "createdAt": "2026-08-23T12:39:05.182888Z",
+        "description": "来源：官方16.17.1装备1056。\n\n原始说明：18法术强度\n90生命值\n\n汲取\n每秒回复1法力值，在对一名敌方英雄造成伤害后，提升至每秒2法力值，持续5秒。如果你不能获得法力值，则转而治疗45%此数值的生命值。\n\n帮助之手\n攻击会对小兵造成5额外物理伤害。\n\n被动与主动效果尚待配置。",
+        "equipmentKey": "duolanjie",
+        "gameId": "lol",
+        "name": "多兰之戒",
+        "updatedAt": "2026-09-06T16:32:27.525352Z"
+      },
+      {
+        "createdAt": "2026-09-06T16:37:49.470742Z",
+        "description": "来源：官方16.17.1装备1120。\n\n原始说明：150生命值\n8护甲\n8魔法抗性\n\n帮助之手\n攻击会对小兵造成5额外物理伤害。\n\n被动与主动效果尚待配置。",
+        "equipmentKey": "item_1120",
+        "gameId": "lol",
+        "name": "多兰之盔",
+        "updatedAt": "2026-09-06T16:37:49.470742Z"
+      },
+      {
+        "createdAt": "2026-09-06T16:27:03.841098Z",
+        "description": "来源：官方16.17.1装备1054。\n\n原始说明：110生命值\n\n耐久专注\n每5秒回复4生命值。\n在承受来自英雄的伤害后，在8秒里回复生命值。\n帮助之手\n攻击对小兵造成5额外物理伤害。\n\n被动与主动效果尚待配置。",
+        "equipmentKey": "item_1054",
+        "gameId": "lol",
+        "name": "多兰之盾",
+        "updatedAt": "2026-09-06T16:27:03.841098Z"
+      },
+      {
+        "createdAt": "2026-09-06T17:10:23.648277Z",
+        "description": "来源：官方16.17.1装备3036。 原始说明：35攻击力 35%护甲穿透 25%暴击几率 巨人杀手 基于敌方英雄的额外生命值，对其至多造成15%额外伤害。最大伤害加成在1500额外生命值时达成。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3036",
+        "gameId": "lol",
+        "name": "多米尼克领主的致意",
+        "updatedAt": "2026-09-06T17:10:23.648277Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:11:09.873941Z",
+        "description": "来源：官方16.17.1装备3814。 原始说明：50攻击力\n15穿甲\n250生命值\n\n废除\n提供一层法术护盾来格挡下一个敌方技能。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3814",
+        "gameId": "lol",
+        "name": "夜之锋刃",
+        "updatedAt": "2026-09-06T18:11:09.873941Z"
+      },
+      {
+        "createdAt": "2026-09-06T17:04:09.524444Z",
+        "description": "来源：官方16.17.1装备3003。 原始说明：70法术强度 600法力 25技能急速 敬畏 获得相当于1%额外法力值的法术强度。 法力流 (8秒，最大5层充能) 技能在命中时提供5最大法力值(对英雄时翻倍)。 在360最大法力值时转变为炽天使之拥。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3003",
+        "gameId": "lol",
+        "name": "大天使之杖",
+        "updatedAt": "2026-09-06T17:04:09.524444Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:11:06.826572Z",
+        "description": "来源：官方16.17.1装备3508。 原始说明：50攻击力\n20技能急速\n25%暴击几率\n\n咒刃 \n施放技能后，你的下一次普通攻击会造成额外物理伤害并提供法力值 攻击特效。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3508",
+        "gameId": "lol",
+        "name": "夺萃之镰",
+        "updatedAt": "2026-09-06T18:11:06.826572Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:02:44.663729Z",
+        "description": "来源：官方16.17.1装备3102。 原始说明：105法术强度\n40魔法抗性\n\n废除\n提供一层法术护盾来格挡下一个敌方技能。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3102",
+        "gameId": "lol",
+        "name": "女妖面纱",
+        "updatedAt": "2026-09-06T18:02:44.663729Z"
+      },
+      {
+        "createdAt": "2026-09-06T17:19:09.078021Z",
+        "description": "来源：官方16.17.1装备3070。 原始说明：240法力 法力流 (8秒，最大4层) 技能在命中时会提供3最大法力值(对英雄时翻倍)，至多至360。 帮助之手 攻击会对小兵造成额外的5物理伤害。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3070",
+        "gameId": "lol",
+        "name": "女神之泪",
+        "updatedAt": "2026-09-06T17:19:09.078021Z"
+      },
+      {
+        "createdAt": "2026-09-06T17:07:54.678112Z",
+        "description": "来源：官方16.17.1装备3026。 原始说明：55攻击力 45护甲 重生 你的英雄在受到致命伤害时，会在凝滞4秒后原地复活，恢复50%基础生命值和100%最大法力值。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3026",
+        "gameId": "lol",
+        "name": "守护天使",
+        "updatedAt": "2026-09-06T17:07:54.678112Z"
+      },
+      {
+        "createdAt": "2026-09-06T17:32:55.66099Z",
+        "description": "来源：官方16.17.1装备3082。 原始说明：40护甲 坚如磐石使所受攻击伤害降低。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3082",
+        "gameId": "lol",
+        "name": "守望者铠甲",
+        "updatedAt": "2026-09-06T17:32:55.66099Z"
+      },
+      {
+        "createdAt": "2026-09-06T16:56:44.277289Z",
+        "description": "来源：官方16.17.1装备2522。 原始说明：90法术强度\n300法力\n10技能急速\n\n法力成真 (0秒)\n在8秒的持续期间里，你的法力值获得强化。在强化状态下，你的技能花费100%额外法力值，你获得额外的0技能伤害、护盾值、治疗效果，并且你的基础技能的冷却时间转速加快30%。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_2522",
+        "gameId": "lol",
+        "name": "实现器",
+        "updatedAt": "2026-09-06T16:56:44.277289Z"
+      },
+      {
+        "createdAt": "2026-09-06T17:57:10.785257Z",
+        "description": "来源：官方16.17.1装备3095。 原始说明：50攻击力\n25%攻击速度\n25%暴击几率\n\n盈能\n移动和攻击会生成一次盈能攻击。\n\n弩箭\n你的盈能攻击附带0额外魔法伤害并提供持续1.5秒的45%移动速度。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3095",
+        "gameId": "lol",
+        "name": "岚切",
+        "updatedAt": "2026-09-06T17:57:10.785257Z"
+      },
+      {
+        "createdAt": "2026-09-06T14:49:15.358889Z",
+        "description": "16.17.1；生命值 +350。总价 900 金。资料：官方16.17.1，装备1011。",
+        "equipmentKey": "item_1011",
+        "gameId": "lol",
+        "name": "巨人腰带",
+        "updatedAt": "2026-09-06T14:49:15.358889Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:11:08.035077Z",
+        "description": "来源：官方16.17.1装备3748。 原始说明：40攻击力\n600生命值\n\n顺劈\n攻击附带物理伤害并对目标身后的敌人们造成物理伤害。\n刚斩\n强化你的下一次顺劈，使其造成额外物理伤害 攻击特效并对目标身后的敌人们造成额外物理伤害。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3748",
+        "gameId": "lol",
+        "name": "巨型九头蛇",
+        "updatedAt": "2026-09-06T18:11:08.035077Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:11:28.880526Z",
+        "description": "来源：官方16.17.1装备6695。 原始说明：55攻击力\n15穿甲\n\n掠盾者\n对一名敌方英雄造成伤害时，会使其获得的护盾值降低0%，持续3秒。\n如果该敌方英雄尚未被掠盾者影响，会使其身上的所有护盾降低0%。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_6695",
+        "gameId": "lol",
+        "name": "巨蛇之牙",
+        "updatedAt": "2026-09-06T18:11:28.880526Z"
+      },
+      {
+        "createdAt": "2026-09-06T17:59:55.750293Z",
+        "description": "来源：官方16.17.1装备3100。 原始说明：100法术强度\n6%移动速度\n10技能急速\n\n咒刃\n施放技能后，你的下一次攻击会造成额外魔法伤害攻击特效。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3100",
+        "gameId": "lol",
+        "name": "巫妖之祸",
+        "updatedAt": "2026-09-06T17:59:55.750293Z"
+      },
+      {
+        "createdAt": "2026-09-06T14:24:30.050228Z",
+        "description": "护甲 +15。总价 300 金。资料：官方 Data Dragon 16.17.1，装备 1029。",
+        "equipmentKey": "item_1029",
+        "gameId": "lol",
+        "name": "布甲",
+        "updatedAt": "2026-09-06T14:24:30.050228Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:11:11.175983Z",
+        "description": "来源：官方16.17.1装备4005。 原始说明：60法术强度\n15技能急速\n150%基础法力回复\n\n控制\n你的带有定身效果的那些技能获得20技能急速。\n\n命令\n在定身一个敌方英雄时，为其打上标记，施加持续4秒的7%易损。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_4005",
+        "gameId": "lol",
+        "name": "帝国指令",
+        "updatedAt": "2026-09-06T18:11:11.175983Z"
+      },
+      {
+        "createdAt": "2026-09-06T15:10:45.023235Z",
+        "description": "16.17.1；生命值 +200；移动速度 +4%。总价 800 金。资料：官方16.17.1，装备3066。",
+        "equipmentKey": "item_3066",
+        "gameId": "lol",
+        "name": "带翼的月板甲",
+        "updatedAt": "2026-09-06T15:10:45.023235Z"
+      },
+      {
+        "createdAt": "2026-09-06T17:12:59.983846Z",
+        "description": "来源：官方16.17.1装备3046。 原始说明：65%攻击速度 25%暴击几率 10%移动速度 幽影华尔兹变为幽灵状态。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3046",
+        "gameId": "lol",
+        "name": "幻影之舞",
+        "updatedAt": "2026-09-06T17:12:59.983846Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:10:54.244621Z",
+        "description": "来源：官方16.17.1装备3142。 原始说明：55攻击力\n18穿甲\n4%移动速度\n\n鬼影萦绕\n非战斗状态期间获得0移动速度。\n\n鬼魂步伐\n提供移动速度和幽灵状态，持续0秒。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3142",
+        "gameId": "lol",
+        "name": "幽梦之灵",
+        "updatedAt": "2026-09-06T18:10:54.244621Z"
+      },
+      {
+        "createdAt": "2026-09-06T15:12:36.569434Z",
+        "description": "16.17.1；生命值 +200；魔法抗性 +35；基础生命回复 +100%。总价 1250 金。资料：官方16.17.1，装备3211。",
+        "equipmentKey": "item_3211",
+        "gameId": "lol",
+        "name": "幽魂斗篷",
+        "updatedAt": "2026-09-06T15:12:36.569434Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:10:57.389902Z",
+        "description": "来源：官方16.17.1装备3147。 原始说明：30法术强度\n200生命值\n\n癫狂\n在与敌方英雄作战时，每过1秒，就会造成2%额外伤害，至多至6%。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3147",
+        "gameId": "lol",
+        "name": "幽魂面具",
+        "updatedAt": "2026-09-06T18:10:57.389902Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:11:14.773013Z",
+        "description": "来源：官方16.17.1装备4645。 原始说明：110法术强度\n15法术穿透\n\n余烬绽放\n魔法伤害和真实伤害会暴击低于40%生命值的敌人，造成20%提升伤害。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_4645",
+        "gameId": "lol",
+        "name": "影焰",
+        "updatedAt": "2026-09-06T18:11:14.773013Z"
+      },
+      {
+        "createdAt": "2026-09-06T17:34:29.461214Z",
+        "description": "来源：官方16.17.1装备3084。 原始说明：900生命值 100%基础生命回复 庞然吞食和歌利亚巨人。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3084",
+        "gameId": "lol",
+        "name": "心之钢",
+        "updatedAt": "2026-09-06T17:34:29.461214Z"
+      },
+      {
+        "createdAt": "2026-09-06T15:11:25.957922Z",
+        "description": "16.17.1；法术强度 +25；技能急速 +10。总价 850 金。资料：官方16.17.1，装备3108。",
+        "equipmentKey": "item_3108",
+        "gameId": "lol",
+        "name": "恶魔法典",
+        "updatedAt": "2026-09-06T15:11:25.957922Z"
+      },
+      {
+        "createdAt": "2026-09-06T14:25:24.989055Z",
+        "description": "魔法抗性 +20。总价 400 金。资料：官方 Data Dragon 16.17.1，装备 1033。",
+        "equipmentKey": "item_1033",
+        "gameId": "lol",
+        "name": "抗魔斗篷",
+        "updatedAt": "2026-09-06T14:25:24.989055Z"
+      },
+      {
+        "createdAt": "2026-09-06T17:17:27.677427Z",
+        "description": "来源：官方16.17.1装备3065。 原始说明：400生命值 50魔法抗性 10技能急速 100%基础生命回复 无拘活力 你身上的治疗和护盾效果提升25%。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3065",
+        "gameId": "lol",
+        "name": "振奋盔甲",
+        "updatedAt": "2026-09-06T17:17:27.677427Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:11:20.247282Z",
+        "description": "来源：官方16.17.1装备6631。 原始说明：40攻击力\n25%攻击速度\n450生命值\n\n顺劈\n攻击会对附近的敌人们造成物理伤害。\n破阵冲击波\n对附近的敌人们造成物理伤害和35%减速。\n每命中一个英雄就会获得持续衰减的35%移动速度，持续3秒。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_6631",
+        "gameId": "lol",
+        "name": "挺进破坏者",
+        "updatedAt": "2026-09-06T18:11:20.247282Z"
+      },
+      {
+        "createdAt": "2026-09-06T15:09:36.278206Z",
+        "description": "16.17.1；攻击力 +15；生命值 +250。总价 1150 金。资料：官方16.17.1，装备2021。",
+        "equipmentKey": "item_2021",
+        "gameId": "lol",
+        "name": "掘道钻头",
+        "updatedAt": "2026-09-06T15:09:36.278206Z"
+      },
+      {
+        "createdAt": "2026-09-06T16:49:12.81431Z",
+        "description": "来源：官方16.17.1装备2420。 原始说明：40法术强度 25护甲 时间停止(单次使用) 进入凝滞状态2.5秒。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_2420",
+        "gameId": "lol",
+        "name": "探索者的护臂",
+        "updatedAt": "2026-09-06T16:49:12.81431Z"
+      },
+      {
+        "createdAt": "2026-09-06T17:31:24.14789Z",
+        "description": "来源：官方16.17.1装备3077。 原始说明：25攻击力 顺劈和新月造成物理伤害。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3077",
+        "gameId": "lol",
+        "name": "提亚马特",
+        "updatedAt": "2026-09-06T17:31:24.14789Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:11:26.957344Z",
+        "description": "来源：官方16.17.1装备6676。 原始说明：50攻击力\n10穿甲\n25%暴击几率\n\n死\n你的伤害会处决低于5%生命值的英雄。\n\n税\n击杀英雄时提供25额外金币。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_6676",
+        "gameId": "lol",
+        "name": "收集者",
+        "updatedAt": "2026-09-06T18:11:26.957344Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:11:31.904496Z",
+        "description": "来源：官方16.17.1装备8010。 原始说明：65法术强度\n400生命值\n15技能急速\n\n恶劣衰朽\n用技能或被动对英雄造成魔法伤害时，会对其造成持续6秒的7.5%魔法抗性削减。(可叠加4次)。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_8010",
+        "gameId": "lol",
+        "name": "放血者的诅咒",
+        "updatedAt": "2026-09-06T18:11:31.904496Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:09:52.526811Z",
+        "description": "来源：官方16.17.1装备3107。 原始说明：30法术强度\n15技能急速\n100%基础法力回复\n10%治疗和护盾强度\n\n干涉 \n在2.5秒后，为友方单位们回复150 - 350生命值，并对敌方英雄们造成10%最大生命值的真实伤害。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3107",
+        "gameId": "lol",
+        "name": "救赎",
+        "updatedAt": "2026-09-06T18:09:52.526811Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:11:22.70437Z",
+        "description": "来源：官方16.17.1装备6660。 原始说明：150生命值\n5技能急速\n\n献祭\n承受或造成伤害后，对附近敌人造成魔法伤害，持续3秒。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_6660",
+        "gameId": "lol",
+        "name": "斑比的熔渣",
+        "updatedAt": "2026-09-06T18:11:22.70437Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:10:55.468396Z",
+        "description": "来源：官方16.17.1装备3144。 原始说明：20%攻击速度\n\n靶心\n对一名敌方英雄造成伤害时会造成额外魔法伤害。\n攻击可使这个冷却时间缩减1秒。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3144",
+        "gameId": "lol",
+        "name": "斥候弹弓",
+        "updatedAt": "2026-09-06T18:10:55.468396Z"
+      },
+      {
+        "createdAt": "2026-09-06T17:37:05.41207Z",
+        "description": "来源：官方16.17.1装备3087。 原始说明：45攻击力 45法术强度 30%攻击速度 4%移动速度 电火花。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3087",
+        "gameId": "lol",
+        "name": "斯塔缇克电刃",
+        "updatedAt": "2026-09-06T17:37:05.41207Z"
+      },
+      {
+        "createdAt": "2026-09-06T17:16:08.400971Z",
+        "description": "来源：官方16.17.1装备3053。 原始说明：400生命值 20%韧性 抓人双爪 获得额外攻击力。 救主灵刃 在受到将使你的生命值跌到30%以下的伤害时，提供持续4.5秒的不断衰减的护盾值。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3053",
+        "gameId": "lol",
+        "name": "斯特拉克的挑战护手",
+        "updatedAt": "2026-09-06T17:16:08.400971Z"
+      },
+      {
+        "createdAt": "2026-09-06T15:10:28.145046Z",
+        "description": "16.17.1；攻击力 +75；暴击几率 +25%；暴击伤害 +30%。总价 3500 金。资料：官方16.17.1，装备3031。",
+        "equipmentKey": "item_3031",
+        "gameId": "lol",
+        "name": "无尽之刃",
+        "updatedAt": "2026-09-06T15:10:28.145046Z"
+      },
+      {
+        "createdAt": "2026-09-06T14:59:08.908092Z",
+        "description": "16.17.1；法术强度 +65。总价 1200 金。资料：官方16.17.1，装备1058。",
+        "equipmentKey": "item_1058",
+        "gameId": "lol",
+        "name": "无用大棒",
+        "updatedAt": "2026-09-06T14:59:08.908092Z"
+      },
+      {
+        "createdAt": "2026-09-06T16:55:32.019961Z",
+        "description": "来源：官方16.17.1装备2517。 原始说明：65攻击力\n5%全能吸血\n20%韧性\n\n饥馑\n获得技能急速，基于你的额外攻击力。\n\n盛宴\n如果一名在近期曾被你造成过伤害的英雄阵亡，则获得持续适中时长的全能吸血。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_2517",
+        "gameId": "lol",
+        "name": "无穷饥渴",
+        "updatedAt": "2026-09-06T16:55:32.019961Z"
+      },
+      {
+        "createdAt": "2026-09-06T16:51:42.832785Z",
+        "description": "来源：官方16.17.1装备2502。 原始说明：400生命值 50护甲 15技能急速 苦楚 在与英雄的战斗状态下，每4秒对附近的敌方英雄们造成魔法伤害，并治疗自身相当于250%已造成伤害的生命值。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_2502",
+        "gameId": "lol",
+        "name": "无终恨意",
+        "updatedAt": "2026-09-06T16:51:42.832785Z"
+      },
+      {
+        "createdAt": "2026-09-06T17:18:22.994338Z",
+        "description": "来源：官方16.17.1装备3068。 原始说明：350生命值 50护甲 10技能急速 献祭 承受或造成伤害后，每秒对附近敌人造成魔法伤害，持续3秒。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3068",
+        "gameId": "lol",
+        "name": "日炎圣盾",
+        "updatedAt": "2026-09-06T17:18:22.994338Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:11:22.124244Z",
+        "description": "来源：官方16.17.1装备6657。 原始说明：45法术强度\n350生命值\n500法力\n\n时无限\n这件装备每60秒获得10生命值、30法力值和3法术强度，至多至10层。在达到最大层数时，还会使英雄等级提升1级。\n\n永恒\n承受来自英雄的伤害时，回复相当于10%伤害值的法力值。\n施放一个技能时，为自身治疗相当于25%法力消耗的生命值。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_6657",
+        "gameId": "lol",
+        "name": "时光之杖",
+        "updatedAt": "2026-09-06T18:11:22.124244Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:11:01.174835Z",
+        "description": "来源：官方16.17.1装备3158。 原始说明：10技能急速\n45移动速度\n\n艾欧尼亚的洞悉\n获得10召唤师技能急速。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3158",
+        "gameId": "lol",
+        "name": "明朗之靴",
+        "updatedAt": "2026-09-06T18:11:01.174835Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:11:12.963849Z",
+        "description": "来源：官方16.17.1装备4629。 原始说明：70法术强度\n350生命值\n25技能急速\n4%移动速度\n\n咒舞\n对英雄造成魔法伤害或真实伤害时会提供移动速度，持续4秒。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_4629",
+        "gameId": "lol",
+        "name": "星界驱驰",
+        "updatedAt": "2026-09-06T18:11:12.963849Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:11:27.620222Z",
+        "description": "来源：官方16.17.1装备6692。 原始说明：60攻击力\n15技能急速\n\n永升之月\n在2秒内用2次独立的攻击或技能命中一名英雄时，会为你提供持续2秒的护盾值。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_6692",
+        "gameId": "lol",
+        "name": "星蚀",
+        "updatedAt": "2026-09-06T18:11:27.620222Z"
+      },
+      {
+        "createdAt": "2026-09-06T15:12:42.523985Z",
+        "description": "16.17.1；生命值 +200；基础生命回复 +100%。总价 800 金。资料：官方16.17.1，装备3801。",
+        "equipmentKey": "item_3801",
+        "gameId": "lol",
+        "name": "晶体护腕",
+        "updatedAt": "2026-09-06T15:12:42.523985Z"
+      },
+      {
+        "createdAt": "2026-09-06T17:51:00.774729Z",
+        "description": "来源：官方16.17.1装备3091。 原始说明：50%攻击速度\n45魔法抗性\n20%韧性\n\n喧争\n普攻造成额外魔法伤害 攻击特效。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3091",
+        "gameId": "lol",
+        "name": "智慧末刃",
+        "updatedAt": "2026-09-06T17:51:00.774729Z"
+      },
+      {
+        "createdAt": "2026-09-06T14:22:17.661268Z",
+        "description": "攻击力 +40。总价 1300 金。资料：官方 Data Dragon 16.17.1，装备 1038。",
+        "equipmentKey": "item_1038",
+        "gameId": "lol",
+        "name": "暴风之剑",
+        "updatedAt": "2026-09-06T14:22:17.661268Z"
+      },
+      {
+        "createdAt": "2026-09-06T17:05:45.886995Z",
+        "description": "来源：官方16.17.1装备3008。 原始说明：45移动速度 4%全能吸血 杀戮 参与击杀英雄后获得0.6%全能吸血，可叠加至多10次。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3008",
+        "gameId": "lol",
+        "name": "暴食胫甲",
+        "updatedAt": "2026-09-06T17:05:45.886995Z"
+      },
+      {
+        "createdAt": "2026-09-06T15:10:34.467448Z",
+        "description": "16.17.1；攻击力 +20；护甲穿透 +18%。总价 1450 金。资料：官方16.17.1，装备3035。",
+        "equipmentKey": "item_3035",
+        "gameId": "lol",
+        "name": "最后的轻语",
+        "updatedAt": "2026-09-06T15:10:34.467448Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:11:18.405821Z",
+        "description": "来源：官方16.17.1装备6617。 原始说明：25法术强度\n200生命值\n20技能急速\n125%基础法力回复\n\n星光恩典\n对一名友军的治疗或护盾会连锁至另一名友方英雄(你自己除外)，提供相当于 30%原治疗值的治疗效果或 35%原护盾值的护盾效果。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_6617",
+        "gameId": "lol",
+        "name": "月石再生器",
+        "updatedAt": "2026-09-06T18:11:18.405821Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:11:01.795829Z",
+        "description": "来源：官方16.17.1装备3161。 原始说明：45攻击力\n450生命值\n\n龙之力量\n获得25基础技能急速。\n\n专注意志\n使用技能造成伤害会使你的英雄技能和被动伤害提升3%，持续6秒。（叠加4次）。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3161",
+        "gameId": "lol",
+        "name": "朔极之矛",
+        "updatedAt": "2026-09-06T18:11:01.795829Z"
+      },
+      {
+        "createdAt": "2026-09-08T15:12:24.35042Z",
+        "description": "来源：官方16.17.1装备3121及客户端16.17。原始说明：550 生命值 1000 法力 15 技能急速 敬畏 获得 0生命值 。 永续 (0秒) 定身 或 减速 (仅限近战)一名敌方英雄时会提供一个持续3秒的 护盾 。 如果附近有1名以上的敌人，则护盾值会提升80%。 升级或使用后形态；本批保存明确直接属性，相关技能效果及变换接线另行录入。",
+        "equipmentKey": "item_3121",
+        "gameId": "lol",
+        "name": "末日寒冬",
+        "updatedAt": "2026-09-08T15:12:24.35042Z"
+      },
+      {
+        "createdAt": "2026-09-06T15:12:47.987146Z",
+        "description": "16.17.1；法术强度 +25；法术穿透 +13%。总价 1100 金。资料：官方16.17.1，装备4630。",
+        "equipmentKey": "item_4630",
+        "gameId": "lol",
+        "name": "枯萎珠宝",
+        "updatedAt": "2026-09-06T15:12:47.987146Z"
+      },
+      {
+        "createdAt": "2026-09-06T17:11:31.948994Z",
+        "description": "来源：官方16.17.1装备3041。 原始说明：20法术强度 100生命值 荣耀 参与击杀后提供荣耀层数，至多至25层。阵亡时损失10层荣耀。每层荣耀提供5法术强度，并在10层或以上荣耀时提供10%移动速度。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3041",
+        "gameId": "lol",
+        "name": "梅贾的窃魂卷",
+        "updatedAt": "2026-09-06T17:11:31.948994Z"
+      },
+      {
+        "createdAt": "2026-09-06T17:30:50.210903Z",
+        "description": "来源：官方16.17.1装备3076。 原始说明：30护甲 荆棘被攻击命中后造成魔法伤害并施加重伤。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3076",
+        "gameId": "lol",
+        "name": "棘刺背心",
+        "updatedAt": "2026-09-06T17:30:50.210903Z"
+      },
+      {
+        "createdAt": "2026-09-08T15:12:18.783776Z",
+        "description": "来源：官方16.17.1装备2530及客户端16.17。原始说明：200 生命值 8% 治疗和护盾强度 1000 法力 100% 基础法力回复 和谐 获得0%治疗和护盾强度。 和音 当你或你在前3秒提供过治疗或护盾的任一友军处在与英雄的战斗状态时，每秒治疗附近生命值最低的那个友军。 升级或使用后形态；本批保存明确直接属性，相关技能效果及变换接线另行录入。",
+        "equipmentKey": "item_2530",
+        "gameId": "lol",
+        "name": "歌之权冠",
+        "updatedAt": "2026-09-08T15:12:18.783776Z"
+      },
+      {
+        "createdAt": "2026-09-06T15:13:23.269398Z",
+        "description": "16.17.1；攻击力 +15；暴击几率 +20%。总价 1300 金。资料：官方16.17.1，装备6670。",
+        "equipmentKey": "item_6670",
+        "gameId": "lol",
+        "name": "正午箭袋",
+        "updatedAt": "2026-09-06T15:13:23.269398Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:11:15.953606Z",
+        "description": "来源：官方16.17.1装备6333。 原始说明：60攻击力\n50护甲\n15技能急速\n\n无视痛苦\n所受的一部分伤害会以流血形式在3秒里持续扣除。\n\n蔑视\n如果一名在过去3秒内曾被你造成过伤害的英雄阵亡，会净化无视痛苦的剩余伤害，并在2秒里持续为你回复生命值。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_6333",
+        "gameId": "lol",
+        "name": "死亡之舞",
+        "updatedAt": "2026-09-06T18:11:15.953606Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:10:51.040688Z",
+        "description": "来源：官方16.17.1装备3123。 原始说明：15攻击力\n\n重伤\n对敌方英雄造成物理伤害时会施加持续3秒的40%重伤效果。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3123",
+        "gameId": "lol",
+        "name": "死刑宣告",
+        "updatedAt": "2026-09-06T18:10:51.040688Z"
+      },
+      {
+        "createdAt": "2026-09-06T15:09:30.160265Z",
+        "description": "16.17.1；攻击力 +25；技能急速 +10；穿甲 +5。总价 1337 金。资料：官方16.17.1，装备2020。",
+        "equipmentKey": "item_2020",
+        "gameId": "lol",
+        "name": "残暴之力",
+        "updatedAt": "2026-09-06T15:09:30.160265Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:10:49.694378Z",
+        "description": "来源：官方16.17.1装备3118。 原始说明：90法术强度\n600法力\n15技能急速\n\n蔑视\n获得20终极技能急速。\n\n憎恨之雾\n在用你的终极技能对一个英雄造成伤害时，灼烧其脚下的地面3秒，每秒造成魔法伤害并削减其魔法抗性。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3118",
+        "gameId": "lol",
+        "name": "残疫",
+        "updatedAt": "2026-09-06T18:10:49.694378Z"
+      },
+      {
+        "createdAt": "2026-09-06T15:11:30.98326Z",
+        "description": "16.17.1；魔法抗性 +20；移动速度 +45；韧性 +30%。总价 1250 金。资料：官方16.17.1，装备3111。",
+        "equipmentKey": "item_3111",
+        "gameId": "lol",
+        "name": "水银之靴",
+        "updatedAt": "2026-09-06T15:11:30.98326Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:10:52.968564Z",
+        "description": "来源：官方16.17.1装备3139。 原始说明：50攻击力\n35魔法抗性\n10%生命偷取\n\n\n\n主动 \n水银\n移除所有控制类减益效果(浮空除外)，并提供移动速度。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3139",
+        "gameId": "lol",
+        "name": "水银弯刀",
+        "updatedAt": "2026-09-06T18:10:52.968564Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:10:53.610638Z",
+        "description": "来源：官方16.17.1装备3140。 原始说明：30魔法抗性\n\n水银\n移除所有控制类减益效果(滞空除外)。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3140",
+        "gameId": "lol",
+        "name": "水银饰带",
+        "updatedAt": "2026-09-06T18:10:53.610638Z"
+      },
+      {
+        "createdAt": "2026-09-06T14:47:50.241062Z",
+        "description": "16.17.1；基础生命回复 +100%。总价 300 金。资料：官方16.17.1，装备1006。",
+        "equipmentKey": "item_1006",
+        "gameId": "lol",
+        "name": "治疗宝珠",
+        "updatedAt": "2026-09-06T14:47:50.241062Z"
+      },
+      {
+        "createdAt": "2026-09-06T15:09:51.570408Z",
+        "description": "16.17.1；法术穿透 +12；移动速度 +45。总价 1100 金。资料：官方16.17.1，装备3020。",
+        "equipmentKey": "item_3020",
+        "gameId": "lol",
+        "name": "法师之靴",
+        "updatedAt": "2026-09-06T15:09:51.570408Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:11:17.798455Z",
+        "description": "来源：官方16.17.1装备6616。 原始说明：35法术强度\n10%治疗和护盾强度\n125%基础法力回复\n10技能急速\n\n湍流\n当你为一名友军提供治疗或护盾效果时，你和你的目标都会获得持续6秒的40法术强度和15技能急速。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_6616",
+        "gameId": "lol",
+        "name": "流水法杖",
+        "updatedAt": "2026-09-06T18:11:17.798455Z"
+      },
+      {
+        "createdAt": "2026-09-06T17:27:38.196739Z",
+        "description": "来源：官方16.17.1装备3073。 原始说明：40攻击力 20%攻击速度 450生命值 海克斯充能 获得30终极技能急速。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3073",
+        "gameId": "lol",
+        "name": "海克斯注力刚壁",
+        "updatedAt": "2026-09-06T17:27:38.196739Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:10:56.04777Z",
+        "description": "来源：官方16.17.1装备3145。 原始说明：45法术强度\n\n转速加快\n对一名敌方英雄造成伤害时会造成额外魔法伤害。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3145",
+        "gameId": "lol",
+        "name": "海克斯科技发电机",
+        "updatedAt": "2026-09-06T18:10:56.04777Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:10:56.830504Z",
+        "description": "来源：官方16.17.1装备3146。 原始说明：80法术强度\n40攻击力\n10%全能吸血\n\n\n\n主动 (0秒)\n闪电弹\n震击目标敌方英雄，造成0魔法伤害和持续1.5秒的25%减速。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3146",
+        "gameId": "lol",
+        "name": "海克斯科技枪刃",
+        "updatedAt": "2026-09-06T18:10:56.830504Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:10:58.006692Z",
+        "description": "来源：官方16.17.1装备3152。 原始说明：60法术强度\n350生命值\n20技能急速\n\n超音速\n朝着目标方向冲刺，释放多颗魔法弹，魔法弹造成魔法伤害。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3152",
+        "gameId": "lol",
+        "name": "海克斯科技火箭腰带",
+        "updatedAt": "2026-09-06T18:10:58.006692Z"
+      },
+      {
+        "createdAt": "2026-09-06T16:57:14.627041Z",
+        "description": "来源：官方16.17.1装备2523。 原始说明：55攻击力\n25%暴击几率\n\n高倍望远镜\n攻击造成至多10%额外伤害，基于敌人离你有多远 (在500码时达到最大伤害)。\n\n奥术瞄准\n当一个你在3秒内造成过伤害的英雄阵亡时，你获得持续8秒的100额外攻击距离。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_2523",
+        "gameId": "lol",
+        "name": "海克斯镜片 C44",
+        "updatedAt": "2026-09-06T16:57:14.627041Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:10:59.216054Z",
+        "description": "来源：官方16.17.1装备3155。 原始说明：25攻击力\n25魔法抗性\n\n救主灵刃\n在受到将使你的生命值跌到30%以下的魔法伤害时，提供持续2.5秒的魔法伤害护盾。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3155",
+        "gameId": "lol",
+        "name": "海克斯饮魔刀",
+        "updatedAt": "2026-09-06T18:10:59.216054Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:11:18.986662Z",
+        "description": "来源：官方16.17.1装备6620。 原始说明：35法术强度\n200生命值\n20技能急速\n125%基础法力回复\n\n灵魂吸取\n获得【灵魂充能】，数额相当于对英雄的30%折前伤害值。为一位友军提供治疗或护盾时，会消耗所有灵魂充能来回复生命值。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_6620",
+        "gameId": "lol",
+        "name": "海力亚的回响",
+        "updatedAt": "2026-09-06T18:11:18.986662Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:11:25.197088Z",
+        "description": "来源：官方16.17.1装备6672。 原始说明：45攻击力\n40%攻击速度\n4%移动速度\n\n放倒它\n每第三次攻击造成额外物理伤害攻击特效，这个伤害会基于目标的已损失生命值获得提升。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_6672",
+        "gameId": "lol",
+        "name": "海妖杀手",
+        "updatedAt": "2026-09-06T18:11:25.197088Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:11:32.523656Z",
+        "description": "来源：官方16.17.1装备8020。 原始说明：350生命值\n45魔法抗性\n15技能急速\n\n损毁\n使附近的敌方英雄承受12%额外魔法伤害。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_8020",
+        "gameId": "lol",
+        "name": "深渊面具",
+        "updatedAt": "2026-09-06T18:11:32.523656Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:11:10.561641Z",
+        "description": "来源：官方16.17.1装备3916。 原始说明：25法术强度\n\n重伤\n对敌方英雄造成魔法伤害时会施加持续3秒的40%重伤效果。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3916",
+        "gameId": "lol",
+        "name": "湮灭宝珠",
+        "updatedAt": "2026-09-06T18:11:10.561641Z"
+      },
+      {
+        "createdAt": "2026-09-06T17:38:02.177717Z",
+        "description": "来源：官方16.17.1装备3089。 原始说明：130法术强度 魔法乐章使总法术强度提升30%。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3089",
+        "gameId": "lol",
+        "name": "灭世者的死亡之帽",
+        "updatedAt": "2026-09-06T17:38:02.177717Z"
+      },
+      {
+        "createdAt": "2026-09-06T14:49:26.175772Z",
+        "description": "16.17.1；暴击几率 +15%。总价 600 金。资料：官方16.17.1，装备1018。",
+        "equipmentKey": "item_1018",
+        "gameId": "lol",
+        "name": "灵巧披风",
+        "updatedAt": "2026-09-06T14:49:26.175772Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:11:16.51713Z",
+        "description": "来源：官方16.17.1装备6609。 原始说明：45攻击力\n450生命值\n15技能急速\n\n劈削\n对敌方英雄造成物理伤害时会施加40%重伤效果，持续3秒。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_6609",
+        "gameId": "lol",
+        "name": "炼金朋克链锯剑",
+        "updatedAt": "2026-09-06T18:11:16.51713Z"
+      },
+      {
+        "createdAt": "2026-09-08T15:12:20.740685Z",
+        "description": "来源：官方16.17.1装备3040及客户端16.17。原始说明：70 法术强度 1000 法力 25 技能急速 敬畏 获得 0法术强度 。 救主灵刃 (0秒) 在受到将使你的生命值跌到30%以下的伤害时，提供持续3秒的 0护盾值 。 升级或使用后形态；本批保存明确直接属性，相关技能效果及变换接线另行录入。",
+        "equipmentKey": "item_3040",
+        "gameId": "lol",
+        "name": "炽天使之拥",
+        "updatedAt": "2026-09-08T15:12:20.740685Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:11:06.174195Z",
+        "description": "来源：官方16.17.1装备3504。 原始说明：45法术强度\n10%治疗和护盾强度\n125%基础法力回复\n4%移动速度\n\n圣洁化\n对一名友方英雄施加治疗或护盾时，会使你们两个都获得持续6秒的强化，提供25%攻击速度和20魔法伤害 攻击特效。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3504",
+        "gameId": "lol",
+        "name": "炽热香炉",
+        "updatedAt": "2026-09-06T18:11:06.174195Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:11:17.131585Z",
+        "description": "来源：官方16.17.1装备6610。 原始说明：40攻击力\n400生命值\n10技能急速\n\n光盾打击\n你对一个英雄打出的第一次攻击会暴击并回复生命值。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_6610",
+        "gameId": "lol",
+        "name": "焚天",
+        "updatedAt": "2026-09-06T18:11:17.131585Z"
+      },
+      {
+        "createdAt": "2026-09-06T15:10:50.243705Z",
+        "description": "16.17.1；生命值 +200；技能急速 +10。总价 800 金。资料：官方16.17.1，装备3067。",
+        "equipmentKey": "item_3067",
+        "gameId": "lol",
+        "name": "燃烧宝石",
+        "updatedAt": "2026-09-06T15:10:50.243705Z"
+      },
+      {
+        "createdAt": "2026-09-06T14:25:44.670326Z",
+        "description": "法术强度 +45。总价 850 金。资料：官方 Data Dragon 16.17.1，装备 1026。",
+        "equipmentKey": "item_1026",
+        "gameId": "lol",
+        "name": "爆裂魔杖",
+        "updatedAt": "2026-09-06T14:25:44.670326Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:11:30.045026Z",
+        "description": "来源：官方16.17.1装备6697。 原始说明：55攻击力\n18穿甲\n10技能急速\n\n盛名\n如果一名在过去3秒内曾被你造成过伤害的英雄阵亡，则获得持续90秒的12+3x已击杀英雄数的攻击力。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_6697",
+        "gameId": "lol",
+        "name": "狂妄",
+        "updatedAt": "2026-09-06T18:11:30.045026Z"
+      },
+      {
+        "createdAt": "2026-09-06T17:33:30.909917Z",
+        "description": "来源：官方16.17.1装备3083。 原始说明：1000生命值 100%基础生命回复 狂徒之心和狂徒之活力。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3083",
+        "gameId": "lol",
+        "name": "狂徒铠甲",
+        "updatedAt": "2026-09-06T17:33:30.909917Z"
+      },
+      {
+        "createdAt": "2026-09-06T15:09:46.255005Z",
+        "description": "16.17.1；攻击速度 +30%；移动速度 +45。总价 1100 金。资料：官方16.17.1，装备3006。",
+        "equipmentKey": "item_3006",
+        "gameId": "lol",
+        "name": "狂战士胫甲",
+        "updatedAt": "2026-09-06T15:09:46.255005Z"
+      },
+      {
+        "createdAt": "2026-09-06T15:10:55.59788Z",
+        "description": "16.17.1；攻击速度 +15%；暴击几率 +15%；移动速度 +4%。总价 1200 金。资料：官方16.17.1，装备3086。",
+        "equipmentKey": "item_3086",
+        "gameId": "lol",
+        "name": "狂热",
+        "updatedAt": "2026-09-06T15:10:55.59788Z"
+      },
+      {
+        "createdAt": "2026-09-06T16:55:05.436763Z",
+        "description": "来源：官方16.17.1装备2512。 原始说明：45%攻击速度\n25%暴击几率\n4%移动速度\n\n守夜\n获得30终极技能急速。\n\n开战弹幕\n在施放你的终极技能后，你的下3次攻击获得50%攻击速度并且必定产生暴击，造成你的80%常规暴击伤害，持续8秒。如果一次攻击本应暴击，则此攻击转而造成15%额外真实伤害。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_2512",
+        "gameId": "lol",
+        "name": "猎魔人弩箭",
+        "updatedAt": "2026-09-06T16:55:05.436763Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:10:59.850482Z",
+        "description": "来源：官方16.17.1装备3156。 原始说明：60攻击力\n15技能急速\n40魔法抗性\n\n救主灵刃\n在受到将使你的生命值跌到30%以下的魔法伤害时，提供持续3秒的魔法伤害护盾和持续到战斗状态结束的10%全能吸血。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3156",
+        "gameId": "lol",
+        "name": "玛莫提乌斯之噬",
+        "updatedAt": "2026-09-06T18:10:59.850482Z"
+      },
+      {
+        "createdAt": "2026-09-06T15:13:17.406348Z",
+        "description": "16.17.1；法术强度 +20；基础法力回复 +100%；技能急速 +10。总价 900 金。资料：官方16.17.1，装备4642。",
+        "equipmentKey": "item_4642",
+        "gameId": "lol",
+        "name": "班德尔玻璃镜",
+        "updatedAt": "2026-09-06T15:13:17.406348Z"
+      },
+      {
+        "createdAt": "2026-09-06T16:57:40.977199Z",
+        "description": "来源：官方16.17.1装备2524。 原始说明：200生命值\n15技能急速\n20护甲\n20魔法抗性\n\n嘹亮旋律\n减速或定身一个敌方英雄时会提供一个持续0秒的嘹亮旋律。嘹亮旋律会为你提供20移动速度。当你拥有嘹亮旋律时，附近的友军，包括你自己，获得0攻击速度。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_2524",
+        "gameId": "lol",
+        "name": "班德尔音管",
+        "updatedAt": "2026-09-06T16:57:40.977199Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:10:48.92381Z",
+        "description": "来源：官方16.17.1装备3116。 原始说明：65法术强度\n400生命值\n\n凝霜\n伤害型技能会使敌人减速30%，持续1秒。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3116",
+        "gameId": "lol",
+        "name": "瑞莱的冰晶节杖",
+        "updatedAt": "2026-09-06T18:10:48.92381Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:11:24.014122Z",
+        "description": "来源：官方16.17.1装备6664。 原始说明：400生命值\n40魔法抗性\n10技能急速\n100%基础生命回复\n\n献祭\n承受或造成伤害后，每秒对附近敌人造成魔法伤害，持续3秒。\n\n荒弃\n击杀一个敌人时，会在其周围造成魔法伤害。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_6664",
+        "gameId": "lol",
+        "name": "璀璨回响",
+        "updatedAt": "2026-09-06T18:11:24.014122Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:11:31.288296Z",
+        "description": "来源：官方16.17.1装备6699。 原始说明：55攻击力\n10穿甲\n10技能急速\n\n通电\n用技能对一名敌人造成伤害会触发盈能(充能完毕时)。\n\n苍穹\n你的盈能攻击造成相当于%目标当前生命值的额外物理伤害，并为你提供持续4秒的 额外穿甲。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_6699",
+        "gameId": "lol",
+        "name": "电震涡流剑",
+        "updatedAt": "2026-09-06T18:11:31.288296Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:11:05.57826Z",
+        "description": "来源：官方16.17.1装备3302。 原始说明：30攻击力\n35%攻击速度\n\n晦影\n攻击造成0额外魔法伤害 攻击特效。\n\n交相\n对抗英雄时，在光明特效和黑暗特效之间轮换：附带光明特效的攻击提供持续5秒的护甲和魔抗。附带黑暗特效的攻击提供持续5秒的10%护甲穿透和法术穿透。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3302",
+        "gameId": "lol",
+        "name": "界弓",
+        "updatedAt": "2026-09-06T18:11:05.57826Z"
+      },
+      {
+        "createdAt": "2026-09-06T17:54:20.406258Z",
+        "description": "来源：官方16.17.1装备3094。 原始说明：35%攻击速度\n25%暴击几率\n4%移动速度\n\n神射手\n你的盈能攻击造成40额外魔法伤害并获得35%额外攻击距离。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3094",
+        "gameId": "lol",
+        "name": "疾射火炮",
+        "updatedAt": "2026-09-06T17:54:20.406258Z"
+      },
+      {
+        "createdAt": "2026-09-06T14:49:37.010968Z",
+        "description": "16.17.1；攻击速度 +10%。总价 250 金。资料：官方16.17.1，装备1042。",
+        "equipmentKey": "item_1042",
+        "gameId": "lol",
+        "name": "短剑",
+        "updatedAt": "2026-09-06T14:49:37.010968Z"
+      },
+      {
+        "createdAt": "2026-09-06T16:56:18.505733Z",
+        "description": "来源：官方16.17.1装备2520。 原始说明：55攻击力\n22穿甲\n15技能急速\n\n成型炸药 (0秒)\n对一个英雄或史诗级野怪造成技能伤害时，会造成额外的0真实伤害。\n\n破坏\n参与击杀一个在3秒内被你造成过伤害的英雄后，提供持续90秒的蓄意破坏。在你拥有蓄意破坏时，你对史诗级野怪或防御塔的下一次攻击会在3秒里持续造成额外0真实伤害。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_2520",
+        "gameId": "lol",
+        "name": "破垒者",
+        "updatedAt": "2026-09-06T16:56:18.505733Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:11:03.716593Z",
+        "description": "来源：官方16.17.1装备3181。 原始说明：40攻击力\n500生命值\n4%移动速度\n\n船长\n对英雄和史诗级野怪的每第五次攻击造成额外物理伤害，对建筑物造成更多伤害。\n\n登舰小组\n附近的友军攻城兵和超级士兵获得护甲和魔法抗性。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3181",
+        "gameId": "lol",
+        "name": "破舰者",
+        "updatedAt": "2026-09-06T18:11:03.716593Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:10:58.592221Z",
+        "description": "来源：官方16.17.1装备3153。 原始说明：40攻击力\n25%攻击速度\n10%生命偷取\n\n雾之锋\n攻击造成一部分敌人当前生命值的额外物理伤害 攻击特效。\n\n抓挠之影\n攻击一位英雄3次会对其造成持续1秒的30%减速。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3153",
+        "gameId": "lol",
+        "name": "破败王者之刃",
+        "updatedAt": "2026-09-06T18:10:58.592221Z"
+      },
+      {
+        "createdAt": "2026-09-08T15:12:16.77635Z",
+        "description": "来源：官方16.17.1装备2421及客户端16.17。原始说明：40 法术强度 25 护甲 支离破碎的时间 【护臂】目前是破碎状态，但仍然可以用于升级。 在打破一个【护臂】后，商店主人就只会卖给你 碎裂的护臂 了。 升级或使用后形态；本批保存明确直接属性，相关技能效果及变换接线另行录入。",
+        "equipmentKey": "item_2421",
+        "gameId": "lol",
+        "name": "碎裂的护臂",
+        "updatedAt": "2026-09-08T15:12:16.77635Z"
+      },
+      {
+        "createdAt": "2026-09-06T15:11:42.03926Z",
+        "description": "16.17.1；基础法力回复 +50%；治疗和护盾强度 +8%。总价 600 金。资料：官方16.17.1，装备3114。",
+        "equipmentKey": "item_3114",
+        "gameId": "lol",
+        "name": "禁忌雕像",
+        "updatedAt": "2026-09-06T15:11:42.03926Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:11:04.941515Z",
+        "description": "来源：官方16.17.1装备3222。 原始说明：250生命值\n100%基础法力回复\n12%治疗和护盾强度\n15技能急速\n\n纯化 \n移除一名友方英雄身上的所有控制类减益效果(滞空和压制除外)并为其回复100 - 250生命值。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3222",
+        "gameId": "lol",
+        "name": "米凯尔的祝福",
+        "updatedAt": "2026-09-06T18:11:04.941515Z"
+      },
+      {
+        "createdAt": "2026-09-06T14:24:10.063815Z",
+        "description": "生命值 +150。总价 400 金。资料：官方 Data Dragon 16.17.1，装备 1028。",
+        "equipmentKey": "item_1028",
+        "gameId": "lol",
+        "name": "红水晶",
+        "updatedAt": "2026-09-06T14:24:10.063815Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:10:48.258892Z",
+        "description": "来源：官方16.17.1装备3115。 原始说明：80法术强度\n50%攻击速度\n15技能急速\n\n艾卡西亚之咬\n普攻造成额外魔法伤害 攻击特效。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3115",
+        "gameId": "lol",
+        "name": "纳什之牙",
+        "updatedAt": "2026-09-06T18:10:48.258892Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:11:26.359523Z",
+        "description": "来源：官方16.17.1装备6675。 原始说明：40%攻击速度\n25%暴击几率\n4%移动速度\n\n超凡入圣\n攻击会使各基础技能的冷却时间缩短15%剩余冷却时间。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_6675",
+        "gameId": "lol",
+        "name": "纳沃利烁刃",
+        "updatedAt": "2026-09-06T18:11:26.359523Z"
+      },
+      {
+        "createdAt": "2026-09-06T15:10:39.812009Z",
+        "description": "16.17.1；攻击力 +20；攻击速度 +20%。总价 1200 金。资料：官方16.17.1，装备3051。",
+        "equipmentKey": "item_3051",
+        "gameId": "lol",
+        "name": "缚炉之斧",
+        "updatedAt": "2026-09-06T15:10:39.812009Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:11:13.595834Z",
+        "description": "来源：官方16.17.1装备4632。 原始说明：40法术强度\n25魔法抗性\n\n废除\n提供一层法术护盾来格挡下一个敌方技能。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_4632",
+        "gameId": "lol",
+        "name": "翠绿屏障",
+        "updatedAt": "2026-09-06T18:11:13.595834Z"
+      },
+      {
+        "createdAt": "2026-09-06T17:16:51.914783Z",
+        "description": "来源：官方16.17.1装备3057。 原始说明：10技能急速 咒刃 施放技能后，你的下一次普通攻击会造成额外物理伤害攻击特效。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3057",
+        "gameId": "lol",
+        "name": "耀光",
+        "updatedAt": "2026-09-06T17:16:51.914783Z"
+      },
+      {
+        "createdAt": "2026-09-06T15:11:47.636788Z",
+        "description": "16.17.1；攻击力 +20；技能急速 +10。总价 1050 金。资料：官方16.17.1，装备3133。",
+        "equipmentKey": "item_3133",
+        "gameId": "lol",
+        "name": "考尔菲德的战锤",
+        "updatedAt": "2026-09-06T15:11:47.636788Z"
+      },
+      {
+        "createdAt": "2026-09-06T17:03:12.56343Z",
+        "description": "来源：官方16.17.1装备2526。 原始说明：200生命值 8%治疗和护盾强度 75%基础法力回复 300法力 和谐 获得0%治疗和护盾强度。 法力流 (8秒，最大5层) 技能在命中时会提供4最大法力值(对英雄时翻倍)。 在360最大法力值时转变为歌之权冠。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_2526",
+        "gameId": "lol",
+        "name": "耳语头环",
+        "updatedAt": "2026-09-06T17:03:12.56343Z"
+      },
+      {
+        "createdAt": "2026-09-06T17:08:40.403482Z",
+        "description": "来源：官方16.17.1装备3032。 原始说明：50攻击力 45%攻击速度 0%暴击几率 熟能生巧 攻击时，永久获得暴击几率，至多至25%。 疾风骤雨 攻击一个敌方英雄时，获得持续6秒的30%攻击速度(30秒冷却时间)。 攻击可使这个冷却时间缩短1秒，这个缩减值会在暴击时提升至2秒。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3032",
+        "gameId": "lol",
+        "name": "育恩塔尔荒野箭",
+        "updatedAt": "2026-09-06T17:08:40.403482Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:11:11.839382Z",
+        "description": "来源：官方16.17.1装备4401。 原始说明：400生命值\n55魔法抗性\n4%移动速度\n\n坚定\n受到8次来自英雄的魔法伤害后，获得70魔法抗性和6%额外移动速度。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_4401",
+        "gameId": "lol",
+        "name": "自然之力",
+        "updatedAt": "2026-09-06T18:11:11.839382Z"
+      },
+      {
+        "createdAt": "2026-09-06T16:46:46.532278Z",
+        "description": "来源：官方16.17.1装备2065。 原始说明：50法术强度\n15技能急速\n4%移动速度\n125%基础法力回复\n\n鼓舞演讲\n为附近友军们提供持续4秒的30%移动速度。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_2065",
+        "gameId": "lol",
+        "name": "舒瑞娅的战歌",
+        "updatedAt": "2026-09-06T16:46:46.532278Z"
+      },
+      {
+        "createdAt": "2026-09-06T17:29:51.371014Z",
+        "description": "来源：官方16.17.1装备3075。 原始说明：150生命值 75护甲 荆棘被攻击命中后造成魔法伤害并施加重伤。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3075",
+        "gameId": "lol",
+        "name": "荆棘之甲",
+        "updatedAt": "2026-09-06T17:29:51.371014Z"
+      },
+      {
+        "createdAt": "2026-09-06T15:09:41.856969Z",
+        "description": "16.17.1；技能急速 +5。总价 250 金。资料：官方16.17.1，装备2022。",
+        "equipmentKey": "item_2022",
+        "gameId": "lol",
+        "name": "荧尘",
+        "updatedAt": "2026-09-06T15:09:41.856969Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:11:02.458491Z",
+        "description": "来源：官方16.17.1装备3165。 原始说明：75法术强度\n350生命值\n15技能急速\n\n重伤\n对敌方英雄造成魔法伤害时会施加持续3秒的40%重伤效果。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3165",
+        "gameId": "lol",
+        "name": "莫雷洛秘典",
+        "updatedAt": "2026-09-06T18:11:02.458491Z"
+      },
+      {
+        "createdAt": "2026-09-06T16:36:34.200939Z",
+        "description": "来源：官方16.17.1装备1083。\n\n原始说明：7攻击力\n\n收割\n回复3生命值攻击特效。\n击杀小兵时提供1金币，至多至100。达到上限时提供额外的350金币。\n\n被动与主动效果尚待配置。",
+        "equipmentKey": "item_1083",
+        "gameId": "lol",
+        "name": "萃取",
+        "updatedAt": "2026-09-06T16:36:34.200939Z"
+      },
+      {
+        "createdAt": "2026-09-06T14:24:20.162248Z",
+        "description": "法力值 +300。总价 300 金。资料：官方 Data Dragon 16.17.1，装备 1027。",
+        "equipmentKey": "item_1027",
+        "gameId": "lol",
+        "name": "蓝水晶",
+        "updatedAt": "2026-09-06T14:24:20.162248Z"
+      },
+      {
+        "createdAt": "2026-09-06T15:12:31.557166Z",
+        "description": "16.17.1；法术强度 +95；法术穿透 +40%。总价 3000 金。资料：官方16.17.1，装备3135。",
+        "equipmentKey": "item_3135",
+        "gameId": "lol",
+        "name": "虚空之杖",
+        "updatedAt": "2026-09-06T15:12:31.557166Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:10:52.32724Z",
+        "description": "来源：官方16.17.1装备3137。 原始说明：75法术强度\n30%法术穿透\n20技能急速\n\n死中焕生\n每当一个敌方英雄在被你造成伤害后的3秒内阵亡时，在其所在位置生成一个新星，来为友军们治疗生命值。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3137",
+        "gameId": "lol",
+        "name": "蜕生",
+        "updatedAt": "2026-09-06T18:10:52.32724Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:11:14.18636Z",
+        "description": "来源：官方16.17.1装备4633。 原始说明：70法术强度\n350生命值\n15技能急速\n\n虚空腐蚀\n在与敌方英雄作战时，每过1秒，就会造成2%额外伤害，至多至8%。在最大强度时，获得全能吸血。\n\n虚空灌注\n获得相当于你2%额外生命值的法术强度。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_4633",
+        "gameId": "lol",
+        "name": "裂隙制造者",
+        "updatedAt": "2026-09-06T18:11:14.18636Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:11:12.435182Z",
+        "description": "来源：官方16.17.1装备4628。 原始说明：75法术强度\n25技能急速\n\n高能射击\n在对600码或更远的英雄造成技能伤害时，将其显形6秒。\n\n专注\n在高能射击触发时，显形目标1400码内的所有其它敌方英雄3秒。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_4628",
+        "gameId": "lol",
+        "name": "视界专注",
+        "updatedAt": "2026-09-06T18:11:12.435182Z"
+      },
+      {
+        "createdAt": "2026-09-06T14:58:58.195393Z",
+        "description": "16.17.1；魔法抗性 +45。总价 850 金。资料：官方16.17.1，装备1057。",
+        "equipmentKey": "item_1057",
+        "gameId": "lol",
+        "name": "负极斗篷",
+        "updatedAt": "2026-09-06T14:58:58.195393Z"
+      },
+      {
+        "createdAt": "2026-09-06T16:53:10.720397Z",
+        "description": "来源：官方16.17.1装备2504。 原始说明：400生命值\n80魔法抗性\n100%基础生命回复\n\n法师之祸\n如果连续15秒没有受到魔法伤害，获得魔法护盾。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_2504",
+        "gameId": "lol",
+        "name": "败魔",
+        "updatedAt": "2026-09-06T16:53:10.720397Z"
+      },
+      {
+        "createdAt": "2026-09-06T17:29:02.631963Z",
+        "description": "来源：官方16.17.1装备3074。 原始说明：65攻击力 15技能急速 12%生命偷取 顺劈和血斩造成物理伤害。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3074",
+        "gameId": "lol",
+        "name": "贪欲九头蛇",
+        "updatedAt": "2026-09-06T17:29:02.631963Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:11:28.23602Z",
+        "description": "来源：官方16.17.1装备6694。 原始说明：45攻击力\n35%护甲穿透\n15技能急速\n\n严寒\n伤害型技能会对低于50%生命值的敌人造成持续1秒的30%减速。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_6694",
+        "gameId": "lol",
+        "name": "赛瑞尔达的怨恨",
+        "updatedAt": "2026-09-06T18:11:28.23602Z"
+      },
+      {
+        "createdAt": "2026-09-06T17:07:11.999268Z",
+        "description": "来源：官方16.17.1装备3009。 原始说明：55移动速度 迅捷步 将减速效果的效能降低25%。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3009",
+        "gameId": "lol",
+        "name": "轻灵之靴",
+        "updatedAt": "2026-09-06T17:07:11.999268Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:11:08.666832Z",
+        "description": "来源：官方16.17.1装备3802。 原始说明：40法术强度\n300法力\n10技能急速\n\n启蒙\n升级时会在3秒里持续回复共20%最大法力值。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3802",
+        "gameId": "lol",
+        "name": "遗失的章节",
+        "updatedAt": "2026-09-06T18:11:08.666832Z"
+      },
+      {
+        "createdAt": "2026-09-06T15:04:54.965059Z",
+        "description": "16.17.1；攻击力 +15；护甲 +30。总价 1100 金。资料：官方16.17.1，装备2019。",
+        "equipmentKey": "item_2019",
+        "gameId": "lol",
+        "name": "钢铁印章",
+        "updatedAt": "2026-09-06T15:04:54.965059Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:11:04.336476Z",
+        "description": "来源：官方16.17.1装备3190。 原始说明：200生命值\n30护甲\n30魔法抗性\n10技能急速\n\n虔诚\n为附近友军提供290 - 360护盾值，在2.5秒里持续衰减。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3190",
+        "gameId": "lol",
+        "name": "钢铁烈阳之匣",
+        "updatedAt": "2026-09-06T18:11:04.336476Z"
+      },
+      {
+        "createdAt": "2026-09-06T17:13:54.363634Z",
+        "description": "来源：官方16.17.1装备3047。 原始说明：25护甲 45移动速度 镀板 使即将到来的攻击伤害降低10%。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3047",
+        "gameId": "lol",
+        "name": "铁板靴",
+        "updatedAt": "2026-09-06T17:13:54.363634Z"
+      },
+      {
+        "createdAt": "2026-09-06T14:25:15.174657Z",
+        "description": "护甲 +40。总价 800 金，由布甲合成，合成费 500 金。资料：官方 Data Dragon 16.17.1，装备 1031。",
+        "equipmentKey": "item_1031",
+        "gameId": "lol",
+        "name": "锁子甲",
+        "updatedAt": "2026-09-06T14:25:15.174657Z"
+      },
+      {
+        "createdAt": "2026-09-06T15:11:52.712016Z",
+        "description": "16.17.1；攻击力 +20；穿甲 +10。总价 1000 金。资料：官方16.17.1，装备3134。",
+        "equipmentKey": "item_3134",
+        "gameId": "lol",
+        "name": "锯齿短匕",
+        "updatedAt": "2026-09-06T15:11:52.712016Z"
+      },
+      {
+        "createdAt": "2026-09-06T14:12:48.093519Z",
+        "description": "攻击力 +10。总价 350 金。资料：官方 Data Dragon 16.17.1，装备 1036；本轮固定资料版本。",
+        "equipmentKey": "item_1036",
+        "gameId": "lol",
+        "name": "长剑",
+        "updatedAt": "2026-09-06T14:12:48.093519Z"
+      },
+      {
+        "createdAt": "2026-09-06T16:51:03.19904Z",
+        "description": "来源：官方16.17.1装备2501。 原始说明：30攻击力 550生命值 专横 获得相当于你2.5%额外生命值的攻击力。 报复 获得基于你的百分比已损失生命值的12%攻击力提升。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_2501",
+        "gameId": "lol",
+        "name": "霸王血铠",
+        "updatedAt": "2026-09-06T16:51:03.19904Z"
+      },
+      {
+        "createdAt": "2026-09-06T14:47:28.7979Z",
+        "description": "16.17.1；移动速度 +25。总价 300 金。资料：官方16.17.1，装备1001。",
+        "equipmentKey": "item_1001",
+        "gameId": "lol",
+        "name": "鞋子",
+        "updatedAt": "2026-09-06T14:47:28.7979Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:11:15.324505Z",
+        "description": "来源：官方16.17.1装备4646。 原始说明：90法术强度\n15法术穿透\n6%移动速度\n\n风暴掠袭 \n在2.5秒内对一个英雄造成相当于其25%最大生命值的伤害时，对其施加风啸。\n\n风啸\n在2秒后，造成魔法伤害。如果目标在风啸触发前阵亡，那么它会对附近的敌人们造成伤害。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_4646",
+        "gameId": "lol",
+        "name": "风暴狂涌",
+        "updatedAt": "2026-09-06T18:11:15.324505Z"
+      },
+      {
+        "createdAt": "2026-09-06T17:25:45.296828Z",
+        "description": "来源：官方16.17.1装备3072。 原始说明：80攻击力 15%生命偷取 灵液护盾 将来自你的生命偷取的溢出治疗效果转化为护盾值。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3072",
+        "gameId": "lol",
+        "name": "饮血剑",
+        "updatedAt": "2026-09-06T17:25:45.296828Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:10:46.919374Z",
+        "description": "来源：官方16.17.1装备3109。 原始说明：200生命值\n40护甲\n10技能急速\n100%基础生命回复\n\n牺牲\n当你的誓约者在附近时，将其所受的14%伤害转移到你身上，并为你提供相当于其对英雄的12%已造成伤害值的治疗效果。立誓(0秒)\n指定一名友方英雄作为你的誓约者。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3109",
+        "gameId": "lol",
+        "name": "骑士之誓",
+        "updatedAt": "2026-09-06T18:10:46.919374Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:10:51.685713Z",
+        "description": "来源：官方16.17.1装备3124。 原始说明：30攻击力\n30法术强度\n25%攻击速度\n\n怨怒\n攻击造成30额外魔法伤害攻击特效。\n\n沸腾打击\n攻击会提供8%攻击速度，持续3秒(可叠加4次)。\n在满层状态下，每第三次攻击会附带2次攻击特效。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3124",
+        "gameId": "lol",
+        "name": "鬼索的狂暴之刃",
+        "updatedAt": "2026-09-06T18:10:51.685713Z"
+      },
+      {
+        "createdAt": "2026-09-08T15:12:22.59465Z",
+        "description": "来源：官方16.17.1装备3042及客户端16.17。原始说明：35 攻击力 1000 法力 15 技能急速 敬畏 获得 2%最大法力值的额外攻击力 。 冲击 攻击会对英雄造成 1.2%最大法力值的额外物理伤害 攻击特效 。 伤害型技能会对英雄造成 3% - 4%最大法力值的额外物理伤害 。 升级或使用后形态；本批保存明确直接属性，相关技能效果及变换接线另行录入。",
+        "equipmentKey": "item_3042",
+        "gameId": "lol",
+        "name": "魔切",
+        "updatedAt": "2026-09-08T15:12:22.59465Z"
+      },
+      {
+        "createdAt": "2026-09-06T17:05:01.071972Z",
+        "description": "来源：官方16.17.1装备3004。 原始说明：35攻击力 500法力 15技能急速 敬畏 获得0额外攻击力。 法力流 (8秒，最大4层) 普攻和技能在命中时会提供3最大法力值(对英雄时翻倍)。 在360最大法力值时转变为魔切。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3004",
+        "gameId": "lol",
+        "name": "魔宗",
+        "updatedAt": "2026-09-06T17:05:01.071972Z"
+      },
+      {
+        "createdAt": "2026-09-06T16:54:36.971827Z",
+        "description": "来源：官方16.17.1装备2510。 原始说明：300生命值\n60法术强度\n20技能急速\n20%攻击速度\n\n咒刃\n施放技能后，你的下一次攻击会造成0额外魔法伤害并治疗你自身0 攻击特效然后将攻击特效施加额外的一次。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_2510",
+        "gameId": "lol",
+        "name": "黄昏与黎明",
+        "updatedAt": "2026-09-06T16:54:36.971827Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:11:19.660357Z",
+        "description": "来源：官方16.17.1装备6621。 原始说明：45法术强度\n16%治疗和护盾强度\n100%基础法力回复\n\n最初之光\n每100%基础法力回复获得2%治疗和护盾强度和10法术强度。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_6621",
+        "gameId": "lol",
+        "name": "黎明核心",
+        "updatedAt": "2026-09-06T18:11:19.660357Z"
+      },
+      {
+        "createdAt": "2026-09-06T16:34:34.925758Z",
+        "description": "来源：官方16.17.1装备1082。\n\n原始说明：15法术强度\n50生命值\n\n荣耀\n参与击杀后提供荣耀层数，至多至10层。阵亡时损失5层荣耀。\n每层荣耀提供4法术强度。\n\n被动与主动效果尚待配置。",
+        "equipmentKey": "item_1082",
+        "gameId": "lol",
+        "name": "黑暗封印",
+        "updatedAt": "2026-09-06T16:34:34.925758Z"
+      },
+      {
+        "createdAt": "2026-09-06T17:22:57.103109Z",
+        "description": "来源：官方16.17.1装备3071。 原始说明：45攻击力 400生命值 20技能急速 切割 对英雄造成物理伤害时会将该目标的护甲降低6%，持续6秒(可叠加5次)。 热烈 造成物理伤害时会提供持续2秒的0移动速度。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3071",
+        "gameId": "lol",
+        "name": "黑色切割者",
+        "updatedAt": "2026-09-06T17:22:57.103109Z"
+      },
+      {
+        "createdAt": "2026-09-06T18:11:03.099077Z",
+        "description": "来源：官方16.17.1装备3179。 原始说明：60攻击力\n18穿甲\n15技能急速\n\n夜行者\n未被敌人看见达一小段时间后，你对英雄的下一次攻击造成额外真实伤害。\n\n封锁 \n在你处在敌方侦察守卫和陷阱附近时，将其短暂显形。在显形守卫状态下，你的攻击对其造成额外伤害。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3179",
+        "gameId": "lol",
+        "name": "黯影阔剑",
+        "updatedAt": "2026-09-06T18:11:03.099077Z"
+      },
+      {
+        "createdAt": "2026-09-06T16:52:25.3654Z",
+        "description": "来源：官方16.17.1装备2503。 原始说明：80法术强度 600法力 20技能急速 邪焰 伤害型技能造成额外魔法伤害，持续3秒。 黯炎 被你的邪焰影响的每个敌方英雄、史诗级野怪和大型野怪都会为你提供4%法术强度。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_2503",
+        "gameId": "lol",
+        "name": "黯炎火炬",
+        "updatedAt": "2026-09-06T16:52:25.3654Z"
+      }
+    ],
+    "imageChecks": [
+      {
+        "metadata": {
+          "byteSize": 9468,
+          "createdAt": "2026-05-03T05:27:28.996847Z",
+          "description": null,
+          "enabled": true,
+          "gameId": "lol",
+          "height": 64,
+          "imageKey": "item_3168",
+          "mimeType": "image/png",
+          "name": "item_3168",
+          "updatedAt": "2026-05-03T05:27:28.996847Z",
+          "width": 64
+        },
+        "contentSha256": "a2e126cdba188357c9bbde3acd2549238c0d3f4a79b481904f71504bf0e830f5",
+        "note": "复用既有图片，内容与元数据已核对；未声称与16.17图片原文件逐字节相同。"
+      },
+      {
+        "metadata": {
+          "byteSize": 6416,
+          "createdAt": "2026-05-03T05:27:29.695265Z",
+          "description": null,
+          "enabled": true,
+          "gameId": "lol",
+          "height": 64,
+          "imageKey": "item_3170",
+          "mimeType": "image/png",
+          "name": "item_3170",
+          "updatedAt": "2026-05-03T05:27:29.695265Z",
+          "width": 64
+        },
+        "contentSha256": "bfddd9f96c8467b266649e3b9176c25f8fc33a6119a5648b45303ef022eb0e5f",
+        "note": "复用既有图片，内容与元数据已核对；未声称与16.17图片原文件逐字节相同。"
+      },
+      {
+        "metadata": {
+          "byteSize": 6462,
+          "createdAt": "2026-05-03T05:27:30.435998Z",
+          "description": null,
+          "enabled": true,
+          "gameId": "lol",
+          "height": 64,
+          "imageKey": "item_3171",
+          "mimeType": "image/png",
+          "name": "item_3171",
+          "updatedAt": "2026-05-03T05:27:30.435998Z",
+          "width": 64
+        },
+        "contentSha256": "4317f35ad7b8abacbcd72f0ac619b856b36afae9922eac7559ee98dab14c6159",
+        "note": "复用既有图片，内容与元数据已核对；未声称与16.17图片原文件逐字节相同。"
+      },
+      {
+        "metadata": {
+          "byteSize": 6340,
+          "createdAt": "2026-05-03T05:27:31.151914Z",
+          "description": null,
+          "enabled": true,
+          "gameId": "lol",
+          "height": 64,
+          "imageKey": "item_3172",
+          "mimeType": "image/png",
+          "name": "item_3172",
+          "updatedAt": "2026-05-03T05:27:31.151914Z",
+          "width": 64
+        },
+        "contentSha256": "b4d8ed0b2c4d46a12dcb6d7fa65b9dd046aa17dc318ba82eab227d373e949ef8",
+        "note": "复用既有图片，内容与元数据已核对；未声称与16.17图片原文件逐字节相同。"
+      },
+      {
+        "metadata": {
+          "byteSize": 6521,
+          "createdAt": "2026-05-03T05:27:31.904428Z",
+          "description": null,
+          "enabled": true,
+          "gameId": "lol",
+          "height": 64,
+          "imageKey": "item_3173",
+          "mimeType": "image/png",
+          "name": "item_3173",
+          "updatedAt": "2026-05-03T05:27:31.904428Z",
+          "width": 64
+        },
+        "contentSha256": "b90ecee2eddeccb0e0e26445eda1b77e5c54ac786e659a4c2339cb5b90a8b5eb",
+        "note": "复用既有图片，内容与元数据已核对；未声称与16.17图片原文件逐字节相同。"
+      },
+      {
+        "metadata": {
+          "byteSize": 6581,
+          "createdAt": "2026-05-03T05:27:32.607144Z",
+          "description": null,
+          "enabled": true,
+          "gameId": "lol",
+          "height": 64,
+          "imageKey": "item_3174",
+          "mimeType": "image/png",
+          "name": "item_3174",
+          "updatedAt": "2026-05-03T05:27:32.607144Z",
+          "width": 64
+        },
+        "contentSha256": "f768816ccf1ffd54c02e8e485065b25042748396505216338652a5ca7b6279dd",
+        "note": "复用既有图片，内容与元数据已核对；未声称与16.17图片原文件逐字节相同。"
+      },
+      {
+        "metadata": {
+          "byteSize": 5763,
+          "createdAt": "2026-05-03T05:27:33.320033Z",
+          "description": null,
+          "enabled": true,
+          "gameId": "lol",
+          "height": 64,
+          "imageKey": "item_3175",
+          "mimeType": "image/png",
+          "name": "item_3175",
+          "updatedAt": "2026-05-03T05:27:33.320033Z",
+          "width": 64
+        },
+        "contentSha256": "8f5be64db511a1feeae0e6bbf3eb2a444c6331f9ef48d1a9059710936d075f0c",
+        "note": "复用既有图片，内容与元数据已核对；未声称与16.17图片原文件逐字节相同。"
+      },
+      {
+        "metadata": {
+          "byteSize": 6148,
+          "createdAt": "2026-05-03T05:27:34.039421Z",
+          "description": null,
+          "enabled": true,
+          "gameId": "lol",
+          "height": 64,
+          "imageKey": "item_3176",
+          "mimeType": "image/png",
+          "name": "item_3176",
+          "updatedAt": "2026-05-03T05:27:34.039421Z",
+          "width": 64
+        },
+        "contentSha256": "c36620dd1264c6c9f8733727f69adec69cb1d5e621e334771421e18cce1c348a",
+        "note": "复用既有图片，内容与元数据已核对；未声称与16.17图片原文件逐字节相同。"
+      }
+    ]
+  },
+  "before": {
+    "at": "2026-09-08T15:21:41.305Z",
+    "objects": [
+      {
+        "equipmentKey": "item_3168",
+        "subject": {
+          "status": 404,
+          "body": {
+            "error": {
+              "code": "404.EQUIPMENT_NOT_FOUND",
+              "details": {
+                "equipmentKey": "item_3168"
+              },
+              "message": "装备不存在"
+            }
+          }
+        },
+        "complete": false
+      },
+      {
+        "equipmentKey": "item_3170",
+        "subject": {
+          "status": 404,
+          "body": {
+            "error": {
+              "code": "404.EQUIPMENT_NOT_FOUND",
+              "details": {
+                "equipmentKey": "item_3170"
+              },
+              "message": "装备不存在"
+            }
+          }
+        },
+        "complete": false
+      },
+      {
+        "equipmentKey": "item_3171",
+        "subject": {
+          "status": 404,
+          "body": {
+            "error": {
+              "code": "404.EQUIPMENT_NOT_FOUND",
+              "details": {
+                "equipmentKey": "item_3171"
+              },
+              "message": "装备不存在"
+            }
+          }
+        },
+        "complete": false
+      },
+      {
+        "equipmentKey": "item_3172",
+        "subject": {
+          "status": 404,
+          "body": {
+            "error": {
+              "code": "404.EQUIPMENT_NOT_FOUND",
+              "details": {
+                "equipmentKey": "item_3172"
+              },
+              "message": "装备不存在"
+            }
+          }
+        },
+        "complete": false
+      },
+      {
+        "equipmentKey": "item_3173",
+        "subject": {
+          "status": 404,
+          "body": {
+            "error": {
+              "code": "404.EQUIPMENT_NOT_FOUND",
+              "details": {
+                "equipmentKey": "item_3173"
+              },
+              "message": "装备不存在"
+            }
+          }
+        },
+        "complete": false
+      },
+      {
+        "equipmentKey": "item_3174",
+        "subject": {
+          "status": 404,
+          "body": {
+            "error": {
+              "code": "404.EQUIPMENT_NOT_FOUND",
+              "details": {
+                "equipmentKey": "item_3174"
+              },
+              "message": "装备不存在"
+            }
+          }
+        },
+        "complete": false
+      },
+      {
+        "equipmentKey": "item_3175",
+        "subject": {
+          "status": 404,
+          "body": {
+            "error": {
+              "code": "404.EQUIPMENT_NOT_FOUND",
+              "details": {
+                "equipmentKey": "item_3175"
+              },
+              "message": "装备不存在"
+            }
+          }
+        },
+        "complete": false
+      },
+      {
+        "equipmentKey": "item_3176",
+        "subject": {
+          "status": 404,
+          "body": {
+            "error": {
+              "code": "404.EQUIPMENT_NOT_FOUND",
+              "details": {
+                "equipmentKey": "item_3176"
+              },
+              "message": "装备不存在"
+            }
+          }
+        },
+        "complete": false
+      }
+    ],
+    "complete": false
+  }
+}

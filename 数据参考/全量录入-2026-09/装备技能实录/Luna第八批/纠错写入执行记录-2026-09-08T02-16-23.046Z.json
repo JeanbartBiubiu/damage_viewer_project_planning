@@ -1,0 +1,3580 @@
+{
+  "startedAt": "2026-09-08T02:16:23.046Z",
+  "mode": "明确纠错写入并逐项独立GET",
+  "apiBaseUrl": "http://127.0.0.1:8080/api/admin/games/lol",
+  "batch": "Luna第八批",
+  "operationCount": 26,
+  "preflight": [
+    {
+      "order": 1,
+      "object": "item_3032_passive",
+      "action": "UPDATE",
+      "route": "/api/admin/games/lol/skills/item_3032_passive",
+      "state": "old",
+      "actual": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:47:06.094662Z",
+          "description": "保存16.17客户端与官方16.17.1说明共同确证的30%攻击速度、6秒持续、30秒冷却以及攻击缩短1秒、暴击缩短2秒。普通攻击命中规则限定英雄目标，动作使用当前命中目标而结果指向装备持有者；永久暴击每次增量未按冲突原始字段猜值，装备直接属性不在技能结果中重复施加。",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "育恩塔尔荒野箭·疾风骤雨",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "item_3032_passive",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-07T18:47:06.094662Z"
+        }
+      }
+    },
+    {
+      "order": 2,
+      "object": "item_3032_passive",
+      "action": "UPDATE",
+      "route": "/api/admin/games/lol/skills/item_3032_passive/parameters/crit_cap_ratio",
+      "state": "old",
+      "actual": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:47:06.644755Z",
+          "description": "永久获得暴击几率的上限，小数0.25表示25%；每次攻击增量待来源核定。",
+          "fixedValue": 0.25,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "熟能生巧暴击上限",
+          "parameterKey": "crit_cap_ratio",
+          "skillKey": "item_3032_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T18:47:06.644755Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      }
+    },
+    {
+      "order": 3,
+      "object": "item_3032_passive",
+      "action": "CREATE",
+      "route": "/api/admin/games/lol/skills/item_3032_passive/parameters/crit_bonus_per_attack_melee",
+      "state": "old",
+      "actual": {
+        "status": 404,
+        "data": {
+          "error": {
+            "code": "404.SKILL_PARAMETER_NOT_FOUND",
+            "details": {
+              "parameterKey": "crit_bonus_per_attack_melee"
+            },
+            "message": "技能参数不存在"
+          }
+        }
+      }
+    },
+    {
+      "order": 4,
+      "object": "item_3032_passive",
+      "action": "CREATE",
+      "route": "/api/admin/games/lol/skills/item_3032_passive/parameters/crit_bonus_per_attack_ranged",
+      "state": "old",
+      "actual": {
+        "status": 404,
+        "data": {
+          "error": {
+            "code": "404.SKILL_PARAMETER_NOT_FOUND",
+            "details": {
+              "parameterKey": "crit_bonus_per_attack_ranged"
+            },
+            "message": "技能参数不存在"
+          }
+        }
+      }
+    },
+    {
+      "order": 5,
+      "object": "item_3050_passive",
+      "action": "DELETE",
+      "route": "/api/admin/games/lol/skills/item_3050_passive/effects/storm_magic_damage",
+      "state": "old",
+      "actual": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:47:38.970058Z",
+          "description": "风暴生命周期内每1000毫秒对作用范围内当前目标造成30点魔法伤害；作用范围和敌方英雄筛选由上层目标选择提供。",
+          "effectKey": "storm_magic_damage",
+          "gameId": "lol",
+          "lifecycle": {
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "storm_duration_ms"
+            },
+            "expiryMode": "ALL_AT_ONCE",
+            "firstPeriodicExecution": "AFTER_INTERVAL",
+            "instanceScope": "SOURCE",
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "periodicIntervalValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "storm_tick_interval_ms"
+            },
+            "reapplicationDurationMode": "REFRESH_ALL",
+            "reapplicationStackMode": "KEEP"
+          },
+          "name": "霜火风暴周期魔法伤害",
+          "results": [
+            {
+              "description": "每周期30点魔法伤害；来源标记为技能伤害的独立组成。",
+              "detail": {
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "damageTypeKey": "magic",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "vampRules": []
+              },
+              "lifecycleBehavior": {
+                "moment": "PERIODIC",
+                "periodicExecutionMode": "ONCE_PER_INSTANCE",
+                "reapplicationValueMode": null,
+                "stackValueMode": null,
+                "valueReadMode": "MOMENT_EVALUATION"
+              },
+              "name": "每秒魔法伤害",
+              "resultKey": "magic_damage",
+              "resultType": "DAMAGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "storm_damage_per_second"
+                }
+              }
+            }
+          ],
+          "skillKey": "item_3050_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T18:47:38.970058Z"
+        }
+      }
+    },
+    {
+      "order": 6,
+      "object": "item_3050_passive",
+      "action": "DELETE",
+      "route": "/api/admin/games/lol/skills/item_3050_passive/parameters/storm_tick_interval_ms",
+      "state": "old",
+      "actual": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:47:14.030823Z",
+          "description": "官方说明使用“每秒”，周期效果按1000毫秒记录；未执行运行时跳频验证。",
+          "fixedValue": 1000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "霜火风暴伤害间隔",
+          "parameterKey": "storm_tick_interval_ms",
+          "skillKey": "item_3050_passive",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-07T18:47:14.030823Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      }
+    },
+    {
+      "order": 7,
+      "object": "item_3050_passive",
+      "action": "CREATE",
+      "route": "/api/admin/games/lol/skills/item_3050_passive/parameters/ultimate_haste",
+      "state": "old",
+      "actual": {
+        "status": 404,
+        "data": {
+          "error": {
+            "code": "404.SKILL_PARAMETER_NOT_FOUND",
+            "details": {
+              "parameterKey": "ultimate_haste"
+            },
+            "message": "技能参数不存在"
+          }
+        }
+      }
+    },
+    {
+      "order": 8,
+      "object": "item_3050_passive",
+      "action": "CREATE",
+      "route": "/api/admin/games/lol/skills/item_3050_passive/parameters/ready_duration_ms",
+      "state": "old",
+      "actual": {
+        "status": 404,
+        "data": {
+          "error": {
+            "code": "404.SKILL_PARAMETER_NOT_FOUND",
+            "details": {
+              "parameterKey": "ready_duration_ms"
+            },
+            "message": "技能参数不存在"
+          }
+        }
+      }
+    },
+    {
+      "order": 9,
+      "object": "item_3050_passive",
+      "action": "CREATE",
+      "route": "/api/admin/games/lol/skills/item_3050_passive/effects/ultimate_haste",
+      "state": "old",
+      "actual": {
+        "status": 404,
+        "data": {
+          "error": {
+            "code": "404.SKILL_EFFECT_NOT_FOUND",
+            "details": {
+              "effectKey": "ultimate_haste"
+            },
+            "message": "技能效果不存在"
+          }
+        }
+      }
+    },
+    {
+      "order": 10,
+      "object": "item_3050_passive",
+      "action": "CREATE",
+      "route": "/api/admin/games/lol/skills/item_3050_passive/trigger-rules/initialize_ultimate_haste",
+      "state": "old",
+      "actual": {
+        "status": 404,
+        "data": {
+          "error": {
+            "code": "404.SKILL_TRIGGER_RULE_NOT_FOUND",
+            "details": {
+              "ruleKey": "initialize_ultimate_haste"
+            },
+            "message": "技能触发规则不存在"
+          }
+        }
+      }
+    },
+    {
+      "order": 11,
+      "object": "item_3050_passive",
+      "action": "UPDATE",
+      "route": "/api/admin/games/lol/skills/item_3050_passive",
+      "state": "old",
+      "actual": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:47:11.620584Z",
+          "description": "保存终极技能触发风暴的确证组成：持续5秒、半径350、每秒30点魔法伤害、30%减速与45秒冷却参数。当前结构只保存风暴周期魔法伤害；终极技能筛选、范围内英雄目标选择、减速状态键和持有者冷却门控分别列为待配，不用无条件技能触发冒充完整机制。",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "基克的聚合·霜火风暴",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "item_3050_passive",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-07T18:47:11.620584Z"
+        }
+      }
+    },
+    {
+      "order": 12,
+      "object": "item_3071_passive",
+      "action": "UPDATE",
+      "route": "/api/admin/games/lol/skills/item_3071_passive",
+      "state": "old",
+      "actual": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:47:40.127396Z",
+          "description": "保存对英雄造成物理伤害时的6%护甲削减、6秒持续和最多5层目标属性变化。只使用目标属性百分比减益的确证独立组成，不把来源显示为0的热烈移速假装完成。",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "黑色切割者·切割",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "item_3071_passive",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-07T18:47:40.127396Z"
+        }
+      }
+    },
+    {
+      "order": 13,
+      "object": "item_3071_passive",
+      "action": "UPDATE",
+      "route": "/api/admin/games/lol/skills/item_3071_passive/parameters/heated_move_speed_client_value",
+      "state": "old",
+      "actual": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:47:42.441103Z",
+          "description": "客户端MoveSpeedBonus=20；官方16.17.1当前说明渲染为0，属于来源冲突待核，本批不建立移动速度效果。",
+          "fixedValue": 20,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "热烈客户端移动速度值",
+          "parameterKey": "heated_move_speed_client_value",
+          "skillKey": "item_3071_passive",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-07T18:47:42.441103Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      }
+    },
+    {
+      "order": 14,
+      "object": "item_3071_passive",
+      "action": "UPDATE",
+      "route": "/api/admin/games/lol/skills/item_3071_passive/parameters/heated_move_speed_duration_ms",
+      "state": "old",
+      "actual": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:47:42.947635Z",
+          "description": "客户端MoveSpeedDuration=2秒；对应移动速度值存在来源冲突。",
+          "fixedValue": 2000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "热烈移动速度持续时间",
+          "parameterKey": "heated_move_speed_duration_ms",
+          "skillKey": "item_3071_passive",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-07T18:47:42.947635Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      }
+    },
+    {
+      "order": 15,
+      "object": "item_3071_passive",
+      "action": "CREATE",
+      "route": "/api/admin/games/lol/skills/item_3071_passive/parameters/heated_move_speed_ranged_value",
+      "state": "old",
+      "actual": {
+        "status": 404,
+        "data": {
+          "error": {
+            "code": "404.SKILL_PARAMETER_NOT_FOUND",
+            "details": {
+              "parameterKey": "heated_move_speed_ranged_value"
+            },
+            "message": "技能参数不存在"
+          }
+        }
+      }
+    },
+    {
+      "order": 16,
+      "object": "modifier-zone:item_3071_armor_reduction",
+      "action": "CREATE",
+      "route": "/api/admin/games/lol/modifier-zones/item_3071_armor_reduction",
+      "state": "old",
+      "actual": {
+        "status": 404,
+        "data": {
+          "error": {
+            "code": "404.MODIFIER_ZONE_NOT_FOUND",
+            "details": {
+              "modifierZoneKey": "item_3071_armor_reduction"
+            },
+            "message": "乘区不存在"
+          }
+        }
+      }
+    },
+    {
+      "order": 17,
+      "object": "item_3071_passive",
+      "action": "UPDATE",
+      "route": "/api/admin/games/lol/skills/item_3071_passive/effects/armor_shred",
+      "state": "old",
+      "actual": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:47:43.436698Z",
+          "description": "对确证目标应用每层6%的护甲降低，持续6秒，最多5层；百分比减益使用目标属性百分比修改区。",
+          "effectKey": "armor_shred",
+          "gameId": "lol",
+          "lifecycle": {
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "armor_shred_duration_ms"
+            },
+            "expiryMode": "ALL_AT_ONCE",
+            "firstPeriodicExecution": null,
+            "instanceScope": "TARGET",
+            "maxStacksValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "armor_shred_max_stacks"
+            },
+            "periodicIntervalValue": null,
+            "reapplicationDurationMode": "REFRESH_ALL",
+            "reapplicationStackMode": "INCREASE"
+          },
+          "name": "切割目标护甲削减",
+          "results": [
+            {
+              "description": "每层降低目标护甲6个百分点；第五层后第六次触发保持30%总削减。",
+              "detail": {
+                "attributeKey": "armor",
+                "modifierZoneKey": "attribute_percent_bonus",
+                "operation": "DECREASE"
+              },
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "periodicExecutionMode": null,
+                "reapplicationValueMode": null,
+                "stackValueMode": "PER_STACK",
+                "valueReadMode": "APPLICATION_SNAPSHOT"
+              },
+              "name": "目标护甲降低",
+              "resultKey": "armor_reduction",
+              "resultType": "ATTRIBUTE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "armor_shred_ratio_per_stack"
+                }
+              }
+            }
+          ],
+          "skillKey": "item_3071_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T18:47:43.436698Z"
+        }
+      }
+    },
+    {
+      "order": 18,
+      "object": "item_3803_passive",
+      "action": "UPDATE",
+      "route": "/api/admin/games/lol/skills/item_3803_passive",
+      "state": "old",
+      "actual": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:47:44.736393Z",
+          "description": "保存来自英雄所受伤害10%回蓝、技能法力消耗25%自疗、单次治疗上限20和1秒内部冷却等确证组成。伤害取值、英雄来源筛选、技能消耗绑定与持续技能处理尚未接入触发规则，未用无条件效果冒充完整永恒。",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "万世催化石·永恒",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "item_3803_passive",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-07T18:47:44.736393Z"
+        }
+      }
+    },
+    {
+      "order": 19,
+      "object": "item_3803_passive",
+      "action": "UPDATE",
+      "route": "/api/admin/games/lol/skills/item_3803_passive/parameters/damage_input",
+      "state": "old",
+      "actual": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:47:47.185583Z",
+          "description": "待触发绑定提供的受击伤害数值，未指定取原始伤害或结算后伤害。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "受击伤害运行时输入",
+          "parameterKey": "damage_input",
+          "skillKey": "item_3803_passive",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-07T18:47:47.185583Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        }
+      }
+    },
+    {
+      "order": 20,
+      "object": "item_3803_passive",
+      "action": "UPDATE",
+      "route": "/api/admin/games/lol/skills/item_3803_passive/parameters/eternity_internal_cooldown_ms",
+      "state": "old",
+      "actual": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:47:46.669696Z",
+          "description": "客户端EternityCDPerCast=1秒，单位：毫秒；不将它误作技能总冷却。",
+          "fixedValue": 1000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "永恒内部冷却",
+          "parameterKey": "eternity_internal_cooldown_ms",
+          "skillKey": "item_3803_passive",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-07T18:47:46.669696Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      }
+    },
+    {
+      "order": 21,
+      "object": "item_3803_passive",
+      "action": "CREATE",
+      "route": "/api/admin/games/lol/skills/item_3803_passive/parameters/health_restore_cap_per_second",
+      "state": "old",
+      "actual": {
+        "status": 404,
+        "data": {
+          "error": {
+            "code": "404.SKILL_PARAMETER_NOT_FOUND",
+            "details": {
+              "parameterKey": "health_restore_cap_per_second"
+            },
+            "message": "技能参数不存在"
+          }
+        }
+      }
+    },
+    {
+      "order": 22,
+      "object": "item_3803_passive",
+      "action": "UPDATE",
+      "route": "/api/admin/games/lol/skills/item_3803_passive/formulas/mana_restore_from_damage",
+      "state": "old",
+      "actual": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:47:48.139728Z",
+          "description": "运行时受击伤害输入乘10%回蓝比例；英雄来源和伤害取值留待触发绑定。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "damage_input"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "mana_restore_ratio_from_damage"
+              }
+            ],
+            "operation": "MULTIPLY"
+          },
+          "formulaKey": "mana_restore_from_damage",
+          "gameId": "lol",
+          "name": "所受伤害转法力",
+          "skillKey": "item_3803_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T18:47:48.139728Z"
+        }
+      }
+    },
+    {
+      "order": 23,
+      "object": "item_3803_passive",
+      "action": "UPDATE",
+      "route": "/api/admin/games/lol/skills/item_3803_passive/effects/mana_from_hero_damage",
+      "state": "old",
+      "actual": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:48:56.29344Z",
+          "description": "以运行时受击伤害输入的10%恢复持有者法力；英雄来源、伤害口径和内部冷却未通过触发规则接线。",
+          "effectKey": "mana_from_hero_damage",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "受击回蓝",
+          "results": [
+            {
+              "description": "恢复运行时伤害输入的10%法力。",
+              "detail": {
+                "attributeKey": "mana",
+                "operation": "RESTORE"
+              },
+              "lifecycleBehavior": null,
+              "name": "恢复法力",
+              "resultKey": "mana_restore",
+              "resultType": "RESOURCE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "mana_restore_from_damage",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "skillKey": "item_3803_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T18:48:56.29344Z"
+        }
+      }
+    },
+    {
+      "order": 24,
+      "object": "item_8010_passive",
+      "action": "UPDATE",
+      "route": "/api/admin/games/lol/skills/item_8010_passive",
+      "state": "old",
+      "actual": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:49:05.299983Z",
+          "description": "保存技能或被动魔法伤害对英雄造成7.5%魔法抗性削减、6秒持续和最多4层的目标属性组成。只表达单一来源每层与上限，不宣称与其他百分比减抗来源的叠加或剩余比例组合已经核对。",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "放血者的诅咒·恶劣衰朽",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "item_8010_passive",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-07T18:49:05.299983Z"
+        }
+      }
+    },
+    {
+      "order": 25,
+      "object": "modifier-zone:item_8010_magic_resistance_reduction",
+      "action": "CREATE",
+      "route": "/api/admin/games/lol/modifier-zones/item_8010_magic_resistance_reduction",
+      "state": "old",
+      "actual": {
+        "status": 404,
+        "data": {
+          "error": {
+            "code": "404.MODIFIER_ZONE_NOT_FOUND",
+            "details": {
+              "modifierZoneKey": "item_8010_magic_resistance_reduction"
+            },
+            "message": "乘区不存在"
+          }
+        }
+      }
+    },
+    {
+      "order": 26,
+      "object": "item_8010_passive",
+      "action": "UPDATE",
+      "route": "/api/admin/games/lol/skills/item_8010_passive/effects/magic_resistance_shred",
+      "state": "old",
+      "actual": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:49:07.915806Z",
+          "description": "每次合法魔法伤害触发在目标上增加一层7.5%魔抗削减，持续6秒，最多4层。",
+          "effectKey": "magic_resistance_shred",
+          "gameId": "lol",
+          "lifecycle": {
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "mr_shred_duration_ms"
+            },
+            "expiryMode": "ALL_AT_ONCE",
+            "firstPeriodicExecution": null,
+            "instanceScope": "TARGET",
+            "maxStacksValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "mr_shred_max_stacks"
+            },
+            "periodicIntervalValue": null,
+            "reapplicationDurationMode": "REFRESH_ALL",
+            "reapplicationStackMode": "INCREASE"
+          },
+          "name": "恶劣衰朽目标魔抗削减",
+          "results": [
+            {
+              "description": "每层降低目标魔法抗性7.5个百分点；第四层后第五次触发保持30%总削减。",
+              "detail": {
+                "attributeKey": "magic_resistance",
+                "modifierZoneKey": "attribute_percent_bonus",
+                "operation": "DECREASE"
+              },
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "periodicExecutionMode": null,
+                "reapplicationValueMode": null,
+                "stackValueMode": "PER_STACK",
+                "valueReadMode": "APPLICATION_SNAPSHOT"
+              },
+              "name": "目标魔法抗性降低",
+              "resultKey": "magic_resistance_reduction",
+              "resultType": "ATTRIBUTE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "mr_shred_ratio_per_stack"
+                }
+              }
+            }
+          ],
+          "skillKey": "item_8010_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T18:49:07.915806Z"
+        }
+      }
+    }
+  ],
+  "writes": [
+    {
+      "order": 1,
+      "object": "item_3032_passive",
+      "action": "UPDATE",
+      "route": "/api/admin/games/lol/skills/item_3032_passive",
+      "beforeState": "old",
+      "applied": true,
+      "writeStatus": 200,
+      "writeResponse": {
+        "createdAt": "2026-09-07T18:47:06.094662Z",
+        "description": "保存16.17客户端与官方16.17.1共同确证的30%攻击速度、6秒持续、30秒冷却、普通攻击缩短1秒和暴击缩短2秒；常规模式熟能生巧每次近战攻击增加0.004、远程攻击增加0.002暴击几率，达到0.25上限封顶。普通攻击命中规则和持有者冷却接线仍待补齐，装备直接属性不在技能结果中重复施加。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "育恩塔尔荒野箭·疾风骤雨",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "item_3032_passive",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-08T02:16:25.24993Z"
+      },
+      "readback": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:47:06.094662Z",
+          "description": "保存16.17客户端与官方16.17.1共同确证的30%攻击速度、6秒持续、30秒冷却、普通攻击缩短1秒和暴击缩短2秒；常规模式熟能生巧每次近战攻击增加0.004、远程攻击增加0.002暴击几率，达到0.25上限封顶。普通攻击命中规则和持有者冷却接线仍待补齐，装备直接属性不在技能结果中重复施加。",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "育恩塔尔荒野箭·疾风骤雨",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "item_3032_passive",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-08T02:16:25.24993Z"
+        }
+      },
+      "afterState": "target"
+    },
+    {
+      "order": 2,
+      "object": "item_3032_passive",
+      "action": "UPDATE",
+      "route": "/api/admin/games/lol/skills/item_3032_passive/parameters/crit_cap_ratio",
+      "beforeState": "old",
+      "applied": true,
+      "writeStatus": 200,
+      "writeResponse": {
+        "createdAt": "2026-09-07T18:47:06.644755Z",
+        "description": "永久获得暴击几率上限，小数0.25表示25%；常规模式近战每次攻击增加0.004、远程每次攻击增加0.002，达到该上限后不再增加。ARAM与SWIFTPLAY覆盖值不混入。",
+        "fixedValue": 0.25,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "熟能生巧暴击上限",
+        "parameterKey": "crit_cap_ratio",
+        "skillKey": "item_3032_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T02:16:25.833701Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      "readback": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:47:06.644755Z",
+          "description": "永久获得暴击几率上限，小数0.25表示25%；常规模式近战每次攻击增加0.004、远程每次攻击增加0.002，达到该上限后不再增加。ARAM与SWIFTPLAY覆盖值不混入。",
+          "fixedValue": 0.25,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "熟能生巧暴击上限",
+          "parameterKey": "crit_cap_ratio",
+          "skillKey": "item_3032_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-08T02:16:25.833701Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      },
+      "afterState": "target"
+    },
+    {
+      "order": 3,
+      "object": "item_3032_passive",
+      "action": "CREATE",
+      "route": "/api/admin/games/lol/skills/item_3032_passive/parameters/crit_bonus_per_attack_melee",
+      "beforeState": "old",
+      "applied": true,
+      "writeStatus": 201,
+      "writeResponse": {
+        "createdAt": "2026-09-08T02:16:26.414862Z",
+        "description": "常规模式每次近战攻击永久增加0.004暴击几率，小数0.004表示0.4个百分点；由熟能生巧0.25上限封顶。ARAM与SWIFTPLAY覆盖值不混入。",
+        "fixedValue": 0.004,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "熟能生巧近战每次攻击暴击增量",
+        "parameterKey": "crit_bonus_per_attack_melee",
+        "skillKey": "item_3032_passive",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-08T02:16:26.414862Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      "readback": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-08T02:16:26.414862Z",
+          "description": "常规模式每次近战攻击永久增加0.004暴击几率，小数0.004表示0.4个百分点；由熟能生巧0.25上限封顶。ARAM与SWIFTPLAY覆盖值不混入。",
+          "fixedValue": 0.004,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "熟能生巧近战每次攻击暴击增量",
+          "parameterKey": "crit_bonus_per_attack_melee",
+          "skillKey": "item_3032_passive",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-08T02:16:26.414862Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      },
+      "afterState": "target"
+    },
+    {
+      "order": 4,
+      "object": "item_3032_passive",
+      "action": "CREATE",
+      "route": "/api/admin/games/lol/skills/item_3032_passive/parameters/crit_bonus_per_attack_ranged",
+      "beforeState": "old",
+      "applied": true,
+      "writeStatus": 201,
+      "writeResponse": {
+        "createdAt": "2026-09-08T02:16:26.95948Z",
+        "description": "常规模式每次远程攻击永久增加0.002暴击几率，小数0.002表示0.2个百分点；由熟能生巧0.25上限封顶。ARAM与SWIFTPLAY覆盖值不混入。",
+        "fixedValue": 0.002,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "熟能生巧远程每次攻击暴击增量",
+        "parameterKey": "crit_bonus_per_attack_ranged",
+        "skillKey": "item_3032_passive",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-08T02:16:26.95948Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      "readback": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-08T02:16:26.95948Z",
+          "description": "常规模式每次远程攻击永久增加0.002暴击几率，小数0.002表示0.2个百分点；由熟能生巧0.25上限封顶。ARAM与SWIFTPLAY覆盖值不混入。",
+          "fixedValue": 0.002,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "熟能生巧远程每次攻击暴击增量",
+          "parameterKey": "crit_bonus_per_attack_ranged",
+          "skillKey": "item_3032_passive",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-08T02:16:26.95948Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      },
+      "afterState": "target"
+    },
+    {
+      "order": 5,
+      "object": "item_3050_passive",
+      "action": "DELETE",
+      "route": "/api/admin/games/lol/skills/item_3050_passive/effects/storm_magic_damage",
+      "beforeState": "old",
+      "applied": true,
+      "writeStatus": 204,
+      "writeResponse": null,
+      "readback": {
+        "status": 404,
+        "data": {
+          "error": {
+            "code": "404.SKILL_EFFECT_NOT_FOUND",
+            "details": {
+              "effectKey": "storm_magic_damage"
+            },
+            "message": "技能效果不存在"
+          }
+        }
+      },
+      "afterState": "target",
+      "deletedListReadback": {
+        "status": 200,
+        "data": []
+      }
+    },
+    {
+      "order": 6,
+      "object": "item_3050_passive",
+      "action": "DELETE",
+      "route": "/api/admin/games/lol/skills/item_3050_passive/parameters/storm_tick_interval_ms",
+      "beforeState": "old",
+      "applied": true,
+      "writeStatus": 204,
+      "writeResponse": null,
+      "readback": {
+        "status": 404,
+        "data": {
+          "error": {
+            "code": "404.SKILL_PARAMETER_NOT_FOUND",
+            "details": {
+              "parameterKey": "storm_tick_interval_ms"
+            },
+            "message": "技能参数不存在"
+          }
+        }
+      },
+      "afterState": "target",
+      "deletedListReadback": {
+        "status": 200,
+        "data": [
+          {
+            "createdAt": "2026-09-07T18:47:12.115431Z",
+            "description": "风暴持续5秒，单位：毫秒。",
+            "fixedValue": 5000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "霜火风暴持续时间",
+            "parameterKey": "storm_duration_ms",
+            "skillKey": "item_3050_passive",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-07T18:47:12.115431Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T18:47:12.61426Z",
+            "description": "客户端绑定树StormRadius=350，单位：游戏距离单位。",
+            "fixedValue": 350,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "霜火风暴作用半径",
+            "parameterKey": "storm_radius",
+            "skillKey": "item_3050_passive",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-07T18:47:12.61426Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T18:47:13.013177Z",
+            "description": "每秒造成30点魔法伤害，单位：伤害点/秒。",
+            "fixedValue": 30,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "霜火风暴每秒魔法伤害",
+            "parameterKey": "storm_damage_per_second",
+            "skillKey": "item_3050_passive",
+            "sortOrder": 30,
+            "updatedAt": "2026-09-07T18:47:13.013177Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T18:47:13.505883Z",
+            "description": "减速30%，小数0.3表示30%；减速状态键尚未在现有共享状态目录中确认。",
+            "fixedValue": 0.3,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "霜火风暴减速比例",
+            "parameterKey": "storm_slow_ratio",
+            "skillKey": "item_3050_passive",
+            "sortOrder": 40,
+            "updatedAt": "2026-09-07T18:47:13.505883Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          {
+            "createdAt": "2026-09-07T18:47:14.491765Z",
+            "description": "客户端绑定树Cooldown=45，单位：毫秒。",
+            "fixedValue": 45000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "霜火风暴触发冷却",
+            "parameterKey": "storm_cooldown_ms",
+            "skillKey": "item_3050_passive",
+            "sortOrder": 60,
+            "updatedAt": "2026-09-07T18:47:14.491765Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ]
+      }
+    },
+    {
+      "order": 7,
+      "object": "item_3050_passive",
+      "action": "CREATE",
+      "route": "/api/admin/games/lol/skills/item_3050_passive/parameters/ultimate_haste",
+      "beforeState": "old",
+      "applied": true,
+      "writeStatus": 201,
+      "writeResponse": {
+        "createdAt": "2026-09-08T02:16:28.676849Z",
+        "description": "冻结客户端UltimateHaste=15，终极技能急速单位为急速点；作用于已核对的终极技能集合。",
+        "fixedValue": 15,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "冰晶燃烧终极技能急速",
+        "parameterKey": "ultimate_haste",
+        "skillKey": "item_3050_passive",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-08T02:16:28.676849Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "readback": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-08T02:16:28.676849Z",
+          "description": "冻结客户端UltimateHaste=15，终极技能急速单位为急速点；作用于已核对的终极技能集合。",
+          "fixedValue": 15,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "冰晶燃烧终极技能急速",
+          "parameterKey": "ultimate_haste",
+          "skillKey": "item_3050_passive",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-08T02:16:28.676849Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      },
+      "afterState": "target"
+    },
+    {
+      "order": 8,
+      "object": "item_3050_passive",
+      "action": "CREATE",
+      "route": "/api/admin/games/lol/skills/item_3050_passive/parameters/ready_duration_ms",
+      "beforeState": "old",
+      "applied": true,
+      "writeStatus": 201,
+      "writeResponse": {
+        "createdAt": "2026-09-08T02:16:29.170735Z",
+        "description": "冻结客户端ReadyDuration=5秒，施放终极技能后风暴就绪窗口为5000毫秒。",
+        "fixedValue": 5000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "霜火风暴就绪窗口",
+        "parameterKey": "ready_duration_ms",
+        "skillKey": "item_3050_passive",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-08T02:16:29.170735Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "readback": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-08T02:16:29.170735Z",
+          "description": "冻结客户端ReadyDuration=5秒，施放终极技能后风暴就绪窗口为5000毫秒。",
+          "fixedValue": 5000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "霜火风暴就绪窗口",
+          "parameterKey": "ready_duration_ms",
+          "skillKey": "item_3050_passive",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-08T02:16:29.170735Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      },
+      "afterState": "target"
+    },
+    {
+      "order": 9,
+      "object": "item_3050_passive",
+      "action": "CREATE",
+      "route": "/api/admin/games/lol/skills/item_3050_passive/effects/ultimate_haste",
+      "beforeState": "old",
+      "applied": true,
+      "writeStatus": 201,
+      "writeResponse": {
+        "createdAt": "2026-09-08T02:16:29.716596Z",
+        "description": "装备持有者的170个已核对终极技能获得15点技能急速；技能键来自当前根R的Trait_Ultimate标记和唯一角色挂载回读。",
+        "effectKey": "ultimate_haste",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": null,
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "冰晶燃烧终极技能急速",
+        "results": [
+          {
+            "description": "对核对的终极技能集合增加15点技能急速。",
+            "detail": {
+              "affectedSkillScope": {
+                "mode": "SKILLS",
+                "skillCategoryKeys": [],
+                "skillKeys": [
+                  "aatrox_r",
+                  "ahri_r",
+                  "akali_r",
+                  "akshan_r",
+                  "alistar_r",
+                  "ambessa_r",
+                  "amumu_r",
+                  "anivia_r",
+                  "annie_r",
+                  "ashe_r",
+                  "aurelionsol_r",
+                  "aurora_r",
+                  "azir_r",
+                  "bard_r",
+                  "belveth_r",
+                  "blitzcrank_r",
+                  "brand_r",
+                  "braum_r",
+                  "briar_r",
+                  "caitlyn_r",
+                  "camille_r",
+                  "cassiopeia_r",
+                  "chogath_r",
+                  "corki_r",
+                  "darius_r",
+                  "diana_r",
+                  "draven_r",
+                  "drmundo_r",
+                  "ekko_r",
+                  "elise_r",
+                  "evelynn_r",
+                  "ez_r",
+                  "fiddlesticks_r",
+                  "fiora_r",
+                  "fizz_r",
+                  "galio_r",
+                  "gangplank_r",
+                  "garen_r",
+                  "gnar_r",
+                  "gragas_r",
+                  "graves_r",
+                  "gwen_r",
+                  "hecarim_r",
+                  "heimerdinger_r",
+                  "hwei_r",
+                  "illaoi_r",
+                  "irelia_r",
+                  "ivern_r",
+                  "janna_r",
+                  "jarvaniv_r",
+                  "jax_r",
+                  "jayce_r",
+                  "jhin_r",
+                  "jinx_r",
+                  "kaisa_r",
+                  "kalista_r",
+                  "karma_r",
+                  "karthus_r",
+                  "kassadin_r",
+                  "katarina_r",
+                  "kayle_r",
+                  "kayn_r",
+                  "kennen_r",
+                  "khazix_r",
+                  "kindred_r",
+                  "kled_r",
+                  "kogmaw_r",
+                  "ksante_r",
+                  "leblanc_r",
+                  "leesin_r",
+                  "leona_r",
+                  "lillia_r",
+                  "lissandra_r",
+                  "locke_r",
+                  "lucian_r",
+                  "lulu_r",
+                  "lux_r",
+                  "malphite_r",
+                  "malzahar_r",
+                  "maokai_r",
+                  "masteryi_r",
+                  "mel_r",
+                  "milio_r",
+                  "missfortune_r",
+                  "monkeyking_r",
+                  "mordekaiser_r",
+                  "morgana_r",
+                  "naafiri_r",
+                  "nami_r",
+                  "nasus_r",
+                  "nautilus_r",
+                  "neeko_r",
+                  "nidalee_r",
+                  "nilah_r",
+                  "nocturne_r",
+                  "nunu_r",
+                  "olaf_r",
+                  "orianna_r",
+                  "ornn_r",
+                  "pantheon_r",
+                  "poppy_r",
+                  "pyke_r",
+                  "qiyana_r",
+                  "quinn_r",
+                  "rakan_r",
+                  "rammus_r",
+                  "reksai_r",
+                  "rell_r",
+                  "renata_r",
+                  "renekton_r",
+                  "rengar_r",
+                  "riven_r",
+                  "rumble_r",
+                  "ryze_r",
+                  "samira_r",
+                  "sejuani_r",
+                  "senna_r",
+                  "seraphine_r",
+                  "sett_r",
+                  "shaco_r",
+                  "shen_r",
+                  "shyvana_r",
+                  "singed_r",
+                  "sion_r",
+                  "sivir_r",
+                  "skarner_r",
+                  "smolder_r",
+                  "sona_r",
+                  "soraka_r",
+                  "swain_r",
+                  "syndra_r",
+                  "tahmkench_r",
+                  "taliyah_r",
+                  "talon_r",
+                  "taric_r",
+                  "teemo_r",
+                  "thresh_r",
+                  "tristana_r",
+                  "trundle_r",
+                  "tryndamere_r",
+                  "twistedfate_r",
+                  "twitch_r",
+                  "urgot_r",
+                  "varus_r",
+                  "vayne_r",
+                  "veigar_r",
+                  "velkoz_r",
+                  "vex_r",
+                  "vi_r",
+                  "viego_r",
+                  "viktor_r",
+                  "vladimir_r",
+                  "volibear_r",
+                  "warwick_r",
+                  "xayah_r",
+                  "xerath_r",
+                  "xinzhao_r",
+                  "yasuo_r",
+                  "yone_r",
+                  "yorick_r",
+                  "yunara_r",
+                  "yuumi_r",
+                  "zaahen_r",
+                  "zac_r",
+                  "zed_r",
+                  "zeri_r",
+                  "ziggs_r",
+                  "zilean_r",
+                  "zoe_r",
+                  "zyra_r"
+                ]
+              },
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "KEEP",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "终极技能急速提升",
+            "resultKey": "ultimate_haste",
+            "resultType": "SKILL_HASTE_MODIFIER",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "ultimate_haste"
+              }
+            }
+          }
+        ],
+        "skillKey": "item_3050_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T02:16:29.716596Z"
+      },
+      "readback": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-08T02:16:29.716596Z",
+          "description": "装备持有者的170个已核对终极技能获得15点技能急速；技能键来自当前根R的Trait_Ultimate标记和唯一角色挂载回读。",
+          "effectKey": "ultimate_haste",
+          "gameId": "lol",
+          "lifecycle": {
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "durationValue": null,
+            "expiryMode": "EXPLICIT_ONLY",
+            "firstPeriodicExecution": null,
+            "instanceScope": "SOURCE",
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "periodicIntervalValue": null,
+            "reapplicationDurationMode": null,
+            "reapplicationStackMode": "KEEP"
+          },
+          "name": "冰晶燃烧终极技能急速",
+          "results": [
+            {
+              "description": "对核对的终极技能集合增加15点技能急速。",
+              "detail": {
+                "affectedSkillScope": {
+                  "mode": "SKILLS",
+                  "skillCategoryKeys": [],
+                  "skillKeys": [
+                    "aatrox_r",
+                    "ahri_r",
+                    "akali_r",
+                    "akshan_r",
+                    "alistar_r",
+                    "ambessa_r",
+                    "amumu_r",
+                    "anivia_r",
+                    "annie_r",
+                    "ashe_r",
+                    "aurelionsol_r",
+                    "aurora_r",
+                    "azir_r",
+                    "bard_r",
+                    "belveth_r",
+                    "blitzcrank_r",
+                    "brand_r",
+                    "braum_r",
+                    "briar_r",
+                    "caitlyn_r",
+                    "camille_r",
+                    "cassiopeia_r",
+                    "chogath_r",
+                    "corki_r",
+                    "darius_r",
+                    "diana_r",
+                    "draven_r",
+                    "drmundo_r",
+                    "ekko_r",
+                    "elise_r",
+                    "evelynn_r",
+                    "ez_r",
+                    "fiddlesticks_r",
+                    "fiora_r",
+                    "fizz_r",
+                    "galio_r",
+                    "gangplank_r",
+                    "garen_r",
+                    "gnar_r",
+                    "gragas_r",
+                    "graves_r",
+                    "gwen_r",
+                    "hecarim_r",
+                    "heimerdinger_r",
+                    "hwei_r",
+                    "illaoi_r",
+                    "irelia_r",
+                    "ivern_r",
+                    "janna_r",
+                    "jarvaniv_r",
+                    "jax_r",
+                    "jayce_r",
+                    "jhin_r",
+                    "jinx_r",
+                    "kaisa_r",
+                    "kalista_r",
+                    "karma_r",
+                    "karthus_r",
+                    "kassadin_r",
+                    "katarina_r",
+                    "kayle_r",
+                    "kayn_r",
+                    "kennen_r",
+                    "khazix_r",
+                    "kindred_r",
+                    "kled_r",
+                    "kogmaw_r",
+                    "ksante_r",
+                    "leblanc_r",
+                    "leesin_r",
+                    "leona_r",
+                    "lillia_r",
+                    "lissandra_r",
+                    "locke_r",
+                    "lucian_r",
+                    "lulu_r",
+                    "lux_r",
+                    "malphite_r",
+                    "malzahar_r",
+                    "maokai_r",
+                    "masteryi_r",
+                    "mel_r",
+                    "milio_r",
+                    "missfortune_r",
+                    "monkeyking_r",
+                    "mordekaiser_r",
+                    "morgana_r",
+                    "naafiri_r",
+                    "nami_r",
+                    "nasus_r",
+                    "nautilus_r",
+                    "neeko_r",
+                    "nidalee_r",
+                    "nilah_r",
+                    "nocturne_r",
+                    "nunu_r",
+                    "olaf_r",
+                    "orianna_r",
+                    "ornn_r",
+                    "pantheon_r",
+                    "poppy_r",
+                    "pyke_r",
+                    "qiyana_r",
+                    "quinn_r",
+                    "rakan_r",
+                    "rammus_r",
+                    "reksai_r",
+                    "rell_r",
+                    "renata_r",
+                    "renekton_r",
+                    "rengar_r",
+                    "riven_r",
+                    "rumble_r",
+                    "ryze_r",
+                    "samira_r",
+                    "sejuani_r",
+                    "senna_r",
+                    "seraphine_r",
+                    "sett_r",
+                    "shaco_r",
+                    "shen_r",
+                    "shyvana_r",
+                    "singed_r",
+                    "sion_r",
+                    "sivir_r",
+                    "skarner_r",
+                    "smolder_r",
+                    "sona_r",
+                    "soraka_r",
+                    "swain_r",
+                    "syndra_r",
+                    "tahmkench_r",
+                    "taliyah_r",
+                    "talon_r",
+                    "taric_r",
+                    "teemo_r",
+                    "thresh_r",
+                    "tristana_r",
+                    "trundle_r",
+                    "tryndamere_r",
+                    "twistedfate_r",
+                    "twitch_r",
+                    "urgot_r",
+                    "varus_r",
+                    "vayne_r",
+                    "veigar_r",
+                    "velkoz_r",
+                    "vex_r",
+                    "vi_r",
+                    "viego_r",
+                    "viktor_r",
+                    "vladimir_r",
+                    "volibear_r",
+                    "warwick_r",
+                    "xayah_r",
+                    "xerath_r",
+                    "xinzhao_r",
+                    "yasuo_r",
+                    "yone_r",
+                    "yorick_r",
+                    "yunara_r",
+                    "yuumi_r",
+                    "zaahen_r",
+                    "zac_r",
+                    "zed_r",
+                    "zeri_r",
+                    "ziggs_r",
+                    "zilean_r",
+                    "zoe_r",
+                    "zyra_r"
+                  ]
+                },
+                "operation": "INCREASE"
+              },
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "periodicExecutionMode": null,
+                "reapplicationValueMode": "KEEP",
+                "stackValueMode": "SHARED",
+                "valueReadMode": "APPLICATION_SNAPSHOT"
+              },
+              "name": "终极技能急速提升",
+              "resultKey": "ultimate_haste",
+              "resultType": "SKILL_HASTE_MODIFIER",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "ultimate_haste"
+                }
+              }
+            }
+          ],
+          "skillKey": "item_3050_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-08T02:16:29.716596Z"
+        }
+      },
+      "afterState": "target"
+    },
+    {
+      "order": 10,
+      "object": "item_3050_passive",
+      "action": "CREATE",
+      "route": "/api/admin/games/lol/skills/item_3050_passive/trigger-rules/initialize_ultimate_haste",
+      "beforeState": "old",
+      "applied": true,
+      "writeStatus": 201,
+      "writeResponse": {
+        "actions": [
+          {
+            "actionKey": "execute_ultimate_haste",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "ultimate_haste"
+            },
+            "name": "执行终极技能急速",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "EVENT_SOURCE"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "装备持有者初始化时，对已核对的170个终极技能执行冰晶燃烧终极技能急速效果。",
+        "eventSource": {
+          "detail": {},
+          "eventType": "SOURCE_INITIALIZED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "初始化冰晶燃烧终极技能急速",
+        "perTargetCooldown": null,
+        "ruleKey": "initialize_ultimate_haste",
+        "sortOrder": 10
+      },
+      "readback": {
+        "status": 200,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_ultimate_haste",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "ultimate_haste"
+              },
+              "name": "执行终极技能急速",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "EVENT_SOURCE"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "装备持有者初始化时，对已核对的170个终极技能执行冰晶燃烧终极技能急速效果。",
+          "eventSource": {
+            "detail": {},
+            "eventType": "SOURCE_INITIALIZED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "初始化冰晶燃烧终极技能急速",
+          "perTargetCooldown": null,
+          "ruleKey": "initialize_ultimate_haste",
+          "sortOrder": 10
+        }
+      },
+      "afterState": "target"
+    },
+    {
+      "order": 11,
+      "object": "item_3050_passive",
+      "action": "UPDATE",
+      "route": "/api/admin/games/lol/skills/item_3050_passive",
+      "beforeState": "old",
+      "applied": true,
+      "writeStatus": 200,
+      "writeResponse": {
+        "createdAt": "2026-09-07T18:47:11.620584Z",
+        "description": "保存终极技能急速15点、施放终极技能后5000毫秒就绪窗口，以及风暴持续5000毫秒、半径350、每秒30点魔法伤害、30%减速和45000毫秒冷却等冻结确证组成。终极技能急速使用当前根R带Trait_Ultimate且已有唯一角色挂载的170个技能键初始化；风暴就绪、接近英雄启动、跳频、减速状态和持有者冷却仍待准确接线，不用无条件规则冒充完整机制。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "基克的聚合·霜火风暴",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "item_3050_passive",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-08T02:16:31.298702Z"
+      },
+      "readback": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:47:11.620584Z",
+          "description": "保存终极技能急速15点、施放终极技能后5000毫秒就绪窗口，以及风暴持续5000毫秒、半径350、每秒30点魔法伤害、30%减速和45000毫秒冷却等冻结确证组成。终极技能急速使用当前根R带Trait_Ultimate且已有唯一角色挂载的170个技能键初始化；风暴就绪、接近英雄启动、跳频、减速状态和持有者冷却仍待准确接线，不用无条件规则冒充完整机制。",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "基克的聚合·霜火风暴",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "item_3050_passive",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-08T02:16:31.298702Z"
+        }
+      },
+      "afterState": "target"
+    },
+    {
+      "order": 12,
+      "object": "item_3071_passive",
+      "action": "UPDATE",
+      "route": "/api/admin/games/lol/skills/item_3071_passive",
+      "beforeState": "old",
+      "applied": true,
+      "writeStatus": 200,
+      "writeResponse": {
+        "createdAt": "2026-09-07T18:47:40.127396Z",
+        "description": "保存对英雄造成物理伤害时的6%护甲削减、6秒持续和最多5层目标属性变化；同时保留冻结客户端MSBonusSplit确证的热烈移动速度参数：近战20、远程10、持续2秒。官方当前说明渲染为0的占位差异保留；数值已由当前绑定计算核定，移动速度效果与合法触发待配置。护甲削减使用独立目标属性百分比修改区。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "黑色切割者·切割",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "item_3071_passive",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-08T02:16:31.821922Z"
+      },
+      "readback": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:47:40.127396Z",
+          "description": "保存对英雄造成物理伤害时的6%护甲削减、6秒持续和最多5层目标属性变化；同时保留冻结客户端MSBonusSplit确证的热烈移动速度参数：近战20、远程10、持续2秒。官方当前说明渲染为0的占位差异保留；数值已由当前绑定计算核定，移动速度效果与合法触发待配置。护甲削减使用独立目标属性百分比修改区。",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "黑色切割者·切割",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "item_3071_passive",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-08T02:16:31.821922Z"
+        }
+      },
+      "afterState": "target"
+    },
+    {
+      "order": 13,
+      "object": "item_3071_passive",
+      "action": "UPDATE",
+      "route": "/api/admin/games/lol/skills/item_3071_passive/parameters/heated_move_speed_client_value",
+      "beforeState": "old",
+      "applied": true,
+      "writeStatus": 200,
+      "writeResponse": {
+        "createdAt": "2026-09-07T18:47:42.441103Z",
+        "description": "冻结客户端MSBonusSplit确证近战移动速度20；远程移动速度10另存参数；持续2秒。官方当前说明渲染为0的占位差异保留；数值已由当前绑定计算核定，移动速度效果与合法触发待配置。",
+        "fixedValue": 20,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "热烈客户端移动速度值",
+        "parameterKey": "heated_move_speed_client_value",
+        "skillKey": "item_3071_passive",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-08T02:16:32.458372Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "readback": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:47:42.441103Z",
+          "description": "冻结客户端MSBonusSplit确证近战移动速度20；远程移动速度10另存参数；持续2秒。官方当前说明渲染为0的占位差异保留；数值已由当前绑定计算核定，移动速度效果与合法触发待配置。",
+          "fixedValue": 20,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "热烈客户端移动速度值",
+          "parameterKey": "heated_move_speed_client_value",
+          "skillKey": "item_3071_passive",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-08T02:16:32.458372Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      },
+      "afterState": "target"
+    },
+    {
+      "order": 14,
+      "object": "item_3071_passive",
+      "action": "UPDATE",
+      "route": "/api/admin/games/lol/skills/item_3071_passive/parameters/heated_move_speed_duration_ms",
+      "beforeState": "old",
+      "applied": true,
+      "writeStatus": 200,
+      "writeResponse": {
+        "createdAt": "2026-09-07T18:47:42.947635Z",
+        "description": "冻结客户端MSBonusSplit确证热烈移动速度持续2秒；近战20、远程10已分别记录。官方当前说明渲染为0的占位差异保留；数值已由当前绑定计算核定，移动速度效果与合法触发待配置。",
+        "fixedValue": 2000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "热烈移动速度持续时间",
+        "parameterKey": "heated_move_speed_duration_ms",
+        "skillKey": "item_3071_passive",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-08T02:16:32.969816Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "readback": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:47:42.947635Z",
+          "description": "冻结客户端MSBonusSplit确证热烈移动速度持续2秒；近战20、远程10已分别记录。官方当前说明渲染为0的占位差异保留；数值已由当前绑定计算核定，移动速度效果与合法触发待配置。",
+          "fixedValue": 2000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "热烈移动速度持续时间",
+          "parameterKey": "heated_move_speed_duration_ms",
+          "skillKey": "item_3071_passive",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-08T02:16:32.969816Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      },
+      "afterState": "target"
+    },
+    {
+      "order": 15,
+      "object": "item_3071_passive",
+      "action": "CREATE",
+      "route": "/api/admin/games/lol/skills/item_3071_passive/parameters/heated_move_speed_ranged_value",
+      "beforeState": "old",
+      "applied": true,
+      "writeStatus": 201,
+      "writeResponse": {
+        "createdAt": "2026-09-08T02:16:33.530263Z",
+        "description": "冻结客户端MSBonusSplit确证远程移动速度10；近战20、持续2秒分别记录。官方当前说明渲染为0的占位差异保留；数值已由当前绑定计算核定，移动速度效果与合法触发待配置。",
+        "fixedValue": 10,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "热烈远程移动速度值",
+        "parameterKey": "heated_move_speed_ranged_value",
+        "skillKey": "item_3071_passive",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-08T02:16:33.530263Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "readback": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-08T02:16:33.530263Z",
+          "description": "冻结客户端MSBonusSplit确证远程移动速度10；近战20、持续2秒分别记录。官方当前说明渲染为0的占位差异保留；数值已由当前绑定计算核定，移动速度效果与合法触发待配置。",
+          "fixedValue": 10,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "热烈远程移动速度值",
+          "parameterKey": "heated_move_speed_ranged_value",
+          "skillKey": "item_3071_passive",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-08T02:16:33.530263Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      },
+      "afterState": "target"
+    },
+    {
+      "order": 16,
+      "object": "modifier-zone:item_3071_armor_reduction",
+      "action": "CREATE",
+      "route": "/api/admin/games/lol/modifier-zones/item_3071_armor_reduction",
+      "beforeState": "old",
+      "applied": true,
+      "writeStatus": 201,
+      "writeResponse": {
+        "applicationStage": "ATTRIBUTE_PERCENT",
+        "calculationMode": "RATIO_ADD",
+        "createdAt": "2026-09-08T02:16:34.032171Z",
+        "description": "黑色切割者目标护甲百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+        "domain": "ATTRIBUTE",
+        "gameId": "lol",
+        "modifierZoneKey": "item_3071_armor_reduction",
+        "name": "黑色切割者护甲削减乘区",
+        "sortOrder": 200,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-08T02:16:34.032171Z"
+      },
+      "readback": {
+        "status": 200,
+        "data": {
+          "applicationStage": "ATTRIBUTE_PERCENT",
+          "calculationMode": "RATIO_ADD",
+          "createdAt": "2026-09-08T02:16:34.032171Z",
+          "description": "黑色切割者目标护甲百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+          "domain": "ATTRIBUTE",
+          "gameId": "lol",
+          "modifierZoneKey": "item_3071_armor_reduction",
+          "name": "黑色切割者护甲削减乘区",
+          "sortOrder": 200,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-08T02:16:34.032171Z"
+        }
+      },
+      "afterState": "target"
+    },
+    {
+      "order": 17,
+      "object": "item_3071_passive",
+      "action": "UPDATE",
+      "route": "/api/admin/games/lol/skills/item_3071_passive/effects/armor_shred",
+      "beforeState": "old",
+      "applied": true,
+      "writeStatus": 200,
+      "writeResponse": {
+        "createdAt": "2026-09-07T18:47:43.436698Z",
+        "description": "对确证目标应用每层6%的护甲降低，持续6秒，最多5层；百分比减益使用目标属性百分比修改区。",
+        "effectKey": "armor_shred",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "armor_shred_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "TARGET",
+          "maxStacksValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "armor_shred_max_stacks"
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "INCREASE"
+        },
+        "name": "切割目标护甲削减",
+        "results": [
+          {
+            "description": "每层降低目标护甲6个百分点；第五层后第六次触发保持30%总削减。",
+            "detail": {
+              "attributeKey": "armor",
+              "modifierZoneKey": "item_3071_armor_reduction",
+              "operation": "DECREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": null,
+              "stackValueMode": "PER_STACK",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "目标护甲降低",
+            "resultKey": "armor_reduction",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "armor_shred_ratio_per_stack"
+              }
+            }
+          }
+        ],
+        "skillKey": "item_3071_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T02:16:34.584234Z"
+      },
+      "readback": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:47:43.436698Z",
+          "description": "对确证目标应用每层6%的护甲降低，持续6秒，最多5层；百分比减益使用目标属性百分比修改区。",
+          "effectKey": "armor_shred",
+          "gameId": "lol",
+          "lifecycle": {
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "armor_shred_duration_ms"
+            },
+            "expiryMode": "ALL_AT_ONCE",
+            "firstPeriodicExecution": null,
+            "instanceScope": "TARGET",
+            "maxStacksValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "armor_shred_max_stacks"
+            },
+            "periodicIntervalValue": null,
+            "reapplicationDurationMode": "REFRESH_ALL",
+            "reapplicationStackMode": "INCREASE"
+          },
+          "name": "切割目标护甲削减",
+          "results": [
+            {
+              "description": "每层降低目标护甲6个百分点；第五层后第六次触发保持30%总削减。",
+              "detail": {
+                "attributeKey": "armor",
+                "modifierZoneKey": "item_3071_armor_reduction",
+                "operation": "DECREASE"
+              },
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "periodicExecutionMode": null,
+                "reapplicationValueMode": null,
+                "stackValueMode": "PER_STACK",
+                "valueReadMode": "APPLICATION_SNAPSHOT"
+              },
+              "name": "目标护甲降低",
+              "resultKey": "armor_reduction",
+              "resultType": "ATTRIBUTE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "armor_shred_ratio_per_stack"
+                }
+              }
+            }
+          ],
+          "skillKey": "item_3071_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-08T02:16:34.584234Z"
+        }
+      },
+      "afterState": "target"
+    },
+    {
+      "order": 18,
+      "object": "item_3803_passive",
+      "action": "UPDATE",
+      "route": "/api/admin/games/lol/skills/item_3803_passive",
+      "beforeState": "old",
+      "applied": true,
+      "writeStatus": 200,
+      "writeResponse": {
+        "createdAt": "2026-09-07T18:47:44.736393Z",
+        "description": "保存来自英雄的减免前伤害10%回蓝、技能法力消耗25%自疗、单次施放上限20和维持型技能每秒上限20参数。客户端EternityCDPerCast=1000毫秒作为原字段保留，适用事件范围待证；不把它扩展为普通施法全局冷却或受击回蓝冷却。damage_input明确接收减免前英雄伤害；技能消耗、英雄来源筛选和持续技能统计仍待接线。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "万世催化石·永恒",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "item_3803_passive",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-08T02:16:35.474344Z"
+      },
+      "readback": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:47:44.736393Z",
+          "description": "保存来自英雄的减免前伤害10%回蓝、技能法力消耗25%自疗、单次施放上限20和维持型技能每秒上限20参数。客户端EternityCDPerCast=1000毫秒作为原字段保留，适用事件范围待证；不把它扩展为普通施法全局冷却或受击回蓝冷却。damage_input明确接收减免前英雄伤害；技能消耗、英雄来源筛选和持续技能统计仍待接线。",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "万世催化石·永恒",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "item_3803_passive",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-08T02:16:35.474344Z"
+        }
+      },
+      "afterState": "target"
+    },
+    {
+      "order": 19,
+      "object": "item_3803_passive",
+      "action": "UPDATE",
+      "route": "/api/admin/games/lol/skills/item_3803_passive/parameters/damage_input",
+      "beforeState": "old",
+      "applied": true,
+      "writeStatus": 200,
+      "writeResponse": {
+        "createdAt": "2026-09-07T18:47:47.185583Z",
+        "description": "来自英雄的减免前伤害运行时输入，单位：伤害点；不使用防御结算后的伤害值。英雄来源和事件绑定待配置。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "受击伤害运行时输入",
+        "parameterKey": "damage_input",
+        "skillKey": "item_3803_passive",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-08T02:16:36.189926Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      },
+      "readback": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:47:47.185583Z",
+          "description": "来自英雄的减免前伤害运行时输入，单位：伤害点；不使用防御结算后的伤害值。英雄来源和事件绑定待配置。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "受击伤害运行时输入",
+          "parameterKey": "damage_input",
+          "skillKey": "item_3803_passive",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-08T02:16:36.189926Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        }
+      },
+      "afterState": "target"
+    },
+    {
+      "order": 20,
+      "object": "item_3803_passive",
+      "action": "UPDATE",
+      "route": "/api/admin/games/lol/skills/item_3803_passive/parameters/eternity_internal_cooldown_ms",
+      "beforeState": "old",
+      "applied": true,
+      "writeStatus": 200,
+      "writeResponse": {
+        "createdAt": "2026-09-07T18:47:46.669696Z",
+        "description": "客户端EternityCDPerCast=1秒（1000毫秒）原字段；适用事件范围待证，不解释为普通施法全局冷却或受击回蓝冷却。",
+        "fixedValue": 1000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "永恒内部冷却",
+        "parameterKey": "eternity_internal_cooldown_ms",
+        "skillKey": "item_3803_passive",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-08T02:16:36.747585Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "readback": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:47:46.669696Z",
+          "description": "客户端EternityCDPerCast=1秒（1000毫秒）原字段；适用事件范围待证，不解释为普通施法全局冷却或受击回蓝冷却。",
+          "fixedValue": 1000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "永恒内部冷却",
+          "parameterKey": "eternity_internal_cooldown_ms",
+          "skillKey": "item_3803_passive",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-08T02:16:36.747585Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      },
+      "afterState": "target"
+    },
+    {
+      "order": 21,
+      "object": "item_3803_passive",
+      "action": "CREATE",
+      "route": "/api/admin/games/lol/skills/item_3803_passive/parameters/health_restore_cap_per_second",
+      "beforeState": "old",
+      "applied": true,
+      "writeStatus": 201,
+      "writeResponse": {
+        "createdAt": "2026-09-08T02:16:37.24004Z",
+        "description": "当前绑定扩展说明只确证维持型技能每秒最多治疗20生命；本参数只记录上限，不构造逐秒治疗金额或流程。",
+        "fixedValue": 20,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "维持型技能每秒治疗上限",
+        "parameterKey": "health_restore_cap_per_second",
+        "skillKey": "item_3803_passive",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-08T02:16:37.24004Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "readback": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-08T02:16:37.24004Z",
+          "description": "当前绑定扩展说明只确证维持型技能每秒最多治疗20生命；本参数只记录上限，不构造逐秒治疗金额或流程。",
+          "fixedValue": 20,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "维持型技能每秒治疗上限",
+          "parameterKey": "health_restore_cap_per_second",
+          "skillKey": "item_3803_passive",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-08T02:16:37.24004Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      },
+      "afterState": "target"
+    },
+    {
+      "order": 22,
+      "object": "item_3803_passive",
+      "action": "UPDATE",
+      "route": "/api/admin/games/lol/skills/item_3803_passive/formulas/mana_restore_from_damage",
+      "beforeState": "old",
+      "applied": true,
+      "writeStatus": 200,
+      "writeResponse": {
+        "createdAt": "2026-09-07T18:47:48.139728Z",
+        "description": "运行时输入是来自英雄的减免前伤害，乘10%回蓝比例；英雄来源和输入事件留待触发绑定。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "damage_input"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "mana_restore_ratio_from_damage"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "mana_restore_from_damage",
+        "gameId": "lol",
+        "name": "所受伤害转法力",
+        "skillKey": "item_3803_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T02:16:37.775088Z"
+      },
+      "readback": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:47:48.139728Z",
+          "description": "运行时输入是来自英雄的减免前伤害，乘10%回蓝比例；英雄来源和输入事件留待触发绑定。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "damage_input"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "mana_restore_ratio_from_damage"
+              }
+            ],
+            "operation": "MULTIPLY"
+          },
+          "formulaKey": "mana_restore_from_damage",
+          "gameId": "lol",
+          "name": "所受伤害转法力",
+          "skillKey": "item_3803_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-08T02:16:37.775088Z"
+        }
+      },
+      "afterState": "target"
+    },
+    {
+      "order": 23,
+      "object": "item_3803_passive",
+      "action": "UPDATE",
+      "route": "/api/admin/games/lol/skills/item_3803_passive/effects/mana_from_hero_damage",
+      "beforeState": "old",
+      "applied": true,
+      "writeStatus": 200,
+      "writeResponse": {
+        "createdAt": "2026-09-07T18:48:56.29344Z",
+        "description": "以来自英雄的减免前伤害运行时输入的10%恢复持有者法力；英雄来源和伤害事件仍待触发绑定。客户端EternityCDPerCast=1000毫秒只作为原字段保留，适用范围待证，不预设受击回蓝冷却。",
+        "effectKey": "mana_from_hero_damage",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "受击回蓝",
+        "results": [
+          {
+            "description": "恢复来自英雄的减免前伤害输入的10%法力。",
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "RESTORE"
+            },
+            "lifecycleBehavior": null,
+            "name": "恢复法力",
+            "resultKey": "mana_restore",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "mana_restore_from_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "item_3803_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T02:16:38.269879Z"
+      },
+      "readback": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:48:56.29344Z",
+          "description": "以来自英雄的减免前伤害运行时输入的10%恢复持有者法力；英雄来源和伤害事件仍待触发绑定。客户端EternityCDPerCast=1000毫秒只作为原字段保留，适用范围待证，不预设受击回蓝冷却。",
+          "effectKey": "mana_from_hero_damage",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "受击回蓝",
+          "results": [
+            {
+              "description": "恢复来自英雄的减免前伤害输入的10%法力。",
+              "detail": {
+                "attributeKey": "mana",
+                "operation": "RESTORE"
+              },
+              "lifecycleBehavior": null,
+              "name": "恢复法力",
+              "resultKey": "mana_restore",
+              "resultType": "RESOURCE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "mana_restore_from_damage",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "skillKey": "item_3803_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-08T02:16:38.269879Z"
+        }
+      },
+      "afterState": "target"
+    },
+    {
+      "order": 24,
+      "object": "item_8010_passive",
+      "action": "UPDATE",
+      "route": "/api/admin/games/lol/skills/item_8010_passive",
+      "beforeState": "old",
+      "applied": true,
+      "writeStatus": 200,
+      "writeResponse": {
+        "createdAt": "2026-09-07T18:49:05.299983Z",
+        "description": "保存技能或被动对英雄造成魔法伤害时的7.5%魔抗削减、6秒持续和最多4层；同一段技能施放对每个英雄至多增加一层，另有300毫秒限制。当前不挂宽泛触发规则，不把每次合法魔法伤害直接当作独立层。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "放血者的诅咒·恶劣衰朽",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "item_8010_passive",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-08T02:16:39.121924Z"
+      },
+      "readback": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:49:05.299983Z",
+          "description": "保存技能或被动对英雄造成魔法伤害时的7.5%魔抗削减、6秒持续和最多4层；同一段技能施放对每个英雄至多增加一层，另有300毫秒限制。当前不挂宽泛触发规则，不把每次合法魔法伤害直接当作独立层。",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "放血者的诅咒·恶劣衰朽",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "item_8010_passive",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-08T02:16:39.121924Z"
+        }
+      },
+      "afterState": "target"
+    },
+    {
+      "order": 25,
+      "object": "modifier-zone:item_8010_magic_resistance_reduction",
+      "action": "CREATE",
+      "route": "/api/admin/games/lol/modifier-zones/item_8010_magic_resistance_reduction",
+      "beforeState": "old",
+      "applied": true,
+      "writeStatus": 201,
+      "writeResponse": {
+        "applicationStage": "ATTRIBUTE_PERCENT",
+        "calculationMode": "RATIO_ADD",
+        "createdAt": "2026-09-08T02:16:39.681338Z",
+        "description": "放血者的诅咒目标魔法抗性百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+        "domain": "ATTRIBUTE",
+        "gameId": "lol",
+        "modifierZoneKey": "item_8010_magic_resistance_reduction",
+        "name": "放血者的诅咒魔抗削减乘区",
+        "sortOrder": 210,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-08T02:16:39.681338Z"
+      },
+      "readback": {
+        "status": 200,
+        "data": {
+          "applicationStage": "ATTRIBUTE_PERCENT",
+          "calculationMode": "RATIO_ADD",
+          "createdAt": "2026-09-08T02:16:39.681338Z",
+          "description": "放血者的诅咒目标魔法抗性百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+          "domain": "ATTRIBUTE",
+          "gameId": "lol",
+          "modifierZoneKey": "item_8010_magic_resistance_reduction",
+          "name": "放血者的诅咒魔抗削减乘区",
+          "sortOrder": 210,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-08T02:16:39.681338Z"
+        }
+      },
+      "afterState": "target"
+    },
+    {
+      "order": 26,
+      "object": "item_8010_passive",
+      "action": "UPDATE",
+      "route": "/api/admin/games/lol/skills/item_8010_passive/effects/magic_resistance_shred",
+      "beforeState": "old",
+      "applied": true,
+      "writeStatus": 200,
+      "writeResponse": {
+        "createdAt": "2026-09-07T18:49:07.915806Z",
+        "description": "技能或被动对英雄造成魔法伤害时应用7.5%魔抗削减，持续6秒，最多4层；同一段技能施放对每个英雄至多增加一层，另有300毫秒限制。当前未挂触发规则，避免宽泛复用。",
+        "effectKey": "magic_resistance_shred",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "mr_shred_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "TARGET",
+          "maxStacksValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "mr_shred_max_stacks"
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "INCREASE"
+        },
+        "name": "恶劣衰朽目标魔抗削减",
+        "results": [
+          {
+            "description": "每层降低目标7.5%魔法抗性；同一段技能施放对每个英雄至多一层，另有300毫秒限制；达到第四层后不再增加层数。",
+            "detail": {
+              "attributeKey": "magic_resistance",
+              "modifierZoneKey": "item_8010_magic_resistance_reduction",
+              "operation": "DECREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": null,
+              "stackValueMode": "PER_STACK",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "目标魔法抗性降低",
+            "resultKey": "magic_resistance_reduction",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mr_shred_ratio_per_stack"
+              }
+            }
+          }
+        ],
+        "skillKey": "item_8010_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T02:16:40.132953Z"
+      },
+      "readback": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:49:07.915806Z",
+          "description": "技能或被动对英雄造成魔法伤害时应用7.5%魔抗削减，持续6秒，最多4层；同一段技能施放对每个英雄至多增加一层，另有300毫秒限制。当前未挂触发规则，避免宽泛复用。",
+          "effectKey": "magic_resistance_shred",
+          "gameId": "lol",
+          "lifecycle": {
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "mr_shred_duration_ms"
+            },
+            "expiryMode": "ALL_AT_ONCE",
+            "firstPeriodicExecution": null,
+            "instanceScope": "TARGET",
+            "maxStacksValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "mr_shred_max_stacks"
+            },
+            "periodicIntervalValue": null,
+            "reapplicationDurationMode": "REFRESH_ALL",
+            "reapplicationStackMode": "INCREASE"
+          },
+          "name": "恶劣衰朽目标魔抗削减",
+          "results": [
+            {
+              "description": "每层降低目标7.5%魔法抗性；同一段技能施放对每个英雄至多一层，另有300毫秒限制；达到第四层后不再增加层数。",
+              "detail": {
+                "attributeKey": "magic_resistance",
+                "modifierZoneKey": "item_8010_magic_resistance_reduction",
+                "operation": "DECREASE"
+              },
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "periodicExecutionMode": null,
+                "reapplicationValueMode": null,
+                "stackValueMode": "PER_STACK",
+                "valueReadMode": "APPLICATION_SNAPSHOT"
+              },
+              "name": "目标魔法抗性降低",
+              "resultKey": "magic_resistance_reduction",
+              "resultType": "ATTRIBUTE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "mr_shred_ratio_per_stack"
+                }
+              }
+            }
+          ],
+          "skillKey": "item_8010_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-08T02:16:40.132953Z"
+        }
+      },
+      "afterState": "target"
+    }
+  ],
+  "finalOperationReadback": [
+    {
+      "order": 1,
+      "object": "item_3032_passive",
+      "action": "UPDATE",
+      "route": "/api/admin/games/lol/skills/item_3032_passive",
+      "state": "target",
+      "actual": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:47:06.094662Z",
+          "description": "保存16.17客户端与官方16.17.1共同确证的30%攻击速度、6秒持续、30秒冷却、普通攻击缩短1秒和暴击缩短2秒；常规模式熟能生巧每次近战攻击增加0.004、远程攻击增加0.002暴击几率，达到0.25上限封顶。普通攻击命中规则和持有者冷却接线仍待补齐，装备直接属性不在技能结果中重复施加。",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "育恩塔尔荒野箭·疾风骤雨",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "item_3032_passive",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-08T02:16:25.24993Z"
+        }
+      }
+    },
+    {
+      "order": 2,
+      "object": "item_3032_passive",
+      "action": "UPDATE",
+      "route": "/api/admin/games/lol/skills/item_3032_passive/parameters/crit_cap_ratio",
+      "state": "target",
+      "actual": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:47:06.644755Z",
+          "description": "永久获得暴击几率上限，小数0.25表示25%；常规模式近战每次攻击增加0.004、远程每次攻击增加0.002，达到该上限后不再增加。ARAM与SWIFTPLAY覆盖值不混入。",
+          "fixedValue": 0.25,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "熟能生巧暴击上限",
+          "parameterKey": "crit_cap_ratio",
+          "skillKey": "item_3032_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-08T02:16:25.833701Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      }
+    },
+    {
+      "order": 3,
+      "object": "item_3032_passive",
+      "action": "CREATE",
+      "route": "/api/admin/games/lol/skills/item_3032_passive/parameters/crit_bonus_per_attack_melee",
+      "state": "target",
+      "actual": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-08T02:16:26.414862Z",
+          "description": "常规模式每次近战攻击永久增加0.004暴击几率，小数0.004表示0.4个百分点；由熟能生巧0.25上限封顶。ARAM与SWIFTPLAY覆盖值不混入。",
+          "fixedValue": 0.004,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "熟能生巧近战每次攻击暴击增量",
+          "parameterKey": "crit_bonus_per_attack_melee",
+          "skillKey": "item_3032_passive",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-08T02:16:26.414862Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      }
+    },
+    {
+      "order": 4,
+      "object": "item_3032_passive",
+      "action": "CREATE",
+      "route": "/api/admin/games/lol/skills/item_3032_passive/parameters/crit_bonus_per_attack_ranged",
+      "state": "target",
+      "actual": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-08T02:16:26.95948Z",
+          "description": "常规模式每次远程攻击永久增加0.002暴击几率，小数0.002表示0.2个百分点；由熟能生巧0.25上限封顶。ARAM与SWIFTPLAY覆盖值不混入。",
+          "fixedValue": 0.002,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "熟能生巧远程每次攻击暴击增量",
+          "parameterKey": "crit_bonus_per_attack_ranged",
+          "skillKey": "item_3032_passive",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-08T02:16:26.95948Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      }
+    },
+    {
+      "order": 5,
+      "object": "item_3050_passive",
+      "action": "DELETE",
+      "route": "/api/admin/games/lol/skills/item_3050_passive/effects/storm_magic_damage",
+      "state": "target",
+      "actual": {
+        "status": 404,
+        "data": {
+          "error": {
+            "code": "404.SKILL_EFFECT_NOT_FOUND",
+            "details": {
+              "effectKey": "storm_magic_damage"
+            },
+            "message": "技能效果不存在"
+          }
+        }
+      }
+    },
+    {
+      "order": 6,
+      "object": "item_3050_passive",
+      "action": "DELETE",
+      "route": "/api/admin/games/lol/skills/item_3050_passive/parameters/storm_tick_interval_ms",
+      "state": "target",
+      "actual": {
+        "status": 404,
+        "data": {
+          "error": {
+            "code": "404.SKILL_PARAMETER_NOT_FOUND",
+            "details": {
+              "parameterKey": "storm_tick_interval_ms"
+            },
+            "message": "技能参数不存在"
+          }
+        }
+      }
+    },
+    {
+      "order": 7,
+      "object": "item_3050_passive",
+      "action": "CREATE",
+      "route": "/api/admin/games/lol/skills/item_3050_passive/parameters/ultimate_haste",
+      "state": "target",
+      "actual": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-08T02:16:28.676849Z",
+          "description": "冻结客户端UltimateHaste=15，终极技能急速单位为急速点；作用于已核对的终极技能集合。",
+          "fixedValue": 15,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "冰晶燃烧终极技能急速",
+          "parameterKey": "ultimate_haste",
+          "skillKey": "item_3050_passive",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-08T02:16:28.676849Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      }
+    },
+    {
+      "order": 8,
+      "object": "item_3050_passive",
+      "action": "CREATE",
+      "route": "/api/admin/games/lol/skills/item_3050_passive/parameters/ready_duration_ms",
+      "state": "target",
+      "actual": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-08T02:16:29.170735Z",
+          "description": "冻结客户端ReadyDuration=5秒，施放终极技能后风暴就绪窗口为5000毫秒。",
+          "fixedValue": 5000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "霜火风暴就绪窗口",
+          "parameterKey": "ready_duration_ms",
+          "skillKey": "item_3050_passive",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-08T02:16:29.170735Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      }
+    },
+    {
+      "order": 9,
+      "object": "item_3050_passive",
+      "action": "CREATE",
+      "route": "/api/admin/games/lol/skills/item_3050_passive/effects/ultimate_haste",
+      "state": "target",
+      "actual": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-08T02:16:29.716596Z",
+          "description": "装备持有者的170个已核对终极技能获得15点技能急速；技能键来自当前根R的Trait_Ultimate标记和唯一角色挂载回读。",
+          "effectKey": "ultimate_haste",
+          "gameId": "lol",
+          "lifecycle": {
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "durationValue": null,
+            "expiryMode": "EXPLICIT_ONLY",
+            "firstPeriodicExecution": null,
+            "instanceScope": "SOURCE",
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "periodicIntervalValue": null,
+            "reapplicationDurationMode": null,
+            "reapplicationStackMode": "KEEP"
+          },
+          "name": "冰晶燃烧终极技能急速",
+          "results": [
+            {
+              "description": "对核对的终极技能集合增加15点技能急速。",
+              "detail": {
+                "affectedSkillScope": {
+                  "mode": "SKILLS",
+                  "skillCategoryKeys": [],
+                  "skillKeys": [
+                    "aatrox_r",
+                    "ahri_r",
+                    "akali_r",
+                    "akshan_r",
+                    "alistar_r",
+                    "ambessa_r",
+                    "amumu_r",
+                    "anivia_r",
+                    "annie_r",
+                    "ashe_r",
+                    "aurelionsol_r",
+                    "aurora_r",
+                    "azir_r",
+                    "bard_r",
+                    "belveth_r",
+                    "blitzcrank_r",
+                    "brand_r",
+                    "braum_r",
+                    "briar_r",
+                    "caitlyn_r",
+                    "camille_r",
+                    "cassiopeia_r",
+                    "chogath_r",
+                    "corki_r",
+                    "darius_r",
+                    "diana_r",
+                    "draven_r",
+                    "drmundo_r",
+                    "ekko_r",
+                    "elise_r",
+                    "evelynn_r",
+                    "ez_r",
+                    "fiddlesticks_r",
+                    "fiora_r",
+                    "fizz_r",
+                    "galio_r",
+                    "gangplank_r",
+                    "garen_r",
+                    "gnar_r",
+                    "gragas_r",
+                    "graves_r",
+                    "gwen_r",
+                    "hecarim_r",
+                    "heimerdinger_r",
+                    "hwei_r",
+                    "illaoi_r",
+                    "irelia_r",
+                    "ivern_r",
+                    "janna_r",
+                    "jarvaniv_r",
+                    "jax_r",
+                    "jayce_r",
+                    "jhin_r",
+                    "jinx_r",
+                    "kaisa_r",
+                    "kalista_r",
+                    "karma_r",
+                    "karthus_r",
+                    "kassadin_r",
+                    "katarina_r",
+                    "kayle_r",
+                    "kayn_r",
+                    "kennen_r",
+                    "khazix_r",
+                    "kindred_r",
+                    "kled_r",
+                    "kogmaw_r",
+                    "ksante_r",
+                    "leblanc_r",
+                    "leesin_r",
+                    "leona_r",
+                    "lillia_r",
+                    "lissandra_r",
+                    "locke_r",
+                    "lucian_r",
+                    "lulu_r",
+                    "lux_r",
+                    "malphite_r",
+                    "malzahar_r",
+                    "maokai_r",
+                    "masteryi_r",
+                    "mel_r",
+                    "milio_r",
+                    "missfortune_r",
+                    "monkeyking_r",
+                    "mordekaiser_r",
+                    "morgana_r",
+                    "naafiri_r",
+                    "nami_r",
+                    "nasus_r",
+                    "nautilus_r",
+                    "neeko_r",
+                    "nidalee_r",
+                    "nilah_r",
+                    "nocturne_r",
+                    "nunu_r",
+                    "olaf_r",
+                    "orianna_r",
+                    "ornn_r",
+                    "pantheon_r",
+                    "poppy_r",
+                    "pyke_r",
+                    "qiyana_r",
+                    "quinn_r",
+                    "rakan_r",
+                    "rammus_r",
+                    "reksai_r",
+                    "rell_r",
+                    "renata_r",
+                    "renekton_r",
+                    "rengar_r",
+                    "riven_r",
+                    "rumble_r",
+                    "ryze_r",
+                    "samira_r",
+                    "sejuani_r",
+                    "senna_r",
+                    "seraphine_r",
+                    "sett_r",
+                    "shaco_r",
+                    "shen_r",
+                    "shyvana_r",
+                    "singed_r",
+                    "sion_r",
+                    "sivir_r",
+                    "skarner_r",
+                    "smolder_r",
+                    "sona_r",
+                    "soraka_r",
+                    "swain_r",
+                    "syndra_r",
+                    "tahmkench_r",
+                    "taliyah_r",
+                    "talon_r",
+                    "taric_r",
+                    "teemo_r",
+                    "thresh_r",
+                    "tristana_r",
+                    "trundle_r",
+                    "tryndamere_r",
+                    "twistedfate_r",
+                    "twitch_r",
+                    "urgot_r",
+                    "varus_r",
+                    "vayne_r",
+                    "veigar_r",
+                    "velkoz_r",
+                    "vex_r",
+                    "vi_r",
+                    "viego_r",
+                    "viktor_r",
+                    "vladimir_r",
+                    "volibear_r",
+                    "warwick_r",
+                    "xayah_r",
+                    "xerath_r",
+                    "xinzhao_r",
+                    "yasuo_r",
+                    "yone_r",
+                    "yorick_r",
+                    "yunara_r",
+                    "yuumi_r",
+                    "zaahen_r",
+                    "zac_r",
+                    "zed_r",
+                    "zeri_r",
+                    "ziggs_r",
+                    "zilean_r",
+                    "zoe_r",
+                    "zyra_r"
+                  ]
+                },
+                "operation": "INCREASE"
+              },
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "periodicExecutionMode": null,
+                "reapplicationValueMode": "KEEP",
+                "stackValueMode": "SHARED",
+                "valueReadMode": "APPLICATION_SNAPSHOT"
+              },
+              "name": "终极技能急速提升",
+              "resultKey": "ultimate_haste",
+              "resultType": "SKILL_HASTE_MODIFIER",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "ultimate_haste"
+                }
+              }
+            }
+          ],
+          "skillKey": "item_3050_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-08T02:16:29.716596Z"
+        }
+      }
+    },
+    {
+      "order": 10,
+      "object": "item_3050_passive",
+      "action": "CREATE",
+      "route": "/api/admin/games/lol/skills/item_3050_passive/trigger-rules/initialize_ultimate_haste",
+      "state": "target",
+      "actual": {
+        "status": 200,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_ultimate_haste",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "ultimate_haste"
+              },
+              "name": "执行终极技能急速",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "EVENT_SOURCE"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "装备持有者初始化时，对已核对的170个终极技能执行冰晶燃烧终极技能急速效果。",
+          "eventSource": {
+            "detail": {},
+            "eventType": "SOURCE_INITIALIZED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "初始化冰晶燃烧终极技能急速",
+          "perTargetCooldown": null,
+          "ruleKey": "initialize_ultimate_haste",
+          "sortOrder": 10
+        }
+      }
+    },
+    {
+      "order": 11,
+      "object": "item_3050_passive",
+      "action": "UPDATE",
+      "route": "/api/admin/games/lol/skills/item_3050_passive",
+      "state": "target",
+      "actual": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:47:11.620584Z",
+          "description": "保存终极技能急速15点、施放终极技能后5000毫秒就绪窗口，以及风暴持续5000毫秒、半径350、每秒30点魔法伤害、30%减速和45000毫秒冷却等冻结确证组成。终极技能急速使用当前根R带Trait_Ultimate且已有唯一角色挂载的170个技能键初始化；风暴就绪、接近英雄启动、跳频、减速状态和持有者冷却仍待准确接线，不用无条件规则冒充完整机制。",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "基克的聚合·霜火风暴",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "item_3050_passive",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-08T02:16:31.298702Z"
+        }
+      }
+    },
+    {
+      "order": 12,
+      "object": "item_3071_passive",
+      "action": "UPDATE",
+      "route": "/api/admin/games/lol/skills/item_3071_passive",
+      "state": "target",
+      "actual": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:47:40.127396Z",
+          "description": "保存对英雄造成物理伤害时的6%护甲削减、6秒持续和最多5层目标属性变化；同时保留冻结客户端MSBonusSplit确证的热烈移动速度参数：近战20、远程10、持续2秒。官方当前说明渲染为0的占位差异保留；数值已由当前绑定计算核定，移动速度效果与合法触发待配置。护甲削减使用独立目标属性百分比修改区。",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "黑色切割者·切割",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "item_3071_passive",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-08T02:16:31.821922Z"
+        }
+      }
+    },
+    {
+      "order": 13,
+      "object": "item_3071_passive",
+      "action": "UPDATE",
+      "route": "/api/admin/games/lol/skills/item_3071_passive/parameters/heated_move_speed_client_value",
+      "state": "target",
+      "actual": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:47:42.441103Z",
+          "description": "冻结客户端MSBonusSplit确证近战移动速度20；远程移动速度10另存参数；持续2秒。官方当前说明渲染为0的占位差异保留；数值已由当前绑定计算核定，移动速度效果与合法触发待配置。",
+          "fixedValue": 20,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "热烈客户端移动速度值",
+          "parameterKey": "heated_move_speed_client_value",
+          "skillKey": "item_3071_passive",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-08T02:16:32.458372Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      }
+    },
+    {
+      "order": 14,
+      "object": "item_3071_passive",
+      "action": "UPDATE",
+      "route": "/api/admin/games/lol/skills/item_3071_passive/parameters/heated_move_speed_duration_ms",
+      "state": "target",
+      "actual": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:47:42.947635Z",
+          "description": "冻结客户端MSBonusSplit确证热烈移动速度持续2秒；近战20、远程10已分别记录。官方当前说明渲染为0的占位差异保留；数值已由当前绑定计算核定，移动速度效果与合法触发待配置。",
+          "fixedValue": 2000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "热烈移动速度持续时间",
+          "parameterKey": "heated_move_speed_duration_ms",
+          "skillKey": "item_3071_passive",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-08T02:16:32.969816Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      }
+    },
+    {
+      "order": 15,
+      "object": "item_3071_passive",
+      "action": "CREATE",
+      "route": "/api/admin/games/lol/skills/item_3071_passive/parameters/heated_move_speed_ranged_value",
+      "state": "target",
+      "actual": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-08T02:16:33.530263Z",
+          "description": "冻结客户端MSBonusSplit确证远程移动速度10；近战20、持续2秒分别记录。官方当前说明渲染为0的占位差异保留；数值已由当前绑定计算核定，移动速度效果与合法触发待配置。",
+          "fixedValue": 10,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "热烈远程移动速度值",
+          "parameterKey": "heated_move_speed_ranged_value",
+          "skillKey": "item_3071_passive",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-08T02:16:33.530263Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      }
+    },
+    {
+      "order": 16,
+      "object": "modifier-zone:item_3071_armor_reduction",
+      "action": "CREATE",
+      "route": "/api/admin/games/lol/modifier-zones/item_3071_armor_reduction",
+      "state": "target",
+      "actual": {
+        "status": 200,
+        "data": {
+          "applicationStage": "ATTRIBUTE_PERCENT",
+          "calculationMode": "RATIO_ADD",
+          "createdAt": "2026-09-08T02:16:34.032171Z",
+          "description": "黑色切割者目标护甲百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+          "domain": "ATTRIBUTE",
+          "gameId": "lol",
+          "modifierZoneKey": "item_3071_armor_reduction",
+          "name": "黑色切割者护甲削减乘区",
+          "sortOrder": 200,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-08T02:16:34.032171Z"
+        }
+      }
+    },
+    {
+      "order": 17,
+      "object": "item_3071_passive",
+      "action": "UPDATE",
+      "route": "/api/admin/games/lol/skills/item_3071_passive/effects/armor_shred",
+      "state": "target",
+      "actual": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:47:43.436698Z",
+          "description": "对确证目标应用每层6%的护甲降低，持续6秒，最多5层；百分比减益使用目标属性百分比修改区。",
+          "effectKey": "armor_shred",
+          "gameId": "lol",
+          "lifecycle": {
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "armor_shred_duration_ms"
+            },
+            "expiryMode": "ALL_AT_ONCE",
+            "firstPeriodicExecution": null,
+            "instanceScope": "TARGET",
+            "maxStacksValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "armor_shred_max_stacks"
+            },
+            "periodicIntervalValue": null,
+            "reapplicationDurationMode": "REFRESH_ALL",
+            "reapplicationStackMode": "INCREASE"
+          },
+          "name": "切割目标护甲削减",
+          "results": [
+            {
+              "description": "每层降低目标护甲6个百分点；第五层后第六次触发保持30%总削减。",
+              "detail": {
+                "attributeKey": "armor",
+                "modifierZoneKey": "item_3071_armor_reduction",
+                "operation": "DECREASE"
+              },
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "periodicExecutionMode": null,
+                "reapplicationValueMode": null,
+                "stackValueMode": "PER_STACK",
+                "valueReadMode": "APPLICATION_SNAPSHOT"
+              },
+              "name": "目标护甲降低",
+              "resultKey": "armor_reduction",
+              "resultType": "ATTRIBUTE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "armor_shred_ratio_per_stack"
+                }
+              }
+            }
+          ],
+          "skillKey": "item_3071_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-08T02:16:34.584234Z"
+        }
+      }
+    },
+    {
+      "order": 18,
+      "object": "item_3803_passive",
+      "action": "UPDATE",
+      "route": "/api/admin/games/lol/skills/item_3803_passive",
+      "state": "target",
+      "actual": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:47:44.736393Z",
+          "description": "保存来自英雄的减免前伤害10%回蓝、技能法力消耗25%自疗、单次施放上限20和维持型技能每秒上限20参数。客户端EternityCDPerCast=1000毫秒作为原字段保留，适用事件范围待证；不把它扩展为普通施法全局冷却或受击回蓝冷却。damage_input明确接收减免前英雄伤害；技能消耗、英雄来源筛选和持续技能统计仍待接线。",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "万世催化石·永恒",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "item_3803_passive",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-08T02:16:35.474344Z"
+        }
+      }
+    },
+    {
+      "order": 19,
+      "object": "item_3803_passive",
+      "action": "UPDATE",
+      "route": "/api/admin/games/lol/skills/item_3803_passive/parameters/damage_input",
+      "state": "target",
+      "actual": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:47:47.185583Z",
+          "description": "来自英雄的减免前伤害运行时输入，单位：伤害点；不使用防御结算后的伤害值。英雄来源和事件绑定待配置。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "受击伤害运行时输入",
+          "parameterKey": "damage_input",
+          "skillKey": "item_3803_passive",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-08T02:16:36.189926Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        }
+      }
+    },
+    {
+      "order": 20,
+      "object": "item_3803_passive",
+      "action": "UPDATE",
+      "route": "/api/admin/games/lol/skills/item_3803_passive/parameters/eternity_internal_cooldown_ms",
+      "state": "target",
+      "actual": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:47:46.669696Z",
+          "description": "客户端EternityCDPerCast=1秒（1000毫秒）原字段；适用事件范围待证，不解释为普通施法全局冷却或受击回蓝冷却。",
+          "fixedValue": 1000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "永恒内部冷却",
+          "parameterKey": "eternity_internal_cooldown_ms",
+          "skillKey": "item_3803_passive",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-08T02:16:36.747585Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      }
+    },
+    {
+      "order": 21,
+      "object": "item_3803_passive",
+      "action": "CREATE",
+      "route": "/api/admin/games/lol/skills/item_3803_passive/parameters/health_restore_cap_per_second",
+      "state": "target",
+      "actual": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-08T02:16:37.24004Z",
+          "description": "当前绑定扩展说明只确证维持型技能每秒最多治疗20生命；本参数只记录上限，不构造逐秒治疗金额或流程。",
+          "fixedValue": 20,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "维持型技能每秒治疗上限",
+          "parameterKey": "health_restore_cap_per_second",
+          "skillKey": "item_3803_passive",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-08T02:16:37.24004Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      }
+    },
+    {
+      "order": 22,
+      "object": "item_3803_passive",
+      "action": "UPDATE",
+      "route": "/api/admin/games/lol/skills/item_3803_passive/formulas/mana_restore_from_damage",
+      "state": "target",
+      "actual": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:47:48.139728Z",
+          "description": "运行时输入是来自英雄的减免前伤害，乘10%回蓝比例；英雄来源和输入事件留待触发绑定。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "damage_input"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "mana_restore_ratio_from_damage"
+              }
+            ],
+            "operation": "MULTIPLY"
+          },
+          "formulaKey": "mana_restore_from_damage",
+          "gameId": "lol",
+          "name": "所受伤害转法力",
+          "skillKey": "item_3803_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-08T02:16:37.775088Z"
+        }
+      }
+    },
+    {
+      "order": 23,
+      "object": "item_3803_passive",
+      "action": "UPDATE",
+      "route": "/api/admin/games/lol/skills/item_3803_passive/effects/mana_from_hero_damage",
+      "state": "target",
+      "actual": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:48:56.29344Z",
+          "description": "以来自英雄的减免前伤害运行时输入的10%恢复持有者法力；英雄来源和伤害事件仍待触发绑定。客户端EternityCDPerCast=1000毫秒只作为原字段保留，适用范围待证，不预设受击回蓝冷却。",
+          "effectKey": "mana_from_hero_damage",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "受击回蓝",
+          "results": [
+            {
+              "description": "恢复来自英雄的减免前伤害输入的10%法力。",
+              "detail": {
+                "attributeKey": "mana",
+                "operation": "RESTORE"
+              },
+              "lifecycleBehavior": null,
+              "name": "恢复法力",
+              "resultKey": "mana_restore",
+              "resultType": "RESOURCE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "mana_restore_from_damage",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "skillKey": "item_3803_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-08T02:16:38.269879Z"
+        }
+      }
+    },
+    {
+      "order": 24,
+      "object": "item_8010_passive",
+      "action": "UPDATE",
+      "route": "/api/admin/games/lol/skills/item_8010_passive",
+      "state": "target",
+      "actual": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:49:05.299983Z",
+          "description": "保存技能或被动对英雄造成魔法伤害时的7.5%魔抗削减、6秒持续和最多4层；同一段技能施放对每个英雄至多增加一层，另有300毫秒限制。当前不挂宽泛触发规则，不把每次合法魔法伤害直接当作独立层。",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "放血者的诅咒·恶劣衰朽",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "item_8010_passive",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-08T02:16:39.121924Z"
+        }
+      }
+    },
+    {
+      "order": 25,
+      "object": "modifier-zone:item_8010_magic_resistance_reduction",
+      "action": "CREATE",
+      "route": "/api/admin/games/lol/modifier-zones/item_8010_magic_resistance_reduction",
+      "state": "target",
+      "actual": {
+        "status": 200,
+        "data": {
+          "applicationStage": "ATTRIBUTE_PERCENT",
+          "calculationMode": "RATIO_ADD",
+          "createdAt": "2026-09-08T02:16:39.681338Z",
+          "description": "放血者的诅咒目标魔法抗性百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+          "domain": "ATTRIBUTE",
+          "gameId": "lol",
+          "modifierZoneKey": "item_8010_magic_resistance_reduction",
+          "name": "放血者的诅咒魔抗削减乘区",
+          "sortOrder": 210,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-08T02:16:39.681338Z"
+        }
+      }
+    },
+    {
+      "order": 26,
+      "object": "item_8010_passive",
+      "action": "UPDATE",
+      "route": "/api/admin/games/lol/skills/item_8010_passive/effects/magic_resistance_shred",
+      "state": "target",
+      "actual": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:49:07.915806Z",
+          "description": "技能或被动对英雄造成魔法伤害时应用7.5%魔抗削减，持续6秒，最多4层；同一段技能施放对每个英雄至多增加一层，另有300毫秒限制。当前未挂触发规则，避免宽泛复用。",
+          "effectKey": "magic_resistance_shred",
+          "gameId": "lol",
+          "lifecycle": {
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "mr_shred_duration_ms"
+            },
+            "expiryMode": "ALL_AT_ONCE",
+            "firstPeriodicExecution": null,
+            "instanceScope": "TARGET",
+            "maxStacksValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "mr_shred_max_stacks"
+            },
+            "periodicIntervalValue": null,
+            "reapplicationDurationMode": "REFRESH_ALL",
+            "reapplicationStackMode": "INCREASE"
+          },
+          "name": "恶劣衰朽目标魔抗削减",
+          "results": [
+            {
+              "description": "每层降低目标7.5%魔法抗性；同一段技能施放对每个英雄至多一层，另有300毫秒限制；达到第四层后不再增加层数。",
+              "detail": {
+                "attributeKey": "magic_resistance",
+                "modifierZoneKey": "item_8010_magic_resistance_reduction",
+                "operation": "DECREASE"
+              },
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "periodicExecutionMode": null,
+                "reapplicationValueMode": null,
+                "stackValueMode": "PER_STACK",
+                "valueReadMode": "APPLICATION_SNAPSHOT"
+              },
+              "name": "目标魔法抗性降低",
+              "resultKey": "magic_resistance_reduction",
+              "resultType": "ATTRIBUTE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "mr_shred_ratio_per_stack"
+                }
+              }
+            }
+          ],
+          "skillKey": "item_8010_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-08T02:16:40.132953Z"
+        }
+      }
+    }
+  ],
+  "failures": [],
+  "passed": true,
+  "finishedAt": "2026-09-08T02:16:41.430Z",
+  "summary": {
+    "preflightCount": 26,
+    "preflightOldCount": 26,
+    "preflightTargetCount": 0,
+    "writeCount": 26,
+    "sameTargetSkipCount": 0,
+    "finalTargetCount": 26,
+    "failureCount": 0
+  }
+}

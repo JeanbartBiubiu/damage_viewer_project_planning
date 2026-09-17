@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Heimerdinger",
+  "sourceNumericId": "74",
+  "name": "黑默丁格",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 558,
+      "growth": 105,
+      "sources": [
+        "原始资料/zh_CN/champion/Heimerdinger.json:stats.hp/hpperlevel",
+        "角色根记录/Heimerdinger.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 558,
+        "2": 633.6,
+        "3": 712.875,
+        "4": 795.825,
+        "5": 882.45,
+        "6": 972.75,
+        "7": 1066.725,
+        "8": 1164.375,
+        "9": 1265.7,
+        "10": 1370.7,
+        "11": 1479.375,
+        "12": 1591.725,
+        "13": 1707.75,
+        "14": 1827.45,
+        "15": 1950.825,
+        "16": 2077.875,
+        "17": 2208.6,
+        "18": 2343
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 7,
+      "growth": 0.55,
+      "sources": [
+        "原始资料/zh_CN/champion/Heimerdinger.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Heimerdinger.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 7,
+        "2": 7.396,
+        "3": 7.81125,
+        "4": 8.24575,
+        "5": 8.6995,
+        "6": 9.1725,
+        "7": 9.66475,
+        "8": 10.17625,
+        "9": 10.707,
+        "10": 11.257,
+        "11": 11.82625,
+        "12": 12.41475,
+        "13": 13.0225,
+        "14": 13.6495,
+        "15": 14.29575,
+        "16": 14.96125,
+        "17": 15.646,
+        "18": 16.35
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 19,
+      "growth": 4.2,
+      "sources": [
+        "原始资料/zh_CN/champion/Heimerdinger.json:stats.armor/armorperlevel",
+        "角色根记录/Heimerdinger.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 19,
+        "2": 22.024,
+        "3": 25.195,
+        "4": 28.513,
+        "5": 31.978,
+        "6": 35.59,
+        "7": 39.349,
+        "8": 43.255,
+        "9": 47.308,
+        "10": 51.508,
+        "11": 55.855,
+        "12": 60.349,
+        "13": 64.99,
+        "14": 69.778,
+        "15": 74.713,
+        "16": 79.795,
+        "17": 85.024,
+        "18": 90.4
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 30,
+      "growth": 1.3,
+      "sources": [
+        "原始资料/zh_CN/champion/Heimerdinger.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Heimerdinger.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 30,
+        "2": 30.936,
+        "3": 31.9175,
+        "4": 32.9445,
+        "5": 34.017,
+        "6": 35.135,
+        "7": 36.2985,
+        "8": 37.5075,
+        "9": 38.762,
+        "10": 40.062,
+        "11": 41.4075,
+        "12": 42.7985,
+        "13": 44.235,
+        "14": 45.717,
+        "15": 47.2445,
+        "16": 48.8175,
+        "17": 50.436,
+        "18": 52.1
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 56,
+      "growth": 2.7,
+      "sources": [
+        "角色根记录/Heimerdinger.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 56,
+        "2": 57.944,
+        "3": 59.9825,
+        "4": 62.1155,
+        "5": 64.343,
+        "6": 66.665,
+        "7": 69.0815,
+        "8": 71.5925,
+        "9": 74.198,
+        "10": 76.898,
+        "11": 79.6925,
+        "12": 82.5815,
+        "13": 85.565,
+        "14": 88.643,
+        "15": 91.8155,
+        "16": 95.0825,
+        "17": 98.444,
+        "18": 101.9
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 340,
+      "growth": null,
+      "sources": [
+        "角色根记录/Heimerdinger.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 340,
+        "2": 340,
+        "3": 340,
+        "4": 340,
+        "5": 340,
+        "6": 340,
+        "7": 340,
+        "8": 340,
+        "9": 340,
+        "10": 340,
+        "11": 340,
+        "12": 340,
+        "13": 340,
+        "14": 340,
+        "15": 340,
+        "16": 340,
+        "17": 340,
+        "18": 340
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 550,
+      "growth": null,
+      "sources": [
+        "角色根记录/Heimerdinger.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 550,
+        "2": 550,
+        "3": 550,
+        "4": 550,
+        "5": 550,
+        "6": 550,
+        "7": 550,
+        "8": 550,
+        "9": 550,
+        "10": 550,
+        "11": 550,
+        "12": 550,
+        "13": 550,
+        "14": 550,
+        "15": 550,
+        "16": 550,
+        "17": 550,
+        "18": 550
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.658,
+      "attackSpeedRatio": 0.625,
+      "growthPercent": 1.36,
+      "sources": [
+        "角色根记录/Heimerdinger.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.658,
+        "2": 0.66412,
+        "3": 0.670538,
+        "4": 0.677253,
+        "5": 0.684265,
+        "6": 0.691575,
+        "7": 0.699183,
+        "8": 0.707088,
+        "9": 0.71529,
+        "10": 0.72379,
+        "11": 0.732588,
+        "12": 0.741683,
+        "13": 0.751075,
+        "14": 0.760765,
+        "15": 0.770753,
+        "16": 0.781038,
+        "17": 0.79162,
+        "18": 0.8025
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 385,
+      "growth": 20,
+      "sources": [
+        "原始资料/zh_CN/champion/Heimerdinger.json:stats.mp/mpperlevel",
+        "角色根记录/Heimerdinger.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 385,
+        "2": 399.4,
+        "3": 414.5,
+        "4": 430.3,
+        "5": 446.8,
+        "6": 464,
+        "7": 481.9,
+        "8": 500.5,
+        "9": 519.8,
+        "10": 539.8,
+        "11": 560.5,
+        "12": 581.9,
+        "13": 604,
+        "14": 626.8,
+        "15": 650.3,
+        "16": 674.5,
+        "17": 699.4,
+        "18": 725
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 8,
+      "growth": 0.8,
+      "sources": [
+        "原始资料/zh_CN/champion/Heimerdinger.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Heimerdinger.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 8,
+        "2": 8.576,
+        "3": 9.18,
+        "4": 9.812,
+        "5": 10.472,
+        "6": 11.16,
+        "7": 11.876,
+        "8": 12.62,
+        "9": 13.392,
+        "10": 14.192,
+        "11": 15.02,
+        "12": 15.876,
+        "13": 16.76,
+        "14": 17.672,
+        "15": 18.612,
+        "16": 19.58,
+        "17": 20.576,
+        "18": 21.6
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.658,
+    "ratio": 0.625,
+    "growthPercent": 1.36,
+    "ratioDiffersFromBase": true
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

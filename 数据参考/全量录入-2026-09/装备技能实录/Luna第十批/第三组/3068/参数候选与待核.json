@@ -1,0 +1,253 @@
+{
+  "batch": "Luna第十批/第三组/3068",
+  "generatedAt": "2026-09-08T17:49:36.767Z",
+  "status": "仅确定参数候选与待核；不生成周期伤害效果、触发规则或业务API写入。",
+  "writeBoundary": {
+    "apiWrite": false,
+    "directAttributes": "只保护现有GET值，不提交属性写入。",
+    "sourceExcerpt": "来源摘录.json保留完整Items/3068根、当前绑定说明、绑定粒子对象和冻结来源SHA。"
+  },
+  "versionBoundary": {
+    "client": "16.17",
+    "official": "16.17.1",
+    "locale": "zh_CN",
+    "map": "普通地图候选；不采用模式覆盖值"
+  },
+  "sourceExcerpt": {
+    "file": "第三组/3068/来源摘录.json",
+    "sha256": "5c72ff3b737572cccb96c07de16fefcb4edefff2cccd23c8148cd1e6c28ae60f",
+    "sourceFileHashes": {
+      "数据参考\\全量录入-2026-09\\装备效果补证\\客户端原始资料\\items-16.17.cdtb.bin.json.gz": {
+        "sha256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7",
+        "bytes": 1577238,
+        "decompressedSha256": "b59ec9320d05acefa344ea8a5ef615cf7f32959078475cafff63833462dc358f"
+      },
+      "数据参考\\全量录入-2026-09\\装备效果补证\\客户端原始资料\\lol-16.17-zh_CN.stringtable.json.gz": {
+        "sha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+        "bytes": 8350124,
+        "decompressedSha256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031"
+      },
+      "数据参考\\全量录入-2026-09\\装备符文\\官方原始资料\\item-16.17.1-zh_CN.json": {
+        "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973",
+        "bytes": 691131
+      },
+      "数据参考\\全量录入-2026-09\\装备符文\\装备全量处置清单.json": {
+        "sha256": "7b1df1fe63d3ce00d466be458e5c07a1b8b6b6220ba1c728c4cc8324b72e64c6",
+        "bytes": 1878434
+      },
+      "数据参考\\全量录入-2026-09\\装备效果补证\\来源与覆盖.json": {
+        "sha256": "97f70eaa0ec570668400d8c8e4654a5657e2ceb39872a1aad7acf4cc53b8c19c",
+        "bytes": 9380
+      },
+      "数据参考\\全量录入-2026-09\\API实录\\装备\\summary.json": {
+        "sha256": "e653d0ca5a97d12449ff5034937a8eca2e004e1e4fd0b11ab80cec09a718c0b9",
+        "bytes": 228004
+      },
+      "数据参考\\全量录入-2026-09\\装备技能实录\\Luna第九批\\属性映射补证.json": {
+        "sha256": "65862cd426d071a061ca977aea288c59a3536f7819e33e9f1da1022c4857b610",
+        "bytes": 6140
+      },
+      "数据参考\\全量录入-2026-09\\装备技能实录\\Luna第十批\\关系识别-2026-09-08T02-52-11.404Z.json": {
+        "sha256": "08ecc61fb52ec7ef6643d92067122b67f119f04ae9a04f4fb0d4946e51362f4e",
+        "bytes": 11829
+      },
+      "数据参考\\全量录入-2026-09\\装备技能实录\\Luna第十批\\关系识别-2026-09-08T02-53-49.953Z.json": {
+        "sha256": "408c575ba4547a3ea34186253b8c819b9b5885597374158804cf4f376f3129d8",
+        "bytes": 19660
+      }
+    }
+  },
+  "equipment": {
+    "itemId": "3068",
+    "equipmentKey": "item_3068",
+    "skillKey": "item_3068_passive",
+    "equipmentName": "日炎圣盾",
+    "skillName": "日炎圣盾·献祭"
+  },
+  "historicalExistingAttributes": {
+    "hp": 350,
+    "armor": 50,
+    "ability_haste": 10
+  },
+  "determinedParameters": [
+    {
+      "parameterKey": "immolate_range",
+      "name": "献祭附近范围",
+      "valueType": "INTEGER",
+      "fixedValue": 325,
+      "unit": "距离单位",
+      "status": "数值候选已确认；附近目标筛选和边界包含关系待核。",
+      "sourcePointers": [
+        "Items/3068/mDataValues[Range]",
+        "Items/3068/mItemDataClient/effectRadius"
+      ],
+      "rawBinding": {
+        "dataValue": "Range",
+        "mValue": 325,
+        "effectRadius": 325
+      }
+    },
+    {
+      "parameterKey": "immolate_duration_ms",
+      "name": "献祭持续时间",
+      "valueType": "INTEGER",
+      "fixedValue": 3000,
+      "unit": "毫秒",
+      "status": "数值候选已确认；承受或造成伤害后的刷新/重叠行为待核。",
+      "sourcePointers": [
+        "Items/3068/mDataValues[AuraDuration]",
+        "entries/item_3068_tooltip:@AuraDuration@秒"
+      ],
+      "rawBinding": {
+        "dataValue": "AuraDuration",
+        "mValue": 3,
+        "normalizedMs": 3000
+      }
+    },
+    {
+      "parameterKey": "immolate_ticks_per_second",
+      "name": "献祭每秒伤害次数速率",
+      "valueType": "INTEGER",
+      "fixedValue": 1,
+      "unit": "次/秒速率",
+      "status": "根DPS乘数确认每秒1次速率；不转换成1000毫秒间隔，不代表首跳时点。",
+      "sourcePointers": [
+        "Items/3068/mDataValues[TicksPerSecond]",
+        "Items/3068/mItemCalculations/DPS/mMultiplier"
+      ],
+      "rawBinding": {
+        "dataValue": "TicksPerSecond",
+        "mValue": 1,
+        "role": "DPS乘数/速率"
+      }
+    },
+    {
+      "parameterKey": "immolate_base_damage_per_tick",
+      "name": "献祭每次基础魔法伤害",
+      "valueType": "INTEGER",
+      "fixedValue": 20,
+      "unit": "伤害/次",
+      "status": "DamagePerTick根节点固定数值确认；未配周期生命周期。",
+      "sourcePointers": [
+        "Items/3068/mDataValues[BaseDamagePerTickTOOLTIPONLY]",
+        "Items/3068/mItemCalculations/DamagePerTick/mFormulaParts[0]"
+      ],
+      "rawBinding": {
+        "dataValue": "BaseDamagePerTickTOOLTIPONLY",
+        "mValue": 20,
+        "calculationPart": {
+          "mNumber": 20
+        }
+      }
+    },
+    {
+      "parameterKey": "immolate_bonus_health_ratio_per_tick",
+      "name": "献祭额外生命值每次伤害比例",
+      "valueType": "DECIMAL",
+      "fixedValue": 0.015,
+      "unit": "小数比例/次",
+      "status": "根系数0.014999999664723873与说明1.5%一致，归一化为0.015；基数候选为SOURCE hp BONUS，取值时点待核。",
+      "sourcePointers": [
+        "Items/3068/mDataValues[HPRatioPerTickTOOLTIPONLY]",
+        "Items/3068/mItemCalculations/DamagePerTick/mFormulaParts[1]",
+        "属性映射补证.json:/evidence[mStat=12,mStatFormula=2]"
+      ],
+      "rawBinding": {
+        "mStat": 12,
+        "mStatFormula": 2,
+        "mCoefficient": 0.014999999664723873,
+        "tooltipPercent": 1.5,
+        "normalizedRatio": 0.015
+      },
+      "baseKindCandidate": "hp BONUS",
+      "percentBoundary": "1.5% = 0.015小数比例，不是1.5个百分点。"
+    }
+  ],
+  "counts": {
+    "determinedParameters": 5,
+    "formulas": 0,
+    "effects": 0,
+    "triggerRules": 0,
+    "relations": 0,
+    "representativeImages": 0
+  },
+  "arithmeticChecks": [
+    {
+      "sample": "额外生命值1000时每次献祭魔法伤害",
+      "calculation": "20 + 1000 × 0.015",
+      "expected": 35,
+      "unit": "魔法伤害/次；基数按hp BONUS候选，未配生命周期"
+    },
+    {
+      "sample": "同一输入下DPS速率",
+      "calculation": "35 × 1",
+      "expected": 35,
+      "unit": "魔法伤害/秒速率；1次/秒不是已确认的1000毫秒首跳安排"
+    },
+    {
+      "sample": "献祭持续时间换算",
+      "calculation": "3 × 1000",
+      "expected": 3000,
+      "unit": "毫秒；刷新和结束时点待核"
+    },
+    {
+      "sample": "附近范围参数",
+      "calculation": "Range = effectRadius = 325",
+      "expected": 325,
+      "unit": "距离单位；目标边界包含关系待核"
+    }
+  ],
+  "pendingVerification": [
+    "承受或造成伤害后的准确触发事件、来源与目标语义未核；不能用通用DAMAGE_TAKEN或DAMAGE_DEALT冒充完整接线。",
+    "献祭每秒1次只是DPS速率输入；真实周期间隔、首次跳伤时点、持续3秒内次数和结束边界未由冻结根确认，不生成周期生命周期。",
+    "附近敌人的范围目标筛选、325边界和同一目标重复命中规则待核；Range数值本身不等于目标事件已接通。",
+    "承受或造成伤害后的3秒持续时间刷新、重叠和唯一献祭状态行为待核。",
+    "DamageAmpPerStack和StackDuration在根中没有mValue；英雄/史诗野怪命中后叠层和后续伤害提升不生成数值或效果候选。",
+    "DamagePerTick的mStat=12、mStatFormula=2基数候选为SOURCE hp BONUS；伤害取值时点和动态生命值读取仍待独立复核。"
+  ],
+  "sourceOnlyOrExcluded": [
+    {
+      "key": "MinionMod",
+      "value": 0.5,
+      "unit": "小数比例",
+      "reason": "小兵分支当前只作来源保留，不展开目标修正。"
+    },
+    {
+      "key": "MonsterMod",
+      "value": 0.800000011920929,
+      "unit": "小数比例",
+      "reason": "野怪分支当前只作来源保留，不展开目标修正。"
+    },
+    {
+      "key": "MaxStacks",
+      "value": 1,
+      "unit": "层数",
+      "reason": "上限有1但叠层增幅和持续时间缺数，不单独生成状态效果。"
+    },
+    {
+      "key": "DamageAmpPerStack",
+      "value": null,
+      "unit": null,
+      "reason": "当前根没有mValue，不补数值。"
+    },
+    {
+      "key": "StackDuration",
+      "value": null,
+      "unit": null,
+      "reason": "当前根没有mValue，不补持续时间。"
+    },
+    {
+      "key": "HPRatioPerTickTOOLTIPONLY",
+      "value": 1.5,
+      "unit": "百分比显示",
+      "reason": "仅与根系数交叉核对；正式候选使用0.015小数比例，避免百分比/百分点混淆。"
+    },
+    {
+      "key": "mItemDataClient.effectRadius",
+      "value": 325,
+      "unit": "距离单位",
+      "reason": "与Range同值复用作绑定核对，不创建第二个范围参数。"
+    }
+  ],
+  "relationBoundary": "关系快照确认真实装备键item_3068、装备/属性/关系GET为200且当前关联为空；预期item_3068_passive探针404只作探针，不判定系统不能表达。"
+}

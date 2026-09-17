@@ -1,0 +1,5510 @@
+{
+  "generatedAt": "2026-09-09T04:02:51.605Z",
+  "stage": "实际录入后公式、必要参数和固定河道移速效果独立GET核算；本脚本只使用GET",
+  "apiBaseUrl": "http://127.0.0.1:8080/api/admin/games/lol",
+  "noWrite": true,
+  "businessWritesByThisScript": 0,
+  "inputSha256": {
+    "candidate": "78f899001fd93c3b208bfbbb22d9408919c3ba8b6c17f53a1e5684924fddab73",
+    "finalRequest": "babcff78cd3b9bbc8dfe4b775b48358a6a548ce6a494f66f01f8ede80ec9e83c",
+    "finalVersion": "ae77b537984f5056783a9500414beb1c5de1542ac4dd1cb791dfab08e6088b9c",
+    "frozen": "91f4d81e86bc07e1c294afc0ad5e300db4b476b2f3fd7728fa6eb1e7cfc5fb5b",
+    "baseline": "49fbde0c1fcad6ba176aead656718a1be4337fdc307758528ba1393111d95985",
+    "apply": "352cc082b0cbcca617036799b7875b416b6cc74162ac512409db3efad780ed24"
+  },
+  "finalRequest": {
+    "sha256": "babcff78cd3b9bbc8dfe4b775b48358a6a548ce6a494f66f01f8ede80ec9e83c",
+    "contentCount": 120,
+    "formulaCount": 17,
+    "effectCount": 1,
+    "dependencyParameterCount": 39
+  },
+  "protection": {
+    "baselineSha256": "49fbde0c1fcad6ba176aead656718a1be4337fdc307758528ba1393111d95985",
+    "identityCount": 69,
+    "layoutCount": 6,
+    "readsBefore": 12,
+    "note": "身份、布局和图片关系沿根verify保护证据，不在本脚本重复读取"
+  },
+  "reads": {
+    "count": 57,
+    "formulas": 17,
+    "parameters": 39,
+    "effects": 1,
+    "reusedCachedSnapshot": true,
+    "entries": [
+      {
+        "kind": "formula",
+        "id": 8112,
+        "skillKey": "rune_8112_passive",
+        "key": "damage_amount",
+        "label": "rune_8112_passive/damage_amount",
+        "route": "/skills/rune_8112_passive/formulas/damage_amount",
+        "status": 200,
+        "ok": true,
+        "body": {
+          "createdAt": "2026-09-09T03:43:22.439226Z",
+          "description": "对应当前绑定计算树；等级基础值须明确外供。法强与额外攻击力直接读取来源属性，不填虚构值。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "confirmed_level_base"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "attributeKey": "ability_power",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "TOTAL",
+                        "nodeType": "ATTRIBUTE"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "ability_power_ratio"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "attributeKey": "attack_damage",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "BONUS",
+                    "nodeType": "ATTRIBUTE"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_attack_damage_ratio"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          "formulaKey": "damage_amount",
+          "gameId": "lol",
+          "name": "伤害数值",
+          "skillKey": "rune_8112_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T03:43:22.439226Z"
+        },
+        "data": {
+          "createdAt": "2026-09-09T03:43:22.439226Z",
+          "description": "对应当前绑定计算树；等级基础值须明确外供。法强与额外攻击力直接读取来源属性，不填虚构值。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "confirmed_level_base"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "attributeKey": "ability_power",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "TOTAL",
+                        "nodeType": "ATTRIBUTE"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "ability_power_ratio"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "attributeKey": "attack_damage",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "BONUS",
+                    "nodeType": "ATTRIBUTE"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_attack_damage_ratio"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          "formulaKey": "damage_amount",
+          "gameId": "lol",
+          "name": "伤害数值",
+          "skillKey": "rune_8112_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T03:43:22.439226Z"
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "ok": true,
+            "body": {
+              "createdAt": "2026-09-09T03:43:22.439226Z",
+              "description": "对应当前绑定计算树；等级基础值须明确外供。法强与额外攻击力直接读取来源属性，不填虚构值。",
+              "expression": {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "confirmed_level_base"
+                      },
+                      {
+                        "nodeType": "OPERATION",
+                        "operands": [
+                          {
+                            "attributeKey": "ability_power",
+                            "attributeOwner": "SOURCE",
+                            "attributeValueKind": "TOTAL",
+                            "nodeType": "ATTRIBUTE"
+                          },
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "ability_power_ratio"
+                          }
+                        ],
+                        "operation": "MULTIPLY"
+                      }
+                    ],
+                    "operation": "ADD"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "attributeKey": "attack_damage",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "BONUS",
+                        "nodeType": "ATTRIBUTE"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "bonus_attack_damage_ratio"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              },
+              "formulaKey": "damage_amount",
+              "gameId": "lol",
+              "name": "伤害数值",
+              "skillKey": "rune_8112_passive",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T03:43:22.439226Z"
+            }
+          }
+        ],
+        "reusedCachedSnapshot": true
+      },
+      {
+        "kind": "formula",
+        "id": 8126,
+        "skillKey": "rune_8126_passive",
+        "key": "damage_amount",
+        "label": "rune_8126_passive/damage_amount",
+        "route": "/skills/rune_8126_passive/formulas/damage_amount",
+        "status": 200,
+        "ok": true,
+        "body": {
+          "createdAt": "2026-09-09T03:43:30.670591Z",
+          "description": "对应当前绑定计算树；等级基础值须明确外供。法强与额外攻击力直接读取来源属性，不填虚构值。",
+          "expression": {
+            "nodeType": "PARAMETER",
+            "parameterKey": "confirmed_level_base"
+          },
+          "formulaKey": "damage_amount",
+          "gameId": "lol",
+          "name": "伤害数值",
+          "skillKey": "rune_8126_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T03:43:30.670591Z"
+        },
+        "data": {
+          "createdAt": "2026-09-09T03:43:30.670591Z",
+          "description": "对应当前绑定计算树；等级基础值须明确外供。法强与额外攻击力直接读取来源属性，不填虚构值。",
+          "expression": {
+            "nodeType": "PARAMETER",
+            "parameterKey": "confirmed_level_base"
+          },
+          "formulaKey": "damage_amount",
+          "gameId": "lol",
+          "name": "伤害数值",
+          "skillKey": "rune_8126_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T03:43:30.670591Z"
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "ok": true,
+            "body": {
+              "createdAt": "2026-09-09T03:43:30.670591Z",
+              "description": "对应当前绑定计算树；等级基础值须明确外供。法强与额外攻击力直接读取来源属性，不填虚构值。",
+              "expression": {
+                "nodeType": "PARAMETER",
+                "parameterKey": "confirmed_level_base"
+              },
+              "formulaKey": "damage_amount",
+              "gameId": "lol",
+              "name": "伤害数值",
+              "skillKey": "rune_8126_passive",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T03:43:30.670591Z"
+            }
+          }
+        ],
+        "reusedCachedSnapshot": true
+      },
+      {
+        "kind": "formula",
+        "id": 8139,
+        "skillKey": "rune_8139_passive",
+        "key": "heal_amount",
+        "label": "rune_8139_passive/heal_amount",
+        "route": "/skills/rune_8139_passive/formulas/heal_amount",
+        "status": 200,
+        "ok": true,
+        "body": {
+          "createdAt": "2026-09-09T03:43:41.498235Z",
+          "description": "对应当前绑定计算树；等级基础值须明确外供。法强与额外攻击力直接读取来源属性，不填虚构值。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "confirmed_level_base"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "attributeKey": "ability_power",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "TOTAL",
+                        "nodeType": "ATTRIBUTE"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "ability_power_ratio"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "attributeKey": "attack_damage",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "BONUS",
+                    "nodeType": "ATTRIBUTE"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_attack_damage_ratio"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          "formulaKey": "heal_amount",
+          "gameId": "lol",
+          "name": "自身恢复数值",
+          "skillKey": "rune_8139_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T03:43:41.498235Z"
+        },
+        "data": {
+          "createdAt": "2026-09-09T03:43:41.498235Z",
+          "description": "对应当前绑定计算树；等级基础值须明确外供。法强与额外攻击力直接读取来源属性，不填虚构值。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "confirmed_level_base"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "attributeKey": "ability_power",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "TOTAL",
+                        "nodeType": "ATTRIBUTE"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "ability_power_ratio"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "attributeKey": "attack_damage",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "BONUS",
+                    "nodeType": "ATTRIBUTE"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_attack_damage_ratio"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          "formulaKey": "heal_amount",
+          "gameId": "lol",
+          "name": "自身恢复数值",
+          "skillKey": "rune_8139_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T03:43:41.498235Z"
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "ok": true,
+            "body": {
+              "createdAt": "2026-09-09T03:43:41.498235Z",
+              "description": "对应当前绑定计算树；等级基础值须明确外供。法强与额外攻击力直接读取来源属性，不填虚构值。",
+              "expression": {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "confirmed_level_base"
+                      },
+                      {
+                        "nodeType": "OPERATION",
+                        "operands": [
+                          {
+                            "attributeKey": "ability_power",
+                            "attributeOwner": "SOURCE",
+                            "attributeValueKind": "TOTAL",
+                            "nodeType": "ATTRIBUTE"
+                          },
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "ability_power_ratio"
+                          }
+                        ],
+                        "operation": "MULTIPLY"
+                      }
+                    ],
+                    "operation": "ADD"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "attributeKey": "attack_damage",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "BONUS",
+                        "nodeType": "ATTRIBUTE"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "bonus_attack_damage_ratio"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              },
+              "formulaKey": "heal_amount",
+              "gameId": "lol",
+              "name": "自身恢复数值",
+              "skillKey": "rune_8139_passive",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T03:43:41.498235Z"
+            }
+          }
+        ],
+        "reusedCachedSnapshot": true
+      },
+      {
+        "kind": "formula",
+        "id": 8143,
+        "skillKey": "rune_8143_passive",
+        "key": "damage_amount",
+        "label": "rune_8143_passive/damage_amount",
+        "route": "/skills/rune_8143_passive/formulas/damage_amount",
+        "status": 200,
+        "ok": true,
+        "body": {
+          "createdAt": "2026-09-09T03:43:51.327094Z",
+          "description": "对应当前绑定计算树；等级基础值须明确外供。法强与额外攻击力直接读取来源属性，不填虚构值。",
+          "expression": {
+            "nodeType": "PARAMETER",
+            "parameterKey": "confirmed_level_base"
+          },
+          "formulaKey": "damage_amount",
+          "gameId": "lol",
+          "name": "伤害数值",
+          "skillKey": "rune_8143_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T03:43:51.327094Z"
+        },
+        "data": {
+          "createdAt": "2026-09-09T03:43:51.327094Z",
+          "description": "对应当前绑定计算树；等级基础值须明确外供。法强与额外攻击力直接读取来源属性，不填虚构值。",
+          "expression": {
+            "nodeType": "PARAMETER",
+            "parameterKey": "confirmed_level_base"
+          },
+          "formulaKey": "damage_amount",
+          "gameId": "lol",
+          "name": "伤害数值",
+          "skillKey": "rune_8143_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T03:43:51.327094Z"
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "ok": true,
+            "body": {
+              "createdAt": "2026-09-09T03:43:51.327094Z",
+              "description": "对应当前绑定计算树；等级基础值须明确外供。法强与额外攻击力直接读取来源属性，不填虚构值。",
+              "expression": {
+                "nodeType": "PARAMETER",
+                "parameterKey": "confirmed_level_base"
+              },
+              "formulaKey": "damage_amount",
+              "gameId": "lol",
+              "name": "伤害数值",
+              "skillKey": "rune_8143_passive",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T03:43:51.327094Z"
+            }
+          }
+        ],
+        "reusedCachedSnapshot": true
+      },
+      {
+        "kind": "formula",
+        "id": 9923,
+        "skillKey": "rune_9923_passive",
+        "key": "damage_amount",
+        "label": "rune_9923_passive/damage_amount",
+        "route": "/skills/rune_9923_passive/formulas/damage_amount",
+        "status": 200,
+        "ok": true,
+        "body": {
+          "createdAt": "2026-09-09T03:44:09.933006Z",
+          "description": "对应当前绑定计算树；等级基础值须明确外供。法强与额外攻击力直接读取来源属性，不填虚构值。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "confirmed_level_base"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "attributeKey": "ability_power",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "TOTAL",
+                        "nodeType": "ATTRIBUTE"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "ability_power_ratio"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "attributeKey": "attack_damage",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "BONUS",
+                    "nodeType": "ATTRIBUTE"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_attack_damage_ratio"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          "formulaKey": "damage_amount",
+          "gameId": "lol",
+          "name": "伤害数值",
+          "skillKey": "rune_9923_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T03:44:09.933006Z"
+        },
+        "data": {
+          "createdAt": "2026-09-09T03:44:09.933006Z",
+          "description": "对应当前绑定计算树；等级基础值须明确外供。法强与额外攻击力直接读取来源属性，不填虚构值。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "confirmed_level_base"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "attributeKey": "ability_power",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "TOTAL",
+                        "nodeType": "ATTRIBUTE"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "ability_power_ratio"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "attributeKey": "attack_damage",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "BONUS",
+                    "nodeType": "ATTRIBUTE"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_attack_damage_ratio"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          "formulaKey": "damage_amount",
+          "gameId": "lol",
+          "name": "伤害数值",
+          "skillKey": "rune_9923_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T03:44:09.933006Z"
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "ok": true,
+            "body": {
+              "createdAt": "2026-09-09T03:44:09.933006Z",
+              "description": "对应当前绑定计算树；等级基础值须明确外供。法强与额外攻击力直接读取来源属性，不填虚构值。",
+              "expression": {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "confirmed_level_base"
+                      },
+                      {
+                        "nodeType": "OPERATION",
+                        "operands": [
+                          {
+                            "attributeKey": "ability_power",
+                            "attributeOwner": "SOURCE",
+                            "attributeValueKind": "TOTAL",
+                            "nodeType": "ATTRIBUTE"
+                          },
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "ability_power_ratio"
+                          }
+                        ],
+                        "operation": "MULTIPLY"
+                      }
+                    ],
+                    "operation": "ADD"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "attributeKey": "attack_damage",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "BONUS",
+                        "nodeType": "ATTRIBUTE"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "bonus_attack_damage_ratio"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              },
+              "formulaKey": "damage_amount",
+              "gameId": "lol",
+              "name": "伤害数值",
+              "skillKey": "rune_9923_passive",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T03:44:09.933006Z"
+            }
+          }
+        ],
+        "reusedCachedSnapshot": true
+      },
+      {
+        "kind": "formula",
+        "id": 8439,
+        "skillKey": "rune_8439_passive",
+        "key": "armor_bonus_amount",
+        "label": "rune_8439_passive/armor_bonus_amount",
+        "route": "/skills/rune_8439_passive/formulas/armor_bonus_amount",
+        "status": 200,
+        "ok": true,
+        "body": {
+          "createdAt": "2026-09-09T03:44:30.705836Z",
+          "description": "当前绑定45+75%额外属性并受等级上限约束；仅在已核实的取样时点调用，不能反复读取自身已增加值形成自我叠加。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "flat_resistance"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "attributeKey": "armor",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "BONUS",
+                        "nodeType": "ATTRIBUTE"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "bonus_resistance_ratio"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "confirmed_level_resist_cap"
+              }
+            ],
+            "operation": "MIN"
+          },
+          "formulaKey": "armor_bonus_amount",
+          "gameId": "lol",
+          "name": "护甲封顶后增加数值",
+          "skillKey": "rune_8439_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T03:44:30.705836Z"
+        },
+        "data": {
+          "createdAt": "2026-09-09T03:44:30.705836Z",
+          "description": "当前绑定45+75%额外属性并受等级上限约束；仅在已核实的取样时点调用，不能反复读取自身已增加值形成自我叠加。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "flat_resistance"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "attributeKey": "armor",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "BONUS",
+                        "nodeType": "ATTRIBUTE"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "bonus_resistance_ratio"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "confirmed_level_resist_cap"
+              }
+            ],
+            "operation": "MIN"
+          },
+          "formulaKey": "armor_bonus_amount",
+          "gameId": "lol",
+          "name": "护甲封顶后增加数值",
+          "skillKey": "rune_8439_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T03:44:30.705836Z"
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "ok": true,
+            "body": {
+              "createdAt": "2026-09-09T03:44:30.705836Z",
+              "description": "当前绑定45+75%额外属性并受等级上限约束；仅在已核实的取样时点调用，不能反复读取自身已增加值形成自我叠加。",
+              "expression": {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "flat_resistance"
+                      },
+                      {
+                        "nodeType": "OPERATION",
+                        "operands": [
+                          {
+                            "attributeKey": "armor",
+                            "attributeOwner": "SOURCE",
+                            "attributeValueKind": "BONUS",
+                            "nodeType": "ATTRIBUTE"
+                          },
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "bonus_resistance_ratio"
+                          }
+                        ],
+                        "operation": "MULTIPLY"
+                      }
+                    ],
+                    "operation": "ADD"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "confirmed_level_resist_cap"
+                  }
+                ],
+                "operation": "MIN"
+              },
+              "formulaKey": "armor_bonus_amount",
+              "gameId": "lol",
+              "name": "护甲封顶后增加数值",
+              "skillKey": "rune_8439_passive",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T03:44:30.705836Z"
+            }
+          }
+        ],
+        "reusedCachedSnapshot": true
+      },
+      {
+        "kind": "formula",
+        "id": 8439,
+        "skillKey": "rune_8439_passive",
+        "key": "magic_resistance_bonus_amount",
+        "label": "rune_8439_passive/magic_resistance_bonus_amount",
+        "route": "/skills/rune_8439_passive/formulas/magic_resistance_bonus_amount",
+        "status": 200,
+        "ok": true,
+        "body": {
+          "createdAt": "2026-09-09T03:44:31.948768Z",
+          "description": "当前绑定45+75%额外属性并受等级上限约束；仅在已核实的取样时点调用，不能反复读取自身已增加值形成自我叠加。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "flat_resistance"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "attributeKey": "magic_resistance",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "BONUS",
+                        "nodeType": "ATTRIBUTE"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "bonus_resistance_ratio"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "confirmed_level_resist_cap"
+              }
+            ],
+            "operation": "MIN"
+          },
+          "formulaKey": "magic_resistance_bonus_amount",
+          "gameId": "lol",
+          "name": "魔抗封顶后增加数值",
+          "skillKey": "rune_8439_passive",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T03:44:31.948768Z"
+        },
+        "data": {
+          "createdAt": "2026-09-09T03:44:31.948768Z",
+          "description": "当前绑定45+75%额外属性并受等级上限约束；仅在已核实的取样时点调用，不能反复读取自身已增加值形成自我叠加。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "flat_resistance"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "attributeKey": "magic_resistance",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "BONUS",
+                        "nodeType": "ATTRIBUTE"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "bonus_resistance_ratio"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "confirmed_level_resist_cap"
+              }
+            ],
+            "operation": "MIN"
+          },
+          "formulaKey": "magic_resistance_bonus_amount",
+          "gameId": "lol",
+          "name": "魔抗封顶后增加数值",
+          "skillKey": "rune_8439_passive",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T03:44:31.948768Z"
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "ok": true,
+            "body": {
+              "createdAt": "2026-09-09T03:44:31.948768Z",
+              "description": "当前绑定45+75%额外属性并受等级上限约束；仅在已核实的取样时点调用，不能反复读取自身已增加值形成自我叠加。",
+              "expression": {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "flat_resistance"
+                      },
+                      {
+                        "nodeType": "OPERATION",
+                        "operands": [
+                          {
+                            "attributeKey": "magic_resistance",
+                            "attributeOwner": "SOURCE",
+                            "attributeValueKind": "BONUS",
+                            "nodeType": "ATTRIBUTE"
+                          },
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "bonus_resistance_ratio"
+                          }
+                        ],
+                        "operation": "MULTIPLY"
+                      }
+                    ],
+                    "operation": "ADD"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "confirmed_level_resist_cap"
+                  }
+                ],
+                "operation": "MIN"
+              },
+              "formulaKey": "magic_resistance_bonus_amount",
+              "gameId": "lol",
+              "name": "魔抗封顶后增加数值",
+              "skillKey": "rune_8439_passive",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-09T03:44:31.948768Z"
+            }
+          }
+        ],
+        "reusedCachedSnapshot": true
+      },
+      {
+        "kind": "formula",
+        "id": 8439,
+        "skillKey": "rune_8439_passive",
+        "key": "damage_amount",
+        "label": "rune_8439_passive/damage_amount",
+        "route": "/skills/rune_8439_passive/formulas/damage_amount",
+        "status": 200,
+        "ok": true,
+        "body": {
+          "createdAt": "2026-09-09T03:44:33.158842Z",
+          "description": "当前具名文本和mStat12/formula2直接证明额外生命值口径；爆发时点取样仍待连接。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "confirmed_level_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "attributeKey": "hp",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "BONUS",
+                    "nodeType": "ATTRIBUTE"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_health_damage_ratio"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          "formulaKey": "damage_amount",
+          "gameId": "lol",
+          "name": "爆发魔法伤害数值",
+          "skillKey": "rune_8439_passive",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T03:44:33.158842Z"
+        },
+        "data": {
+          "createdAt": "2026-09-09T03:44:33.158842Z",
+          "description": "当前具名文本和mStat12/formula2直接证明额外生命值口径；爆发时点取样仍待连接。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "confirmed_level_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "attributeKey": "hp",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "BONUS",
+                    "nodeType": "ATTRIBUTE"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_health_damage_ratio"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          "formulaKey": "damage_amount",
+          "gameId": "lol",
+          "name": "爆发魔法伤害数值",
+          "skillKey": "rune_8439_passive",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T03:44:33.158842Z"
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "ok": true,
+            "body": {
+              "createdAt": "2026-09-09T03:44:33.158842Z",
+              "description": "当前具名文本和mStat12/formula2直接证明额外生命值口径；爆发时点取样仍待连接。",
+              "expression": {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "confirmed_level_damage"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "attributeKey": "hp",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "BONUS",
+                        "nodeType": "ATTRIBUTE"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "bonus_health_damage_ratio"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              },
+              "formulaKey": "damage_amount",
+              "gameId": "lol",
+              "name": "爆发魔法伤害数值",
+              "skillKey": "rune_8439_passive",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-09T03:44:33.158842Z"
+            }
+          }
+        ],
+        "reusedCachedSnapshot": true
+      },
+      {
+        "kind": "formula",
+        "id": 9101,
+        "skillKey": "rune_9101_passive",
+        "key": "heal_amount",
+        "label": "rune_9101_passive/heal_amount",
+        "route": "/skills/rune_9101_passive/formulas/heal_amount",
+        "status": 200,
+        "ok": true,
+        "body": {
+          "createdAt": "2026-09-09T03:44:38.316113Z",
+          "description": "显式等级输入，没有默认0，不把它当已连接治疗效果。",
+          "expression": {
+            "nodeType": "PARAMETER",
+            "parameterKey": "confirmed_level_heal"
+          },
+          "formulaKey": "heal_amount",
+          "gameId": "lol",
+          "name": "击杀后自身恢复数值",
+          "skillKey": "rune_9101_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T03:44:38.316113Z"
+        },
+        "data": {
+          "createdAt": "2026-09-09T03:44:38.316113Z",
+          "description": "显式等级输入，没有默认0，不把它当已连接治疗效果。",
+          "expression": {
+            "nodeType": "PARAMETER",
+            "parameterKey": "confirmed_level_heal"
+          },
+          "formulaKey": "heal_amount",
+          "gameId": "lol",
+          "name": "击杀后自身恢复数值",
+          "skillKey": "rune_9101_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T03:44:38.316113Z"
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "ok": true,
+            "body": {
+              "createdAt": "2026-09-09T03:44:38.316113Z",
+              "description": "显式等级输入，没有默认0，不把它当已连接治疗效果。",
+              "expression": {
+                "nodeType": "PARAMETER",
+                "parameterKey": "confirmed_level_heal"
+              },
+              "formulaKey": "heal_amount",
+              "gameId": "lol",
+              "name": "击杀后自身恢复数值",
+              "skillKey": "rune_9101_passive",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T03:44:38.316113Z"
+            }
+          }
+        ],
+        "reusedCachedSnapshot": true
+      },
+      {
+        "kind": "formula",
+        "id": 8233,
+        "skillKey": "rune_8233_passive",
+        "key": "health_threshold",
+        "label": "rune_8233_passive/health_threshold",
+        "route": "/skills/rune_8233_passive/formulas/health_threshold",
+        "status": 200,
+        "ok": true,
+        "body": {
+          "createdAt": "2026-09-09T03:44:45.672724Z",
+          "description": "必须严格高于70%，等于不满足。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "attributeKey": "hp",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "health_threshold_ratio"
+              }
+            ],
+            "operation": "MULTIPLY"
+          },
+          "formulaKey": "health_threshold",
+          "gameId": "lol",
+          "name": "最大生命门槛数值",
+          "skillKey": "rune_8233_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T03:44:45.672724Z"
+        },
+        "data": {
+          "createdAt": "2026-09-09T03:44:45.672724Z",
+          "description": "必须严格高于70%，等于不满足。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "attributeKey": "hp",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "health_threshold_ratio"
+              }
+            ],
+            "operation": "MULTIPLY"
+          },
+          "formulaKey": "health_threshold",
+          "gameId": "lol",
+          "name": "最大生命门槛数值",
+          "skillKey": "rune_8233_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T03:44:45.672724Z"
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "ok": true,
+            "body": {
+              "createdAt": "2026-09-09T03:44:45.672724Z",
+              "description": "必须严格高于70%，等于不满足。",
+              "expression": {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "attributeKey": "hp",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL",
+                    "nodeType": "ATTRIBUTE"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "health_threshold_ratio"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              },
+              "formulaKey": "health_threshold",
+              "gameId": "lol",
+              "name": "最大生命门槛数值",
+              "skillKey": "rune_8233_passive",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T03:44:45.672724Z"
+            }
+          }
+        ],
+        "reusedCachedSnapshot": true
+      },
+      {
+        "kind": "formula",
+        "id": 8233,
+        "skillKey": "rune_8233_passive",
+        "key": "attack_damage_amount",
+        "label": "rune_8233_passive/attack_damage_amount",
+        "route": "/skills/rune_8233_passive/formulas/attack_damage_amount",
+        "status": 200,
+        "ok": true,
+        "body": {
+          "createdAt": "2026-09-09T03:44:46.326213Z",
+          "description": "仅已确定攻击力分支时计算，不同时授予法强和攻击力。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "confirmed_adaptive_force"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "adaptive_to_attack_damage_ratio"
+              }
+            ],
+            "operation": "MULTIPLY"
+          },
+          "formulaKey": "attack_damage_amount",
+          "gameId": "lol",
+          "name": "选攻击力时的数值",
+          "skillKey": "rune_8233_passive",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T03:44:46.326213Z"
+        },
+        "data": {
+          "createdAt": "2026-09-09T03:44:46.326213Z",
+          "description": "仅已确定攻击力分支时计算，不同时授予法强和攻击力。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "confirmed_adaptive_force"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "adaptive_to_attack_damage_ratio"
+              }
+            ],
+            "operation": "MULTIPLY"
+          },
+          "formulaKey": "attack_damage_amount",
+          "gameId": "lol",
+          "name": "选攻击力时的数值",
+          "skillKey": "rune_8233_passive",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T03:44:46.326213Z"
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "ok": true,
+            "body": {
+              "createdAt": "2026-09-09T03:44:46.326213Z",
+              "description": "仅已确定攻击力分支时计算，不同时授予法强和攻击力。",
+              "expression": {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "confirmed_adaptive_force"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "adaptive_to_attack_damage_ratio"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              },
+              "formulaKey": "attack_damage_amount",
+              "gameId": "lol",
+              "name": "选攻击力时的数值",
+              "skillKey": "rune_8233_passive",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-09T03:44:46.326213Z"
+            }
+          }
+        ],
+        "reusedCachedSnapshot": true
+      },
+      {
+        "kind": "formula",
+        "id": 8233,
+        "skillKey": "rune_8233_passive",
+        "key": "ability_power_amount",
+        "label": "rune_8233_passive/ability_power_amount",
+        "route": "/skills/rune_8233_passive/formulas/ability_power_amount",
+        "status": 200,
+        "ok": true,
+        "body": {
+          "createdAt": "2026-09-09T03:44:47.044391Z",
+          "description": "仅已确定法强分支时计算。",
+          "expression": {
+            "nodeType": "PARAMETER",
+            "parameterKey": "confirmed_adaptive_force"
+          },
+          "formulaKey": "ability_power_amount",
+          "gameId": "lol",
+          "name": "选法术强度时的数值",
+          "skillKey": "rune_8233_passive",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T03:44:47.044391Z"
+        },
+        "data": {
+          "createdAt": "2026-09-09T03:44:47.044391Z",
+          "description": "仅已确定法强分支时计算。",
+          "expression": {
+            "nodeType": "PARAMETER",
+            "parameterKey": "confirmed_adaptive_force"
+          },
+          "formulaKey": "ability_power_amount",
+          "gameId": "lol",
+          "name": "选法术强度时的数值",
+          "skillKey": "rune_8233_passive",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T03:44:47.044391Z"
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "ok": true,
+            "body": {
+              "createdAt": "2026-09-09T03:44:47.044391Z",
+              "description": "仅已确定法强分支时计算。",
+              "expression": {
+                "nodeType": "PARAMETER",
+                "parameterKey": "confirmed_adaptive_force"
+              },
+              "formulaKey": "ability_power_amount",
+              "gameId": "lol",
+              "name": "选法术强度时的数值",
+              "skillKey": "rune_8233_passive",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-09T03:44:47.044391Z"
+            }
+          }
+        ],
+        "reusedCachedSnapshot": true
+      },
+      {
+        "kind": "formula",
+        "id": 8214,
+        "skillKey": "rune_8214_passive",
+        "key": "damage_amount",
+        "label": "rune_8214_passive/damage_amount",
+        "route": "/skills/rune_8214_passive/formulas/damage_amount",
+        "status": 200,
+        "ok": true,
+        "body": {
+          "createdAt": "2026-09-09T03:44:52.820153Z",
+          "description": "对应当前绑定计算树；等级基础值须明确外供。法强与额外攻击力直接读取来源属性，不填虚构值。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "confirmed_level_base"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "attributeKey": "ability_power",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "TOTAL",
+                        "nodeType": "ATTRIBUTE"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "ability_power_ratio"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "attributeKey": "attack_damage",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "BONUS",
+                    "nodeType": "ATTRIBUTE"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_attack_damage_ratio"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          "formulaKey": "damage_amount",
+          "gameId": "lol",
+          "name": "伤害数值",
+          "skillKey": "rune_8214_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T03:44:52.820153Z"
+        },
+        "data": {
+          "createdAt": "2026-09-09T03:44:52.820153Z",
+          "description": "对应当前绑定计算树；等级基础值须明确外供。法强与额外攻击力直接读取来源属性，不填虚构值。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "confirmed_level_base"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "attributeKey": "ability_power",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "TOTAL",
+                        "nodeType": "ATTRIBUTE"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "ability_power_ratio"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "attributeKey": "attack_damage",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "BONUS",
+                    "nodeType": "ATTRIBUTE"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_attack_damage_ratio"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          "formulaKey": "damage_amount",
+          "gameId": "lol",
+          "name": "伤害数值",
+          "skillKey": "rune_8214_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T03:44:52.820153Z"
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "ok": true,
+            "body": {
+              "createdAt": "2026-09-09T03:44:52.820153Z",
+              "description": "对应当前绑定计算树；等级基础值须明确外供。法强与额外攻击力直接读取来源属性，不填虚构值。",
+              "expression": {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "confirmed_level_base"
+                      },
+                      {
+                        "nodeType": "OPERATION",
+                        "operands": [
+                          {
+                            "attributeKey": "ability_power",
+                            "attributeOwner": "SOURCE",
+                            "attributeValueKind": "TOTAL",
+                            "nodeType": "ATTRIBUTE"
+                          },
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "ability_power_ratio"
+                          }
+                        ],
+                        "operation": "MULTIPLY"
+                      }
+                    ],
+                    "operation": "ADD"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "attributeKey": "attack_damage",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "BONUS",
+                        "nodeType": "ATTRIBUTE"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "bonus_attack_damage_ratio"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              },
+              "formulaKey": "damage_amount",
+              "gameId": "lol",
+              "name": "伤害数值",
+              "skillKey": "rune_8214_passive",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T03:44:52.820153Z"
+            }
+          }
+        ],
+        "reusedCachedSnapshot": true
+      },
+      {
+        "kind": "formula",
+        "id": 8229,
+        "skillKey": "rune_8229_passive",
+        "key": "base_damage_amount",
+        "label": "rune_8229_passive/base_damage_amount",
+        "route": "/skills/rune_8229_passive/formulas/base_damage_amount",
+        "status": 200,
+        "ok": true,
+        "body": {
+          "createdAt": "2026-09-09T03:45:04.504023Z",
+          "description": "对应当前绑定计算树；等级基础值须明确外供。法强与额外攻击力直接读取来源属性，不填虚构值。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "confirmed_level_base"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "attributeKey": "ability_power",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "TOTAL",
+                        "nodeType": "ATTRIBUTE"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "ability_power_ratio"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "attributeKey": "attack_damage",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "BONUS",
+                    "nodeType": "ATTRIBUTE"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_attack_damage_ratio"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          "formulaKey": "base_damage_amount",
+          "gameId": "lol",
+          "name": "伤害数值",
+          "skillKey": "rune_8229_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T03:45:04.504023Z"
+        },
+        "data": {
+          "createdAt": "2026-09-09T03:45:04.504023Z",
+          "description": "对应当前绑定计算树；等级基础值须明确外供。法强与额外攻击力直接读取来源属性，不填虚构值。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "confirmed_level_base"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "attributeKey": "ability_power",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "TOTAL",
+                        "nodeType": "ATTRIBUTE"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "ability_power_ratio"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "attributeKey": "attack_damage",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "BONUS",
+                    "nodeType": "ATTRIBUTE"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_attack_damage_ratio"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          "formulaKey": "base_damage_amount",
+          "gameId": "lol",
+          "name": "伤害数值",
+          "skillKey": "rune_8229_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T03:45:04.504023Z"
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "ok": true,
+            "body": {
+              "createdAt": "2026-09-09T03:45:04.504023Z",
+              "description": "对应当前绑定计算树；等级基础值须明确外供。法强与额外攻击力直接读取来源属性，不填虚构值。",
+              "expression": {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "confirmed_level_base"
+                      },
+                      {
+                        "nodeType": "OPERATION",
+                        "operands": [
+                          {
+                            "attributeKey": "ability_power",
+                            "attributeOwner": "SOURCE",
+                            "attributeValueKind": "TOTAL",
+                            "nodeType": "ATTRIBUTE"
+                          },
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "ability_power_ratio"
+                          }
+                        ],
+                        "operation": "MULTIPLY"
+                      }
+                    ],
+                    "operation": "ADD"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "attributeKey": "attack_damage",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "BONUS",
+                        "nodeType": "ATTRIBUTE"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "bonus_attack_damage_ratio"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              },
+              "formulaKey": "base_damage_amount",
+              "gameId": "lol",
+              "name": "伤害数值",
+              "skillKey": "rune_8229_passive",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T03:45:04.504023Z"
+            }
+          }
+        ],
+        "reusedCachedSnapshot": true
+      },
+      {
+        "kind": "formula",
+        "id": 8229,
+        "skillKey": "rune_8229_passive",
+        "key": "cooldown_ms",
+        "label": "rune_8229_passive/cooldown_ms",
+        "route": "/skills/rune_8229_passive/formulas/cooldown_ms",
+        "status": 200,
+        "ok": true,
+        "body": {
+          "createdAt": "2026-09-09T03:45:05.301366Z",
+          "description": "只保留当前原树MIN(20,MAX(0.3,明确外供秒数))再转换毫秒，不猜等级插值。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "confirmed_level_cooldown_seconds_source_start"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "cooldown_floor_seconds"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "confirmed_level_cooldown_seconds"
+                      }
+                    ],
+                    "operation": "MAX"
+                  }
+                ],
+                "operation": "MIN"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "seconds_to_ms"
+              }
+            ],
+            "operation": "MULTIPLY"
+          },
+          "formulaKey": "cooldown_ms",
+          "gameId": "lol",
+          "name": "钳制后冷却毫秒数",
+          "skillKey": "rune_8229_passive",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T03:45:05.301366Z"
+        },
+        "data": {
+          "createdAt": "2026-09-09T03:45:05.301366Z",
+          "description": "只保留当前原树MIN(20,MAX(0.3,明确外供秒数))再转换毫秒，不猜等级插值。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "confirmed_level_cooldown_seconds_source_start"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "cooldown_floor_seconds"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "confirmed_level_cooldown_seconds"
+                      }
+                    ],
+                    "operation": "MAX"
+                  }
+                ],
+                "operation": "MIN"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "seconds_to_ms"
+              }
+            ],
+            "operation": "MULTIPLY"
+          },
+          "formulaKey": "cooldown_ms",
+          "gameId": "lol",
+          "name": "钳制后冷却毫秒数",
+          "skillKey": "rune_8229_passive",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T03:45:05.301366Z"
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "ok": true,
+            "body": {
+              "createdAt": "2026-09-09T03:45:05.301366Z",
+              "description": "只保留当前原树MIN(20,MAX(0.3,明确外供秒数))再转换毫秒，不猜等级插值。",
+              "expression": {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "confirmed_level_cooldown_seconds_source_start"
+                      },
+                      {
+                        "nodeType": "OPERATION",
+                        "operands": [
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "cooldown_floor_seconds"
+                          },
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "confirmed_level_cooldown_seconds"
+                          }
+                        ],
+                        "operation": "MAX"
+                      }
+                    ],
+                    "operation": "MIN"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "seconds_to_ms"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              },
+              "formulaKey": "cooldown_ms",
+              "gameId": "lol",
+              "name": "钳制后冷却毫秒数",
+              "skillKey": "rune_8229_passive",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-09T03:45:05.301366Z"
+            }
+          }
+        ],
+        "reusedCachedSnapshot": true
+      },
+      {
+        "kind": "formula",
+        "id": 8237,
+        "skillKey": "rune_8237_passive",
+        "key": "damage_amount",
+        "label": "rune_8237_passive/damage_amount",
+        "route": "/skills/rune_8237_passive/formulas/damage_amount",
+        "status": 200,
+        "ok": true,
+        "body": {
+          "createdAt": "2026-09-09T03:45:11.553776Z",
+          "description": "对应当前绑定计算树；等级基础值须明确外供。法强与额外攻击力直接读取来源属性，不填虚构值。",
+          "expression": {
+            "nodeType": "PARAMETER",
+            "parameterKey": "confirmed_level_base"
+          },
+          "formulaKey": "damage_amount",
+          "gameId": "lol",
+          "name": "伤害数值",
+          "skillKey": "rune_8237_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T03:45:11.553776Z"
+        },
+        "data": {
+          "createdAt": "2026-09-09T03:45:11.553776Z",
+          "description": "对应当前绑定计算树；等级基础值须明确外供。法强与额外攻击力直接读取来源属性，不填虚构值。",
+          "expression": {
+            "nodeType": "PARAMETER",
+            "parameterKey": "confirmed_level_base"
+          },
+          "formulaKey": "damage_amount",
+          "gameId": "lol",
+          "name": "伤害数值",
+          "skillKey": "rune_8237_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T03:45:11.553776Z"
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "ok": true,
+            "body": {
+              "createdAt": "2026-09-09T03:45:11.553776Z",
+              "description": "对应当前绑定计算树；等级基础值须明确外供。法强与额外攻击力直接读取来源属性，不填虚构值。",
+              "expression": {
+                "nodeType": "PARAMETER",
+                "parameterKey": "confirmed_level_base"
+              },
+              "formulaKey": "damage_amount",
+              "gameId": "lol",
+              "name": "伤害数值",
+              "skillKey": "rune_8237_passive",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T03:45:11.553776Z"
+            }
+          }
+        ],
+        "reusedCachedSnapshot": true
+      },
+      {
+        "kind": "formula",
+        "id": 8232,
+        "skillKey": "rune_8232_passive",
+        "key": "adaptive_force_amount",
+        "label": "rune_8232_passive/adaptive_force_amount",
+        "route": "/skills/rune_8232_passive/formulas/adaptive_force_amount",
+        "status": 200,
+        "ok": true,
+        "body": {
+          "createdAt": "2026-09-09T03:45:17.13631Z",
+          "description": "仅数值；未连接河道条件或自动选择属性。",
+          "expression": {
+            "nodeType": "PARAMETER",
+            "parameterKey": "confirmed_adaptive_force"
+          },
+          "formulaKey": "adaptive_force_amount",
+          "gameId": "lol",
+          "name": "河道适应之力数值",
+          "skillKey": "rune_8232_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T03:45:17.13631Z"
+        },
+        "data": {
+          "createdAt": "2026-09-09T03:45:17.13631Z",
+          "description": "仅数值；未连接河道条件或自动选择属性。",
+          "expression": {
+            "nodeType": "PARAMETER",
+            "parameterKey": "confirmed_adaptive_force"
+          },
+          "formulaKey": "adaptive_force_amount",
+          "gameId": "lol",
+          "name": "河道适应之力数值",
+          "skillKey": "rune_8232_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T03:45:17.13631Z"
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "ok": true,
+            "body": {
+              "createdAt": "2026-09-09T03:45:17.13631Z",
+              "description": "仅数值；未连接河道条件或自动选择属性。",
+              "expression": {
+                "nodeType": "PARAMETER",
+                "parameterKey": "confirmed_adaptive_force"
+              },
+              "formulaKey": "adaptive_force_amount",
+              "gameId": "lol",
+              "name": "河道适应之力数值",
+              "skillKey": "rune_8232_passive",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T03:45:17.13631Z"
+            }
+          }
+        ],
+        "reusedCachedSnapshot": true
+      },
+      {
+        "kind": "parameter",
+        "id": 8112,
+        "skillKey": "rune_8112_passive",
+        "key": "confirmed_level_base",
+        "label": "rune_8112_passive/confirmed_level_base",
+        "route": "/skills/rune_8112_passive/parameters/confirmed_level_base",
+        "status": 200,
+        "ok": true,
+        "body": {
+          "createdAt": "2026-09-09T03:43:14.682888Z",
+          "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "已确认等级基础伤害",
+          "parameterKey": "confirmed_level_base",
+          "skillKey": "rune_8112_passive",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T03:43:14.682888Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        "data": {
+          "createdAt": "2026-09-09T03:43:14.682888Z",
+          "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "已确认等级基础伤害",
+          "parameterKey": "confirmed_level_base",
+          "skillKey": "rune_8112_passive",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T03:43:14.682888Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "ok": true,
+            "body": {
+              "createdAt": "2026-09-09T03:43:14.682888Z",
+              "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "已确认等级基础伤害",
+              "parameterKey": "confirmed_level_base",
+              "skillKey": "rune_8112_passive",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-09T03:43:14.682888Z",
+              "valueMode": "RUNTIME_INPUT",
+              "valueType": "DECIMAL"
+            }
+          }
+        ],
+        "reusedCachedSnapshot": true
+      },
+      {
+        "kind": "parameter",
+        "id": 8112,
+        "skillKey": "rune_8112_passive",
+        "key": "ability_power_ratio",
+        "label": "rune_8112_passive/ability_power_ratio",
+        "route": "/skills/rune_8112_passive/parameters/ability_power_ratio",
+        "status": 200,
+        "ok": true,
+        "body": {
+          "createdAt": "2026-09-09T03:43:15.884841Z",
+          "description": "当前普通模式绑定数值。",
+          "fixedValue": 0.05,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "法术强度系数",
+          "parameterKey": "ability_power_ratio",
+          "skillKey": "rune_8112_passive",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T03:43:15.884841Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        "data": {
+          "createdAt": "2026-09-09T03:43:15.884841Z",
+          "description": "当前普通模式绑定数值。",
+          "fixedValue": 0.05,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "法术强度系数",
+          "parameterKey": "ability_power_ratio",
+          "skillKey": "rune_8112_passive",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T03:43:15.884841Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "ok": true,
+            "body": {
+              "createdAt": "2026-09-09T03:43:15.884841Z",
+              "description": "当前普通模式绑定数值。",
+              "fixedValue": 0.05,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "法术强度系数",
+              "parameterKey": "ability_power_ratio",
+              "skillKey": "rune_8112_passive",
+              "sortOrder": 40,
+              "updatedAt": "2026-09-09T03:43:15.884841Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            }
+          }
+        ],
+        "reusedCachedSnapshot": true
+      },
+      {
+        "kind": "parameter",
+        "id": 8112,
+        "skillKey": "rune_8112_passive",
+        "key": "bonus_attack_damage_ratio",
+        "label": "rune_8112_passive/bonus_attack_damage_ratio",
+        "route": "/skills/rune_8112_passive/parameters/bonus_attack_damage_ratio",
+        "status": 200,
+        "ok": true,
+        "body": {
+          "createdAt": "2026-09-09T03:43:16.837252Z",
+          "description": "当前普通模式绑定数值。",
+          "fixedValue": 0.1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "额外攻击力系数",
+          "parameterKey": "bonus_attack_damage_ratio",
+          "skillKey": "rune_8112_passive",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T03:43:16.837252Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        "data": {
+          "createdAt": "2026-09-09T03:43:16.837252Z",
+          "description": "当前普通模式绑定数值。",
+          "fixedValue": 0.1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "额外攻击力系数",
+          "parameterKey": "bonus_attack_damage_ratio",
+          "skillKey": "rune_8112_passive",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T03:43:16.837252Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "ok": true,
+            "body": {
+              "createdAt": "2026-09-09T03:43:16.837252Z",
+              "description": "当前普通模式绑定数值。",
+              "fixedValue": 0.1,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "额外攻击力系数",
+              "parameterKey": "bonus_attack_damage_ratio",
+              "skillKey": "rune_8112_passive",
+              "sortOrder": 50,
+              "updatedAt": "2026-09-09T03:43:16.837252Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            }
+          }
+        ],
+        "reusedCachedSnapshot": true
+      },
+      {
+        "kind": "parameter",
+        "id": 8126,
+        "skillKey": "rune_8126_passive",
+        "key": "confirmed_level_base",
+        "label": "rune_8126_passive/confirmed_level_base",
+        "route": "/skills/rune_8126_passive/parameters/confirmed_level_base",
+        "status": 200,
+        "ok": true,
+        "body": {
+          "createdAt": "2026-09-09T03:43:28.57348Z",
+          "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "已确认等级基础伤害",
+          "parameterKey": "confirmed_level_base",
+          "skillKey": "rune_8126_passive",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T03:43:28.57348Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        "data": {
+          "createdAt": "2026-09-09T03:43:28.57348Z",
+          "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "已确认等级基础伤害",
+          "parameterKey": "confirmed_level_base",
+          "skillKey": "rune_8126_passive",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T03:43:28.57348Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "ok": true,
+            "body": {
+              "createdAt": "2026-09-09T03:43:28.57348Z",
+              "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "已确认等级基础伤害",
+              "parameterKey": "confirmed_level_base",
+              "skillKey": "rune_8126_passive",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-09T03:43:28.57348Z",
+              "valueMode": "RUNTIME_INPUT",
+              "valueType": "DECIMAL"
+            }
+          }
+        ],
+        "reusedCachedSnapshot": true
+      },
+      {
+        "kind": "parameter",
+        "id": 8139,
+        "skillKey": "rune_8139_passive",
+        "key": "confirmed_level_base",
+        "label": "rune_8139_passive/confirmed_level_base",
+        "route": "/skills/rune_8139_passive/parameters/confirmed_level_base",
+        "status": 200,
+        "ok": true,
+        "body": {
+          "createdAt": "2026-09-09T03:43:36.972681Z",
+          "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "已确认等级基础恢复",
+          "parameterKey": "confirmed_level_base",
+          "skillKey": "rune_8139_passive",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T03:43:36.972681Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        "data": {
+          "createdAt": "2026-09-09T03:43:36.972681Z",
+          "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "已确认等级基础恢复",
+          "parameterKey": "confirmed_level_base",
+          "skillKey": "rune_8139_passive",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T03:43:36.972681Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "ok": true,
+            "body": {
+              "createdAt": "2026-09-09T03:43:36.972681Z",
+              "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "已确认等级基础恢复",
+              "parameterKey": "confirmed_level_base",
+              "skillKey": "rune_8139_passive",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-09T03:43:36.972681Z",
+              "valueMode": "RUNTIME_INPUT",
+              "valueType": "DECIMAL"
+            }
+          }
+        ],
+        "reusedCachedSnapshot": true
+      },
+      {
+        "kind": "parameter",
+        "id": 8139,
+        "skillKey": "rune_8139_passive",
+        "key": "ability_power_ratio",
+        "label": "rune_8139_passive/ability_power_ratio",
+        "route": "/skills/rune_8139_passive/parameters/ability_power_ratio",
+        "status": 200,
+        "ok": true,
+        "body": {
+          "createdAt": "2026-09-09T03:43:38.077034Z",
+          "description": "当前普通模式绑定数值。",
+          "fixedValue": 0.05,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "法术强度系数",
+          "parameterKey": "ability_power_ratio",
+          "skillKey": "rune_8139_passive",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T03:43:38.077034Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        "data": {
+          "createdAt": "2026-09-09T03:43:38.077034Z",
+          "description": "当前普通模式绑定数值。",
+          "fixedValue": 0.05,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "法术强度系数",
+          "parameterKey": "ability_power_ratio",
+          "skillKey": "rune_8139_passive",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T03:43:38.077034Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "ok": true,
+            "body": {
+              "createdAt": "2026-09-09T03:43:38.077034Z",
+              "description": "当前普通模式绑定数值。",
+              "fixedValue": 0.05,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "法术强度系数",
+              "parameterKey": "ability_power_ratio",
+              "skillKey": "rune_8139_passive",
+              "sortOrder": 40,
+              "updatedAt": "2026-09-09T03:43:38.077034Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            }
+          }
+        ],
+        "reusedCachedSnapshot": true
+      },
+      {
+        "kind": "parameter",
+        "id": 8139,
+        "skillKey": "rune_8139_passive",
+        "key": "bonus_attack_damage_ratio",
+        "label": "rune_8139_passive/bonus_attack_damage_ratio",
+        "route": "/skills/rune_8139_passive/parameters/bonus_attack_damage_ratio",
+        "status": 200,
+        "ok": true,
+        "body": {
+          "createdAt": "2026-09-09T03:43:39.202416Z",
+          "description": "当前普通模式绑定数值。",
+          "fixedValue": 0.1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "额外攻击力系数",
+          "parameterKey": "bonus_attack_damage_ratio",
+          "skillKey": "rune_8139_passive",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T03:43:39.202416Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        "data": {
+          "createdAt": "2026-09-09T03:43:39.202416Z",
+          "description": "当前普通模式绑定数值。",
+          "fixedValue": 0.1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "额外攻击力系数",
+          "parameterKey": "bonus_attack_damage_ratio",
+          "skillKey": "rune_8139_passive",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T03:43:39.202416Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "ok": true,
+            "body": {
+              "createdAt": "2026-09-09T03:43:39.202416Z",
+              "description": "当前普通模式绑定数值。",
+              "fixedValue": 0.1,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "额外攻击力系数",
+              "parameterKey": "bonus_attack_damage_ratio",
+              "skillKey": "rune_8139_passive",
+              "sortOrder": 50,
+              "updatedAt": "2026-09-09T03:43:39.202416Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            }
+          }
+        ],
+        "reusedCachedSnapshot": true
+      },
+      {
+        "kind": "parameter",
+        "id": 8143,
+        "skillKey": "rune_8143_passive",
+        "key": "confirmed_level_base",
+        "label": "rune_8143_passive/confirmed_level_base",
+        "route": "/skills/rune_8143_passive/parameters/confirmed_level_base",
+        "status": 200,
+        "ok": true,
+        "body": {
+          "createdAt": "2026-09-09T03:43:47.487806Z",
+          "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "已确认等级基础伤害",
+          "parameterKey": "confirmed_level_base",
+          "skillKey": "rune_8143_passive",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T03:43:47.487806Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        "data": {
+          "createdAt": "2026-09-09T03:43:47.487806Z",
+          "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "已确认等级基础伤害",
+          "parameterKey": "confirmed_level_base",
+          "skillKey": "rune_8143_passive",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T03:43:47.487806Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "ok": true,
+            "body": {
+              "createdAt": "2026-09-09T03:43:47.487806Z",
+              "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "已确认等级基础伤害",
+              "parameterKey": "confirmed_level_base",
+              "skillKey": "rune_8143_passive",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-09T03:43:47.487806Z",
+              "valueMode": "RUNTIME_INPUT",
+              "valueType": "DECIMAL"
+            }
+          }
+        ],
+        "reusedCachedSnapshot": true
+      },
+      {
+        "kind": "parameter",
+        "id": 9923,
+        "skillKey": "rune_9923_passive",
+        "key": "confirmed_level_base",
+        "label": "rune_9923_passive/confirmed_level_base",
+        "route": "/skills/rune_9923_passive/parameters/confirmed_level_base",
+        "status": 200,
+        "ok": true,
+        "body": {
+          "createdAt": "2026-09-09T03:43:57.652535Z",
+          "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "已确认等级基础伤害",
+          "parameterKey": "confirmed_level_base",
+          "skillKey": "rune_9923_passive",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T03:43:57.652535Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        "data": {
+          "createdAt": "2026-09-09T03:43:57.652535Z",
+          "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "已确认等级基础伤害",
+          "parameterKey": "confirmed_level_base",
+          "skillKey": "rune_9923_passive",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T03:43:57.652535Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "ok": true,
+            "body": {
+              "createdAt": "2026-09-09T03:43:57.652535Z",
+              "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "已确认等级基础伤害",
+              "parameterKey": "confirmed_level_base",
+              "skillKey": "rune_9923_passive",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-09T03:43:57.652535Z",
+              "valueMode": "RUNTIME_INPUT",
+              "valueType": "DECIMAL"
+            }
+          }
+        ],
+        "reusedCachedSnapshot": true
+      },
+      {
+        "kind": "parameter",
+        "id": 9923,
+        "skillKey": "rune_9923_passive",
+        "key": "ability_power_ratio",
+        "label": "rune_9923_passive/ability_power_ratio",
+        "route": "/skills/rune_9923_passive/parameters/ability_power_ratio",
+        "status": 200,
+        "ok": true,
+        "body": {
+          "createdAt": "2026-09-09T03:43:58.785617Z",
+          "description": "当前普通模式绑定数值。",
+          "fixedValue": 0.1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "法术强度系数",
+          "parameterKey": "ability_power_ratio",
+          "skillKey": "rune_9923_passive",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T03:43:58.785617Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        "data": {
+          "createdAt": "2026-09-09T03:43:58.785617Z",
+          "description": "当前普通模式绑定数值。",
+          "fixedValue": 0.1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "法术强度系数",
+          "parameterKey": "ability_power_ratio",
+          "skillKey": "rune_9923_passive",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T03:43:58.785617Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "ok": true,
+            "body": {
+              "createdAt": "2026-09-09T03:43:58.785617Z",
+              "description": "当前普通模式绑定数值。",
+              "fixedValue": 0.1,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "法术强度系数",
+              "parameterKey": "ability_power_ratio",
+              "skillKey": "rune_9923_passive",
+              "sortOrder": 40,
+              "updatedAt": "2026-09-09T03:43:58.785617Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            }
+          }
+        ],
+        "reusedCachedSnapshot": true
+      },
+      {
+        "kind": "parameter",
+        "id": 9923,
+        "skillKey": "rune_9923_passive",
+        "key": "bonus_attack_damage_ratio",
+        "label": "rune_9923_passive/bonus_attack_damage_ratio",
+        "route": "/skills/rune_9923_passive/parameters/bonus_attack_damage_ratio",
+        "status": 200,
+        "ok": true,
+        "body": {
+          "createdAt": "2026-09-09T03:43:59.973923Z",
+          "description": "当前普通模式绑定数值。",
+          "fixedValue": 0.12,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "额外攻击力系数",
+          "parameterKey": "bonus_attack_damage_ratio",
+          "skillKey": "rune_9923_passive",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T03:43:59.973923Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        "data": {
+          "createdAt": "2026-09-09T03:43:59.973923Z",
+          "description": "当前普通模式绑定数值。",
+          "fixedValue": 0.12,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "额外攻击力系数",
+          "parameterKey": "bonus_attack_damage_ratio",
+          "skillKey": "rune_9923_passive",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T03:43:59.973923Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "ok": true,
+            "body": {
+              "createdAt": "2026-09-09T03:43:59.973923Z",
+              "description": "当前普通模式绑定数值。",
+              "fixedValue": 0.12,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "额外攻击力系数",
+              "parameterKey": "bonus_attack_damage_ratio",
+              "skillKey": "rune_9923_passive",
+              "sortOrder": 50,
+              "updatedAt": "2026-09-09T03:43:59.973923Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            }
+          }
+        ],
+        "reusedCachedSnapshot": true
+      },
+      {
+        "kind": "parameter",
+        "id": 9923,
+        "skillKey": "rune_9923_passive",
+        "key": "base_attack_count",
+        "label": "rune_9923_passive/base_attack_count",
+        "route": "/skills/rune_9923_passive/parameters/base_attack_count",
+        "status": 200,
+        "ok": true,
+        "body": {
+          "createdAt": "2026-09-09T03:44:01.248607Z",
+          "description": "当前普通模式绑定数值。",
+          "fixedValue": 3,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础攻击次数",
+          "parameterKey": "base_attack_count",
+          "skillKey": "rune_9923_passive",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T03:44:01.248607Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        "data": {
+          "createdAt": "2026-09-09T03:44:01.248607Z",
+          "description": "当前普通模式绑定数值。",
+          "fixedValue": 3,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础攻击次数",
+          "parameterKey": "base_attack_count",
+          "skillKey": "rune_9923_passive",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T03:44:01.248607Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "ok": true,
+            "body": {
+              "createdAt": "2026-09-09T03:44:01.248607Z",
+              "description": "当前普通模式绑定数值。",
+              "fixedValue": 3,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础攻击次数",
+              "parameterKey": "base_attack_count",
+              "skillKey": "rune_9923_passive",
+              "sortOrder": 60,
+              "updatedAt": "2026-09-09T03:44:01.248607Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          }
+        ],
+        "reusedCachedSnapshot": true
+      },
+      {
+        "kind": "parameter",
+        "id": 9923,
+        "skillKey": "rune_9923_passive",
+        "key": "max_attack_gap_ms",
+        "label": "rune_9923_passive/max_attack_gap_ms",
+        "route": "/skills/rune_9923_passive/parameters/max_attack_gap_ms",
+        "status": 200,
+        "ok": true,
+        "body": {
+          "createdAt": "2026-09-09T03:44:02.526225Z",
+          "description": "约束相邻攻击间隔，不能作为整个增益3秒固定持续时间。",
+          "fixedValue": 3000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "相邻攻击最大间隔",
+          "parameterKey": "max_attack_gap_ms",
+          "skillKey": "rune_9923_passive",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T03:44:02.526225Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        "data": {
+          "createdAt": "2026-09-09T03:44:02.526225Z",
+          "description": "约束相邻攻击间隔，不能作为整个增益3秒固定持续时间。",
+          "fixedValue": 3000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "相邻攻击最大间隔",
+          "parameterKey": "max_attack_gap_ms",
+          "skillKey": "rune_9923_passive",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T03:44:02.526225Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "ok": true,
+            "body": {
+              "createdAt": "2026-09-09T03:44:02.526225Z",
+              "description": "约束相邻攻击间隔，不能作为整个增益3秒固定持续时间。",
+              "fixedValue": 3000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "相邻攻击最大间隔",
+              "parameterKey": "max_attack_gap_ms",
+              "skillKey": "rune_9923_passive",
+              "sortOrder": 70,
+              "updatedAt": "2026-09-09T03:44:02.526225Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          }
+        ],
+        "reusedCachedSnapshot": true
+      },
+      {
+        "kind": "parameter",
+        "id": 9923,
+        "skillKey": "rune_9923_passive",
+        "key": "max_bonus_reset_attacks",
+        "label": "rune_9923_passive/max_bonus_reset_attacks",
+        "route": "/skills/rune_9923_passive/parameters/max_bonus_reset_attacks",
+        "status": 200,
+        "ok": true,
+        "body": {
+          "createdAt": "2026-09-09T03:44:07.190283Z",
+          "description": "原提示为重置普攻增加次数；该2不是覆盖基础3次的总上限。",
+          "fixedValue": 2,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "重置攻击额外次数上限",
+          "parameterKey": "max_bonus_reset_attacks",
+          "skillKey": "rune_9923_passive",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-09T03:44:07.190283Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        "data": {
+          "createdAt": "2026-09-09T03:44:07.190283Z",
+          "description": "原提示为重置普攻增加次数；该2不是覆盖基础3次的总上限。",
+          "fixedValue": 2,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "重置攻击额外次数上限",
+          "parameterKey": "max_bonus_reset_attacks",
+          "skillKey": "rune_9923_passive",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-09T03:44:07.190283Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "ok": true,
+            "body": {
+              "createdAt": "2026-09-09T03:44:07.190283Z",
+              "description": "原提示为重置普攻增加次数；该2不是覆盖基础3次的总上限。",
+              "fixedValue": 2,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "重置攻击额外次数上限",
+              "parameterKey": "max_bonus_reset_attacks",
+              "skillKey": "rune_9923_passive",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-09T03:44:07.190283Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          }
+        ],
+        "reusedCachedSnapshot": true
+      },
+      {
+        "kind": "parameter",
+        "id": 9923,
+        "skillKey": "rune_9923_passive",
+        "key": "additional_attack_per_reset",
+        "label": "rune_9923_passive/additional_attack_per_reset",
+        "route": "/skills/rune_9923_passive/parameters/additional_attack_per_reset",
+        "status": 200,
+        "ok": true,
+        "body": {
+          "createdAt": "2026-09-09T03:44:08.652436Z",
+          "description": "当前绑定明确普攻重置增加1次。",
+          "fixedValue": 1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "每次普攻重置增加次数",
+          "parameterKey": "additional_attack_per_reset",
+          "skillKey": "rune_9923_passive",
+          "sortOrder": 120,
+          "updatedAt": "2026-09-09T03:44:08.652436Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        "data": {
+          "createdAt": "2026-09-09T03:44:08.652436Z",
+          "description": "当前绑定明确普攻重置增加1次。",
+          "fixedValue": 1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "每次普攻重置增加次数",
+          "parameterKey": "additional_attack_per_reset",
+          "skillKey": "rune_9923_passive",
+          "sortOrder": 120,
+          "updatedAt": "2026-09-09T03:44:08.652436Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "ok": true,
+            "body": {
+              "createdAt": "2026-09-09T03:44:08.652436Z",
+              "description": "当前绑定明确普攻重置增加1次。",
+              "fixedValue": 1,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "每次普攻重置增加次数",
+              "parameterKey": "additional_attack_per_reset",
+              "skillKey": "rune_9923_passive",
+              "sortOrder": 120,
+              "updatedAt": "2026-09-09T03:44:08.652436Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          }
+        ],
+        "reusedCachedSnapshot": true
+      },
+      {
+        "kind": "parameter",
+        "id": 8439,
+        "skillKey": "rune_8439_passive",
+        "key": "confirmed_level_damage",
+        "label": "rune_8439_passive/confirmed_level_damage",
+        "route": "/skills/rune_8439_passive/parameters/confirmed_level_damage",
+        "status": 200,
+        "ok": true,
+        "body": {
+          "createdAt": "2026-09-09T03:44:15.975396Z",
+          "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "已确认等级基础伤害",
+          "parameterKey": "confirmed_level_damage",
+          "skillKey": "rune_8439_passive",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T03:44:15.975396Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        "data": {
+          "createdAt": "2026-09-09T03:44:15.975396Z",
+          "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "已确认等级基础伤害",
+          "parameterKey": "confirmed_level_damage",
+          "skillKey": "rune_8439_passive",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T03:44:15.975396Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "ok": true,
+            "body": {
+              "createdAt": "2026-09-09T03:44:15.975396Z",
+              "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "已确认等级基础伤害",
+              "parameterKey": "confirmed_level_damage",
+              "skillKey": "rune_8439_passive",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-09T03:44:15.975396Z",
+              "valueMode": "RUNTIME_INPUT",
+              "valueType": "DECIMAL"
+            }
+          }
+        ],
+        "reusedCachedSnapshot": true
+      },
+      {
+        "kind": "parameter",
+        "id": 8439,
+        "skillKey": "rune_8439_passive",
+        "key": "confirmed_level_resist_cap",
+        "label": "rune_8439_passive/confirmed_level_resist_cap",
+        "route": "/skills/rune_8439_passive/parameters/confirmed_level_resist_cap",
+        "status": 200,
+        "ok": true,
+        "body": {
+          "createdAt": "2026-09-09T03:44:20.238559Z",
+          "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "已确认等级双抗封顶",
+          "parameterKey": "confirmed_level_resist_cap",
+          "skillKey": "rune_8439_passive",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T03:44:20.238559Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        "data": {
+          "createdAt": "2026-09-09T03:44:20.238559Z",
+          "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "已确认等级双抗封顶",
+          "parameterKey": "confirmed_level_resist_cap",
+          "skillKey": "rune_8439_passive",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T03:44:20.238559Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "ok": true,
+            "body": {
+              "createdAt": "2026-09-09T03:44:20.238559Z",
+              "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "已确认等级双抗封顶",
+              "parameterKey": "confirmed_level_resist_cap",
+              "skillKey": "rune_8439_passive",
+              "sortOrder": 60,
+              "updatedAt": "2026-09-09T03:44:20.238559Z",
+              "valueMode": "RUNTIME_INPUT",
+              "valueType": "DECIMAL"
+            }
+          }
+        ],
+        "reusedCachedSnapshot": true
+      },
+      {
+        "kind": "parameter",
+        "id": 8439,
+        "skillKey": "rune_8439_passive",
+        "key": "flat_resistance",
+        "label": "rune_8439_passive/flat_resistance",
+        "route": "/skills/rune_8439_passive/parameters/flat_resistance",
+        "status": 200,
+        "ok": true,
+        "body": {
+          "createdAt": "2026-09-09T03:44:21.525526Z",
+          "description": "当前普通模式绑定数值。",
+          "fixedValue": 45,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "固定双抗数值",
+          "parameterKey": "flat_resistance",
+          "skillKey": "rune_8439_passive",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T03:44:21.525526Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        "data": {
+          "createdAt": "2026-09-09T03:44:21.525526Z",
+          "description": "当前普通模式绑定数值。",
+          "fixedValue": 45,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "固定双抗数值",
+          "parameterKey": "flat_resistance",
+          "skillKey": "rune_8439_passive",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T03:44:21.525526Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "ok": true,
+            "body": {
+              "createdAt": "2026-09-09T03:44:21.525526Z",
+              "description": "当前普通模式绑定数值。",
+              "fixedValue": 45,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "固定双抗数值",
+              "parameterKey": "flat_resistance",
+              "skillKey": "rune_8439_passive",
+              "sortOrder": 70,
+              "updatedAt": "2026-09-09T03:44:21.525526Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          }
+        ],
+        "reusedCachedSnapshot": true
+      },
+      {
+        "kind": "parameter",
+        "id": 8439,
+        "skillKey": "rune_8439_passive",
+        "key": "bonus_resistance_ratio",
+        "label": "rune_8439_passive/bonus_resistance_ratio",
+        "route": "/skills/rune_8439_passive/parameters/bonus_resistance_ratio",
+        "status": 200,
+        "ok": true,
+        "body": {
+          "createdAt": "2026-09-09T03:44:24.482209Z",
+          "description": "当前普通模式绑定数值。",
+          "fixedValue": 0.75,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "额外双抗系数",
+          "parameterKey": "bonus_resistance_ratio",
+          "skillKey": "rune_8439_passive",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-09T03:44:24.482209Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        "data": {
+          "createdAt": "2026-09-09T03:44:24.482209Z",
+          "description": "当前普通模式绑定数值。",
+          "fixedValue": 0.75,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "额外双抗系数",
+          "parameterKey": "bonus_resistance_ratio",
+          "skillKey": "rune_8439_passive",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-09T03:44:24.482209Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "ok": true,
+            "body": {
+              "createdAt": "2026-09-09T03:44:24.482209Z",
+              "description": "当前普通模式绑定数值。",
+              "fixedValue": 0.75,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "额外双抗系数",
+              "parameterKey": "bonus_resistance_ratio",
+              "skillKey": "rune_8439_passive",
+              "sortOrder": 80,
+              "updatedAt": "2026-09-09T03:44:24.482209Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            }
+          }
+        ],
+        "reusedCachedSnapshot": true
+      },
+      {
+        "kind": "parameter",
+        "id": 8439,
+        "skillKey": "rune_8439_passive",
+        "key": "bonus_health_damage_ratio",
+        "label": "rune_8439_passive/bonus_health_damage_ratio",
+        "route": "/skills/rune_8439_passive/parameters/bonus_health_damage_ratio",
+        "status": 200,
+        "ok": true,
+        "body": {
+          "createdAt": "2026-09-09T03:44:25.681796Z",
+          "description": "当前普通模式绑定数值。",
+          "fixedValue": 0.08,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "额外生命伤害系数",
+          "parameterKey": "bonus_health_damage_ratio",
+          "skillKey": "rune_8439_passive",
+          "sortOrder": 90,
+          "updatedAt": "2026-09-09T03:44:25.681796Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        "data": {
+          "createdAt": "2026-09-09T03:44:25.681796Z",
+          "description": "当前普通模式绑定数值。",
+          "fixedValue": 0.08,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "额外生命伤害系数",
+          "parameterKey": "bonus_health_damage_ratio",
+          "skillKey": "rune_8439_passive",
+          "sortOrder": 90,
+          "updatedAt": "2026-09-09T03:44:25.681796Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "ok": true,
+            "body": {
+              "createdAt": "2026-09-09T03:44:25.681796Z",
+              "description": "当前普通模式绑定数值。",
+              "fixedValue": 0.08,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "额外生命伤害系数",
+              "parameterKey": "bonus_health_damage_ratio",
+              "skillKey": "rune_8439_passive",
+              "sortOrder": 90,
+              "updatedAt": "2026-09-09T03:44:25.681796Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            }
+          }
+        ],
+        "reusedCachedSnapshot": true
+      },
+      {
+        "kind": "parameter",
+        "id": 9101,
+        "skillKey": "rune_9101_passive",
+        "key": "confirmed_level_heal",
+        "label": "rune_9101_passive/confirmed_level_heal",
+        "route": "/skills/rune_9101_passive/parameters/confirmed_level_heal",
+        "status": 200,
+        "ok": true,
+        "body": {
+          "createdAt": "2026-09-09T03:44:37.1089Z",
+          "description": "源HealAmount为断点计算；缺完整断点当级和斜率规则，不凭端点1与23生成曲线。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "已确认等级恢复量",
+          "parameterKey": "confirmed_level_heal",
+          "skillKey": "rune_9101_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T03:44:37.1089Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        "data": {
+          "createdAt": "2026-09-09T03:44:37.1089Z",
+          "description": "源HealAmount为断点计算；缺完整断点当级和斜率规则，不凭端点1与23生成曲线。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "已确认等级恢复量",
+          "parameterKey": "confirmed_level_heal",
+          "skillKey": "rune_9101_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T03:44:37.1089Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "ok": true,
+            "body": {
+              "createdAt": "2026-09-09T03:44:37.1089Z",
+              "description": "源HealAmount为断点计算；缺完整断点当级和斜率规则，不凭端点1与23生成曲线。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "已确认等级恢复量",
+              "parameterKey": "confirmed_level_heal",
+              "skillKey": "rune_9101_passive",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T03:44:37.1089Z",
+              "valueMode": "RUNTIME_INPUT",
+              "valueType": "DECIMAL"
+            }
+          }
+        ],
+        "reusedCachedSnapshot": true
+      },
+      {
+        "kind": "parameter",
+        "id": 8233,
+        "skillKey": "rune_8233_passive",
+        "key": "confirmed_adaptive_force",
+        "label": "rune_8233_passive/confirmed_adaptive_force",
+        "route": "/skills/rune_8233_passive/parameters/confirmed_adaptive_force",
+        "status": 200,
+        "ok": true,
+        "body": {
+          "createdAt": "2026-09-09T03:44:43.086331Z",
+          "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "已确认等级适应之力",
+          "parameterKey": "confirmed_adaptive_force",
+          "skillKey": "rune_8233_passive",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T03:44:43.086331Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        "data": {
+          "createdAt": "2026-09-09T03:44:43.086331Z",
+          "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "已确认等级适应之力",
+          "parameterKey": "confirmed_adaptive_force",
+          "skillKey": "rune_8233_passive",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T03:44:43.086331Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "ok": true,
+            "body": {
+              "createdAt": "2026-09-09T03:44:43.086331Z",
+              "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "已确认等级适应之力",
+              "parameterKey": "confirmed_adaptive_force",
+              "skillKey": "rune_8233_passive",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-09T03:44:43.086331Z",
+              "valueMode": "RUNTIME_INPUT",
+              "valueType": "DECIMAL"
+            }
+          }
+        ],
+        "reusedCachedSnapshot": true
+      },
+      {
+        "kind": "parameter",
+        "id": 8233,
+        "skillKey": "rune_8233_passive",
+        "key": "health_threshold_ratio",
+        "label": "rune_8233_passive/health_threshold_ratio",
+        "route": "/skills/rune_8233_passive/parameters/health_threshold_ratio",
+        "status": 200,
+        "ok": true,
+        "body": {
+          "createdAt": "2026-09-09T03:44:43.830562Z",
+          "description": "当前普通模式绑定数值。",
+          "fixedValue": 0.7,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "生命门槛比例",
+          "parameterKey": "health_threshold_ratio",
+          "skillKey": "rune_8233_passive",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T03:44:43.830562Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        "data": {
+          "createdAt": "2026-09-09T03:44:43.830562Z",
+          "description": "当前普通模式绑定数值。",
+          "fixedValue": 0.7,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "生命门槛比例",
+          "parameterKey": "health_threshold_ratio",
+          "skillKey": "rune_8233_passive",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T03:44:43.830562Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "ok": true,
+            "body": {
+              "createdAt": "2026-09-09T03:44:43.830562Z",
+              "description": "当前普通模式绑定数值。",
+              "fixedValue": 0.7,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "生命门槛比例",
+              "parameterKey": "health_threshold_ratio",
+              "skillKey": "rune_8233_passive",
+              "sortOrder": 40,
+              "updatedAt": "2026-09-09T03:44:43.830562Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            }
+          }
+        ],
+        "reusedCachedSnapshot": true
+      },
+      {
+        "kind": "parameter",
+        "id": 8233,
+        "skillKey": "rune_8233_passive",
+        "key": "adaptive_to_attack_damage_ratio",
+        "label": "rune_8233_passive/adaptive_to_attack_damage_ratio",
+        "route": "/skills/rune_8233_passive/parameters/adaptive_to_attack_damage_ratio",
+        "status": 200,
+        "ok": true,
+        "body": {
+          "createdAt": "2026-09-09T03:44:44.586751Z",
+          "description": "本对象当前长说明显式MinAdaptive乘0.6为攻击力；仅换算，不代替适应分支选择。",
+          "fixedValue": 0.6,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "适应之力转攻击力系数",
+          "parameterKey": "adaptive_to_attack_damage_ratio",
+          "skillKey": "rune_8233_passive",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T03:44:44.586751Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        "data": {
+          "createdAt": "2026-09-09T03:44:44.586751Z",
+          "description": "本对象当前长说明显式MinAdaptive乘0.6为攻击力；仅换算，不代替适应分支选择。",
+          "fixedValue": 0.6,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "适应之力转攻击力系数",
+          "parameterKey": "adaptive_to_attack_damage_ratio",
+          "skillKey": "rune_8233_passive",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T03:44:44.586751Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "ok": true,
+            "body": {
+              "createdAt": "2026-09-09T03:44:44.586751Z",
+              "description": "本对象当前长说明显式MinAdaptive乘0.6为攻击力；仅换算，不代替适应分支选择。",
+              "fixedValue": 0.6,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "适应之力转攻击力系数",
+              "parameterKey": "adaptive_to_attack_damage_ratio",
+              "skillKey": "rune_8233_passive",
+              "sortOrder": 50,
+              "updatedAt": "2026-09-09T03:44:44.586751Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            }
+          }
+        ],
+        "reusedCachedSnapshot": true
+      },
+      {
+        "kind": "parameter",
+        "id": 8214,
+        "skillKey": "rune_8214_passive",
+        "key": "confirmed_level_base",
+        "label": "rune_8214_passive/confirmed_level_base",
+        "route": "/skills/rune_8214_passive/parameters/confirmed_level_base",
+        "status": 200,
+        "ok": true,
+        "body": {
+          "createdAt": "2026-09-09T03:44:50.58538Z",
+          "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "已确认等级基础伤害",
+          "parameterKey": "confirmed_level_base",
+          "skillKey": "rune_8214_passive",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T03:44:50.58538Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        "data": {
+          "createdAt": "2026-09-09T03:44:50.58538Z",
+          "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "已确认等级基础伤害",
+          "parameterKey": "confirmed_level_base",
+          "skillKey": "rune_8214_passive",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T03:44:50.58538Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "ok": true,
+            "body": {
+              "createdAt": "2026-09-09T03:44:50.58538Z",
+              "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "已确认等级基础伤害",
+              "parameterKey": "confirmed_level_base",
+              "skillKey": "rune_8214_passive",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-09T03:44:50.58538Z",
+              "valueMode": "RUNTIME_INPUT",
+              "valueType": "DECIMAL"
+            }
+          }
+        ],
+        "reusedCachedSnapshot": true
+      },
+      {
+        "kind": "parameter",
+        "id": 8214,
+        "skillKey": "rune_8214_passive",
+        "key": "ability_power_ratio",
+        "label": "rune_8214_passive/ability_power_ratio",
+        "route": "/skills/rune_8214_passive/parameters/ability_power_ratio",
+        "status": 200,
+        "ok": true,
+        "body": {
+          "createdAt": "2026-09-09T03:44:51.302685Z",
+          "description": "当前普通模式绑定数值。",
+          "fixedValue": 0.05,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "法术强度系数",
+          "parameterKey": "ability_power_ratio",
+          "skillKey": "rune_8214_passive",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T03:44:51.302685Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        "data": {
+          "createdAt": "2026-09-09T03:44:51.302685Z",
+          "description": "当前普通模式绑定数值。",
+          "fixedValue": 0.05,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "法术强度系数",
+          "parameterKey": "ability_power_ratio",
+          "skillKey": "rune_8214_passive",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T03:44:51.302685Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "ok": true,
+            "body": {
+              "createdAt": "2026-09-09T03:44:51.302685Z",
+              "description": "当前普通模式绑定数值。",
+              "fixedValue": 0.05,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "法术强度系数",
+              "parameterKey": "ability_power_ratio",
+              "skillKey": "rune_8214_passive",
+              "sortOrder": 40,
+              "updatedAt": "2026-09-09T03:44:51.302685Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            }
+          }
+        ],
+        "reusedCachedSnapshot": true
+      },
+      {
+        "kind": "parameter",
+        "id": 8214,
+        "skillKey": "rune_8214_passive",
+        "key": "bonus_attack_damage_ratio",
+        "label": "rune_8214_passive/bonus_attack_damage_ratio",
+        "route": "/skills/rune_8214_passive/parameters/bonus_attack_damage_ratio",
+        "status": 200,
+        "ok": true,
+        "body": {
+          "createdAt": "2026-09-09T03:44:52.1139Z",
+          "description": "当前普通模式绑定数值。",
+          "fixedValue": 0.1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "额外攻击力系数",
+          "parameterKey": "bonus_attack_damage_ratio",
+          "skillKey": "rune_8214_passive",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T03:44:52.1139Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        "data": {
+          "createdAt": "2026-09-09T03:44:52.1139Z",
+          "description": "当前普通模式绑定数值。",
+          "fixedValue": 0.1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "额外攻击力系数",
+          "parameterKey": "bonus_attack_damage_ratio",
+          "skillKey": "rune_8214_passive",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T03:44:52.1139Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "ok": true,
+            "body": {
+              "createdAt": "2026-09-09T03:44:52.1139Z",
+              "description": "当前普通模式绑定数值。",
+              "fixedValue": 0.1,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "额外攻击力系数",
+              "parameterKey": "bonus_attack_damage_ratio",
+              "skillKey": "rune_8214_passive",
+              "sortOrder": 50,
+              "updatedAt": "2026-09-09T03:44:52.1139Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            }
+          }
+        ],
+        "reusedCachedSnapshot": true
+      },
+      {
+        "kind": "parameter",
+        "id": 8229,
+        "skillKey": "rune_8229_passive",
+        "key": "confirmed_level_base",
+        "label": "rune_8229_passive/confirmed_level_base",
+        "route": "/skills/rune_8229_passive/parameters/confirmed_level_base",
+        "status": 200,
+        "ok": true,
+        "body": {
+          "createdAt": "2026-09-09T03:44:56.712135Z",
+          "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "已确认等级基础伤害",
+          "parameterKey": "confirmed_level_base",
+          "skillKey": "rune_8229_passive",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T03:44:56.712135Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        "data": {
+          "createdAt": "2026-09-09T03:44:56.712135Z",
+          "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "已确认等级基础伤害",
+          "parameterKey": "confirmed_level_base",
+          "skillKey": "rune_8229_passive",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T03:44:56.712135Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "ok": true,
+            "body": {
+              "createdAt": "2026-09-09T03:44:56.712135Z",
+              "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "已确认等级基础伤害",
+              "parameterKey": "confirmed_level_base",
+              "skillKey": "rune_8229_passive",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-09T03:44:56.712135Z",
+              "valueMode": "RUNTIME_INPUT",
+              "valueType": "DECIMAL"
+            }
+          }
+        ],
+        "reusedCachedSnapshot": true
+      },
+      {
+        "kind": "parameter",
+        "id": 8229,
+        "skillKey": "rune_8229_passive",
+        "key": "ability_power_ratio",
+        "label": "rune_8229_passive/ability_power_ratio",
+        "route": "/skills/rune_8229_passive/parameters/ability_power_ratio",
+        "status": 200,
+        "ok": true,
+        "body": {
+          "createdAt": "2026-09-09T03:44:57.423432Z",
+          "description": "当前普通模式绑定数值。",
+          "fixedValue": 0.05,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "法术强度系数",
+          "parameterKey": "ability_power_ratio",
+          "skillKey": "rune_8229_passive",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T03:44:57.423432Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        "data": {
+          "createdAt": "2026-09-09T03:44:57.423432Z",
+          "description": "当前普通模式绑定数值。",
+          "fixedValue": 0.05,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "法术强度系数",
+          "parameterKey": "ability_power_ratio",
+          "skillKey": "rune_8229_passive",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T03:44:57.423432Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "ok": true,
+            "body": {
+              "createdAt": "2026-09-09T03:44:57.423432Z",
+              "description": "当前普通模式绑定数值。",
+              "fixedValue": 0.05,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "法术强度系数",
+              "parameterKey": "ability_power_ratio",
+              "skillKey": "rune_8229_passive",
+              "sortOrder": 40,
+              "updatedAt": "2026-09-09T03:44:57.423432Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            }
+          }
+        ],
+        "reusedCachedSnapshot": true
+      },
+      {
+        "kind": "parameter",
+        "id": 8229,
+        "skillKey": "rune_8229_passive",
+        "key": "bonus_attack_damage_ratio",
+        "label": "rune_8229_passive/bonus_attack_damage_ratio",
+        "route": "/skills/rune_8229_passive/parameters/bonus_attack_damage_ratio",
+        "status": 200,
+        "ok": true,
+        "body": {
+          "createdAt": "2026-09-09T03:44:58.115737Z",
+          "description": "当前普通模式绑定数值。",
+          "fixedValue": 0.1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "额外攻击力系数",
+          "parameterKey": "bonus_attack_damage_ratio",
+          "skillKey": "rune_8229_passive",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T03:44:58.115737Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        "data": {
+          "createdAt": "2026-09-09T03:44:58.115737Z",
+          "description": "当前普通模式绑定数值。",
+          "fixedValue": 0.1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "额外攻击力系数",
+          "parameterKey": "bonus_attack_damage_ratio",
+          "skillKey": "rune_8229_passive",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T03:44:58.115737Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "ok": true,
+            "body": {
+              "createdAt": "2026-09-09T03:44:58.115737Z",
+              "description": "当前普通模式绑定数值。",
+              "fixedValue": 0.1,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "额外攻击力系数",
+              "parameterKey": "bonus_attack_damage_ratio",
+              "skillKey": "rune_8229_passive",
+              "sortOrder": 50,
+              "updatedAt": "2026-09-09T03:44:58.115737Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            }
+          }
+        ],
+        "reusedCachedSnapshot": true
+      },
+      {
+        "kind": "parameter",
+        "id": 8229,
+        "skillKey": "rune_8229_passive",
+        "key": "confirmed_level_cooldown_seconds_source_start",
+        "label": "rune_8229_passive/confirmed_level_cooldown_seconds_source_start",
+        "route": "/skills/rune_8229_passive/parameters/confirmed_level_cooldown_seconds_source_start",
+        "status": 200,
+        "ok": true,
+        "body": {
+          "createdAt": "2026-09-09T03:44:58.783153Z",
+          "description": "仅保留当前来源起点，不凭端点生成1至18级表。",
+          "fixedValue": 20,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "等级冷却秒数来源起点",
+          "parameterKey": "confirmed_level_cooldown_seconds_source_start",
+          "skillKey": "rune_8229_passive",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T03:44:58.783153Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        "data": {
+          "createdAt": "2026-09-09T03:44:58.783153Z",
+          "description": "仅保留当前来源起点，不凭端点生成1至18级表。",
+          "fixedValue": 20,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "等级冷却秒数来源起点",
+          "parameterKey": "confirmed_level_cooldown_seconds_source_start",
+          "skillKey": "rune_8229_passive",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T03:44:58.783153Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "ok": true,
+            "body": {
+              "createdAt": "2026-09-09T03:44:58.783153Z",
+              "description": "仅保留当前来源起点，不凭端点生成1至18级表。",
+              "fixedValue": 20,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "等级冷却秒数来源起点",
+              "parameterKey": "confirmed_level_cooldown_seconds_source_start",
+              "skillKey": "rune_8229_passive",
+              "sortOrder": 60,
+              "updatedAt": "2026-09-09T03:44:58.783153Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          }
+        ],
+        "reusedCachedSnapshot": true
+      },
+      {
+        "kind": "parameter",
+        "id": 8229,
+        "skillKey": "rune_8229_passive",
+        "key": "confirmed_level_cooldown_seconds",
+        "label": "rune_8229_passive/confirmed_level_cooldown_seconds",
+        "route": "/skills/rune_8229_passive/parameters/confirmed_level_cooldown_seconds",
+        "status": 200,
+        "ok": true,
+        "body": {
+          "createdAt": "2026-09-09T03:45:00.235805Z",
+          "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "已确认等级冷却秒数",
+          "parameterKey": "confirmed_level_cooldown_seconds",
+          "skillKey": "rune_8229_passive",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-09T03:45:00.235805Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        "data": {
+          "createdAt": "2026-09-09T03:45:00.235805Z",
+          "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "已确认等级冷却秒数",
+          "parameterKey": "confirmed_level_cooldown_seconds",
+          "skillKey": "rune_8229_passive",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-09T03:45:00.235805Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "ok": true,
+            "body": {
+              "createdAt": "2026-09-09T03:45:00.235805Z",
+              "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "已确认等级冷却秒数",
+              "parameterKey": "confirmed_level_cooldown_seconds",
+              "skillKey": "rune_8229_passive",
+              "sortOrder": 80,
+              "updatedAt": "2026-09-09T03:45:00.235805Z",
+              "valueMode": "RUNTIME_INPUT",
+              "valueType": "DECIMAL"
+            }
+          }
+        ],
+        "reusedCachedSnapshot": true
+      },
+      {
+        "kind": "parameter",
+        "id": 8229,
+        "skillKey": "rune_8229_passive",
+        "key": "maximum_distance_damage_ratio",
+        "label": "rune_8229_passive/maximum_distance_damage_ratio",
+        "route": "/skills/rune_8229_passive/parameters/maximum_distance_damage_ratio",
+        "status": 200,
+        "ok": true,
+        "body": {
+          "createdAt": "2026-09-09T03:45:00.96634Z",
+          "description": "当前普通模式绑定数值。",
+          "fixedValue": 1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "距离最大伤害增幅比例",
+          "parameterKey": "maximum_distance_damage_ratio",
+          "skillKey": "rune_8229_passive",
+          "sortOrder": 90,
+          "updatedAt": "2026-09-09T03:45:00.96634Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        "data": {
+          "createdAt": "2026-09-09T03:45:00.96634Z",
+          "description": "当前普通模式绑定数值。",
+          "fixedValue": 1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "距离最大伤害增幅比例",
+          "parameterKey": "maximum_distance_damage_ratio",
+          "skillKey": "rune_8229_passive",
+          "sortOrder": 90,
+          "updatedAt": "2026-09-09T03:45:00.96634Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "ok": true,
+            "body": {
+              "createdAt": "2026-09-09T03:45:00.96634Z",
+              "description": "当前普通模式绑定数值。",
+              "fixedValue": 1,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "距离最大伤害增幅比例",
+              "parameterKey": "maximum_distance_damage_ratio",
+              "skillKey": "rune_8229_passive",
+              "sortOrder": 90,
+              "updatedAt": "2026-09-09T03:45:00.96634Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          }
+        ],
+        "reusedCachedSnapshot": true
+      },
+      {
+        "kind": "parameter",
+        "id": 8229,
+        "skillKey": "rune_8229_passive",
+        "key": "maximum_amplification_distance",
+        "label": "rune_8229_passive/maximum_amplification_distance",
+        "route": "/skills/rune_8229_passive/parameters/maximum_amplification_distance",
+        "status": 200,
+        "ok": true,
+        "body": {
+          "createdAt": "2026-09-09T03:45:01.724169Z",
+          "description": "距离直接影响伤害，应保留端点；不据此构造线性斜率。",
+          "fixedValue": 750,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "最大增幅对应距离",
+          "parameterKey": "maximum_amplification_distance",
+          "skillKey": "rune_8229_passive",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-09T03:45:01.724169Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        "data": {
+          "createdAt": "2026-09-09T03:45:01.724169Z",
+          "description": "距离直接影响伤害，应保留端点；不据此构造线性斜率。",
+          "fixedValue": 750,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "最大增幅对应距离",
+          "parameterKey": "maximum_amplification_distance",
+          "skillKey": "rune_8229_passive",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-09T03:45:01.724169Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "ok": true,
+            "body": {
+              "createdAt": "2026-09-09T03:45:01.724169Z",
+              "description": "距离直接影响伤害，应保留端点；不据此构造线性斜率。",
+              "fixedValue": 750,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "最大增幅对应距离",
+              "parameterKey": "maximum_amplification_distance",
+              "skillKey": "rune_8229_passive",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-09T03:45:01.724169Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          }
+        ],
+        "reusedCachedSnapshot": true
+      },
+      {
+        "kind": "parameter",
+        "id": 8229,
+        "skillKey": "rune_8229_passive",
+        "key": "cooldown_floor_seconds",
+        "label": "rune_8229_passive/cooldown_floor_seconds",
+        "route": "/skills/rune_8229_passive/parameters/cooldown_floor_seconds",
+        "status": 200,
+        "ok": true,
+        "body": {
+          "createdAt": "2026-09-09T03:45:02.759739Z",
+          "description": "当前CooldownCalc钳制节点mFloor=0.30000001192092896。",
+          "fixedValue": 0.3,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "冷却原树下限秒数",
+          "parameterKey": "cooldown_floor_seconds",
+          "skillKey": "rune_8229_passive",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-09T03:45:02.759739Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        "data": {
+          "createdAt": "2026-09-09T03:45:02.759739Z",
+          "description": "当前CooldownCalc钳制节点mFloor=0.30000001192092896。",
+          "fixedValue": 0.3,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "冷却原树下限秒数",
+          "parameterKey": "cooldown_floor_seconds",
+          "skillKey": "rune_8229_passive",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-09T03:45:02.759739Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "ok": true,
+            "body": {
+              "createdAt": "2026-09-09T03:45:02.759739Z",
+              "description": "当前CooldownCalc钳制节点mFloor=0.30000001192092896。",
+              "fixedValue": 0.3,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "冷却原树下限秒数",
+              "parameterKey": "cooldown_floor_seconds",
+              "skillKey": "rune_8229_passive",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-09T03:45:02.759739Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            }
+          }
+        ],
+        "reusedCachedSnapshot": true
+      },
+      {
+        "kind": "parameter",
+        "id": 8229,
+        "skillKey": "rune_8229_passive",
+        "key": "seconds_to_ms",
+        "label": "rune_8229_passive/seconds_to_ms",
+        "route": "/skills/rune_8229_passive/parameters/seconds_to_ms",
+        "status": 200,
+        "ok": true,
+        "body": {
+          "createdAt": "2026-09-09T03:45:03.690799Z",
+          "description": "单位换算常数，不是游戏平衡数值。",
+          "fixedValue": 1000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "秒转毫秒系数",
+          "parameterKey": "seconds_to_ms",
+          "skillKey": "rune_8229_passive",
+          "sortOrder": 120,
+          "updatedAt": "2026-09-09T03:45:03.690799Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        "data": {
+          "createdAt": "2026-09-09T03:45:03.690799Z",
+          "description": "单位换算常数，不是游戏平衡数值。",
+          "fixedValue": 1000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "秒转毫秒系数",
+          "parameterKey": "seconds_to_ms",
+          "skillKey": "rune_8229_passive",
+          "sortOrder": 120,
+          "updatedAt": "2026-09-09T03:45:03.690799Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "ok": true,
+            "body": {
+              "createdAt": "2026-09-09T03:45:03.690799Z",
+              "description": "单位换算常数，不是游戏平衡数值。",
+              "fixedValue": 1000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "秒转毫秒系数",
+              "parameterKey": "seconds_to_ms",
+              "skillKey": "rune_8229_passive",
+              "sortOrder": 120,
+              "updatedAt": "2026-09-09T03:45:03.690799Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          }
+        ],
+        "reusedCachedSnapshot": true
+      },
+      {
+        "kind": "parameter",
+        "id": 8237,
+        "skillKey": "rune_8237_passive",
+        "key": "confirmed_level_base",
+        "label": "rune_8237_passive/confirmed_level_base",
+        "route": "/skills/rune_8237_passive/parameters/confirmed_level_base",
+        "status": 200,
+        "ok": true,
+        "body": {
+          "createdAt": "2026-09-09T03:45:09.109155Z",
+          "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "已确认等级基础伤害",
+          "parameterKey": "confirmed_level_base",
+          "skillKey": "rune_8237_passive",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T03:45:09.109155Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        "data": {
+          "createdAt": "2026-09-09T03:45:09.109155Z",
+          "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "已确认等级基础伤害",
+          "parameterKey": "confirmed_level_base",
+          "skillKey": "rune_8237_passive",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T03:45:09.109155Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "ok": true,
+            "body": {
+              "createdAt": "2026-09-09T03:45:09.109155Z",
+              "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "已确认等级基础伤害",
+              "parameterKey": "confirmed_level_base",
+              "skillKey": "rune_8237_passive",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-09T03:45:09.109155Z",
+              "valueMode": "RUNTIME_INPUT",
+              "valueType": "DECIMAL"
+            }
+          }
+        ],
+        "reusedCachedSnapshot": true
+      },
+      {
+        "kind": "parameter",
+        "id": 8232,
+        "skillKey": "rune_8232_passive",
+        "key": "confirmed_adaptive_force",
+        "label": "rune_8232_passive/confirmed_adaptive_force",
+        "route": "/skills/rune_8232_passive/parameters/confirmed_adaptive_force",
+        "status": 200,
+        "ok": true,
+        "body": {
+          "createdAt": "2026-09-09T03:45:15.572664Z",
+          "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "已确认等级适应之力",
+          "parameterKey": "confirmed_adaptive_force",
+          "skillKey": "rune_8232_passive",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T03:45:15.572664Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        "data": {
+          "createdAt": "2026-09-09T03:45:15.572664Z",
+          "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "已确认等级适应之力",
+          "parameterKey": "confirmed_adaptive_force",
+          "skillKey": "rune_8232_passive",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T03:45:15.572664Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "ok": true,
+            "body": {
+              "createdAt": "2026-09-09T03:45:15.572664Z",
+              "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "已确认等级适应之力",
+              "parameterKey": "confirmed_adaptive_force",
+              "skillKey": "rune_8232_passive",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-09T03:45:15.572664Z",
+              "valueMode": "RUNTIME_INPUT",
+              "valueType": "DECIMAL"
+            }
+          }
+        ],
+        "reusedCachedSnapshot": true
+      },
+      {
+        "kind": "parameter",
+        "id": 8232,
+        "skillKey": "rune_8232_passive",
+        "key": "river_flat_move_speed",
+        "label": "rune_8232_passive/river_flat_move_speed",
+        "route": "/skills/rune_8232_passive/parameters/river_flat_move_speed",
+        "status": 200,
+        "ok": true,
+        "body": {
+          "createdAt": "2026-09-09T03:45:16.402654Z",
+          "description": "当前普通模式绑定数值。",
+          "fixedValue": 10,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "河道固定移速",
+          "parameterKey": "river_flat_move_speed",
+          "skillKey": "rune_8232_passive",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T03:45:16.402654Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        "data": {
+          "createdAt": "2026-09-09T03:45:16.402654Z",
+          "description": "当前普通模式绑定数值。",
+          "fixedValue": 10,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "河道固定移速",
+          "parameterKey": "river_flat_move_speed",
+          "skillKey": "rune_8232_passive",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T03:45:16.402654Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "ok": true,
+            "body": {
+              "createdAt": "2026-09-09T03:45:16.402654Z",
+              "description": "当前普通模式绑定数值。",
+              "fixedValue": 10,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "河道固定移速",
+              "parameterKey": "river_flat_move_speed",
+              "skillKey": "rune_8232_passive",
+              "sortOrder": 40,
+              "updatedAt": "2026-09-09T03:45:16.402654Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          }
+        ],
+        "reusedCachedSnapshot": true
+      },
+      {
+        "kind": "effect",
+        "id": 8232,
+        "skillKey": "rune_8232_passive",
+        "key": "river_flat_move_speed_component",
+        "label": "rune_8232_passive/river_flat_move_speed_component",
+        "route": "/skills/rune_8232_passive/effects/river_flat_move_speed_component",
+        "status": 200,
+        "ok": true,
+        "body": {
+          "createdAt": "2026-09-09T03:45:17.843268Z",
+          "description": "只有已确认处在河道时可应用，离开时需移除；当前无自动触发和河道状态，不能初始化无条件常驻。",
+          "effectKey": "river_flat_move_speed_component",
+          "gameId": "lol",
+          "lifecycle": {
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "durationValue": null,
+            "expiryMode": "EXPLICIT_ONLY",
+            "firstPeriodicExecution": null,
+            "instanceScope": "SOURCE",
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "periodicIntervalValue": null,
+            "reapplicationDurationMode": null,
+            "reapplicationStackMode": "KEEP"
+          },
+          "name": "河道固定移速组成",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "attributeKey": "move_speed",
+                "modifierZoneKey": "attribute_flat_add",
+                "operation": "INCREASE"
+              },
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "periodicExecutionMode": null,
+                "reapplicationValueMode": "REPLACE",
+                "stackValueMode": "SHARED",
+                "valueReadMode": "APPLICATION_SNAPSHOT"
+              },
+              "name": "河道固定移速组成",
+              "resultKey": "attribute_bonus",
+              "resultType": "ATTRIBUTE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "river_flat_move_speed"
+                }
+              }
+            }
+          ],
+          "skillKey": "rune_8232_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T03:45:17.843268Z"
+        },
+        "data": {
+          "createdAt": "2026-09-09T03:45:17.843268Z",
+          "description": "只有已确认处在河道时可应用，离开时需移除；当前无自动触发和河道状态，不能初始化无条件常驻。",
+          "effectKey": "river_flat_move_speed_component",
+          "gameId": "lol",
+          "lifecycle": {
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "durationValue": null,
+            "expiryMode": "EXPLICIT_ONLY",
+            "firstPeriodicExecution": null,
+            "instanceScope": "SOURCE",
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "periodicIntervalValue": null,
+            "reapplicationDurationMode": null,
+            "reapplicationStackMode": "KEEP"
+          },
+          "name": "河道固定移速组成",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "attributeKey": "move_speed",
+                "modifierZoneKey": "attribute_flat_add",
+                "operation": "INCREASE"
+              },
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "periodicExecutionMode": null,
+                "reapplicationValueMode": "REPLACE",
+                "stackValueMode": "SHARED",
+                "valueReadMode": "APPLICATION_SNAPSHOT"
+              },
+              "name": "河道固定移速组成",
+              "resultKey": "attribute_bonus",
+              "resultType": "ATTRIBUTE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "river_flat_move_speed"
+                }
+              }
+            }
+          ],
+          "skillKey": "rune_8232_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T03:45:17.843268Z"
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": 200,
+            "ok": true,
+            "body": {
+              "createdAt": "2026-09-09T03:45:17.843268Z",
+              "description": "只有已确认处在河道时可应用，离开时需移除；当前无自动触发和河道状态，不能初始化无条件常驻。",
+              "effectKey": "river_flat_move_speed_component",
+              "gameId": "lol",
+              "lifecycle": {
+                "applicationStacksValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "durationValue": null,
+                "expiryMode": "EXPLICIT_ONLY",
+                "firstPeriodicExecution": null,
+                "instanceScope": "SOURCE",
+                "maxStacksValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "periodicIntervalValue": null,
+                "reapplicationDurationMode": null,
+                "reapplicationStackMode": "KEEP"
+              },
+              "name": "河道固定移速组成",
+              "results": [
+                {
+                  "description": null,
+                  "detail": {
+                    "attributeKey": "move_speed",
+                    "modifierZoneKey": "attribute_flat_add",
+                    "operation": "INCREASE"
+                  },
+                  "lifecycleBehavior": {
+                    "moment": "PERSISTENT",
+                    "periodicExecutionMode": null,
+                    "reapplicationValueMode": "REPLACE",
+                    "stackValueMode": "SHARED",
+                    "valueReadMode": "APPLICATION_SNAPSHOT"
+                  },
+                  "name": "河道固定移速组成",
+                  "resultKey": "attribute_bonus",
+                  "resultType": "ATTRIBUTE_CHANGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": null,
+                  "target": "SOURCE",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "kind": "PARAMETER",
+                      "parameterKey": "river_flat_move_speed"
+                    }
+                  }
+                }
+              ],
+              "skillKey": "rune_8232_passive",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T03:45:17.843268Z"
+            }
+          }
+        ],
+        "reusedCachedSnapshot": true
+      }
+    ]
+  },
+  "checks": {
+    "count": 88,
+    "passed": 88,
+    "failed": 0,
+    "allPassed": true,
+    "details": [
+      {
+        "name": "最终请求和授权范围完整",
+        "formulaCount": 17,
+        "effectCount": 1,
+        "dependencyParameterCount": 39,
+        "status": "通过"
+      },
+      {
+        "name": "保护基线只读摘要已保存",
+        "identityCount": 69,
+        "layoutCount": 6,
+        "note": "不重复读取身份、布局和图片关系",
+        "status": "通过"
+      },
+      {
+        "name": "实际GET公式 rune_8112_passive/damage_amount",
+        "route": "/skills/rune_8112_passive/formulas/damage_amount",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET公式 rune_8126_passive/damage_amount",
+        "route": "/skills/rune_8126_passive/formulas/damage_amount",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET公式 rune_8139_passive/heal_amount",
+        "route": "/skills/rune_8139_passive/formulas/heal_amount",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET公式 rune_8143_passive/damage_amount",
+        "route": "/skills/rune_8143_passive/formulas/damage_amount",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET公式 rune_9923_passive/damage_amount",
+        "route": "/skills/rune_9923_passive/formulas/damage_amount",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET公式 rune_8439_passive/armor_bonus_amount",
+        "route": "/skills/rune_8439_passive/formulas/armor_bonus_amount",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET公式 rune_8439_passive/magic_resistance_bonus_amount",
+        "route": "/skills/rune_8439_passive/formulas/magic_resistance_bonus_amount",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET公式 rune_8439_passive/damage_amount",
+        "route": "/skills/rune_8439_passive/formulas/damage_amount",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET公式 rune_9101_passive/heal_amount",
+        "route": "/skills/rune_9101_passive/formulas/heal_amount",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET公式 rune_8233_passive/health_threshold",
+        "route": "/skills/rune_8233_passive/formulas/health_threshold",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET公式 rune_8233_passive/attack_damage_amount",
+        "route": "/skills/rune_8233_passive/formulas/attack_damage_amount",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET公式 rune_8233_passive/ability_power_amount",
+        "route": "/skills/rune_8233_passive/formulas/ability_power_amount",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET公式 rune_8214_passive/damage_amount",
+        "route": "/skills/rune_8214_passive/formulas/damage_amount",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET公式 rune_8229_passive/base_damage_amount",
+        "route": "/skills/rune_8229_passive/formulas/base_damage_amount",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET公式 rune_8229_passive/cooldown_ms",
+        "route": "/skills/rune_8229_passive/formulas/cooldown_ms",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET公式 rune_8237_passive/damage_amount",
+        "route": "/skills/rune_8237_passive/formulas/damage_amount",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET公式 rune_8232_passive/adaptive_force_amount",
+        "route": "/skills/rune_8232_passive/formulas/adaptive_force_amount",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8112_passive/confirmed_level_base",
+        "route": "/skills/rune_8112_passive/parameters/confirmed_level_base",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8112_passive/ability_power_ratio",
+        "route": "/skills/rune_8112_passive/parameters/ability_power_ratio",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8112_passive/bonus_attack_damage_ratio",
+        "route": "/skills/rune_8112_passive/parameters/bonus_attack_damage_ratio",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8126_passive/confirmed_level_base",
+        "route": "/skills/rune_8126_passive/parameters/confirmed_level_base",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8139_passive/confirmed_level_base",
+        "route": "/skills/rune_8139_passive/parameters/confirmed_level_base",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8139_passive/ability_power_ratio",
+        "route": "/skills/rune_8139_passive/parameters/ability_power_ratio",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8139_passive/bonus_attack_damage_ratio",
+        "route": "/skills/rune_8139_passive/parameters/bonus_attack_damage_ratio",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8143_passive/confirmed_level_base",
+        "route": "/skills/rune_8143_passive/parameters/confirmed_level_base",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_9923_passive/confirmed_level_base",
+        "route": "/skills/rune_9923_passive/parameters/confirmed_level_base",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_9923_passive/ability_power_ratio",
+        "route": "/skills/rune_9923_passive/parameters/ability_power_ratio",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_9923_passive/bonus_attack_damage_ratio",
+        "route": "/skills/rune_9923_passive/parameters/bonus_attack_damage_ratio",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_9923_passive/base_attack_count",
+        "route": "/skills/rune_9923_passive/parameters/base_attack_count",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_9923_passive/max_attack_gap_ms",
+        "route": "/skills/rune_9923_passive/parameters/max_attack_gap_ms",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_9923_passive/max_bonus_reset_attacks",
+        "route": "/skills/rune_9923_passive/parameters/max_bonus_reset_attacks",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_9923_passive/additional_attack_per_reset",
+        "route": "/skills/rune_9923_passive/parameters/additional_attack_per_reset",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8439_passive/confirmed_level_damage",
+        "route": "/skills/rune_8439_passive/parameters/confirmed_level_damage",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8439_passive/confirmed_level_resist_cap",
+        "route": "/skills/rune_8439_passive/parameters/confirmed_level_resist_cap",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8439_passive/flat_resistance",
+        "route": "/skills/rune_8439_passive/parameters/flat_resistance",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8439_passive/bonus_resistance_ratio",
+        "route": "/skills/rune_8439_passive/parameters/bonus_resistance_ratio",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8439_passive/bonus_health_damage_ratio",
+        "route": "/skills/rune_8439_passive/parameters/bonus_health_damage_ratio",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_9101_passive/confirmed_level_heal",
+        "route": "/skills/rune_9101_passive/parameters/confirmed_level_heal",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8233_passive/confirmed_adaptive_force",
+        "route": "/skills/rune_8233_passive/parameters/confirmed_adaptive_force",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8233_passive/health_threshold_ratio",
+        "route": "/skills/rune_8233_passive/parameters/health_threshold_ratio",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8233_passive/adaptive_to_attack_damage_ratio",
+        "route": "/skills/rune_8233_passive/parameters/adaptive_to_attack_damage_ratio",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8214_passive/confirmed_level_base",
+        "route": "/skills/rune_8214_passive/parameters/confirmed_level_base",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8214_passive/ability_power_ratio",
+        "route": "/skills/rune_8214_passive/parameters/ability_power_ratio",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8214_passive/bonus_attack_damage_ratio",
+        "route": "/skills/rune_8214_passive/parameters/bonus_attack_damage_ratio",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8229_passive/confirmed_level_base",
+        "route": "/skills/rune_8229_passive/parameters/confirmed_level_base",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8229_passive/ability_power_ratio",
+        "route": "/skills/rune_8229_passive/parameters/ability_power_ratio",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8229_passive/bonus_attack_damage_ratio",
+        "route": "/skills/rune_8229_passive/parameters/bonus_attack_damage_ratio",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8229_passive/confirmed_level_cooldown_seconds_source_start",
+        "route": "/skills/rune_8229_passive/parameters/confirmed_level_cooldown_seconds_source_start",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8229_passive/confirmed_level_cooldown_seconds",
+        "route": "/skills/rune_8229_passive/parameters/confirmed_level_cooldown_seconds",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8229_passive/maximum_distance_damage_ratio",
+        "route": "/skills/rune_8229_passive/parameters/maximum_distance_damage_ratio",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8229_passive/maximum_amplification_distance",
+        "route": "/skills/rune_8229_passive/parameters/maximum_amplification_distance",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8229_passive/cooldown_floor_seconds",
+        "route": "/skills/rune_8229_passive/parameters/cooldown_floor_seconds",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8229_passive/seconds_to_ms",
+        "route": "/skills/rune_8229_passive/parameters/seconds_to_ms",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8237_passive/confirmed_level_base",
+        "route": "/skills/rune_8237_passive/parameters/confirmed_level_base",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8232_passive/confirmed_adaptive_force",
+        "route": "/skills/rune_8232_passive/parameters/confirmed_adaptive_force",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8232_passive/river_flat_move_speed",
+        "route": "/skills/rune_8232_passive/parameters/river_flat_move_speed",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET效果 rune_8232_passive/river_flat_move_speed_component",
+        "route": "/skills/rune_8232_passive/effects/river_flat_move_speed_component",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "17个公式的必要参数已逐项回读",
+        "formulasRead": 17,
+        "parametersRead": 39,
+        "effectsRead": 1,
+        "status": "通过"
+      },
+      {
+        "name": "实际算例 电刑",
+        "status": "通过"
+      },
+      {
+        "name": "实际算例 恶意中伤",
+        "status": "通过"
+      },
+      {
+        "name": "实际算例 血之滋味",
+        "status": "通过"
+      },
+      {
+        "name": "实际算例 猛然冲击",
+        "status": "通过"
+      },
+      {
+        "name": "实际算例 丛刃",
+        "status": "通过"
+      },
+      {
+        "name": "实际算例 余震护甲等级下限",
+        "status": "通过"
+      },
+      {
+        "name": "实际算例 余震护甲等级上限",
+        "status": "通过"
+      },
+      {
+        "name": "实际算例 余震魔抗封顶",
+        "status": "通过"
+      },
+      {
+        "name": "实际算例 余震爆发",
+        "status": "通过"
+      },
+      {
+        "name": "实际算例 吸收生命力",
+        "status": "通过"
+      },
+      {
+        "name": "实际算例 绝对专注生命门槛值",
+        "status": "通过"
+      },
+      {
+        "name": "实际算例 绝对专注攻击力分支",
+        "status": "通过"
+      },
+      {
+        "name": "实际算例 绝对专注法强分支",
+        "status": "通过"
+      },
+      {
+        "name": "实际算例 艾黎",
+        "status": "通过"
+      },
+      {
+        "name": "实际算例 彗星伤害",
+        "status": "通过"
+      },
+      {
+        "name": "实际算例 彗星下限钳制",
+        "status": "通过"
+      },
+      {
+        "name": "实际算例 彗星上限端点",
+        "status": "通过"
+      },
+      {
+        "name": "实际算例 彗星低于下限",
+        "status": "通过"
+      },
+      {
+        "name": "实际算例 彗星高于上限",
+        "status": "通过"
+      },
+      {
+        "name": "实际算例 焦灼",
+        "status": "通过"
+      },
+      {
+        "name": "实际算例 水上行走",
+        "status": "通过"
+      },
+      {
+        "name": "AP、额外攻击力和余震实际公式结构",
+        "status": "通过"
+      },
+      {
+        "name": "余震实际MIN封顶参数",
+        "status": "通过"
+      },
+      {
+        "name": "彗星实际冷却钳制和距离边界",
+        "status": "通过"
+      },
+      {
+        "name": "丛刃实际相邻间隔和重置语义",
+        "status": "通过"
+      },
+      {
+        "name": "绝对专注和吸收生命力实际边界",
+        "status": "通过"
+      },
+      {
+        "name": "水上行走实际效果字段",
+        "status": "通过"
+      },
+      {
+        "name": "绝对专注严格高于70%边界",
+        "status": "通过"
+      }
+    ]
+  },
+  "arithmetic": {
+    "formulaCaseCount": 21,
+    "passed": 21,
+    "failed": 0,
+    "cases": [
+      {
+        "name": "电刑",
+        "skillKey": "rune_8112_passive",
+        "formulaKey": "damage_amount",
+        "parameters": {
+          "confirmed_level_base": 70
+        },
+        "attributes": {
+          "SOURCE:ability_power:TOTAL": 100,
+          "SOURCE:attack_damage:BONUS": 50
+        },
+        "expected": 80,
+        "actual": 80,
+        "explanation": "70+100×0.05+50×0.1"
+      },
+      {
+        "name": "恶意中伤",
+        "skillKey": "rune_8126_passive",
+        "formulaKey": "damage_amount",
+        "parameters": {
+          "confirmed_level_base": 10
+        },
+        "attributes": {},
+        "expected": 10,
+        "actual": 10,
+        "explanation": "显式等级值10"
+      },
+      {
+        "name": "血之滋味",
+        "skillKey": "rune_8139_passive",
+        "formulaKey": "heal_amount",
+        "parameters": {
+          "confirmed_level_base": 16
+        },
+        "attributes": {
+          "SOURCE:ability_power:TOTAL": 100,
+          "SOURCE:attack_damage:BONUS": 50
+        },
+        "expected": 26,
+        "actual": 26,
+        "explanation": "16+100×0.05+50×0.1"
+      },
+      {
+        "name": "猛然冲击",
+        "skillKey": "rune_8143_passive",
+        "formulaKey": "damage_amount",
+        "parameters": {
+          "confirmed_level_base": 20
+        },
+        "attributes": {},
+        "expected": 20,
+        "actual": 20,
+        "explanation": "显式等级值20"
+      },
+      {
+        "name": "丛刃",
+        "skillKey": "rune_9923_passive",
+        "formulaKey": "damage_amount",
+        "parameters": {
+          "confirmed_level_base": 2
+        },
+        "attributes": {
+          "SOURCE:ability_power:TOTAL": 100,
+          "SOURCE:attack_damage:BONUS": 50
+        },
+        "expected": 18,
+        "actual": 18,
+        "explanation": "2+100×0.1+50×0.12"
+      },
+      {
+        "name": "余震护甲等级下限",
+        "skillKey": "rune_8439_passive",
+        "formulaKey": "armor_bonus_amount",
+        "parameters": {
+          "confirmed_level_resist_cap": 80
+        },
+        "attributes": {
+          "SOURCE:armor:BONUS": 100
+        },
+        "expected": 80,
+        "actual": 80,
+        "explanation": "MIN(45+100×0.75,80)"
+      },
+      {
+        "name": "余震护甲等级上限",
+        "skillKey": "rune_8439_passive",
+        "formulaKey": "armor_bonus_amount",
+        "parameters": {
+          "confirmed_level_resist_cap": 150
+        },
+        "attributes": {
+          "SOURCE:armor:BONUS": 100
+        },
+        "expected": 120,
+        "actual": 120,
+        "explanation": "MIN(45+100×0.75,150)"
+      },
+      {
+        "name": "余震魔抗封顶",
+        "skillKey": "rune_8439_passive",
+        "formulaKey": "magic_resistance_bonus_amount",
+        "parameters": {
+          "confirmed_level_resist_cap": 150
+        },
+        "attributes": {
+          "SOURCE:magic_resistance:BONUS": 200
+        },
+        "expected": 150,
+        "actual": 150,
+        "explanation": "MIN(45+200×0.75,150)"
+      },
+      {
+        "name": "余震爆发",
+        "skillKey": "rune_8439_passive",
+        "formulaKey": "damage_amount",
+        "parameters": {
+          "confirmed_level_damage": 25
+        },
+        "attributes": {
+          "SOURCE:hp:BONUS": 2000
+        },
+        "expected": 185,
+        "actual": 185,
+        "explanation": "25+2000×0.08"
+      },
+      {
+        "name": "吸收生命力",
+        "skillKey": "rune_9101_passive",
+        "formulaKey": "heal_amount",
+        "parameters": {
+          "confirmed_level_heal": 23
+        },
+        "attributes": {},
+        "expected": 23,
+        "actual": 23,
+        "explanation": "显式等级输入23"
+      },
+      {
+        "name": "绝对专注生命门槛值",
+        "skillKey": "rune_8233_passive",
+        "formulaKey": "health_threshold",
+        "parameters": {},
+        "attributes": {
+          "SOURCE:hp:TOTAL": 1000
+        },
+        "expected": 700,
+        "actual": 700,
+        "explanation": "1000×0.7"
+      },
+      {
+        "name": "绝对专注攻击力分支",
+        "skillKey": "rune_8233_passive",
+        "formulaKey": "attack_damage_amount",
+        "parameters": {
+          "confirmed_adaptive_force": 30
+        },
+        "attributes": {},
+        "expected": 18,
+        "actual": 18,
+        "explanation": "30×0.6"
+      },
+      {
+        "name": "绝对专注法强分支",
+        "skillKey": "rune_8233_passive",
+        "formulaKey": "ability_power_amount",
+        "parameters": {
+          "confirmed_adaptive_force": 30
+        },
+        "attributes": {},
+        "expected": 30,
+        "actual": 30,
+        "explanation": "适应之力法强分支30"
+      },
+      {
+        "name": "艾黎",
+        "skillKey": "rune_8214_passive",
+        "formulaKey": "damage_amount",
+        "parameters": {
+          "confirmed_level_base": 10
+        },
+        "attributes": {
+          "SOURCE:ability_power:TOTAL": 100,
+          "SOURCE:attack_damage:BONUS": 50
+        },
+        "expected": 20,
+        "actual": 20,
+        "explanation": "10+100×0.05+50×0.1"
+      },
+      {
+        "name": "彗星伤害",
+        "skillKey": "rune_8229_passive",
+        "formulaKey": "base_damage_amount",
+        "parameters": {
+          "confirmed_level_base": 15
+        },
+        "attributes": {
+          "SOURCE:ability_power:TOTAL": 100,
+          "SOURCE:attack_damage:BONUS": 50
+        },
+        "expected": 25,
+        "actual": 25,
+        "explanation": "15+100×0.05+50×0.1"
+      },
+      {
+        "name": "彗星下限钳制",
+        "skillKey": "rune_8229_passive",
+        "formulaKey": "cooldown_ms",
+        "parameters": {
+          "confirmed_level_cooldown_seconds": 0.3
+        },
+        "attributes": {},
+        "expected": 300,
+        "actual": 300,
+        "explanation": "MIN(20,MAX(0.3,0.3))×1000"
+      },
+      {
+        "name": "彗星上限端点",
+        "skillKey": "rune_8229_passive",
+        "formulaKey": "cooldown_ms",
+        "parameters": {
+          "confirmed_level_cooldown_seconds": 20
+        },
+        "attributes": {},
+        "expected": 20000,
+        "actual": 20000,
+        "explanation": "MIN(20,MAX(0.3,20))×1000"
+      },
+      {
+        "name": "彗星低于下限",
+        "skillKey": "rune_8229_passive",
+        "formulaKey": "cooldown_ms",
+        "parameters": {
+          "confirmed_level_cooldown_seconds": 0
+        },
+        "attributes": {},
+        "expected": 300,
+        "actual": 300,
+        "explanation": "低于0.3秒时仍为300毫秒"
+      },
+      {
+        "name": "彗星高于上限",
+        "skillKey": "rune_8229_passive",
+        "formulaKey": "cooldown_ms",
+        "parameters": {
+          "confirmed_level_cooldown_seconds": 25
+        },
+        "attributes": {},
+        "expected": 20000,
+        "actual": 20000,
+        "explanation": "高于20秒时仍为20000毫秒"
+      },
+      {
+        "name": "焦灼",
+        "skillKey": "rune_8237_passive",
+        "formulaKey": "damage_amount",
+        "parameters": {
+          "confirmed_level_base": 20
+        },
+        "attributes": {},
+        "expected": 20,
+        "actual": 20,
+        "explanation": "显式等级值20"
+      },
+      {
+        "name": "水上行走",
+        "skillKey": "rune_8232_passive",
+        "formulaKey": "adaptive_force_amount",
+        "parameters": {
+          "confirmed_adaptive_force": 13
+        },
+        "attributes": {},
+        "expected": 13,
+        "actual": 13,
+        "explanation": "显式适应之力13"
+      }
+    ],
+    "strictThresholdCases": [
+      {
+        "maximumHealth": 1000,
+        "health": 700,
+        "threshold": 700,
+        "expected": false,
+        "actual": false,
+        "explanation": "等于70%不满足"
+      },
+      {
+        "maximumHealth": 1000,
+        "health": 700.0001,
+        "threshold": 700,
+        "expected": true,
+        "actual": true,
+        "explanation": "高于70%满足"
+      },
+      {
+        "maximumHealth": 1000,
+        "health": 699.9999,
+        "threshold": 700,
+        "expected": false,
+        "actual": false,
+        "explanation": "低于70%不满足"
+      }
+    ]
+  },
+  "applyRecord": {
+    "mode": "--apply",
+    "requestSha256": "babcff78cd3b9bbc8dfe4b775b48358a6a548ce6a494f66f01f8ede80ec9e83c",
+    "preflightCount": 132,
+    "summary": {
+      "passed": true,
+      "mode": "--apply",
+      "planned": 132,
+      "preflightSame": 0,
+      "preflightMissing": 132,
+      "writes": 132,
+      "reused": 0,
+      "contentWrites": 120,
+      "imageWrites": 12,
+      "finalReads": 144,
+      "collections": 72,
+      "completeRuneMechanisms": 0
+    },
+    "writes": 132,
+    "errors": [],
+    "objectStops": []
+  },
+  "verifyRecord": {
+    "file": "verify-20260909034901540.json",
+    "mode": "--verify",
+    "requestSha256": "babcff78cd3b9bbc8dfe4b775b48358a6a548ce6a494f66f01f8ede80ec9e83c",
+    "summary": {
+      "passed": true,
+      "mode": "--verify",
+      "planned": 132,
+      "preflightSame": 132,
+      "preflightMissing": 0,
+      "writes": 0,
+      "reused": 0,
+      "contentWrites": 0,
+      "imageWrites": 0,
+      "finalReads": 144,
+      "collections": 72,
+      "completeRuneMechanisms": 0
+    },
+    "errors": []
+  },
+  "conclusions": {
+    "scope": "17个公式、其依赖参数和1个效果均以实际GET回读；不重复69身份和6布局引用。",
+    "sourceAttributes": "法强、额外攻击力、余震双抗与额外生命值均按已审来源属性结构回读。",
+    "comet": "0.3秒和20秒端点分别回读为300毫秒与20000毫秒；距离750码/100%只作为端点，未生成线性函数。",
+    "hailOfBlades": "3次基础攻击、相邻间隔3000毫秒、额外重置2和每次加1分开回读。",
+    "absoluteFocus": "严格高于70%边界按实值参数重算；0.6只用于绝对专注攻击力分支。",
+    "absorbLife": "断点参数保持运行时输入、无默认等级表。",
+    "waterwalking": "河道固定移速效果为SOURCE→SOURCE的move_speed增加，参数实际值10。"
+  },
+  "blockers": []
+}

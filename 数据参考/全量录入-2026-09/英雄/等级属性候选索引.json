@@ -1,0 +1,1892 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-06T14:33:13.068Z",
+  "statistics": {
+    "championCount": 173,
+    "attackDamageGrowthAvailableCount": 172,
+    "ratioDiffersFromBaseCount": 60,
+    "candidatesWithMissingFieldsCount": 37,
+    "candidateAttributeCount": 1661
+  },
+  "sourceMode": "召唤师峡谷基础数据",
+  "levelRange": "1–18；上路额外等级未生成",
+  "heroes": [
+    {
+      "sourceChampionId": "Aatrox",
+      "name": "亚托克斯",
+      "path": "等级属性候选/Aatrox.json",
+      "attributeCount": 8,
+      "missing": [
+        {
+          "attribute": "resource",
+          "label": "资源",
+          "resourceType": "鲜血魔井",
+          "reason": "特殊或未明确资源不按法力统一生成；保留原始资源说明及根字段，待机制核对"
+        }
+      ],
+      "attackDamageGrowth": 5,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Ahri",
+      "name": "阿狸",
+      "path": "等级属性候选/Ahri.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "Akali",
+      "name": "阿卡丽",
+      "path": "等级属性候选/Akali.json",
+      "attributeCount": 8,
+      "missing": [
+        {
+          "attribute": "resource",
+          "label": "资源",
+          "resourceType": "能量",
+          "reason": "特殊或未明确资源不按法力统一生成；保留原始资源说明及根字段，待机制核对"
+        }
+      ],
+      "attackDamageGrowth": 3.299999952316284,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Akshan",
+      "name": "阿克尚",
+      "path": "等级属性候选/Akshan.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "Alistar",
+      "name": "阿利斯塔",
+      "path": "等级属性候选/Alistar.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3.75,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Ambessa",
+      "name": "安蓓萨",
+      "path": "等级属性候选/Ambessa.json",
+      "attributeCount": 8,
+      "missing": [
+        {
+          "attribute": "resource",
+          "label": "资源",
+          "resourceType": "能量",
+          "reason": "特殊或未明确资源不按法力统一生成；保留原始资源说明及根字段，待机制核对"
+        }
+      ],
+      "attackDamageGrowth": 3,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Amumu",
+      "name": "阿木木",
+      "path": "等级属性候选/Amumu.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3.799999952316284,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "Anivia",
+      "name": "艾尼维亚",
+      "path": "等级属性候选/Anivia.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3.200000047683716,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "Annie",
+      "name": "安妮",
+      "path": "等级属性候选/Annie.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 2.6500000953674316,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "Aphelios",
+      "name": "厄斐琉斯",
+      "path": "等级属性候选/Aphelios.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 2.299999952316284,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "Ashe",
+      "name": "艾希",
+      "path": "等级属性候选/Ashe.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3.5,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "AurelionSol",
+      "name": "奥瑞利安·索尔",
+      "path": "等级属性候选/AurelionSol.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3.200000047683716,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Aurora",
+      "name": "阿萝拉",
+      "path": "等级属性候选/Aurora.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Azir",
+      "name": "阿兹尔",
+      "path": "等级属性候选/Azir.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3.5,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "Bard",
+      "name": "巴德",
+      "path": "等级属性候选/Bard.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Belveth",
+      "name": "卑尔维斯",
+      "path": "等级属性候选/Belveth.json",
+      "attributeCount": 7,
+      "missing": [
+        {
+          "attribute": "attackspeed",
+          "label": "攻击速度",
+          "reason": "攻速基值、收益系数或普通成长字段缺失，可能涉及特殊攻速机制，暂不生成"
+        },
+        {
+          "attribute": "resource",
+          "label": "资源",
+          "resourceType": "",
+          "reason": "特殊或未明确资源不按法力统一生成；保留原始资源说明及根字段，待机制核对"
+        }
+      ],
+      "attackDamageGrowth": 1.5,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Blitzcrank",
+      "name": "布里茨",
+      "path": "等级属性候选/Blitzcrank.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3.5,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Brand",
+      "name": "布兰德",
+      "path": "等级属性候选/Brand.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "Braum",
+      "name": "布隆",
+      "path": "等级属性候选/Braum.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3.200000047683716,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Briar",
+      "name": "贝蕾亚",
+      "path": "等级属性候选/Briar.json",
+      "attributeCount": 7,
+      "missing": [
+        {
+          "attribute": "hpregen",
+          "label": "生命回复",
+          "reason": "客户端基础值或成长字段省略，未使用默认零值填补",
+          "missingFields": [
+            "hpRegenPerLevelModifiable"
+          ],
+          "officialBase": 0,
+          "officialGrowth": 0
+        },
+        {
+          "attribute": "resource",
+          "label": "资源",
+          "resourceType": "怒气",
+          "reason": "特殊或未明确资源不按法力统一生成；保留原始资源说明及根字段，待机制核对"
+        }
+      ],
+      "attackDamageGrowth": 2.5,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "Caitlyn",
+      "name": "凯特琳",
+      "path": "等级属性候选/Caitlyn.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3.799999952316284,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "Camille",
+      "name": "卡蜜尔",
+      "path": "等级属性候选/Camille.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3.799999952316284,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Cassiopeia",
+      "name": "卡西奥佩娅",
+      "path": "等级属性候选/Cassiopeia.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Chogath",
+      "name": "科加斯",
+      "path": "等级属性候选/Chogath.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 4.199999809265137,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "Corki",
+      "name": "库奇",
+      "path": "等级属性候选/Corki.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 2.5,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Darius",
+      "name": "德莱厄斯",
+      "path": "等级属性候选/Darius.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 5,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Diana",
+      "name": "黛安娜",
+      "path": "等级属性候选/Diana.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "DrMundo",
+      "name": "蒙多医生",
+      "path": "等级属性候选/DrMundo.json",
+      "attributeCount": 8,
+      "missing": [
+        {
+          "attribute": "resource",
+          "label": "资源",
+          "resourceType": "无",
+          "reason": "特殊或未明确资源不按法力统一生成；保留原始资源说明及根字段，待机制核对"
+        }
+      ],
+      "attackDamageGrowth": 2.5,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "Draven",
+      "name": "德莱文",
+      "path": "等级属性候选/Draven.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3.4000000953674316,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Ekko",
+      "name": "艾克",
+      "path": "等级属性候选/Ekko.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "Elise",
+      "name": "伊莉丝",
+      "path": "等级属性候选/Elise.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Evelynn",
+      "name": "伊芙琳",
+      "path": "等级属性候选/Evelynn.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Ezreal",
+      "name": "伊泽瑞尔",
+      "path": "等级属性候选/Ezreal.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3.75,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Fiddlesticks",
+      "name": "费德提克",
+      "path": "等级属性候选/Fiddlesticks.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 2.6500000953674316,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Fiora",
+      "name": "菲奥娜",
+      "path": "等级属性候选/Fiora.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3.299999952316284,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Fizz",
+      "name": "菲兹",
+      "path": "等级属性候选/Fizz.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Galio",
+      "name": "加里奥",
+      "path": "等级属性候选/Galio.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3.5,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Gangplank",
+      "name": "普朗克",
+      "path": "等级属性候选/Gangplank.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 4.199999809265137,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "Garen",
+      "name": "盖伦",
+      "path": "等级属性候选/Garen.json",
+      "attributeCount": 8,
+      "missing": [
+        {
+          "attribute": "resource",
+          "label": "资源",
+          "resourceType": "无",
+          "reason": "特殊或未明确资源不按法力统一生成；保留原始资源说明及根字段，待机制核对"
+        }
+      ],
+      "attackDamageGrowth": 4.5,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Gnar",
+      "name": "纳尔",
+      "path": "等级属性候选/Gnar.json",
+      "attributeCount": 8,
+      "missing": [
+        {
+          "attribute": "resource",
+          "label": "资源",
+          "resourceType": "怒气",
+          "reason": "特殊或未明确资源不按法力统一生成；保留原始资源说明及根字段，待机制核对"
+        }
+      ],
+      "attackDamageGrowth": 3.200000047683716,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Gragas",
+      "name": "古拉加斯",
+      "path": "等级属性候选/Gragas.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3.5,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "Graves",
+      "name": "格雷福斯",
+      "path": "等级属性候选/Graves.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 4,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "Gwen",
+      "name": "格温",
+      "path": "等级属性候选/Gwen.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Hecarim",
+      "name": "赫卡里姆",
+      "path": "等级属性候选/Hecarim.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3.700000047683716,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Heimerdinger",
+      "name": "黑默丁格",
+      "path": "等级属性候选/Heimerdinger.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 2.700000047683716,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "Hwei",
+      "name": "彗",
+      "path": "等级属性候选/Hwei.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3.299999952316284,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "Illaoi",
+      "name": "俄洛伊",
+      "path": "等级属性候选/Illaoi.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 5,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Irelia",
+      "name": "艾瑞莉娅",
+      "path": "等级属性候选/Irelia.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3.5,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Ivern",
+      "name": "艾翁",
+      "path": "等级属性候选/Ivern.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Janna",
+      "name": "迦娜",
+      "path": "等级属性候选/Janna.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 2.5,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "JarvanIV",
+      "name": "嘉文四世",
+      "path": "等级属性候选/JarvanIV.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Jax",
+      "name": "贾克斯",
+      "path": "等级属性候选/Jax.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 4.25,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Jayce",
+      "name": "杰斯",
+      "path": "等级属性候选/Jayce.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 4.25,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Jhin",
+      "name": "烬",
+      "path": "等级属性候选/Jhin.json",
+      "attributeCount": 9,
+      "missing": [
+        {
+          "attribute": "attackspeed",
+          "label": "攻击速度",
+          "reason": "攻速基值、收益系数或普通成长字段缺失，可能涉及特殊攻速机制，暂不生成"
+        }
+      ],
+      "attackDamageGrowth": 4.400000095367432,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "Jinx",
+      "name": "金克丝",
+      "path": "等级属性候选/Jinx.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3.25,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "KSante",
+      "name": "奎桑提",
+      "path": "等级属性候选/KSante.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3.5,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "Kaisa",
+      "name": "卡莎",
+      "path": "等级属性候选/Kaisa.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 2.5999999046325684,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Kalista",
+      "name": "卡莉丝塔",
+      "path": "等级属性候选/Kalista.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 4.75,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Karma",
+      "name": "卡尔玛",
+      "path": "等级属性候选/Karma.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Karthus",
+      "name": "卡尔萨斯",
+      "path": "等级属性候选/Karthus.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3.25,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Kassadin",
+      "name": "卡萨丁",
+      "path": "等级属性候选/Kassadin.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3.9000000953674316,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Katarina",
+      "name": "卡特琳娜",
+      "path": "等级属性候选/Katarina.json",
+      "attributeCount": 8,
+      "missing": [
+        {
+          "attribute": "resource",
+          "label": "资源",
+          "resourceType": "无",
+          "reason": "特殊或未明确资源不按法力统一生成；保留原始资源说明及根字段，待机制核对"
+        }
+      ],
+      "attackDamageGrowth": 3.200000047683716,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Kayle",
+      "name": "凯尔",
+      "path": "等级属性候选/Kayle.json",
+      "attributeCount": 9,
+      "missing": [
+        {
+          "attribute": "hpregen",
+          "label": "生命回复",
+          "reason": "客户端基础值或成长字段省略，未使用默认零值填补",
+          "missingFields": [
+            "baseStaticHPRegenModifiable"
+          ],
+          "officialBase": 5,
+          "officialGrowth": 0.5
+        }
+      ],
+      "attackDamageGrowth": 2.5,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "Kayn",
+      "name": "凯隐",
+      "path": "等级属性候选/Kayn.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3.299999952316284,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Kennen",
+      "name": "凯南",
+      "path": "等级属性候选/Kennen.json",
+      "attributeCount": 8,
+      "missing": [
+        {
+          "attribute": "resource",
+          "label": "资源",
+          "resourceType": "能量",
+          "reason": "特殊或未明确资源不按法力统一生成；保留原始资源说明及根字段，待机制核对"
+        }
+      ],
+      "attackDamageGrowth": 3.75,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "Khazix",
+      "name": "卡兹克",
+      "path": "等级属性候选/Khazix.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3.0999999046325684,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Kindred",
+      "name": "千珏",
+      "path": "等级属性候选/Kindred.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3.25,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Kled",
+      "name": "克烈",
+      "path": "等级属性候选/Kled.json",
+      "attributeCount": 8,
+      "missing": [
+        {
+          "attribute": "resource",
+          "label": "资源",
+          "resourceType": "勇气",
+          "reason": "特殊或未明确资源不按法力统一生成；保留原始资源说明及根字段，待机制核对"
+        }
+      ],
+      "attackDamageGrowth": 3.5,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "KogMaw",
+      "name": "克格莫",
+      "path": "等级属性候选/KogMaw.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3.0999999046325684,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Leblanc",
+      "name": "乐芙兰",
+      "path": "等级属性候选/Leblanc.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 2.200000047683716,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "LeeSin",
+      "name": "李青",
+      "path": "等级属性候选/LeeSin.json",
+      "attributeCount": 8,
+      "missing": [
+        {
+          "attribute": "resource",
+          "label": "资源",
+          "resourceType": "能量",
+          "reason": "特殊或未明确资源不按法力统一生成；保留原始资源说明及根字段，待机制核对"
+        }
+      ],
+      "attackDamageGrowth": 3.4000000953674316,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Leona",
+      "name": "蕾欧娜",
+      "path": "等级属性候选/Leona.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Lillia",
+      "name": "莉莉娅",
+      "path": "等级属性候选/Lillia.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3.0999999046325684,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Lissandra",
+      "name": "丽桑卓",
+      "path": "等级属性候选/Lissandra.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 2.700000047683716,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "Locke",
+      "name": "洛克",
+      "path": "等级属性候选/Locke.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "Lucian",
+      "name": "卢锡安",
+      "path": "等级属性候选/Lucian.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 2.5,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Lulu",
+      "name": "璐璐",
+      "path": "等级属性候选/Lulu.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 2.5999999046325684,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Lux",
+      "name": "拉克丝",
+      "path": "等级属性候选/Lux.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3.299999952316284,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "Malphite",
+      "name": "墨菲特",
+      "path": "等级属性候选/Malphite.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 4,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "Malzahar",
+      "name": "玛尔扎哈",
+      "path": "等级属性候选/Malzahar.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Maokai",
+      "name": "茂凯",
+      "path": "等级属性候选/Maokai.json",
+      "attributeCount": 9,
+      "missing": [
+        {
+          "attribute": "hpregen",
+          "label": "生命回复",
+          "reason": "客户端基础值或成长字段省略，未使用默认零值填补",
+          "missingFields": [
+            "baseStaticHPRegenModifiable"
+          ],
+          "officialBase": 5,
+          "officialGrowth": 0.75
+        }
+      ],
+      "attackDamageGrowth": 3.299999952316284,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "MasterYi",
+      "name": "易",
+      "path": "等级属性候选/MasterYi.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 2.5,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Mel",
+      "name": "梅尔",
+      "path": "等级属性候选/Mel.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3.299999952316284,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Milio",
+      "name": "米利欧",
+      "path": "等级属性候选/Milio.json",
+      "attributeCount": 9,
+      "missing": [
+        {
+          "attribute": "hpregen",
+          "label": "生命回复",
+          "reason": "客户端基础值或成长字段省略，未使用默认零值填补",
+          "missingFields": [
+            "baseStaticHPRegenModifiable"
+          ],
+          "officialBase": 5,
+          "officialGrowth": 0.5
+        }
+      ],
+      "attackDamageGrowth": 3.200000047683716,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "MissFortune",
+      "name": "厄运小姐",
+      "path": "等级属性候选/MissFortune.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 2.4000000953674316,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "MonkeyKing",
+      "name": "孙悟空",
+      "path": "等级属性候选/MonkeyKing.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3.5,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "Mordekaiser",
+      "name": "莫德凯撒",
+      "path": "等级属性候选/Mordekaiser.json",
+      "attributeCount": 7,
+      "missing": [
+        {
+          "attribute": "hpregen",
+          "label": "生命回复",
+          "reason": "客户端基础值或成长字段省略，未使用默认零值填补",
+          "missingFields": [
+            "baseStaticHPRegenModifiable"
+          ],
+          "officialBase": 5,
+          "officialGrowth": 0.75
+        },
+        {
+          "attribute": "resource",
+          "label": "资源",
+          "resourceType": "护盾",
+          "reason": "特殊或未明确资源不按法力统一生成；保留原始资源说明及根字段，待机制核对"
+        }
+      ],
+      "attackDamageGrowth": 4,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Morgana",
+      "name": "莫甘娜",
+      "path": "等级属性候选/Morgana.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3.5,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Naafiri",
+      "name": "纳亚菲利",
+      "path": "等级属性候选/Naafiri.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 2,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "Nami",
+      "name": "娜美",
+      "path": "等级属性候选/Nami.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3.0999999046325684,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Nasus",
+      "name": "内瑟斯",
+      "path": "等级属性候选/Nasus.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 4,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Nautilus",
+      "name": "诺提勒斯",
+      "path": "等级属性候选/Nautilus.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3.299999952316284,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "Neeko",
+      "name": "妮蔻",
+      "path": "等级属性候选/Neeko.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 2.5,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "Nidalee",
+      "name": "奈德丽",
+      "path": "等级属性候选/Nidalee.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3.5,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Nilah",
+      "name": "尼菈",
+      "path": "等级属性候选/Nilah.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 2,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "Nocturne",
+      "name": "魔腾",
+      "path": "等级属性候选/Nocturne.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 2.5999999046325684,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Nunu",
+      "name": "努努和威朗普",
+      "path": "等级属性候选/Nunu.json",
+      "attributeCount": 9,
+      "missing": [
+        {
+          "attribute": "hpregen",
+          "label": "生命回复",
+          "reason": "客户端基础值或成长字段省略，未使用默认零值填补",
+          "missingFields": [
+            "baseStaticHPRegenModifiable"
+          ],
+          "officialBase": 5,
+          "officialGrowth": 0.8
+        }
+      ],
+      "attackDamageGrowth": 3,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Olaf",
+      "name": "奥拉夫",
+      "path": "等级属性候选/Olaf.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 4.699999809265137,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "Orianna",
+      "name": "奥莉安娜",
+      "path": "等级属性候选/Orianna.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 2.5999999046325684,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Ornn",
+      "name": "奥恩",
+      "path": "等级属性候选/Ornn.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3.5,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Pantheon",
+      "name": "潘森",
+      "path": "等级属性候选/Pantheon.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3.299999952316284,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Poppy",
+      "name": "波比",
+      "path": "等级属性候选/Poppy.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 4,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "Pyke",
+      "name": "派克",
+      "path": "等级属性候选/Pyke.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 2,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Qiyana",
+      "name": "奇亚娜",
+      "path": "等级属性候选/Qiyana.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3.0999999046325684,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "Quinn",
+      "name": "奎因",
+      "path": "等级属性候选/Quinn.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3.200000047683716,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Rakan",
+      "name": "洛",
+      "path": "等级属性候选/Rakan.json",
+      "attributeCount": 9,
+      "missing": [
+        {
+          "attribute": "hpregen",
+          "label": "生命回复",
+          "reason": "客户端基础值或成长字段省略，未使用默认零值填补",
+          "missingFields": [
+            "baseStaticHPRegenModifiable"
+          ],
+          "officialBase": 5,
+          "officialGrowth": 0.5
+        }
+      ],
+      "attackDamageGrowth": 3.5,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Rammus",
+      "name": "拉莫斯",
+      "path": "等级属性候选/Rammus.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 2.75,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "RekSai",
+      "name": "雷克塞",
+      "path": "等级属性候选/RekSai.json",
+      "attributeCount": 8,
+      "missing": [
+        {
+          "attribute": "resource",
+          "label": "资源",
+          "resourceType": "怒气",
+          "reason": "特殊或未明确资源不按法力统一生成；保留原始资源说明及根字段，待机制核对"
+        }
+      ],
+      "attackDamageGrowth": 3,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Rell",
+      "name": "芮尔",
+      "path": "等级属性候选/Rell.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Renata",
+      "name": "烈娜塔 · 戈拉斯克",
+      "path": "等级属性候选/Renata.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Renekton",
+      "name": "雷克顿",
+      "path": "等级属性候选/Renekton.json",
+      "attributeCount": 8,
+      "missing": [
+        {
+          "attribute": "resource",
+          "label": "资源",
+          "resourceType": "怒气",
+          "reason": "特殊或未明确资源不按法力统一生成；保留原始资源说明及根字段，待机制核对"
+        }
+      ],
+      "attackDamageGrowth": 4.150000095367432,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Rengar",
+      "name": "雷恩加尔",
+      "path": "等级属性候选/Rengar.json",
+      "attributeCount": 8,
+      "missing": [
+        {
+          "attribute": "resource",
+          "label": "资源",
+          "resourceType": "残暴",
+          "reason": "特殊或未明确资源不按法力统一生成；保留原始资源说明及根字段，待机制核对"
+        }
+      ],
+      "attackDamageGrowth": 3,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Riven",
+      "name": "锐雯",
+      "path": "等级属性候选/Riven.json",
+      "attributeCount": 8,
+      "missing": [
+        {
+          "attribute": "resource",
+          "label": "资源",
+          "resourceType": "无",
+          "reason": "特殊或未明确资源不按法力统一生成；保留原始资源说明及根字段，待机制核对"
+        }
+      ],
+      "attackDamageGrowth": 3,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Rumble",
+      "name": "兰博",
+      "path": "等级属性候选/Rumble.json",
+      "attributeCount": 8,
+      "missing": [
+        {
+          "attribute": "resource",
+          "label": "资源",
+          "resourceType": "热量",
+          "reason": "特殊或未明确资源不按法力统一生成；保留原始资源说明及根字段，待机制核对"
+        }
+      ],
+      "attackDamageGrowth": 3.200000047683716,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Ryze",
+      "name": "瑞兹",
+      "path": "等级属性候选/Ryze.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "Samira",
+      "name": "莎弥拉",
+      "path": "等级属性候选/Samira.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Sejuani",
+      "name": "瑟庄妮",
+      "path": "等级属性候选/Sejuani.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 4,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "Senna",
+      "name": "赛娜",
+      "path": "等级属性候选/Senna.json",
+      "attributeCount": 9,
+      "missing": [
+        {
+          "attribute": "attackdamage",
+          "label": "攻击力",
+          "reason": "客户端攻击力成长字段缺失或不是有限数值，不补零"
+        }
+      ],
+      "attackDamageGrowth": null,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "Seraphine",
+      "name": "萨勒芬妮",
+      "path": "等级属性候选/Seraphine.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "Sett",
+      "name": "瑟提",
+      "path": "等级属性候选/Sett.json",
+      "attributeCount": 8,
+      "missing": [
+        {
+          "attribute": "resource",
+          "label": "资源",
+          "resourceType": "豪意",
+          "reason": "特殊或未明确资源不按法力统一生成；保留原始资源说明及根字段，待机制核对"
+        }
+      ],
+      "attackDamageGrowth": 4,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Shaco",
+      "name": "萨科",
+      "path": "等级属性候选/Shaco.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Shen",
+      "name": "慎",
+      "path": "等级属性候选/Shen.json",
+      "attributeCount": 8,
+      "missing": [
+        {
+          "attribute": "resource",
+          "label": "资源",
+          "resourceType": "能量",
+          "reason": "特殊或未明确资源不按法力统一生成；保留原始资源说明及根字段，待机制核对"
+        }
+      ],
+      "attackDamageGrowth": 3,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "Shyvana",
+      "name": "希瓦娜",
+      "path": "等级属性候选/Shyvana.json",
+      "attributeCount": 8,
+      "missing": [
+        {
+          "attribute": "resource",
+          "label": "资源",
+          "resourceType": "怒气",
+          "reason": "特殊或未明确资源不按法力统一生成；保留原始资源说明及根字段，待机制核对"
+        }
+      ],
+      "attackDamageGrowth": 4,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Singed",
+      "name": "辛吉德",
+      "path": "等级属性候选/Singed.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3.4000000953674316,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "Sion",
+      "name": "赛恩",
+      "path": "等级属性候选/Sion.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 4,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Sivir",
+      "name": "希维尔",
+      "path": "等级属性候选/Sivir.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 2.5,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Skarner",
+      "name": "斯卡纳",
+      "path": "等级属性候选/Skarner.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 5,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Smolder",
+      "name": "斯莫德",
+      "path": "等级属性候选/Smolder.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 2.299999952316284,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Sona",
+      "name": "娑娜",
+      "path": "等级属性候选/Sona.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Soraka",
+      "name": "索拉卡",
+      "path": "等级属性候选/Soraka.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Swain",
+      "name": "斯维因",
+      "path": "等级属性候选/Swain.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 2.700000047683716,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Sylas",
+      "name": "塞拉斯",
+      "path": "等级属性候选/Sylas.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Syndra",
+      "name": "辛德拉",
+      "path": "等级属性候选/Syndra.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 2.9000000953674316,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "TahmKench",
+      "name": "塔姆",
+      "path": "等级属性候选/TahmKench.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3.200000047683716,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Taliyah",
+      "name": "塔莉垭",
+      "path": "等级属性候选/Taliyah.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3.299999952316284,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "Talon",
+      "name": "泰隆",
+      "path": "等级属性候选/Talon.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3.0999999046325684,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Taric",
+      "name": "塔里克",
+      "path": "等级属性候选/Taric.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3.5,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Teemo",
+      "name": "提莫",
+      "path": "等级属性候选/Teemo.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Thresh",
+      "name": "锤石",
+      "path": "等级属性候选/Thresh.json",
+      "attributeCount": 9,
+      "missing": [
+        {
+          "attribute": "armor",
+          "label": "护甲",
+          "reason": "客户端基础值或成长字段省略，未使用默认零值填补",
+          "missingFields": [
+            "armorPerLevelModifiable"
+          ],
+          "officialBase": 33,
+          "officialGrowth": 0
+        }
+      ],
+      "attackDamageGrowth": 2.200000047683716,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Tristana",
+      "name": "崔丝塔娜",
+      "path": "等级属性候选/Tristana.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3.4000000953674316,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "Trundle",
+      "name": "特朗德尔",
+      "path": "等级属性候选/Trundle.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 4.5,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Tryndamere",
+      "name": "泰达米尔",
+      "path": "等级属性候选/Tryndamere.json",
+      "attributeCount": 8,
+      "missing": [
+        {
+          "attribute": "resource",
+          "label": "资源",
+          "resourceType": "怒气",
+          "reason": "特殊或未明确资源不按法力统一生成；保留原始资源说明及根字段，待机制核对"
+        }
+      ],
+      "attackDamageGrowth": 4.5,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "TwistedFate",
+      "name": "崔斯特",
+      "path": "等级属性候选/TwistedFate.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 2.5,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "Twitch",
+      "name": "图奇",
+      "path": "等级属性候选/Twitch.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Udyr",
+      "name": "乌迪尔",
+      "path": "等级属性候选/Udyr.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 4,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Urgot",
+      "name": "厄加特",
+      "path": "等级属性候选/Urgot.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 4,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Varus",
+      "name": "韦鲁斯",
+      "path": "等级属性候选/Varus.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3.4000000953674316,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Vayne",
+      "name": "薇恩",
+      "path": "等级属性候选/Vayne.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 2.3499999046325684,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "Veigar",
+      "name": "维迦",
+      "path": "等级属性候选/Veigar.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 2.700000047683716,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Velkoz",
+      "name": "维克兹",
+      "path": "等级属性候选/Velkoz.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3.1415927410125732,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "Vex",
+      "name": "薇古丝",
+      "path": "等级属性候选/Vex.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 2.75,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "Vi",
+      "name": "蔚",
+      "path": "等级属性候选/Vi.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3.5,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Viego",
+      "name": "佛耶戈",
+      "path": "等级属性候选/Viego.json",
+      "attributeCount": 8,
+      "missing": [
+        {
+          "attribute": "resource",
+          "label": "资源",
+          "resourceType": "无",
+          "reason": "特殊或未明确资源不按法力统一生成；保留原始资源说明及根字段，待机制核对"
+        }
+      ],
+      "attackDamageGrowth": 3.5,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Viktor",
+      "name": "维克托",
+      "path": "等级属性候选/Viktor.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Vladimir",
+      "name": "弗拉基米尔",
+      "path": "等级属性候选/Vladimir.json",
+      "attributeCount": 8,
+      "missing": [
+        {
+          "attribute": "resource",
+          "label": "资源",
+          "resourceType": "猩红冲刺",
+          "reason": "特殊或未明确资源不按法力统一生成；保留原始资源说明及根字段，待机制核对"
+        }
+      ],
+      "attackDamageGrowth": 3,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Volibear",
+      "name": "沃利贝尔",
+      "path": "等级属性候选/Volibear.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3.5,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "Warwick",
+      "name": "沃里克",
+      "path": "等级属性候选/Warwick.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 2.5,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Xayah",
+      "name": "霞",
+      "path": "等级属性候选/Xayah.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3.5,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Xerath",
+      "name": "泽拉斯",
+      "path": "等级属性候选/Xerath.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "XinZhao",
+      "name": "赵信",
+      "path": "等级属性候选/XinZhao.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Yasuo",
+      "name": "亚索",
+      "path": "等级属性候选/Yasuo.json",
+      "attributeCount": 8,
+      "missing": [
+        {
+          "attribute": "resource",
+          "label": "资源",
+          "resourceType": "剑意",
+          "reason": "特殊或未明确资源不按法力统一生成；保留原始资源说明及根字段，待机制核对"
+        }
+      ],
+      "attackDamageGrowth": 2.5,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "Yone",
+      "name": "永恩",
+      "path": "等级属性候选/Yone.json",
+      "attributeCount": 8,
+      "missing": [
+        {
+          "attribute": "resource",
+          "label": "资源",
+          "resourceType": "剑意",
+          "reason": "特殊或未明确资源不按法力统一生成；保留原始资源说明及根字段，待机制核对"
+        }
+      ],
+      "attackDamageGrowth": 2,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Yorick",
+      "name": "约里克",
+      "path": "等级属性候选/Yorick.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 5,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Yunara",
+      "name": "芸阿娜",
+      "path": "等级属性候选/Yunara.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Yuumi",
+      "name": "悠米",
+      "path": "等级属性候选/Yuumi.json",
+      "attributeCount": 9,
+      "missing": [
+        {
+          "attribute": "hpregen",
+          "label": "生命回复",
+          "reason": "客户端基础值或成长字段省略，未使用默认零值填补",
+          "missingFields": [
+            "baseStaticHPRegenModifiable"
+          ],
+          "officialBase": 5,
+          "officialGrowth": 0.55
+        }
+      ],
+      "attackDamageGrowth": 3.0999999046325684,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Zaahen",
+      "name": "亚恒",
+      "path": "等级属性候选/Zaahen.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 4,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Zac",
+      "name": "扎克",
+      "path": "等级属性候选/Zac.json",
+      "attributeCount": 7,
+      "missing": [
+        {
+          "attribute": "hpregen",
+          "label": "生命回复",
+          "reason": "客户端基础值或成长字段省略，未使用默认零值填补",
+          "missingFields": [
+            "baseStaticHPRegenModifiable"
+          ],
+          "officialBase": 5,
+          "officialGrowth": 0.5
+        },
+        {
+          "attribute": "resource",
+          "label": "资源",
+          "resourceType": "无",
+          "reason": "特殊或未明确资源不按法力统一生成；保留原始资源说明及根字段，待机制核对"
+        }
+      ],
+      "attackDamageGrowth": 3.4000000953674316,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "Zed",
+      "name": "劫",
+      "path": "等级属性候选/Zed.json",
+      "attributeCount": 8,
+      "missing": [
+        {
+          "attribute": "resource",
+          "label": "资源",
+          "resourceType": "能量",
+          "reason": "特殊或未明确资源不按法力统一生成；保留原始资源说明及根字段，待机制核对"
+        }
+      ],
+      "attackDamageGrowth": 3.4000000953674316,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Zeri",
+      "name": "泽丽",
+      "path": "等级属性候选/Zeri.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 2,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "Ziggs",
+      "name": "吉格斯",
+      "path": "等级属性候选/Ziggs.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3.0999999046325684,
+      "attackSpeedRatioDiffersFromBase": false
+    },
+    {
+      "sourceChampionId": "Zilean",
+      "name": "基兰",
+      "path": "等级属性候选/Zilean.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "Zoe",
+      "name": "佐伊",
+      "path": "等级属性候选/Zoe.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3.299999952316284,
+      "attackSpeedRatioDiffersFromBase": true
+    },
+    {
+      "sourceChampionId": "Zyra",
+      "name": "婕拉",
+      "path": "等级属性候选/Zyra.json",
+      "attributeCount": 10,
+      "missing": [],
+      "attackDamageGrowth": 3.200000047683716,
+      "attackSpeedRatioDiffersFromBase": true
+    }
+  ]
+}

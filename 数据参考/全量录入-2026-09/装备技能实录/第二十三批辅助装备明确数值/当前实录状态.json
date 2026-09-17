@@ -1,0 +1,127 @@
+{
+  "at": "2026-09-09T11:23:50.433Z",
+  "equipmentKeys": [
+    "item_3222",
+    "item_2065",
+    "item_6620",
+    "item_3504",
+    "item_6616",
+    "item_6617"
+  ],
+  "skillKeys": [
+    "item_3222_active",
+    "item_2065_active",
+    "item_6620_passive",
+    "item_3504_passive",
+    "item_6616_passive",
+    "item_6617_passive"
+  ],
+  "counts": {
+    "skills": 6,
+    "parameters": 16,
+    "formulas": 0,
+    "effects": 0,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0,
+    "relations": 6,
+    "representativeImages": 6
+  },
+  "successfulWrites": 34,
+  "rejectedWrites": 0,
+  "unknownWrites": 0,
+  "independentGETs": 101,
+  "sourceValueChecks": 16,
+  "representativePages": 2,
+  "pageGETs": 6,
+  "candidateSha256": "56e7ac494c75ca777ee471d68ab5eb35a3e23eb7eb7daa02a4c4e7d7b24be76b",
+  "planSha256": "022317b6e83fe1a097fa4850006d93df89b1caa604ca819b35deb2a070173a9a",
+  "sourceSha256": "354aa384a2769bb21109512a43bdb7804ce27019718f49f5143e850c61bbe90c",
+  "status": "明确数值保存、独立回读和代表页面通过；六件自身资格继续核实，未完成完整1V1机制",
+  "sourceVersion": "16.17 / 16.17.1 / 16.17.8104348",
+  "pending": [
+    {
+      "equipmentKey": "item_3222",
+      "items": [
+        "友方目标是否允许持有者自己，以及自身控制状态下的施放资格",
+        "100至250是正文显示范围；目标等级曲线、等级边界及取整尚未证明",
+        "净化控制集合、实际治疗入口与执行顺序"
+      ]
+    },
+    {
+      "equipmentKey": "item_2065",
+      "items": [
+        "附近友军加速是否明确包含持有者自己",
+        "加速资格、覆盖刷新与移动速度修正入口"
+      ]
+    },
+    {
+      "equipmentKey": "item_6620",
+      "items": [
+        "对自己治疗或护盾能否触发消耗，以及治疗目标资格",
+        "MaxCharges等级计算算法未证，不以线性插值或零替代",
+        "累积、封顶、消耗时点与治疗入口；当前无完整充能公式"
+      ]
+    },
+    {
+      "equipmentKey": "item_3504",
+      "items": [
+        "对自己治疗或护盾能否触发；当前文字明确持有者也会获得强化，但未证明自身能成为初始目标",
+        "触发资格、强化刷新、攻击特效时点与属性修正入口"
+      ]
+    },
+    {
+      "equipmentKey": "item_6616",
+      "items": [
+        "对自己治疗或护盾能否触发；正文持有者收益不代表已证自身触发资格",
+        "触发、持续时间刷新与属性修正入口"
+      ]
+    },
+    {
+      "equipmentKey": "item_6617",
+      "items": [
+        "首个治疗或护盾目标能否是持有者自己；不能从连锁目标排除自己反推初始目标资格",
+        "无其他友军判定、原治疗与护盾数值口径、时点与结果入口"
+      ]
+    }
+  ],
+  "excluded": [
+    {
+      "equipmentKey": "item_3222",
+      "items": [
+        "作用于第三位友方英雄的净化与治疗"
+      ]
+    },
+    {
+      "equipmentKey": "item_2065",
+      "items": [
+        "第三位友军获得的加速"
+      ]
+    },
+    {
+      "equipmentKey": "item_6620",
+      "items": [
+        "仅提供给第三位友军的治疗"
+      ]
+    },
+    {
+      "equipmentKey": "item_3504",
+      "items": [
+        "第三位友方英雄获得的强化"
+      ]
+    },
+    {
+      "equipmentKey": "item_6616",
+      "items": [
+        "第三位友方英雄获得的法强与技能急速"
+      ]
+    },
+    {
+      "equipmentKey": "item_6617",
+      "items": [
+        "连锁至另一位友方英雄的治疗或护盾；正文明确该连锁目标排除自己"
+      ]
+    }
+  ],
+  "runtimeValidation": "未执行"
+}

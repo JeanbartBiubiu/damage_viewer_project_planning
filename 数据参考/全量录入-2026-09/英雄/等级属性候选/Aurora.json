@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Aurora",
+  "sourceNumericId": "893",
+  "name": "阿萝拉",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 607,
+      "growth": 110,
+      "sources": [
+        "原始资料/zh_CN/champion/Aurora.json:stats.hp/hpperlevel",
+        "角色根记录/Aurora.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 607,
+        "2": 686.2,
+        "3": 769.25,
+        "4": 856.15,
+        "5": 946.9,
+        "6": 1041.5,
+        "7": 1139.95,
+        "8": 1242.25,
+        "9": 1348.4,
+        "10": 1458.4,
+        "11": 1572.25,
+        "12": 1689.95,
+        "13": 1811.5,
+        "14": 1936.9,
+        "15": 2066.15,
+        "16": 2199.25,
+        "17": 2336.2,
+        "18": 2477
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 6,
+      "growth": 0.55,
+      "sources": [
+        "原始资料/zh_CN/champion/Aurora.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Aurora.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 6,
+        "2": 6.396,
+        "3": 6.81125,
+        "4": 7.24575,
+        "5": 7.6995,
+        "6": 8.1725,
+        "7": 8.66475,
+        "8": 9.17625,
+        "9": 9.707,
+        "10": 10.257,
+        "11": 10.82625,
+        "12": 11.41475,
+        "13": 12.0225,
+        "14": 12.6495,
+        "15": 13.29575,
+        "16": 13.96125,
+        "17": 14.646,
+        "18": 15.35
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 23,
+      "growth": 4.5,
+      "sources": [
+        "原始资料/zh_CN/champion/Aurora.json:stats.armor/armorperlevel",
+        "角色根记录/Aurora.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 23,
+        "2": 26.24,
+        "3": 29.6375,
+        "4": 33.1925,
+        "5": 36.905,
+        "6": 40.775,
+        "7": 44.8025,
+        "8": 48.9875,
+        "9": 53.33,
+        "10": 57.83,
+        "11": 62.4875,
+        "12": 67.3025,
+        "13": 72.275,
+        "14": 77.405,
+        "15": 82.6925,
+        "16": 88.1375,
+        "17": 93.74,
+        "18": 99.5
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 32,
+      "growth": 1.3,
+      "sources": [
+        "原始资料/zh_CN/champion/Aurora.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Aurora.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 32,
+        "2": 32.936,
+        "3": 33.9175,
+        "4": 34.9445,
+        "5": 36.017,
+        "6": 37.135,
+        "7": 38.2985,
+        "8": 39.5075,
+        "9": 40.762,
+        "10": 42.062,
+        "11": 43.4075,
+        "12": 44.7985,
+        "13": 46.235,
+        "14": 47.717,
+        "15": 49.2445,
+        "16": 50.8175,
+        "17": 52.436,
+        "18": 54.1
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 53,
+      "growth": 3,
+      "sources": [
+        "角色根记录/Aurora.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 53,
+        "2": 55.16,
+        "3": 57.425,
+        "4": 59.795,
+        "5": 62.27,
+        "6": 64.85,
+        "7": 67.535,
+        "8": 70.325,
+        "9": 73.22,
+        "10": 76.22,
+        "11": 79.325,
+        "12": 82.535,
+        "13": 85.85,
+        "14": 89.27,
+        "15": 92.795,
+        "16": 96.425,
+        "17": 100.16,
+        "18": 104
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 335,
+      "growth": null,
+      "sources": [
+        "角色根记录/Aurora.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 335,
+        "2": 335,
+        "3": 335,
+        "4": 335,
+        "5": 335,
+        "6": 335,
+        "7": 335,
+        "8": 335,
+        "9": 335,
+        "10": 335,
+        "11": 335,
+        "12": 335,
+        "13": 335,
+        "14": 335,
+        "15": 335,
+        "16": 335,
+        "17": 335,
+        "18": 335
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 550,
+      "growth": null,
+      "sources": [
+        "角色根记录/Aurora.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 550,
+        "2": 550,
+        "3": 550,
+        "4": 550,
+        "5": 550,
+        "6": 550,
+        "7": 550,
+        "8": 550,
+        "9": 550,
+        "10": 550,
+        "11": 550,
+        "12": 550,
+        "13": 550,
+        "14": 550,
+        "15": 550,
+        "16": 550,
+        "17": 550,
+        "18": 550
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.668,
+      "attackSpeedRatio": 0.668,
+      "growthPercent": 2,
+      "sources": [
+        "角色根记录/Aurora.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.668,
+        "2": 0.677619,
+        "3": 0.687706,
+        "4": 0.69826,
+        "5": 0.709282,
+        "6": 0.720772,
+        "7": 0.732729,
+        "8": 0.745154,
+        "9": 0.758046,
+        "10": 0.771406,
+        "11": 0.785234,
+        "12": 0.799529,
+        "13": 0.814292,
+        "14": 0.829522,
+        "15": 0.84522,
+        "16": 0.861386,
+        "17": 0.878019,
+        "18": 0.89512
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 475,
+      "growth": 30,
+      "sources": [
+        "原始资料/zh_CN/champion/Aurora.json:stats.mp/mpperlevel",
+        "角色根记录/Aurora.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 475,
+        "2": 496.6,
+        "3": 519.25,
+        "4": 542.95,
+        "5": 567.7,
+        "6": 593.5,
+        "7": 620.35,
+        "8": 648.25,
+        "9": 677.2,
+        "10": 707.2,
+        "11": 738.25,
+        "12": 770.35,
+        "13": 803.5,
+        "14": 837.7,
+        "15": 872.95,
+        "16": 909.25,
+        "17": 946.6,
+        "18": 985
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 8,
+      "growth": 0.8,
+      "sources": [
+        "原始资料/zh_CN/champion/Aurora.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Aurora.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 8,
+        "2": 8.576,
+        "3": 9.18,
+        "4": 9.812,
+        "5": 10.472,
+        "6": 11.16,
+        "7": 11.876,
+        "8": 12.62,
+        "9": 13.392,
+        "10": 14.192,
+        "11": 15.02,
+        "12": 15.876,
+        "13": 16.76,
+        "14": 17.672,
+        "15": 18.612,
+        "16": 19.58,
+        "17": 20.576,
+        "18": 21.6
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.668,
+    "ratio": 0.668,
+    "growthPercent": 2,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

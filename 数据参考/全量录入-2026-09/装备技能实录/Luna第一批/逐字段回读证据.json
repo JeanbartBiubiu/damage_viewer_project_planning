@@ -1,0 +1,1563 @@
+{
+  "generatedAt": "2026-09-07T15:16:13.260Z",
+  "apiBaseUrl": "http://127.0.0.1:8080/api/admin/games/lol",
+  "gameId": "lol",
+  "source": {
+    "version": "16.17.1",
+    "clientDirectoryVersion": "16.17",
+    "note": "仅保存静态来源已证明的攻击特效组成；不把配置保存回读称为运行时验证。"
+  },
+  "objects": [
+    {
+      "equipmentKey": "item_3091",
+      "equipmentName": "智慧末刃",
+      "skillKey": "item_3091_passive",
+      "preflight": {
+        "skill": {
+          "createdAt": "2026-09-07T14:36:00.435015Z",
+          "description": "普通攻击命中时造成45点额外魔法伤害，属于攻击特效。本次录入接入普通攻击命中事件；技能触发攻击特效的完整范围仍待运行时事件核对。",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "智慧末刃·喧争",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "item_3091_passive",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-07T14:36:00.435015Z"
+        },
+        "relations": {
+          "items": [
+            {
+              "equipmentKey": "item_3091",
+              "equipmentName": "智慧末刃",
+              "gameId": "lol",
+              "skillKey": "item_3091_passive",
+              "skillName": "智慧末刃·喧争",
+              "skillStatus": "ENABLED",
+              "sortOrder": 10
+            }
+          ],
+          "total": 1
+        }
+      },
+      "formulaChecks": {
+        "expectedFormulaKeys": [],
+        "actualFormulaKeys": [],
+        "formulaListEqual": true,
+        "missingFormulaChecks": [
+          {
+            "formulaKey": "on_hit_damage",
+            "path": "/skills/item_3091_passive/formulas/on_hit_damage",
+            "expectedStatus": 404,
+            "actualStatus": 404,
+            "equal": true
+          }
+        ]
+      },
+      "components": [
+        {
+          "kind": "skill",
+          "path": "/skills/item_3091_passive",
+          "expected": {
+            "skillKey": "item_3091_passive",
+            "name": "智慧末刃·喧争",
+            "description": "普通攻击命中时造成45点额外魔法伤害，属于攻击特效。本次录入接入普通攻击命中事件；技能触发攻击特效的完整范围仍待运行时事件核对。",
+            "maxLevel": 1,
+            "status": "ENABLED",
+            "sortOrder": 0,
+            "skillCategoryKeys": [
+              "passive"
+            ]
+          },
+          "readback": {
+            "createdAt": "2026-09-07T14:36:00.435015Z",
+            "description": "普通攻击命中时造成45点额外魔法伤害，属于攻击特效。本次录入接入普通攻击命中事件；技能触发攻击特效的完整范围仍待运行时事件核对。",
+            "gameId": "lol",
+            "maxLevel": 1,
+            "name": "智慧末刃·喧争",
+            "skillCategoryKeys": [
+              "passive"
+            ],
+            "skillKey": "item_3091_passive",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-07T14:36:00.435015Z"
+          },
+          "fields": [
+            {
+              "path": "skillKey",
+              "expected": "item_3091_passive",
+              "actual": "item_3091_passive",
+              "equal": true
+            },
+            {
+              "path": "name",
+              "expected": "智慧末刃·喧争",
+              "actual": "智慧末刃·喧争",
+              "equal": true
+            },
+            {
+              "path": "description",
+              "expected": "普通攻击命中时造成45点额外魔法伤害，属于攻击特效。本次录入接入普通攻击命中事件；技能触发攻击特效的完整范围仍待运行时事件核对。",
+              "actual": "普通攻击命中时造成45点额外魔法伤害，属于攻击特效。本次录入接入普通攻击命中事件；技能触发攻击特效的完整范围仍待运行时事件核对。",
+              "equal": true
+            },
+            {
+              "path": "maxLevel",
+              "expected": 1,
+              "actual": 1,
+              "equal": true
+            },
+            {
+              "path": "status",
+              "expected": "ENABLED",
+              "actual": "ENABLED",
+              "equal": true
+            },
+            {
+              "path": "sortOrder",
+              "expected": 0,
+              "actual": 0,
+              "equal": true
+            },
+            {
+              "path": "skillCategoryKeys[]",
+              "expectedCount": 1,
+              "actualCount": 1,
+              "equal": true
+            },
+            {
+              "path": "skillCategoryKeys[0]",
+              "expected": "passive",
+              "actual": "passive",
+              "equal": true
+            }
+          ]
+        },
+        {
+          "kind": "parameter:on_hit_damage",
+          "path": "/skills/item_3091_passive/parameters/on_hit_damage",
+          "expected": {
+            "parameterKey": "on_hit_damage",
+            "name": "喧争额外伤害",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 45,
+            "levelValues": null,
+            "description": "固定额外魔法伤害，单位：伤害点。",
+            "sortOrder": 10
+          },
+          "readback": {
+            "createdAt": "2026-09-07T14:36:00.755785Z",
+            "description": "固定额外魔法伤害，单位：伤害点。",
+            "fixedValue": 45,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "喧争额外伤害",
+            "parameterKey": "on_hit_damage",
+            "skillKey": "item_3091_passive",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-07T14:36:00.755785Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          "fields": [
+            {
+              "path": "parameterKey",
+              "expected": "on_hit_damage",
+              "actual": "on_hit_damage",
+              "equal": true
+            },
+            {
+              "path": "name",
+              "expected": "喧争额外伤害",
+              "actual": "喧争额外伤害",
+              "equal": true
+            },
+            {
+              "path": "valueType",
+              "expected": "INTEGER",
+              "actual": "INTEGER",
+              "equal": true
+            },
+            {
+              "path": "valueMode",
+              "expected": "FIXED",
+              "actual": "FIXED",
+              "equal": true
+            },
+            {
+              "path": "fixedValue",
+              "expected": 45,
+              "actual": 45,
+              "equal": true
+            },
+            {
+              "path": "levelValues",
+              "expected": null,
+              "actual": null,
+              "equal": true
+            },
+            {
+              "path": "description",
+              "expected": "固定额外魔法伤害，单位：伤害点。",
+              "actual": "固定额外魔法伤害，单位：伤害点。",
+              "equal": true
+            },
+            {
+              "path": "sortOrder",
+              "expected": 10,
+              "actual": 10,
+              "equal": true
+            }
+          ]
+        },
+        {
+          "kind": "effect:on_hit_damage",
+          "path": "/skills/item_3091_passive/effects/on_hit_damage",
+          "expected": {
+            "effectKey": "on_hit_damage",
+            "name": "喧争攻击特效",
+            "description": "普通攻击命中时结算45点额外魔法伤害；触发范围按普通攻击命中事件保存。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "magic_damage",
+                "name": "额外魔法伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": "固定45点魔法伤害，属于攻击特效。",
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "on_hit_damage"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "magic",
+                  "deliveryKind": "BASIC_ATTACK",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampRules": []
+                }
+              }
+            ]
+          },
+          "readback": {
+            "createdAt": "2026-09-07T14:36:01.295172Z",
+            "description": "普通攻击命中时结算45点额外魔法伤害；触发范围按普通攻击命中事件保存。",
+            "effectKey": "on_hit_damage",
+            "gameId": "lol",
+            "lifecycle": null,
+            "name": "喧争攻击特效",
+            "results": [
+              {
+                "description": "固定45点魔法伤害，属于攻击特效。",
+                "detail": {
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "damageTypeKey": "magic",
+                  "deliveryKind": "BASIC_ATTACK",
+                  "originKind": "DIRECT",
+                  "vampRules": []
+                },
+                "lifecycleBehavior": null,
+                "name": "额外魔法伤害",
+                "resultKey": "magic_damage",
+                "resultType": "DAMAGE",
+                "sortOrder": 10,
+                "spellShieldBlockScope": null,
+                "target": "TARGET",
+                "valueRule": {
+                  "fixedMaxValue": null,
+                  "fixedMinValue": 0,
+                  "fixedMultiplier": 1,
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "on_hit_damage"
+                  }
+                }
+              }
+            ],
+            "skillKey": "item_3091_passive",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-07T14:42:20.14872Z"
+          },
+          "fields": [
+            {
+              "path": "effectKey",
+              "expected": "on_hit_damage",
+              "actual": "on_hit_damage",
+              "equal": true
+            },
+            {
+              "path": "name",
+              "expected": "喧争攻击特效",
+              "actual": "喧争攻击特效",
+              "equal": true
+            },
+            {
+              "path": "description",
+              "expected": "普通攻击命中时结算45点额外魔法伤害；触发范围按普通攻击命中事件保存。",
+              "actual": "普通攻击命中时结算45点额外魔法伤害；触发范围按普通攻击命中事件保存。",
+              "equal": true
+            },
+            {
+              "path": "sortOrder",
+              "expected": 10,
+              "actual": 10,
+              "equal": true
+            },
+            {
+              "path": "lifecycle",
+              "expected": null,
+              "actual": null,
+              "equal": true
+            },
+            {
+              "path": "results[]",
+              "expectedCount": 1,
+              "actualCount": 1,
+              "equal": true
+            },
+            {
+              "path": "results[0].resultKey",
+              "expected": "magic_damage",
+              "actual": "magic_damage",
+              "equal": true
+            },
+            {
+              "path": "results[0].name",
+              "expected": "额外魔法伤害",
+              "actual": "额外魔法伤害",
+              "equal": true
+            },
+            {
+              "path": "results[0].resultType",
+              "expected": "DAMAGE",
+              "actual": "DAMAGE",
+              "equal": true
+            },
+            {
+              "path": "results[0].target",
+              "expected": "TARGET",
+              "actual": "TARGET",
+              "equal": true
+            },
+            {
+              "path": "results[0].description",
+              "expected": "固定45点魔法伤害，属于攻击特效。",
+              "actual": "固定45点魔法伤害，属于攻击特效。",
+              "equal": true
+            },
+            {
+              "path": "results[0].sortOrder",
+              "expected": 10,
+              "actual": 10,
+              "equal": true
+            },
+            {
+              "path": "results[0].lifecycleBehavior",
+              "expected": null,
+              "actual": null,
+              "equal": true
+            },
+            {
+              "path": "results[0].spellShieldBlockScope",
+              "expected": null,
+              "actual": null,
+              "equal": true
+            },
+            {
+              "path": "results[0].valueRule.value.kind",
+              "expected": "PARAMETER",
+              "actual": "PARAMETER",
+              "equal": true
+            },
+            {
+              "path": "results[0].valueRule.value.parameterKey",
+              "expected": "on_hit_damage",
+              "actual": "on_hit_damage",
+              "equal": true
+            },
+            {
+              "path": "results[0].valueRule.fixedMultiplier",
+              "expected": 1,
+              "actual": 1,
+              "equal": true
+            },
+            {
+              "path": "results[0].valueRule.fixedMinValue",
+              "expected": 0,
+              "actual": 0,
+              "equal": true
+            },
+            {
+              "path": "results[0].valueRule.fixedMaxValue",
+              "expected": null,
+              "actual": null,
+              "equal": true
+            },
+            {
+              "path": "results[0].detail.damageTypeKey",
+              "expected": "magic",
+              "actual": "magic",
+              "equal": true
+            },
+            {
+              "path": "results[0].detail.deliveryKind",
+              "expected": "BASIC_ATTACK",
+              "actual": "BASIC_ATTACK",
+              "equal": true
+            },
+            {
+              "path": "results[0].detail.originKind",
+              "expected": "DIRECT",
+              "actual": "DIRECT",
+              "equal": true
+            },
+            {
+              "path": "results[0].detail.critical.mode",
+              "expected": "DISALLOWED",
+              "actual": "DISALLOWED",
+              "equal": true
+            },
+            {
+              "path": "results[0].detail.critical.multiplierValue",
+              "expected": null,
+              "actual": null,
+              "equal": true
+            },
+            {
+              "path": "results[0].detail.vampRules[]",
+              "expectedCount": 0,
+              "actualCount": 0,
+              "equal": true
+            }
+          ]
+        },
+        {
+          "kind": "trigger-rule:resolve_on_basic_attack_hit",
+          "path": "/skills/item_3091_passive/trigger-rules/resolve_on_basic_attack_hit",
+          "expected": {
+            "ruleKey": "resolve_on_basic_attack_hit",
+            "name": "普通攻击命中结算喧争",
+            "description": "监听普通攻击命中并执行喧争额外魔法伤害。技能触发攻击特效的事件范围未在本次录入中扩大。",
+            "sortOrder": 10,
+            "eventSource": {
+              "eventType": "BASIC_ATTACK_HIT",
+              "detail": {}
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "execute_on_hit_damage",
+                "name": "执行喧争额外伤害",
+                "actionType": "EXECUTE_EFFECT",
+                "sortOrder": 10,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "effectKey": "on_hit_damage"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null
+          },
+          "readback": {
+            "actions": [
+              {
+                "actionKey": "execute_on_hit_damage",
+                "actionType": "EXECUTE_EFFECT",
+                "detail": {
+                  "effectKey": "on_hit_damage"
+                },
+                "name": "执行喧争额外伤害",
+                "resultModifiers": [],
+                "runtimeInputBindings": [],
+                "sortOrder": 10,
+                "targetContext": "CURRENT_TARGET"
+              }
+            ],
+            "conditionGroups": [],
+            "description": "监听普通攻击命中并执行喧争额外魔法伤害。技能触发攻击特效的事件范围未在本次录入中扩大。",
+            "eventSource": {
+              "detail": {},
+              "eventType": "BASIC_ATTACK_HIT"
+            },
+            "maxTriggersPerProcess": null,
+            "name": "普通攻击命中结算喧争",
+            "perTargetCooldown": null,
+            "ruleKey": "resolve_on_basic_attack_hit",
+            "sortOrder": 10
+          },
+          "fields": [
+            {
+              "path": "ruleKey",
+              "expected": "resolve_on_basic_attack_hit",
+              "actual": "resolve_on_basic_attack_hit",
+              "equal": true
+            },
+            {
+              "path": "name",
+              "expected": "普通攻击命中结算喧争",
+              "actual": "普通攻击命中结算喧争",
+              "equal": true
+            },
+            {
+              "path": "description",
+              "expected": "监听普通攻击命中并执行喧争额外魔法伤害。技能触发攻击特效的事件范围未在本次录入中扩大。",
+              "actual": "监听普通攻击命中并执行喧争额外魔法伤害。技能触发攻击特效的事件范围未在本次录入中扩大。",
+              "equal": true
+            },
+            {
+              "path": "sortOrder",
+              "expected": 10,
+              "actual": 10,
+              "equal": true
+            },
+            {
+              "path": "eventSource.eventType",
+              "expected": "BASIC_ATTACK_HIT",
+              "actual": "BASIC_ATTACK_HIT",
+              "equal": true
+            },
+            {
+              "path": "conditionGroups[]",
+              "expectedCount": 0,
+              "actualCount": 0,
+              "equal": true
+            },
+            {
+              "path": "actions[]",
+              "expectedCount": 1,
+              "actualCount": 1,
+              "equal": true
+            },
+            {
+              "path": "actions[0].actionKey",
+              "expected": "execute_on_hit_damage",
+              "actual": "execute_on_hit_damage",
+              "equal": true
+            },
+            {
+              "path": "actions[0].name",
+              "expected": "执行喧争额外伤害",
+              "actual": "执行喧争额外伤害",
+              "equal": true
+            },
+            {
+              "path": "actions[0].actionType",
+              "expected": "EXECUTE_EFFECT",
+              "actual": "EXECUTE_EFFECT",
+              "equal": true
+            },
+            {
+              "path": "actions[0].sortOrder",
+              "expected": 10,
+              "actual": 10,
+              "equal": true
+            },
+            {
+              "path": "actions[0].targetContext",
+              "expected": "CURRENT_TARGET",
+              "actual": "CURRENT_TARGET",
+              "equal": true
+            },
+            {
+              "path": "actions[0].detail.effectKey",
+              "expected": "on_hit_damage",
+              "actual": "on_hit_damage",
+              "equal": true
+            },
+            {
+              "path": "actions[0].runtimeInputBindings[]",
+              "expectedCount": 0,
+              "actualCount": 0,
+              "equal": true
+            },
+            {
+              "path": "actions[0].resultModifiers[]",
+              "expectedCount": 0,
+              "actualCount": 0,
+              "equal": true
+            },
+            {
+              "path": "perTargetCooldown",
+              "expected": null,
+              "actual": null,
+              "equal": true
+            },
+            {
+              "path": "maxTriggersPerProcess",
+              "expected": null,
+              "actual": null,
+              "equal": true
+            }
+          ]
+        },
+        {
+          "kind": "equipment-skill-relation",
+          "path": "/equipment-skill-relations?equipmentKey=item_3091",
+          "expected": {
+            "equipmentKey": "item_3091",
+            "skillKey": "item_3091_passive",
+            "sortOrder": 10
+          },
+          "readback": {
+            "equipmentKey": "item_3091",
+            "equipmentName": "智慧末刃",
+            "gameId": "lol",
+            "skillKey": "item_3091_passive",
+            "skillName": "智慧末刃·喧争",
+            "skillStatus": "ENABLED",
+            "sortOrder": 10
+          },
+          "fields": [
+            {
+              "path": "equipmentKey",
+              "expected": "item_3091",
+              "actual": "item_3091",
+              "equal": true
+            },
+            {
+              "path": "skillKey",
+              "expected": "item_3091_passive",
+              "actual": "item_3091_passive",
+              "equal": true
+            },
+            {
+              "path": "sortOrder",
+              "expected": 10,
+              "actual": 10,
+              "equal": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3115",
+      "equipmentName": "纳什之牙",
+      "skillKey": "item_3115_passive",
+      "preflight": {
+        "skill": {
+          "createdAt": "2026-09-07T14:36:02.705257Z",
+          "description": "普通攻击命中时造成15点加15%法术强度的额外魔法伤害，属于攻击特效。本次录入接入普通攻击命中事件；技能触发攻击特效的完整范围仍待运行时事件核对。",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "纳什之牙·艾卡西亚之咬",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "item_3115_passive",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-07T14:36:02.705257Z"
+        },
+        "relations": {
+          "items": [
+            {
+              "equipmentKey": "item_3115",
+              "equipmentName": "纳什之牙",
+              "gameId": "lol",
+              "skillKey": "item_3115_passive",
+              "skillName": "纳什之牙·艾卡西亚之咬",
+              "skillStatus": "ENABLED",
+              "sortOrder": 10
+            }
+          ],
+          "total": 1
+        }
+      },
+      "formulaChecks": {
+        "expectedFormulaKeys": [
+          "on_hit_damage"
+        ],
+        "actualFormulaKeys": [
+          "on_hit_damage"
+        ],
+        "formulaListEqual": true,
+        "missingFormulaChecks": []
+      },
+      "components": [
+        {
+          "kind": "skill",
+          "path": "/skills/item_3115_passive",
+          "expected": {
+            "skillKey": "item_3115_passive",
+            "name": "纳什之牙·艾卡西亚之咬",
+            "description": "普通攻击命中时造成15点加15%法术强度的额外魔法伤害，属于攻击特效。本次录入接入普通攻击命中事件；技能触发攻击特效的完整范围仍待运行时事件核对。",
+            "maxLevel": 1,
+            "status": "ENABLED",
+            "sortOrder": 0,
+            "skillCategoryKeys": [
+              "passive"
+            ]
+          },
+          "readback": {
+            "createdAt": "2026-09-07T14:36:02.705257Z",
+            "description": "普通攻击命中时造成15点加15%法术强度的额外魔法伤害，属于攻击特效。本次录入接入普通攻击命中事件；技能触发攻击特效的完整范围仍待运行时事件核对。",
+            "gameId": "lol",
+            "maxLevel": 1,
+            "name": "纳什之牙·艾卡西亚之咬",
+            "skillCategoryKeys": [
+              "passive"
+            ],
+            "skillKey": "item_3115_passive",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-07T14:36:02.705257Z"
+          },
+          "fields": [
+            {
+              "path": "skillKey",
+              "expected": "item_3115_passive",
+              "actual": "item_3115_passive",
+              "equal": true
+            },
+            {
+              "path": "name",
+              "expected": "纳什之牙·艾卡西亚之咬",
+              "actual": "纳什之牙·艾卡西亚之咬",
+              "equal": true
+            },
+            {
+              "path": "description",
+              "expected": "普通攻击命中时造成15点加15%法术强度的额外魔法伤害，属于攻击特效。本次录入接入普通攻击命中事件；技能触发攻击特效的完整范围仍待运行时事件核对。",
+              "actual": "普通攻击命中时造成15点加15%法术强度的额外魔法伤害，属于攻击特效。本次录入接入普通攻击命中事件；技能触发攻击特效的完整范围仍待运行时事件核对。",
+              "equal": true
+            },
+            {
+              "path": "maxLevel",
+              "expected": 1,
+              "actual": 1,
+              "equal": true
+            },
+            {
+              "path": "status",
+              "expected": "ENABLED",
+              "actual": "ENABLED",
+              "equal": true
+            },
+            {
+              "path": "sortOrder",
+              "expected": 0,
+              "actual": 0,
+              "equal": true
+            },
+            {
+              "path": "skillCategoryKeys[]",
+              "expectedCount": 1,
+              "actualCount": 1,
+              "equal": true
+            },
+            {
+              "path": "skillCategoryKeys[0]",
+              "expected": "passive",
+              "actual": "passive",
+              "equal": true
+            }
+          ]
+        },
+        {
+          "kind": "parameter:base_damage",
+          "path": "/skills/item_3115_passive/parameters/base_damage",
+          "expected": {
+            "parameterKey": "base_damage",
+            "name": "基础额外伤害",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 15,
+            "levelValues": null,
+            "description": "固定基础额外魔法伤害，单位：伤害点。",
+            "sortOrder": 10
+          },
+          "readback": {
+            "createdAt": "2026-09-07T14:36:02.999547Z",
+            "description": "固定基础额外魔法伤害，单位：伤害点。",
+            "fixedValue": 15,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础额外伤害",
+            "parameterKey": "base_damage",
+            "skillKey": "item_3115_passive",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-07T14:36:02.999547Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          "fields": [
+            {
+              "path": "parameterKey",
+              "expected": "base_damage",
+              "actual": "base_damage",
+              "equal": true
+            },
+            {
+              "path": "name",
+              "expected": "基础额外伤害",
+              "actual": "基础额外伤害",
+              "equal": true
+            },
+            {
+              "path": "valueType",
+              "expected": "INTEGER",
+              "actual": "INTEGER",
+              "equal": true
+            },
+            {
+              "path": "valueMode",
+              "expected": "FIXED",
+              "actual": "FIXED",
+              "equal": true
+            },
+            {
+              "path": "fixedValue",
+              "expected": 15,
+              "actual": 15,
+              "equal": true
+            },
+            {
+              "path": "levelValues",
+              "expected": null,
+              "actual": null,
+              "equal": true
+            },
+            {
+              "path": "description",
+              "expected": "固定基础额外魔法伤害，单位：伤害点。",
+              "actual": "固定基础额外魔法伤害，单位：伤害点。",
+              "equal": true
+            },
+            {
+              "path": "sortOrder",
+              "expected": 10,
+              "actual": 10,
+              "equal": true
+            }
+          ]
+        },
+        {
+          "kind": "parameter:ap_ratio",
+          "path": "/skills/item_3115_passive/parameters/ap_ratio",
+          "expected": {
+            "parameterKey": "ap_ratio",
+            "name": "法术强度倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.15,
+            "levelValues": null,
+            "description": "法术强度倍率，小数1表示100%。",
+            "sortOrder": 20
+          },
+          "readback": {
+            "createdAt": "2026-09-07T14:36:03.245536Z",
+            "description": "法术强度倍率，小数1表示100%。",
+            "fixedValue": 0.15,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "法术强度倍率",
+            "parameterKey": "ap_ratio",
+            "skillKey": "item_3115_passive",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-07T14:36:03.245536Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          "fields": [
+            {
+              "path": "parameterKey",
+              "expected": "ap_ratio",
+              "actual": "ap_ratio",
+              "equal": true
+            },
+            {
+              "path": "name",
+              "expected": "法术强度倍率",
+              "actual": "法术强度倍率",
+              "equal": true
+            },
+            {
+              "path": "valueType",
+              "expected": "DECIMAL",
+              "actual": "DECIMAL",
+              "equal": true
+            },
+            {
+              "path": "valueMode",
+              "expected": "FIXED",
+              "actual": "FIXED",
+              "equal": true
+            },
+            {
+              "path": "fixedValue",
+              "expected": 0.15,
+              "actual": 0.15,
+              "equal": true
+            },
+            {
+              "path": "levelValues",
+              "expected": null,
+              "actual": null,
+              "equal": true
+            },
+            {
+              "path": "description",
+              "expected": "法术强度倍率，小数1表示100%。",
+              "actual": "法术强度倍率，小数1表示100%。",
+              "equal": true
+            },
+            {
+              "path": "sortOrder",
+              "expected": 20,
+              "actual": 20,
+              "equal": true
+            }
+          ]
+        },
+        {
+          "kind": "formula:on_hit_damage",
+          "path": "/skills/item_3115_passive/formulas/on_hit_damage",
+          "expected": {
+            "formulaKey": "on_hit_damage",
+            "name": "艾卡西亚之咬额外魔法伤害",
+            "description": "15点基础伤害加15%法术强度。",
+            "sortOrder": 10,
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "readback": {
+            "createdAt": "2026-09-07T14:36:03.503307Z",
+            "description": "15点基础伤害加15%法术强度。",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "attributeKey": "ability_power",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "TOTAL",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            "formulaKey": "on_hit_damage",
+            "gameId": "lol",
+            "name": "艾卡西亚之咬额外魔法伤害",
+            "skillKey": "item_3115_passive",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-07T14:36:03.503307Z"
+          },
+          "fields": [
+            {
+              "path": "formulaKey",
+              "expected": "on_hit_damage",
+              "actual": "on_hit_damage",
+              "equal": true
+            },
+            {
+              "path": "name",
+              "expected": "艾卡西亚之咬额外魔法伤害",
+              "actual": "艾卡西亚之咬额外魔法伤害",
+              "equal": true
+            },
+            {
+              "path": "description",
+              "expected": "15点基础伤害加15%法术强度。",
+              "actual": "15点基础伤害加15%法术强度。",
+              "equal": true
+            },
+            {
+              "path": "sortOrder",
+              "expected": 10,
+              "actual": 10,
+              "equal": true
+            },
+            {
+              "path": "expression.nodeType",
+              "expected": "OPERATION",
+              "actual": "OPERATION",
+              "equal": true
+            },
+            {
+              "path": "expression.operation",
+              "expected": "ADD",
+              "actual": "ADD",
+              "equal": true
+            },
+            {
+              "path": "expression.operands[]",
+              "expectedCount": 2,
+              "actualCount": 2,
+              "equal": true
+            },
+            {
+              "path": "expression.operands[0].nodeType",
+              "expected": "PARAMETER",
+              "actual": "PARAMETER",
+              "equal": true
+            },
+            {
+              "path": "expression.operands[0].parameterKey",
+              "expected": "base_damage",
+              "actual": "base_damage",
+              "equal": true
+            },
+            {
+              "path": "expression.operands[1].nodeType",
+              "expected": "OPERATION",
+              "actual": "OPERATION",
+              "equal": true
+            },
+            {
+              "path": "expression.operands[1].operation",
+              "expected": "MULTIPLY",
+              "actual": "MULTIPLY",
+              "equal": true
+            },
+            {
+              "path": "expression.operands[1].operands[]",
+              "expectedCount": 2,
+              "actualCount": 2,
+              "equal": true
+            },
+            {
+              "path": "expression.operands[1].operands[0].nodeType",
+              "expected": "PARAMETER",
+              "actual": "PARAMETER",
+              "equal": true
+            },
+            {
+              "path": "expression.operands[1].operands[0].parameterKey",
+              "expected": "ap_ratio",
+              "actual": "ap_ratio",
+              "equal": true
+            },
+            {
+              "path": "expression.operands[1].operands[1].nodeType",
+              "expected": "ATTRIBUTE",
+              "actual": "ATTRIBUTE",
+              "equal": true
+            },
+            {
+              "path": "expression.operands[1].operands[1].attributeOwner",
+              "expected": "SOURCE",
+              "actual": "SOURCE",
+              "equal": true
+            },
+            {
+              "path": "expression.operands[1].operands[1].attributeKey",
+              "expected": "ability_power",
+              "actual": "ability_power",
+              "equal": true
+            },
+            {
+              "path": "expression.operands[1].operands[1].attributeValueKind",
+              "expected": "TOTAL",
+              "actual": "TOTAL",
+              "equal": true
+            }
+          ]
+        },
+        {
+          "kind": "effect:on_hit_damage",
+          "path": "/skills/item_3115_passive/effects/on_hit_damage",
+          "expected": {
+            "effectKey": "on_hit_damage",
+            "name": "艾卡西亚之咬攻击特效",
+            "description": "普通攻击命中时结算15点加15%法术强度的额外魔法伤害；触发范围按普通攻击命中事件保存。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "magic_damage",
+                "name": "额外魔法伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": "15点基础伤害加15%法术强度，属于攻击特效。",
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "on_hit_damage"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "magic",
+                  "deliveryKind": "BASIC_ATTACK",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampRules": []
+                }
+              }
+            ]
+          },
+          "readback": {
+            "createdAt": "2026-09-07T14:36:03.815334Z",
+            "description": "普通攻击命中时结算15点加15%法术强度的额外魔法伤害；触发范围按普通攻击命中事件保存。",
+            "effectKey": "on_hit_damage",
+            "gameId": "lol",
+            "lifecycle": null,
+            "name": "艾卡西亚之咬攻击特效",
+            "results": [
+              {
+                "description": "15点基础伤害加15%法术强度，属于攻击特效。",
+                "detail": {
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "damageTypeKey": "magic",
+                  "deliveryKind": "BASIC_ATTACK",
+                  "originKind": "DIRECT",
+                  "vampRules": []
+                },
+                "lifecycleBehavior": null,
+                "name": "额外魔法伤害",
+                "resultKey": "magic_damage",
+                "resultType": "DAMAGE",
+                "sortOrder": 10,
+                "spellShieldBlockScope": null,
+                "target": "TARGET",
+                "valueRule": {
+                  "fixedMaxValue": null,
+                  "fixedMinValue": 0,
+                  "fixedMultiplier": 1,
+                  "value": {
+                    "formulaKey": "on_hit_damage",
+                    "kind": "FORMULA"
+                  }
+                }
+              }
+            ],
+            "skillKey": "item_3115_passive",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-07T14:36:03.815334Z"
+          },
+          "fields": [
+            {
+              "path": "effectKey",
+              "expected": "on_hit_damage",
+              "actual": "on_hit_damage",
+              "equal": true
+            },
+            {
+              "path": "name",
+              "expected": "艾卡西亚之咬攻击特效",
+              "actual": "艾卡西亚之咬攻击特效",
+              "equal": true
+            },
+            {
+              "path": "description",
+              "expected": "普通攻击命中时结算15点加15%法术强度的额外魔法伤害；触发范围按普通攻击命中事件保存。",
+              "actual": "普通攻击命中时结算15点加15%法术强度的额外魔法伤害；触发范围按普通攻击命中事件保存。",
+              "equal": true
+            },
+            {
+              "path": "sortOrder",
+              "expected": 10,
+              "actual": 10,
+              "equal": true
+            },
+            {
+              "path": "lifecycle",
+              "expected": null,
+              "actual": null,
+              "equal": true
+            },
+            {
+              "path": "results[]",
+              "expectedCount": 1,
+              "actualCount": 1,
+              "equal": true
+            },
+            {
+              "path": "results[0].resultKey",
+              "expected": "magic_damage",
+              "actual": "magic_damage",
+              "equal": true
+            },
+            {
+              "path": "results[0].name",
+              "expected": "额外魔法伤害",
+              "actual": "额外魔法伤害",
+              "equal": true
+            },
+            {
+              "path": "results[0].resultType",
+              "expected": "DAMAGE",
+              "actual": "DAMAGE",
+              "equal": true
+            },
+            {
+              "path": "results[0].target",
+              "expected": "TARGET",
+              "actual": "TARGET",
+              "equal": true
+            },
+            {
+              "path": "results[0].description",
+              "expected": "15点基础伤害加15%法术强度，属于攻击特效。",
+              "actual": "15点基础伤害加15%法术强度，属于攻击特效。",
+              "equal": true
+            },
+            {
+              "path": "results[0].sortOrder",
+              "expected": 10,
+              "actual": 10,
+              "equal": true
+            },
+            {
+              "path": "results[0].lifecycleBehavior",
+              "expected": null,
+              "actual": null,
+              "equal": true
+            },
+            {
+              "path": "results[0].spellShieldBlockScope",
+              "expected": null,
+              "actual": null,
+              "equal": true
+            },
+            {
+              "path": "results[0].valueRule.value.kind",
+              "expected": "FORMULA",
+              "actual": "FORMULA",
+              "equal": true
+            },
+            {
+              "path": "results[0].valueRule.value.formulaKey",
+              "expected": "on_hit_damage",
+              "actual": "on_hit_damage",
+              "equal": true
+            },
+            {
+              "path": "results[0].valueRule.fixedMultiplier",
+              "expected": 1,
+              "actual": 1,
+              "equal": true
+            },
+            {
+              "path": "results[0].valueRule.fixedMinValue",
+              "expected": 0,
+              "actual": 0,
+              "equal": true
+            },
+            {
+              "path": "results[0].valueRule.fixedMaxValue",
+              "expected": null,
+              "actual": null,
+              "equal": true
+            },
+            {
+              "path": "results[0].detail.damageTypeKey",
+              "expected": "magic",
+              "actual": "magic",
+              "equal": true
+            },
+            {
+              "path": "results[0].detail.deliveryKind",
+              "expected": "BASIC_ATTACK",
+              "actual": "BASIC_ATTACK",
+              "equal": true
+            },
+            {
+              "path": "results[0].detail.originKind",
+              "expected": "DIRECT",
+              "actual": "DIRECT",
+              "equal": true
+            },
+            {
+              "path": "results[0].detail.critical.mode",
+              "expected": "DISALLOWED",
+              "actual": "DISALLOWED",
+              "equal": true
+            },
+            {
+              "path": "results[0].detail.critical.multiplierValue",
+              "expected": null,
+              "actual": null,
+              "equal": true
+            },
+            {
+              "path": "results[0].detail.vampRules[]",
+              "expectedCount": 0,
+              "actualCount": 0,
+              "equal": true
+            }
+          ]
+        },
+        {
+          "kind": "trigger-rule:resolve_on_basic_attack_hit",
+          "path": "/skills/item_3115_passive/trigger-rules/resolve_on_basic_attack_hit",
+          "expected": {
+            "ruleKey": "resolve_on_basic_attack_hit",
+            "name": "普通攻击命中结算艾卡西亚之咬",
+            "description": "监听普通攻击命中并执行艾卡西亚之咬额外魔法伤害。技能触发攻击特效的事件范围未在本次录入中扩大。",
+            "sortOrder": 10,
+            "eventSource": {
+              "eventType": "BASIC_ATTACK_HIT",
+              "detail": {}
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "execute_on_hit_damage",
+                "name": "执行艾卡西亚之咬额外伤害",
+                "actionType": "EXECUTE_EFFECT",
+                "sortOrder": 10,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "effectKey": "on_hit_damage"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null
+          },
+          "readback": {
+            "actions": [
+              {
+                "actionKey": "execute_on_hit_damage",
+                "actionType": "EXECUTE_EFFECT",
+                "detail": {
+                  "effectKey": "on_hit_damage"
+                },
+                "name": "执行艾卡西亚之咬额外伤害",
+                "resultModifiers": [],
+                "runtimeInputBindings": [],
+                "sortOrder": 10,
+                "targetContext": "CURRENT_TARGET"
+              }
+            ],
+            "conditionGroups": [],
+            "description": "监听普通攻击命中并执行艾卡西亚之咬额外魔法伤害。技能触发攻击特效的事件范围未在本次录入中扩大。",
+            "eventSource": {
+              "detail": {},
+              "eventType": "BASIC_ATTACK_HIT"
+            },
+            "maxTriggersPerProcess": null,
+            "name": "普通攻击命中结算艾卡西亚之咬",
+            "perTargetCooldown": null,
+            "ruleKey": "resolve_on_basic_attack_hit",
+            "sortOrder": 10
+          },
+          "fields": [
+            {
+              "path": "ruleKey",
+              "expected": "resolve_on_basic_attack_hit",
+              "actual": "resolve_on_basic_attack_hit",
+              "equal": true
+            },
+            {
+              "path": "name",
+              "expected": "普通攻击命中结算艾卡西亚之咬",
+              "actual": "普通攻击命中结算艾卡西亚之咬",
+              "equal": true
+            },
+            {
+              "path": "description",
+              "expected": "监听普通攻击命中并执行艾卡西亚之咬额外魔法伤害。技能触发攻击特效的事件范围未在本次录入中扩大。",
+              "actual": "监听普通攻击命中并执行艾卡西亚之咬额外魔法伤害。技能触发攻击特效的事件范围未在本次录入中扩大。",
+              "equal": true
+            },
+            {
+              "path": "sortOrder",
+              "expected": 10,
+              "actual": 10,
+              "equal": true
+            },
+            {
+              "path": "eventSource.eventType",
+              "expected": "BASIC_ATTACK_HIT",
+              "actual": "BASIC_ATTACK_HIT",
+              "equal": true
+            },
+            {
+              "path": "conditionGroups[]",
+              "expectedCount": 0,
+              "actualCount": 0,
+              "equal": true
+            },
+            {
+              "path": "actions[]",
+              "expectedCount": 1,
+              "actualCount": 1,
+              "equal": true
+            },
+            {
+              "path": "actions[0].actionKey",
+              "expected": "execute_on_hit_damage",
+              "actual": "execute_on_hit_damage",
+              "equal": true
+            },
+            {
+              "path": "actions[0].name",
+              "expected": "执行艾卡西亚之咬额外伤害",
+              "actual": "执行艾卡西亚之咬额外伤害",
+              "equal": true
+            },
+            {
+              "path": "actions[0].actionType",
+              "expected": "EXECUTE_EFFECT",
+              "actual": "EXECUTE_EFFECT",
+              "equal": true
+            },
+            {
+              "path": "actions[0].sortOrder",
+              "expected": 10,
+              "actual": 10,
+              "equal": true
+            },
+            {
+              "path": "actions[0].targetContext",
+              "expected": "CURRENT_TARGET",
+              "actual": "CURRENT_TARGET",
+              "equal": true
+            },
+            {
+              "path": "actions[0].detail.effectKey",
+              "expected": "on_hit_damage",
+              "actual": "on_hit_damage",
+              "equal": true
+            },
+            {
+              "path": "actions[0].runtimeInputBindings[]",
+              "expectedCount": 0,
+              "actualCount": 0,
+              "equal": true
+            },
+            {
+              "path": "actions[0].resultModifiers[]",
+              "expectedCount": 0,
+              "actualCount": 0,
+              "equal": true
+            },
+            {
+              "path": "perTargetCooldown",
+              "expected": null,
+              "actual": null,
+              "equal": true
+            },
+            {
+              "path": "maxTriggersPerProcess",
+              "expected": null,
+              "actual": null,
+              "equal": true
+            }
+          ]
+        },
+        {
+          "kind": "equipment-skill-relation",
+          "path": "/equipment-skill-relations?equipmentKey=item_3115",
+          "expected": {
+            "equipmentKey": "item_3115",
+            "skillKey": "item_3115_passive",
+            "sortOrder": 10
+          },
+          "readback": {
+            "equipmentKey": "item_3115",
+            "equipmentName": "纳什之牙",
+            "gameId": "lol",
+            "skillKey": "item_3115_passive",
+            "skillName": "纳什之牙·艾卡西亚之咬",
+            "skillStatus": "ENABLED",
+            "sortOrder": 10
+          },
+          "fields": [
+            {
+              "path": "equipmentKey",
+              "expected": "item_3115",
+              "actual": "item_3115",
+              "equal": true
+            },
+            {
+              "path": "skillKey",
+              "expected": "item_3115_passive",
+              "actual": "item_3115_passive",
+              "equal": true
+            },
+            {
+              "path": "sortOrder",
+              "expected": 10,
+              "actual": 10,
+              "equal": true
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "mode": "逐字段独立回读",
+  "summary": {
+    "objectCount": 2,
+    "componentCount": 12,
+    "fieldCount": 148,
+    "mismatchCount": 0
+  }
+}

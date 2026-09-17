@@ -1,0 +1,849 @@
+{
+  "generatedAt": "2026-09-09T04:02:51.605Z",
+  "stage": "实际录入后公式、必要参数和固定河道移速效果独立GET核算；本脚本只使用GET",
+  "requestSha256": "babcff78cd3b9bbc8dfe4b775b48358a6a548ce6a494f66f01f8ede80ec9e83c",
+  "noWrite": true,
+  "businessWritesByThisScript": 0,
+  "reads": {
+    "total": 57,
+    "formulas": 17,
+    "parameters": 39,
+    "effects": 1,
+    "statuses": {
+      "200": 57
+    }
+  },
+  "checks": {
+    "count": 88,
+    "passed": 88,
+    "failed": 0,
+    "allPassed": true,
+    "details": [
+      {
+        "name": "最终请求和授权范围完整",
+        "formulaCount": 17,
+        "effectCount": 1,
+        "dependencyParameterCount": 39,
+        "status": "通过"
+      },
+      {
+        "name": "保护基线只读摘要已保存",
+        "identityCount": 69,
+        "layoutCount": 6,
+        "note": "不重复读取身份、布局和图片关系",
+        "status": "通过"
+      },
+      {
+        "name": "实际GET公式 rune_8112_passive/damage_amount",
+        "route": "/skills/rune_8112_passive/formulas/damage_amount",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET公式 rune_8126_passive/damage_amount",
+        "route": "/skills/rune_8126_passive/formulas/damage_amount",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET公式 rune_8139_passive/heal_amount",
+        "route": "/skills/rune_8139_passive/formulas/heal_amount",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET公式 rune_8143_passive/damage_amount",
+        "route": "/skills/rune_8143_passive/formulas/damage_amount",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET公式 rune_9923_passive/damage_amount",
+        "route": "/skills/rune_9923_passive/formulas/damage_amount",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET公式 rune_8439_passive/armor_bonus_amount",
+        "route": "/skills/rune_8439_passive/formulas/armor_bonus_amount",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET公式 rune_8439_passive/magic_resistance_bonus_amount",
+        "route": "/skills/rune_8439_passive/formulas/magic_resistance_bonus_amount",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET公式 rune_8439_passive/damage_amount",
+        "route": "/skills/rune_8439_passive/formulas/damage_amount",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET公式 rune_9101_passive/heal_amount",
+        "route": "/skills/rune_9101_passive/formulas/heal_amount",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET公式 rune_8233_passive/health_threshold",
+        "route": "/skills/rune_8233_passive/formulas/health_threshold",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET公式 rune_8233_passive/attack_damage_amount",
+        "route": "/skills/rune_8233_passive/formulas/attack_damage_amount",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET公式 rune_8233_passive/ability_power_amount",
+        "route": "/skills/rune_8233_passive/formulas/ability_power_amount",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET公式 rune_8214_passive/damage_amount",
+        "route": "/skills/rune_8214_passive/formulas/damage_amount",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET公式 rune_8229_passive/base_damage_amount",
+        "route": "/skills/rune_8229_passive/formulas/base_damage_amount",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET公式 rune_8229_passive/cooldown_ms",
+        "route": "/skills/rune_8229_passive/formulas/cooldown_ms",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET公式 rune_8237_passive/damage_amount",
+        "route": "/skills/rune_8237_passive/formulas/damage_amount",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET公式 rune_8232_passive/adaptive_force_amount",
+        "route": "/skills/rune_8232_passive/formulas/adaptive_force_amount",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8112_passive/confirmed_level_base",
+        "route": "/skills/rune_8112_passive/parameters/confirmed_level_base",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8112_passive/ability_power_ratio",
+        "route": "/skills/rune_8112_passive/parameters/ability_power_ratio",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8112_passive/bonus_attack_damage_ratio",
+        "route": "/skills/rune_8112_passive/parameters/bonus_attack_damage_ratio",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8126_passive/confirmed_level_base",
+        "route": "/skills/rune_8126_passive/parameters/confirmed_level_base",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8139_passive/confirmed_level_base",
+        "route": "/skills/rune_8139_passive/parameters/confirmed_level_base",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8139_passive/ability_power_ratio",
+        "route": "/skills/rune_8139_passive/parameters/ability_power_ratio",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8139_passive/bonus_attack_damage_ratio",
+        "route": "/skills/rune_8139_passive/parameters/bonus_attack_damage_ratio",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8143_passive/confirmed_level_base",
+        "route": "/skills/rune_8143_passive/parameters/confirmed_level_base",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_9923_passive/confirmed_level_base",
+        "route": "/skills/rune_9923_passive/parameters/confirmed_level_base",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_9923_passive/ability_power_ratio",
+        "route": "/skills/rune_9923_passive/parameters/ability_power_ratio",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_9923_passive/bonus_attack_damage_ratio",
+        "route": "/skills/rune_9923_passive/parameters/bonus_attack_damage_ratio",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_9923_passive/base_attack_count",
+        "route": "/skills/rune_9923_passive/parameters/base_attack_count",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_9923_passive/max_attack_gap_ms",
+        "route": "/skills/rune_9923_passive/parameters/max_attack_gap_ms",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_9923_passive/max_bonus_reset_attacks",
+        "route": "/skills/rune_9923_passive/parameters/max_bonus_reset_attacks",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_9923_passive/additional_attack_per_reset",
+        "route": "/skills/rune_9923_passive/parameters/additional_attack_per_reset",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8439_passive/confirmed_level_damage",
+        "route": "/skills/rune_8439_passive/parameters/confirmed_level_damage",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8439_passive/confirmed_level_resist_cap",
+        "route": "/skills/rune_8439_passive/parameters/confirmed_level_resist_cap",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8439_passive/flat_resistance",
+        "route": "/skills/rune_8439_passive/parameters/flat_resistance",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8439_passive/bonus_resistance_ratio",
+        "route": "/skills/rune_8439_passive/parameters/bonus_resistance_ratio",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8439_passive/bonus_health_damage_ratio",
+        "route": "/skills/rune_8439_passive/parameters/bonus_health_damage_ratio",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_9101_passive/confirmed_level_heal",
+        "route": "/skills/rune_9101_passive/parameters/confirmed_level_heal",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8233_passive/confirmed_adaptive_force",
+        "route": "/skills/rune_8233_passive/parameters/confirmed_adaptive_force",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8233_passive/health_threshold_ratio",
+        "route": "/skills/rune_8233_passive/parameters/health_threshold_ratio",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8233_passive/adaptive_to_attack_damage_ratio",
+        "route": "/skills/rune_8233_passive/parameters/adaptive_to_attack_damage_ratio",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8214_passive/confirmed_level_base",
+        "route": "/skills/rune_8214_passive/parameters/confirmed_level_base",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8214_passive/ability_power_ratio",
+        "route": "/skills/rune_8214_passive/parameters/ability_power_ratio",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8214_passive/bonus_attack_damage_ratio",
+        "route": "/skills/rune_8214_passive/parameters/bonus_attack_damage_ratio",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8229_passive/confirmed_level_base",
+        "route": "/skills/rune_8229_passive/parameters/confirmed_level_base",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8229_passive/ability_power_ratio",
+        "route": "/skills/rune_8229_passive/parameters/ability_power_ratio",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8229_passive/bonus_attack_damage_ratio",
+        "route": "/skills/rune_8229_passive/parameters/bonus_attack_damage_ratio",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8229_passive/confirmed_level_cooldown_seconds_source_start",
+        "route": "/skills/rune_8229_passive/parameters/confirmed_level_cooldown_seconds_source_start",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8229_passive/confirmed_level_cooldown_seconds",
+        "route": "/skills/rune_8229_passive/parameters/confirmed_level_cooldown_seconds",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8229_passive/maximum_distance_damage_ratio",
+        "route": "/skills/rune_8229_passive/parameters/maximum_distance_damage_ratio",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8229_passive/maximum_amplification_distance",
+        "route": "/skills/rune_8229_passive/parameters/maximum_amplification_distance",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8229_passive/cooldown_floor_seconds",
+        "route": "/skills/rune_8229_passive/parameters/cooldown_floor_seconds",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8229_passive/seconds_to_ms",
+        "route": "/skills/rune_8229_passive/parameters/seconds_to_ms",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8237_passive/confirmed_level_base",
+        "route": "/skills/rune_8237_passive/parameters/confirmed_level_base",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8232_passive/confirmed_adaptive_force",
+        "route": "/skills/rune_8232_passive/parameters/confirmed_adaptive_force",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET参数 rune_8232_passive/river_flat_move_speed",
+        "route": "/skills/rune_8232_passive/parameters/river_flat_move_speed",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "实际GET效果 rune_8232_passive/river_flat_move_speed_component",
+        "route": "/skills/rune_8232_passive/effects/river_flat_move_speed_component",
+        "status": "通过",
+        "attempts": 1
+      },
+      {
+        "name": "17个公式的必要参数已逐项回读",
+        "formulasRead": 17,
+        "parametersRead": 39,
+        "effectsRead": 1,
+        "status": "通过"
+      },
+      {
+        "name": "实际算例 电刑",
+        "status": "通过"
+      },
+      {
+        "name": "实际算例 恶意中伤",
+        "status": "通过"
+      },
+      {
+        "name": "实际算例 血之滋味",
+        "status": "通过"
+      },
+      {
+        "name": "实际算例 猛然冲击",
+        "status": "通过"
+      },
+      {
+        "name": "实际算例 丛刃",
+        "status": "通过"
+      },
+      {
+        "name": "实际算例 余震护甲等级下限",
+        "status": "通过"
+      },
+      {
+        "name": "实际算例 余震护甲等级上限",
+        "status": "通过"
+      },
+      {
+        "name": "实际算例 余震魔抗封顶",
+        "status": "通过"
+      },
+      {
+        "name": "实际算例 余震爆发",
+        "status": "通过"
+      },
+      {
+        "name": "实际算例 吸收生命力",
+        "status": "通过"
+      },
+      {
+        "name": "实际算例 绝对专注生命门槛值",
+        "status": "通过"
+      },
+      {
+        "name": "实际算例 绝对专注攻击力分支",
+        "status": "通过"
+      },
+      {
+        "name": "实际算例 绝对专注法强分支",
+        "status": "通过"
+      },
+      {
+        "name": "实际算例 艾黎",
+        "status": "通过"
+      },
+      {
+        "name": "实际算例 彗星伤害",
+        "status": "通过"
+      },
+      {
+        "name": "实际算例 彗星下限钳制",
+        "status": "通过"
+      },
+      {
+        "name": "实际算例 彗星上限端点",
+        "status": "通过"
+      },
+      {
+        "name": "实际算例 彗星低于下限",
+        "status": "通过"
+      },
+      {
+        "name": "实际算例 彗星高于上限",
+        "status": "通过"
+      },
+      {
+        "name": "实际算例 焦灼",
+        "status": "通过"
+      },
+      {
+        "name": "实际算例 水上行走",
+        "status": "通过"
+      },
+      {
+        "name": "AP、额外攻击力和余震实际公式结构",
+        "status": "通过"
+      },
+      {
+        "name": "余震实际MIN封顶参数",
+        "status": "通过"
+      },
+      {
+        "name": "彗星实际冷却钳制和距离边界",
+        "status": "通过"
+      },
+      {
+        "name": "丛刃实际相邻间隔和重置语义",
+        "status": "通过"
+      },
+      {
+        "name": "绝对专注和吸收生命力实际边界",
+        "status": "通过"
+      },
+      {
+        "name": "水上行走实际效果字段",
+        "status": "通过"
+      },
+      {
+        "name": "绝对专注严格高于70%边界",
+        "status": "通过"
+      }
+    ]
+  },
+  "arithmetic": {
+    "formulaCaseCount": 21,
+    "passed": 21,
+    "failed": 0,
+    "cases": [
+      {
+        "name": "电刑",
+        "skillKey": "rune_8112_passive",
+        "formulaKey": "damage_amount",
+        "parameters": {
+          "confirmed_level_base": 70
+        },
+        "attributes": {
+          "SOURCE:ability_power:TOTAL": 100,
+          "SOURCE:attack_damage:BONUS": 50
+        },
+        "expected": 80,
+        "actual": 80,
+        "explanation": "70+100×0.05+50×0.1"
+      },
+      {
+        "name": "恶意中伤",
+        "skillKey": "rune_8126_passive",
+        "formulaKey": "damage_amount",
+        "parameters": {
+          "confirmed_level_base": 10
+        },
+        "attributes": {},
+        "expected": 10,
+        "actual": 10,
+        "explanation": "显式等级值10"
+      },
+      {
+        "name": "血之滋味",
+        "skillKey": "rune_8139_passive",
+        "formulaKey": "heal_amount",
+        "parameters": {
+          "confirmed_level_base": 16
+        },
+        "attributes": {
+          "SOURCE:ability_power:TOTAL": 100,
+          "SOURCE:attack_damage:BONUS": 50
+        },
+        "expected": 26,
+        "actual": 26,
+        "explanation": "16+100×0.05+50×0.1"
+      },
+      {
+        "name": "猛然冲击",
+        "skillKey": "rune_8143_passive",
+        "formulaKey": "damage_amount",
+        "parameters": {
+          "confirmed_level_base": 20
+        },
+        "attributes": {},
+        "expected": 20,
+        "actual": 20,
+        "explanation": "显式等级值20"
+      },
+      {
+        "name": "丛刃",
+        "skillKey": "rune_9923_passive",
+        "formulaKey": "damage_amount",
+        "parameters": {
+          "confirmed_level_base": 2
+        },
+        "attributes": {
+          "SOURCE:ability_power:TOTAL": 100,
+          "SOURCE:attack_damage:BONUS": 50
+        },
+        "expected": 18,
+        "actual": 18,
+        "explanation": "2+100×0.1+50×0.12"
+      },
+      {
+        "name": "余震护甲等级下限",
+        "skillKey": "rune_8439_passive",
+        "formulaKey": "armor_bonus_amount",
+        "parameters": {
+          "confirmed_level_resist_cap": 80
+        },
+        "attributes": {
+          "SOURCE:armor:BONUS": 100
+        },
+        "expected": 80,
+        "actual": 80,
+        "explanation": "MIN(45+100×0.75,80)"
+      },
+      {
+        "name": "余震护甲等级上限",
+        "skillKey": "rune_8439_passive",
+        "formulaKey": "armor_bonus_amount",
+        "parameters": {
+          "confirmed_level_resist_cap": 150
+        },
+        "attributes": {
+          "SOURCE:armor:BONUS": 100
+        },
+        "expected": 120,
+        "actual": 120,
+        "explanation": "MIN(45+100×0.75,150)"
+      },
+      {
+        "name": "余震魔抗封顶",
+        "skillKey": "rune_8439_passive",
+        "formulaKey": "magic_resistance_bonus_amount",
+        "parameters": {
+          "confirmed_level_resist_cap": 150
+        },
+        "attributes": {
+          "SOURCE:magic_resistance:BONUS": 200
+        },
+        "expected": 150,
+        "actual": 150,
+        "explanation": "MIN(45+200×0.75,150)"
+      },
+      {
+        "name": "余震爆发",
+        "skillKey": "rune_8439_passive",
+        "formulaKey": "damage_amount",
+        "parameters": {
+          "confirmed_level_damage": 25
+        },
+        "attributes": {
+          "SOURCE:hp:BONUS": 2000
+        },
+        "expected": 185,
+        "actual": 185,
+        "explanation": "25+2000×0.08"
+      },
+      {
+        "name": "吸收生命力",
+        "skillKey": "rune_9101_passive",
+        "formulaKey": "heal_amount",
+        "parameters": {
+          "confirmed_level_heal": 23
+        },
+        "attributes": {},
+        "expected": 23,
+        "actual": 23,
+        "explanation": "显式等级输入23"
+      },
+      {
+        "name": "绝对专注生命门槛值",
+        "skillKey": "rune_8233_passive",
+        "formulaKey": "health_threshold",
+        "parameters": {},
+        "attributes": {
+          "SOURCE:hp:TOTAL": 1000
+        },
+        "expected": 700,
+        "actual": 700,
+        "explanation": "1000×0.7"
+      },
+      {
+        "name": "绝对专注攻击力分支",
+        "skillKey": "rune_8233_passive",
+        "formulaKey": "attack_damage_amount",
+        "parameters": {
+          "confirmed_adaptive_force": 30
+        },
+        "attributes": {},
+        "expected": 18,
+        "actual": 18,
+        "explanation": "30×0.6"
+      },
+      {
+        "name": "绝对专注法强分支",
+        "skillKey": "rune_8233_passive",
+        "formulaKey": "ability_power_amount",
+        "parameters": {
+          "confirmed_adaptive_force": 30
+        },
+        "attributes": {},
+        "expected": 30,
+        "actual": 30,
+        "explanation": "适应之力法强分支30"
+      },
+      {
+        "name": "艾黎",
+        "skillKey": "rune_8214_passive",
+        "formulaKey": "damage_amount",
+        "parameters": {
+          "confirmed_level_base": 10
+        },
+        "attributes": {
+          "SOURCE:ability_power:TOTAL": 100,
+          "SOURCE:attack_damage:BONUS": 50
+        },
+        "expected": 20,
+        "actual": 20,
+        "explanation": "10+100×0.05+50×0.1"
+      },
+      {
+        "name": "彗星伤害",
+        "skillKey": "rune_8229_passive",
+        "formulaKey": "base_damage_amount",
+        "parameters": {
+          "confirmed_level_base": 15
+        },
+        "attributes": {
+          "SOURCE:ability_power:TOTAL": 100,
+          "SOURCE:attack_damage:BONUS": 50
+        },
+        "expected": 25,
+        "actual": 25,
+        "explanation": "15+100×0.05+50×0.1"
+      },
+      {
+        "name": "彗星下限钳制",
+        "skillKey": "rune_8229_passive",
+        "formulaKey": "cooldown_ms",
+        "parameters": {
+          "confirmed_level_cooldown_seconds": 0.3
+        },
+        "attributes": {},
+        "expected": 300,
+        "actual": 300,
+        "explanation": "MIN(20,MAX(0.3,0.3))×1000"
+      },
+      {
+        "name": "彗星上限端点",
+        "skillKey": "rune_8229_passive",
+        "formulaKey": "cooldown_ms",
+        "parameters": {
+          "confirmed_level_cooldown_seconds": 20
+        },
+        "attributes": {},
+        "expected": 20000,
+        "actual": 20000,
+        "explanation": "MIN(20,MAX(0.3,20))×1000"
+      },
+      {
+        "name": "彗星低于下限",
+        "skillKey": "rune_8229_passive",
+        "formulaKey": "cooldown_ms",
+        "parameters": {
+          "confirmed_level_cooldown_seconds": 0
+        },
+        "attributes": {},
+        "expected": 300,
+        "actual": 300,
+        "explanation": "低于0.3秒时仍为300毫秒"
+      },
+      {
+        "name": "彗星高于上限",
+        "skillKey": "rune_8229_passive",
+        "formulaKey": "cooldown_ms",
+        "parameters": {
+          "confirmed_level_cooldown_seconds": 25
+        },
+        "attributes": {},
+        "expected": 20000,
+        "actual": 20000,
+        "explanation": "高于20秒时仍为20000毫秒"
+      },
+      {
+        "name": "焦灼",
+        "skillKey": "rune_8237_passive",
+        "formulaKey": "damage_amount",
+        "parameters": {
+          "confirmed_level_base": 20
+        },
+        "attributes": {},
+        "expected": 20,
+        "actual": 20,
+        "explanation": "显式等级值20"
+      },
+      {
+        "name": "水上行走",
+        "skillKey": "rune_8232_passive",
+        "formulaKey": "adaptive_force_amount",
+        "parameters": {
+          "confirmed_adaptive_force": 13
+        },
+        "attributes": {},
+        "expected": 13,
+        "actual": 13,
+        "explanation": "显式适应之力13"
+      }
+    ],
+    "strictThresholdCases": [
+      {
+        "maximumHealth": 1000,
+        "health": 700,
+        "threshold": 700,
+        "expected": false,
+        "actual": false,
+        "explanation": "等于70%不满足"
+      },
+      {
+        "maximumHealth": 1000,
+        "health": 700.0001,
+        "threshold": 700,
+        "expected": true,
+        "actual": true,
+        "explanation": "高于70%满足"
+      },
+      {
+        "maximumHealth": 1000,
+        "health": 699.9999,
+        "threshold": 700,
+        "expected": false,
+        "actual": false,
+        "explanation": "低于70%不满足"
+      }
+    ]
+  },
+  "applyRecord": {
+    "mode": "--apply",
+    "requestSha256": "babcff78cd3b9bbc8dfe4b775b48358a6a548ce6a494f66f01f8ede80ec9e83c",
+    "preflightCount": 132,
+    "summary": {
+      "passed": true,
+      "mode": "--apply",
+      "planned": 132,
+      "preflightSame": 0,
+      "preflightMissing": 132,
+      "writes": 132,
+      "reused": 0,
+      "contentWrites": 120,
+      "imageWrites": 12,
+      "finalReads": 144,
+      "collections": 72,
+      "completeRuneMechanisms": 0
+    },
+    "writes": 132,
+    "errors": [],
+    "objectStops": []
+  },
+  "verifyRecord": {
+    "file": "verify-20260909034901540.json",
+    "mode": "--verify",
+    "requestSha256": "babcff78cd3b9bbc8dfe4b775b48358a6a548ce6a494f66f01f8ede80ec9e83c",
+    "summary": {
+      "passed": true,
+      "mode": "--verify",
+      "planned": 132,
+      "preflightSame": 132,
+      "preflightMissing": 0,
+      "writes": 0,
+      "reused": 0,
+      "contentWrites": 0,
+      "imageWrites": 0,
+      "finalReads": 144,
+      "collections": 72,
+      "completeRuneMechanisms": 0
+    },
+    "errors": []
+  }
+}

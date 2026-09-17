@@ -1,0 +1,386 @@
+{
+  "generatedAt": "2026-09-08T01:00:45.526Z",
+  "inputs": {
+    "SOURCE": {
+      "hp": {
+        "BASE": 1000,
+        "BONUS": 2000,
+        "TOTAL": 3000,
+        "CURRENT": 600
+      },
+      "mana": {
+        "BASE": 500,
+        "BONUS": 300,
+        "TOTAL": 800,
+        "CURRENT": 100
+      }
+    },
+    "TARGET": {
+      "hp": {
+        "BASE": 1200,
+        "BONUS": 400,
+        "TOTAL": 1600,
+        "CURRENT": 1000
+      },
+      "mana": {
+        "TOTAL": 400
+      }
+    }
+  },
+  "expectedLevels": [
+    150,
+    150,
+    150,
+    150,
+    150,
+    150,
+    150,
+    150,
+    155,
+    160,
+    165,
+    170,
+    175,
+    180,
+    185,
+    190,
+    195,
+    200
+  ],
+  "checks": [
+    {
+      "name": "item_2502/drain_damage",
+      "expected": 60,
+      "actual": 60,
+      "equal": true,
+      "note": "额外生命2000 × 0.03 = 60；最大生命3000不作基数"
+    },
+    {
+      "name": "item_2504/magic_shield_amount",
+      "expected": 450,
+      "actual": 450,
+      "equal": true,
+      "note": "最大生命3000 × 0.15 = 450；当前生命600不作基数"
+    },
+    {
+      "name": "item_3026/revive_base_health",
+      "expected": 500,
+      "actual": 500,
+      "equal": true,
+      "note": "基础生命1000 × 0.5 = 500；最大生命3000不作基数"
+    },
+    {
+      "name": "item_3026/revive_max_mana",
+      "expected": 800,
+      "actual": 800,
+      "equal": true,
+      "note": "最大法力800 × 1 = 800；当前法力100不作基数"
+    },
+    {
+      "name": "item_3084/empowered_attack_damage",
+      "expected": 250,
+      "actual": 250,
+      "equal": true,
+      "note": "70 + 最大生命3000 × 0.06 = 250"
+    },
+    {
+      "name": "item_3084/tracking_duration_ms",
+      "expected": 3000,
+      "actual": 3000,
+      "equal": true,
+      "note": "6 × 500毫秒 = 3000毫秒"
+    },
+    {
+      "name": "item_6672/maximum_damage",
+      "expected": 350,
+      "actual": 350,
+      "equal": true,
+      "note": "18级基础200 × 1.75 = 350"
+    },
+    {
+      "name": "item_6672/ranged_damage",
+      "expected": 160,
+      "actual": 160,
+      "equal": true,
+      "note": "18级基础200 × 0.8 = 160"
+    },
+    {
+      "name": "苦楚零额外生命边界",
+      "expected": 0,
+      "actual": 0,
+      "equal": true,
+      "note": "额外生命为0时，即使最大生命非0，该独立公式仍为0。"
+    },
+    {
+      "name": "海妖1级基础伤害",
+      "expected": 150,
+      "actual": 150,
+      "equal": true,
+      "note": "独立预期序列；9级当级首次增加5。"
+    },
+    {
+      "name": "海妖2级基础伤害",
+      "expected": 150,
+      "actual": 150,
+      "equal": true,
+      "note": "独立预期序列；9级当级首次增加5。"
+    },
+    {
+      "name": "海妖3级基础伤害",
+      "expected": 150,
+      "actual": 150,
+      "equal": true,
+      "note": "独立预期序列；9级当级首次增加5。"
+    },
+    {
+      "name": "海妖4级基础伤害",
+      "expected": 150,
+      "actual": 150,
+      "equal": true,
+      "note": "独立预期序列；9级当级首次增加5。"
+    },
+    {
+      "name": "海妖5级基础伤害",
+      "expected": 150,
+      "actual": 150,
+      "equal": true,
+      "note": "独立预期序列；9级当级首次增加5。"
+    },
+    {
+      "name": "海妖6级基础伤害",
+      "expected": 150,
+      "actual": 150,
+      "equal": true,
+      "note": "独立预期序列；9级当级首次增加5。"
+    },
+    {
+      "name": "海妖7级基础伤害",
+      "expected": 150,
+      "actual": 150,
+      "equal": true,
+      "note": "独立预期序列；9级当级首次增加5。"
+    },
+    {
+      "name": "海妖8级基础伤害",
+      "expected": 150,
+      "actual": 150,
+      "equal": true,
+      "note": "独立预期序列；9级当级首次增加5。"
+    },
+    {
+      "name": "海妖9级基础伤害",
+      "expected": 155,
+      "actual": 155,
+      "equal": true,
+      "note": "独立预期序列；9级当级首次增加5。"
+    },
+    {
+      "name": "海妖10级基础伤害",
+      "expected": 160,
+      "actual": 160,
+      "equal": true,
+      "note": "独立预期序列；9级当级首次增加5。"
+    },
+    {
+      "name": "海妖11级基础伤害",
+      "expected": 165,
+      "actual": 165,
+      "equal": true,
+      "note": "独立预期序列；9级当级首次增加5。"
+    },
+    {
+      "name": "海妖12级基础伤害",
+      "expected": 170,
+      "actual": 170,
+      "equal": true,
+      "note": "独立预期序列；9级当级首次增加5。"
+    },
+    {
+      "name": "海妖13级基础伤害",
+      "expected": 175,
+      "actual": 175,
+      "equal": true,
+      "note": "独立预期序列；9级当级首次增加5。"
+    },
+    {
+      "name": "海妖14级基础伤害",
+      "expected": 180,
+      "actual": 180,
+      "equal": true,
+      "note": "独立预期序列；9级当级首次增加5。"
+    },
+    {
+      "name": "海妖15级基础伤害",
+      "expected": 185,
+      "actual": 185,
+      "equal": true,
+      "note": "独立预期序列；9级当级首次增加5。"
+    },
+    {
+      "name": "海妖16级基础伤害",
+      "expected": 190,
+      "actual": 190,
+      "equal": true,
+      "note": "独立预期序列；9级当级首次增加5。"
+    },
+    {
+      "name": "海妖17级基础伤害",
+      "expected": 195,
+      "actual": 195,
+      "equal": true,
+      "note": "独立预期序列；9级当级首次增加5。"
+    },
+    {
+      "name": "海妖18级基础伤害",
+      "expected": 200,
+      "actual": 200,
+      "equal": true,
+      "note": "独立预期序列；9级当级首次增加5。"
+    },
+    {
+      "name": "海妖参数使用角色等级",
+      "expected": "CHARACTER_LEVEL",
+      "actual": "CHARACTER_LEVEL",
+      "equal": true
+    },
+    {
+      "name": "海妖上限独立再次核算",
+      "expected": 350,
+      "actual": 350,
+      "equal": true,
+      "note": "相同输入再次求值仍350；这只是公式核算，不代表第三击计数运行。"
+    },
+    {
+      "name": "item_3084独立伤害没有生命周期",
+      "expected": null,
+      "actual": null,
+      "equal": true
+    },
+    {
+      "name": "item_6672独立伤害没有生命周期",
+      "expected": null,
+      "actual": null,
+      "equal": true
+    },
+    {
+      "name": "败魔为普通护盾",
+      "expected": "NORMAL_SHIELD",
+      "actual": "NORMAL_SHIELD",
+      "equal": true
+    },
+    {
+      "name": "败魔仅吸收魔法伤害",
+      "expected": "magic",
+      "actual": "magic",
+      "equal": true
+    },
+    {
+      "name": "翠绿屏障授盾目标为持有者",
+      "expected": "SOURCE",
+      "actual": "SOURCE",
+      "equal": true
+    },
+    {
+      "name": "翠绿屏障只监听成功格挡本技能护盾",
+      "expected": {
+        "eventType": "SPELL_SHIELD_BLOCKED",
+        "detail": {
+          "shieldEffectKey": "spell_shield"
+        }
+      },
+      "actual": {
+        "eventType": "SPELL_SHIELD_BLOCKED",
+        "detail": {
+          "shieldEffectKey": "spell_shield"
+        }
+      },
+      "equal": true
+    },
+    {
+      "name": "翠绿屏障成功消费移除自身护盾",
+      "expected": {
+        "target": "SOURCE",
+        "detail": {
+          "operation": "REMOVE",
+          "targetEffectKey": "spell_shield"
+        }
+      },
+      "actual": {
+        "target": "SOURCE",
+        "detail": {
+          "operation": "REMOVE",
+          "targetEffectKey": "spell_shield"
+        }
+      },
+      "equal": true
+    },
+    {
+      "name": "翠绿屏障初始化事件",
+      "expected": "SOURCE_INITIALIZED",
+      "actual": "SOURCE_INITIALIZED",
+      "equal": true
+    },
+    {
+      "name": "翠绿屏障冷却保留60秒",
+      "expected": 60000,
+      "actual": 60000,
+      "equal": true
+    },
+    {
+      "name": "翠绿屏障未伪写恢复或伤害触发",
+      "expected": [
+        "SOURCE_INITIALIZED",
+        "SPELL_SHIELD_BLOCKED"
+      ],
+      "actual": [
+        "SOURCE_INITIALIZED",
+        "SPELL_SHIELD_BLOCKED"
+      ],
+      "equal": true
+    }
+  ],
+  "summary": {
+    "checkCount": 39,
+    "mismatchCount": 0
+  },
+  "sourceOnlyCases": [
+    {
+      "name": "苦楚按已造成伤害治疗",
+      "expression": "实际伤害100 × 2.5 = 250",
+      "expected": 250,
+      "status": "来源手算，实际伤害联动待配"
+    },
+    {
+      "name": "苦楚首次周期",
+      "expected": "进入有效英雄战斗状态后4000毫秒首次执行；退出战斗后停止",
+      "status": "来源时序边界，未保存周期触发规则"
+    },
+    {
+      "name": "败魔受魔法伤害重置",
+      "expected": "14999毫秒尚未满足；连续满15000毫秒才满足，途中魔法伤害重新计时",
+      "status": "来源时序边界，授盾规则待配"
+    },
+    {
+      "name": "守护天使恢复",
+      "expected": "凝滞4000毫秒后执行；300000毫秒冷却",
+      "status": "仅恢复量公式已保存，致命伤害前置和凝滞未配置"
+    },
+    {
+      "name": "心之钢每目标冷却",
+      "expected": "同一目标30000毫秒内不能再次消费；不同目标分别计时",
+      "status": "来源时序边界，每目标消费触发待配"
+    },
+    {
+      "name": "翠绿屏障消费边界",
+      "expected": "成功格挡本技能护盾才移除；普通攻击、其他护盾格挡、自然结束不执行本规则",
+      "status": "已保存指定事件和自身移除配置，未执行战斗事件"
+    },
+    {
+      "name": "海妖上限与远程",
+      "expression": "18级上限200 × 1.75 = 350；若同时取远程上限则350 × 0.8 = 280",
+      "expected": 280,
+      "status": "端点手算；中间已损失生命曲线未知，未伪造"
+    }
+  ],
+  "note": "对正式候选做独立手算和静态结构比对；不等于浏览器、Wasm或战斗运行验证。历史概念候选和边界算例保持原样。"
+}

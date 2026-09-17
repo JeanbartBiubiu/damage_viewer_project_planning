@@ -1,0 +1,353 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Ambessa",
+  "sourceNumericId": "799",
+  "clientContentVersion": "16.17.8104348+branch.releases-16-17.content.release",
+  "source": {
+    "url": "https://raw.communitydragon.org/16.17/game/data/characters/ambessa/ambessa.bin.json",
+    "path": ".临时原始响应/16.17/Ambessa.bin.json",
+    "storage": "忽略提交的完整原始响应，可按URL复现",
+    "byteSize": 70185,
+    "sha256": "c8a2063acdbad15d3e8bf4ddfeba3cdff21e284b26bf584d85d4bde9dafce134",
+    "fetchedAt": "2026-09-06T14:26:12.342Z"
+  },
+  "recordKey": "Characters/Ambessa/CharacterRecords/Root",
+  "record": {
+    "mCharacterName": "Ambessa",
+    "{dd661aab}": {
+      "params": {
+        "Spell": "Characters/Ambessa/Spells/AmbessaPassiveAbility/AmbessaPassive",
+        "{a2877ddb}": "Buffer_Dash_Time",
+        "{d00e123a}": "Buffer_Dash_Forgiveness_Window",
+        "{e5bc4229}": "Buffer_Dash_Min_Distance",
+        "{877e4953}": "Buffer_Dash_Distance",
+        "__type": "{c7e628b9}"
+      },
+      "{50aad250}": [
+        {
+          "{e4ecb00c}": {
+            "OrderTypes": [
+              2,
+              3,
+              7
+            ],
+            "__type": "{fb16e4be}"
+          },
+          "{77cff90e}": {
+            "{68309c0b}": true,
+            "{e2e5b6dd}": [
+              2,
+              4
+            ],
+            "__type": "{0d91a223}"
+          },
+          "{6cd45762}": true,
+          "{da1ee5bc}": true,
+          "{96e77860}": "Characters/Ambessa/Spells/AmbessaPassiveAbility/AmbessaPassiveDash",
+          "TriggerSpells": [
+            "Characters/Ambessa/Spells/AmbessaQAbility/AmbessaQ",
+            "Characters/Ambessa/Spells/AmbessaEAbility/AmbessaE",
+            "Characters/Ambessa/Spells/AmbessaRAbility/AmbessaR"
+          ],
+          "{8f7842e4}": [
+            {
+              "effectKey": "Ambessa_P_DashDir_Indicator",
+              "__type": "{55f6bf86}"
+            }
+          ],
+          "__type": "{dd661aab}"
+        },
+        {
+          "OverrideParams": {
+            "Spell": "Characters/Ambessa/Spells/AmbessaPassiveAbility/AmbessaPassive",
+            "{a2877ddb}": "Buffer_Dash_Time",
+            "{d00e123a}": "Buffer_Dash_W_Forgiveness_Window",
+            "{e5bc4229}": "Buffer_Dash_Min_Distance",
+            "{877e4953}": "Buffer_Dash_Distance",
+            "__type": "{c7e628b9}"
+          },
+          "{e4ecb00c}": {
+            "OrderTypes": [
+              2,
+              3,
+              7
+            ],
+            "__type": "{fb16e4be}"
+          },
+          "{77cff90e}": {
+            "{68309c0b}": true,
+            "{e2e5b6dd}": [
+              2,
+              4
+            ],
+            "__type": "{0d91a223}"
+          },
+          "{6cd45762}": true,
+          "{da1ee5bc}": true,
+          "{96e77860}": "Characters/Ambessa/Spells/AmbessaPassiveAbility/AmbessaPassiveDash",
+          "TriggerSpells": [
+            "Characters/Ambessa/Spells/AmbessaWAbility/AmbessaW"
+          ],
+          "{8f7842e4}": [
+            {
+              "effectKey": "Ambessa_P_DashDir_Indicator",
+              "__type": "{55f6bf86}"
+            }
+          ],
+          "__type": "{dd661aab}"
+        }
+      ],
+      "__type": "{280745b1}"
+    },
+    "baseHPModifiable": {
+      "baseValue": 630,
+      "__type": "ModifiableFloat"
+    },
+    "hpPerLevelModifiable": {
+      "baseValue": 110,
+      "__type": "ModifiableFloat"
+    },
+    "baseStaticHPRegenModifiable": {
+      "baseValue": 1.7000000476837158,
+      "__type": "ModifiableFloat"
+    },
+    "hpRegenPerLevelModifiable": {
+      "baseValue": 0.15000000596046448,
+      "__type": "ModifiableFloat"
+    },
+    "healthBarHeight": 110,
+    "primaryAbilityResource": {
+      "arType": 1,
+      "{726ee5cd}": {
+        "baseValue": 200,
+        "__type": "ModifiableFloat"
+      },
+      "{c4ab3550}": {
+        "baseValue": 10,
+        "__type": "ModifiableFloat"
+      },
+      "__type": "AbilityResourceSlotInfo"
+    },
+    "secondaryAbilityResource": {
+      "arType": 12,
+      "{726ee5cd}": {
+        "baseValue": 3,
+        "__type": "ModifiableFloat"
+      },
+      "{c4ab3550}": {
+        "baseValue": 0,
+        "__type": "ModifiableFloat"
+      },
+      "arMaxSegments": 1,
+      "arHasRegenText": false,
+      "arDisplayAsPips": true,
+      "VisibilityFlags": 1,
+      "arOverrideSmallPipName": "GenericLargeUncolored",
+      "arOverrideLargePipName": "GenericSmall",
+      "arOverrideEmptyPipName": "EmptyPipSmall",
+      "arOverrideSpacerName": "PipSpace1",
+      "__type": "AbilityResourceSlotInfo"
+    },
+    "baseDamageModifiable": {
+      "baseValue": 63,
+      "__type": "ModifiableFloat"
+    },
+    "damagePerLevelModifiable": {
+      "baseValue": 3,
+      "__type": "ModifiableFloat"
+    },
+    "baseArmorModifiable": {
+      "baseValue": 35,
+      "__type": "ModifiableFloat"
+    },
+    "armorPerLevelModifiable": {
+      "baseValue": 4.900000095367432,
+      "__type": "ModifiableFloat"
+    },
+    "baseMR": {
+      "baseValue": 32,
+      "__type": "ModifiableFloat"
+    },
+    "mrPerLevel": {
+      "baseValue": 2.049999952316284,
+      "__type": "ModifiableFloat"
+    },
+    "critDamageMultiplier": 2,
+    "baseMoveSpeedModifiable": {
+      "baseValue": 335,
+      "__type": "ModifiableFloat"
+    },
+    "attackRangeModifiable": {
+      "baseValue": 125,
+      "__type": "ModifiableFloat"
+    },
+    "attackSpeedModifiable": {
+      "baseValue": 0.625,
+      "__type": "ModifiableFloat"
+    },
+    "attackSpeedRatioModifiable": {
+      "baseValue": 0.625,
+      "__type": "ModifiableFloat"
+    },
+    "attackSpeedPerLevelModifiable": {
+      "baseValue": 2.5,
+      "__type": "ModifiableFloat"
+    },
+    "acquisitionRange": 600,
+    "basicAttack": {
+      "mAttackTotalTime": 1.600000023841858,
+      "mAttackCastTime": 0.25,
+      "mAttackName": "AmbessaBasicAttack",
+      "__type": "AttackSlotData"
+    },
+    "extraAttacks": [
+      {
+        "mAttackName": "AmbessaBasicAttack2",
+        "__type": "AttackSlotData"
+      },
+      {
+        "mAttackName": "AmbessaBasicAttackChained1",
+        "__type": "AttackSlotData"
+      },
+      {
+        "mAttackName": "AmbessaBasicAttackChained2",
+        "__type": "AttackSlotData"
+      }
+    ],
+    "critAttacks": [
+      {
+        "mAttackName": "AmbessaCritAttack",
+        "__type": "AttackSlotData"
+      },
+      {
+        "mAttackName": "AmbessaCritAttack2",
+        "__type": "AttackSlotData"
+      },
+      {
+        "mAttackName": "AmbessaCritAttackChained1",
+        "__type": "AttackSlotData"
+      },
+      {
+        "mAttackName": "AmbessaCritAttackChained2",
+        "__type": "AttackSlotData"
+      }
+    ],
+    "spellNames": [
+      "AmbessaQAbility/AmbessaQ",
+      "AmbessaWAbility/AmbessaW",
+      "AmbessaEAbility/AmbessaE",
+      "AmbessaRAbility/AmbessaR"
+    ],
+    "spells": [
+      "Characters/Ambessa/Spells/AmbessaQAbility/AmbessaQ",
+      "Characters/Ambessa/Spells/AmbessaWAbility/AmbessaW",
+      "Characters/Ambessa/Spells/AmbessaEAbility/AmbessaE",
+      "Characters/Ambessa/Spells/AmbessaRAbility/AmbessaR"
+    ],
+    "mAbilities": [
+      "Characters/Ambessa/Spells/AmbessaQAbility",
+      "Characters/Ambessa/Spells/AmbessaWAbility",
+      "Characters/Ambessa/Spells/AmbessaEAbility",
+      "Characters/Ambessa/Spells/AmbessaRAbility",
+      "{da8ca51e}"
+    ],
+    "passiveName": "Spell_AmbessaPassive_Name",
+    "passiveLuaName": "AmbessaPassive",
+    "passiveToolTip": "Spell_AmbessaPassive_Summary",
+    "passiveSpell": "AmbessaPassive",
+    "passive1IconName": "assets/characters/ambessa/hud/icons2d/icon_ambessa_passive.dds",
+    "name": "game_character_displayname_Ambessa",
+    "weaponMaterials": [
+      "AmbessaBasicAttack",
+      "AmbessaBasicAttack",
+      "AmbessaBasicAttack",
+      "AmbessaBasicAttack"
+    ],
+    "mUseCCAnimations": true,
+    "selectionHeight": 0,
+    "selectionRadius": 100,
+    "pathfindingCollisionRadius": 35,
+    "{eb74898c}": 0,
+    "unitTagsString": "Champion",
+    "mEducationToolData": {
+      "firstItem": 1055,
+      "__type": "ToolEducationData"
+    },
+    "mAbilitySlotCC": [
+      0,
+      14,
+      0,
+      14
+    ],
+    "characterToolData": {
+      "weaponMaterialCrit": "AmbessaCritAttack",
+      "mapAIPresence": {
+        "0": {
+          "__type": "ToolAiPresence"
+        }
+      },
+      "passiveData": [
+        {
+          "name": "Spell_AmbessaPassive_Name",
+          "__type": "ToolPassiveData"
+        }
+      ],
+      "searchTags": "fighter",
+      "searchTagsSecondary": "assassin",
+      "championId": 799,
+      "roles": "BRAWLER",
+      "LevelSpellEffectiveness": 1,
+      "difficultyRank": 10,
+      "description": "game_character_description_Ambessa",
+      "defenseRank": 2,
+      "ChasingAttackRangePercent": 0.5,
+      "{aa75da9d}": false,
+      "attackRank": 9,
+      "__type": "CharacterToolData"
+    },
+    "platformEnabled": true,
+    "useRiotRelationships": true,
+    "flags": 8398088,
+    "purchaseIdentities": [
+      "Melee"
+    ],
+    "mPreferredPerkStyle": "Perks/Styles/Precision",
+    "mPerkReplacements": {
+      "mReplacements": [
+        {
+          "mReplaceTarget": "Perks/Styles/Sorcery/ManaflowBand",
+          "mReplaceWith": "Perks/Styles/Sorcery/NimbusCloak",
+          "__type": "PerkReplacement"
+        }
+      ],
+      "__type": "PerkReplacementList"
+    },
+    "mCharacterPassiveSpell": "Characters/Ambessa/Spells/AmbessaPassiveAbility/AmbessaPassive",
+    "mCharacterPassiveBuffs": [
+      {
+        "mParentPassiveBuff": "Characters/Ambessa/Spells/AmbessaPassiveAbility/AmbessaPassive",
+        "__type": "CharacterPassiveData"
+      },
+      {
+        "mParentPassiveBuff": "{9bb754da}",
+        "__type": "CharacterPassiveData"
+      },
+      {
+        "mParentPassiveBuff": "{e34a2546}",
+        "__type": "CharacterPassiveData"
+      },
+      {
+        "mParentPassiveBuff": "{dd3cad90}",
+        "SkinFilter": {
+          "skinIds": [
+            1
+          ],
+          "__type": "SkinFilterData"
+        },
+        "__type": "CharacterPassiveData"
+      }
+    ],
+    "{c5c48b41}": 1,
+    "__type": "CharacterRecord"
+  }
+}

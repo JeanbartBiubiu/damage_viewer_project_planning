@@ -1,0 +1,2014 @@
+{
+  "generatedAt": "2026-09-07T17:54:03.801Z",
+  "mode": "独立最终GET逐字段回读",
+  "apiBaseUrl": "http://127.0.0.1:8080/api/admin/games/lol",
+  "objects": [
+    {
+      "equipmentKey": "item_1043",
+      "skillKey": "item_1043_passive"
+    },
+    {
+      "equipmentKey": "item_1083",
+      "skillKey": "item_1083_passive"
+    },
+    {
+      "equipmentKey": "item_3123",
+      "skillKey": "item_3123_passive"
+    },
+    {
+      "equipmentKey": "item_3916",
+      "skillKey": "item_3916_passive"
+    },
+    {
+      "equipmentKey": "item_3089",
+      "skillKey": "item_3089_passive"
+    },
+    {
+      "equipmentKey": "item_3116",
+      "skillKey": "item_3116_passive"
+    }
+  ],
+  "checks": [
+    {
+      "label": "item_1043 direct attributes",
+      "path": "/equipment/item_1043/attributes",
+      "status": 200,
+      "fields": [
+        {
+          "path": "bonus_attack_speed_percent",
+          "expected": 0.15,
+          "actual": 0.15,
+          "equal": true
+        }
+      ],
+      "equal": true
+    },
+    {
+      "label": "item_1043_passive skill",
+      "path": "/skills/item_1043_passive",
+      "status": 200,
+      "fields": [
+        {
+          "path": "skillKey",
+          "expected": "item_1043_passive",
+          "actual": "item_1043_passive",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "反曲之弓·叮刺",
+          "actual": "反曲之弓·叮刺",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "保存16.17客户端与官方说明共同确证的攻击附带15点额外物理伤害。装备已有15%攻击速度，不在技能中重复施加；仅把已有普通攻击命中事件作为当前可确认触发，未扩大到技能触发攻击特效。",
+          "actual": "保存16.17客户端与官方说明共同确证的攻击附带15点额外物理伤害。装备已有15%攻击速度，不在技能中重复施加；仅把已有普通攻击命中事件作为当前可确认触发，未扩大到技能触发攻击特效。",
+          "equal": true
+        },
+        {
+          "path": "maxLevel",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "status",
+          "expected": "ENABLED",
+          "actual": "ENABLED",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 0,
+          "actual": 0,
+          "equal": true
+        },
+        {
+          "path": "skillCategoryKeys[]",
+          "expectedCount": 1,
+          "actualCount": 1,
+          "equal": true
+        },
+        {
+          "path": "skillCategoryKeys[0]",
+          "expected": "passive",
+          "actual": "passive",
+          "equal": true
+        }
+      ],
+      "equal": true
+    },
+    {
+      "label": "item_1043_passive parameter on_hit_damage",
+      "path": "/skills/item_1043_passive/parameters/on_hit_damage",
+      "status": 200,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "on_hit_damage",
+          "actual": "on_hit_damage",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "叮刺额外伤害",
+          "actual": "叮刺额外伤害",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "INTEGER",
+          "actual": "INTEGER",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 15,
+          "actual": 15,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "每次攻击附带的额外物理伤害，单位：伤害点。",
+          "actual": "每次攻击附带的额外物理伤害，单位：伤害点。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        }
+      ],
+      "equal": true
+    },
+    {
+      "label": "item_1043_passive effect on_hit_damage",
+      "path": "/skills/item_1043_passive/effects/on_hit_damage",
+      "status": 200,
+      "fields": [
+        {
+          "path": "effectKey",
+          "expected": "on_hit_damage",
+          "actual": "on_hit_damage",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "叮刺额外物理伤害",
+          "actual": "叮刺额外物理伤害",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "攻击命中时造成15点额外物理伤害。",
+          "actual": "攻击命中时造成15点额外物理伤害。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "lifecycle",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[]",
+          "expectedCount": 1,
+          "actualCount": 1,
+          "equal": true
+        },
+        {
+          "path": "results[0].resultKey",
+          "expected": "on_hit_damage",
+          "actual": "on_hit_damage",
+          "equal": true
+        },
+        {
+          "path": "results[0].name",
+          "expected": "叮刺物理伤害",
+          "actual": "叮刺物理伤害",
+          "equal": true
+        },
+        {
+          "path": "results[0].resultType",
+          "expected": "DAMAGE",
+          "actual": "DAMAGE",
+          "equal": true
+        },
+        {
+          "path": "results[0].target",
+          "expected": "TARGET",
+          "actual": "TARGET",
+          "equal": true
+        },
+        {
+          "path": "results[0].description",
+          "expected": "每次攻击附带15点额外物理伤害。",
+          "actual": "每次攻击附带15点额外物理伤害。",
+          "equal": true
+        },
+        {
+          "path": "results[0].sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].spellShieldBlockScope",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.value.kind",
+          "expected": "PARAMETER",
+          "actual": "PARAMETER",
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.value.parameterKey",
+          "expected": "on_hit_damage",
+          "actual": "on_hit_damage",
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMultiplier",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMinValue",
+          "expected": 0,
+          "actual": 0,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMaxValue",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.damageTypeKey",
+          "expected": "physics",
+          "actual": "physics",
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.deliveryKind",
+          "expected": "BASIC_ATTACK",
+          "actual": "BASIC_ATTACK",
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.originKind",
+          "expected": "DIRECT",
+          "actual": "DIRECT",
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.critical.mode",
+          "expected": "DISALLOWED",
+          "actual": "DISALLOWED",
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.critical.multiplierValue",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.vampRules[]",
+          "expectedCount": 0,
+          "actualCount": 0,
+          "equal": true
+        }
+      ],
+      "equal": true
+    },
+    {
+      "label": "item_1043_passive trigger resolve_on_basic_attack_hit",
+      "path": "/skills/item_1043_passive/trigger-rules/resolve_on_basic_attack_hit",
+      "status": 200,
+      "fields": [
+        {
+          "path": "ruleKey",
+          "expected": "resolve_on_basic_attack_hit",
+          "actual": "resolve_on_basic_attack_hit",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "普通攻击命中结算叮刺",
+          "actual": "普通攻击命中结算叮刺",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "按客户端攻击附带文案监听已有普通攻击命中事件；技能触发攻击特效的范围不在本批扩大。",
+          "actual": "按客户端攻击附带文案监听已有普通攻击命中事件；技能触发攻击特效的范围不在本批扩大。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "eventSource.eventType",
+          "expected": "BASIC_ATTACK_HIT",
+          "actual": "BASIC_ATTACK_HIT",
+          "equal": true
+        },
+        {
+          "path": "conditionGroups[]",
+          "expectedCount": 0,
+          "actualCount": 0,
+          "equal": true
+        },
+        {
+          "path": "actions[]",
+          "expectedCount": 1,
+          "actualCount": 1,
+          "equal": true
+        },
+        {
+          "path": "actions[0].actionKey",
+          "expected": "execute_on_hit_damage",
+          "actual": "execute_on_hit_damage",
+          "equal": true
+        },
+        {
+          "path": "actions[0].name",
+          "expected": "执行叮刺额外伤害",
+          "actual": "执行叮刺额外伤害",
+          "equal": true
+        },
+        {
+          "path": "actions[0].actionType",
+          "expected": "EXECUTE_EFFECT",
+          "actual": "EXECUTE_EFFECT",
+          "equal": true
+        },
+        {
+          "path": "actions[0].sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "actions[0].targetContext",
+          "expected": "CURRENT_TARGET",
+          "actual": "CURRENT_TARGET",
+          "equal": true
+        },
+        {
+          "path": "actions[0].detail.effectKey",
+          "expected": "on_hit_damage",
+          "actual": "on_hit_damage",
+          "equal": true
+        },
+        {
+          "path": "actions[0].runtimeInputBindings[]",
+          "expectedCount": 0,
+          "actualCount": 0,
+          "equal": true
+        },
+        {
+          "path": "actions[0].resultModifiers[]",
+          "expectedCount": 0,
+          "actualCount": 0,
+          "equal": true
+        },
+        {
+          "path": "perTargetCooldown",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "maxTriggersPerProcess",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        }
+      ],
+      "equal": true
+    },
+    {
+      "label": "item_1043 relation",
+      "path": "/equipment-skill-relations?equipmentKey=item_1043",
+      "status": 200,
+      "fields": [
+        {
+          "path": "equipmentKey",
+          "expected": "item_1043",
+          "actual": "item_1043",
+          "equal": true
+        },
+        {
+          "path": "skillKey",
+          "expected": "item_1043_passive",
+          "actual": "item_1043_passive",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        }
+      ],
+      "equal": true
+    },
+    {
+      "label": "item_1043_passive representative image",
+      "path": "/skills/item_1043_passive/representative-image",
+      "status": 200,
+      "equipmentImageStatus": 200,
+      "expectedImageKey": "item_1043",
+      "actualImageKey": "item_1043",
+      "equal": true
+    },
+    {
+      "label": "item_1083 direct attributes",
+      "path": "/equipment/item_1083/attributes",
+      "status": 200,
+      "fields": [
+        {
+          "path": "attack_damage",
+          "expected": 7,
+          "actual": 7,
+          "equal": true
+        }
+      ],
+      "equal": true
+    },
+    {
+      "label": "item_1083_passive skill",
+      "path": "/skills/item_1083_passive",
+      "status": 200,
+      "fields": [
+        {
+          "path": "skillKey",
+          "expected": "item_1083_passive",
+          "actual": "item_1083_passive",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "萃取·收割",
+          "actual": "萃取·收割",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "保存16.17客户端与官方说明共同确证的每次攻击回复3点生命值。装备已有7点攻击力，不在技能中重复施加；小兵击杀金币、累计击杀阈值与额外金币按本批范围跳过。",
+          "actual": "保存16.17客户端与官方说明共同确证的每次攻击回复3点生命值。装备已有7点攻击力，不在技能中重复施加；小兵击杀金币、累计击杀阈值与额外金币按本批范围跳过。",
+          "equal": true
+        },
+        {
+          "path": "maxLevel",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "status",
+          "expected": "ENABLED",
+          "actual": "ENABLED",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 0,
+          "actual": 0,
+          "equal": true
+        },
+        {
+          "path": "skillCategoryKeys[]",
+          "expectedCount": 1,
+          "actualCount": 1,
+          "equal": true
+        },
+        {
+          "path": "skillCategoryKeys[0]",
+          "expected": "passive",
+          "actual": "passive",
+          "equal": true
+        }
+      ],
+      "equal": true
+    },
+    {
+      "label": "item_1083_passive parameter on_hit_heal",
+      "path": "/skills/item_1083_passive/parameters/on_hit_heal",
+      "status": 200,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "on_hit_heal",
+          "actual": "on_hit_heal",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "收割攻击治疗",
+          "actual": "收割攻击治疗",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "INTEGER",
+          "actual": "INTEGER",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 3,
+          "actual": 3,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "每次攻击命中回复来源3点生命值，单位：生命点。",
+          "actual": "每次攻击命中回复来源3点生命值，单位：生命点。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        }
+      ],
+      "equal": true
+    },
+    {
+      "label": "item_1083_passive effect on_hit_heal",
+      "path": "/skills/item_1083_passive/effects/on_hit_heal",
+      "status": 200,
+      "fields": [
+        {
+          "path": "effectKey",
+          "expected": "on_hit_heal",
+          "actual": "on_hit_heal",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "收割攻击治疗",
+          "actual": "收割攻击治疗",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "普通攻击命中时回复来源3点生命值。",
+          "actual": "普通攻击命中时回复来源3点生命值。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "lifecycle",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[]",
+          "expectedCount": 1,
+          "actualCount": 1,
+          "equal": true
+        },
+        {
+          "path": "results[0].resultKey",
+          "expected": "on_hit_heal",
+          "actual": "on_hit_heal",
+          "equal": true
+        },
+        {
+          "path": "results[0].name",
+          "expected": "收割直接治疗",
+          "actual": "收割直接治疗",
+          "equal": true
+        },
+        {
+          "path": "results[0].resultType",
+          "expected": "DIRECT_HEAL",
+          "actual": "DIRECT_HEAL",
+          "equal": true
+        },
+        {
+          "path": "results[0].target",
+          "expected": "SOURCE",
+          "actual": "SOURCE",
+          "equal": true
+        },
+        {
+          "path": "results[0].description",
+          "expected": "每次攻击命中回复来源3点生命值。",
+          "actual": "每次攻击命中回复来源3点生命值。",
+          "equal": true
+        },
+        {
+          "path": "results[0].sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].spellShieldBlockScope",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.value.kind",
+          "expected": "PARAMETER",
+          "actual": "PARAMETER",
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.value.parameterKey",
+          "expected": "on_hit_heal",
+          "actual": "on_hit_heal",
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMultiplier",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMinValue",
+          "expected": 0,
+          "actual": 0,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMaxValue",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        }
+      ],
+      "equal": true
+    },
+    {
+      "label": "item_1083_passive trigger resolve_on_basic_attack_hit",
+      "path": "/skills/item_1083_passive/trigger-rules/resolve_on_basic_attack_hit",
+      "status": 200,
+      "fields": [
+        {
+          "path": "ruleKey",
+          "expected": "resolve_on_basic_attack_hit",
+          "actual": "resolve_on_basic_attack_hit",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "普通攻击命中结算收割",
+          "actual": "普通攻击命中结算收割",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "按来源每次攻击回复生命值的文案监听已有普通攻击命中事件；金币奖励不进入本技能。",
+          "actual": "按来源每次攻击回复生命值的文案监听已有普通攻击命中事件；金币奖励不进入本技能。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "eventSource.eventType",
+          "expected": "BASIC_ATTACK_HIT",
+          "actual": "BASIC_ATTACK_HIT",
+          "equal": true
+        },
+        {
+          "path": "conditionGroups[]",
+          "expectedCount": 0,
+          "actualCount": 0,
+          "equal": true
+        },
+        {
+          "path": "actions[]",
+          "expectedCount": 1,
+          "actualCount": 1,
+          "equal": true
+        },
+        {
+          "path": "actions[0].actionKey",
+          "expected": "execute_on_hit_heal",
+          "actual": "execute_on_hit_heal",
+          "equal": true
+        },
+        {
+          "path": "actions[0].name",
+          "expected": "执行收割攻击治疗",
+          "actual": "执行收割攻击治疗",
+          "equal": true
+        },
+        {
+          "path": "actions[0].actionType",
+          "expected": "EXECUTE_EFFECT",
+          "actual": "EXECUTE_EFFECT",
+          "equal": true
+        },
+        {
+          "path": "actions[0].sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "actions[0].targetContext",
+          "expected": "CURRENT_TARGET",
+          "actual": "CURRENT_TARGET",
+          "equal": true
+        },
+        {
+          "path": "actions[0].detail.effectKey",
+          "expected": "on_hit_heal",
+          "actual": "on_hit_heal",
+          "equal": true
+        },
+        {
+          "path": "actions[0].runtimeInputBindings[]",
+          "expectedCount": 0,
+          "actualCount": 0,
+          "equal": true
+        },
+        {
+          "path": "actions[0].resultModifiers[]",
+          "expectedCount": 0,
+          "actualCount": 0,
+          "equal": true
+        },
+        {
+          "path": "perTargetCooldown",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "maxTriggersPerProcess",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        }
+      ],
+      "equal": true
+    },
+    {
+      "label": "item_1083 relation",
+      "path": "/equipment-skill-relations?equipmentKey=item_1083",
+      "status": 200,
+      "fields": [
+        {
+          "path": "equipmentKey",
+          "expected": "item_1083",
+          "actual": "item_1083",
+          "equal": true
+        },
+        {
+          "path": "skillKey",
+          "expected": "item_1083_passive",
+          "actual": "item_1083_passive",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        }
+      ],
+      "equal": true
+    },
+    {
+      "label": "item_1083_passive representative image",
+      "path": "/skills/item_1083_passive/representative-image",
+      "status": 200,
+      "equipmentImageStatus": 200,
+      "expectedImageKey": "item_1083",
+      "actualImageKey": "item_1083",
+      "equal": true
+    },
+    {
+      "label": "item_3123 direct attributes",
+      "path": "/equipment/item_3123/attributes",
+      "status": 200,
+      "fields": [
+        {
+          "path": "attack_damage",
+          "expected": 15,
+          "actual": 15,
+          "equal": true
+        }
+      ],
+      "equal": true
+    },
+    {
+      "label": "item_3123_passive skill",
+      "path": "/skills/item_3123_passive",
+      "status": 200,
+      "fields": [
+        {
+          "path": "skillKey",
+          "expected": "item_3123_passive",
+          "actual": "item_3123_passive",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "死刑宣告·重伤",
+          "actual": "死刑宣告·重伤",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "保存16.17客户端与官方说明共同确证的对敌方英雄造成物理伤害时40%重伤、持续3秒的参数。装备已有15点攻击力，不在技能中重复施加；重伤按HEALING_MODIFIER候选表达，当前共享治疗乘区为空，暂不伪造错误乘区或状态键。",
+          "actual": "保存16.17客户端与官方说明共同确证的对敌方英雄造成物理伤害时40%重伤、持续3秒的参数。装备已有15点攻击力，不在技能中重复施加；重伤按HEALING_MODIFIER候选表达，当前共享治疗乘区为空，暂不伪造错误乘区或状态键。",
+          "equal": true
+        },
+        {
+          "path": "maxLevel",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "status",
+          "expected": "ENABLED",
+          "actual": "ENABLED",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 0,
+          "actual": 0,
+          "equal": true
+        },
+        {
+          "path": "skillCategoryKeys[]",
+          "expectedCount": 1,
+          "actualCount": 1,
+          "equal": true
+        },
+        {
+          "path": "skillCategoryKeys[0]",
+          "expected": "passive",
+          "actual": "passive",
+          "equal": true
+        }
+      ],
+      "equal": true
+    },
+    {
+      "label": "item_3123_passive parameter grievous_amount",
+      "path": "/skills/item_3123_passive/parameters/grievous_amount",
+      "status": 200,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "grievous_amount",
+          "actual": "grievous_amount",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "重伤减疗比例",
+          "actual": "重伤减疗比例",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "DECIMAL",
+          "actual": "DECIMAL",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 0.4,
+          "actual": 0.4,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "受到重伤影响的治疗减少比例，小数0.4表示40%。",
+          "actual": "受到重伤影响的治疗减少比例，小数0.4表示40%。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        }
+      ],
+      "equal": true
+    },
+    {
+      "label": "item_3123_passive parameter grievous_duration_ms",
+      "path": "/skills/item_3123_passive/parameters/grievous_duration_ms",
+      "status": 200,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "grievous_duration_ms",
+          "actual": "grievous_duration_ms",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "重伤持续时间",
+          "actual": "重伤持续时间",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "INTEGER",
+          "actual": "INTEGER",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 3000,
+          "actual": 3000,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "重伤持续3秒，单位：毫秒。",
+          "actual": "重伤持续3秒，单位：毫秒。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 20,
+          "actual": 20,
+          "equal": true
+        }
+      ],
+      "equal": true
+    },
+    {
+      "label": "item_3123 relation",
+      "path": "/equipment-skill-relations?equipmentKey=item_3123",
+      "status": 200,
+      "fields": [
+        {
+          "path": "equipmentKey",
+          "expected": "item_3123",
+          "actual": "item_3123",
+          "equal": true
+        },
+        {
+          "path": "skillKey",
+          "expected": "item_3123_passive",
+          "actual": "item_3123_passive",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        }
+      ],
+      "equal": true
+    },
+    {
+      "label": "item_3123_passive representative image",
+      "path": "/skills/item_3123_passive/representative-image",
+      "status": 200,
+      "equipmentImageStatus": 200,
+      "expectedImageKey": "item_3123",
+      "actualImageKey": "item_3123",
+      "equal": true
+    },
+    {
+      "label": "item_3916 direct attributes",
+      "path": "/equipment/item_3916/attributes",
+      "status": 200,
+      "fields": [
+        {
+          "path": "ability_power",
+          "expected": 25,
+          "actual": 25,
+          "equal": true
+        }
+      ],
+      "equal": true
+    },
+    {
+      "label": "item_3916_passive skill",
+      "path": "/skills/item_3916_passive",
+      "status": 200,
+      "fields": [
+        {
+          "path": "skillKey",
+          "expected": "item_3916_passive",
+          "actual": "item_3916_passive",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "湮灭宝珠·重伤",
+          "actual": "湮灭宝珠·重伤",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "保存16.17客户端与官方说明共同确证的对敌方英雄造成魔法伤害时40%重伤、持续3秒的参数。装备已有25点法术强度，不在技能中重复施加；重伤按HEALING_MODIFIER候选表达，当前共享治疗乘区为空，暂不伪造错误乘区或状态键。",
+          "actual": "保存16.17客户端与官方说明共同确证的对敌方英雄造成魔法伤害时40%重伤、持续3秒的参数。装备已有25点法术强度，不在技能中重复施加；重伤按HEALING_MODIFIER候选表达，当前共享治疗乘区为空，暂不伪造错误乘区或状态键。",
+          "equal": true
+        },
+        {
+          "path": "maxLevel",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "status",
+          "expected": "ENABLED",
+          "actual": "ENABLED",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 0,
+          "actual": 0,
+          "equal": true
+        },
+        {
+          "path": "skillCategoryKeys[]",
+          "expectedCount": 1,
+          "actualCount": 1,
+          "equal": true
+        },
+        {
+          "path": "skillCategoryKeys[0]",
+          "expected": "passive",
+          "actual": "passive",
+          "equal": true
+        }
+      ],
+      "equal": true
+    },
+    {
+      "label": "item_3916_passive parameter grievous_amount",
+      "path": "/skills/item_3916_passive/parameters/grievous_amount",
+      "status": 200,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "grievous_amount",
+          "actual": "grievous_amount",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "重伤减疗比例",
+          "actual": "重伤减疗比例",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "DECIMAL",
+          "actual": "DECIMAL",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 0.4,
+          "actual": 0.4,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "受到重伤影响的治疗减少比例，小数0.4表示40%。",
+          "actual": "受到重伤影响的治疗减少比例，小数0.4表示40%。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        }
+      ],
+      "equal": true
+    },
+    {
+      "label": "item_3916_passive parameter grievous_duration_ms",
+      "path": "/skills/item_3916_passive/parameters/grievous_duration_ms",
+      "status": 200,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "grievous_duration_ms",
+          "actual": "grievous_duration_ms",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "重伤持续时间",
+          "actual": "重伤持续时间",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "INTEGER",
+          "actual": "INTEGER",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 3000,
+          "actual": 3000,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "重伤持续3秒，单位：毫秒。",
+          "actual": "重伤持续3秒，单位：毫秒。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 20,
+          "actual": 20,
+          "equal": true
+        }
+      ],
+      "equal": true
+    },
+    {
+      "label": "item_3916 relation",
+      "path": "/equipment-skill-relations?equipmentKey=item_3916",
+      "status": 200,
+      "fields": [
+        {
+          "path": "equipmentKey",
+          "expected": "item_3916",
+          "actual": "item_3916",
+          "equal": true
+        },
+        {
+          "path": "skillKey",
+          "expected": "item_3916_passive",
+          "actual": "item_3916_passive",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        }
+      ],
+      "equal": true
+    },
+    {
+      "label": "item_3916_passive representative image",
+      "path": "/skills/item_3916_passive/representative-image",
+      "status": 200,
+      "equipmentImageStatus": 200,
+      "expectedImageKey": "item_3916",
+      "actualImageKey": "item_3916",
+      "equal": true
+    },
+    {
+      "label": "item_3089 direct attributes",
+      "path": "/equipment/item_3089/attributes",
+      "status": 200,
+      "fields": [
+        {
+          "path": "ability_power",
+          "expected": 130,
+          "actual": 130,
+          "equal": true
+        }
+      ],
+      "equal": true
+    },
+    {
+      "label": "item_3089_passive skill",
+      "path": "/skills/item_3089_passive",
+      "status": 200,
+      "fields": [
+        {
+          "path": "skillKey",
+          "expected": "item_3089_passive",
+          "actual": "item_3089_passive",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "灭世者的死亡之帽·魔法乐章",
+          "actual": "灭世者的死亡之帽·魔法乐章",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "保存16.17客户端与官方说明共同确证的总法术强度提升30%。装备已有130点法术强度，不在技能中重复施加；使用现有ATTRIBUTE百分比乘区保存比例值0.3，由总法术强度乘区负责应用，不另造把当前法强乘一次的公式。",
+          "actual": "保存16.17客户端与官方说明共同确证的总法术强度提升30%。装备已有130点法术强度，不在技能中重复施加；使用现有ATTRIBUTE百分比乘区保存比例值0.3，由总法术强度乘区负责应用，不另造把当前法强乘一次的公式。",
+          "equal": true
+        },
+        {
+          "path": "maxLevel",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "status",
+          "expected": "ENABLED",
+          "actual": "ENABLED",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 0,
+          "actual": 0,
+          "equal": true
+        },
+        {
+          "path": "skillCategoryKeys[]",
+          "expectedCount": 1,
+          "actualCount": 1,
+          "equal": true
+        },
+        {
+          "path": "skillCategoryKeys[0]",
+          "expected": "passive",
+          "actual": "passive",
+          "equal": true
+        }
+      ],
+      "equal": true
+    },
+    {
+      "label": "item_3089_passive parameter ap_total_multiplier",
+      "path": "/skills/item_3089_passive/parameters/ap_total_multiplier",
+      "status": 200,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "ap_total_multiplier",
+          "actual": "ap_total_multiplier",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "总法术强度提升比例",
+          "actual": "总法术强度提升比例",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "DECIMAL",
+          "actual": "DECIMAL",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 0.3,
+          "actual": 0.3,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "总法术强度增加30%，小数0.3表示30%；交给attribute_percent_bonus乘区应用。",
+          "actual": "总法术强度增加30%，小数0.3表示30%；交给attribute_percent_bonus乘区应用。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        }
+      ],
+      "equal": true
+    },
+    {
+      "label": "item_3089_passive effect total_ap_percent",
+      "path": "/skills/item_3089_passive/effects/total_ap_percent",
+      "status": 200,
+      "fields": [
+        {
+          "path": "effectKey",
+          "expected": "total_ap_percent",
+          "actual": "total_ap_percent",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "总法术强度百分比提升",
+          "actual": "总法术强度百分比提升",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "对来源总法术强度施加30%的属性百分比提升；装备直接的130点法术强度不在结果中重复添加。",
+          "actual": "对来源总法术强度施加30%的属性百分比提升；装备直接的130点法术强度不在结果中重复添加。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.durationValue",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.maxStacksValue.kind",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.maxStacksValue.value",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.applicationStacksValue.kind",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.applicationStacksValue.value",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.instanceScope",
+          "expected": "SOURCE",
+          "actual": "SOURCE",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.reapplicationStackMode",
+          "expected": "KEEP",
+          "actual": "KEEP",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.reapplicationDurationMode",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.expiryMode",
+          "expected": "EXPLICIT_ONLY",
+          "actual": "EXPLICIT_ONLY",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.periodicIntervalValue",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.firstPeriodicExecution",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[]",
+          "expectedCount": 1,
+          "actualCount": 1,
+          "equal": true
+        },
+        {
+          "path": "results[0].resultKey",
+          "expected": "total_ap_percent",
+          "actual": "total_ap_percent",
+          "equal": true
+        },
+        {
+          "path": "results[0].name",
+          "expected": "总法术强度提升",
+          "actual": "总法术强度提升",
+          "equal": true
+        },
+        {
+          "path": "results[0].resultType",
+          "expected": "ATTRIBUTE_CHANGE",
+          "actual": "ATTRIBUTE_CHANGE",
+          "equal": true
+        },
+        {
+          "path": "results[0].target",
+          "expected": "SOURCE",
+          "actual": "SOURCE",
+          "equal": true
+        },
+        {
+          "path": "results[0].description",
+          "expected": "来源总法术强度提升30%。",
+          "actual": "来源总法术强度提升30%。",
+          "equal": true
+        },
+        {
+          "path": "results[0].sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.moment",
+          "expected": "PERSISTENT",
+          "actual": "PERSISTENT",
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.valueReadMode",
+          "expected": "APPLICATION_SNAPSHOT",
+          "actual": "APPLICATION_SNAPSHOT",
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.stackValueMode",
+          "expected": "SHARED",
+          "actual": "SHARED",
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.reapplicationValueMode",
+          "expected": "REPLACE",
+          "actual": "REPLACE",
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.periodicExecutionMode",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].spellShieldBlockScope",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.value.kind",
+          "expected": "PARAMETER",
+          "actual": "PARAMETER",
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.value.parameterKey",
+          "expected": "ap_total_multiplier",
+          "actual": "ap_total_multiplier",
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMultiplier",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMinValue",
+          "expected": 0,
+          "actual": 0,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMaxValue",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.attributeKey",
+          "expected": "ability_power",
+          "actual": "ability_power",
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.operation",
+          "expected": "INCREASE",
+          "actual": "INCREASE",
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.modifierZoneKey",
+          "expected": "attribute_percent_bonus",
+          "actual": "attribute_percent_bonus",
+          "equal": true
+        }
+      ],
+      "equal": true
+    },
+    {
+      "label": "item_3089_passive trigger initialize_total_ap_multiplier",
+      "path": "/skills/item_3089_passive/trigger-rules/initialize_total_ap_multiplier",
+      "status": 200,
+      "fields": [
+        {
+          "path": "ruleKey",
+          "expected": "initialize_total_ap_multiplier",
+          "actual": "initialize_total_ap_multiplier",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "初始化总法术强度提升",
+          "actual": "初始化总法术强度提升",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "死亡之帽是装备持有时就生效的无条件被动，使用SOURCE_INITIALIZED并保持事件明细为空。",
+          "actual": "死亡之帽是装备持有时就生效的无条件被动，使用SOURCE_INITIALIZED并保持事件明细为空。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "eventSource.eventType",
+          "expected": "SOURCE_INITIALIZED",
+          "actual": "SOURCE_INITIALIZED",
+          "equal": true
+        },
+        {
+          "path": "conditionGroups[]",
+          "expectedCount": 0,
+          "actualCount": 0,
+          "equal": true
+        },
+        {
+          "path": "actions[]",
+          "expectedCount": 1,
+          "actualCount": 1,
+          "equal": true
+        },
+        {
+          "path": "actions[0].actionKey",
+          "expected": "execute_total_ap_percent",
+          "actual": "execute_total_ap_percent",
+          "equal": true
+        },
+        {
+          "path": "actions[0].name",
+          "expected": "执行总法术强度提升",
+          "actual": "执行总法术强度提升",
+          "equal": true
+        },
+        {
+          "path": "actions[0].actionType",
+          "expected": "EXECUTE_EFFECT",
+          "actual": "EXECUTE_EFFECT",
+          "equal": true
+        },
+        {
+          "path": "actions[0].sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "actions[0].targetContext",
+          "expected": "EVENT_SOURCE",
+          "actual": "EVENT_SOURCE",
+          "equal": true
+        },
+        {
+          "path": "actions[0].detail.effectKey",
+          "expected": "total_ap_percent",
+          "actual": "total_ap_percent",
+          "equal": true
+        },
+        {
+          "path": "actions[0].runtimeInputBindings[]",
+          "expectedCount": 0,
+          "actualCount": 0,
+          "equal": true
+        },
+        {
+          "path": "actions[0].resultModifiers[]",
+          "expectedCount": 0,
+          "actualCount": 0,
+          "equal": true
+        },
+        {
+          "path": "perTargetCooldown",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "maxTriggersPerProcess",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        }
+      ],
+      "equal": true
+    },
+    {
+      "label": "item_3089 relation",
+      "path": "/equipment-skill-relations?equipmentKey=item_3089",
+      "status": 200,
+      "fields": [
+        {
+          "path": "equipmentKey",
+          "expected": "item_3089",
+          "actual": "item_3089",
+          "equal": true
+        },
+        {
+          "path": "skillKey",
+          "expected": "item_3089_passive",
+          "actual": "item_3089_passive",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        }
+      ],
+      "equal": true
+    },
+    {
+      "label": "item_3089_passive representative image",
+      "path": "/skills/item_3089_passive/representative-image",
+      "status": 200,
+      "equipmentImageStatus": 200,
+      "expectedImageKey": "item_3089",
+      "actualImageKey": "item_3089",
+      "equal": true
+    },
+    {
+      "label": "item_3116 direct attributes",
+      "path": "/equipment/item_3116/attributes",
+      "status": 200,
+      "fields": [
+        {
+          "path": "hp",
+          "expected": 400,
+          "actual": 400,
+          "equal": true
+        },
+        {
+          "path": "ability_power",
+          "expected": 65,
+          "actual": 65,
+          "equal": true
+        }
+      ],
+      "equal": true
+    },
+    {
+      "label": "item_3116_passive skill",
+      "path": "/skills/item_3116_passive",
+      "status": 200,
+      "fields": [
+        {
+          "path": "skillKey",
+          "expected": "item_3116_passive",
+          "actual": "item_3116_passive",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "瑞莱的冰晶节杖·冰脉",
+          "actual": "瑞莱的冰晶节杖·冰脉",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "保存16.17客户端与官方说明共同确证的伤害型技能使目标减速30%、持续1秒参数。装备已有400生命值和65点法术强度，不在技能中重复施加；当前状态目录没有减速状态，不把眩晕或移动速度属性冒充减速效果。",
+          "actual": "保存16.17客户端与官方说明共同确证的伤害型技能使目标减速30%、持续1秒参数。装备已有400生命值和65点法术强度，不在技能中重复施加；当前状态目录没有减速状态，不把眩晕或移动速度属性冒充减速效果。",
+          "equal": true
+        },
+        {
+          "path": "maxLevel",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "status",
+          "expected": "ENABLED",
+          "actual": "ENABLED",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 0,
+          "actual": 0,
+          "equal": true
+        },
+        {
+          "path": "skillCategoryKeys[]",
+          "expectedCount": 1,
+          "actualCount": 1,
+          "equal": true
+        },
+        {
+          "path": "skillCategoryKeys[0]",
+          "expected": "passive",
+          "actual": "passive",
+          "equal": true
+        }
+      ],
+      "equal": true
+    },
+    {
+      "label": "item_3116_passive parameter slow_amount",
+      "path": "/skills/item_3116_passive/parameters/slow_amount",
+      "status": 200,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "slow_amount",
+          "actual": "slow_amount",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "冰脉减速比例",
+          "actual": "冰脉减速比例",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "DECIMAL",
+          "actual": "DECIMAL",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 0.3,
+          "actual": 0.3,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "伤害型技能造成的减速比例，小数0.3表示30%。",
+          "actual": "伤害型技能造成的减速比例，小数0.3表示30%。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        }
+      ],
+      "equal": true
+    },
+    {
+      "label": "item_3116_passive parameter slow_duration_ms",
+      "path": "/skills/item_3116_passive/parameters/slow_duration_ms",
+      "status": 200,
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "slow_duration_ms",
+          "actual": "slow_duration_ms",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "冰脉减速持续时间",
+          "actual": "冰脉减速持续时间",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "INTEGER",
+          "actual": "INTEGER",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 1000,
+          "actual": 1000,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "减速持续1秒，单位：毫秒。",
+          "actual": "减速持续1秒，单位：毫秒。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 20,
+          "actual": 20,
+          "equal": true
+        }
+      ],
+      "equal": true
+    },
+    {
+      "label": "item_3116 relation",
+      "path": "/equipment-skill-relations?equipmentKey=item_3116",
+      "status": 200,
+      "fields": [
+        {
+          "path": "equipmentKey",
+          "expected": "item_3116",
+          "actual": "item_3116",
+          "equal": true
+        },
+        {
+          "path": "skillKey",
+          "expected": "item_3116_passive",
+          "actual": "item_3116_passive",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        }
+      ],
+      "equal": true
+    },
+    {
+      "label": "item_3116_passive representative image",
+      "path": "/skills/item_3116_passive/representative-image",
+      "status": 200,
+      "equipmentImageStatus": 200,
+      "expectedImageKey": "item_3116",
+      "actualImageKey": "item_3116",
+      "equal": true
+    }
+  ],
+  "summary": {
+    "checkCount": 39,
+    "fieldCount": 276,
+    "mismatchCount": 0,
+    "failedCheckCount": 0,
+    "statusFailureCount": 0
+  }
+}

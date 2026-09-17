@@ -1,0 +1,561 @@
+{
+  "at": "2026-09-09T03:37:39.979Z",
+  "mode": "候选静态数值",
+  "candidateSha256": "9a83728eadbc0ca64925e50a5f3bf249f114e7e4dff78b45e99760c476a55983",
+  "checks": [
+    {
+      "label": "非英雄伤害恢复禁用3000ms",
+      "passed": true
+    },
+    {
+      "label": "其余已有公式数学表达式未变",
+      "passed": true
+    }
+  ],
+  "cases": [
+    {
+      "id": "item_2510",
+      "key": "spellblade_damage_value",
+      "inputs": {
+        "spellblade_cooldown_ms": 1500,
+        "spellblade_damage_mstat2_formula1_ratio": 0.75,
+        "spellblade_damage_default_ratio": 0.1,
+        "spellblade_healing_default_ratio": 0.1,
+        "spellblade_healing_mstat12_formula2_ratio": 0.03,
+        "spellblade_damage_mstat2_formula1_input": 100
+      },
+      "attributes": {
+        "SOURCE:ability_power:TOTAL": 50
+      },
+      "expected": 80,
+      "actual": 80,
+      "reason": "沿已审源数值算例，当前最终公式实际求值。",
+      "passed": true
+    },
+    {
+      "id": "item_2510",
+      "key": "spellblade_healing_value",
+      "inputs": {
+        "spellblade_cooldown_ms": 1500,
+        "spellblade_damage_mstat2_formula1_ratio": 0.75,
+        "spellblade_damage_default_ratio": 0.1,
+        "spellblade_healing_default_ratio": 0.1,
+        "spellblade_healing_mstat12_formula2_ratio": 0.03
+      },
+      "attributes": {
+        "SOURCE:ability_power:TOTAL": 200,
+        "SOURCE:hp:BONUS": 50
+      },
+      "expected": 21.5,
+      "actual": 21.5,
+      "reason": "沿已审源数值算例，当前最终公式实际求值。",
+      "passed": true
+    },
+    {
+      "id": "item_2512",
+      "key": "barrage_attack_speed_bonus",
+      "inputs": {
+        "ultimate_haste": 30,
+        "barrage_cooldown_ms": 45000,
+        "barrage_duration_ms": 8000,
+        "barrage_extra_true_damage_ratio": 0.15,
+        "barrage_attack_speed_ratio": 0.5,
+        "barrage_attack_count": 3,
+        "barrage_critical_damage_ratio": 0.8
+      },
+      "attributes": {},
+      "expected": 0.5,
+      "actual": 0.5,
+      "reason": "沿已审源数值算例，当前最终公式实际求值。",
+      "passed": true
+    },
+    {
+      "id": "item_2512",
+      "key": "barrage_critical_damage_result",
+      "inputs": {
+        "ultimate_haste": 30,
+        "barrage_cooldown_ms": 45000,
+        "barrage_duration_ms": 8000,
+        "barrage_extra_true_damage_ratio": 0.15,
+        "barrage_attack_speed_ratio": 0.5,
+        "barrage_attack_count": 3,
+        "barrage_critical_damage_ratio": 0.8
+      },
+      "attributes": {},
+      "expected": 0.8,
+      "actual": 0.8,
+      "reason": "沿已审源数值算例，当前最终公式实际求值。",
+      "passed": true
+    },
+    {
+      "id": "item_2512",
+      "key": "barrage_extra_true_damage_result",
+      "inputs": {
+        "ultimate_haste": 30,
+        "barrage_cooldown_ms": 45000,
+        "barrage_duration_ms": 8000,
+        "barrage_extra_true_damage_ratio": 0.15,
+        "barrage_attack_speed_ratio": 0.5,
+        "barrage_attack_count": 3,
+        "barrage_critical_damage_ratio": 0.8
+      },
+      "attributes": {},
+      "expected": 0.15,
+      "actual": 0.15,
+      "reason": "沿已审源数值算例，当前最终公式实际求值。",
+      "passed": true
+    },
+    {
+      "id": "item_2517",
+      "key": "melee_haste_from_bonus_attack_damage",
+      "inputs": {
+        "haste_base": 5,
+        "melee_haste_bonus_attack_damage_ratio": 0.13,
+        "ranged_haste_bonus_attack_damage_ratio": 0.1,
+        "takedown_omnivamp_ratio": 0.15,
+        "takedown_omnivamp_duration_ms": 8000,
+        "takedown_damage_window_ms": 3000
+      },
+      "attributes": {
+        "SOURCE:attack_damage:BONUS": 100
+      },
+      "expected": 18,
+      "actual": 18,
+      "reason": "沿已审源数值算例，当前最终公式实际求值。",
+      "passed": true
+    },
+    {
+      "id": "item_2517",
+      "key": "ranged_haste_from_bonus_attack_damage",
+      "inputs": {
+        "haste_base": 5,
+        "melee_haste_bonus_attack_damage_ratio": 0.13,
+        "ranged_haste_bonus_attack_damage_ratio": 0.1,
+        "takedown_omnivamp_ratio": 0.15,
+        "takedown_omnivamp_duration_ms": 8000,
+        "takedown_damage_window_ms": 3000
+      },
+      "attributes": {
+        "SOURCE:attack_damage:BONUS": 100
+      },
+      "expected": 15,
+      "actual": 15,
+      "reason": "沿已审源数值算例，当前最终公式实际求值。",
+      "passed": true
+    },
+    {
+      "id": "item_2520",
+      "key": "ability_damage_value",
+      "inputs": {
+        "ability_damage_cooldown_ms": 20000,
+        "ability_damage_base": 50,
+        "ability_damage_mstat29_ratio": 1.5,
+        "ability_damage_mstat29_input": 40,
+        "ability_damage_ranged_multiplier_input": 0.5
+      },
+      "attributes": {},
+      "expected": 55,
+      "actual": 55,
+      "reason": "沿已审源数值算例，当前最终公式实际求值。",
+      "passed": true
+    },
+    {
+      "id": "item_2526",
+      "key": "harmony_heal_shield_strength_percent_points",
+      "inputs": {
+        "mana_flow_charge_window_ms": 8000,
+        "mana_flow_max_stacks": 5,
+        "mana_flow_mana_per_charge": 4,
+        "mana_flow_hero_hit_multiplier": 2,
+        "mana_flow_transform_threshold": 360,
+        "harmony_resource_percent_point_coefficient": 0.005,
+        "harmony_resource_input": 1000
+      },
+      "attributes": {},
+      "expected": 5,
+      "actual": 5,
+      "reason": "沿已审源数值算例，当前最终公式实际求值。",
+      "passed": true
+    },
+    {
+      "id": "item_2526",
+      "key": "mana_flow_normal_hit_gain",
+      "inputs": {
+        "mana_flow_charge_window_ms": 8000,
+        "mana_flow_max_stacks": 5,
+        "mana_flow_mana_per_charge": 4,
+        "mana_flow_hero_hit_multiplier": 2,
+        "mana_flow_transform_threshold": 360,
+        "harmony_resource_percent_point_coefficient": 0.005
+      },
+      "attributes": {},
+      "expected": 4,
+      "actual": 4,
+      "reason": "沿已审源数值算例，当前最终公式实际求值。",
+      "passed": true
+    },
+    {
+      "id": "item_2526",
+      "key": "mana_flow_hero_hit_gain",
+      "inputs": {
+        "mana_flow_charge_window_ms": 8000,
+        "mana_flow_max_stacks": 5,
+        "mana_flow_mana_per_charge": 4,
+        "mana_flow_hero_hit_multiplier": 2,
+        "mana_flow_transform_threshold": 360,
+        "harmony_resource_percent_point_coefficient": 0.005
+      },
+      "attributes": {},
+      "expected": 8,
+      "actual": 8,
+      "reason": "沿已审源数值算例，当前最终公式实际求值。",
+      "passed": true
+    },
+    {
+      "id": "item_2530",
+      "key": "harmony_heal_shield_strength_percent_points",
+      "inputs": {
+        "harmony_resource_percent_point_coefficient": 0.005,
+        "harmony_resource_input": 1000
+      },
+      "attributes": {},
+      "expected": 5,
+      "actual": 5,
+      "reason": "沿已审源数值算例，当前最终公式实际求值。",
+      "passed": true
+    },
+    {
+      "id": "item_3040",
+      "key": "bonus_ap_from_max_mana",
+      "inputs": {
+        "bonus_ap_from_max_mana_ratio": 0.02,
+        "lifeline_health_threshold_ratio": 0.3,
+        "lifeline_shield_duration_ms": 3000,
+        "lifeline_cooldown_ms": 90000,
+        "lifeline_shield_resource_ratio": 0.18
+      },
+      "attributes": {
+        "SOURCE:mana:TOTAL": 1000
+      },
+      "expected": 20,
+      "actual": 20,
+      "reason": "沿已审源数值算例，当前最终公式实际求值。",
+      "passed": true
+    },
+    {
+      "id": "item_3040",
+      "key": "lifeline_shield_value",
+      "inputs": {
+        "bonus_ap_from_max_mana_ratio": 0.02,
+        "lifeline_health_threshold_ratio": 0.3,
+        "lifeline_shield_duration_ms": 3000,
+        "lifeline_cooldown_ms": 90000,
+        "lifeline_shield_resource_ratio": 0.18,
+        "lifeline_shield_resource_input": 500
+      },
+      "attributes": {},
+      "expected": 90,
+      "actual": 90,
+      "reason": "沿已审源数值算例，当前最终公式实际求值。",
+      "passed": true
+    },
+    {
+      "id": "item_3042",
+      "key": "bonus_attack_damage_from_max_mana",
+      "inputs": {
+        "bonus_ad_from_max_mana_ratio": 0.02,
+        "on_hit_max_mana_damage_ratio": 0.012,
+        "ranged_ability_max_mana_damage_ratio": 0.03,
+        "melee_ability_max_mana_damage_ratio": 0.04,
+        "champ_range_default_value": 1,
+        "champ_range_ranged_value": 2
+      },
+      "attributes": {
+        "SOURCE:mana:TOTAL": 1000
+      },
+      "expected": 20,
+      "actual": 20,
+      "reason": "沿已审源数值算例，当前最终公式实际求值。",
+      "passed": true
+    },
+    {
+      "id": "item_3042",
+      "key": "on_hit_damage_from_max_mana",
+      "inputs": {
+        "bonus_ad_from_max_mana_ratio": 0.02,
+        "on_hit_max_mana_damage_ratio": 0.012,
+        "ranged_ability_max_mana_damage_ratio": 0.03,
+        "melee_ability_max_mana_damage_ratio": 0.04,
+        "champ_range_default_value": 1,
+        "champ_range_ranged_value": 2
+      },
+      "attributes": {
+        "SOURCE:mana:TOTAL": 1000
+      },
+      "expected": 12,
+      "actual": 12,
+      "reason": "沿已审源数值算例，当前最终公式实际求值。",
+      "passed": true
+    },
+    {
+      "id": "item_3042",
+      "key": "melee_ability_damage_from_max_mana",
+      "inputs": {
+        "bonus_ad_from_max_mana_ratio": 0.02,
+        "on_hit_max_mana_damage_ratio": 0.012,
+        "ranged_ability_max_mana_damage_ratio": 0.03,
+        "melee_ability_max_mana_damage_ratio": 0.04,
+        "champ_range_default_value": 1,
+        "champ_range_ranged_value": 2
+      },
+      "attributes": {
+        "SOURCE:mana:TOTAL": 1000
+      },
+      "expected": 40,
+      "actual": 40,
+      "reason": "沿已审源数值算例，当前最终公式实际求值。",
+      "passed": true
+    },
+    {
+      "id": "item_3042",
+      "key": "ranged_ability_damage_from_max_mana",
+      "inputs": {
+        "bonus_ad_from_max_mana_ratio": 0.02,
+        "on_hit_max_mana_damage_ratio": 0.012,
+        "ranged_ability_max_mana_damage_ratio": 0.03,
+        "melee_ability_max_mana_damage_ratio": 0.04,
+        "champ_range_default_value": 1,
+        "champ_range_ranged_value": 2
+      },
+      "attributes": {
+        "SOURCE:mana:TOTAL": 1000
+      },
+      "expected": 30,
+      "actual": 30,
+      "reason": "沿已审源数值算例，当前最终公式实际求值。",
+      "passed": true
+    },
+    {
+      "id": "item_3042",
+      "key": "champ_range_default",
+      "inputs": {
+        "bonus_ad_from_max_mana_ratio": 0.02,
+        "on_hit_max_mana_damage_ratio": 0.012,
+        "ranged_ability_max_mana_damage_ratio": 0.03,
+        "melee_ability_max_mana_damage_ratio": 0.04,
+        "champ_range_default_value": 1,
+        "champ_range_ranged_value": 2
+      },
+      "attributes": {},
+      "expected": 1,
+      "actual": 1,
+      "reason": "沿已审源数值算例，当前最终公式实际求值。",
+      "passed": true
+    },
+    {
+      "id": "item_3042",
+      "key": "champ_range_ranged",
+      "inputs": {
+        "bonus_ad_from_max_mana_ratio": 0.02,
+        "on_hit_max_mana_damage_ratio": 0.012,
+        "ranged_ability_max_mana_damage_ratio": 0.03,
+        "melee_ability_max_mana_damage_ratio": 0.04,
+        "champ_range_default_value": 1,
+        "champ_range_ranged_value": 2
+      },
+      "attributes": {},
+      "expected": 2,
+      "actual": 2,
+      "reason": "沿已审源数值算例，当前最终公式实际求值。",
+      "passed": true
+    },
+    {
+      "id": "item_3073",
+      "key": "overload_melee_attack_speed_bonus",
+      "inputs": {
+        "overload_ultimate_haste": 30,
+        "overload_duration_ms": 8000,
+        "overload_cooldown_ms": 30000,
+        "melee_attack_speed_bonus_ratio": 0.5,
+        "ranged_attack_speed_bonus_ratio": 0.35,
+        "melee_move_speed_bonus_ratio": 0.2,
+        "ranged_move_speed_bonus_ratio": 0.14
+      },
+      "attributes": {},
+      "expected": 0.5,
+      "actual": 0.5,
+      "reason": "沿已审源数值算例，当前最终公式实际求值。",
+      "passed": true
+    },
+    {
+      "id": "item_3073",
+      "key": "overload_ranged_attack_speed_bonus",
+      "inputs": {
+        "overload_ultimate_haste": 30,
+        "overload_duration_ms": 8000,
+        "overload_cooldown_ms": 30000,
+        "melee_attack_speed_bonus_ratio": 0.5,
+        "ranged_attack_speed_bonus_ratio": 0.35,
+        "melee_move_speed_bonus_ratio": 0.2,
+        "ranged_move_speed_bonus_ratio": 0.14
+      },
+      "attributes": {},
+      "expected": 0.35,
+      "actual": 0.35,
+      "reason": "沿已审源数值算例，当前最终公式实际求值。",
+      "passed": true
+    },
+    {
+      "id": "item_3073",
+      "key": "overload_melee_move_speed_bonus",
+      "inputs": {
+        "overload_ultimate_haste": 30,
+        "overload_duration_ms": 8000,
+        "overload_cooldown_ms": 30000,
+        "melee_attack_speed_bonus_ratio": 0.5,
+        "ranged_attack_speed_bonus_ratio": 0.35,
+        "melee_move_speed_bonus_ratio": 0.2,
+        "ranged_move_speed_bonus_ratio": 0.14
+      },
+      "attributes": {},
+      "expected": 0.2,
+      "actual": 0.2,
+      "reason": "沿已审源数值算例，当前最终公式实际求值。",
+      "passed": true
+    },
+    {
+      "id": "item_3073",
+      "key": "overload_ranged_move_speed_bonus",
+      "inputs": {
+        "overload_ultimate_haste": 30,
+        "overload_duration_ms": 8000,
+        "overload_cooldown_ms": 30000,
+        "melee_attack_speed_bonus_ratio": 0.5,
+        "ranged_attack_speed_bonus_ratio": 0.35,
+        "melee_move_speed_bonus_ratio": 0.2,
+        "ranged_move_speed_bonus_ratio": 0.14
+      },
+      "attributes": {},
+      "expected": 0.14,
+      "actual": 0.14,
+      "reason": "沿已审源数值算例，当前最终公式实际求值。",
+      "passed": true
+    },
+    {
+      "id": "item_3083",
+      "key": "warmog_base_healing_value",
+      "inputs": {
+        "warmog_health_threshold": 2000,
+        "warmog_no_champion_damage_duration_ms": 8000,
+        "warmog_healing_ratio": 0.015,
+        "warmog_tooltip_multiplier": 2,
+        "warmog_equipment_health_ratio": 0.12,
+        "warmog_healing_stat_input": 4000
+      },
+      "attributes": {},
+      "expected": 60,
+      "actual": 60,
+      "reason": "沿已审源数值算例，当前最终公式实际求值。",
+      "passed": true
+    },
+    {
+      "id": "item_3083",
+      "key": "warmog_tooltip_healing_value",
+      "inputs": {
+        "warmog_health_threshold": 2000,
+        "warmog_no_champion_damage_duration_ms": 8000,
+        "warmog_healing_ratio": 0.015,
+        "warmog_tooltip_multiplier": 2,
+        "warmog_equipment_health_ratio": 0.12,
+        "warmog_healing_stat_input": 4000
+      },
+      "attributes": {},
+      "expected": 120,
+      "actual": 120,
+      "reason": "沿已审源数值算例，当前最终公式实际求值。",
+      "passed": true
+    },
+    {
+      "id": "item_3083",
+      "key": "warmog_bonus_health_from_equipment",
+      "inputs": {
+        "warmog_health_threshold": 2000,
+        "warmog_no_champion_damage_duration_ms": 8000,
+        "warmog_healing_ratio": 0.015,
+        "warmog_tooltip_multiplier": 2,
+        "warmog_equipment_health_ratio": 0.12,
+        "warmog_equipment_health_input": 1000
+      },
+      "attributes": {},
+      "expected": 120,
+      "actual": 120,
+      "reason": "沿已审源数值算例，当前最终公式实际求值。",
+      "passed": true
+    },
+    {
+      "id": "item_2510",
+      "key": "spellblade_healing_value",
+      "inputs": {},
+      "attributes": {
+        "SOURCE:ability_power:TOTAL": 0,
+        "SOURCE:hp:BONUS": 0,
+        "SOURCE:hp:TOTAL": 2000
+      },
+      "expected": 0,
+      "actual": 0,
+      "reason": "法强与额外生命值；另给不同总生命反例防止误用。",
+      "passed": true
+    },
+    {
+      "id": "item_2510",
+      "key": "spellblade_healing_value",
+      "inputs": {},
+      "attributes": {
+        "SOURCE:ability_power:TOTAL": 100,
+        "SOURCE:hp:BONUS": 1000,
+        "SOURCE:hp:TOTAL": 3000
+      },
+      "expected": 40,
+      "actual": 40,
+      "reason": "法强与额外生命值；另给不同总生命反例防止误用。",
+      "passed": true
+    },
+    {
+      "id": "item_2510",
+      "key": "spellblade_healing_value",
+      "inputs": {},
+      "attributes": {
+        "SOURCE:ability_power:TOTAL": 200,
+        "SOURCE:hp:BONUS": 3000,
+        "SOURCE:hp:TOTAL": 5000
+      },
+      "expected": 110,
+      "actual": 110,
+      "reason": "法强与额外生命值；另给不同总生命反例防止误用。",
+      "passed": true
+    },
+    {
+      "id": "item_2524",
+      "key": "melody_ranged_duration_ms",
+      "inputs": {},
+      "attributes": {},
+      "expected": 4000,
+      "actual": 4000,
+      "reason": "原基础8秒乘远程0.5，再统一毫秒口径。",
+      "passed": true
+    },
+    {
+      "id": "item_2524",
+      "key": "melody_self_ranged_attack_speed_ratio",
+      "inputs": {},
+      "attributes": {},
+      "expected": 0.2001,
+      "actual": 0.2001,
+      "reason": "原0.3乘0.667，不舍入0.2。",
+      "passed": true
+    }
+  ],
+  "businessWrites": 0,
+  "passed": true,
+  "formulaCases": 32
+}

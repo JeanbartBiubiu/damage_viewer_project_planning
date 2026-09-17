@@ -1,0 +1,261 @@
+{
+  "generatedAt": "2026-09-09T05:51:34.739Z",
+  "mode": "只读候选独立数值与结构核算",
+  "candidateSha256": "03214a9b07e56fecf40f1731853aa4a543d90d185ca4c604b5c06174d115108c",
+  "sourceSha256": "98d14396062ef2189cf364faf863f4d2ee62481dff9dacbaf4641fa9663c0492",
+  "apiWrites": 0,
+  "noBusinessWrites": true,
+  "astRule": "仅允许PARAMETER、ATTRIBUTE、OPERATION；OPERATION仅允许二元ADD或MULTIPLY；不允许公式引用另一公式。",
+  "negativeSelfCheck": {
+    "illegalFormulaNodeRejected": true,
+    "passed": true
+  },
+  "caseCount": 18,
+  "passedCount": 18,
+  "cases": [
+    {
+      "index": 1,
+      "kind": "端点核对",
+      "equipmentKey": "item_3036",
+      "formulaKey": null,
+      "overrides": {},
+      "attributes": {},
+      "expected": 0.15,
+      "actual": 0.15,
+      "calculation": "仅核对15%最大额外伤害与1500额外生命值端点，不计算中间曲线。",
+      "passed": true
+    },
+    {
+      "index": 2,
+      "kind": "公式",
+      "equipmentKey": "item_3179",
+      "formulaKey": "nightstalker_true_damage",
+      "overrides": {
+        "actual_mstat29": 40
+      },
+      "attributes": {},
+      "expected": 110,
+      "actual": 110,
+      "calculation": "50+1.5×原mStat29实际输入40=110",
+      "passed": true
+    },
+    {
+      "index": 3,
+      "kind": "公式",
+      "equipmentKey": "item_3179",
+      "formulaKey": "nightstalker_true_damage",
+      "overrides": {
+        "actual_mstat29": 100
+      },
+      "attributes": {},
+      "expected": 200,
+      "actual": 200,
+      "calculation": "50+1.5×原mStat29实际输入100=200",
+      "passed": true
+    },
+    {
+      "index": 4,
+      "kind": "公式",
+      "equipmentKey": "item_3302",
+      "formulaKey": "on_hit_magic_damage",
+      "overrides": {},
+      "attributes": {
+        "SOURCE:attack_damage:BONUS": 200,
+        "SOURCE:ability_power:TOTAL": 100
+      },
+      "expected": 60,
+      "actual": 60,
+      "calculation": "30+0.1×额外攻击力200+0.1×法术强度100=60",
+      "passed": true
+    },
+    {
+      "index": 5,
+      "kind": "公式",
+      "equipmentKey": "item_3302",
+      "formulaKey": "on_hit_magic_damage",
+      "overrides": {},
+      "attributes": {
+        "SOURCE:attack_damage:BONUS": 0,
+        "SOURCE:ability_power:TOTAL": 0
+      },
+      "expected": 30,
+      "actual": 30,
+      "calculation": "无属性输入时只核对来源基础附伤30，不把缺失属性改成其他枚举",
+      "passed": true
+    },
+    {
+      "index": 6,
+      "kind": "公式",
+      "equipmentKey": "item_3302",
+      "formulaKey": "light_resistance_max",
+      "overrides": {
+        "actual_light_resistance_per_hit": 8
+      },
+      "attributes": {},
+      "expected": 24,
+      "actual": 24,
+      "calculation": "3×运行时当前每次攻击双抗8=24；不从1/11/14级断点插值",
+      "passed": true
+    },
+    {
+      "index": 7,
+      "kind": "公式",
+      "equipmentKey": "item_3742",
+      "formulaKey": "max_bonus_damage",
+      "overrides": {},
+      "attributes": {
+        "SOURCE:attack_damage:BASE": 100
+      },
+      "expected": 140,
+      "actual": 140,
+      "calculation": "1×基础攻击力100+0.4×100满层=140",
+      "passed": true
+    },
+    {
+      "index": 8,
+      "kind": "公式",
+      "equipmentKey": "item_3742",
+      "formulaKey": "max_bonus_damage",
+      "overrides": {},
+      "attributes": {
+        "SOURCE:attack_damage:BASE": 245
+      },
+      "expected": 285,
+      "actual": 285,
+      "calculation": "1×基础攻击力245+40满层常数=285",
+      "passed": true
+    },
+    {
+      "index": 9,
+      "kind": "来源算术",
+      "equipmentKey": "item_4005",
+      "formulaKey": null,
+      "overrides": {},
+      "attributes": {},
+      "expected": 107,
+      "actual": 107,
+      "calculation": "明确易损7%下，基准伤害100×1.07=107；不代表已接线DAMAGE",
+      "passed": true
+    },
+    {
+      "index": 10,
+      "kind": "公式",
+      "equipmentKey": "item_4645",
+      "formulaKey": "eligible_magic_true_damage_multiplier",
+      "overrides": {},
+      "attributes": {},
+      "expected": 1.2,
+      "actual": 1.2,
+      "calculation": "1+20%魔法或真实伤害提升=1.2；低生命资格由运行时判断",
+      "passed": true
+    },
+    {
+      "index": 11,
+      "kind": "公式",
+      "equipmentKey": "item_6631",
+      "formulaKey": "active_damage",
+      "overrides": {},
+      "attributes": {
+        "SOURCE:attack_damage:TOTAL": 200
+      },
+      "expected": 160,
+      "actual": 160,
+      "calculation": "0.8×总攻击力200=160",
+      "passed": true
+    },
+    {
+      "index": 12,
+      "kind": "公式",
+      "equipmentKey": "item_6631",
+      "formulaKey": "active_damage",
+      "overrides": {},
+      "attributes": {
+        "SOURCE:attack_damage:TOTAL": 350
+      },
+      "expected": 280,
+      "actual": 280,
+      "calculation": "0.8×总攻击力350=280",
+      "passed": true
+    },
+    {
+      "index": 13,
+      "kind": "公式",
+      "equipmentKey": "item_6662",
+      "formulaKey": "spellblade_damage",
+      "overrides": {},
+      "attributes": {
+        "SOURCE:attack_damage:BASE": 100
+      },
+      "expected": 150,
+      "actual": 150,
+      "calculation": "1.5×基础攻击力100=150",
+      "passed": true
+    },
+    {
+      "index": 14,
+      "kind": "公式",
+      "equipmentKey": "item_6662",
+      "formulaKey": "spellblade_damage",
+      "overrides": {},
+      "attributes": {
+        "SOURCE:attack_damage:BASE": 250
+      },
+      "expected": 375,
+      "actual": 375,
+      "calculation": "1.5×基础攻击力250=375",
+      "passed": true
+    },
+    {
+      "index": 15,
+      "kind": "来源算术",
+      "equipmentKey": "item_6662",
+      "formulaKey": null,
+      "overrides": {},
+      "attributes": {},
+      "expected": 0.25,
+      "actual": 0.25,
+      "calculation": "近战减速25%、远程减速12.5%、地带2000毫秒分别核对",
+      "passed": true
+    },
+    {
+      "index": 16,
+      "kind": "来源算术",
+      "equipmentKey": "item_6694",
+      "formulaKey": null,
+      "overrides": {},
+      "attributes": {},
+      "expected": 0.3,
+      "actual": 0.3,
+      "calculation": "目标低于50%生命值时30%减速1000毫秒参数核对",
+      "passed": true
+    },
+    {
+      "index": 17,
+      "kind": "公式",
+      "equipmentKey": "item_6697",
+      "formulaKey": "bonus_attack_damage",
+      "overrides": {
+        "actual_killed_hero_count": 3
+      },
+      "attributes": {},
+      "expected": 21,
+      "actual": 21,
+      "calculation": "12+3×已击杀英雄数3=21",
+      "passed": true
+    },
+    {
+      "index": 18,
+      "kind": "公式",
+      "equipmentKey": "item_6697",
+      "formulaKey": "bonus_attack_damage",
+      "overrides": {
+        "actual_killed_hero_count": 0
+      },
+      "attributes": {},
+      "expected": 12,
+      "actual": 12,
+      "calculation": "运行时显式提供击杀计数0时，12+3×0=12；不等同于候选默认值",
+      "passed": true
+    }
+  ]
+}

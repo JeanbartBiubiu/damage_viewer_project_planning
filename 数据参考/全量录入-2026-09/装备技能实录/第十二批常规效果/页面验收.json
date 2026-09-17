@@ -1,0 +1,256 @@
+{
+  "at": "2026-09-08T15:35:00.067Z",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "method": "主负责人实际浏览器查看，详情与目录加载完成后核对；页面未写入，再用9个独立GET检查最终值。",
+  "samples": [
+    {
+      "skillKey": "item_3139_active",
+      "observation": "水银自身移动速度效果有生命周期，绑定2000毫秒参数；结果为施法者持续属性变化，move_speed_percent增加，固定加算，取move_speed_ratio=0.5。完整解控另待配。"
+    },
+    {
+      "skillKey": "item_2420_active",
+      "observation": "凝滞伤害免疫效果绑定2500毫秒参数；唯一结果为施法者持续全类型伤害免疫，说明明确不包括完整不可选取、移动限制与一次性消费，未自动触发。"
+    }
+  ],
+  "imageObservation": "两个技能列表均有正确代表图片元素与名称。",
+  "checks": [
+    {
+      "route": "/skills/item_2420_active/parameters/stasis_duration_ms",
+      "actual": {
+        "createdAt": "2026-09-08T15:19:49.166894Z",
+        "description": "当前根Duration=2.5秒，绑定主动及官方说明一致。",
+        "fixedValue": 2500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "凝滞持续时间",
+        "parameterKey": "stasis_duration_ms",
+        "skillKey": "item_2420_active",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T15:19:49.166894Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/item_2420_active/parameters/maximum_uses",
+      "actual": {
+        "createdAt": "2026-09-08T15:19:49.739037Z",
+        "description": "当前绑定主动明确单次使用；该值不是可周期恢复的弹药。",
+        "fixedValue": 1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "当前装备单次使用上限",
+        "parameterKey": "maximum_uses",
+        "skillKey": "item_2420_active",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-08T15:19:49.739037Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/item_2420_active/effects/stasis_damage_immunity",
+      "actual": {
+        "createdAt": "2026-09-08T15:19:50.476898Z",
+        "description": "单次凝滞中的独立伤害免疫组成，持续2.5秒；不包含不可选取、移动限制和一次性消费，不自动触发。",
+        "effectKey": "stasis_damage_immunity",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "stasis_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "探索者凝滞伤害免疫",
+        "results": [
+          {
+            "description": "来源在凝滞持续期间免疫所有伤害类型。",
+            "detail": {
+              "damageTypeKey": null,
+              "deliveryKind": "ANY",
+              "originKind": "ANY"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": null,
+              "stackValueMode": null,
+              "valueReadMode": null
+            },
+            "name": "全类型伤害免疫",
+            "resultKey": "stasis_damage_immunity",
+            "resultType": "DAMAGE_IMMUNITY",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": null
+          }
+        ],
+        "skillKey": "item_2420_active",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T15:19:50.476898Z"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/item_2420_active/representative-image",
+      "actual": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_2420",
+          "name": "item_2420"
+        }
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/item_3139_active/parameters/active_cooldown_ms",
+      "actual": {
+        "createdAt": "2026-09-08T15:19:52.799051Z",
+        "description": "当前根Cooldown=90秒，绑定Item_Cooldown模板明确读取该值。",
+        "fixedValue": 90000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "水银主动冷却",
+        "parameterKey": "active_cooldown_ms",
+        "skillKey": "item_3139_active",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T15:19:52.799051Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/item_3139_active/parameters/move_speed_ratio",
+      "actual": {
+        "createdAt": "2026-09-08T15:19:53.352436Z",
+        "description": "当前根MoveSpeed=0.5，绑定主动说明×100显示50%。",
+        "fixedValue": 0.5,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "水银自身移动速度比例",
+        "parameterKey": "move_speed_ratio",
+        "skillKey": "item_3139_active",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-08T15:19:53.352436Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/item_3139_active/parameters/move_speed_duration_ms",
+      "actual": {
+        "createdAt": "2026-09-08T15:19:53.859857Z",
+        "description": "当前根MSDuration=2秒，换算2000毫秒。",
+        "fixedValue": 2000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "水银自身移速持续时间",
+        "parameterKey": "move_speed_duration_ms",
+        "skillKey": "item_3139_active",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-08T15:19:53.859857Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/item_3139_active/effects/quicksilver_move_speed",
+      "actual": {
+        "createdAt": "2026-09-08T15:19:54.494688Z",
+        "description": "自身增加50个百分点移速加成，持续2秒；不表示50点固定移速，也不包含解除控制。",
+        "effectKey": "quicksilver_move_speed",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "move_speed_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "水银自身移动速度",
+        "results": [
+          {
+            "description": "自身增加50个百分点移速加成，持续2秒；不表示50点固定移速，也不包含解除控制。",
+            "detail": {
+              "attributeKey": "move_speed_percent",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "水银自身移动速度",
+            "resultKey": "move_speed",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "move_speed_ratio"
+              }
+            }
+          }
+        ],
+        "skillKey": "item_3139_active",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T15:19:54.494688Z"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/item_3139_active/representative-image",
+      "actual": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_3139",
+          "name": "item_3139"
+        }
+      },
+      "match": true
+    }
+  ],
+  "runtimeValidation": "未执行",
+  "passed": true
+}

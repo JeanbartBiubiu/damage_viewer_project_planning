@@ -1,0 +1,52 @@
+{
+  "at": "2026-09-09T06:43:36.354Z",
+  "status": "finished",
+  "model": {
+    "id": "grok-4.6",
+    "params": [
+      {
+        "id": "effort",
+        "value": "high"
+      },
+      {
+        "id": "fast",
+        "value": "false"
+      }
+    ]
+  },
+  "runId": "run-4bd9feea-1711-4c39-a0a0-7fef0cf18a00",
+  "agentId": "agent-38351549-ed02-4844-adcb-383671f694b5",
+  "durationMs": 428494,
+  "reviewedCandidateSha256": "163ff77ed3b383e54428cedf49497f3b0f6ff8d6b205d614f4e5fd6c1b6ca609",
+  "eventCount": 1777,
+  "eventFileSha256": "79441b06b1a19dad66e9c73ce4b54c96b6d4c09b58cf32dab1bb5a78b6b8cb37",
+  "eventFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\rune6-cursor-review-20260909\\.agents\\artifacts\\run\\events.jsonl",
+  "fileAudit": {
+    "kind": "audited-write-allowlist",
+    "osSandbox": false,
+    "auditAvailable": true,
+    "outsideScopeCount": 0,
+    "outsideScopePaths": [],
+    "runDeltaOutsideScopeCount": 0,
+    "runDeltaOutsideScopePaths": [],
+    "runDeltaCount": 0,
+    "failClosed": false
+  },
+  "completedTools": 31,
+  "toolNames": [
+    "glob",
+    "grep",
+    "read",
+    "shell"
+  ],
+  "toolEventsTruncated": false,
+  "inputsUnchanged": 6,
+  "shellCommands": [
+    "Get-FileHash -Algorithm SHA256 \"C:\\project\\damage_web_dev\\.agents\\artifacts\\rune6-cursor-review-20260909\\参考资料\\可审查候选.json\",\"C:\\project\\damage_web_dev\\.agents\\artifacts\\rune6-cursor-review-20260909\\参考资料\\冻结来源.json\",\"C:\\project\\damage_web_dev\\.agents\\artifacts\\rune6-cursor-review-20260909\\参考资料\\独立核算.json\",\"C:\\project\\damage_web_dev\\.agents\\artifacts\\rune6-cursor-review-20260909\\参考资料\\范围与缺口报告.md\",\"C:\\project\\damage_web_dev\\.agents\\artifacts\\rune6-cursor-review-20260909\\参考资料\\体验报告.md\",\"C:\\project\\damage_web_dev\\.agents\\artifacts\\rune6-cursor-review-20260909\\参考资料\\当前69身份与挂载独立GET.json\" | Select-Object Hash, Path",
+    "Get-FileHash -Algorithm SHA256 -Path \"C:\\project\\damage_web_dev\\.agents\\artifacts\\rune6-cursor-review-20260909\\参考资料\\可审查候选.json\",\"C:\\project\\damage_web_dev\\.agents\\artifacts\\rune6-cursor-review-20260909\\参考资料\\冻结来源.json\",\"C:\\project\\damage_web_dev\\.agents\\artifacts\\rune6-cursor-review-20260909\\参考资料\\独立核算.json\" | ForEach-Object { $_.Hash + \"  \" + $_.Path }"
+  ],
+  "verdict": "REVISE",
+  "businessWrites": 0,
+  "reviewText": "**REVIEWED_PLAN_REV:** `163ff77ed3b383e54428cedf49497f3b0f6ff8d6b205d614f4e5fd6c1b6ca609`  \n本地哈希与该修订号一致。当前只读盘点为 69 身份、53 挂载、余 16；候选 7、排除 9；40 参数、8 公式；效果/过程/状态/规则均为 0。\n\n**VERDICT: REVISE**\n\n## 阻塞项\n\n1. **9105 传说：急速——明确上限 10 没有进入名为「最终量」的公式。**  \n   来源 `MaxLegendStacks=10`、绑定「最大层数：10」，急速式为 `1.5 * actual_legend_stacks`。独立复算：0/7/10 层得到 0 / 10.5 / 15，与作者算例一致；**11 层得到 16.5**，超过 10×1.5=15。`max_legend_stacks` 只作为旁路参数保存，单独上限不等于已裁剪。`HasteBase=0` 未参与运算，不影响该缺口。应把上限送进名为最终量的公式（例如对层数或对 `1.5*层数` 做 `MIN`），且实际层数仍不得默认 0/10。\n\n## 范围（已核对，不阻塞）\n\n- **8465 守护者**排除成立：长说明要先守护 350 码内或被选中的友军；短说明是「你和一个被守护的友军」同时获盾。严格 1V1 没有可守护友军，自身盾不能独立触发。  \n- **8463 生命源泉**保留自身治疗成立：长说明为「可为你和附近生命值最低的友方英雄回复」；友军支路已排除，未把凡含队友的技能一律丢掉。  \n- **8140 可怖纪念品**已单独记下特殊模式：普通模式是饰品急速（`TrinketAH=6`），「不存在视野饰品」才换成召唤师急速（`SummonerAH=3`）。按普通 1V1 排除，且未把该分支写成默认组件。  \n- 纯金币（8135/8321）、守卫视野（8137/8141）、建筑专伤（8446）、完整召唤师替换（8306/8360）排除与根说明一致。9105 的非英雄击杀进度保留为运行输入，未误删。\n\n## 候选字段（同值同单位，不阻塞）\n\n- **5001**：只有 `StatGainMin=10`、`StatGainMax=180`；`levelValues` 全空，没有 1–18 线性表。  \n- **5008**：绑定只消费 `StatGain2=9`；`StatGain1=5.4` 留在 `sourceOnly`，未写成额外 AD。  \n- **8275**：15% / 45% / 2 秒（`2000ms`，scale=1000）；未命名 `0.35/100/250` 未猜成冷却映射。  \n- **8316**：急速来自「不同属性」计数×1；5/10 来自绑定原文，不是装备件数；8/20 适应未改写成 AD/AP。数值树里只有哈希键 8/20 与 `HastePerStack=1`。  \n- **8345**：客户端 `HealthHealPercent≈0.015` 与官方长说明 2% 并列，未静默二选一。基础式为 `20 + 比例 * SOURCE:hp:TOTAL`（最大生命，不是已损生命）。已损生命只作为运行输入，100%（`MaximumHealIncrease=1`）只保存端点，未造提升曲线。消耗或出售在长说明里都给 30 永久生命；治疗资格未按消耗/出售拆开，也未落直接治疗。`DurationOfEffect=5` 有数值字段，中文长短说明都没写 5 秒；已存 `5000ms` 且未据此造跳数/过程。  \n- **8463**：10–50 只作端点；`RangedMod=0.7` 乘在整份基础自身治疗上；冷却 20 秒→`20000ms`。近战路径没有公式，只有 `actual_base_heal`，未把近战也写成 ×0.7。\n\n## 独立算例（作者 17 条算术成立，覆盖不够）\n\n允许节点仅为 PARAMETER / ATTRIBUTE / 二元 ADD·MULTIPLY。自算与作者一致：饼干 `20+0.015×2000=50`、`20+0.02×3000=80`、`30×3=90`；多面手 `1×0/5/10`；源泉远程 `35×0.7=24.5`、`50×0.7=35`；传说 `1.5×7=10.5`。运行时生命/比例为小数，次数/等级为整数，未见假 DAMAGE / 瞬时治疗 / 线性 18 表。  \n缺口：核算把 `35×0.7=24.5` 标成「近战」（近战应为 35）；也没有 9105 在 11 层的区分性算例，故不能用「17 条通过」证明上限已裁剪。\n\n## 非阻塞建议\n\n- 生命源泉核算用例「近战」应改指标签，避免下游把 `ranged_heal_amount` 当成全英雄治疗。  \n- 饼干 5 秒不要写成当前中文绑定已给出的治疗时长；消耗与出售对治疗是否同资格仍是缺口，不是已证事实。  \n- 本批 0 效果 / 0 过程 / 0 规则，不能当成战斗完整。",
+  "rootDisposition": "接受传说急速10层上限及生命源泉近远程标签问题；另按既有SOP删去3个单纯转发参数的中转公式。原冻结候选保留，另存最终版本。"
+}

@@ -1,0 +1,154 @@
+{
+  "at": "2026-09-09T11:23:50.432Z",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "browser": "Codex内置浏览器现有标签2",
+  "representativePages": 2,
+  "observed": [
+    "月石代表图可见，原目标额外治疗/护盾比例为0.3/0.35",
+    "米凯尔代表图可见，纯化冷却120000毫秒，显示治疗范围100至250"
+  ],
+  "GETs": 6,
+  "requests": [
+    {
+      "route": "/skills/item_6617_passive",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T11:18:49.494867Z",
+        "description": "固定16.17当前绑定的明确数值。自身适用资格仍待核对，不视为已完成1V1机制，也不自动生效。首个治疗或护盾目标能否是持有者自己；不能从连锁目标排除自己反推初始目标资格；无其他友军判定、原治疗与护盾数值口径、时点与结果入口。第三位友方英雄的独立收益按范围跳过。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "月石再生器·星光恩典",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "item_6617_passive",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-09T11:18:49.494867Z"
+      }
+    },
+    {
+      "route": "/skills/item_6617_passive/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T11:18:50.602293Z",
+          "description": "单位：比例。16.17 当前根数据 SingleHeal=0.30000001192092896，按当前绑定文字归一为0.3。仅记录已证数值；自身适用资格及自动应用仍待核对。",
+          "fixedValue": 0.3,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "无其他友军时原目标额外治疗比例",
+          "parameterKey": "single_target_heal_ratio",
+          "skillKey": "item_6617_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T11:18:50.602293Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T11:18:51.731014Z",
+          "description": "单位：比例。16.17 当前根数据 SingleShield=0.3499999940395355，按当前绑定文字归一为0.35。仅记录已证数值；自身适用资格及自动应用仍待核对。",
+          "fixedValue": 0.35,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "无其他友军时原目标额外护盾比例",
+          "parameterKey": "single_target_shield_ratio",
+          "skillKey": "item_6617_passive",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T11:18:51.731014Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      ]
+    },
+    {
+      "route": "/skills/item_6617_passive/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_6617",
+          "name": "item_6617"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_3222_active",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T11:18:15.887115Z",
+        "description": "固定16.17当前绑定的明确数值。自身适用资格仍待核对，不视为已完成1V1机制，也不自动生效。友方目标是否允许持有者自己，以及自身控制状态下的施放资格；100至250是正文显示范围；目标等级曲线、等级边界及取整尚未证明；净化控制集合、实际治疗入口与执行顺序。第三位友方英雄的独立收益按范围跳过。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "米凯尔的祝福·纯化",
+        "skillCategoryKeys": [],
+        "skillKey": "item_3222_active",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-09T11:18:15.887115Z"
+      }
+    },
+    {
+      "route": "/skills/item_3222_active/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T11:18:16.95262Z",
+          "description": "单位：毫秒。16.17 当前根数据 Cooldown=120，秒乘1000转毫秒；按当前绑定文字归一为120000。仅记录已证数值；自身适用资格及自动应用仍待核对。",
+          "fixedValue": 120000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "纯化冷却时长",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "item_3222_active",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T11:18:16.95262Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T11:18:17.957735Z",
+          "description": "单位：生命值。16.17 当前根数据 HealAmountMin=100，按当前绑定文字归一为100。仅记录已证数值；自身适用资格及自动应用仍待核对。",
+          "fixedValue": 100,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "显示最低治疗量",
+          "parameterKey": "heal_minimum",
+          "skillKey": "item_3222_active",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T11:18:17.957735Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T11:18:19.020781Z",
+          "description": "单位：生命值。16.17 当前根数据 HealAmountMax=250，按当前绑定文字归一为250。仅记录已证数值；自身适用资格及自动应用仍待核对。",
+          "fixedValue": 250,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "显示最高治疗量",
+          "parameterKey": "heal_maximum",
+          "skillKey": "item_3222_active",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T11:18:19.020781Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/item_3222_active/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_3222",
+          "name": "item_3222"
+        }
+      }
+    }
+  ],
+  "passed": true,
+  "apiWrites": 0,
+  "runtimeValidation": "未执行"
+}

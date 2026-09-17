@@ -1,0 +1,10 @@
+{
+  "generatedAt": "2026-09-09T05:08:43.8885798Z",
+  "script": "独立复核.mjs",
+  "argument": "--negative-self-test",
+  "expectedExitCode": 2,
+  "observedExitCode": 2,
+  "failedChecks": 1,
+  "result": "通过",
+  "note": "故意传入false时检查器返回失败并以非零码退出；不含业务API调用"
+}

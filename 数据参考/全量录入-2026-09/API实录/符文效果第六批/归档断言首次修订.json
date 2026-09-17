@@ -1,0 +1,10 @@
+{
+  "phase": "最终报告整理，仅本地读取已完成流水",
+  "problem": "首次严格核对图片用途的新增技能对象时，预期对象漏列实际 DTO 已有的 skillStatus 字段，触发 deepEqual 失败。",
+  "actual": { "skillKey": "rune_5001_passive", "skillName": "符文·成长生命值", "skillStatus": "ENABLED" },
+  "correction": "预期完整用途对象增加 skillStatus，并从已冻结 skillBody.status 取值；继续严格全对象比较。",
+  "businessWrites": 0,
+  "apiGet": 0,
+  "businessReplay": false,
+  "existingApplyAndVerify": "均已真实通过且保持原文件，本次失败不是业务数据失败。"
+}

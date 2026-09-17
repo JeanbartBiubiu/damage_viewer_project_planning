@@ -1,0 +1,3510 @@
+{
+  "at": "2026-09-09T04:50:31.599Z",
+  "sourceFrozenSha256": "878fd1147a277282f6bacd04ecddafe55e980e729a67d4469b31b2ff93d492a7",
+  "candidateSha256": "e714d72a56ee48cd28bce3594f899ab01c62b6cb5329a08bc0a4035504e15c63",
+  "counts": {
+    "skill": 12,
+    "parameter": 105,
+    "formula": 31,
+    "effect": 1,
+    "relation": 12,
+    "rule": 0,
+    "process": 0,
+    "internalState": 0
+  },
+  "requests": [
+    {
+      "id": 8005,
+      "skillKey": "rune_8005_passive",
+      "kind": "skill",
+      "method": "POST",
+      "route": "/skills",
+      "readRoute": "/skills/rune_8005_passive",
+      "body": {
+        "skillKey": "rune_8005_passive",
+        "name": "符文·强攻",
+        "description": "本批仅录入：强攻第三次连续普攻伤害与8%增伤比例；持续资格为英雄战斗状态。未证条件和输入不默认，不表示完整战斗机制。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      }
+    },
+    {
+      "id": 8005,
+      "skillKey": "rune_8005_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8005_passive/parameters",
+      "readRoute": "/skills/rune_8005_passive/parameters/confirmed_level_damage_source_start",
+      "body": {
+        "parameterKey": "confirmed_level_damage_source_start",
+        "name": "等级基础伤害来源起点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 40,
+        "levelValues": null,
+        "description": "仅保留当前来源起点，不凭端点生成1至18级表。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "id": 8005,
+      "skillKey": "rune_8005_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8005_passive/parameters",
+      "readRoute": "/skills/rune_8005_passive/parameters/confirmed_level_damage_source_end",
+      "body": {
+        "parameterKey": "confirmed_level_damage_source_end",
+        "name": "等级基础伤害来源终点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 160,
+        "levelValues": null,
+        "description": "仅保留当前来源终点；等级求值过程待补。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "id": 8005,
+      "skillKey": "rune_8005_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8005_passive/parameters",
+      "readRoute": "/skills/rune_8005_passive/parameters/confirmed_level_damage",
+      "body": {
+        "parameterKey": "confirmed_level_damage",
+        "name": "已确认等级基础伤害",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "id": 8005,
+      "skillKey": "rune_8005_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8005_passive/parameters",
+      "readRoute": "/skills/rune_8005_passive/parameters/required_hits",
+      "body": {
+        "parameterKey": "required_hits",
+        "name": "连续普攻次数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3,
+        "levelValues": null,
+        "description": "当前普通模式绑定数值。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "id": 8005,
+      "skillKey": "rune_8005_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8005_passive/parameters",
+      "readRoute": "/skills/rune_8005_passive/parameters/damage_amp_ratio",
+      "body": {
+        "parameterKey": "damage_amp_ratio",
+        "name": "伤害增幅比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.08,
+        "levelValues": null,
+        "description": "当前普通模式绑定数值。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "id": 8005,
+      "skillKey": "rune_8005_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8005_passive/parameters",
+      "readRoute": "/skills/rune_8005_passive/parameters/cooldown_ms",
+      "body": {
+        "parameterKey": "cooldown_ms",
+        "name": "三击冷却时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 6000,
+        "levelValues": null,
+        "description": "来源秒转换为毫秒；不表示已经连接事件。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "id": 8005,
+      "skillKey": "rune_8005_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8005_passive/parameters",
+      "readRoute": "/skills/rune_8005_passive/parameters/qualified_damage_basis",
+      "body": {
+        "parameterKey": "qualified_damage_basis",
+        "name": "已确认的可增幅伤害基数",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "由实际结算资格供值，抗性前后阶段与适用结果类型需单独核实，不默认用技能基础伤害。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "id": 8005,
+      "skillKey": "rune_8005_passive",
+      "kind": "formula",
+      "method": "POST",
+      "route": "/skills/rune_8005_passive/formulas",
+      "readRoute": "/skills/rune_8005_passive/formulas/third_attack_damage",
+      "body": {
+        "formulaKey": "third_attack_damage",
+        "name": "第三次攻击额外伤害数值",
+        "description": "等级伤害显式外供，适应类型及命中资格未连接。",
+        "sortOrder": 10,
+        "expression": {
+          "nodeType": "PARAMETER",
+          "parameterKey": "confirmed_level_damage"
+        }
+      }
+    },
+    {
+      "id": 8005,
+      "skillKey": "rune_8005_passive",
+      "kind": "formula",
+      "method": "POST",
+      "route": "/skills/rune_8005_passive/formulas",
+      "readRoute": "/skills/rune_8005_passive/formulas/additional_damage",
+      "body": {
+        "formulaKey": "additional_damage",
+        "name": "合格伤害的增幅量",
+        "description": "仅数值；增伤状态须持续到离开与英雄战斗，不能固定5秒。",
+        "sortOrder": 20,
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "qualified_damage_basis"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "damage_amp_ratio"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 8005,
+      "skillKey": "rune_8005_passive",
+      "kind": "relation",
+      "method": "POST",
+      "route": "/rune-skill-relations",
+      "readRoute": "/rune-skill-relations?runeKey=rune_8005&skillKey=rune_8005_passive",
+      "body": {
+        "runeKey": "rune_8005",
+        "skillKey": "rune_8005_passive",
+        "sortOrder": 0
+      }
+    },
+    {
+      "id": 8008,
+      "skillKey": "rune_8008_passive",
+      "kind": "skill",
+      "method": "POST",
+      "route": "/skills",
+      "readRoute": "/skills/rune_8008_passive",
+      "body": {
+        "skillKey": "rune_8008_passive",
+        "name": "符文·致命节奏",
+        "description": "本批仅录入：致命节奏近战确定攻速分支、满层伤害与远程来源冲突。未证条件和输入不默认，不表示完整战斗机制。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      }
+    },
+    {
+      "id": 8008,
+      "skillKey": "rune_8008_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8008_passive/parameters",
+      "readRoute": "/skills/rune_8008_passive/parameters/buff_duration_ms",
+      "body": {
+        "parameterKey": "buff_duration_ms",
+        "name": "层数持续时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 6000,
+        "levelValues": null,
+        "description": "来源秒转换为毫秒；不表示已经连接事件。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "id": 8008,
+      "skillKey": "rune_8008_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8008_passive/parameters",
+      "readRoute": "/skills/rune_8008_passive/parameters/max_stacks",
+      "body": {
+        "parameterKey": "max_stacks",
+        "name": "层数上限",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 6,
+        "levelValues": null,
+        "description": "当前普通模式绑定数值。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "id": 8008,
+      "skillKey": "rune_8008_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8008_passive/parameters",
+      "readRoute": "/skills/rune_8008_passive/parameters/melee_as_per_stack",
+      "body": {
+        "parameterKey": "melee_as_per_stack",
+        "name": "近战每层额外攻速比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.06,
+        "levelValues": null,
+        "description": "当前普通模式绑定数值。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "id": 8008,
+      "skillKey": "rune_8008_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8008_passive/parameters",
+      "readRoute": "/skills/rune_8008_passive/parameters/actual_stacks",
+      "body": {
+        "parameterKey": "actual_stacks",
+        "name": "实际层数",
+        "valueType": "INTEGER",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "仅已确认0至6的整数；不默认满层。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "id": 8008,
+      "skillKey": "rune_8008_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8008_passive/parameters",
+      "readRoute": "/skills/rune_8008_passive/parameters/confirmed_ranged_as_per_stack",
+      "body": {
+        "parameterKey": "confirmed_ranged_as_per_stack",
+        "name": "已确认远程每层攻速比例",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "来源冲突：当前ASPerStack计算0.06×0.8=0.048，长说明TTASPerStackRanged=0.04；本批不选择任一值。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "id": 8008,
+      "skillKey": "rune_8008_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8008_passive/parameters",
+      "readRoute": "/skills/rune_8008_passive/parameters/confirmed_melee_level_damage_source_start",
+      "body": {
+        "parameterKey": "confirmed_melee_level_damage_source_start",
+        "name": "近战等级附伤来源起点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 9,
+        "levelValues": null,
+        "description": "仅保留当前来源起点，不凭端点生成1至18级表。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "id": 8008,
+      "skillKey": "rune_8008_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8008_passive/parameters",
+      "readRoute": "/skills/rune_8008_passive/parameters/confirmed_melee_level_damage_source_end",
+      "body": {
+        "parameterKey": "confirmed_melee_level_damage_source_end",
+        "name": "近战等级附伤来源终点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 30,
+        "levelValues": null,
+        "description": "仅保留当前来源终点；等级求值过程待补。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "id": 8008,
+      "skillKey": "rune_8008_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8008_passive/parameters",
+      "readRoute": "/skills/rune_8008_passive/parameters/confirmed_melee_level_damage",
+      "body": {
+        "parameterKey": "confirmed_melee_level_damage",
+        "name": "已确认近战等级附伤",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "id": 8008,
+      "skillKey": "rune_8008_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8008_passive/parameters",
+      "readRoute": "/skills/rune_8008_passive/parameters/confirmed_ranged_level_damage",
+      "body": {
+        "parameterKey": "confirmed_ranged_level_damage",
+        "name": "已确认远程等级附伤",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "计算树为近战9至30乘0.667，约6.003至20.01；长说明为6至24。冲突未解决，无默认值。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "id": 8008,
+      "skillKey": "rune_8008_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8008_passive/parameters",
+      "readRoute": "/skills/rune_8008_passive/parameters/confirmed_bonus_attack_speed_ratio",
+      "body": {
+        "parameterKey": "confirmed_bonus_attack_speed_ratio",
+        "name": "已确认额外攻速比例",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "当前原树mStat4/formula2未纳入已证属性枚举；长说明明确每1%额外攻速令伤害增加1%，这里显式提供比例而不猜字典映射。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "id": 8008,
+      "skillKey": "rune_8008_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8008_passive/parameters",
+      "readRoute": "/skills/rune_8008_passive/parameters/one",
+      "body": {
+        "parameterKey": "one",
+        "name": "一倍基准",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "显式计算树乘数1+额外攻速比例。",
+        "sortOrder": 110
+      }
+    },
+    {
+      "id": 8008,
+      "skillKey": "rune_8008_passive",
+      "kind": "formula",
+      "method": "POST",
+      "route": "/skills/rune_8008_passive/formulas",
+      "readRoute": "/skills/rune_8008_passive/formulas/melee_attack_speed_amount",
+      "body": {
+        "formulaKey": "melee_attack_speed_amount",
+        "name": "近战当前层数额外攻速比例",
+        "description": "仅当前近战分支及已确认层数；输出比例，不能直接加算到每秒攻击次数属性。",
+        "sortOrder": 10,
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "melee_as_per_stack"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_stacks"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 8008,
+      "skillKey": "rune_8008_passive",
+      "kind": "formula",
+      "method": "POST",
+      "route": "/skills/rune_8008_passive/formulas",
+      "readRoute": "/skills/rune_8008_passive/formulas/ranged_attack_speed_amount",
+      "body": {
+        "formulaKey": "ranged_attack_speed_amount",
+        "name": "远程当前层数额外攻速比例",
+        "description": "远程源冲突数值必须由后续已核实来源供值；输出比例。",
+        "sortOrder": 20,
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "confirmed_ranged_as_per_stack"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_stacks"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 8008,
+      "skillKey": "rune_8008_passive",
+      "kind": "formula",
+      "method": "POST",
+      "route": "/skills/rune_8008_passive/formulas",
+      "readRoute": "/skills/rune_8008_passive/formulas/melee_full_stack_damage",
+      "body": {
+        "formulaKey": "melee_full_stack_damage",
+        "name": "近战满层攻击额外伤害",
+        "description": "只有实际满6层时使用；不以测试输入证明等级曲线或mStat4映射。",
+        "sortOrder": 30,
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "confirmed_melee_level_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "one"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "confirmed_bonus_attack_speed_ratio"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 8008,
+      "skillKey": "rune_8008_passive",
+      "kind": "formula",
+      "method": "POST",
+      "route": "/skills/rune_8008_passive/formulas",
+      "readRoute": "/skills/rune_8008_passive/formulas/ranged_full_stack_damage",
+      "body": {
+        "formulaKey": "ranged_full_stack_damage",
+        "name": "远程满层攻击额外伤害",
+        "description": "只有实际满6层时使用；不以测试输入证明等级曲线或mStat4映射。",
+        "sortOrder": 40,
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "confirmed_ranged_level_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "one"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "confirmed_bonus_attack_speed_ratio"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 8008,
+      "skillKey": "rune_8008_passive",
+      "kind": "relation",
+      "method": "POST",
+      "route": "/rune-skill-relations",
+      "readRoute": "/rune-skill-relations?runeKey=rune_8008&skillKey=rune_8008_passive",
+      "body": {
+        "runeKey": "rune_8008",
+        "skillKey": "rune_8008_passive",
+        "sortOrder": 0
+      }
+    },
+    {
+      "id": 8010,
+      "skillKey": "rune_8010_passive",
+      "kind": "skill",
+      "method": "POST",
+      "route": "/skills",
+      "readRoute": "/skills/rune_8010_passive",
+      "body": {
+        "skillKey": "rune_8010_passive",
+        "name": "符文·征服者",
+        "description": "本批仅录入：征服者真实层数适应之力和满层按实际造成伤害自疗。未证条件和输入不默认，不表示完整战斗机制。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      }
+    },
+    {
+      "id": 8010,
+      "skillKey": "rune_8010_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8010_passive/parameters",
+      "readRoute": "/skills/rune_8010_passive/parameters/confirmed_adaptive_per_stack_source_start",
+      "body": {
+        "parameterKey": "confirmed_adaptive_per_stack_source_start",
+        "name": "每层适应之力来源起点",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1.8,
+        "levelValues": null,
+        "description": "仅保留当前来源起点，不凭端点生成1至18级表。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "id": 8010,
+      "skillKey": "rune_8010_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8010_passive/parameters",
+      "readRoute": "/skills/rune_8010_passive/parameters/confirmed_adaptive_per_stack_source_end",
+      "body": {
+        "parameterKey": "confirmed_adaptive_per_stack_source_end",
+        "name": "每层适应之力来源终点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4,
+        "levelValues": null,
+        "description": "仅保留当前来源终点；等级求值过程待补。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "id": 8010,
+      "skillKey": "rune_8010_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8010_passive/parameters",
+      "readRoute": "/skills/rune_8010_passive/parameters/confirmed_adaptive_per_stack",
+      "body": {
+        "parameterKey": "confirmed_adaptive_per_stack",
+        "name": "已确认每层适应之力",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "id": 8010,
+      "skillKey": "rune_8010_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8010_passive/parameters",
+      "readRoute": "/skills/rune_8010_passive/parameters/max_stacks",
+      "body": {
+        "parameterKey": "max_stacks",
+        "name": "最大层数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 12,
+        "levelValues": null,
+        "description": "当前普通模式绑定数值。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "id": 8010,
+      "skillKey": "rune_8010_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8010_passive/parameters",
+      "readRoute": "/skills/rune_8010_passive/parameters/buff_duration_ms",
+      "body": {
+        "parameterKey": "buff_duration_ms",
+        "name": "层数持续时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 5000,
+        "levelValues": null,
+        "description": "来源秒转换为毫秒；不表示已经连接事件。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "id": 8010,
+      "skillKey": "rune_8010_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8010_passive/parameters",
+      "readRoute": "/skills/rune_8010_passive/parameters/melee_heal_ratio",
+      "body": {
+        "parameterKey": "melee_heal_ratio",
+        "name": "近战伤害转治疗比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.08,
+        "levelValues": null,
+        "description": "当前普通模式绑定数值。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "id": 8010,
+      "skillKey": "rune_8010_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8010_passive/parameters",
+      "readRoute": "/skills/rune_8010_passive/parameters/ranged_heal_ratio",
+      "body": {
+        "parameterKey": "ranged_heal_ratio",
+        "name": "远程伤害转治疗比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.05,
+        "levelValues": null,
+        "description": "当前普通模式绑定数值。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "id": 8010,
+      "skillKey": "rune_8010_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8010_passive/parameters",
+      "readRoute": "/skills/rune_8010_passive/parameters/normal_hit_stacks",
+      "body": {
+        "parameterKey": "normal_hit_stacks",
+        "name": "普通技能或近战普攻层数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2,
+        "levelValues": null,
+        "description": "当前正文明确命中提供2层。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "id": 8010,
+      "skillKey": "rune_8010_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8010_passive/parameters",
+      "readRoute": "/skills/rune_8010_passive/parameters/ranged_attack_stacks",
+      "body": {
+        "parameterKey": "ranged_attack_stacks",
+        "name": "远程普攻层数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "当前正文明确远程普攻只提供1层。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "id": 8010,
+      "skillKey": "rune_8010_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8010_passive/parameters",
+      "readRoute": "/skills/rune_8010_passive/parameters/actual_stacks",
+      "body": {
+        "parameterKey": "actual_stacks",
+        "name": "实际征服者层数",
+        "valueType": "INTEGER",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "已确认0至12的整数，不默认满层。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "id": 8010,
+      "skillKey": "rune_8010_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8010_passive/parameters",
+      "readRoute": "/skills/rune_8010_passive/parameters/actual_damage_dealt_to_champion",
+      "body": {
+        "parameterKey": "actual_damage_dealt_to_champion",
+        "name": "本次实际对英雄造成的合格伤害",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "来自实际结算，不能用基础伤害、抗性前理论伤害或未发生的攻击代替。",
+        "sortOrder": 110
+      }
+    },
+    {
+      "id": 8010,
+      "skillKey": "rune_8010_passive",
+      "kind": "formula",
+      "method": "POST",
+      "route": "/skills/rune_8010_passive/formulas",
+      "readRoute": "/skills/rune_8010_passive/formulas/adaptive_force_amount",
+      "body": {
+        "formulaKey": "adaptive_force_amount",
+        "name": "当前层数适应之力",
+        "description": "适应属性选择尚未连接，不默认AD=0.6×适应之力。",
+        "sortOrder": 10,
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "confirmed_adaptive_per_stack"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_stacks"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 8010,
+      "skillKey": "rune_8010_passive",
+      "kind": "formula",
+      "method": "POST",
+      "route": "/skills/rune_8010_passive/formulas",
+      "readRoute": "/skills/rune_8010_passive/formulas/melee_self_heal",
+      "body": {
+        "formulaKey": "melee_self_heal",
+        "name": "近战满层自身治疗数值",
+        "description": "仅实际满12层且本次伤害资格成立；不自动恢复，不生成瞬时治疗结果。",
+        "sortOrder": 20,
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_damage_dealt_to_champion"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "melee_heal_ratio"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 8010,
+      "skillKey": "rune_8010_passive",
+      "kind": "formula",
+      "method": "POST",
+      "route": "/skills/rune_8010_passive/formulas",
+      "readRoute": "/skills/rune_8010_passive/formulas/ranged_self_heal",
+      "body": {
+        "formulaKey": "ranged_self_heal",
+        "name": "远程满层自身治疗数值",
+        "description": "仅实际满12层且本次伤害资格成立；不自动恢复，不生成瞬时治疗结果。",
+        "sortOrder": 30,
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_damage_dealt_to_champion"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "ranged_heal_ratio"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 8010,
+      "skillKey": "rune_8010_passive",
+      "kind": "relation",
+      "method": "POST",
+      "route": "/rune-skill-relations",
+      "readRoute": "/rune-skill-relations?runeKey=rune_8010&skillKey=rune_8010_passive",
+      "body": {
+        "runeKey": "rune_8010",
+        "skillKey": "rune_8010_passive",
+        "sortOrder": 0
+      }
+    },
+    {
+      "id": 8021,
+      "skillKey": "rune_8021_passive",
+      "kind": "skill",
+      "method": "POST",
+      "route": "/skills",
+      "readRoute": "/skills/rune_8021_passive",
+      "body": {
+        "skillKey": "rune_8021_passive",
+        "name": "符文·迅捷步法",
+        "description": "本批仅录入：迅捷步法近远程恢复、移动速度与小兵战前恢复分支。未证条件和输入不默认，不表示完整战斗机制。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      }
+    },
+    {
+      "id": 8021,
+      "skillKey": "rune_8021_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8021_passive/parameters",
+      "readRoute": "/skills/rune_8021_passive/parameters/confirmed_level_heal_source_start",
+      "body": {
+        "parameterKey": "confirmed_level_heal_source_start",
+        "name": "等级基础恢复来源起点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 15,
+        "levelValues": null,
+        "description": "仅保留当前来源起点，不凭端点生成1至18级表。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "id": 8021,
+      "skillKey": "rune_8021_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8021_passive/parameters",
+      "readRoute": "/skills/rune_8021_passive/parameters/confirmed_level_heal_source_end",
+      "body": {
+        "parameterKey": "confirmed_level_heal_source_end",
+        "name": "等级基础恢复来源终点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 160,
+        "levelValues": null,
+        "description": "仅保留当前来源终点；等级求值过程待补。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "id": 8021,
+      "skillKey": "rune_8021_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8021_passive/parameters",
+      "readRoute": "/skills/rune_8021_passive/parameters/confirmed_level_heal",
+      "body": {
+        "parameterKey": "confirmed_level_heal",
+        "name": "已确认等级基础恢复",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "id": 8021,
+      "skillKey": "rune_8021_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8021_passive/parameters",
+      "readRoute": "/skills/rune_8021_passive/parameters/bonus_ad_ratio",
+      "body": {
+        "parameterKey": "bonus_ad_ratio",
+        "name": "额外攻击力恢复系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.1,
+        "levelValues": null,
+        "description": "当前普通模式绑定数值。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "id": 8021,
+      "skillKey": "rune_8021_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8021_passive/parameters",
+      "readRoute": "/skills/rune_8021_passive/parameters/ap_ratio",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "法强恢复系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.05,
+        "levelValues": null,
+        "description": "当前普通模式绑定数值。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "id": 8021,
+      "skillKey": "rune_8021_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8021_passive/parameters",
+      "readRoute": "/skills/rune_8021_passive/parameters/melee_move_speed_ratio",
+      "body": {
+        "parameterKey": "melee_move_speed_ratio",
+        "name": "近战移动速度比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.2,
+        "levelValues": null,
+        "description": "当前普通模式绑定数值。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "id": 8021,
+      "skillKey": "rune_8021_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8021_passive/parameters",
+      "readRoute": "/skills/rune_8021_passive/parameters/move_speed_duration_ms",
+      "body": {
+        "parameterKey": "move_speed_duration_ms",
+        "name": "移动速度持续",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1000,
+        "levelValues": null,
+        "description": "来源秒转换为毫秒；不表示已经连接事件。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "id": 8021,
+      "skillKey": "rune_8021_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8021_passive/parameters",
+      "readRoute": "/skills/rune_8021_passive/parameters/ranged_move_speed_multiplier",
+      "body": {
+        "parameterKey": "ranged_move_speed_multiplier",
+        "name": "远程移动速度效能",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.75,
+        "levelValues": null,
+        "description": "当前普通模式绑定数值。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "id": 8021,
+      "skillKey": "rune_8021_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8021_passive/parameters",
+      "readRoute": "/skills/rune_8021_passive/parameters/ranged_heal_multiplier",
+      "body": {
+        "parameterKey": "ranged_heal_multiplier",
+        "name": "远程治疗效能",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.6,
+        "levelValues": null,
+        "description": "当前普通模式绑定数值。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "id": 8021,
+      "skillKey": "rune_8021_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8021_passive/parameters",
+      "readRoute": "/skills/rune_8021_passive/parameters/minion_heal_multiplier",
+      "body": {
+        "parameterKey": "minion_heal_multiplier",
+        "name": "小兵治疗效能",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.15,
+        "levelValues": null,
+        "description": "当前普通模式绑定数值。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "id": 8021,
+      "skillKey": "rune_8021_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8021_passive/parameters",
+      "readRoute": "/skills/rune_8021_passive/parameters/required_energy",
+      "body": {
+        "parameterKey": "required_energy",
+        "name": "充盈所需层数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 100,
+        "levelValues": null,
+        "description": "当前正文明确100层。",
+        "sortOrder": 110
+      }
+    },
+    {
+      "id": 8021,
+      "skillKey": "rune_8021_passive",
+      "kind": "formula",
+      "method": "POST",
+      "route": "/skills/rune_8021_passive/formulas",
+      "readRoute": "/skills/rune_8021_passive/formulas/melee_heal",
+      "body": {
+        "formulaKey": "melee_heal",
+        "name": "近战充盈恢复数值",
+        "description": "当前树明确额外AD与法强；等级节点包含mScaleByStatProgressionMultiplier=true，不能线性展开。",
+        "sortOrder": 10,
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "confirmed_level_heal"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "attack_damage",
+                      "attributeValueKind": "BONUS"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_ad_ratio"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 8021,
+      "skillKey": "rune_8021_passive",
+      "kind": "formula",
+      "method": "POST",
+      "route": "/skills/rune_8021_passive/formulas",
+      "readRoute": "/skills/rune_8021_passive/formulas/ranged_heal",
+      "body": {
+        "formulaKey": "ranged_heal",
+        "name": "远程充盈恢复数值",
+        "description": "对远程英雄施加0.6效能。",
+        "sortOrder": 20,
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "confirmed_level_heal"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "SOURCE",
+                          "attributeKey": "attack_damage",
+                          "attributeValueKind": "BONUS"
+                        },
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "bonus_ad_ratio"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "ranged_heal_multiplier"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 8021,
+      "skillKey": "rune_8021_passive",
+      "kind": "formula",
+      "method": "POST",
+      "route": "/skills/rune_8021_passive/formulas",
+      "readRoute": "/skills/rune_8021_passive/formulas/melee_minion_heal",
+      "body": {
+        "formulaKey": "melee_minion_heal",
+        "name": "近战攻击小兵自身恢复",
+        "description": "小兵不是英雄伤害目标，但这份自身战前恢复依赖保留。",
+        "sortOrder": 30,
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "confirmed_level_heal"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "SOURCE",
+                          "attributeKey": "attack_damage",
+                          "attributeValueKind": "BONUS"
+                        },
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "bonus_ad_ratio"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "minion_heal_multiplier"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 8021,
+      "skillKey": "rune_8021_passive",
+      "kind": "formula",
+      "method": "POST",
+      "route": "/skills/rune_8021_passive/formulas",
+      "readRoute": "/skills/rune_8021_passive/formulas/ranged_minion_heal",
+      "body": {
+        "formulaKey": "ranged_minion_heal",
+        "name": "远程攻击小兵自身恢复",
+        "description": "远程0.6与小兵0.15分别适用，两条件同时成立。",
+        "sortOrder": 40,
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "ADD",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "confirmed_level_heal"
+                        },
+                        {
+                          "nodeType": "OPERATION",
+                          "operation": "MULTIPLY",
+                          "operands": [
+                            {
+                              "nodeType": "ATTRIBUTE",
+                              "attributeOwner": "SOURCE",
+                              "attributeKey": "attack_damage",
+                              "attributeValueKind": "BONUS"
+                            },
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "bonus_ad_ratio"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "SOURCE",
+                          "attributeKey": "ability_power",
+                          "attributeValueKind": "TOTAL"
+                        },
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "ap_ratio"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ranged_heal_multiplier"
+                }
+              ]
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "minion_heal_multiplier"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 8021,
+      "skillKey": "rune_8021_passive",
+      "kind": "formula",
+      "method": "POST",
+      "route": "/skills/rune_8021_passive/formulas",
+      "readRoute": "/skills/rune_8021_passive/formulas/ranged_move_speed_ratio",
+      "body": {
+        "formulaKey": "ranged_move_speed_ratio",
+        "name": "远程移动速度增益比例",
+        "description": "0.2×0.75=0.15；不把它直接加到固定移速属性区。",
+        "sortOrder": 50,
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "melee_move_speed_ratio"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "ranged_move_speed_multiplier"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 8021,
+      "skillKey": "rune_8021_passive",
+      "kind": "relation",
+      "method": "POST",
+      "route": "/rune-skill-relations",
+      "readRoute": "/rune-skill-relations?runeKey=rune_8021&skillKey=rune_8021_passive",
+      "body": {
+        "runeKey": "rune_8021",
+        "skillKey": "rune_8021_passive",
+        "sortOrder": 0
+      }
+    },
+    {
+      "id": 8230,
+      "skillKey": "rune_8230_passive",
+      "kind": "skill",
+      "method": "POST",
+      "route": "/skills",
+      "readRoute": "/skills/rune_8230_passive",
+      "body": {
+        "skillKey": "rune_8230_passive",
+        "name": "符文·风暴掠袭者的狂涌",
+        "description": "本批仅录入：当前风暴掠袭者狂涌的伤害阈值、近远程移动速度和减速抗性。未证条件和输入不默认，不表示完整战斗机制。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      }
+    },
+    {
+      "id": 8230,
+      "skillKey": "rune_8230_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8230_passive/parameters",
+      "readRoute": "/skills/rune_8230_passive/parameters/damage_window_ms",
+      "body": {
+        "parameterKey": "damage_window_ms",
+        "name": "累计伤害窗口",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3000,
+        "levelValues": null,
+        "description": "来源秒转换为毫秒；不表示已经连接事件。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "id": 8230,
+      "skillKey": "rune_8230_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8230_passive/parameters",
+      "readRoute": "/skills/rune_8230_passive/parameters/buff_duration_ms",
+      "body": {
+        "parameterKey": "buff_duration_ms",
+        "name": "增益持续",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4000,
+        "levelValues": null,
+        "description": "来源秒转换为毫秒；不表示已经连接事件。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "id": 8230,
+      "skillKey": "rune_8230_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8230_passive/parameters",
+      "readRoute": "/skills/rune_8230_passive/parameters/target_max_health_threshold_ratio",
+      "body": {
+        "parameterKey": "target_max_health_threshold_ratio",
+        "name": "目标最大生命伤害阈值比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.25,
+        "levelValues": null,
+        "description": "当前普通模式绑定数值。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "id": 8230,
+      "skillKey": "rune_8230_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8230_passive/parameters",
+      "readRoute": "/skills/rune_8230_passive/parameters/melee_move_speed_ratio",
+      "body": {
+        "parameterKey": "melee_move_speed_ratio",
+        "name": "近战移动速度增益比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.48,
+        "levelValues": null,
+        "description": "当前普通模式绑定数值。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "id": 8230,
+      "skillKey": "rune_8230_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8230_passive/parameters",
+      "readRoute": "/skills/rune_8230_passive/parameters/ranged_move_speed_multiplier",
+      "body": {
+        "parameterKey": "ranged_move_speed_multiplier",
+        "name": "远程移动速度效能",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.75,
+        "levelValues": null,
+        "description": "当前普通模式绑定数值。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "id": 8230,
+      "skillKey": "rune_8230_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8230_passive/parameters",
+      "readRoute": "/skills/rune_8230_passive/parameters/slow_resistance_ratio",
+      "body": {
+        "parameterKey": "slow_resistance_ratio",
+        "name": "减速抗性比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "当前普通模式绑定数值。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "id": 8230,
+      "skillKey": "rune_8230_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8230_passive/parameters",
+      "readRoute": "/skills/rune_8230_passive/parameters/confirmed_cooldown_seconds_source_start",
+      "body": {
+        "parameterKey": "confirmed_cooldown_seconds_source_start",
+        "name": "等级冷却秒数来源起点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 20,
+        "levelValues": null,
+        "description": "仅保留当前来源起点，不凭端点生成1至18级表。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "id": 8230,
+      "skillKey": "rune_8230_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8230_passive/parameters",
+      "readRoute": "/skills/rune_8230_passive/parameters/confirmed_cooldown_seconds_source_end",
+      "body": {
+        "parameterKey": "confirmed_cooldown_seconds_source_end",
+        "name": "等级冷却秒数来源终点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 10,
+        "levelValues": null,
+        "description": "仅保留当前来源终点；等级求值过程待补。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "id": 8230,
+      "skillKey": "rune_8230_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8230_passive/parameters",
+      "readRoute": "/skills/rune_8230_passive/parameters/confirmed_cooldown_seconds",
+      "body": {
+        "parameterKey": "confirmed_cooldown_seconds",
+        "name": "已确认等级冷却秒数",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "id": 8230,
+      "skillKey": "rune_8230_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8230_passive/parameters",
+      "readRoute": "/skills/rune_8230_passive/parameters/seconds_to_ms",
+      "body": {
+        "parameterKey": "seconds_to_ms",
+        "name": "秒转毫秒系数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1000,
+        "levelValues": null,
+        "description": "单位换算常数。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "id": 8230,
+      "skillKey": "rune_8230_passive",
+      "kind": "formula",
+      "method": "POST",
+      "route": "/skills/rune_8230_passive/formulas",
+      "readRoute": "/skills/rune_8230_passive/formulas/target_damage_threshold",
+      "body": {
+        "formulaKey": "target_damage_threshold",
+        "name": "累计伤害门槛数值",
+        "description": "目标最大生命乘0.25，采样时点待连接；不是三次独立命中。",
+        "sortOrder": 10,
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "TARGET",
+              "attributeKey": "hp",
+              "attributeValueKind": "TOTAL"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "target_max_health_threshold_ratio"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 8230,
+      "skillKey": "rune_8230_passive",
+      "kind": "formula",
+      "method": "POST",
+      "route": "/skills/rune_8230_passive/formulas",
+      "readRoute": "/skills/rune_8230_passive/formulas/ranged_move_speed_ratio",
+      "body": {
+        "formulaKey": "ranged_move_speed_ratio",
+        "name": "远程移动速度增益比例",
+        "description": "0.48×0.75=0.36。",
+        "sortOrder": 20,
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "melee_move_speed_ratio"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "ranged_move_speed_multiplier"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 8230,
+      "skillKey": "rune_8230_passive",
+      "kind": "formula",
+      "method": "POST",
+      "route": "/skills/rune_8230_passive/formulas",
+      "readRoute": "/skills/rune_8230_passive/formulas/cooldown_ms",
+      "body": {
+        "formulaKey": "cooldown_ms",
+        "name": "已确认等级冷却毫秒",
+        "description": "只转换已确认等级数值，不从20至10猜线性。",
+        "sortOrder": 30,
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "confirmed_cooldown_seconds"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "seconds_to_ms"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 8230,
+      "skillKey": "rune_8230_passive",
+      "kind": "relation",
+      "method": "POST",
+      "route": "/rune-skill-relations",
+      "readRoute": "/rune-skill-relations?runeKey=rune_8230&skillKey=rune_8230_passive",
+      "body": {
+        "runeKey": "rune_8230",
+        "skillKey": "rune_8230_passive",
+        "sortOrder": 0
+      }
+    },
+    {
+      "id": 8299,
+      "skillKey": "rune_8299_passive",
+      "kind": "skill",
+      "method": "POST",
+      "route": "/skills",
+      "readRoute": "/skills/rune_8299_passive",
+      "body": {
+        "skillKey": "rune_8299_passive",
+        "name": "符文·坚毅不倒",
+        "description": "本批仅录入：坚毅不倒生命门槛和增伤端点，不生成中间插值。未证条件和输入不默认，不表示完整战斗机制。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      }
+    },
+    {
+      "id": 8299,
+      "skillKey": "rune_8299_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8299_passive/parameters",
+      "readRoute": "/skills/rune_8299_passive/parameters/health_threshold_start",
+      "body": {
+        "parameterKey": "health_threshold_start",
+        "name": "自身生命上门槛",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.6,
+        "levelValues": null,
+        "description": "当前普通模式绑定数值。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "id": 8299,
+      "skillKey": "rune_8299_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8299_passive/parameters",
+      "readRoute": "/skills/rune_8299_passive/parameters/health_threshold_end",
+      "body": {
+        "parameterKey": "health_threshold_end",
+        "name": "自身生命最大增幅门槛",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.3,
+        "levelValues": null,
+        "description": "当前普通模式绑定数值。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "id": 8299,
+      "skillKey": "rune_8299_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8299_passive/parameters",
+      "readRoute": "/skills/rune_8299_passive/parameters/min_damage_amp_ratio",
+      "body": {
+        "parameterKey": "min_damage_amp_ratio",
+        "name": "来源最小增幅比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.05,
+        "levelValues": null,
+        "description": "当前普通模式绑定数值。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "id": 8299,
+      "skillKey": "rune_8299_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8299_passive/parameters",
+      "readRoute": "/skills/rune_8299_passive/parameters/max_damage_amp_ratio",
+      "body": {
+        "parameterKey": "max_damage_amp_ratio",
+        "name": "来源最大增幅比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.11,
+        "levelValues": null,
+        "description": "当前普通模式绑定数值。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "id": 8299,
+      "skillKey": "rune_8299_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8299_passive/parameters",
+      "readRoute": "/skills/rune_8299_passive/parameters/confirmed_damage_amp_ratio",
+      "body": {
+        "parameterKey": "confirmed_damage_amp_ratio",
+        "name": "已确认当前生命比例增幅",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "60%至30%之间求值未证；30%边界正文与规则措辞不同，不能猜线性或相等边界。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "id": 8299,
+      "skillKey": "rune_8299_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8299_passive/parameters",
+      "readRoute": "/skills/rune_8299_passive/parameters/qualified_damage_basis",
+      "body": {
+        "parameterKey": "qualified_damage_basis",
+        "name": "已确认合格伤害基数",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "结算阶段和结果资格需外供，不默认技能基础伤害。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "id": 8299,
+      "skillKey": "rune_8299_passive",
+      "kind": "formula",
+      "method": "POST",
+      "route": "/skills/rune_8299_passive/formulas",
+      "readRoute": "/skills/rune_8299_passive/formulas/additional_damage",
+      "body": {
+        "formulaKey": "additional_damage",
+        "name": "当前已确认增幅伤害",
+        "description": "仅外供比例，实际低生命资格单独连接。",
+        "sortOrder": 10,
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "qualified_damage_basis"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "confirmed_damage_amp_ratio"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 8299,
+      "skillKey": "rune_8299_passive",
+      "kind": "formula",
+      "method": "POST",
+      "route": "/skills/rune_8299_passive/formulas",
+      "readRoute": "/skills/rune_8299_passive/formulas/maximum_branch_additional_damage",
+      "body": {
+        "formulaKey": "maximum_branch_additional_damage",
+        "name": "严格低于30%时最大增幅伤害",
+        "description": "两段当前文本均支持严格低于30%时11%；不替代未证中间函数。",
+        "sortOrder": 20,
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "qualified_damage_basis"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "max_damage_amp_ratio"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 8299,
+      "skillKey": "rune_8299_passive",
+      "kind": "relation",
+      "method": "POST",
+      "route": "/rune-skill-relations",
+      "readRoute": "/rune-skill-relations?runeKey=rune_8299&skillKey=rune_8299_passive",
+      "body": {
+        "runeKey": "rune_8299",
+        "skillKey": "rune_8299_passive",
+        "sortOrder": 0
+      }
+    },
+    {
+      "id": 8401,
+      "skillKey": "rune_8401_passive",
+      "kind": "skill",
+      "method": "POST",
+      "route": "/skills",
+      "readRoute": "/skills/rune_8401_passive",
+      "body": {
+        "skillKey": "rune_8401_passive",
+        "name": "符文·护盾猛击",
+        "description": "本批仅录入：护盾猛击等级基础伤害、2.5%额外生命与15%新护盾值。未证条件和输入不默认，不表示完整战斗机制。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      }
+    },
+    {
+      "id": 8401,
+      "skillKey": "rune_8401_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8401_passive/parameters",
+      "readRoute": "/skills/rune_8401_passive/parameters/confirmed_level_damage_source_start",
+      "body": {
+        "parameterKey": "confirmed_level_damage_source_start",
+        "name": "等级基础伤害来源起点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 5,
+        "levelValues": null,
+        "description": "仅保留当前来源起点，不凭端点生成1至18级表。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "id": 8401,
+      "skillKey": "rune_8401_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8401_passive/parameters",
+      "readRoute": "/skills/rune_8401_passive/parameters/confirmed_level_damage_source_end",
+      "body": {
+        "parameterKey": "confirmed_level_damage_source_end",
+        "name": "等级基础伤害来源终点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 30,
+        "levelValues": null,
+        "description": "仅保留当前来源终点；等级求值过程待补。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "id": 8401,
+      "skillKey": "rune_8401_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8401_passive/parameters",
+      "readRoute": "/skills/rune_8401_passive/parameters/confirmed_level_damage",
+      "body": {
+        "parameterKey": "confirmed_level_damage",
+        "name": "已确认等级基础伤害",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "id": 8401,
+      "skillKey": "rune_8401_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8401_passive/parameters",
+      "readRoute": "/skills/rune_8401_passive/parameters/bonus_health_ratio",
+      "body": {
+        "parameterKey": "bonus_health_ratio",
+        "name": "额外生命伤害比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.025,
+        "levelValues": null,
+        "description": "当前普通模式绑定数值。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "id": 8401,
+      "skillKey": "rune_8401_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8401_passive/parameters",
+      "readRoute": "/skills/rune_8401_passive/parameters/new_shield_ratio",
+      "body": {
+        "parameterKey": "new_shield_ratio",
+        "name": "新护盾伤害比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.15,
+        "levelValues": null,
+        "description": "当前普通模式绑定数值。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "id": 8401,
+      "skillKey": "rune_8401_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8401_passive/parameters",
+      "readRoute": "/skills/rune_8401_passive/parameters/after_shield_expiry_window_ms",
+      "body": {
+        "parameterKey": "after_shield_expiry_window_ms",
+        "name": "护盾消散后可用窗口",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "来源秒转换为毫秒；不表示已经连接事件。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "id": 8401,
+      "skillKey": "rune_8401_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8401_passive/parameters",
+      "readRoute": "/skills/rune_8401_passive/parameters/new_shield_value",
+      "body": {
+        "parameterKey": "new_shield_value",
+        "name": "本次新获得护盾值",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "只取新护盾的已确认值，不用剩余总护盾、历史累计护盾或治疗值。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "id": 8401,
+      "skillKey": "rune_8401_passive",
+      "kind": "formula",
+      "method": "POST",
+      "route": "/skills/rune_8401_passive/formulas",
+      "readRoute": "/skills/rune_8401_passive/formulas/damage_amount",
+      "body": {
+        "formulaKey": "damage_amount",
+        "name": "下一次攻击额外伤害",
+        "description": "比例点先转换0.025和0.15；护盾消散后的2秒不是整个护盾持续时间。",
+        "sortOrder": 10,
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "confirmed_level_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "hp",
+                      "attributeValueKind": "BONUS"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_health_ratio"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "new_shield_value"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "new_shield_ratio"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 8401,
+      "skillKey": "rune_8401_passive",
+      "kind": "relation",
+      "method": "POST",
+      "route": "/rune-skill-relations",
+      "readRoute": "/rune-skill-relations?runeKey=rune_8401&skillKey=rune_8401_passive",
+      "body": {
+        "runeKey": "rune_8401",
+        "skillKey": "rune_8401_passive",
+        "sortOrder": 0
+      }
+    },
+    {
+      "id": 8473,
+      "skillKey": "rune_8473_passive",
+      "kind": "skill",
+      "method": "POST",
+      "route": "/skills",
+      "readRoute": "/skills/rune_8473_passive",
+      "body": {
+        "skillKey": "rune_8473_passive",
+        "name": "符文·骸骨镀层",
+        "description": "本批仅录入：骸骨镀层后续三次攻击或技能的独立减免数值。未证条件和输入不默认，不表示完整战斗机制。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      }
+    },
+    {
+      "id": 8473,
+      "skillKey": "rune_8473_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8473_passive/parameters",
+      "readRoute": "/skills/rune_8473_passive/parameters/confirmed_level_block_source_start",
+      "body": {
+        "parameterKey": "confirmed_level_block_source_start",
+        "name": "等级每次减免量来源起点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 30,
+        "levelValues": null,
+        "description": "仅保留当前来源起点，不凭端点生成1至18级表。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "id": 8473,
+      "skillKey": "rune_8473_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8473_passive/parameters",
+      "readRoute": "/skills/rune_8473_passive/parameters/confirmed_level_block_source_end",
+      "body": {
+        "parameterKey": "confirmed_level_block_source_end",
+        "name": "等级每次减免量来源终点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 60,
+        "levelValues": null,
+        "description": "仅保留当前来源终点；等级求值过程待补。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "id": 8473,
+      "skillKey": "rune_8473_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8473_passive/parameters",
+      "readRoute": "/skills/rune_8473_passive/parameters/confirmed_level_block",
+      "body": {
+        "parameterKey": "confirmed_level_block",
+        "name": "已确认等级每次减免量",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "id": 8473,
+      "skillKey": "rune_8473_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8473_passive/parameters",
+      "readRoute": "/skills/rune_8473_passive/parameters/block_count",
+      "body": {
+        "parameterKey": "block_count",
+        "name": "后续可减免次数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3,
+        "levelValues": null,
+        "description": "当前普通模式绑定数值。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "id": 8473,
+      "skillKey": "rune_8473_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8473_passive/parameters",
+      "readRoute": "/skills/rune_8473_passive/parameters/block_duration_ms",
+      "body": {
+        "parameterKey": "block_duration_ms",
+        "name": "后续减免持续",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1500,
+        "levelValues": null,
+        "description": "来源秒转换为毫秒；不表示已经连接事件。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "id": 8473,
+      "skillKey": "rune_8473_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8473_passive/parameters",
+      "readRoute": "/skills/rune_8473_passive/parameters/cooldown_ms",
+      "body": {
+        "parameterKey": "cooldown_ms",
+        "name": "冷却时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 55000,
+        "levelValues": null,
+        "description": "来源秒转换为毫秒；不表示已经连接事件。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "id": 8473,
+      "skillKey": "rune_8473_passive",
+      "kind": "formula",
+      "method": "POST",
+      "route": "/skills/rune_8473_passive/formulas",
+      "readRoute": "/skills/rune_8473_passive/formulas/block_amount",
+      "body": {
+        "formulaKey": "block_amount",
+        "name": "每次合格事件减免量",
+        "description": "只保留减免数值，不把它当护盾、护甲或触发那次伤害本身的减免。",
+        "sortOrder": 10,
+        "expression": {
+          "nodeType": "PARAMETER",
+          "parameterKey": "confirmed_level_block"
+        }
+      }
+    },
+    {
+      "id": 8473,
+      "skillKey": "rune_8473_passive",
+      "kind": "relation",
+      "method": "POST",
+      "route": "/rune-skill-relations",
+      "readRoute": "/rune-skill-relations?runeKey=rune_8473&skillKey=rune_8473_passive",
+      "body": {
+        "runeKey": "rune_8473",
+        "skillKey": "rune_8473_passive",
+        "sortOrder": 0
+      }
+    },
+    {
+      "id": 8369,
+      "skillKey": "rune_8369_passive",
+      "kind": "skill",
+      "method": "POST",
+      "route": "/skills",
+      "readRoute": "/skills/rune_8369_passive",
+      "body": {
+        "skillKey": "rune_8369_passive",
+        "name": "符文·先攻",
+        "description": "本批仅录入：先攻保留7%额外伤害与进入英雄战斗窗口，排除金币。未证条件和输入不默认，不表示完整战斗机制。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      }
+    },
+    {
+      "id": 8369,
+      "skillKey": "rune_8369_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8369_passive/parameters",
+      "readRoute": "/skills/rune_8369_passive/parameters/damage_amp_ratio",
+      "body": {
+        "parameterKey": "damage_amp_ratio",
+        "name": "额外伤害比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.07,
+        "levelValues": null,
+        "description": "当前普通模式绑定数值。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "id": 8369,
+      "skillKey": "rune_8369_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8369_passive/parameters",
+      "readRoute": "/skills/rune_8369_passive/parameters/buff_duration_ms",
+      "body": {
+        "parameterKey": "buff_duration_ms",
+        "name": "先攻持续",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3000,
+        "levelValues": null,
+        "description": "来源秒转换为毫秒；不表示已经连接事件。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "id": 8369,
+      "skillKey": "rune_8369_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8369_passive/parameters",
+      "readRoute": "/skills/rune_8369_passive/parameters/combat_grace_window_ms",
+      "body": {
+        "parameterKey": "combat_grace_window_ms",
+        "name": "进入英雄战斗允许窗口",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "来源秒转换为毫秒；不表示已经连接事件。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "id": 8369,
+      "skillKey": "rune_8369_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8369_passive/parameters",
+      "readRoute": "/skills/rune_8369_passive/parameters/confirmed_cooldown_seconds_source_start",
+      "body": {
+        "parameterKey": "confirmed_cooldown_seconds_source_start",
+        "name": "等级冷却秒数来源起点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 25,
+        "levelValues": null,
+        "description": "仅保留当前来源起点，不凭端点生成1至18级表。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "id": 8369,
+      "skillKey": "rune_8369_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8369_passive/parameters",
+      "readRoute": "/skills/rune_8369_passive/parameters/confirmed_cooldown_seconds_source_end",
+      "body": {
+        "parameterKey": "confirmed_cooldown_seconds_source_end",
+        "name": "等级冷却秒数来源终点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 15,
+        "levelValues": null,
+        "description": "仅保留当前来源终点；等级求值过程待补。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "id": 8369,
+      "skillKey": "rune_8369_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8369_passive/parameters",
+      "readRoute": "/skills/rune_8369_passive/parameters/confirmed_cooldown_seconds",
+      "body": {
+        "parameterKey": "confirmed_cooldown_seconds",
+        "name": "已确认等级冷却秒数",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "id": 8369,
+      "skillKey": "rune_8369_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8369_passive/parameters",
+      "readRoute": "/skills/rune_8369_passive/parameters/seconds_to_ms",
+      "body": {
+        "parameterKey": "seconds_to_ms",
+        "name": "秒转毫秒系数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1000,
+        "levelValues": null,
+        "description": "单位换算常数。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "id": 8369,
+      "skillKey": "rune_8369_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8369_passive/parameters",
+      "readRoute": "/skills/rune_8369_passive/parameters/ordinary_cooldown_multiplier",
+      "body": {
+        "parameterKey": "ordinary_cooldown_multiplier",
+        "name": "普通模式冷却乘数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "当前普通模式绑定数值。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "id": 8369,
+      "skillKey": "rune_8369_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8369_passive/parameters",
+      "readRoute": "/skills/rune_8369_passive/parameters/qualified_damage_basis",
+      "body": {
+        "parameterKey": "qualified_damage_basis",
+        "name": "先攻合格伤害基数",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "实际可增加7%的结算基数由后续资格供值，不默认技能基础伤害或重复包含先攻自身伤害。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "id": 8369,
+      "skillKey": "rune_8369_passive",
+      "kind": "formula",
+      "method": "POST",
+      "route": "/skills/rune_8369_passive/formulas",
+      "readRoute": "/skills/rune_8369_passive/formulas/additional_damage",
+      "body": {
+        "formulaKey": "additional_damage",
+        "name": "先攻额外伤害数值",
+        "description": "伤害支路保留；当前文本标注额外真实伤害，具体结果和资格尚未落库。",
+        "sortOrder": 10,
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "qualified_damage_basis"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "damage_amp_ratio"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 8369,
+      "skillKey": "rune_8369_passive",
+      "kind": "formula",
+      "method": "POST",
+      "route": "/skills/rune_8369_passive/formulas",
+      "readRoute": "/skills/rune_8369_passive/formulas/cooldown_ms",
+      "body": {
+        "formulaKey": "cooldown_ms",
+        "name": "普通模式等级冷却毫秒",
+        "description": "原树等级值乘当前普通模式1后转换毫秒。",
+        "sortOrder": 20,
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "confirmed_cooldown_seconds"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ordinary_cooldown_multiplier"
+                }
+              ]
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "seconds_to_ms"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 8369,
+      "skillKey": "rune_8369_passive",
+      "kind": "relation",
+      "method": "POST",
+      "route": "/rune-skill-relations",
+      "readRoute": "/rune-skill-relations?runeKey=rune_8369&skillKey=rune_8369_passive",
+      "body": {
+        "runeKey": "rune_8369",
+        "skillKey": "rune_8369_passive",
+        "sortOrder": 0
+      }
+    },
+    {
+      "id": 8224,
+      "skillKey": "rune_8224_passive",
+      "kind": "skill",
+      "method": "POST",
+      "route": "/skills",
+      "readRoute": "/skills/rune_8224_passive",
+      "body": {
+        "skillKey": "rune_8224_passive",
+        "name": "符文·公理秘术",
+        "description": "本批仅录入：公理秘术终极技能伤害/自身恢复/自身护盾与当前冷却返还。未证条件和输入不默认，不表示完整战斗机制。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      }
+    },
+    {
+      "id": 8224,
+      "skillKey": "rune_8224_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8224_passive/parameters",
+      "readRoute": "/skills/rune_8224_passive/parameters/single_damage_amp_ratio",
+      "body": {
+        "parameterKey": "single_damage_amp_ratio",
+        "name": "终极单体伤害及治疗护盾增幅",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.12,
+        "levelValues": null,
+        "description": "当前普通模式绑定数值。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "id": 8224,
+      "skillKey": "rune_8224_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8224_passive/parameters",
+      "readRoute": "/skills/rune_8224_passive/parameters/aoe_damage_amp_ratio",
+      "body": {
+        "parameterKey": "aoe_damage_amp_ratio",
+        "name": "终极群体伤害增幅",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.08,
+        "levelValues": null,
+        "description": "当前普通模式绑定数值。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "id": 8224,
+      "skillKey": "rune_8224_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8224_passive/parameters",
+      "readRoute": "/skills/rune_8224_passive/parameters/current_ultimate_cooldown_refund_ratio",
+      "body": {
+        "parameterKey": "current_ultimate_cooldown_refund_ratio",
+        "name": "当前终极冷却返还比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.07,
+        "levelValues": null,
+        "description": "当前普通模式绑定数值。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "id": 8224,
+      "skillKey": "rune_8224_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8224_passive/parameters",
+      "readRoute": "/skills/rune_8224_passive/parameters/current_ultimate_cooldown_ms",
+      "body": {
+        "parameterKey": "current_ultimate_cooldown_ms",
+        "name": "参与击杀时终极当前剩余冷却",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "必须读取该终极当前剩余冷却，不使用基础或总冷却，更不能复用装备6696总冷却口径。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "id": 8224,
+      "skillKey": "rune_8224_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8224_passive/parameters",
+      "readRoute": "/skills/rune_8224_passive/parameters/qualified_ultimate_damage",
+      "body": {
+        "parameterKey": "qualified_ultimate_damage",
+        "name": "已确认终极伤害基数",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "群体伤害分类即使只命中当前一个英雄也仍用8%；结算阶段单独核实。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "id": 8224,
+      "skillKey": "rune_8224_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8224_passive/parameters",
+      "readRoute": "/skills/rune_8224_passive/parameters/qualified_self_healing_or_shield",
+      "body": {
+        "parameterKey": "qualified_self_healing_or_shield",
+        "name": "已确认终极自身治疗或护盾基数",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "只保留当前自身收益，第三者友军专用收益不在本轮；不把数值自动当瞬时治疗。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "id": 8224,
+      "skillKey": "rune_8224_passive",
+      "kind": "formula",
+      "method": "POST",
+      "route": "/skills/rune_8224_passive/formulas",
+      "readRoute": "/skills/rune_8224_passive/formulas/ultimate_current_cooldown_refund_ms",
+      "body": {
+        "formulaKey": "ultimate_current_cooldown_refund_ms",
+        "name": "当前终极剩余冷却返还",
+        "description": "参与击杀后返还当前剩余冷却7%，不是7毫秒或总冷却7%。",
+        "sortOrder": 10,
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "current_ultimate_cooldown_ms"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "current_ultimate_cooldown_refund_ratio"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 8224,
+      "skillKey": "rune_8224_passive",
+      "kind": "formula",
+      "method": "POST",
+      "route": "/skills/rune_8224_passive/formulas",
+      "readRoute": "/skills/rune_8224_passive/formulas/single_target_additional_damage",
+      "body": {
+        "formulaKey": "single_target_additional_damage",
+        "name": "终极单体分类额外伤害",
+        "description": "仅合法单体伤害分类。",
+        "sortOrder": 20,
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "qualified_ultimate_damage"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "single_damage_amp_ratio"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 8224,
+      "skillKey": "rune_8224_passive",
+      "kind": "formula",
+      "method": "POST",
+      "route": "/skills/rune_8224_passive/formulas",
+      "readRoute": "/skills/rune_8224_passive/formulas/aoe_additional_damage",
+      "body": {
+        "formulaKey": "aoe_additional_damage",
+        "name": "终极群体分类额外伤害",
+        "description": "群体分类对当前单一目标仍成立，不作为多目标范围外删掉。",
+        "sortOrder": 30,
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "qualified_ultimate_damage"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "aoe_damage_amp_ratio"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 8224,
+      "skillKey": "rune_8224_passive",
+      "kind": "formula",
+      "method": "POST",
+      "route": "/skills/rune_8224_passive/formulas",
+      "readRoute": "/skills/rune_8224_passive/formulas/additional_self_healing_or_shield",
+      "body": {
+        "formulaKey": "additional_self_healing_or_shield",
+        "name": "终极自身治疗或护盾增加量",
+        "description": "基数与自身资格必须确认后选用，治疗和护盾不同时重复发放。",
+        "sortOrder": 40,
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "qualified_self_healing_or_shield"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "single_damage_amp_ratio"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 8224,
+      "skillKey": "rune_8224_passive",
+      "kind": "relation",
+      "method": "POST",
+      "route": "/rune-skill-relations",
+      "readRoute": "/rune-skill-relations?runeKey=rune_8224&skillKey=rune_8224_passive",
+      "body": {
+        "runeKey": "rune_8224",
+        "skillKey": "rune_8224_passive",
+        "sortOrder": 0
+      }
+    },
+    {
+      "id": 8992,
+      "skillKey": "rune_8992_passive",
+      "kind": "skill",
+      "method": "POST",
+      "route": "/skills",
+      "readRoute": "/skills/rune_8992_passive",
+      "body": {
+        "skillKey": "rune_8992_passive",
+        "name": "符文·冥火之触",
+        "description": "本批仅录入：冥火每秒魔法伤害、三秒后仍着火增幅与三种技能分类持续时间。未证条件和输入不默认，不表示完整战斗机制。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      }
+    },
+    {
+      "id": 8992,
+      "skillKey": "rune_8992_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8992_passive/parameters",
+      "readRoute": "/skills/rune_8992_passive/parameters/confirmed_level_damage_per_second",
+      "body": {
+        "parameterKey": "confirmed_level_damage_per_second",
+        "name": "已确认等级每秒基础伤害",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "当前DamageCalc为3至12插值节点；起止与求值未证，不按1至18级线性生成。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "id": 8992,
+      "skillKey": "rune_8992_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8992_passive/parameters",
+      "readRoute": "/skills/rune_8992_passive/parameters/level_damage_source_start",
+      "body": {
+        "parameterKey": "level_damage_source_start",
+        "name": "原计算等级起点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3,
+        "levelValues": null,
+        "description": "当前DamageCalc首节点mStartValue=3，仅来源端点。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "id": 8992,
+      "skillKey": "rune_8992_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8992_passive/parameters",
+      "readRoute": "/skills/rune_8992_passive/parameters/level_damage_source_end",
+      "body": {
+        "parameterKey": "level_damage_source_end",
+        "name": "原计算等级终点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 12,
+        "levelValues": null,
+        "description": "当前DamageCalc首节点mEndValue=12；未知hash字段不用于猜语义。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "id": 8992,
+      "skillKey": "rune_8992_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8992_passive/parameters",
+      "readRoute": "/skills/rune_8992_passive/parameters/bonus_ad_ratio",
+      "body": {
+        "parameterKey": "bonus_ad_ratio",
+        "name": "每秒额外攻击力系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.07,
+        "levelValues": null,
+        "description": "当前普通模式绑定数值。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "id": 8992,
+      "skillKey": "rune_8992_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8992_passive/parameters",
+      "readRoute": "/skills/rune_8992_passive/parameters/ap_ratio",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "每秒法强系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.025,
+        "levelValues": null,
+        "description": "当前普通模式绑定数值。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "id": 8992,
+      "skillKey": "rune_8992_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8992_passive/parameters",
+      "readRoute": "/skills/rune_8992_passive/parameters/single_duration_ms",
+      "body": {
+        "parameterKey": "single_duration_ms",
+        "name": "单体技能分类灼烧时长",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4000,
+        "levelValues": null,
+        "description": "来源秒转换为毫秒；不表示已经连接事件。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "id": 8992,
+      "skillKey": "rune_8992_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8992_passive/parameters",
+      "readRoute": "/skills/rune_8992_passive/parameters/aoe_duration_ms",
+      "body": {
+        "parameterKey": "aoe_duration_ms",
+        "name": "群体技能分类灼烧时长",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "来源秒转换为毫秒；不表示已经连接事件。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "id": 8992,
+      "skillKey": "rune_8992_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8992_passive/parameters",
+      "readRoute": "/skills/rune_8992_passive/parameters/dot_duration_ms",
+      "body": {
+        "parameterKey": "dot_duration_ms",
+        "name": "持续伤害技能分类灼烧时长",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1000,
+        "levelValues": null,
+        "description": "来源秒转换为毫秒；不表示已经连接事件。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "id": 8992,
+      "skillKey": "rune_8992_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8992_passive/parameters",
+      "readRoute": "/skills/rune_8992_passive/parameters/amplification_threshold_ms",
+      "body": {
+        "parameterKey": "amplification_threshold_ms",
+        "name": "仍着火增幅门槛",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3000,
+        "levelValues": null,
+        "description": "来源秒转换为毫秒；不表示已经连接事件。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "id": 8992,
+      "skillKey": "rune_8992_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8992_passive/parameters",
+      "readRoute": "/skills/rune_8992_passive/parameters/damage_increase_ratio",
+      "body": {
+        "parameterKey": "damage_increase_ratio",
+        "name": "三秒后伤害提升比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.75,
+        "levelValues": null,
+        "description": "当前普通模式绑定数值。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "id": 8992,
+      "skillKey": "rune_8992_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8992_passive/parameters",
+      "readRoute": "/skills/rune_8992_passive/parameters/source_ticks_per_second",
+      "body": {
+        "parameterKey": "source_ticks_per_second",
+        "name": "来源每秒跳数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2,
+        "levelValues": null,
+        "description": "只保留原字段；首跳时点、刷新与截止未知，不生成周期结果或直接除2造每跳。",
+        "sortOrder": 110
+      }
+    },
+    {
+      "id": 8992,
+      "skillKey": "rune_8992_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8992_passive/parameters",
+      "readRoute": "/skills/rune_8992_passive/parameters/one",
+      "body": {
+        "parameterKey": "one",
+        "name": "一倍基准",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "提升75%意味着乘1.75。",
+        "sortOrder": 120
+      }
+    },
+    {
+      "id": 8992,
+      "skillKey": "rune_8992_passive",
+      "kind": "formula",
+      "method": "POST",
+      "route": "/skills/rune_8992_passive/formulas",
+      "readRoute": "/skills/rune_8992_passive/formulas/damage_per_second",
+      "body": {
+        "formulaKey": "damage_per_second",
+        "name": "普通灼烧每秒伤害",
+        "description": "当前原树是每秒伤害，不是每跳或完整持续总伤害。",
+        "sortOrder": 10,
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "confirmed_level_damage_per_second"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "BONUS"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_ad_ratio"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 8992,
+      "skillKey": "rune_8992_passive",
+      "kind": "formula",
+      "method": "POST",
+      "route": "/skills/rune_8992_passive/formulas",
+      "readRoute": "/skills/rune_8992_passive/formulas/amplified_damage_per_second",
+      "body": {
+        "formulaKey": "amplified_damage_per_second",
+        "name": "仍着火三秒后的每秒伤害",
+        "description": "仅灼烧3秒后仍着火的后续伤害乘1.75，不回溯放大前三秒。",
+        "sortOrder": 20,
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "confirmed_level_damage_per_second"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "SOURCE",
+                          "attributeKey": "ability_power",
+                          "attributeValueKind": "TOTAL"
+                        },
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "ap_ratio"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "attack_damage",
+                      "attributeValueKind": "BONUS"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_ad_ratio"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "one"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "damage_increase_ratio"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 8992,
+      "skillKey": "rune_8992_passive",
+      "kind": "relation",
+      "method": "POST",
+      "route": "/rune-skill-relations",
+      "readRoute": "/rune-skill-relations?runeKey=rune_8992&skillKey=rune_8992_passive",
+      "body": {
+        "runeKey": "rune_8992",
+        "skillKey": "rune_8992_passive",
+        "sortOrder": 0
+      }
+    },
+    {
+      "id": 8236,
+      "skillKey": "rune_8236_passive",
+      "kind": "skill",
+      "method": "POST",
+      "route": "/skills",
+      "readRoute": "/skills/rune_8236_passive",
+      "body": {
+        "skillKey": "rune_8236_passive",
+        "name": "符文·风暴聚集",
+        "description": "本批仅录入：风暴聚集普通模式10分钟档与六个明确法强展示值；攻击力冲突不猜换算。未证条件和输入不默认，不表示完整战斗机制。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      }
+    },
+    {
+      "id": 8236,
+      "skillKey": "rune_8236_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8236_passive/parameters",
+      "readRoute": "/skills/rune_8236_passive/parameters/checkpoint_interval_ms",
+      "body": {
+        "parameterKey": "checkpoint_interval_ms",
+        "name": "普通模式增长间隔",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 600000,
+        "levelValues": null,
+        "description": "普通模式10分钟乘60000为600000毫秒；其他模式覆盖不使用。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "id": 8236,
+      "skillKey": "rune_8236_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8236_passive/parameters",
+      "readRoute": "/skills/rune_8236_passive/parameters/ap_at_10_minutes",
+      "body": {
+        "parameterKey": "ap_at_10_minutes",
+        "name": "10分钟已展示法强",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 8,
+        "levelValues": null,
+        "description": "当前普通模式长说明逐项明确，仅该档已证，不外推无限时间公式。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "id": 8236,
+      "skillKey": "rune_8236_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8236_passive/parameters",
+      "readRoute": "/skills/rune_8236_passive/parameters/ap_at_20_minutes",
+      "body": {
+        "parameterKey": "ap_at_20_minutes",
+        "name": "20分钟已展示法强",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 24,
+        "levelValues": null,
+        "description": "当前普通模式长说明逐项明确，仅该档已证，不外推无限时间公式。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "id": 8236,
+      "skillKey": "rune_8236_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8236_passive/parameters",
+      "readRoute": "/skills/rune_8236_passive/parameters/ap_at_30_minutes",
+      "body": {
+        "parameterKey": "ap_at_30_minutes",
+        "name": "30分钟已展示法强",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 48,
+        "levelValues": null,
+        "description": "当前普通模式长说明逐项明确，仅该档已证，不外推无限时间公式。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "id": 8236,
+      "skillKey": "rune_8236_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8236_passive/parameters",
+      "readRoute": "/skills/rune_8236_passive/parameters/ap_at_40_minutes",
+      "body": {
+        "parameterKey": "ap_at_40_minutes",
+        "name": "40分钟已展示法强",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 80,
+        "levelValues": null,
+        "description": "当前普通模式长说明逐项明确，仅该档已证，不外推无限时间公式。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "id": 8236,
+      "skillKey": "rune_8236_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8236_passive/parameters",
+      "readRoute": "/skills/rune_8236_passive/parameters/ap_at_50_minutes",
+      "body": {
+        "parameterKey": "ap_at_50_minutes",
+        "name": "50分钟已展示法强",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 120,
+        "levelValues": null,
+        "description": "当前普通模式长说明逐项明确，仅该档已证，不外推无限时间公式。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "id": 8236,
+      "skillKey": "rune_8236_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8236_passive/parameters",
+      "readRoute": "/skills/rune_8236_passive/parameters/ap_at_60_minutes",
+      "body": {
+        "parameterKey": "ap_at_60_minutes",
+        "name": "60分钟已展示法强",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 168,
+        "levelValues": null,
+        "description": "当前普通模式长说明逐项明确，仅该档已证，不外推无限时间公式。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "id": 8236,
+      "skillKey": "rune_8236_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8236_passive/parameters",
+      "readRoute": "/skills/rune_8236_passive/parameters/confirmed_current_ability_power",
+      "body": {
+        "parameterKey": "confirmed_current_ability_power",
+        "name": "已确认当前档法强",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "目前只支持明确核对的10/20/30/40/50/60分钟档8/24/48/80/120/168。实际进度和自适应选择外供，不默认0，不外推60分钟之后。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "id": 8236,
+      "skillKey": "rune_8236_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8236_passive/parameters",
+      "readRoute": "/skills/rune_8236_passive/parameters/confirmed_current_attack_damage",
+      "body": {
+        "parameterKey": "confirmed_current_attack_damage",
+        "name": "已确认当前档攻击力",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "原AdaptiveAD=6与10分钟展示5冲突，其他展示还有取整；不默认0.6换算或三角数无限公式。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "id": 8236,
+      "skillKey": "rune_8236_passive",
+      "kind": "formula",
+      "method": "POST",
+      "route": "/skills/rune_8236_passive/formulas",
+      "readRoute": "/skills/rune_8236_passive/formulas/ability_power_amount",
+      "body": {
+        "formulaKey": "ability_power_amount",
+        "name": "已确认当前法强档数值",
+        "description": "仅已确定选择法强分支时使用。",
+        "sortOrder": 10,
+        "expression": {
+          "nodeType": "PARAMETER",
+          "parameterKey": "confirmed_current_ability_power"
+        }
+      }
+    },
+    {
+      "id": 8236,
+      "skillKey": "rune_8236_passive",
+      "kind": "formula",
+      "method": "POST",
+      "route": "/skills/rune_8236_passive/formulas",
+      "readRoute": "/skills/rune_8236_passive/formulas/attack_damage_amount",
+      "body": {
+        "formulaKey": "attack_damage_amount",
+        "name": "已确认当前攻击力档数值",
+        "description": "AD来源冲突由已核实输入解决；不把展示整数当未经舍入的实时值。",
+        "sortOrder": 20,
+        "expression": {
+          "nodeType": "PARAMETER",
+          "parameterKey": "confirmed_current_attack_damage"
+        }
+      }
+    },
+    {
+      "id": 8236,
+      "skillKey": "rune_8236_passive",
+      "kind": "effect",
+      "method": "POST",
+      "route": "/skills/rune_8236_passive/effects",
+      "readRoute": "/skills/rune_8236_passive/effects/confirmed_ability_power",
+      "body": {
+        "effectKey": "confirmed_ability_power",
+        "name": "已确认法强档组成",
+        "description": "只在真实进度档及法强分支已确认时授予一份总量快照；换档或属性选择变化须替换/移除，不能按次数重复叠加总值。无自动时钟或适应选择规则。",
+        "sortOrder": 10,
+        "lifecycle": {
+          "durationValue": null,
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "attribute_bonus",
+            "name": "已确认法强档组成",
+            "description": null,
+            "sortOrder": 10,
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "ability_power_amount"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "ability_power",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": 8236,
+      "skillKey": "rune_8236_passive",
+      "kind": "relation",
+      "method": "POST",
+      "route": "/rune-skill-relations",
+      "readRoute": "/rune-skill-relations?runeKey=rune_8236&skillKey=rune_8236_passive",
+      "body": {
+        "runeKey": "rune_8236",
+        "skillKey": "rune_8236_passive",
+        "sortOrder": 0
+      }
+    }
+  ]
+}

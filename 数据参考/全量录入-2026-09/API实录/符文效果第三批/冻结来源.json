@@ -1,0 +1,2371 @@
+{
+  "at": "2026-09-09T02:40:06.786Z",
+  "clientVersion": "16.17",
+  "officialVersion": "16.17.1",
+  "rawSource": {
+    "fetchedAt": "2026-09-09T02:23:46.671Z",
+    "version": "16.17",
+    "url": "https://raw.communitydragon.org/16.17/game/perks.cdtb.bin.json",
+    "indexUrl": "https://raw.communitydragon.org/16.17/game/",
+    "lastModified": "Sat, 29 Aug 2026 00:48:49 GMT",
+    "etag": "W/\"6a922c71-2138ed\"",
+    "file": "perks-16.17.cdtb.bin.json.gz",
+    "rawSha256": "1427c70c4d1172198a1a9787362224c871a90cc4f66f3f769ef5830cbcd401b1",
+    "gzipSha256": "141a289f8b83c543c108930675088ec1e5bd0f482799d2677a436f0ff9e65fac",
+    "bytes": 2177261,
+    "gzipBytes": 171382,
+    "boundary": "原始客户端提取资料，仅作逐项数值补证；不以存在对象判断普通模式可用，不混入后置海克斯"
+  },
+  "inputs": [
+    {
+      "file": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\API实录\\符文客户端数值补证\\当前69项数值来源.json",
+      "sha256": "fd43fdb6ee9404520aceac78f11392890be1632ba45910eb3d704399bf905f46",
+      "bytes": 376892
+    },
+    {
+      "file": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\API实录\\符文机制盘点\\冻结来源.json",
+      "sha256": "086ed2d4e8a62f851648faf4687e53650f760a25ea51328dccd245217578fda1",
+      "bytes": 212301
+    },
+    {
+      "file": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\API实录\\符文机制盘点\\逐项机器清单.json",
+      "sha256": "419c74a3a22f88f7be5d6499f788914d838712c2c95c61012f168cca9878668b",
+      "bytes": 113066
+    },
+    {
+      "file": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\API实录\\符文效果第二批\\可审查请求.json",
+      "sha256": "45942778a468d2b1c9557ecd3c052ff9c54c514087b7659ae801c71b1d780095",
+      "bytes": 87849
+    }
+  ],
+  "entries": [
+    {
+      "current": {
+        "id": 8105,
+        "name": "无情猎手",
+        "scope": "范围内",
+        "previousMissing": [],
+        "sourcePath": "Perks/Styles/Domination/RelentlessHunter",
+        "sourceObjectSha256": "d74e87d62d23d3168d20bb4b2f0f593f3d013c8f4fc4b2e04ddf5abf137c9ded",
+        "object": {
+          "mPerkId": 8105,
+          "mPerkName": "RelentlessHunter",
+          "mDisplayNameLocalizationKey": "perk_displayname_8105",
+          "mTooltipNameLocalizationKey": "perk_tooltip_8105",
+          "mShortDescLocalizationKey": "perk_short_desc_8105",
+          "mLongDescLocalizationKey": "perk_long_desc_8105",
+          "mEndOfGameStatDescriptions": [
+            "perk_eog_stat_desc_RelentlessHunter1",
+            "perk_eog_stat_desc_RelentlessHunter2"
+          ],
+          "mDisplayStatLocalizationKey": "perk_display_stat_BountyHunter",
+          "mIconTextureName": "assets/perks/styles/domination/relentlesshunter/relentlesshunter.tex",
+          "mScript": {
+            "mSpellScriptName": "ASSETS/Perks/Styles/Domination/RelentlessHunter/RelentlessHunter.lua",
+            "mSpellScriptData": {
+              "mEffectAmount": {
+                "OOCMS": 8,
+                "StartingOOCMS": 0
+              },
+              "__type": "PerkScriptData"
+            },
+            "__type": "PerkScript"
+          },
+          "mVFXResourceResolver": {
+            "__type": "ResourceResolver"
+          },
+          "mMajorChangePatchVersion": "9.9",
+          "__type": "Perk"
+        },
+        "bound": {
+          "mDisplayNameLocalizationKey": {
+            "sourceKey": "perk_displayname_8105",
+            "resolvedKey": "perk_displayname_8105",
+            "text": "无情猎手"
+          },
+          "mTooltipNameLocalizationKey": {
+            "sourceKey": "perk_tooltip_8105",
+            "resolvedKey": "perk_tooltip_8105",
+            "text": "{{perk_long_desc_8105}}<br><br>当前无情猎手提升：<speed>@f3@移动速度</speed><br><br>{{ bountyHunter_bountyBoard }}"
+          },
+          "mShortDescLocalizationKey": {
+            "sourceKey": "perk_short_desc_8105",
+            "resolvedKey": "perk_short_desc_8105",
+            "text": "<b>独特的</b><lol-uikit-tooltipped-keyword key='LinkTooltip_Description_Takedown'>参与击杀</lol-uikit-tooltipped-keyword>会提供永久的<b>非战斗状态<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_MS'>移动速度加成</lol-uikit-tooltipped-keyword></b>。"
+          },
+          "mLongDescLocalizationKey": {
+            "sourceKey": "perk_long_desc_8105",
+            "resolvedKey": "perk_long_desc_8105",
+            "text": "提供额外的非战斗状态<speed>移动速度</speed>，数额相当于@OOCMS.0@x<i>赏金猎人</i>层数。你首次参与击杀每位独特的敌方英雄时，都会赚取一层<i>赏金猎人</i>效果。"
+          },
+          "mDisplayStatLocalizationKey": {
+            "sourceKey": "perk_display_stat_BountyHunter",
+            "resolvedKey": "perk_display_stat_bountyhunter",
+            "text": "@f1@/@f2@"
+          }
+        },
+        "summary": {
+          "effectAmounts": {
+            "OOCMS": 8,
+            "StartingOOCMS": 0
+          },
+          "calculations": {},
+          "otherModeOverrides": [],
+          "hasDefaultScript": true,
+          "scriptPath": "ASSETS/Perks/Styles/Domination/RelentlessHunter/RelentlessHunter.lua"
+        }
+      },
+      "official": {
+        "runeKey": "rune_8105",
+        "id": 8105,
+        "name": "无情猎手",
+        "category": "MINOR",
+        "pathKey": "rune_path_8100",
+        "pathName": "主宰",
+        "slotIndex": 3,
+        "source": {
+          "official": {
+            "file": "官方原始资料/runesReforged-16.17.1-zh_CN.json",
+            "pointer": "/0/slots/3/runes/1",
+            "raw": {
+              "id": 8105,
+              "key": "RelentlessHunter",
+              "icon": "perk-images/Styles/Domination/RelentlessHunter/RelentlessHunter.png",
+              "name": "无情猎手",
+              "shortDesc": "<b>独特的</b><lol-uikit-tooltipped-keyword key='LinkTooltip_Description_Takedown'>参与击杀</lol-uikit-tooltipped-keyword>会提供永久的<b>非战斗状态<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_MS'>移动速度加成</lol-uikit-tooltipped-keyword></b>。",
+              "longDesc": "提供额外的非战斗状态<speed>移动速度</speed>，数额相当于8x<i>赏金猎人</i>层数。你首次参与击杀每位独特的敌方英雄时，都会赚取一层<i>赏金猎人</i>效果。"
+            }
+          },
+          "client": {
+            "file": "客户端提取资料/perks-16.17-zh_CN.json",
+            "pointer": "/43",
+            "raw": {
+              "id": 8105,
+              "name": "无情猎手",
+              "majorChangePatchVersion": "9.9",
+              "tooltip": "提供额外的非战斗状态<speed>移动速度</speed>，数额相当于8x<i>赏金猎人</i>层数。你首次参与击杀每位独特的敌方英雄时，都会赚取一层<i>赏金猎人</i>效果。<br><br>当前无情猎手提升：<speed>@f3@移动速度</speed><br><br><u>没有可领取的赏金效果</u>",
+              "shortDesc": "<b>独特的</b><lol-uikit-tooltipped-keyword key='LinkTooltip_Description_Takedown'>参与击杀</lol-uikit-tooltipped-keyword>会提供永久的<b>非战斗状态<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_MS'>移动速度加成</lol-uikit-tooltipped-keyword></b>。",
+              "longDesc": "提供额外的非战斗状态<speed>移动速度</speed>，数额相当于8x<i>赏金猎人</i>层数。你首次参与击杀每位独特的敌方英雄时，都会赚取一层<i>赏金猎人</i>效果。",
+              "recommendationDescriptor": "",
+              "iconPath": "/lol-game-data/assets/v1/perk-images/Styles/Domination/RelentlessHunter/RelentlessHunter.png",
+              "endOfGameStatDescs": [
+                "总层数：@eogvar2@",
+                "移动速度提升：<speed>@eogvar1@</speed>"
+              ],
+              "recommendationDescriptorAttributes": {
+                "kMoveSpeed": 10
+              }
+            }
+          }
+        },
+        "text": {
+          "officialLong": "提供额外的非战斗状态移动速度，数额相当于8x赏金猎人层数。你首次参与击杀每位独特的敌方英雄时，都会赚取一层赏金猎人效果。",
+          "officialShort": "独特的参与击杀会提供永久的非战斗状态移动速度加成。",
+          "clientLong": "提供额外的非战斗状态移动速度，数额相当于8x赏金猎人层数。你首次参与击杀每位独特的敌方英雄时，都会赚取一层赏金猎人效果。",
+          "clientTooltip": "提供额外的非战斗状态移动速度，数额相当于8x赏金猎人层数。你首次参与击杀每位独特的敌方英雄时，都会赚取一层赏金猎人效果。当前无情猎手提升：@f3@移动速度没有可领取的赏金效果"
+        }
+      },
+      "previousScope": {
+        "runeKey": "rune_8105",
+        "skillKey": "rune_8105_passive",
+        "id": 8105,
+        "name": "无情猎手",
+        "category": "MINOR",
+        "pathKey": "rune_path_8100",
+        "pathName": "主宰",
+        "scope": "范围内",
+        "branches": [
+          {
+            "scope": "范围内",
+            "summary": "非战斗状态的固定移动速度",
+            "quote": "8x赏金猎人层数",
+            "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+            "evidence": {
+              "sourceId": 8105,
+              "field": "officialLong",
+              "exactText": "8x赏金猎人层数"
+            }
+          },
+          {
+            "scope": "保留依赖",
+            "summary": "独特敌方英雄参与击杀层数",
+            "quote": "每位独特的敌方英雄",
+            "reason": "该进度或条件影响范围内战斗收益；不模拟范围外对象战斗，但不能丢失已获得进度",
+            "evidence": {
+              "sourceId": 8105,
+              "field": "officialLong",
+              "exactText": "每位独特的敌方英雄"
+            }
+          }
+        ],
+        "confirmedFacts": [
+          "每层8点非战斗移速"
+        ],
+        "missingFacts": [
+          "非战斗状态进入退出定义；独特英雄去重；合法层数来源；上限不由团队人数硬猜"
+        ],
+        "recordableComponents": [
+          "每层8参数与8×已确认层数公式；不在战斗中无条件加速"
+        ],
+        "sourceReferences": {
+          "official": "/0/slots/3/runes/1",
+          "client": "/43"
+        },
+        "sourceHasGameplayPlaceholders": false,
+        "clientDescriptionDiffers": false,
+        "missingSourceValueFacts": [],
+        "sourceValueStatus": "已见明确数值，条件与组合单独核对"
+      }
+    },
+    {
+      "current": {
+        "id": 8106,
+        "name": "终极猎人",
+        "scope": "范围内",
+        "previousMissing": [],
+        "sourcePath": "Perks/Styles/Domination/UltimateHunter",
+        "sourceObjectSha256": "5b2b8606a8a1b96ec9abfbf890d48f6a576d712af997c4af9ac4d5931384713d",
+        "object": {
+          "mPerkId": 8106,
+          "mPerkName": "UltimateHunter",
+          "mDisplayNameLocalizationKey": "perk_displayname_UltimateHunter",
+          "mTooltipNameLocalizationKey": "perk_tooltip_UltimateHunter",
+          "mShortDescLocalizationKey": "perk_short_desc_UltimateHunter",
+          "mLongDescLocalizationKey": "perk_long_desc_UltimateHunter",
+          "mEndOfGameStatDescriptions": [
+            "perk_eog_stat_desc_UltimateHunter",
+            "perk_eog_stat_desc_UltimateHunter2"
+          ],
+          "mDisplayStatLocalizationKey": "perk_display_stat_BountyHunter",
+          "mIconTextureName": "assets/perks/styles/domination/ultimatehunter/ultimatehunter.tex",
+          "mScript": {
+            "mSpellScriptName": "ASSETS/Perks/Styles/Domination/UltimateHunter/UltimateHunter.lua",
+            "mSpellScriptData": {
+              "mEffectAmount": {
+                "AdditionalUltAH": 5,
+                "StartingUltAH": 6
+              },
+              "__type": "PerkScriptData"
+            },
+            "__type": "PerkScript"
+          },
+          "mVFXResourceResolver": {
+            "__type": "ResourceResolver"
+          },
+          "mMajorChangePatchVersion": "9.9",
+          "__type": "Perk"
+        },
+        "bound": {
+          "mDisplayNameLocalizationKey": {
+            "sourceKey": "perk_displayname_UltimateHunter",
+            "resolvedKey": "perk_displayname_ultimatehunter",
+            "text": "终极猎人"
+          },
+          "mTooltipNameLocalizationKey": {
+            "sourceKey": "perk_tooltip_UltimateHunter",
+            "resolvedKey": "perk_tooltip_ultimatehunter",
+            "text": "{{perk_long_desc_UltimateHunter}}<br><br>当前终极猎手提升：<attention>@f3@终极技能急速</attention><br><br>{{ bountyHunter_bountyBoard }}"
+          },
+          "mShortDescLocalizationKey": {
+            "sourceKey": "perk_short_desc_UltimateHunter",
+            "resolvedKey": "perk_short_desc_ultimatehunter",
+            "text": "<b>独特的</b><lol-uikit-tooltipped-keyword key='LinkTooltip_Description_Takedown'>参与击杀</lol-uikit-tooltipped-keyword>会永久为你的终极技能提供冷却缩减。"
+          },
+          "mLongDescLocalizationKey": {
+            "sourceKey": "perk_long_desc_UltimateHunter",
+            "resolvedKey": "perk_long_desc_ultimatehunter",
+            "text": "你的终极技能获得技能急速，数额相当于<attention>@StartingUltAH@</attention>+<attention>@AdditionalUltAH.0@</attention>x<i>赏金猎人</i>层数。你首次参与击杀每位独特的敌方英雄时，都会赚取一层<i>赏金猎人</i>效果。"
+          },
+          "mDisplayStatLocalizationKey": {
+            "sourceKey": "perk_display_stat_BountyHunter",
+            "resolvedKey": "perk_display_stat_bountyhunter",
+            "text": "@f1@/@f2@"
+          }
+        },
+        "summary": {
+          "effectAmounts": {
+            "AdditionalUltAH": 5,
+            "StartingUltAH": 6
+          },
+          "calculations": {},
+          "otherModeOverrides": [],
+          "hasDefaultScript": true,
+          "scriptPath": "ASSETS/Perks/Styles/Domination/UltimateHunter/UltimateHunter.lua"
+        }
+      },
+      "official": {
+        "runeKey": "rune_8106",
+        "id": 8106,
+        "name": "终极猎人",
+        "category": "MINOR",
+        "pathKey": "rune_path_8100",
+        "pathName": "主宰",
+        "slotIndex": 3,
+        "source": {
+          "official": {
+            "file": "官方原始资料/runesReforged-16.17.1-zh_CN.json",
+            "pointer": "/0/slots/3/runes/2",
+            "raw": {
+              "id": 8106,
+              "key": "UltimateHunter",
+              "icon": "perk-images/Styles/Domination/UltimateHunter/UltimateHunter.png",
+              "name": "终极猎人",
+              "shortDesc": "<b>独特的</b><lol-uikit-tooltipped-keyword key='LinkTooltip_Description_Takedown'>参与击杀</lol-uikit-tooltipped-keyword>会永久为你的终极技能提供冷却缩减。",
+              "longDesc": "你的终极技能获得技能急速，数额相当于<attention>6</attention>+<attention>5</attention>x<i>赏金猎人</i>层数。你首次参与击杀每位独特的敌方英雄时，都会赚取一层<i>赏金猎人</i>效果。"
+            }
+          },
+          "client": {
+            "file": "客户端提取资料/perks-16.17-zh_CN.json",
+            "pointer": "/25",
+            "raw": {
+              "id": 8106,
+              "name": "终极猎人",
+              "majorChangePatchVersion": "9.9",
+              "tooltip": "你的终极技能获得技能急速，数额相当于<attention>6</attention>+<attention>5</attention>x<i>赏金猎人</i>层数。你首次参与击杀每位独特的敌方英雄时，都会赚取一层<i>赏金猎人</i>效果。<br><br>当前终极猎手提升：<attention>@f3@终极技能急速</attention><br><br><u>没有可领取的赏金效果</u>",
+              "shortDesc": "<b>独特的</b><lol-uikit-tooltipped-keyword key='LinkTooltip_Description_Takedown'>参与击杀</lol-uikit-tooltipped-keyword>会永久为你的终极技能提供冷却缩减。",
+              "longDesc": "你的终极技能获得技能急速，数额相当于<attention>6</attention>+<attention>5</attention>x<i>赏金猎人</i>层数。你首次参与击杀每位独特的敌方英雄时，都会赚取一层<i>赏金猎人</i>效果。",
+              "recommendationDescriptor": "",
+              "iconPath": "/lol-game-data/assets/v1/perk-images/Styles/Domination/UltimateHunter/UltimateHunter.png",
+              "endOfGameStatDescs": [
+                "层数总和：@eogvar1@",
+                "终极技能急速：@eogvar2@"
+              ],
+              "recommendationDescriptorAttributes": {
+                "kCooldown": 10
+              }
+            }
+          }
+        },
+        "text": {
+          "officialLong": "你的终极技能获得技能急速，数额相当于6+5x赏金猎人层数。你首次参与击杀每位独特的敌方英雄时，都会赚取一层赏金猎人效果。",
+          "officialShort": "独特的参与击杀会永久为你的终极技能提供冷却缩减。",
+          "clientLong": "你的终极技能获得技能急速，数额相当于6+5x赏金猎人层数。你首次参与击杀每位独特的敌方英雄时，都会赚取一层赏金猎人效果。",
+          "clientTooltip": "你的终极技能获得技能急速，数额相当于6+5x赏金猎人层数。你首次参与击杀每位独特的敌方英雄时，都会赚取一层赏金猎人效果。当前终极猎手提升：@f3@终极技能急速没有可领取的赏金效果"
+        }
+      },
+      "previousScope": {
+        "runeKey": "rune_8106",
+        "skillKey": "rune_8106_passive",
+        "id": 8106,
+        "name": "终极猎人",
+        "category": "MINOR",
+        "pathKey": "rune_path_8100",
+        "pathName": "主宰",
+        "scope": "范围内",
+        "branches": [
+          {
+            "scope": "范围内",
+            "summary": "终极技能急速",
+            "quote": "6+5x赏金猎人层数",
+            "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+            "evidence": {
+              "sourceId": 8106,
+              "field": "officialLong",
+              "exactText": "6+5x赏金猎人层数"
+            }
+          },
+          {
+            "scope": "保留依赖",
+            "summary": "独特敌方英雄参与击杀层数",
+            "quote": "每位独特的敌方英雄",
+            "reason": "该进度或条件影响范围内战斗收益；不模拟范围外对象战斗，但不能丢失已获得进度",
+            "evidence": {
+              "sourceId": 8106,
+              "field": "officialLong",
+              "exactText": "每位独特的敌方英雄"
+            }
+          }
+        ],
+        "confirmedFacts": [
+          "终极技能急速基础6，每层5"
+        ],
+        "missingFacts": [
+          "终极技能键集合逐项引用；独特英雄层数来源及更新；不能用全技能急速替代"
+        ],
+        "recordableComponents": [
+          "6、5参数与明确层数公式；现有SKILL_HASTE_MODIFIER可承载已核集合，集合未核前不接线"
+        ],
+        "sourceReferences": {
+          "official": "/0/slots/3/runes/2",
+          "client": "/25"
+        },
+        "sourceHasGameplayPlaceholders": false,
+        "clientDescriptionDiffers": false,
+        "missingSourceValueFacts": [],
+        "sourceValueStatus": "已见明确数值，条件与组合单独核对"
+      }
+    },
+    {
+      "current": {
+        "id": 8304,
+        "name": "神奇之鞋",
+        "scope": "混合保留",
+        "previousMissing": [],
+        "sourcePath": "Perks/Styles/Inspiration/MagicalFootwear",
+        "sourceObjectSha256": "aa1a39bc6ebb7a7a8cb79f35b3d6722f3ae75f5aefaf12ce32df3544e4aa8d5c",
+        "object": {
+          "mPerkId": 8304,
+          "mPerkName": "MagicalFootwear",
+          "mDisplayNameLocalizationKey": "perk_displayname_MagicalFootwear",
+          "mTooltipNameLocalizationKey": "perk_tooltip_MagicalFootwear",
+          "mShortDescLocalizationKey": "perk_short_desc_8304",
+          "mLongDescLocalizationKey": "perk_long_desc_8304",
+          "mEndOfGameStatDescriptions": [
+            "perk_eog_stat_desc_MagicalFootwear1"
+          ],
+          "mDisplayStatLocalizationKey": "perk_display_stat_MagicalFootwear",
+          "mIconTextureName": "assets/perks/styles/inspiration/magicalfootwear/magicalfootwear.tex",
+          "mScript": {
+            "mSpellScriptName": "ASSETS/Perks/Styles/Inspiration/MagicalFootwear/MagicalFootwear.lua",
+            "mSpellScriptData": {
+              "mEffectAmount": {
+                "GiveBootsAtMinute": 12,
+                "{c07791e4}": 300,
+                "SecondsSoonerPerTakedown": 45,
+                "AdditionalMovementSpeed": 10
+              },
+              "mEffectAmountGameMode": {
+                "NEXUSBLITZ": {
+                  "mEffectAmountPerMode": {
+                    "GiveBootsAtMinute": 6,
+                    "SecondsSoonerPerTakedown": 30
+                  },
+                  "__type": "PerkEffectAmountPerMode"
+                },
+                "URF": {
+                  "mEffectAmountPerMode": {
+                    "GiveBootsAtMinute": 6,
+                    "SecondsSoonerPerTakedown": 30
+                  },
+                  "__type": "PerkEffectAmountPerMode"
+                },
+                "ARAM": {
+                  "mEffectAmountPerMode": {
+                    "GiveBootsAtMinute": 8,
+                    "SecondsSoonerPerTakedown": 30
+                  },
+                  "__type": "PerkEffectAmountPerMode"
+                },
+                "FIRSTBLOOD": {
+                  "mEffectAmountPerMode": {
+                    "GiveBootsAtMinute": 6,
+                    "SecondsSoonerPerTakedown": 30
+                  },
+                  "__type": "PerkEffectAmountPerMode"
+                },
+                "KINGPORO": {
+                  "mEffectAmountPerMode": {
+                    "GiveBootsAtMinute": 8,
+                    "SecondsSoonerPerTakedown": 30
+                  },
+                  "__type": "PerkEffectAmountPerMode"
+                },
+                "SWIFTPLAY": {
+                  "mEffectAmountPerMode": {
+                    "GiveBootsAtMinute": 8,
+                    "SecondsSoonerPerTakedown": 30
+                  },
+                  "__type": "PerkEffectAmountPerMode"
+                },
+                "{a110bc47}": {
+                  "mEffectAmountPerMode": {
+                    "GiveBootsAtMinute": 6,
+                    "SecondsSoonerPerTakedown": 20
+                  },
+                  "__type": "PerkEffectAmountPerMode"
+                },
+                "Ruby": {
+                  "mEffectAmountPerMode": {
+                    "GiveBootsAtMinute": 6
+                  },
+                  "__type": "PerkEffectAmountPerMode"
+                },
+                "RUBY_TRIAL_1": {
+                  "mEffectAmountPerMode": {
+                    "GiveBootsAtMinute": 6
+                  },
+                  "__type": "PerkEffectAmountPerMode"
+                },
+                "RUBY_TRIAL_2": {
+                  "mEffectAmountPerMode": {
+                    "GiveBootsAtMinute": 6
+                  },
+                  "__type": "PerkEffectAmountPerMode"
+                },
+                "{aecea60c}": {
+                  "mEffectAmountPerMode": {
+                    "GiveBootsAtMinute": 6
+                  },
+                  "__type": "PerkEffectAmountPerMode"
+                }
+              },
+              "__type": "PerkScriptData"
+            },
+            "__type": "PerkScript"
+          },
+          "mVFXResourceResolver": {
+            "resourceMap": {
+              "Perks_MagicalFootwear_Fanfare": "Perks/Styles/Inspiration/MagicalFootwear/Particles/Perks_MagicalFootwear_Fanfare"
+            },
+            "__type": "ResourceResolver"
+          },
+          "mMajorChangePatchVersion": "9.9",
+          "__type": "Perk"
+        },
+        "bound": {
+          "mDisplayNameLocalizationKey": {
+            "sourceKey": "perk_displayname_MagicalFootwear",
+            "resolvedKey": "perk_displayname_magicalfootwear",
+            "text": "神奇之鞋"
+          },
+          "mTooltipNameLocalizationKey": {
+            "sourceKey": "perk_tooltip_MagicalFootwear",
+            "resolvedKey": "perk_tooltip_magicalfootwear",
+            "text": "{{ perk_long_desc_8304 }}<br><hr><br><scaleAD>鞋子的抵达时间：</scaleAD> @f1@:@f2@@f3@"
+          },
+          "mShortDescLocalizationKey": {
+            "sourceKey": "perk_short_desc_8304",
+            "resolvedKey": "perk_short_desc_8304",
+            "text": "你在@GiveBootsAtMinute@分钟时获得免费的鞋子，但你在之前不能购买鞋子。每次<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_Takedown'>协助击杀</lol-uikit-tooltipped-keyword>都会让你的鞋子的到来时间提前@SecondsSoonerPerTakedown@秒。"
+          },
+          "mLongDescLocalizationKey": {
+            "sourceKey": "perk_long_desc_8304",
+            "resolvedKey": "perk_long_desc_8304",
+            "text": "你在@GiveBootsAtMinute@分钟时获得免费的{{ Item_2422_Name }}，但你在之前不能购买鞋子。你每参与一次击杀，就会使获得鞋子的时间点提前@SecondsSoonerPerTakedown@秒。<br><br>{{ Item_2422_Name }}可为你提供额外的<speed>@AdditionalMovementSpeed@移动速度</speed>。"
+          },
+          "mDisplayStatLocalizationKey": {
+            "sourceKey": "perk_display_stat_MagicalFootwear",
+            "resolvedKey": "perk_display_stat_magicalfootwear",
+            "text": "@f1@:@f2@@f3@"
+          }
+        },
+        "summary": {
+          "effectAmounts": {
+            "GiveBootsAtMinute": 12,
+            "{c07791e4}": 300,
+            "SecondsSoonerPerTakedown": 45,
+            "AdditionalMovementSpeed": 10
+          },
+          "calculations": {},
+          "otherModeOverrides": [
+            "NEXUSBLITZ",
+            "URF",
+            "ARAM",
+            "FIRSTBLOOD",
+            "KINGPORO",
+            "SWIFTPLAY",
+            "{a110bc47}",
+            "Ruby",
+            "RUBY_TRIAL_1",
+            "RUBY_TRIAL_2",
+            "{aecea60c}"
+          ],
+          "hasDefaultScript": true,
+          "scriptPath": "ASSETS/Perks/Styles/Inspiration/MagicalFootwear/MagicalFootwear.lua"
+        }
+      },
+      "official": {
+        "runeKey": "rune_8304",
+        "id": 8304,
+        "name": "神奇之鞋",
+        "category": "MINOR",
+        "pathKey": "rune_path_8300",
+        "pathName": "启迪",
+        "slotIndex": 1,
+        "source": {
+          "official": {
+            "file": "官方原始资料/runesReforged-16.17.1-zh_CN.json",
+            "pointer": "/1/slots/1/runes/1",
+            "raw": {
+              "id": 8304,
+              "key": "MagicalFootwear",
+              "icon": "perk-images/Styles/Inspiration/MagicalFootwear/MagicalFootwear.png",
+              "name": "神奇之鞋",
+              "shortDesc": "你在12分钟时获得免费的鞋子，但你在之前不能购买鞋子。每次<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_Takedown'>协助击杀</lol-uikit-tooltipped-keyword>都会让你的鞋子的到来时间提前45秒。",
+              "longDesc": "你在12分钟时获得免费的有点神奇之鞋，但你在之前不能购买鞋子。你每参与一次击杀，就会使获得鞋子的时间点提前45秒。<br><br>有点神奇之鞋可为你提供额外的<speed>10移动速度</speed>。"
+            }
+          },
+          "client": {
+            "file": "客户端提取资料/perks-16.17-zh_CN.json",
+            "pointer": "/71",
+            "raw": {
+              "id": 8304,
+              "name": "神奇之鞋",
+              "majorChangePatchVersion": "9.9",
+              "tooltip": "你在12分钟时获得免费的有点神奇之鞋，但你在之前不能购买鞋子。你每参与一次击杀，就会使获得鞋子的时间点提前45秒。<br><br>有点神奇之鞋可为你提供额外的<speed>10移动速度</speed>。<br><hr><br><scaleAD>鞋子的抵达时间：</scaleAD> @f1@:@f2@@f3@",
+              "shortDesc": "你在12分钟时获得免费的鞋子，但你在之前不能购买鞋子。每次<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_Takedown'>协助击杀</lol-uikit-tooltipped-keyword>都会让你的鞋子的到来时间提前45秒。",
+              "longDesc": "你在12分钟时获得免费的有点神奇之鞋，但你在之前不能购买鞋子。你每参与一次击杀，就会使获得鞋子的时间点提前45秒。<br><br>有点神奇之鞋可为你提供额外的<speed>10移动速度</speed>。",
+              "recommendationDescriptor": "",
+              "iconPath": "/lol-game-data/assets/v1/perk-images/Styles/Inspiration/MagicalFootwear/MagicalFootwear.png",
+              "endOfGameStatDescs": [
+                "鞋子的抵达时间：@eogvar1@:@eogvar2@@eogvar3@"
+              ],
+              "recommendationDescriptorAttributes": {
+                "kGold": 10,
+                "kMoveSpeed": 3
+              }
+            }
+          }
+        },
+        "text": {
+          "officialLong": "你在12分钟时获得免费的有点神奇之鞋，但你在之前不能购买鞋子。你每参与一次击杀，就会使获得鞋子的时间点提前45秒。有点神奇之鞋可为你提供额外的10移动速度。",
+          "officialShort": "你在12分钟时获得免费的鞋子，但你在之前不能购买鞋子。每次协助击杀都会让你的鞋子的到来时间提前45秒。",
+          "clientLong": "你在12分钟时获得免费的有点神奇之鞋，但你在之前不能购买鞋子。你每参与一次击杀，就会使获得鞋子的时间点提前45秒。有点神奇之鞋可为你提供额外的10移动速度。",
+          "clientTooltip": "你在12分钟时获得免费的有点神奇之鞋，但你在之前不能购买鞋子。你每参与一次击杀，就会使获得鞋子的时间点提前45秒。有点神奇之鞋可为你提供额外的10移动速度。鞋子的抵达时间： @f1@:@f2@@f3@"
+        }
+      },
+      "previousScope": {
+        "runeKey": "rune_8304",
+        "skillKey": "rune_8304_passive",
+        "id": 8304,
+        "name": "神奇之鞋",
+        "category": "MINOR",
+        "pathKey": "rune_path_8300",
+        "pathName": "启迪",
+        "scope": "混合保留",
+        "branches": [
+          {
+            "scope": "范围内",
+            "summary": "神奇之鞋额外10移速及升级继承",
+            "quote": "提供额外的10移动速度",
+            "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+            "evidence": {
+              "sourceId": 8304,
+              "field": "officialLong",
+              "exactText": "提供额外的10移动速度"
+            }
+          },
+          {
+            "scope": "保留依赖",
+            "summary": "鞋子实际获得及装备状态",
+            "quote": "你每参与一次击杀",
+            "reason": "该进度或条件影响范围内战斗收益；不模拟范围外对象战斗，但不能丢失已获得进度",
+            "evidence": {
+              "sourceId": 8304,
+              "field": "officialLong",
+              "exactText": "你每参与一次击杀"
+            }
+          },
+          {
+            "scope": "范围外",
+            "summary": "免费获取与禁购",
+            "quote": "但你在之前不能购买鞋子",
+            "reason": "经济流程不模拟，但实际是否持有该鞋必须保留为战斗属性前提",
+            "evidence": {
+              "sourceId": 8304,
+              "field": "officialLong",
+              "exactText": "但你在之前不能购买鞋子"
+            }
+          }
+        ],
+        "confirmedFacts": [
+          "获得后额外移速10；12分钟基准到达；参与击杀提前45秒；官方2422说明升级鞋保留额外10"
+        ],
+        "missingFacts": [
+          "装备实际存在/升级继承的条件装配；避免与装备直接25基础移速或已保存被动重复加算"
+        ],
+        "recordableComponents": [
+          "额外10固定属性组成；装备取得前不以来源初始化立即授予"
+        ],
+        "sourceReferences": {
+          "official": "/1/slots/1/runes/1",
+          "client": "/71"
+        },
+        "sourceHasGameplayPlaceholders": false,
+        "clientDescriptionDiffers": false,
+        "missingSourceValueFacts": [],
+        "sourceValueStatus": "已见明确数值，条件与组合单独核对"
+      }
+    },
+    {
+      "current": {
+        "id": 8352,
+        "name": "时间扭曲补药",
+        "scope": "范围内",
+        "previousMissing": [],
+        "sourcePath": "Perks/Styles/Inspiration/TimeWarpTonic",
+        "sourceObjectSha256": "b5f7121698ea44c8aba00c92f6784f864da5ba1a36401584932ef7fc0d2436e7",
+        "object": {
+          "mPerkId": 8352,
+          "mPerkName": "TimeWarpTonic",
+          "mDisplayNameLocalizationKey": "perk_displayname_TimeWarpTonic",
+          "mTooltipNameLocalizationKey": "perk_tooltip_TimeWarpTonic",
+          "mShortDescLocalizationKey": "perk_short_desc_TimeWarpTonic",
+          "mLongDescLocalizationKey": "perk_long_desc_TimeWarpTonic",
+          "mEndOfGameStatDescriptions": [
+            "perk_eog_stat_desc_TimeWarpTonic2"
+          ],
+          "mDisplayStatLocalizationKey": "perk_display_stat_seconds",
+          "mIconTextureName": "assets/perks/styles/inspiration/timewarptonic/timewarptonic.tex",
+          "mScript": {
+            "mSpellScriptName": "ASSETS/Perks/Styles/Inspiration/TimeWarpTonic/TimeWarpTonic_SRI.lua",
+            "mSpellScriptData": {
+              "mEffectAmount": {
+                "BonusMS": 0,
+                "RestorationPercentage": 0.4000000059604645,
+                "Cooldown": 20
+              },
+              "__type": "PerkScriptData"
+            },
+            "__type": "PerkScript"
+          },
+          "mMajorChangePatchVersion": "8.22",
+          "__type": "Perk"
+        },
+        "bound": {
+          "mDisplayNameLocalizationKey": {
+            "sourceKey": "perk_displayname_TimeWarpTonic",
+            "resolvedKey": "perk_displayname_timewarptonic",
+            "text": "时间扭曲补药"
+          },
+          "mTooltipNameLocalizationKey": {
+            "sourceKey": "perk_tooltip_TimeWarpTonic",
+            "resolvedKey": "perk_tooltip_timewarptonic",
+            "text": "{{perk_long_desc_TimeWarpTonic}}<br><hr><br>即时回复的生命值总和：@f2@"
+          },
+          "mShortDescLocalizationKey": {
+            "sourceKey": "perk_short_desc_TimeWarpTonic",
+            "resolvedKey": "perk_short_desc_timewarptonic",
+            "text": "药水会即刻提供一部分回复额度。"
+          },
+          "mLongDescLocalizationKey": {
+            "sourceKey": "perk_long_desc_TimeWarpTonic",
+            "resolvedKey": "perk_long_desc_timewarptonic",
+            "text": "在享用一瓶药水时，会即时提供其@RestorationPercentage*100@%的生命回复额度。"
+          },
+          "mDisplayStatLocalizationKey": {
+            "sourceKey": "perk_display_stat_seconds",
+            "resolvedKey": "perk_display_stat_seconds",
+            "text": ""
+          }
+        },
+        "summary": {
+          "effectAmounts": {
+            "BonusMS": 0,
+            "RestorationPercentage": 0.4000000059604645,
+            "Cooldown": 20
+          },
+          "calculations": {},
+          "otherModeOverrides": [],
+          "hasDefaultScript": true,
+          "scriptPath": "ASSETS/Perks/Styles/Inspiration/TimeWarpTonic/TimeWarpTonic_SRI.lua"
+        }
+      },
+      "official": {
+        "runeKey": "rune_8352",
+        "id": 8352,
+        "name": "时间扭曲补药",
+        "category": "MINOR",
+        "pathKey": "rune_path_8300",
+        "pathName": "启迪",
+        "slotIndex": 2,
+        "source": {
+          "official": {
+            "file": "官方原始资料/runesReforged-16.17.1-zh_CN.json",
+            "pointer": "/1/slots/2/runes/1",
+            "raw": {
+              "id": 8352,
+              "key": "TimeWarpTonic",
+              "icon": "perk-images/Styles/Inspiration/TimeWarpTonic/TimeWarpTonic.png",
+              "name": "时间扭曲补药",
+              "shortDesc": "药水会即刻提供一部分回复额度。",
+              "longDesc": "在享用一瓶药水时，会即时提供其40%的生命回复额度。"
+            }
+          },
+          "client": {
+            "file": "客户端提取资料/perks-16.17-zh_CN.json",
+            "pointer": "/34",
+            "raw": {
+              "id": 8352,
+              "name": "时间扭曲补药",
+              "majorChangePatchVersion": "8.22",
+              "tooltip": "在享用一瓶药水时，会即时提供其40%的生命回复额度。<br><hr><br>即时回复的生命值总和：@f2@",
+              "shortDesc": "药水会即刻提供一部分回复额度。",
+              "longDesc": "在享用一瓶药水时，会即时提供其40%的生命回复额度。",
+              "recommendationDescriptor": "",
+              "iconPath": "/lol-game-data/assets/v1/perk-images/Styles/Inspiration/TimeWarpTonic/TimeWarpTonic.png",
+              "endOfGameStatDescs": [
+                "已回复的即时生命值：@eogvar2@"
+              ],
+              "recommendationDescriptorAttributes": {
+                "kHealing": 5,
+                "kMoveSpeed": 5
+              }
+            }
+          }
+        },
+        "text": {
+          "officialLong": "在享用一瓶药水时，会即时提供其40%的生命回复额度。",
+          "officialShort": "药水会即刻提供一部分回复额度。",
+          "clientLong": "在享用一瓶药水时，会即时提供其40%的生命回复额度。",
+          "clientTooltip": "在享用一瓶药水时，会即时提供其40%的生命回复额度。即时回复的生命值总和：@f2@"
+        }
+      },
+      "previousScope": {
+        "runeKey": "rune_8352",
+        "skillKey": "rune_8352_passive",
+        "id": 8352,
+        "name": "时间扭曲补药",
+        "category": "MINOR",
+        "pathKey": "rune_path_8300",
+        "pathName": "启迪",
+        "scope": "范围内",
+        "branches": [
+          {
+            "scope": "范围内",
+            "summary": "药水生命恢复额度部分提前",
+            "quote": "即时提供其40%的生命回复额度",
+            "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+            "evidence": {
+              "sourceId": 8352,
+              "field": "officialLong",
+              "exactText": "即时提供其40%的生命回复额度"
+            }
+          }
+        ],
+        "confirmedFacts": [
+          "即时比例0.40"
+        ],
+        "missingFacts": [
+          "原药水总额度、剩余周期调整和取值时点；合法消耗关联；不能加40%后仍保留100%原治疗"
+        ],
+        "recordableComponents": [
+          "0.40参数及总回复额度×0.40公式；原回复输入须明确，不无条件初始化治疗"
+        ],
+        "sourceReferences": {
+          "official": "/1/slots/2/runes/1",
+          "client": "/34"
+        },
+        "sourceHasGameplayPlaceholders": false,
+        "clientDescriptionDiffers": false,
+        "missingSourceValueFacts": [],
+        "sourceValueStatus": "已见明确数值，条件与组合单独核对"
+      }
+    },
+    {
+      "current": {
+        "id": 8347,
+        "name": "星界洞悉",
+        "scope": "范围内",
+        "previousMissing": [],
+        "sourcePath": "Perks/Styles/Inspiration/CosmicInsight",
+        "sourceObjectSha256": "df2cbdc22de1d8861b7498b1c7838f2115104ba8bfeba791b96e0831627765cd",
+        "object": {
+          "mPerkId": 8347,
+          "mPerkName": "CosmicInsight",
+          "mDisplayNameLocalizationKey": "perk_displayname_CosmicInsight",
+          "mTooltipNameLocalizationKey": "perk_tooltip_CosmicInsight",
+          "mShortDescLocalizationKey": "perk_short_desc_CosmicInsight",
+          "mLongDescLocalizationKey": "perk_long_desc_CosmicInsight",
+          "mEndOfGameStatDescriptions": [
+            "perk_eog_stat_desc_CosmicInsight1"
+          ],
+          "mIconTextureName": "assets/perks/styles/inspiration/cosmicinsight/cosmicinsight.tex",
+          "mScript": {
+            "mSpellScriptName": "ASSETS/Perks/Styles/Inspiration/CosmicInsight/CosmicInsight.lua",
+            "mSpellScriptData": {
+              "mEffectAmount": {
+                "ItemHaste": 10,
+                "SummonerHaste": 18
+              },
+              "__type": "PerkScriptData"
+            },
+            "__type": "PerkScript"
+          },
+          "mDefault": true,
+          "__type": "Perk"
+        },
+        "bound": {
+          "mDisplayNameLocalizationKey": {
+            "sourceKey": "perk_displayname_CosmicInsight",
+            "resolvedKey": "perk_displayname_cosmicinsight",
+            "text": "星界洞悉"
+          },
+          "mTooltipNameLocalizationKey": {
+            "sourceKey": "perk_tooltip_CosmicInsight",
+            "resolvedKey": "perk_tooltip_cosmicinsight",
+            "text": "{{ perk_long_desc_CosmicInsight }}"
+          },
+          "mShortDescLocalizationKey": {
+            "sourceKey": "perk_short_desc_CosmicInsight",
+            "resolvedKey": "perk_short_desc_cosmicinsight",
+            "text": "+<attention>@SummonerHaste@</attention>召唤师技能急速<br>+<attention>@ItemHaste@</attention>装备急速"
+          },
+          "mLongDescLocalizationKey": {
+            "sourceKey": "perk_long_desc_CosmicInsight",
+            "resolvedKey": "perk_long_desc_cosmicinsight",
+            "text": "+<attention>@SummonerHaste@</attention>召唤师技能急速<br>+<attention>@ItemHaste@</attention>装备急速"
+          }
+        },
+        "summary": {
+          "effectAmounts": {
+            "ItemHaste": 10,
+            "SummonerHaste": 18
+          },
+          "calculations": {},
+          "otherModeOverrides": [],
+          "hasDefaultScript": true,
+          "scriptPath": "ASSETS/Perks/Styles/Inspiration/CosmicInsight/CosmicInsight.lua"
+        }
+      },
+      "official": {
+        "runeKey": "rune_8347",
+        "id": 8347,
+        "name": "星界洞悉",
+        "category": "MINOR",
+        "pathKey": "rune_path_8300",
+        "pathName": "启迪",
+        "slotIndex": 3,
+        "source": {
+          "official": {
+            "file": "官方原始资料/runesReforged-16.17.1-zh_CN.json",
+            "pointer": "/1/slots/3/runes/0",
+            "raw": {
+              "id": 8347,
+              "key": "CosmicInsight",
+              "icon": "perk-images/Styles/Inspiration/CosmicInsight/CosmicInsight.png",
+              "name": "星界洞悉",
+              "shortDesc": "+<attention>18</attention>召唤师技能急速<br>+<attention>10</attention>装备急速",
+              "longDesc": "+<attention>18</attention>召唤师技能急速<br>+<attention>10</attention>装备急速"
+            }
+          },
+          "client": {
+            "file": "客户端提取资料/perks-16.17-zh_CN.json",
+            "pointer": "/97",
+            "raw": {
+              "id": 8347,
+              "name": "星界洞悉",
+              "majorChangePatchVersion": "",
+              "tooltip": "+<attention>18</attention>召唤师技能急速<br>+<attention>10</attention>装备急速",
+              "shortDesc": "+<attention>18</attention>召唤师技能急速<br>+<attention>10</attention>装备急速",
+              "longDesc": "+<attention>18</attention>召唤师技能急速<br>+<attention>10</attention>装备急速",
+              "recommendationDescriptor": "",
+              "iconPath": "/lol-game-data/assets/v1/perk-images/Styles/Inspiration/CosmicInsight/CosmicInsight.png",
+              "endOfGameStatDescs": [
+                "--"
+              ],
+              "recommendationDescriptorAttributes": {
+                "kCooldown": 10
+              }
+            }
+          }
+        },
+        "text": {
+          "officialLong": "+18召唤师技能急速+10装备急速",
+          "officialShort": "+18召唤师技能急速+10装备急速",
+          "clientLong": "+18召唤师技能急速+10装备急速",
+          "clientTooltip": "+18召唤师技能急速+10装备急速"
+        }
+      },
+      "previousScope": {
+        "runeKey": "rune_8347",
+        "skillKey": "rune_8347_passive",
+        "id": 8347,
+        "name": "星界洞悉",
+        "category": "MINOR",
+        "pathKey": "rune_path_8300",
+        "pathName": "启迪",
+        "scope": "范围内",
+        "branches": [
+          {
+            "scope": "范围内",
+            "summary": "召唤师技能急速",
+            "quote": "+18召唤师技能急速",
+            "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+            "evidence": {
+              "sourceId": 8347,
+              "field": "officialLong",
+              "exactText": "+18召唤师技能急速"
+            }
+          },
+          {
+            "scope": "范围内",
+            "summary": "装备技能急速",
+            "quote": "+10装备急速",
+            "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+            "evidence": {
+              "sourceId": 8347,
+              "field": "officialLong",
+              "exactText": "+10装备急速"
+            }
+          }
+        ],
+        "confirmedFacts": [
+          "召唤师急速18、装备急速10"
+        ],
+        "missingFacts": [
+          "合法技能集合及不同急速属性作用范围；不是通用技能急速28"
+        ],
+        "recordableComponents": [
+          "18、10参数；集合核对后现有指定SKILLS急速修正可表达，当前不猜集合"
+        ],
+        "sourceReferences": {
+          "official": "/1/slots/3/runes/0",
+          "client": "/97"
+        },
+        "sourceHasGameplayPlaceholders": false,
+        "clientDescriptionDiffers": false,
+        "missingSourceValueFacts": [],
+        "sourceValueStatus": "已见明确数值，条件与组合单独核对"
+      }
+    },
+    {
+      "current": {
+        "id": 8410,
+        "name": "行近速率",
+        "scope": "混合保留",
+        "previousMissing": [],
+        "sourcePath": "Perks/Styles/Inspiration/ApproachVelocity",
+        "sourceObjectSha256": "6985cc7d581c3289c56ace0c8531c613947b7087b4505d78668f209756ebab13",
+        "object": {
+          "mPerkId": 8410,
+          "mPerkName": "ApproachVelocity",
+          "mDisplayNameLocalizationKey": "perk_displayname_ApproachVelocity",
+          "mTooltipNameLocalizationKey": "perk_tooltip_ApproachVelocity",
+          "mShortDescLocalizationKey": "perk_short_desc_ApproachVelocity",
+          "mLongDescLocalizationKey": "perk_long_desc_ApproachVelocity",
+          "mEndOfGameStatDescriptions": [
+            "perk_eog_stat_desc_SecondsOfUse1"
+          ],
+          "mDisplayStatLocalizationKey": "perk_display_stat_seconds",
+          "mIconTextureName": "assets/perks/styles/resolve/approachvelocity/approachvelocity.tex",
+          "mScript": {
+            "mSpellScriptName": "ASSETS/Perks/Styles/Resolve/ApproachVelocity/ApproachVelocity.lua",
+            "mSpellScriptData": {
+              "mEffectAmount": {
+                "MovementSpeedPercentBonus": 0.15000000596046448,
+                "ActivationDistance": 1000
+              },
+              "__type": "PerkScriptData"
+            },
+            "__type": "PerkScript"
+          },
+          "__type": "Perk"
+        },
+        "bound": {
+          "mDisplayNameLocalizationKey": {
+            "sourceKey": "perk_displayname_ApproachVelocity",
+            "resolvedKey": "perk_displayname_approachvelocity",
+            "text": "行近速率"
+          },
+          "mTooltipNameLocalizationKey": {
+            "sourceKey": "perk_tooltip_ApproachVelocity",
+            "resolvedKey": "perk_tooltip_approachvelocity",
+            "text": "{{perk_long_desc_ApproachVelocity}}<br><hr><br>加速的时间总和：@f1@秒"
+          },
+          "mShortDescLocalizationKey": {
+            "sourceKey": "perk_short_desc_ApproachVelocity",
+            "resolvedKey": "perk_short_desc_approachvelocity",
+            "text": "朝着附近<lol-uikit-tooltipped-keyword key=\"LinkTooltip_Description_ImpairMov\">移动受损</lol-uikit-tooltipped-keyword>的敌方英雄移动时，获得<lol-uikit-tooltipped-keyword key=\"LinkTooltip_Description_MS\">移动速度</lol-uikit-tooltipped-keyword>加成，如果移动受损是你施加的，这个加成还会提升。"
+          },
+          "mLongDescLocalizationKey": {
+            "sourceKey": "perk_long_desc_ApproachVelocity",
+            "resolvedKey": "perk_long_desc_approachvelocity",
+            "text": "朝着附近移动受损的敌方英雄移动时，将获得<speed>@MovementSpeedPercentBonus*50@%移动速度</speed>加成。朝着任一被你施加了移动受损的敌方英雄移动时，这个加成将提升至<speed>@MovementSpeedPercentBonus.0*100@%移动速度</speed>。<br><br>来自友军控制效果的激活距离：@ActivationDistance@"
+          },
+          "mDisplayStatLocalizationKey": {
+            "sourceKey": "perk_display_stat_seconds",
+            "resolvedKey": "perk_display_stat_seconds",
+            "text": ""
+          }
+        },
+        "summary": {
+          "effectAmounts": {
+            "MovementSpeedPercentBonus": 0.15000000596046448,
+            "ActivationDistance": 1000
+          },
+          "calculations": {},
+          "otherModeOverrides": [],
+          "hasDefaultScript": true,
+          "scriptPath": "ASSETS/Perks/Styles/Resolve/ApproachVelocity/ApproachVelocity.lua"
+        }
+      },
+      "official": {
+        "runeKey": "rune_8410",
+        "id": 8410,
+        "name": "行近速率",
+        "category": "MINOR",
+        "pathKey": "rune_path_8300",
+        "pathName": "启迪",
+        "slotIndex": 3,
+        "source": {
+          "official": {
+            "file": "官方原始资料/runesReforged-16.17.1-zh_CN.json",
+            "pointer": "/1/slots/3/runes/1",
+            "raw": {
+              "id": 8410,
+              "key": "ApproachVelocity",
+              "icon": "perk-images/Styles/Resolve/ApproachVelocity/ApproachVelocity.png",
+              "name": "行近速率",
+              "shortDesc": "朝着附近<lol-uikit-tooltipped-keyword key=\"LinkTooltip_Description_ImpairMov\">移动受损</lol-uikit-tooltipped-keyword>的敌方英雄移动时，获得<lol-uikit-tooltipped-keyword key=\"LinkTooltip_Description_MS\">移动速度</lol-uikit-tooltipped-keyword>加成，如果移动受损是你施加的，这个加成还会提升。",
+              "longDesc": "朝着附近移动受损的敌方英雄移动时，将获得<speed>7.5%移动速度</speed>加成。朝着任一被你施加了移动受损的敌方英雄移动时，这个加成将提升至<speed>15%移动速度</speed>。<br><br>来自友军控制效果的激活距离：1000"
+            }
+          },
+          "client": {
+            "file": "客户端提取资料/perks-16.17-zh_CN.json",
+            "pointer": "/4",
+            "raw": {
+              "id": 8410,
+              "name": "行近速率",
+              "majorChangePatchVersion": "",
+              "tooltip": "朝着附近移动受损的敌方英雄移动时，将获得<speed>7.5%移动速度</speed>加成。朝着任一被你施加了移动受损的敌方英雄移动时，这个加成将提升至<speed>15%移动速度</speed>。<br><br>来自友军控制效果的激活距离：1000<br><hr><br>加速的时间总和：@f1@秒",
+              "shortDesc": "朝着附近<lol-uikit-tooltipped-keyword key=\"LinkTooltip_Description_ImpairMov\">移动受损</lol-uikit-tooltipped-keyword>的敌方英雄移动时，获得<lol-uikit-tooltipped-keyword key=\"LinkTooltip_Description_MS\">移动速度</lol-uikit-tooltipped-keyword>加成，如果移动受损是你施加的，这个加成还会提升。",
+              "longDesc": "朝着附近移动受损的敌方英雄移动时，将获得<speed>7.5%移动速度</speed>加成。朝着任一被你施加了移动受损的敌方英雄移动时，这个加成将提升至<speed>15%移动速度</speed>。<br><br>来自友军控制效果的激活距离：1000",
+              "recommendationDescriptor": "",
+              "iconPath": "/lol-game-data/assets/v1/perk-images/Styles/Resolve/ApproachVelocity/ApproachVelocity.png",
+              "endOfGameStatDescs": [
+                "处在加速状态的时间：@eogvar1@"
+              ],
+              "recommendationDescriptorAttributes": {
+                "kMoveSpeed": 10
+              }
+            }
+          }
+        },
+        "text": {
+          "officialLong": "朝着附近移动受损的敌方英雄移动时，将获得7.5%移动速度加成。朝着任一被你施加了移动受损的敌方英雄移动时，这个加成将提升至15%移动速度。来自友军控制效果的激活距离：1000",
+          "officialShort": "朝着附近移动受损的敌方英雄移动时，获得移动速度加成，如果移动受损是你施加的，这个加成还会提升。",
+          "clientLong": "朝着附近移动受损的敌方英雄移动时，将获得7.5%移动速度加成。朝着任一被你施加了移动受损的敌方英雄移动时，这个加成将提升至15%移动速度。来自友军控制效果的激活距离：1000",
+          "clientTooltip": "朝着附近移动受损的敌方英雄移动时，将获得7.5%移动速度加成。朝着任一被你施加了移动受损的敌方英雄移动时，这个加成将提升至15%移动速度。来自友军控制效果的激活距离：1000加速的时间总和：@f1@秒"
+        }
+      },
+      "previousScope": {
+        "runeKey": "rune_8410",
+        "skillKey": "rune_8410_passive",
+        "id": 8410,
+        "name": "行近速率",
+        "category": "MINOR",
+        "pathKey": "rune_path_8300",
+        "pathName": "启迪",
+        "scope": "混合保留",
+        "branches": [
+          {
+            "scope": "范围内",
+            "summary": "朝向自己控制的敌人加速",
+            "quote": "被你施加了移动受损",
+            "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+            "evidence": {
+              "sourceId": 8410,
+              "field": "officialLong",
+              "exactText": "被你施加了移动受损"
+            }
+          },
+          {
+            "scope": "范围外",
+            "summary": "来自友军控制的附近加速分支",
+            "quote": "来自友军控制效果的激活距离",
+            "reason": "严格单挑没有第三名友方英雄施加控制；保留自己的控制分支",
+            "evidence": {
+              "sourceId": 8410,
+              "field": "officialLong",
+              "exactText": "来自友军控制效果的激活距离"
+            }
+          }
+        ],
+        "confirmedFacts": [
+          "自身控制目标移速比例0.15；其他移动受损分支0.075；友方控制距离1000"
+        ],
+        "missingFacts": [
+          "朝向移动/距离事件；控制归属与合法减速/定身全集；百分比移速组合"
+        ],
+        "recordableComponents": [
+          "自身0.15及基础0.075参数按分支记录；不无条件加速或硬接眩晕一种状态"
+        ],
+        "sourceReferences": {
+          "official": "/1/slots/3/runes/1",
+          "client": "/4"
+        },
+        "sourceHasGameplayPlaceholders": false,
+        "clientDescriptionDiffers": false,
+        "missingSourceValueFacts": [],
+        "sourceValueStatus": "已见明确数值，条件与组合单独核对"
+      }
+    },
+    {
+      "current": {
+        "id": 8014,
+        "name": "致命一击",
+        "scope": "范围内",
+        "previousMissing": [],
+        "sourcePath": "Perks/Styles/Precision/CoupDeGrace",
+        "sourceObjectSha256": "cfdbb5e914b8316eafc6641fde790a9810c7232387965895fdb3fbc455b65666",
+        "object": {
+          "mPerkId": 8014,
+          "mPerkName": "CoupDeGrace",
+          "mDisplayNameLocalizationKey": "perk_displayname_CoupDeGrace",
+          "mTooltipNameLocalizationKey": "perk_tooltip_CoupDeGrace",
+          "mShortDescLocalizationKey": "perk_short_desc_CoupDeGrace",
+          "mLongDescLocalizationKey": "perk_long_desc_CoupDeGrace",
+          "mEndOfGameStatDescriptions": [
+            "perk_eog_stat_desc_CoupDeGrace1"
+          ],
+          "mDisplayStatLocalizationKey": "perk_display_stat_total",
+          "mIconTextureName": "assets/perks/styles/precision/coupdegrace/coupdegrace.tex",
+          "mScript": {
+            "mSpellScriptName": "ASSETS/Perks/Styles/Precision/CoupDeGrace/CoupDeGrace.lua",
+            "mSpellScriptData": {
+              "mEffectAmount": {
+                "EnemyHealthPercentageThreshold": 0.4000000059604645,
+                "BonusPercentDamage": 0.07999999821186066
+              },
+              "__type": "PerkScriptData"
+            },
+            "__type": "PerkScript"
+          },
+          "mDefault": true,
+          "__type": "Perk"
+        },
+        "bound": {
+          "mDisplayNameLocalizationKey": {
+            "sourceKey": "perk_displayname_CoupDeGrace",
+            "resolvedKey": "perk_displayname_coupdegrace",
+            "text": "致命一击"
+          },
+          "mTooltipNameLocalizationKey": {
+            "sourceKey": "perk_tooltip_CoupDeGrace",
+            "resolvedKey": "perk_tooltip_coupdegrace",
+            "text": "{{perk_long_desc_CoupDeGrace}}<br><hr><br>造成的额外伤害总和：<scaleAD>@f1@</scaleAD>"
+          },
+          "mShortDescLocalizationKey": {
+            "sourceKey": "perk_short_desc_CoupDeGrace",
+            "resolvedKey": "perk_short_desc_coupdegrace",
+            "text": "对低生命值的敌方英雄造成更多伤害。"
+          },
+          "mLongDescLocalizationKey": {
+            "sourceKey": "perk_long_desc_CoupDeGrace",
+            "resolvedKey": "perk_long_desc_coupdegrace",
+            "text": "对生命值低于@EnemyHealthPercentageThreshold*100@%的英雄多造成@BonusPercentDamage.0 *100@%伤害。"
+          },
+          "mDisplayStatLocalizationKey": {
+            "sourceKey": "perk_display_stat_total",
+            "resolvedKey": "perk_display_stat_total",
+            "text": "@f1@"
+          }
+        },
+        "summary": {
+          "effectAmounts": {
+            "EnemyHealthPercentageThreshold": 0.4000000059604645,
+            "BonusPercentDamage": 0.07999999821186066
+          },
+          "calculations": {},
+          "otherModeOverrides": [],
+          "hasDefaultScript": true,
+          "scriptPath": "ASSETS/Perks/Styles/Precision/CoupDeGrace/CoupDeGrace.lua"
+        }
+      },
+      "official": {
+        "runeKey": "rune_8014",
+        "id": 8014,
+        "name": "致命一击",
+        "category": "MINOR",
+        "pathKey": "rune_path_8000",
+        "pathName": "精密",
+        "slotIndex": 3,
+        "source": {
+          "official": {
+            "file": "官方原始资料/runesReforged-16.17.1-zh_CN.json",
+            "pointer": "/2/slots/3/runes/0",
+            "raw": {
+              "id": 8014,
+              "key": "CoupDeGrace",
+              "icon": "perk-images/Styles/Precision/CoupDeGrace/CoupDeGrace.png",
+              "name": "致命一击",
+              "shortDesc": "对低生命值的敌方英雄造成更多伤害。",
+              "longDesc": "对生命值低于40%的英雄多造成8%伤害。"
+            }
+          },
+          "client": {
+            "file": "客户端提取资料/perks-16.17-zh_CN.json",
+            "pointer": "/59",
+            "raw": {
+              "id": 8014,
+              "name": "致命一击",
+              "majorChangePatchVersion": "",
+              "tooltip": "对生命值低于40%的英雄多造成8%伤害。<br><hr><br>造成的额外伤害总和：<scaleAD>@f1@</scaleAD>",
+              "shortDesc": "对低生命值的敌方英雄造成更多伤害。",
+              "longDesc": "对生命值低于40%的英雄多造成8%伤害。",
+              "recommendationDescriptor": "",
+              "iconPath": "/lol-game-data/assets/v1/perk-images/Styles/Precision/CoupDeGrace/CoupDeGrace.png",
+              "endOfGameStatDescs": [
+                "额外伤害总和：@eogvar1@"
+              ],
+              "recommendationDescriptorAttributes": {
+                "kBurstDamage": 8,
+                "kDamagePerSecond": 2
+              }
+            }
+          }
+        },
+        "text": {
+          "officialLong": "对生命值低于40%的英雄多造成8%伤害。",
+          "officialShort": "对低生命值的敌方英雄造成更多伤害。",
+          "clientLong": "对生命值低于40%的英雄多造成8%伤害。",
+          "clientTooltip": "对生命值低于40%的英雄多造成8%伤害。造成的额外伤害总和：@f1@"
+        }
+      },
+      "previousScope": {
+        "runeKey": "rune_8014",
+        "skillKey": "rune_8014_passive",
+        "id": 8014,
+        "name": "致命一击",
+        "category": "MINOR",
+        "pathKey": "rune_path_8000",
+        "pathName": "精密",
+        "scope": "范围内",
+        "branches": [
+          {
+            "scope": "范围内",
+            "summary": "目标低生命值伤害增幅",
+            "quote": "低于40%的英雄",
+            "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+            "evidence": {
+              "sourceId": 8014,
+              "field": "officialLong",
+              "exactText": "低于40%的英雄"
+            }
+          }
+        ],
+        "confirmedFacts": [
+          "目标生命比例严格<0.40；伤害+0.08"
+        ],
+        "missingFacts": [
+          "伤害乘区/伤害包范围，伤害前还是事件后目标生命采样"
+        ],
+        "recordableComponents": [
+          "阈值0.40及0.08参数；目录无DAMAGE区，暂不生成持续伤害修正"
+        ],
+        "sourceReferences": {
+          "official": "/2/slots/3/runes/0",
+          "client": "/59"
+        },
+        "sourceHasGameplayPlaceholders": false,
+        "clientDescriptionDiffers": false,
+        "missingSourceValueFacts": [],
+        "sourceValueStatus": "已见明确数值，条件与组合单独核对"
+      }
+    },
+    {
+      "current": {
+        "id": 8017,
+        "name": "砍倒",
+        "scope": "范围内",
+        "previousMissing": [],
+        "sourcePath": "Perks/Styles/Precision/CutDown",
+        "sourceObjectSha256": "935db43bd32a5bbf448dbd30089715029cc2ead59f44567de07754c99a5c3be5",
+        "object": {
+          "mPerkId": 8017,
+          "mPerkName": "CutDown",
+          "mDisplayNameLocalizationKey": "perk_displayname_CutDown",
+          "mTooltipNameLocalizationKey": "perk_tooltip_CutDown",
+          "mShortDescLocalizationKey": "perk_short_desc_CutDown",
+          "mLongDescLocalizationKey": "perk_long_desc_CutDown",
+          "mEndOfGameStatDescriptions": [
+            "perk_eog_stat_desc_CutDown1"
+          ],
+          "mDisplayStatLocalizationKey": "perk_display_stat_total",
+          "mIconTextureName": "assets/perks/styles/precision/cutdown/cutdown.tex",
+          "mScript": {
+            "mSpellScriptName": "ASSETS/Perks/Styles/Precision/CutDown/CutDown.lua",
+            "mSpellScriptData": {
+              "mEffectAmount": {
+                "MinBonusDamagePercent": 0.05000000074505806,
+                "MaxBonusDamagePercent": 0.15000000596046448,
+                "MinHealthDifference": 0.10000000149011612,
+                "MaxHealthDifference": 1,
+                "EnemyHealthPercentageThreshold": 0.6000000238418579,
+                "BonusPercentDamage": 0.07999999821186066
+              },
+              "__type": "PerkScriptData"
+            },
+            "__type": "PerkScript"
+          },
+          "__type": "Perk"
+        },
+        "bound": {
+          "mDisplayNameLocalizationKey": {
+            "sourceKey": "perk_displayname_CutDown",
+            "resolvedKey": "perk_displayname_cutdown",
+            "text": "砍倒"
+          },
+          "mTooltipNameLocalizationKey": {
+            "sourceKey": "perk_tooltip_CutDown",
+            "resolvedKey": "perk_tooltip_cutdown",
+            "text": "{{perk_long_desc_CutDown}}<br><hr><br>额外伤害总和：<scaleAD>@f1@</scaleAD>"
+          },
+          "mShortDescLocalizationKey": {
+            "sourceKey": "perk_short_desc_CutDown",
+            "resolvedKey": "perk_short_desc_cutdown",
+            "text": "对高生命值的敌方英雄造成更多伤害。"
+          },
+          "mLongDescLocalizationKey": {
+            "sourceKey": "perk_long_desc_CutDown",
+            "resolvedKey": "perk_long_desc_cutdown",
+            "text": "对生命值多于@EnemyHealthPercentageThreshold*100@%的英雄多造成@BonusPercentDamage*100@%伤害。"
+          },
+          "mDisplayStatLocalizationKey": {
+            "sourceKey": "perk_display_stat_total",
+            "resolvedKey": "perk_display_stat_total",
+            "text": "@f1@"
+          }
+        },
+        "summary": {
+          "effectAmounts": {
+            "MinBonusDamagePercent": 0.05000000074505806,
+            "MaxBonusDamagePercent": 0.15000000596046448,
+            "MinHealthDifference": 0.10000000149011612,
+            "MaxHealthDifference": 1,
+            "EnemyHealthPercentageThreshold": 0.6000000238418579,
+            "BonusPercentDamage": 0.07999999821186066
+          },
+          "calculations": {},
+          "otherModeOverrides": [],
+          "hasDefaultScript": true,
+          "scriptPath": "ASSETS/Perks/Styles/Precision/CutDown/CutDown.lua"
+        }
+      },
+      "official": {
+        "runeKey": "rune_8017",
+        "id": 8017,
+        "name": "砍倒",
+        "category": "MINOR",
+        "pathKey": "rune_path_8000",
+        "pathName": "精密",
+        "slotIndex": 3,
+        "source": {
+          "official": {
+            "file": "官方原始资料/runesReforged-16.17.1-zh_CN.json",
+            "pointer": "/2/slots/3/runes/1",
+            "raw": {
+              "id": 8017,
+              "key": "CutDown",
+              "icon": "perk-images/Styles/Precision/CutDown/CutDown.png",
+              "name": "砍倒",
+              "shortDesc": "对高生命值的敌方英雄造成更多伤害。",
+              "longDesc": "对生命值多于60%的英雄多造成8%伤害。"
+            }
+          },
+          "client": {
+            "file": "客户端提取资料/perks-16.17-zh_CN.json",
+            "pointer": "/26",
+            "raw": {
+              "id": 8017,
+              "name": "砍倒",
+              "majorChangePatchVersion": "",
+              "tooltip": "对生命值多于60%的英雄多造成8%伤害。<br><hr><br>额外伤害总和：<scaleAD>@f1@</scaleAD>",
+              "shortDesc": "对高生命值的敌方英雄造成更多伤害。",
+              "longDesc": "对生命值多于60%的英雄多造成8%伤害。",
+              "recommendationDescriptor": "",
+              "iconPath": "/lol-game-data/assets/v1/perk-images/Styles/Precision/CutDown/CutDown.png",
+              "endOfGameStatDescs": [
+                "额外伤害总和：@eogvar1@"
+              ],
+              "recommendationDescriptorAttributes": {
+                "kBurstDamage": 1,
+                "kDamagePerSecond": 9
+              }
+            }
+          }
+        },
+        "text": {
+          "officialLong": "对生命值多于60%的英雄多造成8%伤害。",
+          "officialShort": "对高生命值的敌方英雄造成更多伤害。",
+          "clientLong": "对生命值多于60%的英雄多造成8%伤害。",
+          "clientTooltip": "对生命值多于60%的英雄多造成8%伤害。额外伤害总和：@f1@"
+        }
+      },
+      "previousScope": {
+        "runeKey": "rune_8017",
+        "skillKey": "rune_8017_passive",
+        "id": 8017,
+        "name": "砍倒",
+        "category": "MINOR",
+        "pathKey": "rune_path_8000",
+        "pathName": "精密",
+        "scope": "范围内",
+        "branches": [
+          {
+            "scope": "范围内",
+            "summary": "目标高生命值伤害增幅",
+            "quote": "多于60%的英雄",
+            "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+            "evidence": {
+              "sourceId": 8017,
+              "field": "officialLong",
+              "exactText": "多于60%的英雄"
+            }
+          }
+        ],
+        "confirmedFacts": [
+          "目标生命比例严格>0.60；伤害+0.08"
+        ],
+        "missingFacts": [
+          "伤害乘区及目标生命采样时点；不采用旧版最大生命差公式"
+        ],
+        "recordableComponents": [
+          "阈值0.60及0.08参数"
+        ],
+        "sourceReferences": {
+          "official": "/2/slots/3/runes/1",
+          "client": "/26"
+        },
+        "sourceHasGameplayPlaceholders": false,
+        "clientDescriptionDiffers": false,
+        "missingSourceValueFacts": [],
+        "sourceValueStatus": "已见明确数值，条件与组合单独核对"
+      }
+    },
+    {
+      "current": {
+        "id": 8429,
+        "name": "调节",
+        "scope": "范围内",
+        "previousMissing": [],
+        "sourcePath": "Perks/Styles/Resolve/Conditioning",
+        "sourceObjectSha256": "56e20105bf05be0d58bdaf8c9848df3754c659304c467c262ee9b22186f218a5",
+        "object": {
+          "mPerkId": 8429,
+          "mPerkName": "Conditioning",
+          "mDisplayNameLocalizationKey": "perk_displayname_Conditioning",
+          "mTooltipNameLocalizationKey": "perk_tooltip_Conditioning",
+          "mShortDescLocalizationKey": "perk_short_desc_Conditioning",
+          "mLongDescLocalizationKey": "perk_long_desc_Conditioning",
+          "mEndOfGameStatDescriptions": [
+            "perk_eog_stat_desc_Conditioning",
+            "perk_eog_stat_desc_ConditioningArmor",
+            "perk_eog_stat_desc_ConditioningMR"
+          ],
+          "mDisplayStatLocalizationKey": "perk_display_stat_Conditioning",
+          "mIconTextureName": "assets/perks/styles/resolve/conditioning/conditioning.tex",
+          "mScript": {
+            "mSpellScriptName": "ASSETS/Perks/Styles/Resolve/Conditioning/Conditioning.lua",
+            "mSpellScriptData": {
+              "mEffectAmount": {
+                "ArmorBase": 8,
+                "MRBase": 8,
+                "ExtraResist": 0.029999999329447746,
+                "Range": 800,
+                "MinutesRequired": 12
+              },
+              "mEffectAmountGameMode": {
+                "NEXUSBLITZ": {
+                  "mEffectAmountPerMode": {
+                    "MinutesRequired": 6
+                  },
+                  "__type": "PerkEffectAmountPerMode"
+                },
+                "URF": {
+                  "mEffectAmountPerMode": {
+                    "MinutesRequired": 6
+                  },
+                  "__type": "PerkEffectAmountPerMode"
+                },
+                "ARAM": {
+                  "mEffectAmountPerMode": {
+                    "MinutesRequired": 8
+                  },
+                  "__type": "PerkEffectAmountPerMode"
+                },
+                "KINGPORO": {
+                  "mEffectAmountPerMode": {
+                    "MinutesRequired": 8
+                  },
+                  "__type": "PerkEffectAmountPerMode"
+                },
+                "SWIFTPLAY": {
+                  "mEffectAmountPerMode": {
+                    "MinutesRequired": 8
+                  },
+                  "__type": "PerkEffectAmountPerMode"
+                }
+              },
+              "mCalculations": {
+                "ArmorCalcTooltip": {
+                  "mSimpleTooltipCalculationDisplay": 4,
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "ArmorBase",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mStat": 1,
+                      "mDataValue": "ExtraResist",
+                      "__type": "StatByNamedDataValueCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                },
+                "MagicResistCalcTooltip": {
+                  "mSimpleTooltipCalculationDisplay": 4,
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "MRBase",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mStat": 6,
+                      "mDataValue": "ExtraResist",
+                      "__type": "StatByNamedDataValueCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                }
+              },
+              "__type": "PerkScriptData"
+            },
+            "__type": "PerkScript"
+          },
+          "mVFXResourceResolver": {
+            "resourceMap": {
+              "Perks_Conditioning_Active": "Perks/Styles/Resolve/Conditioning/Particles/Perks_Conditioning_Active"
+            },
+            "__type": "ResourceResolver"
+          },
+          "mMajorChangePatchVersion": "9.9",
+          "__type": "Perk"
+        },
+        "bound": {
+          "mDisplayNameLocalizationKey": {
+            "sourceKey": "perk_displayname_Conditioning",
+            "resolvedKey": "perk_displayname_conditioning",
+            "text": "调节"
+          },
+          "mTooltipNameLocalizationKey": {
+            "sourceKey": "perk_tooltip_Conditioning",
+            "resolvedKey": "perk_tooltip_conditioning",
+            "text": "@MinutesRequired@分钟后，获得<scaleArmor>@ArmorCalcTooltip@护甲</scaleArmor>与<scaleMR>@MagicResistCalcTooltip@魔抗</scaleMR>。"
+          },
+          "mShortDescLocalizationKey": {
+            "sourceKey": "perk_short_desc_Conditioning",
+            "resolvedKey": "perk_short_desc_conditioning",
+            "text": "在@MinutesRequired@分钟后获得+@ArmorBase@护甲和+@MRBase@魔抗，并使你的护甲和魔抗提升@ExtraResist*100@%。"
+          },
+          "mLongDescLocalizationKey": {
+            "sourceKey": "perk_long_desc_Conditioning",
+            "resolvedKey": "perk_long_desc_conditioning",
+            "text": "{{ perk_short_desc_Conditioning }}"
+          },
+          "mDisplayStatLocalizationKey": {
+            "sourceKey": "perk_display_stat_Conditioning",
+            "resolvedKey": "perk_display_stat_conditioning",
+            "text": "@f1@ | @f2@"
+          }
+        },
+        "summary": {
+          "effectAmounts": {
+            "ArmorBase": 8,
+            "MRBase": 8,
+            "ExtraResist": 0.029999999329447746,
+            "Range": 800,
+            "MinutesRequired": 12
+          },
+          "calculations": {
+            "ArmorCalcTooltip": {
+              "mSimpleTooltipCalculationDisplay": 4,
+              "mFormulaParts": [
+                {
+                  "mDataValue": "ArmorBase",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 1,
+                  "mDataValue": "ExtraResist",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "MagicResistCalcTooltip": {
+              "mSimpleTooltipCalculationDisplay": 4,
+              "mFormulaParts": [
+                {
+                  "mDataValue": "MRBase",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 6,
+                  "mDataValue": "ExtraResist",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "otherModeOverrides": [
+            "NEXUSBLITZ",
+            "URF",
+            "ARAM",
+            "KINGPORO",
+            "SWIFTPLAY"
+          ],
+          "hasDefaultScript": true,
+          "scriptPath": "ASSETS/Perks/Styles/Resolve/Conditioning/Conditioning.lua"
+        }
+      },
+      "official": {
+        "runeKey": "rune_8429",
+        "id": 8429,
+        "name": "调节",
+        "category": "MINOR",
+        "pathKey": "rune_path_8400",
+        "pathName": "坚决",
+        "slotIndex": 2,
+        "source": {
+          "official": {
+            "file": "官方原始资料/runesReforged-16.17.1-zh_CN.json",
+            "pointer": "/3/slots/2/runes/0",
+            "raw": {
+              "id": 8429,
+              "key": "Conditioning",
+              "icon": "perk-images/Styles/Resolve/Conditioning/Conditioning.png",
+              "name": "调节",
+              "shortDesc": "在12分钟后获得+8护甲和+8魔抗，并使你的护甲和魔抗提升3%。",
+              "longDesc": "在12分钟后获得+8护甲和+8魔抗，并使你的护甲和魔抗提升3%。"
+            }
+          },
+          "client": {
+            "file": "客户端提取资料/perks-16.17-zh_CN.json",
+            "pointer": "/91",
+            "raw": {
+              "id": 8429,
+              "name": "调节",
+              "majorChangePatchVersion": "9.9",
+              "tooltip": "12分钟后，获得<scaleArmor>@ArmorCalcTooltip@护甲</scaleArmor>与<scaleMR>@MagicResistCalcTooltip@魔抗</scaleMR>。",
+              "shortDesc": "在12分钟后获得+8护甲和+8魔抗，并使你的护甲和魔抗提升3%。",
+              "longDesc": "在12分钟后获得+8护甲和+8魔抗，并使你的护甲和魔抗提升3%。",
+              "recommendationDescriptor": "",
+              "iconPath": "/lol-game-data/assets/v1/perk-images/Styles/Resolve/Conditioning/Conditioning.png",
+              "endOfGameStatDescs": [
+                "激活的游戏时间占比：@eogvar1@%",
+                "总护甲加成：@eogvar2@",
+                "总魔抗加成：@eogvar3@"
+              ],
+              "recommendationDescriptorAttributes": {
+                "kDurability": 10
+              }
+            }
+          }
+        },
+        "text": {
+          "officialLong": "在12分钟后获得+8护甲和+8魔抗，并使你的护甲和魔抗提升3%。",
+          "officialShort": "在12分钟后获得+8护甲和+8魔抗，并使你的护甲和魔抗提升3%。",
+          "clientLong": "在12分钟后获得+8护甲和+8魔抗，并使你的护甲和魔抗提升3%。",
+          "clientTooltip": "12分钟后，获得@ArmorCalcTooltip@护甲与@MagicResistCalcTooltip@魔抗。"
+        }
+      },
+      "previousScope": {
+        "runeKey": "rune_8429",
+        "skillKey": "rune_8429_passive",
+        "id": 8429,
+        "name": "调节",
+        "category": "MINOR",
+        "pathKey": "rune_path_8400",
+        "pathName": "坚决",
+        "scope": "范围内",
+        "branches": [
+          {
+            "scope": "范围内",
+            "summary": "12分钟后的固定双抗",
+            "quote": "获得+8护甲和+8魔抗",
+            "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+            "evidence": {
+              "sourceId": 8429,
+              "field": "officialLong",
+              "exactText": "获得+8护甲和+8魔抗"
+            }
+          },
+          {
+            "scope": "范围内",
+            "summary": "后续百分比双抗提升",
+            "quote": "护甲和魔抗提升3%",
+            "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+            "evidence": {
+              "sourceId": 8429,
+              "field": "officialLong",
+              "exactText": "护甲和魔抗提升3%"
+            }
+          },
+          {
+            "scope": "保留依赖",
+            "summary": "游戏时间门槛",
+            "quote": "在12分钟后",
+            "reason": "该进度或条件影响范围内战斗收益；不模拟范围外对象战斗，但不能丢失已获得进度",
+            "evidence": {
+              "sourceId": 8429,
+              "field": "officialLong",
+              "exactText": "在12分钟后"
+            }
+          }
+        ],
+        "confirmedFacts": [
+          "门槛720000毫秒；护甲8、魔抗8；两抗提升比例0.03"
+        ],
+        "missingFacts": [
+          "游戏绝对时间条件；固定与比例顺序及跨来源组合；不能用来源创建12分钟延迟代替开局时间"
+        ],
+        "recordableComponents": [
+          "8/8固定双抗独立组成，0.03参数；未确认时间条件前不初始化授予"
+        ],
+        "sourceReferences": {
+          "official": "/3/slots/2/runes/0",
+          "client": "/91"
+        },
+        "sourceHasGameplayPlaceholders": false,
+        "clientDescriptionDiffers": false,
+        "missingSourceValueFacts": [],
+        "sourceValueStatus": "已见明确数值，条件与组合单独核对"
+      }
+    },
+    {
+      "current": {
+        "id": 8444,
+        "name": "复苏之风",
+        "scope": "范围内",
+        "previousMissing": [],
+        "sourcePath": "Perks/Styles/Resolve/SecondWind",
+        "sourceObjectSha256": "3b4d893632f9f2c29eb5a19706debd576eb091f16cda3987d6a6057efa47bf27",
+        "object": {
+          "mPerkId": 8444,
+          "mPerkName": "SecondWind",
+          "mDisplayNameLocalizationKey": "perk_displayname_SecondWind",
+          "mTooltipNameLocalizationKey": "perk_tooltip_SecondWind",
+          "mShortDescLocalizationKey": "perk_short_desc_SecondWind",
+          "mLongDescLocalizationKey": "perk_long_desc_SecondWind",
+          "mEndOfGameStatDescriptions": [
+            "perk_eog_stat_desc_SecondWind1"
+          ],
+          "mDisplayStatLocalizationKey": "perk_display_stat_total",
+          "mIconTextureName": "assets/perks/styles/resolve/secondwind/secondwind.tex",
+          "mScript": {
+            "mSpellScriptName": "ASSETS/Perks/Styles/Resolve/SecondWind/SecondWind.lua",
+            "mSpellScriptData": {
+              "mEffectAmount": {
+                "RegenSeconds": 10,
+                "RegenPercentMax": 0.03999999910593033,
+                "RegenFlat": 0
+              },
+              "__type": "PerkScriptData"
+            },
+            "__type": "PerkScript"
+          },
+          "mDefault": true,
+          "__type": "Perk"
+        },
+        "bound": {
+          "mDisplayNameLocalizationKey": {
+            "sourceKey": "perk_displayname_SecondWind",
+            "resolvedKey": "perk_displayname_secondwind",
+            "text": "复苏之风"
+          },
+          "mTooltipNameLocalizationKey": {
+            "sourceKey": "perk_tooltip_SecondWind",
+            "resolvedKey": "perk_tooltip_secondwind",
+            "text": "{{perk_long_desc_SecondWind}}<br><hr><br><scaleAD>治疗效果总和：@f1@</scaleAD>"
+          },
+          "mShortDescLocalizationKey": {
+            "sourceKey": "perk_short_desc_SecondWind",
+            "resolvedKey": "perk_short_desc_secondwind",
+            "text": "在受到来自一名敌方英雄的伤害后，会持续治疗一些已损失生命值。"
+          },
+          "mLongDescLocalizationKey": {
+            "sourceKey": "perk_long_desc_SecondWind",
+            "resolvedKey": "perk_long_desc_secondwind",
+            "text": "在你受到来自一名敌方英雄伤害之后，你会在@RegenSeconds@秒里持续回复生命值，总额相当于你@RegenPercentMax.0*100@%已损失生命值。"
+          },
+          "mDisplayStatLocalizationKey": {
+            "sourceKey": "perk_display_stat_total",
+            "resolvedKey": "perk_display_stat_total",
+            "text": "@f1@"
+          }
+        },
+        "summary": {
+          "effectAmounts": {
+            "RegenSeconds": 10,
+            "RegenPercentMax": 0.03999999910593033,
+            "RegenFlat": 0
+          },
+          "calculations": {},
+          "otherModeOverrides": [],
+          "hasDefaultScript": true,
+          "scriptPath": "ASSETS/Perks/Styles/Resolve/SecondWind/SecondWind.lua"
+        }
+      },
+      "official": {
+        "runeKey": "rune_8444",
+        "id": 8444,
+        "name": "复苏之风",
+        "category": "MINOR",
+        "pathKey": "rune_path_8400",
+        "pathName": "坚决",
+        "slotIndex": 2,
+        "source": {
+          "official": {
+            "file": "官方原始资料/runesReforged-16.17.1-zh_CN.json",
+            "pointer": "/3/slots/2/runes/1",
+            "raw": {
+              "id": 8444,
+              "key": "SecondWind",
+              "icon": "perk-images/Styles/Resolve/SecondWind/SecondWind.png",
+              "name": "复苏之风",
+              "shortDesc": "在受到来自一名敌方英雄的伤害后，会持续治疗一些已损失生命值。",
+              "longDesc": "在你受到来自一名敌方英雄伤害之后，你会在10秒里持续回复生命值，总额相当于你4%已损失生命值。"
+            }
+          },
+          "client": {
+            "file": "客户端提取资料/perks-16.17-zh_CN.json",
+            "pointer": "/87",
+            "raw": {
+              "id": 8444,
+              "name": "复苏之风",
+              "majorChangePatchVersion": "",
+              "tooltip": "在你受到来自一名敌方英雄伤害之后，你会在10秒里持续回复生命值，总额相当于你4%已损失生命值。<br><hr><br><scaleAD>治疗效果总和：@f1@</scaleAD>",
+              "shortDesc": "在受到来自一名敌方英雄的伤害后，会持续治疗一些已损失生命值。",
+              "longDesc": "在你受到来自一名敌方英雄伤害之后，你会在10秒里持续回复生命值，总额相当于你4%已损失生命值。",
+              "recommendationDescriptor": "",
+              "iconPath": "/lol-game-data/assets/v1/perk-images/Styles/Resolve/SecondWind/SecondWind.png",
+              "endOfGameStatDescs": [
+                "治疗效果总和：@eogvar1@"
+              ],
+              "recommendationDescriptorAttributes": {
+                "kHealing": 10
+              }
+            }
+          }
+        },
+        "text": {
+          "officialLong": "在你受到来自一名敌方英雄伤害之后，你会在10秒里持续回复生命值，总额相当于你4%已损失生命值。",
+          "officialShort": "在受到来自一名敌方英雄的伤害后，会持续治疗一些已损失生命值。",
+          "clientLong": "在你受到来自一名敌方英雄伤害之后，你会在10秒里持续回复生命值，总额相当于你4%已损失生命值。",
+          "clientTooltip": "在你受到来自一名敌方英雄伤害之后，你会在10秒里持续回复生命值，总额相当于你4%已损失生命值。治疗效果总和：@f1@"
+        }
+      },
+      "previousScope": {
+        "runeKey": "rune_8444",
+        "skillKey": "rune_8444_passive",
+        "id": 8444,
+        "name": "复苏之风",
+        "category": "MINOR",
+        "pathKey": "rune_path_8400",
+        "pathName": "坚决",
+        "scope": "范围内",
+        "branches": [
+          {
+            "scope": "范围内",
+            "summary": "受英雄伤害后的持续自身回复",
+            "quote": "在10秒里持续回复生命值",
+            "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+            "evidence": {
+              "sourceId": 8444,
+              "field": "officialLong",
+              "exactText": "在10秒里持续回复生命值"
+            }
+          }
+        ],
+        "confirmedFacts": [
+          "治疗总额0.04已损生命；持续10000毫秒"
+        ],
+        "missingFacts": [
+          "已损生命快照还是动态；具体跳频/首跳；再次受伤刷新叠加规则"
+        ],
+        "recordableComponents": [
+          "0.04和10000参数及总治疗额公式；不把总额一次治疗或任意10跳当完整效果"
+        ],
+        "sourceReferences": {
+          "official": "/3/slots/2/runes/1",
+          "client": "/87"
+        },
+        "sourceHasGameplayPlaceholders": false,
+        "clientDescriptionDiffers": false,
+        "missingSourceValueFacts": [],
+        "sourceValueStatus": "已见明确数值，条件与组合单独核对"
+      }
+    },
+    {
+      "current": {
+        "id": 8451,
+        "name": "过度生长",
+        "scope": "范围内",
+        "previousMissing": [],
+        "sourcePath": "Perks/Styles/Resolve/Overgrowth",
+        "sourceObjectSha256": "1fec995d097421f0776471a1a2a857d68fb3a62c642e98a31071f3eac278fbe7",
+        "object": {
+          "mPerkId": 8451,
+          "mPerkName": "Overgrowth",
+          "mDisplayNameLocalizationKey": "perk_displayname_Overgrowth",
+          "mTooltipNameLocalizationKey": "perk_tooltip_Overgrowth",
+          "mShortDescLocalizationKey": "perk_short_desc_Overgrowth",
+          "mLongDescLocalizationKey": "perk_long_desc_Overgrowth",
+          "mEndOfGameStatDescriptions": [
+            "perk_eog_stat_desc_Overgrowth1"
+          ],
+          "mDisplayStatLocalizationKey": "perk_display_stat_total",
+          "mIconTextureName": "assets/perks/styles/resolve/overgrowth/overgrowth.tex",
+          "mScript": {
+            "mSpellScriptName": "ASSETS/Perks/Styles/Resolve/Overgrowth/Overgrowth.lua",
+            "mSpellScriptData": {
+              "mEffectAmount": {
+                "{1663f8e7}": 0.75,
+                "Range": 1400,
+                "UnitsPerTier": 8,
+                "{ca029a2b}": 2,
+                "FlatHealthPerTier": 3,
+                "ThresholdUnits": 120,
+                "ThresholdMaxHealthRatio": 0.03500000014901161
+              },
+              "mEffectAmountGameMode": {
+                "NEXUSBLITZ": {
+                  "mEffectAmountPerMode": {
+                    "ThresholdUnits": 80,
+                    "FlatHealthPerTier": 5
+                  },
+                  "__type": "PerkEffectAmountPerMode"
+                },
+                "ARAM": {
+                  "mEffectAmountPerMode": {
+                    "ThresholdUnits": 80,
+                    "FlatHealthPerTier": 5
+                  },
+                  "__type": "PerkEffectAmountPerMode"
+                },
+                "KINGPORO": {
+                  "mEffectAmountPerMode": {
+                    "ThresholdUnits": 80,
+                    "FlatHealthPerTier": 5
+                  },
+                  "__type": "PerkEffectAmountPerMode"
+                },
+                "{a110bc47}": {
+                  "mEffectAmountPerMode": {
+                    "ThresholdUnits": 40,
+                    "FlatHealthPerTier": 12
+                  },
+                  "__type": "PerkEffectAmountPerMode"
+                }
+              },
+              "__type": "PerkScriptData"
+            },
+            "__type": "PerkScript"
+          },
+          "mVFXResourceResolver": {
+            "resourceMap": {
+              "Perks_Overgrowth_Stack": "Perks/Styles/Resolve/Overgrowth/Particles/Perks_Overgrowth_Stack"
+            },
+            "__type": "ResourceResolver"
+          },
+          "mDefault": true,
+          "mMajorChangePatchVersion": "8.23",
+          "__type": "Perk"
+        },
+        "bound": {
+          "mDisplayNameLocalizationKey": {
+            "sourceKey": "perk_displayname_Overgrowth",
+            "resolvedKey": "perk_displayname_overgrowth",
+            "text": "过度生长"
+          },
+          "mTooltipNameLocalizationKey": {
+            "sourceKey": "perk_tooltip_Overgrowth",
+            "resolvedKey": "perk_tooltip_overgrowth",
+            "text": "{{perk_long_desc_Overgrowth}}<br><hr><br>已赚取的最大生命值总和：<scaleHealth>@f1@</scaleHealth><br>已吸收的敌人：<passiveText>@f2@</passiveText>"
+          },
+          "mShortDescLocalizationKey": {
+            "sourceKey": "perk_short_desc_Overgrowth",
+            "resolvedKey": "perk_short_desc_overgrowth",
+            "text": "在附近有小兵或野怪死亡时获得永久最大生命值。"
+          },
+          "mLongDescLocalizationKey": {
+            "sourceKey": "perk_long_desc_Overgrowth",
+            "resolvedKey": "perk_long_desc_overgrowth",
+            "text": "你附近每有@UnitsPerTier@个野怪或小兵死亡，就会使你永久获得@FlatHealthPerTier@最大生命值。<br><br>在你吸收了@ThresholdUnits@个野怪或小兵时，提供一个额外的@ThresholdMaxHealthRatio*100@%最大生命值。"
+          },
+          "mDisplayStatLocalizationKey": {
+            "sourceKey": "perk_display_stat_total",
+            "resolvedKey": "perk_display_stat_total",
+            "text": "@f1@"
+          }
+        },
+        "summary": {
+          "effectAmounts": {
+            "{1663f8e7}": 0.75,
+            "Range": 1400,
+            "UnitsPerTier": 8,
+            "{ca029a2b}": 2,
+            "FlatHealthPerTier": 3,
+            "ThresholdUnits": 120,
+            "ThresholdMaxHealthRatio": 0.03500000014901161
+          },
+          "calculations": {},
+          "otherModeOverrides": [
+            "NEXUSBLITZ",
+            "ARAM",
+            "KINGPORO",
+            "{a110bc47}"
+          ],
+          "hasDefaultScript": true,
+          "scriptPath": "ASSETS/Perks/Styles/Resolve/Overgrowth/Overgrowth.lua"
+        }
+      },
+      "official": {
+        "runeKey": "rune_8451",
+        "id": 8451,
+        "name": "过度生长",
+        "category": "MINOR",
+        "pathKey": "rune_path_8400",
+        "pathName": "坚决",
+        "slotIndex": 3,
+        "source": {
+          "official": {
+            "file": "官方原始资料/runesReforged-16.17.1-zh_CN.json",
+            "pointer": "/3/slots/3/runes/0",
+            "raw": {
+              "id": 8451,
+              "key": "Overgrowth",
+              "icon": "perk-images/Styles/Resolve/Overgrowth/Overgrowth.png",
+              "name": "过度生长",
+              "shortDesc": "在附近有小兵或野怪死亡时获得永久最大生命值。",
+              "longDesc": "你附近每有8个野怪或小兵死亡，就会使你永久获得3最大生命值。<br><br>在你吸收了120个野怪或小兵时，提供一个额外的3.5%最大生命值。"
+            }
+          },
+          "client": {
+            "file": "客户端提取资料/perks-16.17-zh_CN.json",
+            "pointer": "/63",
+            "raw": {
+              "id": 8451,
+              "name": "过度生长",
+              "majorChangePatchVersion": "8.23",
+              "tooltip": "你附近每有8个野怪或小兵死亡，就会使你永久获得3最大生命值。<br><br>在你吸收了120个野怪或小兵时，提供一个额外的3.5%最大生命值。<br><hr><br>已赚取的最大生命值总和：<scaleHealth>@f1@</scaleHealth><br>已吸收的敌人：<passiveText>@f2@</passiveText>",
+              "shortDesc": "在附近有小兵或野怪死亡时获得永久最大生命值。",
+              "longDesc": "你附近每有8个野怪或小兵死亡，就会使你永久获得3最大生命值。<br><br>在你吸收了120个野怪或小兵时，提供一个额外的3.5%最大生命值。",
+              "recommendationDescriptor": "",
+              "iconPath": "/lol-game-data/assets/v1/perk-images/Styles/Resolve/Overgrowth/Overgrowth.png",
+              "endOfGameStatDescs": [
+                "额外最大生命值总和：@eogvar1@"
+              ],
+              "recommendationDescriptorAttributes": {
+                "kDurability": 10
+              }
+            }
+          }
+        },
+        "text": {
+          "officialLong": "你附近每有8个野怪或小兵死亡，就会使你永久获得3最大生命值。在你吸收了120个野怪或小兵时，提供一个额外的3.5%最大生命值。",
+          "officialShort": "在附近有小兵或野怪死亡时获得永久最大生命值。",
+          "clientLong": "你附近每有8个野怪或小兵死亡，就会使你永久获得3最大生命值。在你吸收了120个野怪或小兵时，提供一个额外的3.5%最大生命值。",
+          "clientTooltip": "你附近每有8个野怪或小兵死亡，就会使你永久获得3最大生命值。在你吸收了120个野怪或小兵时，提供一个额外的3.5%最大生命值。已赚取的最大生命值总和：@f1@已吸收的敌人：@f2@"
+        }
+      },
+      "previousScope": {
+        "runeKey": "rune_8451",
+        "skillKey": "rune_8451_passive",
+        "id": 8451,
+        "name": "过度生长",
+        "category": "MINOR",
+        "pathKey": "rune_path_8400",
+        "pathName": "坚决",
+        "scope": "范围内",
+        "branches": [
+          {
+            "scope": "范围内",
+            "summary": "永久生命与吸收门槛后的生命比例",
+            "quote": "永久获得3最大生命值",
+            "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+            "evidence": {
+              "sourceId": 8451,
+              "field": "officialLong",
+              "exactText": "永久获得3最大生命值"
+            }
+          },
+          {
+            "scope": "保留依赖",
+            "summary": "小兵野怪死亡吸收进度",
+            "quote": "每有8个野怪或小兵死亡",
+            "reason": "该进度或条件影响范围内战斗收益；不模拟范围外对象战斗，但不能丢失已获得进度",
+            "evidence": {
+              "sourceId": 8451,
+              "field": "officialLong",
+              "exactText": "每有8个野怪或小兵死亡"
+            }
+          }
+        ],
+        "confirmedFacts": [
+          "每8个提供3生命；120个后额外最大生命比例0.035"
+        ],
+        "missingFacts": [
+          "吸收范围及战前进度；累计除8取整而现行公式无FLOOR；最大生命比例的跨来源组合"
+        ],
+        "recordableComponents": [
+          "8、3、120、0.035参数；保留已吸收数量依赖，不因对象是小兵野怪删除整个符文"
+        ],
+        "sourceReferences": {
+          "official": "/3/slots/3/runes/0",
+          "client": "/63"
+        },
+        "sourceHasGameplayPlaceholders": false,
+        "clientDescriptionDiffers": false,
+        "missingSourceValueFacts": [],
+        "sourceValueStatus": "已见明确数值，条件与组合单独核对"
+      }
+    },
+    {
+      "current": {
+        "id": 8234,
+        "name": "迅捷",
+        "scope": "范围内",
+        "previousMissing": [],
+        "sourcePath": "Perks/Styles/Sorcery/Celerity",
+        "sourceObjectSha256": "5b27aad3b80624cf02fe1605d02ab44de35e30043a09bb7299249d58a792347a",
+        "object": {
+          "mPerkId": 8234,
+          "mPerkName": "Celerity",
+          "mDisplayNameLocalizationKey": "perk_displayname_Celerity",
+          "mTooltipNameLocalizationKey": "perk_tooltip_Celerity",
+          "mShortDescLocalizationKey": "perk_short_desc_Celerity",
+          "mLongDescLocalizationKey": "perk_long_desc_Celerity",
+          "mEndOfGameStatDescriptions": [
+            "perk_eog_stat_desc_Celerity1"
+          ],
+          "mDisplayStatLocalizationKey": "perk_display_stat_celerity",
+          "mIconTextureName": "assets/perks/styles/sorcery/celerity/celeritytemp.tex",
+          "mScript": {
+            "mSpellScriptName": "ASSETS/Perks/Styles/Sorcery/Celerity/Celerity.lua",
+            "mSpellScriptData": {
+              "mEffectAmount": {
+                "PercentHasteMod": 0.07000000029802322,
+                "PercentMS": 0.009999999776482582
+              },
+              "__type": "PerkScriptData"
+            },
+            "__type": "PerkScript"
+          },
+          "mMajorChangePatchVersion": "9.9",
+          "__type": "Perk"
+        },
+        "bound": {
+          "mDisplayNameLocalizationKey": {
+            "sourceKey": "perk_displayname_Celerity",
+            "resolvedKey": "perk_displayname_celerity",
+            "text": "迅捷"
+          },
+          "mTooltipNameLocalizationKey": {
+            "sourceKey": "perk_tooltip_Celerity",
+            "resolvedKey": "perk_tooltip_celerity",
+            "text": "{{perk_long_desc_Celerity}}<br><br>当前已提供：<speed>@f1@移动速度</speed><br>已移动过的额外距离：@f2@"
+          },
+          "mShortDescLocalizationKey": {
+            "sourceKey": "perk_short_desc_Celerity",
+            "resolvedKey": "perk_short_desc_celerity",
+            "text": "你身上的所有<speed>移动速度</speed>加成的效能提升@PercentHasteMod*100@%并提供<speed>@PercentMS*100@%移动速度</speed>。"
+          },
+          "mLongDescLocalizationKey": {
+            "sourceKey": "perk_long_desc_Celerity",
+            "resolvedKey": "perk_long_desc_celerity",
+            "text": "你身上的所有移动加成的效能提升@PercentHasteMod*100@%并提供<speed>@PercentMS*100@%移动速度</speed>。"
+          },
+          "mDisplayStatLocalizationKey": {
+            "sourceKey": "perk_display_stat_celerity",
+            "resolvedKey": "perk_display_stat_celerity",
+            "text": "@f1@"
+          }
+        },
+        "summary": {
+          "effectAmounts": {
+            "PercentHasteMod": 0.07000000029802322,
+            "PercentMS": 0.009999999776482582
+          },
+          "calculations": {},
+          "otherModeOverrides": [],
+          "hasDefaultScript": true,
+          "scriptPath": "ASSETS/Perks/Styles/Sorcery/Celerity/Celerity.lua"
+        }
+      },
+      "official": {
+        "runeKey": "rune_8234",
+        "id": 8234,
+        "name": "迅捷",
+        "category": "MINOR",
+        "pathKey": "rune_path_8200",
+        "pathName": "巫术",
+        "slotIndex": 2,
+        "source": {
+          "official": {
+            "file": "官方原始资料/runesReforged-16.17.1-zh_CN.json",
+            "pointer": "/4/slots/2/runes/1",
+            "raw": {
+              "id": 8234,
+              "key": "Celerity",
+              "icon": "perk-images/Styles/Sorcery/Celerity/CelerityTemp.png",
+              "name": "迅捷",
+              "shortDesc": "你身上的所有<speed>移动速度</speed>加成的效能提升7%并提供<speed>1%移动速度</speed>。",
+              "longDesc": "你身上的所有移动加成的效能提升7%并提供<speed>1%移动速度</speed>。"
+            }
+          },
+          "client": {
+            "file": "客户端提取资料/perks-16.17-zh_CN.json",
+            "pointer": "/8",
+            "raw": {
+              "id": 8234,
+              "name": "迅捷",
+              "majorChangePatchVersion": "9.9",
+              "tooltip": "你身上的所有移动加成的效能提升7%并提供<speed>1%移动速度</speed>。<br><br>当前已提供：<speed>@f1@移动速度</speed><br>已移动过的额外距离：@f2@",
+              "shortDesc": "你身上的所有<speed>移动速度</speed>加成的效能提升7%并提供<speed>1%移动速度</speed>。",
+              "longDesc": "你身上的所有移动加成的效能提升7%并提供<speed>1%移动速度</speed>。",
+              "recommendationDescriptor": "",
+              "iconPath": "/lol-game-data/assets/v1/perk-images/Styles/Sorcery/Celerity/CelerityTemp.png",
+              "endOfGameStatDescs": [
+                "已移动过的额外距离：@eogvar1@"
+              ],
+              "recommendationDescriptorAttributes": {
+                "kMoveSpeed": 10
+              }
+            }
+          }
+        },
+        "text": {
+          "officialLong": "你身上的所有移动加成的效能提升7%并提供1%移动速度。",
+          "officialShort": "你身上的所有移动速度加成的效能提升7%并提供1%移动速度。",
+          "clientLong": "你身上的所有移动加成的效能提升7%并提供1%移动速度。",
+          "clientTooltip": "你身上的所有移动加成的效能提升7%并提供1%移动速度。当前已提供：@f1@移动速度已移动过的额外距离：@f2@"
+        }
+      },
+      "previousScope": {
+        "runeKey": "rune_8234",
+        "skillKey": "rune_8234_passive",
+        "id": 8234,
+        "name": "迅捷",
+        "category": "MINOR",
+        "pathKey": "rune_path_8200",
+        "pathName": "巫术",
+        "scope": "范围内",
+        "branches": [
+          {
+            "scope": "范围内",
+            "summary": "移动加成效能增强与额外移速",
+            "quote": "所有移动加成的效能提升7%",
+            "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+            "evidence": {
+              "sourceId": 8234,
+              "field": "officialLong",
+              "exactText": "所有移动加成的效能提升7%"
+            }
+          }
+        ],
+        "confirmedFacts": [
+          "加成效能0.07；额外移速0.01"
+        ],
+        "missingFacts": [
+          "何为移动加成基数、哪些来源受增幅及组合顺序；不能直接把当前总移速乘1.07"
+        ],
+        "recordableComponents": [
+          "0.07和0.01参数；现有比例区不能自动证明正确移动加成基数"
+        ],
+        "sourceReferences": {
+          "official": "/4/slots/2/runes/1",
+          "client": "/8"
+        },
+        "sourceHasGameplayPlaceholders": false,
+        "clientDescriptionDiffers": false,
+        "missingSourceValueFacts": [],
+        "sourceValueStatus": "已见明确数值，条件与组合单独核对"
+      }
+    }
+  ],
+  "verification": "12个原始对象全字段一致；重新验证原始及压缩摘要；旧范围只作对照，数值优先当前绑定。"
+}

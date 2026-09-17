@@ -1,0 +1,468 @@
+{
+  "at": "2026-09-09T02:40:30.169Z",
+  "candidateSha256": "8eef5d285f2ee624db477c9519e7aa94c4cb7c61f1a24ff227daa084931947be",
+  "browser": {
+    "url": "http://127.0.0.1:5173/#/skills",
+    "operator": "主负责人真实页面查看，未保存草稿",
+    "pages": [
+      {
+        "skillKey": "item_3147_passive",
+        "verified": "整数已完成间隔、0.02每秒增幅、0.06上限及MIN公式中文预览；代表图已显示"
+      },
+      {
+        "skillKey": "item_6699_passive",
+        "verified": "近/远程0.09/0.07、穿甲15/12与4000ms；远程公式引用目标生命值当前值；代表图已显示"
+      },
+      {
+        "skillKey": "item_3095_passive",
+        "verified": "当前岚切100魔法伤害、0.45移速、1500ms；代表图已显示"
+      }
+    ],
+    "closedAllDialogs": true
+  },
+  "reads": [
+    {
+      "route": "/skills/item_3147_passive/parameters/damage_increase_per_second_ratio",
+      "status": 200,
+      "value": {
+        "createdAt": "2026-09-09T02:28:38.919417Z",
+        "description": "当前DamageIncreasePerSecond=0.02，即每秒2%比例。",
+        "fixedValue": 0.02,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "癫狂每秒额外伤害比例",
+        "parameterKey": "damage_increase_per_second_ratio",
+        "skillKey": "item_3147_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T02:28:38.919417Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_3147_passive/parameters/damage_increase_max_ratio",
+      "status": 200,
+      "value": {
+        "createdAt": "2026-09-09T02:28:39.658787Z",
+        "description": "当前DamageIncreaseMax=0.06，即上限6%比例。",
+        "fixedValue": 0.06,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "癫狂额外伤害上限比例",
+        "parameterKey": "damage_increase_max_ratio",
+        "skillKey": "item_3147_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T02:28:39.658787Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_3147_passive/parameters/combat_seconds_to_cap",
+      "status": 200,
+      "value": {
+        "createdAt": "2026-09-09T02:28:40.518392Z",
+        "description": "当前SecondsInCombat=3；表示每完整1秒间隔增加2%且3个完整间隔达到6%，不解释脱战计时。",
+        "fixedValue": 3,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "癫狂达到上限所需完整战斗间隔数",
+        "parameterKey": "combat_seconds_to_cap",
+        "skillKey": "item_3147_passive",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T02:28:40.518392Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/item_3147_passive/parameters/completed_combat_intervals",
+      "status": 200,
+      "value": {
+        "createdAt": "2026-09-09T02:28:41.304006Z",
+        "description": "无默认值的非负整数输入；每完成一个完整1秒间隔才增加2%，未完成间隔不加成，必须由已核实的与敌方英雄作战计时提供。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "癫狂已完成战斗间隔输入",
+        "parameterKey": "completed_combat_intervals",
+        "skillKey": "item_3147_passive",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T02:28:41.304006Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/item_3147_passive/formulas/damage_increase_ratio",
+      "status": 200,
+      "value": {
+        "createdAt": "2026-09-09T02:28:42.15154Z",
+        "description": "MIN(已完成完整战斗间隔数×0.02，0.06)；未完成间隔不加成，不建立战斗事件或脱战衰减。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "completed_combat_intervals"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "damage_increase_per_second_ratio"
+                }
+              ],
+              "operation": "MULTIPLY"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "damage_increase_max_ratio"
+            }
+          ],
+          "operation": "MIN"
+        },
+        "formulaKey": "damage_increase_ratio",
+        "gameId": "lol",
+        "name": "癫狂当前额外伤害比例",
+        "skillKey": "item_3147_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T02:28:42.15154Z"
+      }
+    },
+    {
+      "route": "/skills/item_3147_passive/effects",
+      "status": 200,
+      "value": []
+    },
+    {
+      "route": "/skills/item_3147_passive/processes",
+      "status": 200,
+      "value": []
+    },
+    {
+      "route": "/skills/item_3147_passive/internal-states",
+      "status": 200,
+      "value": []
+    },
+    {
+      "route": "/skills/item_3147_passive/trigger-rules",
+      "status": 200,
+      "value": []
+    },
+    {
+      "route": "/skills/item_3147_passive/representative-image",
+      "status": 200,
+      "value": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_3147",
+          "name": "item_3147"
+        }
+      }
+    },
+    {
+      "route": "/equipment/item_3147/representative-image",
+      "status": 200,
+      "value": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_3147",
+          "name": "item_3147"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_6699_passive/parameters/melee_current_hp_damage_ratio",
+      "status": 200,
+      "value": {
+        "createdAt": "2026-09-09T02:28:44.811928Z",
+        "description": "StringCalculations的MeleeResult明确绑定PercentCurrentHPMelee=9，换算为0.09；基数为目标当前生命值。",
+        "fixedValue": 0.09,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "近战盈能当前生命值伤害比例",
+        "parameterKey": "melee_current_hp_damage_ratio",
+        "skillKey": "item_6699_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T02:28:44.811928Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_6699_passive/parameters/ranged_current_hp_damage_ratio",
+      "status": 200,
+      "value": {
+        "createdAt": "2026-09-09T02:28:45.585404Z",
+        "description": "StringCalculations的RangedResult明确绑定PercentCurrentHPRanged=7，换算为0.07；基数为目标当前生命值。",
+        "fixedValue": 0.07,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "远程盈能当前生命值伤害比例",
+        "parameterKey": "ranged_current_hp_damage_ratio",
+        "skillKey": "item_6699_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T02:28:45.585404Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_6699_passive/parameters/melee_bonus_lethality",
+      "status": 200,
+      "value": {
+        "createdAt": "2026-09-09T02:28:46.253339Z",
+        "description": "StringCalculations的MeleeResult明确绑定LethalityBonusModMelee=15。",
+        "fixedValue": 15,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "近战额外穿甲",
+        "parameterKey": "melee_bonus_lethality",
+        "skillKey": "item_6699_passive",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T02:28:46.253339Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/item_6699_passive/parameters/ranged_bonus_lethality",
+      "status": 200,
+      "value": {
+        "createdAt": "2026-09-09T02:28:46.982385Z",
+        "description": "StringCalculations的RangedResult明确绑定LethalityBonusModRanged=12。",
+        "fixedValue": 12,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "远程额外穿甲",
+        "parameterKey": "ranged_bonus_lethality",
+        "skillKey": "item_6699_passive",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T02:28:46.982385Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/item_6699_passive/parameters/bonus_lethality_duration_ms",
+      "status": 200,
+      "value": {
+        "createdAt": "2026-09-09T02:28:47.67855Z",
+        "description": "当前LethalityBonusDuration=4秒，换算4000毫秒。",
+        "fixedValue": 4000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "额外穿甲持续时间",
+        "parameterKey": "bonus_lethality_duration_ms",
+        "skillKey": "item_6699_passive",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T02:28:47.67855Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/item_6699_passive/formulas/melee_current_hp_damage",
+      "status": 200,
+      "value": {
+        "createdAt": "2026-09-09T02:28:48.406036Z",
+        "description": "目标当前生命值 × 0.09；仅表达动态数值，不建立盈能攻击触发。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "attributeKey": "hp",
+              "attributeOwner": "TARGET",
+              "attributeValueKind": "CURRENT",
+              "nodeType": "ATTRIBUTE"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "melee_current_hp_damage_ratio"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "melee_current_hp_damage",
+        "gameId": "lol",
+        "name": "近战当前生命值额外伤害",
+        "skillKey": "item_6699_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T02:28:48.406036Z"
+      }
+    },
+    {
+      "route": "/skills/item_6699_passive/formulas/ranged_current_hp_damage",
+      "status": 200,
+      "value": {
+        "createdAt": "2026-09-09T02:28:49.129978Z",
+        "description": "目标当前生命值 × 0.07；仅表达动态数值，不建立盈能攻击触发。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "attributeKey": "hp",
+              "attributeOwner": "TARGET",
+              "attributeValueKind": "CURRENT",
+              "nodeType": "ATTRIBUTE"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "ranged_current_hp_damage_ratio"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "ranged_current_hp_damage",
+        "gameId": "lol",
+        "name": "远程当前生命值额外伤害",
+        "skillKey": "item_6699_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T02:28:49.129978Z"
+      }
+    },
+    {
+      "route": "/skills/item_6699_passive/effects",
+      "status": 200,
+      "value": []
+    },
+    {
+      "route": "/skills/item_6699_passive/processes",
+      "status": 200,
+      "value": []
+    },
+    {
+      "route": "/skills/item_6699_passive/internal-states",
+      "status": 200,
+      "value": []
+    },
+    {
+      "route": "/skills/item_6699_passive/trigger-rules",
+      "status": 200,
+      "value": []
+    },
+    {
+      "route": "/skills/item_6699_passive/representative-image",
+      "status": 200,
+      "value": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_6699",
+          "name": "item_6699"
+        }
+      }
+    },
+    {
+      "route": "/equipment/item_6699/representative-image",
+      "status": 200,
+      "value": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_6699",
+          "name": "item_6699"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_3095_passive/parameters/energized_magic_damage",
+      "status": 200,
+      "value": {
+        "createdAt": "2026-09-09T02:28:31.687499Z",
+        "description": "当前TotalProcDamage为NumberCalculationPart=100；绑定根文本明确额外魔法伤害。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "弩箭额外魔法伤害",
+        "parameterKey": "energized_magic_damage",
+        "skillKey": "item_3095_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T02:28:31.687499Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/item_3095_passive/parameters/move_speed_ratio",
+      "status": 200,
+      "value": {
+        "createdAt": "2026-09-09T02:28:32.450109Z",
+        "description": "当前BuffStrength=0.45，绑定文本明确为45%移动速度。",
+        "fixedValue": 0.45,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "弩箭移动速度比例",
+        "parameterKey": "move_speed_ratio",
+        "skillKey": "item_3095_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T02:28:32.450109Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_3095_passive/parameters/move_speed_duration_ms",
+      "status": 200,
+      "value": {
+        "createdAt": "2026-09-09T02:28:33.149021Z",
+        "description": "当前BuffDuration=1.5秒，换算1500毫秒。",
+        "fixedValue": 1500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "弩箭移动速度持续时间",
+        "parameterKey": "move_speed_duration_ms",
+        "skillKey": "item_3095_passive",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T02:28:33.149021Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/item_3095_passive/effects",
+      "status": 200,
+      "value": []
+    },
+    {
+      "route": "/skills/item_3095_passive/processes",
+      "status": 200,
+      "value": []
+    },
+    {
+      "route": "/skills/item_3095_passive/internal-states",
+      "status": 200,
+      "value": []
+    },
+    {
+      "route": "/skills/item_3095_passive/trigger-rules",
+      "status": 200,
+      "value": []
+    },
+    {
+      "route": "/skills/item_3095_passive/representative-image",
+      "status": 200,
+      "value": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_3095",
+          "name": "item_3095"
+        }
+      }
+    },
+    {
+      "route": "/equipment/item_3095/representative-image",
+      "status": 200,
+      "value": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_3095",
+          "name": "item_3095"
+        }
+      }
+    }
+  ],
+  "independentReads": 33,
+  "success": true,
+  "runtimeValidation": "未执行"
+}

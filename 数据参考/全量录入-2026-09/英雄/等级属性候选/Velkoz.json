@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Velkoz",
+  "sourceNumericId": "161",
+  "name": "维克兹",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 590,
+      "growth": 102,
+      "sources": [
+        "原始资料/zh_CN/champion/Velkoz.json:stats.hp/hpperlevel",
+        "角色根记录/Velkoz.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 590,
+        "2": 663.44,
+        "3": 740.45,
+        "4": 821.03,
+        "5": 905.18,
+        "6": 992.9,
+        "7": 1084.19,
+        "8": 1179.05,
+        "9": 1277.48,
+        "10": 1379.48,
+        "11": 1485.05,
+        "12": 1594.19,
+        "13": 1706.9,
+        "14": 1823.18,
+        "15": 1943.03,
+        "16": 2066.45,
+        "17": 2193.44,
+        "18": 2324
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 5.5,
+      "growth": 0.55,
+      "sources": [
+        "原始资料/zh_CN/champion/Velkoz.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Velkoz.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 5.5,
+        "2": 5.896,
+        "3": 6.31125,
+        "4": 6.74575,
+        "5": 7.1995,
+        "6": 7.6725,
+        "7": 8.16475,
+        "8": 8.67625,
+        "9": 9.207,
+        "10": 9.757,
+        "11": 10.32625,
+        "12": 10.91475,
+        "13": 11.5225,
+        "14": 12.1495,
+        "15": 12.79575,
+        "16": 13.46125,
+        "17": 14.146,
+        "18": 14.85
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 22,
+      "growth": 4.7,
+      "sources": [
+        "原始资料/zh_CN/champion/Velkoz.json:stats.armor/armorperlevel",
+        "角色根记录/Velkoz.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 22,
+        "2": 25.384,
+        "3": 28.9325,
+        "4": 32.6455,
+        "5": 36.523,
+        "6": 40.565,
+        "7": 44.7715,
+        "8": 49.1425,
+        "9": 53.678,
+        "10": 58.378,
+        "11": 63.2425,
+        "12": 68.2715,
+        "13": 73.465,
+        "14": 78.823,
+        "15": 84.3455,
+        "16": 90.0325,
+        "17": 95.884,
+        "18": 101.9
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 30,
+      "growth": 1.3,
+      "sources": [
+        "原始资料/zh_CN/champion/Velkoz.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Velkoz.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 30,
+        "2": 30.936,
+        "3": 31.9175,
+        "4": 32.9445,
+        "5": 34.017,
+        "6": 35.135,
+        "7": 36.2985,
+        "8": 37.5075,
+        "9": 38.762,
+        "10": 40.062,
+        "11": 41.4075,
+        "12": 42.7985,
+        "13": 44.235,
+        "14": 45.717,
+        "15": 47.2445,
+        "16": 48.8175,
+        "17": 50.436,
+        "18": 52.1
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 55,
+      "growth": 3.141593,
+      "sources": [
+        "角色根记录/Velkoz.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 55,
+        "2": 57.261947,
+        "3": 59.63385,
+        "4": 62.115708,
+        "5": 64.707522,
+        "6": 67.409292,
+        "7": 70.221018,
+        "8": 73.1427,
+        "9": 76.174337,
+        "10": 79.31593,
+        "11": 82.567479,
+        "12": 85.928983,
+        "13": 89.400443,
+        "14": 92.981859,
+        "15": 96.673231,
+        "16": 100.474559,
+        "17": 104.385842,
+        "18": 108.407081
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 340,
+      "growth": null,
+      "sources": [
+        "角色根记录/Velkoz.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 340,
+        "2": 340,
+        "3": 340,
+        "4": 340,
+        "5": 340,
+        "6": 340,
+        "7": 340,
+        "8": 340,
+        "9": 340,
+        "10": 340,
+        "11": 340,
+        "12": 340,
+        "13": 340,
+        "14": 340,
+        "15": 340,
+        "16": 340,
+        "17": 340,
+        "18": 340
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 525,
+      "growth": null,
+      "sources": [
+        "角色根记录/Velkoz.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 525,
+        "2": 525,
+        "3": 525,
+        "4": 525,
+        "5": 525,
+        "6": 525,
+        "7": 525,
+        "8": 525,
+        "9": 525,
+        "10": 525,
+        "11": 525,
+        "12": 525,
+        "13": 525,
+        "14": 525,
+        "15": 525,
+        "16": 525,
+        "17": 525,
+        "18": 525
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.643,
+      "attackSpeedRatio": 0.625,
+      "growthPercent": 1.59,
+      "sources": [
+        "角色根记录/Velkoz.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.643,
+        "2": 0.650155,
+        "3": 0.657658,
+        "4": 0.665508,
+        "5": 0.673707,
+        "6": 0.682253,
+        "7": 0.691147,
+        "8": 0.700389,
+        "9": 0.709979,
+        "10": 0.719916,
+        "11": 0.730202,
+        "12": 0.740835,
+        "13": 0.751816,
+        "14": 0.763144,
+        "15": 0.774821,
+        "16": 0.786845,
+        "17": 0.799218,
+        "18": 0.811937
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 469,
+      "growth": 21,
+      "sources": [
+        "原始资料/zh_CN/champion/Velkoz.json:stats.mp/mpperlevel",
+        "角色根记录/Velkoz.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 469,
+        "2": 484.12,
+        "3": 499.975,
+        "4": 516.565,
+        "5": 533.89,
+        "6": 551.95,
+        "7": 570.745,
+        "8": 590.275,
+        "9": 610.54,
+        "10": 631.54,
+        "11": 653.275,
+        "12": 675.745,
+        "13": 698.95,
+        "14": 722.89,
+        "15": 747.565,
+        "16": 772.975,
+        "17": 799.12,
+        "18": 826
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 8,
+      "growth": 0.8,
+      "sources": [
+        "原始资料/zh_CN/champion/Velkoz.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Velkoz.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 8,
+        "2": 8.576,
+        "3": 9.18,
+        "4": 9.812,
+        "5": 10.472,
+        "6": 11.16,
+        "7": 11.876,
+        "8": 12.62,
+        "9": 13.392,
+        "10": 14.192,
+        "11": 15.02,
+        "12": 15.876,
+        "13": 16.76,
+        "14": 17.672,
+        "15": 18.612,
+        "16": 19.58,
+        "17": 20.576,
+        "18": 21.6
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.643,
+    "ratio": 0.625,
+    "growthPercent": 1.59,
+    "ratioDiffersFromBase": true
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

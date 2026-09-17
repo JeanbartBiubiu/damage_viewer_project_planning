@@ -1,0 +1,793 @@
+{
+  "at": "2026-09-09T05:41:38.737Z",
+  "candidateSha256": "8eb1c181548df3710ab525bf2997137443fe7305b5e83d5d1e452e7b5f9b9e4a",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "success": true,
+  "pages": [
+    {
+      "skillKey": "item_2522_active",
+      "verified": "主表代表图及实现器挂载存在；参数显示主动持续8000毫秒、额外法力成本比例和基础技能冷却转速增加0.3，没有把转速写成一次返还。"
+    },
+    {
+      "skillKey": "item_6610_passive",
+      "verified": "远程治疗中文预览为0.5×(0.9×自身基础攻击力)+0.04×自身已损生命，基础值和已损失值均明确。"
+    },
+    {
+      "skillKey": "item_3181_passive",
+      "verified": "远程第五次攻击额外伤害把远程系数乘在基础攻击力项与原未解码属性项相加的整体；后者明确计算时传入。"
+    }
+  ],
+  "operator": "主负责人真实浏览器只读查看，未保存草稿，三个样例弹窗已关闭",
+  "independentGets": 43,
+  "reads": [
+    {
+      "route": "/skills/item_2522_active/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T05:09:11.197706Z",
+        "description": "当前根Cooldown明确数值，秒转成毫秒。",
+        "fixedValue": 60000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "主动冷却（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "item_2522_active",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T05:09:11.197706Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/item_2522_active/parameters/duration_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T05:09:12.057127Z",
+        "description": "当前根Duration明确数值，秒转成毫秒。",
+        "fixedValue": 8000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法力强化持续（毫秒）",
+        "parameterKey": "duration_ms",
+        "skillKey": "item_2522_active",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T05:09:12.057127Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/item_2522_active/parameters/extra_mana_cost_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T05:09:12.917412Z",
+        "description": "当前根ManaCostIncrease明确数值。",
+        "fixedValue": 1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "额外法力成本比例",
+        "parameterKey": "extra_mana_cost_ratio",
+        "skillKey": "item_2522_active",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T05:09:12.917412Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/item_2522_active/parameters/basic_cooldown_speed_bonus",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T05:09:13.850751Z",
+        "description": "当前根CooldownTick明确数值。",
+        "fixedValue": 0.3,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础技能冷却转速增加比例",
+        "parameterKey": "basic_cooldown_speed_bonus",
+        "skillKey": "item_2522_active",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T05:09:13.850751Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_2522_active/parameters/percentage_point_to_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T05:09:14.746429Z",
+        "description": "原ManaCalc最外层乘数0.01。",
+        "fixedValue": 0.01,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "百分比点转比例系数",
+        "parameterKey": "percentage_point_to_ratio",
+        "skillKey": "item_2522_active",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T05:09:14.746429Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_2522_active/parameters/amplification_base_points",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T05:09:15.633796Z",
+        "description": "原ManaCalc第一项15。",
+        "fixedValue": 15,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "增幅基础百分比点",
+        "parameterKey": "amplification_base_points",
+        "skillKey": "item_2522_active",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T05:09:15.633796Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/item_2522_active/parameters/resource_amplification_points_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T05:09:16.46989Z",
+        "description": "原资源节点mCoefficient=0.005。",
+        "fixedValue": 0.005,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "资源缩放百分比点系数",
+        "parameterKey": "resource_amplification_points_ratio",
+        "skillKey": "item_2522_active",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-09T05:09:16.46989Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_2522_active/parameters/actual_ability_resource_formula2",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T05:09:17.354225Z",
+        "description": "AbilityResourceByCoefficient的mStatFormula=2尚未证明对应额外法力，必须外供原节点实际数值。 不提供默认值。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "原资源口径的实际值",
+        "parameterKey": "actual_ability_resource_formula2",
+        "skillKey": "item_2522_active",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-09T05:09:17.354225Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_2522_active/formulas/amplification_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T05:09:18.257431Z",
+        "description": "原树0.01×(15+0.005×实际资源输入)，输出比例；实际资源范围及读取时点待核。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "percentage_point_to_ratio"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "amplification_base_points"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "resource_amplification_points_ratio"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "actual_ability_resource_formula2"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "amplification_ratio",
+        "gameId": "lol",
+        "name": "技能伤害护盾治疗增幅比例",
+        "skillKey": "item_2522_active",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T05:09:18.257431Z"
+      }
+    },
+    {
+      "route": "/skills/item_2522_active/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/item_2522_active/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/item_2522_active/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/item_2522_active/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/item_2522_active/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_2522",
+          "name": "item_2522"
+        }
+      }
+    },
+    {
+      "route": "/equipment/item_2522/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_2522",
+          "name": "item_2522"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_6610_passive/parameters/per_target_cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T05:10:21.898693Z",
+        "description": "当前根Cooldown明确数值，秒转成毫秒。",
+        "fixedValue": 10000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "每目标冷却（毫秒）",
+        "parameterKey": "per_target_cooldown_ms",
+        "skillKey": "item_6610_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T05:10:21.898693Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/item_6610_passive/parameters/normal_crit_damage_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T05:10:22.7501Z",
+        "description": "当前根CritModifier明确数值。",
+        "fixedValue": 0.8,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "常规暴击伤害倍数",
+        "parameterKey": "normal_crit_damage_ratio",
+        "skillKey": "item_6610_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T05:10:22.7501Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_6610_passive/parameters/base_ad_heal_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T05:10:23.635432Z",
+        "description": "当前根HealBaseADRatio明确数值。",
+        "fixedValue": 0.9,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础攻击力治疗系数",
+        "parameterKey": "base_ad_heal_ratio",
+        "skillKey": "item_6610_passive",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T05:10:23.635432Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_6610_passive/parameters/missing_health_heal_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T05:10:24.409053Z",
+        "description": "当前根MissingHealthHeal明确数值。",
+        "fixedValue": 0.04,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "已损生命治疗比例",
+        "parameterKey": "missing_health_heal_ratio",
+        "skillKey": "item_6610_passive",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T05:10:24.409053Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_6610_passive/parameters/ranged_ad_heal_multiplier",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T05:10:25.272Z",
+        "description": "当前根RangedHealMod明确数值。",
+        "fixedValue": 0.5,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "远程基础攻击力治疗倍数",
+        "parameterKey": "ranged_ad_heal_multiplier",
+        "skillKey": "item_6610_passive",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T05:10:25.272Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_6610_passive/parameters/actual_normal_critical_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T05:10:26.078518Z",
+        "description": "取该次攻击完整常规暴击规则下对应的伤害量；不能默认基础暴击倍率2。 不提供默认值。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "该次普通常规暴击伤害",
+        "parameterKey": "actual_normal_critical_damage",
+        "skillKey": "item_6610_passive",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T05:10:26.078518Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_6610_passive/formulas/melee_self_healing",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T05:10:26.946157Z",
+        "description": "0.9基础攻击力+4%自身已损生命；按当前中文两项相加。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_ad_heal_ratio"
+                },
+                {
+                  "attributeKey": "attack_damage",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "BASE",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "missing_health_heal_ratio"
+                },
+                {
+                  "attributeKey": "hp",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "MISSING",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "melee_self_healing",
+        "gameId": "lol",
+        "name": "近战光盾打击自身治疗",
+        "skillKey": "item_6610_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T05:10:26.946157Z"
+      }
+    },
+    {
+      "route": "/skills/item_6610_passive/formulas/ranged_self_healing",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T05:10:27.816537Z",
+        "description": "0.5×(0.9基础攻击力)+4%自身已损生命；原远程乘数仅绑定HealADSplit对应计算。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ranged_ad_heal_multiplier"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "base_ad_heal_ratio"
+                    },
+                    {
+                      "attributeKey": "attack_damage",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "BASE",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "MULTIPLY"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "missing_health_heal_ratio"
+                },
+                {
+                  "attributeKey": "hp",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "MISSING",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "ranged_self_healing",
+        "gameId": "lol",
+        "name": "远程光盾打击自身治疗",
+        "skillKey": "item_6610_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T05:10:27.816537Z"
+      }
+    },
+    {
+      "route": "/skills/item_6610_passive/formulas/modified_critical_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T05:10:28.650924Z",
+        "description": "0.8×该次常规暴击伤害，最终属性读取及结算阶段由外供确认。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "normal_crit_damage_ratio"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_normal_critical_damage"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "modified_critical_damage",
+        "gameId": "lol",
+        "name": "光盾打击暴击分支伤害",
+        "skillKey": "item_6610_passive",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T05:10:28.650924Z"
+      }
+    },
+    {
+      "route": "/skills/item_6610_passive/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/item_6610_passive/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/item_6610_passive/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/item_6610_passive/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/item_6610_passive/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_6610",
+          "name": "item_6610"
+        }
+      }
+    },
+    {
+      "route": "/equipment/item_6610/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_6610",
+          "name": "item_6610"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_3181_passive/parameters/base_ad_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T05:10:01.720672Z",
+        "description": "当前根SkipperADRatio明确数值。",
+        "fixedValue": 1.2,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "船长基础攻击力系数",
+        "parameterKey": "base_ad_ratio",
+        "skillKey": "item_3181_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T05:10:01.720672Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_3181_passive/parameters/mstat12_formula0_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T05:10:02.555327Z",
+        "description": "当前根MaxStackDamageHPRatio明确数值。",
+        "fixedValue": 0.05,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "船长第二属性系数",
+        "parameterKey": "mstat12_formula0_ratio",
+        "skillKey": "item_3181_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T05:10:02.555327Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_3181_passive/parameters/actual_mstat12_formula0",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T05:10:03.385416Z",
+        "description": "mStat12且省略mStatFormula默认0，当前不扩展为总生命；需要原节点实际输入。 不提供默认值。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "船长第二属性实际值",
+        "parameterKey": "actual_mstat12_formula0",
+        "skillKey": "item_3181_passive",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T05:10:03.385416Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_3181_passive/parameters/attacks_required",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T05:10:04.163853Z",
+        "description": "当前中文明确每第五次攻击。",
+        "fixedValue": 5,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "触发所需攻击次数",
+        "parameterKey": "attacks_required",
+        "skillKey": "item_3181_passive",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T05:10:04.163853Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/item_3181_passive/parameters/ranged_damage_multiplier",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T05:10:05.002246Z",
+        "description": "当前MaxStackDamage.mRangedMultiplier明确0.7；只表示给定远程资格分支。",
+        "fixedValue": 0.7,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "远程分支整项伤害倍数",
+        "parameterKey": "ranged_damage_multiplier",
+        "skillKey": "item_3181_passive",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T05:10:05.002246Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_3181_passive/formulas/melee_bonus_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T05:10:05.822611Z",
+        "description": "1.2基础攻击力+0.05原第二属性实际值；当前已确认近战条件分支。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_ad_ratio"
+                },
+                {
+                  "attributeKey": "attack_damage",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "BASE",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "mstat12_formula0_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_mstat12_formula0"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "melee_bonus_damage",
+        "gameId": "lol",
+        "name": "近战第五次攻击额外伤害",
+        "skillKey": "item_3181_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T05:10:05.822611Z"
+      }
+    },
+    {
+      "route": "/skills/item_3181_passive/formulas/ranged_bonus_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T05:10:06.630216Z",
+        "description": "整项近战计算×0.7；不得用RangedSkipperADRatio作为新的0.7基础攻击力系数。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "ranged_damage_multiplier"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "base_ad_ratio"
+                    },
+                    {
+                      "attributeKey": "attack_damage",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "BASE",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "mstat12_formula0_ratio"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "actual_mstat12_formula0"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "ranged_bonus_damage",
+        "gameId": "lol",
+        "name": "远程第五次攻击额外伤害",
+        "skillKey": "item_3181_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T05:10:06.630216Z"
+      }
+    },
+    {
+      "route": "/skills/item_3181_passive/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/item_3181_passive/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/item_3181_passive/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/item_3181_passive/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/item_3181_passive/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_3181",
+          "name": "item_3181"
+        }
+      }
+    },
+    {
+      "route": "/equipment/item_3181/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_3181",
+          "name": "item_3181"
+        }
+      }
+    }
+  ],
+  "runtimeValidation": "未执行"
+}

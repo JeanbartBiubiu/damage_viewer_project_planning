@@ -1,0 +1,64 @@
+{
+  "at": "2026-09-09T03:07:23.737Z",
+  "finalRequestSha256": "536dc79da589dd4e36a7c229a4c983aecf20c720a8be4947047719855ca13623",
+  "applyFile": "apply-20260909025705571.json",
+  "independentVerifyFile": "verify-20260909030558517.json",
+  "mathFile": "实值独立核算.json",
+  "writeCounts": {
+    "skill": 12,
+    "parameter": 36,
+    "formula": 14,
+    "relation": 12,
+    "effect": 3,
+    "image": 12
+  },
+  "totalWrites": 89,
+  "allWritesConfirmed": true,
+  "independentVerification": {
+    "passed": true,
+    "mode": "--verify",
+    "planned": 89,
+    "preflightSame": 89,
+    "preflightMissing": 0,
+    "writes": 0,
+    "reused": 0,
+    "contentWrites": 0,
+    "imageWrites": 0,
+    "finalReads": 101,
+    "collections": 72,
+    "completeRuneMechanisms": 0,
+    "httpRequests": {
+      "GET": 391
+    }
+  },
+  "independentMath": {
+    "passed": true,
+    "gets": 29,
+    "skills": 12,
+    "parameters": 36,
+    "sourceFixedParameters": 26,
+    "runtimeInputsWithoutDefault": 10,
+    "formulas": 14,
+    "formulaCases": 29,
+    "effects": 3,
+    "businessWrites": 0
+  },
+  "protected": {
+    "runes": 69,
+    "runePaths": 6,
+    "imageContents": 12,
+    "sourceRuneImageRelations": 12,
+    "newImageUploads": 0
+  },
+  "historicalFailures": [
+    {
+      "file": "verify-20260909025905680.json",
+      "kind": "GET TimeoutError",
+      "route": "/skills/rune_8444_passive/parameters/missing_health_heal_ratio",
+      "writes": 0,
+      "resolution": "原失败报告保留，重跑独立GET已通过；未重放apply"
+    }
+  ],
+  "completeRuneMechanisms": 0,
+  "pageAcceptance": "主负责人已完成3个代表页面与32项页面后GET，详见页面验收.json"
+}

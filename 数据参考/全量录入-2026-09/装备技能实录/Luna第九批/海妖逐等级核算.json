@@ -1,0 +1,262 @@
+{
+  "batch": "Luna第九批",
+  "equipmentKey": "item_6672",
+  "skillKey": "item_6672_passive",
+  "status": "来源展开完成；不代表业务API已写入或运行时已验证",
+  "source": {
+    "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+    "pointer": "Items/6672/mItemCalculations/DamageAmount/mFormulaParts/0",
+    "type": "ByCharLevelBreakpointsCalculationPart",
+    "mLevel1Value": 150,
+    "mBreakpoints": [
+      {
+        "mLevel": 9,
+        "mBonusPerLevelAtAndAfter": 5
+      }
+    ],
+    "semantics": "按已审同类型回读：1至断点前保持mLevel1Value；断点等级及之后每级从断点当级增加一次bonus。"
+  },
+  "crossReviewedEvidence": {
+    "file": "数据参考/全量录入-2026-09/装备技能实录/Luna第四批/修正前证据/逐字段回读证据.json",
+    "pointer": "objects[item_3072]/parameters[overshield_by_character_level]",
+    "observed": "同一断点类型的mLevel1Value=165、断点9、每级15，独立回读为1至8级165、9级180；因此本项9级应为155，不是150。"
+  },
+  "levelRange": [
+    1,
+    18
+  ],
+  "rows": [
+    {
+      "level": 1,
+      "sourceLevel1Value": 150,
+      "breakpointLevel": 9,
+      "bonusPerLevelAtAndAfter": 5,
+      "appliedBonusCount": 0,
+      "calculation": "150",
+      "baseDamage": 150,
+      "maximumDamageAt1_75": 262.5,
+      "rangedDamageAt0_8": 120
+    },
+    {
+      "level": 2,
+      "sourceLevel1Value": 150,
+      "breakpointLevel": 9,
+      "bonusPerLevelAtAndAfter": 5,
+      "appliedBonusCount": 0,
+      "calculation": "150",
+      "baseDamage": 150,
+      "maximumDamageAt1_75": 262.5,
+      "rangedDamageAt0_8": 120
+    },
+    {
+      "level": 3,
+      "sourceLevel1Value": 150,
+      "breakpointLevel": 9,
+      "bonusPerLevelAtAndAfter": 5,
+      "appliedBonusCount": 0,
+      "calculation": "150",
+      "baseDamage": 150,
+      "maximumDamageAt1_75": 262.5,
+      "rangedDamageAt0_8": 120
+    },
+    {
+      "level": 4,
+      "sourceLevel1Value": 150,
+      "breakpointLevel": 9,
+      "bonusPerLevelAtAndAfter": 5,
+      "appliedBonusCount": 0,
+      "calculation": "150",
+      "baseDamage": 150,
+      "maximumDamageAt1_75": 262.5,
+      "rangedDamageAt0_8": 120
+    },
+    {
+      "level": 5,
+      "sourceLevel1Value": 150,
+      "breakpointLevel": 9,
+      "bonusPerLevelAtAndAfter": 5,
+      "appliedBonusCount": 0,
+      "calculation": "150",
+      "baseDamage": 150,
+      "maximumDamageAt1_75": 262.5,
+      "rangedDamageAt0_8": 120
+    },
+    {
+      "level": 6,
+      "sourceLevel1Value": 150,
+      "breakpointLevel": 9,
+      "bonusPerLevelAtAndAfter": 5,
+      "appliedBonusCount": 0,
+      "calculation": "150",
+      "baseDamage": 150,
+      "maximumDamageAt1_75": 262.5,
+      "rangedDamageAt0_8": 120
+    },
+    {
+      "level": 7,
+      "sourceLevel1Value": 150,
+      "breakpointLevel": 9,
+      "bonusPerLevelAtAndAfter": 5,
+      "appliedBonusCount": 0,
+      "calculation": "150",
+      "baseDamage": 150,
+      "maximumDamageAt1_75": 262.5,
+      "rangedDamageAt0_8": 120
+    },
+    {
+      "level": 8,
+      "sourceLevel1Value": 150,
+      "breakpointLevel": 9,
+      "bonusPerLevelAtAndAfter": 5,
+      "appliedBonusCount": 0,
+      "calculation": "150",
+      "baseDamage": 150,
+      "maximumDamageAt1_75": 262.5,
+      "rangedDamageAt0_8": 120
+    },
+    {
+      "level": 9,
+      "sourceLevel1Value": 150,
+      "breakpointLevel": 9,
+      "bonusPerLevelAtAndAfter": 5,
+      "appliedBonusCount": 1,
+      "calculation": "150 + 1 × 5",
+      "baseDamage": 155,
+      "maximumDamageAt1_75": 271.25,
+      "rangedDamageAt0_8": 124
+    },
+    {
+      "level": 10,
+      "sourceLevel1Value": 150,
+      "breakpointLevel": 9,
+      "bonusPerLevelAtAndAfter": 5,
+      "appliedBonusCount": 2,
+      "calculation": "150 + 2 × 5",
+      "baseDamage": 160,
+      "maximumDamageAt1_75": 280,
+      "rangedDamageAt0_8": 128
+    },
+    {
+      "level": 11,
+      "sourceLevel1Value": 150,
+      "breakpointLevel": 9,
+      "bonusPerLevelAtAndAfter": 5,
+      "appliedBonusCount": 3,
+      "calculation": "150 + 3 × 5",
+      "baseDamage": 165,
+      "maximumDamageAt1_75": 288.75,
+      "rangedDamageAt0_8": 132
+    },
+    {
+      "level": 12,
+      "sourceLevel1Value": 150,
+      "breakpointLevel": 9,
+      "bonusPerLevelAtAndAfter": 5,
+      "appliedBonusCount": 4,
+      "calculation": "150 + 4 × 5",
+      "baseDamage": 170,
+      "maximumDamageAt1_75": 297.5,
+      "rangedDamageAt0_8": 136
+    },
+    {
+      "level": 13,
+      "sourceLevel1Value": 150,
+      "breakpointLevel": 9,
+      "bonusPerLevelAtAndAfter": 5,
+      "appliedBonusCount": 5,
+      "calculation": "150 + 5 × 5",
+      "baseDamage": 175,
+      "maximumDamageAt1_75": 306.25,
+      "rangedDamageAt0_8": 140
+    },
+    {
+      "level": 14,
+      "sourceLevel1Value": 150,
+      "breakpointLevel": 9,
+      "bonusPerLevelAtAndAfter": 5,
+      "appliedBonusCount": 6,
+      "calculation": "150 + 6 × 5",
+      "baseDamage": 180,
+      "maximumDamageAt1_75": 315,
+      "rangedDamageAt0_8": 144
+    },
+    {
+      "level": 15,
+      "sourceLevel1Value": 150,
+      "breakpointLevel": 9,
+      "bonusPerLevelAtAndAfter": 5,
+      "appliedBonusCount": 7,
+      "calculation": "150 + 7 × 5",
+      "baseDamage": 185,
+      "maximumDamageAt1_75": 323.75,
+      "rangedDamageAt0_8": 148
+    },
+    {
+      "level": 16,
+      "sourceLevel1Value": 150,
+      "breakpointLevel": 9,
+      "bonusPerLevelAtAndAfter": 5,
+      "appliedBonusCount": 8,
+      "calculation": "150 + 8 × 5",
+      "baseDamage": 190,
+      "maximumDamageAt1_75": 332.5,
+      "rangedDamageAt0_8": 152
+    },
+    {
+      "level": 17,
+      "sourceLevel1Value": 150,
+      "breakpointLevel": 9,
+      "bonusPerLevelAtAndAfter": 5,
+      "appliedBonusCount": 9,
+      "calculation": "150 + 9 × 5",
+      "baseDamage": 195,
+      "maximumDamageAt1_75": 341.25,
+      "rangedDamageAt0_8": 156
+    },
+    {
+      "level": 18,
+      "sourceLevel1Value": 150,
+      "breakpointLevel": 9,
+      "bonusPerLevelAtAndAfter": 5,
+      "appliedBonusCount": 10,
+      "calculation": "150 + 10 × 5",
+      "baseDamage": 200,
+      "maximumDamageAt1_75": 350,
+      "rangedDamageAt0_8": 160
+    }
+  ],
+  "checks": [
+    {
+      "name": "1至8级保持默认值",
+      "expected": 150,
+      "actual": 150,
+      "equal": true
+    },
+    {
+      "name": "断点9级当级增加一次",
+      "expected": 155,
+      "actual": 155,
+      "equal": true
+    },
+    {
+      "name": "18级总基础伤害",
+      "expected": 200,
+      "actual": 200,
+      "equal": true
+    },
+    {
+      "name": "18级1.75倍上限",
+      "expected": 350,
+      "actual": 350,
+      "equal": true
+    },
+    {
+      "name": "18级远程0.8倍",
+      "expected": 160,
+      "actual": 160,
+      "equal": true
+    }
+  ],
+  "sourceGaps": [],
+  "note": "原目录边界算例.json保留初始概念候选；本文件是按已审断点语义重新展开的独立核算证据，接口候选只引用本文件的1至18级结果。"
+}

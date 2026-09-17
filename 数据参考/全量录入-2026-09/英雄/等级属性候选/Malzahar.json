@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Malzahar",
+  "sourceNumericId": "90",
+  "name": "玛尔扎哈",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 580,
+      "growth": 101,
+      "sources": [
+        "原始资料/zh_CN/champion/Malzahar.json:stats.hp/hpperlevel",
+        "角色根记录/Malzahar.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 580,
+        "2": 652.72,
+        "3": 728.975,
+        "4": 808.765,
+        "5": 892.09,
+        "6": 978.95,
+        "7": 1069.345,
+        "8": 1163.275,
+        "9": 1260.74,
+        "10": 1361.74,
+        "11": 1466.275,
+        "12": 1574.345,
+        "13": 1685.95,
+        "14": 1801.09,
+        "15": 1919.765,
+        "16": 2041.975,
+        "17": 2167.72,
+        "18": 2297
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 6,
+      "growth": 0.6,
+      "sources": [
+        "原始资料/zh_CN/champion/Malzahar.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Malzahar.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 6,
+        "2": 6.432,
+        "3": 6.885,
+        "4": 7.359,
+        "5": 7.854,
+        "6": 8.37,
+        "7": 8.907,
+        "8": 9.465,
+        "9": 10.044,
+        "10": 10.644,
+        "11": 11.265,
+        "12": 11.907,
+        "13": 12.57,
+        "14": 13.254,
+        "15": 13.959,
+        "16": 14.685,
+        "17": 15.432,
+        "18": 16.2
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 18,
+      "growth": 4.7,
+      "sources": [
+        "原始资料/zh_CN/champion/Malzahar.json:stats.armor/armorperlevel",
+        "角色根记录/Malzahar.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 18,
+        "2": 21.384,
+        "3": 24.9325,
+        "4": 28.6455,
+        "5": 32.523,
+        "6": 36.565,
+        "7": 40.7715,
+        "8": 45.1425,
+        "9": 49.678,
+        "10": 54.378,
+        "11": 59.2425,
+        "12": 64.2715,
+        "13": 69.465,
+        "14": 74.823,
+        "15": 80.3455,
+        "16": 86.0325,
+        "17": 91.884,
+        "18": 97.9
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 30,
+      "growth": 1.3,
+      "sources": [
+        "原始资料/zh_CN/champion/Malzahar.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Malzahar.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 30,
+        "2": 30.936,
+        "3": 31.9175,
+        "4": 32.9445,
+        "5": 34.017,
+        "6": 35.135,
+        "7": 36.2985,
+        "8": 37.5075,
+        "9": 38.762,
+        "10": 40.062,
+        "11": 41.4075,
+        "12": 42.7985,
+        "13": 44.235,
+        "14": 45.717,
+        "15": 47.2445,
+        "16": 48.8175,
+        "17": 50.436,
+        "18": 52.1
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 55,
+      "growth": 3,
+      "sources": [
+        "角色根记录/Malzahar.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 55,
+        "2": 57.16,
+        "3": 59.425,
+        "4": 61.795,
+        "5": 64.27,
+        "6": 66.85,
+        "7": 69.535,
+        "8": 72.325,
+        "9": 75.22,
+        "10": 78.22,
+        "11": 81.325,
+        "12": 84.535,
+        "13": 87.85,
+        "14": 91.27,
+        "15": 94.795,
+        "16": 98.425,
+        "17": 102.16,
+        "18": 106
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 335,
+      "growth": null,
+      "sources": [
+        "角色根记录/Malzahar.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 335,
+        "2": 335,
+        "3": 335,
+        "4": 335,
+        "5": 335,
+        "6": 335,
+        "7": 335,
+        "8": 335,
+        "9": 335,
+        "10": 335,
+        "11": 335,
+        "12": 335,
+        "13": 335,
+        "14": 335,
+        "15": 335,
+        "16": 335,
+        "17": 335,
+        "18": 335
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 500,
+      "growth": null,
+      "sources": [
+        "角色根记录/Malzahar.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 500,
+        "2": 500,
+        "3": 500,
+        "4": 500,
+        "5": 500,
+        "6": 500,
+        "7": 500,
+        "8": 500,
+        "9": 500,
+        "10": 500,
+        "11": 500,
+        "12": 500,
+        "13": 500,
+        "14": 500,
+        "15": 500,
+        "16": 500,
+        "17": 500,
+        "18": 500
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.625,
+      "attackSpeedRatio": 0.625,
+      "growthPercent": 1.5,
+      "sources": [
+        "角色根记录/Malzahar.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.625,
+        "2": 0.63175,
+        "3": 0.638828,
+        "4": 0.646234,
+        "5": 0.653969,
+        "6": 0.662031,
+        "7": 0.670422,
+        "8": 0.679141,
+        "9": 0.688187,
+        "10": 0.697562,
+        "11": 0.707266,
+        "12": 0.717297,
+        "13": 0.727656,
+        "14": 0.738344,
+        "15": 0.749359,
+        "16": 0.760703,
+        "17": 0.772375,
+        "18": 0.784375
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 375,
+      "growth": 28,
+      "sources": [
+        "原始资料/zh_CN/champion/Malzahar.json:stats.mp/mpperlevel",
+        "角色根记录/Malzahar.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 375,
+        "2": 395.16,
+        "3": 416.3,
+        "4": 438.42,
+        "5": 461.52,
+        "6": 485.6,
+        "7": 510.66,
+        "8": 536.7,
+        "9": 563.72,
+        "10": 591.72,
+        "11": 620.7,
+        "12": 650.66,
+        "13": 681.6,
+        "14": 713.52,
+        "15": 746.42,
+        "16": 780.3,
+        "17": 815.16,
+        "18": 851
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 8,
+      "growth": 0.8,
+      "sources": [
+        "原始资料/zh_CN/champion/Malzahar.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Malzahar.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 8,
+        "2": 8.576,
+        "3": 9.18,
+        "4": 9.812,
+        "5": 10.472,
+        "6": 11.16,
+        "7": 11.876,
+        "8": 12.62,
+        "9": 13.392,
+        "10": 14.192,
+        "11": 15.02,
+        "12": 15.876,
+        "13": 16.76,
+        "14": 17.672,
+        "15": 18.612,
+        "16": 19.58,
+        "17": 20.576,
+        "18": 21.6
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.625,
+    "ratio": 0.625,
+    "growthPercent": 1.5,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

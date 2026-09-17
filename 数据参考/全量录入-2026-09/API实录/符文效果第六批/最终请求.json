@@ -1,0 +1,1226 @@
+{
+  "at": "2026-09-09T06:47:50.057Z",
+  "candidateSha256": "c4da75bce82f5312a7ba62e94f669daaa9212f649a0758683f3352ac6bfac259",
+  "scope": [
+    {
+      "id": 5001,
+      "runeKey": "rune_5001",
+      "skillKey": "rune_5001_passive"
+    },
+    {
+      "id": 5008,
+      "runeKey": "rune_5008",
+      "skillKey": "rune_5008_passive"
+    },
+    {
+      "id": 8275,
+      "runeKey": "rune_8275",
+      "skillKey": "rune_8275_passive"
+    },
+    {
+      "id": 8316,
+      "runeKey": "rune_8316",
+      "skillKey": "rune_8316_passive"
+    },
+    {
+      "id": 8345,
+      "runeKey": "rune_8345",
+      "skillKey": "rune_8345_passive"
+    },
+    {
+      "id": 8463,
+      "runeKey": "rune_8463",
+      "skillKey": "rune_8463_passive"
+    },
+    {
+      "id": 9105,
+      "runeKey": "rune_9105",
+      "skillKey": "rune_9105_passive"
+    }
+  ],
+  "requests": [
+    {
+      "id": 5001,
+      "skillKey": "rune_5001_passive",
+      "kind": "skill",
+      "method": "POST",
+      "route": "/skills",
+      "readRoute": "/skills/rune_5001_passive",
+      "body": {
+        "skillKey": "rune_5001_passive",
+        "name": "符文·成长生命值",
+        "description": "本批仅保存成长生命值10至180端点和当前等级生命值运行输入；不凭端点生成等级曲线，不自动挂接属性效果。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      }
+    },
+    {
+      "id": 5001,
+      "skillKey": "rune_5001_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_5001_passive/parameters",
+      "readRoute": "/skills/rune_5001_passive/parameters/health_bonus_source_min",
+      "body": {
+        "parameterKey": "health_bonus_source_min",
+        "name": "成长生命值来源下限",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 10,
+        "levelValues": null,
+        "description": "只保留来源下限；不作为所有等级的固定值。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "id": 5001,
+      "skillKey": "rune_5001_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_5001_passive/parameters",
+      "readRoute": "/skills/rune_5001_passive/parameters/health_bonus_source_max",
+      "body": {
+        "parameterKey": "health_bonus_source_max",
+        "name": "成长生命值来源上限",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 180,
+        "levelValues": null,
+        "description": "只保留来源上限；不作为所有等级的固定值。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "id": 5001,
+      "skillKey": "rune_5001_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_5001_passive/parameters",
+      "readRoute": "/skills/rune_5001_passive/parameters/actual_character_level",
+      "body": {
+        "parameterKey": "actual_character_level",
+        "name": "实际角色等级",
+        "valueType": "INTEGER",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "由运行时提供；等级值和取整规则不在当前来源中完整公开。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "id": 5001,
+      "skillKey": "rune_5001_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_5001_passive/parameters",
+      "readRoute": "/skills/rune_5001_passive/parameters/actual_level_health_bonus",
+      "body": {
+        "parameterKey": "actual_level_health_bonus",
+        "name": "当前等级成长生命值",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "由同版本等级求值链提供；没有默认值，不按10至180线性插值。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "id": 5001,
+      "skillKey": "rune_5001_passive",
+      "kind": "relation",
+      "method": "POST",
+      "route": "/rune-skill-relations",
+      "readRoute": "/rune-skill-relations?runeKey=rune_5001&skillKey=rune_5001_passive",
+      "body": {
+        "runeKey": "rune_5001",
+        "skillKey": "rune_5001_passive",
+        "sortOrder": 0
+      }
+    },
+    {
+      "id": 5001,
+      "skillKey": "rune_5001_passive",
+      "kind": "image",
+      "method": "PUT",
+      "route": "/skills/rune_5001_passive/representative-image",
+      "readRoute": "/skills/rune_5001_passive/representative-image",
+      "body": {
+        "imageKey": "rune_5001"
+      }
+    },
+    {
+      "id": 5008,
+      "skillKey": "rune_5008_passive",
+      "kind": "skill",
+      "method": "POST",
+      "route": "/skills",
+      "readRoute": "/skills/rune_5008_passive",
+      "body": {
+        "skillKey": "rune_5008_passive",
+        "name": "符文·适应之力",
+        "description": "本批仅保存客户端明确的9适应之力和运行时解析结果；不把5.4当作固定额外攻击力，不默认解析为法术强度。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      }
+    },
+    {
+      "id": 5008,
+      "skillKey": "rune_5008_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_5008_passive/parameters",
+      "readRoute": "/skills/rune_5008_passive/parameters/adaptive_force_value",
+      "body": {
+        "parameterKey": "adaptive_force_value",
+        "name": "适应之力数值",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 9,
+        "levelValues": null,
+        "description": "客户端绑定说明直接显示9适应之力。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "id": 5008,
+      "skillKey": "rune_5008_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_5008_passive/parameters",
+      "readRoute": "/skills/rune_5008_passive/parameters/resolved_adaptive_value",
+      "body": {
+        "parameterKey": "resolved_adaptive_value",
+        "name": "已解析的适应属性结果",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "由运行时按英雄当前适应方向提供攻击力或法术强度结果；未知时不补值。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "id": 5008,
+      "skillKey": "rune_5008_passive",
+      "kind": "relation",
+      "method": "POST",
+      "route": "/rune-skill-relations",
+      "readRoute": "/rune-skill-relations?runeKey=rune_5008&skillKey=rune_5008_passive",
+      "body": {
+        "runeKey": "rune_5008",
+        "skillKey": "rune_5008_passive",
+        "sortOrder": 0
+      }
+    },
+    {
+      "id": 5008,
+      "skillKey": "rune_5008_passive",
+      "kind": "image",
+      "method": "PUT",
+      "route": "/skills/rune_5008_passive/representative-image",
+      "readRoute": "/skills/rune_5008_passive/representative-image",
+      "body": {
+        "imageKey": "rune_5008"
+      }
+    },
+    {
+      "id": 8275,
+      "skillKey": "rune_8275_passive",
+      "kind": "skill",
+      "method": "POST",
+      "route": "/skills",
+      "readRoute": "/skills/rune_8275_passive",
+      "body": {
+        "skillKey": "rune_8275_passive",
+        "name": "符文·灵光披风",
+        "description": "本批仅保存召唤师技能施放后的自身移速比例端点和2秒时长；单位碰撞排除，冷却映射与衰减留运行时输入。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      }
+    },
+    {
+      "id": 8275,
+      "skillKey": "rune_8275_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8275_passive/parameters",
+      "readRoute": "/skills/rune_8275_passive/parameters/boost_duration_ms",
+      "body": {
+        "parameterKey": "boost_duration_ms",
+        "name": "移速提升持续时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "来源2秒转换为毫秒。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "id": 8275,
+      "skillKey": "rune_8275_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8275_passive/parameters",
+      "readRoute": "/skills/rune_8275_passive/parameters/low_cooldown_speed_ratio",
+      "body": {
+        "parameterKey": "low_cooldown_speed_ratio",
+        "name": "短冷却召唤师技能移速比例下限",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.15,
+        "levelValues": null,
+        "description": "只保留来源15%端点，不当作所有召唤师技能的固定值。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "id": 8275,
+      "skillKey": "rune_8275_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8275_passive/parameters",
+      "readRoute": "/skills/rune_8275_passive/parameters/high_cooldown_speed_ratio",
+      "body": {
+        "parameterKey": "high_cooldown_speed_ratio",
+        "name": "长冷却召唤师技能移速比例上限",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.45,
+        "levelValues": null,
+        "description": "只保留来源45%端点，不把未知映射线性插值。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "id": 8275,
+      "skillKey": "rune_8275_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8275_passive/parameters",
+      "readRoute": "/skills/rune_8275_passive/parameters/actual_summoner_spell_cooldown_seconds",
+      "body": {
+        "parameterKey": "actual_summoner_spell_cooldown_seconds",
+        "name": "实际召唤师技能冷却时间",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "由实际施放的召唤师技能提供；冷却到移速比例的分段规则未公开。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "id": 8275,
+      "skillKey": "rune_8275_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8275_passive/parameters",
+      "readRoute": "/skills/rune_8275_passive/parameters/actual_move_speed_boost_ratio",
+      "body": {
+        "parameterKey": "actual_move_speed_boost_ratio",
+        "name": "实际移速提升比例",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "由同版冷却映射和不断衰减过程提供；不默认15%或45%。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "id": 8275,
+      "skillKey": "rune_8275_passive",
+      "kind": "relation",
+      "method": "POST",
+      "route": "/rune-skill-relations",
+      "readRoute": "/rune-skill-relations?runeKey=rune_8275&skillKey=rune_8275_passive",
+      "body": {
+        "runeKey": "rune_8275",
+        "skillKey": "rune_8275_passive",
+        "sortOrder": 0
+      }
+    },
+    {
+      "id": 8275,
+      "skillKey": "rune_8275_passive",
+      "kind": "image",
+      "method": "PUT",
+      "route": "/skills/rune_8275_passive/representative-image",
+      "readRoute": "/skills/rune_8275_passive/representative-image",
+      "body": {
+        "imageKey": "rune_8275"
+      }
+    },
+    {
+      "id": 8316,
+      "skillKey": "rune_8316_passive",
+      "kind": "skill",
+      "method": "POST",
+      "route": "/skills",
+      "readRoute": "/skills/rune_8316_passive",
+      "body": {
+        "skillKey": "rune_8316_passive",
+        "name": "符文·多面手",
+        "description": "本批仅保存不同装备属性计数、每层1技能急速及5/10层8/20适应之力；属性去重集合与适应转换不默认。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      }
+    },
+    {
+      "id": 8316,
+      "skillKey": "rune_8316_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8316_passive/parameters",
+      "readRoute": "/skills/rune_8316_passive/parameters/haste_per_distinct_attribute",
+      "body": {
+        "parameterKey": "haste_per_distinct_attribute",
+        "name": "每种不同装备属性技能急速",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "来源绑定每层1技能急速。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "id": 8316,
+      "skillKey": "rune_8316_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8316_passive/parameters",
+      "readRoute": "/skills/rune_8316_passive/parameters/milestone_5_attributes",
+      "body": {
+        "parameterKey": "milestone_5_attributes",
+        "name": "五层里程碑",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 5,
+        "levelValues": null,
+        "description": "来源绑定的第一里程碑。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "id": 8316,
+      "skillKey": "rune_8316_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8316_passive/parameters",
+      "readRoute": "/skills/rune_8316_passive/parameters/adaptive_force_at_5",
+      "body": {
+        "parameterKey": "adaptive_force_at_5",
+        "name": "五层适应之力",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 8,
+        "levelValues": null,
+        "description": "来源绑定五层额外8适应之力。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "id": 8316,
+      "skillKey": "rune_8316_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8316_passive/parameters",
+      "readRoute": "/skills/rune_8316_passive/parameters/milestone_10_attributes",
+      "body": {
+        "parameterKey": "milestone_10_attributes",
+        "name": "十层里程碑",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 10,
+        "levelValues": null,
+        "description": "来源绑定的第二里程碑。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "id": 8316,
+      "skillKey": "rune_8316_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8316_passive/parameters",
+      "readRoute": "/skills/rune_8316_passive/parameters/adaptive_force_at_10",
+      "body": {
+        "parameterKey": "adaptive_force_at_10",
+        "name": "十层适应之力",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 20,
+        "levelValues": null,
+        "description": "来源绑定十层额外20适应之力。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "id": 8316,
+      "skillKey": "rune_8316_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8316_passive/parameters",
+      "readRoute": "/skills/rune_8316_passive/parameters/actual_distinct_equipment_attribute_count",
+      "body": {
+        "parameterKey": "actual_distinct_equipment_attribute_count",
+        "name": "实际不同装备属性数量",
+        "valueType": "INTEGER",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "由装备属性集合去重结果提供；不能把装备件数直接当属性种类数。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "id": 8316,
+      "skillKey": "rune_8316_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8316_passive/parameters",
+      "readRoute": "/skills/rune_8316_passive/parameters/resolved_milestone_adaptive_value",
+      "body": {
+        "parameterKey": "resolved_milestone_adaptive_value",
+        "name": "已解析里程碑适应属性结果",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "由运行时按适应方向提供；5层和10层之外不自动推导。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "id": 8316,
+      "skillKey": "rune_8316_passive",
+      "kind": "formula",
+      "method": "POST",
+      "route": "/skills/rune_8316_passive/formulas",
+      "readRoute": "/skills/rune_8316_passive/formulas/skill_haste_from_distinct_attributes",
+      "body": {
+        "formulaKey": "skill_haste_from_distinct_attributes",
+        "name": "不同装备属性带来的技能急速",
+        "description": "仅计算每层1技能急速；实际装备集合、去重和应用时机仍需运行时供值。",
+        "sortOrder": 10,
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "haste_per_distinct_attribute"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_distinct_equipment_attribute_count"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 8316,
+      "skillKey": "rune_8316_passive",
+      "kind": "relation",
+      "method": "POST",
+      "route": "/rune-skill-relations",
+      "readRoute": "/rune-skill-relations?runeKey=rune_8316&skillKey=rune_8316_passive",
+      "body": {
+        "runeKey": "rune_8316",
+        "skillKey": "rune_8316_passive",
+        "sortOrder": 0
+      }
+    },
+    {
+      "id": 8316,
+      "skillKey": "rune_8316_passive",
+      "kind": "image",
+      "method": "PUT",
+      "route": "/skills/rune_8316_passive/representative-image",
+      "readRoute": "/skills/rune_8316_passive/representative-image",
+      "body": {
+        "imageKey": "rune_8316"
+      }
+    },
+    {
+      "id": 8345,
+      "skillKey": "rune_8345_passive",
+      "kind": "skill",
+      "method": "POST",
+      "route": "/skills",
+      "readRoute": "/skills/rune_8345_passive",
+      "body": {
+        "skillKey": "rune_8345_passive",
+        "name": "符文·饼干配送",
+        "description": "饼干取得间隔与永久生命、自身食用恢复的已证参数及基数公式。消费物品2010与符文同版当前系数均为1.5%最大生命，食用后5秒持续恢复；消耗或出售均增加30最大生命。出售是否回血不据短文假定；已损生命增幅中间曲线与实际事件仍待补。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      }
+    },
+    {
+      "id": 8345,
+      "skillKey": "rune_8345_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8345_passive/parameters",
+      "readRoute": "/skills/rune_8345_passive/parameters/biscuit_interval_ms",
+      "body": {
+        "parameterKey": "biscuit_interval_ms",
+        "name": "饼干取得间隔",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 120000,
+        "levelValues": null,
+        "description": "来源2分钟转换为毫秒。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "id": 8345,
+      "skillKey": "rune_8345_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8345_passive/parameters",
+      "readRoute": "/skills/rune_8345_passive/parameters/delivery_end_minute",
+      "body": {
+        "parameterKey": "delivery_end_minute",
+        "name": "饼干取得截止分钟",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 6,
+        "levelValues": null,
+        "description": "来源直到6分钟；具体首次发放时点留给运行时。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "id": 8345,
+      "skillKey": "rune_8345_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8345_passive/parameters",
+      "readRoute": "/skills/rune_8345_passive/parameters/flat_recovery",
+      "body": {
+        "parameterKey": "flat_recovery",
+        "name": "饼干基础恢复量",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 20,
+        "levelValues": null,
+        "description": "来源固定恢复量，未构造直接治疗效果。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "id": 8345,
+      "skillKey": "rune_8345_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8345_passive/parameters",
+      "readRoute": "/skills/rune_8345_passive/parameters/client_health_recovery_ratio",
+      "body": {
+        "parameterKey": "client_health_recovery_ratio",
+        "name": "客户端绑定最大生命恢复比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.015,
+        "levelValues": null,
+        "description": "客户端16.17当前对象明确1.5%；与官方2%并列，不静默替换。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "id": 8345,
+      "skillKey": "rune_8345_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8345_passive/parameters",
+      "readRoute": "/skills/rune_8345_passive/parameters/official_health_recovery_ratio",
+      "body": {
+        "parameterKey": "official_health_recovery_ratio",
+        "name": "官方说明最大生命恢复比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.02,
+        "levelValues": null,
+        "description": "官方16.17.1长说明显示2%；来源与客户端当前对象存在差异。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "id": 8345,
+      "skillKey": "rune_8345_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8345_passive/parameters",
+      "readRoute": "/skills/rune_8345_passive/parameters/permanent_health_per_cookie",
+      "body": {
+        "parameterKey": "permanent_health_per_cookie",
+        "name": "每块饼干永久最大生命",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 30,
+        "levelValues": null,
+        "description": "消耗或出售一块饼干均永久提供30最大生命值。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "id": 8345,
+      "skillKey": "rune_8345_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8345_passive/parameters",
+      "readRoute": "/skills/rune_8345_passive/parameters/maximum_recovery_increase_ratio",
+      "body": {
+        "parameterKey": "maximum_recovery_increase_ratio",
+        "name": "已损生命恢复提升上限",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "来源明确最多提升100%；提升曲线仍缺失。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "id": 8345,
+      "skillKey": "rune_8345_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8345_passive/parameters",
+      "readRoute": "/skills/rune_8345_passive/parameters/recovery_effect_duration_ms",
+      "body": {
+        "parameterKey": "recovery_effect_duration_ms",
+        "name": "恢复效果来源持续时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 5000,
+        "levelValues": null,
+        "description": "同构建物品2010当前Active/ActiveExtended正文引用PotionDurationTOOLTIP=5，明确食用后5秒内持续恢复；不据此造每秒跳频或首跳。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "id": 8345,
+      "skillKey": "rune_8345_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8345_passive/parameters",
+      "readRoute": "/skills/rune_8345_passive/parameters/actual_consumed_or_sold_count",
+      "body": {
+        "parameterKey": "actual_consumed_or_sold_count",
+        "name": "实际已消耗或出售饼干数",
+        "valueType": "INTEGER",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "由真实饼干消耗或出售事件供值，不默认已有或满额饼干。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "id": 8345,
+      "skillKey": "rune_8345_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8345_passive/parameters",
+      "readRoute": "/skills/rune_8345_passive/parameters/actual_missing_health_boost_ratio",
+      "body": {
+        "parameterKey": "actual_missing_health_boost_ratio",
+        "name": "实际已损生命恢复提升比例",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "由当前已损生命和同版曲线供值；不得用0或线性比例替代。",
+        "sortOrder": 110
+      }
+    },
+    {
+      "id": 8345,
+      "skillKey": "rune_8345_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8345_passive/parameters",
+      "readRoute": "/skills/rune_8345_passive/parameters/health_ratio_at_maximum_recovery",
+      "body": {
+        "parameterKey": "health_ratio_at_maximum_recovery",
+        "name": "达到最大恢复提升的生命比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.3,
+        "levelValues": null,
+        "description": "同构建Item2010当前ActiveExtended绑定MinHPThresholdTOOLTIP=0.3：30%生命时达最大治疗效果。中间求值曲线与边界时点仍未证。",
+        "sortOrder": 120
+      }
+    },
+    {
+      "id": 8345,
+      "skillKey": "rune_8345_passive",
+      "kind": "formula",
+      "method": "POST",
+      "route": "/skills/rune_8345_passive/formulas",
+      "readRoute": "/skills/rune_8345_passive/formulas/base_biscuit_recovery",
+      "body": {
+        "formulaKey": "base_biscuit_recovery",
+        "name": "饼干基础恢复量",
+        "description": "同构建符文8345及消费物品2010的当前绑定共同证明20+0.015×最大生命的恢复基数；官方显示2%的差异留证，不作为另一套实际比例。已损生命提升、跳频与实际治疗仍未接线。",
+        "sortOrder": 10,
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "flat_recovery"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "client_health_recovery_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "hp",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 8345,
+      "skillKey": "rune_8345_passive",
+      "kind": "formula",
+      "method": "POST",
+      "route": "/skills/rune_8345_passive/formulas",
+      "readRoute": "/skills/rune_8345_passive/formulas/permanent_health_gain",
+      "body": {
+        "formulaKey": "permanent_health_gain",
+        "name": "饼干永久最大生命增量",
+        "description": "只计算已发生消耗或出售的永久生命增量；不把取得数量当作已消费数量。",
+        "sortOrder": 20,
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "permanent_health_per_cookie"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_consumed_or_sold_count"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 8345,
+      "skillKey": "rune_8345_passive",
+      "kind": "relation",
+      "method": "POST",
+      "route": "/rune-skill-relations",
+      "readRoute": "/rune-skill-relations?runeKey=rune_8345&skillKey=rune_8345_passive",
+      "body": {
+        "runeKey": "rune_8345",
+        "skillKey": "rune_8345_passive",
+        "sortOrder": 0
+      }
+    },
+    {
+      "id": 8345,
+      "skillKey": "rune_8345_passive",
+      "kind": "image",
+      "method": "PUT",
+      "route": "/skills/rune_8345_passive/representative-image",
+      "readRoute": "/skills/rune_8345_passive/representative-image",
+      "body": {
+        "imageKey": "rune_8345"
+      }
+    },
+    {
+      "id": 8463,
+      "skillKey": "rune_8463_passive",
+      "kind": "skill",
+      "method": "POST",
+      "route": "/skills",
+      "readRoute": "/skills/rune_8463_passive",
+      "body": {
+        "skillKey": "rune_8463_passive",
+        "name": "符文·生命源泉",
+        "description": "本批仅保存生命源泉20秒冷却、远程70%效能和基础治疗端点；不造缺少资格的直接治疗效果，附近队友治疗支路排除。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      }
+    },
+    {
+      "id": 8463,
+      "skillKey": "rune_8463_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8463_passive/parameters",
+      "readRoute": "/skills/rune_8463_passive/parameters/cooldown_ms",
+      "body": {
+        "parameterKey": "cooldown_ms",
+        "name": "生命源泉冷却时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 20000,
+        "levelValues": null,
+        "description": "来源20秒转换为毫秒。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "id": 8463,
+      "skillKey": "rune_8463_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8463_passive/parameters",
+      "readRoute": "/skills/rune_8463_passive/parameters/ranged_effectiveness_ratio",
+      "body": {
+        "parameterKey": "ranged_effectiveness_ratio",
+        "name": "远程使用效能",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.7,
+        "levelValues": null,
+        "description": "来源远程70%效能。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "id": 8463,
+      "skillKey": "rune_8463_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8463_passive/parameters",
+      "readRoute": "/skills/rune_8463_passive/parameters/base_heal_source_min",
+      "body": {
+        "parameterKey": "base_heal_source_min",
+        "name": "基础治疗量来源下限",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 10,
+        "levelValues": null,
+        "description": "仅保留等级曲线下限。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "id": 8463,
+      "skillKey": "rune_8463_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8463_passive/parameters",
+      "readRoute": "/skills/rune_8463_passive/parameters/base_heal_source_max",
+      "body": {
+        "parameterKey": "base_heal_source_max",
+        "name": "基础治疗量来源上限",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 50,
+        "levelValues": null,
+        "description": "仅保留等级曲线上限。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "id": 8463,
+      "skillKey": "rune_8463_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_8463_passive/parameters",
+      "readRoute": "/skills/rune_8463_passive/parameters/actual_base_heal",
+      "body": {
+        "parameterKey": "actual_base_heal",
+        "name": "当前等级基础治疗量",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "由当前等级求值运行时提供；不按10至50线性插值。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "id": 8463,
+      "skillKey": "rune_8463_passive",
+      "kind": "formula",
+      "method": "POST",
+      "route": "/skills/rune_8463_passive/formulas",
+      "readRoute": "/skills/rune_8463_passive/formulas/ranged_heal_amount",
+      "body": {
+        "formulaKey": "ranged_heal_amount",
+        "name": "远程当前等级治疗量",
+        "description": "只计算已确认远程70%效能；没有创建直接治疗效果。",
+        "sortOrder": 10,
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_base_heal"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "ranged_effectiveness_ratio"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 8463,
+      "skillKey": "rune_8463_passive",
+      "kind": "relation",
+      "method": "POST",
+      "route": "/rune-skill-relations",
+      "readRoute": "/rune-skill-relations?runeKey=rune_8463&skillKey=rune_8463_passive",
+      "body": {
+        "runeKey": "rune_8463",
+        "skillKey": "rune_8463_passive",
+        "sortOrder": 0
+      }
+    },
+    {
+      "id": 8463,
+      "skillKey": "rune_8463_passive",
+      "kind": "image",
+      "method": "PUT",
+      "route": "/skills/rune_8463_passive/representative-image",
+      "readRoute": "/skills/rune_8463_passive/representative-image",
+      "body": {
+        "imageKey": "rune_8463"
+      }
+    },
+    {
+      "id": 9105,
+      "skillKey": "rune_9105_passive",
+      "kind": "skill",
+      "method": "POST",
+      "route": "/skills",
+      "readRoute": "/skills/rune_9105_passive",
+      "body": {
+        "skillKey": "rune_9105_passive",
+        "name": "符文·传说：急速",
+        "description": "本批仅保存传说：急速每层1.5、上限10和进度原始值；基础技能集合、进度权重和当前层数留运行时输入。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      }
+    },
+    {
+      "id": 9105,
+      "skillKey": "rune_9105_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_9105_passive/parameters",
+      "readRoute": "/skills/rune_9105_passive/parameters/haste_per_legend_stack",
+      "body": {
+        "parameterKey": "haste_per_legend_stack",
+        "name": "每层基础技能急速",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1.5,
+        "levelValues": null,
+        "description": "来源明确每层1.5基础技能急速。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "id": 9105,
+      "skillKey": "rune_9105_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_9105_passive/parameters",
+      "readRoute": "/skills/rune_9105_passive/parameters/haste_base",
+      "body": {
+        "parameterKey": "haste_base",
+        "name": "基础技能急速基础值",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 0,
+        "levelValues": null,
+        "description": "客户端对象显式提供0；不表示当前已获得层数。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "id": 9105,
+      "skillKey": "rune_9105_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_9105_passive/parameters",
+      "readRoute": "/skills/rune_9105_passive/parameters/max_legend_stacks",
+      "body": {
+        "parameterKey": "max_legend_stacks",
+        "name": "传说层数上限",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 10,
+        "levelValues": null,
+        "description": "来源明确最大层数10。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "id": 9105,
+      "skillKey": "rune_9105_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_9105_passive/parameters",
+      "readRoute": "/skills/rune_9105_passive/parameters/large_monster_progress_value",
+      "body": {
+        "parameterKey": "large_monster_progress_value",
+        "name": "大型野怪进度原始值",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 25,
+        "levelValues": null,
+        "description": "仅保留客户端进度值；不猜进度单位与换算层数。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "id": 9105,
+      "skillKey": "rune_9105_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_9105_passive/parameters",
+      "readRoute": "/skills/rune_9105_passive/parameters/minion_progress_value",
+      "body": {
+        "parameterKey": "minion_progress_value",
+        "name": "小兵进度原始值",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4,
+        "levelValues": null,
+        "description": "仅保留客户端进度值；不猜进度单位与换算层数。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "id": 9105,
+      "skillKey": "rune_9105_passive",
+      "kind": "parameter",
+      "method": "POST",
+      "route": "/skills/rune_9105_passive/parameters",
+      "readRoute": "/skills/rune_9105_passive/parameters/actual_legend_stacks",
+      "body": {
+        "parameterKey": "actual_legend_stacks",
+        "name": "实际传说层数",
+        "valueType": "INTEGER",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "来自真实进度换算的非负整数层数；超过10由公式应用明确上限。缺值不默认0或满层，进度原始值不能直接作为层数。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "id": 9105,
+      "skillKey": "rune_9105_passive",
+      "kind": "formula",
+      "method": "POST",
+      "route": "/skills/rune_9105_passive/formulas",
+      "readRoute": "/skills/rune_9105_passive/formulas/base_skill_haste_from_legend",
+      "body": {
+        "formulaKey": "base_skill_haste_from_legend",
+        "name": "当前传说层数基础技能急速",
+        "description": "基础技能急速为1.5×实际层数与10中的较小值，上限15；输入仍须真实非负整数，缺失不能默认0或10。基础技能集合与进度换算未接线。",
+        "sortOrder": 10,
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "haste_per_legend_stack"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MIN",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_legend_stacks"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "max_legend_stacks"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 9105,
+      "skillKey": "rune_9105_passive",
+      "kind": "relation",
+      "method": "POST",
+      "route": "/rune-skill-relations",
+      "readRoute": "/rune-skill-relations?runeKey=rune_9105&skillKey=rune_9105_passive",
+      "body": {
+        "runeKey": "rune_9105",
+        "skillKey": "rune_9105_passive",
+        "sortOrder": 0
+      }
+    },
+    {
+      "id": 9105,
+      "skillKey": "rune_9105_passive",
+      "kind": "image",
+      "method": "PUT",
+      "route": "/skills/rune_9105_passive/representative-image",
+      "readRoute": "/skills/rune_9105_passive/representative-image",
+      "body": {
+        "imageKey": "rune_9105"
+      }
+    }
+  ]
+}

@@ -1,0 +1,1847 @@
+{
+  "generatedAt": "2026-09-09T03:23:30.125Z",
+  "stage": "写入前只读计划；本文件及生成过程不调用业务写接口",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "authorizationHeader": "由获授权执行脚本在进程内提供认证头；本阶段不发请求、不落盘认证信息",
+  "sourceBoundary": {
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "selectedIds": [
+      2510,
+      2512,
+      2517,
+      2520,
+      2523,
+      2524,
+      2526,
+      2530,
+      3040,
+      3042,
+      3073,
+      3083
+    ]
+  },
+  "currentEvidence": {
+    "file": "写前现值.json",
+    "at": "2026-09-09T02:19:50.985Z",
+    "skillInventoryCount": 947
+  },
+  "safeguards": [
+    "每个装备四条保护GET必须为200且归属、名称、属性、代表图与快照一致。",
+    "关系列表必须完整且仍为空；发现既有关系、重复关系或批次外对象时停止该对象。",
+    "每个候选技能主体当前应为404；若变为200必须逐字段比较，异值停止，不覆盖。",
+    "主体404时不把下级列表404当成缺项写入依据；主体200后才读取下级列表与详情。",
+    "任何超时、503或响应中断后先重新GET现值，禁止盲目重放。",
+    "代表图只允许复用装备现有imageKey，同键跳过，异键停止，不上传新图。"
+  ],
+  "noWrite": true,
+  "requests": [
+    {
+      "method": "GET",
+      "route": "/attributes?page=1&pageSize=200",
+      "purpose": "确认公式结果引用的属性目录完整"
+    },
+    {
+      "method": "GET",
+      "route": "/modifier-zones?page=1&pageSize=200",
+      "purpose": "确认公式结果引用的修改区域目录完整"
+    },
+    {
+      "method": "GET",
+      "route": "/skill-categories?page=1&pageSize=200",
+      "purpose": "确认技能分类目录完整"
+    },
+    {
+      "method": "GET",
+      "route": "/skills?page=1&pageSize=200",
+      "purpose": "读取技能目录第一页并按total继续分页，不能写死现有条数"
+    },
+    {
+      "method": "GET",
+      "route": "/equipment/item_2510",
+      "purpose": "保护原装备、属性、图片与已有关系",
+      "current": {
+        "status": 200,
+        "ok": true
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/equipment/item_2510/attributes",
+      "purpose": "保护原装备、属性、图片与已有关系",
+      "current": {
+        "status": 200,
+        "ok": true
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/equipment/item_2510/representative-image",
+      "purpose": "保护原装备、属性、图片与已有关系",
+      "current": {
+        "status": 200,
+        "ok": true
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/equipment-skill-relations?equipmentKey=item_2510",
+      "purpose": "保护原装备、属性、图片与已有关系",
+      "current": {
+        "status": 200,
+        "ok": true
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2510_passive",
+      "purpose": "确认技能主体缺项或完整同值",
+      "expectedBeforeStatus": 404,
+      "current": {
+        "status": 404
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2510_passive/parameters",
+      "purpose": "主体存在时完整读取parameters列表",
+      "conditionalOn": "/skills/item_2510_passive返回200",
+      "expectedKeys": [
+        "spellblade_cooldown_ms",
+        "spellblade_damage_mstat2_formula1_ratio",
+        "spellblade_damage_mstat2_formula1_input",
+        "spellblade_damage_default_ratio",
+        "spellblade_healing_default_ratio",
+        "spellblade_healing_mstat12_formula2_ratio",
+        "spellblade_healing_mstat12_formula2_input"
+      ]
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2510_passive/parameters/spellblade_cooldown_ms",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_2510_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2510_passive/parameters/spellblade_damage_mstat2_formula1_ratio",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_2510_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2510_passive/parameters/spellblade_damage_mstat2_formula1_input",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_2510_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2510_passive/parameters/spellblade_damage_default_ratio",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_2510_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2510_passive/parameters/spellblade_healing_default_ratio",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_2510_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2510_passive/parameters/spellblade_healing_mstat12_formula2_ratio",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_2510_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2510_passive/parameters/spellblade_healing_mstat12_formula2_input",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_2510_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2510_passive/formulas",
+      "purpose": "主体存在时完整读取formulas列表",
+      "conditionalOn": "/skills/item_2510_passive返回200",
+      "expectedKeys": [
+        "spellblade_damage_value",
+        "spellblade_healing_value"
+      ]
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2510_passive/formulas/spellblade_damage_value",
+      "purpose": "主体存在时读取formulas详情",
+      "conditionalOn": "/skills/item_2510_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2510_passive/formulas/spellblade_healing_value",
+      "purpose": "主体存在时读取formulas详情",
+      "conditionalOn": "/skills/item_2510_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2510_passive/effects",
+      "purpose": "主体存在时完整读取effects列表",
+      "conditionalOn": "/skills/item_2510_passive返回200",
+      "expectedKeys": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2510_passive/processes",
+      "purpose": "主体存在时完整读取processes列表",
+      "conditionalOn": "/skills/item_2510_passive返回200",
+      "expectedKeys": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2510_passive/internal-states",
+      "purpose": "主体存在时完整读取internalStates列表",
+      "conditionalOn": "/skills/item_2510_passive返回200",
+      "expectedKeys": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2510_passive/trigger-rules",
+      "purpose": "主体存在时完整读取triggerRules列表",
+      "conditionalOn": "/skills/item_2510_passive返回200",
+      "expectedKeys": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2510_passive/representative-image",
+      "purpose": "确认技能代表图缺项或与装备图同值",
+      "conditionalOn": "/skills/item_2510_passive返回200",
+      "expectedImageKey": "item_2510"
+    },
+    {
+      "method": "GET",
+      "route": "/equipment/item_2512",
+      "purpose": "保护原装备、属性、图片与已有关系",
+      "current": {
+        "status": 200,
+        "ok": true
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/equipment/item_2512/attributes",
+      "purpose": "保护原装备、属性、图片与已有关系",
+      "current": {
+        "status": 200,
+        "ok": true
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/equipment/item_2512/representative-image",
+      "purpose": "保护原装备、属性、图片与已有关系",
+      "current": {
+        "status": 200,
+        "ok": true
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/equipment-skill-relations?equipmentKey=item_2512",
+      "purpose": "保护原装备、属性、图片与已有关系",
+      "current": {
+        "status": 200,
+        "ok": true
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2512_passive",
+      "purpose": "确认技能主体缺项或完整同值",
+      "expectedBeforeStatus": 404,
+      "current": {
+        "status": 404
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2512_passive/parameters",
+      "purpose": "主体存在时完整读取parameters列表",
+      "conditionalOn": "/skills/item_2512_passive返回200",
+      "expectedKeys": [
+        "ultimate_haste",
+        "barrage_cooldown_ms",
+        "barrage_duration_ms",
+        "barrage_extra_true_damage_ratio",
+        "barrage_attack_speed_ratio",
+        "barrage_attack_count",
+        "barrage_critical_damage_ratio"
+      ]
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2512_passive/parameters/ultimate_haste",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_2512_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2512_passive/parameters/barrage_cooldown_ms",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_2512_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2512_passive/parameters/barrage_duration_ms",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_2512_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2512_passive/parameters/barrage_extra_true_damage_ratio",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_2512_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2512_passive/parameters/barrage_attack_speed_ratio",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_2512_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2512_passive/parameters/barrage_attack_count",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_2512_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2512_passive/parameters/barrage_critical_damage_ratio",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_2512_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2512_passive/formulas",
+      "purpose": "主体存在时完整读取formulas列表",
+      "conditionalOn": "/skills/item_2512_passive返回200",
+      "expectedKeys": [
+        "barrage_attack_speed_bonus",
+        "barrage_critical_damage_result",
+        "barrage_extra_true_damage_result"
+      ]
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2512_passive/formulas/barrage_attack_speed_bonus",
+      "purpose": "主体存在时读取formulas详情",
+      "conditionalOn": "/skills/item_2512_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2512_passive/formulas/barrage_critical_damage_result",
+      "purpose": "主体存在时读取formulas详情",
+      "conditionalOn": "/skills/item_2512_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2512_passive/formulas/barrage_extra_true_damage_result",
+      "purpose": "主体存在时读取formulas详情",
+      "conditionalOn": "/skills/item_2512_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2512_passive/effects",
+      "purpose": "主体存在时完整读取effects列表",
+      "conditionalOn": "/skills/item_2512_passive返回200",
+      "expectedKeys": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2512_passive/processes",
+      "purpose": "主体存在时完整读取processes列表",
+      "conditionalOn": "/skills/item_2512_passive返回200",
+      "expectedKeys": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2512_passive/internal-states",
+      "purpose": "主体存在时完整读取internalStates列表",
+      "conditionalOn": "/skills/item_2512_passive返回200",
+      "expectedKeys": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2512_passive/trigger-rules",
+      "purpose": "主体存在时完整读取triggerRules列表",
+      "conditionalOn": "/skills/item_2512_passive返回200",
+      "expectedKeys": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2512_passive/representative-image",
+      "purpose": "确认技能代表图缺项或与装备图同值",
+      "conditionalOn": "/skills/item_2512_passive返回200",
+      "expectedImageKey": "item_2512"
+    },
+    {
+      "method": "GET",
+      "route": "/equipment/item_2517",
+      "purpose": "保护原装备、属性、图片与已有关系",
+      "current": {
+        "status": 200,
+        "ok": true
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/equipment/item_2517/attributes",
+      "purpose": "保护原装备、属性、图片与已有关系",
+      "current": {
+        "status": 200,
+        "ok": true
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/equipment/item_2517/representative-image",
+      "purpose": "保护原装备、属性、图片与已有关系",
+      "current": {
+        "status": 200,
+        "ok": true
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/equipment-skill-relations?equipmentKey=item_2517",
+      "purpose": "保护原装备、属性、图片与已有关系",
+      "current": {
+        "status": 200,
+        "ok": true
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2517_passive",
+      "purpose": "确认技能主体缺项或完整同值",
+      "expectedBeforeStatus": 404,
+      "current": {
+        "status": 404
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2517_passive/parameters",
+      "purpose": "主体存在时完整读取parameters列表",
+      "conditionalOn": "/skills/item_2517_passive返回200",
+      "expectedKeys": [
+        "haste_base",
+        "melee_haste_bonus_attack_damage_ratio",
+        "ranged_haste_bonus_attack_damage_ratio",
+        "takedown_omnivamp_ratio",
+        "takedown_omnivamp_duration_ms",
+        "takedown_damage_window_ms"
+      ]
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2517_passive/parameters/haste_base",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_2517_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2517_passive/parameters/melee_haste_bonus_attack_damage_ratio",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_2517_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2517_passive/parameters/ranged_haste_bonus_attack_damage_ratio",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_2517_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2517_passive/parameters/takedown_omnivamp_ratio",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_2517_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2517_passive/parameters/takedown_omnivamp_duration_ms",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_2517_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2517_passive/parameters/takedown_damage_window_ms",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_2517_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2517_passive/formulas",
+      "purpose": "主体存在时完整读取formulas列表",
+      "conditionalOn": "/skills/item_2517_passive返回200",
+      "expectedKeys": [
+        "melee_haste_from_bonus_attack_damage",
+        "ranged_haste_from_bonus_attack_damage"
+      ]
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2517_passive/formulas/melee_haste_from_bonus_attack_damage",
+      "purpose": "主体存在时读取formulas详情",
+      "conditionalOn": "/skills/item_2517_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2517_passive/formulas/ranged_haste_from_bonus_attack_damage",
+      "purpose": "主体存在时读取formulas详情",
+      "conditionalOn": "/skills/item_2517_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2517_passive/effects",
+      "purpose": "主体存在时完整读取effects列表",
+      "conditionalOn": "/skills/item_2517_passive返回200",
+      "expectedKeys": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2517_passive/processes",
+      "purpose": "主体存在时完整读取processes列表",
+      "conditionalOn": "/skills/item_2517_passive返回200",
+      "expectedKeys": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2517_passive/internal-states",
+      "purpose": "主体存在时完整读取internalStates列表",
+      "conditionalOn": "/skills/item_2517_passive返回200",
+      "expectedKeys": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2517_passive/trigger-rules",
+      "purpose": "主体存在时完整读取triggerRules列表",
+      "conditionalOn": "/skills/item_2517_passive返回200",
+      "expectedKeys": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2517_passive/representative-image",
+      "purpose": "确认技能代表图缺项或与装备图同值",
+      "conditionalOn": "/skills/item_2517_passive返回200",
+      "expectedImageKey": "item_2517"
+    },
+    {
+      "method": "GET",
+      "route": "/equipment/item_2520",
+      "purpose": "保护原装备、属性、图片与已有关系",
+      "current": {
+        "status": 200,
+        "ok": true
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/equipment/item_2520/attributes",
+      "purpose": "保护原装备、属性、图片与已有关系",
+      "current": {
+        "status": 200,
+        "ok": true
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/equipment/item_2520/representative-image",
+      "purpose": "保护原装备、属性、图片与已有关系",
+      "current": {
+        "status": 200,
+        "ok": true
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/equipment-skill-relations?equipmentKey=item_2520",
+      "purpose": "保护原装备、属性、图片与已有关系",
+      "current": {
+        "status": 200,
+        "ok": true
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2520_passive",
+      "purpose": "确认技能主体缺项或完整同值",
+      "expectedBeforeStatus": 404,
+      "current": {
+        "status": 404
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2520_passive/parameters",
+      "purpose": "主体存在时完整读取parameters列表",
+      "conditionalOn": "/skills/item_2520_passive返回200",
+      "expectedKeys": [
+        "ability_damage_cooldown_ms",
+        "ability_damage_base",
+        "ability_damage_mstat29_ratio",
+        "ability_damage_mstat29_input",
+        "ability_damage_ranged_multiplier_input"
+      ]
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2520_passive/parameters/ability_damage_cooldown_ms",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_2520_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2520_passive/parameters/ability_damage_base",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_2520_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2520_passive/parameters/ability_damage_mstat29_ratio",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_2520_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2520_passive/parameters/ability_damage_mstat29_input",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_2520_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2520_passive/parameters/ability_damage_ranged_multiplier_input",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_2520_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2520_passive/formulas",
+      "purpose": "主体存在时完整读取formulas列表",
+      "conditionalOn": "/skills/item_2520_passive返回200",
+      "expectedKeys": [
+        "ability_damage_value"
+      ]
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2520_passive/formulas/ability_damage_value",
+      "purpose": "主体存在时读取formulas详情",
+      "conditionalOn": "/skills/item_2520_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2520_passive/effects",
+      "purpose": "主体存在时完整读取effects列表",
+      "conditionalOn": "/skills/item_2520_passive返回200",
+      "expectedKeys": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2520_passive/processes",
+      "purpose": "主体存在时完整读取processes列表",
+      "conditionalOn": "/skills/item_2520_passive返回200",
+      "expectedKeys": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2520_passive/internal-states",
+      "purpose": "主体存在时完整读取internalStates列表",
+      "conditionalOn": "/skills/item_2520_passive返回200",
+      "expectedKeys": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2520_passive/trigger-rules",
+      "purpose": "主体存在时完整读取triggerRules列表",
+      "conditionalOn": "/skills/item_2520_passive返回200",
+      "expectedKeys": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2520_passive/representative-image",
+      "purpose": "确认技能代表图缺项或与装备图同值",
+      "conditionalOn": "/skills/item_2520_passive返回200",
+      "expectedImageKey": "item_2520"
+    },
+    {
+      "method": "GET",
+      "route": "/equipment/item_2523",
+      "purpose": "保护原装备、属性、图片与已有关系",
+      "current": {
+        "status": 200,
+        "ok": true
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/equipment/item_2523/attributes",
+      "purpose": "保护原装备、属性、图片与已有关系",
+      "current": {
+        "status": 200,
+        "ok": true
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/equipment/item_2523/representative-image",
+      "purpose": "保护原装备、属性、图片与已有关系",
+      "current": {
+        "status": 200,
+        "ok": true
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/equipment-skill-relations?equipmentKey=item_2523",
+      "purpose": "保护原装备、属性、图片与已有关系",
+      "current": {
+        "status": 200,
+        "ok": true
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2523_passive",
+      "purpose": "确认技能主体缺项或完整同值",
+      "expectedBeforeStatus": 404,
+      "current": {
+        "status": 404
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2523_passive/parameters",
+      "purpose": "主体存在时完整读取parameters列表",
+      "conditionalOn": "/skills/item_2523_passive返回200",
+      "expectedKeys": [
+        "telescope_max_range",
+        "telescope_max_damage_amp_ratio"
+      ]
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2523_passive/parameters/telescope_max_range",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_2523_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2523_passive/parameters/telescope_max_damage_amp_ratio",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_2523_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2523_passive/formulas",
+      "purpose": "主体存在时完整读取formulas列表",
+      "conditionalOn": "/skills/item_2523_passive返回200",
+      "expectedKeys": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2523_passive/effects",
+      "purpose": "主体存在时完整读取effects列表",
+      "conditionalOn": "/skills/item_2523_passive返回200",
+      "expectedKeys": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2523_passive/processes",
+      "purpose": "主体存在时完整读取processes列表",
+      "conditionalOn": "/skills/item_2523_passive返回200",
+      "expectedKeys": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2523_passive/internal-states",
+      "purpose": "主体存在时完整读取internalStates列表",
+      "conditionalOn": "/skills/item_2523_passive返回200",
+      "expectedKeys": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2523_passive/trigger-rules",
+      "purpose": "主体存在时完整读取triggerRules列表",
+      "conditionalOn": "/skills/item_2523_passive返回200",
+      "expectedKeys": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2523_passive/representative-image",
+      "purpose": "确认技能代表图缺项或与装备图同值",
+      "conditionalOn": "/skills/item_2523_passive返回200",
+      "expectedImageKey": "item_2523"
+    },
+    {
+      "method": "GET",
+      "route": "/equipment/item_2524",
+      "purpose": "保护原装备、属性、图片与已有关系",
+      "current": {
+        "status": 200,
+        "ok": true
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/equipment/item_2524/attributes",
+      "purpose": "保护原装备、属性、图片与已有关系",
+      "current": {
+        "status": 200,
+        "ok": true
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/equipment/item_2524/representative-image",
+      "purpose": "保护原装备、属性、图片与已有关系",
+      "current": {
+        "status": 200,
+        "ok": true
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/equipment-skill-relations?equipmentKey=item_2524",
+      "purpose": "保护原装备、属性、图片与已有关系",
+      "current": {
+        "status": 200,
+        "ok": true
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2524_passive",
+      "purpose": "确认技能主体缺项或完整同值",
+      "expectedBeforeStatus": 404,
+      "current": {
+        "status": 404
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2524_passive/parameters",
+      "purpose": "主体存在时完整读取parameters列表",
+      "conditionalOn": "/skills/item_2524_passive返回200",
+      "expectedKeys": [
+        "melody_duration_ms",
+        "melody_move_speed"
+      ]
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2524_passive/parameters/melody_duration_ms",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_2524_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2524_passive/parameters/melody_move_speed",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_2524_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2524_passive/formulas",
+      "purpose": "主体存在时完整读取formulas列表",
+      "conditionalOn": "/skills/item_2524_passive返回200",
+      "expectedKeys": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2524_passive/effects",
+      "purpose": "主体存在时完整读取effects列表",
+      "conditionalOn": "/skills/item_2524_passive返回200",
+      "expectedKeys": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2524_passive/processes",
+      "purpose": "主体存在时完整读取processes列表",
+      "conditionalOn": "/skills/item_2524_passive返回200",
+      "expectedKeys": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2524_passive/internal-states",
+      "purpose": "主体存在时完整读取internalStates列表",
+      "conditionalOn": "/skills/item_2524_passive返回200",
+      "expectedKeys": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2524_passive/trigger-rules",
+      "purpose": "主体存在时完整读取triggerRules列表",
+      "conditionalOn": "/skills/item_2524_passive返回200",
+      "expectedKeys": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2524_passive/representative-image",
+      "purpose": "确认技能代表图缺项或与装备图同值",
+      "conditionalOn": "/skills/item_2524_passive返回200",
+      "expectedImageKey": "item_2524"
+    },
+    {
+      "method": "GET",
+      "route": "/equipment/item_2526",
+      "purpose": "保护原装备、属性、图片与已有关系",
+      "current": {
+        "status": 200,
+        "ok": true
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/equipment/item_2526/attributes",
+      "purpose": "保护原装备、属性、图片与已有关系",
+      "current": {
+        "status": 200,
+        "ok": true
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/equipment/item_2526/representative-image",
+      "purpose": "保护原装备、属性、图片与已有关系",
+      "current": {
+        "status": 200,
+        "ok": true
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/equipment-skill-relations?equipmentKey=item_2526",
+      "purpose": "保护原装备、属性、图片与已有关系",
+      "current": {
+        "status": 200,
+        "ok": true
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2526_passive",
+      "purpose": "确认技能主体缺项或完整同值",
+      "expectedBeforeStatus": 404,
+      "current": {
+        "status": 404
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2526_passive/parameters",
+      "purpose": "主体存在时完整读取parameters列表",
+      "conditionalOn": "/skills/item_2526_passive返回200",
+      "expectedKeys": [
+        "mana_flow_charge_window_ms",
+        "mana_flow_max_stacks",
+        "mana_flow_mana_per_charge",
+        "mana_flow_hero_hit_multiplier",
+        "mana_flow_transform_threshold",
+        "harmony_resource_percent_point_coefficient",
+        "harmony_resource_input"
+      ]
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2526_passive/parameters/mana_flow_charge_window_ms",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_2526_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2526_passive/parameters/mana_flow_max_stacks",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_2526_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2526_passive/parameters/mana_flow_mana_per_charge",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_2526_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2526_passive/parameters/mana_flow_hero_hit_multiplier",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_2526_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2526_passive/parameters/mana_flow_transform_threshold",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_2526_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2526_passive/parameters/harmony_resource_percent_point_coefficient",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_2526_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2526_passive/parameters/harmony_resource_input",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_2526_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2526_passive/formulas",
+      "purpose": "主体存在时完整读取formulas列表",
+      "conditionalOn": "/skills/item_2526_passive返回200",
+      "expectedKeys": [
+        "harmony_heal_shield_strength_percent_points",
+        "mana_flow_normal_hit_gain",
+        "mana_flow_hero_hit_gain"
+      ]
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2526_passive/formulas/harmony_heal_shield_strength_percent_points",
+      "purpose": "主体存在时读取formulas详情",
+      "conditionalOn": "/skills/item_2526_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2526_passive/formulas/mana_flow_normal_hit_gain",
+      "purpose": "主体存在时读取formulas详情",
+      "conditionalOn": "/skills/item_2526_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2526_passive/formulas/mana_flow_hero_hit_gain",
+      "purpose": "主体存在时读取formulas详情",
+      "conditionalOn": "/skills/item_2526_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2526_passive/effects",
+      "purpose": "主体存在时完整读取effects列表",
+      "conditionalOn": "/skills/item_2526_passive返回200",
+      "expectedKeys": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2526_passive/processes",
+      "purpose": "主体存在时完整读取processes列表",
+      "conditionalOn": "/skills/item_2526_passive返回200",
+      "expectedKeys": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2526_passive/internal-states",
+      "purpose": "主体存在时完整读取internalStates列表",
+      "conditionalOn": "/skills/item_2526_passive返回200",
+      "expectedKeys": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2526_passive/trigger-rules",
+      "purpose": "主体存在时完整读取triggerRules列表",
+      "conditionalOn": "/skills/item_2526_passive返回200",
+      "expectedKeys": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2526_passive/representative-image",
+      "purpose": "确认技能代表图缺项或与装备图同值",
+      "conditionalOn": "/skills/item_2526_passive返回200",
+      "expectedImageKey": "item_2526"
+    },
+    {
+      "method": "GET",
+      "route": "/equipment/item_2530",
+      "purpose": "保护原装备、属性、图片与已有关系",
+      "current": {
+        "status": 200,
+        "ok": true
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/equipment/item_2530/attributes",
+      "purpose": "保护原装备、属性、图片与已有关系",
+      "current": {
+        "status": 200,
+        "ok": true
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/equipment/item_2530/representative-image",
+      "purpose": "保护原装备、属性、图片与已有关系",
+      "current": {
+        "status": 200,
+        "ok": true
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/equipment-skill-relations?equipmentKey=item_2530",
+      "purpose": "保护原装备、属性、图片与已有关系",
+      "current": {
+        "status": 200,
+        "ok": true
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2530_passive",
+      "purpose": "确认技能主体缺项或完整同值",
+      "expectedBeforeStatus": 404,
+      "current": {
+        "status": 404
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2530_passive/parameters",
+      "purpose": "主体存在时完整读取parameters列表",
+      "conditionalOn": "/skills/item_2530_passive返回200",
+      "expectedKeys": [
+        "harmony_resource_percent_point_coefficient",
+        "harmony_resource_input"
+      ]
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2530_passive/parameters/harmony_resource_percent_point_coefficient",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_2530_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2530_passive/parameters/harmony_resource_input",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_2530_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2530_passive/formulas",
+      "purpose": "主体存在时完整读取formulas列表",
+      "conditionalOn": "/skills/item_2530_passive返回200",
+      "expectedKeys": [
+        "harmony_heal_shield_strength_percent_points"
+      ]
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2530_passive/formulas/harmony_heal_shield_strength_percent_points",
+      "purpose": "主体存在时读取formulas详情",
+      "conditionalOn": "/skills/item_2530_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2530_passive/effects",
+      "purpose": "主体存在时完整读取effects列表",
+      "conditionalOn": "/skills/item_2530_passive返回200",
+      "expectedKeys": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2530_passive/processes",
+      "purpose": "主体存在时完整读取processes列表",
+      "conditionalOn": "/skills/item_2530_passive返回200",
+      "expectedKeys": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2530_passive/internal-states",
+      "purpose": "主体存在时完整读取internalStates列表",
+      "conditionalOn": "/skills/item_2530_passive返回200",
+      "expectedKeys": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2530_passive/trigger-rules",
+      "purpose": "主体存在时完整读取triggerRules列表",
+      "conditionalOn": "/skills/item_2530_passive返回200",
+      "expectedKeys": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2530_passive/representative-image",
+      "purpose": "确认技能代表图缺项或与装备图同值",
+      "conditionalOn": "/skills/item_2530_passive返回200",
+      "expectedImageKey": "item_2530"
+    },
+    {
+      "method": "GET",
+      "route": "/equipment/item_3040",
+      "purpose": "保护原装备、属性、图片与已有关系",
+      "current": {
+        "status": 200,
+        "ok": true
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/equipment/item_3040/attributes",
+      "purpose": "保护原装备、属性、图片与已有关系",
+      "current": {
+        "status": 200,
+        "ok": true
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/equipment/item_3040/representative-image",
+      "purpose": "保护原装备、属性、图片与已有关系",
+      "current": {
+        "status": 200,
+        "ok": true
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/equipment-skill-relations?equipmentKey=item_3040",
+      "purpose": "保护原装备、属性、图片与已有关系",
+      "current": {
+        "status": 200,
+        "ok": true
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3040_passive",
+      "purpose": "确认技能主体缺项或完整同值",
+      "expectedBeforeStatus": 404,
+      "current": {
+        "status": 404
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3040_passive/parameters",
+      "purpose": "主体存在时完整读取parameters列表",
+      "conditionalOn": "/skills/item_3040_passive返回200",
+      "expectedKeys": [
+        "bonus_ap_from_max_mana_ratio",
+        "lifeline_health_threshold_ratio",
+        "lifeline_shield_duration_ms",
+        "lifeline_cooldown_ms",
+        "lifeline_shield_resource_ratio",
+        "lifeline_shield_resource_input"
+      ]
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3040_passive/parameters/bonus_ap_from_max_mana_ratio",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_3040_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3040_passive/parameters/lifeline_health_threshold_ratio",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_3040_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3040_passive/parameters/lifeline_shield_duration_ms",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_3040_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3040_passive/parameters/lifeline_cooldown_ms",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_3040_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3040_passive/parameters/lifeline_shield_resource_ratio",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_3040_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3040_passive/parameters/lifeline_shield_resource_input",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_3040_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3040_passive/formulas",
+      "purpose": "主体存在时完整读取formulas列表",
+      "conditionalOn": "/skills/item_3040_passive返回200",
+      "expectedKeys": [
+        "bonus_ap_from_max_mana",
+        "lifeline_shield_value"
+      ]
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3040_passive/formulas/bonus_ap_from_max_mana",
+      "purpose": "主体存在时读取formulas详情",
+      "conditionalOn": "/skills/item_3040_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3040_passive/formulas/lifeline_shield_value",
+      "purpose": "主体存在时读取formulas详情",
+      "conditionalOn": "/skills/item_3040_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3040_passive/effects",
+      "purpose": "主体存在时完整读取effects列表",
+      "conditionalOn": "/skills/item_3040_passive返回200",
+      "expectedKeys": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3040_passive/processes",
+      "purpose": "主体存在时完整读取processes列表",
+      "conditionalOn": "/skills/item_3040_passive返回200",
+      "expectedKeys": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3040_passive/internal-states",
+      "purpose": "主体存在时完整读取internalStates列表",
+      "conditionalOn": "/skills/item_3040_passive返回200",
+      "expectedKeys": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3040_passive/trigger-rules",
+      "purpose": "主体存在时完整读取triggerRules列表",
+      "conditionalOn": "/skills/item_3040_passive返回200",
+      "expectedKeys": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3040_passive/representative-image",
+      "purpose": "确认技能代表图缺项或与装备图同值",
+      "conditionalOn": "/skills/item_3040_passive返回200",
+      "expectedImageKey": "item_3040"
+    },
+    {
+      "method": "GET",
+      "route": "/equipment/item_3042",
+      "purpose": "保护原装备、属性、图片与已有关系",
+      "current": {
+        "status": 200,
+        "ok": true
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/equipment/item_3042/attributes",
+      "purpose": "保护原装备、属性、图片与已有关系",
+      "current": {
+        "status": 200,
+        "ok": true
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/equipment/item_3042/representative-image",
+      "purpose": "保护原装备、属性、图片与已有关系",
+      "current": {
+        "status": 200,
+        "ok": true
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/equipment-skill-relations?equipmentKey=item_3042",
+      "purpose": "保护原装备、属性、图片与已有关系",
+      "current": {
+        "status": 200,
+        "ok": true
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3042_passive",
+      "purpose": "确认技能主体缺项或完整同值",
+      "expectedBeforeStatus": 404,
+      "current": {
+        "status": 404
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3042_passive/parameters",
+      "purpose": "主体存在时完整读取parameters列表",
+      "conditionalOn": "/skills/item_3042_passive返回200",
+      "expectedKeys": [
+        "bonus_ad_from_max_mana_ratio",
+        "on_hit_max_mana_damage_ratio",
+        "ranged_ability_max_mana_damage_ratio",
+        "melee_ability_max_mana_damage_ratio",
+        "champ_range_default_value",
+        "champ_range_ranged_value"
+      ]
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3042_passive/parameters/bonus_ad_from_max_mana_ratio",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_3042_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3042_passive/parameters/on_hit_max_mana_damage_ratio",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_3042_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3042_passive/parameters/ranged_ability_max_mana_damage_ratio",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_3042_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3042_passive/parameters/melee_ability_max_mana_damage_ratio",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_3042_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3042_passive/parameters/champ_range_default_value",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_3042_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3042_passive/parameters/champ_range_ranged_value",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_3042_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3042_passive/formulas",
+      "purpose": "主体存在时完整读取formulas列表",
+      "conditionalOn": "/skills/item_3042_passive返回200",
+      "expectedKeys": [
+        "bonus_attack_damage_from_max_mana",
+        "on_hit_damage_from_max_mana",
+        "melee_ability_damage_from_max_mana",
+        "ranged_ability_damage_from_max_mana",
+        "champ_range_default",
+        "champ_range_ranged"
+      ]
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3042_passive/formulas/bonus_attack_damage_from_max_mana",
+      "purpose": "主体存在时读取formulas详情",
+      "conditionalOn": "/skills/item_3042_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3042_passive/formulas/on_hit_damage_from_max_mana",
+      "purpose": "主体存在时读取formulas详情",
+      "conditionalOn": "/skills/item_3042_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3042_passive/formulas/melee_ability_damage_from_max_mana",
+      "purpose": "主体存在时读取formulas详情",
+      "conditionalOn": "/skills/item_3042_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3042_passive/formulas/ranged_ability_damage_from_max_mana",
+      "purpose": "主体存在时读取formulas详情",
+      "conditionalOn": "/skills/item_3042_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3042_passive/formulas/champ_range_default",
+      "purpose": "主体存在时读取formulas详情",
+      "conditionalOn": "/skills/item_3042_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3042_passive/formulas/champ_range_ranged",
+      "purpose": "主体存在时读取formulas详情",
+      "conditionalOn": "/skills/item_3042_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3042_passive/effects",
+      "purpose": "主体存在时完整读取effects列表",
+      "conditionalOn": "/skills/item_3042_passive返回200",
+      "expectedKeys": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3042_passive/processes",
+      "purpose": "主体存在时完整读取processes列表",
+      "conditionalOn": "/skills/item_3042_passive返回200",
+      "expectedKeys": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3042_passive/internal-states",
+      "purpose": "主体存在时完整读取internalStates列表",
+      "conditionalOn": "/skills/item_3042_passive返回200",
+      "expectedKeys": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3042_passive/trigger-rules",
+      "purpose": "主体存在时完整读取triggerRules列表",
+      "conditionalOn": "/skills/item_3042_passive返回200",
+      "expectedKeys": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3042_passive/representative-image",
+      "purpose": "确认技能代表图缺项或与装备图同值",
+      "conditionalOn": "/skills/item_3042_passive返回200",
+      "expectedImageKey": "item_3042"
+    },
+    {
+      "method": "GET",
+      "route": "/equipment/item_3073",
+      "purpose": "保护原装备、属性、图片与已有关系",
+      "current": {
+        "status": 200,
+        "ok": true
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/equipment/item_3073/attributes",
+      "purpose": "保护原装备、属性、图片与已有关系",
+      "current": {
+        "status": 200,
+        "ok": true
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/equipment/item_3073/representative-image",
+      "purpose": "保护原装备、属性、图片与已有关系",
+      "current": {
+        "status": 200,
+        "ok": true
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/equipment-skill-relations?equipmentKey=item_3073",
+      "purpose": "保护原装备、属性、图片与已有关系",
+      "current": {
+        "status": 200,
+        "ok": true
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3073_passive",
+      "purpose": "确认技能主体缺项或完整同值",
+      "expectedBeforeStatus": 404,
+      "current": {
+        "status": 404
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3073_passive/parameters",
+      "purpose": "主体存在时完整读取parameters列表",
+      "conditionalOn": "/skills/item_3073_passive返回200",
+      "expectedKeys": [
+        "overload_ultimate_haste",
+        "overload_duration_ms",
+        "overload_cooldown_ms",
+        "melee_attack_speed_bonus_ratio",
+        "ranged_attack_speed_bonus_ratio",
+        "melee_move_speed_bonus_ratio",
+        "ranged_move_speed_bonus_ratio"
+      ]
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3073_passive/parameters/overload_ultimate_haste",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_3073_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3073_passive/parameters/overload_duration_ms",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_3073_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3073_passive/parameters/overload_cooldown_ms",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_3073_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3073_passive/parameters/melee_attack_speed_bonus_ratio",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_3073_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3073_passive/parameters/ranged_attack_speed_bonus_ratio",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_3073_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3073_passive/parameters/melee_move_speed_bonus_ratio",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_3073_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3073_passive/parameters/ranged_move_speed_bonus_ratio",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_3073_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3073_passive/formulas",
+      "purpose": "主体存在时完整读取formulas列表",
+      "conditionalOn": "/skills/item_3073_passive返回200",
+      "expectedKeys": [
+        "overload_melee_attack_speed_bonus",
+        "overload_ranged_attack_speed_bonus",
+        "overload_melee_move_speed_bonus",
+        "overload_ranged_move_speed_bonus"
+      ]
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3073_passive/formulas/overload_melee_attack_speed_bonus",
+      "purpose": "主体存在时读取formulas详情",
+      "conditionalOn": "/skills/item_3073_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3073_passive/formulas/overload_ranged_attack_speed_bonus",
+      "purpose": "主体存在时读取formulas详情",
+      "conditionalOn": "/skills/item_3073_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3073_passive/formulas/overload_melee_move_speed_bonus",
+      "purpose": "主体存在时读取formulas详情",
+      "conditionalOn": "/skills/item_3073_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3073_passive/formulas/overload_ranged_move_speed_bonus",
+      "purpose": "主体存在时读取formulas详情",
+      "conditionalOn": "/skills/item_3073_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3073_passive/effects",
+      "purpose": "主体存在时完整读取effects列表",
+      "conditionalOn": "/skills/item_3073_passive返回200",
+      "expectedKeys": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3073_passive/processes",
+      "purpose": "主体存在时完整读取processes列表",
+      "conditionalOn": "/skills/item_3073_passive返回200",
+      "expectedKeys": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3073_passive/internal-states",
+      "purpose": "主体存在时完整读取internalStates列表",
+      "conditionalOn": "/skills/item_3073_passive返回200",
+      "expectedKeys": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3073_passive/trigger-rules",
+      "purpose": "主体存在时完整读取triggerRules列表",
+      "conditionalOn": "/skills/item_3073_passive返回200",
+      "expectedKeys": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3073_passive/representative-image",
+      "purpose": "确认技能代表图缺项或与装备图同值",
+      "conditionalOn": "/skills/item_3073_passive返回200",
+      "expectedImageKey": "item_3073"
+    },
+    {
+      "method": "GET",
+      "route": "/equipment/item_3083",
+      "purpose": "保护原装备、属性、图片与已有关系",
+      "current": {
+        "status": 200,
+        "ok": true
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/equipment/item_3083/attributes",
+      "purpose": "保护原装备、属性、图片与已有关系",
+      "current": {
+        "status": 200,
+        "ok": true
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/equipment/item_3083/representative-image",
+      "purpose": "保护原装备、属性、图片与已有关系",
+      "current": {
+        "status": 200,
+        "ok": true
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/equipment-skill-relations?equipmentKey=item_3083",
+      "purpose": "保护原装备、属性、图片与已有关系",
+      "current": {
+        "status": 200,
+        "ok": true
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3083_passive",
+      "purpose": "确认技能主体缺项或完整同值",
+      "expectedBeforeStatus": 404,
+      "current": {
+        "status": 404
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3083_passive/parameters",
+      "purpose": "主体存在时完整读取parameters列表",
+      "conditionalOn": "/skills/item_3083_passive返回200",
+      "expectedKeys": [
+        "warmog_health_threshold",
+        "warmog_no_champion_damage_duration_ms",
+        "warmog_healing_ratio",
+        "warmog_tooltip_multiplier",
+        "warmog_healing_stat_input",
+        "warmog_equipment_health_ratio",
+        "warmog_equipment_health_input"
+      ]
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3083_passive/parameters/warmog_health_threshold",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_3083_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3083_passive/parameters/warmog_no_champion_damage_duration_ms",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_3083_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3083_passive/parameters/warmog_healing_ratio",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_3083_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3083_passive/parameters/warmog_tooltip_multiplier",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_3083_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3083_passive/parameters/warmog_healing_stat_input",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_3083_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3083_passive/parameters/warmog_equipment_health_ratio",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_3083_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3083_passive/parameters/warmog_equipment_health_input",
+      "purpose": "主体存在时读取parameters详情",
+      "conditionalOn": "/skills/item_3083_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3083_passive/formulas",
+      "purpose": "主体存在时完整读取formulas列表",
+      "conditionalOn": "/skills/item_3083_passive返回200",
+      "expectedKeys": [
+        "warmog_base_healing_value",
+        "warmog_tooltip_healing_value",
+        "warmog_bonus_health_from_equipment"
+      ]
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3083_passive/formulas/warmog_base_healing_value",
+      "purpose": "主体存在时读取formulas详情",
+      "conditionalOn": "/skills/item_3083_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3083_passive/formulas/warmog_tooltip_healing_value",
+      "purpose": "主体存在时读取formulas详情",
+      "conditionalOn": "/skills/item_3083_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3083_passive/formulas/warmog_bonus_health_from_equipment",
+      "purpose": "主体存在时读取formulas详情",
+      "conditionalOn": "/skills/item_3083_passive返回200"
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3083_passive/effects",
+      "purpose": "主体存在时完整读取effects列表",
+      "conditionalOn": "/skills/item_3083_passive返回200",
+      "expectedKeys": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3083_passive/processes",
+      "purpose": "主体存在时完整读取processes列表",
+      "conditionalOn": "/skills/item_3083_passive返回200",
+      "expectedKeys": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3083_passive/internal-states",
+      "purpose": "主体存在时完整读取internalStates列表",
+      "conditionalOn": "/skills/item_3083_passive返回200",
+      "expectedKeys": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3083_passive/trigger-rules",
+      "purpose": "主体存在时完整读取triggerRules列表",
+      "conditionalOn": "/skills/item_3083_passive返回200",
+      "expectedKeys": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3083_passive/representative-image",
+      "purpose": "确认技能代表图缺项或与装备图同值",
+      "conditionalOn": "/skills/item_3083_passive返回200",
+      "expectedImageKey": "item_3083"
+    }
+  ]
+}

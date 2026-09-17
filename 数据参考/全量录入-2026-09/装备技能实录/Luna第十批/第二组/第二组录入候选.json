@@ -1,0 +1,771 @@
+{
+  "batch": "Luna第十批/第二组",
+  "generatedAt": "2026-09-08T15:46:43.717Z",
+  "status": "仅候选；对象为3004与3041。",
+  "writeBoundary": "不提交属性、不覆盖既有技能、不调用业务写接口。",
+  "objects": [
+    {
+      "itemId": "3004",
+      "equipmentKey": "item_3004",
+      "equipmentName": "魔宗",
+      "skill": {
+        "skillKey": "item_3004_passive",
+        "name": "魔宗·敬畏与法力流",
+        "maxLevel": 1,
+        "status": "候选",
+        "description": "只保存当前冻结来源明确的独立组成；触发、时序、共享状态和未绑定旧值单列待审。",
+        "sourceStringKeys": [
+          "item_3004_name",
+          "item_3004_brief",
+          "item_3004_tooltip",
+          "item_3004_colloquialism",
+          "item_unique_manaflow",
+          "generatedtip_item_3004_description",
+          "generatedtip_item_3004_tooltipinventory",
+          "generatedtip_item_3004_tooltipshop"
+        ]
+      },
+      "directAttributes": {
+        "mana": 500,
+        "attack_damage": 35,
+        "ability_haste": 15
+      },
+      "historicalExistingAttributes": {
+        "mana": 500,
+        "attack_damage": 35,
+        "ability_haste": 15
+      },
+      "candidate": {
+        "parameters": [
+          {
+            "parameterKey": "bonus_ad_from_max_mana_ratio",
+            "name": "敬畏最大法力转攻击力比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.02,
+            "levelValues": null,
+            "description": "当前客户端计算树BonusADFromMana系数为0.019999999552965164，按小数比例规范化为0.02；基数是来源持有者最大法力值TOTAL。",
+            "sortOrder": 10,
+            "unit": "小数比例"
+          },
+          {
+            "parameterKey": "mana_flow_charge_window_ms",
+            "name": "法力流充能窗口",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 8000,
+            "levelValues": null,
+            "description": "当前绑定DataValue ManaChargeAmmoCD=8秒，换算为8000毫秒；窗口内的具体充能消费时序仍待配。",
+            "sortOrder": 20,
+            "unit": "毫秒"
+          },
+          {
+            "parameterKey": "mana_flow_max_stacks",
+            "name": "法力流最大层数",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 4,
+            "levelValues": null,
+            "description": "当前绑定DataValue ManaChargeMaxAmmo=4；普通地图候选不采用模式覆盖值。",
+            "sortOrder": 30,
+            "unit": "层数"
+          },
+          {
+            "parameterKey": "mana_flow_max_mana_per_hit",
+            "name": "法力流每次命中最大法力值",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 3,
+            "levelValues": null,
+            "description": "当前绑定DataValue ManaPerCharge=3；说明同时覆盖普攻和技能命中，命中事件筛选另列待配。",
+            "sortOrder": 40,
+            "unit": "最大法力值"
+          },
+          {
+            "parameterKey": "mana_flow_hero_hit_multiplier",
+            "name": "法力流英雄命中倍率",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 2,
+            "levelValues": null,
+            "description": "当前中文和官方说明均写明对英雄命中时翻倍；这里只保存2倍，不把目标筛选扩展为任意事件。",
+            "sortOrder": 50,
+            "unit": "倍率"
+          },
+          {
+            "parameterKey": "mana_flow_transform_threshold",
+            "name": "法力流累计最大法力升级阈值",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 360,
+            "levelValues": null,
+            "description": "当前绑定DataValue MaxMana=360；这是法力流累计增加的最大法力阈值，不是角色总最大法力达到360，也不导入魔切或3146的未证数值。",
+            "sortOrder": 60,
+            "unit": "最大法力值"
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "bonus_attack_damage_from_max_mana",
+            "name": "敬畏最大法力转攻击力",
+            "description": "当前最大法力值TOTAL乘以0.02小数比例；直接属性mana=500只作为装备固定属性回读，不从公式中扣除或重复写入。",
+            "sortOrder": 10,
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "mana",
+                  "attributeValueKind": "TOTAL"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_ad_from_max_mana_ratio"
+                }
+              ]
+            }
+          },
+          {
+            "formulaKey": "mana_flow_max_mana_per_hit",
+            "name": "法力流普通命中增加最大法力",
+            "description": "单次符合条件的普攻或技能命中按3点最大法力计算；事件身份和窗口消费未在此公式中假定。",
+            "sortOrder": 20,
+            "expression": {
+              "nodeType": "PARAMETER",
+              "parameterKey": "mana_flow_max_mana_per_hit"
+            }
+          },
+          {
+            "formulaKey": "mana_flow_hero_hit_max_mana",
+            "name": "法力流英雄命中增加最大法力",
+            "description": "英雄目标符合条件时按3乘2得到6点最大法力；不把目标判定或每次命中次数写成公式之外的默认规则。",
+            "sortOrder": 30,
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "mana_flow_max_mana_per_hit"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "mana_flow_hero_hit_multiplier"
+                }
+              ]
+            }
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "bonus_attack_damage_from_max_mana",
+            "name": "敬畏最大法力转攻击力",
+            "description": "当前客户端计算树给出最大法力乘0.02的攻击力组成；结果按当前时点读取。官方16.17.1说明文本显示0额外攻击力，与客户端系数不一致，应用阶段和显示占位列入待审。",
+            "sortOrder": 10,
+            "lifecycle": {
+              "durationValue": null,
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "instanceScope": "SOURCE",
+              "reapplicationStackMode": "KEEP",
+              "reapplicationDurationMode": null,
+              "expiryMode": "EXPLICIT_ONLY",
+              "periodicIntervalValue": null,
+              "firstPeriodicExecution": null
+            },
+            "results": [
+              {
+                "resultKey": "bonus_attack_damage_from_max_mana",
+                "name": "最大法力提供的额外攻击力",
+                "resultType": "ATTRIBUTE_CHANGE",
+                "target": "SOURCE",
+                "description": "每1点当前最大法力按0.02比例提供额外攻击力；使用TOTAL并按当前时点读取，避免把装备固定500法力误当成BONUS。",
+                "sortOrder": 10,
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "bonus_attack_damage_from_max_mana"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "attack_damage",
+                  "operation": "INCREASE",
+                  "modifierZoneKey": "attribute_flat_add"
+                },
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "valueReadMode": "MOMENT_EVALUATION",
+                  "stackValueMode": "SHARED",
+                  "reapplicationValueMode": null,
+                  "periodicExecutionMode": null
+                },
+                "spellShieldBlockScope": null
+              }
+            ]
+          }
+        ],
+        "triggerRules": [
+          {
+            "ruleKey": "initialize_bonus_attack_damage_from_max_mana",
+            "name": "初始化敬畏最大法力转攻击力",
+            "description": "装备生效时建立按当前最大法力读取的属性效果；法力流命中事件和魔切替换不在本规则中扩大。",
+            "sortOrder": 10,
+            "eventSource": {
+              "eventType": "SOURCE_INITIALIZED",
+              "detail": {}
+            },
+            "conditionGroups": [],
+            "maxTriggersPerProcess": null,
+            "perTargetCooldown": null,
+            "actions": [
+              {
+                "actionKey": "execute_bonus_attack_damage_from_max_mana",
+                "name": "执行敬畏属性效果",
+                "actionType": "EXECUTE_EFFECT",
+                "sortOrder": 10,
+                "targetContext": "EVENT_SOURCE",
+                "runtimeInputBindings": [],
+                "resultModifiers": [],
+                "detail": {
+                  "effectKey": "bonus_attack_damage_from_max_mana"
+                }
+              }
+            ]
+          }
+        ],
+        "triggerBoundary": "敬畏属性效果可由持有者初始化后按当前最大法力读取；法力流必须区分普攻/技能命中、英雄目标翻倍、8秒窗口和4层上限，当前不把任意事件当成命中触发。",
+        "pending": [
+          "法力流命中事件的来源、普攻与技能归属、每次命中是否只计一次及英雄目标筛选",
+          "法力流8秒窗口和4层状态的消费、刷新、并行技能命中处理；不从秒数推导跳频",
+          "累计增加360最大法力后的魔切替换目标、装备关系、进度持久化和替换时点",
+          "官方说明显示0额外攻击力与客户端计算树0.02系数的应用阶段、显示占位和升级状态需定点复核"
+        ],
+        "pendingEffects": [
+          {
+            "effectKey": "mana_flow_max_mana_stack",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "reason": "数值公式已能表达3点基础命中和英雄6点命中；命中事件、充能窗口、层数状态和最大法力累计尚未形成可安全提交的单一效果与触发形状。"
+          },
+          {
+            "effectKey": "transform_to_muramana",
+            "resultType": "LIFECYCLE_OPERATION",
+            "target": "SOURCE",
+            "reason": "360阈值有来源，但魔切替换关系与装备生命周期操作尚未由当前绑定资料完整确认；不插入3146或其他升级形态数值。"
+          }
+        ],
+        "sourceOnly": [
+          {
+            "key": "InternalCDPerCastID",
+            "value": 6.5,
+            "unit": null,
+            "reason": "客户端根有原始6.5，但当前绑定说明未确认其单位、事件归属和是否为业务冷却；保留原值作来源证据，不转换成6500毫秒参数。"
+          },
+          {
+            "key": "TakedownMana",
+            "value": null,
+            "unit": null,
+            "reason": "客户端DataValue存在名称但没有mValue；不补数字、不猜击杀或助攻增加法力。"
+          },
+          {
+            "key": "DataValuesModeOverride.ManaPerCharge",
+            "value": 4.5,
+            "modes": [
+              "ARAM",
+              "NEXUSBLITZ",
+              "ONEFORALL",
+              "{a110bc47}",
+              "Ruby",
+              "RUBY_TRIAL_1",
+              "RUBY_TRIAL_2",
+              "{aecea60c}",
+              "{bffdf499}"
+            ],
+            "unit": "最大法力值/次",
+            "reason": "仅模式覆盖值；普通地图候选固定为3，不把ARAM、NEXUSBLITZ、ONEFORALL、Ruby及哈希模式值混入。"
+          }
+        ],
+        "arithmetic": [
+          {
+            "sample": "输入最大法力500时的敬畏额外攻击力",
+            "calculation": "500 × 0.02",
+            "expected": 10,
+            "unit": "攻击力；只作为公式算例，500是输入TOTAL，不是新增属性写入"
+          },
+          {
+            "sample": "一次普通命中法力流增加",
+            "calculation": "3",
+            "expected": 3,
+            "unit": "最大法力值；不代表已确认的跳频或触发次数"
+          },
+          {
+            "sample": "一次英雄命中法力流增加",
+            "calculation": "3 × 2",
+            "expected": 6,
+            "unit": "最大法力值；目标筛选仍待接线"
+          },
+          {
+            "sample": "四次符合条件的英雄命中累计",
+            "calculation": "4 × 6",
+            "expected": 24,
+            "unit": "最大法力值；仅按4层×每层6的算术，不推导实际事件时序"
+          },
+          {
+            "sample": "法力流升级阈值比较",
+            "calculation": "累计增加359 < 360，累计增加360 ≥ 360",
+            "expected": "前者不满足，后者满足",
+            "unit": "阈值；与角色当前总最大法力和装备固定500法力分开"
+          }
+        ],
+        "scopeDecision": "固定属性沿用历史GET回读的mana=500、attack_damage=35、ability_haste=15；本阶段只保留技能候选，不重复提交属性，不把魔切或3146式未证值展开。",
+        "crossSkillDependencies": [
+          {
+            "equipmentKey": "item_3042",
+            "relation": "360累计最大法力后替换为魔切的装备关系只作依赖提示；不复用升级形态数值。"
+          }
+        ]
+      },
+      "relation": {
+        "equipmentKey": "item_3004",
+        "skillKey": "item_3004_passive",
+        "sortOrder": 10
+      },
+      "representativeImage": {
+        "planned": true,
+        "equipmentKey": "item_3004",
+        "imageKey": "item_3004",
+        "relation": "复用装备代表图GET回读；本阶段不写图片接口。"
+      },
+      "sourceRefs": [
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+          "pointer": "Items/3004/mDataValues、Items/3004/mItemCalculations、Items/3004/mItemDataClient/mTooltipData/mLocKeys",
+          "evidence": "ManaPerCharge=3、ManaChargeAmmoCD=8、ManaChargeMaxAmmo=4、MaxMana=360；BonusADFromMana系数原始值约0.02；直接属性为500法力、35攻击力、15技能急速。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+          "pointer": "entries/item_3004_tooltip、entries/generatedtip_item_3004_description、entries/generatedtip_item_3004_tooltipinventory",
+          "evidence": "当前绑定扩展文本确认0.02计算占位、8秒4层、3最大法力且英雄翻倍、360累计阈值。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+          "pointer": "/data/3004/description、/data/3004/stats",
+          "evidence": "官方16.17.1资料与当前冻结客户端交叉核对；地图和模式范围按处置清单保留。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备符文/装备全量处置清单.json",
+          "pointer": "/items/139",
+          "evidence": "普通地图可购买装备处置条目；不把清单的待录状态当成客户端机制证明。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/API实录/装备/summary.json",
+          "pointer": "/results[equipmentKey=item_3004]",
+          "evidence": "历史装备和属性GET回读；固定属性本阶段保护，不重复提交。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备技能实录/Luna第十批/关系识别-2026-09-08T02-53-49.953Z.json",
+          "pointer": "/objects[requestedEquipmentKey=item_3004]",
+          "evidence": "关系快照选中item_3004且装备、属性、关系GET为200；当前关联为空，预期item_3004_passive探针404只作探针。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备技能实录/Luna第十批/关系识别-2026-09-08T02-52-11.404Z.json",
+          "pointer": "/objects[requestedEquipmentKey=item_3004]",
+          "evidence": "初始关系快照留作时间顺序和重复核对证据。"
+        }
+      ]
+    },
+    {
+      "itemId": "3041",
+      "equipmentKey": "item_3041",
+      "equipmentName": "梅贾的窃魂卷",
+      "skill": {
+        "skillKey": "item_3041_passive",
+        "name": "梅贾的窃魂卷·荣耀",
+        "maxLevel": 1,
+        "status": "候选",
+        "description": "只保存当前冻结来源明确的独立组成；触发、时序、共享状态和未绑定旧值单列待审。",
+        "sourceStringKeys": [
+          "item_3041_name",
+          "item_3041_brief",
+          "item_3041_tooltip",
+          "item_3041_colloquialism",
+          "item_3041_tooltipextended",
+          "item_unique_glory",
+          "item_3041_keyworddefinitions",
+          "generatedtip_item_3041_description",
+          "generatedtip_item_3041_tooltipinventory",
+          "generatedtip_item_3041_tooltipshop"
+        ]
+      },
+      "directAttributes": {
+        "hp": 100,
+        "ability_power": 20
+      },
+      "historicalExistingAttributes": {
+        "hp": 100,
+        "ability_power": 20
+      },
+      "candidate": {
+        "parameters": [
+          {
+            "parameterKey": "max_glory_stacks",
+            "name": "荣耀最大层数",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 25,
+            "levelValues": null,
+            "description": "当前绑定DataValue MaxGloryStacks=25；普通地图候选不采用模式覆盖值。",
+            "sortOrder": 10,
+            "unit": "层数"
+          },
+          {
+            "parameterKey": "ability_power_per_glory",
+            "name": "每层荣耀法术强度",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 5,
+            "levelValues": null,
+            "description": "当前绑定DataValue APPerGlory=5；单位是法术强度/层，不是层数。",
+            "sortOrder": 20,
+            "unit": "法术强度/层"
+          },
+          {
+            "parameterKey": "glory_on_kill",
+            "name": "击杀获得荣耀",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 4,
+            "levelValues": null,
+            "description": "当前绑定DataValue GloryOnKill=4；击杀事件身份和同次处理尚未接线。",
+            "sortOrder": 30,
+            "unit": "层数"
+          },
+          {
+            "parameterKey": "glory_on_assist",
+            "name": "助攻获得荣耀",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 2,
+            "levelValues": null,
+            "description": "当前绑定DataValue GloryOnAssist=2；助攻事件身份和与击杀的互斥关系尚未接线。",
+            "sortOrder": 40,
+            "unit": "层数"
+          },
+          {
+            "parameterKey": "glory_loss_on_death",
+            "name": "阵亡损失荣耀",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 10,
+            "levelValues": null,
+            "description": "当前绑定DataValue GloryLossOnDeath=10；阵亡事件、下限和层数共享尚未接线。",
+            "sortOrder": 50,
+            "unit": "层数"
+          },
+          {
+            "parameterKey": "glory_threshold_for_move_speed",
+            "name": "移动速度荣耀层数门槛",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 10,
+            "levelValues": null,
+            "description": "当前绑定DataValue GloryThreshold=10；单独保存10层门槛，不与法术强度每层数值合并。",
+            "sortOrder": 60,
+            "unit": "层数"
+          },
+          {
+            "parameterKey": "move_speed_percent_at_threshold",
+            "name": "达到门槛时移动速度比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.1,
+            "levelValues": null,
+            "description": "当前绑定DataValue MoveSpeedMod=0.10000000149011612，规范化为0.1，即10%小数比例，不是10个百分点。",
+            "sortOrder": 70,
+            "unit": "小数比例"
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "ability_power_from_glory",
+            "name": "荣耀法术强度贡献",
+            "description": "每个有效荣耀层数贡献5点法术强度；共享荣耀层数和最大层数裁决仍待接线。",
+            "sortOrder": 10,
+            "expression": {
+              "nodeType": "PARAMETER",
+              "parameterKey": "ability_power_per_glory"
+            }
+          },
+          {
+            "formulaKey": "move_speed_percent_from_glory_threshold",
+            "name": "荣耀门槛移动速度比例",
+            "description": "达到至少10层时使用0.1移动速度比例；本公式只保存比例，门槛启停和阵亡后的动态撤销另列待配。",
+            "sortOrder": 20,
+            "expression": {
+              "nodeType": "PARAMETER",
+              "parameterKey": "move_speed_percent_at_threshold"
+            }
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "glory_ability_power",
+            "name": "荣耀法术强度",
+            "description": "保存每层荣耀提供5点法术强度，最大25层；客户端与1082均引用同一荣耀计算标识，但击杀、助攻、阵亡事件及共享层数接线尚待配。",
+            "sortOrder": 10,
+            "lifecycle": {
+              "durationValue": null,
+              "maxStacksValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "max_glory_stacks"
+              },
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "instanceScope": "SOURCE",
+              "reapplicationStackMode": "INCREASE",
+              "reapplicationDurationMode": null,
+              "expiryMode": "EXPLICIT_ONLY",
+              "periodicIntervalValue": null,
+              "firstPeriodicExecution": null
+            },
+            "results": [
+              {
+                "resultKey": "ability_power_from_glory",
+                "name": "每层荣耀法术强度",
+                "resultType": "ATTRIBUTE_CHANGE",
+                "target": "SOURCE",
+                "description": "每个有效荣耀层数向持有者增加5点法术强度；每层单位为法术强度/层。",
+                "sortOrder": 10,
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "ability_power_from_glory"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "ability_power",
+                  "operation": "INCREASE",
+                  "modifierZoneKey": "attribute_flat_add"
+                },
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "valueReadMode": "APPLICATION_SNAPSHOT",
+                  "stackValueMode": "PER_STACK",
+                  "reapplicationValueMode": null,
+                  "periodicExecutionMode": null
+                },
+                "spellShieldBlockScope": null
+              }
+            ]
+          }
+        ],
+        "triggerRules": [],
+        "triggerBoundary": "荣耀必须承接同一荣耀计数；击杀+4、助攻+2、阵亡-10分别作为参数保存，不把参与击杀关键字扩展成任意伤害或通用事件。10层移动速度是独立门槛，不能随意并入每层法术强度结果。",
+        "pending": [
+          "击杀、助攻、阵亡事件的准确来源、同一次击杀的互斥处理和事件顺序",
+          "与黑暗封印item_1082_passive共享同一荣耀计数；当前不新建第二个计数器，也不声称共享接线已经存在",
+          "荣耀最大层数在1082的10层与3041的25层同时存在时的裁决、阵亡损失下限和持有者状态生命周期",
+          "达到10层或以上时开启0.1移动速度、低于10层时撤销的动态门槛；当前不生成无条件10%效果"
+        ],
+        "pendingEffects": [
+          {
+            "effectKey": "glory_move_speed_at_threshold",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "reason": "0.1比例和10层门槛均有来源，但现有候选结果不能安全表达条件启停；不把移动速度效果无条件授予0层持有者。"
+          },
+          {
+            "effectKey": "glory_takedown_and_death_state",
+            "resultType": "LIFECYCLE_OPERATION",
+            "target": "SOURCE",
+            "reason": "击杀、助攻、阵亡的事件身份和共享状态尚未形成可安全提交的触发与层数操作；参数保留，不猜通用事件。"
+          }
+        ],
+        "sourceOnly": [
+          {
+            "key": "DataValuesModeOverride.URF",
+            "value": {
+              "DataValues": [
+                {
+                  "mName": "GloryOnKill",
+                  "mValue": 2,
+                  "__type": "ItemDataValue"
+                },
+                {
+                  "mName": "GloryOnAssist",
+                  "mValue": 1,
+                  "__type": "ItemDataValue"
+                },
+                {
+                  "mName": "GloryLossOnDeath",
+                  "mValue": 5,
+                  "__type": "ItemDataValue"
+                }
+              ],
+              "__type": "ItemDataValues"
+            },
+            "reason": "URF模式覆盖击杀2、助攻1、阵亡损失5；本批普通地图候选不采用，也不把覆盖值当正式值。"
+          },
+          {
+            "key": "mEffectAmount",
+            "value": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "reason": "当前装备对象为全0数组；没有可绑定的数值标签，不从数组插值荣耀或移动速度。"
+          }
+        ],
+        "arithmetic": [
+          {
+            "sample": "满25层荣耀法术强度",
+            "calculation": "25 × 5",
+            "expected": 125,
+            "unit": "额外法术强度；不含装备固定20法术强度"
+          },
+          {
+            "sample": "正常地图一次击杀获得荣耀",
+            "calculation": "已有层数 + 4",
+            "expected": "min(25, 已有层数 + 4)",
+            "unit": "层；实际上限裁决与事件接线待配"
+          },
+          {
+            "sample": "正常地图一次助攻获得荣耀",
+            "calculation": "已有层数 + 2",
+            "expected": "按共享荣耀状态规则处理",
+            "unit": "层；不与同次击杀重复相加"
+          },
+          {
+            "sample": "阵亡损失荣耀",
+            "calculation": "已有层数 - 10",
+            "expected": "按层数状态下限规则处理",
+            "unit": "层；来源确认损失10，实际下限待配"
+          },
+          {
+            "sample": "移动速度门槛",
+            "calculation": "9层 < 10层；10层 ≥ 10层",
+            "expected": "9层不启用；10层使用0.1比例",
+            "unit": "0.1=10%比例，不是10个百分点；条件启停待配"
+          },
+          {
+            "sample": "与黑暗封印每层法术强度对照",
+            "calculation": "黑暗封印10 × 4；梅贾25 × 5",
+            "expected": "40；125",
+            "unit": "两项均为额外法术强度，层数共享关系仍待接线"
+          }
+        ],
+        "scopeDecision": "固定属性沿用历史GET回读的hp=100、ability_power=20；本阶段只整理荣耀组成，不重复提交属性，不把击杀筛选或条件移动速度说成已完成。",
+        "crossSkillDependencies": [
+          {
+            "skillKey": "item_1082_passive",
+            "relation": "客户端两件装备CurrentGloryAP均使用mBuffName={22eeba1f}和APPerGlory，候选承接同一荣耀计数；共享状态、上限裁决和事件接线交独立审查。",
+            "clientEvidence": {
+              "item_1082": {
+                "calculationName": "CurrentGloryAP",
+                "formulaPartType": "BuffCounterByNamedDataValueCalculationPart",
+                "buffName": "{22eeba1f}",
+                "dataValue": "APPerGlory",
+                "raw": {
+                  "mFormulaParts": [
+                    {
+                      "mBuffName": "{22eeba1f}",
+                      "mDataValue": "APPerGlory",
+                      "__type": "BuffCounterByNamedDataValueCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                }
+              },
+              "item_3041": {
+                "calculationName": "CurrentGloryAP",
+                "formulaPartType": "BuffCounterByNamedDataValueCalculationPart",
+                "buffName": "{22eeba1f}",
+                "dataValue": "APPerGlory",
+                "raw": {
+                  "mFormulaParts": [
+                    {
+                      "mBuffName": "{22eeba1f}",
+                      "mDataValue": "APPerGlory",
+                      "__type": "BuffCounterByNamedDataValueCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                }
+              },
+              "conclusion": "冻结客户端中1082和3041的CurrentGloryAP均绑定同一mBuffName={22eeba1f}与DataValue APPerGlory；本候选只记录共享依赖，不创建第二个计数器或虚构运行时字段。"
+            }
+          }
+        ]
+      },
+      "relation": {
+        "equipmentKey": "item_3041",
+        "skillKey": "item_3041_passive",
+        "sortOrder": 10
+      },
+      "representativeImage": {
+        "planned": true,
+        "equipmentKey": "item_3041",
+        "imageKey": "item_3041",
+        "relation": "复用装备代表图GET回读；本阶段不写图片接口。"
+      },
+      "sourceRefs": [
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+          "pointer": "Items/3041/mDataValues、Items/3041/mItemCalculations、Items/3041/mItemDataClient/mTooltipData/mLocKeys",
+          "evidence": "MaxGloryStacks=25、APPerGlory=5、GloryOnKill=4、GloryOnAssist=2、GloryLossOnDeath=10、GloryThreshold=10、MoveSpeedMod约0.1；CurrentGloryAP绑定荣耀计数。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+          "pointer": "entries/item_3041_tooltip、entries/item_3041_tooltipextended、entries/item_3041_keyworddefinitions、entries/generatedtip_item_3041_description、entries/generatedtip_item_3041_tooltipinventory",
+          "evidence": "当前绑定基础及扩展文本分别确认25层、每层5法术强度、击杀4、助攻2、阵亡损失10和10层10%移动速度门槛。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+          "pointer": "/data/3041/description、/data/3041/stats",
+          "evidence": "官方16.17.1资料与当前冻结客户端交叉核对；地图和模式范围按处置清单保留。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备符文/装备全量处置清单.json",
+          "pointer": "/items/159",
+          "evidence": "普通地图可购买装备处置条目；不把清单的待录状态当成客户端机制证明。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/API实录/装备/summary.json",
+          "pointer": "/results[equipmentKey=item_3041]",
+          "evidence": "历史装备和属性GET回读；固定属性本阶段保护，不重复提交。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备技能实录/Luna第十批/关系识别-2026-09-08T02-53-49.953Z.json",
+          "pointer": "/objects[requestedEquipmentKey=item_3041]",
+          "evidence": "关系快照选中item_3041且装备、属性、关系GET为200；当前关联为空，预期item_3041_passive探针404只作探针。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备技能实录/Luna第十批/关系识别-2026-09-08T02-52-11.404Z.json",
+          "pointer": "/objects[requestedEquipmentKey=item_3041]",
+          "evidence": "初始关系快照留作时间顺序和重复核对证据。"
+        }
+      ]
+    }
+  ]
+}

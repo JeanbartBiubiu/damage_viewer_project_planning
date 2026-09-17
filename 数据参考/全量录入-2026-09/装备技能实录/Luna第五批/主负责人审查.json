@@ -1,0 +1,24 @@
+{
+  "date": "2026-09-08",
+  "businessWrites": 0,
+  "accepted": [
+    "反曲弓15物理伤害及普攻事件",
+    "萃取SOURCE直接治疗3点",
+    "帽子30%总AP与初始化，130AP仅直接属性"
+  ],
+  "candidateCorrections": [
+    "3123和3916重伤结果SOURCE改TARGET"
+  ],
+  "remaining": [
+    "跨来源重伤只取最强；RATIO_ADD不适用",
+    "DAMAGE_DEALT与英雄目标类别组合",
+    "治疗种类与hp_regen覆盖",
+    "减速状态的控制强度和组合"
+  ],
+  "nextIteration": [
+    "治疗乘区补明确只取最大减疗比例的计算方式，不新建表",
+    "核对40%+40%=40%、40%+60%=60%、强来源到期后回到弱来源",
+    "再补目标正确的重伤效果及合法触发"
+  ],
+  "runtimeValidation": "未执行"
+}

@@ -1,0 +1,180 @@
+{
+  "batch": "Luna第九批",
+  "generatedAt": "2026-09-07T19:18:33.905Z",
+  "scope": "边界算例用于主负责人审查候选含义，不代表API、浏览器或运行时验证。",
+  "objects": [
+    {
+      "equipmentKey": "item_2502",
+      "equipmentName": "无终恨意",
+      "examples": [
+        {
+          "sample": "本次实际伤害100点时的治疗",
+          "calculation": "100 × 2.5",
+          "expected": 250,
+          "unit": "生命值"
+        },
+        {
+          "sample": "额外生命值1000点且mStat=12确认为额外生命时",
+          "calculation": "1000 × 0.03",
+          "expected": 30,
+          "unit": "魔法伤害；属性枚举仍待核对"
+        }
+      ],
+      "requiredChecks": [
+        "mStat=12与额外生命值属性键的接口映射",
+        "战斗状态开始/结束事件、范围目标筛选及重置时点"
+      ]
+    },
+    {
+      "equipmentKey": "item_2504",
+      "equipmentName": "败魔",
+      "examples": [
+        {
+          "sample": "最大生命值2000且mStat=12确认指向最大生命时",
+          "calculation": "2000 × 0.15",
+          "expected": 300,
+          "unit": "护盾值"
+        },
+        {
+          "sample": "受到魔法伤害后的边界",
+          "calculation": "t=0受到魔法伤害，t=14999不授予，t=15000才进入授予检查",
+          "expected": "按计时事件顺序确认",
+          "unit": "毫秒"
+        }
+      ],
+      "requiredChecks": [
+        "mStat=12基数映射",
+        "DAMAGE_TAKEN魔法类型筛选、计时初始化、护盾被吸收后的再次获取"
+      ]
+    },
+    {
+      "equipmentKey": "item_3026",
+      "equipmentName": "守护天使",
+      "examples": [
+        {
+          "sample": "基础生命值1200的重生生命恢复",
+          "calculation": "1200 × 0.5",
+          "expected": 600,
+          "unit": "生命值"
+        },
+        {
+          "sample": "最大法力值1000的重生法力恢复",
+          "calculation": "1000 × 1",
+          "expected": 1000,
+          "unit": "法力值"
+        },
+        {
+          "sample": "重生冷却边界",
+          "calculation": "t=0触发后，t=3999仍凝滞，t=4000恢复；t<300000再次致命不应再次触发",
+          "expected": "按事件时序确认",
+          "unit": "毫秒"
+        }
+      ],
+      "requiredChecks": [
+        "致命伤害前置事件与不可选取/凝滞结果类型",
+        "300秒持有者冷却门控与复活后再次触发",
+        "基础生命/最大法力属性键由接口契约核对"
+      ]
+    },
+    {
+      "equipmentKey": "item_3084",
+      "equipmentName": "心之钢",
+      "examples": [
+        {
+          "sample": "持有者最大生命值2000时的额外伤害",
+          "calculation": "70 + 2000 × 0.06",
+          "expected": 190,
+          "unit": "物理伤害"
+        },
+        {
+          "sample": "同次伤害转最大生命值",
+          "calculation": "190 × 0.10",
+          "expected": 19,
+          "unit": "最大生命值"
+        },
+        {
+          "sample": "六次跟踪时间",
+          "calculation": "6 × 500",
+          "expected": 3000,
+          "unit": "毫秒；第6次完成后才可检查充能攻击"
+        },
+        {
+          "sample": "达到体型上限后再加一次",
+          "calculation": "min(0.30, 已有体型比例 + 0.03)",
+          "expected": "不超过0.30",
+          "unit": "比例；上限后的第11次门槛不再增加"
+        }
+      ],
+      "requiredChecks": [
+        "距离跟踪事件、5000毫秒跟踪状态与六次周期的开始/重置关系",
+        "每目标充能消费和30秒冷却结构",
+        "体型属性结果键"
+      ]
+    },
+    {
+      "equipmentKey": "item_4632",
+      "equipmentName": "翠绿屏障",
+      "examples": [
+        {
+          "sample": "初始化持有者",
+          "calculation": "SOURCE_INITIALIZED → 1层法术护盾",
+          "expected": "护盾存在",
+          "unit": "不带数值"
+        },
+        {
+          "sample": "成功格挡后的消费",
+          "calculation": "成功格挡1次 → 0层，冷却60000毫秒",
+          "expected": "明确消费",
+          "unit": "毫秒"
+        },
+        {
+          "sample": "冷却内再次受到敌方技能",
+          "calculation": "t=59999不能重新授予，t=60000后才允许下一层",
+          "expected": "按冷却事件确认",
+          "unit": "毫秒"
+        }
+      ],
+      "requiredChecks": [
+        "SPELL_SHIELD结果类型及成功格挡回调是否可存",
+        "冷却起点和冷却结束后的重新授予事件",
+        "敌方技能判定不扩展为普通攻击或任意伤害"
+      ]
+    },
+    {
+      "equipmentKey": "item_6672",
+      "equipmentName": "海妖杀手",
+      "examples": [
+        {
+          "sample": "角色等级1的近战基础伤害",
+          "calculation": "150",
+          "expected": 150,
+          "unit": "物理伤害；来源mLevel1Value"
+        },
+        {
+          "sample": "角色等级18的基础伤害（断点原文）",
+          "calculation": "150 + (18 - 9) × 5",
+          "expected": 195,
+          "unit": "物理伤害；按客户端断点的候选算例"
+        },
+        {
+          "sample": "等级18伤害上限",
+          "calculation": "195 × 1.75",
+          "expected": 341.25,
+          "unit": "物理伤害；目标已损失生命插值尚待确认"
+        },
+        {
+          "sample": "已达到上限后再触发一次",
+          "calculation": "min(当前提升结果, 基础伤害 × 1.75)",
+          "expected": "仍为上限，不超过1.75倍",
+          "unit": "第4次及以后不继续超过上限；计数重置时点待核"
+        }
+      ],
+      "requiredChecks": [
+        "角色等级断点公式转系统参数的方式",
+        "攻击计数状态的持有者/目标范围、4秒刷新和第三次消费",
+        "目标已损失生命到1.75倍上限的插值曲线",
+        "攻击特效链是否由当前普通攻击事件安全承载"
+      ]
+    }
+  ]
+}

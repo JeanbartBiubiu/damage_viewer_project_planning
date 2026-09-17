@@ -1,0 +1,24 @@
+{
+  "gameId": "lol",
+  "recordedAt": "2026-09-06T22:39:00+08:00",
+  "method": "应用内浏览器属性管理：查询不存在、新增、保存、重新查询并打开查看，逐条核对说明",
+  "source": "装备符文/纯属性装备可录清单.json；官方 16.17.1 装备说明",
+  "beforeCount": 16,
+  "afterCount": 27,
+  "numericType": "DECIMAL",
+  "bounds": "本批最小值和最大值保持空，不设置无资料依据的上下限",
+  "runtimeStatus": "未验证战斗运行；仅字典保存与页面回读",
+  "rows": [
+    {"key":"ability_haste","name":"技能急速","sortOrder":550,"unit":"固定点数","readback":true},
+    {"key":"base_mana_regen_percent","name":"基础法力回复加成比例","sortOrder":316,"unit":"基础回复加成，1 表示 100%","readback":true},
+    {"key":"base_hp_regen_percent","name":"基础生命回复加成比例","sortOrder":306,"unit":"基础回复加成，1 表示 100%","readback":true},
+    {"key":"life_steal_percent","name":"生命偷取比例","sortOrder":560,"unit":"1 表示 100%","readback":true},
+    {"key":"omnivamp_percent","name":"全能吸血比例","sortOrder":570,"unit":"1 表示 100%","readback":true},
+    {"key":"magic_pen_flat","name":"固定法术穿透","sortOrder":220,"unit":"固定点数","readback":true},
+    {"key":"critical_strike_damage_bonus_percent","name":"额外暴击伤害比例","sortOrder":531,"unit":"暴击倍率额外加成；0.4 表示增加 40 个百分点，不是最终倍率","readback":true},
+    {"key":"move_speed_percent","name":"移动速度加成比例","sortOrder":101,"unit":"1 表示 100%","readback":true},
+    {"key":"tenacity_percent","name":"韧性比例","sortOrder":420,"unit":"1 表示 100%","readback":true},
+    {"key":"heal_shield_power_percent","name":"治疗和护盾强度比例","sortOrder":580,"unit":"1 表示 100%","readback":true},
+    {"key":"magic_pen_percent","name":"百分比法术穿透","sortOrder":230,"unit":"1 表示 100%","readback":true}
+  ]
+}

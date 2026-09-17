@@ -1,0 +1,296 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Renekton",
+  "sourceNumericId": "58",
+  "name": "雷克顿",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 660,
+      "growth": 111,
+      "sources": [
+        "原始资料/zh_CN/champion/Renekton.json:stats.hp/hpperlevel",
+        "角色根记录/Renekton.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 660,
+        "2": 739.92,
+        "3": 823.725,
+        "4": 911.415,
+        "5": 1002.99,
+        "6": 1098.45,
+        "7": 1197.795,
+        "8": 1301.025,
+        "9": 1408.14,
+        "10": 1519.14,
+        "11": 1634.025,
+        "12": 1752.795,
+        "13": 1875.45,
+        "14": 2001.99,
+        "15": 2132.415,
+        "16": 2266.725,
+        "17": 2404.92,
+        "18": 2547
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 8,
+      "growth": 0.75,
+      "sources": [
+        "原始资料/zh_CN/champion/Renekton.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Renekton.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 8,
+        "2": 8.54,
+        "3": 9.10625,
+        "4": 9.69875,
+        "5": 10.3175,
+        "6": 10.9625,
+        "7": 11.63375,
+        "8": 12.33125,
+        "9": 13.055,
+        "10": 13.805,
+        "11": 14.58125,
+        "12": 15.38375,
+        "13": 16.2125,
+        "14": 17.0675,
+        "15": 17.94875,
+        "16": 18.85625,
+        "17": 19.79,
+        "18": 20.75
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 35,
+      "growth": 5.2,
+      "sources": [
+        "原始资料/zh_CN/champion/Renekton.json:stats.armor/armorperlevel",
+        "角色根记录/Renekton.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 35,
+        "2": 38.744,
+        "3": 42.67,
+        "4": 46.778,
+        "5": 51.068,
+        "6": 55.54,
+        "7": 60.194,
+        "8": 65.03,
+        "9": 70.048,
+        "10": 75.248,
+        "11": 80.63,
+        "12": 86.194,
+        "13": 91.94,
+        "14": 97.868,
+        "15": 103.978,
+        "16": 110.27,
+        "17": 116.744,
+        "18": 123.4
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 28,
+      "growth": 2.05,
+      "sources": [
+        "原始资料/zh_CN/champion/Renekton.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Renekton.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 28,
+        "2": 29.476,
+        "3": 31.02375,
+        "4": 32.64325,
+        "5": 34.3345,
+        "6": 36.0975,
+        "7": 37.93225,
+        "8": 39.83875,
+        "9": 41.817,
+        "10": 43.867,
+        "11": 45.98875,
+        "12": 48.18225,
+        "13": 50.4475,
+        "14": 52.7845,
+        "15": 55.19325,
+        "16": 57.67375,
+        "17": 60.226,
+        "18": 62.85
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 69,
+      "growth": 4.15,
+      "sources": [
+        "角色根记录/Renekton.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 69,
+        "2": 71.988,
+        "3": 75.12125,
+        "4": 78.39975,
+        "5": 81.8235,
+        "6": 85.3925,
+        "7": 89.10675,
+        "8": 92.96625,
+        "9": 96.971,
+        "10": 101.121,
+        "11": 105.41625,
+        "12": 109.85675,
+        "13": 114.4425,
+        "14": 119.1735,
+        "15": 124.04975,
+        "16": 129.07125,
+        "17": 134.238,
+        "18": 139.55
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 345,
+      "growth": null,
+      "sources": [
+        "角色根记录/Renekton.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 345,
+        "2": 345,
+        "3": 345,
+        "4": 345,
+        "5": 345,
+        "6": 345,
+        "7": 345,
+        "8": 345,
+        "9": 345,
+        "10": 345,
+        "11": 345,
+        "12": 345,
+        "13": 345,
+        "14": 345,
+        "15": 345,
+        "16": 345,
+        "17": 345,
+        "18": 345
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 125,
+      "growth": null,
+      "sources": [
+        "角色根记录/Renekton.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 125,
+        "2": 125,
+        "3": 125,
+        "4": 125,
+        "5": 125,
+        "6": 125,
+        "7": 125,
+        "8": 125,
+        "9": 125,
+        "10": 125,
+        "11": 125,
+        "12": 125,
+        "13": 125,
+        "14": 125,
+        "15": 125,
+        "16": 125,
+        "17": 125,
+        "18": 125
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.665,
+      "attackSpeedRatio": 0.665,
+      "growthPercent": 2.75,
+      "sources": [
+        "角色根记录/Renekton.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.665,
+        "2": 0.678167,
+        "3": 0.691974,
+        "4": 0.706421,
+        "5": 0.721508,
+        "6": 0.737236,
+        "7": 0.753603,
+        "8": 0.77061,
+        "9": 0.788258,
+        "10": 0.806545,
+        "11": 0.825473,
+        "12": 0.84504,
+        "13": 0.865248,
+        "14": 0.886096,
+        "15": 0.907584,
+        "16": 0.929712,
+        "17": 0.95248,
+        "18": 0.975888
+      }
+    }
+  ],
+  "missing": [
+    {
+      "attribute": "resource",
+      "label": "资源",
+      "resourceType": "怒气",
+      "reason": "特殊或未明确资源不按法力统一生成；保留原始资源说明及根字段，待机制核对"
+    }
+  ],
+  "attackSpeedInputs": {
+    "base": 0.665,
+    "ratio": 0.665,
+    "growthPercent": 2.75,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

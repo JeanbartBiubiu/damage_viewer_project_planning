@@ -1,0 +1,593 @@
+{
+  "at": "2026-09-09T02:12:12.001Z",
+  "candidateSha256": "8eef5d285f2ee624db477c9519e7aa94c4cb7c61f1a24ff227daa084931947be",
+  "boundary": "独立读取候选参数与公式；显式输入仅用于验证公式算术，不表示API、事件或战斗运行时已接线。",
+  "checks": [
+    {
+      "name": "item_2503_passive/burn_flat_damage_per_second",
+      "actual": 20,
+      "expected": 20,
+      "match": true,
+      "kind": "fixed-parameter"
+    },
+    {
+      "name": "item_2503_passive/burn_scaling_ratio",
+      "actual": 0.02,
+      "expected": 0.02,
+      "match": true,
+      "kind": "fixed-parameter"
+    },
+    {
+      "name": "item_2503_passive/burn_duration_seconds",
+      "actual": 3,
+      "expected": 3,
+      "match": true,
+      "kind": "fixed-parameter"
+    },
+    {
+      "name": "item_2508_passive/damage_per_second",
+      "actual": 5,
+      "expected": 5,
+      "match": true,
+      "kind": "fixed-parameter"
+    },
+    {
+      "name": "item_2508_passive/damage_duration_seconds",
+      "actual": 3,
+      "expected": 3,
+      "match": true,
+      "kind": "fixed-parameter"
+    },
+    {
+      "name": "item_3118_passive/ultimate_haste",
+      "actual": 20,
+      "expected": 20,
+      "match": true,
+      "kind": "fixed-parameter"
+    },
+    {
+      "name": "item_3118_passive/ground_duration_ms",
+      "actual": 3000,
+      "expected": 3000,
+      "match": true,
+      "kind": "fixed-parameter"
+    },
+    {
+      "name": "item_3118_passive/magic_resistance_shred",
+      "actual": 10,
+      "expected": 10,
+      "match": true,
+      "kind": "fixed-parameter"
+    },
+    {
+      "name": "item_3152_active/cooldown_ms",
+      "actual": 50000,
+      "expected": 50000,
+      "match": true,
+      "kind": "fixed-parameter"
+    },
+    {
+      "name": "item_6660_passive/aura_duration_ms",
+      "actual": 3000,
+      "expected": 3000,
+      "match": true,
+      "kind": "fixed-parameter"
+    },
+    {
+      "name": "item_6660_passive/damage_per_tick",
+      "actual": 15,
+      "expected": 15,
+      "match": true,
+      "kind": "fixed-parameter"
+    },
+    {
+      "name": "item_6660_passive/ticks_per_second",
+      "actual": 1,
+      "expected": 1,
+      "match": true,
+      "kind": "fixed-parameter"
+    },
+    {
+      "name": "item_6655_passive/cooldown_ms",
+      "actual": 12000,
+      "expected": 12000,
+      "match": true,
+      "kind": "fixed-parameter"
+    },
+    {
+      "name": "item_6655_passive/max_echo_charges",
+      "actual": 6,
+      "expected": 6,
+      "match": true,
+      "kind": "fixed-parameter"
+    },
+    {
+      "name": "item_6655_passive/remaining_echo_count",
+      "actual": 5,
+      "expected": 5,
+      "match": true,
+      "kind": "fixed-parameter"
+    },
+    {
+      "name": "item_6655_passive/repeat_echo_damage_ratio",
+      "actual": 0.2,
+      "expected": 0.2,
+      "match": true,
+      "kind": "fixed-parameter"
+    },
+    {
+      "name": "item_6655_passive/single_target_multiplier",
+      "actual": 2,
+      "expected": 2,
+      "match": true,
+      "kind": "fixed-parameter"
+    },
+    {
+      "name": "item_3094_passive/energized_magic_damage",
+      "actual": 40,
+      "expected": 40,
+      "match": true,
+      "kind": "fixed-parameter"
+    },
+    {
+      "name": "item_3095_passive/energized_magic_damage",
+      "actual": 100,
+      "expected": 100,
+      "match": true,
+      "kind": "fixed-parameter"
+    },
+    {
+      "name": "item_3095_passive/move_speed_ratio",
+      "actual": 0.45,
+      "expected": 0.45,
+      "match": true,
+      "kind": "fixed-parameter"
+    },
+    {
+      "name": "item_3095_passive/move_speed_duration_ms",
+      "actual": 1500,
+      "expected": 1500,
+      "match": true,
+      "kind": "fixed-parameter"
+    },
+    {
+      "name": "item_3087_passive/bonus_energized_stacks",
+      "actual": 9,
+      "expected": 9,
+      "match": true,
+      "kind": "fixed-parameter"
+    },
+    {
+      "name": "item_3087_passive/champion_chain_damage",
+      "actual": 60,
+      "expected": 60,
+      "match": true,
+      "kind": "fixed-parameter"
+    },
+    {
+      "name": "item_3147_passive/damage_increase_per_second_ratio",
+      "actual": 0.02,
+      "expected": 0.02,
+      "match": true,
+      "kind": "fixed-parameter"
+    },
+    {
+      "name": "item_3147_passive/damage_increase_max_ratio",
+      "actual": 0.06,
+      "expected": 0.06,
+      "match": true,
+      "kind": "fixed-parameter"
+    },
+    {
+      "name": "item_3147_passive/combat_seconds_to_cap",
+      "actual": 3,
+      "expected": 3,
+      "match": true,
+      "kind": "fixed-parameter"
+    },
+    {
+      "name": "item_6699_passive/melee_current_hp_damage_ratio",
+      "actual": 0.09,
+      "expected": 0.09,
+      "match": true,
+      "kind": "fixed-parameter"
+    },
+    {
+      "name": "item_6699_passive/ranged_current_hp_damage_ratio",
+      "actual": 0.07,
+      "expected": 0.07,
+      "match": true,
+      "kind": "fixed-parameter"
+    },
+    {
+      "name": "item_6699_passive/melee_bonus_lethality",
+      "actual": 15,
+      "expected": 15,
+      "match": true,
+      "kind": "fixed-parameter"
+    },
+    {
+      "name": "item_6699_passive/ranged_bonus_lethality",
+      "actual": 12,
+      "expected": 12,
+      "match": true,
+      "kind": "fixed-parameter"
+    },
+    {
+      "name": "item_6699_passive/bonus_lethality_duration_ms",
+      "actual": 4000,
+      "expected": 4000,
+      "match": true,
+      "kind": "fixed-parameter"
+    },
+    {
+      "name": "item_4646_passive/damage_window_ms",
+      "actual": 2500,
+      "expected": 2500,
+      "match": true,
+      "kind": "fixed-parameter"
+    },
+    {
+      "name": "item_4646_passive/damage_threshold_ratio",
+      "actual": 0.25,
+      "expected": 0.25,
+      "match": true,
+      "kind": "fixed-parameter"
+    },
+    {
+      "name": "item_4646_passive/squall_delay_ms",
+      "actual": 2000,
+      "expected": 2000,
+      "match": true,
+      "kind": "fixed-parameter"
+    },
+    {
+      "name": "item_4646_passive/cooldown_ms",
+      "actual": 30000,
+      "expected": 30000,
+      "match": true,
+      "kind": "fixed-parameter"
+    },
+    {
+      "name": "item_4646_passive/squall_base_damage",
+      "actual": 125,
+      "expected": 125,
+      "match": true,
+      "kind": "fixed-parameter"
+    },
+    {
+      "name": "item_4646_passive/squall_scaling_ratio",
+      "actual": 0.1,
+      "expected": 0.1,
+      "match": true,
+      "kind": "fixed-parameter"
+    },
+    {
+      "name": "item_2503_passive/burn_damage_per_second/0",
+      "actual": 20,
+      "expected": 20,
+      "match": true,
+      "input": {
+        "burn_scaling_stat_value": 0
+      },
+      "boundary": "mStat省略，显式输入"
+    },
+    {
+      "name": "item_2503_passive/burn_damage_per_second/100",
+      "actual": 22,
+      "expected": 22,
+      "match": true,
+      "input": {
+        "burn_scaling_stat_value": 100
+      },
+      "boundary": "mStat省略，显式输入"
+    },
+    {
+      "name": "item_2503_passive/burn_damage_per_second/500",
+      "actual": 30,
+      "expected": 30,
+      "match": true,
+      "input": {
+        "burn_scaling_stat_value": 500
+      },
+      "boundary": "mStat省略，显式输入"
+    },
+    {
+      "name": "item_2508_passive/total_damage",
+      "actual": 15,
+      "expected": 15,
+      "match": true,
+      "derivation": "5 × 3"
+    },
+    {
+      "name": "item_3118_passive/ground_burn_damage_value/0",
+      "actual": 60,
+      "expected": 60,
+      "match": true,
+      "input": {
+        "ground_damage_scaling_stat_value": 0
+      },
+      "boundary": "mStat省略，显式输入"
+    },
+    {
+      "name": "item_3118_passive/ground_burn_damage_value/100",
+      "actual": 65,
+      "expected": 65,
+      "match": true,
+      "input": {
+        "ground_damage_scaling_stat_value": 100
+      },
+      "boundary": "mStat省略，显式输入"
+    },
+    {
+      "name": "item_3118_passive/ground_burn_damage_value/200",
+      "actual": 70,
+      "expected": 70,
+      "match": true,
+      "input": {
+        "ground_damage_scaling_stat_value": 200
+      },
+      "boundary": "mStat省略，显式输入"
+    },
+    {
+      "name": "item_3152_active/firebolt_damage/0",
+      "actual": 100,
+      "expected": 100,
+      "match": true,
+      "input": {
+        "firebolt_scaling_stat_value": 0
+      },
+      "boundary": "mStat省略，显式输入"
+    },
+    {
+      "name": "item_3152_active/firebolt_damage/100",
+      "actual": 110,
+      "expected": 110,
+      "match": true,
+      "input": {
+        "firebolt_scaling_stat_value": 100
+      },
+      "boundary": "mStat省略，显式输入"
+    },
+    {
+      "name": "item_6660_passive/display_dps",
+      "actual": 15,
+      "expected": 15,
+      "match": true,
+      "derivation": "15 × 1；仅DPS展示"
+    },
+    {
+      "name": "item_6655_passive/echo_damage/0",
+      "actual": 75,
+      "expected": 75,
+      "match": true,
+      "input": {
+        "echo_scaling_stat_value": 0
+      },
+      "boundary": "mStat省略，显式输入"
+    },
+    {
+      "name": "item_6655_passive/single_target_max_damage/0",
+      "actual": 150,
+      "expected": 150,
+      "match": true,
+      "input": {
+        "echo_scaling_stat_value": 0
+      },
+      "derivation": "首道1份 + 剩余5道 × 20% = 2份"
+    },
+    {
+      "name": "item_6655_passive/echo_damage/100",
+      "actual": 80,
+      "expected": 80,
+      "match": true,
+      "input": {
+        "echo_scaling_stat_value": 100
+      },
+      "boundary": "mStat省略，显式输入"
+    },
+    {
+      "name": "item_6655_passive/single_target_max_damage/100",
+      "actual": 160,
+      "expected": 160,
+      "match": true,
+      "input": {
+        "echo_scaling_stat_value": 100
+      },
+      "derivation": "首道1份 + 剩余5道 × 20% = 2份"
+    },
+    {
+      "name": "item_6655_passive/echo_damage/500",
+      "actual": 100,
+      "expected": 100,
+      "match": true,
+      "input": {
+        "echo_scaling_stat_value": 500
+      },
+      "boundary": "mStat省略，显式输入"
+    },
+    {
+      "name": "item_6655_passive/single_target_max_damage/500",
+      "actual": 200,
+      "expected": 200,
+      "match": true,
+      "input": {
+        "echo_scaling_stat_value": 500
+      },
+      "derivation": "首道1份 + 剩余5道 × 20% = 2份"
+    },
+    {
+      "name": "item_6655_passive/remaining_echo_total_ratio",
+      "actual": 1,
+      "expected": 1,
+      "match": true,
+      "derivation": "5 × 0.2；不是减伤20%"
+    },
+    {
+      "name": "item_3147_passive/damage_increase_ratio/0",
+      "actual": 0,
+      "expected": 0,
+      "match": true,
+      "input": {
+        "completed_combat_intervals": 0
+      },
+      "boundary": "只按完整1秒间隔；未完成间隔不加成"
+    },
+    {
+      "name": "item_3147_passive/damage_increase_ratio/1",
+      "actual": 0.02,
+      "expected": 0.02,
+      "match": true,
+      "input": {
+        "completed_combat_intervals": 1
+      },
+      "boundary": "只按完整1秒间隔；未完成间隔不加成"
+    },
+    {
+      "name": "item_3147_passive/damage_increase_ratio/2",
+      "actual": 0.04,
+      "expected": 0.04,
+      "match": true,
+      "input": {
+        "completed_combat_intervals": 2
+      },
+      "boundary": "只按完整1秒间隔；未完成间隔不加成"
+    },
+    {
+      "name": "item_3147_passive/damage_increase_ratio/3",
+      "actual": 0.06,
+      "expected": 0.06,
+      "match": true,
+      "input": {
+        "completed_combat_intervals": 3
+      },
+      "boundary": "只按完整1秒间隔；未完成间隔不加成"
+    },
+    {
+      "name": "item_3147_passive/damage_increase_ratio/4",
+      "actual": 0.06,
+      "expected": 0.06,
+      "match": true,
+      "input": {
+        "completed_combat_intervals": 4
+      },
+      "boundary": "只按完整1秒间隔；未完成间隔不加成"
+    },
+    {
+      "name": "item_6699_passive/melee_current_hp_damage/0",
+      "actual": 0,
+      "expected": 0,
+      "match": true,
+      "attributes": {
+        "TARGET": {
+          "hp": {
+            "CURRENT": 0
+          }
+        }
+      },
+      "boundary": "StringCalculations近远程动态拆分"
+    },
+    {
+      "name": "item_6699_passive/ranged_current_hp_damage/0",
+      "actual": 0,
+      "expected": 0,
+      "match": true,
+      "attributes": {
+        "TARGET": {
+          "hp": {
+            "CURRENT": 0
+          }
+        }
+      },
+      "boundary": "StringCalculations近远程动态拆分"
+    },
+    {
+      "name": "item_6699_passive/melee_current_hp_damage/100",
+      "actual": 9,
+      "expected": 9,
+      "match": true,
+      "attributes": {
+        "TARGET": {
+          "hp": {
+            "CURRENT": 100
+          }
+        }
+      },
+      "boundary": "StringCalculations近远程动态拆分"
+    },
+    {
+      "name": "item_6699_passive/ranged_current_hp_damage/100",
+      "actual": 7.000000000000001,
+      "expected": 7,
+      "match": true,
+      "attributes": {
+        "TARGET": {
+          "hp": {
+            "CURRENT": 100
+          }
+        }
+      },
+      "boundary": "StringCalculations近远程动态拆分"
+    },
+    {
+      "name": "item_6699_passive/melee_current_hp_damage/1000",
+      "actual": 90,
+      "expected": 90,
+      "match": true,
+      "attributes": {
+        "TARGET": {
+          "hp": {
+            "CURRENT": 1000
+          }
+        }
+      },
+      "boundary": "StringCalculations近远程动态拆分"
+    },
+    {
+      "name": "item_6699_passive/ranged_current_hp_damage/1000",
+      "actual": 70,
+      "expected": 70,
+      "match": true,
+      "attributes": {
+        "TARGET": {
+          "hp": {
+            "CURRENT": 1000
+          }
+        }
+      },
+      "boundary": "StringCalculations近远程动态拆分"
+    },
+    {
+      "name": "item_3147_passive/completed_combat_intervals/0.5",
+      "actual": "rejected",
+      "expected": "rejected",
+      "match": true,
+      "boundary": "未完成1秒间隔不加成"
+    },
+    {
+      "name": "item_4646_passive/squall_damage/0",
+      "actual": 125,
+      "expected": 125,
+      "match": true,
+      "input": {
+        "squall_scaling_stat_value": 0
+      },
+      "boundary": "当前根文本绑定SquallDamage；mStat省略，显式输入"
+    },
+    {
+      "name": "item_4646_passive/squall_damage/100",
+      "actual": 135,
+      "expected": 135,
+      "match": true,
+      "input": {
+        "squall_scaling_stat_value": 100
+      },
+      "boundary": "当前根文本绑定SquallDamage；mStat省略，显式输入"
+    }
+  ],
+  "failures": [],
+  "totals": {
+    "checks": 68,
+    "failures": 0
+  }
+}

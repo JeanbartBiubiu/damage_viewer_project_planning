@@ -1,0 +1,333 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Yuumi",
+  "sourceNumericId": "350",
+  "name": "悠米",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 500,
+      "growth": 69,
+      "sources": [
+        "原始资料/zh_CN/champion/Yuumi.json:stats.hp/hpperlevel",
+        "角色根记录/Yuumi.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 500,
+        "2": 549.68,
+        "3": 601.775,
+        "4": 656.285,
+        "5": 713.21,
+        "6": 772.55,
+        "7": 834.305,
+        "8": 898.475,
+        "9": 965.06,
+        "10": 1034.06,
+        "11": 1105.475,
+        "12": 1179.305,
+        "13": 1255.55,
+        "14": 1334.21,
+        "15": 1415.285,
+        "16": 1498.775,
+        "17": 1584.68,
+        "18": 1673
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 25,
+      "growth": 4.2,
+      "sources": [
+        "原始资料/zh_CN/champion/Yuumi.json:stats.armor/armorperlevel",
+        "角色根记录/Yuumi.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 25,
+        "2": 28.024,
+        "3": 31.195,
+        "4": 34.513,
+        "5": 37.978,
+        "6": 41.59,
+        "7": 45.349,
+        "8": 49.255,
+        "9": 53.308,
+        "10": 57.508,
+        "11": 61.855,
+        "12": 66.349,
+        "13": 70.99,
+        "14": 75.778,
+        "15": 80.713,
+        "16": 85.795,
+        "17": 91.024,
+        "18": 96.4
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 25,
+      "growth": 1.1,
+      "sources": [
+        "原始资料/zh_CN/champion/Yuumi.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Yuumi.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 25,
+        "2": 25.792,
+        "3": 26.6225,
+        "4": 27.4915,
+        "5": 28.399,
+        "6": 29.345,
+        "7": 30.3295,
+        "8": 31.3525,
+        "9": 32.414,
+        "10": 33.514,
+        "11": 34.6525,
+        "12": 35.8295,
+        "13": 37.045,
+        "14": 38.299,
+        "15": 39.5915,
+        "16": 40.9225,
+        "17": 42.292,
+        "18": 43.7
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 49,
+      "growth": 3.1,
+      "sources": [
+        "角色根记录/Yuumi.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 49,
+        "2": 51.232,
+        "3": 53.5725,
+        "4": 56.0215,
+        "5": 58.579,
+        "6": 61.245,
+        "7": 64.0195,
+        "8": 66.9025,
+        "9": 69.894,
+        "10": 72.994,
+        "11": 76.2025,
+        "12": 79.5195,
+        "13": 82.945,
+        "14": 86.479,
+        "15": 90.1215,
+        "16": 93.8725,
+        "17": 97.732,
+        "18": 101.7
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 330,
+      "growth": null,
+      "sources": [
+        "角色根记录/Yuumi.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 330,
+        "2": 330,
+        "3": 330,
+        "4": 330,
+        "5": 330,
+        "6": 330,
+        "7": 330,
+        "8": 330,
+        "9": 330,
+        "10": 330,
+        "11": 330,
+        "12": 330,
+        "13": 330,
+        "14": 330,
+        "15": 330,
+        "16": 330,
+        "17": 330,
+        "18": 330
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 425,
+      "growth": null,
+      "sources": [
+        "角色根记录/Yuumi.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 425,
+        "2": 425,
+        "3": 425,
+        "4": 425,
+        "5": 425,
+        "6": 425,
+        "7": 425,
+        "8": 425,
+        "9": 425,
+        "10": 425,
+        "11": 425,
+        "12": 425,
+        "13": 425,
+        "14": 425,
+        "15": 425,
+        "16": 425,
+        "17": 425,
+        "18": 425
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.625,
+      "attackSpeedRatio": 0.625,
+      "growthPercent": 1,
+      "sources": [
+        "角色根记录/Yuumi.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.625,
+        "2": 0.6295,
+        "3": 0.634219,
+        "4": 0.639156,
+        "5": 0.644312,
+        "6": 0.649687,
+        "7": 0.655281,
+        "8": 0.661094,
+        "9": 0.667125,
+        "10": 0.673375,
+        "11": 0.679844,
+        "12": 0.686531,
+        "13": 0.693438,
+        "14": 0.700562,
+        "15": 0.707906,
+        "16": 0.715469,
+        "17": 0.72325,
+        "18": 0.73125
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 440,
+      "growth": 45,
+      "sources": [
+        "原始资料/zh_CN/champion/Yuumi.json:stats.mp/mpperlevel",
+        "角色根记录/Yuumi.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 440,
+        "2": 472.4,
+        "3": 506.375,
+        "4": 541.925,
+        "5": 579.05,
+        "6": 617.75,
+        "7": 658.025,
+        "8": 699.875,
+        "9": 743.3,
+        "10": 788.3,
+        "11": 834.875,
+        "12": 883.025,
+        "13": 932.75,
+        "14": 984.05,
+        "15": 1036.925,
+        "16": 1091.375,
+        "17": 1147.4,
+        "18": 1205
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 10,
+      "growth": 0.4,
+      "sources": [
+        "原始资料/zh_CN/champion/Yuumi.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Yuumi.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 10,
+        "2": 10.288,
+        "3": 10.59,
+        "4": 10.906,
+        "5": 11.236,
+        "6": 11.58,
+        "7": 11.938,
+        "8": 12.31,
+        "9": 12.696,
+        "10": 13.096,
+        "11": 13.51,
+        "12": 13.938,
+        "13": 14.38,
+        "14": 14.836,
+        "15": 15.306,
+        "16": 15.79,
+        "17": 16.288,
+        "18": 16.8
+      }
+    }
+  ],
+  "missing": [
+    {
+      "attribute": "hpregen",
+      "label": "生命回复",
+      "reason": "客户端基础值或成长字段省略，未使用默认零值填补",
+      "missingFields": [
+        "baseStaticHPRegenModifiable"
+      ],
+      "officialBase": 5,
+      "officialGrowth": 0.55
+    }
+  ],
+  "attackSpeedInputs": {
+    "base": 0.625,
+    "ratio": 0.625,
+    "growthPercent": 1,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

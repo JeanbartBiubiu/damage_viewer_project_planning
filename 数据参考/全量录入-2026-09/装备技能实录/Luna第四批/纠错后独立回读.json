@@ -1,0 +1,2831 @@
+{
+  "startedAt": "2026-09-07T17:46:03.323Z",
+  "scope": "第四批6装备：5技能组成、5挂载、5代表图，1项只有直接属性不新增技能。仅独立只读回读。",
+  "skills": {
+    "item_3072_passive": {
+      "equipmentKey": "item_3072",
+      "name": "饮血剑",
+      "status": "部分录入，范围内待配未完成",
+      "counts": {
+        "parameters": 1,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internal-states": 0,
+        "trigger-rules": 0
+      },
+      "pending": [
+        "当前作者配置结构缺少“生命偷取溢出治疗”的金额及事件，无法准确表达实际护盾授予量；上限参数保留，不能以SOURCE_INITIALIZED直接给满护盾。",
+        "客户端DecayTime=25与Threshold=0.699999988079071只留在原始字段证据；尚未证明完整衰减/结束条件，不将25秒自动解释为持续到期。"
+      ],
+      "relationConfirmed": true,
+      "representativeImageKey": "item_3072"
+    },
+    "item_3508_passive": {
+      "equipmentKey": "item_3508",
+      "name": "夺萃之镰",
+      "status": "部分录入，范围内待配未完成",
+      "counts": {
+        "parameters": 4,
+        "formulas": 2,
+        "effects": 2,
+        "processes": 0,
+        "internal-states": 0,
+        "trigger-rules": 0
+      },
+      "pending": [
+        "施放后的就绪状态、下一次普攻同时执行伤害和回蓝、消费及1500毫秒冷却待配置，不把所有普攻直接接为咒刃。",
+        "旧2026-06 Wiki记录中的10000毫秒就绪窗口不属于冻结16.17来源，已移出当前参数；当前版本的失效窗口需补证。",
+        "法力回复是本轮1V1相关资源组成，已保存独立效果；还须完成实际触发配置，不能因为战斗运行不在本轮而永久跳过。"
+      ],
+      "relationConfirmed": true,
+      "representativeImageKey": "item_3508"
+    },
+    "item_6676_passive": {
+      "equipmentKey": "item_6676",
+      "name": "收集者",
+      "status": "部分录入，范围内待配未完成",
+      "counts": {
+        "parameters": 1,
+        "formulas": 1,
+        "effects": 1,
+        "processes": 0,
+        "internal-states": 0,
+        "trigger-rules": 0
+      },
+      "pending": [
+        "来源语义是“你的伤害”结算后检查英雄目标；DAMAGE_DEALT事件存在，但TARGET_CATEGORY_CHECK按现有管理结构只适用于SKILL_HIT或BASIC_ATTACK_HIT，无法同时覆盖所有伤害并准确限定英雄。本批不接一个会误杀小兵或漏掉技能伤害的宽泛规则。",
+        "来源要求生命严格低于5%，通用EXECUTE结果判断为小于或等于绝对阈值，后续合法触发必须配置严格LT；最大生命2000时剩余100不符合来源条件，99符合。",
+        "击杀英雄额外25金币属于本批明确跳过的金币效果，不计入待补机制。"
+      ],
+      "relationConfirmed": true,
+      "representativeImageKey": "item_6676"
+    },
+    "item_3140_active": {
+      "equipmentKey": "item_3140",
+      "name": "水银饰带",
+      "status": "部分录入，范围内待配未完成",
+      "counts": {
+        "parameters": 1,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internal-states": 0,
+        "trigger-rules": 0
+      },
+      "pending": [
+        "当前STATUS_OPERATION只能引用单个已存在状态；共享状态目录当前没有通用控制类别，也没有滞空排除条件。若只移除现有眩晕会把“所有控制类减益”错误缩小，因此不写效果或主动触发。",
+        "API已有的技能分类只有普通技能、被动技能和位移技能；本主动技能使用空分类列表，不新增共享分类。"
+      ],
+      "relationConfirmed": true,
+      "representativeImageKey": "item_3140"
+    },
+    "item_3157_active": {
+      "equipmentKey": "item_3157",
+      "name": "中娅沙漏",
+      "status": "部分录入，范围内待配未完成",
+      "counts": {
+        "parameters": 2,
+        "formulas": 0,
+        "effects": 1,
+        "processes": 0,
+        "internal-states": 0,
+        "trigger-rules": 0
+      },
+      "pending": [
+        "现有结果类型可以表达全类型DAMAGE_IMMUNITY，已保存该独立组成；不可选取和凝滞行动限制属于现有作者配置结构缺口，不是一个新增状态键即可完成。",
+        "主动施放过程可以用现有结构继续配置；它与尚不可完整表达的不可选取及行动限制分开记账，不把SOURCE_INITIALIZED用于主动技能。",
+        "API已有的技能分类没有主动分类，本技能使用空分类列表，不新增共享分类。"
+      ],
+      "relationConfirmed": true,
+      "representativeImageKey": "item_3157"
+    }
+  },
+  "readbacks": [
+    {
+      "route": "/skills/item_3072_passive",
+      "actual": {
+        "createdAt": "2026-09-07T17:15:50.558743Z",
+        "description": "保存16.17客户端确证的生命偷取溢出护盾上限：角色等级1至8为165，9级起每级增加15，18级315。上限不是实际授予量；实际溢出生命偷取金额和事件尚缺，未创建护盾效果。原始DecayTime=25只留来源，不推定完整生命周期。装备已有80攻击力和15%生命偷取，不重复施加。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "饮血剑·灵液护盾",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "item_3072_passive",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-07T17:33:08.709236Z"
+      },
+      "fields": [
+        {
+          "path": "skillKey",
+          "expected": "item_3072_passive",
+          "actual": "item_3072_passive",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "饮血剑·灵液护盾",
+          "actual": "饮血剑·灵液护盾",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "保存16.17客户端确证的生命偷取溢出护盾上限：角色等级1至8为165，9级起每级增加15，18级315。上限不是实际授予量；实际溢出生命偷取金额和事件尚缺，未创建护盾效果。原始DecayTime=25只留来源，不推定完整生命周期。装备已有80攻击力和15%生命偷取，不重复施加。",
+          "actual": "保存16.17客户端确证的生命偷取溢出护盾上限：角色等级1至8为165，9级起每级增加15，18级315。上限不是实际授予量；实际溢出生命偷取金额和事件尚缺，未创建护盾效果。原始DecayTime=25只留来源，不推定完整生命周期。装备已有80攻击力和15%生命偷取，不重复施加。",
+          "equal": true
+        },
+        {
+          "path": "maxLevel",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "status",
+          "expected": "ENABLED",
+          "actual": "ENABLED",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 0,
+          "actual": 0,
+          "equal": true
+        },
+        {
+          "path": "skillCategoryKeys[]",
+          "expectedCount": 1,
+          "actualCount": 1,
+          "equal": true
+        },
+        {
+          "path": "skillCategoryKeys[0]",
+          "expected": "passive",
+          "actual": "passive",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "route": "/skills/item_3072_passive/parameters/overshield_by_character_level",
+      "actual": {
+        "createdAt": "2026-09-07T17:15:51.011974Z",
+        "description": "当前OvershieldCalc展开的护盾上限，单位：护盾点；1至8级165，9级180，此后每级加15，18级315。实际授予量来自溢出生命偷取，不能把上限直接给满。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 165,
+          "2": 165,
+          "3": 165,
+          "4": 165,
+          "5": 165,
+          "6": 165,
+          "7": 165,
+          "8": 165,
+          "9": 180,
+          "10": 195,
+          "11": 210,
+          "12": 225,
+          "13": 240,
+          "14": 255,
+          "15": 270,
+          "16": 285,
+          "17": 300,
+          "18": 315
+        },
+        "name": "灵液护盾上限",
+        "parameterKey": "overshield_by_character_level",
+        "skillKey": "item_3072_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T17:33:08.276294Z",
+        "valueMode": "CHARACTER_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "overshield_by_character_level",
+          "actual": "overshield_by_character_level",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "灵液护盾上限",
+          "actual": "灵液护盾上限",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "INTEGER",
+          "actual": "INTEGER",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "CHARACTER_LEVEL",
+          "actual": "CHARACTER_LEVEL",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "levelValues.1",
+          "expected": 165,
+          "actual": 165,
+          "equal": true
+        },
+        {
+          "path": "levelValues.2",
+          "expected": 165,
+          "actual": 165,
+          "equal": true
+        },
+        {
+          "path": "levelValues.3",
+          "expected": 165,
+          "actual": 165,
+          "equal": true
+        },
+        {
+          "path": "levelValues.4",
+          "expected": 165,
+          "actual": 165,
+          "equal": true
+        },
+        {
+          "path": "levelValues.5",
+          "expected": 165,
+          "actual": 165,
+          "equal": true
+        },
+        {
+          "path": "levelValues.6",
+          "expected": 165,
+          "actual": 165,
+          "equal": true
+        },
+        {
+          "path": "levelValues.7",
+          "expected": 165,
+          "actual": 165,
+          "equal": true
+        },
+        {
+          "path": "levelValues.8",
+          "expected": 165,
+          "actual": 165,
+          "equal": true
+        },
+        {
+          "path": "levelValues.9",
+          "expected": 180,
+          "actual": 180,
+          "equal": true
+        },
+        {
+          "path": "levelValues.10",
+          "expected": 195,
+          "actual": 195,
+          "equal": true
+        },
+        {
+          "path": "levelValues.11",
+          "expected": 210,
+          "actual": 210,
+          "equal": true
+        },
+        {
+          "path": "levelValues.12",
+          "expected": 225,
+          "actual": 225,
+          "equal": true
+        },
+        {
+          "path": "levelValues.13",
+          "expected": 240,
+          "actual": 240,
+          "equal": true
+        },
+        {
+          "path": "levelValues.14",
+          "expected": 255,
+          "actual": 255,
+          "equal": true
+        },
+        {
+          "path": "levelValues.15",
+          "expected": 270,
+          "actual": 270,
+          "equal": true
+        },
+        {
+          "path": "levelValues.16",
+          "expected": 285,
+          "actual": 285,
+          "equal": true
+        },
+        {
+          "path": "levelValues.17",
+          "expected": 300,
+          "actual": 300,
+          "equal": true
+        },
+        {
+          "path": "levelValues.18",
+          "expected": 315,
+          "actual": 315,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "当前OvershieldCalc展开的护盾上限，单位：护盾点；1至8级165，9级180，此后每级加15，18级315。实际授予量来自溢出生命偷取，不能把上限直接给满。",
+          "actual": "当前OvershieldCalc展开的护盾上限，单位：护盾点；1至8级165，9级180，此后每级加15，18级315。实际授予量来自溢出生命偷取，不能把上限直接给满。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "route": "equipment-skill-relations:item_3072",
+      "actual": {
+        "equipmentKey": "item_3072",
+        "equipmentName": "饮血剑",
+        "gameId": "lol",
+        "skillKey": "item_3072_passive",
+        "skillName": "饮血剑·灵液护盾",
+        "skillStatus": "ENABLED",
+        "sortOrder": 10
+      },
+      "fields": [
+        {
+          "path": "equipmentKey",
+          "expected": "item_3072",
+          "actual": "item_3072",
+          "equal": true
+        },
+        {
+          "path": "skillKey",
+          "expected": "item_3072_passive",
+          "actual": "item_3072_passive",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "route": "/skills/item_3508_passive",
+      "actual": {
+        "createdAt": "2026-09-07T17:15:52.839161Z",
+        "description": "保存16.17客户端确证的咒刃额外物理伤害与攻击特效法力回复：1.25×来源基础攻击力+50×来源暴击率，法力回复为该伤害的50%。装备已有50攻击力、20技能急速和25%暴击几率，不在技能中重复施加；施法后就绪、下一次普攻消费及1.5秒冷却接线待补。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "夺萃之镰·咒刃",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "item_3508_passive",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-07T17:15:52.839161Z"
+      },
+      "fields": [
+        {
+          "path": "skillKey",
+          "expected": "item_3508_passive",
+          "actual": "item_3508_passive",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "夺萃之镰·咒刃",
+          "actual": "夺萃之镰·咒刃",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "保存16.17客户端确证的咒刃额外物理伤害与攻击特效法力回复：1.25×来源基础攻击力+50×来源暴击率，法力回复为该伤害的50%。装备已有50攻击力、20技能急速和25%暴击几率，不在技能中重复施加；施法后就绪、下一次普攻消费及1.5秒冷却接线待补。",
+          "actual": "保存16.17客户端确证的咒刃额外物理伤害与攻击特效法力回复：1.25×来源基础攻击力+50×来源暴击率，法力回复为该伤害的50%。装备已有50攻击力、20技能急速和25%暴击几率，不在技能中重复施加；施法后就绪、下一次普攻消费及1.5秒冷却接线待补。",
+          "equal": true
+        },
+        {
+          "path": "maxLevel",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "status",
+          "expected": "ENABLED",
+          "actual": "ENABLED",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 0,
+          "actual": 0,
+          "equal": true
+        },
+        {
+          "path": "skillCategoryKeys[]",
+          "expectedCount": 1,
+          "actualCount": 1,
+          "equal": true
+        },
+        {
+          "path": "skillCategoryKeys[0]",
+          "expected": "passive",
+          "actual": "passive",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "route": "/skills/item_3508_passive/parameters/spellblade_base_ad_ratio",
+      "actual": {
+        "createdAt": "2026-09-07T17:15:53.246253Z",
+        "description": "咒刃额外物理伤害对来源基础攻击力的倍率，小数1表示100%。",
+        "fixedValue": 1.25,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "咒刃基础攻击力倍率",
+        "parameterKey": "spellblade_base_ad_ratio",
+        "skillKey": "item_3508_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T17:15:53.246253Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "spellblade_base_ad_ratio",
+          "actual": "spellblade_base_ad_ratio",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "咒刃基础攻击力倍率",
+          "actual": "咒刃基础攻击力倍率",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "DECIMAL",
+          "actual": "DECIMAL",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 1.25,
+          "actual": 1.25,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "咒刃额外物理伤害对来源基础攻击力的倍率，小数1表示100%。",
+          "actual": "咒刃额外物理伤害对来源基础攻击力的倍率，小数1表示100%。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "route": "/skills/item_3508_passive/parameters/spellblade_crit_chance_multiplier",
+      "actual": {
+        "createdAt": "2026-09-07T17:15:53.703546Z",
+        "description": "客户端CritChanceMultiplier=50；来源暴击率按0至1的小数直接乘50，不是把50写成0.5。",
+        "fixedValue": 50,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "咒刃暴击率倍率",
+        "parameterKey": "spellblade_crit_chance_multiplier",
+        "skillKey": "item_3508_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T17:15:53.703546Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "spellblade_crit_chance_multiplier",
+          "actual": "spellblade_crit_chance_multiplier",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "咒刃暴击率倍率",
+          "actual": "咒刃暴击率倍率",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "DECIMAL",
+          "actual": "DECIMAL",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 50,
+          "actual": 50,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "客户端CritChanceMultiplier=50；来源暴击率按0至1的小数直接乘50，不是把50写成0.5。",
+          "actual": "客户端CritChanceMultiplier=50；来源暴击率按0至1的小数直接乘50，不是把50写成0.5。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 20,
+          "actual": 20,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "route": "/skills/item_3508_passive/parameters/mana_refund_damage_multiplier",
+      "actual": {
+        "createdAt": "2026-09-07T17:15:54.074684Z",
+        "description": "客户端TotalManaRefund为SpellbladeDamage乘0.5，小数1表示100%。",
+        "fixedValue": 0.5,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法力回复伤害倍率",
+        "parameterKey": "mana_refund_damage_multiplier",
+        "skillKey": "item_3508_passive",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T17:15:54.074684Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "mana_refund_damage_multiplier",
+          "actual": "mana_refund_damage_multiplier",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "法力回复伤害倍率",
+          "actual": "法力回复伤害倍率",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "DECIMAL",
+          "actual": "DECIMAL",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 0.5,
+          "actual": 0.5,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "客户端TotalManaRefund为SpellbladeDamage乘0.5，小数1表示100%。",
+          "actual": "客户端TotalManaRefund为SpellbladeDamage乘0.5，小数1表示100%。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 30,
+          "actual": 30,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "route": "/skills/item_3508_passive/parameters/spellblade_cooldown_ms",
+      "actual": {
+        "createdAt": "2026-09-07T17:15:54.838375Z",
+        "description": "客户端SpellbladeCooldown=1.5秒，单位：毫秒；冷却消费规则待接线。",
+        "fixedValue": 1500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "咒刃冷却时间",
+        "parameterKey": "spellblade_cooldown_ms",
+        "skillKey": "item_3508_passive",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-07T17:15:54.838375Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "spellblade_cooldown_ms",
+          "actual": "spellblade_cooldown_ms",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "咒刃冷却时间",
+          "actual": "咒刃冷却时间",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "INTEGER",
+          "actual": "INTEGER",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 1500,
+          "actual": 1500,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "客户端SpellbladeCooldown=1.5秒，单位：毫秒；冷却消费规则待接线。",
+          "actual": "客户端SpellbladeCooldown=1.5秒，单位：毫秒；冷却消费规则待接线。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 50,
+          "actual": 50,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "route": "/skills/item_3508_passive/formulas/spellblade_damage",
+      "actual": {
+        "createdAt": "2026-09-07T17:15:55.250457Z",
+        "description": "1.25倍来源基础攻击力加50倍来源暴击率。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "spellblade_base_ad_ratio"
+                },
+                {
+                  "attributeKey": "attack_damage",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "BASE",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "spellblade_crit_chance_multiplier"
+                },
+                {
+                  "attributeKey": "critical_strike_chance",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "spellblade_damage",
+        "gameId": "lol",
+        "name": "咒刃额外物理伤害",
+        "skillKey": "item_3508_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T17:15:55.250457Z"
+      },
+      "fields": [
+        {
+          "path": "formulaKey",
+          "expected": "spellblade_damage",
+          "actual": "spellblade_damage",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "咒刃额外物理伤害",
+          "actual": "咒刃额外物理伤害",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "1.25倍来源基础攻击力加50倍来源暴击率。",
+          "actual": "1.25倍来源基础攻击力加50倍来源暴击率。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "expression.nodeType",
+          "expected": "OPERATION",
+          "actual": "OPERATION",
+          "equal": true
+        },
+        {
+          "path": "expression.operation",
+          "expected": "ADD",
+          "actual": "ADD",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[]",
+          "expectedCount": 2,
+          "actualCount": 2,
+          "equal": true
+        },
+        {
+          "path": "expression.operands[0].nodeType",
+          "expected": "OPERATION",
+          "actual": "OPERATION",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[0].operation",
+          "expected": "MULTIPLY",
+          "actual": "MULTIPLY",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[0].operands[]",
+          "expectedCount": 2,
+          "actualCount": 2,
+          "equal": true
+        },
+        {
+          "path": "expression.operands[0].operands[0].nodeType",
+          "expected": "PARAMETER",
+          "actual": "PARAMETER",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[0].operands[0].parameterKey",
+          "expected": "spellblade_base_ad_ratio",
+          "actual": "spellblade_base_ad_ratio",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[0].operands[1].nodeType",
+          "expected": "ATTRIBUTE",
+          "actual": "ATTRIBUTE",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[0].operands[1].attributeOwner",
+          "expected": "SOURCE",
+          "actual": "SOURCE",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[0].operands[1].attributeKey",
+          "expected": "attack_damage",
+          "actual": "attack_damage",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[0].operands[1].attributeValueKind",
+          "expected": "BASE",
+          "actual": "BASE",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].nodeType",
+          "expected": "OPERATION",
+          "actual": "OPERATION",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].operation",
+          "expected": "MULTIPLY",
+          "actual": "MULTIPLY",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].operands[]",
+          "expectedCount": 2,
+          "actualCount": 2,
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].operands[0].nodeType",
+          "expected": "PARAMETER",
+          "actual": "PARAMETER",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].operands[0].parameterKey",
+          "expected": "spellblade_crit_chance_multiplier",
+          "actual": "spellblade_crit_chance_multiplier",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].operands[1].nodeType",
+          "expected": "ATTRIBUTE",
+          "actual": "ATTRIBUTE",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].operands[1].attributeOwner",
+          "expected": "SOURCE",
+          "actual": "SOURCE",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].operands[1].attributeKey",
+          "expected": "critical_strike_chance",
+          "actual": "critical_strike_chance",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].operands[1].attributeValueKind",
+          "expected": "TOTAL",
+          "actual": "TOTAL",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "route": "/skills/item_3508_passive/formulas/total_mana_refund",
+      "actual": {
+        "createdAt": "2026-09-07T17:15:55.687813Z",
+        "description": "咒刃额外物理伤害的50%。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "mana_refund_damage_multiplier"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "spellblade_base_ad_ratio"
+                    },
+                    {
+                      "attributeKey": "attack_damage",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "BASE",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "spellblade_crit_chance_multiplier"
+                    },
+                    {
+                      "attributeKey": "critical_strike_chance",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "TOTAL",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "total_mana_refund",
+        "gameId": "lol",
+        "name": "咒刃攻击特效法力回复",
+        "skillKey": "item_3508_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T17:15:55.687813Z"
+      },
+      "fields": [
+        {
+          "path": "formulaKey",
+          "expected": "total_mana_refund",
+          "actual": "total_mana_refund",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "咒刃攻击特效法力回复",
+          "actual": "咒刃攻击特效法力回复",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "咒刃额外物理伤害的50%。",
+          "actual": "咒刃额外物理伤害的50%。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 20,
+          "actual": 20,
+          "equal": true
+        },
+        {
+          "path": "expression.nodeType",
+          "expected": "OPERATION",
+          "actual": "OPERATION",
+          "equal": true
+        },
+        {
+          "path": "expression.operation",
+          "expected": "MULTIPLY",
+          "actual": "MULTIPLY",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[]",
+          "expectedCount": 2,
+          "actualCount": 2,
+          "equal": true
+        },
+        {
+          "path": "expression.operands[0].nodeType",
+          "expected": "PARAMETER",
+          "actual": "PARAMETER",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[0].parameterKey",
+          "expected": "mana_refund_damage_multiplier",
+          "actual": "mana_refund_damage_multiplier",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].nodeType",
+          "expected": "OPERATION",
+          "actual": "OPERATION",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].operation",
+          "expected": "ADD",
+          "actual": "ADD",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].operands[]",
+          "expectedCount": 2,
+          "actualCount": 2,
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].operands[0].nodeType",
+          "expected": "OPERATION",
+          "actual": "OPERATION",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].operands[0].operation",
+          "expected": "MULTIPLY",
+          "actual": "MULTIPLY",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].operands[0].operands[]",
+          "expectedCount": 2,
+          "actualCount": 2,
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].operands[0].operands[0].nodeType",
+          "expected": "PARAMETER",
+          "actual": "PARAMETER",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].operands[0].operands[0].parameterKey",
+          "expected": "spellblade_base_ad_ratio",
+          "actual": "spellblade_base_ad_ratio",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].operands[0].operands[1].nodeType",
+          "expected": "ATTRIBUTE",
+          "actual": "ATTRIBUTE",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].operands[0].operands[1].attributeOwner",
+          "expected": "SOURCE",
+          "actual": "SOURCE",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].operands[0].operands[1].attributeKey",
+          "expected": "attack_damage",
+          "actual": "attack_damage",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].operands[0].operands[1].attributeValueKind",
+          "expected": "BASE",
+          "actual": "BASE",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].operands[1].nodeType",
+          "expected": "OPERATION",
+          "actual": "OPERATION",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].operands[1].operation",
+          "expected": "MULTIPLY",
+          "actual": "MULTIPLY",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].operands[1].operands[]",
+          "expectedCount": 2,
+          "actualCount": 2,
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].operands[1].operands[0].nodeType",
+          "expected": "PARAMETER",
+          "actual": "PARAMETER",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].operands[1].operands[0].parameterKey",
+          "expected": "spellblade_crit_chance_multiplier",
+          "actual": "spellblade_crit_chance_multiplier",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].operands[1].operands[1].nodeType",
+          "expected": "ATTRIBUTE",
+          "actual": "ATTRIBUTE",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].operands[1].operands[1].attributeOwner",
+          "expected": "SOURCE",
+          "actual": "SOURCE",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].operands[1].operands[1].attributeKey",
+          "expected": "critical_strike_chance",
+          "actual": "critical_strike_chance",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].operands[1].operands[1].attributeValueKind",
+          "expected": "TOTAL",
+          "actual": "TOTAL",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "route": "/skills/item_3508_passive/effects/spellblade_damage",
+      "actual": {
+        "createdAt": "2026-09-07T17:15:56.07354Z",
+        "description": "保存施法后下一次普通攻击的额外物理伤害组成，攻击特效标为普攻命中；就绪与消费不由普攻全量替代。",
+        "effectKey": "spellblade_damage",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "咒刃额外物理伤害",
+        "results": [
+          {
+            "description": "1.25倍来源基础攻击力加50倍来源暴击率的额外物理伤害。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "physics",
+              "deliveryKind": "BASIC_ATTACK",
+              "originKind": "DIRECT",
+              "vampRules": []
+            },
+            "lifecycleBehavior": null,
+            "name": "咒刃物理伤害",
+            "resultKey": "spellblade_damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "spellblade_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "item_3508_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T17:15:56.07354Z"
+      },
+      "fields": [
+        {
+          "path": "effectKey",
+          "expected": "spellblade_damage",
+          "actual": "spellblade_damage",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "咒刃额外物理伤害",
+          "actual": "咒刃额外物理伤害",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "保存施法后下一次普通攻击的额外物理伤害组成，攻击特效标为普攻命中；就绪与消费不由普攻全量替代。",
+          "actual": "保存施法后下一次普通攻击的额外物理伤害组成，攻击特效标为普攻命中；就绪与消费不由普攻全量替代。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "lifecycle",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[]",
+          "expectedCount": 1,
+          "actualCount": 1,
+          "equal": true
+        },
+        {
+          "path": "results[0].resultKey",
+          "expected": "spellblade_damage",
+          "actual": "spellblade_damage",
+          "equal": true
+        },
+        {
+          "path": "results[0].name",
+          "expected": "咒刃物理伤害",
+          "actual": "咒刃物理伤害",
+          "equal": true
+        },
+        {
+          "path": "results[0].resultType",
+          "expected": "DAMAGE",
+          "actual": "DAMAGE",
+          "equal": true
+        },
+        {
+          "path": "results[0].target",
+          "expected": "TARGET",
+          "actual": "TARGET",
+          "equal": true
+        },
+        {
+          "path": "results[0].description",
+          "expected": "1.25倍来源基础攻击力加50倍来源暴击率的额外物理伤害。",
+          "actual": "1.25倍来源基础攻击力加50倍来源暴击率的额外物理伤害。",
+          "equal": true
+        },
+        {
+          "path": "results[0].sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].spellShieldBlockScope",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.value.kind",
+          "expected": "FORMULA",
+          "actual": "FORMULA",
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.value.formulaKey",
+          "expected": "spellblade_damage",
+          "actual": "spellblade_damage",
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMultiplier",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMinValue",
+          "expected": 0,
+          "actual": 0,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMaxValue",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.damageTypeKey",
+          "expected": "physics",
+          "actual": "physics",
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.deliveryKind",
+          "expected": "BASIC_ATTACK",
+          "actual": "BASIC_ATTACK",
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.originKind",
+          "expected": "DIRECT",
+          "actual": "DIRECT",
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.critical.mode",
+          "expected": "DISALLOWED",
+          "actual": "DISALLOWED",
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.critical.multiplierValue",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.vampRules[]",
+          "expectedCount": 0,
+          "actualCount": 0,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "route": "/skills/item_3508_passive/effects/total_mana_refund",
+      "actual": {
+        "createdAt": "2026-09-07T17:15:56.957497Z",
+        "description": "保存攻击特效法力回复组成，实际施放和攻击命中时点待接线。",
+        "effectKey": "total_mana_refund",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "咒刃攻击特效法力回复",
+        "results": [
+          {
+            "description": "咒刃额外物理伤害的50%恢复为来源法力值。",
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "RESTORE"
+            },
+            "lifecycleBehavior": null,
+            "name": "法力回复",
+            "resultKey": "total_mana_refund",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "total_mana_refund",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "item_3508_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T17:15:56.957497Z"
+      },
+      "fields": [
+        {
+          "path": "effectKey",
+          "expected": "total_mana_refund",
+          "actual": "total_mana_refund",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "咒刃攻击特效法力回复",
+          "actual": "咒刃攻击特效法力回复",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "保存攻击特效法力回复组成，实际施放和攻击命中时点待接线。",
+          "actual": "保存攻击特效法力回复组成，实际施放和攻击命中时点待接线。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 20,
+          "actual": 20,
+          "equal": true
+        },
+        {
+          "path": "lifecycle",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[]",
+          "expectedCount": 1,
+          "actualCount": 1,
+          "equal": true
+        },
+        {
+          "path": "results[0].resultKey",
+          "expected": "total_mana_refund",
+          "actual": "total_mana_refund",
+          "equal": true
+        },
+        {
+          "path": "results[0].name",
+          "expected": "法力回复",
+          "actual": "法力回复",
+          "equal": true
+        },
+        {
+          "path": "results[0].resultType",
+          "expected": "RESOURCE_CHANGE",
+          "actual": "RESOURCE_CHANGE",
+          "equal": true
+        },
+        {
+          "path": "results[0].target",
+          "expected": "SOURCE",
+          "actual": "SOURCE",
+          "equal": true
+        },
+        {
+          "path": "results[0].description",
+          "expected": "咒刃额外物理伤害的50%恢复为来源法力值。",
+          "actual": "咒刃额外物理伤害的50%恢复为来源法力值。",
+          "equal": true
+        },
+        {
+          "path": "results[0].sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].spellShieldBlockScope",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.value.kind",
+          "expected": "FORMULA",
+          "actual": "FORMULA",
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.value.formulaKey",
+          "expected": "total_mana_refund",
+          "actual": "total_mana_refund",
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMultiplier",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMinValue",
+          "expected": 0,
+          "actual": 0,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMaxValue",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.attributeKey",
+          "expected": "mana",
+          "actual": "mana",
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.operation",
+          "expected": "RESTORE",
+          "actual": "RESTORE",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "route": "equipment-skill-relations:item_3508",
+      "actual": {
+        "equipmentKey": "item_3508",
+        "equipmentName": "夺萃之镰",
+        "gameId": "lol",
+        "skillKey": "item_3508_passive",
+        "skillName": "夺萃之镰·咒刃",
+        "skillStatus": "ENABLED",
+        "sortOrder": 10
+      },
+      "fields": [
+        {
+          "path": "equipmentKey",
+          "expected": "item_3508",
+          "actual": "item_3508",
+          "equal": true
+        },
+        {
+          "path": "skillKey",
+          "expected": "item_3508_passive",
+          "actual": "item_3508_passive",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "route": "/skills/item_6676_passive",
+      "actual": {
+        "createdAt": "2026-09-07T17:15:57.839538Z",
+        "description": "保存16.17客户端确证的斩杀阈值：你的伤害使英雄生命值低于5%时执行斩杀。装备已有50攻击力、10固定护甲穿透和25%暴击几率，不在技能中重复施加；击杀额外25金币按本批范围跳过。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "收集者·死",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "item_6676_passive",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-07T17:15:57.839538Z"
+      },
+      "fields": [
+        {
+          "path": "skillKey",
+          "expected": "item_6676_passive",
+          "actual": "item_6676_passive",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "收集者·死",
+          "actual": "收集者·死",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "保存16.17客户端确证的斩杀阈值：你的伤害使英雄生命值低于5%时执行斩杀。装备已有50攻击力、10固定护甲穿透和25%暴击几率，不在技能中重复施加；击杀额外25金币按本批范围跳过。",
+          "actual": "保存16.17客户端确证的斩杀阈值：你的伤害使英雄生命值低于5%时执行斩杀。装备已有50攻击力、10固定护甲穿透和25%暴击几率，不在技能中重复施加；击杀额外25金币按本批范围跳过。",
+          "equal": true
+        },
+        {
+          "path": "maxLevel",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "status",
+          "expected": "ENABLED",
+          "actual": "ENABLED",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 0,
+          "actual": 0,
+          "equal": true
+        },
+        {
+          "path": "skillCategoryKeys[]",
+          "expectedCount": 1,
+          "actualCount": 1,
+          "equal": true
+        },
+        {
+          "path": "skillCategoryKeys[0]",
+          "expected": "passive",
+          "actual": "passive",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "route": "/skills/item_6676_passive/parameters/execute_threshold",
+      "actual": {
+        "createdAt": "2026-09-07T17:15:58.267949Z",
+        "description": "目标生命值低于5%时执行斩杀，小数0.05表示5%。",
+        "fixedValue": 0.05,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "斩杀生命值阈值",
+        "parameterKey": "execute_threshold",
+        "skillKey": "item_6676_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T17:15:58.267949Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "execute_threshold",
+          "actual": "execute_threshold",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "斩杀生命值阈值",
+          "actual": "斩杀生命值阈值",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "DECIMAL",
+          "actual": "DECIMAL",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 0.05,
+          "actual": 0.05,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "目标生命值低于5%时执行斩杀，小数0.05表示5%。",
+          "actual": "目标生命值低于5%时执行斩杀，小数0.05表示5%。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "route": "/skills/item_6676_passive/formulas/execute_threshold_health",
+      "actual": {
+        "createdAt": "2026-09-07T17:33:06.219902Z",
+        "description": "5%比例乘目标总生命值得到绝对生命点数；总生命值2000时阈值100。来源严格低于5%的条件还须在合法触发中配置。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "execute_threshold"
+            },
+            {
+              "attributeKey": "hp",
+              "attributeOwner": "TARGET",
+              "attributeValueKind": "TOTAL",
+              "nodeType": "ATTRIBUTE"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "execute_threshold_health",
+        "gameId": "lol",
+        "name": "斩杀生命点数阈值",
+        "skillKey": "item_6676_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T17:33:06.219902Z"
+      },
+      "fields": [
+        {
+          "path": "formulaKey",
+          "expected": "execute_threshold_health",
+          "actual": "execute_threshold_health",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "斩杀生命点数阈值",
+          "actual": "斩杀生命点数阈值",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "5%比例乘目标总生命值得到绝对生命点数；总生命值2000时阈值100。来源严格低于5%的条件还须在合法触发中配置。",
+          "actual": "5%比例乘目标总生命值得到绝对生命点数；总生命值2000时阈值100。来源严格低于5%的条件还须在合法触发中配置。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "expression.nodeType",
+          "expected": "OPERATION",
+          "actual": "OPERATION",
+          "equal": true
+        },
+        {
+          "path": "expression.operation",
+          "expected": "MULTIPLY",
+          "actual": "MULTIPLY",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[]",
+          "expectedCount": 2,
+          "actualCount": 2,
+          "equal": true
+        },
+        {
+          "path": "expression.operands[0].nodeType",
+          "expected": "PARAMETER",
+          "actual": "PARAMETER",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[0].parameterKey",
+          "expected": "execute_threshold",
+          "actual": "execute_threshold",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].nodeType",
+          "expected": "ATTRIBUTE",
+          "actual": "ATTRIBUTE",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].attributeOwner",
+          "expected": "TARGET",
+          "actual": "TARGET",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].attributeKey",
+          "expected": "hp",
+          "actual": "hp",
+          "equal": true
+        },
+        {
+          "path": "expression.operands[1].attributeValueKind",
+          "expected": "TOTAL",
+          "actual": "TOTAL",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "route": "/skills/item_6676_passive/effects/execute_below_threshold",
+      "actual": {
+        "createdAt": "2026-09-07T17:15:58.629566Z",
+        "description": "斩杀结果读取目标最大生命5%的绝对生命点数。通用EXECUTE比较为小于或等于；来源要求低于5%，必须在合法触发中另配严格小于条件，本独立效果不代表机制完成。",
+        "effectKey": "execute_below_threshold",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "低于阈值斩杀",
+        "results": [
+          {
+            "description": "绝对生命点数阈值引用execute_threshold_health，不能将比例0.05当成0.05点生命。严格小于及伤害来源、英雄目标条件仍待配置。",
+            "detail": {
+              "attributeKey": "hp"
+            },
+            "lifecycleBehavior": null,
+            "name": "斩杀",
+            "resultKey": "execute_below_threshold",
+            "resultType": "EXECUTE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "execute_threshold_health",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "item_6676_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T17:33:06.594861Z"
+      },
+      "fields": [
+        {
+          "path": "effectKey",
+          "expected": "execute_below_threshold",
+          "actual": "execute_below_threshold",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "低于阈值斩杀",
+          "actual": "低于阈值斩杀",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "斩杀结果读取目标最大生命5%的绝对生命点数。通用EXECUTE比较为小于或等于；来源要求低于5%，必须在合法触发中另配严格小于条件，本独立效果不代表机制完成。",
+          "actual": "斩杀结果读取目标最大生命5%的绝对生命点数。通用EXECUTE比较为小于或等于；来源要求低于5%，必须在合法触发中另配严格小于条件，本独立效果不代表机制完成。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "lifecycle",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[]",
+          "expectedCount": 1,
+          "actualCount": 1,
+          "equal": true
+        },
+        {
+          "path": "results[0].resultKey",
+          "expected": "execute_below_threshold",
+          "actual": "execute_below_threshold",
+          "equal": true
+        },
+        {
+          "path": "results[0].name",
+          "expected": "斩杀",
+          "actual": "斩杀",
+          "equal": true
+        },
+        {
+          "path": "results[0].resultType",
+          "expected": "EXECUTE",
+          "actual": "EXECUTE",
+          "equal": true
+        },
+        {
+          "path": "results[0].target",
+          "expected": "TARGET",
+          "actual": "TARGET",
+          "equal": true
+        },
+        {
+          "path": "results[0].description",
+          "expected": "绝对生命点数阈值引用execute_threshold_health，不能将比例0.05当成0.05点生命。严格小于及伤害来源、英雄目标条件仍待配置。",
+          "actual": "绝对生命点数阈值引用execute_threshold_health，不能将比例0.05当成0.05点生命。严格小于及伤害来源、英雄目标条件仍待配置。",
+          "equal": true
+        },
+        {
+          "path": "results[0].sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].spellShieldBlockScope",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.value.kind",
+          "expected": "FORMULA",
+          "actual": "FORMULA",
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.value.formulaKey",
+          "expected": "execute_threshold_health",
+          "actual": "execute_threshold_health",
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMultiplier",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMinValue",
+          "expected": 0,
+          "actual": 0,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule.fixedMaxValue",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.attributeKey",
+          "expected": "hp",
+          "actual": "hp",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "route": "equipment-skill-relations:item_6676",
+      "actual": {
+        "equipmentKey": "item_6676",
+        "equipmentName": "收集者",
+        "gameId": "lol",
+        "skillKey": "item_6676_passive",
+        "skillName": "收集者·死",
+        "skillStatus": "ENABLED",
+        "sortOrder": 10
+      },
+      "fields": [
+        {
+          "path": "equipmentKey",
+          "expected": "item_6676",
+          "actual": "item_6676",
+          "equal": true
+        },
+        {
+          "path": "skillKey",
+          "expected": "item_6676_passive",
+          "actual": "item_6676_passive",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "route": "/skills/item_3140_active",
+      "actual": {
+        "createdAt": "2026-09-07T17:15:59.562138Z",
+        "description": "保存16.17客户端确证的主动冷却：90秒。主动说明为移除所有控制类减益效果但滞空除外；现有状态操作只能按单个已登记状态移除，不能准确表达通用控制类别和滞空例外，因此本批不创建缩窄后的错误效果。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "水银饰带·水银",
+        "skillCategoryKeys": [],
+        "skillKey": "item_3140_active",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-07T17:15:59.562138Z"
+      },
+      "fields": [
+        {
+          "path": "skillKey",
+          "expected": "item_3140_active",
+          "actual": "item_3140_active",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "水银饰带·水银",
+          "actual": "水银饰带·水银",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "保存16.17客户端确证的主动冷却：90秒。主动说明为移除所有控制类减益效果但滞空除外；现有状态操作只能按单个已登记状态移除，不能准确表达通用控制类别和滞空例外，因此本批不创建缩窄后的错误效果。",
+          "actual": "保存16.17客户端确证的主动冷却：90秒。主动说明为移除所有控制类减益效果但滞空除外；现有状态操作只能按单个已登记状态移除，不能准确表达通用控制类别和滞空例外，因此本批不创建缩窄后的错误效果。",
+          "equal": true
+        },
+        {
+          "path": "maxLevel",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "status",
+          "expected": "ENABLED",
+          "actual": "ENABLED",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 0,
+          "actual": 0,
+          "equal": true
+        },
+        {
+          "path": "skillCategoryKeys[]",
+          "expectedCount": 0,
+          "actualCount": 0,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "route": "/skills/item_3140_active/parameters/active_cooldown_ms",
+      "actual": {
+        "createdAt": "2026-09-07T17:15:59.921994Z",
+        "description": "客户端Cooldown=90秒，单位：毫秒。",
+        "fixedValue": 90000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "水银主动冷却",
+        "parameterKey": "active_cooldown_ms",
+        "skillKey": "item_3140_active",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T17:15:59.921994Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "active_cooldown_ms",
+          "actual": "active_cooldown_ms",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "水银主动冷却",
+          "actual": "水银主动冷却",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "INTEGER",
+          "actual": "INTEGER",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 90000,
+          "actual": 90000,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "客户端Cooldown=90秒，单位：毫秒。",
+          "actual": "客户端Cooldown=90秒，单位：毫秒。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "route": "equipment-skill-relations:item_3140",
+      "actual": {
+        "equipmentKey": "item_3140",
+        "equipmentName": "水银饰带",
+        "gameId": "lol",
+        "skillKey": "item_3140_active",
+        "skillName": "水银饰带·水银",
+        "skillStatus": "ENABLED",
+        "sortOrder": 10
+      },
+      "fields": [
+        {
+          "path": "equipmentKey",
+          "expected": "item_3140",
+          "actual": "item_3140",
+          "equal": true
+        },
+        {
+          "path": "skillKey",
+          "expected": "item_3140_active",
+          "actual": "item_3140_active",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "route": "/skills/item_3157_active",
+      "actual": {
+        "createdAt": "2026-09-07T17:16:00.783169Z",
+        "description": "保存16.17客户端确证的主动冷却和凝滞中的无敌组成：持续2.5秒、冷却120秒、来源承受全类型伤害免疫。不可选取、行动限制和主动施放接线分别待补；装备已有105法术强度和50护甲，不在技能中重复施加。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "中娅沙漏·时间停止",
+        "skillCategoryKeys": [],
+        "skillKey": "item_3157_active",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-07T17:16:00.783169Z"
+      },
+      "fields": [
+        {
+          "path": "skillKey",
+          "expected": "item_3157_active",
+          "actual": "item_3157_active",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "中娅沙漏·时间停止",
+          "actual": "中娅沙漏·时间停止",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "保存16.17客户端确证的主动冷却和凝滞中的无敌组成：持续2.5秒、冷却120秒、来源承受全类型伤害免疫。不可选取、行动限制和主动施放接线分别待补；装备已有105法术强度和50护甲，不在技能中重复施加。",
+          "actual": "保存16.17客户端确证的主动冷却和凝滞中的无敌组成：持续2.5秒、冷却120秒、来源承受全类型伤害免疫。不可选取、行动限制和主动施放接线分别待补；装备已有105法术强度和50护甲，不在技能中重复施加。",
+          "equal": true
+        },
+        {
+          "path": "maxLevel",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "status",
+          "expected": "ENABLED",
+          "actual": "ENABLED",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 0,
+          "actual": 0,
+          "equal": true
+        },
+        {
+          "path": "skillCategoryKeys[]",
+          "expectedCount": 0,
+          "actualCount": 0,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "route": "/skills/item_3157_active/parameters/stasis_duration_ms",
+      "actual": {
+        "createdAt": "2026-09-07T17:16:01.126293Z",
+        "description": "客户端Duration=2.5秒，单位：毫秒。",
+        "fixedValue": 2500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "凝滞持续时间",
+        "parameterKey": "stasis_duration_ms",
+        "skillKey": "item_3157_active",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T17:16:01.126293Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "stasis_duration_ms",
+          "actual": "stasis_duration_ms",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "凝滞持续时间",
+          "actual": "凝滞持续时间",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "INTEGER",
+          "actual": "INTEGER",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 2500,
+          "actual": 2500,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "客户端Duration=2.5秒，单位：毫秒。",
+          "actual": "客户端Duration=2.5秒，单位：毫秒。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "route": "/skills/item_3157_active/parameters/active_cooldown_ms",
+      "actual": {
+        "createdAt": "2026-09-07T17:16:01.535515Z",
+        "description": "客户端Cooldown=120秒，单位：毫秒。",
+        "fixedValue": 120000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "时间停止冷却",
+        "parameterKey": "active_cooldown_ms",
+        "skillKey": "item_3157_active",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T17:16:01.535515Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "fields": [
+        {
+          "path": "parameterKey",
+          "expected": "active_cooldown_ms",
+          "actual": "active_cooldown_ms",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "时间停止冷却",
+          "actual": "时间停止冷却",
+          "equal": true
+        },
+        {
+          "path": "valueType",
+          "expected": "INTEGER",
+          "actual": "INTEGER",
+          "equal": true
+        },
+        {
+          "path": "valueMode",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "fixedValue",
+          "expected": 120000,
+          "actual": 120000,
+          "equal": true
+        },
+        {
+          "path": "levelValues",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "客户端Cooldown=120秒，单位：毫秒。",
+          "actual": "客户端Cooldown=120秒，单位：毫秒。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 20,
+          "actual": 20,
+          "equal": true
+        }
+      ]
+    },
+    {
+      "route": "/skills/item_3157_active/effects/stasis_damage_immunity",
+      "actual": {
+        "createdAt": "2026-09-07T17:16:51.072578Z",
+        "description": "保存凝滞期间对所有伤害类型的免疫组成，持续时间来自stasis_duration_ms；不可选取和行动限制不混入该结果。",
+        "effectKey": "stasis_damage_immunity",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "stasis_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "凝滞伤害免疫",
+        "results": [
+          {
+            "description": "来源在凝滞持续期间免疫所有伤害类型。",
+            "detail": {
+              "damageTypeKey": null,
+              "deliveryKind": "ANY",
+              "originKind": "ANY"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": null,
+              "stackValueMode": null,
+              "valueReadMode": null
+            },
+            "name": "全类型伤害免疫",
+            "resultKey": "stasis_damage_immunity",
+            "resultType": "DAMAGE_IMMUNITY",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": null
+          }
+        ],
+        "skillKey": "item_3157_active",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T17:16:51.072578Z"
+      },
+      "fields": [
+        {
+          "path": "effectKey",
+          "expected": "stasis_damage_immunity",
+          "actual": "stasis_damage_immunity",
+          "equal": true
+        },
+        {
+          "path": "name",
+          "expected": "凝滞伤害免疫",
+          "actual": "凝滞伤害免疫",
+          "equal": true
+        },
+        {
+          "path": "description",
+          "expected": "保存凝滞期间对所有伤害类型的免疫组成，持续时间来自stasis_duration_ms；不可选取和行动限制不混入该结果。",
+          "actual": "保存凝滞期间对所有伤害类型的免疫组成，持续时间来自stasis_duration_ms；不可选取和行动限制不混入该结果。",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.durationValue.kind",
+          "expected": "PARAMETER",
+          "actual": "PARAMETER",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.durationValue.parameterKey",
+          "expected": "stasis_duration_ms",
+          "actual": "stasis_duration_ms",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.maxStacksValue.kind",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.maxStacksValue.value",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.applicationStacksValue.kind",
+          "expected": "FIXED",
+          "actual": "FIXED",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.applicationStacksValue.value",
+          "expected": 1,
+          "actual": 1,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.instanceScope",
+          "expected": "SOURCE",
+          "actual": "SOURCE",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.reapplicationStackMode",
+          "expected": "KEEP",
+          "actual": "KEEP",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.reapplicationDurationMode",
+          "expected": "REFRESH_ALL",
+          "actual": "REFRESH_ALL",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.expiryMode",
+          "expected": "ALL_AT_ONCE",
+          "actual": "ALL_AT_ONCE",
+          "equal": true
+        },
+        {
+          "path": "lifecycle.periodicIntervalValue",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "lifecycle.firstPeriodicExecution",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[]",
+          "expectedCount": 1,
+          "actualCount": 1,
+          "equal": true
+        },
+        {
+          "path": "results[0].resultKey",
+          "expected": "stasis_damage_immunity",
+          "actual": "stasis_damage_immunity",
+          "equal": true
+        },
+        {
+          "path": "results[0].name",
+          "expected": "全类型伤害免疫",
+          "actual": "全类型伤害免疫",
+          "equal": true
+        },
+        {
+          "path": "results[0].resultType",
+          "expected": "DAMAGE_IMMUNITY",
+          "actual": "DAMAGE_IMMUNITY",
+          "equal": true
+        },
+        {
+          "path": "results[0].target",
+          "expected": "SOURCE",
+          "actual": "SOURCE",
+          "equal": true
+        },
+        {
+          "path": "results[0].description",
+          "expected": "来源在凝滞持续期间免疫所有伤害类型。",
+          "actual": "来源在凝滞持续期间免疫所有伤害类型。",
+          "equal": true
+        },
+        {
+          "path": "results[0].sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.moment",
+          "expected": "PERSISTENT",
+          "actual": "PERSISTENT",
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.valueReadMode",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.stackValueMode",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.reapplicationValueMode",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].lifecycleBehavior.periodicExecutionMode",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].spellShieldBlockScope",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].valueRule",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.damageTypeKey",
+          "expected": null,
+          "actual": null,
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.deliveryKind",
+          "expected": "ANY",
+          "actual": "ANY",
+          "equal": true
+        },
+        {
+          "path": "results[0].detail.originKind",
+          "expected": "ANY",
+          "actual": "ANY",
+          "equal": true
+        }
+      ]
+    },
+    {
+      "route": "equipment-skill-relations:item_3157",
+      "actual": {
+        "equipmentKey": "item_3157",
+        "equipmentName": "中娅沙漏",
+        "gameId": "lol",
+        "skillKey": "item_3157_active",
+        "skillName": "中娅沙漏·时间停止",
+        "skillStatus": "ENABLED",
+        "sortOrder": 10
+      },
+      "fields": [
+        {
+          "path": "equipmentKey",
+          "expected": "item_3157",
+          "actual": "item_3157",
+          "equal": true
+        },
+        {
+          "path": "skillKey",
+          "expected": "item_3157_active",
+          "actual": "item_3157_active",
+          "equal": true
+        },
+        {
+          "path": "sortOrder",
+          "expected": 10,
+          "actual": 10,
+          "equal": true
+        }
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "name": "item_3072_passive代表图复用",
+      "actual": "item_3072",
+      "expected": "item_3072",
+      "equal": true
+    },
+    {
+      "name": "item_3508_passive代表图复用",
+      "actual": "item_3508",
+      "expected": "item_3508",
+      "equal": true
+    },
+    {
+      "name": "item_6676_passive代表图复用",
+      "actual": "item_6676",
+      "expected": "item_6676",
+      "equal": true
+    },
+    {
+      "name": "item_3140_active代表图复用",
+      "actual": "item_3140",
+      "expected": "item_3140",
+      "equal": true
+    },
+    {
+      "name": "item_3157_active代表图复用",
+      "actual": "item_3157",
+      "expected": "item_3157",
+      "equal": true
+    },
+    {
+      "name": "收集者绝对阈值 最大生命2000",
+      "actual": 100,
+      "expected": 100,
+      "equal": true
+    },
+    {
+      "name": "收集者绝对阈值 最大生命5000",
+      "actual": 250,
+      "expected": 250,
+      "equal": true
+    },
+    {
+      "name": "收集者效果读取绝对阈值公式",
+      "actual": {
+        "formulaKey": "execute_threshold_health",
+        "kind": "FORMULA"
+      },
+      "expected": {
+        "kind": "FORMULA",
+        "formulaKey": "execute_threshold_health"
+      },
+      "equal": true
+    },
+    {
+      "name": "来源严格低于5%：2000最大生命、剩余100不应触发",
+      "actual": false,
+      "expected": false,
+      "equal": true
+    },
+    {
+      "name": "来源严格低于5%：2000最大生命、剩余99满足阈值",
+      "actual": true,
+      "expected": true,
+      "equal": true
+    },
+    {
+      "name": "通用EXECUTE的等于边界尚需外层LT过滤",
+      "actual": true,
+      "expected": true,
+      "equal": true
+    },
+    {
+      "name": "饮血剑1级护盾上限",
+      "actual": 165,
+      "expected": 165,
+      "equal": true
+    },
+    {
+      "name": "饮血剑8级护盾上限",
+      "actual": 165,
+      "expected": 165,
+      "equal": true
+    },
+    {
+      "name": "饮血剑9级护盾上限",
+      "actual": 180,
+      "expected": 180,
+      "equal": true
+    },
+    {
+      "name": "饮血剑18级护盾上限",
+      "actual": 315,
+      "expected": 315,
+      "equal": true
+    },
+    {
+      "name": "饮血剑参数名称明确上限",
+      "actual": "灵液护盾上限",
+      "expected": "灵液护盾上限",
+      "equal": true
+    },
+    {
+      "name": "夺萃基础攻击100暴击率0.25伤害",
+      "actual": 137.5,
+      "expected": 137.5,
+      "equal": true
+    },
+    {
+      "name": "夺萃对应回蓝",
+      "actual": 68.75,
+      "expected": 68.75,
+      "equal": true
+    },
+    {
+      "name": "夺萃冷却仍为1500毫秒",
+      "actual": 1500,
+      "expected": 1500,
+      "equal": true
+    },
+    {
+      "name": "已撤错录组件返回404 /skills/item_3072_passive/effects/lifesteal_overshield",
+      "actual": 404,
+      "expected": 404,
+      "equal": true
+    },
+    {
+      "name": "已撤错录组件返回404 /skills/item_3072_passive/parameters/overshield_duration_ms",
+      "actual": 404,
+      "expected": 404,
+      "equal": true
+    },
+    {
+      "name": "已撤错录组件返回404 /skills/item_3508_passive/parameters/spellblade_ready_window_ms",
+      "actual": 404,
+      "expected": 404,
+      "equal": true
+    },
+    {
+      "name": "收集者尚未接宽泛触发",
+      "actual": 0,
+      "expected": 0,
+      "equal": true
+    },
+    {
+      "name": "中娅持续时长保持2500",
+      "actual": 2500,
+      "expected": 2500,
+      "equal": true
+    },
+    {
+      "name": "水银主动冷却保持90000",
+      "actual": 90000,
+      "expected": 90000,
+      "equal": true
+    }
+  ],
+  "differences": [],
+  "missing": [],
+  "unexpected": [],
+  "sourceLimits": [
+    "旧2026-06 Wiki就绪10000毫秒已移出业务参数",
+    "DecayTime=25只保留原始字段，不推定护盾生命周期"
+  ],
+  "validationBoundary": "业务API独立回读与数值/语义核对；不是浏览器、战斗或Wasm运行验证。",
+  "finishedAt": "2026-09-07T17:46:08.815Z",
+  "summary": {
+    "equipmentCount": 6,
+    "skippedEquipmentCount": 1,
+    "skillCount": 5,
+    "counts": {
+      "parameters": 9,
+      "formulas": 3,
+      "effects": 4,
+      "processes": 0,
+      "internal-states": 0,
+      "trigger-rules": 0
+    },
+    "componentReadbacks": 26,
+    "fieldCount": 309,
+    "checks": 25,
+    "mismatches": 0,
+    "missing": 0,
+    "unexpected": 0
+  }
+}

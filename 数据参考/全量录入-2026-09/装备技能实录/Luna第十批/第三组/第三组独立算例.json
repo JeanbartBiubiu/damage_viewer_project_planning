@@ -1,0 +1,80 @@
+{
+  "batch": "Luna第十批/第三组",
+  "generatedAt": "2026-09-08T18:08:56.897Z",
+  "status": "独立参数算例；无API公式组成；不代表运行时触发或首跳。",
+  "objects": [
+    {
+      "equipmentKey": "item_3053",
+      "sourceCandidateSha256": "f8a58e18946439ae4d90d3ae49dcdb53ad84982a2d95ab443a206de539493d61",
+      "checks": [
+        {
+          "sample": "基础攻击力100的抓人双爪候选贡献",
+          "calculation": "100 × 0.5",
+          "expected": 50,
+          "unit": "额外攻击力；仅参数算例"
+        },
+        {
+          "sample": "救主灵刃阈值换算",
+          "calculation": "30 ÷ 100",
+          "expected": 0.3,
+          "unit": "小数比例"
+        },
+        {
+          "sample": "额外生命值1000的护盾基数候选",
+          "calculation": "1000 × 0.6",
+          "expected": 600,
+          "unit": "护盾值；快照/动态取值待核"
+        },
+        {
+          "sample": "护盾时长换算",
+          "calculation": "4.5 × 1000",
+          "expected": 4500,
+          "unit": "毫秒"
+        },
+        {
+          "sample": "冷却换算",
+          "calculation": "90 × 1000",
+          "expected": 90000,
+          "unit": "毫秒"
+        }
+      ],
+      "apiFormulaCount": 0,
+      "apiEffectCount": 0,
+      "apiTriggerRuleCount": 0
+    },
+    {
+      "equipmentKey": "item_3068",
+      "sourceCandidateSha256": "f8a58e18946439ae4d90d3ae49dcdb53ad84982a2d95ab443a206de539493d61",
+      "checks": [
+        {
+          "sample": "额外生命值1000时每次献祭候选伤害",
+          "calculation": "20 + 1000 × 0.015",
+          "expected": 35,
+          "unit": "魔法伤害/次；仅参数算例"
+        },
+        {
+          "sample": "同一输入下DPS显示速率",
+          "calculation": "35 × 1",
+          "expected": 35,
+          "unit": "魔法伤害/秒速率；不等于1000毫秒首跳安排"
+        },
+        {
+          "sample": "献祭持续时间换算",
+          "calculation": "3 × 1000",
+          "expected": 3000,
+          "unit": "毫秒；刷新和结束时点待核"
+        },
+        {
+          "sample": "百分比归一化",
+          "calculation": "1.5 ÷ 100",
+          "expected": 0.015,
+          "unit": "小数比例；不是1.5个百分点"
+        }
+      ],
+      "apiFormulaCount": 0,
+      "apiEffectCount": 0,
+      "apiTriggerRuleCount": 0
+    }
+  ],
+  "totalChecks": 9
+}

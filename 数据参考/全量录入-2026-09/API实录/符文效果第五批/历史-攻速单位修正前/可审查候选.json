@@ -1,0 +1,4565 @@
+{
+  "at": "2026-09-09T04:43:34.945Z",
+  "executor": "Codex执行代理；主负责人指定本12项范围，业务写入未执行",
+  "sourceFrozenSha256": "878fd1147a277282f6bacd04ecddafe55e980e729a67d4469b31b2ff93d492a7",
+  "sourceRawSha256": "1427c70c4d1172198a1a9787362224c871a90cc4f66f3f769ef5830cbcd401b1",
+  "boundary": "普通模式16.17客户端；官方身份16.17.1；只有候选与只读核对",
+  "counts": {
+    "skill": 12,
+    "parameter": 105,
+    "formula": 31,
+    "effect": 2,
+    "relation": 12,
+    "rule": 0,
+    "process": 0,
+    "internalState": 0
+  },
+  "proposals": [
+    {
+      "id": 8005,
+      "runeKey": "rune_8005",
+      "skillKey": "rune_8005_passive",
+      "name": "强攻",
+      "scope": "强攻第三次连续普攻伤害与8%增伤比例；持续资格为英雄战斗状态",
+      "sourcePath": "Perks/Styles/Precision/PressTheAttack",
+      "sourceObjectSha256": "064bbba89cb87305ba1d863e7ad80ee86c1c5e6d9f037ee0031334bc8c0d36c1",
+      "parameters": [
+        {
+          "parameterKey": "confirmed_level_damage_source_start",
+          "name": "等级基础伤害来源起点",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 40,
+          "levelValues": null,
+          "description": "仅保留当前来源起点，不凭端点生成1至18级表。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "confirmed_level_damage_source_end",
+          "name": "等级基础伤害来源终点",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 160,
+          "levelValues": null,
+          "description": "仅保留当前来源终点；等级求值过程待补。",
+          "sortOrder": 20
+        },
+        {
+          "parameterKey": "confirmed_level_damage",
+          "name": "已确认等级基础伤害",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+          "sortOrder": 30
+        },
+        {
+          "parameterKey": "required_hits",
+          "name": "连续普攻次数",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 3,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 40
+        },
+        {
+          "parameterKey": "damage_amp_ratio",
+          "name": "伤害增幅比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.08,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 50
+        },
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "三击冷却时间",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 6000,
+          "levelValues": null,
+          "description": "来源秒转换为毫秒；不表示已经连接事件。",
+          "sortOrder": 60
+        },
+        {
+          "parameterKey": "qualified_damage_basis",
+          "name": "已确认的可增幅伤害基数",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "由实际结算资格供值，抗性前后阶段与适用结果类型需单独核实，不默认用技能基础伤害。",
+          "sortOrder": 70
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "third_attack_damage",
+          "name": "第三次攻击额外伤害数值",
+          "description": "等级伤害显式外供，适应类型及命中资格未连接。",
+          "sortOrder": 10,
+          "expression": {
+            "nodeType": "PARAMETER",
+            "parameterKey": "confirmed_level_damage"
+          }
+        },
+        {
+          "formulaKey": "additional_damage",
+          "name": "合格伤害的增幅量",
+          "description": "仅数值；增伤状态须持续到离开与英雄战斗，不能固定5秒。",
+          "sortOrder": 20,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "qualified_damage_basis"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "damage_amp_ratio"
+              }
+            ]
+          }
+        }
+      ],
+      "effects": [],
+      "triggerRules": [],
+      "processes": [],
+      "internalStates": [],
+      "parameterEvidence": [
+        {
+          "parameterKey": "confirmed_level_damage_source_start",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Precision/PressTheAttack/mScript/mSpellScriptData/mEffectAmount/MinDamage",
+          "sourceRawValue": 40,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "confirmed_level_damage_source_end",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Precision/PressTheAttack/mScript/mSpellScriptData/mEffectAmount/MaxDamage",
+          "sourceRawValue": 160,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "confirmed_level_damage",
+          "category": "未接线输入",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": false
+        },
+        {
+          "parameterKey": "required_hits",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Precision/PressTheAttack/mScript/mSpellScriptData/mEffectAmount/HitsRequired",
+          "sourceRawValue": 3,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "damage_amp_ratio",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Precision/PressTheAttack/mScript/mSpellScriptData/mEffectAmount/BonusPercentDamage",
+          "sourceRawValue": 0.07999999821186066,
+          "scale": 1,
+          "normalization": "同版本绑定说明的可读数值；仅清除float32尾差，容差1e-7相对值",
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "cooldown_ms",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Precision/PressTheAttack/mScript/mSpellScriptData/mEffectAmount/Cooldown",
+          "sourceRawValue": 6,
+          "scale": 1000,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "qualified_damage_basis",
+          "category": "未接线输入",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": false
+        }
+      ],
+      "pending": [
+        {
+          "type": "来源",
+          "reason": "等级基础伤害曲线起止等级、选项、取整及断点求值未完整证实",
+          "needed": "同构建的完整求值依据；本批显式外供数值"
+        },
+        {
+          "type": "未接线",
+          "reason": "连续命中、战斗状态结束及增幅结算阶段未接线",
+          "needed": "核实触发资格、取值时点和对象归属后装配"
+        }
+      ],
+      "excluded": [],
+      "qualification": {
+        "required": [
+          "连续3次普攻命中同一英雄",
+          "三击冷却可用",
+          "增幅只在合法英雄战斗状态存在"
+        ],
+        "notDefaulted": [
+          "未满足资格也生效",
+          "来源创建后自动触发",
+          "未知等级数值默认为0"
+        ]
+      },
+      "sourceOnly": [
+        {
+          "field": "BonusADRatio",
+          "raw": 0,
+          "type": "来源待核",
+          "reason": "当前正文使用BonusPercentDamage与脱离英雄战斗资格；其余旧/重复字段无当前消费链，不据此生成5秒固定增伤或4秒命中窗。"
+        },
+        {
+          "field": "APRatio",
+          "raw": 0,
+          "type": "来源待核",
+          "reason": "当前正文使用BonusPercentDamage与脱离英雄战斗资格；其余旧/重复字段无当前消费链，不据此生成5秒固定增伤或4秒命中窗。"
+        },
+        {
+          "field": "LethalityRatio",
+          "raw": 0,
+          "type": "来源待核",
+          "reason": "当前正文使用BonusPercentDamage与脱离英雄战斗资格；其余旧/重复字段无当前消费链，不据此生成5秒固定增伤或4秒命中窗。"
+        },
+        {
+          "field": "AmpPotencyMaxSelf",
+          "raw": 0.07999999821186066,
+          "type": "来源待核",
+          "reason": "当前正文使用BonusPercentDamage与脱离英雄战斗资格；其余旧/重复字段无当前消费链，不据此生成5秒固定增伤或4秒命中窗。"
+        },
+        {
+          "field": "AmpDuration",
+          "raw": 5,
+          "type": "来源待核",
+          "reason": "当前正文使用BonusPercentDamage与脱离英雄战斗资格；其余旧/重复字段无当前消费链，不据此生成5秒固定增伤或4秒命中窗。"
+        },
+        {
+          "field": "AmpPotencyMaxOthers",
+          "raw": 0.07999999821186066,
+          "type": "来源待核",
+          "reason": "当前正文使用BonusPercentDamage与脱离英雄战斗资格；其余旧/重复字段无当前消费链，不据此生成5秒固定增伤或4秒命中窗。"
+        },
+        {
+          "field": "AmpPotencyStartSelf",
+          "raw": 0.07999999821186066,
+          "type": "来源待核",
+          "reason": "当前正文使用BonusPercentDamage与脱离英雄战斗资格；其余旧/重复字段无当前消费链，不据此生成5秒固定增伤或4秒命中窗。"
+        },
+        {
+          "field": "AmpPotencyStartOthers",
+          "raw": 0.07999999821186066,
+          "type": "来源待核",
+          "reason": "当前正文使用BonusPercentDamage与脱离英雄战斗资格；其余旧/重复字段无当前消费链，不据此生成5秒固定增伤或4秒命中窗。"
+        },
+        {
+          "field": "TimeBetweenHits",
+          "raw": 4,
+          "type": "来源待核",
+          "reason": "当前正文使用BonusPercentDamage与脱离英雄战斗资格；其余旧/重复字段无当前消费链，不据此生成5秒固定增伤或4秒命中窗。"
+        },
+        {
+          "field": "OutOfCombatTimer",
+          "raw": 5,
+          "type": "来源待核",
+          "reason": "当前正文使用BonusPercentDamage与脱离英雄战斗资格；其余旧/重复字段无当前消费链，不据此生成5秒固定增伤或4秒命中窗。"
+        }
+      ],
+      "sourceCalculations": {},
+      "currentBoundText": {
+        "mDisplayNameLocalizationKey": {
+          "sourceKey": "perk_displayname_PressTheAttack",
+          "resolvedKey": "perk_displayname_presstheattack",
+          "text": "强攻"
+        },
+        "mTooltipNameLocalizationKey": {
+          "sourceKey": "perk_tooltip_PressTheAttack",
+          "resolvedKey": "perk_tooltip_presstheattack",
+          "text": "用@HitsRequired@次连续的普攻击中一名敌方英雄时，将造成<scaleLevel>@f4@</scaleLevel>额外<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_AdaptiveDmg'><font color='#48C4B7'>自适应伤害</font></lol-uikit-tooltipped-keyword>(基于等级)并使你造成的伤害增幅@BonusPercentDamage*100@%，持续到你离开与英雄的战斗状态为止。<br><hr><br>已造成的额外伤害：<scaleAD>@f2@</scaleAD><br>3击冷却时间：@Cooldown@秒"
+        },
+        "mShortDescLocalizationKey": {
+          "sourceKey": "perk_short_desc_PressTheAttack",
+          "resolvedKey": "perk_short_desc_presstheattack",
+          "text": "连续@HitsRequired@次命中一名敌方英雄将造成额外伤害，并增加你的伤害，直到你离开与英雄的战斗状态。"
+        },
+        "mLongDescLocalizationKey": {
+          "sourceKey": "perk_long_desc_PressTheAttack",
+          "resolvedKey": "perk_long_desc_presstheattack",
+          "text": "用@HitsRequired@次连续的普攻击中一名敌方英雄时，将造成@MinDamage@ - @MaxDamage@的额外<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_AdaptiveDmg'><font color='#48C4B7'>自适应伤害</font></lol-uikit-tooltipped-keyword>(基于等级)并使你造成的伤害增幅@BonusPercentDamage*100@%，持续到你离开与英雄的战斗状态为止。"
+        },
+        "mDisplayStatLocalizationKey": {
+          "sourceKey": "perk_display_stat_total",
+          "resolvedKey": "perk_display_stat_total",
+          "text": "@f1@"
+        }
+      },
+      "skillBody": {
+        "skillKey": "rune_8005_passive",
+        "name": "符文·强攻",
+        "description": "本批仅录入：强攻第三次连续普攻伤害与8%增伤比例；持续资格为英雄战斗状态。未证条件和输入不默认，不表示完整战斗机制。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      },
+      "relationBody": {
+        "runeKey": "rune_8005",
+        "skillKey": "rune_8005_passive",
+        "sortOrder": 0
+      }
+    },
+    {
+      "id": 8008,
+      "runeKey": "rune_8008",
+      "skillKey": "rune_8008_passive",
+      "name": "致命节奏",
+      "scope": "致命节奏近战确定攻速分支、满层伤害与远程来源冲突",
+      "sourcePath": "Perks/Styles/Precision/LethalTempo",
+      "sourceObjectSha256": "fc1df73c3b6016d4b7d3203a21c951b0d4159edf9e41ef10f7cd75ed0372e8a6",
+      "parameters": [
+        {
+          "parameterKey": "buff_duration_ms",
+          "name": "层数持续时间",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 6000,
+          "levelValues": null,
+          "description": "来源秒转换为毫秒；不表示已经连接事件。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "max_stacks",
+          "name": "层数上限",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 6,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 20
+        },
+        {
+          "parameterKey": "melee_as_per_stack",
+          "name": "近战每层额外攻速比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.06,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 30
+        },
+        {
+          "parameterKey": "actual_stacks",
+          "name": "实际层数",
+          "valueType": "INTEGER",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "仅已确认0至6的整数；不默认满层。",
+          "sortOrder": 40
+        },
+        {
+          "parameterKey": "confirmed_ranged_as_per_stack",
+          "name": "已确认远程每层攻速比例",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "来源冲突：当前ASPerStack计算0.06×0.8=0.048，长说明TTASPerStackRanged=0.04；本批不选择任一值。",
+          "sortOrder": 50
+        },
+        {
+          "parameterKey": "confirmed_melee_level_damage_source_start",
+          "name": "近战等级附伤来源起点",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 9,
+          "levelValues": null,
+          "description": "仅保留当前来源起点，不凭端点生成1至18级表。",
+          "sortOrder": 60
+        },
+        {
+          "parameterKey": "confirmed_melee_level_damage_source_end",
+          "name": "近战等级附伤来源终点",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 30,
+          "levelValues": null,
+          "description": "仅保留当前来源终点；等级求值过程待补。",
+          "sortOrder": 70
+        },
+        {
+          "parameterKey": "confirmed_melee_level_damage",
+          "name": "已确认近战等级附伤",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+          "sortOrder": 80
+        },
+        {
+          "parameterKey": "confirmed_ranged_level_damage",
+          "name": "已确认远程等级附伤",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "计算树为近战9至30乘0.667，约6.003至20.01；长说明为6至24。冲突未解决，无默认值。",
+          "sortOrder": 90
+        },
+        {
+          "parameterKey": "confirmed_bonus_attack_speed_ratio",
+          "name": "已确认额外攻速比例",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "当前原树mStat4/formula2未纳入已证属性枚举；长说明明确每1%额外攻速令伤害增加1%，这里显式提供比例而不猜字典映射。",
+          "sortOrder": 100
+        },
+        {
+          "parameterKey": "one",
+          "name": "一倍基准",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1,
+          "levelValues": null,
+          "description": "显式计算树乘数1+额外攻速比例。",
+          "sortOrder": 110
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "melee_attack_speed_amount",
+          "name": "近战当前层数额外攻速",
+          "description": "仅当前近战分支及已确认层数。",
+          "sortOrder": 10,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "melee_as_per_stack"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "actual_stacks"
+              }
+            ]
+          }
+        },
+        {
+          "formulaKey": "ranged_attack_speed_amount",
+          "name": "远程当前层数额外攻速",
+          "description": "远程源冲突数值必须由后续已核实来源供值。",
+          "sortOrder": 20,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "confirmed_ranged_as_per_stack"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "actual_stacks"
+              }
+            ]
+          }
+        },
+        {
+          "formulaKey": "melee_full_stack_damage",
+          "name": "近战满层攻击额外伤害",
+          "description": "只有实际满6层时使用；不以测试输入证明等级曲线或mStat4映射。",
+          "sortOrder": 30,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "confirmed_melee_level_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "one"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "confirmed_bonus_attack_speed_ratio"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "formulaKey": "ranged_full_stack_damage",
+          "name": "远程满层攻击额外伤害",
+          "description": "只有实际满6层时使用；不以测试输入证明等级曲线或mStat4映射。",
+          "sortOrder": 40,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "confirmed_ranged_level_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "one"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "confirmed_bonus_attack_speed_ratio"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "effects": [
+        {
+          "effectKey": "melee_current_attack_speed",
+          "name": "近战当前层数攻速组成",
+          "description": "仅近战、真实层数已确认时应用一份总攻速快照，6秒后移除；更新时替换总值，不再按生命周期重复叠6层。真实获取/刷新未连接。",
+          "sortOrder": 10,
+          "lifecycle": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "buff_duration_ms"
+            },
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "instanceScope": "SOURCE",
+            "reapplicationStackMode": "KEEP",
+            "reapplicationDurationMode": "REFRESH_ALL",
+            "expiryMode": "ALL_AT_ONCE",
+            "periodicIntervalValue": null,
+            "firstPeriodicExecution": null
+          },
+          "results": [
+            {
+              "resultKey": "attribute_bonus",
+              "name": "近战当前层数攻速组成",
+              "description": null,
+              "sortOrder": 10,
+              "resultType": "ATTRIBUTE_CHANGE",
+              "target": "SOURCE",
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "valueReadMode": "APPLICATION_SNAPSHOT",
+                "stackValueMode": "SHARED",
+                "reapplicationValueMode": "REPLACE",
+                "periodicExecutionMode": null
+              },
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "FORMULA",
+                  "formulaKey": "melee_attack_speed_amount"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": 0,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "attributeKey": "attack_speed",
+                "operation": "INCREASE",
+                "modifierZoneKey": "attribute_flat_add"
+              }
+            }
+          ]
+        }
+      ],
+      "triggerRules": [],
+      "processes": [],
+      "internalStates": [],
+      "parameterEvidence": [
+        {
+          "parameterKey": "buff_duration_ms",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Precision/LethalTempo/mScript/mSpellScriptData/mEffectAmount/Duration",
+          "sourceRawValue": 6,
+          "scale": 1000,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "max_stacks",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Precision/LethalTempo/mScript/mSpellScriptData/mEffectAmount/MaxStacks",
+          "sourceRawValue": 6,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "melee_as_per_stack",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Precision/LethalTempo/mScript/mSpellScriptData/mEffectAmount/TTASPerStackMelee",
+          "sourceRawValue": 0.05999999865889549,
+          "scale": 1,
+          "normalization": "同版本绑定说明的可读数值；仅清除float32尾差，容差1e-7相对值",
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "actual_stacks",
+          "category": "未接线输入",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": false
+        },
+        {
+          "parameterKey": "confirmed_ranged_as_per_stack",
+          "category": "未接线输入",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": false
+        },
+        {
+          "parameterKey": "confirmed_melee_level_damage_source_start",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Precision/LethalTempo/mScript/mSpellScriptData/mEffectAmount/TTMinNoteDamageMelee",
+          "sourceRawValue": 9,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "confirmed_melee_level_damage_source_end",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Precision/LethalTempo/mScript/mSpellScriptData/mEffectAmount/TTMaxNoteDamageMelee",
+          "sourceRawValue": 30,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "confirmed_melee_level_damage",
+          "category": "未接线输入",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": false
+        },
+        {
+          "parameterKey": "confirmed_ranged_level_damage",
+          "category": "未接线输入",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": false
+        },
+        {
+          "parameterKey": "confirmed_bonus_attack_speed_ratio",
+          "category": "未接线输入",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": false
+        },
+        {
+          "parameterKey": "one",
+          "category": "当前绑定计算树",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        }
+      ],
+      "pending": [
+        {
+          "type": "来源",
+          "reason": "近战等级附伤曲线起止等级、选项、取整及断点求值未完整证实",
+          "needed": "同构建的完整求值依据；本批显式外供数值"
+        },
+        {
+          "type": "来源冲突",
+          "reason": "远程攻速4.8%与4%、远程伤害6.003至20.01与6至24不同",
+          "needed": "同版本实际消费链或明确修订来源"
+        },
+        {
+          "type": "未接线",
+          "reason": "层数刷新、适应类型和攻击特效资格未接线",
+          "needed": "核实触发资格、取值时点和对象归属后装配"
+        }
+      ],
+      "excluded": [],
+      "qualification": {
+        "required": [
+          "攻击敌方英雄形成真实层数",
+          "真实近远程分类",
+          "满层附伤仅实际达到6层",
+          "远程冲突先补证"
+        ],
+        "notDefaulted": [
+          "未满足资格也生效",
+          "来源创建后自动触发",
+          "未知等级数值默认为0"
+        ]
+      },
+      "sourceOnly": [
+        {
+          "field": "TTASPerStackRanged",
+          "raw": 0.03999999910593033,
+          "type": "来源冲突",
+          "reason": "与当前具名计算存在数值冲突，原值完整保留但不进入普通固定参数。"
+        },
+        {
+          "field": "TTMinNoteDamageRanged",
+          "raw": 6,
+          "type": "来源冲突",
+          "reason": "与当前具名计算存在数值冲突，原值完整保留但不进入普通固定参数。"
+        },
+        {
+          "field": "TTMaxNoteDamageRanged",
+          "raw": 24,
+          "type": "来源冲突",
+          "reason": "与当前具名计算存在数值冲突，原值完整保留但不进入普通固定参数。"
+        },
+        {
+          "field": "PerfectlyTimedForgivance",
+          "raw": 0.25,
+          "type": "范围外",
+          "reason": "只用于统计完美时机普攻比例，不改变本轮伤害或攻速。"
+        }
+      ],
+      "sourceCalculations": {
+        "NoteDamage": {
+          "mMultiplier": {
+            "mSubparts": [
+              {
+                "mNumber": 1,
+                "__type": "NumberCalculationPart"
+              },
+              {
+                "mStat": 4,
+                "mStatFormula": 2,
+                "mCoefficient": 1,
+                "__type": "StatByCoefficientCalculationPart"
+              }
+            ],
+            "__type": "SumOfSubPartsCalculationPart"
+          },
+          "mFormulaParts": [
+            {
+              "mStartValue": 9,
+              "mEndValue": 30,
+              "__type": "ByCharLevelInterpolationCalculationPart"
+            }
+          ],
+          "mPrecision": 1,
+          "mRangedMultiplier": {
+            "mNumber": 0.6669999957084656,
+            "__type": "NumberCalculationPart"
+          },
+          "__type": "{e9a3c91d}"
+        },
+        "ASPerStack": {
+          "mFormulaParts": [
+            {
+              "mNumber": 0.05999999865889549,
+              "__type": "NumberCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "mPrecision": 1,
+          "mRangedMultiplier": {
+            "mNumber": 0.800000011920929,
+            "__type": "NumberCalculationPart"
+          },
+          "__type": "{e9a3c91d}"
+        }
+      },
+      "currentBoundText": {
+        "mDisplayNameLocalizationKey": {
+          "sourceKey": "perk_displayname_LethalTempo",
+          "resolvedKey": "perk_displayname_lethaltempo",
+          "text": "致命节奏"
+        },
+        "mTooltipNameLocalizationKey": {
+          "sourceKey": "perk_tooltip_LethalTempo",
+          "resolvedKey": "perk_tooltip_lethaltempo",
+          "text": "攻击一个敌方英雄会为你提供持续@Duration@秒的%i:scaleAS%@ASPerStack@攻击速度，至多至@MaxStacks@层。在满层时，攻击还会造成@NoteDamage@ (%i:scaleAS%) <lol-uikit-tooltipped-keyword key='LinkTooltip_Description_AdaptiveDmg'><font color='#48C4B7'>额外自适应伤害</font></lol-uikit-tooltipped-keyword> %i:OnHit% <OnHit>攻击特效</OnHit>。<br><br>满层运转时间：@f1@秒<br>已造成的伤害：@f2@<br><br>这个符文还会追踪你在之前攻击一个英雄之后，在你的攻击就绪的@PerfectlyTimedForgivance.2@秒内对英雄们打出的普攻次数占比：@f3@% (@f4@ / @f5@)"
+        },
+        "mPingTextLocalizationKey": {
+          "sourceKey": "perk_pingtip_LethalTempo",
+          "resolvedKey": "perk_pingtip_lethaltempo",
+          "text": "@SrcNameWithColon@致命节奏：完美时机的攻击次数：@f3@% (@f4@ / @f5@)"
+        },
+        "mShortDescLocalizationKey": {
+          "sourceKey": "perk_short_desc_LethalTempo",
+          "resolvedKey": "perk_short_desc_lethaltempo",
+          "text": "攻击一个敌方英雄会为你提供攻击速度，至多至@MaxStacks@层。在满层时，攻击还会附带<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_AdaptiveDmg'><font color='#48C4B7'>额外自适应伤害</font></lol-uikit-tooltipped-keyword>。"
+        },
+        "mLongDescLocalizationKey": {
+          "sourceKey": "perk_long_desc_LethalTempo",
+          "resolvedKey": "perk_long_desc_lethaltempo",
+          "text": "攻击一个敌方英雄会为你提供持续@Duration@秒的[@TTASPerStackMelee*100@%近战 || @TTASPerStackRanged*100@%远程]攻击速度，至多至@MaxStacks@层。在满层时，攻击还会附带[@TTMinNoteDamageMelee@ - @TTMaxNoteDamageMelee@近战 || @TTMinNoteDamageRanged@ - @TTMaxNoteDamageRanged@远程] <lol-uikit-tooltipped-keyword key='LinkTooltip_Description_AdaptiveDmg'>额外自适应伤害，每1%额外攻击速度都会使其提升1%</lol-uikit-tooltipped-keyword>。"
+        },
+        "mDisplayStatLocalizationKey": {
+          "sourceKey": "perk_display_stat_LethalTempo",
+          "resolvedKey": "perk_display_stat_lethaltempo",
+          "text": "@f1@"
+        }
+      },
+      "skillBody": {
+        "skillKey": "rune_8008_passive",
+        "name": "符文·致命节奏",
+        "description": "本批仅录入：致命节奏近战确定攻速分支、满层伤害与远程来源冲突。未证条件和输入不默认，不表示完整战斗机制。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      },
+      "relationBody": {
+        "runeKey": "rune_8008",
+        "skillKey": "rune_8008_passive",
+        "sortOrder": 0
+      }
+    },
+    {
+      "id": 8010,
+      "runeKey": "rune_8010",
+      "skillKey": "rune_8010_passive",
+      "name": "征服者",
+      "scope": "征服者真实层数适应之力和满层按实际造成伤害自疗",
+      "sourcePath": "Perks/Styles/Precision/Conqueror",
+      "sourceObjectSha256": "c518745288bc82b9618ebaea81226c6e4a9a9d33b0b7a6119888ee75691654bd",
+      "parameters": [
+        {
+          "parameterKey": "confirmed_adaptive_per_stack_source_start",
+          "name": "每层适应之力来源起点",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 1.8,
+          "levelValues": null,
+          "description": "仅保留当前来源起点，不凭端点生成1至18级表。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "confirmed_adaptive_per_stack_source_end",
+          "name": "每层适应之力来源终点",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 4,
+          "levelValues": null,
+          "description": "仅保留当前来源终点；等级求值过程待补。",
+          "sortOrder": 20
+        },
+        {
+          "parameterKey": "confirmed_adaptive_per_stack",
+          "name": "已确认每层适应之力",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+          "sortOrder": 30
+        },
+        {
+          "parameterKey": "max_stacks",
+          "name": "最大层数",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 12,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 40
+        },
+        {
+          "parameterKey": "buff_duration_ms",
+          "name": "层数持续时间",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 5000,
+          "levelValues": null,
+          "description": "来源秒转换为毫秒；不表示已经连接事件。",
+          "sortOrder": 50
+        },
+        {
+          "parameterKey": "melee_heal_ratio",
+          "name": "近战伤害转治疗比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.08,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 60
+        },
+        {
+          "parameterKey": "ranged_heal_ratio",
+          "name": "远程伤害转治疗比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.05,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 70
+        },
+        {
+          "parameterKey": "normal_hit_stacks",
+          "name": "普通技能或近战普攻层数",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 2,
+          "levelValues": null,
+          "description": "当前正文明确命中提供2层。",
+          "sortOrder": 80
+        },
+        {
+          "parameterKey": "ranged_attack_stacks",
+          "name": "远程普攻层数",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1,
+          "levelValues": null,
+          "description": "当前正文明确远程普攻只提供1层。",
+          "sortOrder": 90
+        },
+        {
+          "parameterKey": "actual_stacks",
+          "name": "实际征服者层数",
+          "valueType": "INTEGER",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "已确认0至12的整数，不默认满层。",
+          "sortOrder": 100
+        },
+        {
+          "parameterKey": "actual_damage_dealt_to_champion",
+          "name": "本次实际对英雄造成的合格伤害",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "来自实际结算，不能用基础伤害、抗性前理论伤害或未发生的攻击代替。",
+          "sortOrder": 110
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "adaptive_force_amount",
+          "name": "当前层数适应之力",
+          "description": "适应属性选择尚未连接，不默认AD=0.6×适应之力。",
+          "sortOrder": 10,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "confirmed_adaptive_per_stack"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "actual_stacks"
+              }
+            ]
+          }
+        },
+        {
+          "formulaKey": "melee_self_heal",
+          "name": "近战满层自身治疗数值",
+          "description": "仅实际满12层且本次伤害资格成立；不自动恢复，不生成瞬时治疗结果。",
+          "sortOrder": 20,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "actual_damage_dealt_to_champion"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "melee_heal_ratio"
+              }
+            ]
+          }
+        },
+        {
+          "formulaKey": "ranged_self_heal",
+          "name": "远程满层自身治疗数值",
+          "description": "仅实际满12层且本次伤害资格成立；不自动恢复，不生成瞬时治疗结果。",
+          "sortOrder": 30,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "actual_damage_dealt_to_champion"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ranged_heal_ratio"
+              }
+            ]
+          }
+        }
+      ],
+      "effects": [],
+      "triggerRules": [],
+      "processes": [],
+      "internalStates": [],
+      "parameterEvidence": [
+        {
+          "parameterKey": "confirmed_adaptive_per_stack_source_start",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Precision/Conqueror/mScript/mSpellScriptData/mEffectAmount/MinAdaptivePerStack",
+          "sourceRawValue": 1.7999999523162842,
+          "scale": 1,
+          "normalization": "同版本绑定说明的可读数值；仅清除float32尾差，容差1e-7相对值",
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "confirmed_adaptive_per_stack_source_end",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Precision/Conqueror/mScript/mSpellScriptData/mEffectAmount/MaxAdaptivePerStack",
+          "sourceRawValue": 4,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "confirmed_adaptive_per_stack",
+          "category": "未接线输入",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": false
+        },
+        {
+          "parameterKey": "max_stacks",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Precision/Conqueror/mScript/mSpellScriptData/mEffectAmount/MaxStacks",
+          "sourceRawValue": 12,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "buff_duration_ms",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Precision/Conqueror/mScript/mSpellScriptData/mEffectAmount/BuffDuration",
+          "sourceRawValue": 5,
+          "scale": 1000,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "melee_heal_ratio",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Precision/Conqueror/mScript/mSpellScriptData/mEffectAmount/HealingPercent",
+          "sourceRawValue": 0.07999999821186066,
+          "scale": 1,
+          "normalization": "同版本绑定说明的可读数值；仅清除float32尾差，容差1e-7相对值",
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "ranged_heal_ratio",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Precision/Conqueror/mScript/mSpellScriptData/mEffectAmount/RangedHealingPercent",
+          "sourceRawValue": 0.05000000074505806,
+          "scale": 1,
+          "normalization": "同版本绑定说明的可读数值；仅清除float32尾差，容差1e-7相对值",
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "normal_hit_stacks",
+          "category": "当前绑定正文",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "ranged_attack_stacks",
+          "category": "当前绑定正文",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "actual_stacks",
+          "category": "未接线输入",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": false
+        },
+        {
+          "parameterKey": "actual_damage_dealt_to_champion",
+          "category": "未接线输入",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": false
+        }
+      ],
+      "pending": [
+        {
+          "type": "来源",
+          "reason": "每层适应之力曲线起止等级、选项、取整及断点求值未完整证实",
+          "needed": "同构建的完整求值依据；本批显式外供数值"
+        },
+        {
+          "type": "未接线",
+          "reason": "同技能事件去重、层数过期、治疗取样和恢复时点未接线",
+          "needed": "核实触发资格、取值时点和对象归属后装配"
+        }
+      ],
+      "excluded": [],
+      "qualification": {
+        "required": [
+          "实际达到12层才可按伤害自疗",
+          "伤害确实对英雄造成",
+          "实际近远程分类与适应选择"
+        ],
+        "notDefaulted": [
+          "未满足资格也生效",
+          "来源创建后自动触发",
+          "未知等级数值默认为0"
+        ]
+      },
+      "sourceOnly": [
+        {
+          "field": "TimeUntilNextStackFromSameSpell",
+          "raw": 4,
+          "type": "来源待核",
+          "reason": "原4秒字段的同技能重复授予规则未由当前正文证明，待消费链补证。"
+        }
+      ],
+      "sourceCalculations": {},
+      "currentBoundText": {
+        "mDisplayNameLocalizationKey": {
+          "sourceKey": "perk_displayname_Conqueror",
+          "resolvedKey": "perk_displayname_conqueror",
+          "text": "征服者"
+        },
+        "mTooltipNameLocalizationKey": {
+          "sourceKey": "perk_tooltip_Conqueror",
+          "resolvedKey": "perk_tooltip_conqueror",
+          "text": "普通攻击或伤害型技能在命中一名敌方英雄时会提供2层【征服者】效果，持续@BuffDuration@秒，每层提供{{perk_substring_ConquerorAdaptive_@f4@}}。至多可叠加@MaxStacks@次。远程英雄的每次普攻只会提供1层效果。<br><br>在叠满层数后，你对英雄造成的@HealingPercent*100@%伤害会转化为对自身的治疗效果(远程英雄的转化率为@RangedHealingPercent*100@%)。<br><br>治疗量总和：@f1@"
+        },
+        "mShortDescLocalizationKey": {
+          "sourceKey": "perk_short_desc_Conqueror",
+          "resolvedKey": "perk_short_desc_conqueror",
+          "text": "在攻击敌方英雄时提供适应之力。在达到@MaxStacks@层后，将你的一部分伤害转化为等额的治疗效果。"
+        },
+        "mLongDescLocalizationKey": {
+          "sourceKey": "perk_long_desc_Conqueror",
+          "resolvedKey": "perk_long_desc_conqueror",
+          "text": "普通攻击或伤害型技能在命中一名敌方英雄时会提供2层【征服者】效果，持续@BuffDuration@秒，每层效果提供@MinAdaptivePerStack@-@MaxAdaptivePerStack@<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_Adaptive'><font color='#48C4B7'>适应之力</font></lol-uikit-tooltipped-keyword>。至多可叠加@MaxStacks@次。远程英雄的每次普攻只会提供1层效果。<br><br>在叠满层数后，你对英雄造成的@HealingPercent*100@%伤害会转化为对自身的治疗效果(远程英雄的转化率为@RangedHealingPercent*100@%)。"
+        },
+        "mDisplayStatLocalizationKey": {
+          "sourceKey": "perk_display_stat_total",
+          "resolvedKey": "perk_display_stat_total",
+          "text": "@f1@"
+        }
+      },
+      "skillBody": {
+        "skillKey": "rune_8010_passive",
+        "name": "符文·征服者",
+        "description": "本批仅录入：征服者真实层数适应之力和满层按实际造成伤害自疗。未证条件和输入不默认，不表示完整战斗机制。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      },
+      "relationBody": {
+        "runeKey": "rune_8010",
+        "skillKey": "rune_8010_passive",
+        "sortOrder": 0
+      }
+    },
+    {
+      "id": 8021,
+      "runeKey": "rune_8021",
+      "skillKey": "rune_8021_passive",
+      "name": "迅捷步法",
+      "scope": "迅捷步法近远程恢复、移动速度与小兵战前恢复分支",
+      "sourcePath": "Perks/Styles/Precision/FleetFootwork",
+      "sourceObjectSha256": "6acb0bb449c7ebfee00480418e9c6e916ebbc4cec6245ed5404ea1e54a255bd3",
+      "parameters": [
+        {
+          "parameterKey": "confirmed_level_heal_source_start",
+          "name": "等级基础恢复来源起点",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 15,
+          "levelValues": null,
+          "description": "仅保留当前来源起点，不凭端点生成1至18级表。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "confirmed_level_heal_source_end",
+          "name": "等级基础恢复来源终点",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 160,
+          "levelValues": null,
+          "description": "仅保留当前来源终点；等级求值过程待补。",
+          "sortOrder": 20
+        },
+        {
+          "parameterKey": "confirmed_level_heal",
+          "name": "已确认等级基础恢复",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+          "sortOrder": 30
+        },
+        {
+          "parameterKey": "bonus_ad_ratio",
+          "name": "额外攻击力恢复系数",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.1,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 40
+        },
+        {
+          "parameterKey": "ap_ratio",
+          "name": "法强恢复系数",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.05,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 50
+        },
+        {
+          "parameterKey": "melee_move_speed_ratio",
+          "name": "近战移动速度比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.2,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 60
+        },
+        {
+          "parameterKey": "move_speed_duration_ms",
+          "name": "移动速度持续",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1000,
+          "levelValues": null,
+          "description": "来源秒转换为毫秒；不表示已经连接事件。",
+          "sortOrder": 70
+        },
+        {
+          "parameterKey": "ranged_move_speed_multiplier",
+          "name": "远程移动速度效能",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.75,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 80
+        },
+        {
+          "parameterKey": "ranged_heal_multiplier",
+          "name": "远程治疗效能",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.6,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 90
+        },
+        {
+          "parameterKey": "minion_heal_multiplier",
+          "name": "小兵治疗效能",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.15,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 100
+        },
+        {
+          "parameterKey": "required_energy",
+          "name": "充盈所需层数",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 100,
+          "levelValues": null,
+          "description": "当前正文明确100层。",
+          "sortOrder": 110
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "melee_heal",
+          "name": "近战充盈恢复数值",
+          "description": "当前树明确额外AD与法强；等级节点包含mScaleByStatProgressionMultiplier=true，不能线性展开。",
+          "sortOrder": 10,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "confirmed_level_heal"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "attack_damage",
+                        "attributeValueKind": "BONUS"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "bonus_ad_ratio"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "formulaKey": "ranged_heal",
+          "name": "远程充盈恢复数值",
+          "description": "对远程英雄施加0.6效能。",
+          "sortOrder": 20,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "ADD",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "confirmed_level_heal"
+                      },
+                      {
+                        "nodeType": "OPERATION",
+                        "operation": "MULTIPLY",
+                        "operands": [
+                          {
+                            "nodeType": "ATTRIBUTE",
+                            "attributeOwner": "SOURCE",
+                            "attributeKey": "attack_damage",
+                            "attributeValueKind": "BONUS"
+                          },
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "bonus_ad_ratio"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "ability_power",
+                        "attributeValueKind": "TOTAL"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "ap_ratio"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ranged_heal_multiplier"
+              }
+            ]
+          }
+        },
+        {
+          "formulaKey": "melee_minion_heal",
+          "name": "近战攻击小兵自身恢复",
+          "description": "小兵不是英雄伤害目标，但这份自身战前恢复依赖保留。",
+          "sortOrder": 30,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "ADD",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "confirmed_level_heal"
+                      },
+                      {
+                        "nodeType": "OPERATION",
+                        "operation": "MULTIPLY",
+                        "operands": [
+                          {
+                            "nodeType": "ATTRIBUTE",
+                            "attributeOwner": "SOURCE",
+                            "attributeKey": "attack_damage",
+                            "attributeValueKind": "BONUS"
+                          },
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "bonus_ad_ratio"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "ability_power",
+                        "attributeValueKind": "TOTAL"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "ap_ratio"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "minion_heal_multiplier"
+              }
+            ]
+          }
+        },
+        {
+          "formulaKey": "ranged_minion_heal",
+          "name": "远程攻击小兵自身恢复",
+          "description": "远程0.6与小兵0.15分别适用，两条件同时成立。",
+          "sortOrder": 40,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "ADD",
+                    "operands": [
+                      {
+                        "nodeType": "OPERATION",
+                        "operation": "ADD",
+                        "operands": [
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "confirmed_level_heal"
+                          },
+                          {
+                            "nodeType": "OPERATION",
+                            "operation": "MULTIPLY",
+                            "operands": [
+                              {
+                                "nodeType": "ATTRIBUTE",
+                                "attributeOwner": "SOURCE",
+                                "attributeKey": "attack_damage",
+                                "attributeValueKind": "BONUS"
+                              },
+                              {
+                                "nodeType": "PARAMETER",
+                                "parameterKey": "bonus_ad_ratio"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "nodeType": "OPERATION",
+                        "operation": "MULTIPLY",
+                        "operands": [
+                          {
+                            "nodeType": "ATTRIBUTE",
+                            "attributeOwner": "SOURCE",
+                            "attributeKey": "ability_power",
+                            "attributeValueKind": "TOTAL"
+                          },
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "ap_ratio"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ranged_heal_multiplier"
+                  }
+                ]
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "minion_heal_multiplier"
+              }
+            ]
+          }
+        },
+        {
+          "formulaKey": "ranged_move_speed_ratio",
+          "name": "远程移动速度增益比例",
+          "description": "0.2×0.75=0.15；不把它直接加到固定移速属性区。",
+          "sortOrder": 50,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "melee_move_speed_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ranged_move_speed_multiplier"
+              }
+            ]
+          }
+        }
+      ],
+      "effects": [],
+      "triggerRules": [],
+      "processes": [],
+      "internalStates": [],
+      "parameterEvidence": [
+        {
+          "parameterKey": "confirmed_level_heal_source_start",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Precision/FleetFootwork/mScript/mSpellScriptData/mEffectAmount/HealBase",
+          "sourceRawValue": 15,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "confirmed_level_heal_source_end",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Precision/FleetFootwork/mScript/mSpellScriptData/mEffectAmount/HealMax",
+          "sourceRawValue": 160,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "confirmed_level_heal",
+          "category": "未接线输入",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": false
+        },
+        {
+          "parameterKey": "bonus_ad_ratio",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Precision/FleetFootwork/mScript/mSpellScriptData/mEffectAmount/HealBonusADRatio",
+          "sourceRawValue": 0.10000000149011612,
+          "scale": 1,
+          "normalization": "同版本绑定说明的可读数值；仅清除float32尾差，容差1e-7相对值",
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "ap_ratio",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Precision/FleetFootwork/mScript/mSpellScriptData/mEffectAmount/HealAPRatio",
+          "sourceRawValue": 0.05000000074505806,
+          "scale": 1,
+          "normalization": "同版本绑定说明的可读数值；仅清除float32尾差，容差1e-7相对值",
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "melee_move_speed_ratio",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Precision/FleetFootwork/mScript/mSpellScriptData/mEffectAmount/MSBuff",
+          "sourceRawValue": 0.20000000298023224,
+          "scale": 1,
+          "normalization": "同版本绑定说明的可读数值；仅清除float32尾差，容差1e-7相对值",
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "move_speed_duration_ms",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Precision/FleetFootwork/mScript/mSpellScriptData/mEffectAmount/MSDuration",
+          "sourceRawValue": 1,
+          "scale": 1000,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "ranged_move_speed_multiplier",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Precision/FleetFootwork/mScript/mSpellScriptData/mEffectAmount/RangedMSMod",
+          "sourceRawValue": 0.75,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "ranged_heal_multiplier",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Precision/FleetFootwork/mScript/mSpellScriptData/mEffectAmount/RangedHealMod",
+          "sourceRawValue": 0.6000000238418579,
+          "scale": 1,
+          "normalization": "同版本绑定说明的可读数值；仅清除float32尾差，容差1e-7相对值",
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "minion_heal_multiplier",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Precision/FleetFootwork/mScript/mSpellScriptData/mEffectAmount/MinionHealMod",
+          "sourceRawValue": 0.15000000596046448,
+          "scale": 1,
+          "normalization": "同版本绑定说明的可读数值；仅清除float32尾差，容差1e-7相对值",
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "required_energy",
+          "category": "当前绑定正文",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        }
+      ],
+      "pending": [
+        {
+          "type": "来源",
+          "reason": "等级基础恢复曲线起止等级、选项、取整及断点求值未完整证实",
+          "needed": "同构建的完整求值依据；本批显式外供数值"
+        },
+        {
+          "type": "未接线",
+          "reason": "能量生成与消费、治疗时点及百分比移速合并未连接",
+          "needed": "核实触发资格、取值时点和对象归属后装配"
+        },
+        {
+          "type": "来源",
+          "reason": "未命名恢复计算{ad820ad4}的5至100未被当前正文引用",
+          "needed": "不以未绑定树替换当前HealAmount15至160"
+        }
+      ],
+      "excluded": [],
+      "qualification": {
+        "required": [
+          "真实积攒100层并由下一次合法攻击消费",
+          "真实近远程分类",
+          "按被攻击对象判断小兵恢复效能"
+        ],
+        "notDefaulted": [
+          "未满足资格也生效",
+          "来源创建后自动触发",
+          "未知等级数值默认为0"
+        ]
+      },
+      "sourceCalculations": {
+        "HealAmount": {
+          "mSimpleTooltipCalculationDisplay": 4,
+          "mFormulaParts": [
+            {
+              "mStartValue": 15,
+              "mEndValue": 160,
+              "mScaleByStatProgressionMultiplier": true,
+              "__type": "ByCharLevelInterpolationCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mDataValue": "HealBonusADRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "HealAPRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "mRangedMultiplier": {
+            "mDataValue": "RangedHealMod",
+            "__type": "NamedDataValueCalculationPart"
+          },
+          "__type": "{e9a3c91d}"
+        },
+        "{ad820ad4}": {
+          "mFormulaParts": [
+            {
+              "mStartValue": 5,
+              "mEndValue": 100,
+              "mScaleByStatProgressionMultiplier": true,
+              "__type": "ByCharLevelInterpolationCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "MoveSpeedCalc": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "MSBuff",
+              "__type": "NamedDataValueCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "mRangedMultiplier": {
+            "mDataValue": "RangedMSMod",
+            "__type": "NamedDataValueCalculationPart"
+          },
+          "__type": "{e9a3c91d}"
+        }
+      },
+      "currentBoundText": {
+        "mDisplayNameLocalizationKey": {
+          "sourceKey": "perk_displayname_FleetFootwork",
+          "resolvedKey": "perk_displayname_fleetfootwork",
+          "text": "迅捷步法"
+        },
+        "mTooltipNameLocalizationKey": {
+          "sourceKey": "perk_tooltip_FleetFootwork",
+          "resolvedKey": "perk_tooltip_fleetfootwork",
+          "text": "攻击和移动会积攒能量层数。在100层时，你的下次攻击会充盈能量。<br><br>充盈能量的攻击会为你治疗<healing>@HealAmount@生命值</healing>并为你提供持续@MSDuration@秒的<speed>@MoveSpeedCalc@移动速度</speed>。<br><rules><br>来自小兵的治疗效果只有@MinionHealMod*100@%效能。<br></rules><hr><br>治疗效果总和：@f1@"
+        },
+        "mShortDescLocalizationKey": {
+          "sourceKey": "perk_short_desc_FleetFootwork",
+          "resolvedKey": "perk_short_desc_fleetfootwork",
+          "text": "攻击和移动会积攒能量层数。在100层时，你的下次攻击会治疗你并提升<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_MS'>移动速度</lol-uikit-tooltipped-keyword>。"
+        },
+        "mLongDescLocalizationKey": {
+          "sourceKey": "perk_long_desc_FleetFootwork",
+          "resolvedKey": "perk_long_desc_fleetfootwork",
+          "text": "攻击和移动会积攒能量层数。在100层时，你的下次攻击会充盈能量。<br><br>充盈能量的攻击会为你治疗@HealBase@ - @HealMax@ (+@HealBonusADRatio.-1@额外攻击力，+@HealAPRatio.-1@法术强度)生命值并为你提供持续@MSDuration.0@秒的<speed>@MSBuff*100@%移动速度加成</speed>。<br><br>对远程英雄来说，治疗效果只有@RangedHealMod*100@%效能并且移动速度只有@RangedMSMod*100@%效能。对抗小兵时的所有治疗效果只有@MinionHealMod*100@%效能。"
+        },
+        "mDisplayStatLocalizationKey": {
+          "sourceKey": "perk_display_stat_total",
+          "resolvedKey": "perk_display_stat_total",
+          "text": "@f1@"
+        }
+      },
+      "skillBody": {
+        "skillKey": "rune_8021_passive",
+        "name": "符文·迅捷步法",
+        "description": "本批仅录入：迅捷步法近远程恢复、移动速度与小兵战前恢复分支。未证条件和输入不默认，不表示完整战斗机制。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      },
+      "relationBody": {
+        "runeKey": "rune_8021",
+        "skillKey": "rune_8021_passive",
+        "sortOrder": 0
+      }
+    },
+    {
+      "id": 8230,
+      "runeKey": "rune_8230",
+      "skillKey": "rune_8230_passive",
+      "name": "风暴掠袭者的狂涌",
+      "scope": "当前风暴掠袭者狂涌的伤害阈值、近远程移动速度和减速抗性",
+      "sourcePath": "Perks/Styles/Sorcery/PhaseRush",
+      "sourceObjectSha256": "7e43bf475d75403544c7e1273585b3b01969458cbabea036181b68bb93c8134c",
+      "parameters": [
+        {
+          "parameterKey": "damage_window_ms",
+          "name": "累计伤害窗口",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 3000,
+          "levelValues": null,
+          "description": "来源秒转换为毫秒；不表示已经连接事件。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "buff_duration_ms",
+          "name": "增益持续",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 4000,
+          "levelValues": null,
+          "description": "来源秒转换为毫秒；不表示已经连接事件。",
+          "sortOrder": 20
+        },
+        {
+          "parameterKey": "target_max_health_threshold_ratio",
+          "name": "目标最大生命伤害阈值比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.25,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 30
+        },
+        {
+          "parameterKey": "melee_move_speed_ratio",
+          "name": "近战移动速度增益比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.48,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 40
+        },
+        {
+          "parameterKey": "ranged_move_speed_multiplier",
+          "name": "远程移动速度效能",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.75,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 50
+        },
+        {
+          "parameterKey": "slow_resistance_ratio",
+          "name": "减速抗性比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.5,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 60
+        },
+        {
+          "parameterKey": "confirmed_cooldown_seconds_source_start",
+          "name": "等级冷却秒数来源起点",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 20,
+          "levelValues": null,
+          "description": "仅保留当前来源起点，不凭端点生成1至18级表。",
+          "sortOrder": 70
+        },
+        {
+          "parameterKey": "confirmed_cooldown_seconds_source_end",
+          "name": "等级冷却秒数来源终点",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 10,
+          "levelValues": null,
+          "description": "仅保留当前来源终点；等级求值过程待补。",
+          "sortOrder": 80
+        },
+        {
+          "parameterKey": "confirmed_cooldown_seconds",
+          "name": "已确认等级冷却秒数",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+          "sortOrder": 90
+        },
+        {
+          "parameterKey": "seconds_to_ms",
+          "name": "秒转毫秒系数",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1000,
+          "levelValues": null,
+          "description": "单位换算常数。",
+          "sortOrder": 100
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "target_damage_threshold",
+          "name": "累计伤害门槛数值",
+          "description": "目标最大生命乘0.25，采样时点待连接；不是三次独立命中。",
+          "sortOrder": 10,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "TARGET",
+                "attributeKey": "hp",
+                "attributeValueKind": "TOTAL"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "target_max_health_threshold_ratio"
+              }
+            ]
+          }
+        },
+        {
+          "formulaKey": "ranged_move_speed_ratio",
+          "name": "远程移动速度增益比例",
+          "description": "0.48×0.75=0.36。",
+          "sortOrder": 20,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "melee_move_speed_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ranged_move_speed_multiplier"
+              }
+            ]
+          }
+        },
+        {
+          "formulaKey": "cooldown_ms",
+          "name": "已确认等级冷却毫秒",
+          "description": "只转换已确认等级数值，不从20至10猜线性。",
+          "sortOrder": 30,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "confirmed_cooldown_seconds"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "seconds_to_ms"
+              }
+            ]
+          }
+        }
+      ],
+      "effects": [],
+      "triggerRules": [],
+      "processes": [],
+      "internalStates": [],
+      "parameterEvidence": [
+        {
+          "parameterKey": "damage_window_ms",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Sorcery/PhaseRush/mScript/mSpellScriptData/mEffectAmount/Window",
+          "sourceRawValue": 3,
+          "scale": 1000,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "buff_duration_ms",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Sorcery/PhaseRush/mScript/mSpellScriptData/mEffectAmount/Duration",
+          "sourceRawValue": 4,
+          "scale": 1000,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "target_max_health_threshold_ratio",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Sorcery/PhaseRush/mScript/mSpellScriptData/mEffectAmount/DamageThreshold",
+          "sourceRawValue": 0.25,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "melee_move_speed_ratio",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Sorcery/PhaseRush/mScript/mSpellScriptData/mEffectAmount/HasteMax",
+          "sourceRawValue": 0.47999998927116394,
+          "scale": 1,
+          "normalization": "同版本绑定说明的可读数值；仅清除float32尾差，容差1e-7相对值",
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "ranged_move_speed_multiplier",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Sorcery/PhaseRush/mScript/mSpellScriptData/mEffectAmount/RangedEffectiveness",
+          "sourceRawValue": 0.75,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "slow_resistance_ratio",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Sorcery/PhaseRush/mScript/mSpellScriptData/mEffectAmount/SlowResist",
+          "sourceRawValue": 0.5,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "confirmed_cooldown_seconds_source_start",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Sorcery/PhaseRush/mScript/mSpellScriptData/mEffectAmount/MaxCooldown",
+          "sourceRawValue": 20,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "confirmed_cooldown_seconds_source_end",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Sorcery/PhaseRush/mScript/mSpellScriptData/mEffectAmount/MinCooldown",
+          "sourceRawValue": 10,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "confirmed_cooldown_seconds",
+          "category": "未接线输入",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": false
+        },
+        {
+          "parameterKey": "seconds_to_ms",
+          "category": "单位換算",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        }
+      ],
+      "pending": [
+        {
+          "type": "来源",
+          "reason": "等级冷却秒数曲线起止等级、选项、取整及断点求值未完整证实",
+          "needed": "同构建的完整求值依据；本批显式外供数值"
+        },
+        {
+          "type": "未接线",
+          "reason": "伤害累计、门槛属性采样和两种百分比效果的合并规则未接线",
+          "needed": "核实触发资格、取值时点和对象归属后装配"
+        }
+      ],
+      "excluded": [],
+      "qualification": {
+        "required": [
+          "3秒内对同一英雄累计造成其25%最大生命伤害",
+          "冷却可用",
+          "按真实近远程分类"
+        ],
+        "notDefaulted": [
+          "未满足资格也生效",
+          "来源创建后自动触发",
+          "未知等级数值默认为0"
+        ]
+      },
+      "sourceCalculations": {
+        "CooldownCalc": {
+          "mSimpleTooltipCalculationDisplay": 4,
+          "mFormulaParts": [
+            {
+              "mStartValue": 20,
+              "mEndValue": 10,
+              "__type": "ByCharLevelInterpolationCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "MoveSpeedCalc": {
+          "mSimpleTooltipCalculationDisplay": 4,
+          "mFormulaParts": [
+            {
+              "mStartValue": 0.47999998927116394,
+              "mEndValue": 0.47999998927116394,
+              "__type": "ByCharLevelInterpolationCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "mRangedMultiplier": {
+            "mDataValue": "RangedEffectiveness",
+            "__type": "NamedDataValueCalculationPart"
+          },
+          "__type": "{e9a3c91d}"
+        }
+      },
+      "currentBoundText": {
+        "mDisplayNameLocalizationKey": {
+          "sourceKey": "perk_displayname_PhaseRush",
+          "resolvedKey": "perk_displayname_phaserush",
+          "text": "风暴掠袭者的狂涌"
+        },
+        "mTooltipNameLocalizationKey": {
+          "sourceKey": "perk_tooltip_PhaseRush",
+          "resolvedKey": "perk_tooltip_phaserush",
+          "text": "在@Window@秒内对一个英雄造成相当于其@DamageThreshold*100@%最大生命值的伤害时，提供持续@Duration@秒的<speed>@MoveSpeedCalc@%移动速度</speed>和<status>@SlowResist*100@%减速抗性</status>。<br><br>冷却时间：<attention>@CooldownCalc@秒</attention><br><br>总激活次数：<attention>@f1@</attention>"
+        },
+        "mShortDescLocalizationKey": {
+          "sourceKey": "perk_short_desc_PhaseRush",
+          "resolvedKey": "perk_short_desc_phaserush",
+          "text": "对一个英雄造成其@DamageThreshold*100@%最大生命值的伤害时，会提供爆发性的<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_MS'>移动速度</lol-uikit-tooltipped-keyword>和减速抗性。 "
+        },
+        "mLongDescLocalizationKey": {
+          "sourceKey": "perk_long_desc_PhaseRush",
+          "resolvedKey": "perk_long_desc_phaserush",
+          "text": "在@Window@秒内对一个英雄造成相当于其@DamageThreshold*100@%最大生命值的伤害时，提供持续@Duration@秒的<speed>@HasteMax*100@%移动速度</speed>和<status>@SlowResist*100@%减速抗性</status>。移动速度加成对远程英雄的效能为@RangedEffectiveness*100@%。<br>冷却时间：@MaxCooldown@秒 - @MinCooldown@秒"
+        },
+        "mDisplayStatLocalizationKey": {
+          "sourceKey": "perk_display_stat_PhaseRush",
+          "resolvedKey": "perk_display_stat_phaserush",
+          "text": "@f1@"
+        }
+      },
+      "skillBody": {
+        "skillKey": "rune_8230_passive",
+        "name": "符文·风暴掠袭者的狂涌",
+        "description": "本批仅录入：当前风暴掠袭者狂涌的伤害阈值、近远程移动速度和减速抗性。未证条件和输入不默认，不表示完整战斗机制。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      },
+      "relationBody": {
+        "runeKey": "rune_8230",
+        "skillKey": "rune_8230_passive",
+        "sortOrder": 0
+      }
+    },
+    {
+      "id": 8299,
+      "runeKey": "rune_8299",
+      "skillKey": "rune_8299_passive",
+      "name": "坚毅不倒",
+      "scope": "坚毅不倒生命门槛和增伤端点，不生成中间插值",
+      "sourcePath": "Perks/Styles/Precision/LastStand",
+      "sourceObjectSha256": "7018e5164c5d3756fa7082f8632502efb5fb4c44b802303c18dccec92a75255c",
+      "parameters": [
+        {
+          "parameterKey": "health_threshold_start",
+          "name": "自身生命上门槛",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.6,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "health_threshold_end",
+          "name": "自身生命最大增幅门槛",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.3,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 20
+        },
+        {
+          "parameterKey": "min_damage_amp_ratio",
+          "name": "来源最小增幅比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.05,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 30
+        },
+        {
+          "parameterKey": "max_damage_amp_ratio",
+          "name": "来源最大增幅比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.11,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 40
+        },
+        {
+          "parameterKey": "confirmed_damage_amp_ratio",
+          "name": "已确认当前生命比例增幅",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "60%至30%之间求值未证；30%边界正文与规则措辞不同，不能猜线性或相等边界。",
+          "sortOrder": 50
+        },
+        {
+          "parameterKey": "qualified_damage_basis",
+          "name": "已确认合格伤害基数",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "结算阶段和结果资格需外供，不默认技能基础伤害。",
+          "sortOrder": 60
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "additional_damage",
+          "name": "当前已确认增幅伤害",
+          "description": "仅外供比例，实际低生命资格单独连接。",
+          "sortOrder": 10,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "qualified_damage_basis"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "confirmed_damage_amp_ratio"
+              }
+            ]
+          }
+        },
+        {
+          "formulaKey": "maximum_branch_additional_damage",
+          "name": "严格低于30%时最大增幅伤害",
+          "description": "两段当前文本均支持严格低于30%时11%；不替代未证中间函数。",
+          "sortOrder": 20,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "qualified_damage_basis"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "max_damage_amp_ratio"
+              }
+            ]
+          }
+        }
+      ],
+      "effects": [],
+      "triggerRules": [],
+      "processes": [],
+      "internalStates": [],
+      "parameterEvidence": [
+        {
+          "parameterKey": "health_threshold_start",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Precision/LastStand/mScript/mSpellScriptData/mEffectAmount/HealthThresholdStart",
+          "sourceRawValue": 0.6000000238418579,
+          "scale": 1,
+          "normalization": "同版本绑定说明的可读数值；仅清除float32尾差，容差1e-7相对值",
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "health_threshold_end",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Precision/LastStand/mScript/mSpellScriptData/mEffectAmount/HealthThresholdEnd",
+          "sourceRawValue": 0.30000001192092896,
+          "scale": 1,
+          "normalization": "同版本绑定说明的可读数值；仅清除float32尾差，容差1e-7相对值",
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "min_damage_amp_ratio",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Precision/LastStand/mScript/mSpellScriptData/mEffectAmount/MinBonusDamagePercent",
+          "sourceRawValue": 0.05000000074505806,
+          "scale": 1,
+          "normalization": "同版本绑定说明的可读数值；仅清除float32尾差，容差1e-7相对值",
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "max_damage_amp_ratio",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Precision/LastStand/mScript/mSpellScriptData/mEffectAmount/MaxBonusDamagePercent",
+          "sourceRawValue": 0.10999999940395355,
+          "scale": 1,
+          "normalization": "同版本绑定说明的可读数值；仅清除float32尾差，容差1e-7相对值",
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "confirmed_damage_amp_ratio",
+          "category": "未接线输入",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": false
+        },
+        {
+          "parameterKey": "qualified_damage_basis",
+          "category": "未接线输入",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": false
+        }
+      ],
+      "pending": [
+        {
+          "type": "未接线",
+          "reason": "生命采样与增伤结算阶段未连接",
+          "needed": "核实触发资格、取值时点和对象归属后装配"
+        },
+        {
+          "type": "来源",
+          "reason": "30%恰好相等时，长文“在30%”与规则“低于30%”存在边界措辞差异",
+          "needed": "相等边界及中间完整求值"
+        }
+      ],
+      "excluded": [],
+      "qualification": {
+        "required": [
+          "自身当前生命低于60%",
+          "合格英雄伤害",
+          "实际生命比例对应增幅已确认"
+        ],
+        "notDefaulted": [
+          "未满足资格也生效",
+          "来源创建后自动触发",
+          "未知等级数值默认为0"
+        ]
+      },
+      "sourceCalculations": {},
+      "currentBoundText": {
+        "mDisplayNameLocalizationKey": {
+          "sourceKey": "perk_displayname_8234",
+          "resolvedKey": "perk_displayname_8234",
+          "text": "坚毅不倒"
+        },
+        "mTooltipNameLocalizationKey": {
+          "sourceKey": "perk_tooltip_8234",
+          "resolvedKey": "perk_tooltip_8234",
+          "text": "{{perk_long_desc_8234}}<br><br><rules>最小加成为@MinBonusDamagePercent*100@%.<br>在生命值低于@HealthThresholdEnd*100@%时提供最大加成。</rules><br><hr><br>总加成伤害：<scaleAD>@f1@</scaleAD>"
+        },
+        "mShortDescLocalizationKey": {
+          "sourceKey": "perk_short_desc_8234",
+          "resolvedKey": "perk_short_desc_8234",
+          "text": "当你的生命值较低时，你的攻击对英雄多造成伤害。"
+        },
+        "mLongDescLocalizationKey": {
+          "sourceKey": "perk_long_desc_8234",
+          "resolvedKey": "perk_long_desc_8234",
+          "text": "当你的生命值低于@HealthThresholdStart.0*100@%时，对英雄多造成@MinBonusDamagePercent.0*100@% -@MaxBonusDamagePercent.0*100@%伤害。最大伤害会在@HealthThresholdEnd.0*100@%生命值时提供。"
+        },
+        "mDisplayStatLocalizationKey": {
+          "sourceKey": "perk_display_stat_total",
+          "resolvedKey": "perk_display_stat_total",
+          "text": "@f1@"
+        }
+      },
+      "skillBody": {
+        "skillKey": "rune_8299_passive",
+        "name": "符文·坚毅不倒",
+        "description": "本批仅录入：坚毅不倒生命门槛和增伤端点，不生成中间插值。未证条件和输入不默认，不表示完整战斗机制。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      },
+      "relationBody": {
+        "runeKey": "rune_8299",
+        "skillKey": "rune_8299_passive",
+        "sortOrder": 0
+      }
+    },
+    {
+      "id": 8401,
+      "runeKey": "rune_8401",
+      "skillKey": "rune_8401_passive",
+      "name": "护盾猛击",
+      "scope": "护盾猛击等级基础伤害、2.5%额外生命与15%新护盾值",
+      "sourcePath": "Perks/Styles/Resolve/ShieldBash",
+      "sourceObjectSha256": "6bb072aa25623345331c3efa1a2aa40117721112197d1e5eb7ab8972cc235bc5",
+      "parameters": [
+        {
+          "parameterKey": "confirmed_level_damage_source_start",
+          "name": "等级基础伤害来源起点",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 5,
+          "levelValues": null,
+          "description": "仅保留当前来源起点，不凭端点生成1至18级表。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "confirmed_level_damage_source_end",
+          "name": "等级基础伤害来源终点",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 30,
+          "levelValues": null,
+          "description": "仅保留当前来源终点；等级求值过程待补。",
+          "sortOrder": 20
+        },
+        {
+          "parameterKey": "confirmed_level_damage",
+          "name": "已确认等级基础伤害",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+          "sortOrder": 30
+        },
+        {
+          "parameterKey": "bonus_health_ratio",
+          "name": "额外生命伤害比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.025,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 40
+        },
+        {
+          "parameterKey": "new_shield_ratio",
+          "name": "新护盾伤害比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.15,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 50
+        },
+        {
+          "parameterKey": "after_shield_expiry_window_ms",
+          "name": "护盾消散后可用窗口",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 2000,
+          "levelValues": null,
+          "description": "来源秒转换为毫秒；不表示已经连接事件。",
+          "sortOrder": 60
+        },
+        {
+          "parameterKey": "new_shield_value",
+          "name": "本次新获得护盾值",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "只取新护盾的已确认值，不用剩余总护盾、历史累计护盾或治疗值。",
+          "sortOrder": 70
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "damage_amount",
+          "name": "下一次攻击额外伤害",
+          "description": "比例点先转换0.025和0.15；护盾消散后的2秒不是整个护盾持续时间。",
+          "sortOrder": 10,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "confirmed_level_damage"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "hp",
+                        "attributeValueKind": "BONUS"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "bonus_health_ratio"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "new_shield_value"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "new_shield_ratio"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "effects": [],
+      "triggerRules": [],
+      "processes": [],
+      "internalStates": [],
+      "parameterEvidence": [
+        {
+          "parameterKey": "confirmed_level_damage_source_start",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Resolve/ShieldBash/mScript/mSpellScriptData/mEffectAmount/ProcBaseMin",
+          "sourceRawValue": 5,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "confirmed_level_damage_source_end",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Resolve/ShieldBash/mScript/mSpellScriptData/mEffectAmount/ProcBaseMax",
+          "sourceRawValue": 30,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "confirmed_level_damage",
+          "category": "未接线输入",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": false
+        },
+        {
+          "parameterKey": "bonus_health_ratio",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Resolve/ShieldBash/mScript/mSpellScriptData/mEffectAmount/BonusHealthRatio",
+          "sourceRawValue": 2.5,
+          "scale": 0.01,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "new_shield_ratio",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Resolve/ShieldBash/mScript/mSpellScriptData/mEffectAmount/ShieldRatio",
+          "sourceRawValue": 15,
+          "scale": 0.01,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "after_shield_expiry_window_ms",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Resolve/ShieldBash/mScript/mSpellScriptData/mEffectAmount/ProcDuration",
+          "sourceRawValue": 2,
+          "scale": 1000,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "new_shield_value",
+          "category": "未接线输入",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": false
+        }
+      ],
+      "pending": [
+        {
+          "type": "来源",
+          "reason": "等级基础伤害曲线起止等级、选项、取整及断点求值未完整证实",
+          "needed": "同构建的完整求值依据；本批显式外供数值"
+        },
+        {
+          "type": "未接线",
+          "reason": "新护盾取样、增益消费及适应伤害资格未连接",
+          "needed": "核实触发资格、取值时点和对象归属后装配"
+        }
+      ],
+      "excluded": [],
+      "qualification": {
+        "required": [
+          "获得新的护盾",
+          "下一次对英雄普攻",
+          "护盾消散后最多2秒仍可消费",
+          "自适应类型确定"
+        ],
+        "notDefaulted": [
+          "未满足资格也生效",
+          "来源创建后自动触发",
+          "未知等级数值默认为0"
+        ]
+      },
+      "sourceOnly": [
+        {
+          "field": "BonusShieldMult",
+          "raw": 0.10000000149011612,
+          "type": "来源待核",
+          "reason": "当前正文未消费0.1字段，不创建旧防御或增强护盾机制。"
+        }
+      ],
+      "sourceCalculations": {},
+      "currentBoundText": {
+        "mDisplayNameLocalizationKey": {
+          "sourceKey": "perk_displayname_ShieldBash",
+          "resolvedKey": "perk_displayname_shieldbash",
+          "text": "护盾猛击"
+        },
+        "mTooltipNameLocalizationKey": {
+          "sourceKey": "perk_tooltip_ShieldBash",
+          "resolvedKey": "perk_tooltip_shieldbash",
+          "text": "在你获得一个新的护盾时，你的下一次对英雄发起的普攻造成<scaleLevel>@f4@</scaleLevel><scaleHealth>(+@f2@)</scaleHealth><scaleMana>(+@ShieldRatio.1@%新护盾值)</scaleMana>额外{{perk_substring_shieldbashadaptive_@f5@}}。<br><br>在护盾消散后，你最多有@ProcDuration@秒的时间来使用这个效果。<br><hr><br>已造成的伤害总和：@f1@"
+        },
+        "mShortDescLocalizationKey": {
+          "sourceKey": "perk_short_desc_ShieldBash",
+          "resolvedKey": "perk_short_desc_shieldbash",
+          "text": "当你获得一个护盾时，你的下次对英雄发起的普攻造成额外<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_Adaptive'><font color='#48C4B7'>自适应</font></lol-uikit-tooltipped-keyword>伤害。"
+        },
+        "mLongDescLocalizationKey": {
+          "sourceKey": "perk_long_desc_ShieldBash",
+          "resolvedKey": "perk_long_desc_shieldbash",
+          "text": "在你获得一个新的护盾时，你的下一次对英雄发起的普攻造成<scaleLevel>@ProcBaseMin@ - @ProcBaseMax@</scaleLevel><scaleHealth>(+@BonusHealthRatio.1@%额外生命值)</scaleHealth><scaleMana>(+@ShieldRatio.1@%新护盾值)</scaleMana>额外<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_Adaptive'><font color='#48C4B7'>自适应</font></lol-uikit-tooltipped-keyword>伤害。<br><br>在护盾消散后，你最多有@ProcDuration@秒的时间来使用这个效果。"
+        },
+        "mDisplayStatLocalizationKey": {
+          "sourceKey": "perk_display_stat_ShieldBash",
+          "resolvedKey": "perk_display_stat_shieldbash",
+          "text": "@f1@"
+        }
+      },
+      "skillBody": {
+        "skillKey": "rune_8401_passive",
+        "name": "符文·护盾猛击",
+        "description": "本批仅录入：护盾猛击等级基础伤害、2.5%额外生命与15%新护盾值。未证条件和输入不默认，不表示完整战斗机制。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      },
+      "relationBody": {
+        "runeKey": "rune_8401",
+        "skillKey": "rune_8401_passive",
+        "sortOrder": 0
+      }
+    },
+    {
+      "id": 8473,
+      "runeKey": "rune_8473",
+      "skillKey": "rune_8473_passive",
+      "name": "骸骨镀层",
+      "scope": "骸骨镀层后续三次攻击或技能的独立减免数值",
+      "sourcePath": "Perks/Styles/Resolve/BonePlating",
+      "sourceObjectSha256": "b6bded21fa71c2b2ad672482c43aea5589149be90f20226378157c88fa4faad1",
+      "parameters": [
+        {
+          "parameterKey": "confirmed_level_block_source_start",
+          "name": "等级每次减免量来源起点",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 30,
+          "levelValues": null,
+          "description": "仅保留当前来源起点，不凭端点生成1至18级表。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "confirmed_level_block_source_end",
+          "name": "等级每次减免量来源终点",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 60,
+          "levelValues": null,
+          "description": "仅保留当前来源终点；等级求值过程待补。",
+          "sortOrder": 20
+        },
+        {
+          "parameterKey": "confirmed_level_block",
+          "name": "已确认等级每次减免量",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+          "sortOrder": 30
+        },
+        {
+          "parameterKey": "block_count",
+          "name": "后续可减免次数",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 3,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 40
+        },
+        {
+          "parameterKey": "block_duration_ms",
+          "name": "后续减免持续",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1500,
+          "levelValues": null,
+          "description": "来源秒转换为毫秒；不表示已经连接事件。",
+          "sortOrder": 50
+        },
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "冷却时间",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 55000,
+          "levelValues": null,
+          "description": "来源秒转换为毫秒；不表示已经连接事件。",
+          "sortOrder": 60
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "block_amount",
+          "name": "每次合格事件减免量",
+          "description": "只保留减免数值，不把它当护盾、护甲或触发那次伤害本身的减免。",
+          "sortOrder": 10,
+          "expression": {
+            "nodeType": "PARAMETER",
+            "parameterKey": "confirmed_level_block"
+          }
+        }
+      ],
+      "effects": [],
+      "triggerRules": [],
+      "processes": [],
+      "internalStates": [],
+      "parameterEvidence": [
+        {
+          "parameterKey": "confirmed_level_block_source_start",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Resolve/BonePlating/mScript/mSpellScriptData/mEffectAmount/BlockBase",
+          "sourceRawValue": 30,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "confirmed_level_block_source_end",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Resolve/BonePlating/mScript/mSpellScriptData/mEffectAmount/BlockMax",
+          "sourceRawValue": 60,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "confirmed_level_block",
+          "category": "未接线输入",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": false
+        },
+        {
+          "parameterKey": "block_count",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Resolve/BonePlating/mScript/mSpellScriptData/mEffectAmount/BlockCount",
+          "sourceRawValue": 3,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "block_duration_ms",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Resolve/BonePlating/mScript/mSpellScriptData/mEffectAmount/BlockDuration",
+          "sourceRawValue": 1.5,
+          "scale": 1000,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "cooldown_ms",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Resolve/BonePlating/mScript/mSpellScriptData/mEffectAmount/Cooldown",
+          "sourceRawValue": 55,
+          "scale": 1000,
+          "normalization": null,
+          "defaultSupplied": true
+        }
+      ],
+      "pending": [
+        {
+          "type": "来源",
+          "reason": "等级每次减免量曲线起止等级、选项、取整及断点求值未完整证实",
+          "needed": "同构建的完整求值依据；本批显式外供数值"
+        },
+        {
+          "type": "未接线",
+          "reason": "触发次序、计次和减免所在结算阶段尚未连接",
+          "needed": "核实触发资格、取值时点和对象归属后装配"
+        }
+      ],
+      "excluded": [],
+      "qualification": {
+        "required": [
+          "先受到英雄伤害触发",
+          "随后1.5秒内的下3次合格技能或攻击",
+          "冷却可用"
+        ],
+        "notDefaulted": [
+          "未满足资格也生效",
+          "来源创建后自动触发",
+          "未知等级数值默认为0"
+        ]
+      },
+      "sourceCalculations": {
+        "BlockCalc": {
+          "mSimpleTooltipCalculationDisplay": 4,
+          "mFormulaParts": [
+            {
+              "mStartValue": 30,
+              "mEndValue": 60,
+              "__type": "ByCharLevelInterpolationCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "currentBoundText": {
+        "mDisplayNameLocalizationKey": {
+          "sourceKey": "perk_displayname_BonePlating",
+          "resolvedKey": "perk_displayname_boneplating",
+          "text": "骸骨镀层"
+        },
+        "mTooltipNameLocalizationKey": {
+          "sourceKey": "perk_tooltip_BonePlatingTooltip",
+          "resolvedKey": "perk_tooltip_boneplatingtooltip",
+          "text": "在承受来自一名敌方英雄的伤害后，你所受的下@BlockCount@次来自英雄的技能或攻击将少造成@BlockCalc@伤害。<br>持续时长：@BlockDuration.1@秒<br>冷却时间：@Cooldown@秒<br><br>减少的伤害总和：<scaleLevel>@f1@</scaleLevel>"
+        },
+        "mShortDescLocalizationKey": {
+          "sourceKey": "perk_short_desc_BonePlating",
+          "resolvedKey": "perk_short_desc_boneplating",
+          "text": "{{perk_long_desc_BonePlating}}"
+        },
+        "mLongDescLocalizationKey": {
+          "sourceKey": "perk_long_desc_BonePlating",
+          "resolvedKey": "perk_long_desc_boneplating",
+          "text": "在承受来自一名敌方英雄的伤害后，你所受的下@BlockCount@次来自英雄的技能或攻击将少造成@BlockBase@-@BlockMax@伤害(基于等级)。<br><br>持续时长：@BlockDuration@秒<br>冷却时间：@Cooldown@秒"
+        },
+        "mDisplayStatLocalizationKey": {
+          "sourceKey": "perk_display_stat_total",
+          "resolvedKey": "perk_display_stat_total",
+          "text": "@f1@"
+        }
+      },
+      "skillBody": {
+        "skillKey": "rune_8473_passive",
+        "name": "符文·骸骨镀层",
+        "description": "本批仅录入：骸骨镀层后续三次攻击或技能的独立减免数值。未证条件和输入不默认，不表示完整战斗机制。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      },
+      "relationBody": {
+        "runeKey": "rune_8473",
+        "skillKey": "rune_8473_passive",
+        "sortOrder": 0
+      }
+    },
+    {
+      "id": 8369,
+      "runeKey": "rune_8369",
+      "skillKey": "rune_8369_passive",
+      "name": "先攻",
+      "scope": "先攻保留7%额外伤害与进入英雄战斗窗口，排除金币",
+      "sourcePath": "Perks/Styles/Inspiration/FirstStrike",
+      "sourceObjectSha256": "c4fa298e6da87419af4f518a7383cbc3c7e3367fa875518dca8867066d9d4112",
+      "parameters": [
+        {
+          "parameterKey": "damage_amp_ratio",
+          "name": "额外伤害比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.07,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "buff_duration_ms",
+          "name": "先攻持续",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 3000,
+          "levelValues": null,
+          "description": "来源秒转换为毫秒；不表示已经连接事件。",
+          "sortOrder": 20
+        },
+        {
+          "parameterKey": "combat_grace_window_ms",
+          "name": "进入英雄战斗允许窗口",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 250,
+          "levelValues": null,
+          "description": "来源秒转换为毫秒；不表示已经连接事件。",
+          "sortOrder": 30
+        },
+        {
+          "parameterKey": "confirmed_cooldown_seconds_source_start",
+          "name": "等级冷却秒数来源起点",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 25,
+          "levelValues": null,
+          "description": "仅保留当前来源起点，不凭端点生成1至18级表。",
+          "sortOrder": 40
+        },
+        {
+          "parameterKey": "confirmed_cooldown_seconds_source_end",
+          "name": "等级冷却秒数来源终点",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 15,
+          "levelValues": null,
+          "description": "仅保留当前来源终点；等级求值过程待补。",
+          "sortOrder": 50
+        },
+        {
+          "parameterKey": "confirmed_cooldown_seconds",
+          "name": "已确认等级冷却秒数",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+          "sortOrder": 60
+        },
+        {
+          "parameterKey": "seconds_to_ms",
+          "name": "秒转毫秒系数",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1000,
+          "levelValues": null,
+          "description": "单位换算常数。",
+          "sortOrder": 70
+        },
+        {
+          "parameterKey": "ordinary_cooldown_multiplier",
+          "name": "普通模式冷却乘数",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 80
+        },
+        {
+          "parameterKey": "qualified_damage_basis",
+          "name": "先攻合格伤害基数",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "实际可增加7%的结算基数由后续资格供值，不默认技能基础伤害或重复包含先攻自身伤害。",
+          "sortOrder": 90
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "additional_damage",
+          "name": "先攻额外伤害数值",
+          "description": "伤害支路保留；当前文本标注额外真实伤害，具体结果和资格尚未落库。",
+          "sortOrder": 10,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "qualified_damage_basis"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "damage_amp_ratio"
+              }
+            ]
+          }
+        },
+        {
+          "formulaKey": "cooldown_ms",
+          "name": "普通模式等级冷却毫秒",
+          "description": "原树等级值乘当前普通模式1后转换毫秒。",
+          "sortOrder": 20,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "confirmed_cooldown_seconds"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ordinary_cooldown_multiplier"
+                  }
+                ]
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "seconds_to_ms"
+              }
+            ]
+          }
+        }
+      ],
+      "effects": [],
+      "triggerRules": [],
+      "processes": [],
+      "internalStates": [],
+      "parameterEvidence": [
+        {
+          "parameterKey": "damage_amp_ratio",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Inspiration/FirstStrike/mScript/mSpellScriptData/mEffectAmount/DamageAmp",
+          "sourceRawValue": 0.07000000029802322,
+          "scale": 1,
+          "normalization": "同版本绑定说明的可读数值；仅清除float32尾差，容差1e-7相对值",
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "buff_duration_ms",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Inspiration/FirstStrike/mScript/mSpellScriptData/mEffectAmount/Duration",
+          "sourceRawValue": 3,
+          "scale": 1000,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "combat_grace_window_ms",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Inspiration/FirstStrike/mScript/mSpellScriptData/mEffectAmount/GraceWindow",
+          "sourceRawValue": 0.25,
+          "scale": 1000,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "confirmed_cooldown_seconds_source_start",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Inspiration/FirstStrike/mScript/mSpellScriptData/mEffectAmount/TooltipOnlyCooldownStartAmount",
+          "sourceRawValue": 25,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "confirmed_cooldown_seconds_source_end",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Inspiration/FirstStrike/mScript/mSpellScriptData/mEffectAmount/TooltipOnlyCooldownEndAmount",
+          "sourceRawValue": 15,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "confirmed_cooldown_seconds",
+          "category": "未接线输入",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": false
+        },
+        {
+          "parameterKey": "seconds_to_ms",
+          "category": "单位换算",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "ordinary_cooldown_multiplier",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Inspiration/FirstStrike/mScript/mSpellScriptData/mEffectAmount/ModesCooldownReduction",
+          "sourceRawValue": 1,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "qualified_damage_basis",
+          "category": "未接线输入",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": false
+        }
+      ],
+      "pending": [
+        {
+          "type": "来源",
+          "reason": "等级冷却秒数曲线起止等级、选项、取整及断点求值未完整证实",
+          "needed": "同构建的完整求值依据；本批显式外供数值"
+        },
+        {
+          "type": "未接线",
+          "reason": "先手判定、伤害基数及额外伤害排重未连接",
+          "needed": "核实触发资格、取值时点和对象归属后装配"
+        }
+      ],
+      "excluded": [],
+      "qualification": {
+        "required": [
+          "率先进入英雄战斗0.25秒内攻击或施法伤害",
+          "冷却可用",
+          "3秒合格伤害窗口"
+        ],
+        "notDefaulted": [
+          "未满足资格也生效",
+          "来源创建后自动触发",
+          "未知等级数值默认为0"
+        ]
+      },
+      "sourceOnly": [
+        {
+          "field": "GoldProcBonus",
+          "raw": 10,
+          "type": "范围外",
+          "reason": "直接金币与金币换算分支，不影响本轮1V1伤害。"
+        },
+        {
+          "field": "GoldPercentBonus",
+          "raw": 0.5,
+          "type": "范围外",
+          "reason": "直接金币与金币换算分支，不影响本轮1V1伤害。"
+        },
+        {
+          "field": "GoldPercentBonusRanged",
+          "raw": 0.3499999940395355,
+          "type": "范围外",
+          "reason": "直接金币与金币换算分支，不影响本轮1V1伤害。"
+        },
+        {
+          "field": "OOCTimer",
+          "raw": 10,
+          "type": "来源待核",
+          "reason": "未取得普通伤害支路消费证明，不以旧脱战、特效限制或未命名字段生成机制。"
+        },
+        {
+          "field": "MissileNoiseNumberLimiter",
+          "raw": 3,
+          "type": "来源待核",
+          "reason": "未取得普通伤害支路消费证明，不以旧脱战、特效限制或未命名字段生成机制。"
+        },
+        {
+          "field": "MissileNoiseRangeLimiter",
+          "raw": 1500,
+          "type": "来源待核",
+          "reason": "未取得普通伤害支路消费证明，不以旧脱战、特效限制或未命名字段生成机制。"
+        },
+        {
+          "field": "{b50bc5ec}",
+          "raw": 0.5,
+          "type": "来源待核",
+          "reason": "未取得普通伤害支路消费证明，不以旧脱战、特效限制或未命名字段生成机制。"
+        },
+        {
+          "field": "{7563bf99}",
+          "raw": 0.699999988079071,
+          "type": "来源待核",
+          "reason": "未取得普通伤害支路消费证明，不以旧脱战、特效限制或未命名字段生成机制。"
+        }
+      ],
+      "sourceCalculations": {
+        "Cooldown": {
+          "mFormulaParts": [
+            {
+              "mPart1": {
+                "mStartValue": 25,
+                "mEndValue": 15,
+                "mScalePastDefaultMaxLevel": false,
+                "__type": "ByCharLevelInterpolationCalculationPart"
+              },
+              "mPart2": {
+                "mDataValue": "ModesCooldownReduction",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              "__type": "ProductOfSubPartsCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "ChampRange": {
+          "mSimpleTooltipCalculationDisplay": 5,
+          "mExpandedTooltipCalculationDisplay": 5,
+          "mDefaultGameCalculation": "{792cf56b}",
+          "mConditionalGameCalculation": "{06387172}",
+          "mConditionalCalculationRequirements": {
+            "__type": "IsRangedCastRequirement"
+          },
+          "__type": "GameCalculationConditional"
+        },
+        "MeleeItemCalcValue": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mExpandedTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "{b50bc5ec}",
+              "__type": "NamedDataValueCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "__type": "GameCalculation"
+        },
+        "RangedItemCalcValue": {
+          "mMultiplier": {
+            "mDataValue": "{7563bf99}",
+            "__type": "NamedDataValueCalculationPart"
+          },
+          "mModifiedGameCalculation": "MeleeItemCalcValue",
+          "__type": "GameCalculationModified"
+        },
+        "{792cf56b}": {
+          "mFormulaParts": [
+            {
+              "mNumber": 1,
+              "__type": "NumberCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "{06387172}": {
+          "mFormulaParts": [
+            {
+              "mNumber": 2,
+              "__type": "NumberCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "currentBoundText": {
+        "mDisplayNameLocalizationKey": {
+          "sourceKey": "perk_displayname_FirstStrike",
+          "resolvedKey": "perk_displayname_firststrike",
+          "text": "先攻"
+        },
+        "mTooltipNameLocalizationKey": {
+          "sourceKey": "perk_tooltip_FirstStrike",
+          "resolvedKey": "perk_tooltip_firststrike",
+          "text": "在进入与英雄战斗的@GraceWindow.2@秒内，对一名敌方英雄进行的攻击或技能将提供@GoldProcBonus@金币和<b>先攻</b>效果，持续@Duration@秒，来使你对英雄们造成<truedamage>@DamageAmp*100@%</truedamage>额外<truedamage>伤害</truedamage>，并提供<gold>{{ Item_Melee_Ranged_Split }}</gold>%该额外伤害值的<gold>金币</gold>。<br><br>冷却时间：<scaleLevel>@Cooldown@</scaleLevel>秒<br><hr><br>已造成的伤害：@f1@<br>已获得金币：@f2@"
+        },
+        "mShortDescLocalizationKey": {
+          "sourceKey": "perk_short_desc_FirstStrike",
+          "resolvedKey": "perk_short_desc_firststrike",
+          "text": "在你率先发起与英雄的战斗时，造成@DamageAmp*100@%额外伤害，持续@Duration@秒，并基于该额外伤害提供金币。"
+        },
+        "mLongDescLocalizationKey": {
+          "sourceKey": "perk_long_desc_FirstStrike",
+          "resolvedKey": "perk_long_desc_firststrike",
+          "text": "在进入与英雄战斗的@GraceWindow@秒内，对一名敌方英雄进行的攻击或技能将提供@GoldProcBonus@金币和<b>先攻</b>效果，持续@Duration@秒，来使你对英雄们造成<truedamage>@DamageAmp*100@%</truedamage>额外<truedamage>伤害</truedamage>，并提供<gold>@GoldPercentBonus*100@% (远程英雄为@GoldPercentBonusRanged*100@%)</gold>该额外伤害值的<gold>金币</gold>。<br><br>冷却时间：<scaleLevel>@TooltipOnlyCooldownStartAmount@ - @TooltipOnlyCooldownEndAmount@</scaleLevel>秒"
+        },
+        "mDisplayStatLocalizationKey": {
+          "sourceKey": "perk_display_stat_FirstStrike",
+          "resolvedKey": "perk_display_stat_firststrike",
+          "text": "@f1@"
+        }
+      },
+      "skillBody": {
+        "skillKey": "rune_8369_passive",
+        "name": "符文·先攻",
+        "description": "本批仅录入：先攻保留7%额外伤害与进入英雄战斗窗口，排除金币。未证条件和输入不默认，不表示完整战斗机制。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      },
+      "relationBody": {
+        "runeKey": "rune_8369",
+        "skillKey": "rune_8369_passive",
+        "sortOrder": 0
+      }
+    },
+    {
+      "id": 8224,
+      "runeKey": "rune_8224",
+      "skillKey": "rune_8224_passive",
+      "name": "公理秘术",
+      "scope": "公理秘术终极技能伤害/自身恢复/自身护盾与当前冷却返还",
+      "sourcePath": "Perks/Styles/Sorcery/NullifyingOrb",
+      "sourceObjectSha256": "aafa17fce954cebb42674bf04334a78ee7797cbee5a87d1946a248f68be4c525",
+      "parameters": [
+        {
+          "parameterKey": "single_damage_amp_ratio",
+          "name": "终极单体伤害及治疗护盾增幅",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.12,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "aoe_damage_amp_ratio",
+          "name": "终极群体伤害增幅",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.08,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 20
+        },
+        {
+          "parameterKey": "current_ultimate_cooldown_refund_ratio",
+          "name": "当前终极冷却返还比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.07,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 30
+        },
+        {
+          "parameterKey": "current_ultimate_cooldown_ms",
+          "name": "参与击杀时终极当前剩余冷却",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "必须读取该终极当前剩余冷却，不使用基础或总冷却，更不能复用装备6696总冷却口径。",
+          "sortOrder": 40
+        },
+        {
+          "parameterKey": "qualified_ultimate_damage",
+          "name": "已确认终极伤害基数",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "群体伤害分类即使只命中当前一个英雄也仍用8%；结算阶段单独核实。",
+          "sortOrder": 50
+        },
+        {
+          "parameterKey": "qualified_self_healing_or_shield",
+          "name": "已确认终极自身治疗或护盾基数",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "只保留当前自身收益，第三者友军专用收益不在本轮；不把数值自动当瞬时治疗。",
+          "sortOrder": 60
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "ultimate_current_cooldown_refund_ms",
+          "name": "当前终极剩余冷却返还",
+          "description": "参与击杀后返还当前剩余冷却7%，不是7毫秒或总冷却7%。",
+          "sortOrder": 10,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "current_ultimate_cooldown_ms"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "current_ultimate_cooldown_refund_ratio"
+              }
+            ]
+          }
+        },
+        {
+          "formulaKey": "single_target_additional_damage",
+          "name": "终极单体分类额外伤害",
+          "description": "仅合法单体伤害分类。",
+          "sortOrder": 20,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "qualified_ultimate_damage"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "single_damage_amp_ratio"
+              }
+            ]
+          }
+        },
+        {
+          "formulaKey": "aoe_additional_damage",
+          "name": "终极群体分类额外伤害",
+          "description": "群体分类对当前单一目标仍成立，不作为多目标范围外删掉。",
+          "sortOrder": 30,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "qualified_ultimate_damage"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "aoe_damage_amp_ratio"
+              }
+            ]
+          }
+        },
+        {
+          "formulaKey": "additional_self_healing_or_shield",
+          "name": "终极自身治疗或护盾增加量",
+          "description": "基数与自身资格必须确认后选用，治疗和护盾不同时重复发放。",
+          "sortOrder": 40,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "qualified_self_healing_or_shield"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "single_damage_amp_ratio"
+              }
+            ]
+          }
+        }
+      ],
+      "effects": [],
+      "triggerRules": [],
+      "processes": [],
+      "internalStates": [],
+      "parameterEvidence": [
+        {
+          "parameterKey": "single_damage_amp_ratio",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Sorcery/NullifyingOrb/mScript/mSpellScriptData/mEffectAmount/DamageAmp",
+          "sourceRawValue": 0.11999999731779099,
+          "scale": 1,
+          "normalization": "同版本绑定说明的可读数值；仅清除float32尾差，容差1e-7相对值",
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "aoe_damage_amp_ratio",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Sorcery/NullifyingOrb/mScript/mSpellScriptData/mEffectAmount/AOEAmp",
+          "sourceRawValue": 0.07999999821186066,
+          "scale": 1,
+          "normalization": "同版本绑定说明的可读数值；仅清除float32尾差，容差1e-7相对值",
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "current_ultimate_cooldown_refund_ratio",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Sorcery/NullifyingOrb/mScript/mSpellScriptData/mEffectAmount/UltimateRefundBase",
+          "sourceRawValue": 7,
+          "scale": 0.01,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "current_ultimate_cooldown_ms",
+          "category": "未接线输入",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": false
+        },
+        {
+          "parameterKey": "qualified_ultimate_damage",
+          "category": "未接线输入",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": false
+        },
+        {
+          "parameterKey": "qualified_self_healing_or_shield",
+          "category": "未接线输入",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": false
+        }
+      ],
+      "pending": [
+        {
+          "type": "未接线",
+          "reason": "终极技能范围、不同结果基数与触发均待接线",
+          "needed": "核实触发资格、取值时点和对象归属后装配"
+        }
+      ],
+      "excluded": [
+        {
+          "branch": "第三者友军专用终极治疗/护盾",
+          "reason": "只排除第三者收益，自身和当前敌方英雄伤害分支完整保留"
+        }
+      ],
+      "qualification": {
+        "required": [
+          "实际终极技能分类",
+          "按实际伤害类型选12%或8%",
+          "真实自身恢复/护盾资格",
+          "参与击杀才返还当前终极冷却"
+        ],
+        "notDefaulted": [
+          "未满足资格也生效",
+          "来源创建后自动触发",
+          "未知等级数值默认为0"
+        ]
+      },
+      "sourceCalculations": {},
+      "currentBoundText": {
+        "mDisplayNameLocalizationKey": {
+          "sourceKey": "perk_displayname_AxiomArcanist",
+          "resolvedKey": "perk_displayname_axiomarcanist",
+          "text": "公理秘术"
+        },
+        "mTooltipNameLocalizationKey": {
+          "sourceKey": "perk_tooltip_AxiomArcanist",
+          "resolvedKey": "perk_tooltip_axiomarcanist",
+          "text": "你的终极技能的伤害、治疗和护盾提升@DamageAmp*100@%。<br>(群体伤害的提升幅度会降低至@AOEAmp*100@%)<br><br>参与击杀一名敌方英雄后，会使你的终极技能的当前冷却时间缩短@UltimateRefundBase@%。<br><br>已缩短的终极技能冷却：@f1@秒<br>对英雄的额外终极技能伤害/治疗/护盾：@f2@"
+        },
+        "mShortDescLocalizationKey": {
+          "sourceKey": "perk_short_desc_AxiomArcanist",
+          "resolvedKey": "perk_short_desc_axiomarcanist",
+          "text": "你的终极技能的伤害、治疗和护盾获得提升。参与击杀一名敌方英雄后，会使你的终极技能的当前冷却时间缩短。"
+        },
+        "mLongDescLocalizationKey": {
+          "sourceKey": "perk_long_desc_AxiomArcanist",
+          "resolvedKey": "perk_long_desc_axiomarcanist",
+          "text": "你的终极技能的伤害、治疗和护盾提升@DamageAmp*100@%。<br>(群体伤害的提升幅度会降低至@AOEAmp*100@%)<br><br>参与击杀一名敌方英雄后，会使你的终极技能的当前冷却时间缩短@UltimateRefundBase@%。"
+        },
+        "mDisplayStatLocalizationKey": {
+          "sourceKey": "perk_display_stat_AxiomArcanist",
+          "resolvedKey": "perk_display_stat_axiomarcanist",
+          "text": "@f2@"
+        }
+      },
+      "skillBody": {
+        "skillKey": "rune_8224_passive",
+        "name": "符文·公理秘术",
+        "description": "本批仅录入：公理秘术终极技能伤害/自身恢复/自身护盾与当前冷却返还。未证条件和输入不默认，不表示完整战斗机制。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      },
+      "relationBody": {
+        "runeKey": "rune_8224",
+        "skillKey": "rune_8224_passive",
+        "sortOrder": 0
+      }
+    },
+    {
+      "id": 8992,
+      "runeKey": "rune_8992",
+      "skillKey": "rune_8992_passive",
+      "name": "冥火之触",
+      "scope": "冥火每秒魔法伤害、三秒后仍着火增幅与三种技能分类持续时间",
+      "sourcePath": "Perks/Styles/Sorcery/DeathfireTouch",
+      "sourceObjectSha256": "4820692d748b638eeb346fcc2933afd0a44769a672b44c7d2c337d60d3e7d453",
+      "parameters": [
+        {
+          "parameterKey": "confirmed_level_damage_per_second",
+          "name": "已确认等级每秒基础伤害",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "当前DamageCalc为3至12插值节点；起止与求值未证，不按1至18级线性生成。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "level_damage_source_start",
+          "name": "原计算等级起点",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 3,
+          "levelValues": null,
+          "description": "当前DamageCalc首节点mStartValue=3，仅来源端点。",
+          "sortOrder": 20
+        },
+        {
+          "parameterKey": "level_damage_source_end",
+          "name": "原计算等级终点",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 12,
+          "levelValues": null,
+          "description": "当前DamageCalc首节点mEndValue=12；未知hash字段不用于猜语义。",
+          "sortOrder": 30
+        },
+        {
+          "parameterKey": "bonus_ad_ratio",
+          "name": "每秒额外攻击力系数",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.07,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 40
+        },
+        {
+          "parameterKey": "ap_ratio",
+          "name": "每秒法强系数",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.025,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 50
+        },
+        {
+          "parameterKey": "single_duration_ms",
+          "name": "单体技能分类灼烧时长",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 4000,
+          "levelValues": null,
+          "description": "来源秒转换为毫秒；不表示已经连接事件。",
+          "sortOrder": 60
+        },
+        {
+          "parameterKey": "aoe_duration_ms",
+          "name": "群体技能分类灼烧时长",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 2000,
+          "levelValues": null,
+          "description": "来源秒转换为毫秒；不表示已经连接事件。",
+          "sortOrder": 70
+        },
+        {
+          "parameterKey": "dot_duration_ms",
+          "name": "持续伤害技能分类灼烧时长",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1000,
+          "levelValues": null,
+          "description": "来源秒转换为毫秒；不表示已经连接事件。",
+          "sortOrder": 80
+        },
+        {
+          "parameterKey": "amplification_threshold_ms",
+          "name": "仍着火增幅门槛",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 3000,
+          "levelValues": null,
+          "description": "来源秒转换为毫秒；不表示已经连接事件。",
+          "sortOrder": 90
+        },
+        {
+          "parameterKey": "damage_increase_ratio",
+          "name": "三秒后伤害提升比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.75,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 100
+        },
+        {
+          "parameterKey": "source_ticks_per_second",
+          "name": "来源每秒跳数",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 2,
+          "levelValues": null,
+          "description": "只保留原字段；首跳时点、刷新与截止未知，不生成周期结果或直接除2造每跳。",
+          "sortOrder": 110
+        },
+        {
+          "parameterKey": "one",
+          "name": "一倍基准",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1,
+          "levelValues": null,
+          "description": "提升75%意味着乘1.75。",
+          "sortOrder": 120
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "damage_per_second",
+          "name": "普通灼烧每秒伤害",
+          "description": "当前原树是每秒伤害，不是每跳或完整持续总伤害。",
+          "sortOrder": 10,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "confirmed_level_damage_per_second"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "ability_power",
+                        "attributeValueKind": "TOTAL"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "ap_ratio"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "BONUS"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_ad_ratio"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "formulaKey": "amplified_damage_per_second",
+          "name": "仍着火三秒后的每秒伤害",
+          "description": "仅灼烧3秒后仍着火的后续伤害乘1.75，不回溯放大前三秒。",
+          "sortOrder": 20,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "ADD",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "confirmed_level_damage_per_second"
+                      },
+                      {
+                        "nodeType": "OPERATION",
+                        "operation": "MULTIPLY",
+                        "operands": [
+                          {
+                            "nodeType": "ATTRIBUTE",
+                            "attributeOwner": "SOURCE",
+                            "attributeKey": "ability_power",
+                            "attributeValueKind": "TOTAL"
+                          },
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "ap_ratio"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "attack_damage",
+                        "attributeValueKind": "BONUS"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "bonus_ad_ratio"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "one"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "damage_increase_ratio"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "effects": [],
+      "triggerRules": [],
+      "processes": [],
+      "internalStates": [],
+      "parameterEvidence": [
+        {
+          "parameterKey": "confirmed_level_damage_per_second",
+          "category": "未接线输入",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": false
+        },
+        {
+          "parameterKey": "level_damage_source_start",
+          "category": "当前绑定计算树",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "level_damage_source_end",
+          "category": "当前绑定计算树",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "bonus_ad_ratio",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Sorcery/DeathfireTouch/mScript/mSpellScriptData/mEffectAmount/ADRatio",
+          "sourceRawValue": 0.07000000029802322,
+          "scale": 1,
+          "normalization": "同版本绑定说明的可读数值；仅清除float32尾差，容差1e-7相对值",
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "ap_ratio",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Sorcery/DeathfireTouch/mScript/mSpellScriptData/mEffectAmount/APRatio",
+          "sourceRawValue": 0.02500000037252903,
+          "scale": 1,
+          "normalization": "同版本绑定说明的可读数值；仅清除float32尾差，容差1e-7相对值",
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "single_duration_ms",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Sorcery/DeathfireTouch/mScript/mSpellScriptData/mEffectAmount/Duration",
+          "sourceRawValue": 4,
+          "scale": 1000,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "aoe_duration_ms",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Sorcery/DeathfireTouch/mScript/mSpellScriptData/mEffectAmount/AoEDuration",
+          "sourceRawValue": 2,
+          "scale": 1000,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "dot_duration_ms",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Sorcery/DeathfireTouch/mScript/mSpellScriptData/mEffectAmount/DotDuration",
+          "sourceRawValue": 1,
+          "scale": 1000,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "amplification_threshold_ms",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Sorcery/DeathfireTouch/mScript/mSpellScriptData/mEffectAmount/TimeToAmp",
+          "sourceRawValue": 3,
+          "scale": 1000,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "damage_increase_ratio",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Sorcery/DeathfireTouch/mScript/mSpellScriptData/mEffectAmount/DamageMultiplier",
+          "sourceRawValue": 0.75,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "source_ticks_per_second",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Sorcery/DeathfireTouch/mScript/mSpellScriptData/mEffectAmount/TicksPerSecond",
+          "sourceRawValue": 2,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "one",
+          "category": "明确百分比算术",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        }
+      ],
+      "pending": [
+        {
+          "type": "未接线",
+          "reason": "首跳、续燃计时、刷新覆盖、伤害资格及周期结果未接线",
+          "needed": "核实触发资格、取值时点和对象归属后装配"
+        },
+        {
+          "type": "来源",
+          "reason": "每秒2跳不能证明首跳在0或0.5秒，也不能证明截止与延长规则",
+          "needed": "当前周期调度执行链"
+        }
+      ],
+      "excluded": [],
+      "qualification": {
+        "required": [
+          "技能实际伤害当前英雄",
+          "依据单体/群体/持续伤害分类选持续时间",
+          "3秒后仍着火才增强后续伤害"
+        ],
+        "notDefaulted": [
+          "未满足资格也生效",
+          "来源创建后自动触发",
+          "未知等级数值默认为0"
+        ]
+      },
+      "sourceOnly": [
+        {
+          "field": "Level1DamageTOOLTIP",
+          "raw": 3,
+          "type": "来源待核",
+          "reason": "保留展示或未命名字段原值；正常计算采用当前DamageCalc及APRatio/ADRatio。"
+        },
+        {
+          "field": "{2156e250}",
+          "raw": 12,
+          "type": "来源待核",
+          "reason": "保留展示或未命名字段原值；正常计算采用当前DamageCalc及APRatio/ADRatio。"
+        },
+        {
+          "field": "APRatioTT",
+          "raw": 2.5,
+          "type": "来源待核",
+          "reason": "保留展示或未命名字段原值；正常计算采用当前DamageCalc及APRatio/ADRatio。"
+        },
+        {
+          "field": "ADRatioTT",
+          "raw": 7,
+          "type": "来源待核",
+          "reason": "保留展示或未命名字段原值；正常计算采用当前DamageCalc及APRatio/ADRatio。"
+        }
+      ],
+      "sourceCalculations": {
+        "DamageCalc": {
+          "mSimpleTooltipCalculationDisplay": 4,
+          "mFormulaParts": [
+            {
+              "mStartValue": 3,
+              "mEndValue": 12,
+              "__type": "ByCharLevelInterpolationCalculationPart"
+            },
+            {
+              "mDataValue": "APRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mDataValue": "ADRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "currentBoundText": {
+        "mDisplayNameLocalizationKey": {
+          "sourceKey": "perk_displayname_DeathfireTouch",
+          "resolvedKey": "perk_displayname_deathfiretouch",
+          "text": "冥火之触"
+        },
+        "mTooltipNameLocalizationKey": {
+          "sourceKey": "perk_tooltip_DeathfireTouch",
+          "resolvedKey": "perk_tooltip_deathfiretouch",
+          "text": "用一个技能对一名英雄造成伤害时，会灼烧其造成每秒<magicDamage>@DamageCalc@魔法伤害</magicDamage>。在灼烧@TimeToAmp@秒之后，如果该目标仍在着火状态，则这个灼烧的伤害提升@DamageMultiplier*100@%。<br><rules><br>持续时长：<br>单体目标技能：@Duration@秒<br>群体目标技能：@AoEDuration@秒<br>持续伤害技能：@DotDuration@秒<br></rules><br>你已通过【冥火之触】的灼烧对英雄们造成了@f1@伤害。"
+        },
+        "mShortDescLocalizationKey": {
+          "sourceKey": "perk_short_desc_DeathfireTouch",
+          "resolvedKey": "perk_short_desc_deathfiretouch",
+          "text": "用一个技能对一名英雄造成伤害时，会持续灼烧该英雄。"
+        },
+        "mLongDescLocalizationKey": {
+          "sourceKey": "perk_long_desc_DeathfireTouch",
+          "resolvedKey": "perk_long_desc_deathfiretouch",
+          "text": "用一个技能对一名英雄造成伤害时，会灼烧其造成每秒@Level1DamageTOOLTIP@ - @Level18DamageTOOLTIP@ 基于等级 (+<scaleAP>@APRatioTT.1@%法术强度</scaleAP>) (+<scaleAD>@ADRatioTT@%额外攻击力</scaleAD>)魔法伤害。在灼烧@TimeToAmp@秒之后，如果该目标仍在着火状态，则这个灼烧的伤害提升@DamageMultiplier*100@%。<br><rules><br>持续时长：<br>单体目标技能：@Duration@秒<br>群体目标技能：@AoEDuration@秒<br>持续伤害技能：@DotDuration@秒<br></rules>"
+        },
+        "mDisplayStatLocalizationKey": {
+          "sourceKey": "perk_display_stat_total",
+          "resolvedKey": "perk_display_stat_total",
+          "text": "@f1@"
+        }
+      },
+      "skillBody": {
+        "skillKey": "rune_8992_passive",
+        "name": "符文·冥火之触",
+        "description": "本批仅录入：冥火每秒魔法伤害、三秒后仍着火增幅与三种技能分类持续时间。未证条件和输入不默认，不表示完整战斗机制。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      },
+      "relationBody": {
+        "runeKey": "rune_8992",
+        "skillKey": "rune_8992_passive",
+        "sortOrder": 0
+      }
+    },
+    {
+      "id": 8236,
+      "runeKey": "rune_8236",
+      "skillKey": "rune_8236_passive",
+      "name": "风暴聚集",
+      "scope": "风暴聚集普通模式10分钟档与六个明确法强展示值；攻击力冲突不猜换算",
+      "sourcePath": "Perks/Styles/Sorcery/GatheringStorm",
+      "sourceObjectSha256": "e40f475bb3cbf440b92ec0d82d192d6901df85f4b8f04e30cc704b115d062839",
+      "parameters": [
+        {
+          "parameterKey": "checkpoint_interval_ms",
+          "name": "普通模式增长间隔",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 600000,
+          "levelValues": null,
+          "description": "普通模式10分钟乘60000为600000毫秒；其他模式覆盖不使用。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "ap_at_10_minutes",
+          "name": "10分钟已展示法强",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 8,
+          "levelValues": null,
+          "description": "当前普通模式长说明逐项明确，仅该档已证，不外推无限时间公式。",
+          "sortOrder": 20
+        },
+        {
+          "parameterKey": "ap_at_20_minutes",
+          "name": "20分钟已展示法强",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 24,
+          "levelValues": null,
+          "description": "当前普通模式长说明逐项明确，仅该档已证，不外推无限时间公式。",
+          "sortOrder": 30
+        },
+        {
+          "parameterKey": "ap_at_30_minutes",
+          "name": "30分钟已展示法强",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 48,
+          "levelValues": null,
+          "description": "当前普通模式长说明逐项明确，仅该档已证，不外推无限时间公式。",
+          "sortOrder": 40
+        },
+        {
+          "parameterKey": "ap_at_40_minutes",
+          "name": "40分钟已展示法强",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 80,
+          "levelValues": null,
+          "description": "当前普通模式长说明逐项明确，仅该档已证，不外推无限时间公式。",
+          "sortOrder": 50
+        },
+        {
+          "parameterKey": "ap_at_50_minutes",
+          "name": "50分钟已展示法强",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 120,
+          "levelValues": null,
+          "description": "当前普通模式长说明逐项明确，仅该档已证，不外推无限时间公式。",
+          "sortOrder": 60
+        },
+        {
+          "parameterKey": "ap_at_60_minutes",
+          "name": "60分钟已展示法强",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 168,
+          "levelValues": null,
+          "description": "当前普通模式长说明逐项明确，仅该档已证，不外推无限时间公式。",
+          "sortOrder": 70
+        },
+        {
+          "parameterKey": "confirmed_current_ability_power",
+          "name": "已确认当前档法强",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "目前只支持明确核对的10/20/30/40/50/60分钟档8/24/48/80/120/168。实际进度和自适应选择外供，不默认0，不外推60分钟之后。",
+          "sortOrder": 80
+        },
+        {
+          "parameterKey": "confirmed_current_attack_damage",
+          "name": "已确认当前档攻击力",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "原AdaptiveAD=6与10分钟展示5冲突，其他展示还有取整；不默认0.6换算或三角数无限公式。",
+          "sortOrder": 90
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "ability_power_amount",
+          "name": "已确认当前法强档数值",
+          "description": "仅已确定选择法强分支时使用。",
+          "sortOrder": 10,
+          "expression": {
+            "nodeType": "PARAMETER",
+            "parameterKey": "confirmed_current_ability_power"
+          }
+        },
+        {
+          "formulaKey": "attack_damage_amount",
+          "name": "已确认当前攻击力档数值",
+          "description": "AD来源冲突由已核实输入解决；不把展示整数当未经舍入的实时值。",
+          "sortOrder": 20,
+          "expression": {
+            "nodeType": "PARAMETER",
+            "parameterKey": "confirmed_current_attack_damage"
+          }
+        }
+      ],
+      "effects": [
+        {
+          "effectKey": "confirmed_ability_power",
+          "name": "已确认法强档组成",
+          "description": "只在真实进度档及法强分支已确认时授予一份总量快照；换档或属性选择变化须替换/移除，不能按次数重复叠加总值。无自动时钟或适应选择规则。",
+          "sortOrder": 10,
+          "lifecycle": {
+            "durationValue": null,
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "instanceScope": "SOURCE",
+            "reapplicationStackMode": "KEEP",
+            "reapplicationDurationMode": null,
+            "expiryMode": "EXPLICIT_ONLY",
+            "periodicIntervalValue": null,
+            "firstPeriodicExecution": null
+          },
+          "results": [
+            {
+              "resultKey": "attribute_bonus",
+              "name": "已确认法强档组成",
+              "description": null,
+              "sortOrder": 10,
+              "resultType": "ATTRIBUTE_CHANGE",
+              "target": "SOURCE",
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "valueReadMode": "APPLICATION_SNAPSHOT",
+                "stackValueMode": "SHARED",
+                "reapplicationValueMode": "REPLACE",
+                "periodicExecutionMode": null
+              },
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "FORMULA",
+                  "formulaKey": "ability_power_amount"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": 0,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "attributeKey": "ability_power",
+                "operation": "INCREASE",
+                "modifierZoneKey": "attribute_flat_add"
+              }
+            }
+          ]
+        }
+      ],
+      "triggerRules": [],
+      "processes": [],
+      "internalStates": [],
+      "parameterEvidence": [
+        {
+          "parameterKey": "checkpoint_interval_ms",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Sorcery/GatheringStorm/mScript/mSpellScriptData/mEffectAmount/UpdateAfterMinutes",
+          "sourceRawValue": 10,
+          "scale": 60000,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "ap_at_10_minutes",
+          "category": "当前绑定正文",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "ap_at_20_minutes",
+          "category": "当前绑定正文",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "ap_at_30_minutes",
+          "category": "当前绑定正文",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "ap_at_40_minutes",
+          "category": "当前绑定正文",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "ap_at_50_minutes",
+          "category": "当前绑定正文",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "ap_at_60_minutes",
+          "category": "当前绑定正文",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "confirmed_current_ability_power",
+          "category": "未接线输入",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": false
+        },
+        {
+          "parameterKey": "confirmed_current_attack_damage",
+          "category": "未接线输入",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": false
+        }
+      ],
+      "pending": [
+        {
+          "type": "来源冲突",
+          "reason": "攻击力原值6、首档展示5及后续舍入序列不一致",
+          "needed": "当前实际增益、舍入与适应选择执行链"
+        },
+        {
+          "type": "未接线",
+          "reason": "时间进度、适应选择与总值替换未接线",
+          "needed": "核实触发资格、取值时点和对象归属后装配"
+        }
+      ],
+      "excluded": [],
+      "qualification": {
+        "required": [
+          "普通模式实际进度档明确",
+          "仅选择一个适应属性分支",
+          "该档实际收益已核实"
+        ],
+        "notDefaulted": [
+          "未满足资格也生效",
+          "来源创建后自动触发",
+          "未知等级数值默认为0"
+        ]
+      },
+      "checkpointEvidence": {
+        "minutes": [
+          10,
+          20,
+          30,
+          40,
+          50,
+          60
+        ],
+        "abilityPower": [
+          8,
+          24,
+          48,
+          80,
+          120,
+          168
+        ],
+        "attackDamageDisplay": [
+          5,
+          14,
+          29,
+          48,
+          72,
+          101
+        ],
+        "source": "当前绑定长说明；AD展示存在取整且AdaptiveAD=6与首档5冲突"
+      },
+      "sourceOnly": [
+        {
+          "field": "AdaptiveAP",
+          "raw": 8,
+          "type": "来源待核",
+          "reason": "AP8仅证明第一展示档；AD6与显示5有冲突，未知字段不拿来推无限增长。"
+        },
+        {
+          "field": "AdaptiveAD",
+          "raw": 6,
+          "type": "来源待核",
+          "reason": "AP8仅证明第一展示档；AD6与显示5有冲突，未知字段不拿来推无限增长。"
+        },
+        {
+          "field": "{c5d14564}",
+          "raw": 8,
+          "type": "来源待核",
+          "reason": "AP8仅证明第一展示档；AD6与显示5有冲突，未知字段不拿来推无限增长。"
+        }
+      ],
+      "sourceCalculations": {},
+      "currentBoundText": {
+        "mDisplayNameLocalizationKey": {
+          "sourceKey": "perk_displayname_GatheringStorm",
+          "resolvedKey": "perk_displayname_gatheringstorm",
+          "text": "风暴聚集"
+        },
+        "mTooltipNameLocalizationKey": {
+          "sourceKey": "perk_tooltip_GatheringStorm",
+          "resolvedKey": "perk_tooltip_gatheringstorm",
+          "text": "{{perk_long_desc_GatheringStorm}}<br><hr><br>{{ adaptive_force_tip_bonus_@f2@ }}"
+        },
+        "mShortDescLocalizationKey": {
+          "sourceKey": "perk_short_desc_GatheringStorm",
+          "resolvedKey": "perk_short_desc_gatheringstorm",
+          "text": "随着游戏的进程而获得数额不断提升的攻击力或法术强度，<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_Adaptive'>自动适应</lol-uikit-tooltipped-keyword>。"
+        },
+        "mLongDescLocalizationKey": {
+          "sourceKey": "perk_long_desc_GatheringStorm",
+          "resolvedKey": "perk_long_desc_gatheringstorm",
+          "text": "每@UpdateAfterMinutes@分钟获得法术强度或攻击力，<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_Adaptive'><font color='#48C4B7'>自动适应</font></lol-uikit-tooltipped-keyword>。<br><br><i>@UpdateAfterMinutes@分钟</i>: + 8法术强度 或 5攻击力<br><i>@UpdateAfterMinutes*2@分钟</i>: + 24法术强度 或 14攻击力<br><i>@UpdateAfterMinutes*3@分钟</i>: + 48法术强度 或 29攻击力<br><i>@UpdateAfterMinutes*4@分钟</i>: + 80法术强度 或 48攻击力<br><i>@UpdateAfterMinutes*5@分钟</i>: + 120法术强度 或 72攻击力<br><i>@UpdateAfterMinutes*6@分钟</i>: + 168法术强度 或 101攻击力<br>以此类推……"
+        },
+        "mDisplayStatLocalizationKey": {
+          "sourceKey": "perk_display_stat_adaptive",
+          "resolvedKey": "perk_display_stat_adaptive",
+          "text": "@f1@"
+        }
+      },
+      "skillBody": {
+        "skillKey": "rune_8236_passive",
+        "name": "符文·风暴聚集",
+        "description": "本批仅录入：风暴聚集普通模式10分钟档与六个明确法强展示值；攻击力冲突不猜换算。未证条件和输入不默认，不表示完整战斗机制。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      },
+      "relationBody": {
+        "runeKey": "rune_8236",
+        "skillKey": "rune_8236_passive",
+        "sortOrder": 0
+      }
+    }
+  ]
+}

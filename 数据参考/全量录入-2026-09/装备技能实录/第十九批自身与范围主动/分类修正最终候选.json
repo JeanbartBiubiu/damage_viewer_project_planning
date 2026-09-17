@@ -1,0 +1,4510 @@
+{
+  "generatedAt": "2026-09-09T08:54:29.348Z",
+  "stage": "独立审查后最终候选，未写业务",
+  "clientVersion": "16.17",
+  "officialVersion": "16.17.1",
+  "gameSourceBuild": "16.17.8104348",
+  "boundary": "第十九批自身与范围主动：范围主动可命中当前唯一敌人；自身护盾的目标资格待补证；附近单个敌方增幅保留；排除纯多目标、第三友方专属、纯几何和只对小兵野怪支路。未知字段留来源或运行时输入，不补0、不猜等级曲线、不默认DAMAGE/DIRECT_HEAL。",
+  "sourceFreezeSha256": "1ce775810bd1a252438386f6959dd8adf7a1de51224e3e055e3ffe8826ad7a79",
+  "sourceFreezePath": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备技能实录\\第十九批自身与范围主动\\冻结来源.json",
+  "currentGETSha256": "ebe75831b1a118ff1abe34683fa9d30f588eacc6c8edbd0348787d73a1462773",
+  "currentGETPath": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备技能实录\\第十九批自身与范围主动\\当前198装备与挂载独立GET.json",
+  "objects": [
+    {
+      "equipmentKey": "item_3074",
+      "equipmentName": "贪欲九头蛇",
+      "skillKey": "item_3074_active",
+      "source": {
+        "path": "Items/3074",
+        "rawObjectSha256": "a21be0fb18402365cd32e59a16a80b75ef3a095dc0edbb3f6a4e7622632b62b5",
+        "rawSpellObjects": [
+          {
+            "path": "Items/3074/Spells/3074Active",
+            "sha256": "eddd7c4e2f03392925b62ebc6cb4b56b91a6e4af3887d661e3a431c67c329aed",
+            "objectName": "3074Active"
+          }
+        ],
+        "bindings": [
+          {
+            "binding": "keyName",
+            "sourceKey": "Item_3074_Name",
+            "text": "贪欲九头蛇"
+          },
+          {
+            "binding": "keyTooltip",
+            "sourceKey": "Item_3074_Tooltip",
+            "text": "<mainText><stats><attention>65</attention>攻击力<br><attention>15</attention>技能急速<br><attention>12%</attention>生命偷取</stats><br><br><passive>顺劈</passive><br>攻击会对附近的敌人们造成<physicalDamage>物理伤害</physicalDamage>。 <active>血斩</active><br>对你周围的敌人们造成<physicalDamage>物理伤害</physicalDamage>。<br>你的生命偷取会作用于此伤害。</mainText>"
+          },
+          {
+            "binding": "keyColloquialism",
+            "sourceKey": "Item_3074_Colloquialism",
+            "text": "<mainText><stats><attention>65</attention>攻击力<br><attention>15</attention>技能急速<br><attention>12%</attention>生命偷取</stats><br><br><passive>顺劈</passive><br>攻击会对附近的敌人们造成<physicalDamage>物理伤害</physicalDamage>。 <active>血斩</active><br>对你周围的敌人们造成<physicalDamage>物理伤害</physicalDamage>。<br>你的生命偷取会作用于此伤害。</mainText>"
+          },
+          {
+            "binding": "keyActive",
+            "sourceKey": "Item_3074_Active",
+            "text": "<mainText><stats><attention>65</attention>攻击力<br><attention>15</attention>技能急速<br><attention>12%</attention>生命偷取</stats><br><br><passive>顺劈</passive><br>攻击会对附近的敌人们造成<physicalDamage>物理伤害</physicalDamage>。 <active>血斩</active><br>对你周围的敌人们造成<physicalDamage>物理伤害</physicalDamage>。<br>你的生命偷取会作用于此伤害。</mainText>"
+          },
+          {
+            "binding": "keyBrief",
+            "sourceKey": "Item_3074_Brief",
+            "text": "<mainText><stats><attention>65</attention>攻击力<br><attention>15</attention>技能急速<br><attention>12%</attention>生命偷取</stats><br><br><passive>顺劈</passive><br>攻击会对附近的敌人们造成<physicalDamage>物理伤害</physicalDamage>。 <active>血斩</active><br>对你周围的敌人们造成<physicalDamage>物理伤害</physicalDamage>。<br>你的生命偷取会作用于此伤害。</mainText>"
+          },
+          {
+            "binding": "keyTooltipExtended",
+            "sourceKey": "Item_3074_TooltipExtended",
+            "text": "<mainText><stats><attention>65</attention>攻击力<br><attention>15</attention>技能急速<br><attention>12%</attention>生命偷取</stats><br><br><passive>顺劈</passive><br>攻击会对附近的敌人们造成<physicalDamage>物理伤害</physicalDamage>。 <active>血斩</active><br>对你周围的敌人们造成<physicalDamage>物理伤害</physicalDamage>。<br>你的生命偷取会作用于此伤害。</mainText>"
+          },
+          {
+            "binding": "keyActiveExternal",
+            "sourceKey": "Item_3074_ActiveExternal",
+            "text": "<mainText><stats><attention>65</attention>攻击力<br><attention>15</attention>技能急速<br><attention>12%</attention>生命偷取</stats><br><br><passive>顺劈</passive><br>攻击会对附近的敌人们造成<physicalDamage>物理伤害</physicalDamage>。 <active>血斩</active><br>对你周围的敌人们造成<physicalDamage>物理伤害</physicalDamage>。<br>你的生命偷取会作用于此伤害。</mainText>"
+          },
+          {
+            "binding": "keySecondaryBrief",
+            "sourceKey": "Item_Unique_Hydra",
+            "text": null
+          },
+          {
+            "binding": "keyTooltipExtendedRules",
+            "sourceKey": "Item_3074_TooltipExtendedRules",
+            "text": "<mainText><stats><attention>65</attention>攻击力<br><attention>15</attention>技能急速<br><attention>12%</attention>生命偷取</stats><br><br><passive>顺劈</passive><br>攻击会对附近的敌人们造成<physicalDamage>物理伤害</physicalDamage>。 <active>血斩</active><br>对你周围的敌人们造成<physicalDamage>物理伤害</physicalDamage>。<br>你的生命偷取会作用于此伤害。</mainText>"
+          },
+          {
+            "binding": "keyTooltipExternal",
+            "sourceKey": "Item_3074_TooltipExternal",
+            "text": "<mainText><stats><attention>65</attention>攻击力<br><attention>15</attention>技能急速<br><attention>12%</attention>生命偷取</stats><br><br><passive>顺劈</passive><br>攻击会对附近的敌人们造成<physicalDamage>物理伤害</physicalDamage>。 <active>血斩</active><br>对你周围的敌人们造成<physicalDamage>物理伤害</physicalDamage>。<br>你的生命偷取会作用于此伤害。</mainText>"
+          }
+        ],
+        "official": {
+          "name": "贪欲九头蛇",
+          "description": "<mainText><stats><attention>65</attention>攻击力<br><attention>15</attention>技能急速<br><attention>12%</attention>生命偷取</stats><br><br><passive>顺劈</passive><br>攻击会对附近的敌人们造成<physicalDamage>物理伤害</physicalDamage>。<active>血斩</active><br>对你周围的敌人们造成<physicalDamage>物理伤害</physicalDamage>。<br>你的生命偷取会作用于此伤害。</mainText>",
+          "colloq": ";tanyujiutoushe;tyjts;Ravenous Hydra",
+          "plaintext": "近战攻击会命中身边的敌人，造成伤害并回复生命值",
+          "from": [
+            "3077",
+            "1053",
+            "3133"
+          ],
+          "image": {
+            "full": "3074.png",
+            "sprite": "item3.png",
+            "group": "item",
+            "x": 240,
+            "y": 240,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 150,
+            "purchasable": true,
+            "total": 3300,
+            "sell": 2310
+          },
+          "tags": [
+            "Damage",
+            "LifeSteal",
+            "CooldownReduction",
+            "OnHit",
+            "AbilityHaste"
+          ],
+          "maps": {
+            "11": true,
+            "12": true,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatPhysicalDamageMod": 65,
+            "PercentLifeStealMod": 0.12
+          },
+          "depth": 3
+        },
+        "clientItemList": {
+          "id": 3074,
+          "name": "贪欲九头蛇",
+          "description": "<mainText><stats><attention>65</attention>攻击力<br><attention>15</attention>技能急速<br><attention>12%</attention>生命偷取</stats><br><br><passive>顺劈</passive><br>攻击会对附近的敌人们造成<physicalDamage>物理伤害</physicalDamage>。 <active>血斩</active><br>对你周围的敌人们造成<physicalDamage>物理伤害</physicalDamage>。<br>你的生命偷取会作用于此伤害。</mainText>",
+          "active": true,
+          "inStore": true,
+          "from": [
+            3077,
+            1053,
+            3133
+          ],
+          "to": [],
+          "categories": [
+            "Damage",
+            "LifeSteal",
+            "CooldownReduction",
+            "OnHit",
+            "AbilityHaste"
+          ],
+          "maxStacks": 1,
+          "requiredChampion": "",
+          "requiredAlly": "",
+          "requiredBuffCurrencyName": "",
+          "requiredBuffCurrencyCost": 0,
+          "specialRecipe": 0,
+          "isEnchantment": false,
+          "price": 150,
+          "priceTotal": 3300,
+          "displayInItemSets": true,
+          "iconPath": "/lol-game-data/assets/ASSETS/Items/Icons2D/3074_Fighter_T3_RavenousHydra.png"
+        },
+        "dataValueNames": [
+          "CleaveRadius",
+          "Cooldown",
+          "Radius",
+          "ActiveADRatio",
+          "VampAmp",
+          "MaxProcPerAuto"
+        ],
+        "dataValues": {
+          "CleaveRadius": 350,
+          "Cooldown": 10,
+          "Radius": 450,
+          "ActiveADRatio": 0.800000011920929,
+          "VampAmp": 1,
+          "MaxProcPerAuto": 10
+        },
+        "calculationKeys": [
+          "ChampRange",
+          "{792cf56b}",
+          "{06387172}",
+          "MeleeItemCalcValue",
+          "RangedItemCalcValue",
+          "PrimaryDamage"
+        ],
+        "sourceFiles": [
+          {
+            "key": "officialItem",
+            "relativePath": "装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+            "format": "JSON",
+            "role": "官方16.17.1装备说明、直接属性和图片键",
+            "bytes": 691131,
+            "modifiedAt": "2026-09-06T14:10:07.953Z",
+            "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973"
+          },
+          {
+            "key": "clientItemList",
+            "relativePath": "装备效果补证/客户端原始资料/items-16.17-zh_CN.json.gz",
+            "format": "gzip JSON",
+            "role": "客户端16.17装备列表和中文动态说明旁证",
+            "bytes": 96301,
+            "modifiedAt": "2026-09-06T14:59:31.906Z",
+            "sha256": "f4ed06bce504288345ed7761ea1a12612ef5afd6400ebb1f27290204e1f24e20"
+          },
+          {
+            "key": "clientItems",
+            "relativePath": "装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+            "format": "gzip JSON",
+            "role": "客户端16.17装备对象、数据值和计算树主证",
+            "bytes": 1577238,
+            "modifiedAt": "2026-09-06T15:00:14.328Z",
+            "sha256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7"
+          },
+          {
+            "key": "clientStringTable",
+            "relativePath": "装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+            "format": "gzip JSON",
+            "role": "客户端16.17中文绑定说明文件；本批保存绑定键和装备列表原文，不把未解析键当成数值证据",
+            "bytes": 8350124,
+            "modifiedAt": "2026-09-06T15:08:11.306Z",
+            "sha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e"
+          }
+        ],
+        "apiProtection": {
+          "equipmentGET": {
+            "route": "/equipment?page=1&pageSize=250",
+            "status": 200,
+            "equipmentKey": "item_3074",
+            "name": "贪欲九头蛇"
+          },
+          "relationGET": {
+            "route": "/equipment-skill-relations?equipmentKey=item_3074",
+            "method": "GET",
+            "status": 200,
+            "ok": true,
+            "total": 0,
+            "items": []
+          },
+          "subjectGET": [
+            {
+              "skillKey": "item_3074_passive",
+              "route": "/skills/item_3074_passive",
+              "method": "GET",
+              "status": 404,
+              "ok": false,
+              "data": {
+                "error": {
+                  "code": "404.SKILL_NOT_FOUND",
+                  "details": {
+                    "skillKey": "item_3074_passive"
+                  },
+                  "message": "技能不存在"
+                }
+              }
+            },
+            {
+              "skillKey": "item_3074_active",
+              "route": "/skills/item_3074_active",
+              "method": "GET",
+              "status": 404,
+              "ok": false,
+              "data": {
+                "error": {
+                  "code": "404.SKILL_NOT_FOUND",
+                  "details": {
+                    "skillKey": "item_3074_active"
+                  },
+                  "message": "技能不存在"
+                }
+              }
+            }
+          ],
+          "relationCountBefore": 0,
+          "imageKeyToReuse": "item_3074",
+          "directAttributesProtectedByReadOnlyGET": true,
+          "writeBeforeSnapshot": {
+            "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备技能实录/第十九批自身与范围主动/写前保护快照.json",
+            "sha256": "f50a3ac022bc7689dc437a5006b969a85b6ef550f305aa3bd0cf51a6ceeef057",
+            "equipmentBodyGET": {
+              "route": "/equipment/item_3074",
+              "method": "GET",
+              "status": 200,
+              "ok": true,
+              "dataSha256": "ed2b9f349be041db902cc860ca73077c733d0085531f379b1713a2b569d8bb3b"
+            },
+            "attributesGET": {
+              "route": "/equipment/item_3074/attributes",
+              "method": "GET",
+              "status": 200,
+              "ok": true,
+              "dataSha256": "092449552bb6a4e58368059a56948eb7dcb3b3305ad426cb4bb0588805c1bacd"
+            },
+            "representativeImageGET": {
+              "route": "/equipment/item_3074/representative-image",
+              "method": "GET",
+              "status": 200,
+              "ok": true,
+              "dataSha256": "2d33d4175be6ddd6504113182b13dd90c59d343c8487f81ecc7398bc5ee2e8c5"
+            },
+            "relationGET": {
+              "route": "/equipment-skill-relations?equipmentKey=item_3074",
+              "method": "GET",
+              "status": 200,
+              "ok": true,
+              "dataSha256": "4bf7c8639bc34bbbae5aef4aba3c724f9a425cbdc0416ab6384f7745ae1acb96",
+              "itemCount": 0
+            },
+            "subjectGET": {
+              "route": "/skills/item_3074_active",
+              "method": "GET",
+              "status": 404,
+              "ok": false,
+              "dataSha256": "4f5e2501efce7755eb4ee55ca8b58ac3b6602b2f11824e81b76b30ca9421cd9f"
+            }
+          }
+        },
+        "sourceFreeze": {
+          "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备技能实录\\第十九批自身与范围主动\\冻结来源.json",
+          "sha256": "1ce775810bd1a252438386f6959dd8adf7a1de51224e3e055e3ffe8826ad7a79"
+        }
+      },
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_3074_active",
+          "name": "贪欲九头蛇·血斩",
+          "description": "保留血斩对当前唯一敌方英雄的物理伤害比例、范围、冷却和生命偷取适用旁证。主动以自身为中心，未因范围文字排除；伤害资格和吸血结算尚未接线。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": []
+        },
+        "parameters": [
+          {
+            "parameterKey": "active_damage_ratio",
+            "name": "血斩物理伤害总攻击力比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.8,
+            "levelValues": null,
+            "description": "客户端PrimaryDamage使用mStat=2并绑定ActiveADRatio，按已证2/0窄映射读取来源总攻击力；ActiveADRatio=0.8。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "active_radius",
+            "name": "血斩影响范围",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 450,
+            "levelValues": null,
+            "description": "客户端ActiveRadius=450；作为当前唯一敌人在范围内的条件参数。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "active_cast_radius",
+            "name": "血斩施法半径",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 325,
+            "levelValues": null,
+            "description": "客户端3074Active的castRadius=325；不把半径当成多目标排除理由。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "active_cooldown_ms",
+            "name": "血斩冷却",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 10000,
+            "levelValues": null,
+            "description": "客户端根mDataValues/Cooldown=10秒；主动对象冷却数组为0，不能用0覆盖根值。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "life_steal_applies_multiplier",
+            "name": "血斩生命偷取适用倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 1,
+            "levelValues": null,
+            "description": "官方和客户端中文都明确生命偷取作用于血斩伤害；只保存适用旁证，未创建吸血效果。",
+            "sortOrder": 50
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "active_physical_damage",
+            "name": "血斩物理伤害值",
+            "description": "0.8×来源总攻击力；当前只保存合法公式，未声明无条件DAMAGE。",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "active_damage_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            },
+            "sortOrder": 10
+          }
+        ],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": [],
+        "relation": {
+          "equipmentKey": "item_3074",
+          "skillKey": "item_3074_active",
+          "sortOrder": 10
+        },
+        "representativeImage": {
+          "imageKey": "item_3074"
+        }
+      },
+      "disposition": {
+        "范围外": [
+          {
+            "component": "顺劈被动",
+            "reason": "攻击对附近其他敌人的分摊支路；严格1V1没有额外目标，留在冻结来源。"
+          }
+        ],
+        "来源待核": [],
+        "系统缺口": [
+          {
+            "component": "血斩伤害与吸血资格",
+            "reason": "当前唯一英雄目标筛选、物理伤害结算及生命偷取结算尚未接线。"
+          }
+        ],
+        "尚未接线": [
+          {
+            "component": "主动中心与命中",
+            "reason": "Self目标和半径已由客户端保留，运行时施放、命中和冷却消费尚未接线。"
+          }
+        ]
+      },
+      "omittedComponents": [
+        {
+          "kind": "多目标",
+          "component": "顺劈",
+          "reason": "不新建item_3074_passive。"
+        }
+      ],
+      "pendingComponents": [
+        {
+          "component": "伤害资格",
+          "reason": "不默认创建DAMAGE效果。"
+        },
+        {
+          "component": "生命偷取",
+          "reason": "中文说明明确适用，但消费链未接线。"
+        }
+      ],
+      "proofs": [
+        {
+          "pointer": "/mDataValues/ActiveADRatio",
+          "accepted": 0.8
+        },
+        {
+          "pointer": "/mDataValues/Radius",
+          "accepted": 450
+        },
+        {
+          "pointer": "/mDataValues/Cooldown",
+          "accepted": 10
+        },
+        {
+          "pointer": "/mDataValues/VampAmp",
+          "accepted": 1
+        },
+        {
+          "pointer": "/mItemCalculations/PrimaryDamage",
+          "accepted": "mStat=2、mDataValue=ActiveADRatio"
+        },
+        {
+          "pointer": "/Spells/3074Active/mSpell/mTargetingTypeData",
+          "accepted": "Self"
+        }
+      ],
+      "safeguards": {
+        "equipmentKey": "item_3074",
+        "beforeRelationCount": 0,
+        "directAttributesProtectedByReadOnlyGET": true,
+        "representativeImageReused": "item_3074",
+        "apiWrites": 0,
+        "equipmentBodyProtectedByReadOnlyGET": true,
+        "representativeImageProtectedByReadOnlyGET": true,
+        "beforeSubjectStatus": 404,
+        "writeBeforeSnapshot": {
+          "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备技能实录/第十九批自身与范围主动/写前保护快照.json",
+          "sha256": "f50a3ac022bc7689dc437a5006b969a85b6ef550f305aa3bd0cf51a6ceeef057",
+          "equipmentBodyGET": {
+            "route": "/equipment/item_3074",
+            "method": "GET",
+            "status": 200,
+            "ok": true,
+            "dataSha256": "ed2b9f349be041db902cc860ca73077c733d0085531f379b1713a2b569d8bb3b"
+          },
+          "attributesGET": {
+            "route": "/equipment/item_3074/attributes",
+            "method": "GET",
+            "status": 200,
+            "ok": true,
+            "dataSha256": "092449552bb6a4e58368059a56948eb7dcb3b3305ad426cb4bb0588805c1bacd"
+          },
+          "representativeImageGET": {
+            "route": "/equipment/item_3074/representative-image",
+            "method": "GET",
+            "status": 200,
+            "ok": true,
+            "dataSha256": "2d33d4175be6ddd6504113182b13dd90c59d343c8487f81ecc7398bc5ee2e8c5"
+          },
+          "relationGET": {
+            "route": "/equipment-skill-relations?equipmentKey=item_3074",
+            "method": "GET",
+            "status": 200,
+            "ok": true,
+            "dataSha256": "4bf7c8639bc34bbbae5aef4aba3c724f9a425cbdc0416ab6384f7745ae1acb96",
+            "itemCount": 0
+          },
+          "subjectGET": {
+            "route": "/skills/item_3074_active",
+            "method": "GET",
+            "status": 404,
+            "ok": false,
+            "dataSha256": "4f5e2501efce7755eb4ee55ca8b58ac3b6602b2f11824e81b76b30ca9421cd9f"
+          }
+        }
+      }
+    },
+    {
+      "equipmentKey": "item_3748",
+      "equipmentName": "巨型九头蛇",
+      "skillKey": "item_3748_passive",
+      "source": {
+        "path": "Items/3748",
+        "rawObjectSha256": "e73e9463f698a29632aa65faee40f6a5eeabeeae5bf3be570220f7fa946bc137",
+        "rawSpellObjects": [
+          {
+            "path": "Items/3748/Spells/3748Active",
+            "sha256": "ff9e320e699f96c6ce62185cb7520b5c33839054418d2b836994555ffe8ec833",
+            "objectName": "3748Active"
+          }
+        ],
+        "bindings": [
+          {
+            "binding": "keyName",
+            "sourceKey": "Item_3748_Name",
+            "text": "巨型九头蛇"
+          },
+          {
+            "binding": "keyBrief",
+            "sourceKey": "Item_3748_Brief",
+            "text": "<mainText><stats><attention>40</attention>攻击力<br><attention>600</attention>生命值</stats><br><br><passive>顺劈</passive><br>攻击附带<physicalDamage>物理伤害</physicalDamage>并对目标身后的敌人们造成物理伤害。<br> <active>刚斩</active><br>强化你的下一次<passive>顺劈</passive>，使其造成<physicalDamage>额外物理伤害</physicalDamage> <OnHit>攻击特效</OnHit>并对目标身后的敌人们造成<physicalDamage>额外物理伤害</physicalDamage>。</mainText>"
+          },
+          {
+            "binding": "keyTooltip",
+            "sourceKey": "Item_3748_Tooltip",
+            "text": "<mainText><stats><attention>40</attention>攻击力<br><attention>600</attention>生命值</stats><br><br><passive>顺劈</passive><br>攻击附带<physicalDamage>物理伤害</physicalDamage>并对目标身后的敌人们造成物理伤害。<br> <active>刚斩</active><br>强化你的下一次<passive>顺劈</passive>，使其造成<physicalDamage>额外物理伤害</physicalDamage> <OnHit>攻击特效</OnHit>并对目标身后的敌人们造成<physicalDamage>额外物理伤害</physicalDamage>。</mainText>"
+          },
+          {
+            "binding": "keyColloquialism",
+            "sourceKey": "Item_3748_Colloquialism",
+            "text": "<mainText><stats><attention>40</attention>攻击力<br><attention>600</attention>生命值</stats><br><br><passive>顺劈</passive><br>攻击附带<physicalDamage>物理伤害</physicalDamage>并对目标身后的敌人们造成物理伤害。<br> <active>刚斩</active><br>强化你的下一次<passive>顺劈</passive>，使其造成<physicalDamage>额外物理伤害</physicalDamage> <OnHit>攻击特效</OnHit>并对目标身后的敌人们造成<physicalDamage>额外物理伤害</physicalDamage>。</mainText>"
+          },
+          {
+            "binding": "keyActive",
+            "sourceKey": "Item_3748_Active",
+            "text": "<mainText><stats><attention>40</attention>攻击力<br><attention>600</attention>生命值</stats><br><br><passive>顺劈</passive><br>攻击附带<physicalDamage>物理伤害</physicalDamage>并对目标身后的敌人们造成物理伤害。<br> <active>刚斩</active><br>强化你的下一次<passive>顺劈</passive>，使其造成<physicalDamage>额外物理伤害</physicalDamage> <OnHit>攻击特效</OnHit>并对目标身后的敌人们造成<physicalDamage>额外物理伤害</physicalDamage>。</mainText>"
+          },
+          {
+            "binding": "keySecondaryBrief",
+            "sourceKey": "Item_Unique_Hydra",
+            "text": null
+          },
+          {
+            "binding": "keyTooltipExtendedRules",
+            "sourceKey": "Item_3748_TooltipExtendedRules",
+            "text": "<mainText><stats><attention>40</attention>攻击力<br><attention>600</attention>生命值</stats><br><br><passive>顺劈</passive><br>攻击附带<physicalDamage>物理伤害</physicalDamage>并对目标身后的敌人们造成物理伤害。<br> <active>刚斩</active><br>强化你的下一次<passive>顺劈</passive>，使其造成<physicalDamage>额外物理伤害</physicalDamage> <OnHit>攻击特效</OnHit>并对目标身后的敌人们造成<physicalDamage>额外物理伤害</physicalDamage>。</mainText>"
+          },
+          {
+            "binding": "keyTooltipExternal",
+            "sourceKey": "Item_3748_TooltipExternal",
+            "text": "<mainText><stats><attention>40</attention>攻击力<br><attention>600</attention>生命值</stats><br><br><passive>顺劈</passive><br>攻击附带<physicalDamage>物理伤害</physicalDamage>并对目标身后的敌人们造成物理伤害。<br> <active>刚斩</active><br>强化你的下一次<passive>顺劈</passive>，使其造成<physicalDamage>额外物理伤害</physicalDamage> <OnHit>攻击特效</OnHit>并对目标身后的敌人们造成<physicalDamage>额外物理伤害</physicalDamage>。</mainText>"
+          },
+          {
+            "binding": "keyActiveExternal",
+            "sourceKey": "Item_3748_ActiveExternal",
+            "text": "<mainText><stats><attention>40</attention>攻击力<br><attention>600</attention>生命值</stats><br><br><passive>顺劈</passive><br>攻击附带<physicalDamage>物理伤害</physicalDamage>并对目标身后的敌人们造成物理伤害。<br> <active>刚斩</active><br>强化你的下一次<passive>顺劈</passive>，使其造成<physicalDamage>额外物理伤害</physicalDamage> <OnHit>攻击特效</OnHit>并对目标身后的敌人们造成<physicalDamage>额外物理伤害</physicalDamage>。</mainText>"
+          }
+        ],
+        "official": {
+          "name": "巨型九头蛇",
+          "description": "<mainText><stats><attention>40</attention>攻击力<br><attention>600</attention>生命值</stats><br><br><passive>顺劈</passive><br>攻击附带<physicalDamage>物理伤害</physicalDamage>并对目标身后的敌人们造成物理伤害。<br><active>刚斩</active><br>强化你的下一次<passive>顺劈</passive>，使其造成<physicalDamage>额外物理伤害</physicalDamage> <OnHit>攻击特效</OnHit>并对目标身后的敌人们造成<physicalDamage>额外物理伤害</physicalDamage>。</mainText>",
+          "colloq": ";zhongzhuang;zz;Titanic Hydra",
+          "plaintext": "造成基于携带者最大生命值的群体伤害",
+          "from": [
+            "3077",
+            "2021",
+            "1011"
+          ],
+          "image": {
+            "full": "3748.png",
+            "sprite": "item4.png",
+            "group": "item",
+            "x": 0,
+            "y": 336,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 50,
+            "purchasable": true,
+            "total": 3300,
+            "sell": 2310
+          },
+          "tags": [
+            "Health",
+            "HealthRegen",
+            "Damage",
+            "OnHit"
+          ],
+          "maps": {
+            "11": true,
+            "12": true,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatHPPoolMod": 600,
+            "FlatPhysicalDamageMod": 40
+          },
+          "depth": 3
+        },
+        "clientItemList": {
+          "id": 3748,
+          "name": "巨型九头蛇",
+          "description": "<mainText><stats><attention>40</attention>攻击力<br><attention>600</attention>生命值</stats><br><br><passive>顺劈</passive><br>攻击附带<physicalDamage>物理伤害</physicalDamage>并对目标身后的敌人们造成物理伤害。<br> <active>刚斩</active><br>强化你的下一次<passive>顺劈</passive>，使其造成<physicalDamage>额外物理伤害</physicalDamage> <OnHit>攻击特效</OnHit>并对目标身后的敌人们造成<physicalDamage>额外物理伤害</physicalDamage>。</mainText>",
+          "active": true,
+          "inStore": true,
+          "from": [
+            3077,
+            2021,
+            1011
+          ],
+          "to": [],
+          "categories": [
+            "Health",
+            "HealthRegen",
+            "Damage",
+            "OnHit"
+          ],
+          "maxStacks": 1,
+          "requiredChampion": "",
+          "requiredAlly": "",
+          "requiredBuffCurrencyName": "",
+          "requiredBuffCurrencyCost": 0,
+          "specialRecipe": 0,
+          "isEnchantment": false,
+          "price": 50,
+          "priceTotal": 3300,
+          "displayInItemSets": true,
+          "iconPath": "/lol-game-data/assets/ASSETS/Items/Icons2D/3748_Fighter_T3_TitanicHydra.png"
+        },
+        "dataValueNames": [
+          "PrimaryTargetHPRatio",
+          "SplashHPRatio",
+          "RangedEffectiveness",
+          "ActivePrimaryTargetHPRatio",
+          "ActiveSplashHPRatio",
+          "Cooldown",
+          "MaxProcPerAuto"
+        ],
+        "dataValues": {
+          "PrimaryTargetHPRatio": 0.009999999776482582,
+          "SplashHPRatio": 0.029999999329447746,
+          "RangedEffectiveness": 0.5,
+          "ActivePrimaryTargetHPRatio": 0.03999999910593033,
+          "ActiveSplashHPRatio": 0.09000000357627869,
+          "Cooldown": 10,
+          "MaxProcPerAuto": 10
+        },
+        "calculationKeys": [
+          "CalcValueB",
+          "CalcValue",
+          "CalcValueC",
+          "CalcValueD",
+          "OnHitDamageCalc",
+          "ConeDamageCalc"
+        ],
+        "sourceFiles": [
+          {
+            "key": "officialItem",
+            "relativePath": "装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+            "format": "JSON",
+            "role": "官方16.17.1装备说明、直接属性和图片键",
+            "bytes": 691131,
+            "modifiedAt": "2026-09-06T14:10:07.953Z",
+            "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973"
+          },
+          {
+            "key": "clientItemList",
+            "relativePath": "装备效果补证/客户端原始资料/items-16.17-zh_CN.json.gz",
+            "format": "gzip JSON",
+            "role": "客户端16.17装备列表和中文动态说明旁证",
+            "bytes": 96301,
+            "modifiedAt": "2026-09-06T14:59:31.906Z",
+            "sha256": "f4ed06bce504288345ed7761ea1a12612ef5afd6400ebb1f27290204e1f24e20"
+          },
+          {
+            "key": "clientItems",
+            "relativePath": "装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+            "format": "gzip JSON",
+            "role": "客户端16.17装备对象、数据值和计算树主证",
+            "bytes": 1577238,
+            "modifiedAt": "2026-09-06T15:00:14.328Z",
+            "sha256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7"
+          },
+          {
+            "key": "clientStringTable",
+            "relativePath": "装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+            "format": "gzip JSON",
+            "role": "客户端16.17中文绑定说明文件；本批保存绑定键和装备列表原文，不把未解析键当成数值证据",
+            "bytes": 8350124,
+            "modifiedAt": "2026-09-06T15:08:11.306Z",
+            "sha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e"
+          }
+        ],
+        "apiProtection": {
+          "equipmentGET": {
+            "route": "/equipment?page=1&pageSize=250",
+            "status": 200,
+            "equipmentKey": "item_3748",
+            "name": "巨型九头蛇"
+          },
+          "relationGET": {
+            "route": "/equipment-skill-relations?equipmentKey=item_3748",
+            "method": "GET",
+            "status": 200,
+            "ok": true,
+            "total": 0,
+            "items": []
+          },
+          "subjectGET": [
+            {
+              "skillKey": "item_3748_passive",
+              "route": "/skills/item_3748_passive",
+              "method": "GET",
+              "status": 404,
+              "ok": false,
+              "data": {
+                "error": {
+                  "code": "404.SKILL_NOT_FOUND",
+                  "details": {
+                    "skillKey": "item_3748_passive"
+                  },
+                  "message": "技能不存在"
+                }
+              }
+            },
+            {
+              "skillKey": "item_3748_active",
+              "route": "/skills/item_3748_active",
+              "method": "GET",
+              "status": 404,
+              "ok": false,
+              "data": {
+                "error": {
+                  "code": "404.SKILL_NOT_FOUND",
+                  "details": {
+                    "skillKey": "item_3748_active"
+                  },
+                  "message": "技能不存在"
+                }
+              }
+            }
+          ],
+          "relationCountBefore": 0,
+          "imageKeyToReuse": "item_3748",
+          "directAttributesProtectedByReadOnlyGET": true,
+          "writeBeforeSnapshot": {
+            "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备技能实录/第十九批自身与范围主动/写前保护快照.json",
+            "sha256": "f50a3ac022bc7689dc437a5006b969a85b6ef550f305aa3bd0cf51a6ceeef057",
+            "equipmentBodyGET": {
+              "route": "/equipment/item_3748",
+              "method": "GET",
+              "status": 200,
+              "ok": true,
+              "dataSha256": "4cc5d8888c361e5b9c3a17431729f728c6883858cba5ba7fe47254a9dafe2cdb"
+            },
+            "attributesGET": {
+              "route": "/equipment/item_3748/attributes",
+              "method": "GET",
+              "status": 200,
+              "ok": true,
+              "dataSha256": "c23884f5a5486214d4aeea23631e6cf3902b87ff9bed7cbff2409f6d18b04995"
+            },
+            "representativeImageGET": {
+              "route": "/equipment/item_3748/representative-image",
+              "method": "GET",
+              "status": 200,
+              "ok": true,
+              "dataSha256": "2d4b28fa411deaf810dd82b29463c8e409dc86da00f255ae39dbc4035606af4d"
+            },
+            "relationGET": {
+              "route": "/equipment-skill-relations?equipmentKey=item_3748",
+              "method": "GET",
+              "status": 200,
+              "ok": true,
+              "dataSha256": "4bf7c8639bc34bbbae5aef4aba3c724f9a425cbdc0416ab6384f7745ae1acb96",
+              "itemCount": 0
+            },
+            "subjectGET": {
+              "route": "/skills/item_3748_passive",
+              "method": "GET",
+              "status": 404,
+              "ok": false,
+              "dataSha256": "2de3fa8401359c108274e40828ae86a3657e8f405f43abac6b99ef9613a9f910"
+            }
+          }
+        },
+        "sourceFreeze": {
+          "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备技能实录\\第十九批自身与范围主动\\冻结来源.json",
+          "sha256": "1ce775810bd1a252438386f6959dd8adf7a1de51224e3e055e3ffe8826ad7a79"
+        }
+      },
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_3748_passive",
+          "name": "巨型九头蛇·顺劈主目标",
+          "description": "保留攻击对当前唯一目标的顺劈物理伤害主目标分支；最新窄证覆盖的具名旧节点将mStat=12读取为SOURCE.hp.TOTAL（自身最大生命值）。目标身后的额外敌人支路范围外；目标资格与攻击触发尚未接线。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "passive"
+          ]
+        },
+        "parameters": [
+          {
+            "parameterKey": "primary_target_hp_ratio",
+            "name": "顺劈主目标生命比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.01,
+            "levelValues": null,
+            "description": "客户端OnHitDamageCalc和PrimaryTargetHPRatio均为0.01；不将mStat12无formula节点擅自映射为生命属性。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "ranged_effectiveness",
+            "name": "远程顺劈倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.5,
+            "levelValues": null,
+            "description": "客户端RangedEffectiveness=0.5；仅供远程分支公式使用。",
+            "sortOrder": 20
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "primary_on_hit_damage_melee",
+            "name": "顺劈主目标近战伤害值",
+            "description": "0.01×SOURCE.hp.TOTAL（自身最大生命值）；仅限最新窄证覆盖的具名旧节点，近战不应用0.5远程倍率。",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "primary_target_hp_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "hp",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            },
+            "sortOrder": 10
+          },
+          {
+            "formulaKey": "primary_on_hit_damage_ranged",
+            "name": "顺劈主目标远程伤害值",
+            "description": "0.01×SOURCE.hp.TOTAL（自身最大生命值）×0.5远程倍率；仅限最新窄证覆盖的具名旧节点。",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "primary_target_hp_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "hp",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ranged_effectiveness"
+                }
+              ]
+            },
+            "sortOrder": 20
+          }
+        ],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": [],
+        "relation": {
+          "equipmentKey": "item_3748",
+          "skillKey": "item_3748_passive",
+          "sortOrder": 10
+        },
+        "representativeImage": {
+          "imageKey": "item_3748"
+        }
+      },
+      "disposition": {
+        "范围外": [
+          {
+            "component": "目标身后伤害",
+            "reason": "只作用于目标身后的额外敌人，严格1V1无第二目标。"
+          }
+        ],
+        "来源待核": [],
+        "系统缺口": [],
+        "尚未接线": [
+          {
+            "component": "顺劈攻击触发",
+            "reason": "攻击事件、主目标资格与近远程分支尚未接线。"
+          }
+        ]
+      },
+      "omittedComponents": [
+        {
+          "kind": "多目标",
+          "component": "ActiveSplashHPRatio/SplashHPRatio",
+          "reason": "目标身后额外敌人支路不生成参数公式。"
+        }
+      ],
+      "pendingComponents": [
+        {
+          "component": "主目标资格",
+          "reason": "不创建无条件DAMAGE。"
+        }
+      ],
+      "proofs": [
+        {
+          "pointer": "/mDataValues/PrimaryTargetHPRatio",
+          "accepted": 0.01
+        },
+        {
+          "pointer": "/mDataValues/SplashHPRatio",
+          "accepted": 0.03,
+          "disposition": "范围外"
+        },
+        {
+          "pointer": "/mDataValues/RangedEffectiveness",
+          "accepted": 0.5
+        },
+        {
+          "pointer": "/mItemCalculations/OnHitDamageCalc",
+          "accepted": "mStat=12、coefficient=0.01、远程倍率0.5"
+        },
+        {
+          "pointer": "/mItemCalculations/CalcValue",
+          "accepted": "mStat=12、mDataValue=PrimaryTargetHPRatio"
+        },
+        {
+          "pointer": "/数据参考/全量录入-2026-09/交叉试录/最大生命属性回补/独立来源补证/README.md",
+          "accepted": "仅将满足逐字段窄条件的具名旧节点绑定SOURCE.hp.TOTAL；不扩展到其他节点或属性所有者。"
+        }
+      ],
+      "safeguards": {
+        "equipmentKey": "item_3748",
+        "beforeRelationCount": 0,
+        "directAttributesProtectedByReadOnlyGET": true,
+        "representativeImageReused": "item_3748",
+        "apiWrites": 0,
+        "equipmentBodyProtectedByReadOnlyGET": true,
+        "representativeImageProtectedByReadOnlyGET": true,
+        "beforeSubjectStatus": 404,
+        "writeBeforeSnapshot": {
+          "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备技能实录/第十九批自身与范围主动/写前保护快照.json",
+          "sha256": "f50a3ac022bc7689dc437a5006b969a85b6ef550f305aa3bd0cf51a6ceeef057",
+          "equipmentBodyGET": {
+            "route": "/equipment/item_3748",
+            "method": "GET",
+            "status": 200,
+            "ok": true,
+            "dataSha256": "4cc5d8888c361e5b9c3a17431729f728c6883858cba5ba7fe47254a9dafe2cdb"
+          },
+          "attributesGET": {
+            "route": "/equipment/item_3748/attributes",
+            "method": "GET",
+            "status": 200,
+            "ok": true,
+            "dataSha256": "c23884f5a5486214d4aeea23631e6cf3902b87ff9bed7cbff2409f6d18b04995"
+          },
+          "representativeImageGET": {
+            "route": "/equipment/item_3748/representative-image",
+            "method": "GET",
+            "status": 200,
+            "ok": true,
+            "dataSha256": "2d4b28fa411deaf810dd82b29463c8e409dc86da00f255ae39dbc4035606af4d"
+          },
+          "relationGET": {
+            "route": "/equipment-skill-relations?equipmentKey=item_3748",
+            "method": "GET",
+            "status": 200,
+            "ok": true,
+            "dataSha256": "4bf7c8639bc34bbbae5aef4aba3c724f9a425cbdc0416ab6384f7745ae1acb96",
+            "itemCount": 0
+          },
+          "subjectGET": {
+            "route": "/skills/item_3748_passive",
+            "method": "GET",
+            "status": 404,
+            "ok": false,
+            "dataSha256": "2de3fa8401359c108274e40828ae86a3657e8f405f43abac6b99ef9613a9f910"
+          }
+        }
+      },
+      "revisionEvidence": [
+        {
+          "path": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/交叉试录/最大生命属性回补/独立来源补证/README.md",
+          "sha256": "e9b045793114d8b81029545707c121028904d7a61e3dcc051c61ebda7dd1d52e",
+          "webRevision": "6b8c2eb4",
+          "scope": "仅本对象两个具名主目标公式节点"
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3748",
+      "equipmentName": "巨型九头蛇",
+      "skillKey": "item_3748_active",
+      "source": {
+        "path": "Items/3748",
+        "rawObjectSha256": "e73e9463f698a29632aa65faee40f6a5eeabeeae5bf3be570220f7fa946bc137",
+        "rawSpellObjects": [
+          {
+            "path": "Items/3748/Spells/3748Active",
+            "sha256": "ff9e320e699f96c6ce62185cb7520b5c33839054418d2b836994555ffe8ec833",
+            "objectName": "3748Active"
+          }
+        ],
+        "bindings": [
+          {
+            "binding": "keyName",
+            "sourceKey": "Item_3748_Name",
+            "text": "巨型九头蛇"
+          },
+          {
+            "binding": "keyBrief",
+            "sourceKey": "Item_3748_Brief",
+            "text": "<mainText><stats><attention>40</attention>攻击力<br><attention>600</attention>生命值</stats><br><br><passive>顺劈</passive><br>攻击附带<physicalDamage>物理伤害</physicalDamage>并对目标身后的敌人们造成物理伤害。<br> <active>刚斩</active><br>强化你的下一次<passive>顺劈</passive>，使其造成<physicalDamage>额外物理伤害</physicalDamage> <OnHit>攻击特效</OnHit>并对目标身后的敌人们造成<physicalDamage>额外物理伤害</physicalDamage>。</mainText>"
+          },
+          {
+            "binding": "keyTooltip",
+            "sourceKey": "Item_3748_Tooltip",
+            "text": "<mainText><stats><attention>40</attention>攻击力<br><attention>600</attention>生命值</stats><br><br><passive>顺劈</passive><br>攻击附带<physicalDamage>物理伤害</physicalDamage>并对目标身后的敌人们造成物理伤害。<br> <active>刚斩</active><br>强化你的下一次<passive>顺劈</passive>，使其造成<physicalDamage>额外物理伤害</physicalDamage> <OnHit>攻击特效</OnHit>并对目标身后的敌人们造成<physicalDamage>额外物理伤害</physicalDamage>。</mainText>"
+          },
+          {
+            "binding": "keyColloquialism",
+            "sourceKey": "Item_3748_Colloquialism",
+            "text": "<mainText><stats><attention>40</attention>攻击力<br><attention>600</attention>生命值</stats><br><br><passive>顺劈</passive><br>攻击附带<physicalDamage>物理伤害</physicalDamage>并对目标身后的敌人们造成物理伤害。<br> <active>刚斩</active><br>强化你的下一次<passive>顺劈</passive>，使其造成<physicalDamage>额外物理伤害</physicalDamage> <OnHit>攻击特效</OnHit>并对目标身后的敌人们造成<physicalDamage>额外物理伤害</physicalDamage>。</mainText>"
+          },
+          {
+            "binding": "keyActive",
+            "sourceKey": "Item_3748_Active",
+            "text": "<mainText><stats><attention>40</attention>攻击力<br><attention>600</attention>生命值</stats><br><br><passive>顺劈</passive><br>攻击附带<physicalDamage>物理伤害</physicalDamage>并对目标身后的敌人们造成物理伤害。<br> <active>刚斩</active><br>强化你的下一次<passive>顺劈</passive>，使其造成<physicalDamage>额外物理伤害</physicalDamage> <OnHit>攻击特效</OnHit>并对目标身后的敌人们造成<physicalDamage>额外物理伤害</physicalDamage>。</mainText>"
+          },
+          {
+            "binding": "keySecondaryBrief",
+            "sourceKey": "Item_Unique_Hydra",
+            "text": null
+          },
+          {
+            "binding": "keyTooltipExtendedRules",
+            "sourceKey": "Item_3748_TooltipExtendedRules",
+            "text": "<mainText><stats><attention>40</attention>攻击力<br><attention>600</attention>生命值</stats><br><br><passive>顺劈</passive><br>攻击附带<physicalDamage>物理伤害</physicalDamage>并对目标身后的敌人们造成物理伤害。<br> <active>刚斩</active><br>强化你的下一次<passive>顺劈</passive>，使其造成<physicalDamage>额外物理伤害</physicalDamage> <OnHit>攻击特效</OnHit>并对目标身后的敌人们造成<physicalDamage>额外物理伤害</physicalDamage>。</mainText>"
+          },
+          {
+            "binding": "keyTooltipExternal",
+            "sourceKey": "Item_3748_TooltipExternal",
+            "text": "<mainText><stats><attention>40</attention>攻击力<br><attention>600</attention>生命值</stats><br><br><passive>顺劈</passive><br>攻击附带<physicalDamage>物理伤害</physicalDamage>并对目标身后的敌人们造成物理伤害。<br> <active>刚斩</active><br>强化你的下一次<passive>顺劈</passive>，使其造成<physicalDamage>额外物理伤害</physicalDamage> <OnHit>攻击特效</OnHit>并对目标身后的敌人们造成<physicalDamage>额外物理伤害</physicalDamage>。</mainText>"
+          },
+          {
+            "binding": "keyActiveExternal",
+            "sourceKey": "Item_3748_ActiveExternal",
+            "text": "<mainText><stats><attention>40</attention>攻击力<br><attention>600</attention>生命值</stats><br><br><passive>顺劈</passive><br>攻击附带<physicalDamage>物理伤害</physicalDamage>并对目标身后的敌人们造成物理伤害。<br> <active>刚斩</active><br>强化你的下一次<passive>顺劈</passive>，使其造成<physicalDamage>额外物理伤害</physicalDamage> <OnHit>攻击特效</OnHit>并对目标身后的敌人们造成<physicalDamage>额外物理伤害</physicalDamage>。</mainText>"
+          }
+        ],
+        "official": {
+          "name": "巨型九头蛇",
+          "description": "<mainText><stats><attention>40</attention>攻击力<br><attention>600</attention>生命值</stats><br><br><passive>顺劈</passive><br>攻击附带<physicalDamage>物理伤害</physicalDamage>并对目标身后的敌人们造成物理伤害。<br><active>刚斩</active><br>强化你的下一次<passive>顺劈</passive>，使其造成<physicalDamage>额外物理伤害</physicalDamage> <OnHit>攻击特效</OnHit>并对目标身后的敌人们造成<physicalDamage>额外物理伤害</physicalDamage>。</mainText>",
+          "colloq": ";zhongzhuang;zz;Titanic Hydra",
+          "plaintext": "造成基于携带者最大生命值的群体伤害",
+          "from": [
+            "3077",
+            "2021",
+            "1011"
+          ],
+          "image": {
+            "full": "3748.png",
+            "sprite": "item4.png",
+            "group": "item",
+            "x": 0,
+            "y": 336,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 50,
+            "purchasable": true,
+            "total": 3300,
+            "sell": 2310
+          },
+          "tags": [
+            "Health",
+            "HealthRegen",
+            "Damage",
+            "OnHit"
+          ],
+          "maps": {
+            "11": true,
+            "12": true,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatHPPoolMod": 600,
+            "FlatPhysicalDamageMod": 40
+          },
+          "depth": 3
+        },
+        "clientItemList": {
+          "id": 3748,
+          "name": "巨型九头蛇",
+          "description": "<mainText><stats><attention>40</attention>攻击力<br><attention>600</attention>生命值</stats><br><br><passive>顺劈</passive><br>攻击附带<physicalDamage>物理伤害</physicalDamage>并对目标身后的敌人们造成物理伤害。<br> <active>刚斩</active><br>强化你的下一次<passive>顺劈</passive>，使其造成<physicalDamage>额外物理伤害</physicalDamage> <OnHit>攻击特效</OnHit>并对目标身后的敌人们造成<physicalDamage>额外物理伤害</physicalDamage>。</mainText>",
+          "active": true,
+          "inStore": true,
+          "from": [
+            3077,
+            2021,
+            1011
+          ],
+          "to": [],
+          "categories": [
+            "Health",
+            "HealthRegen",
+            "Damage",
+            "OnHit"
+          ],
+          "maxStacks": 1,
+          "requiredChampion": "",
+          "requiredAlly": "",
+          "requiredBuffCurrencyName": "",
+          "requiredBuffCurrencyCost": 0,
+          "specialRecipe": 0,
+          "isEnchantment": false,
+          "price": 50,
+          "priceTotal": 3300,
+          "displayInItemSets": true,
+          "iconPath": "/lol-game-data/assets/ASSETS/Items/Icons2D/3748_Fighter_T3_TitanicHydra.png"
+        },
+        "dataValueNames": [
+          "PrimaryTargetHPRatio",
+          "SplashHPRatio",
+          "RangedEffectiveness",
+          "ActivePrimaryTargetHPRatio",
+          "ActiveSplashHPRatio",
+          "Cooldown",
+          "MaxProcPerAuto"
+        ],
+        "dataValues": {
+          "PrimaryTargetHPRatio": 0.009999999776482582,
+          "SplashHPRatio": 0.029999999329447746,
+          "RangedEffectiveness": 0.5,
+          "ActivePrimaryTargetHPRatio": 0.03999999910593033,
+          "ActiveSplashHPRatio": 0.09000000357627869,
+          "Cooldown": 10,
+          "MaxProcPerAuto": 10
+        },
+        "calculationKeys": [
+          "CalcValueB",
+          "CalcValue",
+          "CalcValueC",
+          "CalcValueD",
+          "OnHitDamageCalc",
+          "ConeDamageCalc"
+        ],
+        "sourceFiles": [
+          {
+            "key": "officialItem",
+            "relativePath": "装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+            "format": "JSON",
+            "role": "官方16.17.1装备说明、直接属性和图片键",
+            "bytes": 691131,
+            "modifiedAt": "2026-09-06T14:10:07.953Z",
+            "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973"
+          },
+          {
+            "key": "clientItemList",
+            "relativePath": "装备效果补证/客户端原始资料/items-16.17-zh_CN.json.gz",
+            "format": "gzip JSON",
+            "role": "客户端16.17装备列表和中文动态说明旁证",
+            "bytes": 96301,
+            "modifiedAt": "2026-09-06T14:59:31.906Z",
+            "sha256": "f4ed06bce504288345ed7761ea1a12612ef5afd6400ebb1f27290204e1f24e20"
+          },
+          {
+            "key": "clientItems",
+            "relativePath": "装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+            "format": "gzip JSON",
+            "role": "客户端16.17装备对象、数据值和计算树主证",
+            "bytes": 1577238,
+            "modifiedAt": "2026-09-06T15:00:14.328Z",
+            "sha256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7"
+          },
+          {
+            "key": "clientStringTable",
+            "relativePath": "装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+            "format": "gzip JSON",
+            "role": "客户端16.17中文绑定说明文件；本批保存绑定键和装备列表原文，不把未解析键当成数值证据",
+            "bytes": 8350124,
+            "modifiedAt": "2026-09-06T15:08:11.306Z",
+            "sha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e"
+          }
+        ],
+        "apiProtection": {
+          "equipmentGET": {
+            "route": "/equipment?page=1&pageSize=250",
+            "status": 200,
+            "equipmentKey": "item_3748",
+            "name": "巨型九头蛇"
+          },
+          "relationGET": {
+            "route": "/equipment-skill-relations?equipmentKey=item_3748",
+            "method": "GET",
+            "status": 200,
+            "ok": true,
+            "total": 0,
+            "items": []
+          },
+          "subjectGET": [
+            {
+              "skillKey": "item_3748_passive",
+              "route": "/skills/item_3748_passive",
+              "method": "GET",
+              "status": 404,
+              "ok": false,
+              "data": {
+                "error": {
+                  "code": "404.SKILL_NOT_FOUND",
+                  "details": {
+                    "skillKey": "item_3748_passive"
+                  },
+                  "message": "技能不存在"
+                }
+              }
+            },
+            {
+              "skillKey": "item_3748_active",
+              "route": "/skills/item_3748_active",
+              "method": "GET",
+              "status": 404,
+              "ok": false,
+              "data": {
+                "error": {
+                  "code": "404.SKILL_NOT_FOUND",
+                  "details": {
+                    "skillKey": "item_3748_active"
+                  },
+                  "message": "技能不存在"
+                }
+              }
+            }
+          ],
+          "relationCountBefore": 0,
+          "imageKeyToReuse": "item_3748",
+          "directAttributesProtectedByReadOnlyGET": true,
+          "writeBeforeSnapshot": {
+            "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备技能实录/第十九批自身与范围主动/写前保护快照.json",
+            "sha256": "f50a3ac022bc7689dc437a5006b969a85b6ef550f305aa3bd0cf51a6ceeef057",
+            "equipmentBodyGET": {
+              "route": "/equipment/item_3748",
+              "method": "GET",
+              "status": 200,
+              "ok": true,
+              "dataSha256": "4cc5d8888c361e5b9c3a17431729f728c6883858cba5ba7fe47254a9dafe2cdb"
+            },
+            "attributesGET": {
+              "route": "/equipment/item_3748/attributes",
+              "method": "GET",
+              "status": 200,
+              "ok": true,
+              "dataSha256": "c23884f5a5486214d4aeea23631e6cf3902b87ff9bed7cbff2409f6d18b04995"
+            },
+            "representativeImageGET": {
+              "route": "/equipment/item_3748/representative-image",
+              "method": "GET",
+              "status": 200,
+              "ok": true,
+              "dataSha256": "2d4b28fa411deaf810dd82b29463c8e409dc86da00f255ae39dbc4035606af4d"
+            },
+            "relationGET": {
+              "route": "/equipment-skill-relations?equipmentKey=item_3748",
+              "method": "GET",
+              "status": 200,
+              "ok": true,
+              "dataSha256": "4bf7c8639bc34bbbae5aef4aba3c724f9a425cbdc0416ab6384f7745ae1acb96",
+              "itemCount": 0
+            },
+            "subjectGET": {
+              "route": "/skills/item_3748_active",
+              "method": "GET",
+              "status": 404,
+              "ok": false,
+              "dataSha256": "b660b0a66606055ca11ced6b8607903485611ab714e2856101038f13e951bbc9"
+            }
+          }
+        },
+        "sourceFreeze": {
+          "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备技能实录\\第十九批自身与范围主动\\冻结来源.json",
+          "sha256": "1ce775810bd1a252438386f6959dd8adf7a1de51224e3e055e3ffe8826ad7a79"
+        }
+      },
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_3748_active",
+          "name": "巨型九头蛇·刚斩",
+          "description": "保留刚斩强化下一次顺劈时对当前唯一主目标的额外物理伤害比例、远程倍率和10秒冷却；最新窄证覆盖的具名旧节点将mStat=12读取为SOURCE.hp.TOTAL（自身最大生命值）。目标身后的额外伤害留在来源。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": []
+        },
+        "parameters": [
+          {
+            "parameterKey": "active_primary_target_hp_ratio",
+            "name": "刚斩主目标生命比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.04,
+            "levelValues": null,
+            "description": "客户端ActivePrimaryTargetHPRatio=0.04；mStat12属性仍由运行时提供。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "ranged_effectiveness",
+            "name": "刚斩远程倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.5,
+            "levelValues": null,
+            "description": "客户端RangedEffectiveness=0.5；仅供远程分支公式使用。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "active_cooldown_ms",
+            "name": "刚斩冷却",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 10000,
+            "levelValues": null,
+            "description": "客户端根Cooldown=10秒；不使用主动对象的零值冷却数组。",
+            "sortOrder": 40
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "active_primary_damage_melee",
+            "name": "刚斩主目标近战伤害值",
+            "description": "0.04×SOURCE.hp.TOTAL（自身最大生命值）；仅限最新窄证覆盖的具名旧节点，近战不应用0.5远程倍率。",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "active_primary_target_hp_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "hp",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            },
+            "sortOrder": 10
+          },
+          {
+            "formulaKey": "active_primary_damage_ranged",
+            "name": "刚斩主目标远程伤害值",
+            "description": "0.04×SOURCE.hp.TOTAL（自身最大生命值）×0.5远程倍率；仅限最新窄证覆盖的具名旧节点。",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "active_primary_target_hp_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "hp",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ranged_effectiveness"
+                }
+              ]
+            },
+            "sortOrder": 20
+          }
+        ],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": [],
+        "relation": {
+          "equipmentKey": "item_3748",
+          "skillKey": "item_3748_active",
+          "sortOrder": 20
+        },
+        "representativeImage": {
+          "imageKey": "item_3748"
+        }
+      },
+      "disposition": {
+        "范围外": [
+          {
+            "component": "ActiveSplashHPRatio=0.09",
+            "reason": "目标身后的额外敌人伤害，严格1V1无第二目标。"
+          }
+        ],
+        "来源待核": [],
+        "系统缺口": [],
+        "尚未接线": [
+          {
+            "component": "下一次攻击消费",
+            "reason": "主动强化、下一次攻击和OnHit附加效果时序尚未接线。"
+          }
+        ]
+      },
+      "omittedComponents": [
+        {
+          "kind": "多目标",
+          "component": "目标身后额外伤害",
+          "reason": "不生成第二目标伤害组成。"
+        }
+      ],
+      "pendingComponents": [
+        {
+          "component": "强化攻击资格",
+          "reason": "不默认创建DAMAGE或攻击特效。"
+        }
+      ],
+      "proofs": [
+        {
+          "pointer": "/mDataValues/ActivePrimaryTargetHPRatio",
+          "accepted": 0.04
+        },
+        {
+          "pointer": "/mDataValues/ActiveSplashHPRatio",
+          "accepted": 0.09,
+          "disposition": "范围外"
+        },
+        {
+          "pointer": "/mDataValues/RangedEffectiveness",
+          "accepted": 0.5
+        },
+        {
+          "pointer": "/mDataValues/Cooldown",
+          "accepted": 10
+        },
+        {
+          "pointer": "/mItemCalculations/CalcValueC",
+          "accepted": "mStat=12、mDataValue=ActivePrimaryTargetHPRatio"
+        },
+        {
+          "pointer": "/Spells/3748Active/mSpell/mTargetingTypeData",
+          "accepted": "Self"
+        },
+        {
+          "pointer": "/数据参考/全量录入-2026-09/交叉试录/最大生命属性回补/独立来源补证/README.md",
+          "accepted": "仅将满足逐字段窄条件的具名旧节点绑定SOURCE.hp.TOTAL；不扩展到其他节点或属性所有者。"
+        }
+      ],
+      "safeguards": {
+        "equipmentKey": "item_3748",
+        "beforeRelationCount": 0,
+        "directAttributesProtectedByReadOnlyGET": true,
+        "representativeImageReused": "item_3748",
+        "apiWrites": 0,
+        "equipmentBodyProtectedByReadOnlyGET": true,
+        "representativeImageProtectedByReadOnlyGET": true,
+        "beforeSubjectStatus": 404,
+        "writeBeforeSnapshot": {
+          "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备技能实录/第十九批自身与范围主动/写前保护快照.json",
+          "sha256": "f50a3ac022bc7689dc437a5006b969a85b6ef550f305aa3bd0cf51a6ceeef057",
+          "equipmentBodyGET": {
+            "route": "/equipment/item_3748",
+            "method": "GET",
+            "status": 200,
+            "ok": true,
+            "dataSha256": "4cc5d8888c361e5b9c3a17431729f728c6883858cba5ba7fe47254a9dafe2cdb"
+          },
+          "attributesGET": {
+            "route": "/equipment/item_3748/attributes",
+            "method": "GET",
+            "status": 200,
+            "ok": true,
+            "dataSha256": "c23884f5a5486214d4aeea23631e6cf3902b87ff9bed7cbff2409f6d18b04995"
+          },
+          "representativeImageGET": {
+            "route": "/equipment/item_3748/representative-image",
+            "method": "GET",
+            "status": 200,
+            "ok": true,
+            "dataSha256": "2d4b28fa411deaf810dd82b29463c8e409dc86da00f255ae39dbc4035606af4d"
+          },
+          "relationGET": {
+            "route": "/equipment-skill-relations?equipmentKey=item_3748",
+            "method": "GET",
+            "status": 200,
+            "ok": true,
+            "dataSha256": "4bf7c8639bc34bbbae5aef4aba3c724f9a425cbdc0416ab6384f7745ae1acb96",
+            "itemCount": 0
+          },
+          "subjectGET": {
+            "route": "/skills/item_3748_active",
+            "method": "GET",
+            "status": 404,
+            "ok": false,
+            "dataSha256": "b660b0a66606055ca11ced6b8607903485611ab714e2856101038f13e951bbc9"
+          }
+        }
+      },
+      "revisionEvidence": [
+        {
+          "path": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/交叉试录/最大生命属性回补/独立来源补证/README.md",
+          "sha256": "e9b045793114d8b81029545707c121028904d7a61e3dcc051c61ebda7dd1d52e",
+          "webRevision": "6b8c2eb4",
+          "scope": "仅本对象两个具名主目标公式节点"
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_6698",
+      "equipmentName": "亵渎九头蛇",
+      "skillKey": "item_6698_active",
+      "source": {
+        "path": "Items/6698",
+        "rawObjectSha256": "f0933a7b3b2007e65d871e3f4e57cb6c9228a38b51c5aaf02806ff116da52b33",
+        "rawSpellObjects": [
+          {
+            "path": "Items/6698/Spells/6698Active",
+            "sha256": "ed215e7164bf6c703c43f85fce309829b459e52eab7f398cd7cedc4ae28120f1",
+            "objectName": "6698Active"
+          }
+        ],
+        "bindings": [
+          {
+            "binding": "keyName",
+            "sourceKey": "Item_6698_Name",
+            "text": "亵渎九头蛇"
+          },
+          {
+            "binding": "keyBrief",
+            "sourceKey": "Item_6698_Brief",
+            "text": "<mainText><stats><attention>55</attention>攻击力<br><attention> 18</attention>穿甲<br><attention>10</attention>技能急速</stats><br><br><passive>顺劈</passive><br>攻击会对附近的敌人们造成<physicalDamage>物理伤害</physicalDamage>。<br> <active>邪斩</active><br>对你附近的敌人们造成<physicalDamage>物理伤害</physicalDamage>。</mainText>"
+          },
+          {
+            "binding": "keyTooltip",
+            "sourceKey": "Item_6698_Tooltip",
+            "text": "<mainText><stats><attention>55</attention>攻击力<br><attention> 18</attention>穿甲<br><attention>10</attention>技能急速</stats><br><br><passive>顺劈</passive><br>攻击会对附近的敌人们造成<physicalDamage>物理伤害</physicalDamage>。<br> <active>邪斩</active><br>对你附近的敌人们造成<physicalDamage>物理伤害</physicalDamage>。</mainText>"
+          },
+          {
+            "binding": "keyColloquialism",
+            "sourceKey": "Item_6698_Colloquialism",
+            "text": "<mainText><stats><attention>55</attention>攻击力<br><attention> 18</attention>穿甲<br><attention>10</attention>技能急速</stats><br><br><passive>顺劈</passive><br>攻击会对附近的敌人们造成<physicalDamage>物理伤害</physicalDamage>。<br> <active>邪斩</active><br>对你附近的敌人们造成<physicalDamage>物理伤害</physicalDamage>。</mainText>"
+          },
+          {
+            "binding": "keyActive",
+            "sourceKey": "Item_6698_Active",
+            "text": "<mainText><stats><attention>55</attention>攻击力<br><attention> 18</attention>穿甲<br><attention>10</attention>技能急速</stats><br><br><passive>顺劈</passive><br>攻击会对附近的敌人们造成<physicalDamage>物理伤害</physicalDamage>。<br> <active>邪斩</active><br>对你附近的敌人们造成<physicalDamage>物理伤害</physicalDamage>。</mainText>"
+          },
+          {
+            "binding": "keyFlavorText",
+            "sourceKey": "Item_6698_FlavorText",
+            "text": "<mainText><stats><attention>55</attention>攻击力<br><attention> 18</attention>穿甲<br><attention>10</attention>技能急速</stats><br><br><passive>顺劈</passive><br>攻击会对附近的敌人们造成<physicalDamage>物理伤害</physicalDamage>。<br> <active>邪斩</active><br>对你附近的敌人们造成<physicalDamage>物理伤害</physicalDamage>。</mainText>"
+          },
+          {
+            "binding": "keySecondaryBrief",
+            "sourceKey": "Item_Unique_Hydra",
+            "text": null
+          },
+          {
+            "binding": "keyTooltipExtendedRules",
+            "sourceKey": "Item_6698_TooltipExtendedRules",
+            "text": "<mainText><stats><attention>55</attention>攻击力<br><attention> 18</attention>穿甲<br><attention>10</attention>技能急速</stats><br><br><passive>顺劈</passive><br>攻击会对附近的敌人们造成<physicalDamage>物理伤害</physicalDamage>。<br> <active>邪斩</active><br>对你附近的敌人们造成<physicalDamage>物理伤害</physicalDamage>。</mainText>"
+          },
+          {
+            "binding": "keyActiveExternal",
+            "sourceKey": "Item_6698_ActiveExternal",
+            "text": "<mainText><stats><attention>55</attention>攻击力<br><attention> 18</attention>穿甲<br><attention>10</attention>技能急速</stats><br><br><passive>顺劈</passive><br>攻击会对附近的敌人们造成<physicalDamage>物理伤害</physicalDamage>。<br> <active>邪斩</active><br>对你附近的敌人们造成<physicalDamage>物理伤害</physicalDamage>。</mainText>"
+          },
+          {
+            "binding": "keyTooltipExternal",
+            "sourceKey": "Item_6698_TooltipExternal",
+            "text": "<mainText><stats><attention>55</attention>攻击力<br><attention> 18</attention>穿甲<br><attention>10</attention>技能急速</stats><br><br><passive>顺劈</passive><br>攻击会对附近的敌人们造成<physicalDamage>物理伤害</physicalDamage>。<br> <active>邪斩</active><br>对你附近的敌人们造成<physicalDamage>物理伤害</physicalDamage>。</mainText>"
+          }
+        ],
+        "official": {
+          "name": "亵渎九头蛇",
+          "description": "<mainText><stats><attention>55</attention>攻击力<br><attention>18</attention>穿甲<br><attention>10</attention>技能急速</stats><br><br><passive>顺劈</passive><br>攻击会对附近的敌人们造成<physicalDamage>物理伤害</physicalDamage>。<br><active>邪斩</active><br>对你附近的敌人们造成<physicalDamage>物理伤害</physicalDamage>。</mainText>",
+          "colloq": "",
+          "plaintext": "",
+          "from": [
+            "3077",
+            "2020"
+          ],
+          "image": {
+            "full": "6698.png",
+            "sprite": "item6.png",
+            "group": "item",
+            "x": 336,
+            "y": 144,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 313,
+            "purchasable": true,
+            "total": 2850,
+            "sell": 1995
+          },
+          "tags": [
+            "Damage",
+            "Active",
+            "CooldownReduction",
+            "ArmorPenetration",
+            "AbilityHaste"
+          ],
+          "maps": {
+            "11": true,
+            "12": true,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatPhysicalDamageMod": 55
+          },
+          "depth": 3
+        },
+        "clientItemList": {
+          "id": 6698,
+          "name": "亵渎九头蛇",
+          "description": "<mainText><stats><attention>55</attention>攻击力<br><attention> 18</attention>穿甲<br><attention>10</attention>技能急速</stats><br><br><passive>顺劈</passive><br>攻击会对附近的敌人们造成<physicalDamage>物理伤害</physicalDamage>。<br> <active>邪斩</active><br>对你附近的敌人们造成<physicalDamage>物理伤害</physicalDamage>。</mainText>",
+          "active": true,
+          "inStore": true,
+          "from": [
+            3077,
+            2020
+          ],
+          "to": [],
+          "categories": [
+            "Damage",
+            "Active",
+            "CooldownReduction",
+            "ArmorPenetration",
+            "AbilityHaste"
+          ],
+          "maxStacks": 1,
+          "requiredChampion": "",
+          "requiredAlly": "",
+          "requiredBuffCurrencyName": "",
+          "requiredBuffCurrencyCost": 0,
+          "specialRecipe": 0,
+          "isEnchantment": false,
+          "price": 313,
+          "priceTotal": 2850,
+          "displayInItemSets": true,
+          "iconPath": "/lol-game-data/assets/ASSETS/Items/Icons2D/6698_ProfaneHydra.png"
+        },
+        "dataValueNames": [
+          "LethalityAmount",
+          "Cooldown",
+          "CleaveRadius",
+          "ActiveRadius",
+          "HealthThreshold",
+          "MaxProcPerAuto"
+        ],
+        "dataValues": {
+          "LethalityAmount": 18,
+          "Cooldown": 10,
+          "CleaveRadius": 350,
+          "ActiveRadius": 450,
+          "HealthThreshold": 0.5,
+          "MaxProcPerAuto": 10
+        },
+        "calculationKeys": [
+          "SlashDamageBase",
+          "SlashDamageMax",
+          "ChampRange",
+          "{792cf56b}",
+          "{06387172}",
+          "MeleeItemCalcValue",
+          "RangedItemCalcValue",
+          "CleaveDamage"
+        ],
+        "sourceFiles": [
+          {
+            "key": "officialItem",
+            "relativePath": "装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+            "format": "JSON",
+            "role": "官方16.17.1装备说明、直接属性和图片键",
+            "bytes": 691131,
+            "modifiedAt": "2026-09-06T14:10:07.953Z",
+            "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973"
+          },
+          {
+            "key": "clientItemList",
+            "relativePath": "装备效果补证/客户端原始资料/items-16.17-zh_CN.json.gz",
+            "format": "gzip JSON",
+            "role": "客户端16.17装备列表和中文动态说明旁证",
+            "bytes": 96301,
+            "modifiedAt": "2026-09-06T14:59:31.906Z",
+            "sha256": "f4ed06bce504288345ed7761ea1a12612ef5afd6400ebb1f27290204e1f24e20"
+          },
+          {
+            "key": "clientItems",
+            "relativePath": "装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+            "format": "gzip JSON",
+            "role": "客户端16.17装备对象、数据值和计算树主证",
+            "bytes": 1577238,
+            "modifiedAt": "2026-09-06T15:00:14.328Z",
+            "sha256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7"
+          },
+          {
+            "key": "clientStringTable",
+            "relativePath": "装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+            "format": "gzip JSON",
+            "role": "客户端16.17中文绑定说明文件；本批保存绑定键和装备列表原文，不把未解析键当成数值证据",
+            "bytes": 8350124,
+            "modifiedAt": "2026-09-06T15:08:11.306Z",
+            "sha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e"
+          }
+        ],
+        "apiProtection": {
+          "equipmentGET": {
+            "route": "/equipment?page=1&pageSize=250",
+            "status": 200,
+            "equipmentKey": "item_6698",
+            "name": "亵渎九头蛇"
+          },
+          "relationGET": {
+            "route": "/equipment-skill-relations?equipmentKey=item_6698",
+            "method": "GET",
+            "status": 200,
+            "ok": true,
+            "total": 0,
+            "items": []
+          },
+          "subjectGET": [
+            {
+              "skillKey": "item_6698_passive",
+              "route": "/skills/item_6698_passive",
+              "method": "GET",
+              "status": 404,
+              "ok": false,
+              "data": {
+                "error": {
+                  "code": "404.SKILL_NOT_FOUND",
+                  "details": {
+                    "skillKey": "item_6698_passive"
+                  },
+                  "message": "技能不存在"
+                }
+              }
+            },
+            {
+              "skillKey": "item_6698_active",
+              "route": "/skills/item_6698_active",
+              "method": "GET",
+              "status": 404,
+              "ok": false,
+              "data": {
+                "error": {
+                  "code": "404.SKILL_NOT_FOUND",
+                  "details": {
+                    "skillKey": "item_6698_active"
+                  },
+                  "message": "技能不存在"
+                }
+              }
+            }
+          ],
+          "relationCountBefore": 0,
+          "imageKeyToReuse": "item_6698",
+          "directAttributesProtectedByReadOnlyGET": true,
+          "writeBeforeSnapshot": {
+            "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备技能实录/第十九批自身与范围主动/写前保护快照.json",
+            "sha256": "f50a3ac022bc7689dc437a5006b969a85b6ef550f305aa3bd0cf51a6ceeef057",
+            "equipmentBodyGET": {
+              "route": "/equipment/item_6698",
+              "method": "GET",
+              "status": 200,
+              "ok": true,
+              "dataSha256": "0f12f69f82d9ff1c7780e38e2c6e40b7c666b09b37a52539217f9dfa6376f962"
+            },
+            "attributesGET": {
+              "route": "/equipment/item_6698/attributes",
+              "method": "GET",
+              "status": 200,
+              "ok": true,
+              "dataSha256": "ad4b83955ea2aa9c9f3a1ae8acdd76247e3db9921dbc5c7c61def87c97128fa2"
+            },
+            "representativeImageGET": {
+              "route": "/equipment/item_6698/representative-image",
+              "method": "GET",
+              "status": 200,
+              "ok": true,
+              "dataSha256": "fe487edd214d432629ac611cbaee38f2ec8b6281e6108549160fd3afbd9cb4cf"
+            },
+            "relationGET": {
+              "route": "/equipment-skill-relations?equipmentKey=item_6698",
+              "method": "GET",
+              "status": 200,
+              "ok": true,
+              "dataSha256": "4bf7c8639bc34bbbae5aef4aba3c724f9a425cbdc0416ab6384f7745ae1acb96",
+              "itemCount": 0
+            },
+            "subjectGET": {
+              "route": "/skills/item_6698_active",
+              "method": "GET",
+              "status": 404,
+              "ok": false,
+              "dataSha256": "9c446b5c99b343bb75f1c87ab6053822900431a32ef0798237144d097e5b1cb9"
+            }
+          }
+        },
+        "sourceFreeze": {
+          "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备技能实录\\第十九批自身与范围主动\\冻结来源.json",
+          "sha256": "1ce775810bd1a252438386f6959dd8adf7a1de51224e3e055e3ffe8826ad7a79"
+        }
+      },
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_6698_active",
+          "name": "亵渎九头蛇·邪斩",
+          "description": "保留邪斩对当前唯一附近敌方英雄的物理伤害、450范围和10秒冷却。顺劈被动及未绑定生命阈值字段留来源。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": []
+        },
+        "parameters": [
+          {
+            "parameterKey": "active_damage_ratio",
+            "name": "邪斩物理伤害总攻击力比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.8,
+            "levelValues": null,
+            "description": "客户端SlashDamageBase/SlashDamageMax均为mStat=2、系数0.8，按已证2/0窄映射读取来源总攻击力。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "active_radius",
+            "name": "邪斩影响范围",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 450,
+            "levelValues": null,
+            "description": "客户端ActiveRadius=450；当前唯一敌人在范围内时仍相关。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "active_cast_radius",
+            "name": "邪斩施法半径",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 325,
+            "levelValues": null,
+            "description": "客户端6698Active的castRadius=325。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "active_cooldown_ms",
+            "name": "邪斩冷却",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 10000,
+            "levelValues": null,
+            "description": "客户端根Cooldown=10秒；主动对象冷却数组为0，不能当作实际冷却。",
+            "sortOrder": 40
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "active_physical_damage",
+            "name": "邪斩物理伤害值",
+            "description": "0.8×来源总攻击力；只保存公式，不创建无条件DAMAGE。",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "active_damage_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            },
+            "sortOrder": 10
+          }
+        ],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": [],
+        "relation": {
+          "equipmentKey": "item_6698",
+          "skillKey": "item_6698_active",
+          "sortOrder": 10
+        },
+        "representativeImage": {
+          "imageKey": "item_6698"
+        }
+      },
+      "disposition": {
+        "范围外": [
+          {
+            "component": "顺劈被动",
+            "reason": "攻击附近额外敌人，严格1V1没有第二目标。"
+          }
+        ],
+        "来源待核": [
+          {
+            "component": "HealthThreshold=0.5",
+            "reason": "客户端字段未出现在当前中文说明或主伤害公式中，不将其猜作斩杀倍率。"
+          }
+        ],
+        "系统缺口": [],
+        "尚未接线": [
+          {
+            "component": "邪斩命中资格",
+            "reason": "当前英雄目标、物理伤害结算与主动消费尚未接线。"
+          }
+        ]
+      },
+      "omittedComponents": [
+        {
+          "kind": "多目标",
+          "component": "顺劈",
+          "reason": "不生成item_6698_passive。"
+        },
+        {
+          "kind": "未绑定",
+          "component": "HealthThreshold",
+          "reason": "保留来源字段，不写入运行参数。"
+        }
+      ],
+      "pendingComponents": [
+        {
+          "component": "伤害资格",
+          "reason": "不默认创建DAMAGE。"
+        }
+      ],
+      "proofs": [
+        {
+          "pointer": "/mDataValues/ActiveRadius",
+          "accepted": 450
+        },
+        {
+          "pointer": "/mDataValues/Cooldown",
+          "accepted": 10
+        },
+        {
+          "pointer": "/mItemCalculations/SlashDamageBase",
+          "accepted": "mStat=2、coefficient=0.8"
+        },
+        {
+          "pointer": "/mItemCalculations/SlashDamageMax",
+          "accepted": "mStat=2、coefficient=0.8"
+        },
+        {
+          "pointer": "/Spells/6698Active/mSpell/mTargetingTypeData",
+          "accepted": "Self"
+        }
+      ],
+      "safeguards": {
+        "equipmentKey": "item_6698",
+        "beforeRelationCount": 0,
+        "directAttributesProtectedByReadOnlyGET": true,
+        "representativeImageReused": "item_6698",
+        "apiWrites": 0,
+        "equipmentBodyProtectedByReadOnlyGET": true,
+        "representativeImageProtectedByReadOnlyGET": true,
+        "beforeSubjectStatus": 404,
+        "writeBeforeSnapshot": {
+          "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备技能实录/第十九批自身与范围主动/写前保护快照.json",
+          "sha256": "f50a3ac022bc7689dc437a5006b969a85b6ef550f305aa3bd0cf51a6ceeef057",
+          "equipmentBodyGET": {
+            "route": "/equipment/item_6698",
+            "method": "GET",
+            "status": 200,
+            "ok": true,
+            "dataSha256": "0f12f69f82d9ff1c7780e38e2c6e40b7c666b09b37a52539217f9dfa6376f962"
+          },
+          "attributesGET": {
+            "route": "/equipment/item_6698/attributes",
+            "method": "GET",
+            "status": 200,
+            "ok": true,
+            "dataSha256": "ad4b83955ea2aa9c9f3a1ae8acdd76247e3db9921dbc5c7c61def87c97128fa2"
+          },
+          "representativeImageGET": {
+            "route": "/equipment/item_6698/representative-image",
+            "method": "GET",
+            "status": 200,
+            "ok": true,
+            "dataSha256": "fe487edd214d432629ac611cbaee38f2ec8b6281e6108549160fd3afbd9cb4cf"
+          },
+          "relationGET": {
+            "route": "/equipment-skill-relations?equipmentKey=item_6698",
+            "method": "GET",
+            "status": 200,
+            "ok": true,
+            "dataSha256": "4bf7c8639bc34bbbae5aef4aba3c724f9a425cbdc0416ab6384f7745ae1acb96",
+            "itemCount": 0
+          },
+          "subjectGET": {
+            "route": "/skills/item_6698_active",
+            "method": "GET",
+            "status": 404,
+            "ok": false,
+            "dataSha256": "9c446b5c99b343bb75f1c87ab6053822900431a32ef0798237144d097e5b1cb9"
+          }
+        }
+      }
+    },
+    {
+      "equipmentKey": "item_3107",
+      "equipmentName": "救赎",
+      "skillKey": "item_3107_active",
+      "source": {
+        "path": "Items/3107",
+        "rawObjectSha256": "8e079b24855530d1089c2d88cb1d622dfd99c5204643facbac7f3335b528d853",
+        "rawSpellObjects": [],
+        "bindings": [
+          {
+            "binding": "keyName",
+            "sourceKey": "Item_3107_Name",
+            "text": "救赎"
+          },
+          {
+            "binding": "keyBrief",
+            "sourceKey": "Item_3107_Brief",
+            "text": "<mainText><stats><attention>30</attention>法术强度<br><attention>15</attention>技能急速<br><attention>100%</attention>基础法力回复<br><attention> 10%</attention>治疗和护盾强度</stats><br><br> <active>干涉</active> <br>在2.5秒后，为友方单位们回复<healing>150 - 350生命值</healing>，并对敌方英雄们造成<trueDamage>10%最大生命值的真实伤害</trueDamage>。</mainText>"
+          },
+          {
+            "binding": "keyActive",
+            "sourceKey": "Item_3107_Active",
+            "text": "<mainText><stats><attention>30</attention>法术强度<br><attention>15</attention>技能急速<br><attention>100%</attention>基础法力回复<br><attention> 10%</attention>治疗和护盾强度</stats><br><br> <active>干涉</active> <br>在2.5秒后，为友方单位们回复<healing>150 - 350生命值</healing>，并对敌方英雄们造成<trueDamage>10%最大生命值的真实伤害</trueDamage>。</mainText>"
+          },
+          {
+            "binding": "keyInventoryOnlyText",
+            "sourceKey": "Item_3107_InventoryOnlyText",
+            "text": "<mainText><stats><attention>30</attention>法术强度<br><attention>15</attention>技能急速<br><attention>100%</attention>基础法力回复<br><attention> 10%</attention>治疗和护盾强度</stats><br><br> <active>干涉</active> <br>在2.5秒后，为友方单位们回复<healing>150 - 350生命值</healing>，并对敌方英雄们造成<trueDamage>10%最大生命值的真实伤害</trueDamage>。</mainText>"
+          },
+          {
+            "binding": "keyTooltipExtendedRules",
+            "sourceKey": "Item_3107_TooltipExtendedRules",
+            "text": "<mainText><stats><attention>30</attention>法术强度<br><attention>15</attention>技能急速<br><attention>100%</attention>基础法力回复<br><attention> 10%</attention>治疗和护盾强度</stats><br><br> <active>干涉</active> <br>在2.5秒后，为友方单位们回复<healing>150 - 350生命值</healing>，并对敌方英雄们造成<trueDamage>10%最大生命值的真实伤害</trueDamage>。</mainText>"
+          },
+          {
+            "binding": "keyActiveExternal",
+            "sourceKey": "Item_3107_ActiveExternal",
+            "text": "<mainText><stats><attention>30</attention>法术强度<br><attention>15</attention>技能急速<br><attention>100%</attention>基础法力回复<br><attention> 10%</attention>治疗和护盾强度</stats><br><br> <active>干涉</active> <br>在2.5秒后，为友方单位们回复<healing>150 - 350生命值</healing>，并对敌方英雄们造成<trueDamage>10%最大生命值的真实伤害</trueDamage>。</mainText>"
+          }
+        ],
+        "official": {
+          "name": "救赎",
+          "description": "<mainText><stats><attention>30</attention>法术强度<br><attention>15</attention>技能急速<br><attention>100%</attention>基础法力回复<br><attention>10%</attention>治疗和护盾强度</stats><br><br><active>干涉</active> <br>在2.5秒后，为友方单位们回复<healing>150 - 350生命值</healing>，并对敌方英雄们造成<trueDamage>10%最大生命值的真实伤害</trueDamage>。</mainText>",
+          "colloq": ";Redemption",
+          "plaintext": "主动使用以在一个区域内治愈友军和伤害敌军",
+          "from": [
+            "3108",
+            "3114"
+          ],
+          "image": {
+            "full": "3107.png",
+            "sprite": "item3.png",
+            "group": "item",
+            "x": 144,
+            "y": 336,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 850,
+            "purchasable": true,
+            "total": 2300,
+            "sell": 1610
+          },
+          "tags": [
+            "SpellDamage",
+            "ManaRegen",
+            "CooldownReduction",
+            "AbilityHaste"
+          ],
+          "maps": {
+            "11": true,
+            "12": true,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatMagicDamageMod": 30
+          },
+          "depth": 3
+        },
+        "clientItemList": {
+          "id": 3107,
+          "name": "救赎",
+          "description": "<mainText><stats><attention>30</attention>法术强度<br><attention>15</attention>技能急速<br><attention>100%</attention>基础法力回复<br><attention> 10%</attention>治疗和护盾强度</stats><br><br> <active>干涉</active> <br>在2.5秒后，为友方单位们回复<healing>150 - 350生命值</healing>，并对敌方英雄们造成<trueDamage>10%最大生命值的真实伤害</trueDamage>。</mainText>",
+          "active": true,
+          "inStore": true,
+          "from": [
+            3108,
+            3114
+          ],
+          "to": [],
+          "categories": [
+            "SpellDamage",
+            "ManaRegen",
+            "CooldownReduction",
+            "AbilityHaste"
+          ],
+          "maxStacks": 1,
+          "requiredChampion": "",
+          "requiredAlly": "",
+          "requiredBuffCurrencyName": "",
+          "requiredBuffCurrencyCost": 0,
+          "specialRecipe": 0,
+          "isEnchantment": false,
+          "price": 850,
+          "priceTotal": 2300,
+          "displayInItemSets": true,
+          "iconPath": "/lol-game-data/assets/ASSETS/Items/Icons2D/3107_Enchanter_T3_Redemption.png"
+        },
+        "dataValueNames": [
+          "HealMin",
+          "HealMax",
+          "DamageToChampions",
+          "Cooldown",
+          "AOESize",
+          "CastRange",
+          "DiminishedEffect",
+          "DiminishedTimer",
+          "HPRegenIncrease",
+          "BaseManaRegen"
+        ],
+        "dataValues": {
+          "HealMin": 150,
+          "HealMax": 350,
+          "DamageToChampions": 0.10000000149011612,
+          "Cooldown": 90,
+          "AOESize": 550,
+          "CastRange": 5500,
+          "DiminishedEffect": 0.5,
+          "DiminishedTimer": 8,
+          "HPRegenIncrease": 0.25,
+          "BaseManaRegen": 0.25
+        },
+        "calculationKeys": [
+          "HealAmount"
+        ],
+        "sourceFiles": [
+          {
+            "key": "officialItem",
+            "relativePath": "装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+            "format": "JSON",
+            "role": "官方16.17.1装备说明、直接属性和图片键",
+            "bytes": 691131,
+            "modifiedAt": "2026-09-06T14:10:07.953Z",
+            "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973"
+          },
+          {
+            "key": "clientItemList",
+            "relativePath": "装备效果补证/客户端原始资料/items-16.17-zh_CN.json.gz",
+            "format": "gzip JSON",
+            "role": "客户端16.17装备列表和中文动态说明旁证",
+            "bytes": 96301,
+            "modifiedAt": "2026-09-06T14:59:31.906Z",
+            "sha256": "f4ed06bce504288345ed7761ea1a12612ef5afd6400ebb1f27290204e1f24e20"
+          },
+          {
+            "key": "clientItems",
+            "relativePath": "装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+            "format": "gzip JSON",
+            "role": "客户端16.17装备对象、数据值和计算树主证",
+            "bytes": 1577238,
+            "modifiedAt": "2026-09-06T15:00:14.328Z",
+            "sha256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7"
+          },
+          {
+            "key": "clientStringTable",
+            "relativePath": "装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+            "format": "gzip JSON",
+            "role": "客户端16.17中文绑定说明文件；本批保存绑定键和装备列表原文，不把未解析键当成数值证据",
+            "bytes": 8350124,
+            "modifiedAt": "2026-09-06T15:08:11.306Z",
+            "sha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e"
+          }
+        ],
+        "apiProtection": {
+          "equipmentGET": {
+            "route": "/equipment?page=1&pageSize=250",
+            "status": 200,
+            "equipmentKey": "item_3107",
+            "name": "救赎"
+          },
+          "relationGET": {
+            "route": "/equipment-skill-relations?equipmentKey=item_3107",
+            "method": "GET",
+            "status": 200,
+            "ok": true,
+            "total": 0,
+            "items": []
+          },
+          "subjectGET": [
+            {
+              "skillKey": "item_3107_passive",
+              "route": "/skills/item_3107_passive",
+              "method": "GET",
+              "status": 404,
+              "ok": false,
+              "data": {
+                "error": {
+                  "code": "404.SKILL_NOT_FOUND",
+                  "details": {
+                    "skillKey": "item_3107_passive"
+                  },
+                  "message": "技能不存在"
+                }
+              }
+            },
+            {
+              "skillKey": "item_3107_active",
+              "route": "/skills/item_3107_active",
+              "method": "GET",
+              "status": 404,
+              "ok": false,
+              "data": {
+                "error": {
+                  "code": "404.SKILL_NOT_FOUND",
+                  "details": {
+                    "skillKey": "item_3107_active"
+                  },
+                  "message": "技能不存在"
+                }
+              }
+            }
+          ],
+          "relationCountBefore": 0,
+          "imageKeyToReuse": "item_3107",
+          "directAttributesProtectedByReadOnlyGET": true,
+          "writeBeforeSnapshot": {
+            "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备技能实录/第十九批自身与范围主动/写前保护快照.json",
+            "sha256": "f50a3ac022bc7689dc437a5006b969a85b6ef550f305aa3bd0cf51a6ceeef057",
+            "equipmentBodyGET": {
+              "route": "/equipment/item_3107",
+              "method": "GET",
+              "status": 200,
+              "ok": true,
+              "dataSha256": "cb0564d8143cdfef3029c9b6642ef613826157588bd170bfcd30e3b762c2129a"
+            },
+            "attributesGET": {
+              "route": "/equipment/item_3107/attributes",
+              "method": "GET",
+              "status": 200,
+              "ok": true,
+              "dataSha256": "a6ff1c07c981f5b90a472a3a7dd7d851ddf2b804b65a54cea9599170a4acb277"
+            },
+            "representativeImageGET": {
+              "route": "/equipment/item_3107/representative-image",
+              "method": "GET",
+              "status": 200,
+              "ok": true,
+              "dataSha256": "f1d59c91fc4d500105a2b10b55d52b38c043b6a7a75084d2f5cd5b85b6624ab8"
+            },
+            "relationGET": {
+              "route": "/equipment-skill-relations?equipmentKey=item_3107",
+              "method": "GET",
+              "status": 200,
+              "ok": true,
+              "dataSha256": "4bf7c8639bc34bbbae5aef4aba3c724f9a425cbdc0416ab6384f7745ae1acb96",
+              "itemCount": 0
+            },
+            "subjectGET": {
+              "route": "/skills/item_3107_active",
+              "method": "GET",
+              "status": 404,
+              "ok": false,
+              "dataSha256": "1e76b37efddc7e701052abe129c9591b328808455163e2ac145ae82fa4716494"
+            }
+          }
+        },
+        "sourceFreeze": {
+          "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备技能实录\\第十九批自身与范围主动\\冻结来源.json",
+          "sha256": "1ce775810bd1a252438386f6959dd8adf7a1de51224e3e055e3ffe8826ad7a79"
+        }
+      },
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_3107_active",
+          "name": "救赎·干涉敌方伤害",
+          "description": "保留干涉在2.5秒后对当前敌方英雄造成其最大生命值10%真实伤害的分支，同时保留友方治疗150/350端点和当前合资格友方英雄基础治疗运行时输入。友方治疗目标归属（含施法者自身）待补证；不创建治疗效果或中转公式。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": []
+        },
+        "parameters": [
+          {
+            "parameterKey": "enemy_true_damage_ratio",
+            "name": "干涉敌方真实伤害比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.1,
+            "levelValues": null,
+            "description": "官方与客户端中文明确为敌方英雄最大生命值的10%真实伤害。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "actual_target_max_health",
+            "name": "当前敌方英雄最大生命值",
+            "valueType": "INTEGER",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "目标最大生命值作为运行时输入；不补默认值或未知属性枚举。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "impact_delay_ms",
+            "name": "干涉生效延迟",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 2500,
+            "levelValues": null,
+            "description": "官方与客户端中文明确2.5秒后生效。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "area_radius",
+            "name": "干涉区域半径",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 550,
+            "levelValues": null,
+            "description": "客户端AOESize=550；只作为当前敌人在区域内的条件参数。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "cast_range",
+            "name": "干涉施法距离",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 5500,
+            "levelValues": null,
+            "description": "客户端CastRange=5500。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "active_cooldown_ms",
+            "name": "干涉冷却",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 90000,
+            "levelValues": null,
+            "description": "客户端根Cooldown=90秒；只读根数据值。",
+            "sortOrder": 60
+          },
+          {
+            "parameterKey": "ally_heal_min",
+            "name": "友方治疗下限",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 150,
+            "levelValues": null,
+            "description": "客户端HealMin=150；官方与客户端说明给出150-350端点，等级求值和自身资格未证，只保留端点。",
+            "sortOrder": 70
+          },
+          {
+            "parameterKey": "ally_heal_max",
+            "name": "友方治疗上限",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 350,
+            "levelValues": null,
+            "description": "客户端HealMax=350；官方与客户端说明给出150-350端点，等级求值和自身资格未证，只保留端点。",
+            "sortOrder": 80
+          },
+          {
+            "parameterKey": "actual_qualified_ally_base_heal",
+            "name": "当前合资格友方英雄基础治疗输入",
+            "valueType": "DECIMAL",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "无默认值；当前合资格友方英雄的基础治疗值由运行时提供。HealAmount含ByCharLevelInterpolation，未知等级算法及施法者自身资格不补默认值。",
+            "sortOrder": 90
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "enemy_true_damage",
+            "name": "干涉敌方真实伤害值",
+            "description": "0.1×当前敌方英雄最大生命值输入；延迟由参数保留，未创建伤害效果。",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "enemy_true_damage_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_target_max_health"
+                }
+              ]
+            },
+            "sortOrder": 10
+          }
+        ],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": [],
+        "relation": {
+          "equipmentKey": "item_3107",
+          "skillKey": "item_3107_active",
+          "sortOrder": 10
+        },
+        "representativeImage": {
+          "imageKey": "item_3107"
+        }
+      },
+      "disposition": {
+        "范围外": [],
+        "来源待核": [
+          {
+            "component": "友方治疗目标资格",
+            "reason": "来源只证明友方单位文字，未证明施法者自身是否在目标集合；改为目标归属待补证。"
+          },
+          {
+            "component": "HealAmount=150-350",
+            "reason": "客户端HealAmount含ByCharLevelInterpolation，只有端点且等级求值算法未证，不能线性化。"
+          }
+        ],
+        "系统缺口": [],
+        "尚未接线": [
+          {
+            "component": "敌方英雄目标与延迟事件",
+            "reason": "敌方筛选、2.5秒事件和真实伤害资格尚未接线。"
+          }
+        ]
+      },
+      "omittedComponents": [],
+      "pendingComponents": [
+        {
+          "component": "真实伤害资格",
+          "reason": "敌方英雄筛选、2.5秒事件和真实伤害结算尚未接线。"
+        },
+        {
+          "component": "友方治疗目标资格",
+          "reason": "目标归属（含施法者自身）尚未由同版证据证明；不创建治疗效果或中转公式。"
+        }
+      ],
+      "proofs": [
+        {
+          "pointer": "/mDataValues/DamageToChampions",
+          "accepted": 0.1
+        },
+        {
+          "pointer": "/mDataValues/Cooldown",
+          "accepted": 90
+        },
+        {
+          "pointer": "/mDataValues/AOESize",
+          "accepted": 550
+        },
+        {
+          "pointer": "/mDataValues/CastRange",
+          "accepted": 5500
+        },
+        {
+          "pointer": "/mItemCalculations/HealAmount",
+          "accepted": "含ByCharLevelInterpolation，仅保存友方治疗端点来源"
+        }
+      ],
+      "safeguards": {
+        "equipmentKey": "item_3107",
+        "beforeRelationCount": 0,
+        "directAttributesProtectedByReadOnlyGET": true,
+        "representativeImageReused": "item_3107",
+        "apiWrites": 0,
+        "equipmentBodyProtectedByReadOnlyGET": true,
+        "representativeImageProtectedByReadOnlyGET": true,
+        "beforeSubjectStatus": 404,
+        "writeBeforeSnapshot": {
+          "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备技能实录/第十九批自身与范围主动/写前保护快照.json",
+          "sha256": "f50a3ac022bc7689dc437a5006b969a85b6ef550f305aa3bd0cf51a6ceeef057",
+          "equipmentBodyGET": {
+            "route": "/equipment/item_3107",
+            "method": "GET",
+            "status": 200,
+            "ok": true,
+            "dataSha256": "cb0564d8143cdfef3029c9b6642ef613826157588bd170bfcd30e3b762c2129a"
+          },
+          "attributesGET": {
+            "route": "/equipment/item_3107/attributes",
+            "method": "GET",
+            "status": 200,
+            "ok": true,
+            "dataSha256": "a6ff1c07c981f5b90a472a3a7dd7d851ddf2b804b65a54cea9599170a4acb277"
+          },
+          "representativeImageGET": {
+            "route": "/equipment/item_3107/representative-image",
+            "method": "GET",
+            "status": 200,
+            "ok": true,
+            "dataSha256": "f1d59c91fc4d500105a2b10b55d52b38c043b6a7a75084d2f5cd5b85b6624ab8"
+          },
+          "relationGET": {
+            "route": "/equipment-skill-relations?equipmentKey=item_3107",
+            "method": "GET",
+            "status": 200,
+            "ok": true,
+            "dataSha256": "4bf7c8639bc34bbbae5aef4aba3c724f9a425cbdc0416ab6384f7745ae1acb96",
+            "itemCount": 0
+          },
+          "subjectGET": {
+            "route": "/skills/item_3107_active",
+            "method": "GET",
+            "status": 404,
+            "ok": false,
+            "dataSha256": "1e76b37efddc7e701052abe129c9591b328808455163e2ac145ae82fa4716494"
+          }
+        }
+      }
+    },
+    {
+      "equipmentKey": "item_3190",
+      "equipmentName": "钢铁烈阳之匣",
+      "skillKey": "item_3190_active",
+      "source": {
+        "path": "Items/3190",
+        "rawObjectSha256": "b830e12901f2b881d543895f24103c29af43fa346a4f63ed5304bea7f7142702",
+        "rawSpellObjects": [
+          {
+            "path": "Items/3190/Spells/3190Active",
+            "sha256": "9f861892021d5a54cd7ab831f9dbbe37f22310808d3f3c966834ca71caffae75",
+            "objectName": "3190Active"
+          },
+          {
+            "path": "Items/3190/Spells/3190Aura",
+            "sha256": "b58370f52768580b03336a614413b694b6955ec284875bb8b4bf9c96e0cfa085",
+            "objectName": "3190Aura"
+          },
+          {
+            "path": "Items/3190/Spells/3190DiminishedDebuff",
+            "sha256": "68cdb44d82ccc3cccf27e8a2fc86310290ae4adbdfd05f9a2f63d093c8633a00",
+            "objectName": "3190DiminishedDebuff"
+          },
+          {
+            "path": "Items/3190/Spells/3190Shield",
+            "sha256": "1926e344c32c052ed6a0036785906bf6e726958a750d7c0f81f51583eb7fae71",
+            "objectName": "3190Shield"
+          }
+        ],
+        "bindings": [
+          {
+            "binding": "keyName",
+            "sourceKey": "Item_3190_Name",
+            "text": "钢铁烈阳之匣"
+          },
+          {
+            "binding": "keyBrief",
+            "sourceKey": "Item_3190_Brief",
+            "text": "<mainText><stats><attention>200</attention>生命值<br><attention>30</attention>护甲<br><attention>30</attention>魔法抗性<br><attention>10</attention>技能急速</stats><br><br> <active>虔诚</active><br>为附近友军提供<shield>290 - 360护盾值</shield>，在2.5秒里持续衰减。</mainText>"
+          },
+          {
+            "binding": "keyActive",
+            "sourceKey": "Item_3190_Active",
+            "text": "<mainText><stats><attention>200</attention>生命值<br><attention>30</attention>护甲<br><attention>30</attention>魔法抗性<br><attention>10</attention>技能急速</stats><br><br> <active>虔诚</active><br>为附近友军提供<shield>290 - 360护盾值</shield>，在2.5秒里持续衰减。</mainText>"
+          },
+          {
+            "binding": "keyTooltipExtendedRules",
+            "sourceKey": "Item_3190_TooltipExtendedRules",
+            "text": "<mainText><stats><attention>200</attention>生命值<br><attention>30</attention>护甲<br><attention>30</attention>魔法抗性<br><attention>10</attention>技能急速</stats><br><br> <active>虔诚</active><br>为附近友军提供<shield>290 - 360护盾值</shield>，在2.5秒里持续衰减。</mainText>"
+          },
+          {
+            "binding": "keyInventoryOnlyText",
+            "sourceKey": "Item_3190_InventoryOnlyText",
+            "text": "<mainText><stats><attention>200</attention>生命值<br><attention>30</attention>护甲<br><attention>30</attention>魔法抗性<br><attention>10</attention>技能急速</stats><br><br> <active>虔诚</active><br>为附近友军提供<shield>290 - 360护盾值</shield>，在2.5秒里持续衰减。</mainText>"
+          },
+          {
+            "binding": "keyActiveExternal",
+            "sourceKey": "Item_3190_ActiveExternal",
+            "text": "<mainText><stats><attention>200</attention>生命值<br><attention>30</attention>护甲<br><attention>30</attention>魔法抗性<br><attention>10</attention>技能急速</stats><br><br> <active>虔诚</active><br>为附近友军提供<shield>290 - 360护盾值</shield>，在2.5秒里持续衰减。</mainText>"
+          }
+        ],
+        "official": {
+          "name": "钢铁烈阳之匣",
+          "description": "<mainText><stats><attention>200</attention>生命值<br><attention>30</attention>护甲<br><attention>30</attention>魔法抗性<br><attention>10</attention>技能急速</stats><br><br><active>虔诚</active><br>为附近友军提供<shield>290 - 360护盾值</shield>，在2.5秒里持续衰减。</mainText>",
+          "colloq": ";护盾;光环;鸟盾;Locket of the Iron Solari;gangtielieyangzhixia;gtlyzx",
+          "plaintext": "主动施放来为附近友军提供吸收伤害的护盾",
+          "from": [
+            "3067",
+            "1029",
+            "1033"
+          ],
+          "image": {
+            "full": "3190.png",
+            "sprite": "item4.png",
+            "group": "item",
+            "x": 144,
+            "y": 96,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 700,
+            "purchasable": true,
+            "total": 2200,
+            "sell": 1540
+          },
+          "tags": [
+            "Health",
+            "SpellBlock",
+            "Armor",
+            "Aura",
+            "Active",
+            "MagicResist",
+            "AbilityHaste"
+          ],
+          "maps": {
+            "11": true,
+            "12": true,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatSpellBlockMod": 30,
+            "FlatHPPoolMod": 200,
+            "FlatArmorMod": 30
+          },
+          "depth": 3
+        },
+        "clientItemList": {
+          "id": 3190,
+          "name": "钢铁烈阳之匣",
+          "description": "<mainText><stats><attention>200</attention>生命值<br><attention>30</attention>护甲<br><attention>30</attention>魔法抗性<br><attention>10</attention>技能急速</stats><br><br> <active>虔诚</active><br>为附近友军提供<shield>290 - 360护盾值</shield>，在2.5秒里持续衰减。</mainText>",
+          "active": true,
+          "inStore": true,
+          "from": [
+            3067,
+            1029,
+            1033
+          ],
+          "to": [],
+          "categories": [
+            "Health",
+            "SpellBlock",
+            "Armor",
+            "Aura",
+            "Active",
+            "MagicResist",
+            "AbilityHaste"
+          ],
+          "maxStacks": 1,
+          "requiredChampion": "",
+          "requiredAlly": "",
+          "requiredBuffCurrencyName": "",
+          "requiredBuffCurrencyCost": 0,
+          "specialRecipe": 0,
+          "isEnchantment": false,
+          "price": 700,
+          "priceTotal": 2200,
+          "displayInItemSets": true,
+          "iconPath": "/lol-game-data/assets/ASSETS/Items/Icons2D/3190_Enchanter_T4_LocketOfIronSolari.png"
+        },
+        "dataValueNames": [
+          "ShieldDuration",
+          "DiminishedEffectMulitplier",
+          "DiminishedTimer",
+          "Cooldown",
+          "ShieldRange",
+          "ShieldMinTOOLTIP",
+          "ShieldMaxTOOLTIP"
+        ],
+        "dataValues": {
+          "ShieldDuration": 2.5,
+          "DiminishedEffectMulitplier": 0.25,
+          "DiminishedTimer": 20,
+          "Cooldown": 90,
+          "ShieldRange": 850,
+          "ShieldMinTOOLTIP": 290,
+          "ShieldMaxTOOLTIP": 360
+        },
+        "calculationKeys": [
+          "ShieldAmount"
+        ],
+        "sourceFiles": [
+          {
+            "key": "officialItem",
+            "relativePath": "装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+            "format": "JSON",
+            "role": "官方16.17.1装备说明、直接属性和图片键",
+            "bytes": 691131,
+            "modifiedAt": "2026-09-06T14:10:07.953Z",
+            "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973"
+          },
+          {
+            "key": "clientItemList",
+            "relativePath": "装备效果补证/客户端原始资料/items-16.17-zh_CN.json.gz",
+            "format": "gzip JSON",
+            "role": "客户端16.17装备列表和中文动态说明旁证",
+            "bytes": 96301,
+            "modifiedAt": "2026-09-06T14:59:31.906Z",
+            "sha256": "f4ed06bce504288345ed7761ea1a12612ef5afd6400ebb1f27290204e1f24e20"
+          },
+          {
+            "key": "clientItems",
+            "relativePath": "装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+            "format": "gzip JSON",
+            "role": "客户端16.17装备对象、数据值和计算树主证",
+            "bytes": 1577238,
+            "modifiedAt": "2026-09-06T15:00:14.328Z",
+            "sha256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7"
+          },
+          {
+            "key": "clientStringTable",
+            "relativePath": "装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+            "format": "gzip JSON",
+            "role": "客户端16.17中文绑定说明文件；本批保存绑定键和装备列表原文，不把未解析键当成数值证据",
+            "bytes": 8350124,
+            "modifiedAt": "2026-09-06T15:08:11.306Z",
+            "sha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e"
+          }
+        ],
+        "apiProtection": {
+          "equipmentGET": {
+            "route": "/equipment?page=1&pageSize=250",
+            "status": 200,
+            "equipmentKey": "item_3190",
+            "name": "钢铁烈阳之匣"
+          },
+          "relationGET": {
+            "route": "/equipment-skill-relations?equipmentKey=item_3190",
+            "method": "GET",
+            "status": 200,
+            "ok": true,
+            "total": 0,
+            "items": []
+          },
+          "subjectGET": [
+            {
+              "skillKey": "item_3190_passive",
+              "route": "/skills/item_3190_passive",
+              "method": "GET",
+              "status": 404,
+              "ok": false,
+              "data": {
+                "error": {
+                  "code": "404.SKILL_NOT_FOUND",
+                  "details": {
+                    "skillKey": "item_3190_passive"
+                  },
+                  "message": "技能不存在"
+                }
+              }
+            },
+            {
+              "skillKey": "item_3190_active",
+              "route": "/skills/item_3190_active",
+              "method": "GET",
+              "status": 404,
+              "ok": false,
+              "data": {
+                "error": {
+                  "code": "404.SKILL_NOT_FOUND",
+                  "details": {
+                    "skillKey": "item_3190_active"
+                  },
+                  "message": "技能不存在"
+                }
+              }
+            }
+          ],
+          "relationCountBefore": 0,
+          "imageKeyToReuse": "item_3190",
+          "directAttributesProtectedByReadOnlyGET": true,
+          "writeBeforeSnapshot": {
+            "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备技能实录/第十九批自身与范围主动/写前保护快照.json",
+            "sha256": "f50a3ac022bc7689dc437a5006b969a85b6ef550f305aa3bd0cf51a6ceeef057",
+            "equipmentBodyGET": {
+              "route": "/equipment/item_3190",
+              "method": "GET",
+              "status": 200,
+              "ok": true,
+              "dataSha256": "3e45099c4a4434dc858781c7d918347ba8e6413a991fef396ca433fac36fa24c"
+            },
+            "attributesGET": {
+              "route": "/equipment/item_3190/attributes",
+              "method": "GET",
+              "status": 200,
+              "ok": true,
+              "dataSha256": "f4eb9d8d6e99ec5a428172f207253b7f97a791b43b1ed545b4f6b8bc92c92715"
+            },
+            "representativeImageGET": {
+              "route": "/equipment/item_3190/representative-image",
+              "method": "GET",
+              "status": 200,
+              "ok": true,
+              "dataSha256": "797d7485ff13f619942c81b515a2d2b30fd5e789cd438fc3066a54f2de480349"
+            },
+            "relationGET": {
+              "route": "/equipment-skill-relations?equipmentKey=item_3190",
+              "method": "GET",
+              "status": 200,
+              "ok": true,
+              "dataSha256": "4bf7c8639bc34bbbae5aef4aba3c724f9a425cbdc0416ab6384f7745ae1acb96",
+              "itemCount": 0
+            },
+            "subjectGET": {
+              "route": "/skills/item_3190_active",
+              "method": "GET",
+              "status": 404,
+              "ok": false,
+              "dataSha256": "678e10415cadbe52d3cbe44c4220458011544200fc47ce4183e64fd916d1e12c"
+            }
+          }
+        },
+        "sourceFreeze": {
+          "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备技能实录\\第十九批自身与范围主动\\冻结来源.json",
+          "sha256": "1ce775810bd1a252438386f6959dd8adf7a1de51224e3e055e3ffe8826ad7a79"
+        }
+      },
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_3190_active",
+          "name": "钢铁烈阳之匣·虔诚自身护盾",
+          "description": "保留虔诚的护盾端点、2.5秒衰减持续、850范围和90秒冷却。SelfAoe只说明以自身为几何原点；8193没有同版目标枚举旁证，自身目标资格待补证。衰减曲线和应用资格尚未接线。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": []
+        },
+        "parameters": [
+          {
+            "parameterKey": "shield_min",
+            "name": "虔诚护盾下限",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 290,
+            "levelValues": null,
+            "description": "客户端ShieldMinTOOLTIP=290，官方与客户端中文均给出290-360端点。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "shield_max",
+            "name": "虔诚护盾上限",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 360,
+            "levelValues": null,
+            "description": "客户端ShieldMaxTOOLTIP=360；不以端点猜等级断点。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "actual_self_shield_value",
+            "name": "当前合资格英雄基础护盾值",
+            "valueType": "DECIMAL",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "ShieldAmount使用ByCharLevelBreakpoints；仅保存290/360端点，当前合资格英雄基础护盾值由运行时提供，不猜等级断点、衰减算法或自身目标资格。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "shield_duration_ms",
+            "name": "虔诚护盾持续",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 2500,
+            "levelValues": null,
+            "description": "客户端ShieldDuration=2.5秒；衰减时间已保存，不创建周期过程。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "shield_range",
+            "name": "虔诚护盾范围",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 850,
+            "levelValues": null,
+            "description": "客户端ShieldRange=850；SelfAoe说明支持施法者自身在范围内。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "active_cooldown_ms",
+            "name": "虔诚冷却",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 90000,
+            "levelValues": null,
+            "description": "客户端根Cooldown=90秒；不采用主动对象的零值数组。",
+            "sortOrder": 60
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": [],
+        "relation": {
+          "equipmentKey": "item_3190",
+          "skillKey": "item_3190_active",
+          "sortOrder": 10
+        },
+        "representativeImage": {
+          "imageKey": "item_3190"
+        }
+      },
+      "disposition": {
+        "范围外": [],
+        "来源待核": [
+          {
+            "component": "自身目标资格",
+            "reason": "SelfAoe只说明以自身为几何原点；8193没有同版目标枚举旁证，不能宣称自身受益。"
+          },
+          {
+            "component": "护盾等级断点与衰减函数",
+            "reason": "仅有290/360端点及ByCharLevelBreakpoints类型，未证明中间等级与衰减函数。"
+          }
+        ],
+        "系统缺口": [],
+        "尚未接线": [
+          {
+            "component": "SelfAoe护盾应用",
+            "reason": "目标筛选、护盾应用、衰减和重复冷却尚未接线。"
+          }
+        ]
+      },
+      "omittedComponents": [],
+      "pendingComponents": [
+        {
+          "component": "自身护盾目标资格",
+          "reason": "SelfAoe和8193不能单独证明自身在目标集合中；目标筛选待补证。"
+        },
+        {
+          "component": "护盾应用与衰减",
+          "reason": "护盾应用、衰减和重复冷却尚未接线。"
+        }
+      ],
+      "proofs": [
+        {
+          "pointer": "/mDataValues/ShieldMinTOOLTIP",
+          "accepted": 290
+        },
+        {
+          "pointer": "/mDataValues/ShieldMaxTOOLTIP",
+          "accepted": 360
+        },
+        {
+          "pointer": "/mDataValues/ShieldDuration",
+          "accepted": 2.5
+        },
+        {
+          "pointer": "/mDataValues/ShieldRange",
+          "accepted": 850
+        },
+        {
+          "pointer": "/mDataValues/Cooldown",
+          "accepted": 90
+        },
+        {
+          "pointer": "/Spells/3190Active/mSpell/mTargetingTypeData",
+          "accepted": "SelfAoe（仅几何原点，不能单独证明自身目标资格）"
+        },
+        {
+          "pointer": "/Spells/3190Active/mSpell/mAffectsTypeFlags",
+          "accepted": "8193（无同版目标枚举旁证，不推导自身资格）"
+        }
+      ],
+      "safeguards": {
+        "equipmentKey": "item_3190",
+        "beforeRelationCount": 0,
+        "directAttributesProtectedByReadOnlyGET": true,
+        "representativeImageReused": "item_3190",
+        "apiWrites": 0,
+        "equipmentBodyProtectedByReadOnlyGET": true,
+        "representativeImageProtectedByReadOnlyGET": true,
+        "beforeSubjectStatus": 404,
+        "writeBeforeSnapshot": {
+          "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备技能实录/第十九批自身与范围主动/写前保护快照.json",
+          "sha256": "f50a3ac022bc7689dc437a5006b969a85b6ef550f305aa3bd0cf51a6ceeef057",
+          "equipmentBodyGET": {
+            "route": "/equipment/item_3190",
+            "method": "GET",
+            "status": 200,
+            "ok": true,
+            "dataSha256": "3e45099c4a4434dc858781c7d918347ba8e6413a991fef396ca433fac36fa24c"
+          },
+          "attributesGET": {
+            "route": "/equipment/item_3190/attributes",
+            "method": "GET",
+            "status": 200,
+            "ok": true,
+            "dataSha256": "f4eb9d8d6e99ec5a428172f207253b7f97a791b43b1ed545b4f6b8bc92c92715"
+          },
+          "representativeImageGET": {
+            "route": "/equipment/item_3190/representative-image",
+            "method": "GET",
+            "status": 200,
+            "ok": true,
+            "dataSha256": "797d7485ff13f619942c81b515a2d2b30fd5e789cd438fc3066a54f2de480349"
+          },
+          "relationGET": {
+            "route": "/equipment-skill-relations?equipmentKey=item_3190",
+            "method": "GET",
+            "status": 200,
+            "ok": true,
+            "dataSha256": "4bf7c8639bc34bbbae5aef4aba3c724f9a425cbdc0416ab6384f7745ae1acb96",
+            "itemCount": 0
+          },
+          "subjectGET": {
+            "route": "/skills/item_3190_active",
+            "method": "GET",
+            "status": 404,
+            "ok": false,
+            "dataSha256": "678e10415cadbe52d3cbe44c4220458011544200fc47ce4183e64fd916d1e12c"
+          }
+        }
+      }
+    },
+    {
+      "equipmentKey": "item_6664",
+      "equipmentName": "璀璨回响",
+      "skillKey": "item_6664_passive",
+      "source": {
+        "path": "Items/6664",
+        "rawObjectSha256": "6e108cc722897492e0b0530668e99d5797bbbb4a4cbb4c82f039e0fa2d8801c1",
+        "rawSpellObjects": [
+          {
+            "path": "Items/6664/Spells/6664Active",
+            "sha256": "a7bf9ffbc7885d7c43d19ca373858e6b2526729417ec198f93f3c5cfe532ac3b",
+            "objectName": "6664Active"
+          },
+          {
+            "path": "Items/6664/Spells/6664Slow",
+            "sha256": "4530582f5646c948caa643b6fae63ef5be9694d1cc58d83ac35d2154c6802920",
+            "objectName": "6664Slow"
+          },
+          {
+            "path": "Items/6664/Spells/6664Speed",
+            "sha256": "cd3dc42df629566ed24253125a8ba1f995e99dc488a00c8d1b0d35b686d3e8d7",
+            "objectName": "6664Speed"
+          }
+        ],
+        "bindings": [
+          {
+            "binding": "keyName",
+            "sourceKey": "Item_6664_Name",
+            "text": "璀璨回响"
+          },
+          {
+            "binding": "keyTooltip",
+            "sourceKey": "Item_6664_Tooltip",
+            "text": "<mainText><stats><attention>400</attention>生命值<br><attention>40</attention>魔法抗性<br><attention>10</attention>技能急速<br><attention>100%</attention>基础生命回复</stats><br><br><passive>献祭</passive><br>承受或造成伤害后，每秒对附近敌人造成<magicDamage>魔法伤害</magicDamage>，持续3秒。<br><br><passive>荒弃</passive><br>击杀一个敌人时，会在其周围造成<magicDamage>魔法伤害</magicDamage>。</mainText>"
+          },
+          {
+            "binding": "keyBrief",
+            "sourceKey": "Item_3068_Brief",
+            "text": null
+          },
+          {
+            "binding": "keyFlavorText",
+            "sourceKey": "Item_6664_FlavorText",
+            "text": "<mainText><stats><attention>400</attention>生命值<br><attention>40</attention>魔法抗性<br><attention>10</attention>技能急速<br><attention>100%</attention>基础生命回复</stats><br><br><passive>献祭</passive><br>承受或造成伤害后，每秒对附近敌人造成<magicDamage>魔法伤害</magicDamage>，持续3秒。<br><br><passive>荒弃</passive><br>击杀一个敌人时，会在其周围造成<magicDamage>魔法伤害</magicDamage>。</mainText>"
+          },
+          {
+            "binding": "keySecondaryBrief",
+            "sourceKey": "Item_Unique_Immolate",
+            "text": null
+          },
+          {
+            "binding": "keyInventoryOnlyText",
+            "sourceKey": "Item_6664_InventoryOnlyText",
+            "text": "<mainText><stats><attention>400</attention>生命值<br><attention>40</attention>魔法抗性<br><attention>10</attention>技能急速<br><attention>100%</attention>基础生命回复</stats><br><br><passive>献祭</passive><br>承受或造成伤害后，每秒对附近敌人造成<magicDamage>魔法伤害</magicDamage>，持续3秒。<br><br><passive>荒弃</passive><br>击杀一个敌人时，会在其周围造成<magicDamage>魔法伤害</magicDamage>。</mainText>"
+          },
+          {
+            "binding": "keyTooltipExtendedRules",
+            "sourceKey": "Item_6664_TooltipExtendedRules",
+            "text": "<mainText><stats><attention>400</attention>生命值<br><attention>40</attention>魔法抗性<br><attention>10</attention>技能急速<br><attention>100%</attention>基础生命回复</stats><br><br><passive>献祭</passive><br>承受或造成伤害后，每秒对附近敌人造成<magicDamage>魔法伤害</magicDamage>，持续3秒。<br><br><passive>荒弃</passive><br>击杀一个敌人时，会在其周围造成<magicDamage>魔法伤害</magicDamage>。</mainText>"
+          },
+          {
+            "binding": "keyTooltipExternal",
+            "sourceKey": "Item_6664_TooltipExternal",
+            "text": "<mainText><stats><attention>400</attention>生命值<br><attention>40</attention>魔法抗性<br><attention>10</attention>技能急速<br><attention>100%</attention>基础生命回复</stats><br><br><passive>献祭</passive><br>承受或造成伤害后，每秒对附近敌人造成<magicDamage>魔法伤害</magicDamage>，持续3秒。<br><br><passive>荒弃</passive><br>击杀一个敌人时，会在其周围造成<magicDamage>魔法伤害</magicDamage>。</mainText>"
+          }
+        ],
+        "official": {
+          "name": "璀璨回响",
+          "description": "<mainText><stats><attention>400</attention>生命值<br><attention>40</attention>魔法抗性<br><attention>10</attention>技能急速<br><attention>100%</attention>基础生命回复</stats><br><br><passive>献祭</passive><br>承受或造成伤害后，每秒对附近敌人造成<magicDamage>魔法伤害</magicDamage>，持续3秒。<br><br><passive>荒弃</passive><br>击杀一个敌人时，会在其周围造成<magicDamage>魔法伤害</magicDamage>。</mainText>",
+          "colloq": "",
+          "plaintext": "定身敌人以获得一层护盾。激活以更快跑向敌人。",
+          "from": [
+            "6660",
+            "3211"
+          ],
+          "image": {
+            "full": "6664.png",
+            "sprite": "item6.png",
+            "group": "item",
+            "x": 240,
+            "y": 48,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 650,
+            "purchasable": true,
+            "total": 2800,
+            "sell": 1960
+          },
+          "tags": [
+            "Health",
+            "SpellBlock",
+            "HealthRegen",
+            "Aura",
+            "MagicResist",
+            "AbilityHaste"
+          ],
+          "maps": {
+            "11": true,
+            "12": true,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatSpellBlockMod": 40,
+            "FlatHPPoolMod": 400
+          },
+          "depth": 3
+        },
+        "clientItemList": {
+          "id": 6664,
+          "name": "璀璨回响",
+          "description": "<mainText><stats><attention>400</attention>生命值<br><attention>40</attention>魔法抗性<br><attention>10</attention>技能急速<br><attention>100%</attention>基础生命回复</stats><br><br><passive>献祭</passive><br>承受或造成伤害后，每秒对附近敌人造成<magicDamage>魔法伤害</magicDamage>，持续3秒。<br><br><passive>荒弃</passive><br>击杀一个敌人时，会在其周围造成<magicDamage>魔法伤害</magicDamage>。</mainText>",
+          "active": false,
+          "inStore": true,
+          "from": [
+            6660,
+            3211
+          ],
+          "to": [],
+          "categories": [
+            "Health",
+            "SpellBlock",
+            "HealthRegen",
+            "Aura",
+            "MagicResist",
+            "AbilityHaste"
+          ],
+          "maxStacks": 1,
+          "requiredChampion": "",
+          "requiredAlly": "",
+          "requiredBuffCurrencyName": "",
+          "requiredBuffCurrencyCost": 0,
+          "specialRecipe": 0,
+          "isEnchantment": false,
+          "price": 650,
+          "priceTotal": 2800,
+          "displayInItemSets": true,
+          "iconPath": "/lol-game-data/assets/ASSETS/Items/Icons2D/6664_HollowRadiance.png"
+        },
+        "dataValueNames": [
+          "MinionMod",
+          "MonsterMod",
+          "Range",
+          "AuraDuration",
+          "TicksPerSecond",
+          "BaseDamagePerTickTOOLTIPONLY",
+          "HPRatioPerTickTOOLTIPONLY",
+          "Cooldown",
+          "ProcAoE",
+          "ProcDPSMultiplier",
+          "ChampProcDPSMultiplier",
+          "TakedownWindow",
+          "ChampProcAoE"
+        ],
+        "dataValues": {
+          "MinionMod": 0.25,
+          "MonsterMod": 0.25,
+          "Range": 325,
+          "AuraDuration": 3,
+          "TicksPerSecond": 1,
+          "BaseDamagePerTickTOOLTIPONLY": 10,
+          "HPRatioPerTickTOOLTIPONLY": 1.75,
+          "Cooldown": 12,
+          "ProcAoE": 350,
+          "ProcDPSMultiplier": 2,
+          "ChampProcDPSMultiplier": 4,
+          "TakedownWindow": 3,
+          "ChampProcAoE": 500
+        },
+        "calculationKeys": [
+          "DamagePerTick",
+          "DPS",
+          "{049cea52}",
+          "ProcDamageTOOLTIPONLY",
+          "{f002950e}"
+        ],
+        "sourceFiles": [
+          {
+            "key": "officialItem",
+            "relativePath": "装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+            "format": "JSON",
+            "role": "官方16.17.1装备说明、直接属性和图片键",
+            "bytes": 691131,
+            "modifiedAt": "2026-09-06T14:10:07.953Z",
+            "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973"
+          },
+          {
+            "key": "clientItemList",
+            "relativePath": "装备效果补证/客户端原始资料/items-16.17-zh_CN.json.gz",
+            "format": "gzip JSON",
+            "role": "客户端16.17装备列表和中文动态说明旁证",
+            "bytes": 96301,
+            "modifiedAt": "2026-09-06T14:59:31.906Z",
+            "sha256": "f4ed06bce504288345ed7761ea1a12612ef5afd6400ebb1f27290204e1f24e20"
+          },
+          {
+            "key": "clientItems",
+            "relativePath": "装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+            "format": "gzip JSON",
+            "role": "客户端16.17装备对象、数据值和计算树主证",
+            "bytes": 1577238,
+            "modifiedAt": "2026-09-06T15:00:14.328Z",
+            "sha256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7"
+          },
+          {
+            "key": "clientStringTable",
+            "relativePath": "装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+            "format": "gzip JSON",
+            "role": "客户端16.17中文绑定说明文件；本批保存绑定键和装备列表原文，不把未解析键当成数值证据",
+            "bytes": 8350124,
+            "modifiedAt": "2026-09-06T15:08:11.306Z",
+            "sha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e"
+          }
+        ],
+        "apiProtection": {
+          "equipmentGET": {
+            "route": "/equipment?page=1&pageSize=250",
+            "status": 200,
+            "equipmentKey": "item_6664",
+            "name": "璀璨回响"
+          },
+          "relationGET": {
+            "route": "/equipment-skill-relations?equipmentKey=item_6664",
+            "method": "GET",
+            "status": 200,
+            "ok": true,
+            "total": 0,
+            "items": []
+          },
+          "subjectGET": [
+            {
+              "skillKey": "item_6664_passive",
+              "route": "/skills/item_6664_passive",
+              "method": "GET",
+              "status": 404,
+              "ok": false,
+              "data": {
+                "error": {
+                  "code": "404.SKILL_NOT_FOUND",
+                  "details": {
+                    "skillKey": "item_6664_passive"
+                  },
+                  "message": "技能不存在"
+                }
+              }
+            },
+            {
+              "skillKey": "item_6664_active",
+              "route": "/skills/item_6664_active",
+              "method": "GET",
+              "status": 404,
+              "ok": false,
+              "data": {
+                "error": {
+                  "code": "404.SKILL_NOT_FOUND",
+                  "details": {
+                    "skillKey": "item_6664_active"
+                  },
+                  "message": "技能不存在"
+                }
+              }
+            }
+          ],
+          "relationCountBefore": 0,
+          "imageKeyToReuse": "item_6664",
+          "directAttributesProtectedByReadOnlyGET": true,
+          "writeBeforeSnapshot": {
+            "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备技能实录/第十九批自身与范围主动/写前保护快照.json",
+            "sha256": "f50a3ac022bc7689dc437a5006b969a85b6ef550f305aa3bd0cf51a6ceeef057",
+            "equipmentBodyGET": {
+              "route": "/equipment/item_6664",
+              "method": "GET",
+              "status": 200,
+              "ok": true,
+              "dataSha256": "a8a078ed1d08df71554054dbcb86ab4f8a2e1df1c5525baf906ced87410c6f3f"
+            },
+            "attributesGET": {
+              "route": "/equipment/item_6664/attributes",
+              "method": "GET",
+              "status": 200,
+              "ok": true,
+              "dataSha256": "16abc823f9a4bdf05ea7187ce975a8198f70f92cf91ea433eb9cf23850bf63d2"
+            },
+            "representativeImageGET": {
+              "route": "/equipment/item_6664/representative-image",
+              "method": "GET",
+              "status": 200,
+              "ok": true,
+              "dataSha256": "6823b7026177b2788cd918bf1e25565d14cc845093a97cfdeb61db09e4f57fd6"
+            },
+            "relationGET": {
+              "route": "/equipment-skill-relations?equipmentKey=item_6664",
+              "method": "GET",
+              "status": 200,
+              "ok": true,
+              "dataSha256": "4bf7c8639bc34bbbae5aef4aba3c724f9a425cbdc0416ab6384f7745ae1acb96",
+              "itemCount": 0
+            },
+            "subjectGET": {
+              "route": "/skills/item_6664_passive",
+              "method": "GET",
+              "status": 404,
+              "ok": false,
+              "dataSha256": "ba2aaf60ae7fe264bd28e0c6256e42c38c4a4061139ebc125d613fd21792d5f3"
+            }
+          }
+        },
+        "sourceFreeze": {
+          "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备技能实录\\第十九批自身与范围主动\\冻结来源.json",
+          "sha256": "1ce775810bd1a252438386f6959dd8adf7a1de51224e3e055e3ffe8826ad7a79"
+        }
+      },
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_6664_passive",
+          "name": "璀璨回响·献祭当前敌人",
+          "description": "保留献祭对当前唯一附近敌方英雄的每秒伤害计算树、3秒持续、光环半径325、触发脉冲350/500、英雄触发倍率和范围参数。不要把来源节拍直接生成周期过程；荒弃击杀周围支路留在来源。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "passive"
+          ]
+        },
+        "parameters": [
+          {
+            "parameterKey": "damage_flat_per_tick",
+            "name": "献祭每次伤害固定值",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 15,
+            "levelValues": null,
+            "description": "客户端DamagePerTick计算树第一项明确为15；另有10的tooltipOnly字段，不用10覆盖实际计算树。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "damage_scaling_ratio",
+            "name": "献祭mStat12缩放比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.01,
+            "levelValues": null,
+            "description": "客户端DamagePerTick的mStat=12、mStatFormula=2、系数0.01；属性语义不在本批推广，实际值运行时输入。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "source_mstat12_formula2_value",
+            "name": "献祭来源mStat12/formula2输入",
+            "valueType": "DECIMAL",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "该对象没有具名属性旁证；保留原节点实际值作为运行时输入，不补零、不套用其他对象。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "aura_duration_ms",
+            "name": "献祭持续时间",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 3000,
+            "levelValues": null,
+            "description": "客户端AuraDuration=3秒；不表示已经建立周期执行。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "aura_range",
+            "name": "献祭光环半径",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 325,
+            "levelValues": null,
+            "description": "客户端Range=325；这是献祭光环资格半径，与ProcAoE=350和ChampProcAoE=500的触发脉冲范围不同。",
+            "sortOrder": 45
+          },
+          {
+            "parameterKey": "ticks_per_second",
+            "name": "献祭来源节拍",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1,
+            "levelValues": null,
+            "description": "客户端TicksPerSecond=1；只保存源参数，首跳和事件调度未接线。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "champion_proc_multiplier",
+            "name": "献祭英雄触发伤害倍率",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 4,
+            "levelValues": null,
+            "description": "客户端ChampProcDPSMultiplier=4；当前只表达计算节点。",
+            "sortOrder": 60
+          },
+          {
+            "parameterKey": "proc_aoe_radius",
+            "name": "献祭普通触发范围",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 350,
+            "levelValues": null,
+            "description": "客户端ProcAoE=350；这是触发脉冲范围，与aura_range=325的献祭光环资格半径分开；当前唯一敌人是否在范围内由运行时判断。",
+            "sortOrder": 70
+          },
+          {
+            "parameterKey": "champion_proc_aoe_radius",
+            "name": "献祭英雄触发范围",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 500,
+            "levelValues": null,
+            "description": "客户端ChampProcAoE=500；这是英雄触发脉冲范围，与aura_range=325的献祭光环资格半径分开；不因附近文字排除单个敌人。",
+            "sortOrder": 80
+          },
+          {
+            "parameterKey": "trigger_cooldown_ms",
+            "name": "献祭冷却",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 12000,
+            "levelValues": null,
+            "description": "客户端Cooldown=12秒；只保留参数，未创建触发规则。",
+            "sortOrder": 90
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "damage_per_tick",
+            "name": "献祭每次伤害值",
+            "description": "15+0.01×运行时mStat12/formula2输入；不把对象缺失属性命名为生命值。",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "damage_flat_per_tick"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "damage_scaling_ratio"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "source_mstat12_formula2_value"
+                    }
+                  ]
+                }
+              ]
+            },
+            "sortOrder": 10
+          },
+          {
+            "formulaKey": "damage_per_second",
+            "name": "献祭每秒伤害值",
+            "description": "TicksPerSecond×(15+0.01×运行时mStat12/formula2输入)；仅保存原计算树，不创建周期过程。",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ticks_per_second"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "damage_flat_per_tick"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "damage_scaling_ratio"
+                        },
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "source_mstat12_formula2_value"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "sortOrder": 20
+          },
+          {
+            "formulaKey": "champion_proc_damage_per_tick",
+            "name": "献祭英雄触发每次伤害值",
+            "description": "4×(15+0.01×运行时mStat12/formula2输入)；子公式内联，避免后端不支持FORMULA节点引用。",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "champion_proc_multiplier"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "damage_flat_per_tick"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "damage_scaling_ratio"
+                        },
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "source_mstat12_formula2_value"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "sortOrder": 30
+          }
+        ],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": [],
+        "relation": {
+          "equipmentKey": "item_6664",
+          "skillKey": "item_6664_passive",
+          "sortOrder": 10
+        },
+        "representativeImage": {
+          "imageKey": "item_6664"
+        }
+      },
+      "disposition": {
+        "范围外": [
+          {
+            "component": "荒弃击杀周围伤害",
+            "reason": "击杀后的目标周围支路没有当前存活敌方结果，留在来源证据。"
+          },
+          {
+            "component": "MinionMod/MonsterMod",
+            "reason": "只对小兵或野怪的修正不进入当前英雄候选。"
+          }
+        ],
+        "来源待核": [
+          {
+            "component": "mStat12/formula2属性",
+            "reason": "本对象无具名属性说明，运行时输入；不将同版余震窄证据推广到此对象。"
+          }
+        ],
+        "系统缺口": [],
+        "尚未接线": [
+          {
+            "component": "承受或造成伤害触发、每秒节拍",
+            "reason": "事件资格、首跳时点、目标筛选和周期调度尚未接线。"
+          }
+        ]
+      },
+      "omittedComponents": [
+        {
+          "kind": "小兵野怪",
+          "component": "MinionMod/MonsterMod",
+          "reason": "仅小兵/野怪修正。"
+        },
+        {
+          "kind": "无当前目标",
+          "component": "荒弃",
+          "reason": "击杀目标周围支路不构成当前唯一存活敌人的自身结果。"
+        }
+      ],
+      "pendingComponents": [
+        {
+          "component": "周期伤害资格",
+          "reason": "不创建DAMAGE、空过程或默认首跳。"
+        }
+      ],
+      "proofs": [
+        {
+          "pointer": "/mDataValues/AuraDuration",
+          "accepted": 3
+        },
+        {
+          "pointer": "/mDataValues/TicksPerSecond",
+          "accepted": 1
+        },
+        {
+          "pointer": "/mDataValues/Cooldown",
+          "accepted": 12
+        },
+        {
+          "pointer": "/mDataValues/ProcAoE",
+          "accepted": 350
+        },
+        {
+          "pointer": "/mDataValues/ChampProcAoE",
+          "accepted": 500
+        },
+        {
+          "pointer": "/mDataValues/ChampProcDPSMultiplier",
+          "accepted": 4
+        },
+        {
+          "pointer": "/mItemCalculations/DamagePerTick",
+          "accepted": "15 + mStat=12、mStatFormula=2、coefficient=0.01"
+        },
+        {
+          "pointer": "/mItemCalculations/DPS",
+          "accepted": "TicksPerSecond×DamagePerTick"
+        },
+        {
+          "pointer": "/mItemCalculations/{f002950e}",
+          "accepted": "ChampProcDPSMultiplier×DamagePerTick"
+        },
+        {
+          "pointer": "/mDataValues/Range",
+          "accepted": 325
+        }
+      ],
+      "safeguards": {
+        "equipmentKey": "item_6664",
+        "beforeRelationCount": 0,
+        "directAttributesProtectedByReadOnlyGET": true,
+        "representativeImageReused": "item_6664",
+        "apiWrites": 0,
+        "equipmentBodyProtectedByReadOnlyGET": true,
+        "representativeImageProtectedByReadOnlyGET": true,
+        "beforeSubjectStatus": 404,
+        "writeBeforeSnapshot": {
+          "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备技能实录/第十九批自身与范围主动/写前保护快照.json",
+          "sha256": "f50a3ac022bc7689dc437a5006b969a85b6ef550f305aa3bd0cf51a6ceeef057",
+          "equipmentBodyGET": {
+            "route": "/equipment/item_6664",
+            "method": "GET",
+            "status": 200,
+            "ok": true,
+            "dataSha256": "a8a078ed1d08df71554054dbcb86ab4f8a2e1df1c5525baf906ced87410c6f3f"
+          },
+          "attributesGET": {
+            "route": "/equipment/item_6664/attributes",
+            "method": "GET",
+            "status": 200,
+            "ok": true,
+            "dataSha256": "16abc823f9a4bdf05ea7187ce975a8198f70f92cf91ea433eb9cf23850bf63d2"
+          },
+          "representativeImageGET": {
+            "route": "/equipment/item_6664/representative-image",
+            "method": "GET",
+            "status": 200,
+            "ok": true,
+            "dataSha256": "6823b7026177b2788cd918bf1e25565d14cc845093a97cfdeb61db09e4f57fd6"
+          },
+          "relationGET": {
+            "route": "/equipment-skill-relations?equipmentKey=item_6664",
+            "method": "GET",
+            "status": 200,
+            "ok": true,
+            "dataSha256": "4bf7c8639bc34bbbae5aef4aba3c724f9a425cbdc0416ab6384f7745ae1acb96",
+            "itemCount": 0
+          },
+          "subjectGET": {
+            "route": "/skills/item_6664_passive",
+            "method": "GET",
+            "status": 404,
+            "ok": false,
+            "dataSha256": "ba2aaf60ae7fe264bd28e0c6256e42c38c4a4061139ebc125d613fd21792d5f3"
+          }
+        }
+      }
+    },
+    {
+      "equipmentKey": "item_8020",
+      "equipmentName": "深渊面具",
+      "skillKey": "item_8020_passive",
+      "source": {
+        "path": "Items/8020",
+        "rawObjectSha256": "9b32c50a628b781a3915d363e40c8aeb28867f944d7b2e4c77c04dc843b7a2dc",
+        "rawSpellObjects": [
+          {
+            "path": "Items/8020/Spells/8020VisualDebuff",
+            "sha256": "f0794ce0d13bb655d66288adf755b7a03bb74be0bb8510edd3f871cd2f37f224",
+            "objectName": "8020VisualDebuff"
+          }
+        ],
+        "bindings": [
+          {
+            "binding": "keyName",
+            "sourceKey": "Item_8020_Name",
+            "text": "深渊面具"
+          },
+          {
+            "binding": "keyBrief",
+            "sourceKey": "Item_8020_Brief",
+            "text": "<mainText><stats><attention>350</attention>生命值<br><attention>45</attention>魔法抗性<br><attention>15</attention>技能急速</stats><br><br><passive>损毁</passive><br>使附近的敌方英雄承受12%额外<magicDamage>魔法伤害</magicDamage>。</mainText>"
+          },
+          {
+            "binding": "keyTooltip",
+            "sourceKey": "Item_8020_Tooltip",
+            "text": "<mainText><stats><attention>350</attention>生命值<br><attention>45</attention>魔法抗性<br><attention>15</attention>技能急速</stats><br><br><passive>损毁</passive><br>使附近的敌方英雄承受12%额外<magicDamage>魔法伤害</magicDamage>。</mainText>"
+          },
+          {
+            "binding": "keyColloquialism",
+            "sourceKey": "Item_8020_Colloquialism",
+            "text": "<mainText><stats><attention>350</attention>生命值<br><attention>45</attention>魔法抗性<br><attention>15</attention>技能急速</stats><br><br><passive>损毁</passive><br>使附近的敌方英雄承受12%额外<magicDamage>魔法伤害</magicDamage>。</mainText>"
+          },
+          {
+            "binding": "keyTooltipExtended",
+            "sourceKey": "Item_8020_TooltipExtended",
+            "text": "<mainText><stats><attention>350</attention>生命值<br><attention>45</attention>魔法抗性<br><attention>15</attention>技能急速</stats><br><br><passive>损毁</passive><br>使附近的敌方英雄承受12%额外<magicDamage>魔法伤害</magicDamage>。</mainText>"
+          }
+        ],
+        "official": {
+          "name": "深渊面具",
+          "description": "<mainText><stats><attention>350</attention>生命值<br><attention>45</attention>魔法抗性<br><attention>15</attention>技能急速</stats><br><br><passive>损毁</passive><br>使附近的敌方英雄承受12%额外<magicDamage>魔法伤害</magicDamage>。</mainText>",
+          "colloq": "",
+          "plaintext": "",
+          "from": [
+            "3067",
+            "1057"
+          ],
+          "image": {
+            "full": "8020.png",
+            "sprite": "item8.png",
+            "group": "item",
+            "x": 336,
+            "y": 0,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 1000,
+            "purchasable": true,
+            "total": 2650,
+            "sell": 1855
+          },
+          "tags": [
+            "Health",
+            "SpellBlock",
+            "CooldownReduction",
+            "MagicResist",
+            "AbilityHaste"
+          ],
+          "maps": {
+            "11": true,
+            "12": true,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatSpellBlockMod": 45,
+            "FlatHPPoolMod": 350
+          },
+          "depth": 3
+        },
+        "clientItemList": {
+          "id": 8020,
+          "name": "深渊面具",
+          "description": "<mainText><stats><attention>350</attention>生命值<br><attention>45</attention>魔法抗性<br><attention>15</attention>技能急速</stats><br><br><passive>损毁</passive><br>使附近的敌方英雄承受12%额外<magicDamage>魔法伤害</magicDamage>。</mainText>",
+          "active": false,
+          "inStore": true,
+          "from": [
+            3067,
+            1057
+          ],
+          "to": [],
+          "categories": [
+            "Health",
+            "SpellBlock",
+            "CooldownReduction",
+            "MagicResist",
+            "AbilityHaste"
+          ],
+          "maxStacks": 1,
+          "requiredChampion": "",
+          "requiredAlly": "",
+          "requiredBuffCurrencyName": "",
+          "requiredBuffCurrencyCost": 0,
+          "specialRecipe": 0,
+          "isEnchantment": false,
+          "price": 1000,
+          "priceTotal": 2650,
+          "displayInItemSets": true,
+          "iconPath": "/lol-game-data/assets/ASSETS/Items/Icons2D/8020_Tank_T3_AbyssalMask.png"
+        },
+        "dataValueNames": [
+          "Radius",
+          "DamageAmp"
+        ],
+        "dataValues": {
+          "Radius": 700,
+          "DamageAmp": 0.11999999731779099
+        },
+        "calculationKeys": [],
+        "sourceFiles": [
+          {
+            "key": "officialItem",
+            "relativePath": "装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+            "format": "JSON",
+            "role": "官方16.17.1装备说明、直接属性和图片键",
+            "bytes": 691131,
+            "modifiedAt": "2026-09-06T14:10:07.953Z",
+            "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973"
+          },
+          {
+            "key": "clientItemList",
+            "relativePath": "装备效果补证/客户端原始资料/items-16.17-zh_CN.json.gz",
+            "format": "gzip JSON",
+            "role": "客户端16.17装备列表和中文动态说明旁证",
+            "bytes": 96301,
+            "modifiedAt": "2026-09-06T14:59:31.906Z",
+            "sha256": "f4ed06bce504288345ed7761ea1a12612ef5afd6400ebb1f27290204e1f24e20"
+          },
+          {
+            "key": "clientItems",
+            "relativePath": "装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+            "format": "gzip JSON",
+            "role": "客户端16.17装备对象、数据值和计算树主证",
+            "bytes": 1577238,
+            "modifiedAt": "2026-09-06T15:00:14.328Z",
+            "sha256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7"
+          },
+          {
+            "key": "clientStringTable",
+            "relativePath": "装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+            "format": "gzip JSON",
+            "role": "客户端16.17中文绑定说明文件；本批保存绑定键和装备列表原文，不把未解析键当成数值证据",
+            "bytes": 8350124,
+            "modifiedAt": "2026-09-06T15:08:11.306Z",
+            "sha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e"
+          }
+        ],
+        "apiProtection": {
+          "equipmentGET": {
+            "route": "/equipment?page=1&pageSize=250",
+            "status": 200,
+            "equipmentKey": "item_8020",
+            "name": "深渊面具"
+          },
+          "relationGET": {
+            "route": "/equipment-skill-relations?equipmentKey=item_8020",
+            "method": "GET",
+            "status": 200,
+            "ok": true,
+            "total": 0,
+            "items": []
+          },
+          "subjectGET": [
+            {
+              "skillKey": "item_8020_passive",
+              "route": "/skills/item_8020_passive",
+              "method": "GET",
+              "status": 404,
+              "ok": false,
+              "data": {
+                "error": {
+                  "code": "404.SKILL_NOT_FOUND",
+                  "details": {
+                    "skillKey": "item_8020_passive"
+                  },
+                  "message": "技能不存在"
+                }
+              }
+            },
+            {
+              "skillKey": "item_8020_active",
+              "route": "/skills/item_8020_active",
+              "method": "GET",
+              "status": 404,
+              "ok": false,
+              "data": {
+                "error": {
+                  "code": "404.SKILL_NOT_FOUND",
+                  "details": {
+                    "skillKey": "item_8020_active"
+                  },
+                  "message": "技能不存在"
+                }
+              }
+            }
+          ],
+          "relationCountBefore": 0,
+          "imageKeyToReuse": "item_8020",
+          "directAttributesProtectedByReadOnlyGET": true,
+          "writeBeforeSnapshot": {
+            "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备技能实录/第十九批自身与范围主动/写前保护快照.json",
+            "sha256": "f50a3ac022bc7689dc437a5006b969a85b6ef550f305aa3bd0cf51a6ceeef057",
+            "equipmentBodyGET": {
+              "route": "/equipment/item_8020",
+              "method": "GET",
+              "status": 200,
+              "ok": true,
+              "dataSha256": "baeff1c16a4da81fd2ed72b3048fed5fce699ce4060dcc50b91d77c3e2093ba8"
+            },
+            "attributesGET": {
+              "route": "/equipment/item_8020/attributes",
+              "method": "GET",
+              "status": 200,
+              "ok": true,
+              "dataSha256": "29aba2ac659d8da27911c12cd54ad033e9ad643c739465e31ba14bd8946e96a2"
+            },
+            "representativeImageGET": {
+              "route": "/equipment/item_8020/representative-image",
+              "method": "GET",
+              "status": 200,
+              "ok": true,
+              "dataSha256": "7ff3e4e69e3d9341ee01f8dd364299fc18d571ff32e0e729242f04360768e1c5"
+            },
+            "relationGET": {
+              "route": "/equipment-skill-relations?equipmentKey=item_8020",
+              "method": "GET",
+              "status": 200,
+              "ok": true,
+              "dataSha256": "4bf7c8639bc34bbbae5aef4aba3c724f9a425cbdc0416ab6384f7745ae1acb96",
+              "itemCount": 0
+            },
+            "subjectGET": {
+              "route": "/skills/item_8020_passive",
+              "method": "GET",
+              "status": 404,
+              "ok": false,
+              "dataSha256": "79978532f6ef33063e446697fe85fcd1ddf0e3e6d55faadc01ce9dadeebcbc7e"
+            }
+          }
+        },
+        "sourceFreeze": {
+          "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备技能实录\\第十九批自身与范围主动\\冻结来源.json",
+          "sha256": "1ce775810bd1a252438386f6959dd8adf7a1de51224e3e055e3ffe8826ad7a79"
+        }
+      },
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_8020_passive",
+          "name": "深渊面具·损毁",
+          "description": "保留损毁对700范围内当前唯一敌方英雄所承受魔法伤害的12%增幅。附近单个敌人仍相关；目标范围和伤害增幅乘区尚未接线。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "passive"
+          ]
+        },
+        "parameters": [
+          {
+            "parameterKey": "damage_amp_ratio",
+            "name": "损毁额外魔法伤害比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.12,
+            "levelValues": null,
+            "description": "官方与客户端中文明确附近敌方英雄承受12%额外魔法伤害；客户端DamageAmp=0.12。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "radius",
+            "name": "损毁范围",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 700,
+            "levelValues": null,
+            "description": "客户端Radius=700、effectRadius=700；只作当前唯一敌人距离条件。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "actual_qualified_magic_damage",
+            "name": "当前合资格魔法伤害输入",
+            "valueType": "DECIMAL",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "伤害类型、目标英雄资格和增幅乘区由运行时提供；不创建默认伤害效果。",
+            "sortOrder": 30
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "additional_magic_damage",
+            "name": "损毁额外魔法伤害值",
+            "description": "0.12×当前合资格魔法伤害输入；只保存公式，不声称已接线增幅效果。",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "damage_amp_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_qualified_magic_damage"
+                }
+              ]
+            },
+            "sortOrder": 10
+          }
+        ],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": [],
+        "relation": {
+          "equipmentKey": "item_8020",
+          "skillKey": "item_8020_passive",
+          "sortOrder": 10
+        },
+        "representativeImage": {
+          "imageKey": "item_8020"
+        }
+      },
+      "disposition": {
+        "范围外": [],
+        "来源待核": [],
+        "系统缺口": [],
+        "尚未接线": [
+          {
+            "component": "附近敌方英雄增幅",
+            "reason": "目标距离、魔法伤害类型和结果乘区尚未接线。"
+          }
+        ]
+      },
+      "omittedComponents": [],
+      "pendingComponents": [
+        {
+          "component": "增幅资格",
+          "reason": "不创建无条件DAMAGE或增幅效果。"
+        }
+      ],
+      "proofs": [
+        {
+          "pointer": "/mDataValues/Radius",
+          "accepted": 700
+        },
+        {
+          "pointer": "/mDataValues/DamageAmp",
+          "accepted": 0.12
+        },
+        {
+          "pointer": "/mScripts/0",
+          "accepted": "8020"
+        }
+      ],
+      "safeguards": {
+        "equipmentKey": "item_8020",
+        "beforeRelationCount": 0,
+        "directAttributesProtectedByReadOnlyGET": true,
+        "representativeImageReused": "item_8020",
+        "apiWrites": 0,
+        "equipmentBodyProtectedByReadOnlyGET": true,
+        "representativeImageProtectedByReadOnlyGET": true,
+        "beforeSubjectStatus": 404,
+        "writeBeforeSnapshot": {
+          "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备技能实录/第十九批自身与范围主动/写前保护快照.json",
+          "sha256": "f50a3ac022bc7689dc437a5006b969a85b6ef550f305aa3bd0cf51a6ceeef057",
+          "equipmentBodyGET": {
+            "route": "/equipment/item_8020",
+            "method": "GET",
+            "status": 200,
+            "ok": true,
+            "dataSha256": "baeff1c16a4da81fd2ed72b3048fed5fce699ce4060dcc50b91d77c3e2093ba8"
+          },
+          "attributesGET": {
+            "route": "/equipment/item_8020/attributes",
+            "method": "GET",
+            "status": 200,
+            "ok": true,
+            "dataSha256": "29aba2ac659d8da27911c12cd54ad033e9ad643c739465e31ba14bd8946e96a2"
+          },
+          "representativeImageGET": {
+            "route": "/equipment/item_8020/representative-image",
+            "method": "GET",
+            "status": 200,
+            "ok": true,
+            "dataSha256": "7ff3e4e69e3d9341ee01f8dd364299fc18d571ff32e0e729242f04360768e1c5"
+          },
+          "relationGET": {
+            "route": "/equipment-skill-relations?equipmentKey=item_8020",
+            "method": "GET",
+            "status": 200,
+            "ok": true,
+            "dataSha256": "4bf7c8639bc34bbbae5aef4aba3c724f9a425cbdc0416ab6384f7745ae1acb96",
+            "itemCount": 0
+          },
+          "subjectGET": {
+            "route": "/skills/item_8020_passive",
+            "method": "GET",
+            "status": 404,
+            "ok": false,
+            "dataSha256": "79978532f6ef33063e446697fe85fcd1ddf0e3e6d55faadc01ce9dadeebcbc7e"
+          }
+        }
+      }
+    }
+  ],
+  "totals": {
+    "equipment": 7,
+    "skills": 8,
+    "parameters": 42,
+    "formulas": 11,
+    "effects": 0,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0,
+    "relations": 8,
+    "representativeImages": 8,
+    "components": 84
+  },
+  "entryBoundary": {
+    "selected": [
+      {
+        "equipmentKey": "item_3074",
+        "skillKey": "item_3074_active",
+        "currentRelationCount": 0
+      },
+      {
+        "equipmentKey": "item_3748",
+        "skillKey": "item_3748_passive",
+        "currentRelationCount": 0
+      },
+      {
+        "equipmentKey": "item_3748",
+        "skillKey": "item_3748_active",
+        "currentRelationCount": 0
+      },
+      {
+        "equipmentKey": "item_6698",
+        "skillKey": "item_6698_active",
+        "currentRelationCount": 0
+      },
+      {
+        "equipmentKey": "item_3107",
+        "skillKey": "item_3107_active",
+        "currentRelationCount": 0
+      },
+      {
+        "equipmentKey": "item_3190",
+        "skillKey": "item_3190_active",
+        "currentRelationCount": 0
+      },
+      {
+        "equipmentKey": "item_6664",
+        "skillKey": "item_6664_passive",
+        "currentRelationCount": 0
+      },
+      {
+        "equipmentKey": "item_8020",
+        "skillKey": "item_8020_passive",
+        "currentRelationCount": 0
+      }
+    ],
+    "unselectedMechanismBearing": [
+      {
+        "equipmentKey": "item_3222",
+        "name": "米凯尔的祝福",
+        "reason": "官方说明为一名友方英雄，客户端mAffectsTypeFlags=1且无SelfAoe目标类型；施法者自身是否在目标集合中仍待补证。保留来源中的友方净化与100-250治疗字段，不凭缺证补建当前技能。",
+        "classification": "目标归属待补证",
+        "retainedSourceComponents": [
+          "友方净化",
+          "友方治疗100-250"
+        ]
+      },
+      {
+        "equipmentKey": "item_3085",
+        "name": "卢安娜的飓风",
+        "reason": "官方和客户端均明确向2个额外敌人发射弩箭，严格1V1无额外目标；直接攻速、暴击和移速属性不在本批新建。"
+      },
+      {
+        "equipmentKey": "item_3504",
+        "name": "炽热香炉",
+        "reason": "官方说明施加于其他单位，客户端中文明写两名友方一起获得强化；第三方友军专属，严格1V1排除机制。"
+      },
+      {
+        "equipmentKey": "item_3074_passive",
+        "name": "贪欲九头蛇·顺劈",
+        "reason": "纯附近额外敌人被动支路；主动血斩已单列。"
+      },
+      {
+        "equipmentKey": "item_3748_splash",
+        "name": "巨型九头蛇·目标身后",
+        "reason": "目标身后额外敌人支路；主目标被动和主动已单列。"
+      },
+      {
+        "equipmentKey": "item_6698_passive",
+        "name": "亵渎九头蛇·顺劈",
+        "reason": "纯附近额外敌人被动支路；主动邪斩已单列。"
+      },
+      {
+        "equipmentKey": "item_6664_abandon",
+        "name": "璀璨回响·荒弃",
+        "reason": "击杀目标周围的空间支路没有当前存活敌方结果；献祭当前敌人计算树已单列。"
+      }
+    ],
+    "directOnlyOrUnbound": "3085/3504的直接属性和3222的友方技能不在本批新增；3222改列目标归属待补证并保留治疗/净化来源，不改动装备主体或代表图。"
+  },
+  "configurationBoundary": {
+    "effects": 0,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0,
+    "reason": "每个候选仅保存有来源的参数与合法公式；伤害、护盾、治疗、触发、周期、目标筛选和增幅乘区缺少可接线运行证据时不创建组成。"
+  },
+  "sourceEvidence": {
+    "sourceFreezeSha256": "1ce775810bd1a252438386f6959dd8adf7a1de51224e3e055e3ffe8826ad7a79",
+    "currentGETSha256": "ebe75831b1a118ff1abe34683fa9d30f588eacc6c8edbd0348787d73a1462773",
+    "mappingEvidence": [
+      {
+        "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\通用公式来源补证\\结论与边界.json",
+        "sha256": "5b51fc7b71e411909e42323ca50d9c51566038b61a392023d2668ba5ad3a73a6",
+        "boundedUse": "仅使用默认StatBy窄映射：0/0法术强度、2/0总攻击力、2/2额外攻击力；其他组合不扩推。"
+      },
+      {
+        "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\通用公式来源补证\\基础攻击力具名补证.json",
+        "sha256": "ac40d33aba90f99e4faebe3ab4a8ff8a0a8ca542b6a8e58d651479d3720e7d6f",
+        "boundedUse": "本批未将2/1用于新公式；文件作为同版映射边界审计证据保存。"
+      }
+    ],
+    "knownMechanismSkillKeys": [
+      "item_1043_passive",
+      "item_1054_passive",
+      "item_1082_passive",
+      "item_1083_passive",
+      "item_2420_active",
+      "item_2501_passive",
+      "item_2502_passive",
+      "item_2503_passive",
+      "item_2504_passive",
+      "item_2508_passive",
+      "item_2510_passive",
+      "item_2512_passive",
+      "item_2517_passive",
+      "item_2520_passive",
+      "item_2522_active",
+      "item_2523_passive",
+      "item_2524_passive",
+      "item_2525_passive",
+      "item_2526_passive",
+      "item_2530_passive",
+      "item_3003_passive",
+      "item_3004_passive",
+      "item_3008_passive",
+      "item_3026_passive",
+      "item_3032_passive",
+      "item_3033_passive",
+      "item_3040_passive",
+      "item_3041_passive",
+      "item_3042_passive",
+      "item_3044_passive",
+      "item_3047_passive",
+      "item_3050_passive",
+      "item_3053_passive",
+      "item_3057_passive",
+      "item_3065_passive",
+      "item_3068_passive",
+      "item_3070_passive",
+      "item_3071_passive",
+      "item_3072_passive",
+      "item_3073_passive",
+      "item_3075_passive",
+      "item_3076_passive",
+      "item_3077_active",
+      "item_3078_passive",
+      "item_3082_passive",
+      "item_3083_passive",
+      "item_3084_passive",
+      "item_3087_passive",
+      "item_3089_passive",
+      "item_3091_passive",
+      "item_3094_passive",
+      "item_3095_passive",
+      "item_3100_passive",
+      "item_3102_passive",
+      "item_3110_passive",
+      "item_3115_passive",
+      "item_3116_passive",
+      "item_3118_passive",
+      "item_3119_passive",
+      "item_3121_passive",
+      "item_3123_passive",
+      "item_3124_passive",
+      "item_3137_passive",
+      "item_3139_active",
+      "item_3140_active",
+      "item_3142_active",
+      "item_3142_passive",
+      "item_3143_active",
+      "item_3143_passive",
+      "item_3144_passive",
+      "item_3145_passive",
+      "item_3146_active",
+      "item_3147_passive",
+      "item_3152_active",
+      "item_3153_passive",
+      "item_3155_passive",
+      "item_3156_passive",
+      "item_3157_active",
+      "item_3161_passive",
+      "item_3165_passive",
+      "item_3181_passive",
+      "item_3508_passive",
+      "item_3802_passive",
+      "item_3803_passive",
+      "item_3814_passive",
+      "item_3916_passive",
+      "item_4401_passive",
+      "item_4629_passive",
+      "item_4632_passive",
+      "item_4633_passive",
+      "item_4646_passive",
+      "item_6333_passive",
+      "item_6609_passive",
+      "item_6610_passive",
+      "item_6621_passive",
+      "item_6653_passive",
+      "item_6655_passive",
+      "item_6657_passive",
+      "item_6660_passive",
+      "item_6665_passive",
+      "item_6672_passive",
+      "item_6673_passive",
+      "item_6675_passive",
+      "item_6676_passive",
+      "item_6692_passive",
+      "item_6695_passive",
+      "item_6696_passive",
+      "item_6699_passive",
+      "item_8010_passive"
+    ],
+    "protectedPreviousBatch": {
+      "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备技能实录/第十八批剩余自身效果",
+      "status": "只读引用，未修改"
+    },
+    "preWriteSnapshotSha256": "f50a3ac022bc7689dc437a5006b969a85b6ef550f305aa3bd0cf51a6ceeef057",
+    "preWriteSnapshotPath": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备技能实录/第十九批自身与范围主动/写前保护快照.json",
+    "maxHealthMappingEvidence": {
+      "path": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/交叉试录/最大生命属性回补/独立来源补证/README.md",
+      "sha256": "e9b045793114d8b81029545707c121028904d7a61e3dcc051c61ebda7dd1d52e",
+      "webRevision": "6b8c2eb4",
+      "boundedUse": "仅适用于具名旧节点：mStat=12、mStatFormula省略且已证默认0、UseNewStats=false、OutputType=0、statType=13、匿名a8cb9c14=false且无外围owner切换；映射为SOURCE.hp.TOTAL，不扩展Coeff、12/2、属性29、CURRENT、BONUS或其他节点。"
+    },
+    "review": {
+      "path": "C:/project/damage_web_dev/.agents/artifacts/gear19-independent/Gear19-Cursor独立审查报告.md",
+      "sha256": "0535d3f81e96c68a93470f9b0c7c4d6dcb9a46511b7ba6bf091373d01e939d03",
+      "conclusion": "REVISE",
+      "runId": "run-5e78767c-a8e2-4a1e-a724-9fcd87b227da",
+      "completedTools": 70,
+      "writes": 0,
+      "delta": 0
+    }
+  },
+  "preWriteSnapshotSha256": "f50a3ac022bc7689dc437a5006b969a85b6ef550f305aa3bd0cf51a6ceeef057",
+  "preWriteSnapshotPath": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备技能实录/第十九批自身与范围主动/写前保护快照.json",
+  "revision": {
+    "baseCandidateSha256": "79e35c56d222d1248433f310276a8e3a91784d884ff0075dc4d1837f0d623f71",
+    "independentReview": {
+      "path": "C:/project/damage_web_dev/.agents/artifacts/gear19-independent/Gear19-Cursor独立审查报告.md",
+      "sha256": "0535d3f81e96c68a93470f9b0c7c4d6dcb9a46511b7ba6bf091373d01e939d03",
+      "conclusion": "REVISE",
+      "runId": "run-5e78767c-a8e2-4a1e-a724-9fcd87b227da",
+      "completedTools": 70,
+      "writes": 0,
+      "delta": 0
+    },
+    "approvedChanges": [
+      "item_6664新增aura_range=325，并与350/500触发脉冲范围分开。",
+      "item_3222改为目标归属待补证，保留治疗/净化来源，不创建当前技能。",
+      "item_3107友方治疗改为目标资格待补证，保留150/350端点和无默认DECIMAL运行时基础治疗输入。",
+      "item_3190收窄SelfAoe与8193语义；保留actual_self_shield_value并改为DECIMAL，名称为当前合资格英雄基础护盾值。",
+      "item_3748四个主目标公式按最新窄证改读SOURCE.hp.TOTAL，删除两个未入库临时生命输入。",
+      "最终候选只生成请求草稿，不调用业务写接口。"
+    ],
+    "writeBeforeProtection": {
+      "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备技能实录/第十九批自身与范围主动/写前保护快照.json",
+      "sha256": "f50a3ac022bc7689dc437a5006b969a85b6ef550f305aa3bd0cf51a6ceeef057",
+      "getRequests": 51,
+      "apiWrites": 0
+    },
+    "maxHealthMappingEvidence": {
+      "path": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/交叉试录/最大生命属性回补/独立来源补证/README.md",
+      "sha256": "e9b045793114d8b81029545707c121028904d7a61e3dcc051c61ebda7dd1d52e",
+      "webRevision": "6b8c2eb4",
+      "boundedUse": "仅适用于具名旧节点：mStat=12、mStatFormula省略且已证默认0、UseNewStats=false、OutputType=0、statType=13、匿名a8cb9c14=false且无外围owner切换；映射为SOURCE.hp.TOTAL，不扩展Coeff、12/2、属性29、CURRENT、BONUS或其他节点。"
+    }
+  },
+  "pendingTargetQualifications": [
+    {
+      "equipmentKey": "item_3222",
+      "skillKey": "item_3222_active",
+      "component": "友方净化与治疗目标归属",
+      "status": "待补证",
+      "reason": "未证明施法者自身是否在友方目标集合；保留来源，暂不创建技能。"
+    },
+    {
+      "equipmentKey": "item_3107",
+      "skillKey": "item_3107_active",
+      "component": "友方治疗目标资格",
+      "status": "待补证",
+      "reason": "友方文字未证明施法者自身资格；只保存150/350端点和无默认运行时基础治疗输入。"
+    },
+    {
+      "equipmentKey": "item_3190",
+      "skillKey": "item_3190_active",
+      "component": "自身护盾目标资格",
+      "status": "待补证",
+      "reason": "SelfAoe仅给出几何原点，8193缺少同版目标枚举旁证。"
+    }
+  ]
+}

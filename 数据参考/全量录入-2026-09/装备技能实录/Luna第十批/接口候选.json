@@ -1,0 +1,464 @@
+{
+  "batch": "Luna第十批",
+  "generatedAt": "2026-09-08T15:07:12.699Z",
+  "status": "仅候选；未调用业务写接口；待根独立审查后放行。当前仅含1056与1082。",
+  "contract": {
+    "sourceVersion": "客户端16.17 + 官方16.17.1",
+    "writeBoundary": "禁止POST、PUT、PATCH、DELETE；本文件不是业务写执行记录。",
+    "apiPayloadRule": "只保留后端现有技能、参数、公式、效果、关系和代表图契约字段；未确证触发不生成触发规则。"
+  },
+  "sourceFiles": {
+    "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz": {
+      "sha256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7",
+      "bytes": 1577238,
+      "decompressedSha256": "b59ec9320d05acefa344ea8a5ef615cf7f32959078475cafff63833462dc358f"
+    },
+    "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz": {
+      "sha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+      "bytes": 8350124,
+      "decompressedSha256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031"
+    },
+    "数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json": {
+      "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973",
+      "bytes": 691131
+    },
+    "数据参考/全量录入-2026-09/装备符文/装备全量处置清单.json": {
+      "sha256": "7b1df1fe63d3ce00d466be458e5c07a1b8b6b6220ba1c728c4cc8324b72e64c6",
+      "bytes": 1878434
+    },
+    "数据参考/全量录入-2026-09/装备效果补证/来源与覆盖.json": {
+      "sha256": "97f70eaa0ec570668400d8c8e4654a5657e2ceb39872a1aad7acf4cc53b8c19c",
+      "bytes": 9380
+    },
+    "数据参考/全量录入-2026-09/API实录/装备/summary.json": {
+      "sha256": "e653d0ca5a97d12449ff5034937a8eca2e004e1e4fd0b11ab80cec09a718c0b9",
+      "bytes": 228004
+    },
+    "数据参考/全量录入-2026-09/装备技能实录/Luna第十批/关系识别-2026-09-08T02-52-11.404Z.json": {
+      "sha256": "08ecc61fb52ec7ef6643d92067122b67f119f04ae9a04f4fb0d4946e51362f4e",
+      "bytes": 11829
+    },
+    "数据参考/全量录入-2026-09/装备技能实录/Luna第十批/关系识别-2026-09-08T02-53-49.953Z.json": {
+      "sha256": "408c575ba4547a3ea34186253b8c819b9b5885597374158804cf4f376f3129d8",
+      "bytes": 19660
+    }
+  },
+  "objects": [
+    {
+      "equipmentKey": "duolanjie",
+      "equipmentName": "多兰之戒",
+      "skillKey": "duolanjie_passive",
+      "sourceRefs": {
+        "client": {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+          "pointer": "Items/1056"
+        },
+        "stringTable": {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+          "pointer": "/entries/item_1056_tooltip"
+        },
+        "official": {
+          "file": "数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+          "pointer": "/data/1056"
+        },
+        "disposition": {
+          "file": "数据参考/全量录入-2026-09/装备符文/装备全量处置清单.json",
+          "pointer": "/items/23"
+        },
+        "historicalApi": {
+          "file": "数据参考/全量录入-2026-09/API实录/装备/summary.json",
+          "pointer": "/results[equipmentKey=duolanjie]"
+        },
+        "relationCorrected": {
+          "file": "数据参考/全量录入-2026-09/装备技能实录/Luna第十批/关系识别-2026-09-08T02-53-49.953Z.json",
+          "pointer": "/objects[requestedEquipmentKey=item_1056]"
+        },
+        "relationInitial": {
+          "file": "数据参考/全量录入-2026-09/装备技能实录/Luna第十批/关系识别-2026-09-08T02-52-11.404Z.json",
+          "pointer": "/objects[requestedEquipmentKey=item_1056]"
+        }
+      },
+      "apiPayload": {
+        "skill": {
+          "skillKey": "duolanjie_passive",
+          "name": "多兰之戒·汲取",
+          "description": "按冻结客户端16.17与官方16.17.1资料保存已确证的汲取速率和比例；周期与触发见待配清单。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "passive"
+          ]
+        },
+        "parameters": [
+          {
+            "parameterKey": "mana_restore_per_second",
+            "name": "汲取基础每秒回蓝",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1,
+            "levelValues": null,
+            "description": "当前绑定DataValue ManaRestorePerSecond=1；这是每秒速率，不换算成单次跳频量。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "mana_restore_per_second_upgraded",
+            "name": "汲取强化每秒回蓝",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 2,
+            "levelValues": null,
+            "description": "当前绑定DataValue ManaRestorePerSecondUpgraded=2；敌方英雄受伤后的5秒强化段。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "upgrade_duration_ms",
+            "name": "汲取强化持续时间",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 5000,
+            "levelValues": null,
+            "description": "当前绑定DataValue UpgradeDuration=5秒，换算为5000毫秒。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "mana_to_health_ratio",
+            "name": "无法回蓝时的治疗比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.45,
+            "levelValues": null,
+            "description": "当前绑定DataValue ManaToHealthConversion=0.45，即45%小数比例，不是45个百分点。",
+            "sortOrder": 40
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "mana_restore_rate_base",
+            "name": "汲取基础法力每秒速率",
+            "description": "当前绑定每秒1点法力的速率；周期跳频和首跳时点未由冻结源确认。",
+            "sortOrder": 10,
+            "expression": {
+              "nodeType": "PARAMETER",
+              "parameterKey": "mana_restore_per_second"
+            }
+          },
+          {
+            "formulaKey": "mana_restore_rate_upgraded",
+            "name": "汲取强化法力每秒速率",
+            "description": "当前绑定每秒2点法力的速率；强化持续时间为5000毫秒。",
+            "sortOrder": 20,
+            "expression": {
+              "nodeType": "PARAMETER",
+              "parameterKey": "mana_restore_per_second_upgraded"
+            }
+          },
+          {
+            "formulaKey": "fallback_health_rate_base",
+            "name": "无法回蓝时基础治疗每秒速率",
+            "description": "基础法力不可获得时按1乘45%得到0.45生命/秒；分支和跳频未接线。",
+            "sortOrder": 30,
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "mana_restore_per_second"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "mana_to_health_ratio"
+                }
+              ]
+            }
+          },
+          {
+            "formulaKey": "fallback_health_rate_upgraded",
+            "name": "无法回蓝时强化治疗每秒速率",
+            "description": "强化法力不可获得时按2乘45%得到0.9生命/秒；分支和跳频未接线。",
+            "sortOrder": 40,
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "mana_restore_per_second_upgraded"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "mana_to_health_ratio"
+                }
+              ]
+            }
+          }
+        ],
+        "effects": [],
+        "triggerRules": []
+      },
+      "omittedComponents": [
+        {
+          "kind": "pending",
+          "key": "pending_1",
+          "reason": "每秒速率的实际跳频和首跳时点没有冻结来源，当前不生成周期效果或固定首跳"
+        },
+        {
+          "kind": "pending",
+          "key": "pending_2",
+          "reason": "敌方英雄伤害事件的归属、强化段刷新和结束"
+        },
+        {
+          "kind": "pending",
+          "key": "pending_3",
+          "reason": "无法获得法力的判定及同一周期转治疗"
+        },
+        {
+          "kind": "pending",
+          "key": "pending_4",
+          "reason": "帮助之手5点小兵额外物理伤害按要求跳过，不进入本次接口候选"
+        }
+      ],
+      "fullEquipmentComplete": false,
+      "pendingComponents": [
+        "每秒速率的实际跳频和首跳时点没有冻结来源，当前不生成周期效果或固定首跳",
+        "敌方英雄伤害事件的归属、强化段刷新和结束",
+        "无法获得法力的判定及同一周期转治疗",
+        "帮助之手5点小兵额外物理伤害按要求跳过，不进入本次接口候选"
+      ],
+      "pendingFromHistoricalCandidate": []
+    },
+    {
+      "equipmentKey": "item_1082",
+      "equipmentName": "黑暗封印",
+      "skillKey": "item_1082_passive",
+      "sourceRefs": {
+        "client": {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+          "pointer": "Items/1082"
+        },
+        "stringTable": {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+          "pointer": "/entries/item_1082_tooltip"
+        },
+        "official": {
+          "file": "数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+          "pointer": "/data/1082"
+        },
+        "disposition": {
+          "file": "数据参考/全量录入-2026-09/装备符文/装备全量处置清单.json",
+          "pointer": "/items/26"
+        },
+        "historicalApi": {
+          "file": "数据参考/全量录入-2026-09/API实录/装备/summary.json",
+          "pointer": "/results[equipmentKey=item_1082]"
+        },
+        "relationCorrected": {
+          "file": "数据参考/全量录入-2026-09/装备技能实录/Luna第十批/关系识别-2026-09-08T02-53-49.953Z.json",
+          "pointer": "/objects[requestedEquipmentKey=item_1082]"
+        },
+        "relationInitial": {
+          "file": "数据参考/全量录入-2026-09/装备技能实录/Luna第十批/关系识别-2026-09-08T02-52-11.404Z.json",
+          "pointer": "/objects[requestedEquipmentKey=item_1082]"
+        }
+      },
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_1082_passive",
+          "name": "黑暗封印·荣耀",
+          "description": "按冻结客户端16.17与官方16.17.1资料保存已确证的荣耀法术强度组成；击杀、助攻、阵亡事件见待配清单。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "passive"
+          ]
+        },
+        "parameters": [
+          {
+            "parameterKey": "max_glory_stacks",
+            "name": "荣耀最大层数",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 10,
+            "levelValues": null,
+            "description": "当前绑定DataValue MaxGloryStacks=10；普通地图值，模式覆盖值不采用。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "ability_power_per_glory",
+            "name": "每层荣耀法术强度",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 4,
+            "levelValues": null,
+            "description": "当前绑定DataValue APPerGlory=4；每层贡献4点法术强度。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "glory_on_kill",
+            "name": "击杀获得荣耀",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 2,
+            "levelValues": null,
+            "description": "当前绑定DataValue GloryOnKill=2；击杀事件分支尚未接线。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "glory_on_assist",
+            "name": "助攻获得荣耀",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1,
+            "levelValues": null,
+            "description": "当前绑定DataValue GloryOnAssist=1；助攻事件分支尚未接线。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "glory_loss_on_death",
+            "name": "阵亡损失荣耀",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 5,
+            "levelValues": null,
+            "description": "当前绑定DataValue GloryLossOnDeath=5；阵亡事件分支尚未接线。",
+            "sortOrder": 50
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "ability_power_from_glory",
+            "name": "荣耀法术强度贡献",
+            "description": "每个荣耀层数贡献4点法术强度；层数由生命周期的每层值承载。",
+            "sortOrder": 10,
+            "expression": {
+              "nodeType": "PARAMETER",
+              "parameterKey": "ability_power_per_glory"
+            }
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "glory_ability_power",
+            "name": "荣耀法术强度",
+            "description": "保存每层荣耀提供4点法术强度，最大10层；击杀、助攻、阵亡事件及跨装备共享层数尚待接线。",
+            "sortOrder": 10,
+            "lifecycle": {
+              "durationValue": null,
+              "maxStacksValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "max_glory_stacks"
+              },
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "instanceScope": "SOURCE",
+              "reapplicationStackMode": "INCREASE",
+              "reapplicationDurationMode": null,
+              "expiryMode": "EXPLICIT_ONLY",
+              "periodicIntervalValue": null,
+              "firstPeriodicExecution": null
+            },
+            "results": [
+              {
+                "resultKey": "ability_power_from_glory",
+                "name": "每层荣耀法术强度",
+                "resultType": "ATTRIBUTE_CHANGE",
+                "target": "SOURCE",
+                "description": "每个有效荣耀层数向持有者增加4点法术强度。",
+                "sortOrder": 10,
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "ability_power_from_glory"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "ability_power",
+                  "operation": "INCREASE",
+                  "modifierZoneKey": "attribute_flat_add"
+                },
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "valueReadMode": "APPLICATION_SNAPSHOT",
+                  "stackValueMode": "PER_STACK",
+                  "reapplicationValueMode": null,
+                  "periodicExecutionMode": null
+                },
+                "spellShieldBlockScope": null
+              }
+            ]
+          }
+        ],
+        "triggerRules": []
+      },
+      "omittedComponents": [
+        {
+          "kind": "pending",
+          "key": "pending_1",
+          "reason": "击杀+2、助攻+1、阵亡-5的事件来源与同次处理"
+        },
+        {
+          "kind": "pending",
+          "key": "pending_2",
+          "reason": "荣耀层数在黑暗封印与梅贾之间的共享状态接线"
+        },
+        {
+          "kind": "pending",
+          "key": "pending_3",
+          "reason": "达到10层后的上限处理和阵亡损失下限"
+        }
+      ],
+      "fullEquipmentComplete": false,
+      "pendingComponents": [
+        "击杀+2、助攻+1、阵亡-5的事件来源与同次处理",
+        "荣耀层数在黑暗封印与梅贾之间的共享状态接线",
+        "达到10层后的上限处理和阵亡损失下限"
+      ],
+      "pendingFromHistoricalCandidate": []
+    }
+  ],
+  "relations": [
+    {
+      "equipmentKey": "duolanjie",
+      "skillKey": "duolanjie_passive",
+      "sortOrder": 10
+    },
+    {
+      "equipmentKey": "item_1082",
+      "skillKey": "item_1082_passive",
+      "sortOrder": 10
+    }
+  ],
+  "representativeImages": [
+    {
+      "equipmentKey": "duolanjie",
+      "skillKey": "duolanjie_passive",
+      "imageKey": "entry_16171_duolanjie",
+      "writePath": "/skills/duolanjie_passive/representative-image",
+      "status": "未写；待独立审查后决定"
+    },
+    {
+      "equipmentKey": "item_1082",
+      "skillKey": "item_1082_passive",
+      "imageKey": "item_1082",
+      "writePath": "/skills/item_1082_passive/representative-image",
+      "status": "未写；待独立审查后决定"
+    }
+  ],
+  "counts": {
+    "objects": 2,
+    "skills": 2,
+    "parameters": 9,
+    "formulas": 5,
+    "effects": 1,
+    "triggerRules": 0,
+    "relations": 2,
+    "representativeImages": 2
+  }
+}

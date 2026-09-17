@@ -1,0 +1,12 @@
+{
+  "date":"2026-09-08",
+  "executor":"主负责人",
+  "url":"http://127.0.0.1:5173/#/skills",
+  "passed":true,
+  "cases":[
+    {"skillKey":"item_6657_passive","processKey":"timeless_growth_process","method":"真实页面新增并关闭重开","observed":["被动启动且无普通冷却","唯一growth_tick周期步骤","执行次数引用最大层数10，间隔引用60000毫秒，首次等待一个间隔","apply_growth在growth_tick步骤执行时施加时无限成长层数","保存成功提示，关闭后查看仍为同一过程和引用"]},
+    {"skillKey":"item_6657_passive","ruleKey":"initialize_timeless_growth","method":"接口补缺后真实页面编辑查看并取消","observed":["来源对象初始化完成","无条件组","唯一动作启动过程timeless_growth_process，事件来源对象，绑定0修正0","每目标冷却关闭"]}
+  ],
+  "apiEvidence":"页面过程独立回读.json",
+  "boundary":"页面作者态保存、重开与接口回读；不等于实际战斗执行十分钟。"
+}

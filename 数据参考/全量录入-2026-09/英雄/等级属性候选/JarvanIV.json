@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "JarvanIV",
+  "sourceNumericId": "59",
+  "name": "嘉文四世",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 640,
+      "growth": 104,
+      "sources": [
+        "原始资料/zh_CN/champion/JarvanIV.json:stats.hp/hpperlevel",
+        "角色根记录/JarvanIV.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 640,
+        "2": 714.88,
+        "3": 793.4,
+        "4": 875.56,
+        "5": 961.36,
+        "6": 1050.8,
+        "7": 1143.88,
+        "8": 1240.6,
+        "9": 1340.96,
+        "10": 1444.96,
+        "11": 1552.6,
+        "12": 1663.88,
+        "13": 1778.8,
+        "14": 1897.36,
+        "15": 2019.56,
+        "16": 2145.4,
+        "17": 2274.88,
+        "18": 2408
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 8,
+      "growth": 0.7,
+      "sources": [
+        "原始资料/zh_CN/champion/JarvanIV.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/JarvanIV.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 8,
+        "2": 8.504,
+        "3": 9.0325,
+        "4": 9.5855,
+        "5": 10.163,
+        "6": 10.765,
+        "7": 11.3915,
+        "8": 12.0425,
+        "9": 12.718,
+        "10": 13.418,
+        "11": 14.1425,
+        "12": 14.8915,
+        "13": 15.665,
+        "14": 16.463,
+        "15": 17.2855,
+        "16": 18.1325,
+        "17": 19.004,
+        "18": 19.9
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 36,
+      "growth": 4.6,
+      "sources": [
+        "原始资料/zh_CN/champion/JarvanIV.json:stats.armor/armorperlevel",
+        "角色根记录/JarvanIV.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 36,
+        "2": 39.312,
+        "3": 42.785,
+        "4": 46.419,
+        "5": 50.214,
+        "6": 54.17,
+        "7": 58.287,
+        "8": 62.565,
+        "9": 67.004,
+        "10": 71.604,
+        "11": 76.365,
+        "12": 81.287,
+        "13": 86.37,
+        "14": 91.614,
+        "15": 97.019,
+        "16": 102.585,
+        "17": 108.312,
+        "18": 114.2
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 32,
+      "growth": 2.05,
+      "sources": [
+        "原始资料/zh_CN/champion/JarvanIV.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/JarvanIV.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 32,
+        "2": 33.476,
+        "3": 35.02375,
+        "4": 36.64325,
+        "5": 38.3345,
+        "6": 40.0975,
+        "7": 41.93225,
+        "8": 43.83875,
+        "9": 45.817,
+        "10": 47.867,
+        "11": 49.98875,
+        "12": 52.18225,
+        "13": 54.4475,
+        "14": 56.7845,
+        "15": 59.19325,
+        "16": 61.67375,
+        "17": 64.226,
+        "18": 66.85
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 64,
+      "growth": 3,
+      "sources": [
+        "角色根记录/JarvanIV.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 64,
+        "2": 66.16,
+        "3": 68.425,
+        "4": 70.795,
+        "5": 73.27,
+        "6": 75.85,
+        "7": 78.535,
+        "8": 81.325,
+        "9": 84.22,
+        "10": 87.22,
+        "11": 90.325,
+        "12": 93.535,
+        "13": 96.85,
+        "14": 100.27,
+        "15": 103.795,
+        "16": 107.425,
+        "17": 111.16,
+        "18": 115
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 340,
+      "growth": null,
+      "sources": [
+        "角色根记录/JarvanIV.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 340,
+        "2": 340,
+        "3": 340,
+        "4": 340,
+        "5": 340,
+        "6": 340,
+        "7": 340,
+        "8": 340,
+        "9": 340,
+        "10": 340,
+        "11": 340,
+        "12": 340,
+        "13": 340,
+        "14": 340,
+        "15": 340,
+        "16": 340,
+        "17": 340,
+        "18": 340
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 175,
+      "growth": null,
+      "sources": [
+        "角色根记录/JarvanIV.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 175,
+        "2": 175,
+        "3": 175,
+        "4": 175,
+        "5": 175,
+        "6": 175,
+        "7": 175,
+        "8": 175,
+        "9": 175,
+        "10": 175,
+        "11": 175,
+        "12": 175,
+        "13": 175,
+        "14": 175,
+        "15": 175,
+        "16": 175,
+        "17": 175,
+        "18": 175
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.658,
+      "attackSpeedRatio": 0.658,
+      "growthPercent": 2.5,
+      "sources": [
+        "角色根记录/JarvanIV.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.658,
+        "2": 0.669844,
+        "3": 0.682264,
+        "4": 0.695259,
+        "5": 0.708831,
+        "6": 0.722978,
+        "7": 0.7377,
+        "8": 0.752999,
+        "9": 0.768873,
+        "10": 0.785323,
+        "11": 0.802349,
+        "12": 0.81995,
+        "13": 0.838128,
+        "14": 0.856881,
+        "15": 0.876209,
+        "16": 0.896114,
+        "17": 0.916594,
+        "18": 0.93765
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 300,
+      "growth": 55,
+      "sources": [
+        "原始资料/zh_CN/champion/JarvanIV.json:stats.mp/mpperlevel",
+        "角色根记录/JarvanIV.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 300,
+        "2": 339.6,
+        "3": 381.125,
+        "4": 424.575,
+        "5": 469.95,
+        "6": 517.25,
+        "7": 566.475,
+        "8": 617.625,
+        "9": 670.7,
+        "10": 725.7,
+        "11": 782.625,
+        "12": 841.475,
+        "13": 902.25,
+        "14": 964.95,
+        "15": 1029.575,
+        "16": 1096.125,
+        "17": 1164.6,
+        "18": 1235
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 6.5,
+      "growth": 0.45,
+      "sources": [
+        "原始资料/zh_CN/champion/JarvanIV.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/JarvanIV.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 6.5,
+        "2": 6.824,
+        "3": 7.16375,
+        "4": 7.51925,
+        "5": 7.8905,
+        "6": 8.2775,
+        "7": 8.68025,
+        "8": 9.09875,
+        "9": 9.533,
+        "10": 9.983,
+        "11": 10.44875,
+        "12": 10.93025,
+        "13": 11.4275,
+        "14": 11.9405,
+        "15": 12.46925,
+        "16": 13.01375,
+        "17": 13.574,
+        "18": 14.15
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.658,
+    "ratio": 0.658,
+    "growthPercent": 2.5,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

@@ -1,0 +1,750 @@
+{
+  "at": "2026-09-09T07:09:08.921Z",
+  "success": true,
+  "url": "http://127.0.0.1:5173/#/skills",
+  "candidateSha256": "4863b2119fd7f154d188d207f4b6e465d3719146f35dd1cc2bfb047e4b294a2b",
+  "method": "主负责人真实浏览器只读，未提交草稿；列表有三个原图可访问名称。",
+  "pages": [
+    {
+      "skillKey": "item_6662_passive",
+      "verified": "咒刃倍率1.5，公式预览读取施法者攻击力基础值；近远程减速参数0.25与0.125分开。"
+    },
+    {
+      "skillKey": "item_3036_passive",
+      "verified": "额外生命门槛1500为固定整数，实际敌方额外生命为小数计算输入，说明1234.5不截断；增幅曲线未证，不凭端点插值。"
+    },
+    {
+      "skillKey": "item_3302_passive",
+      "verified": "攻击特效公式预览为30+0.1×额外攻击力+0.1×法强最终值；没有误用总攻击力或法强加成值。"
+    }
+  ],
+  "rootGets": 41,
+  "gets": [
+    {
+      "route": "/skills/item_3036_passive",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:51:57.585736Z",
+        "description": "保留对当前敌方英雄额外生命值的伤害上限参数和达到上限的生命值门槛。客户端只给出端点，不把端点擅自解释为线性成长，也不添加默认伤害资格。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "多米尼克领主的致意·巨人杀手",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "item_3036_passive",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-09T06:51:57.585736Z"
+      }
+    },
+    {
+      "route": "/skills/item_3036_passive/parameters/max_bonus_damage_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:51:58.841926Z",
+        "description": "客户端MaxBonusDamagePercent明确至多15%额外伤害。",
+        "fixedValue": 0.15,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "最大额外伤害比例",
+        "parameterKey": "max_bonus_damage_ratio",
+        "skillKey": "item_3036_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T06:51:58.841926Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_3036_passive/parameters/bonus_health_at_max_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:51:59.882228Z",
+        "description": "客户端MaxBonusHealth明确1500额外生命值时达成上限。",
+        "fixedValue": 1500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "达到最大额外伤害所需额外生命值",
+        "parameterKey": "bonus_health_at_max_damage",
+        "skillKey": "item_3036_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T06:51:59.882228Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/item_3036_passive/parameters/actual_target_bonus_health",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:52:00.965214Z",
+        "description": "当前敌方英雄额外生命值的实际小数数值，例如1234.5；与固定1500上限门槛分别保存。当前来源未证明伤害增幅中间曲线；本参数无默认值，不按端点插值。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "当前敌方英雄额外生命值",
+        "parameterKey": "actual_target_bonus_health",
+        "skillKey": "item_3036_passive",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T06:52:00.965214Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/equipment-skill-relations?equipmentKey=item_3036",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "equipmentKey": "item_3036",
+            "equipmentName": "多米尼克领主的致意",
+            "gameId": "lol",
+            "skillKey": "item_3036_passive",
+            "skillName": "多米尼克领主的致意·巨人杀手",
+            "skillStatus": "ENABLED",
+            "sortOrder": 10
+          }
+        ],
+        "total": 1
+      }
+    },
+    {
+      "route": "/skills/item_3036_passive/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_3036",
+          "name": "item_3036"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_3302_passive",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:52:14.744649Z",
+        "description": "保留当前英雄攻击的额外魔法伤害、光明与黑暗效果的持续时间、黑暗穿透上限及光明双抗成长原始端点。mStat2/formula2按同版具名旁证映射额外攻击力，默认0/0按同版旁证映射法术强度；等级断点求值仍运行时输入。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "界弓·晦影与交相",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "item_3302_passive",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-09T06:52:14.744649Z"
+      }
+    },
+    {
+      "route": "/skills/item_3302_passive/parameters/on_hit_base_magic_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:52:15.866201Z",
+        "description": "客户端OnHitDamage第一项明确为30。",
+        "fixedValue": 30,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "攻击附加基础魔法伤害",
+        "parameterKey": "on_hit_base_magic_damage",
+        "skillKey": "item_3302_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T06:52:15.866201Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/item_3302_passive/parameters/bonus_attack_damage_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:52:16.86079Z",
+        "description": "客户端OnHitDamage的mStat2/formula2节点系数为0.1；按同版具名旁证映射额外攻击力。",
+        "fixedValue": 0.1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "额外攻击力系数",
+        "parameterKey": "bonus_attack_damage_ratio",
+        "skillKey": "item_3302_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T06:52:16.86079Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_3302_passive/parameters/ability_power_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:52:17.852637Z",
+        "description": "当前OnHitDamage原树中法术强度系数0.1，乘施法者总法术强度；不是10点固定伤害。沿用同版已证法强属性窄映射。",
+        "fixedValue": 0.1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法术强度系数",
+        "parameterKey": "ability_power_ratio",
+        "skillKey": "item_3302_passive",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T06:52:17.852637Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_3302_passive/parameters/light_dark_buff_duration_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:52:18.840487Z",
+        "description": "客户端BuffDuration明确5秒，按秒转毫秒。",
+        "fixedValue": 5000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "光明与黑暗效果持续时间（毫秒）",
+        "parameterKey": "light_dark_buff_duration_ms",
+        "skillKey": "item_3302_passive",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T06:52:18.840487Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/item_3302_passive/parameters/dark_penetration_per_hit_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:52:19.949633Z",
+        "description": "客户端PenPerHit明确10%。",
+        "fixedValue": 0.1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "黑暗每次攻击穿透比例",
+        "parameterKey": "dark_penetration_per_hit_ratio",
+        "skillKey": "item_3302_passive",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T06:52:19.949633Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_3302_passive/parameters/dark_penetration_max_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:52:20.923888Z",
+        "description": "客户端PenMax明确30%上限。",
+        "fixedValue": 0.3,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "黑暗穿透上限比例",
+        "parameterKey": "dark_penetration_max_ratio",
+        "skillKey": "item_3302_passive",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T06:52:20.923888Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_3302_passive/parameters/light_resistance_level1",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:52:21.863475Z",
+        "description": "客户端ARMRPerHitScaling明确mLevel1Value=6；只保存端点，不据此生成等级曲线。",
+        "fixedValue": 6,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "光明双抗一级端点",
+        "parameterKey": "light_resistance_level1",
+        "skillKey": "item_3302_passive",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-09T06:52:21.863475Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/item_3302_passive/parameters/light_resistance_breakpoint_level11_add",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:52:22.850554Z",
+        "description": "客户端断点明确11级增加1；断点算法仍未证。",
+        "fixedValue": 1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "光明双抗11级增量",
+        "parameterKey": "light_resistance_breakpoint_level11_add",
+        "skillKey": "item_3302_passive",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-09T06:52:22.850554Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/item_3302_passive/parameters/light_resistance_breakpoint_level14_add",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:52:23.80936Z",
+        "description": "客户端断点明确14级增加1；断点算法仍未证。",
+        "fixedValue": 1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "光明双抗14级增量",
+        "parameterKey": "light_resistance_breakpoint_level14_add",
+        "skillKey": "item_3302_passive",
+        "sortOrder": 90,
+        "updatedAt": "2026-09-09T06:52:23.80936Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/item_3302_passive/parameters/light_resistance_max_multiplier",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:52:24.813702Z",
+        "description": "客户端ARMRMaxScaling明确为3×ARMRPerHitScaling。",
+        "fixedValue": 3,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "光明双抗最大倍率",
+        "parameterKey": "light_resistance_max_multiplier",
+        "skillKey": "item_3302_passive",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-09T06:52:24.813702Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/item_3302_passive/parameters/actual_light_resistance_per_hit",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:52:25.719649Z",
+        "description": "等级端点和断点字段不能证明完整求值算法，当前每次攻击的实际双抗值由运行时输入；不按等级线性插值。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "当前光明每次攻击双抗值",
+        "parameterKey": "actual_light_resistance_per_hit",
+        "skillKey": "item_3302_passive",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-09T06:52:25.719649Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_3302_passive/formulas/on_hit_magic_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:52:26.769404Z",
+        "description": "客户端OnHitDamage：30+0.1×额外攻击力+0.1×法术强度。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "on_hit_base_magic_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_attack_damage_ratio"
+                    },
+                    {
+                      "attributeKey": "attack_damage",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "BONUS",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ability_power_ratio"
+                },
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "on_hit_magic_damage",
+        "gameId": "lol",
+        "name": "攻击附加魔法伤害",
+        "skillKey": "item_3302_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T06:52:26.769404Z"
+      }
+    },
+    {
+      "route": "/skills/item_3302_passive/formulas/light_resistance_max",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:52:27.826619Z",
+        "description": "客户端ARMRMaxScaling：3×当前光明每次攻击双抗值；等级求值由运行时提供。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "light_resistance_max_multiplier"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_light_resistance_per_hit"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "light_resistance_max",
+        "gameId": "lol",
+        "name": "光明双抗最大值",
+        "skillKey": "item_3302_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T06:52:27.826619Z"
+      }
+    },
+    {
+      "route": "/equipment-skill-relations?equipmentKey=item_3302",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "equipmentKey": "item_3302",
+            "equipmentName": "界弓",
+            "gameId": "lol",
+            "skillKey": "item_3302_passive",
+            "skillName": "界弓·晦影与交相",
+            "skillStatus": "ENABLED",
+            "sortOrder": 10
+          }
+        ],
+        "total": 1
+      }
+    },
+    {
+      "route": "/skills/item_3302_passive/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_3302",
+          "name": "item_3302"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_6662_passive",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:53:06.774887Z",
+        "description": "保留施放技能后下一次攻击的基础攻击力附加物理伤害、当前敌方英雄减速比例和持续时间。mStat2/formula1按同版具名旁证映射基础攻击力；怪物倍率和空间半径不录入。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "冰脉护手·咒刃",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "item_6662_passive",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-09T06:53:06.774887Z"
+      }
+    },
+    {
+      "route": "/skills/item_6662_passive/parameters/slow_ratio_melee",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:53:07.795943Z",
+        "description": "客户端SlowAmount明确25%。",
+        "fixedValue": 0.25,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "近战减速比例",
+        "parameterKey": "slow_ratio_melee",
+        "skillKey": "item_6662_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T06:53:07.795943Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_6662_passive/parameters/slow_ratio_ranged",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:53:08.882953Z",
+        "description": "客户端RangedSlowAmount明确12.5%。",
+        "fixedValue": 0.125,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "远程减速比例",
+        "parameterKey": "slow_ratio_ranged",
+        "skillKey": "item_6662_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T06:53:08.882953Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_6662_passive/parameters/slow_field_duration_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:53:09.838267Z",
+        "description": "客户端SlowFieldDuration明确2秒，按秒转毫秒。",
+        "fixedValue": 2000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "冰冷地带持续时间（毫秒）",
+        "parameterKey": "slow_field_duration_ms",
+        "skillKey": "item_6662_passive",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T06:53:09.838267Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/item_6662_passive/parameters/spellblade_multiplier",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:53:10.815178Z",
+        "description": "客户端SpellbladeMultiplier明确1.5；计算节点为mStat2/formula1。",
+        "fixedValue": 1.5,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "咒刃基础攻击力倍率",
+        "parameterKey": "spellblade_multiplier",
+        "skillKey": "item_6662_passive",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T06:53:10.815178Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_6662_passive/parameters/spellblade_cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:53:11.79233Z",
+        "description": "客户端SpellbladeCooldown明确1.5秒，按秒转毫秒。",
+        "fixedValue": 1500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "咒刃冷却（毫秒）",
+        "parameterKey": "spellblade_cooldown_ms",
+        "skillKey": "item_6662_passive",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T06:53:11.79233Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/item_6662_passive/parameters/item_cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:53:12.882112Z",
+        "description": "客户端Cooldown同样明确1.5秒；与SpellbladeCooldown保留为两个源字段，未合并语义。",
+        "fixedValue": 1500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "装备冷却（毫秒）",
+        "parameterKey": "item_cooldown_ms",
+        "skillKey": "item_6662_passive",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T06:53:12.882112Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/item_6662_passive/formulas/spellblade_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:53:13.876731Z",
+        "description": "客户端SpellbladeDamage：1.5×基础攻击力；mStat2/formula1按同版具名旁证映射基础攻击力。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "spellblade_multiplier"
+            },
+            {
+              "attributeKey": "attack_damage",
+              "attributeOwner": "SOURCE",
+              "attributeValueKind": "BASE",
+              "nodeType": "ATTRIBUTE"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "spellblade_damage",
+        "gameId": "lol",
+        "name": "咒刃额外物理伤害",
+        "skillKey": "item_6662_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T06:53:13.876731Z"
+      }
+    },
+    {
+      "route": "/equipment-skill-relations?equipmentKey=item_6662",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "equipmentKey": "item_6662",
+            "equipmentName": "冰脉护手",
+            "gameId": "lol",
+            "skillKey": "item_6662_passive",
+            "skillName": "冰脉护手·咒刃",
+            "skillStatus": "ENABLED",
+            "sortOrder": 10
+          }
+        ],
+        "total": 1
+      }
+    },
+    {
+      "route": "/skills/item_6662_passive/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_6662",
+          "name": "item_6662"
+        }
+      }
+    },
+    {
+      "route": "/equipment/item_3036",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T17:10:23.648277Z",
+        "description": "来源：官方16.17.1装备3036。 原始说明：35攻击力 35%护甲穿透 25%暴击几率 巨人杀手 基于敌方英雄的额外生命值，对其至多造成15%额外伤害。最大伤害加成在1500额外生命值时达成。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3036",
+        "gameId": "lol",
+        "name": "多米尼克领主的致意",
+        "updatedAt": "2026-09-06T17:10:23.648277Z"
+      }
+    },
+    {
+      "route": "/equipment/item_3036/attributes",
+      "status": 200,
+      "data": {
+        "attributeValues": {
+          "armor_pen_percent": 0.35,
+          "attack_damage": 35,
+          "critical_strike_chance": 0.25
+        },
+        "equipmentKey": "item_3036"
+      }
+    },
+    {
+      "route": "/equipment/item_3036/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_3036",
+          "name": "item_3036"
+        }
+      }
+    },
+    {
+      "route": "/equipment/item_3302",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:11:05.57826Z",
+        "description": "来源：官方16.17.1装备3302。 原始说明：30攻击力\n35%攻击速度\n\n晦影\n攻击造成0额外魔法伤害 攻击特效。\n\n交相\n对抗英雄时，在光明特效和黑暗特效之间轮换：附带光明特效的攻击提供持续5秒的护甲和魔抗。附带黑暗特效的攻击提供持续5秒的10%护甲穿透和法术穿透。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3302",
+        "gameId": "lol",
+        "name": "界弓",
+        "updatedAt": "2026-09-06T18:11:05.57826Z"
+      }
+    },
+    {
+      "route": "/equipment/item_3302/attributes",
+      "status": 200,
+      "data": {
+        "attributeValues": {
+          "attack_damage": 30,
+          "bonus_attack_speed_percent": 0.35
+        },
+        "equipmentKey": "item_3302"
+      }
+    },
+    {
+      "route": "/equipment/item_3302/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_3302",
+          "name": "item_3302"
+        }
+      }
+    },
+    {
+      "route": "/equipment/item_6662",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:11:23.355339Z",
+        "description": "来源：官方16.17.1装备6662。 原始说明：300生命值\n50护甲\n15技能急速\n\n咒刃\n在施放一个技能后，你的下一次攻击造成额外物理伤害攻击特效并生成一个持续2秒的冰冷地带，这个地带可造成减速。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_6662",
+        "gameId": "lol",
+        "name": "冰脉护手",
+        "updatedAt": "2026-09-06T18:11:23.355339Z"
+      }
+    },
+    {
+      "route": "/equipment/item_6662/attributes",
+      "status": 200,
+      "data": {
+        "attributeValues": {
+          "hp": 300,
+          "armor": 50,
+          "ability_haste": 15
+        },
+        "equipmentKey": "item_6662"
+      }
+    },
+    {
+      "route": "/equipment/item_6662/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_6662",
+          "name": "item_6662"
+        }
+      }
+    }
+  ],
+  "runtimeValidation": "未执行"
+}

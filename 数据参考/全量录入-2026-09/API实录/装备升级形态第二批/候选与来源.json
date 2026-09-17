@@ -1,0 +1,1688 @@
+{
+  "generatedAt": "2026-09-08T15:21:40.107Z",
+  "version": {
+    "client": "16.17",
+    "official": "16.17.1"
+  },
+  "sources": [
+    {
+      "relativePath": "装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+      "sha256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7",
+      "rawSha256": "b59ec9320d05acefa344ea8a5ef615cf7f32959078475cafff63833462dc358f"
+    },
+    {
+      "relativePath": "装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+      "sha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+      "rawSha256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031"
+    },
+    {
+      "relativePath": "装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+      "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973"
+    }
+  ],
+  "objects": [
+    {
+      "itemId": "3168",
+      "equipmentKey": "item_3168",
+      "name": "不朽之路",
+      "imageKey": "item_3168",
+      "description": "来源：官方16.17.1装备3168及客户端16.17。原始说明：45 移动速度 4% 全能吸血 杀戮 参与击杀英雄后获得0.6%全能吸血，可叠加至多10次。 现在到永远 在一半生命值以上时，造成4%额外伤害。 在一半生命值以下时，获得12%额外治疗值、护盾值和回复。 升级或使用后形态；本批保存明确直接属性，相关技能效果及变换接线另行录入。",
+      "attributeValues": {
+        "move_speed": 45,
+        "omnivamp_percent": 0.04
+      },
+      "proofs": [
+        {
+          "attributeKey": "move_speed",
+          "value": 45,
+          "sourceValue": 45,
+          "pointer": "/Items~13168/mFlatMovementSpeedMod"
+        },
+        {
+          "attributeKey": "omnivamp_percent",
+          "value": 0.04,
+          "sourceValue": 0.03999999910593033,
+          "pointer": "/Items~13168/PercentOmnivampMod"
+        }
+      ],
+      "source": {
+        "pointer": "/Items~13168",
+        "object": {
+          "mDisplayName": "Item_3168_Name",
+          "itemID": 3168,
+          "maxStack": 1,
+          "mItemGroups": [
+            "Items/ItemGroups/Default",
+            "Items/ItemGroups/BootsWithoutActives",
+            "Items/ItemGroups/Boots",
+            "{0e38f9bb}"
+          ],
+          "mRequiredBuffCurrencyName": "Feats_NoxianBootPurchaseBuff",
+          "mCanBeSold": true,
+          "epicness": 7,
+          "recipeItemLinks": [
+            "Items/3008"
+          ],
+          "mDataValues": [
+            {
+              "mName": "OmnivampOnTakedown",
+              "mValue": 0.006000000052154064,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "MaxStacks",
+              "mValue": 10,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "DamageMod",
+              "mValue": 0.03999999910593033,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "HealingMod",
+              "mValue": 0.11999999731779099,
+              "__type": "ItemDataValue"
+            }
+          ],
+          "mFlatMovementSpeedMod": 45,
+          "PercentOmnivampMod": 0.03999999910593033,
+          "mCategories": [
+            "LifeSteal",
+            "SpellVamp",
+            "Boots"
+          ],
+          "mItemDataAvailability": {
+            "mInStore": true,
+            "mForceLoad": true,
+            "__type": "ItemDataAvailability"
+          },
+          "LastMajorChangeMajorPatchVersion": 16,
+          "LastMajorChangeMinorPatchVersion": 9,
+          "mItemDataClient": {
+            "mTooltipData": {
+              "mObjectName": "3168",
+              "mFormat": "{32559c50}",
+              "mLocKeys": {
+                "keyName": "Item_3168_Name",
+                "keyTooltip": "Item_3168_Tooltip",
+                "keyFlavorText": "Item_3168_FlavorText",
+                "keyBrief": "Item_3168_Brief",
+                "keyTooltipExtendedBelowLine": "Item_3168_TooltipExtendedBelowLine",
+                "keyShopOnlyText": "Item_3168_ShopOnlyText"
+              },
+              "mLists": {
+                "Stats": {
+                  "Elements": [
+                    {
+                      "type": "MoveSpeed",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "Omnivamp",
+                      "__type": "TooltipInstanceListElement"
+                    }
+                  ],
+                  "__type": "TooltipInstanceList"
+                }
+              },
+              "__type": "TooltipInstanceItem"
+            },
+            "mDescription": "GeneratedTip_Item_3168_Description",
+            "mDynamicTooltip": "GeneratedTip_Item_3168_TooltipInventory",
+            "mShopTooltip": "GeneratedTip_Item_3168_TooltipShop",
+            "inventoryIcon": "assets/items/icons2d/3168_immortalcreed.tex",
+            "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/3168_ImmortalCreed44.png",
+            "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/3168_ImmortalCreed88.png",
+            "epicness": 0,
+            "__type": "ItemDataClient"
+          },
+          "mVFXResourceResolver": {
+            "resourceMap": {
+              "{c87f8f28}": "Items/3168/Particles/3168_Ceremony"
+            },
+            "__type": "ResourceResolver"
+          },
+          "__type": "ItemData"
+        },
+        "official": {
+          "name": "不朽之路",
+          "description": "<mainText><stats><attention>45</attention>移动速度<br><attention>4%</attention>全能吸血</stats><br><br><passive>杀戮</passive><br>参与击杀英雄后获得0.6%全能吸血，可叠加至多10次。<br><br><passive>现在到永远</passive><br>在一半生命值以上时，造成4%额外伤害。<br><br>在一半生命值以下时，获得12%额外治疗值、护盾值和回复。</mainText>",
+          "colloq": "",
+          "plaintext": "",
+          "from": [
+            "3008"
+          ],
+          "image": {
+            "full": "3168.png",
+            "sprite": "item4.png",
+            "group": "item",
+            "x": 48,
+            "y": 48,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 0,
+            "purchasable": true,
+            "total": 1000,
+            "sell": 700
+          },
+          "tags": [
+            "LifeSteal",
+            "SpellVamp",
+            "Boots"
+          ],
+          "maps": {
+            "11": true,
+            "12": false,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatMovementSpeedMod": 45
+          },
+          "depth": 3
+        },
+        "bindings": [
+          {
+            "field": "keyName",
+            "key": "Item_3168_Name",
+            "pointer": "/entries/item_3168_name",
+            "text": "不朽之路"
+          },
+          {
+            "field": "keyTooltip",
+            "key": "Item_3168_Tooltip",
+            "pointer": "/entries/item_3168_tooltip",
+            "text": "<passive>杀戮</passive><br>参与击杀英雄后获得@OmnivampOnTakedown*100@%全能吸血，可叠加至多@MaxStacks@次。<br><br><passive>现在到永远</passive><br>在一半生命值以上时，造成@DamageMod*100@%额外伤害。<br><br>在一半生命值以下时，获得@HealingMod*100@%额外治疗值、护盾值和回复。"
+          },
+          {
+            "field": "keyFlavorText",
+            "key": "Item_3168_FlavorText",
+            "pointer": "/entries/item_3168_flavortext",
+            "text": "“鲜血中腾起杀戮的烈火。而我的心要见到光明。” - 不落魔锋 亚恒"
+          },
+          {
+            "field": "keyBrief",
+            "key": "Item_3168_Brief",
+            "pointer": "/entries/item_3168_brief",
+            "text": "吸血坦克"
+          },
+          {
+            "field": "keyTooltipExtendedBelowLine",
+            "key": "Item_3168_TooltipExtendedBelowLine",
+            "pointer": "/entries/item_3168_tooltipextendedbelowline",
+            "text": "对英雄的额外伤害：<attention>@f1@</attention><br>额外治疗效果：<attention>@f2@</attention><br>额外护盾：<attention>@f3@</attention>"
+          },
+          {
+            "field": "keyShopOnlyText",
+            "key": "Item_3168_ShopOnlyText",
+            "pointer": "/entries/item_3168_shoponlytext",
+            "text": "<rules><font color = '#FF0000'>(仅中路)锁定至任务完成为止</font></rules>"
+          }
+        ]
+      },
+      "parentItemId": 3008,
+      "scope": "已有资料清单中的特殊升级或使用后形态，不纳入181件普通装备历史批次；未建立额外升级表或虚构变换规则。"
+    },
+    {
+      "itemId": "3170",
+      "equipmentKey": "item_3170",
+      "name": "迅速进军",
+      "imageKey": "item_3170",
+      "description": "来源：官方16.17.1装备3170及客户端16.17。原始说明：65 移动速度 迅捷步 将 减速 效果的效能降低25%。 诺克萨斯的狂热 获得相当于你5% 移动速度 的适应之力。 升级或使用后形态；本批保存明确直接属性，相关技能效果及变换接线另行录入。",
+      "attributeValues": {
+        "move_speed": 65,
+        "slow_resist_percent": 0.25
+      },
+      "proofs": [
+        {
+          "attributeKey": "move_speed",
+          "value": 65,
+          "sourceValue": 65,
+          "pointer": "/Items~13170/mFlatMovementSpeedMod"
+        },
+        {
+          "attributeKey": "slow_resist_percent",
+          "value": 0.25,
+          "sourceValue": 0.25,
+          "pointer": "/Items~13170/mPercentSlowResistMod"
+        }
+      ],
+      "source": {
+        "pointer": "/Items~13170",
+        "object": {
+          "mDisplayName": "Item_3170_Name",
+          "itemID": 3170,
+          "maxStack": 1,
+          "mItemGroups": [
+            "Items/ItemGroups/Default",
+            "{a0360dfa}",
+            "Items/ItemGroups/Boots"
+          ],
+          "mRequiredBuffCurrencyName": "Feats_NoxianBootPurchaseBuff",
+          "mCanBeSold": true,
+          "epicness": 7,
+          "recipeItemLinks": [
+            "Items/3009"
+          ],
+          "mDataValues": [
+            {
+              "mName": "MoveSpeedMultiplier",
+              "mValue": 0.03999999910593033,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "SlowResistTooltip",
+              "mValue": 0.25,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "MSAdaptiveRatio",
+              "mValue": 0.05000000074505806,
+              "__type": "ItemDataValue"
+            }
+          ],
+          "mItemCalculations": {
+            "{5e4a31e2}": {
+              "mFormulaParts": [
+                {
+                  "mBuffName": "{35c412b6}",
+                  "mCoefficient": 1,
+                  "__type": "BuffCounterByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "MSToAdaptiveCalc": {
+              "mFormulaParts": [
+                {
+                  "mStat": 7,
+                  "mDataValue": "MSAdaptiveRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "mPercentSlowResistMod": 0.25,
+          "mFlatMovementSpeedMod": 65,
+          "mCategories": [
+            "Boots"
+          ],
+          "mItemDataAvailability": {
+            "mInStore": true,
+            "mForceLoad": true,
+            "__type": "ItemDataAvailability"
+          },
+          "LastMajorChangeMajorPatchVersion": 13,
+          "LastMajorChangeMinorPatchVersion": 16,
+          "mItemDataClient": {
+            "mTooltipData": {
+              "mObjectName": "3170",
+              "mFormat": "{32559c50}",
+              "EnableExtendedTooltip": false,
+              "mLocKeys": {
+                "keyName": "Item_3170_Name",
+                "keyTooltip": "Item_3170_Tooltip",
+                "keyShopOnlyText": "Item_3172_ShopOnlyText",
+                "keyFlavorText": "Item_3170_FlavorText",
+                "keyInventoryOnlyText": "Item_3170_InventoryOnlyText"
+              },
+              "mLists": {
+                "Stats": {
+                  "Elements": [
+                    {
+                      "type": "MoveSpeed",
+                      "__type": "TooltipInstanceListElement"
+                    }
+                  ],
+                  "__type": "TooltipInstanceList"
+                }
+              },
+              "__type": "TooltipInstanceItem"
+            },
+            "mDescription": "GeneratedTip_Item_3170_Description",
+            "mDynamicTooltip": "GeneratedTip_Item_3170_TooltipInventory",
+            "mShopTooltip": "GeneratedTip_Item_3170_TooltipShop",
+            "inventoryIcon": "assets/items/icons2d/boots_tier3_swiftness_64.dds",
+            "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/boots_tier3_swiftness_44_360.png",
+            "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/boots_tier3_swiftness_88_360.png",
+            "epicness": 0,
+            "__type": "ItemDataClient"
+          },
+          "__type": "ItemData"
+        },
+        "official": {
+          "name": "迅速进军",
+          "description": "<mainText><stats><attention>65</attention>移动速度</stats><br><br><passive>迅捷步</passive><br>将<keyword>减速</keyword>效果的效能降低25%。<br><br><passive>诺克萨斯的狂热</passive><br>获得相当于你5%<speed>移动速度</speed>的适应之力。</mainText>",
+          "colloq": ";",
+          "plaintext": "增强防御属性并减少限制时长",
+          "from": [
+            "3009"
+          ],
+          "image": {
+            "full": "3170.png",
+            "sprite": "item4.png",
+            "group": "item",
+            "x": 96,
+            "y": 48,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 0,
+            "purchasable": true,
+            "total": 1000,
+            "sell": 700
+          },
+          "tags": [
+            "Boots"
+          ],
+          "maps": {
+            "11": true,
+            "12": false,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatMovementSpeedMod": 65
+          },
+          "depth": 3
+        },
+        "bindings": [
+          {
+            "field": "keyName",
+            "key": "Item_3170_Name",
+            "pointer": "/entries/item_3170_name",
+            "text": "迅速进军"
+          },
+          {
+            "field": "keyTooltip",
+            "key": "Item_3170_Tooltip",
+            "pointer": "/entries/item_3170_tooltip",
+            "text": "<passive>迅捷步</passive><br>将<keyword>减速</keyword>效果的效能降低@SlowResistTooltip*100@%。<br><br><passive>诺克萨斯的狂热</passive><br>获得相当于你@MSAdaptiveRatio*100@%<speed>移动速度</speed>的适应之力。"
+          },
+          {
+            "field": "keyShopOnlyText",
+            "key": "Item_3172_ShopOnlyText",
+            "pointer": "/entries/item_3172_shoponlytext",
+            "text": "<rules><font color = '#FF0000'>(仅中路)锁定至任务完成为止</font></rules>"
+          },
+          {
+            "field": "keyFlavorText",
+            "key": "Item_3170_FlavorText",
+            "pointer": "/entries/item_3170_flavortext",
+            "text": "“看我如何走位！” - 德莱文"
+          },
+          {
+            "field": "keyInventoryOnlyText",
+            "key": "Item_3170_InventoryOnlyText",
+            "pointer": "/entries/item_3170_inventoryonlytext",
+            "text": "当前适应之力：<attention>@MSToAdaptiveCalc@</attention>"
+          }
+        ]
+      },
+      "parentItemId": 3009,
+      "scope": "已有资料清单中的特殊升级或使用后形态，不纳入181件普通装备历史批次；未建立额外升级表或虚构变换规则。"
+    },
+    {
+      "itemId": "3171",
+      "equipmentKey": "item_3171",
+      "name": "猩红明朗",
+      "imageKey": "item_3171",
+      "description": "来源：官方16.17.1装备3171及客户端16.17。原始说明：20 技能急速 45 移动速度 艾欧尼亚的洞悉 获得20召唤师技能急速。 诺克萨斯的急速 用技能增强或保护友军、用技能对敌军造成伤害或者施放召唤师技能会提供持续4秒的 0移动速度 。 【诺克萨斯的急速】每次施放技能只能被触发1次。 升级或使用后形态；本批保存明确直接属性，相关技能效果及变换接线另行录入。",
+      "attributeValues": {
+        "move_speed": 45,
+        "ability_haste": 20
+      },
+      "proofs": [
+        {
+          "attributeKey": "move_speed",
+          "value": 45,
+          "sourceValue": 45,
+          "pointer": "/Items~13171/mFlatMovementSpeedMod"
+        },
+        {
+          "attributeKey": "ability_haste",
+          "value": 20,
+          "sourceValue": 20,
+          "pointer": "/Items~13171/mAbilityHasteMod"
+        }
+      ],
+      "source": {
+        "pointer": "/Items~13171",
+        "object": {
+          "mDisplayName": "Item_3171_Name",
+          "itemID": 3171,
+          "maxStack": 1,
+          "mItemGroups": [
+            "Items/ItemGroups/Default",
+            "{a1360f8d}",
+            "Items/ItemGroups/Boots"
+          ],
+          "mRequiredBuffCurrencyName": "Feats_NoxianBootPurchaseBuff",
+          "mCanBeSold": true,
+          "epicness": 7,
+          "recipeItemLinks": [
+            "Items/3158"
+          ],
+          "mDataValues": [
+            {
+              "mName": "SummonerHaste",
+              "mValue": 20,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "MeleeMS",
+              "mValue": 0.10000000149011612,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "Duration",
+              "mValue": 4,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "RangedMSMultiplier",
+              "mValue": 0.800000011920929,
+              "__type": "ItemDataValue"
+            }
+          ],
+          "mItemCalculations": {
+            "MSAmount": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "MeleeMS",
+                  "__type": "NamedDataValueCalculationPart"
+                }
+              ],
+              "mDisplayAsPercent": true,
+              "mRangedMultiplier": {
+                "mDataValue": "RangedMSMultiplier",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              "__type": "{e9a3c91d}"
+            },
+            "{5e4a31e2}": {
+              "mFormulaParts": [
+                {
+                  "mBuffName": "{35c412b6}",
+                  "mCoefficient": 1,
+                  "__type": "BuffCounterByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "mAbilityHasteMod": 20,
+          "mFlatMovementSpeedMod": 45,
+          "mCategories": [
+            "CooldownReduction",
+            "Boots"
+          ],
+          "mItemDataAvailability": {
+            "mInStore": true,
+            "mForceLoad": true,
+            "__type": "ItemDataAvailability"
+          },
+          "LastMajorChangeMajorPatchVersion": 13,
+          "LastMajorChangeMinorPatchVersion": 16,
+          "mItemDataClient": {
+            "mTooltipData": {
+              "mObjectName": "3171",
+              "mFormat": "{32559c50}",
+              "EnableExtendedTooltip": false,
+              "mLocKeys": {
+                "keyName": "Item_3171_Name",
+                "keyTooltip": "Item_3171_Tooltip",
+                "keyShopOnlyText": "Item_3172_ShopOnlyText",
+                "keyFlavorText": "Item_3171_FlavorText"
+              },
+              "mLists": {
+                "Stats": {
+                  "Elements": [
+                    {
+                      "type": "AbilityHaste",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "MoveSpeed",
+                      "__type": "TooltipInstanceListElement"
+                    }
+                  ],
+                  "__type": "TooltipInstanceList"
+                }
+              },
+              "__type": "TooltipInstanceItem"
+            },
+            "mDescription": "GeneratedTip_Item_3171_Description",
+            "mDynamicTooltip": "GeneratedTip_Item_3171_TooltipInventory",
+            "mShopTooltip": "GeneratedTip_Item_3171_TooltipShop",
+            "inventoryIcon": "assets/items/icons2d/boots_tier3_ionianboots_64.dds",
+            "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/boots_tier3_ionianboots_44_360.png",
+            "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/boots_tier3_ionianboots_88_360.png",
+            "epicness": 0,
+            "__type": "ItemDataClient"
+          },
+          "__type": "ItemData"
+        },
+        "official": {
+          "name": "猩红明朗",
+          "description": "<mainText><stats><attention>20</attention>技能急速<br><attention>45</attention>移动速度</stats><br><br><passive>艾欧尼亚的洞悉</passive><br>获得20召唤师技能急速。<br><br><passive>诺克萨斯的急速</passive><br>用技能增强或保护友军、用技能对敌军造成伤害或者施放召唤师技能会提供持续4秒的<speed>0移动速度</speed>。<br><br><rules>【诺克萨斯的急速】每次施放技能只能被触发1次。</rules></mainText>",
+          "colloq": "",
+          "plaintext": "",
+          "from": [
+            "3158"
+          ],
+          "image": {
+            "full": "3171.png",
+            "sprite": "item4.png",
+            "group": "item",
+            "x": 144,
+            "y": 48,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 0,
+            "purchasable": true,
+            "total": 900,
+            "sell": 630
+          },
+          "tags": [
+            "CooldownReduction",
+            "Boots"
+          ],
+          "maps": {
+            "11": true,
+            "12": false,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatMovementSpeedMod": 45
+          },
+          "depth": 3
+        },
+        "bindings": [
+          {
+            "field": "keyName",
+            "key": "Item_3171_Name",
+            "pointer": "/entries/item_3171_name",
+            "text": "猩红明朗"
+          },
+          {
+            "field": "keyTooltip",
+            "key": "Item_3171_Tooltip",
+            "pointer": "/entries/item_3171_tooltip",
+            "text": "<passive>艾欧尼亚的洞悉</passive><br>获得@SummonerHaste@召唤师技能急速。<br><br><passive>诺克萨斯的急速</passive><br>用技能增强或保护友军、用技能对敌军造成伤害或者施放召唤师技能会提供持续@Duration@秒的<speed>@MSAmount@移动速度</speed>。<br><br><rules>【诺克萨斯的急速】每次施放技能只能被触发1次。</rules>"
+          },
+          {
+            "field": "keyShopOnlyText",
+            "key": "Item_3172_ShopOnlyText",
+            "pointer": "/entries/item_3172_shoponlytext",
+            "text": "<rules><font color = '#FF0000'>(仅中路)锁定至任务完成为止</font></rules>"
+          },
+          {
+            "field": "keyFlavorText",
+            "key": "Item_3171_FlavorText",
+            "pointer": "/entries/item_3171_flavortext",
+            "text": "“一点血巫术总会使头脑清醒……” - 奥菲莉娅"
+          }
+        ]
+      },
+      "parentItemId": 3158,
+      "scope": "已有资料清单中的特殊升级或使用后形态，不纳入181件普通装备历史批次；未建立额外升级表或虚构变换规则。"
+    },
+    {
+      "itemId": "3172",
+      "equipmentKey": "item_3172",
+      "name": "炮铜胫甲",
+      "imageKey": "item_3172",
+      "description": "来源：官方16.17.1装备3172及客户端16.17。原始说明：45% 攻击速度 45 移动速度 5% 生命偷取 升级或使用后形态；本批保存明确直接属性，相关技能效果及变换接线另行录入。",
+      "attributeValues": {
+        "move_speed": 45,
+        "bonus_attack_speed_percent": 0.45,
+        "life_steal_percent": 0.05
+      },
+      "proofs": [
+        {
+          "attributeKey": "move_speed",
+          "value": 45,
+          "sourceValue": 45,
+          "pointer": "/Items~13172/mFlatMovementSpeedMod"
+        },
+        {
+          "attributeKey": "bonus_attack_speed_percent",
+          "value": 0.45,
+          "sourceValue": 0.44999998807907104,
+          "pointer": "/Items~13172/mPercentAttackSpeedMod"
+        },
+        {
+          "attributeKey": "life_steal_percent",
+          "value": 0.05,
+          "sourceValue": 0.05000000074505806,
+          "pointer": "/Items~13172/mPercentLifeStealMod"
+        }
+      ],
+      "source": {
+        "pointer": "/Items~13172",
+        "object": {
+          "mDisplayName": "Item_3172_Name",
+          "itemID": 3172,
+          "maxStack": 1,
+          "mItemGroups": [
+            "Items/ItemGroups/Default",
+            "{9e360ad4}",
+            "Items/ItemGroups/Boots"
+          ],
+          "mRequiredBuffCurrencyName": "Feats_NoxianBootPurchaseBuff",
+          "mCanBeSold": true,
+          "epicness": 7,
+          "recipeItemLinks": [
+            "Items/3006"
+          ],
+          "mDataValues": [
+            {
+              "mName": "MeleeMS",
+              "mValue": 0.15000000596046448,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "RangedMSMultiplier",
+              "mValue": 0.6669999957084656,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "Duration",
+              "mValue": 2,
+              "__type": "ItemDataValue"
+            }
+          ],
+          "mItemCalculations": {
+            "MSAmount": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "MeleeMS",
+                  "__type": "NamedDataValueCalculationPart"
+                }
+              ],
+              "mDisplayAsPercent": true,
+              "mRangedMultiplier": {
+                "mDataValue": "RangedMSMultiplier",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              "__type": "{e9a3c91d}"
+            },
+            "{5e4a31e2}": {
+              "mFormulaParts": [
+                {
+                  "mBuffName": "{35c412b6}",
+                  "mCoefficient": 1,
+                  "__type": "BuffCounterByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "mFlatMovementSpeedMod": 45,
+          "mPercentAttackSpeedMod": 0.44999998807907104,
+          "mPercentLifeStealMod": 0.05000000074505806,
+          "mCategories": [
+            "AttackSpeed",
+            "LifeSteal",
+            "NonbootsMovement"
+          ],
+          "mItemDataAvailability": {
+            "mInStore": true,
+            "mForceLoad": true,
+            "__type": "ItemDataAvailability"
+          },
+          "LastMajorChangeMajorPatchVersion": 13,
+          "LastMajorChangeMinorPatchVersion": 16,
+          "mItemDataClient": {
+            "mTooltipData": {
+              "mObjectName": "3172",
+              "mFormat": "{32559c50}",
+              "EnableExtendedTooltip": false,
+              "mLocKeys": {
+                "keyName": "Item_3172_Name",
+                "keyTooltip": "Item_3172_Tooltip",
+                "keyBrief": "Item_3172_Brief",
+                "keyShopOnlyText": "Item_3172_ShopOnlyText",
+                "keyFlavorText": "Item_3172_FlavorText"
+              },
+              "mLists": {
+                "Stats": {
+                  "Elements": [
+                    {
+                      "type": "AttackSpeed",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "MoveSpeed",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "LifeSteal",
+                      "__type": "TooltipInstanceListElement"
+                    }
+                  ],
+                  "__type": "TooltipInstanceList"
+                }
+              },
+              "__type": "TooltipInstanceItem"
+            },
+            "mDescription": "GeneratedTip_Item_3172_Description",
+            "mDynamicTooltip": "GeneratedTip_Item_3172_TooltipInventory",
+            "mShopTooltip": "GeneratedTip_Item_3172_TooltipShop",
+            "inventoryIcon": "assets/items/icons2d/boots_tier3_berserkersgreaves_64.dds",
+            "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/boots_tier3_berserker_sgreaves_44_360.png",
+            "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/boots_tier3_berserker_sgreaves_88_360.png",
+            "epicness": 0,
+            "__type": "ItemDataClient"
+          },
+          "__type": "ItemData"
+        },
+        "official": {
+          "name": "炮铜胫甲",
+          "description": "<mainText><stats><attention>45%</attention>攻击速度<br><attention>45</attention>移动速度<br><attention>5%</attention>生命偷取</stats><br><br></mainText>",
+          "colloq": ";lingfeng;Zephyr",
+          "plaintext": "机动和韧性",
+          "from": [
+            "3006"
+          ],
+          "image": {
+            "full": "3172.png",
+            "sprite": "item4.png",
+            "group": "item",
+            "x": 192,
+            "y": 48,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 0,
+            "purchasable": true,
+            "total": 1100,
+            "sell": 770
+          },
+          "tags": [
+            "AttackSpeed",
+            "LifeSteal",
+            "NonbootsMovement"
+          ],
+          "maps": {
+            "11": true,
+            "12": false,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatMovementSpeedMod": 45,
+            "PercentAttackSpeedMod": 0.45,
+            "PercentLifeStealMod": 0.05
+          },
+          "depth": 3
+        },
+        "bindings": [
+          {
+            "field": "keyName",
+            "key": "Item_3172_Name",
+            "pointer": "/entries/item_3172_name",
+            "text": "炮铜胫甲"
+          },
+          {
+            "field": "keyTooltip",
+            "key": "Item_3172_Tooltip",
+            "pointer": "/entries/item_3172_tooltip",
+            "text": ""
+          },
+          {
+            "field": "keyBrief",
+            "key": "Item_3172_Brief",
+            "pointer": "/entries/item_3172_brief",
+            "text": "鞋子升级"
+          },
+          {
+            "field": "keyShopOnlyText",
+            "key": "Item_3172_ShopOnlyText",
+            "pointer": "/entries/item_3172_shoponlytext",
+            "text": "<rules><font color = '#FF0000'>(仅中路)锁定至任务完成为止</font></rules>"
+          },
+          {
+            "field": "keyFlavorText",
+            "key": "Item_3172_FlavorText",
+            "pointer": "/entries/item_3172_flavortext",
+            "text": "“帝国看重力量。我看重个性。” - 莎弥拉"
+          }
+        ]
+      },
+      "parentItemId": 3006,
+      "scope": "已有资料清单中的特殊升级或使用后形态，不纳入181件普通装备历史批次；未建立额外升级表或虚构变换规则。"
+    },
+    {
+      "itemId": "3173",
+      "equipmentKey": "item_3173",
+      "name": "带链碾碎者",
+      "imageKey": "item_3173",
+      "description": "来源：官方16.17.1装备3173及客户端16.17。原始说明：25 魔法抗性 45 移动速度 30% 韧性 诺克萨斯的不懈 (0秒) 在受到来自英雄的魔法伤害后，获得一个持续5秒的 0 魔法 护盾 。 升级或使用后形态；本批保存明确直接属性，相关技能效果及变换接线另行录入。",
+      "attributeValues": {
+        "move_speed": 45,
+        "magic_resistance": 25,
+        "tenacity_percent": 0.3
+      },
+      "proofs": [
+        {
+          "attributeKey": "move_speed",
+          "value": 45,
+          "sourceValue": 45,
+          "pointer": "/Items~13173/mFlatMovementSpeedMod"
+        },
+        {
+          "attributeKey": "magic_resistance",
+          "value": 25,
+          "sourceValue": 25,
+          "pointer": "/Items~13173/mFlatSpellBlockMod"
+        },
+        {
+          "attributeKey": "tenacity_percent",
+          "value": 0.3,
+          "sourceValue": 0.30000001192092896,
+          "pointer": "/Items~13173/mPercentTenacityItemMod"
+        }
+      ],
+      "source": {
+        "pointer": "/Items~13173",
+        "object": {
+          "mDisplayName": "Item_3173_Name",
+          "itemID": 3173,
+          "maxStack": 1,
+          "mItemGroups": [
+            "Items/ItemGroups/Default",
+            "{9f360c67}",
+            "Items/ItemGroups/Boots"
+          ],
+          "mRequiredBuffCurrencyName": "Feats_NoxianBootPurchaseBuff",
+          "mCanBeSold": true,
+          "epicness": 7,
+          "recipeItemLinks": [
+            "Items/3111"
+          ],
+          "mDataValues": [
+            {
+              "mName": "Cooldown",
+              "mValue": 15,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "ShieldAmount",
+              "mValue": 0.07999999821186066,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "ShieldDuration",
+              "mValue": 5,
+              "__type": "ItemDataValue"
+            }
+          ],
+          "mItemCalculations": {
+            "ShieldAmountCalc": {
+              "mFormulaParts": [
+                {
+                  "mLevel1Value": 90,
+                  "mBreakpoints": [
+                    {
+                      "mLevel": 9,
+                      "mBonusPerLevelAtAndAfter": 10,
+                      "__type": "Breakpoint"
+                    }
+                  ],
+                  "__type": "ByCharLevelBreakpointsCalculationPart"
+                },
+                {
+                  "mStat": 12,
+                  "mStatFormula": 2,
+                  "mDataValue": "ShieldAmount",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "{5e4a31e2}": {
+              "mFormulaParts": [
+                {
+                  "mBuffName": "{35c412b6}",
+                  "mCoefficient": 1,
+                  "__type": "BuffCounterByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "mPercentTenacityItemMod": 0.30000001192092896,
+          "mFlatMovementSpeedMod": 45,
+          "mFlatSpellBlockMod": 25,
+          "mCategories": [
+            "SpellBlock",
+            "Boots",
+            "Tenacity",
+            "MagicResist"
+          ],
+          "mItemDataAvailability": {
+            "mInStore": true,
+            "mForceLoad": true,
+            "__type": "ItemDataAvailability"
+          },
+          "LastMajorChangeMajorPatchVersion": 13,
+          "LastMajorChangeMinorPatchVersion": 16,
+          "mItemDataClient": {
+            "mTooltipData": {
+              "mObjectName": "3173",
+              "mFormat": "{32559c50}",
+              "EnableExtendedTooltip": false,
+              "mLocKeys": {
+                "keyName": "Item_3173_Name",
+                "keyTooltip": "Item_3173_Tooltip",
+                "keyShopOnlyText": "Item_3172_ShopOnlyText",
+                "keyInventoryOnlyText": "Item_3173_InventoryOnlyText",
+                "keyFlavorText": "Item_3173_FlavorText"
+              },
+              "mLists": {
+                "Stats": {
+                  "Elements": [
+                    {
+                      "type": "MagicResist",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "MoveSpeed",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "Tenacity",
+                      "__type": "TooltipInstanceListElement"
+                    }
+                  ],
+                  "__type": "TooltipInstanceList"
+                }
+              },
+              "__type": "TooltipInstanceItem"
+            },
+            "mDescription": "GeneratedTip_Item_3173_Description",
+            "mDynamicTooltip": "GeneratedTip_Item_3173_TooltipInventory",
+            "mShopTooltip": "GeneratedTip_Item_3173_TooltipShop",
+            "inventoryIcon": "assets/items/icons2d/boots_tier3_mercury_64.dds",
+            "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/boots_tier3_mercury_44_360.png",
+            "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/boots_tier3_mercury_88_360.png",
+            "epicness": 0,
+            "__type": "ItemDataClient"
+          },
+          "__type": "ItemData"
+        },
+        "official": {
+          "name": "带链碾碎者",
+          "description": "<mainText><stats><attention>25</attention>魔法抗性<br><attention>45</attention>移动速度<br><attention>30%</attention>韧性</stats><br><br><passive>诺克萨斯的不懈</passive>(0秒)<br>在受到来自英雄的魔法伤害后，获得一个持续5秒的<shield>0</shield><magicDamage>魔法</magicDamage><shield>护盾</shield>。</mainText>",
+          "colloq": ";yilishadeqiji;ylsdqj",
+          "plaintext": "提升移动速度和冷却缩减",
+          "from": [
+            "3111"
+          ],
+          "image": {
+            "full": "3173.png",
+            "sprite": "item4.png",
+            "group": "item",
+            "x": 240,
+            "y": 48,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 0,
+            "purchasable": true,
+            "total": 1250,
+            "sell": 875
+          },
+          "tags": [
+            "SpellBlock",
+            "Boots",
+            "Tenacity",
+            "MagicResist"
+          ],
+          "maps": {
+            "11": true,
+            "12": false,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatSpellBlockMod": 25,
+            "FlatMovementSpeedMod": 45
+          },
+          "depth": 3
+        },
+        "bindings": [
+          {
+            "field": "keyName",
+            "key": "Item_3173_Name",
+            "pointer": "/entries/item_3173_name",
+            "text": "带链碾碎者"
+          },
+          {
+            "field": "keyTooltip",
+            "key": "Item_3173_Tooltip",
+            "pointer": "/entries/item_3173_tooltip",
+            "text": "<passive>诺克萨斯的不懈</passive>{{ Item_Cooldown }}<br>在受到来自英雄的魔法伤害后，获得一个持续@ShieldDuration@秒的<shield>@ShieldAmountCalc@</shield><magicDamage>魔法</magicDamage><shield>护盾</shield>。"
+          },
+          {
+            "field": "keyShopOnlyText",
+            "key": "Item_3172_ShopOnlyText",
+            "pointer": "/entries/item_3172_shoponlytext",
+            "text": "<rules><font color = '#FF0000'>(仅中路)锁定至任务完成为止</font></rules>"
+          },
+          {
+            "field": "keyInventoryOnlyText",
+            "key": "Item_3173_InventoryOnlyText",
+            "pointer": "/entries/item_3173_inventoryonlytext",
+            "text": "护盾已格挡的伤害值：<attention>@f5@</attention>"
+          },
+          {
+            "field": "keyFlavorText",
+            "key": "Item_3173_FlavorText",
+            "pointer": "/entries/item_3173_flavortext",
+            "text": "诺克萨斯和魔法有一段浩瀚广阔、丰富多彩的历史……"
+          }
+        ]
+      },
+      "parentItemId": 3111,
+      "scope": "已有资料清单中的特殊升级或使用后形态，不纳入181件普通装备历史批次；未建立额外升级表或虚构变换规则。"
+    },
+    {
+      "itemId": "3174",
+      "equipmentKey": "item_3174",
+      "name": "装甲战靴",
+      "imageKey": "item_3174",
+      "description": "来源：官方16.17.1装备3174及客户端16.17。原始说明：35 护甲 45 移动速度 镀板 使即将到来的攻击伤害降低10%。 诺克萨斯的耐久 (0秒) 在受到来自英雄的物理伤害后，获得一个持续5秒的 0 物理 护盾 。 升级或使用后形态；本批保存明确直接属性，相关技能效果及变换接线另行录入。",
+      "attributeValues": {
+        "move_speed": 45,
+        "armor": 35
+      },
+      "proofs": [
+        {
+          "attributeKey": "move_speed",
+          "value": 45,
+          "sourceValue": 45,
+          "pointer": "/Items~13174/mFlatMovementSpeedMod"
+        },
+        {
+          "attributeKey": "armor",
+          "value": 35,
+          "sourceValue": 35,
+          "pointer": "/Items~13174/mFlatArmorMod"
+        }
+      ],
+      "source": {
+        "pointer": "/Items~13174",
+        "object": {
+          "mDisplayName": "Item_3174_Name",
+          "itemID": 3174,
+          "maxStack": 1,
+          "mItemGroups": [
+            "Items/ItemGroups/Default",
+            "{9c3607ae}",
+            "Items/ItemGroups/Boots"
+          ],
+          "mRequiredBuffCurrencyName": "Feats_NoxianBootPurchaseBuff",
+          "mCanBeSold": true,
+          "epicness": 7,
+          "recipeItemLinks": [
+            "Items/3047"
+          ],
+          "mDataValues": [
+            {
+              "mName": "DamageReduction",
+              "mValue": 0.10000000149011612,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "Cooldown",
+              "mValue": 15,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "ShieldAmount",
+              "mValue": 0.07999999821186066,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "ShieldDuration",
+              "mValue": 5,
+              "__type": "ItemDataValue"
+            }
+          ],
+          "mItemCalculations": {
+            "ShieldAmountCalc": {
+              "mFormulaParts": [
+                {
+                  "mLevel1Value": 90,
+                  "mBreakpoints": [
+                    {
+                      "mLevel": 9,
+                      "mBonusPerLevelAtAndAfter": 10,
+                      "__type": "Breakpoint"
+                    }
+                  ],
+                  "__type": "ByCharLevelBreakpointsCalculationPart"
+                },
+                {
+                  "mStat": 12,
+                  "mStatFormula": 2,
+                  "mDataValue": "ShieldAmount",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "{5e4a31e2}": {
+              "mFormulaParts": [
+                {
+                  "mBuffName": "{35c412b6}",
+                  "mCoefficient": 1,
+                  "__type": "BuffCounterByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "mFlatMovementSpeedMod": 45,
+          "mFlatArmorMod": 35,
+          "mCategories": [
+            "Armor",
+            "Boots"
+          ],
+          "mItemDataAvailability": {
+            "mInStore": true,
+            "mForceLoad": true,
+            "__type": "ItemDataAvailability"
+          },
+          "LastMajorChangeMajorPatchVersion": 13,
+          "LastMajorChangeMinorPatchVersion": 16,
+          "mItemDataClient": {
+            "mTooltipData": {
+              "mObjectName": "3174",
+              "mFormat": "{32559c50}",
+              "EnableExtendedTooltip": false,
+              "mLocKeys": {
+                "keyName": "Item_3174_Name",
+                "keyTooltip": "Item_3174_Tooltip",
+                "keyShopOnlyText": "Item_3172_ShopOnlyText",
+                "keyInventoryOnlyText": "Item_3174_InventoryOnlyText",
+                "keyFlavorText": "Item_3174_FlavorText"
+              },
+              "mLists": {
+                "Stats": {
+                  "Elements": [
+                    {
+                      "type": "Armor",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "MoveSpeed",
+                      "__type": "TooltipInstanceListElement"
+                    }
+                  ],
+                  "__type": "TooltipInstanceList"
+                }
+              },
+              "__type": "TooltipInstanceItem"
+            },
+            "mDescription": "GeneratedTip_Item_3174_Description",
+            "mDynamicTooltip": "GeneratedTip_Item_3174_TooltipInventory",
+            "mShopTooltip": "GeneratedTip_Item_3174_TooltipShop",
+            "inventoryIcon": "assets/items/icons2d/boots_tier3_platedsteelcaps_64.dds",
+            "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/boots_tier3_platedsteelcaps_44_360.png",
+            "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/boots_tier3_platedsteelcaps_88_360.png",
+            "epicness": 0,
+            "__type": "ItemDataClient"
+          },
+          "__type": "ItemData"
+        },
+        "official": {
+          "name": "装甲战靴",
+          "description": "<mainText><stats><attention>35</attention>护甲<br><attention>45</attention>移动速度</stats><br><br><passive>镀板</passive><br>使即将到来的攻击伤害降低10%。<br><br><passive>诺克萨斯的耐久</passive> (0秒)<br>在受到来自英雄的物理伤害后，获得一个持续5秒的<shield>0</shield><physicalDamage>物理</physicalDamage><shield>护盾</shield>。</mainText>",
+          "colloq": ";yadiannadexieeshengbei;ydndxesb;大圣杯",
+          "plaintext": "造成伤害会强化你的治疗和护盾技能",
+          "from": [
+            "3047"
+          ],
+          "image": {
+            "full": "3174.png",
+            "sprite": "item4.png",
+            "group": "item",
+            "x": 288,
+            "y": 48,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 0,
+            "purchasable": true,
+            "total": 1200,
+            "sell": 840
+          },
+          "tags": [
+            "Armor",
+            "Boots"
+          ],
+          "maps": {
+            "11": true,
+            "12": false,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatMovementSpeedMod": 45,
+            "FlatArmorMod": 35
+          },
+          "depth": 3
+        },
+        "bindings": [
+          {
+            "field": "keyName",
+            "key": "Item_3174_Name",
+            "pointer": "/entries/item_3174_name",
+            "text": "装甲战靴"
+          },
+          {
+            "field": "keyTooltip",
+            "key": "Item_3174_Tooltip",
+            "pointer": "/entries/item_3174_tooltip",
+            "text": "<passive>镀板</passive><br>使即将到来的攻击伤害降低@DamageReduction*100@%。<br><br><passive>诺克萨斯的耐久</passive> {{ Item_Cooldown }}<br>在受到来自英雄的物理伤害后，获得一个持续@ShieldDuration@秒的<shield>@ShieldAmountCalc@</shield><physicalDamage>物理</physicalDamage><shield>护盾</shield>。"
+          },
+          {
+            "field": "keyShopOnlyText",
+            "key": "Item_3172_ShopOnlyText",
+            "pointer": "/entries/item_3172_shoponlytext",
+            "text": "<rules><font color = '#FF0000'>(仅中路)锁定至任务完成为止</font></rules>"
+          },
+          {
+            "field": "keyInventoryOnlyText",
+            "key": "Item_3174_InventoryOnlyText",
+            "pointer": "/entries/item_3174_inventoryonlytext",
+            "text": "护盾已格挡的伤害值：<attention>@f5@</attention>"
+          },
+          {
+            "field": "keyFlavorText",
+            "key": "Item_3174_FlavorText",
+            "pointer": "/entries/item_3174_flavortext",
+            "text": "“没有什么比一千名士兵的一次前进更光荣的了。” - 法荣队长"
+          }
+        ]
+      },
+      "parentItemId": 3047,
+      "scope": "已有资料清单中的特殊升级或使用后形态，不纳入181件普通装备历史批次；未建立额外升级表或虚构变换规则。"
+    },
+    {
+      "itemId": "3175",
+      "equipmentKey": "item_3175",
+      "name": "灵能使之靴",
+      "imageKey": "item_3175",
+      "description": "来源：官方16.17.1装备3175及客户端16.17。原始说明：20 法术穿透 8% 法术穿透 45 移动速度 升级或使用后形态；本批保存明确直接属性，相关技能效果及变换接线另行录入。",
+      "attributeValues": {
+        "move_speed": 45,
+        "magic_pen_flat": 20,
+        "magic_pen_percent": 0.08
+      },
+      "proofs": [
+        {
+          "attributeKey": "move_speed",
+          "value": 45,
+          "sourceValue": 45,
+          "pointer": "/Items~13175/mFlatMovementSpeedMod"
+        },
+        {
+          "attributeKey": "magic_pen_flat",
+          "value": 20,
+          "sourceValue": 20,
+          "pointer": "/Items~13175/mFlatMagicPenetrationMod"
+        },
+        {
+          "attributeKey": "magic_pen_percent",
+          "value": 0.08,
+          "sourceValue": 0.07999999821186066,
+          "pointer": "/Items~13175/mPercentMagicPenetrationMod"
+        }
+      ],
+      "source": {
+        "pointer": "/Items~13175",
+        "object": {
+          "mDisplayName": "Item_3175_Name",
+          "itemID": 3175,
+          "maxStack": 1,
+          "mItemGroups": [
+            "Items/ItemGroups/Default",
+            "{9d360941}",
+            "Items/ItemGroups/Boots"
+          ],
+          "mRequiredBuffCurrencyName": "Feats_NoxianBootPurchaseBuff",
+          "mCanBeSold": true,
+          "epicness": 7,
+          "recipeItemLinks": [
+            "Items/3020"
+          ],
+          "mItemCalculations": {
+            "{5e4a31e2}": {
+              "mFormulaParts": [
+                {
+                  "mBuffName": "{35c412b6}",
+                  "mCoefficient": 1,
+                  "__type": "BuffCounterByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "mFlatMovementSpeedMod": 45,
+          "mFlatMagicPenetrationMod": 20,
+          "mPercentMagicPenetrationMod": 0.07999999821186066,
+          "mCategories": [
+            "Boots",
+            "MagicPenetration"
+          ],
+          "mItemDataAvailability": {
+            "mInStore": true,
+            "__type": "ItemDataAvailability"
+          },
+          "LastMajorChangeMajorPatchVersion": 13,
+          "LastMajorChangeMinorPatchVersion": 16,
+          "mItemDataClient": {
+            "mTooltipData": {
+              "mObjectName": "3175",
+              "mFormat": "{32559c50}",
+              "EnableExtendedTooltip": false,
+              "mLocKeys": {
+                "keyName": "Item_3175_Name",
+                "keyTooltip": "Item_3175_Tooltip",
+                "keyShopOnlyText": "Item_3172_ShopOnlyText",
+                "keyFlavorText": "Item_3175_FlavorText"
+              },
+              "mLists": {
+                "Stats": {
+                  "Elements": [
+                    {
+                      "type": "MagicPen",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "MagicPenPercent",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "MoveSpeed",
+                      "__type": "TooltipInstanceListElement"
+                    }
+                  ],
+                  "__type": "TooltipInstanceList"
+                }
+              },
+              "__type": "TooltipInstanceItem"
+            },
+            "mDescription": "GeneratedTip_Item_3175_Description",
+            "mDynamicTooltip": "GeneratedTip_Item_3175_TooltipInventory",
+            "mShopTooltip": "GeneratedTip_Item_3175_TooltipShop",
+            "inventoryIcon": "assets/items/icons2d/boots_tier3_sorceror_64.dds",
+            "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/boots_tier3_sorceror_44_360.png",
+            "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/boots_tier3_sorceror_88_360.png",
+            "epicness": 0,
+            "__type": "ItemDataClient"
+          },
+          "__type": "ItemData"
+        },
+        "official": {
+          "name": "灵能使之靴",
+          "description": "<mainText><stats><attention>20</attention>法术穿透<br><attention>8%</attention>法术穿透<br><attention>45</attention>移动速度</stats><br><br></mainText>",
+          "colloq": "",
+          "plaintext": "",
+          "from": [
+            "3020"
+          ],
+          "image": {
+            "full": "3175.png",
+            "sprite": "item4.png",
+            "group": "item",
+            "x": 336,
+            "y": 48,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 0,
+            "purchasable": true,
+            "total": 1100,
+            "sell": 770
+          },
+          "tags": [
+            "Boots",
+            "MagicPenetration"
+          ],
+          "maps": {
+            "11": true,
+            "12": false,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatMovementSpeedMod": 45
+          },
+          "depth": 3
+        },
+        "bindings": [
+          {
+            "field": "keyName",
+            "key": "Item_3175_Name",
+            "pointer": "/entries/item_3175_name",
+            "text": "灵能使之靴"
+          },
+          {
+            "field": "keyTooltip",
+            "key": "Item_3175_Tooltip",
+            "pointer": "/entries/item_3175_tooltip",
+            "text": ""
+          },
+          {
+            "field": "keyShopOnlyText",
+            "key": "Item_3172_ShopOnlyText",
+            "pointer": "/entries/item_3172_shoponlytext",
+            "text": "<rules><font color = '#FF0000'>(仅中路)锁定至任务完成为止</font></rules>"
+          },
+          {
+            "field": "keyFlavorText",
+            "key": "Item_3175_FlavorText",
+            "pointer": "/entries/item_3175_flavortext",
+            "text": "一记精心计算的步伐。无穷无尽的误导。"
+          }
+        ]
+      },
+      "parentItemId": 3020,
+      "scope": "已有资料清单中的特殊升级或使用后形态，不纳入181件普通装备历史批次；未建立额外升级表或虚构变换规则。"
+    },
+    {
+      "itemId": "3176",
+      "equipmentKey": "item_3176",
+      "name": "永远前进",
+      "imageKey": "item_3176",
+      "description": "来源：官方16.17.1装备3176及客户端16.17。原始说明：55 移动速度 无所不在 获得一个新的主动效果：传送。 虚空生物 获得强化回城 诺克萨斯的同步 获得 45移动速度 和脱离战斗时 8%总移动速度 。 升级或使用后形态；本批保存明确直接属性，相关技能效果及变换接线另行录入。",
+      "attributeValues": {
+        "move_speed": 55
+      },
+      "proofs": [
+        {
+          "attributeKey": "move_speed",
+          "value": 55,
+          "sourceValue": 55,
+          "pointer": "/Items~13176/mFlatMovementSpeedMod"
+        }
+      ],
+      "source": {
+        "pointer": "/Items~13176",
+        "object": {
+          "mDisplayName": "Item_3176_Name",
+          "itemID": 3176,
+          "maxStack": 1,
+          "mItemGroups": [
+            "Items/ItemGroups/Default",
+            "{9a360488}",
+            "Items/ItemGroups/Boots",
+            "Items/ItemGroups/BootsWithoutActives"
+          ],
+          "mRequiredBuffCurrencyName": "Feats_SpecialQuestBootBuff",
+          "mCanBeSold": true,
+          "epicness": 7,
+          "recipeItemLinks": [
+            "Items/3013"
+          ],
+          "mDataValues": [
+            {
+              "mName": "MSBonus",
+              "mValue": 45,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "MoveSpeedMultiplier",
+              "mValue": 0.07999999821186066,
+              "__type": "ItemDataValue"
+            }
+          ],
+          "mItemCalculations": {
+            "{5e4a31e2}": {
+              "mFormulaParts": [
+                {
+                  "mBuffName": "{35c412b6}",
+                  "mCoefficient": 1,
+                  "__type": "BuffCounterByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "mFlatMovementSpeedMod": 55,
+          "mCategories": [
+            "Boots"
+          ],
+          "LastMajorChangeMajorPatchVersion": 13,
+          "LastMajorChangeMinorPatchVersion": 16,
+          "mItemDataClient": {
+            "mTooltipData": {
+              "mObjectName": "3176",
+              "mFormat": "{32559c50}",
+              "EnableExtendedTooltip": false,
+              "mLocKeys": {
+                "keyName": "Item_3176_Name",
+                "keyTooltip": "Item_3176_Tooltip",
+                "keyShopOnlyText": "Item_3172_ShopOnlyText",
+                "keyFlavorText": "Item_3176_FlavorText"
+              },
+              "mLists": {
+                "Stats": {
+                  "Elements": [
+                    {
+                      "type": "MoveSpeed",
+                      "__type": "TooltipInstanceListElement"
+                    }
+                  ],
+                  "__type": "TooltipInstanceList"
+                }
+              },
+              "__type": "TooltipInstanceItem"
+            },
+            "mDescription": "GeneratedTip_Item_3176_Description",
+            "mDynamicTooltip": "GeneratedTip_Item_3176_TooltipInventory",
+            "mShopTooltip": "GeneratedTip_Item_3176_TooltipShop",
+            "inventoryIcon": "assets/items/icons2d/boots_tier3_syncronisedsouls_64.dds",
+            "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/boots_tier3_syncronisedsouls_44_360.png",
+            "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/boots_tier3_syncronisedsouls_88_360.png",
+            "epicness": 0,
+            "__type": "ItemDataClient"
+          },
+          "__type": "ItemData"
+        },
+        "official": {
+          "name": "永远前进",
+          "description": "<mainText><stats><attention>55</attention>移动速度</stats><br><br><passive>无所不在</passive><br>获得一个新的主动效果：传送。<br><br><passive>虚空生物</passive><br>获得强化回城<br><br><passive>诺克萨斯的同步</passive><br>获得<speed>45移动速度</speed>和脱离战斗时<speed>8%总移动速度</speed>。</mainText>",
+          "colloq": ";",
+          "plaintext": "",
+          "from": [
+            "3013"
+          ],
+          "inStore": false,
+          "image": {
+            "full": "3176.png",
+            "sprite": "item4.png",
+            "group": "item",
+            "x": 384,
+            "y": 48,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 0,
+            "purchasable": false,
+            "total": 900,
+            "sell": 630
+          },
+          "tags": [
+            "Boots"
+          ],
+          "maps": {
+            "11": true,
+            "12": false,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatMovementSpeedMod": 55
+          },
+          "depth": 4
+        },
+        "bindings": [
+          {
+            "field": "keyName",
+            "key": "Item_3176_Name",
+            "pointer": "/entries/item_3176_name",
+            "text": "永远前进"
+          },
+          {
+            "field": "keyTooltip",
+            "key": "Item_3176_Tooltip",
+            "pointer": "/entries/item_3176_tooltip",
+            "text": "<passive>无所不在</passive><br>获得一个新的主动效果：传送。<br><br><passive>虚空生物</passive><br>获得强化回城<br><br><passive>诺克萨斯的同步</passive><br>获得<speed>@MSBonus@移动速度</speed>和脱离战斗时<speed>@MoveSpeedMultiplier*100@%总移动速度</speed>。"
+          },
+          {
+            "field": "keyShopOnlyText",
+            "key": "Item_3172_ShopOnlyText",
+            "pointer": "/entries/item_3172_shoponlytext",
+            "text": "<rules><font color = '#FF0000'>(仅中路)锁定至任务完成为止</font></rules>"
+          },
+          {
+            "field": "keyFlavorText",
+            "key": "Item_3176_FlavorText",
+            "pointer": "/entries/item_3176_flavortext",
+            "text": "“诺克萨斯帝国将会永存……日臻完善。”"
+          }
+        ]
+      },
+      "parentItemId": 3013,
+      "scope": "已有资料清单中的特殊升级或使用后形态，不纳入181件普通装备历史批次；未建立额外升级表或虚构变换规则。"
+    }
+  ]
+}

@@ -1,0 +1,2889 @@
+{
+  "at": "2026-09-09T03:28:55.931Z",
+  "executor": "主负责人",
+  "scope": "12项普通符文候选，业务写入尚未执行",
+  "counts": {
+    "skill": 12,
+    "parameter": 78,
+    "formula": 17,
+    "effect": 1,
+    "relation": 12,
+    "rule": 0,
+    "process": 0,
+    "internalState": 0
+  },
+  "proposals": [
+    {
+      "id": 8112,
+      "runeKey": "rune_8112",
+      "skillKey": "rune_8112_passive",
+      "name": "电刑",
+      "scope": "电刑等级基础值、双属性系数和三次独立命中条件；伤害类型选择与事件未连接",
+      "sourcePath": "Perks/Styles/Domination/Electrocute",
+      "sourceObjectSha256": "b0d12aa90ef08d24ae6bcb86170edaa9105a96e9977225ec66f25fe60eb66eac",
+      "parameters": [
+        {
+          "parameterKey": "confirmed_level_base_source_start",
+          "name": "等级基础伤害来源起点",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 70,
+          "levelValues": null,
+          "description": "仅保留当前来源起点，不凭端点生成1至18级表。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "confirmed_level_base_source_end",
+          "name": "等级基础伤害来源终点",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 240,
+          "levelValues": null,
+          "description": "仅保留当前来源终点；等级求值过程待补。",
+          "sortOrder": 20
+        },
+        {
+          "parameterKey": "confirmed_level_base",
+          "name": "已确认等级基础伤害",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+          "sortOrder": 30
+        },
+        {
+          "parameterKey": "ability_power_ratio",
+          "name": "法术强度系数",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.05,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 40
+        },
+        {
+          "parameterKey": "bonus_attack_damage_ratio",
+          "name": "额外攻击力系数",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.1,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 50
+        },
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "冷却时间",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 20000,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 60
+        },
+        {
+          "parameterKey": "hit_window_ms",
+          "name": "独立命中窗口",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 3000,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 70
+        },
+        {
+          "parameterKey": "required_unique_hits",
+          "name": "所需独立命中次数",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 3,
+          "levelValues": null,
+          "description": "当前绑定明确3个独立攻击或技能。",
+          "sortOrder": 80
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "damage_amount",
+          "name": "伤害数值",
+          "description": "对应当前绑定计算树；等级基础值须明确外供。法强与额外攻击力直接读取来源属性，不填虚构值。",
+          "sortOrder": 10,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "confirmed_level_base"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "ability_power",
+                        "attributeValueKind": "TOTAL"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "ability_power_ratio"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "BONUS"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_attack_damage_ratio"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "effects": [],
+      "triggerRules": [],
+      "processes": [],
+      "internalStates": [],
+      "parameterEvidence": [
+        {
+          "parameterKey": "confirmed_level_base_source_start",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Domination/Electrocute/mScript/mSpellScriptData/mEffectAmount/DamageBase",
+          "sourceRawValue": 70,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "confirmed_level_base_source_end",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Domination/Electrocute/mScript/mSpellScriptData/mEffectAmount/DamageMax",
+          "sourceRawValue": 240,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "confirmed_level_base",
+          "category": "未接线输入",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": false
+        },
+        {
+          "parameterKey": "ability_power_ratio",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Domination/Electrocute/mScript/mSpellScriptData/mEffectAmount/APRatio",
+          "sourceRawValue": 0.05000000074505806,
+          "scale": 1,
+          "normalization": "同版本绑定说明的可读数值；仅清除float32尾差，容差1e-7相对值",
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "bonus_attack_damage_ratio",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Domination/Electrocute/mScript/mSpellScriptData/mEffectAmount/BonusADRatio",
+          "sourceRawValue": 0.10000000149011612,
+          "scale": 1,
+          "normalization": "同版本绑定说明的可读数值；仅清除float32尾差，容差1e-7相对值",
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "cooldown_ms",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Domination/Electrocute/mScript/mSpellScriptData/mEffectAmount/Cooldown",
+          "sourceRawValue": 20,
+          "scale": 1000,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "hit_window_ms",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Domination/Electrocute/mScript/mSpellScriptData/mEffectAmount/WindowDuration",
+          "sourceRawValue": 3,
+          "scale": 1000,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "required_unique_hits",
+          "category": "当前绑定正文",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        }
+      ],
+      "pending": [
+        {
+          "type": "来源",
+          "reason": "等级基础伤害曲线起止等级、选项、取整及断点求值未完整证实",
+          "needed": "同构建的完整求值依据；本批显式外供数值"
+        },
+        {
+          "type": "未接线",
+          "reason": "独立命中去重、窗口维护及自适应类型未连接",
+          "needed": "核实触发资格、取值时点和对象归属后装配"
+        }
+      ],
+      "excluded": [],
+      "qualification": {
+        "required": [
+          "3秒内3个独立攻击或技能命中同一英雄",
+          "冷却可用",
+          "自适应伤害类型已确定"
+        ],
+        "notDefaulted": [
+          "未满足资格也生效",
+          "来源创建后自动触发",
+          "未知等级数值默认为0"
+        ]
+      },
+      "skillBody": {
+        "skillKey": "rune_8112_passive",
+        "name": "符文·电刑",
+        "description": "本批仅录入：电刑等级基础值、双属性系数和三次独立命中条件；伤害类型选择与事件未连接。其余条件尚未连接，不代表完整符文。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      },
+      "relationBody": {
+        "runeKey": "rune_8112",
+        "skillKey": "rune_8112_passive",
+        "sortOrder": 0
+      }
+    },
+    {
+      "id": 8126,
+      "runeKey": "rune_8126",
+      "skillKey": "rune_8126_passive",
+      "name": "恶意中伤",
+      "scope": "恶意中伤等级真实伤害数值与冷却；控制资格未连接",
+      "sourcePath": "Perks/Styles/Domination/CheapShot",
+      "sourceObjectSha256": "28c7c40877a4a5b6d4464d83d0cb57a8f1de30f9819758352644d9c7d6c0b36c",
+      "parameters": [
+        {
+          "parameterKey": "confirmed_level_base_source_start",
+          "name": "等级基础伤害来源起点",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 10,
+          "levelValues": null,
+          "description": "仅保留当前来源起点，不凭端点生成1至18级表。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "confirmed_level_base_source_end",
+          "name": "等级基础伤害来源终点",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 45,
+          "levelValues": null,
+          "description": "仅保留当前来源终点；等级求值过程待补。",
+          "sortOrder": 20
+        },
+        {
+          "parameterKey": "confirmed_level_base",
+          "name": "已确认等级基础伤害",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+          "sortOrder": 30
+        },
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "冷却时间",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 4000,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 40
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "damage_amount",
+          "name": "伤害数值",
+          "description": "对应当前绑定计算树；等级基础值须明确外供。法强与额外攻击力直接读取来源属性，不填虚构值。",
+          "sortOrder": 10,
+          "expression": {
+            "nodeType": "PARAMETER",
+            "parameterKey": "confirmed_level_base"
+          }
+        }
+      ],
+      "effects": [],
+      "triggerRules": [],
+      "processes": [],
+      "internalStates": [],
+      "parameterEvidence": [
+        {
+          "parameterKey": "confirmed_level_base_source_start",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Domination/CheapShot/mScript/mSpellScriptData/mEffectAmount/DamageIncMin",
+          "sourceRawValue": 10,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "confirmed_level_base_source_end",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Domination/CheapShot/mScript/mSpellScriptData/mEffectAmount/DamageIncMax",
+          "sourceRawValue": 45,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "confirmed_level_base",
+          "category": "未接线输入",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": false
+        },
+        {
+          "parameterKey": "cooldown_ms",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Domination/CheapShot/mScript/mSpellScriptData/mEffectAmount/Cooldown",
+          "sourceRawValue": 4,
+          "scale": 1000,
+          "normalization": null,
+          "defaultSupplied": true
+        }
+      ],
+      "pending": [
+        {
+          "type": "来源",
+          "reason": "等级基础伤害曲线起止等级、选项、取整及断点求值未完整证实",
+          "needed": "同构建的完整求值依据；本批显式外供数值"
+        },
+        {
+          "type": "未接线",
+          "reason": "状态全集和先控制后伤害的判定尚未连接",
+          "needed": "核实触发资格、取值时点和对象归属后装配"
+        }
+      ],
+      "excluded": [],
+      "qualification": {
+        "required": [
+          "目标英雄移动或行动受损",
+          "在移动受损之后触发",
+          "冷却可用"
+        ],
+        "notDefaulted": [
+          "未满足资格也生效",
+          "来源创建后自动触发",
+          "未知等级数值默认为0"
+        ]
+      },
+      "skillBody": {
+        "skillKey": "rune_8126_passive",
+        "name": "符文·恶意中伤",
+        "description": "本批仅录入：恶意中伤等级真实伤害数值与冷却；控制资格未连接。其余条件尚未连接，不代表完整符文。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      },
+      "relationBody": {
+        "runeKey": "rune_8126",
+        "skillKey": "rune_8126_passive",
+        "sortOrder": 0
+      }
+    },
+    {
+      "id": 8139,
+      "runeKey": "rune_8139",
+      "skillKey": "rune_8139_passive",
+      "name": "血之滋味",
+      "scope": "血之滋味恢复数值和20秒冷却；恢复时序待证",
+      "sourcePath": "Perks/Styles/Domination/TasteOfBlood",
+      "sourceObjectSha256": "aa28bda176338b06eeb31c110d5c2e8363bc1cd2176d6fac7aff80fc54afccaf",
+      "parameters": [
+        {
+          "parameterKey": "confirmed_level_base_source_start",
+          "name": "等级基础恢复来源起点",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 16,
+          "levelValues": null,
+          "description": "仅保留当前来源起点，不凭端点生成1至18级表。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "confirmed_level_base_source_end",
+          "name": "等级基础恢复来源终点",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 40,
+          "levelValues": null,
+          "description": "仅保留当前来源终点；等级求值过程待补。",
+          "sortOrder": 20
+        },
+        {
+          "parameterKey": "confirmed_level_base",
+          "name": "已确认等级基础恢复",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+          "sortOrder": 30
+        },
+        {
+          "parameterKey": "ability_power_ratio",
+          "name": "法术强度系数",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.05,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 40
+        },
+        {
+          "parameterKey": "bonus_attack_damage_ratio",
+          "name": "额外攻击力系数",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.1,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 50
+        },
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "冷却时间",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 20000,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 60
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "heal_amount",
+          "name": "自身恢复数值",
+          "description": "对应当前绑定计算树；等级基础值须明确外供。法强与额外攻击力直接读取来源属性，不填虚构值。",
+          "sortOrder": 10,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "confirmed_level_base"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "ability_power",
+                        "attributeValueKind": "TOTAL"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "ability_power_ratio"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "BONUS"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_attack_damage_ratio"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "effects": [],
+      "triggerRules": [],
+      "processes": [],
+      "internalStates": [],
+      "parameterEvidence": [
+        {
+          "parameterKey": "confirmed_level_base_source_start",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Domination/TasteOfBlood/mScript/mSpellScriptData/mEffectAmount/HealAmount",
+          "sourceRawValue": 16,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "confirmed_level_base_source_end",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Domination/TasteOfBlood/mScript/mSpellScriptData/mEffectAmount/HealAmountMax",
+          "sourceRawValue": 40,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "confirmed_level_base",
+          "category": "未接线输入",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": false
+        },
+        {
+          "parameterKey": "ability_power_ratio",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Domination/TasteOfBlood/mScript/mSpellScriptData/mEffectAmount/APRatio",
+          "sourceRawValue": 0.05000000074505806,
+          "scale": 1,
+          "normalization": "同版本绑定说明的可读数值；仅清除float32尾差，容差1e-7相对值",
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "bonus_attack_damage_ratio",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Domination/TasteOfBlood/mScript/mSpellScriptData/mEffectAmount/ADRatio",
+          "sourceRawValue": 0.10000000149011612,
+          "scale": 1,
+          "normalization": "同版本绑定说明的可读数值；仅清除float32尾差，容差1e-7相对值",
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "cooldown_ms",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Domination/TasteOfBlood/mScript/mSpellScriptData/mEffectAmount/Cooldown",
+          "sourceRawValue": 20,
+          "scale": 1000,
+          "normalization": null,
+          "defaultSupplied": true
+        }
+      ],
+      "pending": [
+        {
+          "type": "来源",
+          "reason": "等级基础恢复曲线起止等级、选项、取整及断点求值未完整证实",
+          "needed": "同构建的完整求值依据；本批显式外供数值"
+        },
+        {
+          "type": "未接线",
+          "reason": "恢复触发及采样时点未连接",
+          "needed": "核实触发资格、取值时点和对象归属后装配"
+        },
+        {
+          "type": "来源",
+          "reason": "当前正文未绑定RegenDuration=4，不能确定瞬时或4秒持续恢复",
+          "needed": "当前治疗执行链"
+        }
+      ],
+      "excluded": [
+        {
+          "field": "RegenDuration",
+          "value": 4,
+          "reason": "原字段保留资料，未取得当前消费证明，不生成持续参数或瞬时治疗效果"
+        }
+      ],
+      "qualification": {
+        "required": [
+          "伤害敌方英雄",
+          "冷却可用"
+        ],
+        "notDefaulted": [
+          "未满足资格也生效",
+          "来源创建后自动触发",
+          "未知等级数值默认为0"
+        ]
+      },
+      "skillBody": {
+        "skillKey": "rune_8139_passive",
+        "name": "符文·血之滋味",
+        "description": "本批仅录入：血之滋味恢复数值和20秒冷却；恢复时序待证。其余条件尚未连接，不代表完整符文。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      },
+      "relationBody": {
+        "runeKey": "rune_8139",
+        "skillKey": "rune_8139_passive",
+        "sortOrder": 0
+      }
+    },
+    {
+      "id": 8143,
+      "runeKey": "rune_8143",
+      "skillKey": "rune_8143_passive",
+      "name": "猛然冲击",
+      "scope": "猛然冲击等级真实伤害数值与4秒待用窗口",
+      "sourcePath": "Perks/Styles/Domination/SuddenImpact",
+      "sourceObjectSha256": "6d080fa9ed3e5e2e37e5ff0713a5db28894de5dd176d79d3a44064f944f1350e",
+      "parameters": [
+        {
+          "parameterKey": "confirmed_level_base_source_start",
+          "name": "等级基础伤害来源起点",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 20,
+          "levelValues": null,
+          "description": "仅保留当前来源起点，不凭端点生成1至18级表。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "confirmed_level_base_source_end",
+          "name": "等级基础伤害来源终点",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 80,
+          "levelValues": null,
+          "description": "仅保留当前来源终点；等级求值过程待补。",
+          "sortOrder": 20
+        },
+        {
+          "parameterKey": "confirmed_level_base",
+          "name": "已确认等级基础伤害",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+          "sortOrder": 30
+        },
+        {
+          "parameterKey": "armed_window_ms",
+          "name": "待用窗口",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 4000,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 40
+        },
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "冷却时间",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 10000,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 50
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "damage_amount",
+          "name": "伤害数值",
+          "description": "对应当前绑定计算树；等级基础值须明确外供。法强与额外攻击力直接读取来源属性，不填虚构值。",
+          "sortOrder": 10,
+          "expression": {
+            "nodeType": "PARAMETER",
+            "parameterKey": "confirmed_level_base"
+          }
+        }
+      ],
+      "effects": [],
+      "triggerRules": [],
+      "processes": [],
+      "internalStates": [],
+      "parameterEvidence": [
+        {
+          "parameterKey": "confirmed_level_base_source_start",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Domination/SuddenImpact/mScript/mSpellScriptData/mEffectAmount/MinDamageTooltip",
+          "sourceRawValue": 20,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "confirmed_level_base_source_end",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Domination/SuddenImpact/mScript/mSpellScriptData/mEffectAmount/MaxDamageTooltip",
+          "sourceRawValue": 80,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "confirmed_level_base",
+          "category": "未接线输入",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": false
+        },
+        {
+          "parameterKey": "armed_window_ms",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Domination/SuddenImpact/mScript/mSpellScriptData/mEffectAmount/ArmedDuration",
+          "sourceRawValue": 4,
+          "scale": 1000,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "cooldown_ms",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Domination/SuddenImpact/mScript/mSpellScriptData/mEffectAmount/Cooldown",
+          "sourceRawValue": 10,
+          "scale": 1000,
+          "normalization": null,
+          "defaultSupplied": true
+        }
+      ],
+      "pending": [
+        {
+          "type": "来源",
+          "reason": "等级基础伤害曲线起止等级、选项、取整及断点求值未完整证实",
+          "needed": "同构建的完整求值依据；本批显式外供数值"
+        },
+        {
+          "type": "未接线",
+          "reason": "待用资格授予、消费及冷却起点未连接",
+          "needed": "核实触发资格、取值时点和对象归属后装配"
+        }
+      ],
+      "excluded": [],
+      "qualification": {
+        "required": [
+          "合法突进、跃击、闪烁、传送或离开潜行",
+          "随后4秒内用普攻或技能伤害敌方英雄",
+          "冷却可用"
+        ],
+        "notDefaulted": [
+          "未满足资格也生效",
+          "来源创建后自动触发",
+          "未知等级数值默认为0"
+        ]
+      },
+      "skillBody": {
+        "skillKey": "rune_8143_passive",
+        "name": "符文·猛然冲击",
+        "description": "本批仅录入：猛然冲击等级真实伤害数值与4秒待用窗口。其余条件尚未连接，不代表完整符文。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      },
+      "relationBody": {
+        "runeKey": "rune_8143",
+        "skillKey": "rune_8143_passive",
+        "sortOrder": 0
+      }
+    },
+    {
+      "id": 9923,
+      "runeKey": "rune_9923",
+      "skillKey": "rune_9923_passive",
+      "name": "丛刃",
+      "scope": "丛刃近远程攻速比例、三次基础攻击、相邻攻击间隔和真实伤害数值；不默认选择分支",
+      "sourcePath": "Perks/Styles/Domination/HailOfBlades",
+      "sourceObjectSha256": "5545befa5944cbca0b7f82aea5c68506bfa2baed3224a2ffe306bf28dc88b69f",
+      "parameters": [
+        {
+          "parameterKey": "confirmed_level_base_source_start",
+          "name": "等级基础伤害来源起点",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 2,
+          "levelValues": null,
+          "description": "仅保留当前来源起点，不凭端点生成1至18级表。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "confirmed_level_base_source_end",
+          "name": "等级基础伤害来源终点",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 20,
+          "levelValues": null,
+          "description": "仅保留当前来源终点；等级求值过程待补。",
+          "sortOrder": 20
+        },
+        {
+          "parameterKey": "confirmed_level_base",
+          "name": "已确认等级基础伤害",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+          "sortOrder": 30
+        },
+        {
+          "parameterKey": "ability_power_ratio",
+          "name": "法术强度系数",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.1,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 40
+        },
+        {
+          "parameterKey": "bonus_attack_damage_ratio",
+          "name": "额外攻击力系数",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.12,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 50
+        },
+        {
+          "parameterKey": "base_attack_count",
+          "name": "基础攻击次数",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 3,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 60
+        },
+        {
+          "parameterKey": "max_attack_gap_ms",
+          "name": "相邻攻击最大间隔",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 3000,
+          "levelValues": null,
+          "description": "约束相邻攻击间隔，不能作为整个增益3秒固定持续时间。",
+          "sortOrder": 70
+        },
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "冷却时间",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 10000,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 80
+        },
+        {
+          "parameterKey": "melee_attack_speed_ratio",
+          "name": "近战攻击速度比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.9,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 90
+        },
+        {
+          "parameterKey": "ranged_attack_speed_ratio",
+          "name": "远程攻击速度比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.6,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 100
+        },
+        {
+          "parameterKey": "max_bonus_reset_attacks",
+          "name": "重置攻击额外次数上限",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 2,
+          "levelValues": null,
+          "description": "原提示为重置普攻增加次数；该2不是覆盖基础3次的总上限。",
+          "sortOrder": 110
+        },
+        {
+          "parameterKey": "additional_attack_per_reset",
+          "name": "每次普攻重置增加次数",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1,
+          "levelValues": null,
+          "description": "当前绑定明确普攻重置增加1次。",
+          "sortOrder": 120
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "damage_amount",
+          "name": "伤害数值",
+          "description": "对应当前绑定计算树；等级基础值须明确外供。法强与额外攻击力直接读取来源属性，不填虚构值。",
+          "sortOrder": 10,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "confirmed_level_base"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "ability_power",
+                        "attributeValueKind": "TOTAL"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "ability_power_ratio"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "BONUS"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_attack_damage_ratio"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "effects": [],
+      "triggerRules": [],
+      "processes": [],
+      "internalStates": [],
+      "parameterEvidence": [
+        {
+          "parameterKey": "confirmed_level_base_source_start",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Domination/HailOfBlades/mScript/mSpellScriptData/mEffectAmount/BonusDamageMin",
+          "sourceRawValue": 2,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "confirmed_level_base_source_end",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Domination/HailOfBlades/mScript/mSpellScriptData/mEffectAmount/BonusDamageMax",
+          "sourceRawValue": 20,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "confirmed_level_base",
+          "category": "未接线输入",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": false
+        },
+        {
+          "parameterKey": "ability_power_ratio",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Domination/HailOfBlades/mScript/mSpellScriptData/mEffectAmount/APRatio",
+          "sourceRawValue": 0.10000000149011612,
+          "scale": 1,
+          "normalization": "同版本绑定说明的可读数值；仅清除float32尾差，容差1e-7相对值",
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "bonus_attack_damage_ratio",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Domination/HailOfBlades/mScript/mSpellScriptData/mEffectAmount/BonusADRatio",
+          "sourceRawValue": 0.11999999731779099,
+          "scale": 1,
+          "normalization": "同版本绑定说明的可读数值；仅清除float32尾差，容差1e-7相对值",
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "base_attack_count",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Domination/HailOfBlades/mScript/mSpellScriptData/mEffectAmount/NumHits",
+          "sourceRawValue": 3,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "max_attack_gap_ms",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Domination/HailOfBlades/mScript/mSpellScriptData/mEffectAmount/Duration",
+          "sourceRawValue": 3,
+          "scale": 1000,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "cooldown_ms",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Domination/HailOfBlades/mScript/mSpellScriptData/mEffectAmount/Cooldown",
+          "sourceRawValue": 10,
+          "scale": 1000,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "melee_attack_speed_ratio",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Domination/HailOfBlades/mScript/mSpellScriptData/mEffectAmount/ASBoost",
+          "sourceRawValue": 0.8999999761581421,
+          "scale": 1,
+          "normalization": "同版本绑定说明的可读数值；仅清除float32尾差，容差1e-7相对值",
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "ranged_attack_speed_ratio",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Domination/HailOfBlades/mScript/mSpellScriptData/mEffectAmount/ASBoostRanged",
+          "sourceRawValue": 0.6000000238418579,
+          "scale": 1,
+          "normalization": "同版本绑定说明的可读数值；仅清除float32尾差，容差1e-7相对值",
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "max_bonus_reset_attacks",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Domination/HailOfBlades/mScript/mSpellScriptData/mEffectAmount/MaxBonusHits",
+          "sourceRawValue": 2,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "additional_attack_per_reset",
+          "category": "当前绑定正文",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        }
+      ],
+      "pending": [
+        {
+          "type": "来源",
+          "reason": "等级基础伤害曲线起止等级、选项、取整及断点求值未完整证实",
+          "needed": "同构建的完整求值依据；本批显式外供数值"
+        },
+        {
+          "type": "未接线",
+          "reason": "攻击计数、重置扩展及攻速上限临时突破未连接",
+          "needed": "核实触发资格、取值时点和对象归属后装配"
+        },
+        {
+          "type": "来源",
+          "reason": "BonusDamage基础节点为未命名{ee18a47b}，不套已知插值算法",
+          "needed": "同构建节点求值证明"
+        }
+      ],
+      "excluded": [],
+      "qualification": {
+        "required": [
+          "攻击敌方英雄",
+          "按真实近战或远程分支选择攻速",
+          "相邻攻击间隔不超过3秒",
+          "真实普攻重置进度"
+        ],
+        "notDefaulted": [
+          "未满足资格也生效",
+          "来源创建后自动触发",
+          "未知等级数值默认为0"
+        ]
+      },
+      "skillBody": {
+        "skillKey": "rune_9923_passive",
+        "name": "符文·丛刃",
+        "description": "本批仅录入：丛刃近远程攻速比例、三次基础攻击、相邻攻击间隔和真实伤害数值；不默认选择分支。其余条件尚未连接，不代表完整符文。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      },
+      "relationBody": {
+        "runeKey": "rune_9923",
+        "skillKey": "rune_9923_passive",
+        "sortOrder": 0
+      }
+    },
+    {
+      "id": 8439,
+      "runeKey": "rune_8439",
+      "skillKey": "rune_8439_passive",
+      "name": "余震",
+      "scope": "余震双抗原始收益、等级封顶和爆发魔法伤害数值；属性取样及定身条件待连接",
+      "sourcePath": "Perks/Styles/Resolve/Aftershock",
+      "sourceObjectSha256": "b740424a9170e82972029bd6f85b438146d66a9cfc7fd6d668bbb757f15eb392",
+      "parameters": [
+        {
+          "parameterKey": "confirmed_level_damage_source_start",
+          "name": "等级基础伤害来源起点",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 25,
+          "levelValues": null,
+          "description": "仅保留当前来源起点，不凭端点生成1至18级表。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "confirmed_level_damage_source_end",
+          "name": "等级基础伤害来源终点",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 120,
+          "levelValues": null,
+          "description": "仅保留当前来源终点；等级求值过程待补。",
+          "sortOrder": 20
+        },
+        {
+          "parameterKey": "confirmed_level_damage",
+          "name": "已确认等级基础伤害",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+          "sortOrder": 30
+        },
+        {
+          "parameterKey": "confirmed_level_resist_cap_source_start",
+          "name": "等级双抗封顶来源起点",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 80,
+          "levelValues": null,
+          "description": "仅保留当前来源起点，不凭端点生成1至18级表。",
+          "sortOrder": 40
+        },
+        {
+          "parameterKey": "confirmed_level_resist_cap_source_end",
+          "name": "等级双抗封顶来源终点",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 150,
+          "levelValues": null,
+          "description": "仅保留当前来源终点；等级求值过程待补。",
+          "sortOrder": 50
+        },
+        {
+          "parameterKey": "confirmed_level_resist_cap",
+          "name": "已确认等级双抗封顶",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+          "sortOrder": 60
+        },
+        {
+          "parameterKey": "flat_resistance",
+          "name": "固定双抗数值",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 45,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 70
+        },
+        {
+          "parameterKey": "bonus_resistance_ratio",
+          "name": "额外双抗系数",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.75,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 80
+        },
+        {
+          "parameterKey": "bonus_health_damage_ratio",
+          "name": "额外生命伤害系数",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.08,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 90
+        },
+        {
+          "parameterKey": "resistance_duration_ms",
+          "name": "双抗持续及爆发延迟",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 2500,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 100
+        },
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "冷却时间",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 20000,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 110
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "armor_bonus_amount",
+          "name": "护甲封顶后增加数值",
+          "description": "当前绑定45+75%额外属性并受等级上限约束；仅在已核实的取样时点调用，不能反复读取自身已增加值形成自我叠加。",
+          "sortOrder": 10,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MIN",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "flat_resistance"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "armor",
+                        "attributeValueKind": "BONUS"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "bonus_resistance_ratio"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "confirmed_level_resist_cap"
+              }
+            ]
+          }
+        },
+        {
+          "formulaKey": "magic_resistance_bonus_amount",
+          "name": "魔抗封顶后增加数值",
+          "description": "当前绑定45+75%额外属性并受等级上限约束；仅在已核实的取样时点调用，不能反复读取自身已增加值形成自我叠加。",
+          "sortOrder": 20,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MIN",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "flat_resistance"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "magic_resistance",
+                        "attributeValueKind": "BONUS"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "bonus_resistance_ratio"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "confirmed_level_resist_cap"
+              }
+            ]
+          }
+        },
+        {
+          "formulaKey": "damage_amount",
+          "name": "爆发魔法伤害数值",
+          "description": "当前具名文本和mStat12/formula2直接证明额外生命值口径；爆发时点取样仍待连接。",
+          "sortOrder": 30,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "confirmed_level_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "hp",
+                    "attributeValueKind": "BONUS"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_health_damage_ratio"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "effects": [],
+      "triggerRules": [],
+      "processes": [],
+      "internalStates": [],
+      "parameterEvidence": [
+        {
+          "parameterKey": "confirmed_level_damage_source_start",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Resolve/Aftershock/mScript/mSpellScriptData/mEffectAmount/StartingBaseDamage",
+          "sourceRawValue": 25,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "confirmed_level_damage_source_end",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Resolve/Aftershock/mScript/mSpellScriptData/mEffectAmount/MaxBaseDamage",
+          "sourceRawValue": 120,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "confirmed_level_damage",
+          "category": "未接线输入",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": false
+        },
+        {
+          "parameterKey": "confirmed_level_resist_cap_source_start",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Resolve/Aftershock/mScript/mSpellScriptData/mEffectAmount/BonusResistMin",
+          "sourceRawValue": 80,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "confirmed_level_resist_cap_source_end",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Resolve/Aftershock/mScript/mSpellScriptData/mEffectAmount/BonusResistMax",
+          "sourceRawValue": 150,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "confirmed_level_resist_cap",
+          "category": "未接线输入",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": false
+        },
+        {
+          "parameterKey": "flat_resistance",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Resolve/Aftershock/mScript/mSpellScriptData/mEffectAmount/FlatResists",
+          "sourceRawValue": 45,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "bonus_resistance_ratio",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Resolve/Aftershock/mScript/mSpellScriptData/mEffectAmount/PercentBonusResist",
+          "sourceRawValue": 0.75,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "bonus_health_damage_ratio",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Resolve/Aftershock/mScript/mSpellScriptData/mEffectAmount/HealthRatio",
+          "sourceRawValue": 0.07999999821186066,
+          "scale": 1,
+          "normalization": "同版本绑定说明的可读数值；仅清除float32尾差，容差1e-7相对值",
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "resistance_duration_ms",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Resolve/Aftershock/mScript/mSpellScriptData/mEffectAmount/DelayBeforeBurst",
+          "sourceRawValue": 2.5,
+          "scale": 1000,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "cooldown_ms",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Resolve/Aftershock/mScript/mSpellScriptData/mEffectAmount/Cooldown",
+          "sourceRawValue": 20,
+          "scale": 1000,
+          "normalization": null,
+          "defaultSupplied": true
+        }
+      ],
+      "pending": [
+        {
+          "type": "来源",
+          "reason": "等级基础伤害曲线起止等级、选项、取整及断点求值未完整证实",
+          "needed": "同构建的完整求值依据；本批显式外供数值"
+        },
+        {
+          "type": "来源",
+          "reason": "等级双抗封顶曲线起止等级、选项、取整及断点求值未完整证实",
+          "needed": "同构建的完整求值依据；本批显式外供数值"
+        },
+        {
+          "type": "未接线",
+          "reason": "定身资格、双抗应用与到期爆发未连接",
+          "needed": "核实触发资格、取值时点和对象归属后装配"
+        },
+        {
+          "type": "来源",
+          "reason": "额外双抗与生命值采样时点、重复定身和自身反馈处理未证",
+          "needed": "当前效果执行链"
+        }
+      ],
+      "excluded": [
+        {
+          "field": "DamageRadius",
+          "value": 350,
+          "reason": "纯空间覆盖范围不录普通参数；不会因此删除对单一英雄的爆发伤害"
+        }
+      ],
+      "qualification": {
+        "required": [
+          "自己定身敌方英雄",
+          "冷却可用",
+          "双抗2.5秒后爆发",
+          "独立核实属性取样时点"
+        ],
+        "notDefaulted": [
+          "未满足资格也生效",
+          "来源创建后自动触发",
+          "未知等级数值默认为0"
+        ]
+      },
+      "skillBody": {
+        "skillKey": "rune_8439_passive",
+        "name": "符文·余震",
+        "description": "本批仅录入：余震双抗原始收益、等级封顶和爆发魔法伤害数值；属性取样及定身条件待连接。其余条件尚未连接，不代表完整符文。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      },
+      "relationBody": {
+        "runeKey": "rune_8439",
+        "skillKey": "rune_8439_passive",
+        "sortOrder": 0
+      }
+    },
+    {
+      "id": 9101,
+      "runeKey": "rune_9101",
+      "skillKey": "rune_9101_passive",
+      "name": "吸收生命力",
+      "scope": "吸收生命力击杀恢复的已确认等级数值；保留小兵野怪的战前恢复依赖",
+      "sourcePath": "Perks/Styles/Precision/AbsorbLife",
+      "sourceObjectSha256": "cfca588c26d0e0db9692e6b16333356f2695703bb831362149153cfa518adff9",
+      "parameters": [
+        {
+          "parameterKey": "confirmed_level_heal",
+          "name": "已确认等级恢复量",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "源HealAmount为断点计算；缺完整断点当级和斜率规则，不凭端点1与23生成曲线。",
+          "sortOrder": 10
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "heal_amount",
+          "name": "击杀后自身恢复数值",
+          "description": "显式等级输入，没有默认0，不把它当已连接治疗效果。",
+          "sortOrder": 10,
+          "expression": {
+            "nodeType": "PARAMETER",
+            "parameterKey": "confirmed_level_heal"
+          }
+        }
+      ],
+      "effects": [],
+      "triggerRules": [],
+      "processes": [],
+      "internalStates": [],
+      "parameterEvidence": [
+        {
+          "parameterKey": "confirmed_level_heal",
+          "category": "未接线输入",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": false
+        }
+      ],
+      "pending": [
+        {
+          "type": "未接线",
+          "reason": "击杀归属、战前恢复与治疗时序未连接",
+          "needed": "核实触发资格、取值时点和对象归属后装配"
+        },
+        {
+          "type": "来源",
+          "reason": "初值1、初始斜率0.25及6/11级断点全文已冻结，但完整求值尚未证实",
+          "needed": "同构建断点求值算法"
+        }
+      ],
+      "excluded": [
+        {
+          "fields": [
+            "TooltipMinHeal",
+            "TooltipMaxHeal"
+          ],
+          "reason": "当前绑定只引用HealAmount；1与23留资料，不把未消费提示字段当已证明曲线"
+        }
+      ],
+      "qualification": {
+        "required": [
+          "实际击杀目标",
+          "合法击杀归属",
+          "已确认等级恢复量"
+        ],
+        "notDefaulted": [
+          "未满足资格也生效",
+          "来源创建后自动触发",
+          "未知等级数值默认为0"
+        ]
+      },
+      "skillBody": {
+        "skillKey": "rune_9101_passive",
+        "name": "符文·吸收生命力",
+        "description": "本批仅录入：吸收生命力击杀恢复的已确认等级数值；保留小兵野怪的战前恢复依赖。其余条件尚未连接，不代表完整符文。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      },
+      "relationBody": {
+        "runeKey": "rune_9101",
+        "skillKey": "rune_9101_passive",
+        "sortOrder": 0
+      }
+    },
+    {
+      "id": 8233,
+      "runeKey": "rune_8233",
+      "skillKey": "rune_8233_passive",
+      "name": "绝对专注",
+      "scope": "绝对专注70%生命严格门槛、适应之力与0.6攻击力换算数值",
+      "sourcePath": "Perks/Styles/Sorcery/AbsoluteFocus",
+      "sourceObjectSha256": "b09f1a06b7e116ad5bd7b625185b1dd07b281c7af998ef199e3a535c61cea997",
+      "parameters": [
+        {
+          "parameterKey": "confirmed_adaptive_force_source_start",
+          "name": "等级适应之力来源起点",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 3,
+          "levelValues": null,
+          "description": "仅保留当前来源起点，不凭端点生成1至18级表。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "confirmed_adaptive_force_source_end",
+          "name": "等级适应之力来源终点",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 30,
+          "levelValues": null,
+          "description": "仅保留当前来源终点；等级求值过程待补。",
+          "sortOrder": 20
+        },
+        {
+          "parameterKey": "confirmed_adaptive_force",
+          "name": "已确认等级适应之力",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+          "sortOrder": 30
+        },
+        {
+          "parameterKey": "health_threshold_ratio",
+          "name": "生命门槛比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.7,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 40
+        },
+        {
+          "parameterKey": "adaptive_to_attack_damage_ratio",
+          "name": "适应之力转攻击力系数",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.6,
+          "levelValues": null,
+          "description": "本对象当前长说明显式MinAdaptive乘0.6为攻击力；仅换算，不代替适应分支选择。",
+          "sortOrder": 50
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "health_threshold",
+          "name": "最大生命门槛数值",
+          "description": "必须严格高于70%，等于不满足。",
+          "sortOrder": 10,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "hp",
+                "attributeValueKind": "TOTAL"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "health_threshold_ratio"
+              }
+            ]
+          }
+        },
+        {
+          "formulaKey": "attack_damage_amount",
+          "name": "选攻击力时的数值",
+          "description": "仅已确定攻击力分支时计算，不同时授予法强和攻击力。",
+          "sortOrder": 20,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "confirmed_adaptive_force"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "adaptive_to_attack_damage_ratio"
+              }
+            ]
+          }
+        },
+        {
+          "formulaKey": "ability_power_amount",
+          "name": "选法术强度时的数值",
+          "description": "仅已确定法强分支时计算。",
+          "sortOrder": 30,
+          "expression": {
+            "nodeType": "PARAMETER",
+            "parameterKey": "confirmed_adaptive_force"
+          }
+        }
+      ],
+      "effects": [],
+      "triggerRules": [],
+      "processes": [],
+      "internalStates": [],
+      "parameterEvidence": [
+        {
+          "parameterKey": "confirmed_adaptive_force_source_start",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Sorcery/AbsoluteFocus/mScript/mSpellScriptData/mEffectAmount/MinAdaptive",
+          "sourceRawValue": 3,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "confirmed_adaptive_force_source_end",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Sorcery/AbsoluteFocus/mScript/mSpellScriptData/mEffectAmount/MaxAdaptive",
+          "sourceRawValue": 30,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "confirmed_adaptive_force",
+          "category": "未接线输入",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": false
+        },
+        {
+          "parameterKey": "health_threshold_ratio",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Sorcery/AbsoluteFocus/mScript/mSpellScriptData/mEffectAmount/HealthPercent",
+          "sourceRawValue": 0.699999988079071,
+          "scale": 1,
+          "normalization": "同版本绑定说明的可读数值；仅清除float32尾差，容差1e-7相对值",
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "adaptive_to_attack_damage_ratio",
+          "category": "当前绑定具名表达式",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        }
+      ],
+      "pending": [
+        {
+          "type": "来源",
+          "reason": "等级适应之力曲线起止等级、选项、取整及断点求值未完整证实",
+          "needed": "同构建的完整求值依据；本批显式外供数值"
+        },
+        {
+          "type": "未接线",
+          "reason": "生命变化资格与适应属性选择、移除未连接",
+          "needed": "核实触发资格、取值时点和对象归属后装配"
+        }
+      ],
+      "excluded": [],
+      "qualification": {
+        "required": [
+          "当前生命严格高于70%最大生命",
+          "已核实适应之力选择规则"
+        ],
+        "notDefaulted": [
+          "未满足资格也生效",
+          "来源创建后自动触发",
+          "未知等级数值默认为0"
+        ]
+      },
+      "skillBody": {
+        "skillKey": "rune_8233_passive",
+        "name": "符文·绝对专注",
+        "description": "本批仅录入：绝对专注70%生命严格门槛、适应之力与0.6攻击力换算数值。其余条件尚未连接，不代表完整符文。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      },
+      "relationBody": {
+        "runeKey": "rune_8233",
+        "skillKey": "rune_8233_passive",
+        "sortOrder": 0
+      }
+    },
+    {
+      "id": 8214,
+      "runeKey": "rune_8214",
+      "skillKey": "rune_8214_passive",
+      "name": "召唤：艾黎",
+      "scope": "艾黎敌方英雄伤害数值及返回前不可再派出的依赖",
+      "sourcePath": "Perks/Styles/Sorcery/SummonAery",
+      "sourceObjectSha256": "21e0c7c638c257a36364f36af92da5b5cf3731e7c111c47bd79979d1ad9380e0",
+      "parameters": [
+        {
+          "parameterKey": "confirmed_level_base_source_start",
+          "name": "等级基础伤害来源起点",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 10,
+          "levelValues": null,
+          "description": "仅保留当前来源起点，不凭端点生成1至18级表。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "confirmed_level_base_source_end",
+          "name": "等级基础伤害来源终点",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 50,
+          "levelValues": null,
+          "description": "仅保留当前来源终点；等级求值过程待补。",
+          "sortOrder": 20
+        },
+        {
+          "parameterKey": "confirmed_level_base",
+          "name": "已确认等级基础伤害",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+          "sortOrder": 30
+        },
+        {
+          "parameterKey": "ability_power_ratio",
+          "name": "法术强度系数",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.05,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 40
+        },
+        {
+          "parameterKey": "bonus_attack_damage_ratio",
+          "name": "额外攻击力系数",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.1,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 50
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "damage_amount",
+          "name": "伤害数值",
+          "description": "对应当前绑定计算树；等级基础值须明确外供。法强与额外攻击力直接读取来源属性，不填虚构值。",
+          "sortOrder": 10,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "confirmed_level_base"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "ability_power",
+                        "attributeValueKind": "TOTAL"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "ability_power_ratio"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "BONUS"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_attack_damage_ratio"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "effects": [],
+      "triggerRules": [],
+      "processes": [],
+      "internalStates": [],
+      "parameterEvidence": [
+        {
+          "parameterKey": "confirmed_level_base_source_start",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Sorcery/SummonAery/mScript/mSpellScriptData/mEffectAmount/DamageBase",
+          "sourceRawValue": 10,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "confirmed_level_base_source_end",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Sorcery/SummonAery/mScript/mSpellScriptData/mEffectAmount/DamageMax",
+          "sourceRawValue": 50,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "confirmed_level_base",
+          "category": "未接线输入",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": false
+        },
+        {
+          "parameterKey": "ability_power_ratio",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Sorcery/SummonAery/mScript/mSpellScriptData/mEffectAmount/DamageAPRatio",
+          "sourceRawValue": 0.05000000074505806,
+          "scale": 1,
+          "normalization": "同版本绑定说明的可读数值；仅清除float32尾差，容差1e-7相对值",
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "bonus_attack_damage_ratio",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Sorcery/SummonAery/mScript/mSpellScriptData/mEffectAmount/DamageADRatio",
+          "sourceRawValue": 0.10000000149011612,
+          "scale": 1,
+          "normalization": "同版本绑定说明的可读数值；仅清除float32尾差，容差1e-7相对值",
+          "defaultSupplied": true
+        }
+      ],
+      "pending": [
+        {
+          "type": "来源",
+          "reason": "等级基础伤害曲线起止等级、选项、取整及断点求值未完整证实",
+          "needed": "同构建的完整求值依据；本批显式外供数值"
+        },
+        {
+          "type": "未接线",
+          "reason": "派出、返回及伤害资格未连接",
+          "needed": "核实触发资格、取值时点和对象归属后装配"
+        }
+      ],
+      "excluded": [
+        {
+          "branch": "给第三名友方英雄提供护盾",
+          "fields": [
+            "ShieldBase",
+            "ShieldMax",
+            "ShieldRatio",
+            "ShieldRatioAD",
+            "ShieldDuration",
+            "ShieldCalc"
+          ],
+          "reason": "第三者友方护盾不属于本轮1V1；敌方伤害和返回依赖仍保留"
+        }
+      ],
+      "qualification": {
+        "required": [
+          "攻击或技能伤害敌方英雄",
+          "艾黎已经返回",
+          "自适应类型已确定"
+        ],
+        "notDefaulted": [
+          "未满足资格也生效",
+          "来源创建后自动触发",
+          "未知等级数值默认为0"
+        ]
+      },
+      "skillBody": {
+        "skillKey": "rune_8214_passive",
+        "name": "符文·召唤：艾黎",
+        "description": "本批仅录入：艾黎敌方英雄伤害数值及返回前不可再派出的依赖。其余条件尚未连接，不代表完整符文。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      },
+      "relationBody": {
+        "runeKey": "rune_8214",
+        "skillKey": "rune_8214_passive",
+        "sortOrder": 0
+      }
+    },
+    {
+      "id": 8229,
+      "runeKey": "rune_8229",
+      "skillKey": "rune_8229_passive",
+      "name": "奥术彗星",
+      "scope": "彗星等级伤害、冷却求值输入和750距离处100%增幅端点；不猜距离曲线",
+      "sourcePath": "Perks/Styles/Sorcery/ArcaneComet",
+      "sourceObjectSha256": "3c9ebe287fae6f0aee368e6af07af8ef666a2d141cae37e29ab2c73f46f48c84",
+      "parameters": [
+        {
+          "parameterKey": "confirmed_level_base_source_start",
+          "name": "等级基础伤害来源起点",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 15,
+          "levelValues": null,
+          "description": "仅保留当前来源起点，不凭端点生成1至18级表。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "confirmed_level_base_source_end",
+          "name": "等级基础伤害来源终点",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 100,
+          "levelValues": null,
+          "description": "仅保留当前来源终点；等级求值过程待补。",
+          "sortOrder": 20
+        },
+        {
+          "parameterKey": "confirmed_level_base",
+          "name": "已确认等级基础伤害",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+          "sortOrder": 30
+        },
+        {
+          "parameterKey": "ability_power_ratio",
+          "name": "法术强度系数",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.05,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 40
+        },
+        {
+          "parameterKey": "bonus_attack_damage_ratio",
+          "name": "额外攻击力系数",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.1,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 50
+        },
+        {
+          "parameterKey": "confirmed_level_cooldown_seconds_source_start",
+          "name": "等级冷却秒数来源起点",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 20,
+          "levelValues": null,
+          "description": "仅保留当前来源起点，不凭端点生成1至18级表。",
+          "sortOrder": 60
+        },
+        {
+          "parameterKey": "confirmed_level_cooldown_seconds_source_end",
+          "name": "等级冷却秒数来源终点",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 8,
+          "levelValues": null,
+          "description": "仅保留当前来源终点；等级求值过程待补。",
+          "sortOrder": 70
+        },
+        {
+          "parameterKey": "confirmed_level_cooldown_seconds",
+          "name": "已确认等级冷却秒数",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+          "sortOrder": 80
+        },
+        {
+          "parameterKey": "maximum_distance_damage_ratio",
+          "name": "距离最大伤害增幅比例",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 90
+        },
+        {
+          "parameterKey": "maximum_amplification_distance",
+          "name": "最大增幅对应距离",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 750,
+          "levelValues": null,
+          "description": "距离直接影响伤害，应保留端点；不据此构造线性斜率。",
+          "sortOrder": 100
+        },
+        {
+          "parameterKey": "cooldown_floor_seconds",
+          "name": "冷却原树下限秒数",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.3,
+          "levelValues": null,
+          "description": "当前CooldownCalc钳制节点mFloor=0.30000001192092896。",
+          "sortOrder": 110
+        },
+        {
+          "parameterKey": "seconds_to_ms",
+          "name": "秒转毫秒系数",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1000,
+          "levelValues": null,
+          "description": "单位换算常数，不是游戏平衡数值。",
+          "sortOrder": 120
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "base_damage_amount",
+          "name": "伤害数值",
+          "description": "对应当前绑定计算树；等级基础值须明确外供。法强与额外攻击力直接读取来源属性，不填虚构值。",
+          "sortOrder": 10,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "confirmed_level_base"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "ability_power",
+                        "attributeValueKind": "TOTAL"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "ability_power_ratio"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "BONUS"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_attack_damage_ratio"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "formulaKey": "cooldown_ms",
+          "name": "钳制后冷却毫秒数",
+          "description": "只保留当前原树MIN(20,MAX(0.3,明确外供秒数))再转换毫秒，不猜等级插值。",
+          "sortOrder": 20,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "MIN",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "confirmed_level_cooldown_seconds_source_start"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MAX",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "cooldown_floor_seconds"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "confirmed_level_cooldown_seconds"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "seconds_to_ms"
+              }
+            ]
+          }
+        }
+      ],
+      "effects": [],
+      "triggerRules": [],
+      "processes": [],
+      "internalStates": [],
+      "parameterEvidence": [
+        {
+          "parameterKey": "confirmed_level_base_source_start",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Sorcery/ArcaneComet/mScript/mSpellScriptData/mEffectAmount/DamageBase",
+          "sourceRawValue": 15,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "confirmed_level_base_source_end",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Sorcery/ArcaneComet/mScript/mSpellScriptData/mEffectAmount/DamageMax",
+          "sourceRawValue": 100,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "confirmed_level_base",
+          "category": "未接线输入",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": false
+        },
+        {
+          "parameterKey": "ability_power_ratio",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Sorcery/ArcaneComet/mScript/mSpellScriptData/mEffectAmount/APRatio",
+          "sourceRawValue": 0.05000000074505806,
+          "scale": 1,
+          "normalization": "同版本绑定说明的可读数值；仅清除float32尾差，容差1e-7相对值",
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "bonus_attack_damage_ratio",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Sorcery/ArcaneComet/mScript/mSpellScriptData/mEffectAmount/ADRatio",
+          "sourceRawValue": 0.10000000149011612,
+          "scale": 1,
+          "normalization": "同版本绑定说明的可读数值；仅清除float32尾差，容差1e-7相对值",
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "confirmed_level_cooldown_seconds_source_start",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Sorcery/ArcaneComet/mScript/mSpellScriptData/mEffectAmount/RechargeTime",
+          "sourceRawValue": 20,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "confirmed_level_cooldown_seconds_source_end",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Sorcery/ArcaneComet/mScript/mSpellScriptData/mEffectAmount/RechargeTimeMin",
+          "sourceRawValue": 8,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "confirmed_level_cooldown_seconds",
+          "category": "未接线输入",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": false
+        },
+        {
+          "parameterKey": "maximum_distance_damage_ratio",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Sorcery/ArcaneComet/mScript/mSpellScriptData/mEffectAmount/MaxDamageAmp",
+          "sourceRawValue": 1,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "maximum_amplification_distance",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Sorcery/ArcaneComet/mScript/mSpellScriptData/mEffectAmount/MaxRange",
+          "sourceRawValue": 750,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "cooldown_floor_seconds",
+          "category": "当前绑定计算树",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "seconds_to_ms",
+          "category": "单位换算",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        }
+      ],
+      "pending": [
+        {
+          "type": "来源",
+          "reason": "等级基础伤害曲线起止等级、选项、取整及断点求值未完整证实",
+          "needed": "同构建的完整求值依据；本批显式外供数值"
+        },
+        {
+          "type": "来源",
+          "reason": "等级冷却秒数曲线起止等级、选项、取整及断点求值未完整证实",
+          "needed": "同构建的完整求值依据；本批显式外供数值"
+        },
+        {
+          "type": "未接线",
+          "reason": "发射、落点命中、距离增幅和自适应类型未连接",
+          "needed": "核实触发资格、取值时点和对象归属后装配"
+        },
+        {
+          "type": "来源",
+          "reason": "750距离100%端点不足以证明中间曲线或距离采样时点",
+          "needed": "当前距离伤害求值"
+        }
+      ],
+      "excluded": [
+        {
+          "fields": [
+            "PercentRefund",
+            "DotPercentRefund",
+            "AoEPercentRefund"
+          ],
+          "reason": "当前绑定未提到伤害减少彗星冷却；保留原字段，不复活旧版返还机制"
+        }
+      ],
+      "qualification": {
+        "required": [
+          "技能伤害英雄",
+          "彗星实际命中该目标",
+          "距离采样和增幅求值已核实",
+          "冷却可用"
+        ],
+        "notDefaulted": [
+          "未满足资格也生效",
+          "来源创建后自动触发",
+          "未知等级数值默认为0"
+        ]
+      },
+      "skillBody": {
+        "skillKey": "rune_8229_passive",
+        "name": "符文·奥术彗星",
+        "description": "本批仅录入：彗星等级伤害、冷却求值输入和750距离处100%增幅端点；不猜距离曲线。其余条件尚未连接，不代表完整符文。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      },
+      "relationBody": {
+        "runeKey": "rune_8229",
+        "skillKey": "rune_8229_passive",
+        "sortOrder": 0
+      }
+    },
+    {
+      "id": 8237,
+      "runeKey": "rune_8237",
+      "skillKey": "rune_8237_passive",
+      "name": "焦灼",
+      "scope": "焦灼等级魔法伤害与1秒延迟；不按持续伤害拆跳",
+      "sourcePath": "Perks/Styles/Sorcery/Scorch",
+      "sourceObjectSha256": "3d5321f05d09173e6bb78beb21a785d6b7bbe5e56d5f84a6cc2e4a973bafb928",
+      "parameters": [
+        {
+          "parameterKey": "confirmed_level_base_source_start",
+          "name": "等级基础伤害来源起点",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 20,
+          "levelValues": null,
+          "description": "仅保留当前来源起点，不凭端点生成1至18级表。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "confirmed_level_base_source_end",
+          "name": "等级基础伤害来源终点",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 40,
+          "levelValues": null,
+          "description": "仅保留当前来源终点；等级求值过程待补。",
+          "sortOrder": 20
+        },
+        {
+          "parameterKey": "confirmed_level_base",
+          "name": "已确认等级基础伤害",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+          "sortOrder": 30
+        },
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "冷却时间",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 10000,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 40
+        },
+        {
+          "parameterKey": "damage_delay_ms",
+          "name": "命中后伤害延迟",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1000,
+          "levelValues": null,
+          "description": "当前中文绑定明确1秒后造成伤害，不是1秒内均匀持续伤害。",
+          "sortOrder": 50
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "damage_amount",
+          "name": "伤害数值",
+          "description": "对应当前绑定计算树；等级基础值须明确外供。法强与额外攻击力直接读取来源属性，不填虚构值。",
+          "sortOrder": 10,
+          "expression": {
+            "nodeType": "PARAMETER",
+            "parameterKey": "confirmed_level_base"
+          }
+        }
+      ],
+      "effects": [],
+      "triggerRules": [],
+      "processes": [],
+      "internalStates": [],
+      "parameterEvidence": [
+        {
+          "parameterKey": "confirmed_level_base_source_start",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Sorcery/Scorch/mScript/mSpellScriptData/mEffectAmount/Damage",
+          "sourceRawValue": 20,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "confirmed_level_base_source_end",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Sorcery/Scorch/mScript/mSpellScriptData/mEffectAmount/DamageMax",
+          "sourceRawValue": 40,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "confirmed_level_base",
+          "category": "未接线输入",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": false
+        },
+        {
+          "parameterKey": "cooldown_ms",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Sorcery/Scorch/mScript/mSpellScriptData/mEffectAmount/BurnlockoutDuration",
+          "sourceRawValue": 10,
+          "scale": 1000,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "damage_delay_ms",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Sorcery/Scorch/mScript/mSpellScriptData/mEffectAmount/DotDuration",
+          "sourceRawValue": 1,
+          "scale": 1000,
+          "normalization": null,
+          "defaultSupplied": true
+        }
+      ],
+      "pending": [
+        {
+          "type": "来源",
+          "reason": "等级基础伤害曲线起止等级、选项、取整及断点求值未完整证实",
+          "needed": "同构建的完整求值依据；本批显式外供数值"
+        },
+        {
+          "type": "未接线",
+          "reason": "首个命中筛选及延迟伤害未连接",
+          "needed": "核实触发资格、取值时点和对象归属后装配"
+        }
+      ],
+      "excluded": [
+        {
+          "fields": [
+            "OOCTimer",
+            "{89367404}"
+          ],
+          "reason": "未被当前绑定说明消费，不猜脱战或内部判定机制"
+        }
+      ],
+      "qualification": {
+        "required": [
+          "下一个合法伤害技能命中敌方英雄",
+          "冷却可用",
+          "1秒后结算"
+        ],
+        "notDefaulted": [
+          "未满足资格也生效",
+          "来源创建后自动触发",
+          "未知等级数值默认为0"
+        ]
+      },
+      "skillBody": {
+        "skillKey": "rune_8237_passive",
+        "name": "符文·焦灼",
+        "description": "本批仅录入：焦灼等级魔法伤害与1秒延迟；不按持续伤害拆跳。其余条件尚未连接，不代表完整符文。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      },
+      "relationBody": {
+        "runeKey": "rune_8237",
+        "skillKey": "rune_8237_passive",
+        "sortOrder": 0
+      }
+    },
+    {
+      "id": 8232,
+      "runeKey": "rune_8232",
+      "skillKey": "rune_8232_passive",
+      "name": "水上行走",
+      "scope": "水上行走10固定移速独立组成及等级适应之力数值",
+      "sourcePath": "Perks/Styles/Sorcery/Waterwalking",
+      "sourceObjectSha256": "9d8dae64e42b8dadc009c7bcb23af173dcdb2b4ceb826379d09aac1dfbba70b3",
+      "parameters": [
+        {
+          "parameterKey": "confirmed_adaptive_force_source_start",
+          "name": "等级适应之力来源起点",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 13,
+          "levelValues": null,
+          "description": "仅保留当前来源起点，不凭端点生成1至18级表。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "confirmed_adaptive_force_source_end",
+          "name": "等级适应之力来源终点",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 30,
+          "levelValues": null,
+          "description": "仅保留当前来源终点；等级求值过程待补。",
+          "sortOrder": 20
+        },
+        {
+          "parameterKey": "confirmed_adaptive_force",
+          "name": "已确认等级适应之力",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+          "sortOrder": 30
+        },
+        {
+          "parameterKey": "river_flat_move_speed",
+          "name": "河道固定移速",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 10,
+          "levelValues": null,
+          "description": "当前普通模式绑定数值。",
+          "sortOrder": 40
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "adaptive_force_amount",
+          "name": "河道适应之力数值",
+          "description": "仅数值；未连接河道条件或自动选择属性。",
+          "sortOrder": 10,
+          "expression": {
+            "nodeType": "PARAMETER",
+            "parameterKey": "confirmed_adaptive_force"
+          }
+        }
+      ],
+      "effects": [
+        {
+          "effectKey": "river_flat_move_speed_component",
+          "name": "河道固定移速组成",
+          "description": "只有已确认处在河道时可应用，离开时需移除；当前无自动触发和河道状态，不能初始化无条件常驻。",
+          "sortOrder": 10,
+          "lifecycle": {
+            "durationValue": null,
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "instanceScope": "SOURCE",
+            "reapplicationStackMode": "KEEP",
+            "reapplicationDurationMode": null,
+            "expiryMode": "EXPLICIT_ONLY",
+            "periodicIntervalValue": null,
+            "firstPeriodicExecution": null
+          },
+          "results": [
+            {
+              "resultKey": "attribute_bonus",
+              "name": "河道固定移速组成",
+              "description": null,
+              "sortOrder": 10,
+              "resultType": "ATTRIBUTE_CHANGE",
+              "target": "SOURCE",
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "valueReadMode": "APPLICATION_SNAPSHOT",
+                "stackValueMode": "SHARED",
+                "reapplicationValueMode": "REPLACE",
+                "periodicExecutionMode": null
+              },
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "river_flat_move_speed"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": 0,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "attributeKey": "move_speed",
+                "operation": "INCREASE",
+                "modifierZoneKey": "attribute_flat_add"
+              }
+            }
+          ]
+        }
+      ],
+      "triggerRules": [],
+      "processes": [],
+      "internalStates": [],
+      "parameterEvidence": [
+        {
+          "parameterKey": "confirmed_adaptive_force_source_start",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Sorcery/Waterwalking/mScript/mSpellScriptData/mEffectAmount/MinAdaptive",
+          "sourceRawValue": 13,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "confirmed_adaptive_force_source_end",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Sorcery/Waterwalking/mScript/mSpellScriptData/mEffectAmount/MaxAdaptive",
+          "sourceRawValue": 30,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "confirmed_adaptive_force",
+          "category": "未接线输入",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": false
+        },
+        {
+          "parameterKey": "river_flat_move_speed",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Sorcery/Waterwalking/mScript/mSpellScriptData/mEffectAmount/MovementSpeed",
+          "sourceRawValue": 10,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        }
+      ],
+      "pending": [
+        {
+          "type": "来源",
+          "reason": "等级适应之力曲线起止等级、选项、取整及断点求值未完整证实",
+          "needed": "同构建的完整求值依据；本批显式外供数值"
+        },
+        {
+          "type": "未接线",
+          "reason": "河道进入退出条件与适应属性授予/移除未连接",
+          "needed": "核实触发资格、取值时点和对象归属后装配"
+        }
+      ],
+      "excluded": [
+        {
+          "field": "{6f2f0d30}",
+          "value": 1,
+          "reason": "字段未命名，不猜加成语义"
+        }
+      ],
+      "qualification": {
+        "required": [
+          "实际处于河道",
+          "已核实适应属性选择"
+        ],
+        "notDefaulted": [
+          "未满足资格也生效",
+          "来源创建后自动触发",
+          "未知等级数值默认为0"
+        ]
+      },
+      "skillBody": {
+        "skillKey": "rune_8232_passive",
+        "name": "符文·水上行走",
+        "description": "本批仅录入：水上行走10固定移速独立组成及等级适应之力数值。其余条件尚未连接，不代表完整符文。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      },
+      "relationBody": {
+        "runeKey": "rune_8232",
+        "skillKey": "rune_8232_passive",
+        "sortOrder": 0
+      }
+    }
+  ]
+}

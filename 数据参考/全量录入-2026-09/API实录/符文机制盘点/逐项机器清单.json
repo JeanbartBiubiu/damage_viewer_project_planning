@@ -1,0 +1,3184 @@
+{
+  "status": "完整盘点仅候选未写入",
+  "counts": {
+    "identities": 62,
+    "keystones": 17,
+    "minors": 45,
+    "scope": {
+      "范围内": 43,
+      "混合保留": 12,
+      "范围外": 7
+    },
+    "branches": {
+      "范围内": 71,
+      "保留依赖": 25,
+      "范围外": 19
+    },
+    "withSpecificMissingFacts": 55,
+    "withRecordableComponents": 55,
+    "withMissingSourceValues": 34,
+    "withClearValuesAndSeparateConditionGaps": 21
+  },
+  "capability": {
+    "observedAt": "2026-09-09T01:02:29.310Z",
+    "attributes": 28,
+    "modifierZones": [
+      {
+        "key": "attribute_percent_bonus",
+        "domain": "ATTRIBUTE",
+        "mode": "RATIO_ADD"
+      },
+      {
+        "key": "attribute_flat_add",
+        "domain": "ATTRIBUTE",
+        "mode": "FLAT_ADD"
+      },
+      {
+        "key": "item_3071_armor_reduction",
+        "domain": "ATTRIBUTE",
+        "mode": "RATIO_ADD"
+      },
+      {
+        "key": "item_8010_magic_resistance_reduction",
+        "domain": "ATTRIBUTE",
+        "mode": "RATIO_ADD"
+      }
+    ],
+    "statuses": [
+      {
+        "key": "vertigo",
+        "name": "眩晕"
+      }
+    ],
+    "skillCategories": [
+      {
+        "key": "move_skill",
+        "name": "位移技能"
+      },
+      {
+        "key": "common",
+        "name": "普通技能"
+      },
+      {
+        "key": "passive",
+        "name": "被动技能"
+      }
+    ],
+    "observedRuneSkills": [
+      "rune_5007_passive"
+    ],
+    "notes": [
+      "现行公式只有参数、来源/目标属性和二元ADD/SUBTRACT/MULTIPLY/DIVIDE/MIN/MAX，无FLOOR、绝对游戏时间或任意技能当前冷却节点。",
+      "现行触发具有技能/攻击/伤害/控制/击杀等事件，但事件名称存在不证明所有参与击杀、全状态集合、移动/返回或来源唯一去重均已接线。",
+      "范围和组成可保存性与战斗运行分开；没有实际DAMAGE/HEALING修正区、合法减速语义或适应解析时不借用其他属性区。"
+    ]
+  },
+  "entries": [
+    {
+      "runeKey": "rune_8112",
+      "skillKey": "rune_8112_passive",
+      "id": 8112,
+      "name": "电刑",
+      "category": "KEYSTONE",
+      "pathKey": "rune_path_8100",
+      "pathName": "主宰",
+      "scope": "范围内",
+      "branches": [
+        {
+          "scope": "范围内",
+          "summary": "三次独立命中触发的自适应伤害",
+          "quote": "3个独立的攻击或技能",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8112,
+            "field": "officialLong",
+            "exactText": "3个独立的攻击或技能"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "窗口3000毫秒；次数3；额外攻击力系数0.10、法强系数0.05；冷却20000毫秒；基础伤害仅有70–240端点"
+      ],
+      "missingFacts": [
+        "基础伤害逐等级值；自适应伤害选择规则；独立施法/攻击去重及持续伤害是否计数"
+      ],
+      "recordableComponents": [
+        "固定参数：窗口、次数、两个系数、冷却；不伪造等级表或伤害类型"
+      ],
+      "sourceReferences": {
+        "official": "/0/slots/0/runes/0",
+        "client": "/7"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [
+        "70–240基础伤害的完整等级值"
+      ],
+      "sourceValueStatus": "部分数值或曲线缺失"
+    },
+    {
+      "runeKey": "rune_8128",
+      "skillKey": "rune_8128_passive",
+      "id": 8128,
+      "name": "黑暗收割",
+      "category": "KEYSTONE",
+      "pathKey": "rune_path_8100",
+      "pathName": "主宰",
+      "scope": "范围内",
+      "branches": [
+        {
+          "scope": "范围内",
+          "summary": "低血量收割伤害与永久灵魂增长",
+          "quote": "生命值低于50%",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8128,
+            "field": "officialLong",
+            "exactText": "生命值低于50%"
+          }
+        },
+        {
+          "scope": "保留依赖",
+          "summary": "参与击杀缩短收割冷却",
+          "quote": "参与击杀时重置到1.0秒",
+          "reason": "该进度或条件影响范围内战斗收益；不模拟范围外对象战斗，但不能丢失已获得进度",
+          "evidence": {
+            "sourceId": 8128,
+            "field": "officialLong",
+            "exactText": "参与击杀时重置到1.0秒"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "阈值严格低于0.50；伤害30+11×灵魂+0.10额外攻击力+0.05法强；冷却35000毫秒；参与击杀后变1000毫秒"
+      ],
+      "missingFacts": [
+        "自适应类型；灵魂在本次伤害前还是后增加；参与击杀事件与防重复触发；运行输入灵魂数的来源"
+      ],
+      "recordableComponents": [
+        "全部确定参数及伤害数值公式；无自动触发的适应伤害结果"
+      ],
+      "sourceReferences": {
+        "official": "/0/slots/0/runes/1",
+        "client": "/12"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [],
+      "sourceValueStatus": "已见明确数值，条件与组合单独核对"
+    },
+    {
+      "runeKey": "rune_9923",
+      "skillKey": "rune_9923_passive",
+      "id": 9923,
+      "name": "丛刃",
+      "category": "KEYSTONE",
+      "pathKey": "rune_path_8100",
+      "pathName": "主宰",
+      "scope": "范围内",
+      "branches": [
+        {
+          "scope": "范围内",
+          "summary": "前三次攻击的攻速、真实伤害与间隔限制",
+          "quote": "至多3次攻击",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 9923,
+            "field": "officialLong",
+            "exactText": "至多3次攻击"
+          }
+        },
+        {
+          "scope": "范围内",
+          "summary": "攻击重置增加次数与临时突破上限",
+          "quote": "被重置的攻击会使攻击次数上限提升1",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 9923,
+            "field": "officialLong",
+            "exactText": "被重置的攻击会使攻击次数上限提升1"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "近战攻速0.90、远程0.60；基础3次；间隔最多3000毫秒；冷却10000毫秒；真实伤害额外AD0.12/AP0.10，基础仅2–20"
+      ],
+      "missingFacts": [
+        "基础伤害等级曲线；额外重置次数上限@MaxBonusHits@；近远程真实分类；突破攻速上限能力与攻击重置事件"
+      ],
+      "recordableComponents": [
+        "固定攻速/次数/时间/伤害系数参数；不按伤害端点插值或无限加次数"
+      ],
+      "sourceReferences": {
+        "official": "/0/slots/0/runes/2",
+        "client": "/90"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [
+        "2–20伤害等级值、重置攻击额外次数上限"
+      ],
+      "sourceValueStatus": "部分数值或曲线缺失"
+    },
+    {
+      "runeKey": "rune_8126",
+      "skillKey": "rune_8126_passive",
+      "id": 8126,
+      "name": "恶意中伤",
+      "category": "MINOR",
+      "pathKey": "rune_path_8100",
+      "pathName": "主宰",
+      "scope": "范围内",
+      "branches": [
+        {
+          "scope": "范围内",
+          "summary": "对移动或行动受损英雄的追加真实伤害",
+          "quote": "会在移动受损之后触发伤害",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8126,
+            "field": "officialLong",
+            "exactText": "会在移动受损之后触发伤害"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "冷却4000毫秒；真实伤害10–45等级端点"
+      ],
+      "missingFacts": [
+        "逐等级伤害；合法受损状态全集与施加/命中顺序；当前状态目录仅眩晕不能替代全部受损"
+      ],
+      "recordableComponents": [
+        "冷却参数；伤害端点只作来源，不生成完整等级参数"
+      ],
+      "sourceReferences": {
+        "official": "/0/slots/1/runes/0",
+        "client": "/2"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [
+        "10–45真实伤害等级值"
+      ],
+      "sourceValueStatus": "部分数值或曲线缺失"
+    },
+    {
+      "runeKey": "rune_8139",
+      "skillKey": "rune_8139_passive",
+      "id": 8139,
+      "name": "血之滋味",
+      "category": "MINOR",
+      "pathKey": "rune_path_8100",
+      "pathName": "主宰",
+      "scope": "范围内",
+      "branches": [
+        {
+          "scope": "范围内",
+          "summary": "伤害敌方英雄后治疗自己",
+          "quote": "在你伤害一名敌方英雄时为你提供治疗效果",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8139,
+            "field": "officialLong",
+            "exactText": "在你伤害一名敌方英雄时为你提供治疗效果"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "额外AD0.10、AP0.05；冷却20000毫秒；治疗基础16–40等级端点"
+      ],
+      "missingFacts": [
+        "治疗等级曲线；伤害来源过滤和触发去重"
+      ],
+      "recordableComponents": [
+        "冷却及两个系数参数；已知比例组成公式，完整治疗量待基础曲线"
+      ],
+      "sourceReferences": {
+        "official": "/0/slots/1/runes/1",
+        "client": "/20"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [
+        "16–40治疗等级值"
+      ],
+      "sourceValueStatus": "部分数值或曲线缺失"
+    },
+    {
+      "runeKey": "rune_8143",
+      "skillKey": "rune_8143_passive",
+      "id": 8143,
+      "name": "猛然冲击",
+      "category": "MINOR",
+      "pathKey": "rune_path_8100",
+      "pathName": "主宰",
+      "scope": "范围内",
+      "branches": [
+        {
+          "scope": "范围内",
+          "summary": "特定移动或离开潜行后的限时真实伤害",
+          "quote": "突进、跃击、闪烁、传送效果或离开潜行状态",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8143,
+            "field": "officialLong",
+            "exactText": "突进、跃击、闪烁、传送效果或离开潜行状态"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "就绪窗口4000毫秒；冷却10000毫秒；真实伤害20–80等级端点"
+      ],
+      "missingFacts": [
+        "逐等级伤害；离开潜行及传送等事件；位移分类不等于完整触发类型"
+      ],
+      "recordableComponents": [
+        "窗口、冷却参数；不借全部技能施放触发"
+      ],
+      "sourceReferences": {
+        "official": "/0/slots/1/runes/2",
+        "client": "/85"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [
+        "20–80真实伤害等级值"
+      ],
+      "sourceValueStatus": "部分数值或曲线缺失"
+    },
+    {
+      "runeKey": "rune_8137",
+      "skillKey": "rune_8137_passive",
+      "id": 8137,
+      "name": "第六感",
+      "category": "MINOR",
+      "pathKey": "rune_path_8100",
+      "pathName": "主宰",
+      "scope": "范围外",
+      "branches": [
+        {
+          "scope": "范围外",
+          "summary": "守卫感知、全队标记和显形",
+          "quote": "未被追踪且未被看见的守卫",
+          "reason": "只有守卫与视野收益，不构成英雄对战伤害或防御组成",
+          "evidence": {
+            "sourceId": 8137,
+            "field": "officialLong",
+            "exactText": "未被追踪且未被看见的守卫"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "11级显形10000毫秒；冷却250000毫秒"
+      ],
+      "missingFacts": [],
+      "recordableComponents": [],
+      "sourceReferences": {
+        "official": "/0/slots/2/runes/0",
+        "client": "/32"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [],
+      "sourceValueStatus": "范围外不补机制值"
+    },
+    {
+      "runeKey": "rune_8140",
+      "skillKey": "rune_8140_passive",
+      "id": 8140,
+      "name": "可怖纪念品",
+      "category": "MINOR",
+      "pathKey": "rune_path_8100",
+      "pathName": "主宰",
+      "scope": "混合保留",
+      "branches": [
+        {
+          "scope": "范围外",
+          "summary": "饰品急速分支",
+          "quote": "6饰品急速",
+          "reason": "视野饰品分支排除",
+          "evidence": {
+            "sourceId": 8140,
+            "field": "officialLong",
+            "exactText": "6饰品急速"
+          }
+        },
+        {
+          "scope": "范围内",
+          "summary": "没有视野饰品模式中的召唤师技能急速",
+          "quote": "转而获得3召唤师技能急速",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8140,
+            "field": "officialLong",
+            "exactText": "转而获得3召唤师技能急速"
+          }
+        },
+        {
+          "scope": "保留依赖",
+          "summary": "纪念品数量及模式分支",
+          "quote": "至多至18个",
+          "reason": "该进度或条件影响范围内战斗收益；不模拟范围外对象战斗，但不能丢失已获得进度",
+          "evidence": {
+            "sourceId": 8140,
+            "field": "officialLong",
+            "exactText": "至多至18个"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "参与击杀获得1纪念品，上限18；饰品分支6、替代召唤师技能分支3"
+      ],
+      "missingFacts": [
+        "适用模式事实；数字3与层数的精确组合表达；召唤师技能集合和冷却作用身份；参与击杀事件"
+      ],
+      "recordableComponents": [
+        "最多18和替代急速3等确定参数；不能把全游戏默认替换为召唤师急速"
+      ],
+      "sourceReferences": {
+        "official": "/0/slots/2/runes/1",
+        "client": "/84"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [
+        "纪念品与替代召唤师技能急速3的精确计量关系"
+      ],
+      "sourceValueStatus": "部分数值或曲线缺失"
+    },
+    {
+      "runeKey": "rune_8141",
+      "skillKey": "rune_8141_passive",
+      "id": 8141,
+      "name": "深入守卫",
+      "category": "MINOR",
+      "pathKey": "rune_path_8100",
+      "pathName": "主宰",
+      "scope": "范围外",
+      "branches": [
+        {
+          "scope": "范围外",
+          "summary": "守卫生命与持续时间",
+          "quote": "深入守卫获得+1额外生命值",
+          "reason": "收益对象是守卫，不是角色生命；纯视野分支排除",
+          "evidence": {
+            "sourceId": 8141,
+            "field": "officialLong",
+            "exactText": "深入守卫获得+1额外生命值"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "9级河道守卫加入深入判定"
+      ],
+      "missingFacts": [],
+      "recordableComponents": [],
+      "sourceReferences": {
+        "official": "/0/slots/2/runes/2",
+        "client": "/18"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [],
+      "sourceValueStatus": "范围外不补机制值"
+    },
+    {
+      "runeKey": "rune_8135",
+      "skillKey": "rune_8135_passive",
+      "id": 8135,
+      "name": "寻宝猎人",
+      "category": "MINOR",
+      "pathKey": "rune_path_8100",
+      "pathName": "主宰",
+      "scope": "范围外",
+      "branches": [
+        {
+          "scope": "范围外",
+          "summary": "独特敌方英雄赏金的金币奖励",
+          "quote": "提供额外的50金币",
+          "reason": "全部收益为金币，无独立战斗属性或伤害",
+          "evidence": {
+            "sourceId": 8135,
+            "field": "officialLong",
+            "exactText": "提供额外的50金币"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "奖励50起每层+20至130金币"
+      ],
+      "missingFacts": [],
+      "recordableComponents": [],
+      "sourceReferences": {
+        "official": "/0/slots/3/runes/0",
+        "client": "/36"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [],
+      "sourceValueStatus": "范围外不补机制值"
+    },
+    {
+      "runeKey": "rune_8105",
+      "skillKey": "rune_8105_passive",
+      "id": 8105,
+      "name": "无情猎手",
+      "category": "MINOR",
+      "pathKey": "rune_path_8100",
+      "pathName": "主宰",
+      "scope": "范围内",
+      "branches": [
+        {
+          "scope": "范围内",
+          "summary": "非战斗状态的固定移动速度",
+          "quote": "8x赏金猎人层数",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8105,
+            "field": "officialLong",
+            "exactText": "8x赏金猎人层数"
+          }
+        },
+        {
+          "scope": "保留依赖",
+          "summary": "独特敌方英雄参与击杀层数",
+          "quote": "每位独特的敌方英雄",
+          "reason": "该进度或条件影响范围内战斗收益；不模拟范围外对象战斗，但不能丢失已获得进度",
+          "evidence": {
+            "sourceId": 8105,
+            "field": "officialLong",
+            "exactText": "每位独特的敌方英雄"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "每层8点非战斗移速"
+      ],
+      "missingFacts": [
+        "非战斗状态进入退出定义；独特英雄去重；合法层数来源；上限不由团队人数硬猜"
+      ],
+      "recordableComponents": [
+        "每层8参数与8×已确认层数公式；不在战斗中无条件加速"
+      ],
+      "sourceReferences": {
+        "official": "/0/slots/3/runes/1",
+        "client": "/43"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [],
+      "sourceValueStatus": "已见明确数值，条件与组合单独核对"
+    },
+    {
+      "runeKey": "rune_8106",
+      "skillKey": "rune_8106_passive",
+      "id": 8106,
+      "name": "终极猎人",
+      "category": "MINOR",
+      "pathKey": "rune_path_8100",
+      "pathName": "主宰",
+      "scope": "范围内",
+      "branches": [
+        {
+          "scope": "范围内",
+          "summary": "终极技能急速",
+          "quote": "6+5x赏金猎人层数",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8106,
+            "field": "officialLong",
+            "exactText": "6+5x赏金猎人层数"
+          }
+        },
+        {
+          "scope": "保留依赖",
+          "summary": "独特敌方英雄参与击杀层数",
+          "quote": "每位独特的敌方英雄",
+          "reason": "该进度或条件影响范围内战斗收益；不模拟范围外对象战斗，但不能丢失已获得进度",
+          "evidence": {
+            "sourceId": 8106,
+            "field": "officialLong",
+            "exactText": "每位独特的敌方英雄"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "终极技能急速基础6，每层5"
+      ],
+      "missingFacts": [
+        "终极技能键集合逐项引用；独特英雄层数来源及更新；不能用全技能急速替代"
+      ],
+      "recordableComponents": [
+        "6、5参数与明确层数公式；现有SKILL_HASTE_MODIFIER可承载已核集合，集合未核前不接线"
+      ],
+      "sourceReferences": {
+        "official": "/0/slots/3/runes/2",
+        "client": "/25"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [],
+      "sourceValueStatus": "已见明确数值，条件与组合单独核对"
+    },
+    {
+      "runeKey": "rune_8351",
+      "skillKey": "rune_8351_passive",
+      "id": 8351,
+      "name": "冰川增幅",
+      "category": "KEYSTONE",
+      "pathKey": "rune_path_8300",
+      "pathName": "启迪",
+      "scope": "混合保留",
+      "branches": [
+        {
+          "scope": "范围内",
+          "summary": "敌方英雄减速与霜冻持续时间",
+          "quote": "使敌人们减速20%",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8351,
+            "field": "officialLong",
+            "exactText": "使敌人们减速20%"
+          }
+        },
+        {
+          "scope": "范围外",
+          "summary": "仅对队友的减伤",
+          "quote": "不包括你自己",
+          "reason": "文字明确排除持有者，不能作为自身受到伤害减免",
+          "evidence": {
+            "sourceId": 8351,
+            "field": "officialLong",
+            "exactText": "不包括你自己"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "基础减速0.20；每1治疗护盾强度比例增加0.90，每1AP增加0.0006，每1额外AD增加0.0007；持续3000毫秒+定身时长；冷却25000毫秒"
+      ],
+      "missingFacts": [
+        "完整定身状态集合及原始定身时长输入；霜冻区目标留存/退出；减速计算及多来源组合，当前只有眩晕状态"
+      ],
+      "recordableComponents": [
+        "全部明确参数与减速比例公式；不生成伪造减速状态、无条件减总移速或自身15%减伤"
+      ],
+      "sourceReferences": {
+        "official": "/1/slots/0/runes/0",
+        "client": "/39"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [],
+      "sourceValueStatus": "已见明确数值，条件与组合单独核对"
+    },
+    {
+      "runeKey": "rune_8360",
+      "skillKey": "rune_8360_passive",
+      "id": 8360,
+      "name": "启封的秘籍",
+      "category": "KEYSTONE",
+      "pathKey": "rune_path_8300",
+      "pathName": "启迪",
+      "scope": "范围内",
+      "branches": [
+        {
+          "scope": "范围内",
+          "summary": "更换一次性召唤师技能改变战斗可用技能",
+          "quote": "单次使用的召唤师技能",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8360,
+            "field": "officialLong",
+            "exactText": "单次使用的召唤师技能"
+          }
+        },
+        {
+          "scope": "保留依赖",
+          "summary": "首次可用时间、独特置换进度与重选限制",
+          "quote": "你必须置换3次以上",
+          "reason": "该进度或条件影响范围内战斗收益；不模拟范围外对象战斗，但不能丢失已获得进度",
+          "evidence": {
+            "sourceId": 8360,
+            "field": "officialLong",
+            "exactText": "你必须置换3次以上"
+          }
+        },
+        {
+          "scope": "范围内",
+          "summary": "惩戒置换后的伤害提升",
+          "quote": "惩戒】伤害会在置换2次召唤师技能后提升",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8360,
+            "field": "officialLong",
+            "exactText": "惩戒】伤害会在置换2次召唤师技能后提升"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "首次360000毫秒；独特置换每次减25000毫秒；惩戒门槛2次；至少超过3次才能重新选第一个"
+      ],
+      "missingFacts": [
+        "初始冷却@f3@；置换技能集合与次数冷却下限；非战斗判定；惩戒具体伤害与对象；替换技能实例能力"
+      ],
+      "recordableComponents": [
+        "确定时间与次数参数；不能以召唤师技能=召唤物而全项排除"
+      ],
+      "sourceReferences": {
+        "official": "/1/slots/0/runes/1",
+        "client": "/10"
+      },
+      "sourceHasGameplayPlaceholders": true,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [
+        "@f3@初始置换冷却、惩戒提升伤害值"
+      ],
+      "sourceValueStatus": "部分数值或曲线缺失"
+    },
+    {
+      "runeKey": "rune_8369",
+      "skillKey": "rune_8369_passive",
+      "id": 8369,
+      "name": "先攻",
+      "category": "KEYSTONE",
+      "pathKey": "rune_path_8300",
+      "pathName": "启迪",
+      "scope": "混合保留",
+      "branches": [
+        {
+          "scope": "范围内",
+          "summary": "先手窗口中的英雄伤害增幅",
+          "quote": "对英雄们造成7%额外伤害",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8369,
+            "field": "officialLong",
+            "exactText": "对英雄们造成7%额外伤害"
+          }
+        },
+        {
+          "scope": "范围外",
+          "summary": "触发金币及伤害转金币",
+          "quote": "提供10金币",
+          "reason": "金币分支排除，保留同次先攻的伤害分支",
+          "evidence": {
+            "sourceId": 8369,
+            "field": "officialLong",
+            "exactText": "提供10金币"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "先手宽限250毫秒；持续3000毫秒；伤害增幅0.07；冷却仅25–15秒端点"
+      ],
+      "missingFacts": [
+        "逐等级冷却；谁先进入英雄战斗；伤害乘区与合法伤害包过滤"
+      ],
+      "recordableComponents": [
+        "250、3000、0.07确定参数；当前无伤害修正区，不虚构伤害效果"
+      ],
+      "sourceReferences": {
+        "official": "/1/slots/0/runes/2",
+        "client": "/0"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [
+        "25–15秒冷却等级值"
+      ],
+      "sourceValueStatus": "部分数值或曲线缺失"
+    },
+    {
+      "runeKey": "rune_8306",
+      "skillKey": "rune_8306_passive",
+      "id": 8306,
+      "name": "海克斯科技闪现罗网",
+      "category": "MINOR",
+      "pathKey": "rune_path_8300",
+      "pathName": "启迪",
+      "scope": "范围外",
+      "branches": [
+        {
+          "scope": "范围外",
+          "summary": "海克斯闪现的引导与位置改变",
+          "quote": "引导2秒后闪烁到一个新位置",
+          "reason": "只有空间移动及闪现替换，无独立伤害/治疗/属性组成；按本阶段纯空间效果排除",
+          "evidence": {
+            "sourceId": 8306,
+            "field": "officialLong",
+            "exactText": "引导2秒后闪烁到一个新位置"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "引导2000毫秒；通常冷却20000毫秒；进入英雄战斗10000毫秒冷却"
+      ],
+      "missingFacts": [],
+      "recordableComponents": [],
+      "sourceReferences": {
+        "official": "/1/slots/1/runes/0",
+        "client": "/78"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [],
+      "sourceValueStatus": "范围外不补机制值"
+    },
+    {
+      "runeKey": "rune_8304",
+      "skillKey": "rune_8304_passive",
+      "id": 8304,
+      "name": "神奇之鞋",
+      "category": "MINOR",
+      "pathKey": "rune_path_8300",
+      "pathName": "启迪",
+      "scope": "混合保留",
+      "branches": [
+        {
+          "scope": "范围内",
+          "summary": "神奇之鞋额外10移速及升级继承",
+          "quote": "提供额外的10移动速度",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8304,
+            "field": "officialLong",
+            "exactText": "提供额外的10移动速度"
+          }
+        },
+        {
+          "scope": "保留依赖",
+          "summary": "鞋子实际获得及装备状态",
+          "quote": "你每参与一次击杀",
+          "reason": "该进度或条件影响范围内战斗收益；不模拟范围外对象战斗，但不能丢失已获得进度",
+          "evidence": {
+            "sourceId": 8304,
+            "field": "officialLong",
+            "exactText": "你每参与一次击杀"
+          }
+        },
+        {
+          "scope": "范围外",
+          "summary": "免费获取与禁购",
+          "quote": "但你在之前不能购买鞋子",
+          "reason": "经济流程不模拟，但实际是否持有该鞋必须保留为战斗属性前提",
+          "evidence": {
+            "sourceId": 8304,
+            "field": "officialLong",
+            "exactText": "但你在之前不能购买鞋子"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "获得后额外移速10；12分钟基准到达；参与击杀提前45秒；官方2422说明升级鞋保留额外10"
+      ],
+      "missingFacts": [
+        "装备实际存在/升级继承的条件装配；避免与装备直接25基础移速或已保存被动重复加算"
+      ],
+      "recordableComponents": [
+        "额外10固定属性组成；装备取得前不以来源初始化立即授予"
+      ],
+      "sourceReferences": {
+        "official": "/1/slots/1/runes/1",
+        "client": "/71"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [],
+      "sourceValueStatus": "已见明确数值，条件与组合单独核对"
+    },
+    {
+      "runeKey": "rune_8321",
+      "skillKey": "rune_8321_passive",
+      "id": 8321,
+      "name": "返现",
+      "category": "MINOR",
+      "pathKey": "rune_path_8300",
+      "pathName": "启迪",
+      "scope": "范围外",
+      "branches": [
+        {
+          "scope": "范围外",
+          "summary": "购买传说装备返金币",
+          "quote": "返还7.5%金币",
+          "reason": "仅经济收益，整项效果排除",
+          "evidence": {
+            "sourceId": 8321,
+            "field": "officialLong",
+            "exactText": "返还7.5%金币"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "返还0.075购买金币"
+      ],
+      "missingFacts": [],
+      "recordableComponents": [],
+      "sourceReferences": {
+        "official": "/1/slots/1/runes/2",
+        "client": "/102"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [],
+      "sourceValueStatus": "范围外不补机制值"
+    },
+    {
+      "runeKey": "rune_8313",
+      "skillKey": "rune_8313_passive",
+      "id": 8313,
+      "name": "三重补药",
+      "category": "MINOR",
+      "pathKey": "rune_path_8300",
+      "pathName": "启迪",
+      "scope": "混合保留",
+      "branches": [
+        {
+          "scope": "范围外",
+          "summary": "3级贪财合剂的小兵伤害和金币",
+          "quote": "对抗小兵时附带的5真实伤害",
+          "reason": "2151伤害仅对小兵，到期金币也范围外",
+          "evidence": {
+            "sourceItemId": 2151,
+            "file": "官方原始资料/item-16.17.1-zh_CN.json",
+            "pointer": "/data/2151/description",
+            "exactText": "对抗小兵时附带的5真实伤害"
+          }
+        },
+        {
+          "scope": "范围内",
+          "summary": "6级原力合剂的临时战斗属性",
+          "quote": "提供25适应之力，持续60秒",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceItemId": 2152,
+            "file": "官方原始资料/item-16.17.1-zh_CN.json",
+            "pointer": "/data/2152/description",
+            "exactText": "提供25适应之力，持续60秒"
+          }
+        },
+        {
+          "scope": "范围内",
+          "summary": "9级技能合剂的技能点",
+          "quote": "提供1技能点数",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceItemId": 2150,
+            "file": "官方原始资料/item-16.17.1-zh_CN.json",
+            "pointer": "/data/2150/description",
+            "exactText": "提供1技能点数"
+          }
+        },
+        {
+          "scope": "保留依赖",
+          "summary": "药剂取得和实际消耗",
+          "quote": "在达到6级时",
+          "reason": "该进度或条件影响范围内战斗收益；不模拟范围外对象战斗，但不能丢失已获得进度",
+          "evidence": {
+            "sourceId": 8313,
+            "field": "officialLong",
+            "exactText": "在达到6级时"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "原力25适应之力、60000毫秒；技能合剂1技能点，不提升角色等级且不能投给已满级技能；获得等级3/6/9"
+      ],
+      "missingFacts": [
+        "适应选择/转换；消耗事件与单次消费；技能点分配及等级上限条件；不可把技能点当作经验排除"
+      ],
+      "recordableComponents": [
+        "25适应、60000毫秒、1技能点及门槛参数；不假造15AD/25AP自动分支或直接升角色等级"
+      ],
+      "sourceReferences": {
+        "official": "/1/slots/2/runes/0",
+        "client": "/64"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [
+        "适应之力的攻击力/法强转换和选择规则"
+      ],
+      "sourceValueStatus": "部分数值或曲线缺失"
+    },
+    {
+      "runeKey": "rune_8352",
+      "skillKey": "rune_8352_passive",
+      "id": 8352,
+      "name": "时间扭曲补药",
+      "category": "MINOR",
+      "pathKey": "rune_path_8300",
+      "pathName": "启迪",
+      "scope": "范围内",
+      "branches": [
+        {
+          "scope": "范围内",
+          "summary": "药水生命恢复额度部分提前",
+          "quote": "即时提供其40%的生命回复额度",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8352,
+            "field": "officialLong",
+            "exactText": "即时提供其40%的生命回复额度"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "即时比例0.40"
+      ],
+      "missingFacts": [
+        "原药水总额度、剩余周期调整和取值时点；合法消耗关联；不能加40%后仍保留100%原治疗"
+      ],
+      "recordableComponents": [
+        "0.40参数及总回复额度×0.40公式；原回复输入须明确，不无条件初始化治疗"
+      ],
+      "sourceReferences": {
+        "official": "/1/slots/2/runes/1",
+        "client": "/34"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [],
+      "sourceValueStatus": "已见明确数值，条件与组合单独核对"
+    },
+    {
+      "runeKey": "rune_8345",
+      "skillKey": "rune_8345_passive",
+      "id": 8345,
+      "name": "饼干配送",
+      "category": "MINOR",
+      "pathKey": "rune_path_8300",
+      "pathName": "启迪",
+      "scope": "范围内",
+      "branches": [
+        {
+          "scope": "范围内",
+          "summary": "饼干的恢复与永久生命收益",
+          "quote": "永久提供30最大生命值",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8345,
+            "field": "officialLong",
+            "exactText": "永久提供30最大生命值"
+          }
+        },
+        {
+          "scope": "保留依赖",
+          "summary": "饼干取得、消耗或出售次数",
+          "quote": "消耗或出售一块饼干",
+          "reason": "该进度或条件影响范围内战斗收益；不模拟范围外对象战斗，但不能丢失已获得进度",
+          "evidence": {
+            "sourceId": 8345,
+            "field": "officialLong",
+            "exactText": "消耗或出售一块饼干"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "每2分钟一次至6分钟；基础治疗20+0.02最大生命，依已损生命增幅最多100%；每块永久生命30；官方2010给出5秒治疗时长"
+      ],
+      "missingFacts": [
+        "已损生命到增幅的精确曲线；治疗跳频；消费/出售重复防护；不能因出售含经济字眼丢永久生命"
+      ],
+      "recordableComponents": [
+        "20、0.02、30、5000毫秒等参数及基础治疗公式；永久30独立组成，触发待消耗证据"
+      ],
+      "sourceReferences": {
+        "official": "/1/slots/2/runes/2",
+        "client": "/86"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [
+        "已损生命比例到饼干治疗增幅的曲线"
+      ],
+      "sourceValueStatus": "部分数值或曲线缺失"
+    },
+    {
+      "runeKey": "rune_8347",
+      "skillKey": "rune_8347_passive",
+      "id": 8347,
+      "name": "星界洞悉",
+      "category": "MINOR",
+      "pathKey": "rune_path_8300",
+      "pathName": "启迪",
+      "scope": "范围内",
+      "branches": [
+        {
+          "scope": "范围内",
+          "summary": "召唤师技能急速",
+          "quote": "+18召唤师技能急速",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8347,
+            "field": "officialLong",
+            "exactText": "+18召唤师技能急速"
+          }
+        },
+        {
+          "scope": "范围内",
+          "summary": "装备技能急速",
+          "quote": "+10装备急速",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8347,
+            "field": "officialLong",
+            "exactText": "+10装备急速"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "召唤师急速18、装备急速10"
+      ],
+      "missingFacts": [
+        "合法技能集合及不同急速属性作用范围；不是通用技能急速28"
+      ],
+      "recordableComponents": [
+        "18、10参数；集合核对后现有指定SKILLS急速修正可表达，当前不猜集合"
+      ],
+      "sourceReferences": {
+        "official": "/1/slots/3/runes/0",
+        "client": "/97"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [],
+      "sourceValueStatus": "已见明确数值，条件与组合单独核对"
+    },
+    {
+      "runeKey": "rune_8410",
+      "skillKey": "rune_8410_passive",
+      "id": 8410,
+      "name": "行近速率",
+      "category": "MINOR",
+      "pathKey": "rune_path_8300",
+      "pathName": "启迪",
+      "scope": "混合保留",
+      "branches": [
+        {
+          "scope": "范围内",
+          "summary": "朝向自己控制的敌人加速",
+          "quote": "被你施加了移动受损",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8410,
+            "field": "officialLong",
+            "exactText": "被你施加了移动受损"
+          }
+        },
+        {
+          "scope": "范围外",
+          "summary": "来自友军控制的附近加速分支",
+          "quote": "来自友军控制效果的激活距离",
+          "reason": "严格单挑没有第三名友方英雄施加控制；保留自己的控制分支",
+          "evidence": {
+            "sourceId": 8410,
+            "field": "officialLong",
+            "exactText": "来自友军控制效果的激活距离"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "自身控制目标移速比例0.15；其他移动受损分支0.075；友方控制距离1000"
+      ],
+      "missingFacts": [
+        "朝向移动/距离事件；控制归属与合法减速/定身全集；百分比移速组合"
+      ],
+      "recordableComponents": [
+        "自身0.15及基础0.075参数按分支记录；不无条件加速或硬接眩晕一种状态"
+      ],
+      "sourceReferences": {
+        "official": "/1/slots/3/runes/1",
+        "client": "/4"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [],
+      "sourceValueStatus": "已见明确数值，条件与组合单独核对"
+    },
+    {
+      "runeKey": "rune_8316",
+      "skillKey": "rune_8316_passive",
+      "id": 8316,
+      "name": "多面手",
+      "category": "MINOR",
+      "pathKey": "rune_path_8300",
+      "pathName": "启迪",
+      "scope": "范围内",
+      "branches": [
+        {
+          "scope": "范围内",
+          "summary": "每种装备属性的技能急速和里程碑适应之力",
+          "quote": "每层为你提供1技能急速",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8316,
+            "field": "officialLong",
+            "exactText": "每层为你提供1技能急速"
+          }
+        },
+        {
+          "scope": "保留依赖",
+          "summary": "装备不同属性数量",
+          "quote": "每从装备中获得一种不同属性",
+          "reason": "该进度或条件影响范围内战斗收益；不模拟范围外对象战斗，但不能丢失已获得进度",
+          "evidence": {
+            "sourceId": 8316,
+            "field": "officialLong",
+            "exactText": "每从装备中获得一种不同属性"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "每层急速1；5层适应8，10层适应20"
+      ],
+      "missingFacts": [
+        "不同属性种类计数规则、去重与上限；适应转换；实际装备集合变化入口"
+      ],
+      "recordableComponents": [
+        "1、5、8、10、20参数；已确认层数×1公式，不把装备数当属性种类数"
+      ],
+      "sourceReferences": {
+        "official": "/1/slots/3/runes/2",
+        "client": "/99"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [
+        "不同装备属性计数清单及适应之力转换"
+      ],
+      "sourceValueStatus": "部分数值或曲线缺失"
+    },
+    {
+      "runeKey": "rune_8005",
+      "skillKey": "rune_8005_passive",
+      "id": 8005,
+      "name": "强攻",
+      "category": "KEYSTONE",
+      "pathKey": "rune_path_8000",
+      "pathName": "精密",
+      "scope": "范围内",
+      "branches": [
+        {
+          "scope": "范围内",
+          "summary": "连续三次普攻的自适应伤害",
+          "quote": "用3次连续的普攻",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8005,
+            "field": "officialLong",
+            "exactText": "用3次连续的普攻"
+          }
+        },
+        {
+          "scope": "范围内",
+          "summary": "直到脱离英雄战斗的增伤",
+          "quote": "持续到你离开与英雄的战斗状态为止",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8005,
+            "field": "officialLong",
+            "exactText": "持续到你离开与英雄的战斗状态为止"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "3次；增伤0.08；客户端tooltip额外明确3击冷却6000毫秒；伤害40–160端点"
+      ],
+      "missingFacts": [
+        "基础伤害等级表与自适应类型；换目标/重置规则；战斗退出事件；伤害合法乘区"
+      ],
+      "recordableComponents": [
+        "3、0.08、6000毫秒参数；不遗漏tooltip冷却，不造等级曲线"
+      ],
+      "sourceReferences": {
+        "official": "/2/slots/0/runes/0",
+        "client": "/29"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [
+        "40–160基础伤害等级值及适应选择"
+      ],
+      "sourceValueStatus": "部分数值或曲线缺失"
+    },
+    {
+      "runeKey": "rune_8008",
+      "skillKey": "rune_8008_passive",
+      "id": 8008,
+      "name": "致命节奏",
+      "category": "KEYSTONE",
+      "pathKey": "rune_path_8000",
+      "pathName": "精密",
+      "scope": "范围内",
+      "branches": [
+        {
+          "scope": "范围内",
+          "summary": "攻击叠层攻速",
+          "quote": "至多至6层",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8008,
+            "field": "officialLong",
+            "exactText": "至多至6层"
+          }
+        },
+        {
+          "scope": "范围内",
+          "summary": "满层攻击特效及额外攻速增幅",
+          "quote": "每1%额外攻击速度都会使其提升1%",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8008,
+            "field": "officialLong",
+            "exactText": "每1%额外攻击速度都会使其提升1%"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "持续6000毫秒；上限6；每层近战0.06/远程0.04；伤害增幅因子1+额外攻速比例；满层伤害近战9–30/远程6–24端点"
+      ],
+      "missingFacts": [
+        "两套等级曲线；近远程分类；自适应选择；触发/刷新与达到满层的本次攻击是否带特效"
+      ],
+      "recordableComponents": [
+        "攻速比例、时长、层数参数及额外攻速增幅公式；不把单位1%再乘100"
+      ],
+      "sourceReferences": {
+        "official": "/2/slots/0/runes/1",
+        "client": "/22"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [
+        "两类基础伤害等级值及适应选择"
+      ],
+      "sourceValueStatus": "部分数值或曲线缺失"
+    },
+    {
+      "runeKey": "rune_8021",
+      "skillKey": "rune_8021_passive",
+      "id": 8021,
+      "name": "迅捷步法",
+      "category": "KEYSTONE",
+      "pathKey": "rune_path_8000",
+      "pathName": "精密",
+      "scope": "混合保留",
+      "branches": [
+        {
+          "scope": "范围内",
+          "summary": "充能攻击后的自身治疗与短时移速",
+          "quote": "你的下次攻击会充盈能量",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8021,
+            "field": "officialLong",
+            "exactText": "你的下次攻击会充盈能量"
+          }
+        },
+        {
+          "scope": "保留依赖",
+          "summary": "移动及攻击充能进度",
+          "quote": "攻击和移动会积攒能量层数",
+          "reason": "该进度或条件影响范围内战斗收益；不模拟范围外对象战斗，但不能丢失已获得进度",
+          "evidence": {
+            "sourceId": 8021,
+            "field": "officialLong",
+            "exactText": "攻击和移动会积攒能量层数"
+          }
+        },
+        {
+          "scope": "范围外",
+          "summary": "对小兵的治疗倍率",
+          "quote": "对抗小兵时的所有治疗效果只有15%效能",
+          "reason": "本阶段不计算攻击小兵的治疗，但不丢战前充能进度",
+          "evidence": {
+            "sourceId": 8021,
+            "field": "officialLong",
+            "exactText": "对抗小兵时的所有治疗效果只有15%效能"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "满充100；移速0.20持续1000毫秒；远程治疗0.60/移速0.75；治疗AD0.10/AP0.05；基础15–160端点"
+      ],
+      "missingFacts": [
+        "移动/攻击充能权重；治疗等级表；近远程分类；移速组合和充能消费时点"
+      ],
+      "recordableComponents": [
+        "100、1000、0.20、0.60、0.75、系数参数；不能每次普攻无条件触发"
+      ],
+      "sourceReferences": {
+        "official": "/2/slots/0/runes/2",
+        "client": "/61"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [
+        "15–160治疗等级值、攻击/移动充能权重"
+      ],
+      "sourceValueStatus": "部分数值或曲线缺失"
+    },
+    {
+      "runeKey": "rune_8010",
+      "skillKey": "rune_8010_passive",
+      "id": 8010,
+      "name": "征服者",
+      "category": "KEYSTONE",
+      "pathKey": "rune_path_8000",
+      "pathName": "精密",
+      "scope": "范围内",
+      "branches": [
+        {
+          "scope": "范围内",
+          "summary": "英雄命中叠层适应之力",
+          "quote": "至多可叠加12次",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8010,
+            "field": "officialLong",
+            "exactText": "至多可叠加12次"
+          }
+        },
+        {
+          "scope": "范围内",
+          "summary": "满层对英雄伤害转自身治疗",
+          "quote": "在叠满层数后",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8010,
+            "field": "officialLong",
+            "exactText": "在叠满层数后"
+          }
+        },
+        {
+          "scope": "保留依赖",
+          "summary": "攻击类型与层数维持",
+          "quote": "远程英雄的每次普攻只会提供1层效果",
+          "reason": "该进度或条件影响范围内战斗收益；不模拟范围外对象战斗，但不能丢失已获得进度",
+          "evidence": {
+            "sourceId": 8010,
+            "field": "officialLong",
+            "exactText": "远程英雄的每次普攻只会提供1层效果"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "通常每命中2层，远程普攻1层；最多12；5000毫秒；每层适应1.8–4端点；满层近战0.08/远程0.05伤害转治疗"
+      ],
+      "missingFacts": [
+        "适应等级曲线与转换；每施法/持续伤害叠层去重；治疗取哪一伤害阶段；近远程条件"
+      ],
+      "recordableComponents": [
+        "层数、时长及治疗比例参数；不把低血量/伤害阶段等未知替为固定默认"
+      ],
+      "sourceReferences": {
+        "official": "/2/slots/0/runes/3",
+        "client": "/23"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [
+        "1.8–4每层适应值的等级曲线与转换"
+      ],
+      "sourceValueStatus": "部分数值或曲线缺失"
+    },
+    {
+      "runeKey": "rune_9101",
+      "skillKey": "rune_9101_passive",
+      "id": 9101,
+      "name": "吸收生命力",
+      "category": "MINOR",
+      "pathKey": "rune_path_8000",
+      "pathName": "精密",
+      "scope": "范围内",
+      "branches": [
+        {
+          "scope": "范围内",
+          "summary": "击杀目标后的治疗",
+          "quote": "击杀一个目标回复1 - 23生命值",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 9101,
+            "field": "clientLong",
+            "exactText": "击杀一个目标回复1 - 23生命值"
+          }
+        },
+        {
+          "scope": "保留依赖",
+          "summary": "目标类别与击杀来源",
+          "quote": "击杀目标后",
+          "reason": "该进度或条件影响范围内战斗收益；不模拟范围外对象战斗，但不能丢失已获得进度",
+          "evidence": {
+            "sourceId": 9101,
+            "field": "officialLong",
+            "exactText": "击杀目标后"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "客户端16.17补齐治疗1–23等级端点；官方仍@HealAmount@"
+      ],
+      "missingFacts": [
+        "完整逐等级值；英雄击杀与非英雄目标范围；触发延时和合法击杀归属"
+      ],
+      "recordableComponents": [
+        "端点作资料缺值证据，不自动生成1至23的线性表；不因常见小兵触发而全项排除"
+      ],
+      "sourceReferences": {
+        "official": "/2/slots/1/runes/0",
+        "client": "/21"
+      },
+      "sourceHasGameplayPlaceholders": true,
+      "clientDescriptionDiffers": true,
+      "missingSourceValueFacts": [
+        "@HealAmount@仅补到1–23端点，缺完整等级表"
+      ],
+      "sourceValueStatus": "部分数值或曲线缺失"
+    },
+    {
+      "runeKey": "rune_9111",
+      "skillKey": "rune_9111_passive",
+      "id": 9111,
+      "name": "凯旋",
+      "category": "MINOR",
+      "pathKey": "rune_path_8000",
+      "pathName": "精密",
+      "scope": "混合保留",
+      "branches": [
+        {
+          "scope": "范围内",
+          "summary": "参与击杀的已损和最大生命治疗",
+          "quote": "5%已损失生命值",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 9111,
+            "field": "officialLong",
+            "exactText": "5%已损失生命值"
+          }
+        },
+        {
+          "scope": "范围外",
+          "summary": "额外金币",
+          "quote": "额外的20金币",
+          "reason": "只排除金币，保留同次自身治疗",
+          "evidence": {
+            "sourceId": 9111,
+            "field": "officialLong",
+            "exactText": "额外的20金币"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "治疗=0.05已损生命+0.025最大生命"
+      ],
+      "missingFacts": [
+        "参与击杀事件是否包含助攻及准确治疗时点；当前KILL不能假冒所有参与击杀"
+      ],
+      "recordableComponents": [
+        "两个比例参数、完整自身治疗公式与独立DIRECT_HEAL；自动事件待核"
+      ],
+      "sourceReferences": {
+        "official": "/2/slots/1/runes/1",
+        "client": "/42"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [],
+      "sourceValueStatus": "已见明确数值，条件与组合单独核对"
+    },
+    {
+      "runeKey": "rune_8009",
+      "skillKey": "rune_8009_passive",
+      "id": 8009,
+      "name": "气定神闲",
+      "category": "MINOR",
+      "pathKey": "rune_path_8000",
+      "pathName": "精密",
+      "scope": "范围内",
+      "branches": [
+        {
+          "scope": "范围内",
+          "summary": "伤害英雄后的资源恢复",
+          "quote": "法力值或6能量值",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8009,
+            "field": "officialLong",
+            "exactText": "法力值或6能量值"
+          }
+        },
+        {
+          "scope": "范围内",
+          "summary": "参与击杀后的最大资源比例恢复",
+          "quote": "15%的最大法力值或最大能量值",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8009,
+            "field": "officialLong",
+            "exactText": "15%的最大法力值或最大能量值"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "伤害回能量6，法力6–50等级端点；远程法力效能0.80；冷却8000毫秒；击杀恢复最大资源0.15"
+      ],
+      "missingFacts": [
+        "法力等级曲线；法力/能量角色资源选择；远程分类；参与击杀和每次伤害去重"
+      ],
+      "recordableComponents": [
+        "6、0.80、8000、0.15参数；独立恢复6能量及最大法力/能量×0.15公式和效果，不同时给两资源"
+      ],
+      "sourceReferences": {
+        "official": "/2/slots/1/runes/2",
+        "client": "/73"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [
+        "6–50法力恢复等级值"
+      ],
+      "sourceValueStatus": "部分数值或曲线缺失"
+    },
+    {
+      "runeKey": "rune_9104",
+      "skillKey": "rune_9104_passive",
+      "id": 9104,
+      "name": "传说：欢欣",
+      "category": "MINOR",
+      "pathKey": "rune_path_8000",
+      "pathName": "精密",
+      "scope": "范围内",
+      "branches": [
+        {
+          "scope": "范围内",
+          "summary": "初始和每层攻击速度",
+          "quote": "获得3%攻击速度",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 9104,
+            "field": "officialLong",
+            "exactText": "获得3%攻击速度"
+          }
+        },
+        {
+          "scope": "保留依赖",
+          "summary": "传奇进度来源",
+          "quote": "击杀大型野怪，击杀小兵",
+          "reason": "该进度或条件影响范围内战斗收益；不模拟范围外对象战斗，但不能丢失已获得进度",
+          "evidence": {
+            "sourceId": 9104,
+            "field": "officialLong",
+            "exactText": "击杀大型野怪，击杀小兵"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "基础攻速0.03，每层0.015，上限10"
+      ],
+      "missingFacts": [
+        "各类击杀进度权重、战前层数来源、动态层数更新；不能删除小兵/野怪取得的已有层数"
+      ],
+      "recordableComponents": [
+        "基础0.03无条件固定属性与初始化；每层系数、上限、已确认层数公式可单独保存"
+      ],
+      "sourceReferences": {
+        "official": "/2/slots/2/runes/0",
+        "client": "/75"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [
+        "各类对象击杀提供的传奇进度权重"
+      ],
+      "sourceValueStatus": "部分数值或曲线缺失"
+    },
+    {
+      "runeKey": "rune_9105",
+      "skillKey": "rune_9105_passive",
+      "id": 9105,
+      "name": "传说：急速",
+      "category": "MINOR",
+      "pathKey": "rune_path_8000",
+      "pathName": "精密",
+      "scope": "范围内",
+      "branches": [
+        {
+          "scope": "范围内",
+          "summary": "每层基础技能急速",
+          "quote": "每层传说效果提供1.5基础技能急速",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 9105,
+            "field": "officialLong",
+            "exactText": "每层传说效果提供1.5基础技能急速"
+          }
+        },
+        {
+          "scope": "保留依赖",
+          "summary": "传奇进度来源",
+          "quote": "击杀大型野怪，击杀小兵",
+          "reason": "该进度或条件影响范围内战斗收益；不模拟范围外对象战斗，但不能丢失已获得进度",
+          "evidence": {
+            "sourceId": 9105,
+            "field": "officialLong",
+            "exactText": "击杀大型野怪，击杀小兵"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "每层1.5基础技能急速，上限10"
+      ],
+      "missingFacts": [
+        "进度权重；基础技能集合不能误包含终极技能；层数来源与更新"
+      ],
+      "recordableComponents": [
+        "1.5、10参数与已确认层数公式；用指定基础技能范围的急速结果，不加全技能急速"
+      ],
+      "sourceReferences": {
+        "official": "/2/slots/2/runes/1",
+        "client": "/24"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [
+        "各类对象击杀提供的传奇进度权重"
+      ],
+      "sourceValueStatus": "部分数值或曲线缺失"
+    },
+    {
+      "runeKey": "rune_9103",
+      "skillKey": "rune_9103_passive",
+      "id": 9103,
+      "name": "传说：血统",
+      "category": "MINOR",
+      "pathKey": "rune_path_8000",
+      "pathName": "精密",
+      "scope": "范围内",
+      "branches": [
+        {
+          "scope": "范围内",
+          "summary": "每层生命偷取与满层生命值",
+          "quote": "每层传说效果提供0.45%生命偷取",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 9103,
+            "field": "officialLong",
+            "exactText": "每层传说效果提供0.45%生命偷取"
+          }
+        },
+        {
+          "scope": "保留依赖",
+          "summary": "传奇进度来源",
+          "quote": "击杀大型野怪，击杀小兵",
+          "reason": "该进度或条件影响范围内战斗收益；不模拟范围外对象战斗，但不能丢失已获得进度",
+          "evidence": {
+            "sourceId": 9103,
+            "field": "officialLong",
+            "exactText": "击杀大型野怪，击杀小兵"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "每层生命偷取0.0045；上限15；满层生命85"
+      ],
+      "missingFacts": [
+        "进度权重和当前层数；满层授予一次与失去层数规则；不得无条件给85生命"
+      ],
+      "recordableComponents": [
+        "0.0045、15、85参数；每层生命偷取与受门槛保护的85生命独立组成，不先初始化满层"
+      ],
+      "sourceReferences": {
+        "official": "/2/slots/2/runes/2",
+        "client": "/65"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [
+        "各类对象击杀提供的传奇进度权重"
+      ],
+      "sourceValueStatus": "部分数值或曲线缺失"
+    },
+    {
+      "runeKey": "rune_8014",
+      "skillKey": "rune_8014_passive",
+      "id": 8014,
+      "name": "致命一击",
+      "category": "MINOR",
+      "pathKey": "rune_path_8000",
+      "pathName": "精密",
+      "scope": "范围内",
+      "branches": [
+        {
+          "scope": "范围内",
+          "summary": "目标低生命值伤害增幅",
+          "quote": "低于40%的英雄",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8014,
+            "field": "officialLong",
+            "exactText": "低于40%的英雄"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "目标生命比例严格<0.40；伤害+0.08"
+      ],
+      "missingFacts": [
+        "伤害乘区/伤害包范围，伤害前还是事件后目标生命采样"
+      ],
+      "recordableComponents": [
+        "阈值0.40及0.08参数；目录无DAMAGE区，暂不生成持续伤害修正"
+      ],
+      "sourceReferences": {
+        "official": "/2/slots/3/runes/0",
+        "client": "/59"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [],
+      "sourceValueStatus": "已见明确数值，条件与组合单独核对"
+    },
+    {
+      "runeKey": "rune_8017",
+      "skillKey": "rune_8017_passive",
+      "id": 8017,
+      "name": "砍倒",
+      "category": "MINOR",
+      "pathKey": "rune_path_8000",
+      "pathName": "精密",
+      "scope": "范围内",
+      "branches": [
+        {
+          "scope": "范围内",
+          "summary": "目标高生命值伤害增幅",
+          "quote": "多于60%的英雄",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8017,
+            "field": "officialLong",
+            "exactText": "多于60%的英雄"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "目标生命比例严格>0.60；伤害+0.08"
+      ],
+      "missingFacts": [
+        "伤害乘区及目标生命采样时点；不采用旧版最大生命差公式"
+      ],
+      "recordableComponents": [
+        "阈值0.60及0.08参数"
+      ],
+      "sourceReferences": {
+        "official": "/2/slots/3/runes/1",
+        "client": "/26"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [],
+      "sourceValueStatus": "已见明确数值，条件与组合单独核对"
+    },
+    {
+      "runeKey": "rune_8299",
+      "skillKey": "rune_8299_passive",
+      "id": 8299,
+      "name": "坚毅不倒",
+      "category": "MINOR",
+      "pathKey": "rune_path_8000",
+      "pathName": "精密",
+      "scope": "范围内",
+      "branches": [
+        {
+          "scope": "范围内",
+          "summary": "自身低生命值伤害增幅",
+          "quote": "当你的生命值低于60%",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8299,
+            "field": "officialLong",
+            "exactText": "当你的生命值低于60%"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "<0.60起最小增伤0.05；0.30生命时最大0.11；tooltip低于0.30仍最大"
+      ],
+      "missingFacts": [
+        "30%到60%之间的准确插值；伤害区和采样时点"
+      ],
+      "recordableComponents": [
+        "两个生命阈值及0.05/0.11参数；不猜中间线性函数"
+      ],
+      "sourceReferences": {
+        "official": "/2/slots/3/runes/2",
+        "client": "/6"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [
+        "30%至60%生命之间的伤害增幅曲线"
+      ],
+      "sourceValueStatus": "部分数值或曲线缺失"
+    },
+    {
+      "runeKey": "rune_8437",
+      "skillKey": "rune_8437_passive",
+      "id": 8437,
+      "name": "不灭之握",
+      "category": "KEYSTONE",
+      "pathKey": "rune_path_8400",
+      "pathName": "坚决",
+      "scope": "范围内",
+      "branches": [
+        {
+          "scope": "范围内",
+          "summary": "就绪攻击的魔法伤害和自身治疗",
+          "quote": "造成相当于你3.5%最大生命值",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8437,
+            "field": "officialLong",
+            "exactText": "造成相当于你3.5%最大生命值"
+          }
+        },
+        {
+          "scope": "范围内",
+          "summary": "永久生命增长",
+          "quote": "你的生命值永久提升5",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8437,
+            "field": "officialLong",
+            "exactText": "你的生命值永久提升5"
+          }
+        },
+        {
+          "scope": "保留依赖",
+          "summary": "战斗计时与远近程分支",
+          "quote": "在战斗中每过4秒",
+          "reason": "该进度或条件影响范围内战斗收益；不模拟范围外对象战斗，但不能丢失已获得进度",
+          "evidence": {
+            "sourceId": 8437,
+            "field": "officialLong",
+            "exactText": "在战斗中每过4秒"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "伤害0.035最大生命；治疗0.013最大生命；近战成长5；远程三收益效能0.40且tooltip明确成长2；就绪4000毫秒"
+      ],
+      "missingFacts": [
+        "战斗计时开始/停止和就绪消费；近远程分类；永久增长的无上限持久累计模型"
+      ],
+      "recordableComponents": [
+        "全部固定参数、近远程完整伤害/治疗公式及独立魔法伤害/治疗结果；不在初始化授予攻击收益"
+      ],
+      "sourceReferences": {
+        "official": "/3/slots/0/runes/0",
+        "client": "/89"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [],
+      "sourceValueStatus": "已见明确数值，条件与组合单独核对"
+    },
+    {
+      "runeKey": "rune_8439",
+      "skillKey": "rune_8439_passive",
+      "id": 8439,
+      "name": "余震",
+      "category": "KEYSTONE",
+      "pathKey": "rune_path_8400",
+      "pathName": "坚决",
+      "scope": "范围内",
+      "branches": [
+        {
+          "scope": "范围内",
+          "summary": "定身后短时双抗",
+          "quote": "45+你75%的额外双抗",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8439,
+            "field": "officialLong",
+            "exactText": "45+你75%的额外双抗"
+          }
+        },
+        {
+          "scope": "范围内",
+          "summary": "到期魔法爆炸",
+          "quote": "随后会爆炸",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8439,
+            "field": "officialLong",
+            "exactText": "随后会爆炸"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "双抗基础45+0.75各自额外值；持续2500毫秒；冷却20000毫秒；魔法伤害额外生命0.08；基础25–120及双抗上限80–150端点"
+      ],
+      "missingFacts": [
+        "两个等级曲线；双抗采样排除本效果自反馈；合法定身来源和爆炸命中范围"
+      ],
+      "recordableComponents": [
+        "45、0.75、2500、20000、0.08参数及未封顶双抗公式；上限未知前不授予可能超限双抗"
+      ],
+      "sourceReferences": {
+        "official": "/3/slots/0/runes/1",
+        "client": "/48"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [
+        "伤害25–120及双抗上限80–150的等级值"
+      ],
+      "sourceValueStatus": "部分数值或曲线缺失"
+    },
+    {
+      "runeKey": "rune_8465",
+      "skillKey": "rune_8465_passive",
+      "id": 8465,
+      "name": "守护者",
+      "category": "KEYSTONE",
+      "pathKey": "rune_path_8400",
+      "pathName": "坚决",
+      "scope": "范围外",
+      "branches": [
+        {
+          "scope": "范围外",
+          "summary": "依赖友军守护关系的双方护盾",
+          "quote": "守护距离你350码内的友军",
+          "reason": "自身护盾也要求存在受守护友军，严格单挑不能独立触发；不抽出无条件自身护盾",
+          "evidence": {
+            "sourceId": 8465,
+            "field": "officialLong",
+            "exactText": "守护距离你350码内的友军"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "守护2500毫秒、护盾1500毫秒；冷却/护盾/阈值均含等级端点"
+      ],
+      "missingFacts": [],
+      "recordableComponents": [],
+      "sourceReferences": {
+        "official": "/3/slots/0/runes/2",
+        "client": "/80"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [],
+      "sourceValueStatus": "范围外不补机制值"
+    },
+    {
+      "runeKey": "rune_8446",
+      "skillKey": "rune_8446_passive",
+      "id": 8446,
+      "name": "爆破",
+      "category": "MINOR",
+      "pathKey": "rune_path_8400",
+      "pathName": "坚决",
+      "scope": "范围外",
+      "branches": [
+        {
+          "scope": "范围外",
+          "summary": "防御塔第三次攻击伤害",
+          "quote": "你对防御塔的第三次攻击",
+          "reason": "专用目标为防御塔，不录成对英雄伤害",
+          "evidence": {
+            "sourceId": 8446,
+            "field": "officialLong",
+            "exactText": "你对防御塔的第三次攻击"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "近战85+0.28最大生命；远程50+0.20最大生命；冷却30000毫秒"
+      ],
+      "missingFacts": [],
+      "recordableComponents": [],
+      "sourceReferences": {
+        "official": "/3/slots/1/runes/0",
+        "client": "/1"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [],
+      "sourceValueStatus": "范围外不补机制值"
+    },
+    {
+      "runeKey": "rune_8463",
+      "skillKey": "rune_8463_passive",
+      "id": 8463,
+      "name": "生命源泉",
+      "category": "MINOR",
+      "pathKey": "rune_path_8400",
+      "pathName": "坚决",
+      "scope": "混合保留",
+      "branches": [
+        {
+          "scope": "范围内",
+          "summary": "自己干扰英雄移动后的自身治疗",
+          "quote": "可为你和附近生命值最低的友方英雄回复",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8463,
+            "field": "officialLong",
+            "exactText": "可为你和附近生命值最低的友方英雄回复"
+          }
+        },
+        {
+          "scope": "范围外",
+          "summary": "附近友方英雄治疗",
+          "quote": "附近生命值最低的友方英雄",
+          "reason": "只排除队友份额，不删除同次自身治疗",
+          "evidence": {
+            "sourceId": 8463,
+            "field": "officialLong",
+            "exactText": "附近生命值最低的友方英雄"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "远程效能0.70；冷却20000毫秒"
+      ],
+      "missingFacts": [
+        "治疗@BaseHeal@仍缺值；合法移动受损及控制归属；近远程分类"
+      ],
+      "recordableComponents": [
+        "0.70和20000参数；没有治疗值不能用0或任意固定数创建治疗"
+      ],
+      "sourceReferences": {
+        "official": "/3/slots/1/runes/1",
+        "client": "/69"
+      },
+      "sourceHasGameplayPlaceholders": true,
+      "clientDescriptionDiffers": true,
+      "missingSourceValueFacts": [
+        "@BaseHeal@治疗量"
+      ],
+      "sourceValueStatus": "部分数值或曲线缺失"
+    },
+    {
+      "runeKey": "rune_8401",
+      "skillKey": "rune_8401_passive",
+      "id": 8401,
+      "name": "护盾猛击",
+      "category": "MINOR",
+      "pathKey": "rune_path_8400",
+      "pathName": "坚决",
+      "scope": "范围内",
+      "branches": [
+        {
+          "scope": "范围内",
+          "summary": "新护盾赋予下一次攻击伤害",
+          "quote": "在你获得一个新的护盾时",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8401,
+            "field": "officialLong",
+            "exactText": "在你获得一个新的护盾时"
+          }
+        },
+        {
+          "scope": "保留依赖",
+          "summary": "护盾消失后的保留窗口",
+          "quote": "在护盾消散后",
+          "reason": "该进度或条件影响范围内战斗收益；不模拟范围外对象战斗，但不能丢失已获得进度",
+          "evidence": {
+            "sourceId": 8401,
+            "field": "officialLong",
+            "exactText": "在护盾消散后"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "额外生命0.025、新护盾值0.15；消散后2000毫秒；基础5–30等级端点"
+      ],
+      "missingFacts": [
+        "逐等级基础；自适应类型；新护盾金额事件字段、刷新与叠加合并规则；本次新护盾与当前剩余护盾不同"
+      ],
+      "recordableComponents": [
+        "0.025、0.15、2000参数及额外生命/新护盾比例组成公式；不读取当前总护盾代替新授予额"
+      ],
+      "sourceReferences": {
+        "official": "/3/slots/1/runes/2",
+        "client": "/41"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [
+        "5–30基础伤害等级值及适应选择"
+      ],
+      "sourceValueStatus": "部分数值或曲线缺失"
+    },
+    {
+      "runeKey": "rune_8429",
+      "skillKey": "rune_8429_passive",
+      "id": 8429,
+      "name": "调节",
+      "category": "MINOR",
+      "pathKey": "rune_path_8400",
+      "pathName": "坚决",
+      "scope": "范围内",
+      "branches": [
+        {
+          "scope": "范围内",
+          "summary": "12分钟后的固定双抗",
+          "quote": "获得+8护甲和+8魔抗",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8429,
+            "field": "officialLong",
+            "exactText": "获得+8护甲和+8魔抗"
+          }
+        },
+        {
+          "scope": "范围内",
+          "summary": "后续百分比双抗提升",
+          "quote": "护甲和魔抗提升3%",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8429,
+            "field": "officialLong",
+            "exactText": "护甲和魔抗提升3%"
+          }
+        },
+        {
+          "scope": "保留依赖",
+          "summary": "游戏时间门槛",
+          "quote": "在12分钟后",
+          "reason": "该进度或条件影响范围内战斗收益；不模拟范围外对象战斗，但不能丢失已获得进度",
+          "evidence": {
+            "sourceId": 8429,
+            "field": "officialLong",
+            "exactText": "在12分钟后"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "门槛720000毫秒；护甲8、魔抗8；两抗提升比例0.03"
+      ],
+      "missingFacts": [
+        "游戏绝对时间条件；固定与比例顺序及跨来源组合；不能用来源创建12分钟延迟代替开局时间"
+      ],
+      "recordableComponents": [
+        "8/8固定双抗独立组成，0.03参数；未确认时间条件前不初始化授予"
+      ],
+      "sourceReferences": {
+        "official": "/3/slots/2/runes/0",
+        "client": "/91"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [],
+      "sourceValueStatus": "已见明确数值，条件与组合单独核对"
+    },
+    {
+      "runeKey": "rune_8444",
+      "skillKey": "rune_8444_passive",
+      "id": 8444,
+      "name": "复苏之风",
+      "category": "MINOR",
+      "pathKey": "rune_path_8400",
+      "pathName": "坚决",
+      "scope": "范围内",
+      "branches": [
+        {
+          "scope": "范围内",
+          "summary": "受英雄伤害后的持续自身回复",
+          "quote": "在10秒里持续回复生命值",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8444,
+            "field": "officialLong",
+            "exactText": "在10秒里持续回复生命值"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "治疗总额0.04已损生命；持续10000毫秒"
+      ],
+      "missingFacts": [
+        "已损生命快照还是动态；具体跳频/首跳；再次受伤刷新叠加规则"
+      ],
+      "recordableComponents": [
+        "0.04和10000参数及总治疗额公式；不把总额一次治疗或任意10跳当完整效果"
+      ],
+      "sourceReferences": {
+        "official": "/3/slots/2/runes/1",
+        "client": "/87"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [],
+      "sourceValueStatus": "已见明确数值，条件与组合单独核对"
+    },
+    {
+      "runeKey": "rune_8473",
+      "skillKey": "rune_8473_passive",
+      "id": 8473,
+      "name": "骸骨镀层",
+      "category": "MINOR",
+      "pathKey": "rune_path_8400",
+      "pathName": "坚决",
+      "scope": "范围内",
+      "branches": [
+        {
+          "scope": "范围内",
+          "summary": "受伤后的有限次数固定减伤",
+          "quote": "下3次来自英雄的技能或攻击",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8473,
+            "field": "officialLong",
+            "exactText": "下3次来自英雄的技能或攻击"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "3次；持续1500毫秒；冷却55000毫秒；减伤30–60等级端点"
+      ],
+      "missingFacts": [
+        "逐等级减伤；是否同一伤害来源；首伤是否消费次数及多段合并；现有DAMAGE_MODIFIER仅比例，固定伤害抵扣能力缺口"
+      ],
+      "recordableComponents": [
+        "3、1500、55000参数；不借护盾或属性区伪装固定格挡"
+      ],
+      "sourceReferences": {
+        "official": "/3/slots/2/runes/2",
+        "client": "/15"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [
+        "30–60固定减伤的完整等级值"
+      ],
+      "sourceValueStatus": "部分数值或曲线缺失"
+    },
+    {
+      "runeKey": "rune_8451",
+      "skillKey": "rune_8451_passive",
+      "id": 8451,
+      "name": "过度生长",
+      "category": "MINOR",
+      "pathKey": "rune_path_8400",
+      "pathName": "坚决",
+      "scope": "范围内",
+      "branches": [
+        {
+          "scope": "范围内",
+          "summary": "永久生命与吸收门槛后的生命比例",
+          "quote": "永久获得3最大生命值",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8451,
+            "field": "officialLong",
+            "exactText": "永久获得3最大生命值"
+          }
+        },
+        {
+          "scope": "保留依赖",
+          "summary": "小兵野怪死亡吸收进度",
+          "quote": "每有8个野怪或小兵死亡",
+          "reason": "该进度或条件影响范围内战斗收益；不模拟范围外对象战斗，但不能丢失已获得进度",
+          "evidence": {
+            "sourceId": 8451,
+            "field": "officialLong",
+            "exactText": "每有8个野怪或小兵死亡"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "每8个提供3生命；120个后额外最大生命比例0.035"
+      ],
+      "missingFacts": [
+        "吸收范围及战前进度；累计除8取整而现行公式无FLOOR；最大生命比例的跨来源组合"
+      ],
+      "recordableComponents": [
+        "8、3、120、0.035参数；保留已吸收数量依赖，不因对象是小兵野怪删除整个符文"
+      ],
+      "sourceReferences": {
+        "official": "/3/slots/3/runes/0",
+        "client": "/63"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [],
+      "sourceValueStatus": "已见明确数值，条件与组合单独核对"
+    },
+    {
+      "runeKey": "rune_8453",
+      "skillKey": "rune_8453_passive",
+      "id": 8453,
+      "name": "复苏",
+      "category": "MINOR",
+      "pathKey": "rune_path_8400",
+      "pathName": "坚决",
+      "scope": "范围内",
+      "branches": [
+        {
+          "scope": "范围内",
+          "summary": "基础治疗与护盾强度",
+          "quote": "获得5%治疗和护盾强度",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8453,
+            "field": "officialLong",
+            "exactText": "获得5%治疗和护盾强度"
+          }
+        },
+        {
+          "scope": "范围内",
+          "summary": "低生命时自己施放或获得的额外治疗护盾",
+          "quote": "施放或获得的治疗效果和护盾效果会增强10%",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8453,
+            "field": "officialLong",
+            "exactText": "施放或获得的治疗效果和护盾效果会增强10%"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "基础强度0.05；低生命阈值<0.40；额外增幅0.10"
+      ],
+      "missingFacts": [
+        "施放/获得两方向和低血量采样；低血量对谁判定；治疗修正区及受到护盾增幅结构；不把10%全写成施放强度属性"
+      ],
+      "recordableComponents": [
+        "基础0.05明确强度属性；0.40/0.10参数；低生命分支独立待接，不扩大到所有目标"
+      ],
+      "sourceReferences": {
+        "official": "/3/slots/3/runes/1",
+        "client": "/9"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [],
+      "sourceValueStatus": "已见明确数值，条件与组合单独核对"
+    },
+    {
+      "runeKey": "rune_8242",
+      "skillKey": "rune_8242_passive",
+      "id": 8242,
+      "name": "坚定",
+      "category": "MINOR",
+      "pathKey": "rune_path_8400",
+      "pathName": "坚决",
+      "scope": "范围内",
+      "branches": [
+        {
+          "scope": "范围内",
+          "summary": "控制期间及结束后短时双抗",
+          "quote": "在被控制时和之后的2秒里",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8242,
+            "field": "officialLong",
+            "exactText": "在被控制时和之后的2秒里"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "护甲10、魔抗10；控制结束后2000毫秒"
+      ],
+      "missingFacts": [
+        "完整控制开始/结束事件；重叠控制续期；不能只选择眩晕代表全部控制"
+      ],
+      "recordableComponents": [
+        "10/10及2000参数；双抗独立效果，不按控制开始固定持续2秒"
+      ],
+      "sourceReferences": {
+        "official": "/3/slots/3/runes/2",
+        "client": "/40"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [],
+      "sourceValueStatus": "已见明确数值，条件与组合单独核对"
+    },
+    {
+      "runeKey": "rune_8214",
+      "skillKey": "rune_8214_passive",
+      "id": 8214,
+      "name": "召唤：艾黎",
+      "category": "KEYSTONE",
+      "pathKey": "rune_path_8200",
+      "pathName": "巫术",
+      "scope": "混合保留",
+      "branches": [
+        {
+          "scope": "范围内",
+          "summary": "艾黎对敌伤害",
+          "quote": "用攻击或技能对敌方英雄造成伤害",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8214,
+            "field": "officialLong",
+            "exactText": "用攻击或技能对敌方英雄造成伤害"
+          }
+        },
+        {
+          "scope": "保留依赖",
+          "summary": "返回持有者前禁止再次派出",
+          "quote": "艾黎在回到你的位置前无法被再次派出",
+          "reason": "该进度或条件影响范围内战斗收益；不模拟范围外对象战斗，但不能丢失已获得进度",
+          "evidence": {
+            "sourceId": 8214,
+            "field": "officialLong",
+            "exactText": "艾黎在回到你的位置前无法被再次派出"
+          }
+        },
+        {
+          "scope": "范围外",
+          "summary": "对友方英雄的护盾",
+          "quote": "在用技能强化或保护友方英雄时",
+          "reason": "仅排除队友护盾；艾黎伤害与返回约束继续保留，不因名称含召唤全项排除",
+          "evidence": {
+            "sourceId": 8214,
+            "field": "officialLong",
+            "exactText": "在用技能强化或保护友方英雄时"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "伤害额外AD0.10/AP0.05，基础10–50等级端点；客户端tooltip明确适应性伤害"
+      ],
+      "missingFacts": [
+        "逐等级伤害和适应类型；飞行/返回时机及已返回事件；不能用随意固定冷却替代返回等待"
+      ],
+      "recordableComponents": [
+        "0.10/0.05参数；返回门槛作为显式缺口，不建每次命中无条件伤害"
+      ],
+      "sourceReferences": {
+        "official": "/4/slots/0/runes/0",
+        "client": "/17"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [
+        "10–50伤害等级值、自适应选择和飞行/返回时机"
+      ],
+      "sourceValueStatus": "部分数值或曲线缺失"
+    },
+    {
+      "runeKey": "rune_8229",
+      "skillKey": "rune_8229_passive",
+      "id": 8229,
+      "name": "奥术彗星",
+      "category": "KEYSTONE",
+      "pathKey": "rune_path_8200",
+      "pathName": "巫术",
+      "scope": "范围内",
+      "branches": [
+        {
+          "scope": "范围内",
+          "summary": "技能伤害后的距离增幅彗星",
+          "quote": "基于距离造成额外伤害",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8229,
+            "field": "officialLong",
+            "exactText": "基于距离造成额外伤害"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "AP0.05、额外AD0.10；750距离时最大额外增幅1.00；基础15–100、冷却20–8秒端点"
+      ],
+      "missingFacts": [
+        "伤害与冷却等级曲线；距离函数和距离采样时点；落点命中、弹道等待；适应类型"
+      ],
+      "recordableComponents": [
+        "比例系数、最大增幅及距离参数；不猜线性距离或固定命中"
+      ],
+      "sourceReferences": {
+        "official": "/4/slots/0/runes/1",
+        "client": "/100"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [
+        "15–100伤害、20–8秒冷却和距离增幅曲线"
+      ],
+      "sourceValueStatus": "部分数值或曲线缺失"
+    },
+    {
+      "runeKey": "rune_8230",
+      "skillKey": "rune_8230_passive",
+      "id": 8230,
+      "name": "风暴掠袭者的狂涌",
+      "category": "KEYSTONE",
+      "pathKey": "rune_path_8200",
+      "pathName": "巫术",
+      "scope": "范围内",
+      "branches": [
+        {
+          "scope": "范围内",
+          "summary": "伤害阈值后的移速和减速抗性",
+          "quote": "相当于其25%最大生命值的伤害",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8230,
+            "field": "officialLong",
+            "exactText": "相当于其25%最大生命值的伤害"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "窗口3000毫秒；阈值目标最大生命0.25；持续4000毫秒；移速0.48，远程0.75效能；减速抗性0.50；冷却20–10秒端点"
+      ],
+      "missingFacts": [
+        "冷却曲线；窗口伤害累计和采样阶段；目标最大生命取值；移速/减速抗性组合"
+      ],
+      "recordableComponents": [
+        "全部明确窗口、阈值、比例参数；不沿旧三击触发或直接加百分比属性"
+      ],
+      "sourceReferences": {
+        "official": "/4/slots/0/runes/2",
+        "client": "/67"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [
+        "20–10秒冷却等级值"
+      ],
+      "sourceValueStatus": "部分数值或曲线缺失"
+    },
+    {
+      "runeKey": "rune_8992",
+      "skillKey": "rune_8992_passive",
+      "id": 8992,
+      "name": "冥火之触",
+      "category": "KEYSTONE",
+      "pathKey": "rune_path_8200",
+      "pathName": "巫术",
+      "scope": "范围内",
+      "branches": [
+        {
+          "scope": "范围内",
+          "summary": "技能造成的按秒魔法灼烧",
+          "quote": "每秒3 - 12",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8992,
+            "field": "officialLong",
+            "exactText": "每秒3 - 12"
+          }
+        },
+        {
+          "scope": "范围内",
+          "summary": "持续燃烧后的伤害提升",
+          "quote": "在灼烧3秒之后",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8992,
+            "field": "officialLong",
+            "exactText": "在灼烧3秒之后"
+          }
+        },
+        {
+          "scope": "保留依赖",
+          "summary": "单体、群体、持续伤害来源分类",
+          "quote": "单体目标技能：4秒",
+          "reason": "该进度或条件影响范围内战斗收益；不模拟范围外对象战斗，但不能丢失已获得进度",
+          "evidence": {
+            "sourceId": 8992,
+            "field": "officialLong",
+            "exactText": "单体目标技能：4秒"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "每秒AP0.025、额外AD0.07；3秒后仍燃烧增幅0.75；单体4000/群体2000/持续1000毫秒；基础每秒3–12等级端点"
+      ],
+      "missingFacts": [
+        "逐等级伤害；实际跳频与首跳；重施刷新/跨来源同一燃烧计时；技能分类目录不含完整三类"
+      ],
+      "recordableComponents": [
+        "系数、3秒门槛、1.75倍率及三时长参数；“每秒”不是证据充分的每1000毫秒一跳"
+      ],
+      "sourceReferences": {
+        "official": "/4/slots/0/runes/3",
+        "client": "/79"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [
+        "3–12每秒伤害等级值和真实跳频"
+      ],
+      "sourceValueStatus": "部分数值或曲线缺失"
+    },
+    {
+      "runeKey": "rune_8224",
+      "skillKey": "rune_8224_passive",
+      "id": 8224,
+      "name": "公理秘术",
+      "category": "MINOR",
+      "pathKey": "rune_path_8200",
+      "pathName": "巫术",
+      "scope": "混合保留",
+      "branches": [
+        {
+          "scope": "范围内",
+          "summary": "终极技能伤害和自身治疗护盾增强",
+          "quote": "终极技能的伤害、治疗和护盾提升12%",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8224,
+            "field": "officialLong",
+            "exactText": "终极技能的伤害、治疗和护盾提升12%"
+          }
+        },
+        {
+          "scope": "范围内",
+          "summary": "参与击杀缩短终极技能当前冷却",
+          "quote": "当前冷却时间缩短7%",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8224,
+            "field": "officialLong",
+            "exactText": "当前冷却时间缩短7%"
+          }
+        },
+        {
+          "scope": "范围外",
+          "summary": "仅给予队友的治疗护盾份额",
+          "quote": "治疗和护盾提升12%",
+          "reason": "只排除纯队友份额，终极技能自身收益仍保留",
+          "evidence": {
+            "sourceId": 8224,
+            "field": "officialLong",
+            "exactText": "治疗和护盾提升12%"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "通常0.12；群体伤害0.08；当前冷却缩短0.07"
+      ],
+      "missingFacts": [
+        "终极/群体键集合；伤害和治疗乘区；护盾增强方向；现有公式无法直接读取任意技能当前冷却百分比；参与击杀事件"
+      ],
+      "recordableComponents": [
+        "0.12/0.08/0.07参数；不降低总冷却基值冒充当前剩余冷却返还"
+      ],
+      "sourceReferences": {
+        "official": "/4/slots/1/runes/0",
+        "client": "/27"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [],
+      "sourceValueStatus": "已见明确数值，条件与组合单独核对"
+    },
+    {
+      "runeKey": "rune_8226",
+      "skillKey": "rune_8226_passive",
+      "id": 8226,
+      "name": "法力流系带",
+      "category": "MINOR",
+      "pathKey": "rune_path_8200",
+      "pathName": "巫术",
+      "scope": "范围内",
+      "branches": [
+        {
+          "scope": "范围内",
+          "summary": "技能命中英雄后的永久法力叠加",
+          "quote": "最大法力值提升25",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8226,
+            "field": "officialLong",
+            "exactText": "最大法力值提升25"
+          }
+        },
+        {
+          "scope": "范围内",
+          "summary": "满250后周期回复已损法力",
+          "quote": "每5秒回复你1%的已损失法力值",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8226,
+            "field": "officialLong",
+            "exactText": "每5秒回复你1%的已损失法力值"
+          }
+        },
+        {
+          "scope": "保留依赖",
+          "summary": "叠层及满层阶段",
+          "quote": "提升法力的上限为250法力",
+          "reason": "该进度或条件影响范围内战斗收益；不模拟范围外对象战斗，但不能丢失已获得进度",
+          "evidence": {
+            "sourceId": 8226,
+            "field": "officialLong",
+            "exactText": "提升法力的上限为250法力"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "每次25，上限250=10次；触发冷却15000毫秒；满后5000毫秒一次、回复已损法力0.01"
+      ],
+      "missingFacts": [
+        "命中有效性与逐施法去重；永久累计状态来源；满层首跳时点和移除恢复规则"
+      ],
+      "recordableComponents": [
+        "25/250/10/15000/5000/0.01参数；0.01×已损法力公式和独立恢复效果；周期自动挂接待首跳证明"
+      ],
+      "sourceReferences": {
+        "official": "/4/slots/1/runes/1",
+        "client": "/62"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [],
+      "sourceValueStatus": "已见明确数值，条件与组合单独核对"
+    },
+    {
+      "runeKey": "rune_8275",
+      "skillKey": "rune_8275_passive",
+      "id": 8275,
+      "name": "灵光披风",
+      "category": "MINOR",
+      "pathKey": "rune_path_8200",
+      "pathName": "巫术",
+      "scope": "混合保留",
+      "branches": [
+        {
+          "scope": "范围内",
+          "summary": "召唤师技能后短时移速",
+          "quote": "移动速度提升，持续2秒",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8275,
+            "field": "officialLong",
+            "exactText": "移动速度提升，持续2秒"
+          }
+        },
+        {
+          "scope": "范围外",
+          "summary": "无视单位碰撞",
+          "quote": "允许你无视单位的碰撞体积",
+          "reason": "纯空间碰撞效果排除，保留同次战斗移速",
+          "evidence": {
+            "sourceId": 8275,
+            "field": "officialLong",
+            "exactText": "允许你无视单位的碰撞体积"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "持续2000毫秒；移速15%–45%取决于所用召唤师技能冷却；客户端tooltip额外注明不断衰减"
+      ],
+      "missingFacts": [
+        "冷却到移速的完整分段/映射；衰减方式；召唤师技能事件过滤；移速组合"
+      ],
+      "recordableComponents": [
+        "2000及比例端点参数；不把范围直接插值成曲线或常驻最大45%"
+      ],
+      "sourceReferences": {
+        "official": "/4/slots/1/runes/2",
+        "client": "/45"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [
+        "召唤师技能冷却到15%–45%移速的映射与衰减"
+      ],
+      "sourceValueStatus": "部分数值或曲线缺失"
+    },
+    {
+      "runeKey": "rune_8210",
+      "skillKey": "rune_8210_passive",
+      "id": 8210,
+      "name": "超然",
+      "category": "MINOR",
+      "pathKey": "rune_path_8200",
+      "pathName": "巫术",
+      "scope": "范围内",
+      "branches": [
+        {
+          "scope": "范围内",
+          "summary": "5级、8级的技能急速",
+          "quote": "5级：+5技能急速",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8210,
+            "field": "officialLong",
+            "exactText": "5级：+5技能急速"
+          }
+        },
+        {
+          "scope": "范围内",
+          "summary": "11级后的基础技能剩余冷却缩短",
+          "quote": "基础技能的剩余冷却时间缩短20%",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8210,
+            "field": "officialLong",
+            "exactText": "基础技能的剩余冷却时间缩短20%"
+          }
+        },
+        {
+          "scope": "保留依赖",
+          "summary": "等级门槛与参与击杀",
+          "quote": "11级：在参与击杀敌方英雄后",
+          "reason": "该进度或条件影响范围内战斗收益；不模拟范围外对象战斗，但不能丢失已获得进度",
+          "evidence": {
+            "sourceId": 8210,
+            "field": "officialLong",
+            "exactText": "11级：在参与击杀敌方英雄后"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "1–4级0急速；5–7级5；8–18级10；11级后返还剩余冷却0.20"
+      ],
+      "missingFacts": [
+        "等级变动重读；基础技能范围；每个基础技能当前剩余冷却输入；参与击杀事件"
+      ],
+      "recordableComponents": [
+        "明确断点的CHARACTER_LEVEL参数0/5/10及持续急速属性；0.20参数，不用固定毫秒或降低总冷却代替返还"
+      ],
+      "sourceReferences": {
+        "official": "/4/slots/2/runes/0",
+        "client": "/28"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [],
+      "sourceValueStatus": "已见明确数值，条件与组合单独核对"
+    },
+    {
+      "runeKey": "rune_8234",
+      "skillKey": "rune_8234_passive",
+      "id": 8234,
+      "name": "迅捷",
+      "category": "MINOR",
+      "pathKey": "rune_path_8200",
+      "pathName": "巫术",
+      "scope": "范围内",
+      "branches": [
+        {
+          "scope": "范围内",
+          "summary": "移动加成效能增强与额外移速",
+          "quote": "所有移动加成的效能提升7%",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8234,
+            "field": "officialLong",
+            "exactText": "所有移动加成的效能提升7%"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "加成效能0.07；额外移速0.01"
+      ],
+      "missingFacts": [
+        "何为移动加成基数、哪些来源受增幅及组合顺序；不能直接把当前总移速乘1.07"
+      ],
+      "recordableComponents": [
+        "0.07和0.01参数；现有比例区不能自动证明正确移动加成基数"
+      ],
+      "sourceReferences": {
+        "official": "/4/slots/2/runes/1",
+        "client": "/8"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [],
+      "sourceValueStatus": "已见明确数值，条件与组合单独核对"
+    },
+    {
+      "runeKey": "rune_8233",
+      "skillKey": "rune_8233_passive",
+      "id": 8233,
+      "name": "绝对专注",
+      "category": "MINOR",
+      "pathKey": "rune_path_8200",
+      "pathName": "巫术",
+      "scope": "范围内",
+      "branches": [
+        {
+          "scope": "范围内",
+          "summary": "高生命时的自适应攻击属性",
+          "quote": "在高于70%生命值时",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8233,
+            "field": "officialLong",
+            "exactText": "在高于70%生命值时"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "门槛严格>0.70；1级AD1.8/AP3，18级AD18/AP30"
+      ],
+      "missingFacts": [
+        "两属性整等级曲线与适应选择；血量状态刷新；不能按端点线性插值"
+      ],
+      "recordableComponents": [
+        "0.70及明确端点资料；不构造完整属性公式"
+      ],
+      "sourceReferences": {
+        "official": "/4/slots/2/runes/2",
+        "client": "/93"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [
+        "完整等级属性曲线和适应选择"
+      ],
+      "sourceValueStatus": "部分数值或曲线缺失"
+    },
+    {
+      "runeKey": "rune_8237",
+      "skillKey": "rune_8237_passive",
+      "id": 8237,
+      "name": "焦灼",
+      "category": "MINOR",
+      "pathKey": "rune_path_8200",
+      "pathName": "巫术",
+      "scope": "范围内",
+      "branches": [
+        {
+          "scope": "范围内",
+          "summary": "技能命中后延迟魔法伤害",
+          "quote": "在1秒后造成20 - 40额外魔法伤害",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8237,
+            "field": "officialLong",
+            "exactText": "在1秒后造成20 - 40额外魔法伤害"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "延迟1000毫秒；冷却10000毫秒；基础20–40等级端点"
+      ],
+      "missingFacts": [
+        "逐等级伤害；“下一个伤害型技能”有效命中/重施去重"
+      ],
+      "recordableComponents": [
+        "1000、10000参数；魔法类型明确但基础曲线缺失，不造完整DAMAGE数值"
+      ],
+      "sourceReferences": {
+        "official": "/4/slots/3/runes/0",
+        "client": "/19"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [
+        "20–40焦灼伤害的完整等级值"
+      ],
+      "sourceValueStatus": "部分数值或曲线缺失"
+    },
+    {
+      "runeKey": "rune_8232",
+      "skillKey": "rune_8232_passive",
+      "id": 8232,
+      "name": "水上行走",
+      "category": "MINOR",
+      "pathKey": "rune_path_8200",
+      "pathName": "巫术",
+      "scope": "范围内",
+      "branches": [
+        {
+          "scope": "范围内",
+          "summary": "河道内的固定移速和适应之力",
+          "quote": "在河道时，获得10移动速度",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8232,
+            "field": "officialLong",
+            "exactText": "在河道时，获得10移动速度"
+          }
+        },
+        {
+          "scope": "保留依赖",
+          "summary": "地形条件",
+          "quote": "在河道时",
+          "reason": "该进度或条件影响范围内战斗收益；不模拟范围外对象战斗，但不能丢失已获得进度",
+          "evidence": {
+            "sourceId": 8232,
+            "field": "officialLong",
+            "exactText": "在河道时"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "固定移速10；适应13–30等级端点"
+      ],
+      "missingFacts": [
+        "河道条件输入；适应曲线/转换；不在全地图无条件授予"
+      ],
+      "recordableComponents": [
+        "10参数及受明确地形条件保护的独立固定移速组成，自动条件未配"
+      ],
+      "sourceReferences": {
+        "official": "/4/slots/3/runes/1",
+        "client": "/5"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [
+        "13–30适应之力等级曲线和转换"
+      ],
+      "sourceValueStatus": "部分数值或曲线缺失"
+    },
+    {
+      "runeKey": "rune_8236",
+      "skillKey": "rune_8236_passive",
+      "id": 8236,
+      "name": "风暴聚集",
+      "category": "MINOR",
+      "pathKey": "rune_path_8200",
+      "pathName": "巫术",
+      "scope": "范围内",
+      "branches": [
+        {
+          "scope": "范围内",
+          "summary": "游戏时间增长的适应攻击属性",
+          "quote": "每10分钟获得法术强度或攻击力",
+          "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+          "evidence": {
+            "sourceId": 8236,
+            "field": "officialLong",
+            "exactText": "每10分钟获得法术强度或攻击力"
+          }
+        },
+        {
+          "scope": "保留依赖",
+          "summary": "游戏时间分段",
+          "quote": "10分钟: + 8法术强度 或 5攻击力",
+          "reason": "该进度或条件影响范围内战斗收益；不模拟范围外对象战斗，但不能丢失已获得进度",
+          "evidence": {
+            "sourceId": 8236,
+            "field": "officialLong",
+            "exactText": "10分钟: + 8法术强度 或 5攻击力"
+          }
+        }
+      ],
+      "confirmedFacts": [
+        "10/20/30/40/50/60分钟AP=8/24/48/80/120/168；AD=5/14/29/48/72/101，原文已是累计值"
+      ],
+      "missingFacts": [
+        "60分钟后准确规则；适应选择；绝对游戏时间及分段输入；不能把已有累计值再逐段相加"
+      ],
+      "recordableComponents": [
+        "六个明确时间点及双属性值资料；没有时间参数类型时不冒用角色等级或推断无界公式"
+      ],
+      "sourceReferences": {
+        "official": "/4/slots/3/runes/2",
+        "client": "/72"
+      },
+      "sourceHasGameplayPlaceholders": false,
+      "clientDescriptionDiffers": false,
+      "missingSourceValueFacts": [
+        "60分钟后的增长规则及适应选择"
+      ],
+      "sourceValueStatus": "部分数值或曲线缺失"
+    }
+  ]
+}

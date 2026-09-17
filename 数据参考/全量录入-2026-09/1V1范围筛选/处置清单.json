@@ -1,0 +1,271 @@
+{
+  "schemaVersion": 1,
+  "title": "一对一范围技能处置清单",
+  "sourceVersion": "16.17.1",
+  "sourceKind": "冻结官方中文静态资料（Data Dragon，游戏静态资料包）",
+  "sourceRoot": "../英雄/原始资料/zh_CN/champion",
+  "apiRead": {
+    "basePath": "http://127.0.0.1:8080/api/admin/games/lol",
+    "mode": "仅读取技能详情",
+    "checkedDate": "2026-09-07",
+    "credentialEvidence": "未保存令牌、Cookie 或请求凭据"
+  },
+  "scopeRule": "只排除金币、经验、视野和仅友军目标等与一对一伤害或自身防御无关的组成；混合技能保留攻击、伤害、自身护盾和供伤害技能读取的跨技能组成。范围外跳过不等于系统阻塞。",
+  "reviewFinding": "只看单技能说明会漏跨技能伤害依赖：德莱文 P 的崇拜层数虽不是直接伤害，却被 R 的斩杀阈值读取，因此不能整项排除。",
+  "items": [
+    {
+      "skillKey": "ashe_e",
+      "英雄": "艾希",
+      "槽位": "E",
+      "分类": "范围外技能",
+      "处置": {
+        "状态": "范围外跳过",
+        "保留组成": [],
+        "排除组成": [
+          {
+            "组成": "侦查视野",
+            "理由": "冻结说明明确为派出猎鹰执行侦查，并在地图位置提供视野；不产生一对一伤害或自身护盾。"
+          }
+        ],
+        "是否系统阻塞": false
+      },
+      "source": {
+        "file": "英雄/原始资料/zh_CN/champion/Ashe.json",
+        "sha256": "6da1288d3a252541b543aeb4837a4a6b8399984b2ad437025b231f276ee356fb",
+        "jsonPointer": "/data/Ashe/spells/2",
+        "sourceId": "AsheSpiritOfTheHawk",
+        "sourceName": "鹰击长空",
+        "description": "艾希将她的猎鹰之灵派去执行侦查任务，可派往地图上的任意地点。",
+        "tooltip": "艾希派出一只鹰，在地图上的任一位置提供5秒的视野。它还会在飞行时显形附近的区域。<br /><br />这个技能可持有2层充能（{{ chargecooldown }}秒充能时间）。{{ spellmodifierdescriptionappend }}",
+        "inventoryPointer": "英雄资料清单.json#/champions/10/skills/3",
+        "inventoryCoverage": "详情原字段；不保证完整系数、机制或实际射程，原始零值未作机制推断"
+      },
+      "api": {
+        "path": "/skills/ashe_e",
+        "status": 200,
+        "skillKey": "ashe_e",
+        "name": "艾希·鹰击长空",
+        "statusValue": "ENABLED",
+        "skillCategoryKeys": ["common"]
+      }
+    },
+    {
+      "skillKey": "twistedfate_p",
+      "英雄": "崔斯特",
+      "槽位": "P",
+      "分类": "范围外技能",
+      "处置": {
+        "状态": "范围外跳过",
+        "保留组成": [],
+        "排除组成": [
+          {
+            "组成": "击杀后的额外赏金",
+            "理由": "冻结被动说明只描述击杀单位后随机获得1到6的额外赏金；没有一对一伤害或自身护盾组成。"
+          }
+        ],
+        "是否系统阻塞": false
+      },
+      "source": {
+        "file": "英雄/原始资料/zh_CN/champion/TwistedFate.json",
+        "sha256": "6163447fc01fa1a63c3d959b1a072aba58892f54fd3581b037f93b538f494429",
+        "jsonPointer": "/data/TwistedFate/passive",
+        "sourceName": "灌铅骰子",
+        "description": "在击杀了一名单位后，崔斯特会投掷他的“幸运”骰，随机获得1到6的额外赏金。",
+        "inventoryPointer": "英雄资料清单.json#/champions/142/skills/0",
+        "inventoryCoverage": "仅被动说明和图片；无完整结构化数值与触发规则"
+      },
+      "api": {
+        "path": "/skills/twistedfate_p",
+        "status": 200,
+        "skillKey": "twistedfate_p",
+        "name": "崔斯特·灌铅骰子",
+        "statusValue": "ENABLED",
+        "skillCategoryKeys": ["passive"]
+      }
+    },
+    {
+      "skillKey": "zilean_p",
+      "英雄": "基兰",
+      "槽位": "P",
+      "分类": "范围外技能",
+      "处置": {
+        "状态": "范围外跳过",
+        "保留组成": [],
+        "排除组成": [
+          {
+            "组成": "储存、传授和获得经验值",
+            "理由": "冻结被动说明只描述经验值储存、友军传授和自身获得等值经验；没有一对一伤害或自身护盾组成。"
+          }
+        ],
+        "是否系统阻塞": false
+      },
+      "source": {
+        "file": "英雄/原始资料/zh_CN/champion/Zilean.json",
+        "sha256": "358afc4390e66600ad8d7f1ed35cdaed8456a1e2f25c85fe0962ded936c285b6",
+        "jsonPointer": "/data/Zilean/passive",
+        "sourceName": "瓶中时光",
+        "description": "基兰将时光储存为经验值并能将其提供给他的友军。当他拥有足够的经验值来使一名友方英雄升级时，他就能通过右键点击来传授经验值。基兰自身也会获得等值的经验值。",
+        "inventoryPointer": "英雄资料清单.json#/champions/170/skills/0",
+        "inventoryCoverage": "仅被动说明和图片；无完整结构化数值与触发规则"
+      },
+      "api": {
+        "path": "/skills/zilean_p",
+        "status": 200,
+        "skillKey": "zilean_p",
+        "name": "基兰·瓶中时光",
+        "statusValue": "ENABLED",
+        "skillCategoryKeys": ["passive"]
+      }
+    },
+    {
+      "skillKey": "draven_p",
+      "英雄": "德莱文",
+      "槽位": "P",
+      "分类": "混合技能候选",
+      "处置": {
+        "状态": "保留供 R 斩杀读取的崇拜组成，排除金币奖励",
+        "保留组成": [
+          {
+            "组成": "崇拜层数及其变化",
+            "处置": "保留候选，待录入触发与变化规则",
+            "用途": "德莱文 R 的物理伤害斩杀阈值读取当前崇拜层数。"
+          }
+        ],
+        "排除组成": [
+          {
+            "组成": "击杀英雄后的额外赏金",
+            "理由": "冻结被动说明明确把这部分描述为额外赏金，属于经济奖励，不纳入一对一伤害结果。"
+          }
+        ],
+        "是否系统阻塞": false,
+        "跨技能依赖": {
+          "发现": "德莱文 R 明确读取德莱文联盟的崇拜层数作为斩杀阈值；只看 P 的直接说明会漏掉这项伤害依赖。",
+          "引用技能": {
+            "skillKey": "draven_r",
+            "apiPath": "/skills/draven_r",
+            "apiStatus": 200,
+            "apiName": "德莱文·冷血追命",
+            "sourceFile": "英雄/原始资料/zh_CN/champion/Draven.json",
+            "jsonPointer": "/data/Draven/spells/3",
+            "sourceId": "DravenRCast",
+            "description": "德莱文掷出两柄大斧，对命中的每个单位造成物理伤害。在命中一名敌方英雄后，大斧会缓慢地调转方向，并回到德莱文身边。在斧头正在向外飞的时候，德莱文可以激活该技能来让斧头早点飞回来。每命中一个单位，伤害值就会减少。在斧头调转方向时，伤害值会重置。会处决那些生命值低于德莱文崇拜层数的敌人们。",
+            "tooltip": "德莱文猛掷出两把巨斧来造成<physicalDamage>{{ rcalculateddamage }}物理伤害</physicalDamage>。在命中一名英雄或<recast>再次施放</recast>之后，巨斧会掉转方向并返回德莱文处。巨斧每命中一个敌人就会降低{{ rdamagereductionperhit*100 }}%伤害，最低降至{{ rmindamagepercent }}%。<br /><br />如果<keywordMajor>冷血追命</keywordMajor>使一名敌方英雄的生命值低于德莱文目前的{{ rpassivestackscoefficient*100 }}%<keywordMajor>德莱文联盟</keywordMajor>层数({{ rpassivetruedamage }})，那么德莱文会将该英雄处决。{{ spellmodifierdescriptionappend }}"
+          },
+          "wikiSource": {
+            "file": "数据参考/lol-wiki-current-champions/raw/draven-r.wikitext",
+            "line": 9,
+            "text": "|description  = {{sbc|Active:}} '''Draven''' hurls two massive axes in the target direction that briefly grant {{tip|sight}} of their surroundings and deal {{as|physical damage}} to enemies hit. Enemy {{tip|champions}} that are damaged to or while below a {{sti|{{as|health}}}} threshold equal to the number of ''{{ai|League of Draven|Draven|Adoration}}'' stacks are {{tip|execute|executed}}."
+          }
+        }
+      },
+      "source": {
+        "file": "英雄/原始资料/zh_CN/champion/Draven.json",
+        "sha256": "d58ecef124c884fcec1d9a9825b61fab5a07e0b794b9c52c1482bdcfd4d79488",
+        "jsonPointer": "/data/Draven/passive",
+        "sourceName": "德莱文联盟",
+        "description": "在接住一把旋转飞斧或者击杀了一个小兵、野怪或防御塔后，德莱文会从他的粉丝那里获得崇拜效果。击杀一名敌方英雄会为德莱文提供额外赏金，赏金的多少取决于他拥有多少层崇拜效果。",
+        "inventoryPointer": "英雄资料清单.json#/champions/28/skills/0",
+        "inventoryCoverage": "仅被动说明和图片；无完整结构化数值与触发规则"
+      },
+      "api": {
+        "path": "/skills/draven_p",
+        "status": 200,
+        "skillKey": "draven_p",
+        "name": "德莱文·德莱文联盟",
+        "statusValue": "ENABLED",
+        "skillCategoryKeys": ["passive"]
+      }
+    },
+    {
+      "skillKey": "gangplank_q",
+      "英雄": "普朗克",
+      "槽位": "Q",
+      "分类": "混合技能候选",
+      "处置": {
+        "状态": "保留一对一相关组成，排除范围外组成",
+        "保留组成": [
+          {
+            "组成": "对目标的攻击/伤害支路",
+            "依据": "冻结中文说明明确写有“攻击目标”；该攻击支路属于一对一伤害候选。"
+          }
+        ],
+        "排除组成": [
+          {
+            "组成": "击杀敌方单位后的金币掠夺",
+            "理由": "冻结中文说明明确写有“每击杀一个敌方单位时都会掠夺金币”，属于经济奖励，不纳入一对一伤害结果。"
+          }
+        ],
+        "未决事项": [
+          "冻结 Data Dragon 的 tooltip 仍是模式模板占位符，未在本条来源中展开具体伤害数值；本清单只确认保留攻击/伤害组成候选，不把未展开数字当成已确证配置。"
+        ],
+        "是否系统阻塞": false
+      },
+      "source": {
+        "file": "英雄/原始资料/zh_CN/champion/Gangplank.json",
+        "sha256": "15289c927823c8ff99c364ace04f2a76aaccfa32f8b469ed7d21dc979e5512d7",
+        "jsonPointer": "/data/Gangplank/spells/0",
+        "sourceId": "GangplankQWrapper",
+        "sourceName": "枪火谈判",
+        "description": "攻击目标，每击杀一个敌方单位时都会掠夺金币。",
+        "tooltip": "{{Spell_GangplankQWrapper_Tooltip_{{ gamemodeinteger }}}}{{ spellmodifierdescriptionappend }}",
+        "rawFieldPaths": ["/effectBurn", "/tooltip"],
+        "unresolvedPlaceholders": ["abilityresourcename", "gamemodeinteger", "spellmodifierdescriptionappend"],
+        "inventoryPointer": "英雄资料清单.json#/champions/37/skills/1",
+        "inventoryCoverage": "详情原字段；不保证完整系数、机制或实际射程，原始零值未作机制推断"
+      },
+      "api": {
+        "path": "/skills/gangplank_q",
+        "status": 200,
+        "skillKey": "gangplank_q",
+        "name": "普朗克·枪火谈判",
+        "statusValue": "ENABLED",
+        "skillCategoryKeys": ["common"]
+      }
+    },
+    {
+      "skillKey": "lux_w",
+      "英雄": "拉克丝",
+      "槽位": "W",
+      "分类": "混合技能候选",
+      "处置": {
+        "状态": "排除友军目标支路，保留自身护盾",
+        "保留组成": [
+          {
+            "组成": "自身护盾",
+            "处置": "保留",
+            "依据边界": "独立审查已确认施法者自身受护盾；当前只待核对飞出时首次施加与折返时再次施加的时点。"
+          }
+        ],
+        "排除组成": [
+          {
+            "组成": "其他友军目标的护盾",
+            "理由": "冻结说明明确将护盾描述为魔杖途经的友方单位/友军；多角色友军目标不属于本次一对一主体。"
+          }
+        ],
+        "未决事项": ["护盾首次施加和折返再次施加的具体时点及重复结算规则待补证。"],
+        "是否系统阻塞": false
+      },
+      "source": {
+        "file": "英雄/原始资料/zh_CN/champion/Lux.json",
+        "sha256": "61c06ce0893ff509453ed9a00903d9be172deff81559ec858a2297526561e46f",
+        "jsonPointer": "/data/Lux/spells/1",
+        "sourceId": "LuxPrismaticWave",
+        "sourceName": "曲光屏障",
+        "description": "拉克丝掷出她的魔杖，魔杖所触及的友方单位会有光环环绕，保护他们免受敌方伤害。",
+        "tooltip": "拉克丝扔出她的魔杖，为它途经的友军提供持续{{ shieldduration }}秒的<shield>{{ totalshieldtt }}护盾</shield>。随后它会折返，为它途经的友军提供等额的<shield>护盾</shield>。{{ spellmodifierdescriptionappend }}",
+        "rawFieldPaths": ["/effectBurn", "/leveltip"],
+        "unresolvedPlaceholders": ["abilityresourcename", "shieldduration", "spellmodifierdescriptionappend", "totalshieldtt"],
+        "inventoryPointer": "英雄资料清单.json#/champions/77/skills/2",
+        "inventoryCoverage": "详情原字段；不保证完整系数、机制或实际射程，原始零值未作机制推断"
+      },
+      "api": {
+        "path": "/skills/lux_w",
+        "status": 200,
+        "skillKey": "lux_w",
+        "name": "拉克丝·曲光屏障",
+        "statusValue": "ENABLED",
+        "skillCategoryKeys": ["common"]
+      }
+    }
+  ]
+}

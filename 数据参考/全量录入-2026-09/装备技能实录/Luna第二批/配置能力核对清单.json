@@ -1,0 +1,156 @@
+{
+  "observedAt": "2026-09-08",
+  "scope": "Luna第二批六件装备能力口径修正；只读核对，不继续写业务接口。",
+  "credentialRecord": "未保存凭据；读取只使用公开占位值。",
+  "existingReadback": {
+    "componentCount": 52,
+    "fieldCount": 572,
+    "mismatchCount": 0,
+    "missingCount": 0,
+    "runtimeExecuted": false
+  },
+  "readOnlyApiChecks": [
+    {
+      "method": "GET",
+      "path": "/statuses",
+      "status": 200,
+      "observation": "当前状态目录仅有 vertigo（眩晕）。"
+    },
+    {
+      "method": "GET",
+      "path": "/statuses/grievous_wounds",
+      "status": 404,
+      "code": "404.STATUS_NOT_FOUND",
+      "observation": "没有可直接引用的共享重伤状态键。"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3057_passive/processes",
+      "status": 200,
+      "observation": "空列表；耀光当前没有咒刃过程。"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3057_passive/internal-states",
+      "status": 200,
+      "observation": "空列表；耀光当前没有就绪或冷却内部状态。"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3102_passive/processes",
+      "status": 200,
+      "observation": "空列表；女妖当前没有初始化、消费或重置过程。"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ez_q/processes/cast",
+      "status": 200,
+      "observation": "现有过程回读含 cooldown、steps、effectBindings、stateOperations，证明这些字段已有保存形状。"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3075_passive/trigger-rules",
+      "status": 200,
+      "observation": "已有 reflect_on_basic_attack_taken，事件为 DAMAGE_TAKEN，直接 BASIC_ATTACK，动作目标 EVENT_SOURCE。"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3076_passive/trigger-rules",
+      "status": 200,
+      "observation": "已有同形状的受击反伤规则。"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3102_passive/effects/spell_shield",
+      "status": 200,
+      "observation": "法术护盾结果已有 SOURCE、PERSISTENT 和 EXPLICIT_ONLY 生命周期。"
+    }
+  ],
+  "sourceAndContractEvidence": [
+    "web/src/types/skillProcess.ts:79-82：EMPOWERED_BASIC_ATTACK 的 windowValue 与 consumeMoment；141-150：过程冷却与效果绑定；179-189：内部冷却状态操作；224-234：过程保存请求。",
+    "web/src/types/skillTriggerRule.ts:5-46：SKILL_USED、DAMAGE_TAKEN、INTERNAL_STATE_CHANGED、SPELL_SHIELD_BLOCKED 与执行效果、启动过程动作；551-604：动作请求形状。",
+    "web/src/types/skillEffect.ts:8-19、69-118、143-211、253-318：HEALING_MODIFIER、COOLDOWN_CHANGE RESET、LIFECYCLE_OPERATION REMOVE、SPELL_SHIELD 及生命周期。",
+    "web/src/pages/admin/skills/triggers/targetCategoryCondition.ts：TARGET_CATEGORY_CHECK 当前仅允许 SKILL_HIT 或 BASIC_ATTACK_HIT。",
+    "数据参考/全量录入-2026-09/装备技能实录/Luna第二批/录入候选.json：16.17 来源指针、参数、历史待补文案和算术样例。"
+  ],
+  "alreadyConfigured": [
+    {
+      "objects": ["item_3075_passive", "item_3076_passive"],
+      "component": "DAMAGE_TAKEN 直接 BASIC_ATTACK 反伤规则",
+      "status": "已保存，不计为未完成",
+      "wordingIssue": "技能和效果说明仍有“受击方向规则未接线”的历史文案，和当前回读结构不一致；本次不改业务对象。"
+    }
+  ],
+  "capabilityMatrix": [
+    {
+      "objects": ["item_3075_passive", "item_3076_passive"],
+      "mechanism": "重伤减疗40%持续3秒",
+      "category": "已能表达尚未配置",
+      "evidence": "HEALING_MODIFIER 可配目标生命周期和持续时间；参数已经保存。",
+      "boundary": "只读核对管理结构，未声称运行时已经执行。"
+    },
+    {
+      "objects": ["item_3075_passive", "item_3076_passive"],
+      "mechanism": "只对英雄施加重伤",
+      "category": "已能表达尚未配置",
+      "evidence": "已有 CHAMPION 目标类别、启动过程、内部状态与触发动作；可用命中类别预筛再衔接受击规则。",
+      "boundary": "DAMAGE_TAKEN 不能在当前表单直接附加命中类别，本批不建立组合规则。"
+    },
+    {
+      "objects": ["item_3075_passive", "item_3076_passive"],
+      "mechanism": "全护盾、免疫或零实际扣血时的受击反伤边界",
+      "category": "来源待核",
+      "evidence": "DAMAGE_TAKEN 已筛直接普攻，事件值有 SHIELD_ABSORBED、ACTUAL_HP_LOSS、BLOCKED、IMMUNE；当前没有来源或运行证据说明这些场景的事件时点。",
+      "boundary": "不增加实际扣血条件，也不宣称覆盖所有受击场景。"
+    },
+    {
+      "objects": ["item_3076_passive"],
+      "mechanism": "固定反伤0点与10点的来源冲突",
+      "category": "来源待核",
+      "evidence": "官方静态文件为0，冻结客户端完整对象 BaseDamage 为10。",
+      "boundary": "本批按客户端对象保存10，冲突留证，不当作接口结构缺失。"
+    },
+    {
+      "objects": ["item_3057_passive", "item_3078_passive", "item_3100_passive"],
+      "mechanism": "咒刃施放后就绪、一次攻击消费和冷却",
+      "category": "已能表达尚未配置",
+      "evidence": "EMPOWERED_BASIC_ATTACK 有窗口与 ATTACK_START/ATTACK_HIT 消费时点；过程有冷却、效果绑定；技能施放入口在管理端名为 SKILL_USED。",
+      "boundary": "三个技能过程尚未建立，不能把配置能力写成运行时验证。"
+    },
+    {
+      "objects": ["item_3102_passive"],
+      "mechanism": "护盾初始化",
+      "category": "已能表达尚未配置",
+      "evidence": "法术护盾已有持久生命周期；过程支持 PASSIVE 激活和 PROCESS_START 效果绑定。",
+      "boundary": "装备生效入口仍需来源或运行边界核对，本批不写初始化规则。"
+    },
+    {
+      "objects": ["item_3102_passive"],
+      "mechanism": "成功格挡后的护盾消费",
+      "category": "已能表达尚未配置",
+      "evidence": "SPELL_SHIELD_BLOCKED 可指定护盾效果；LIFECYCLE_OPERATION 支持 REMOVE；现有护盾已经是 EXPLICIT_ONLY。",
+      "boundary": "消费触发规则尚未建立。"
+    },
+    {
+      "objects": ["item_3102_passive"],
+      "mechanism": "冷却重置动作",
+      "category": "已能表达尚未配置",
+      "evidence": "COOLDOWN_CHANGE 支持 RESET，INTERNAL_COOLDOWN 支持 RESET，触发动作支持执行效果。",
+      "boundary": "重置效果和规则尚未建立。"
+    },
+    {
+      "objects": ["item_3102_passive"],
+      "mechanism": "冷却未完毕前受到英雄伤害的来源范围",
+      "category": "来源待核",
+      "evidence": "DAMAGE_TAKEN 可筛伤害类型、产生方式和来源性质，但没有直接给出所有来源类别；来源文字没有逐一说明全护盾、免疫和持续伤害边界。",
+      "boundary": "不把部分事件接线写成完整覆盖。"
+    },
+    {
+      "objects": ["item_3075_passive", "item_3076_passive"],
+      "mechanism": "若要求共享重伤状态键",
+      "category": "确实缺少管理结构",
+      "evidence": "状态目录 GET 只有 vertigo；grievous_wounds 返回 404.STATUS_NOT_FOUND；状态对象没有减疗字段。",
+      "boundary": "只表示共享状态键缺少，不否定用 HEALING_MODIFIER 单独表达重伤减疗。"
+    }
+  ]
+}

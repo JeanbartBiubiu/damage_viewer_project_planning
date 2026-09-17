@@ -1,0 +1,72 @@
+{
+  "at": "2026-09-09T09:29:22.178Z",
+  "passed": true,
+  "hashes": {
+    "最终候选.json": "344cba87cb4fd4288b2c2b4ddd0b50ae8a9795f9d2b28a16d7f7414ca9727bf7",
+    "最终请求.json": "7d526f0b57f4adea338f7731139d838b7fda02c111ae870a8069ae345e06ff0d",
+    "分类修正最终候选.json": "be371ab2b79c2106f70880b94a2a894f93c4cf1d507634a37dc2c7d4078a7c1f",
+    "分类修正最终请求.json": "d6eb2f55d83fcbd8276efb9ac5dbf89af47bc9d7ea3571fb4dba702b3163f345"
+  },
+  "changed": [
+    "item_3074_active",
+    "item_3748_active",
+    "item_6698_active",
+    "item_3107_active",
+    "item_3190_active"
+  ],
+  "requests": 77,
+  "categoryGET": {
+    "status": 200,
+    "body": {
+      "items": [
+        {
+          "createdAt": "2026-09-04T16:08:30.744289Z",
+          "description": null,
+          "gameId": "lol",
+          "name": "位移技能",
+          "skillCategoryKey": "move_skill",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-04T16:08:30.744289Z"
+        },
+        {
+          "createdAt": "2026-08-26T05:59:27.858757Z",
+          "description": null,
+          "gameId": "lol",
+          "name": "普通技能",
+          "skillCategoryKey": "common",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-08-26T05:59:27.858757Z"
+        },
+        {
+          "createdAt": "2026-08-26T05:59:36.038429Z",
+          "description": null,
+          "gameId": "lol",
+          "name": "被动技能",
+          "skillCategoryKey": "passive",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-08-26T05:59:36.038429Z"
+        }
+      ],
+      "total": 3
+    }
+  },
+  "previousLock": {
+    "runId": "2026-09-09T09-18-46-211Z",
+    "state": "ABORTED",
+    "startedAt": "2026-09-09T09:18:46.226Z",
+    "candidateSha256": "344cba87cb4fd4288b2c2b4ddd0b50ae8a9795f9d2b28a16d7f7414ca9727bf7",
+    "requestSha256": "7d526f0b57f4adea338f7731139d838b7fda02c111ae870a8069ae345e06ff0d",
+    "sourceSha256": "1ce775810bd1a252438386f6959dd8adf7a1de51224e3e055e3ffe8826ad7a79",
+    "beforeSha256": "f50a3ac022bc7689dc437a5006b969a85b6ef550f305aa3bd0cf51a6ceeef057",
+    "runDir": "C:\\project\\damage_web_dev\\.agents\\artifacts\\gear19-finalize\\writer-2026-09-09T09-18-46-211Z",
+    "updatedAt": "2026-09-09T09:18:50.265Z",
+    "writes": 0,
+    "skipped": 1,
+    "requestEvents": 1
+  },
+  "noBusinessWrites": true,
+  "scope": "仅五个主动技能分类清空；其余业务载荷与已审最终候选严格相等。新锁允许一次实际写入。"
+}

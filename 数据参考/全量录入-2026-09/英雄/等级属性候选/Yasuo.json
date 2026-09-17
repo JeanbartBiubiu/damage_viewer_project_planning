@@ -1,0 +1,296 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Yasuo",
+  "sourceNumericId": "157",
+  "name": "亚索",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 590,
+      "growth": 110,
+      "sources": [
+        "原始资料/zh_CN/champion/Yasuo.json:stats.hp/hpperlevel",
+        "角色根记录/Yasuo.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 590,
+        "2": 669.2,
+        "3": 752.25,
+        "4": 839.15,
+        "5": 929.9,
+        "6": 1024.5,
+        "7": 1122.95,
+        "8": 1225.25,
+        "9": 1331.4,
+        "10": 1441.4,
+        "11": 1555.25,
+        "12": 1672.95,
+        "13": 1794.5,
+        "14": 1919.9,
+        "15": 2049.15,
+        "16": 2182.25,
+        "17": 2319.2,
+        "18": 2460
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 6.5,
+      "growth": 0.9,
+      "sources": [
+        "原始资料/zh_CN/champion/Yasuo.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Yasuo.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 6.5,
+        "2": 7.148,
+        "3": 7.8275,
+        "4": 8.5385,
+        "5": 9.281,
+        "6": 10.055,
+        "7": 10.8605,
+        "8": 11.6975,
+        "9": 12.566,
+        "10": 13.466,
+        "11": 14.3975,
+        "12": 15.3605,
+        "13": 16.355,
+        "14": 17.381,
+        "15": 18.4385,
+        "16": 19.5275,
+        "17": 20.648,
+        "18": 21.8
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 32,
+      "growth": 4.6,
+      "sources": [
+        "原始资料/zh_CN/champion/Yasuo.json:stats.armor/armorperlevel",
+        "角色根记录/Yasuo.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 32,
+        "2": 35.312,
+        "3": 38.785,
+        "4": 42.419,
+        "5": 46.214,
+        "6": 50.17,
+        "7": 54.287,
+        "8": 58.565,
+        "9": 63.004,
+        "10": 67.604,
+        "11": 72.365,
+        "12": 77.287,
+        "13": 82.37,
+        "14": 87.614,
+        "15": 93.019,
+        "16": 98.585,
+        "17": 104.312,
+        "18": 110.2
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 32,
+      "growth": 2.05,
+      "sources": [
+        "原始资料/zh_CN/champion/Yasuo.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Yasuo.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 32,
+        "2": 33.476,
+        "3": 35.02375,
+        "4": 36.64325,
+        "5": 38.3345,
+        "6": 40.0975,
+        "7": 41.93225,
+        "8": 43.83875,
+        "9": 45.817,
+        "10": 47.867,
+        "11": 49.98875,
+        "12": 52.18225,
+        "13": 54.4475,
+        "14": 56.7845,
+        "15": 59.19325,
+        "16": 61.67375,
+        "17": 64.226,
+        "18": 66.85
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 60,
+      "growth": 2.5,
+      "sources": [
+        "角色根记录/Yasuo.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 60,
+        "2": 61.8,
+        "3": 63.6875,
+        "4": 65.6625,
+        "5": 67.725,
+        "6": 69.875,
+        "7": 72.1125,
+        "8": 74.4375,
+        "9": 76.85,
+        "10": 79.35,
+        "11": 81.9375,
+        "12": 84.6125,
+        "13": 87.375,
+        "14": 90.225,
+        "15": 93.1625,
+        "16": 96.1875,
+        "17": 99.3,
+        "18": 102.5
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 345,
+      "growth": null,
+      "sources": [
+        "角色根记录/Yasuo.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 345,
+        "2": 345,
+        "3": 345,
+        "4": 345,
+        "5": 345,
+        "6": 345,
+        "7": 345,
+        "8": 345,
+        "9": 345,
+        "10": 345,
+        "11": 345,
+        "12": 345,
+        "13": 345,
+        "14": 345,
+        "15": 345,
+        "16": 345,
+        "17": 345,
+        "18": 345
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 175,
+      "growth": null,
+      "sources": [
+        "角色根记录/Yasuo.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 175,
+        "2": 175,
+        "3": 175,
+        "4": 175,
+        "5": 175,
+        "6": 175,
+        "7": 175,
+        "8": 175,
+        "9": 175,
+        "10": 175,
+        "11": 175,
+        "12": 175,
+        "13": 175,
+        "14": 175,
+        "15": 175,
+        "16": 175,
+        "17": 175,
+        "18": 175
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.697,
+      "attackSpeedRatio": 0.67,
+      "growthPercent": 3.5,
+      "sources": [
+        "角色根记录/Yasuo.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.697,
+        "2": 0.713884,
+        "3": 0.731589,
+        "4": 0.750114,
+        "5": 0.76946,
+        "6": 0.789627,
+        "7": 0.810615,
+        "8": 0.832424,
+        "9": 0.855053,
+        "10": 0.878503,
+        "11": 0.902774,
+        "12": 0.927865,
+        "13": 0.953777,
+        "14": 0.98051,
+        "15": 1.008064,
+        "16": 1.036439,
+        "17": 1.065634,
+        "18": 1.09565
+      }
+    }
+  ],
+  "missing": [
+    {
+      "attribute": "resource",
+      "label": "资源",
+      "resourceType": "剑意",
+      "reason": "特殊或未明确资源不按法力统一生成；保留原始资源说明及根字段，待机制核对"
+    }
+  ],
+  "attackSpeedInputs": {
+    "base": 0.697,
+    "ratio": 0.67,
+    "growthPercent": 3.5,
+    "ratioDiffersFromBase": true
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

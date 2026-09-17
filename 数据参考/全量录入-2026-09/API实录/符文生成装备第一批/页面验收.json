@@ -1,0 +1,125 @@
+{
+  "at": "2026-09-08T16:23:23.496Z",
+  "url": "http://127.0.0.1:5173/#/equipment",
+  "browserChecks": [
+    "有点神奇之鞋属性面板显示move_speed25，其他属性未配置，未把额外10加到直接属性。",
+    "饼干属性面板仅显示已配置时为空，0已配置/28未配置；没有把消耗后30生命保存为携带属性。",
+    "通过API新建的3张图同步前显示未缓存；图片页真实增量同步收到3条，缓存3202→3205，筛选item_2010显示已缓存。",
+    "返回装备页，饼干表格图片加载完成；代表图窗口及截图实际展示启用的饼干PNG。"
+  ],
+  "experience": [
+    "查询后须核对列表实际稳定标识；关闭弹窗立即填词点击曾保留旧结果，再查询才刷新，未在错误对象上保存。",
+    "图片关系和缓存是两个状态；未缓存不等于未上传，首次关系加载还会短暂显示未上传图片。"
+  ],
+  "independentGetCount": 16,
+  "checks": [
+    {
+      "equipmentKey": "item_2010",
+      "subject": {
+        "createdAt": "2026-09-08T16:05:21.111904Z",
+        "description": "来源：官方16.17.1装备2010及客户端16.17。原始说明：主动 - 消耗： 食用饼干，以在5秒里持续回复 生命值 ，基于你的已损失生命值获得提升。消耗或出售一块饼干，都会永久提供 30最大生命值 。 符文生成装备；本批保存主体和明确直接属性，生成关系、消耗及技能效果另行录入。",
+        "equipmentKey": "item_2010",
+        "gameId": "lol",
+        "name": "永续意志夹心饼干",
+        "updatedAt": "2026-09-08T16:05:21.111904Z"
+      },
+      "attributes": {
+        "attributeValues": {},
+        "equipmentKey": "item_2010"
+      },
+      "image": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_2010",
+          "name": "永续意志夹心饼干（16.17.1）"
+        }
+      },
+      "relations": {
+        "items": [],
+        "total": 0
+      }
+    },
+    {
+      "equipmentKey": "item_2150",
+      "subject": {
+        "createdAt": "2026-09-08T16:05:22.440153Z",
+        "description": "来源：官方16.17.1装备2150及客户端16.17。原始说明：消耗 提供1技能点数。 这个装备不会提升你的等级或允许对那些已经升满的技能投入技能点数。 符文生成装备；本批保存主体和明确直接属性，生成关系、消耗及技能效果另行录入。",
+        "equipmentKey": "item_2150",
+        "gameId": "lol",
+        "name": "技能合剂",
+        "updatedAt": "2026-09-08T16:05:22.440153Z"
+      },
+      "attributes": {
+        "attributeValues": {},
+        "equipmentKey": "item_2150"
+      },
+      "image": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_2150",
+          "name": "技能合剂（16.17.1）"
+        }
+      },
+      "relations": {
+        "items": [],
+        "total": 0
+      }
+    },
+    {
+      "equipmentKey": "item_2152",
+      "subject": {
+        "createdAt": "2026-09-08T16:05:23.750569Z",
+        "description": "来源：官方16.17.1装备2152及客户端16.17。原始说明：消耗 提供25适应之力，持续60秒。 符文生成装备；本批保存主体和明确直接属性，生成关系、消耗及技能效果另行录入。",
+        "equipmentKey": "item_2152",
+        "gameId": "lol",
+        "name": "原力合剂",
+        "updatedAt": "2026-09-08T16:05:23.750569Z"
+      },
+      "attributes": {
+        "attributeValues": {},
+        "equipmentKey": "item_2152"
+      },
+      "image": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_2152",
+          "name": "原力合剂（16.17.1）"
+        }
+      },
+      "relations": {
+        "items": [],
+        "total": 0
+      }
+    },
+    {
+      "equipmentKey": "item_2422",
+      "subject": {
+        "createdAt": "2026-09-08T16:05:25.059797Z",
+        "description": "来源：官方16.17.1装备2422及客户端16.17。原始说明：25 移动速度 提供额外的 10移动速度 。通过【有点神奇之鞋】合成的鞋类装备都会保持这个移动速度加成。 符文生成装备；本批保存主体和明确直接属性，生成关系、消耗及技能效果另行录入。",
+        "equipmentKey": "item_2422",
+        "gameId": "lol",
+        "name": "有点神奇之鞋",
+        "updatedAt": "2026-09-08T16:05:25.059797Z"
+      },
+      "attributes": {
+        "attributeValues": {
+          "move_speed": 25
+        },
+        "equipmentKey": "item_2422"
+      },
+      "image": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_2422",
+          "name": "item_2422"
+        }
+      },
+      "relations": {
+        "items": [],
+        "total": 0
+      }
+    }
+  ],
+  "passed": true,
+  "runtime": "未执行"
+}

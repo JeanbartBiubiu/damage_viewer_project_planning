@@ -1,0 +1,266 @@
+{
+  "schemaVersion": 1,
+  "frozenAt": "2026-09-06T14:20:17.228Z",
+  "sourceKind": "CommunityDragon 从 Riot 游戏客户端提取的数据，非 Riot 官方接口，不是 Wiki 转述",
+  "sourceDocumentation": "https://github.com/CommunityDragon/Docs/blob/master/assets.md",
+  "sourceVersion": {
+    "currentClientContent": "16.17.8104348+branch.releases-16-17.content.release",
+    "primaryDataDragon": "16.17.1",
+    "historicalClientContent": "16.1.7374870+branch.releases-16-1.content.release",
+    "historicalDataDragon": "16.1.1"
+  },
+  "purpose": "只核对盖伦、艾希、伊泽瑞尔攻击力成长的来源，不展开技能解析，不进行业务录入。",
+  "affectedScope": {
+    "suspiciousOfficialChampionCount": 173,
+    "crossCheckedChampionCount": 3,
+    "otherChampionCountStillToCheck": 170,
+    "inScopeChampionCountStillToCheck": 168
+  },
+  "rootCauseStatus": "字段包装变更而官方静态资料仍输出零可能与提取适配有关，尚无生成器证据，不能认定根因。",
+  "heroes": [
+    {
+      "sourceChampionId": "Garen",
+      "currentClientRecord": {
+        "source": {
+          "url": "https://raw.communitydragon.org/16.17/game/data/characters/garen/garen.bin.json",
+          "path": "成长补充原始资料/16.17/garen.bin.json",
+          "byteSize": 47339,
+          "sha256": "dd48d09a3ca8c1db5a35a3f47993cb7e1afd25b92e8a30d7748a37fcc238767e",
+          "fetchedAt": "2026-09-06T14:20:10.546Z"
+        },
+        "recordKey": "Characters/Garen/CharacterRecords/Root",
+        "recordType": "CharacterRecord",
+        "characterName": "Garen",
+        "baseDamageModifiable": {
+          "baseValue": 69,
+          "__type": "ModifiableFloat"
+        },
+        "damagePerLevelModifiable": {
+          "baseValue": 4.5,
+          "__type": "ModifiableFloat"
+        }
+      },
+      "currentOfficialDataDragon": {
+        "path": "原始资料/en_US/champion/Garen.json",
+        "version": "16.17.1",
+        "attackdamage": 69,
+        "attackdamageperlevel": 0
+      },
+      "historicalFieldCrossCheck": {
+        "clientSource": {
+          "url": "https://raw.communitydragon.org/16.1/game/data/characters/garen/garen.bin.json",
+          "path": "成长补充原始资料/16.1/garen.bin.json",
+          "byteSize": 118653,
+          "sha256": "3ed8b328abfc02cb4e93d9e05160c212cea6ba9d7014bc190442a7e4f7ce882c",
+          "fetchedAt": "2026-09-06T14:20:10.812Z"
+        },
+        "officialSource": {
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.1.1/data/en_US/champion/Garen.json",
+          "path": "成长补充原始资料/16.1.1/Garen.json",
+          "byteSize": 9217,
+          "sha256": "b9cdb52a2d6e56141573781da2cf95c779293fe921b3a65f18d3e993368494aa",
+          "fetchedAt": "2026-09-06T14:20:11.661Z"
+        },
+        "recordKey": "Characters/Garen/CharacterRecords/Root",
+        "clientBaseDamage": 69,
+        "clientDamagePerLevel": 4.5,
+        "officialAttackDamage": 69,
+        "officialAttackDamagePerLevel": 4.5,
+        "valuesMatch": true
+      },
+      "supportedAttackDamageGrowth": 4.5,
+      "conclusion": "当前角色根记录的成长原值已冻结；历史相同角色根记录字段与当期官方攻击力成长一致，当前基础攻击力也与官方一致，支持将当前包装字段的 baseValue 作为攻击力成长补证。",
+      "remainingBoundary": "这是客户端提取文件和历史字段的交叉证据，不是对游戏引擎源码或实际对局进行验证；16.17 与 16.17.1 是相同补丁号的不同资料版本标识，未证明构建字节完全一致。",
+      "existingSystemDataStatus": "未读写数据库，交由页面录入时使用并核对。"
+    },
+    {
+      "sourceChampionId": "Ashe",
+      "currentClientRecord": {
+        "source": {
+          "url": "https://raw.communitydragon.org/16.17/game/data/characters/ashe/ashe.bin.json",
+          "path": "成长补充原始资料/16.17/ashe.bin.json",
+          "byteSize": 100290,
+          "sha256": "9b2e4e241134f8e93153a752fe54f65c2dddccc795b9c9d575ec45111fccafd2",
+          "fetchedAt": "2026-09-06T14:20:13.181Z"
+        },
+        "recordKey": "Characters/Ashe/CharacterRecords/Root",
+        "recordType": "CharacterRecord",
+        "characterName": "Ashe",
+        "baseDamageModifiable": {
+          "baseValue": 59,
+          "__type": "ModifiableFloat"
+        },
+        "damagePerLevelModifiable": {
+          "baseValue": 3.5,
+          "__type": "ModifiableFloat"
+        }
+      },
+      "currentOfficialDataDragon": {
+        "path": "原始资料/en_US/champion/Ashe.json",
+        "version": "16.17.1",
+        "attackdamage": 59,
+        "attackdamageperlevel": 0
+      },
+      "historicalFieldCrossCheck": {
+        "clientSource": {
+          "url": "https://raw.communitydragon.org/16.1/game/data/characters/ashe/ashe.bin.json",
+          "path": "成长补充原始资料/16.1/ashe.bin.json",
+          "byteSize": 188682,
+          "sha256": "dde6cfa80c0474d9187c4d85f297c80e965579d19a5bac75d2da6bdda5bf6359",
+          "fetchedAt": "2026-09-06T14:20:13.700Z"
+        },
+        "officialSource": {
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.1.1/data/en_US/champion/Ashe.json",
+          "path": "成长补充原始资料/16.1.1/Ashe.json",
+          "byteSize": 8866,
+          "sha256": "f9531e6b0514612408462d6fcc387c9d6de0faa5baf3a8d8682b4357221c68c0",
+          "fetchedAt": "2026-09-06T14:20:14.703Z"
+        },
+        "recordKey": "Characters/Ashe/CharacterRecords/Root",
+        "clientBaseDamage": 59,
+        "clientDamagePerLevel": 3,
+        "officialAttackDamage": 59,
+        "officialAttackDamagePerLevel": 3,
+        "valuesMatch": true
+      },
+      "supportedAttackDamageGrowth": 3.5,
+      "conclusion": "当前角色根记录的成长原值已冻结；历史相同角色根记录字段与当期官方攻击力成长一致，当前基础攻击力也与官方一致，支持将当前包装字段的 baseValue 作为攻击力成长补证。",
+      "remainingBoundary": "这是客户端提取文件和历史字段的交叉证据，不是对游戏引擎源码或实际对局进行验证；16.17 与 16.17.1 是相同补丁号的不同资料版本标识，未证明构建字节完全一致。",
+      "existingSystemDataStatus": "未读写数据库，交由页面录入时使用并核对。"
+    },
+    {
+      "sourceChampionId": "Ezreal",
+      "currentClientRecord": {
+        "source": {
+          "url": "https://raw.communitydragon.org/16.17/game/data/characters/ezreal/ezreal.bin.json",
+          "path": "成长补充原始资料/16.17/ezreal.bin.json",
+          "byteSize": 46524,
+          "sha256": "7c990bd7f7a9c6718dd4a1c1adc55af3a234e767afdad9eb9752feb853d5348e",
+          "fetchedAt": "2026-09-06T14:20:15.873Z"
+        },
+        "recordKey": "Characters/Ezreal/CharacterRecords/Root",
+        "recordType": "CharacterRecord",
+        "characterName": "Ezreal",
+        "baseDamageModifiable": {
+          "baseValue": 60,
+          "__type": "ModifiableFloat"
+        },
+        "damagePerLevelModifiable": {
+          "baseValue": 3.75,
+          "__type": "ModifiableFloat"
+        }
+      },
+      "currentOfficialDataDragon": {
+        "path": "原始资料/en_US/champion/Ezreal.json",
+        "version": "16.17.1",
+        "attackdamage": 60,
+        "attackdamageperlevel": 0
+      },
+      "historicalFieldCrossCheck": {
+        "clientSource": {
+          "url": "https://raw.communitydragon.org/16.1/game/data/characters/ezreal/ezreal.bin.json",
+          "path": "成长补充原始资料/16.1/ezreal.bin.json",
+          "byteSize": 123933,
+          "sha256": "38ab49e830302983a1d74af81f65af48ec15ee47b1ad756f191139cb6bcc109a",
+          "fetchedAt": "2026-09-06T14:20:16.180Z"
+        },
+        "officialSource": {
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.1.1/data/en_US/champion/Ezreal.json",
+          "path": "成长补充原始资料/16.1.1/Ezreal.json",
+          "byteSize": 8667,
+          "sha256": "db50cadb2d1a015f216b5c3b3ef7cad2ac49d90ca606b3bc5473eccea11846cf",
+          "fetchedAt": "2026-09-06T14:20:17.227Z"
+        },
+        "recordKey": "Characters/Ezreal/CharacterRecords/Root",
+        "clientBaseDamage": 60,
+        "clientDamagePerLevel": 3.25,
+        "officialAttackDamage": 60,
+        "officialAttackDamagePerLevel": 3.25,
+        "valuesMatch": true
+      },
+      "supportedAttackDamageGrowth": 3.75,
+      "conclusion": "当前角色根记录的成长原值已冻结；历史相同角色根记录字段与当期官方攻击力成长一致，当前基础攻击力也与官方一致，支持将当前包装字段的 baseValue 作为攻击力成长补证。",
+      "remainingBoundary": "这是客户端提取文件和历史字段的交叉证据，不是对游戏引擎源码或实际对局进行验证；16.17 与 16.17.1 是相同补丁号的不同资料版本标识，未证明构建字节完全一致。",
+      "existingSystemDataStatus": "上一阶段伊泽瑞尔攻击力成长为 0 的录入结果需要主任务重新核对，本子任务未读写数据库。"
+    }
+  ],
+  "sourceFiles": [
+    {
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.1.1/data/en_US/champion/Ashe.json",
+      "path": "成长补充原始资料/16.1.1/Ashe.json",
+      "byteSize": 8866,
+      "sha256": "f9531e6b0514612408462d6fcc387c9d6de0faa5baf3a8d8682b4357221c68c0",
+      "fetchedAt": "2026-09-06T14:20:14.703Z"
+    },
+    {
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.1.1/data/en_US/champion/Ezreal.json",
+      "path": "成长补充原始资料/16.1.1/Ezreal.json",
+      "byteSize": 8667,
+      "sha256": "db50cadb2d1a015f216b5c3b3ef7cad2ac49d90ca606b3bc5473eccea11846cf",
+      "fetchedAt": "2026-09-06T14:20:17.227Z"
+    },
+    {
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.1.1/data/en_US/champion/Garen.json",
+      "path": "成长补充原始资料/16.1.1/Garen.json",
+      "byteSize": 9217,
+      "sha256": "b9cdb52a2d6e56141573781da2cf95c779293fe921b3a65f18d3e993368494aa",
+      "fetchedAt": "2026-09-06T14:20:11.661Z"
+    },
+    {
+      "url": "https://raw.communitydragon.org/16.1/game/data/characters/ashe/ashe.bin.json",
+      "path": "成长补充原始资料/16.1/ashe.bin.json",
+      "byteSize": 188682,
+      "sha256": "dde6cfa80c0474d9187c4d85f297c80e965579d19a5bac75d2da6bdda5bf6359",
+      "fetchedAt": "2026-09-06T14:20:13.700Z"
+    },
+    {
+      "url": "https://raw.communitydragon.org/16.1/content-metadata.json",
+      "path": "成长补充原始资料/16.1/content-metadata.json",
+      "byteSize": 72,
+      "sha256": "8d514d18cf01ef940ae700d02f59df0b5654c4bd486471ab645a0acba4d5df9d",
+      "fetchedAt": "2026-09-06T14:20:08.908Z"
+    },
+    {
+      "url": "https://raw.communitydragon.org/16.1/game/data/characters/ezreal/ezreal.bin.json",
+      "path": "成长补充原始资料/16.1/ezreal.bin.json",
+      "byteSize": 123933,
+      "sha256": "38ab49e830302983a1d74af81f65af48ec15ee47b1ad756f191139cb6bcc109a",
+      "fetchedAt": "2026-09-06T14:20:16.180Z"
+    },
+    {
+      "url": "https://raw.communitydragon.org/16.1/game/data/characters/garen/garen.bin.json",
+      "path": "成长补充原始资料/16.1/garen.bin.json",
+      "byteSize": 118653,
+      "sha256": "3ed8b328abfc02cb4e93d9e05160c212cea6ba9d7014bc190442a7e4f7ce882c",
+      "fetchedAt": "2026-09-06T14:20:10.812Z"
+    },
+    {
+      "url": "https://raw.communitydragon.org/16.17/game/data/characters/ashe/ashe.bin.json",
+      "path": "成长补充原始资料/16.17/ashe.bin.json",
+      "byteSize": 100290,
+      "sha256": "9b2e4e241134f8e93153a752fe54f65c2dddccc795b9c9d575ec45111fccafd2",
+      "fetchedAt": "2026-09-06T14:20:13.181Z"
+    },
+    {
+      "url": "https://raw.communitydragon.org/16.17/content-metadata.json",
+      "path": "成长补充原始资料/16.17/content-metadata.json",
+      "byteSize": 74,
+      "sha256": "9f2418231285f6e8d8b3a33db404b5494001f3bbb9bc853771cecf81ce590f9e",
+      "fetchedAt": "2026-09-06T14:20:08.634Z"
+    },
+    {
+      "url": "https://raw.communitydragon.org/16.17/game/data/characters/ezreal/ezreal.bin.json",
+      "path": "成长补充原始资料/16.17/ezreal.bin.json",
+      "byteSize": 46524,
+      "sha256": "7c990bd7f7a9c6718dd4a1c1adc55af3a234e767afdad9eb9752feb853d5348e",
+      "fetchedAt": "2026-09-06T14:20:15.873Z"
+    },
+    {
+      "url": "https://raw.communitydragon.org/16.17/game/data/characters/garen/garen.bin.json",
+      "path": "成长补充原始资料/16.17/garen.bin.json",
+      "byteSize": 47339,
+      "sha256": "dd48d09a3ca8c1db5a35a3f47993cb7e1afd25b92e8a30d7748a37fcc238767e",
+      "fetchedAt": "2026-09-06T14:20:10.546Z"
+    }
+  ]
+}

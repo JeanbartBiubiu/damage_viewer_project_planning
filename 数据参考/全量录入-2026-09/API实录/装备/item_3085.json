@@ -1,0 +1,49 @@
+{
+  "itemId": "3085",
+  "equipmentKey": "item_3085",
+  "name": "卢安娜的飓风",
+  "plannedDirectAttributes": {
+    "bonus_attack_speed_percent": 0.4,
+    "critical_strike_chance": 0.25,
+    "move_speed_percent": 0.05
+  },
+  "sourceVersion": "16.17.1",
+  "sourceDescriptionText": "40%攻击速度\n25%暴击几率\n5%移动速度\n\n风怒\n攻击对目标附近的2个额外敌人发射弩箭。\n每根弩箭造成物理伤害并施加攻击特效。",
+  "startedAt": "2026-09-06T18:10:44.707Z",
+  "action": "reused",
+  "actualEquipment": {
+    "equipmentKey": "item_3085",
+    "name": "卢安娜的飓风",
+    "description": "来源：官方16.17.1装备3085。 原始说明：40%攻击速度 25%暴击几率 5%移动速度 风怒。 被动与主动效果尚待配置。"
+  },
+  "planDifference": {
+    "expected": {
+      "name": "卢安娜的飓风",
+      "description": "来源：官方16.17.1装备3085。 原始说明：40%攻击速度\n25%暴击几率\n5%移动速度\n\n风怒\n攻击对目标附近的2个额外敌人发射弩箭。\n每根弩箭造成物理伤害并施加攻击特效。 被动与主动效果尚待配置。"
+    },
+    "actual": {
+      "name": "卢安娜的飓风",
+      "description": "来源：官方16.17.1装备3085。 原始说明：40%攻击速度 25%暴击几率 5%移动速度 风怒。 被动与主动效果尚待配置。"
+    }
+  },
+  "beforeAttributeValues": {
+    "move_speed_percent": 0.05,
+    "bonus_attack_speed_percent": 0.4,
+    "critical_strike_chance": 0.25
+  },
+  "expectedAttributeValues": {
+    "move_speed_percent": 0.05,
+    "bonus_attack_speed_percent": 0.4,
+    "critical_strike_chance": 0.25
+  },
+  "attributePutStatus": "not_needed",
+  "readbackStatus": 200,
+  "readbackAttributeValues": {
+    "move_speed_percent": 0.05,
+    "bonus_attack_speed_percent": 0.4,
+    "critical_strike_chance": 0.25
+  },
+  "readbackMatches": true,
+  "status": "completed",
+  "completedAt": "2026-09-06T18:10:44.831Z"
+}

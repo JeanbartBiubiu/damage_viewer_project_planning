@@ -1,0 +1,444 @@
+{
+  "at": "2026-09-07T19:00:53.165Z",
+  "processMethod": "真实页面新增并关闭重开",
+  "ruleMethod": "接口补缺后独立GET",
+  "checks": [
+    {
+      "route": "/effects/timeless_growth",
+      "expected": {
+        "effectKey": "timeless_growth",
+        "name": "时无限成长层数",
+        "description": "由十次成长过程每分钟施加一层，最多十层并永久保留各层属性。",
+        "sortOrder": 10,
+        "lifecycle": {
+          "durationValue": null,
+          "maxStacksValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "timeless_growth_max_stacks"
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "INCREASE",
+          "reapplicationDurationMode": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "timeless_ap_per_stack",
+            "name": "时无限每层法术强度",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "description": "显式成长每层增加3点法术强度。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "PER_STACK",
+              "reapplicationValueMode": null,
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "timeless_ap_per_stack"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "ability_power",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          },
+          {
+            "resultKey": "timeless_hp_per_stack",
+            "name": "时无限每层生命值",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "description": "显式成长每层增加10点生命值。",
+            "sortOrder": 20,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "PER_STACK",
+              "reapplicationValueMode": null,
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "timeless_hp_per_stack"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "hp",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          },
+          {
+            "resultKey": "timeless_mana_per_stack",
+            "name": "时无限每层法力",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "description": "显式成长每层增加30点法力值。",
+            "sortOrder": 30,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "PER_STACK",
+              "reapplicationValueMode": null,
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "timeless_mana_per_stack"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          }
+        ]
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:22:32.191968Z",
+        "description": "由十次成长过程每分钟施加一层，最多十层并永久保留各层属性。",
+        "effectKey": "timeless_growth",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "timeless_growth_max_stacks"
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": null,
+          "reapplicationStackMode": "INCREASE"
+        },
+        "name": "时无限成长层数",
+        "results": [
+          {
+            "description": "显式成长每层增加3点法术强度。",
+            "detail": {
+              "attributeKey": "ability_power",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": null,
+              "stackValueMode": "PER_STACK",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "时无限每层法术强度",
+            "resultKey": "timeless_ap_per_stack",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "timeless_ap_per_stack"
+              }
+            }
+          },
+          {
+            "description": "显式成长每层增加10点生命值。",
+            "detail": {
+              "attributeKey": "hp",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": null,
+              "stackValueMode": "PER_STACK",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "时无限每层生命值",
+            "resultKey": "timeless_hp_per_stack",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 20,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "timeless_hp_per_stack"
+              }
+            }
+          },
+          {
+            "description": "显式成长每层增加30点法力值。",
+            "detail": {
+              "attributeKey": "mana",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": null,
+              "stackValueMode": "PER_STACK",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "时无限每层法力",
+            "resultKey": "timeless_mana_per_stack",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 30,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "timeless_mana_per_stack"
+              }
+            }
+          }
+        ],
+        "skillKey": "item_6657_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:55:59.670102Z"
+      },
+      "matches": true
+    },
+    {
+      "route": "/processes/timeless_growth_process",
+      "expected": {
+        "processKey": "timeless_growth_process",
+        "name": "时无限十次成长",
+        "activationType": "PASSIVE",
+        "description": "初始化后每60000毫秒施加一层，首次等待完整间隔，共执行10次。",
+        "sortOrder": 10,
+        "cooldown": null,
+        "steps": [
+          {
+            "stepKey": "growth_tick",
+            "name": "每分钟成长一层",
+            "stepType": "PERIODIC",
+            "description": "第1至第10次分别发生在第1至第10分钟。",
+            "sortOrder": 10,
+            "detail": {
+              "repeatCountValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "timeless_growth_max_stacks"
+              },
+              "intervalValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "timeless_growth_interval_ms"
+              },
+              "firstExecution": "AFTER_INTERVAL"
+            }
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "apply_growth",
+            "effectKey": "timeless_growth",
+            "moment": {
+              "momentType": "STEP_EXECUTION",
+              "stepKey": "growth_tick"
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      },
+      "actual": {
+        "activationType": "PASSIVE",
+        "cooldown": null,
+        "createdAt": "2026-09-07T18:59:08.014654Z",
+        "description": "初始化后每60000毫秒施加一层，首次等待完整间隔，共执行10次。",
+        "effectBindings": [
+          {
+            "bindingKey": "apply_growth",
+            "effectKey": "timeless_growth",
+            "moment": {
+              "momentType": "STEP_EXECUTION",
+              "stepKey": "growth_tick"
+            },
+            "sortOrder": 10
+          }
+        ],
+        "gameId": "lol",
+        "name": "时无限十次成长",
+        "processKey": "timeless_growth_process",
+        "skillKey": "item_6657_passive",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "第1至第10次分别发生在第1至第10分钟。",
+            "detail": {
+              "firstExecution": "AFTER_INTERVAL",
+              "intervalValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "timeless_growth_interval_ms"
+              },
+              "repeatCountValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "timeless_growth_max_stacks"
+              }
+            },
+            "name": "每分钟成长一层",
+            "sortOrder": 10,
+            "stepKey": "growth_tick",
+            "stepType": "PERIODIC"
+          }
+        ],
+        "updatedAt": "2026-09-07T18:59:08.014654Z"
+      },
+      "matches": true
+    },
+    {
+      "route": "/trigger-rules/initialize_timeless_growth",
+      "expected": {
+        "ruleKey": "initialize_timeless_growth",
+        "name": "初始化时无限十次成长",
+        "description": "来源对象初始化时启动一次有界成长过程，满层升级和永恒另行配置。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SOURCE_INITIALIZED",
+          "detail": {}
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_timeless_growth",
+            "name": "启动时无限十次成长",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "EVENT_SOURCE",
+            "detail": {
+              "processKey": "timeless_growth_process"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "actual": {
+        "actions": [
+          {
+            "actionKey": "start_timeless_growth",
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "timeless_growth_process"
+            },
+            "name": "启动时无限十次成长",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "EVENT_SOURCE"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "来源对象初始化时启动一次有界成长过程，满层升级和永恒另行配置。",
+        "eventSource": {
+          "detail": {},
+          "eventType": "SOURCE_INITIALIZED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "初始化时无限十次成长",
+        "perTargetCooldown": null,
+        "ruleKey": "initialize_timeless_growth",
+        "sortOrder": 10
+      },
+      "matches": true
+    }
+  ],
+  "arithmetic": [
+    {
+      "timeMs": 0,
+      "stacks": 0,
+      "hp": 0,
+      "mana": 0,
+      "abilityPower": 0
+    },
+    {
+      "timeMs": 59999,
+      "stacks": 0,
+      "hp": 0,
+      "mana": 0,
+      "abilityPower": 0
+    },
+    {
+      "timeMs": 60000,
+      "stacks": 1,
+      "hp": 10,
+      "mana": 30,
+      "abilityPower": 3
+    },
+    {
+      "timeMs": 540000,
+      "stacks": 9,
+      "hp": 90,
+      "mana": 270,
+      "abilityPower": 27
+    },
+    {
+      "timeMs": 600000,
+      "stacks": 10,
+      "hp": 100,
+      "mana": 300,
+      "abilityPower": 30
+    },
+    {
+      "timeMs": 660000,
+      "stacks": 10,
+      "hp": 100,
+      "mana": 300,
+      "abilityPower": 30
+    },
+    {
+      "timeMs": 1200000,
+      "stacks": 10,
+      "hp": 100,
+      "mana": 300,
+      "abilityPower": 30
+    }
+  ],
+  "passed": true,
+  "boundary": "按已保存过程次数与叠层配置推导边界，并非实际战斗运行。"
+}

@@ -1,0 +1,3465 @@
+{
+  "generatedAt": "2026-09-09T01:09:14.029Z",
+  "clientVersion": "16.17",
+  "officialVersion": "16.17.1",
+  "boundary": "候选来源冻结；只沿当前Items编号对象的mLocKeys绑定说明及其直接模板引用，不用名称相似旧对象。",
+  "sources": [
+    {
+      "文件": "客户端原始资料/items-16.17.cdtb.bin.json.gz",
+      "解压文件名": "items-16.17.cdtb.bin.json",
+      "地址": "https://raw.communitydragon.org/16.17/game/items.cdtb.bin.json",
+      "目录或公告版本": "16.17",
+      "用途": "主证：客户端装备对象、命名数据、计算与说明绑定",
+      "下载文件修改时间UTC": "2026-09-06T15:00:14.328Z",
+      "原始字节数": 15923188,
+      "原始SHA256": "b59ec9320d05acefa344ea8a5ef615cf7f32959078475cafff63833462dc358f",
+      "压缩字节数": 1577238,
+      "压缩SHA256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7",
+      "verified": true
+    },
+    {
+      "文件": "客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+      "解压文件名": "lol-16.17-zh_CN.stringtable.json",
+      "地址": "https://raw.communitydragon.org/16.17/game/zh_cn/data/menu/en_us/lol.stringtable.json",
+      "目录或公告版本": "16.17",
+      "用途": "主证：中文游戏说明，文件内version=5是字符串表格式版本，不是游戏补丁版本",
+      "下载文件修改时间UTC": "2026-09-06T15:08:11.306Z",
+      "原始字节数": 32784742,
+      "原始SHA256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+      "压缩字节数": 8350124,
+      "压缩SHA256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+      "verified": true
+    },
+    {
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+      "file": "官方原始资料/item-16.17.1-zh_CN.json",
+      "retrievedAt": "2026-09-06T14:10:07.953Z",
+      "byteSize": 691131,
+      "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973",
+      "verified": true
+    }
+  ],
+  "objects": [
+    {
+      "id": 2503,
+      "equipmentKey": "item_2503",
+      "name": "黯炎火炬",
+      "path": "Items/2503",
+      "object": {
+        "spellName": "BloodthirsterDummySpell",
+        "mDisplayName": "Item_2503_Name",
+        "itemID": 2503,
+        "maxStack": 1,
+        "mItemGroups": [
+          "Items/ItemGroups/Default",
+          "{693b07b5}"
+        ],
+        "price": 700,
+        "ShowCooldownVfxToAllies": false,
+        "mCanBeSold": true,
+        "epicness": 5,
+        "recipeItemLinks": [
+          "Items/3802",
+          "Items/2508"
+        ],
+        "mDataValues": [
+          {
+            "mName": "BurnFlatDamagePerSecond",
+            "mValue": 20,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "APRatio",
+            "mValue": 0.019999999552965164,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "BurnDuration",
+            "mValue": 3,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "MonsterDamageBonus",
+            "mValue": 20,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "TickFrequency",
+            "mValue": 0.5,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "APPerStack",
+            "mValue": 0.03999999910593033,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "MinionDPS",
+            "mValue": 20,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "MinionAP",
+            "mValue": 0.019999999552965164,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "MonsterDPS",
+            "mValue": 40,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "MonsterAP",
+            "mValue": 0.019999999552965164,
+            "__type": "ItemDataValue"
+          }
+        ],
+        "mItemCalculations": {
+          "BurnDamagePerSecondCalc": {
+            "mFormulaParts": [
+              {
+                "mDataValue": "BurnFlatDamagePerSecond",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              {
+                "mDataValue": "APRatio",
+                "__type": "StatByNamedDataValueCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "MinionBurnCalc": {
+            "mFormulaParts": [
+              {
+                "mDataValue": "{9adc0c64}",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              {
+                "mDataValue": "MinionAP",
+                "__type": "StatByNamedDataValueCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "MonsterBurnCalc": {
+            "mFormulaParts": [
+              {
+                "mDataValue": "{afd69c5a}",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              {
+                "mDataValue": "{434396e0}",
+                "__type": "StatByNamedDataValueCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          }
+        },
+        "mAbilityHasteMod": 20,
+        "mFlatMagicDamageMod": 80,
+        "flatMPPoolMod": 600,
+        "mCategories": [
+          "SpellDamage",
+          "Mana",
+          "CooldownReduction",
+          "AbilityHaste"
+        ],
+        "mItemDataAvailability": {
+          "mInStore": true,
+          "__type": "ItemDataAvailability"
+        },
+        "mItemAttributes": [
+          16
+        ],
+        "mItemDataClient": {
+          "mTooltipData": {
+            "mObjectName": "2503",
+            "mFormat": "{32559c50}",
+            "mLocKeys": {
+              "keyName": "Item_2503_Name",
+              "keyTooltip": "Item_2503_Tooltip",
+              "keyInventoryOnlyText": "Item_2503_InventoryOnlyText",
+              "keyFlavorText": "Item_2503_FlavorText",
+              "keyBrief": "Item_2503_Brief",
+              "keyTooltipExtendedRules": "Item_2503_TooltipExtendedRules",
+              "keyTooltipExternal": "Item_2503_TooltipExternal"
+            },
+            "mLists": {
+              "Stats": {
+                "Elements": [
+                  {
+                    "type": "AbilityPower",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "Mana",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "AbilityHaste",
+                    "__type": "TooltipInstanceListElement"
+                  }
+                ],
+                "__type": "TooltipInstanceList"
+              }
+            },
+            "__type": "TooltipInstanceItem"
+          },
+          "mDescription": "GeneratedTip_Item_2503_Description",
+          "mDynamicTooltip": "GeneratedTip_Item_2503_TooltipInventory",
+          "mShopTooltip": "GeneratedTip_Item_2503_TooltipShop",
+          "inventoryIcon": "assets/items/icons2d/2503_blackfiretorch64.dds",
+          "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/2503_BlackfireTorch44.png",
+          "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/2503_BlackfireTorch88.png",
+          "epicness": 6,
+          "__type": "ItemDataClient"
+        },
+        "mVFXResourceResolver": {
+          "resourceMap": {
+            "{a38c2941}": "Items/2503/Particles/2503_Dot_Tar"
+          },
+          "__type": "ResourceResolver"
+        },
+        "__type": "ItemData"
+      },
+      "bound": {
+        "keyName": {
+          "sourceKey": "Item_2503_Name",
+          "key": "item_2503_name",
+          "text": "黯炎火炬"
+        },
+        "keyTooltip": {
+          "sourceKey": "Item_2503_Tooltip",
+          "key": "item_2503_tooltip",
+          "text": "<passive>邪焰</passive><br>伤害型技能造成每秒<magicDamage>@BurnDamagePerSecondCalc@额外魔法伤害</magicDamage>，持续@BurnDuration@秒。<br><br><passive>黯炎</passive><br>被你的<passive>邪焰</passive>影响的每个敌方英雄、史诗级野怪和大型野怪都会为你提供<scaleAP>@APPerStack*100@%法术强度</scaleAP>。 "
+        },
+        "keyInventoryOnlyText": {
+          "sourceKey": "Item_2503_InventoryOnlyText",
+          "key": "item_2503_inventoryonlytext",
+          "text": "已对英雄造成的伤害：<attention>@f2@</attention>"
+        },
+        "keyFlavorText": {
+          "sourceKey": "Item_2503_FlavorText",
+          "key": "item_2503_flavortext",
+          "text": "'黑雾需要一团程度与之相配的火焰。'"
+        },
+        "keyBrief": {
+          "sourceKey": "Item_2503_Brief",
+          "key": "item_2503_brief",
+          "text": "持续伤害"
+        },
+        "keyTooltipExtendedRules": {
+          "sourceKey": "Item_2503_TooltipExtendedRules",
+          "key": "item_2503_tooltipextendedrules",
+          "text": "<rules><passive>邪焰</passive>对小兵造成每秒<magicDamage>@MinionBurnCalc@</magicDamage>魔法伤害，并对野怪造成每秒<magicDamage>@MonsterBurnCalc@</magicDamage>魔法伤害。</rules>"
+        },
+        "keyTooltipExternal": {
+          "sourceKey": "Item_2503_TooltipExternal",
+          "key": "item_2503_tooltipexternal",
+          "text": "<passive>邪焰</passive><br>伤害型技能造成<magicDamage>额外魔法伤害</magicDamage>，持续@BurnDuration@秒。<br><br><passive>黯炎</passive><br>被你的<passive>邪焰</passive>影响的每个敌方英雄、史诗级野怪和大型野怪都会为你提供<scaleAP>@APPerStack*100@%法术强度</scaleAP>。"
+        }
+      },
+      "official": {
+        "name": "黯炎火炬",
+        "description": "<mainText><stats><attention>80</attention>法术强度<br><attention>600</attention>法力<br><attention>20</attention>技能急速</stats><br><br><passive>邪焰</passive><br>伤害型技能造成<magicDamage>额外魔法伤害</magicDamage>，持续3秒。<br><br><passive>黯炎</passive><br>被你的<passive>邪焰</passive>影响的每个敌方英雄、史诗级野怪和大型野怪都会为你提供<scaleAP>4%法术强度</scaleAP>。</mainText>",
+        "colloq": "",
+        "plaintext": "",
+        "from": [
+          "3802",
+          "2508"
+        ],
+        "image": {
+          "full": "2503.png",
+          "sprite": "item3.png",
+          "group": "item",
+          "x": 96,
+          "y": 0,
+          "w": 48,
+          "h": 48
+        },
+        "gold": {
+          "base": 700,
+          "purchasable": true,
+          "total": 2800,
+          "sell": 1960
+        },
+        "tags": [
+          "SpellDamage",
+          "Mana",
+          "CooldownReduction",
+          "AbilityHaste"
+        ],
+        "maps": {
+          "11": true,
+          "12": true,
+          "22": false,
+          "30": false,
+          "453": true
+        },
+        "stats": {
+          "FlatMPPoolMod": 600,
+          "FlatMagicDamageMod": 80
+        },
+        "depth": 3
+      }
+    },
+    {
+      "id": 2508,
+      "equipmentKey": "item_2508",
+      "name": "命定灰烬",
+      "path": "Items/2508",
+      "object": {
+        "mDisplayName": "Item_2508_Name",
+        "mDeathRecapName": "RunicAshes",
+        "itemID": 2508,
+        "maxStack": 1,
+        "mItemGroups": [
+          "Items/ItemGroups/Default"
+        ],
+        "price": 500,
+        "ShowCooldownVfxToAllies": false,
+        "ShowCooldownInPings": false,
+        "mCanBeSold": true,
+        "epicness": 4,
+        "recipeItemLinks": [
+          "Items/1052"
+        ],
+        "mDataValues": [
+          {
+            "mName": "BurnFlatDamagePerSecond",
+            "mValue": 5,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "BurnDuration",
+            "mValue": 3,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "MonsterDamageBonus",
+            "mValue": 15,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "TickFrequency",
+            "mValue": 0.5,
+            "__type": "ItemDataValue"
+          }
+        ],
+        "mFlatMagicDamageMod": 30,
+        "mCategories": [
+          "SpellDamage"
+        ],
+        "mItemDataAvailability": {
+          "mInStore": true,
+          "__type": "ItemDataAvailability"
+        },
+        "mItemAttributes": [
+          16
+        ],
+        "mItemDataClient": {
+          "mTooltipData": {
+            "mObjectName": "2508",
+            "mFormat": "{32559c50}",
+            "EnableExtendedTooltip": false,
+            "mLocKeys": {
+              "keyName": "Item_2508_Name",
+              "keyTooltip": "Item_2508_Tooltip",
+              "keyInventoryOnlyText": "Item_2508_InventoryOnlyText"
+            },
+            "mLists": {
+              "Stats": {
+                "Elements": [
+                  {
+                    "type": "AbilityPower",
+                    "__type": "TooltipInstanceListElement"
+                  }
+                ],
+                "__type": "TooltipInstanceList"
+              }
+            },
+            "__type": "TooltipInstanceItem"
+          },
+          "mDescription": "GeneratedTip_Item_2508_Description",
+          "mDynamicTooltip": "GeneratedTip_Item_2508_TooltipInventory",
+          "mShopTooltip": "GeneratedTip_Item_2508_TooltipShop",
+          "inventoryIcon": "assets/items/icons2d/2508_fatedashes64.dds",
+          "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/2508_FatedAshes44.png",
+          "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/2508_FatedAshes88.png",
+          "epicness": 4,
+          "__type": "ItemDataClient"
+        },
+        "mVFXResourceResolver": {
+          "resourceMap": {
+            "{5dff1b3f}": "{00000000}",
+            "{8722baf4}": "Items/2508/Particles/2508_Dot_Tar",
+            "{03f7a92b}": "Items/2508/Particles/2508_Child_Spark"
+          },
+          "__type": "ResourceResolver"
+        },
+        "__type": "ItemData"
+      },
+      "bound": {
+        "keyName": {
+          "sourceKey": "Item_2508_Name",
+          "key": "item_2508_name",
+          "text": "命定灰烬"
+        },
+        "keyTooltip": {
+          "sourceKey": "Item_2508_Tooltip",
+          "key": "item_2508_tooltip",
+          "text": "<passive>激燃</passive><br>伤害型技能在@BurnDuration@秒里持续造成<magicDamage>@BurnFlatDamagePerSecond*3@额外魔法伤害</magicDamage>。<br>对野怪造成额外的<magicDamage>@MonsterDamageBonus*3@魔法伤害</magicDamage>。"
+        },
+        "keyInventoryOnlyText": {
+          "sourceKey": "Item_2508_InventoryOnlyText",
+          "key": "item_2508_inventoryonlytext",
+          "text": "已对英雄造成的伤害：<attention>@f2@</attention>"
+        }
+      },
+      "official": {
+        "name": "命定灰烬",
+        "description": "<mainText><stats><attention>30</attention>法术强度</stats><br><br><passive>激燃</passive><br>伤害型技能在3秒里持续造成<magicDamage>15额外魔法伤害</magicDamage>。<br>对野怪造成额外的<magicDamage>45魔法伤害</magicDamage>。</mainText>",
+        "colloq": "",
+        "plaintext": "",
+        "from": [
+          "1052"
+        ],
+        "into": [
+          "2503",
+          "6653"
+        ],
+        "image": {
+          "full": "2508.png",
+          "sprite": "item3.png",
+          "group": "item",
+          "x": 192,
+          "y": 0,
+          "w": 48,
+          "h": 48
+        },
+        "gold": {
+          "base": 500,
+          "purchasable": true,
+          "total": 900,
+          "sell": 630
+        },
+        "tags": [
+          "SpellDamage"
+        ],
+        "maps": {
+          "11": true,
+          "12": true,
+          "22": false,
+          "30": false,
+          "453": true
+        },
+        "stats": {
+          "FlatMagicDamageMod": 30
+        },
+        "depth": 2
+      }
+    },
+    {
+      "id": 3118,
+      "equipmentKey": "item_3118",
+      "name": "残疫",
+      "path": "Items/3118",
+      "object": {
+        "mDisplayName": "Item_3118_Name",
+        "itemID": 3118,
+        "maxStack": 1,
+        "mItemGroups": [
+          "Items/ItemGroups/Default",
+          "{143b41c4}"
+        ],
+        "mItemAdviceAttributes": [
+          "{8fd6c485}"
+        ],
+        "price": 650,
+        "mItemCalloutPlayer": true,
+        "mItemCalloutSpectator": true,
+        "mCanBeSold": true,
+        "epicness": 5,
+        "recipeItemLinks": [
+          "Items/3802",
+          "Items/1026"
+        ],
+        "mEffectAmount": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "mDataValues": [
+          {
+            "mName": "AOESize",
+            "mValue": 250,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "UltimateHaste",
+            "mValue": 20,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "GroundDuration",
+            "mValue": 3,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "BaseDamage",
+            "mValue": 60,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "APRatio",
+            "mValue": 0.05000000074505806,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "MaxRadius",
+            "mValue": 550,
+            "__type": "ItemDataValue"
+          }
+        ],
+        "DataValuesModeOverride": {
+          "ARAM": {
+            "DataValues": [
+              {
+                "mName": "APRatio",
+                "mValue": 0.02800000086426735,
+                "__type": "ItemDataValue"
+              },
+              {
+                "mName": "BaseDamage",
+                "mValue": 40,
+                "__type": "ItemDataValue"
+              }
+            ],
+            "__type": "ItemDataValues"
+          },
+          "{bffdf499}": {
+            "DataValues": [
+              {
+                "mName": "APRatio",
+                "mValue": 0.02800000086426735,
+                "__type": "ItemDataValue"
+              },
+              {
+                "mName": "BaseDamage",
+                "mValue": 40,
+                "__type": "ItemDataValue"
+              }
+            ],
+            "__type": "ItemDataValues"
+          }
+        },
+        "mItemCalculations": {
+          "{8e8f7a34}": {
+            "mMultiplier": {
+              "mNumber": 0.25,
+              "__type": "NumberCalculationPart"
+            },
+            "mSimpleTooltipCalculationDisplay": 5,
+            "mExpandedTooltipCalculationDisplay": 5,
+            "mFormulaParts": [
+              {
+                "mDataValue": "BaseDamage",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              {
+                "mDataValue": "APRatio",
+                "__type": "StatByNamedDataValueCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "MagicResistanceShred": {
+            "mFormulaParts": [
+              {
+                "mNumber": 10,
+                "__type": "NumberCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "GroundBurnDamagePerTickTooltipOnly": {
+            "mFormulaParts": [
+              {
+                "mDataValue": "BaseDamage",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              {
+                "mDataValue": "APRatio",
+                "__type": "StatByNamedDataValueCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          }
+        },
+        "mAbilityHasteMod": 15,
+        "mFlatMagicDamageMod": 90,
+        "flatMPPoolMod": 600,
+        "mCategories": [
+          "SpellDamage",
+          "Mana",
+          "AbilityHaste"
+        ],
+        "mItemDataAvailability": {
+          "mInStore": true,
+          "__type": "ItemDataAvailability"
+        },
+        "mItemAttributes": [
+          16
+        ],
+        "mItemDataClient": {
+          "mTooltipData": {
+            "mObjectName": "3118",
+            "mFormat": "{32559c50}",
+            "mLocKeys": {
+              "keyName": "Item_3118_Name",
+              "keyBrief": "Item_3118_Brief",
+              "keyTooltip": "Item_3118_Tooltip",
+              "keyColloquialism": "Item_3107_Colloquialism",
+              "keyInventoryOnlyText": "Item_3118_InventoryOnlyText",
+              "keyTooltipExtendedRules": "Item_3118_TooltipExtendedRules",
+              "keyTooltipExternal": "Item_3118_TooltipExternal"
+            },
+            "mLists": {
+              "Stats": {
+                "Elements": [
+                  {
+                    "type": "AbilityPower",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "Mana",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "AbilityHaste",
+                    "__type": "TooltipInstanceListElement"
+                  }
+                ],
+                "__type": "TooltipInstanceList"
+              }
+            },
+            "__type": "TooltipInstanceItem"
+          },
+          "mDescription": "GeneratedTip_Item_3118_Description",
+          "mDynamicTooltip": "GeneratedTip_Item_3118_TooltipInventory",
+          "mShopTooltip": "GeneratedTip_Item_3118_TooltipShop",
+          "inventoryIcon": "assets/items/icons2d/3118_malignance.dds",
+          "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/3118_Malignance44.png",
+          "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/3118_Malignance88.png",
+          "epicness": 5,
+          "__type": "ItemDataClient"
+        },
+        "mVFXResourceResolver": {
+          "resourceMap": {
+            "{93044e22}": "Items/3118/Particles/3118_Ground_Burn",
+            "{21bdaee6}": "Items/3118/Particles/3118_Burn_tar",
+            "{8b74abcd}": "Items/3118/Particles/3118_Shred",
+            "{0ea037c5}": "Items/3118/Particles/3118_Ground_Burn_Enemy"
+          },
+          "__type": "ResourceResolver"
+        },
+        "__type": "ItemData"
+      },
+      "bound": {
+        "keyName": {
+          "sourceKey": "Item_3118_Name",
+          "key": "item_3118_name",
+          "text": "残疫"
+        },
+        "keyBrief": {
+          "sourceKey": "Item_3118_Brief",
+          "key": "item_3118_brief",
+          "text": "增强终极技能"
+        },
+        "keyTooltip": {
+          "sourceKey": "Item_3118_Tooltip",
+          "key": "item_3118_tooltip",
+          "text": "<passive>蔑视</passive><br>获得@UltimateHaste@终极技能急速。<br><br><passive>憎恨之雾</passive><br>在用你的终极技能对一个英雄造成伤害时，灼烧其脚下的地面@GroundDuration@秒，每秒造成<magicDamage>@GroundBurnDamagePerTickTooltipOnly@魔法伤害</magicDamage>并削减其<scaleMR>@MagicResistanceShred@魔法抗性</scaleMR>。<br>"
+        },
+        "keyColloquialism": {
+          "sourceKey": "Item_3107_Colloquialism",
+          "key": "item_3107_colloquialism",
+          "text": "灼烧;burn;zhuoshao"
+        },
+        "keyInventoryOnlyText": {
+          "sourceKey": "Item_3118_InventoryOnlyText",
+          "key": "item_3118_inventoryonlytext",
+          "text": "对英雄的伤害：<attention>@f4@</attention>"
+        },
+        "keyTooltipExtendedRules": {
+          "sourceKey": "Item_3118_TooltipExtendedRules",
+          "key": "item_3118_tooltipextendedrules",
+          "text": "<br><br><rules>半径会基于造成的伤害值来提升。<br>普攻不能触发<passive>憎恨之雾</passive>。</rules>"
+        },
+        "keyTooltipExternal": {
+          "sourceKey": "Item_3118_TooltipExternal",
+          "key": "item_3118_tooltipexternal",
+          "text": "<passive>蔑视</passive><br>获得@UltimateHaste@终极技能急速。<br><br><passive>憎恨之雾</passive><br>在用你的终极技能对一个英雄造成伤害时，灼烧其脚下的地面@GroundDuration@秒，每秒造成<magicDamage>魔法伤害</magicDamage>并削减其<scaleMR>魔法抗性</scaleMR>。<br>"
+        }
+      },
+      "official": {
+        "name": "残疫",
+        "description": "<mainText><stats><attention>90</attention>法术强度<br><attention>600</attention>法力<br><attention>15</attention>技能急速</stats><br><br><passive>蔑视</passive><br>获得20终极技能急速。<br><br><passive>憎恨之雾</passive><br>在用你的终极技能对一个英雄造成伤害时，灼烧其脚下的地面3秒，每秒造成<magicDamage>魔法伤害</magicDamage>并削减其<scaleMR>魔法抗性</scaleMR>。<br></mainText>",
+        "colloq": ";Malignance",
+        "plaintext": "与一名友方英雄搭档来保护彼此",
+        "from": [
+          "3802",
+          "1026"
+        ],
+        "image": {
+          "full": "3118.png",
+          "sprite": "item3.png",
+          "group": "item",
+          "x": 192,
+          "y": 384,
+          "w": 48,
+          "h": 48
+        },
+        "gold": {
+          "base": 650,
+          "purchasable": true,
+          "total": 2700,
+          "sell": 1890
+        },
+        "tags": [
+          "SpellDamage",
+          "Mana",
+          "AbilityHaste"
+        ],
+        "maps": {
+          "11": true,
+          "12": true,
+          "22": false,
+          "30": false,
+          "453": true
+        },
+        "stats": {
+          "FlatMPPoolMod": 600,
+          "FlatMagicDamageMod": 90
+        },
+        "depth": 3
+      }
+    },
+    {
+      "id": 3152,
+      "equipmentKey": "item_3152",
+      "name": "海克斯科技火箭腰带",
+      "path": "Items/3152",
+      "object": {
+        "spellName": "3152Active",
+        "mDisplayName": "Item_3152_Name",
+        "mDeathRecapName": "HextechRocketBelt",
+        "itemID": 3152,
+        "maxStack": 1,
+        "mItemGroups": [
+          "Items/ItemGroups/Default",
+          "{9631810e}"
+        ],
+        "mItemAdviceAttributes": [
+          "{705ee247}",
+          "{32984313}"
+        ],
+        "price": 350,
+        "clickable": true,
+        "mItemCalloutSpectator": true,
+        "mCanBeSold": true,
+        "epicness": 5,
+        "recipeItemLinks": [
+          "Items/3145",
+          "Items/3067",
+          "Items/1028"
+        ],
+        "mEffectAmount": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "mDataValues": [
+          {
+            "mName": "Cooldown",
+            "mValue": 50,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "BaseDamage",
+            "mValue": 100,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "APRatio",
+            "mValue": 0.10000000149011612,
+            "__type": "ItemDataValue"
+          }
+        ],
+        "mItemCalculations": {
+          "FireboltDamage": {
+            "mFormulaParts": [
+              {
+                "mDataValue": "BaseDamage",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              {
+                "mDataValue": "APRatio",
+                "__type": "StatByNamedDataValueCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          }
+        },
+        "mAbilityHasteMod": 20,
+        "mFlatHPPoolMod": 350,
+        "mFlatMagicDamageMod": 60,
+        "mCategories": [
+          "Health",
+          "SpellDamage",
+          "Active",
+          "CooldownReduction",
+          "NonbootsMovement",
+          "AbilityHaste"
+        ],
+        "mItemDataAvailability": {
+          "mInStore": true,
+          "__type": "ItemDataAvailability"
+        },
+        "mItemAttributes": [
+          16
+        ],
+        "mItemDataClient": {
+          "mTooltipData": {
+            "mObjectName": "3152",
+            "mFormat": "{32559c50}",
+            "mLocKeys": {
+              "keyName": "Item_3152_Name",
+              "keyBrief": "Item_3152_Brief",
+              "keyActive": "Item_3152_Active",
+              "keyColloquialism": "Item_3152_Colloquialism",
+              "keyTooltipExtendedRules": "Item_3152_TooltipExtendedRules",
+              "keyInventoryOnlyText": "Item_3152_InventoryOnlyText",
+              "keyActiveExternal": "Item_3152_ActiveExternal"
+            },
+            "mLists": {
+              "Stats": {
+                "Elements": [
+                  {
+                    "type": "AbilityPower",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "Health",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "AbilityHaste",
+                    "__type": "TooltipInstanceListElement"
+                  }
+                ],
+                "__type": "TooltipInstanceList"
+              }
+            },
+            "__type": "TooltipInstanceItem"
+          },
+          "mDescription": "GeneratedTip_Item_3152_Description",
+          "mDynamicTooltip": "GeneratedTip_Item_3152_TooltipInventory",
+          "mShopTooltip": "GeneratedTip_Item_3152_TooltipShop",
+          "inventoryIcon": "assets/items/icons2d/3152_mage_t4_hextechrocketbelt.dds",
+          "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/3152_Mage_T4_HextechRocketBelt.png",
+          "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/3152_Mage_T4_HextechRocketBelt.png",
+          "epicness": 6,
+          "__type": "ItemDataClient"
+        },
+        "mVFXResourceResolver": {
+          "resourceMap": {
+            "{5daa9e63}": "Items/3152/Particles/3152_Dash_Cast",
+            "{b1143ca9}": "Items/3152/Particles/3152_Missile_Projectile",
+            "{465c5e7c}": "Items/3152/Particles/3152_Missile_Impact_Tar",
+            "{1254847e}": "Items/3152/Particles/3152_Missile_Impact_Ground",
+            "{1fcfa7d1}": "Items/3152/Particles/3152_Missile_Cast",
+            "{739a7e69}": "Items/3152/Particles/3152_Speed_Self"
+          },
+          "__type": "ResourceResolver"
+        },
+        "__type": "ItemData"
+      },
+      "bound": {
+        "keyName": {
+          "sourceKey": "Item_3152_Name",
+          "key": "item_3152_name",
+          "text": "海克斯科技火箭腰带"
+        },
+        "keyBrief": {
+          "sourceKey": "Item_3152_Brief",
+          "key": "item_3152_brief",
+          "text": "冲刺"
+        },
+        "keyActive": {
+          "sourceKey": "Item_3152_Active",
+          "key": "item_3152_active",
+          "text": "%i:activeEffect% <active>超音速</active> {{ Item_Cooldown }}<br>朝着目标方向冲刺，释放多颗魔法弹，魔法弹造成<magicDamage>@FireboltDamage@魔法伤害</magicDamage>。"
+        },
+        "keyColloquialism": {
+          "sourceKey": "Item_3152_Colloquialism",
+          "key": "item_3152_colloquialism",
+          "text": ";Hextech Rocketbelt;haikesikejihuojianyaodai;hkskjhjyd"
+        },
+        "keyTooltipExtendedRules": {
+          "sourceKey": "Item_3152_TooltipExtendedRules",
+          "key": "item_3152_tooltipextendedrules",
+          "text": "<br><br><rules><active>超音速</active>的冲刺无法穿过地形。</rules>"
+        },
+        "keyInventoryOnlyText": {
+          "sourceKey": "Item_3152_InventoryOnlyText",
+          "key": "item_3152_inventoryonlytext",
+          "text": "已对英雄造成的伤害：<attention>@f5@</attention>"
+        },
+        "keyActiveExternal": {
+          "sourceKey": "Item_3152_ActiveExternal",
+          "key": "item_3152_activeexternal",
+          "text": "%i:activeEffect% <active>超音速</active><br>朝着目标方向冲刺，释放多颗魔法弹，魔法弹造成<magicDamage>魔法伤害</magicDamage>。"
+        }
+      },
+      "official": {
+        "name": "海克斯科技火箭腰带",
+        "description": "<mainText><stats><attention>60</attention>法术强度<br><attention>350</attention>生命值<br><attention>20</attention>技能急速</stats><br><br><active>超音速</active><br>朝着目标方向冲刺，释放多颗魔法弹，魔法弹造成<magicDamage>魔法伤害</magicDamage>。</mainText>",
+        "colloq": "huojianyaodai;Hextech Rocketbelt;",
+        "plaintext": "主动施放来向前冲刺并释放一阵炫目的轰炸",
+        "from": [
+          "3145",
+          "3067",
+          "1028"
+        ],
+        "image": {
+          "full": "3152.png",
+          "sprite": "item4.png",
+          "group": "item",
+          "x": 144,
+          "y": 0,
+          "w": 48,
+          "h": 48
+        },
+        "gold": {
+          "base": 350,
+          "purchasable": true,
+          "total": 2650,
+          "sell": 1855
+        },
+        "tags": [
+          "Health",
+          "SpellDamage",
+          "Active",
+          "CooldownReduction",
+          "NonbootsMovement",
+          "AbilityHaste"
+        ],
+        "maps": {
+          "11": true,
+          "12": true,
+          "22": false,
+          "30": false,
+          "453": true
+        },
+        "stats": {
+          "FlatHPPoolMod": 350,
+          "FlatMagicDamageMod": 60
+        },
+        "depth": 3
+      }
+    },
+    {
+      "id": 6660,
+      "equipmentKey": "item_6660",
+      "name": "斑比的熔渣",
+      "path": "Items/6660",
+      "object": {
+        "mDisplayName": "Item_6660_Name",
+        "mDeathRecapName": "Immolate",
+        "itemID": 6660,
+        "maxStack": 1,
+        "mItemGroups": [
+          "Items/ItemGroups/Default",
+          "Items/ItemGroups/ImmolateItems"
+        ],
+        "price": 250,
+        "mItemCalloutSpectator": true,
+        "mCanBeSold": true,
+        "epicness": 4,
+        "recipeItemLinks": [
+          "Items/1028",
+          "Items/2022"
+        ],
+        "mDataValues": [
+          {
+            "mName": "Range",
+            "mValue": 325,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "MinionMod",
+            "mValue": 0.5,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "Cooldown",
+            "mValue": 12,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "MonsterMod",
+            "mValue": 1,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "AuraDuration",
+            "mValue": 3,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "TicksPerSecond",
+            "mValue": 1,
+            "__type": "ItemDataValue"
+          }
+        ],
+        "mItemCalculations": {
+          "DamagePerTick": {
+            "mFormulaParts": [
+              {
+                "mNumber": 15,
+                "__type": "NumberCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "DPS": {
+            "mMultiplier": {
+              "mDataValue": "TicksPerSecond",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            "mModifiedGameCalculation": "DamagePerTick",
+            "__type": "GameCalculationModified"
+          }
+        },
+        "mAbilityHasteMod": 5,
+        "mFlatHPPoolMod": 150,
+        "mCategories": [
+          "Health",
+          "AbilityHaste"
+        ],
+        "mItemDataAvailability": {
+          "mInStore": true,
+          "__type": "ItemDataAvailability"
+        },
+        "mItemAttributes": [
+          8
+        ],
+        "mItemDataClient": {
+          "mTooltipData": {
+            "mObjectName": "6660",
+            "mFormat": "{32559c50}",
+            "mLocKeys": {
+              "keyName": "Item_6660_Name",
+              "keyTooltip": "Item_6660_Tooltip",
+              "keyColloquialism": "Item_6660_Colloquialism",
+              "keyTooltipExtended": "Item_6660_TooltipExtended",
+              "keySecondaryBrief": "Item_Unique_Immolate",
+              "keyInventoryOnlyText": "Item_6660_InventoryOnlyText",
+              "keyTooltipExternal": "Item_6660_TooltipExternal"
+            },
+            "mLists": {
+              "Stats": {
+                "Elements": [
+                  {
+                    "type": "Health",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "AbilityHaste",
+                    "__type": "TooltipInstanceListElement"
+                  }
+                ],
+                "__type": "TooltipInstanceList"
+              }
+            },
+            "__type": "TooltipInstanceItem"
+          },
+          "mDescription": "GeneratedTip_Item_6660_Description",
+          "mDynamicTooltip": "GeneratedTip_Item_6660_TooltipInventory",
+          "mShopTooltip": "GeneratedTip_Item_6660_TooltipShop",
+          "inventoryIcon": "assets/items/icons2d/6660_tank_t2_bamiscinder.dds",
+          "epicness": 4,
+          "effectRadius": 325,
+          "__type": "ItemDataClient"
+        },
+        "mVFXResourceResolver": {
+          "resourceMap": {
+            "{6bfeb26f}": "Items/6660/Particles/6660_Indicator_On",
+            "{fb0745b3}": "Items/6660/Particles/6660_Indicator_Off"
+          },
+          "__type": "ResourceResolver"
+        },
+        "__type": "ItemData"
+      },
+      "bound": {
+        "keyName": {
+          "sourceKey": "Item_6660_Name",
+          "key": "item_6660_name",
+          "text": "斑比的熔渣"
+        },
+        "keyTooltip": {
+          "sourceKey": "Item_6660_Tooltip",
+          "key": "item_6660_tooltip",
+          "text": "<passive>献祭</passive><br>承受或造成伤害后，每秒对附近敌人造成<magicDamage>@DPS@魔法伤害</magicDamage>，持续@AuraDuration@秒。"
+        },
+        "keyColloquialism": {
+          "sourceKey": "Item_6660_Colloquialism",
+          "key": "item_6660_colloquialism",
+          "text": ";Bami's Cinder;banbiderongzha;bbdrz"
+        },
+        "keyTooltipExtended": {
+          "sourceKey": "Item_6660_TooltipExtended",
+          "key": "item_6660_tooltipextended",
+          "text": "{{Item_6660_Tooltip}}<br><br><rules><passive>献祭</passive>对小兵造成的伤害提升@MinionMod*100@%并且对野怪造成的伤害提升@MonsterMod*100@%。</rules>"
+        },
+        "keySecondaryBrief": {
+          "sourceKey": "Item_Unique_Immolate",
+          "key": "item_unique_immolate",
+          "text": "唯一：献祭"
+        },
+        "keyInventoryOnlyText": {
+          "sourceKey": "Item_6660_InventoryOnlyText",
+          "key": "item_6660_inventoryonlytext",
+          "text": "对英雄的献祭伤害：<attention>@f1@</attention>"
+        },
+        "keyTooltipExternal": {
+          "sourceKey": "Item_6660_TooltipExternal",
+          "key": "item_6660_tooltipexternal",
+          "text": "<passive>献祭</passive><br>承受或造成伤害后，对附近敌人造成<magicDamage>魔法伤害</magicDamage>，持续@AuraDuration@秒。"
+        }
+      },
+      "official": {
+        "name": "斑比的熔渣",
+        "description": "<mainText><stats><attention>150</attention>生命值<br><attention>5</attention>技能急速</stats><br><br><passive>献祭</passive><br>承受或造成伤害后，对附近敌人造成<magicDamage>魔法伤害</magicDamage>，持续3秒。</mainText>",
+        "colloq": "",
+        "plaintext": "",
+        "from": [
+          "1028",
+          "2022"
+        ],
+        "into": [
+          "3068",
+          "6664"
+        ],
+        "image": {
+          "full": "6660.png",
+          "sprite": "item6.png",
+          "group": "item",
+          "x": 144,
+          "y": 48,
+          "w": 48,
+          "h": 48
+        },
+        "gold": {
+          "base": 250,
+          "purchasable": true,
+          "total": 900,
+          "sell": 630
+        },
+        "tags": [
+          "Health",
+          "AbilityHaste"
+        ],
+        "maps": {
+          "11": true,
+          "12": true,
+          "22": false,
+          "30": false,
+          "453": true
+        },
+        "stats": {
+          "FlatHPPoolMod": 150
+        },
+        "depth": 2
+      }
+    },
+    {
+      "id": 6655,
+      "equipmentKey": "item_6655",
+      "name": "卢登的回声",
+      "path": "Items/6655",
+      "object": {
+        "spellName": "BloodthirsterDummySpell",
+        "mDisplayName": "Item_6655_Name",
+        "itemID": 6655,
+        "maxStack": 1,
+        "mItemGroups": [
+          "Items/ItemGroups/Default",
+          "{3c60030b}"
+        ],
+        "mItemAdviceAttributes": [
+          "{30f046e4}"
+        ],
+        "price": 450,
+        "mItemCalloutSpectator": true,
+        "ShowCooldownVfxToAllies": false,
+        "mCanBeSold": true,
+        "epicness": 5,
+        "recipeItemLinks": [
+          "Items/3802",
+          "Items/3145"
+        ],
+        "mDataValues": [
+          {
+            "mName": "Cooldown",
+            "mValue": 12,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "BaseDamage",
+            "mValue": 75,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "APRatio",
+            "mValue": 0.05000000074505806,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "MaxCharges",
+            "mValue": 6,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "RepeatDamageReduction",
+            "mValue": 0.20000000298023224,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "MissileRange",
+            "mValue": 650,
+            "__type": "ItemDataValue"
+          }
+        ],
+        "mItemCalculations": {
+          "Damage": {
+            "mFormulaParts": [
+              {
+                "mDataValue": "BaseDamage",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              {
+                "mDataValue": "APRatio",
+                "__type": "StatByNamedDataValueCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "SingleTargetMax": {
+            "mMultiplier": {
+              "mNumber": 2,
+              "__type": "NumberCalculationPart"
+            },
+            "mModifiedGameCalculation": "Damage",
+            "__type": "GameCalculationModified"
+          }
+        },
+        "mAbilityHasteMod": 10,
+        "mFlatMagicDamageMod": 100,
+        "flatMPPoolMod": 600,
+        "mCategories": [
+          "SpellDamage",
+          "Mana",
+          "CooldownReduction",
+          "AbilityHaste"
+        ],
+        "mItemDataAvailability": {
+          "mInStore": true,
+          "__type": "ItemDataAvailability"
+        },
+        "mItemAttributes": [
+          16
+        ],
+        "mItemDataClient": {
+          "mTooltipData": {
+            "mObjectName": "6655",
+            "mFormat": "{32559c50}",
+            "mLocKeys": {
+              "keyName": "Item_6655_Name",
+              "keyBrief": "Item_6655_Brief",
+              "keyTooltip": "Item_6655_Tooltip",
+              "keyColloquialism": "Item_6655_Colloquialism",
+              "keyInventoryOnlyText": "Item_6655_InventoryOnlyText",
+              "keyTooltipExternal": "Item_6655_TooltipExternal"
+            },
+            "mLists": {
+              "Stats": {
+                "Elements": [
+                  {
+                    "type": "AbilityPower",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "Mana",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "AbilityHaste",
+                    "__type": "TooltipInstanceListElement"
+                  }
+                ],
+                "__type": "TooltipInstanceList"
+              }
+            },
+            "__type": "TooltipInstanceItem"
+          },
+          "mDescription": "GeneratedTip_Item_6655_Description",
+          "mDynamicTooltip": "GeneratedTip_Item_6655_TooltipInventory",
+          "mShopTooltip": "GeneratedTip_Item_6655_TooltipShop",
+          "inventoryIcon": "assets/items/icons2d/6655_mage_t4_ludenstempest.dds",
+          "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/6655_Mage_T4_LudensTempest.png",
+          "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/6655_Mage_T4_LudensTempest.png",
+          "epicness": 6,
+          "__type": "ItemDataClient"
+        },
+        "mVFXResourceResolver": {
+          "resourceMap": {
+            "{d66212b5}": "Items/6655/Particles/6655_Hit_Tar",
+            "{6bfac572}": "Items/6655/Particles/6655_Hit_Missile",
+            "{f72304e6}": "Items/6655/Particles/6655_Speed_Self",
+            "{c9c1a7e9}": "Items/6655/Particles/6655_Buff_Ready",
+            "{dbf7b1ee}": "Items/6655/Particles/6655_Hit_Missile_Tar",
+            "{0d090b50}": "Items/6655/Particles/6655_Hit_Repeated"
+          },
+          "__type": "ResourceResolver"
+        },
+        "__type": "ItemData"
+      },
+      "bound": {
+        "keyName": {
+          "sourceKey": "Item_6655_Name",
+          "key": "item_6655_name",
+          "text": "卢登的回声"
+        },
+        "keyBrief": {
+          "sourceKey": "Item_6655_Brief",
+          "key": "item_6655_brief",
+          "text": "爆发伤害"
+        },
+        "keyTooltip": {
+          "sourceKey": "Item_6655_Tooltip",
+          "key": "item_6655_tooltip",
+          "text": "<passive>回声</passive> {{ Item_Cooldown }}<br>伤害型技能会发射@MaxCharges@道回声，对目标和附近的敌人造成额外的<magicDamage>@Damage@魔法伤害</magicDamage>。剩余回声会对主要目标发射，造成@RepeatDamageReduction*100@%伤害。(最大值：<magicDamage>@SingleTargetMax@</magicDamage>)<br>"
+        },
+        "keyColloquialism": {
+          "sourceKey": "Item_6655_Colloquialism",
+          "key": "item_6655_colloquialism",
+          "text": ""
+        },
+        "keyInventoryOnlyText": {
+          "sourceKey": "Item_6655_InventoryOnlyText",
+          "key": "item_6655_inventoryonlytext",
+          "text": "已对英雄造成的伤害：<attention>@f2@</attention>"
+        },
+        "keyTooltipExternal": {
+          "sourceKey": "Item_6655_TooltipExternal",
+          "key": "item_6655_tooltipexternal",
+          "text": "<passive>回声</passive><br>伤害型技能会发射@MaxCharges@道回声，对目标和附近的敌人造成<magicDamage>额外魔法伤害</magicDamage>。剩余回声会对主要目标发射，造成@RepeatDamageReduction*100@%伤害。<br>"
+        }
+      },
+      "official": {
+        "name": "卢登的回声",
+        "description": "<mainText><stats><attention>100</attention>法术强度<br><attention>600</attention>法力<br><attention>10</attention>技能急速</stats><br><br><passive>回声</passive><br>伤害型技能会发射6道回声，对目标和附近的敌人造成<magicDamage>额外魔法伤害</magicDamage>。剩余回声会对主要目标发射，造成20%伤害。<br></mainText>",
+        "colloq": "",
+        "plaintext": "高额爆发伤害，擅长对抗脆皮型敌人",
+        "from": [
+          "3802",
+          "3145"
+        ],
+        "image": {
+          "full": "6655.png",
+          "sprite": "item6.png",
+          "group": "item",
+          "x": 0,
+          "y": 48,
+          "w": 48,
+          "h": 48
+        },
+        "gold": {
+          "base": 450,
+          "purchasable": true,
+          "total": 2750,
+          "sell": 1925
+        },
+        "tags": [
+          "SpellDamage",
+          "Mana",
+          "CooldownReduction",
+          "AbilityHaste"
+        ],
+        "maps": {
+          "11": true,
+          "12": true,
+          "22": false,
+          "30": false,
+          "453": true
+        },
+        "stats": {
+          "FlatMPPoolMod": 600,
+          "FlatMagicDamageMod": 100
+        },
+        "depth": 3
+      }
+    },
+    {
+      "id": 3094,
+      "equipmentKey": "item_3094",
+      "name": "疾射火炮",
+      "path": "Items/3094",
+      "object": {
+        "mDisplayName": "Item_3094_Name",
+        "mDeathRecapName": "RapidFirecannon",
+        "itemID": 3094,
+        "maxStack": 1,
+        "mItemGroups": [
+          "Items/ItemGroups/Default",
+          "{ad94f6d7}",
+          "{3bbe1bdd}"
+        ],
+        "mItemAdviceAttributes": [
+          "{30f046e4}"
+        ],
+        "price": 850,
+        "mItemCalloutSpectator": true,
+        "mCanBeSold": true,
+        "epicness": 5,
+        "recipeItemLinks": [
+          "Items/3086",
+          "Items/3144"
+        ],
+        "mEffectAmount": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "mDataValues": [
+          {
+            "mName": "RangePercentIncrease",
+            "mValue": 0.3499999940395355,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "MaxRangeIncrease",
+            "mValue": 150,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "BonusDamage",
+            "mValue": 40,
+            "__type": "ItemDataValue"
+          }
+        ],
+        "mPercentMovementSpeedMod": 0.03999999910593033,
+        "mFlatCritChanceMod": 0.25,
+        "mPercentAttackSpeedMod": 0.3499999940395355,
+        "mCategories": [
+          "CriticalStrike",
+          "AttackSpeed",
+          "NonbootsMovement"
+        ],
+        "mItemDataAvailability": {
+          "mInStore": true,
+          "__type": "ItemDataAvailability"
+        },
+        "mItemAttributes": [
+          2
+        ],
+        "mItemDataClient": {
+          "mTooltipData": {
+            "mObjectName": "3094",
+            "mFormat": "{32559c50}",
+            "mLocKeys": {
+              "keyName": "Item_3094_Name",
+              "keyBrief": "Item_3094_Brief",
+              "keyTooltip": "Item_3094_Tooltip",
+              "keyColloquialism": "Item_3094_Colloquialism",
+              "keyKeywordDefinitions": "Item_3094_KeywordDefinitions",
+              "keyTooltipExtended": "Item_3094_TooltipExtended"
+            },
+            "mLists": {
+              "Stats": {
+                "Elements": [
+                  {
+                    "type": "AttackSpeed",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "CritChance",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "MoveSpeedPercent",
+                    "__type": "TooltipInstanceListElement"
+                  }
+                ],
+                "__type": "TooltipInstanceList"
+              }
+            },
+            "__type": "TooltipInstanceItem"
+          },
+          "mDescription": "GeneratedTip_Item_3094_Description",
+          "mDynamicTooltip": "GeneratedTip_Item_3094_TooltipInventory",
+          "mShopTooltip": "GeneratedTip_Item_3094_TooltipShop",
+          "inventoryIcon": "assets/items/icons2d/3094_marksman_t3_rapidfirehandcannon.dds",
+          "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/3094_Marksman_T3_RapidFireHandCannon.png",
+          "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/3094_Marksman_T3_RapidFireHandCannon.png",
+          "epicness": 5,
+          "__type": "ItemDataClient"
+        },
+        "__type": "ItemData"
+      },
+      "bound": {
+        "keyName": {
+          "sourceKey": "Item_3094_Name",
+          "key": "item_3094_name",
+          "text": "疾射火炮"
+        },
+        "keyBrief": {
+          "sourceKey": "Item_3094_Brief",
+          "key": "item_3094_brief",
+          "text": "狙击"
+        },
+        "keyTooltip": {
+          "sourceKey": "Item_3094_Tooltip",
+          "key": "item_3094_tooltip",
+          "text": "<passive>神射手</passive><br>你的<keyword>盈能攻击</keyword>造成<magicDamage>@BonusDamage@额外魔法伤害</magicDamage>并获得@RangePercentIncrease*100@%额外攻击距离。"
+        },
+        "keyColloquialism": {
+          "sourceKey": "Item_3094_Colloquialism",
+          "key": "item_3094_colloquialism",
+          "text": ";Rapid Firecannon;jishehuopao;jshp;huopao;qiang;yingneng"
+        },
+        "keyKeywordDefinitions": {
+          "sourceKey": "Item_3094_KeywordDefinitions",
+          "key": "item_3094_keyworddefinitions",
+          "text": "{{ Item_KeywordDefinition_Energized }}"
+        },
+        "keyTooltipExtended": {
+          "sourceKey": "Item_3094_TooltipExtended",
+          "key": "item_3094_tooltipextended",
+          "text": "<passive>神射手</passive><br>你的<keyword>盈能攻击</keyword>造成<magicDamage>@BonusDamage@额外魔法伤害</magicDamage>并获得@RangePercentIncrease*100@%额外攻击距离。<br><br><rules>攻击距离的提升不能多于@MaxRangeIncrease@码。</rules>"
+        }
+      },
+      "official": {
+        "name": "疾射火炮",
+        "description": "<mainText><stats><attention>35%</attention>攻击速度<br><attention>25%</attention>暴击几率<br><attention>4%</attention>移动速度</stats><br><br><passive>神射手</passive><br>你的<keyword>盈能攻击</keyword>造成<magicDamage>40额外魔法伤害</magicDamage>并获得35%额外攻击距离。</mainText>",
+        "colloq": ";huopao;jshp;Rapid Firecannon",
+        "plaintext": "移动时积攒充能来释放一次攻城炮击",
+        "from": [
+          "3086",
+          "3144"
+        ],
+        "image": {
+          "full": "3094.png",
+          "sprite": "item3.png",
+          "group": "item",
+          "x": 384,
+          "y": 288,
+          "w": 48,
+          "h": 48
+        },
+        "gold": {
+          "base": 850,
+          "purchasable": true,
+          "total": 2650,
+          "sell": 1855
+        },
+        "tags": [
+          "CriticalStrike",
+          "AttackSpeed",
+          "NonbootsMovement"
+        ],
+        "maps": {
+          "11": true,
+          "12": true,
+          "22": false,
+          "30": false,
+          "453": true
+        },
+        "stats": {
+          "FlatCritChanceMod": 0.25,
+          "PercentAttackSpeedMod": 0.35,
+          "PercentMovementSpeedMod": 0.04
+        },
+        "depth": 3
+      }
+    },
+    {
+      "id": 3095,
+      "equipmentKey": "item_3095",
+      "name": "岚切",
+      "path": "Items/3095",
+      "object": {
+        "mDisplayName": "Item_3095_Name",
+        "itemID": 3095,
+        "maxStack": 1,
+        "mItemGroups": [
+          "Items/ItemGroups/Default",
+          "{ac94f544}",
+          "{3bbe1bdd}"
+        ],
+        "mItemAdviceAttributes": [
+          "{30f046e4}"
+        ],
+        "price": 700,
+        "mItemCalloutSpectator": true,
+        "mCanBeSold": true,
+        "epicness": 5,
+        "recipeItemLinks": [
+          "Items/1038",
+          "Items/1018",
+          "Items/3144"
+        ],
+        "mDataValues": [
+          {
+            "mName": "BuffStrength",
+            "mValue": 0.44999998807907104,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "BuffDuration",
+            "mValue": 1.5,
+            "__type": "ItemDataValue"
+          }
+        ],
+        "mItemCalculations": {
+          "TotalProcDamage": {
+            "mFormulaParts": [
+              {
+                "mNumber": 100,
+                "__type": "NumberCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          }
+        },
+        "mFlatCritChanceMod": 0.25,
+        "mFlatPhysicalDamageMod": 50,
+        "mPercentAttackSpeedMod": 0.25,
+        "mCategories": [
+          "Damage",
+          "CriticalStrike",
+          "AttackSpeed",
+          "NonbootsMovement"
+        ],
+        "mItemDataAvailability": {
+          "mInStore": true,
+          "__type": "ItemDataAvailability"
+        },
+        "mItemAttributes": [
+          2
+        ],
+        "mItemDataClient": {
+          "mTooltipData": {
+            "mObjectName": "3095",
+            "mFormat": "{32559c50}",
+            "mLocKeys": {
+              "keyName": "Item_3095_Name",
+              "keyBrief": "Item_3095_Brief",
+              "keyTooltip": "Item_3095_Tooltip_Kiwi",
+              "keyKeywordDefinitions": "Item_3095_KeywordDefinitions",
+              "keyColloquialism": "Item_3095_Colloquialism"
+            },
+            "mLists": {
+              "Stats": {
+                "Elements": [
+                  {
+                    "type": "AttackDamage",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "AttackSpeed",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "CritChance",
+                    "__type": "TooltipInstanceListElement"
+                  }
+                ],
+                "__type": "TooltipInstanceList"
+              }
+            },
+            "__type": "TooltipInstanceItem"
+          },
+          "mDescription": "GeneratedTip_Item_3095_Description",
+          "mDynamicTooltip": "GeneratedTip_Item_3095_TooltipInventory",
+          "mShopTooltip": "GeneratedTip_Item_3095_TooltipShop",
+          "inventoryIcon": "assets/items/icons2d/3095_windblade.dds",
+          "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/3095_Stormrazor.png",
+          "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/3095_Stormrazor.png",
+          "epicness": 1,
+          "__type": "ItemDataClient"
+        },
+        "mVFXResourceResolver": {
+          "resourceMap": {
+            "Item_Windblade_OnHit": "Items/3095/Particles/Item_Windblade_OnHit"
+          },
+          "__type": "ResourceResolver"
+        },
+        "__type": "ItemData"
+      },
+      "bound": {
+        "keyName": {
+          "sourceKey": "Item_3095_Name",
+          "key": "item_3095_name",
+          "text": "岚切"
+        },
+        "keyBrief": {
+          "sourceKey": "Item_3095_Brief",
+          "key": "item_3095_brief",
+          "text": "爆裂敌人"
+        },
+        "keyTooltip": {
+          "sourceKey": "Item_3095_Tooltip_Kiwi",
+          "key": "item_3095_tooltip_kiwi",
+          "text": "{{ Item_Energized }}<br><br><passive>弩箭</passive><br>你的<keyword>盈能攻击</keyword>附带<magicDamage>@TotalProcDamage@额外魔法伤害</magicDamage>并提供持续@BuffDuration@秒的<speed>@BuffStrength*100@%移动速度</speed>。<br>"
+        },
+        "keyKeywordDefinitions": {
+          "sourceKey": "Item_3095_KeywordDefinitions",
+          "key": "item_3095_keyworddefinitions",
+          "text": "<br>{{ Item_KeywordDefinition_Energized }}"
+        },
+        "keyColloquialism": {
+          "sourceKey": "Item_3095_Colloquialism",
+          "key": "item_3095_colloquialism",
+          "text": ";energized;energised;yingneng;lanqie;lq"
+        }
+      },
+      "official": {
+        "name": "岚切",
+        "description": "<mainText><stats><attention>50</attention>攻击力<br><attention>25%</attention>攻击速度<br><attention>25%</attention>暴击几率</stats><br><br><passive>盈能</passive><br>移动和攻击会生成一次<keyword>盈能攻击</keyword>。<br><br><passive>弩箭</passive><br>你的<keyword>盈能攻击</keyword>附带<magicDamage>0额外魔法伤害</magicDamage>并提供持续1.5秒的<speed>45%移动速度</speed>。<br></mainText>",
+        "colloq": ";fengren;Stormrazor",
+        "plaintext": "大幅强化其它盈能效果。",
+        "from": [
+          "1038",
+          "1018",
+          "3144"
+        ],
+        "image": {
+          "full": "3095.png",
+          "sprite": "item3.png",
+          "group": "item",
+          "x": 432,
+          "y": 288,
+          "w": 48,
+          "h": 48
+        },
+        "gold": {
+          "base": 700,
+          "purchasable": true,
+          "total": 3200,
+          "sell": 2240
+        },
+        "tags": [
+          "Damage",
+          "CriticalStrike",
+          "AttackSpeed",
+          "NonbootsMovement"
+        ],
+        "maps": {
+          "11": true,
+          "12": true,
+          "22": false,
+          "30": false,
+          "453": true
+        },
+        "stats": {
+          "FlatCritChanceMod": 0.25,
+          "FlatPhysicalDamageMod": 50,
+          "PercentAttackSpeedMod": 0.25
+        },
+        "depth": 3
+      }
+    },
+    {
+      "id": 3087,
+      "equipmentKey": "item_3087",
+      "name": "斯塔缇克电刃",
+      "path": "Items/3087",
+      "object": {
+        "mDisplayName": "Item_3087_Name",
+        "mDeathRecapName": "StatikkShiv",
+        "itemID": 3087,
+        "maxStack": 1,
+        "mItemGroups": [
+          "Items/ItemGroups/Default",
+          "{9e92a0a3}",
+          "{3bbe1bdd}"
+        ],
+        "mItemAdviceAttributes": [
+          "{30f046e4}"
+        ],
+        "price": 625,
+        "RestrictedBuffName": "HeroPassive",
+        "mItemCalloutSpectator": true,
+        "mCanBeSold": true,
+        "epicness": 5,
+        "recipeItemLinks": [
+          "Items/3144",
+          "Items/3113",
+          "Items/1037"
+        ],
+        "mDataValues": [
+          {
+            "mName": "BounceDelay",
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "BounceRange",
+            "mValue": 500,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "BonusEnergizedStacks",
+            "mValue": 9,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "ChainDamage",
+            "mValue": 60,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "NonChampChainDamage",
+            "mValue": 90,
+            "__type": "ItemDataValue"
+          }
+        ],
+        "DataValuesModeOverride": {
+          "ARAM": {
+            "DataValues": [
+              {
+                "mName": "ChainDamage",
+                "mValue": 70,
+                "__type": "ItemDataValue"
+              }
+            ],
+            "__type": "ItemDataValues"
+          },
+          "{bffdf499}": {
+            "DataValues": [
+              {
+                "mName": "ChainDamage",
+                "mValue": 70,
+                "__type": "ItemDataValue"
+              }
+            ],
+            "__type": "ItemDataValues"
+          }
+        },
+        "mItemCalculations": {
+          "BounceCount": {
+            "mFormulaParts": [
+              {
+                "mLevel1Value": 4,
+                "mBreakpoints": [
+                  {
+                    "mLevel": 6,
+                    "mAdditionalBonusAtThisLevel": 1,
+                    "__type": "Breakpoint"
+                  },
+                  {
+                    "mLevel": 10,
+                    "mAdditionalBonusAtThisLevel": 1,
+                    "__type": "Breakpoint"
+                  },
+                  {
+                    "mLevel": 14,
+                    "mAdditionalBonusAtThisLevel": 1,
+                    "__type": "Breakpoint"
+                  },
+                  {
+                    "mLevel": 20,
+                    "mAdditionalBonusAtThisLevel": 1,
+                    "__type": "Breakpoint"
+                  }
+                ],
+                "__type": "ByCharLevelBreakpointsCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          }
+        },
+        "mPercentMovementSpeedMod": 0.03999999910593033,
+        "mFlatPhysicalDamageMod": 45,
+        "mFlatMagicDamageMod": 45,
+        "mPercentAttackSpeedMod": 0.30000001192092896,
+        "mCategories": [
+          "Damage",
+          "AttackSpeed",
+          "SpellDamage",
+          "OnHit",
+          "NonbootsMovement"
+        ],
+        "mItemDataAvailability": {
+          "mInStore": true,
+          "__type": "ItemDataAvailability"
+        },
+        "mItemAttributes": [
+          2
+        ],
+        "LastMajorChangeMajorPatchVersion": 16,
+        "LastMajorChangeMinorPatchVersion": 9,
+        "mItemDataClient": {
+          "mTooltipData": {
+            "mObjectName": "3087",
+            "mFormat": "{32559c50}",
+            "mLocKeys": {
+              "keyName": "Item_3087_Name",
+              "keyBrief": "Item_3087_Brief",
+              "keyTooltip": "Item_3087_Tooltip",
+              "keyInventoryOnlyText": "Item_3087_InventoryOnlyText",
+              "keyTooltipExternal": "Item_3087_TooltipExternal",
+              "keyColloquialism": "Item_3087_Colloquialism",
+              "keyKeywordDefinitions": "Item_3087_KeywordDefinitions"
+            },
+            "mLists": {
+              "Stats": {
+                "Elements": [
+                  {
+                    "type": "AttackDamage",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "AbilityPower",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "AttackSpeed",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "MoveSpeedPercent",
+                    "__type": "TooltipInstanceListElement"
+                  }
+                ],
+                "__type": "TooltipInstanceList"
+              }
+            },
+            "__type": "TooltipInstanceItem"
+          },
+          "mDescription": "GeneratedTip_Item_3087_Description",
+          "mDynamicTooltip": "GeneratedTip_Item_3087_TooltipInventory",
+          "mShopTooltip": "GeneratedTip_Item_3087_TooltipShop",
+          "inventoryIcon": "assets/items/icons2d/3087_statikk_shiv.dds",
+          "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/3087_Statikk_Shiv.png",
+          "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/3087_Statikk_Shiv.png",
+          "epicness": 5,
+          "__type": "ItemDataClient"
+        },
+        "mVFXResourceResolver": {
+          "resourceMap": {
+            "{b5b77045}": "Items/3087/Particles/3087_Statikk_Shiv_Beam",
+            "{355bcb48}": "Items/3087/Particles/3087_Statikk_Shiv_Impact",
+            "{4d886479}": "Items/3087/Particles/3087_Statikk_Shiv_Ready",
+            "{3d38b988}": "Items/3087/Particles/3087_Statikk_Shiv_Beam_Self",
+            "{83a40087}": "Items/3087/Particles/3087_Statikk_Shiv_Impact_Self",
+            "{d39a7944}": "Items/3087/Particles/3087_Statikk_Shiv_Ready_Self"
+          },
+          "__type": "ResourceResolver"
+        },
+        "__type": "ItemData"
+      },
+      "bound": {
+        "keyName": {
+          "sourceKey": "Item_3087_Name",
+          "key": "item_3087_name",
+          "text": "斯塔缇克电刃"
+        },
+        "keyBrief": {
+          "sourceKey": "Item_3087_Brief",
+          "key": "item_3087_brief",
+          "text": "连锁附伤"
+        },
+        "keyTooltip": {
+          "sourceKey": "Item_3087_Tooltip",
+          "key": "item_3087_tooltip",
+          "text": "<passive>电火花</passive><br>你的<keyword>盈能攻击</keyword>会发射连锁闪电，对最多<attention>@BounceCount@</attention>个目标造成<magicDamage>@ChainDamage@魔法伤害</magicDamage>，攻击小兵和野怪时提升至<magicDamage>@NonChampChainDamage@魔法伤害</magicDamage>。附带%i:OnHit% <OnHit>攻击特效</OnHit>至次级弹射目标们。<br><br><passive>电疗</passive> <br>普通攻击提供@BonusEnergizedStacks@额外<keyword>盈能</keyword>层数。"
+        },
+        "keyInventoryOnlyText": {
+          "sourceKey": "Item_3087_InventoryOnlyText",
+          "key": "item_3087_inventoryonlytext",
+          "text": "对英雄的额外震击：<attention>@f2@</attention><br>对英雄的额外伤害：<attention>@f1@</attention>"
+        },
+        "keyTooltipExternal": {
+          "sourceKey": "Item_3087_TooltipExternal",
+          "key": "item_3087_tooltipexternal",
+          "text": "<passive>电火花</passive><br>你的<keyword>盈能攻击</keyword>会发射连锁闪电，造成%i:OnHit% <OnHit>附带攻击</OnHit>特效，并且对附近的目标们造成<magicDamage>魔法伤害</magicDamage>。<br><br><passive>电疗</passive> <br>普通攻击提供额外<keyword>盈能</keyword>层数。"
+        },
+        "keyColloquialism": {
+          "sourceKey": "Item_3087_Colloquialism",
+          "key": "item_3087_colloquialism",
+          "text": ";盈能;电刃;电刀;清线;清理兵线;推线;发育;Statikk Shiv;sitatikedianren;sttkdr"
+        },
+        "keyKeywordDefinitions": {
+          "sourceKey": "Item_3087_KeywordDefinitions",
+          "key": "item_3087_keyworddefinitions",
+          "text": "<br>{{ Item_KeywordDefinition_Energized }}"
+        }
+      },
+      "official": {
+        "name": "斯塔缇克电刃",
+        "description": "<mainText><stats><attention>45</attention>攻击力<br><attention>45</attention>法术强度<br><attention>30%</attention>攻击速度<br><attention>4%</attention>移动速度</stats><br><br><passive>电火花</passive><br>你的<keyword>盈能攻击</keyword>会发射连锁闪电，造成<OnHit>附带攻击</OnHit>特效，并且对附近的目标们造成<magicDamage>魔法伤害</magicDamage>。<br><br><passive>电疗</passive> <br>普通攻击提供额外<keyword>盈能</keyword>层数。</mainText>",
+        "colloq": ";盈能;电刃;电刀;清线;清理兵线;推线;发育;Statikk Shiv;sitatikedianren;sttkdr",
+        "plaintext": "移动时积攒充能来让普攻附带一次闪电",
+        "from": [
+          "3144",
+          "3113",
+          "1037"
+        ],
+        "image": {
+          "full": "3087.png",
+          "sprite": "item3.png",
+          "group": "item",
+          "x": 240,
+          "y": 288,
+          "w": 48,
+          "h": 48
+        },
+        "gold": {
+          "base": 625,
+          "purchasable": true,
+          "total": 3000,
+          "sell": 2100
+        },
+        "tags": [
+          "Damage",
+          "AttackSpeed",
+          "SpellDamage",
+          "OnHit",
+          "NonbootsMovement"
+        ],
+        "maps": {
+          "11": true,
+          "12": true,
+          "22": false,
+          "30": false,
+          "453": true
+        },
+        "stats": {
+          "FlatMagicDamageMod": 45,
+          "FlatPhysicalDamageMod": 45,
+          "PercentAttackSpeedMod": 0.3,
+          "PercentMovementSpeedMod": 0.04
+        },
+        "depth": 3
+      }
+    },
+    {
+      "id": 3147,
+      "equipmentKey": "item_3147",
+      "name": "幽魂面具",
+      "path": "Items/3147",
+      "object": {
+        "mDisplayName": "Item_3147_Name",
+        "itemID": 3147,
+        "maxStack": 1,
+        "mItemGroups": [
+          "Items/ItemGroups/Default",
+          "{9b33c784}"
+        ],
+        "price": 500,
+        "ShowCooldownVfxToAllies": false,
+        "mCanBeSold": true,
+        "epicness": 4,
+        "recipeItemLinks": [
+          "Items/1052",
+          "Items/1028"
+        ],
+        "mEffectAmount": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "mDataValues": [
+          {
+            "mName": "BuffCounterDuration",
+            "mValue": 3,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "SecondsInCombat",
+            "mValue": 3,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "DamageIncreasePerSecond",
+            "mValue": 0.019999999552965164,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "DamageIncreaseMax",
+            "mValue": 0.05999999865889549,
+            "__type": "ItemDataValue"
+          }
+        ],
+        "mFlatHPPoolMod": 200,
+        "mFlatMagicDamageMod": 30,
+        "mCategories": [
+          "Health",
+          "SpellDamage"
+        ],
+        "mItemDataAvailability": {
+          "mInStore": true,
+          "__type": "ItemDataAvailability"
+        },
+        "mItemAttributes": [
+          16
+        ],
+        "mItemDataClient": {
+          "mTooltipData": {
+            "mObjectName": "3147",
+            "mFormat": "{32559c50}",
+            "EnableExtendedTooltip": false,
+            "mLocKeys": {
+              "keyName": "Item_3147_Name",
+              "keyTooltip": "Item_3147_Tooltip"
+            },
+            "mLists": {
+              "Stats": {
+                "Elements": [
+                  {
+                    "type": "AbilityPower",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "Health",
+                    "__type": "TooltipInstanceListElement"
+                  }
+                ],
+                "__type": "TooltipInstanceList"
+              }
+            },
+            "__type": "TooltipInstanceItem"
+          },
+          "mDescription": "GeneratedTip_Item_3147_Description",
+          "mDynamicTooltip": "GeneratedTip_Item_3147_TooltipInventory",
+          "mShopTooltip": "GeneratedTip_Item_3147_TooltipShop",
+          "inventoryIcon": "assets/items/icons2d/3147_hauntingguise.dds",
+          "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/3147_HauntingGuise44.png",
+          "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/3147_HauntingGuise88.png",
+          "epicness": 4,
+          "__type": "ItemDataClient"
+        },
+        "mVFXResourceResolver": {
+          "__type": "ResourceResolver"
+        },
+        "__type": "ItemData"
+      },
+      "bound": {
+        "keyName": {
+          "sourceKey": "Item_3147_Name",
+          "key": "item_3147_name",
+          "text": "幽魂面具"
+        },
+        "keyTooltip": {
+          "sourceKey": "Item_3147_Tooltip",
+          "key": "item_3147_tooltip",
+          "text": "<passive>癫狂</passive><br>在与敌方英雄作战时，每过1秒，就会造成@DamageIncreasePerSecond*100@%额外伤害，至多至@DamageIncreaseMax*100@%。 "
+        }
+      },
+      "official": {
+        "name": "幽魂面具",
+        "description": "<mainText><stats><attention>30</attention>法术强度<br><attention>200</attention>生命值</stats><br><br><passive>癫狂</passive><br>在与敌方英雄作战时，每过1秒，就会造成2%额外伤害，至多至6%。 </mainText>",
+        "colloq": ";yemu;穿甲;Haunting;Guise",
+        "plaintext": "偷袭敌人时造成额外物理伤害",
+        "from": [
+          "1052",
+          "1028"
+        ],
+        "into": [
+          "8010",
+          "4633",
+          "6653"
+        ],
+        "image": {
+          "full": "3147.png",
+          "sprite": "item4.png",
+          "group": "item",
+          "x": 96,
+          "y": 0,
+          "w": 48,
+          "h": 48
+        },
+        "gold": {
+          "base": 500,
+          "purchasable": true,
+          "total": 1300,
+          "sell": 910
+        },
+        "tags": [
+          "Health",
+          "SpellDamage"
+        ],
+        "maps": {
+          "11": true,
+          "12": true,
+          "22": false,
+          "30": false,
+          "453": true
+        },
+        "stats": {
+          "FlatHPPoolMod": 200,
+          "FlatMagicDamageMod": 30
+        },
+        "depth": 2
+      }
+    },
+    {
+      "id": 6699,
+      "equipmentKey": "item_6699",
+      "name": "电震涡流剑",
+      "path": "Items/6699",
+      "object": {
+        "mDisplayName": "Item_6699_Name",
+        "itemID": 6699,
+        "maxStack": 1,
+        "mItemGroups": [
+          "Items/ItemGroups/Default",
+          "{b069b403}"
+        ],
+        "mItemAdviceAttributes": [
+          "{0fe5f3f2}",
+          "{72256343}",
+          "{705ee247}"
+        ],
+        "price": 963,
+        "mItemCalloutSpectator": true,
+        "mCanBeSold": true,
+        "epicness": 5,
+        "recipeItemLinks": [
+          "Items/2020",
+          "Items/1036",
+          "Items/1036"
+        ],
+        "mDataValues": [
+          {
+            "mName": "PercentCurrentHPMelee",
+            "mValue": 9,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "PercentCurrentHPRanged",
+            "mValue": 7,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "LethalityBonusModMelee",
+            "mValue": 15,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "LethalityBonusModRanged",
+            "mValue": 12,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "LethalityBonusDuration",
+            "mValue": 4,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "LethalityAmount",
+            "mValue": 10,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "NonChampCap",
+            "mValue": 200,
+            "__type": "ItemDataValue"
+          }
+        ],
+        "StringCalculations": {
+          "PercentHPMeleeRangedSplit": {
+            "MeleeResult": "@PercentCurrentHPMelee@",
+            "RangedResult": "@PercentCurrentHPRanged@",
+            "DefaultResult": "@PercentCurrentHPMelee@",
+            "__type": "{4750ceb6}"
+          },
+          "LethalityBonusModMeleeRangedSplit": {
+            "MeleeResult": "@LethalityBonusModMelee@",
+            "RangedResult": "@LethalityBonusModRanged@",
+            "DefaultResult": "@LethalityBonusModMelee@",
+            "__type": "{4750ceb6}"
+          }
+        },
+        "mAbilityHasteMod": 10,
+        "mFlatPhysicalDamageMod": 55,
+        "PhysicalLethality": 10,
+        "mCategories": [
+          "Damage",
+          "Active",
+          "CooldownReduction",
+          "ArmorPenetration",
+          "AbilityHaste"
+        ],
+        "mItemDataAvailability": {
+          "mInStore": true,
+          "__type": "ItemDataAvailability"
+        },
+        "mItemAttributes": [
+          4
+        ],
+        "LastMajorChangeMajorPatchVersion": 16,
+        "LastMajorChangeMinorPatchVersion": 9,
+        "mItemDataClient": {
+          "mTooltipData": {
+            "mObjectName": "6699",
+            "mFormat": "{32559c50}",
+            "mLocKeys": {
+              "keyName": "Item_6699_Name",
+              "keyBrief": "Item_6699_Brief",
+              "keyTooltip": "Item_6699_Tooltip",
+              "keyColloquialism": "Item_6699_Colloquialism",
+              "keyKeywordDefinitions": "Item_6699_KeywordDefinitions",
+              "keyTooltipExternal": "Item_6699_TooltipExternal",
+              "keyInventoryOnlyText": "Item_6699_InventoryOnlyText",
+              "keyTooltipExtended": "Item_6699_TooltipExtended"
+            },
+            "mLists": {
+              "Stats": {
+                "Elements": [
+                  {
+                    "type": "AttackDamage",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "Lethality",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "AbilityHaste",
+                    "__type": "TooltipInstanceListElement"
+                  }
+                ],
+                "__type": "TooltipInstanceList"
+              }
+            },
+            "__type": "TooltipInstanceItem"
+          },
+          "mDescription": "GeneratedTip_Item_6699_Description",
+          "mDynamicTooltip": "GeneratedTip_Item_6699_TooltipInventory",
+          "mShopTooltip": "GeneratedTip_Item_6699_TooltipShop",
+          "inventoryIcon": "assets/items/icons2d/6699_voltaiccyclosword.dds",
+          "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/6699_VoltaicCyclosword44.png",
+          "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/6699_VoltaicCyclosword88.png",
+          "epicness": 6,
+          "__type": "ItemDataClient"
+        },
+        "mVFXResourceResolver": {
+          "resourceMap": {
+            "{341a0253}": "Items/6693/Particles/6693_buff",
+            "{820e6503}": "Items/6693/Particles/6693_Damage",
+            "{a9018a62}": "Items/6699/Particles/6699_Item_Proc",
+            "{88d8b436}": "Items/6699/Particles/6699_Max_Charge_Flash"
+          },
+          "__type": "ResourceResolver"
+        },
+        "__type": "ItemData"
+      },
+      "bound": {
+        "keyName": {
+          "sourceKey": "Item_6699_Name",
+          "key": "item_6699_name",
+          "text": "电震涡流剑"
+        },
+        "keyBrief": {
+          "sourceKey": "Item_6699_Brief",
+          "key": "item_6699_brief",
+          "text": "爆发伤害"
+        },
+        "keyTooltip": {
+          "sourceKey": "Item_6699_Tooltip",
+          "key": "item_6699_tooltip",
+          "text": "<passive>通电</passive><br>用技能对一名敌人造成伤害会触发<keyword>盈能</keyword>(充能完毕时)。<br><br><passive>苍穹</passive><br>你的<keyword>盈能攻击</keyword>造成相当于<physicalDamage>@PercentHPMeleeRangedSplit@%</physicalDamage>目标当前生命值的<physicalDamage>额外物理伤害</physicalDamage>，并为你提供持续@LethalityBonusDuration@秒的%i:scaleAPen% <scaleLethality>@LethalityBonusModMeleeRangedSplit@穿甲</scaleLethality>。"
+        },
+        "keyColloquialism": {
+          "sourceKey": "Item_6699_Colloquialism",
+          "key": "item_6699_colloquialism",
+          "text": ";lethality;energized;energised;yingneng;chuanjia"
+        },
+        "keyKeywordDefinitions": {
+          "sourceKey": "Item_6699_KeywordDefinitions",
+          "key": "item_6699_keyworddefinitions",
+          "text": "{{ Item_KeywordDefinition_Energized }}"
+        },
+        "keyTooltipExternal": {
+          "sourceKey": "Item_6699_TooltipExternal",
+          "key": "item_6699_tooltipexternal",
+          "text": "<passive>通电</passive><br>用技能对一名敌人造成伤害会触发<keyword>盈能</keyword>(充能完毕时)。<br><br><passive>苍穹</passive><br>你的<keyword>盈能攻击</keyword>造成相当于<physicalDamage>%目标当前生命值的额外物理伤害</physicalDamage>，并为你提供持续@LethalityBonusDuration@秒的 <scaleLethality>额外穿甲</scaleLethality>。"
+        },
+        "keyInventoryOnlyText": {
+          "sourceKey": "Item_6699_InventoryOnlyText",
+          "key": "item_6699_inventoryonlytext",
+          "text": "对英雄的伤害：<attention>@f1@</attention>"
+        },
+        "keyTooltipExtended": {
+          "sourceKey": "Item_6699_TooltipExtended",
+          "key": "item_6699_tooltipextended",
+          "text": "<passive>通电</passive><br>用技能对一名敌人造成伤害会触发<keyword>盈能</keyword>(充能完毕时)。<br><br><passive>苍穹</passive><br>你的<keyword>盈能攻击</keyword>造成相当于<physicalDamage>@PercentHPMeleeRangedSplit@%</physicalDamage>目标当前生命值的<physicalDamage>额外物理伤害</physicalDamage>，并为你提供持续@LethalityBonusDuration@秒的%i:scaleAPen% <scaleLethality>@LethalityBonusModMeleeRangedSplit@穿甲</scaleLethality>。<br><br>对非英雄单位的伤害封顶值为@NonChampCap@。"
+        }
+      },
+      "official": {
+        "name": "电震涡流剑",
+        "description": "<mainText><stats><attention>55</attention>攻击力<br><attention>10</attention>穿甲<br><attention>10</attention>技能急速</stats><br><br><passive>通电</passive><br>用技能对一名敌人造成伤害会触发<keyword>盈能</keyword>(充能完毕时)。<br><br><passive>苍穹</passive><br>你的<keyword>盈能攻击</keyword>造成相当于<physicalDamage>%目标当前生命值的额外物理伤害</physicalDamage>，并为你提供持续4秒的 <scaleLethality>额外穿甲</scaleLethality>。</mainText>",
+        "colloq": "",
+        "plaintext": "",
+        "from": [
+          "2020",
+          "1036",
+          "1036"
+        ],
+        "image": {
+          "full": "6699.png",
+          "sprite": "item6.png",
+          "group": "item",
+          "x": 384,
+          "y": 144,
+          "w": 48,
+          "h": 48
+        },
+        "gold": {
+          "base": 963,
+          "purchasable": true,
+          "total": 3000,
+          "sell": 2100
+        },
+        "tags": [
+          "Damage",
+          "Active",
+          "CooldownReduction",
+          "ArmorPenetration",
+          "AbilityHaste"
+        ],
+        "maps": {
+          "11": true,
+          "12": true,
+          "22": false,
+          "30": false,
+          "453": true
+        },
+        "stats": {
+          "FlatPhysicalDamageMod": 55
+        },
+        "depth": 3
+      }
+    },
+    {
+      "id": 4646,
+      "equipmentKey": "item_4646",
+      "name": "风暴狂涌",
+      "path": "Items/4646",
+      "object": {
+        "mDisplayName": "Item_4646_Name",
+        "itemID": 4646,
+        "maxStack": 1,
+        "mItemGroups": [
+          "Items/ItemGroups/Default",
+          "{c07d0779}"
+        ],
+        "mItemAdviceAttributes": [
+          "{8fd6c485}"
+        ],
+        "price": 800,
+        "mItemCalloutSpectator": true,
+        "mCanBeSold": true,
+        "epicness": 5,
+        "recipeItemLinks": [
+          "Items/3145",
+          "Items/3113"
+        ],
+        "mDataValues": [
+          {
+            "mName": "WindowDuration",
+            "mValue": 2.5,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "Cooldown",
+            "mValue": 30,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "DelayDuration",
+            "mValue": 2,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "GoldReward",
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "APRatio",
+            "mValue": 0.10000000149011612,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "DamageThreshold",
+            "mValue": 0.25,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "ProcMoveSpeedDuration",
+            "mValue": 1.5,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "ProcMoveSpeedAmount",
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "RangedProcDamageMod",
+            "mValue": 1,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "BaseDamage",
+            "mValue": 125,
+            "__type": "ItemDataValue"
+          }
+        ],
+        "mItemCalculations": {
+          "MeleeItemCalcValue": {
+            "mFormulaParts": [
+              {
+                "mDataValue": "BaseDamage",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              {
+                "mDataValue": "APRatio",
+                "__type": "StatByNamedDataValueCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "RangedItemCalcValue": {
+            "mMultiplier": {
+              "mDataValue": "RangedProcDamageMod",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            "mModifiedGameCalculation": "MeleeItemCalcValue",
+            "__type": "GameCalculationModified"
+          },
+          "ChampRange": {
+            "mSimpleTooltipCalculationDisplay": 5,
+            "mExpandedTooltipCalculationDisplay": 5,
+            "mDefaultGameCalculation": "{792cf56b}",
+            "mConditionalGameCalculation": "{06387172}",
+            "mConditionalCalculationRequirements": {
+              "__type": "IsRangedCastRequirement"
+            },
+            "__type": "GameCalculationConditional"
+          },
+          "{792cf56b}": {
+            "mFormulaParts": [
+              {
+                "mNumber": 1,
+                "__type": "NumberCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "{06387172}": {
+            "mFormulaParts": [
+              {
+                "mNumber": 2,
+                "__type": "NumberCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "SquallDamage": {
+            "mFormulaParts": [
+              {
+                "mDataValue": "BaseDamage",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              {
+                "mDataValue": "APRatio",
+                "__type": "StatByNamedDataValueCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          }
+        },
+        "mPercentMovementSpeedMod": 0.05999999865889549,
+        "mFlatMagicPenetrationMod": 15,
+        "mFlatMagicDamageMod": 90,
+        "mCategories": [
+          "SpellDamage",
+          "GoldPer",
+          "NonbootsMovement",
+          "MagicPenetration"
+        ],
+        "mItemDataAvailability": {
+          "mInStore": true,
+          "__type": "ItemDataAvailability"
+        },
+        "mItemAttributes": [
+          16
+        ],
+        "mItemDataClient": {
+          "mTooltipData": {
+            "mObjectName": "4646",
+            "mFormat": "{32559c50}",
+            "mLocKeys": {
+              "keyName": "Item_4646_Name",
+              "keyBrief": "Item_4646_Brief",
+              "keyTooltip": "Item_4646_Tooltip",
+              "keyInventoryOnlyText": "Item_4646_InventoryOnlyText",
+              "keyTooltipExternal": "Item_4646_TooltipExternal"
+            },
+            "mLists": {
+              "Stats": {
+                "Elements": [
+                  {
+                    "type": "AbilityPower",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "MagicPen",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "MoveSpeedPercent",
+                    "__type": "TooltipInstanceListElement"
+                  }
+                ],
+                "__type": "TooltipInstanceList"
+              }
+            },
+            "__type": "TooltipInstanceItem"
+          },
+          "mDescription": "GeneratedTip_Item_4646_Description",
+          "mDynamicTooltip": "GeneratedTip_Item_4646_TooltipInventory",
+          "mShopTooltip": "GeneratedTip_Item_4646_TooltipShop",
+          "inventoryIcon": "assets/items/icons2d/4646_stormsurge.dds",
+          "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/4646_Stormsurge44.png",
+          "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/4646_Stormsurge88.png",
+          "epicness": 5,
+          "__type": "ItemDataClient"
+        },
+        "mVFXResourceResolver": {
+          "resourceMap": {
+            "{af94278d}": "Items/4646/Particles/4646_Lightning_Bolt_Large",
+            "{b5d540b1}": "Items/4646/Particles/4646_Lightning_Bolt_Small",
+            "{a6a7ca02}": "Items/4646/Particles/4646_AoE_Warning_Ally",
+            "{e8c4b908}": "Items/4646/Particles/4646_AoE_Warning_Enemy",
+            "{5d4bb19d}": "Items/4646/Particles/4646_OnHIt_Tar",
+            "{8e9bf46c}": "Items/4646/Particles/4646_Lightning_Child",
+            "{d7539887}": "Items/4646/Particles/4646"
+          },
+          "__type": "ResourceResolver"
+        },
+        "__type": "ItemData"
+      },
+      "bound": {
+        "keyName": {
+          "sourceKey": "Item_4646_Name",
+          "key": "item_4646_name",
+          "text": "风暴狂涌"
+        },
+        "keyBrief": {
+          "sourceKey": "Item_4646_Brief",
+          "key": "item_4646_brief",
+          "text": "爆发伤害"
+        },
+        "keyTooltip": {
+          "sourceKey": "Item_4646_Tooltip",
+          "key": "item_4646_tooltip",
+          "text": "<passive>风暴掠袭</passive> {{ Item_Cooldown }}<br>在@WindowDuration@秒内对一个英雄造成相当于其@DamageThreshold*100@%最大生命值的伤害时，对其施加<passive>风啸</passive>。<br><br><passive>风啸</passive><br>在@DelayDuration@秒后，造成<magicDamage>@SquallDamage@魔法伤害</magicDamage>。如果目标在<passive>风啸</passive>触发前阵亡，那么它会对附近的敌人们造成伤害。"
+        },
+        "keyInventoryOnlyText": {
+          "sourceKey": "Item_4646_InventoryOnlyText",
+          "key": "item_4646_inventoryonlytext",
+          "text": "对英雄的伤害：<attention>@f5@</attention>"
+        },
+        "keyTooltipExternal": {
+          "sourceKey": "Item_4646_TooltipExternal",
+          "key": "item_4646_tooltipexternal",
+          "text": "<passive>风暴掠袭</passive> <br>在@WindowDuration@秒内对一个英雄造成相当于其@DamageThreshold*100@%最大生命值的伤害时，对其施加<passive>风啸</passive>。<br><br><passive>风啸</passive><br>在@DelayDuration@秒后，造成<magicDamage>魔法伤害</magicDamage>。如果目标在<passive>风啸</passive>触发前阵亡，那么它会对附近的敌人们造成伤害。"
+        }
+      },
+      "official": {
+        "name": "风暴狂涌",
+        "description": "<mainText><stats><attention>90</attention>法术强度<br><attention>15</attention>法术穿透<br><attention>6%</attention>移动速度</stats><br><br><passive>风暴掠袭</passive> <br>在2.5秒内对一个英雄造成相当于其25%最大生命值的伤害时，对其施加<passive>风啸</passive>。<br><br><passive>风啸</passive><br>在2秒后，造成<magicDamage>魔法伤害</magicDamage>。如果目标在<passive>风啸</passive>触发前阵亡，那么它会对附近的敌人们造成伤害。</mainText>",
+        "colloq": "",
+        "plaintext": "",
+        "from": [
+          "3145",
+          "3113"
+        ],
+        "image": {
+          "full": "4646.png",
+          "sprite": "item5.png",
+          "group": "item",
+          "x": 288,
+          "y": 336,
+          "w": 48,
+          "h": 48
+        },
+        "gold": {
+          "base": 800,
+          "purchasable": true,
+          "total": 2800,
+          "sell": 1960
+        },
+        "tags": [
+          "SpellDamage",
+          "GoldPer",
+          "NonbootsMovement",
+          "MagicPenetration"
+        ],
+        "maps": {
+          "11": true,
+          "12": true,
+          "22": false,
+          "30": false,
+          "453": true
+        },
+        "stats": {
+          "FlatMagicDamageMod": 90,
+          "PercentMovementSpeedMod": 0.06
+        },
+        "depth": 3
+      }
+    }
+  ],
+  "referenceObjects": [
+    {
+      "id": 6653,
+      "equipmentKey": "item_6653",
+      "name": "兰德里的折磨",
+      "path": "Items/6653",
+      "object": {
+        "mDisplayName": "Item_6653_Name",
+        "itemID": 6653,
+        "maxStack": 1,
+        "mItemGroups": [
+          "Items/ItemGroups/Default",
+          "{42600c7d}"
+        ],
+        "mItemAdviceAttributes": [
+          "{e625a35a}"
+        ],
+        "price": 800,
+        "mItemCalloutSpectator": true,
+        "mCanBeSold": true,
+        "epicness": 5,
+        "recipeItemLinks": [
+          "Items/3147",
+          "Items/2508"
+        ],
+        "mDataValues": [
+          {
+            "mName": "BurnDuration",
+            "mValue": 3,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "BurnPercentHealthDamage",
+            "mValue": 0.019999999552965164,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "DamageIncreasePerSecond",
+            "mValue": 0.019999999552965164,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "DamageIncreaseMax",
+            "mValue": 0.05999999865889549,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "TickFrequency",
+            "mValue": 0.5,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "MonsterDamageCap",
+            "mValue": 40,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "MaxDamageHPThreshold",
+            "mValue": 1250,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "BuffCounterDuration",
+            "mValue": 3,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "MaxStackNumber",
+            "mValue": 3,
+            "__type": "ItemDataValue"
+          }
+        ],
+        "DataValuesModeOverride": {
+          "Ruby": {
+            "DataValues": [
+              {
+                "mName": "BurnPercentHealthDamage",
+                "mValue": 0.014999999664723873,
+                "__type": "ItemDataValue"
+              }
+            ],
+            "__type": "ItemDataValues"
+          },
+          "RUBY_TRIAL_1": {
+            "DataValues": [
+              {
+                "mName": "BurnPercentHealthDamage",
+                "mValue": 0.014999999664723873,
+                "__type": "ItemDataValue"
+              }
+            ],
+            "__type": "ItemDataValues"
+          },
+          "RUBY_TRIAL_2": {
+            "DataValues": [
+              {
+                "mName": "BurnPercentHealthDamage",
+                "mValue": 0.014999999664723873,
+                "__type": "ItemDataValue"
+              }
+            ],
+            "__type": "ItemDataValues"
+          },
+          "{aecea60c}": {
+            "DataValues": [
+              {
+                "mName": "BurnPercentHealthDamage",
+                "mValue": 0.014999999664723873,
+                "__type": "ItemDataValue"
+              }
+            ],
+            "__type": "ItemDataValues"
+          },
+          "ARAM": {
+            "DataValues": [
+              {
+                "mName": "BurnPercentHealthDamage",
+                "mValue": 0.017999999225139618,
+                "__type": "ItemDataValue"
+              }
+            ],
+            "__type": "ItemDataValues"
+          }
+        },
+        "mFlatHPPoolMod": 300,
+        "mFlatMagicDamageMod": 60,
+        "mCategories": [
+          "Health",
+          "SpellDamage"
+        ],
+        "mItemDataAvailability": {
+          "mInStore": true,
+          "__type": "ItemDataAvailability"
+        },
+        "mItemAttributes": [
+          16
+        ],
+        "mItemDataClient": {
+          "mTooltipData": {
+            "mObjectName": "6653",
+            "mFormat": "{32559c50}",
+            "EnableExtendedTooltip": false,
+            "mLocKeys": {
+              "keyName": "Item_6653_Name",
+              "keyBrief": "Item_6653_Brief",
+              "keyTooltip": "Item_6653_Tooltip",
+              "keyColloquialism": "Item_6653_Colloquialism",
+              "keyInventoryOnlyText": "Item_6653_InventoryOnlyText"
+            },
+            "mLists": {
+              "Stats": {
+                "Elements": [
+                  {
+                    "type": "AbilityPower",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "Health",
+                    "__type": "TooltipInstanceListElement"
+                  }
+                ],
+                "__type": "TooltipInstanceList"
+              }
+            },
+            "__type": "TooltipInstanceItem"
+          },
+          "mDescription": "GeneratedTip_Item_6653_Description",
+          "mDynamicTooltip": "GeneratedTip_Item_6653_TooltipInventory",
+          "mShopTooltip": "GeneratedTip_Item_6653_TooltipShop",
+          "inventoryIcon": "assets/items/icons2d/6653_mage_t4_liandrysanguish.dds",
+          "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/6653_Mage_T4_LiandrysAnguish.png",
+          "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/6653_Mage_T4_LiandrysAnguish.png",
+          "epicness": 6,
+          "__type": "ItemDataClient"
+        },
+        "mVFXResourceResolver": {
+          "resourceMap": {
+            "{632cdf79}": "Items/6653/Particles/6653_Dot_Tar",
+            "{f8889374}": "Items/6653/Particles/6653_Dot_Debuff"
+          },
+          "__type": "ResourceResolver"
+        },
+        "__type": "ItemData"
+      },
+      "bound": {
+        "keyName": {
+          "sourceKey": "Item_6653_Name",
+          "key": "item_6653_name",
+          "text": "兰德里的折磨"
+        },
+        "keyBrief": {
+          "sourceKey": "Item_6653_Brief",
+          "key": "item_6653_brief",
+          "text": "坦克克星"
+        },
+        "keyTooltip": {
+          "sourceKey": "Item_6653_Tooltip",
+          "key": "item_6653_tooltip",
+          "text": "<passive>折磨</passive><br>伤害型技能会灼烧敌人，每秒造成<magicDamage>@BurnPercentHealthDamage*100@%最大生命值的魔法伤害</magicDamage>，持续@BurnDuration@秒。<br><br><passive>受苦</passive><br>在与敌方英雄作战时，每过1秒，就会造成@DamageIncreasePerSecond*100@%额外伤害，至多至@DamageIncreaseMax*100@%。"
+        },
+        "keyColloquialism": {
+          "sourceKey": "Item_6653_Colloquialism",
+          "key": "item_6653_colloquialism",
+          "text": ";last shadow;ls;burn;灼烧;zhuoshao;最后的阴影;zuihoudeyinying;Liandry's Torment"
+        },
+        "keyInventoryOnlyText": {
+          "sourceKey": "Item_6653_InventoryOnlyText",
+          "key": "item_6653_inventoryonlytext",
+          "text": "已对英雄造成的伤害：<attention>@f2@</attention>"
+        }
+      },
+      "official": {
+        "name": "兰德里的折磨",
+        "description": "<mainText><stats><attention>60</attention>法术强度<br><attention>300</attention>生命值</stats><br><br><passive>折磨</passive><br>伤害型技能会灼烧敌人，每秒造成<magicDamage>2%最大生命值的魔法伤害</magicDamage>，持续3秒。<br><br><passive>受苦</passive><br>在与敌方英雄作战时，每过1秒，就会造成2%额外伤害，至多至6%。</mainText>",
+        "colloq": "",
+        "plaintext": "在战斗中充能以造成高额持续伤害，尤其是在对抗耐久型敌人时",
+        "from": [
+          "3147",
+          "2508"
+        ],
+        "image": {
+          "full": "6653.png",
+          "sprite": "item6.png",
+          "group": "item",
+          "x": 432,
+          "y": 0,
+          "w": 48,
+          "h": 48
+        },
+        "gold": {
+          "base": 800,
+          "purchasable": true,
+          "total": 3000,
+          "sell": 2100
+        },
+        "tags": [
+          "Health",
+          "SpellDamage"
+        ],
+        "maps": {
+          "11": true,
+          "12": true,
+          "22": false,
+          "30": false,
+          "453": true
+        },
+        "stats": {
+          "FlatHPPoolMod": 300,
+          "FlatMagicDamageMod": 60
+        },
+        "depth": 3
+      }
+    },
+    {
+      "id": 3068,
+      "equipmentKey": "item_3068",
+      "name": "日炎圣盾",
+      "path": "Items/3068",
+      "object": {
+        "mDisplayName": "Item_3068_Name",
+        "itemID": 3068,
+        "maxStack": 1,
+        "mItemGroups": [
+          "Items/ItemGroups/Default",
+          "Items/ItemGroups/ImmolateItems",
+          "{27ab7d34}"
+        ],
+        "mItemAdviceAttributes": [
+          "{165d7c1f}"
+        ],
+        "price": 700,
+        "mItemCalloutSpectator": true,
+        "mCanBeSold": true,
+        "epicness": 5,
+        "recipeItemLinks": [
+          "Items/6660",
+          "Items/1031",
+          "Items/1028"
+        ],
+        "mDataValues": [
+          {
+            "mName": "Range",
+            "mValue": 325,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "MinionMod",
+            "mValue": 0.5,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "MaxStacks",
+            "mValue": 1,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "DamageAmpPerStack",
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "StackDuration",
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "MonsterMod",
+            "mValue": 0.800000011920929,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "AuraDuration",
+            "mValue": 3,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "TicksPerSecond",
+            "mValue": 1,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "BaseDamagePerTickTOOLTIPONLY",
+            "mValue": 20,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "HPRatioPerTickTOOLTIPONLY",
+            "mValue": 1.5,
+            "__type": "ItemDataValue"
+          }
+        ],
+        "mItemCalculations": {
+          "DamagePerTick": {
+            "mFormulaParts": [
+              {
+                "mNumber": 20,
+                "__type": "NumberCalculationPart"
+              },
+              {
+                "mStat": 12,
+                "mStatFormula": 2,
+                "mCoefficient": 0.014999999664723873,
+                "__type": "StatByCoefficientCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "DPS": {
+            "mMultiplier": {
+              "mDataValue": "TicksPerSecond",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            "mModifiedGameCalculation": "DamagePerTick",
+            "__type": "GameCalculationModified"
+          },
+          "{049cea52}": {
+            "mMultiplier": {
+              "mNumber": 1,
+              "__type": "NumberCalculationPart"
+            },
+            "mModifiedGameCalculation": "DPS",
+            "__type": "GameCalculationModified"
+          }
+        },
+        "mAbilityHasteMod": 10,
+        "mFlatHPPoolMod": 350,
+        "mFlatArmorMod": 50,
+        "mCategories": [
+          "Health",
+          "Armor",
+          "Aura",
+          "AbilityHaste"
+        ],
+        "mItemDataAvailability": {
+          "mInStore": true,
+          "__type": "ItemDataAvailability"
+        },
+        "mItemAttributes": [
+          8
+        ],
+        "mItemDataClient": {
+          "mTooltipData": {
+            "mObjectName": "3068",
+            "mFormat": "{32559c50}",
+            "mLocKeys": {
+              "keyName": "Item_3068_Name",
+              "keyBrief": "Item_3068_Brief",
+              "keyTooltip": "Item_3068_Tooltip",
+              "keyColloquialism": "Item_3068_Colloquialism",
+              "keyInventoryOnlyText": "Item_3068_InventoryOnlyText",
+              "keySecondaryBrief": "Item_Unique_Immolate",
+              "keyTooltipExternal": "Item_3068_TooltipExternal",
+              "keyTooltipExtendedRules": "Item_3068_TooltipExtendedRules"
+            },
+            "mLists": {
+              "Stats": {
+                "Elements": [
+                  {
+                    "type": "Health",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "Armor",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "AbilityHaste",
+                    "__type": "TooltipInstanceListElement"
+                  }
+                ],
+                "__type": "TooltipInstanceList"
+              }
+            },
+            "__type": "TooltipInstanceItem"
+          },
+          "mDescription": "GeneratedTip_Item_3068_Description",
+          "mDynamicTooltip": "GeneratedTip_Item_3068_TooltipInventory",
+          "mShopTooltip": "GeneratedTip_Item_3068_TooltipShop",
+          "inventoryIcon": "assets/items/icons2d/3068_tank_t4_sunfireaegis.dds",
+          "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/3068_Tank_T4_SunfireAegis.png",
+          "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/3068_Tank_T4_SunfireAegis.png",
+          "epicness": 6,
+          "effectRadius": 325,
+          "__type": "ItemDataClient"
+        },
+        "mVFXResourceResolver": {
+          "resourceMap": {
+            "{bb9e6475}": "Items/3068/Particles/3068_AA_Burn",
+            "{ad0a155e}": "Items/3068/Particles/3068_Indicator_On",
+            "{5c0295cb}": "Items/3068/Particles/3068_Indicator_Max",
+            "{b01901ab}": "Items/3068/Particles/3068_AA_AoE",
+            "{6ecb93e0}": "Items/3068/Particles/3068_Indicator_Off"
+          },
+          "__type": "ResourceResolver"
+        },
+        "__type": "ItemData"
+      },
+      "bound": {
+        "keyName": {
+          "sourceKey": "Item_3068_Name",
+          "key": "item_3068_name",
+          "text": "日炎圣盾"
+        },
+        "keyBrief": {
+          "sourceKey": "Item_3068_Brief",
+          "key": "item_3068_brief",
+          "text": "持续伤害"
+        },
+        "keyTooltip": {
+          "sourceKey": "Item_3068_Tooltip",
+          "key": "item_3068_tooltip",
+          "text": "<passive>献祭</passive><br>承受或造成伤害后，每秒对附近敌人造成<magicDamage>@DPS@魔法伤害</magicDamage>，持续@AuraDuration@秒。"
+        },
+        "keyColloquialism": {
+          "sourceKey": "Item_3068_Colloquialism",
+          "key": "item_3068_colloquialism",
+          "text": ";日炎;斗篷;燃烧;坦克;清线;清兵线;推线;sunfire;sunborn;burn;riyan;日炎;zhuoshao;灼烧;Sunfire Cape;riyandoupeng;rydp;Sunfire Aegis;riyanshengdun;rysd"
+        },
+        "keyInventoryOnlyText": {
+          "sourceKey": "Item_3068_InventoryOnlyText",
+          "key": "item_3068_inventoryonlytext",
+          "text": "对英雄的献祭伤害：<attention>@f1@</attention>"
+        },
+        "keySecondaryBrief": {
+          "sourceKey": "Item_Unique_Immolate",
+          "key": "item_unique_immolate",
+          "text": "唯一：献祭"
+        },
+        "keyTooltipExternal": {
+          "sourceKey": "Item_3068_TooltipExternal",
+          "key": "item_3068_tooltipexternal",
+          "text": "<passive>献祭</passive><br>承受或造成伤害后，每秒对附近敌人造成<magicDamage>魔法伤害</magicDamage>，持续@AuraDuration@秒。 "
+        },
+        "keyTooltipExtendedRules": {
+          "sourceKey": "Item_3068_TooltipExtendedRules",
+          "key": "item_3068_tooltipextendedrules",
+          "text": "<rules><passive>献祭</passive>对小兵造成的伤害提升@MinionMod*100@%并且对野怪造成的伤害提升@MonsterMod*100@%。</rules>"
+        }
+      },
+      "official": {
+        "name": "日炎圣盾",
+        "description": "<mainText><stats><attention>350</attention>生命值<br><attention>50</attention>护甲<br><attention>10</attention>技能急速</stats><br><br><passive>献祭</passive><br>承受或造成伤害后，每秒对附近敌人造成<magicDamage>魔法伤害</magicDamage>，持续3秒。 </mainText>",
+        "colloq": ";日炎;斗篷;燃烧;坦克;清线;清兵线;推线;sunfire;sunborn;burn;riyan;日炎;zhuoshao;灼烧;Sunfire Cape;riyandoupeng;rydp;Sunfire Aegis;riyanshengdun;rysd",
+        "plaintext": "高护甲。持续对附近敌人造成伤害。定身敌人时可释放一道伤害性的火焰波",
+        "from": [
+          "6660",
+          "1031",
+          "1028"
+        ],
+        "image": {
+          "full": "3068.png",
+          "sprite": "item3.png",
+          "group": "item",
+          "x": 0,
+          "y": 240,
+          "w": 48,
+          "h": 48
+        },
+        "gold": {
+          "base": 700,
+          "purchasable": true,
+          "total": 2800,
+          "sell": 1960
+        },
+        "tags": [
+          "Health",
+          "Armor",
+          "Aura",
+          "AbilityHaste"
+        ],
+        "maps": {
+          "11": true,
+          "12": true,
+          "22": false,
+          "30": false,
+          "453": true
+        },
+        "stats": {
+          "FlatHPPoolMod": 350,
+          "FlatArmorMod": 50
+        },
+        "depth": 3
+      }
+    },
+    {
+      "id": 3145,
+      "equipmentKey": "item_3145",
+      "name": "海克斯科技发电机",
+      "path": "Items/3145",
+      "object": {
+        "mDisplayName": "Item_3145_Name",
+        "mDeathRecapName": "HextechRevolver",
+        "itemID": 3145,
+        "maxStack": 1,
+        "mItemGroups": [
+          "Items/ItemGroups/Default"
+        ],
+        "price": 300,
+        "ShowCooldownVfxToAllies": false,
+        "mCanBeSold": true,
+        "epicness": 4,
+        "recipeItemLinks": [
+          "Items/1052",
+          "Items/1052"
+        ],
+        "mEffectAmount": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "mDataValues": [
+          {
+            "mName": "Cooldown",
+            "mValue": 40,
+            "__type": "ItemDataValue"
+          }
+        ],
+        "mItemCalculations": {
+          "DamageAmount": {
+            "mFormulaParts": [
+              {
+                "mNumber": 65,
+                "__type": "NumberCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          }
+        },
+        "mFlatMagicDamageMod": 45,
+        "mCategories": [
+          "SpellDamage"
+        ],
+        "mItemDataAvailability": {
+          "mInStore": true,
+          "__type": "ItemDataAvailability"
+        },
+        "mItemAttributes": [
+          16
+        ],
+        "mItemDataClient": {
+          "mTooltipData": {
+            "mObjectName": "3145",
+            "mFormat": "{32559c50}",
+            "EnableExtendedTooltip": false,
+            "mLocKeys": {
+              "keyName": "Item_3145_Name",
+              "keyTooltip": "Item_3145_Tooltip",
+              "keyColloquialism": "Item_3145_Colloquialism",
+              "keyTooltipExternal": "Item_3145_TooltipExternal"
+            },
+            "mLists": {
+              "Stats": {
+                "Elements": [
+                  {
+                    "type": "AbilityPower",
+                    "__type": "TooltipInstanceListElement"
+                  }
+                ],
+                "__type": "TooltipInstanceList"
+              }
+            },
+            "__type": "TooltipInstanceItem"
+          },
+          "mDescription": "GeneratedTip_Item_3145_Description",
+          "mDynamicTooltip": "GeneratedTip_Item_3145_TooltipInventory",
+          "mShopTooltip": "GeneratedTip_Item_3145_TooltipShop",
+          "inventoryIcon": "assets/items/icons2d/3145_mage_t2_hextechalternator.dds",
+          "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/3145_Mage_T2_HextechAlternator.png",
+          "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/3145_Mage_T2_HextechAlternator.png",
+          "epicness": 4,
+          "__type": "ItemDataClient"
+        },
+        "__type": "ItemData"
+      },
+      "bound": {
+        "keyName": {
+          "sourceKey": "Item_3145_Name",
+          "key": "item_3145_name",
+          "text": "海克斯科技发电机"
+        },
+        "keyTooltip": {
+          "sourceKey": "Item_3145_Tooltip",
+          "key": "item_3145_tooltip",
+          "text": "<passive>转速加快</passive> {{ Item_Cooldown }}<br>对一名敌方英雄造成伤害时会造成<magicDamage>@DamageAmount@额外魔法伤害</magicDamage>。"
+        },
+        "keyColloquialism": {
+          "sourceKey": "Item_3145_Colloquialism",
+          "key": "item_3145_colloquialism",
+          "text": ";Hextech Alternator;haikesikejifadianji;hkskjfdj;pewpew;biubiu"
+        },
+        "keyTooltipExternal": {
+          "sourceKey": "Item_3145_TooltipExternal",
+          "key": "item_3145_tooltipexternal",
+          "text": "<passive>转速加快</passive><br>对一名敌方英雄造成伤害时会造成<magicDamage>额外魔法伤害</magicDamage>。"
+        }
+      },
+      "official": {
+        "name": "海克斯科技发电机",
+        "description": "<mainText><stats><attention>45</attention>法术强度</stats><br><br><passive>转速加快</passive><br>对一名敌方英雄造成伤害时会造成<magicDamage>额外魔法伤害</magicDamage>。</mainText>",
+        "colloq": ";haikesikejizuolunqiang;hkskjzlq;Hextech;Alternator",
+        "plaintext": "提升法术强度。普攻会周期性附带额外魔法伤害。",
+        "from": [
+          "1052",
+          "1052"
+        ],
+        "into": [
+          "4645",
+          "4636",
+          "3146",
+          "6655",
+          "3152",
+          "4646"
+        ],
+        "image": {
+          "full": "3145.png",
+          "sprite": "item4.png",
+          "group": "item",
+          "x": 0,
+          "y": 0,
+          "w": 48,
+          "h": 48
+        },
+        "gold": {
+          "base": 300,
+          "purchasable": true,
+          "total": 1100,
+          "sell": 770
+        },
+        "tags": [
+          "SpellDamage"
+        ],
+        "maps": {
+          "11": true,
+          "12": true,
+          "22": false,
+          "30": false,
+          "453": true
+        },
+        "stats": {
+          "FlatMagicDamageMod": 45
+        },
+        "depth": 2
+      }
+    }
+  ],
+  "boundDefinitions": {
+    "Item_Cooldown": {
+      "sourceKey": "Item_Cooldown",
+      "key": "item_cooldown",
+      "text": "%i:cooldown% (@Cooldown@秒)"
+    },
+    "Item_6660_Tooltip": {
+      "sourceKey": "Item_6660_Tooltip",
+      "key": "item_6660_tooltip",
+      "text": "<passive>献祭</passive><br>承受或造成伤害后，每秒对附近敌人造成<magicDamage>@DPS@魔法伤害</magicDamage>，持续@AuraDuration@秒。"
+    },
+    "Item_KeywordDefinition_Energized": {
+      "sourceKey": "Item_KeywordDefinition_Energized",
+      "key": "item_keyworddefinition_energized",
+      "text": "<keyword>盈能</keyword>：移动和攻击将生成一次<keyword>盈能攻击</keyword>。"
+    },
+    "Item_Energized": {
+      "sourceKey": "Item_Energized",
+      "key": "item_energized",
+      "text": "<passive>盈能</passive><br>移动和攻击会生成一次<keyword>盈能攻击</keyword>。"
+    }
+  }
+}

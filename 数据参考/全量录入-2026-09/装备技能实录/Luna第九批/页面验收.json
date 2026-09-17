@@ -1,0 +1,146 @@
+{
+  "checkedAt": "2026-09-08T01:12:31.459Z",
+  "passed": true,
+  "page": "http://127.0.0.1:5173/#/skills",
+  "observations": [
+    "翠绿屏障技能行显示复用代表图；效果列表有法术护盾及成功格挡消费两个效果。消费详情为无生命周期、施法者、生命周期移除并引用spell_shield。",
+    "规则列表显示来源对象初始化完成和法术护盾成功阻挡两条规则。打开成功规则，选择废除法术护盾，执行当前目标的consume_spell_shield，无额外条件组；未改动取消。",
+    "海妖杀手技能行显示复用代表图；参数列表显示角色等级1至8为150、9为155、18为200，4秒计数时长、1.75上限与0.8远程倍率分开。"
+  ],
+  "readbacks": [
+    {
+      "route": "/skills/item_4632_passive/effects/consume_spell_shield",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T01:03:22.466756Z",
+        "description": "只由本技能法术护盾成功格挡事件执行，显式移除持有者自身护盾；60秒恢复与受伤重置待配。",
+        "effectKey": "consume_spell_shield",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "成功格挡后消费法术护盾",
+        "results": [
+          {
+            "description": "成功格挡后移除来源自身的本技能护盾。",
+            "detail": {
+              "operation": "REMOVE",
+              "targetEffectKey": "spell_shield"
+            },
+            "lifecycleBehavior": null,
+            "name": "移除已成功格挡的法术护盾",
+            "resultKey": "remove_spell_shield",
+            "resultType": "LIFECYCLE_OPERATION",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": null
+          }
+        ],
+        "skillKey": "item_4632_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-08T01:03:22.466756Z"
+      }
+    },
+    {
+      "route": "/skills/item_4632_passive/trigger-rules/consume_on_spell_block",
+      "status": 200,
+      "data": {
+        "actions": [
+          {
+            "actionKey": "consume_shield",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "consume_spell_shield"
+            },
+            "name": "消费自身法术护盾",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "只接收本技能法术护盾成功格挡事件；普通攻击、自然结束或其他护盾格挡不触发本消费。",
+        "eventSource": {
+          "detail": {
+            "shieldEffectKey": "spell_shield"
+          },
+          "eventType": "SPELL_SHIELD_BLOCKED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "法术护盾成功格挡后消费",
+        "perTargetCooldown": null,
+        "ruleKey": "consume_on_spell_block",
+        "sortOrder": 20
+      }
+    },
+    {
+      "route": "/skills/item_4632_passive/trigger-rules/initialize_spell_shield",
+      "status": 200,
+      "data": {
+        "actions": [
+          {
+            "actionKey": "execute_spell_shield",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "spell_shield"
+            },
+            "name": "授予自身法术护盾",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "EVENT_SOURCE"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "装备持有者初始化时建立自身一层法术护盾；成功格挡后的60秒恢复和受伤重置待配。",
+        "eventSource": {
+          "detail": {},
+          "eventType": "SOURCE_INITIALIZED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "初始化废除法术护盾",
+        "perTargetCooldown": null,
+        "ruleKey": "initialize_spell_shield",
+        "sortOrder": 10
+      }
+    },
+    {
+      "route": "/skills/item_6672_passive/parameters/damage_amount_by_character_level",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T01:03:30.342541Z",
+        "description": "当前绑定树DamageAmount的角色等级断点已展开为1至18级；不属于技能等级。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 150,
+          "2": 150,
+          "3": 150,
+          "4": 150,
+          "5": 150,
+          "6": 150,
+          "7": 150,
+          "8": 150,
+          "9": 155,
+          "10": 160,
+          "11": 165,
+          "12": 170,
+          "13": 175,
+          "14": 180,
+          "15": 185,
+          "16": 190,
+          "17": 195,
+          "18": 200
+        },
+        "name": "放倒它按角色等级基础伤害",
+        "parameterKey": "damage_amount_by_character_level",
+        "skillKey": "item_6672_passive",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-08T01:03:30.342541Z",
+        "valueMode": "CHARACTER_LEVEL",
+        "valueType": "INTEGER"
+      }
+    }
+  ],
+  "boundary": "真实页面查看与后续独立GET；未执行战斗或Wasm，恢复计时、攻击计数和资料未明确支路继续补录。"
+}

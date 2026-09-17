@@ -1,0 +1,53 @@
+{
+  "sourceFile": "Rakan.json",
+  "characterKey": "champion_rakan",
+  "name": "洛",
+  "sourceNumericId": "497",
+  "checkedAt": "2026-09-06T18:17:53.606Z",
+  "sourceMissing": [
+    {
+      "attribute": "hpregen",
+      "label": "生命回复",
+      "reason": "客户端基础值或成长字段省略，未使用默认零值填补",
+      "missingFields": [
+        "baseStaticHPRegenModifiable"
+      ],
+      "officialBase": 5,
+      "officialGrowth": 0.5
+    }
+  ],
+  "status": "checked",
+  "differences": [],
+  "missingValues": [],
+  "sourceMissingConfigured": [],
+  "extraConfigured": [],
+  "unknownSourceRows": [],
+  "characterGet": {
+    "status": 200,
+    "ms": 20
+  },
+  "actualCharacter": {
+    "characterKey": "champion_rakan",
+    "name": "洛",
+    "description": "来源：官方 Data Dragon 16.17.1；攻击力成长与攻速来源补证自 CommunityDragon 提取的同补丁客户端 16.17.8104348（非 Riot 官方接口）。本轮仅录角色主体与 1～18 级基础自然成长，不含被动、技能、装备、符文、叠层或形态。技能、图片和机制待录，不能视为完整录入。 基础生命回复待补：客户端基础回复字段省略，本轮不填写 hp_regen；其余基础属性录入后仍属部分录入。"
+  },
+  "attributesGet": {
+    "status": 200,
+    "ms": 59
+  },
+  "explicitSourceAttributeKeys": [
+    "hp",
+    "armor",
+    "magic_resistance",
+    "attack_damage",
+    "move_speed",
+    "attack_range",
+    "attack_speed",
+    "mana",
+    "mana_regen"
+  ],
+  "sourceExplicitAttributeCount": 9,
+  "sourceExplicitValueCount": 162,
+  "actualAttributeKeyCount": 9,
+  "actualLevelValueCount": 162
+}

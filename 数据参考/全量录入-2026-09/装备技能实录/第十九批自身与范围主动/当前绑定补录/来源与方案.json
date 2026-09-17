@@ -1,0 +1,212 @@
+{
+  "at": "2026-09-09T09:33:09.029Z",
+  "clientVersion": "16.17",
+  "officialVersion": "16.17.1",
+  "gameSourceBuild": "16.17.8104348",
+  "sourceSha256": "6c436ee452ed8d47c75eb1121c0af85b3287e100ca4617d32c70580b2af9e36b",
+  "sourceFiles": [
+    {
+      "key": "officialItem",
+      "relativePath": "装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+      "format": "JSON",
+      "role": "官方16.17.1装备说明、直接属性和图片键",
+      "bytes": 691131,
+      "modifiedAt": "2026-09-06T14:10:07.953Z",
+      "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973"
+    },
+    {
+      "key": "clientItemList",
+      "relativePath": "装备效果补证/客户端原始资料/items-16.17-zh_CN.json.gz",
+      "format": "gzip JSON",
+      "role": "客户端16.17装备列表和中文动态说明旁证",
+      "bytes": 96301,
+      "modifiedAt": "2026-09-06T14:59:31.906Z",
+      "sha256": "f4ed06bce504288345ed7761ea1a12612ef5afd6400ebb1f27290204e1f24e20"
+    },
+    {
+      "key": "clientItems",
+      "relativePath": "装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+      "format": "gzip JSON",
+      "role": "客户端16.17装备对象、数据值和计算树主证",
+      "bytes": 1577238,
+      "modifiedAt": "2026-09-06T15:00:14.328Z",
+      "sha256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7"
+    },
+    {
+      "key": "clientStringTable",
+      "relativePath": "装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+      "format": "gzip JSON",
+      "role": "客户端16.17中文绑定说明文件；本批保存绑定键和装备列表原文，不把未解析键当成数值证据",
+      "bytes": 8350124,
+      "modifiedAt": "2026-09-06T15:08:11.306Z",
+      "sha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e"
+    }
+  ],
+  "bindings": [
+    {
+      "equipmentKey": "item_3190",
+      "bindings": [
+        {
+          "path": "mItemDataClient.mTooltipData.mLocKeys.keyActive",
+          "key": "Item_3190_Active",
+          "text": "%i:activeEffect% <active>虔诚</active> {{ Item_Cooldown }}<br>为附近友军提供<shield>@ShieldMinTOOLTIP@ - @ShieldMaxTOOLTIP@(友军%i:scaleLevel%)护盾值</shield>，在@ShieldDuration@秒里持续衰减。 "
+        },
+        {
+          "path": "mItemDataClient.mTooltipData.mLocKeys.keyTooltipExtendedRules",
+          "key": "Item_3190_TooltipExtendedRules",
+          "text": "<rules>@DiminishedTimer@秒内的后续<active>虔诚</active>护盾拥有@DiminishedEffectMulitplier*100@%效果。</rules>"
+        },
+        {
+          "path": "mItemDataClient.mTooltipData.mLocKeys.keyActiveExternal",
+          "key": "Item_3190_ActiveExternal",
+          "text": "%i:activeEffect% <active>虔诚</active><br>为附近友军提供<shield>@ShieldMinTOOLTIP@ - @ShieldMaxTOOLTIP@护盾值</shield>，在@ShieldDuration@秒里持续衰减。"
+        }
+      ],
+      "rawDataValues": [
+        {
+          "mName": "ShieldDuration",
+          "mValue": 2.5,
+          "__type": "ItemDataValue"
+        },
+        {
+          "mName": "DiminishedEffectMulitplier",
+          "mValue": 0.25,
+          "__type": "ItemDataValue"
+        },
+        {
+          "mName": "DiminishedTimer",
+          "mValue": 20,
+          "__type": "ItemDataValue"
+        },
+        {
+          "mName": "Cooldown",
+          "mValue": 90,
+          "__type": "ItemDataValue"
+        },
+        {
+          "mName": "ShieldRange",
+          "mValue": 850,
+          "__type": "ItemDataValue"
+        },
+        {
+          "mName": "ShieldMinTOOLTIP",
+          "mValue": 290,
+          "__type": "ItemDataValue"
+        },
+        {
+          "mName": "ShieldMaxTOOLTIP",
+          "mValue": 360,
+          "__type": "ItemDataValue"
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3107",
+      "bindings": [
+        {
+          "path": "mItemDataClient.mTooltipData.mLocKeys.keyActive",
+          "key": "Item_3107_Active",
+          "text": "%i:activeEffect% <active>干涉</active> {{ Item_Cooldown }}<br>在2.5秒后，为友方单位们回复<healing>@HealMin@ - @HealMax@ (友军%i:scaleLevel%)生命值</healing>，并对敌方英雄们造成<trueDamage>@DamageToChampions*100@%最大生命值的真实伤害</trueDamage>。"
+        },
+        {
+          "path": "mItemDataClient.mTooltipData.mLocKeys.keyTooltipExtendedRules",
+          "key": "Item_3107_TooltipExtendedRules",
+          "text": "<rules>可以在死亡时主动使用。<br>对相同目标的后续<active>干涉</active>效果降低@DiminishedEffect*100@%。</rules>"
+        },
+        {
+          "path": "mItemDataClient.mTooltipData.mLocKeys.keyActiveExternal",
+          "key": "Item_3107_ActiveExternal",
+          "text": "%i:activeEffect% <active>干涉</active> <br>在2.5秒后，为友方单位们回复<healing>@HealMin@ - @HealMax@生命值</healing>，并对敌方英雄们造成<trueDamage>@DamageToChampions*100@%最大生命值的真实伤害</trueDamage>。"
+        }
+      ],
+      "rawDataValues": [
+        {
+          "mName": "HealMin",
+          "mValue": 150,
+          "__type": "ItemDataValue"
+        },
+        {
+          "mName": "HealMax",
+          "mValue": 350,
+          "__type": "ItemDataValue"
+        },
+        {
+          "mName": "DamageToChampions",
+          "mValue": 0.10000000149011612,
+          "__type": "ItemDataValue"
+        },
+        {
+          "mName": "Cooldown",
+          "mValue": 90,
+          "__type": "ItemDataValue"
+        },
+        {
+          "mName": "AOESize",
+          "mValue": 550,
+          "__type": "ItemDataValue"
+        },
+        {
+          "mName": "CastRange",
+          "mValue": 5500,
+          "__type": "ItemDataValue"
+        },
+        {
+          "mName": "DiminishedEffect",
+          "mValue": 0.5,
+          "__type": "ItemDataValue"
+        },
+        {
+          "mName": "DiminishedTimer",
+          "mValue": 8,
+          "__type": "ItemDataValue"
+        },
+        {
+          "mName": "HPRegenIncrease",
+          "mValue": 0.25,
+          "__type": "ItemDataValue"
+        },
+        {
+          "mName": "BaseManaRegen",
+          "mValue": 0.25,
+          "__type": "ItemDataValue"
+        }
+      ]
+    }
+  ],
+  "businessWrites": 0,
+  "status": "来源已核对，待第十九批写后保护快照，不可直接执行",
+  "proposed": [
+    {
+      "skillKey": "item_3190_active",
+      "parameterKey": "repeated_shield_window_ms",
+      "name": "重复护盾判定时间窗",
+      "value": 20000,
+      "type": "INTEGER",
+      "proof": "当前绑定扩展说明20秒；秒转换毫秒。"
+    },
+    {
+      "skillKey": "item_3190_active",
+      "parameterKey": "repeated_shield_ratio",
+      "name": "重复护盾保留比例",
+      "value": 0.25,
+      "type": "DECIMAL",
+      "proof": "当前绑定扩展说明后续护盾降为25%；是保留比例而非减去25%。"
+    },
+    {
+      "skillKey": "item_3107_active",
+      "parameterKey": "repeated_effect_ratio",
+      "name": "重复干预效果保留比例",
+      "value": 0.5,
+      "type": "DECIMAL",
+      "proof": "当前绑定扩展说明后续效果降低50%；仅此数值，两种说法数值相同。"
+    }
+  ],
+  "descriptionAddition": {
+    "item_3107_active": "当前绑定说明明确死亡期间也可使用；只补充适用说明，不创造死亡状态或施放运行。"
+  },
+  "pending": [
+    "救赎原始DiminishedTimer=8未在当前绑定说明给出判定时间，暂不启用该时间窗。",
+    "两件装备的施法者自身受益资格仍未由当前中英文说明单独证明，重复参数不能反推自身目标。",
+    "不为未接资格和触发的独立参数创建穿透公式、自动效果或默认运行输入。"
+  ]
+}

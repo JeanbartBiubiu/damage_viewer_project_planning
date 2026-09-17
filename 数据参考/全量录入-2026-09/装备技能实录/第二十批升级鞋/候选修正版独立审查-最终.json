@@ -1,0 +1,346 @@
+{
+  "generatedAt": "2026-09-09T09:58:24.390Z",
+  "mode": "独立候选修正版审查",
+  "noBusinessWrites": true,
+  "apiWrites": 0,
+  "draftCandidateSha256": "b918d195d3cbc64710e077c03e208aec693b0414ac9ae611e59463456ae08d82",
+  "correctedCandidateSha256": "9dc1b9628720c0afc91d9e835649ae6899dd9bfcbacac136fae7c7081ab79f62",
+  "sourceSha256": "3861cdd2d66da43deb99aca9c085c894258f58a21bfdfc967b9feaa71203e649",
+  "snapshotSha256": "b928abf4069b9a1b65f5eba0801bc3ecf72035b86f793eee523e440222aef463",
+  "removedOperationalParameters": [
+    {
+      "equipmentKey": "item_3173",
+      "parameterKeys": [
+        "shield_breakpoint_level",
+        "shield_bonus_per_level"
+      ]
+    },
+    {
+      "equipmentKey": "item_3174",
+      "parameterKeys": [
+        "shield_breakpoint_level",
+        "shield_bonus_per_level"
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "name": "范围五件装备",
+      "pass": true
+    },
+    {
+      "name": "实时保护快照GET",
+      "pass": true
+    },
+    {
+      "name": "实时保护状态",
+      "pass": true
+    },
+    {
+      "name": "分类仅有现存被动键",
+      "pass": true
+    },
+    {
+      "name": "item_3168来源原对象",
+      "pass": true
+    },
+    {
+      "name": "item_3168目标技能被动",
+      "pass": true
+    },
+    {
+      "name": "item_3168关系为空",
+      "pass": true
+    },
+    {
+      "name": "item_3168原图同键",
+      "pass": true
+    },
+    {
+      "name": "item_3168四类空组成",
+      "pass": true
+    },
+    {
+      "name": "item_3170来源原对象",
+      "pass": true
+    },
+    {
+      "name": "item_3170目标技能被动",
+      "pass": true
+    },
+    {
+      "name": "item_3170关系为空",
+      "pass": true
+    },
+    {
+      "name": "item_3170原图同键",
+      "pass": true
+    },
+    {
+      "name": "item_3170四类空组成",
+      "pass": true
+    },
+    {
+      "name": "item_3171来源原对象",
+      "pass": true
+    },
+    {
+      "name": "item_3171目标技能被动",
+      "pass": true
+    },
+    {
+      "name": "item_3171关系为空",
+      "pass": true
+    },
+    {
+      "name": "item_3171原图同键",
+      "pass": true
+    },
+    {
+      "name": "item_3171四类空组成",
+      "pass": true
+    },
+    {
+      "name": "item_3173来源原对象",
+      "pass": true
+    },
+    {
+      "name": "item_3173目标技能被动",
+      "pass": true
+    },
+    {
+      "name": "item_3173关系为空",
+      "pass": true
+    },
+    {
+      "name": "item_3173原图同键",
+      "pass": true
+    },
+    {
+      "name": "item_3173四类空组成",
+      "pass": true
+    },
+    {
+      "name": "item_3174来源原对象",
+      "pass": true
+    },
+    {
+      "name": "item_3174目标技能被动",
+      "pass": true
+    },
+    {
+      "name": "item_3174关系为空",
+      "pass": true
+    },
+    {
+      "name": "item_3174原图同键",
+      "pass": true
+    },
+    {
+      "name": "item_3174四类空组成",
+      "pass": true
+    },
+    {
+      "name": "层数输入为整数运行时",
+      "pass": true
+    },
+    {
+      "name": "item_3173草稿包含待移除断点参数",
+      "pass": true,
+      "detail": {
+        "parameterKeys": [
+          "shield_cooldown_ms",
+          "shield_duration_ms",
+          "shield_level1_value",
+          "shield_breakpoint_level",
+          "shield_bonus_per_level",
+          "shield_amount_ratio",
+          "actual_level_base_shield",
+          "source_mstat12_formula2_value"
+        ]
+      }
+    },
+    {
+      "name": "item_3173草稿保留1级节点与基础输入",
+      "pass": true
+    },
+    {
+      "name": "item_3173修正版不含两个未解析断点参数",
+      "pass": true,
+      "detail": {
+        "parameterKeys": [
+          "shield_cooldown_ms",
+          "shield_duration_ms",
+          "shield_level1_value",
+          "shield_amount_ratio",
+          "actual_level_base_shield",
+          "source_mstat12_formula2_value"
+        ]
+      }
+    },
+    {
+      "name": "item_3173修正版保留1级节点与基础输入",
+      "pass": true
+    },
+    {
+      "name": "item_3174草稿包含待移除断点参数",
+      "pass": true,
+      "detail": {
+        "parameterKeys": [
+          "incoming_attack_damage_reduction_ratio",
+          "shield_cooldown_ms",
+          "shield_duration_ms",
+          "shield_level1_value",
+          "shield_breakpoint_level",
+          "shield_bonus_per_level",
+          "shield_amount_ratio",
+          "actual_level_base_shield",
+          "source_mstat12_formula2_value"
+        ]
+      }
+    },
+    {
+      "name": "item_3174草稿保留1级节点与基础输入",
+      "pass": true
+    },
+    {
+      "name": "item_3174修正版不含两个未解析断点参数",
+      "pass": true,
+      "detail": {
+        "parameterKeys": [
+          "incoming_attack_damage_reduction_ratio",
+          "shield_cooldown_ms",
+          "shield_duration_ms",
+          "shield_level1_value",
+          "shield_amount_ratio",
+          "actual_level_base_shield",
+          "source_mstat12_formula2_value"
+        ]
+      }
+    },
+    {
+      "name": "item_3174修正版保留1级节点与基础输入",
+      "pass": true
+    },
+    {
+      "name": "item_3168_passive/actual_stacks运行时类型",
+      "pass": true,
+      "detail": {
+        "expected": "INTEGER"
+      }
+    },
+    {
+      "name": "item_3168_passive/stacked_omnivamp引用已定义参数",
+      "pass": true,
+      "detail": [
+        "actual_stacks",
+        "max_stacks",
+        "omnivamp_per_stack"
+      ]
+    },
+    {
+      "name": "item_3170_passive/actual_source_move_speed运行时类型",
+      "pass": true,
+      "detail": {
+        "expected": "DECIMAL"
+      }
+    },
+    {
+      "name": "item_3170_passive/adaptive_force_from_move_speed引用已定义参数",
+      "pass": true,
+      "detail": [
+        "ms_adaptive_ratio",
+        "actual_source_move_speed"
+      ]
+    },
+    {
+      "name": "item_3171_passive/ranged_move_speed_ratio引用已定义参数",
+      "pass": true,
+      "detail": [
+        "melee_move_speed_ratio",
+        "ranged_move_speed_multiplier"
+      ]
+    },
+    {
+      "name": "item_3173_passive/actual_level_base_shield运行时类型",
+      "pass": true,
+      "detail": {
+        "expected": "DECIMAL"
+      }
+    },
+    {
+      "name": "item_3173_passive/source_mstat12_formula2_value运行时类型",
+      "pass": true,
+      "detail": {
+        "expected": "DECIMAL"
+      }
+    },
+    {
+      "name": "item_3173_passive/magic_shield_value引用已定义参数",
+      "pass": true,
+      "detail": [
+        "actual_level_base_shield",
+        "shield_amount_ratio",
+        "source_mstat12_formula2_value"
+      ]
+    },
+    {
+      "name": "item_3174_passive/actual_level_base_shield运行时类型",
+      "pass": true,
+      "detail": {
+        "expected": "DECIMAL"
+      }
+    },
+    {
+      "name": "item_3174_passive/source_mstat12_formula2_value运行时类型",
+      "pass": true,
+      "detail": {
+        "expected": "DECIMAL"
+      }
+    },
+    {
+      "name": "item_3174_passive/physical_shield_value引用已定义参数",
+      "pass": true,
+      "detail": [
+        "actual_level_base_shield",
+        "shield_amount_ratio",
+        "source_mstat12_formula2_value"
+      ]
+    },
+    {
+      "name": "两棵护盾公式不引用断点参数",
+      "pass": true
+    },
+    {
+      "name": "修正版总计28参数5公式5关联5图",
+      "pass": true,
+      "detail": {
+        "totals": {
+          "equipment": 5,
+          "skills": 5,
+          "parameters": 28,
+          "formulas": 5,
+          "effects": 0,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0,
+          "relations": 5,
+          "representativeImages": 5
+        },
+        "expectedTotals": {
+          "equipment": 5,
+          "skills": 5,
+          "parameters": 28,
+          "formulas": 5,
+          "effects": 0,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0,
+          "relations": 5,
+          "representativeImages": 5
+        }
+      }
+    }
+  ],
+  "allPass": true
+}

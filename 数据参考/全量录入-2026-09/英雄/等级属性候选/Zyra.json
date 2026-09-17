@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Zyra",
+  "sourceNumericId": "143",
+  "name": "婕拉",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 574,
+      "growth": 93,
+      "sources": [
+        "原始资料/zh_CN/champion/Zyra.json:stats.hp/hpperlevel",
+        "角色根记录/Zyra.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 574,
+        "2": 640.96,
+        "3": 711.175,
+        "4": 784.645,
+        "5": 861.37,
+        "6": 941.35,
+        "7": 1024.585,
+        "8": 1111.075,
+        "9": 1200.82,
+        "10": 1293.82,
+        "11": 1390.075,
+        "12": 1489.585,
+        "13": 1592.35,
+        "14": 1698.37,
+        "15": 1807.645,
+        "16": 1920.175,
+        "17": 2035.96,
+        "18": 2155
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 5.5,
+      "growth": 0.5,
+      "sources": [
+        "原始资料/zh_CN/champion/Zyra.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Zyra.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 5.5,
+        "2": 5.86,
+        "3": 6.2375,
+        "4": 6.6325,
+        "5": 7.045,
+        "6": 7.475,
+        "7": 7.9225,
+        "8": 8.3875,
+        "9": 8.87,
+        "10": 9.37,
+        "11": 9.8875,
+        "12": 10.4225,
+        "13": 10.975,
+        "14": 11.545,
+        "15": 12.1325,
+        "16": 12.7375,
+        "17": 13.36,
+        "18": 14
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 29,
+      "growth": 4.2,
+      "sources": [
+        "原始资料/zh_CN/champion/Zyra.json:stats.armor/armorperlevel",
+        "角色根记录/Zyra.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 29,
+        "2": 32.024,
+        "3": 35.195,
+        "4": 38.513,
+        "5": 41.978,
+        "6": 45.59,
+        "7": 49.349,
+        "8": 53.255,
+        "9": 57.308,
+        "10": 61.508,
+        "11": 65.855,
+        "12": 70.349,
+        "13": 74.99,
+        "14": 79.778,
+        "15": 84.713,
+        "16": 89.795,
+        "17": 95.024,
+        "18": 100.4
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 30,
+      "growth": 1.3,
+      "sources": [
+        "原始资料/zh_CN/champion/Zyra.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Zyra.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 30,
+        "2": 30.936,
+        "3": 31.9175,
+        "4": 32.9445,
+        "5": 34.017,
+        "6": 35.135,
+        "7": 36.2985,
+        "8": 37.5075,
+        "9": 38.762,
+        "10": 40.062,
+        "11": 41.4075,
+        "12": 42.7985,
+        "13": 44.235,
+        "14": 45.717,
+        "15": 47.2445,
+        "16": 48.8175,
+        "17": 50.436,
+        "18": 52.1
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 53,
+      "growth": 3.2,
+      "sources": [
+        "角色根记录/Zyra.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 53,
+        "2": 55.304,
+        "3": 57.72,
+        "4": 60.248,
+        "5": 62.888,
+        "6": 65.64,
+        "7": 68.504,
+        "8": 71.48,
+        "9": 74.568,
+        "10": 77.768,
+        "11": 81.08,
+        "12": 84.504,
+        "13": 88.04,
+        "14": 91.688,
+        "15": 95.448,
+        "16": 99.32,
+        "17": 103.304,
+        "18": 107.4
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 340,
+      "growth": null,
+      "sources": [
+        "角色根记录/Zyra.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 340,
+        "2": 340,
+        "3": 340,
+        "4": 340,
+        "5": 340,
+        "6": 340,
+        "7": 340,
+        "8": 340,
+        "9": 340,
+        "10": 340,
+        "11": 340,
+        "12": 340,
+        "13": 340,
+        "14": 340,
+        "15": 340,
+        "16": 340,
+        "17": 340,
+        "18": 340
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 575,
+      "growth": null,
+      "sources": [
+        "角色根记录/Zyra.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 575,
+        "2": 575,
+        "3": 575,
+        "4": 575,
+        "5": 575,
+        "6": 575,
+        "7": 575,
+        "8": 575,
+        "9": 575,
+        "10": 575,
+        "11": 575,
+        "12": 575,
+        "13": 575,
+        "14": 575,
+        "15": 575,
+        "16": 575,
+        "17": 575,
+        "18": 575
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.681,
+      "attackSpeedRatio": 0.625,
+      "growthPercent": 2.11,
+      "sources": [
+        "角色根记录/Zyra.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.681,
+        "2": 0.690495,
+        "3": 0.700452,
+        "4": 0.71087,
+        "5": 0.721749,
+        "6": 0.733091,
+        "7": 0.744893,
+        "8": 0.757158,
+        "9": 0.769884,
+        "10": 0.783071,
+        "11": 0.79672,
+        "12": 0.810831,
+        "13": 0.825403,
+        "14": 0.840437,
+        "15": 0.855932,
+        "16": 0.871889,
+        "17": 0.888308,
+        "18": 0.905188
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 418,
+      "growth": 25,
+      "sources": [
+        "原始资料/zh_CN/champion/Zyra.json:stats.mp/mpperlevel",
+        "角色根记录/Zyra.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 418,
+        "2": 436,
+        "3": 454.875,
+        "4": 474.625,
+        "5": 495.25,
+        "6": 516.75,
+        "7": 539.125,
+        "8": 562.375,
+        "9": 586.5,
+        "10": 611.5,
+        "11": 637.375,
+        "12": 664.125,
+        "13": 691.75,
+        "14": 720.25,
+        "15": 749.625,
+        "16": 779.875,
+        "17": 811,
+        "18": 843
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 7,
+      "growth": 0.8,
+      "sources": [
+        "原始资料/zh_CN/champion/Zyra.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Zyra.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 7,
+        "2": 7.576,
+        "3": 8.18,
+        "4": 8.812,
+        "5": 9.472,
+        "6": 10.16,
+        "7": 10.876,
+        "8": 11.62,
+        "9": 12.392,
+        "10": 13.192,
+        "11": 14.02,
+        "12": 14.876,
+        "13": 15.76,
+        "14": 16.672,
+        "15": 17.612,
+        "16": 18.58,
+        "17": 19.576,
+        "18": 20.6
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.681,
+    "ratio": 0.625,
+    "growthPercent": 2.11,
+    "ratioDiffersFromBase": true
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

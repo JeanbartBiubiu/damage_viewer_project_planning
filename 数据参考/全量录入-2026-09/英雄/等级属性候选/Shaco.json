@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Shaco",
+  "sourceNumericId": "35",
+  "name": "萨科",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 630,
+      "growth": 99,
+      "sources": [
+        "原始资料/zh_CN/champion/Shaco.json:stats.hp/hpperlevel",
+        "角色根记录/Shaco.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 630,
+        "2": 701.28,
+        "3": 776.025,
+        "4": 854.235,
+        "5": 935.91,
+        "6": 1021.05,
+        "7": 1109.655,
+        "8": 1201.725,
+        "9": 1297.26,
+        "10": 1396.26,
+        "11": 1498.725,
+        "12": 1604.655,
+        "13": 1714.05,
+        "14": 1826.91,
+        "15": 1943.235,
+        "16": 2063.025,
+        "17": 2186.28,
+        "18": 2313
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 8.5,
+      "growth": 0.55,
+      "sources": [
+        "原始资料/zh_CN/champion/Shaco.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Shaco.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 8.5,
+        "2": 8.896,
+        "3": 9.31125,
+        "4": 9.74575,
+        "5": 10.1995,
+        "6": 10.6725,
+        "7": 11.16475,
+        "8": 11.67625,
+        "9": 12.207,
+        "10": 12.757,
+        "11": 13.32625,
+        "12": 13.91475,
+        "13": 14.5225,
+        "14": 15.1495,
+        "15": 15.79575,
+        "16": 16.46125,
+        "17": 17.146,
+        "18": 17.85
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 30,
+      "growth": 4,
+      "sources": [
+        "原始资料/zh_CN/champion/Shaco.json:stats.armor/armorperlevel",
+        "角色根记录/Shaco.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 30,
+        "2": 32.88,
+        "3": 35.9,
+        "4": 39.06,
+        "5": 42.36,
+        "6": 45.8,
+        "7": 49.38,
+        "8": 53.1,
+        "9": 56.96,
+        "10": 60.96,
+        "11": 65.1,
+        "12": 69.38,
+        "13": 73.8,
+        "14": 78.36,
+        "15": 83.06,
+        "16": 87.9,
+        "17": 92.88,
+        "18": 98
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 32,
+      "growth": 2.05,
+      "sources": [
+        "原始资料/zh_CN/champion/Shaco.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Shaco.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 32,
+        "2": 33.476,
+        "3": 35.02375,
+        "4": 36.64325,
+        "5": 38.3345,
+        "6": 40.0975,
+        "7": 41.93225,
+        "8": 43.83875,
+        "9": 45.817,
+        "10": 47.867,
+        "11": 49.98875,
+        "12": 52.18225,
+        "13": 54.4475,
+        "14": 56.7845,
+        "15": 59.19325,
+        "16": 61.67375,
+        "17": 64.226,
+        "18": 66.85
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 63,
+      "growth": 3,
+      "sources": [
+        "角色根记录/Shaco.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 63,
+        "2": 65.16,
+        "3": 67.425,
+        "4": 69.795,
+        "5": 72.27,
+        "6": 74.85,
+        "7": 77.535,
+        "8": 80.325,
+        "9": 83.22,
+        "10": 86.22,
+        "11": 89.325,
+        "12": 92.535,
+        "13": 95.85,
+        "14": 99.27,
+        "15": 102.795,
+        "16": 106.425,
+        "17": 110.16,
+        "18": 114
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 345,
+      "growth": null,
+      "sources": [
+        "角色根记录/Shaco.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 345,
+        "2": 345,
+        "3": 345,
+        "4": 345,
+        "5": 345,
+        "6": 345,
+        "7": 345,
+        "8": 345,
+        "9": 345,
+        "10": 345,
+        "11": 345,
+        "12": 345,
+        "13": 345,
+        "14": 345,
+        "15": 345,
+        "16": 345,
+        "17": 345,
+        "18": 345
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 125,
+      "growth": null,
+      "sources": [
+        "角色根记录/Shaco.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 125,
+        "2": 125,
+        "3": 125,
+        "4": 125,
+        "5": 125,
+        "6": 125,
+        "7": 125,
+        "8": 125,
+        "9": 125,
+        "10": 125,
+        "11": 125,
+        "12": 125,
+        "13": 125,
+        "14": 125,
+        "15": 125,
+        "16": 125,
+        "17": 125,
+        "18": 125
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.694,
+      "attackSpeedRatio": 0.694,
+      "growthPercent": 3,
+      "sources": [
+        "角色根记录/Shaco.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.694,
+        "2": 0.70899,
+        "3": 0.724709,
+        "4": 0.741157,
+        "5": 0.758334,
+        "6": 0.776239,
+        "7": 0.794873,
+        "8": 0.814235,
+        "9": 0.834327,
+        "10": 0.855147,
+        "11": 0.876695,
+        "12": 0.898973,
+        "13": 0.921979,
+        "14": 0.945714,
+        "15": 0.970177,
+        "16": 0.99537,
+        "17": 1.02129,
+        "18": 1.04794
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 297,
+      "growth": 40,
+      "sources": [
+        "原始资料/zh_CN/champion/Shaco.json:stats.mp/mpperlevel",
+        "角色根记录/Shaco.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 297,
+        "2": 325.8,
+        "3": 356,
+        "4": 387.6,
+        "5": 420.6,
+        "6": 455,
+        "7": 490.8,
+        "8": 528,
+        "9": 566.6,
+        "10": 606.6,
+        "11": 648,
+        "12": 690.8,
+        "13": 735,
+        "14": 780.6,
+        "15": 827.6,
+        "16": 876,
+        "17": 925.8,
+        "18": 977
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 6,
+      "growth": 0.35,
+      "sources": [
+        "原始资料/zh_CN/champion/Shaco.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Shaco.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 6,
+        "2": 6.252,
+        "3": 6.51625,
+        "4": 6.79275,
+        "5": 7.0815,
+        "6": 7.3825,
+        "7": 7.69575,
+        "8": 8.02125,
+        "9": 8.359,
+        "10": 8.709,
+        "11": 9.07125,
+        "12": 9.44575,
+        "13": 9.8325,
+        "14": 10.2315,
+        "15": 10.64275,
+        "16": 11.06625,
+        "17": 11.502,
+        "18": 11.95
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.694,
+    "ratio": 0.694,
+    "growthPercent": 3,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

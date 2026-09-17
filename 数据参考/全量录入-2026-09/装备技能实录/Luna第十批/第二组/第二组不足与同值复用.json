@@ -1,0 +1,213 @@
+{
+  "batch": "Luna第十批/第二组",
+  "generatedAt": "2026-09-08T15:46:43.717Z",
+  "status": "来源不足、排除项和同值复用清单；不足项不能被描述成系统不能表达。",
+  "objects": [
+    {
+      "equipmentKey": "item_3004",
+      "equipmentName": "魔宗",
+      "gaps": [
+        "法力流命中事件的来源、普攻与技能归属、每次命中是否只计一次及英雄目标筛选",
+        "法力流8秒窗口和4层状态的消费、刷新、并行技能命中处理；不从秒数推导跳频",
+        "累计增加360最大法力后的魔切替换目标、装备关系、进度持久化和替换时点",
+        "官方说明显示0额外攻击力与客户端计算树0.02系数的应用阶段、显示占位和升级状态需定点复核"
+      ],
+      "pendingEffects": [
+        {
+          "effectKey": "mana_flow_max_mana_stack",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "target": "SOURCE",
+          "reason": "数值公式已能表达3点基础命中和英雄6点命中；命中事件、充能窗口、层数状态和最大法力累计尚未形成可安全提交的单一效果与触发形状。"
+        },
+        {
+          "effectKey": "transform_to_muramana",
+          "resultType": "LIFECYCLE_OPERATION",
+          "target": "SOURCE",
+          "reason": "360阈值有来源，但魔切替换关系与装备生命周期操作尚未由当前绑定资料完整确认；不插入3146或其他升级形态数值。"
+        }
+      ],
+      "sourceOnly": [
+        {
+          "key": "InternalCDPerCastID",
+          "value": 6.5,
+          "unit": null,
+          "reason": "客户端根有原始6.5，但当前绑定说明未确认其单位、事件归属和是否为业务冷却；保留原值作来源证据，不转换成6500毫秒参数。"
+        },
+        {
+          "key": "TakedownMana",
+          "value": null,
+          "unit": null,
+          "reason": "客户端DataValue存在名称但没有mValue；不补数字、不猜击杀或助攻增加法力。"
+        },
+        {
+          "key": "DataValuesModeOverride.ManaPerCharge",
+          "value": 4.5,
+          "modes": [
+            "ARAM",
+            "NEXUSBLITZ",
+            "ONEFORALL",
+            "{a110bc47}",
+            "Ruby",
+            "RUBY_TRIAL_1",
+            "RUBY_TRIAL_2",
+            "{aecea60c}",
+            "{bffdf499}"
+          ],
+          "unit": "最大法力值/次",
+          "reason": "仅模式覆盖值；普通地图候选固定为3，不把ARAM、NEXUSBLITZ、ONEFORALL、Ruby及哈希模式值混入。"
+        }
+      ],
+      "sameValueReuse": [
+        {
+          "value": "0.02",
+          "reusedBy": [
+            "敬畏最大法力转攻击力公式",
+            "敬畏最大法力转攻击力属性结果"
+          ],
+          "reason": "客户端BonusADFromMana系数归一化为小数比例；官方文本的0占位单列矛盾，不把0与0.02混为同值。"
+        },
+        {
+          "value": "3",
+          "reusedBy": [
+            "法力流普通命中公式",
+            "法力流英雄命中公式的基础值"
+          ],
+          "reason": "当前绑定ManaPerCharge；英雄分支另乘2。"
+        },
+        {
+          "value": "8000毫秒、4层",
+          "reusedBy": [
+            "法力流参数说明",
+            "法力流待配窗口与上限"
+          ],
+          "reason": "由8秒和最大4层组成；只复用来源数值，不推导周期跳频。"
+        },
+        {
+          "value": "360",
+          "reusedBy": [
+            "法力流升级阈值参数",
+            "阈值算例"
+          ],
+          "reason": "表示累计增加最大法力的升级阈值，与角色总最大法力和装备固定500法力分开。"
+        }
+      ],
+      "historicalBoundary": "历史回读含mana=500、attack_damage=35、ability_haste=15；本阶段只保护这些固定属性，不重复提交。"
+    },
+    {
+      "equipmentKey": "item_3041",
+      "equipmentName": "梅贾的窃魂卷",
+      "gaps": [
+        "击杀、助攻、阵亡事件的准确来源、同一次击杀的互斥处理和事件顺序",
+        "与黑暗封印item_1082_passive共享同一荣耀计数；当前不新建第二个计数器，也不声称共享接线已经存在",
+        "荣耀最大层数在1082的10层与3041的25层同时存在时的裁决、阵亡损失下限和持有者状态生命周期",
+        "达到10层或以上时开启0.1移动速度、低于10层时撤销的动态门槛；当前不生成无条件10%效果"
+      ],
+      "pendingEffects": [
+        {
+          "effectKey": "glory_move_speed_at_threshold",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "target": "SOURCE",
+          "reason": "0.1比例和10层门槛均有来源，但现有候选结果不能安全表达条件启停；不把移动速度效果无条件授予0层持有者。"
+        },
+        {
+          "effectKey": "glory_takedown_and_death_state",
+          "resultType": "LIFECYCLE_OPERATION",
+          "target": "SOURCE",
+          "reason": "击杀、助攻、阵亡的事件身份和共享状态尚未形成可安全提交的触发与层数操作；参数保留，不猜通用事件。"
+        }
+      ],
+      "sourceOnly": [
+        {
+          "key": "DataValuesModeOverride.URF",
+          "value": {
+            "DataValues": [
+              {
+                "mName": "GloryOnKill",
+                "mValue": 2,
+                "__type": "ItemDataValue"
+              },
+              {
+                "mName": "GloryOnAssist",
+                "mValue": 1,
+                "__type": "ItemDataValue"
+              },
+              {
+                "mName": "GloryLossOnDeath",
+                "mValue": 5,
+                "__type": "ItemDataValue"
+              }
+            ],
+            "__type": "ItemDataValues"
+          },
+          "reason": "URF模式覆盖击杀2、助攻1、阵亡损失5；本批普通地图候选不采用，也不把覆盖值当正式值。"
+        },
+        {
+          "key": "mEffectAmount",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "reason": "当前装备对象为全0数组；没有可绑定的数值标签，不从数组插值荣耀或移动速度。"
+        }
+      ],
+      "sameValueReuse": [
+        {
+          "value": "5法术强度/层",
+          "reusedBy": [
+            "荣耀法术强度公式",
+            "荣耀法术强度属性结果",
+            "客户端CurrentGloryAP的APPerGlory绑定"
+          ],
+          "reason": "人工单位固定为法术强度/层，不把5写成荣耀层数。"
+        },
+        {
+          "value": "10层",
+          "reusedBy": [
+            "荣耀门槛参数",
+            "10层门槛算例"
+          ],
+          "reason": "只用于移动速度条件，不能替代25层上限或阵亡损失10层。"
+        },
+        {
+          "value": "0.1",
+          "reusedBy": [
+            "移动速度比例参数",
+            "达到门槛移动速度公式"
+          ],
+          "reason": "0.1是10%小数比例，不是10个百分点；未生成无条件属性效果。"
+        },
+        {
+          "value": "同一mBuffName={22eeba1f}",
+          "reusedBy": [
+            "3041 CurrentGloryAP",
+            "1082 CurrentGloryAP"
+          ],
+          "reason": "客户端根对象交叉证据；只记录共享荣耀依赖，不复制状态。"
+        }
+      ],
+      "historicalBoundary": "历史回读含hp=100、ability_power=20；本阶段只保护这些固定属性，不重复提交。"
+    }
+  ],
+  "sharedPending": [
+    {
+      "value": "荣耀层数",
+      "relatedObjects": [
+        "item_1082",
+        "item_3041"
+      ],
+      "note": "两件装备的客户端CurrentGloryAP均指向同一mBuffName；本候选不创建第二个状态，也不声称事件共享已经配置。"
+    }
+  ],
+  "explicitExclusions": [
+    "不展开3146式或其他升级形态未证实的默认插值和数值。",
+    "不把3004的8秒窗口、3041的事件数值或任意秒数转换成未经来源确认的跳频。",
+    "不把3041的参与击杀关键字扩展为通用伤害事件；击杀、助攻、阵亡保持三条独立待配边界。",
+    "不把3041的10层移动速度门槛写成0层即生效的持续属性。"
+  ]
+}

@@ -1,0 +1,305 @@
+{
+  "at": "2026-09-08T16:55:54.096Z",
+  "passed": true,
+  "independentGetCount": 12,
+  "urls": [
+    "http://127.0.0.1:5173/#/skills",
+    "http://127.0.0.1:5173/#/equipment"
+  ],
+  "method": "主负责人实际浏览器查看三个代表对象，等待详情加载后核对；没有页面写入，另做固定12项独立GET。",
+  "samples": [
+    {
+      "skillKey": "item_4629_passive",
+      "observation": "咒舞持续时间引用4000毫秒参数，来源实例单层、刷新全部、整体到期；结果为自身移动速度增加、属性固定加算、持续生效、施加时留存，引用20点参数。合法伤害触发另待配。"
+    },
+    {
+      "skillKey": "item_3082_passive",
+      "observation": "攻击格挡上限伤害参数明确为小数、计算时传入，说明伤害基数阶段未定且不能缺省0；公式页面显示取较小值(固定格挡量,上限比例×输入)，对应MIN(15,0.2D)。"
+    },
+    {
+      "equipmentKey": "item_3143",
+      "observation": "关联技能页面加载完成后有复原力被动、谦卑主动两行，稳定键各异，启用，排序分别10与20。"
+    }
+  ],
+  "experience": "技能图标及装备关联刚打开曾短暂显示未上传或暂无；加载完成后图标和两项关联均出现，未把占位内容当作持久缺项。",
+  "checks": [
+    {
+      "route": "/skills/item_4629_passive/parameters/move_speed_bonus",
+      "actual": {
+        "createdAt": "2026-09-08T16:43:02.156703Z",
+        "description": "当前绑定 MovespeedAmount 对应同根 MoveSpeedAmount 计算式，常量20；大小写按客户端变量名称匹配。",
+        "fixedValue": 20,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "咒舞固定移动速度",
+        "parameterKey": "move_speed_bonus",
+        "skillKey": "item_4629_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T16:43:02.156703Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/item_4629_passive/parameters/move_speed_duration_ms",
+      "actual": {
+        "createdAt": "2026-09-08T16:43:02.740395Z",
+        "description": "当前绑定 StackDuration=4秒，换算4000毫秒。",
+        "fixedValue": 4000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "咒舞移动速度持续时间",
+        "parameterKey": "move_speed_duration_ms",
+        "skillKey": "item_4629_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-08T16:43:02.740395Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/item_4629_passive/effects/spelldance_move_speed",
+      "actual": {
+        "createdAt": "2026-09-08T16:43:03.314916Z",
+        "description": "对英雄造成魔法或真实伤害后，单份20点固定移动速度持续4秒；合法事件选择尚未接线。",
+        "effectKey": "spelldance_move_speed",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "move_speed_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "咒舞自身移动速度",
+        "results": [
+          {
+            "description": "对英雄造成魔法或真实伤害后，单份20点固定移动速度持续4秒；合法事件选择尚未接线。",
+            "detail": {
+              "attributeKey": "move_speed",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "咒舞自身移动速度",
+            "resultKey": "move_speed",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "move_speed_bonus"
+              }
+            }
+          }
+        ],
+        "skillKey": "item_4629_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T16:43:03.314916Z"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/item_4629_passive/representative-image",
+      "actual": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_4629",
+          "name": "item_4629"
+        }
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/item_3082_passive/parameters/flat_block",
+      "actual": {
+        "createdAt": "2026-09-08T16:43:05.869198Z",
+        "description": "当前绑定主说明引用 BlockBase=15。",
+        "fixedValue": 15,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "英雄攻击固定格挡量",
+        "parameterKey": "flat_block",
+        "skillKey": "item_3082_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T16:43:05.869198Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/item_3082_passive/parameters/block_cap_ratio",
+      "actual": {
+        "createdAt": "2026-09-08T16:43:06.477714Z",
+        "description": "当前扩展绑定明确单次格挡不超过该次攻击伤害20%。",
+        "fixedValue": 0.2,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "单次攻击格挡占伤害上限",
+        "parameterKey": "block_cap_ratio",
+        "skillKey": "item_3082_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-08T16:43:06.477714Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/item_3082_passive/parameters/attack_damage_for_block_cap",
+      "actual": {
+        "createdAt": "2026-09-08T16:43:07.089173Z",
+        "description": "DECIMAL 非负输入：来源必须是同一次英雄攻击用于20%上限的完整伤害基数；具体伤害取值阶段和伤害包集合待核，当前没有运行时绑定，不能传入任意单包或未知默认0。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "本次攻击格挡上限伤害输入",
+        "parameterKey": "attack_damage_for_block_cap",
+        "skillKey": "item_3082_passive",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-08T16:43:07.089173Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/item_3082_passive/formulas/block_amount",
+      "actual": {
+        "createdAt": "2026-09-08T16:43:07.742125Z",
+        "description": "仅表达 MIN(15, 0.2 × 本次攻击上限伤害输入)。输入阶段未定、没有减伤效果或触发规则，不能将独立算例视为真实伤害管线结算。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "flat_block"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "block_cap_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "attack_damage_for_block_cap"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "MIN"
+        },
+        "formulaKey": "block_amount",
+        "gameId": "lol",
+        "name": "本次攻击格挡量上限公式",
+        "skillKey": "item_3082_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T16:43:07.742125Z"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/item_3082_passive/representative-image",
+      "actual": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_3082",
+          "name": "item_3082"
+        }
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/item_3143_passive",
+      "actual": {
+        "createdAt": "2026-09-08T16:43:12.003313Z",
+        "description": "所受的来自暴击的伤害降低30%。本被动候选仅保留确定削减比例；暴击过滤、减伤计算区和作用阶段未接线，不能减少对手暴击率或借属性区代替。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "兰顿之兆·复原力",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "item_3143_passive",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-08T16:43:12.003313Z"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/item_3143_active",
+      "actual": {
+        "createdAt": "2026-09-08T16:43:14.761073Z",
+        "description": "主动使附近敌人减速70%，持续2秒，冷却90秒。本轮保留对单个对手的减速与冷却参数；合法减速表达与主动命中未接线，空间及多目标分发后置。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "兰顿之兆·谦卑",
+        "skillCategoryKeys": [],
+        "skillKey": "item_3143_active",
+        "sortOrder": 10,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-08T16:43:14.761073Z"
+      },
+      "match": true
+    },
+    {
+      "route": "/equipment-skill-relations?equipmentKey=item_3143",
+      "actual": {
+        "items": [
+          {
+            "equipmentKey": "item_3143",
+            "equipmentName": "兰顿之兆",
+            "gameId": "lol",
+            "skillKey": "item_3143_passive",
+            "skillName": "兰顿之兆·复原力",
+            "skillStatus": "ENABLED",
+            "sortOrder": 10
+          },
+          {
+            "equipmentKey": "item_3143",
+            "equipmentName": "兰顿之兆",
+            "gameId": "lol",
+            "skillKey": "item_3143_active",
+            "skillName": "兰顿之兆·谦卑",
+            "skillStatus": "ENABLED",
+            "sortOrder": 20
+          }
+        ],
+        "total": 2
+      },
+      "match": true
+    }
+  ],
+  "runtimeValidation": "未执行"
+}

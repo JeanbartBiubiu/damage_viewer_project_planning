@@ -1,0 +1,313 @@
+{
+  "generatedAt": "2026-09-08T14:55:31.143Z",
+  "mode": "只读GET",
+  "apiBaseUrl": "http://127.0.0.1:8080/api/admin/games/lol",
+  "candidateFile": "接口候选.json",
+  "objects": [
+    {
+      "equipmentKey": "duolanjie",
+      "skillKey": "duolanjie_passive",
+      "results": [
+        {
+          "route": "/equipment/duolanjie",
+          "status": 200,
+          "data": {
+            "createdAt": "2026-08-23T12:39:05.182888Z",
+            "description": "来源：官方16.17.1装备1056。\n\n原始说明：18法术强度\n90生命值\n\n汲取\n每秒回复1法力值，在对一名敌方英雄造成伤害后，提升至每秒2法力值，持续5秒。如果你不能获得法力值，则转而治疗45%此数值的生命值。\n\n帮助之手\n攻击会对小兵造成5额外物理伤害。\n\n被动与主动效果尚待配置。",
+            "equipmentKey": "duolanjie",
+            "gameId": "lol",
+            "name": "多兰之戒",
+            "updatedAt": "2026-09-06T16:32:27.525352Z"
+          }
+        },
+        {
+          "route": "/equipment/duolanjie/attributes",
+          "status": 200,
+          "data": {
+            "attributeValues": {
+              "hp": 90,
+              "mana": 50,
+              "ability_power": 18
+            },
+            "equipmentKey": "duolanjie"
+          }
+        },
+        {
+          "route": "/equipment/duolanjie/representative-image",
+          "status": 200,
+          "data": {
+            "image": {
+              "enabled": true,
+              "imageKey": "entry_16171_duolanjie",
+              "name": "duolanjie"
+            }
+          }
+        },
+        {
+          "route": "/equipment-skill-relations?equipmentKey=duolanjie",
+          "status": 200,
+          "data": {
+            "items": [],
+            "total": 0
+          }
+        },
+        {
+          "route": "/skills/duolanjie_passive",
+          "status": 404,
+          "data": {
+            "error": {
+              "code": "404.SKILL_NOT_FOUND",
+              "details": {
+                "skillKey": "duolanjie_passive"
+              },
+              "message": "技能不存在"
+            }
+          }
+        },
+        {
+          "route": "/skills/duolanjie_passive/parameters",
+          "status": 404,
+          "data": {
+            "error": {
+              "code": "404.SKILL_NOT_FOUND",
+              "details": {
+                "skillKey": "duolanjie_passive"
+              },
+              "message": "技能不存在"
+            }
+          }
+        },
+        {
+          "route": "/skills/duolanjie_passive/formulas",
+          "status": 404,
+          "data": {
+            "error": {
+              "code": "404.SKILL_NOT_FOUND",
+              "details": {
+                "skillKey": "duolanjie_passive"
+              },
+              "message": "技能不存在"
+            }
+          }
+        },
+        {
+          "route": "/skills/duolanjie_passive/effects",
+          "status": 404,
+          "data": {
+            "error": {
+              "code": "404.SKILL_NOT_FOUND",
+              "details": {
+                "skillKey": "duolanjie_passive"
+              },
+              "message": "技能不存在"
+            }
+          }
+        },
+        {
+          "route": "/skills/duolanjie_passive/processes",
+          "status": 404,
+          "data": {
+            "error": {
+              "code": "404.SKILL_NOT_FOUND",
+              "details": {
+                "skillKey": "duolanjie_passive"
+              },
+              "message": "技能不存在"
+            }
+          }
+        },
+        {
+          "route": "/skills/duolanjie_passive/internal-states",
+          "status": 404,
+          "data": {
+            "error": {
+              "code": "404.SKILL_NOT_FOUND",
+              "details": {
+                "skillKey": "duolanjie_passive"
+              },
+              "message": "技能不存在"
+            }
+          }
+        },
+        {
+          "route": "/skills/duolanjie_passive/trigger-rules",
+          "status": 404,
+          "data": {
+            "error": {
+              "code": "404.SKILL_NOT_FOUND",
+              "details": {
+                "skillKey": "duolanjie_passive"
+              },
+              "message": "技能不存在"
+            }
+          }
+        },
+        {
+          "route": "/skills/duolanjie_passive/representative-image",
+          "status": 404,
+          "data": {
+            "error": {
+              "code": "404.SKILL_NOT_FOUND",
+              "details": {
+                "skillKey": "duolanjie_passive"
+              },
+              "message": "技能不存在"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_1082",
+      "skillKey": "item_1082_passive",
+      "results": [
+        {
+          "route": "/equipment/item_1082",
+          "status": 200,
+          "data": {
+            "createdAt": "2026-09-06T16:34:34.925758Z",
+            "description": "来源：官方16.17.1装备1082。\n\n原始说明：15法术强度\n50生命值\n\n荣耀\n参与击杀后提供荣耀层数，至多至10层。阵亡时损失5层荣耀。\n每层荣耀提供4法术强度。\n\n被动与主动效果尚待配置。",
+            "equipmentKey": "item_1082",
+            "gameId": "lol",
+            "name": "黑暗封印",
+            "updatedAt": "2026-09-06T16:34:34.925758Z"
+          }
+        },
+        {
+          "route": "/equipment/item_1082/attributes",
+          "status": 200,
+          "data": {
+            "attributeValues": {
+              "hp": 50,
+              "ability_power": 15
+            },
+            "equipmentKey": "item_1082"
+          }
+        },
+        {
+          "route": "/equipment/item_1082/representative-image",
+          "status": 200,
+          "data": {
+            "image": {
+              "enabled": true,
+              "imageKey": "item_1082",
+              "name": "item_1082"
+            }
+          }
+        },
+        {
+          "route": "/equipment-skill-relations?equipmentKey=item_1082",
+          "status": 200,
+          "data": {
+            "items": [],
+            "total": 0
+          }
+        },
+        {
+          "route": "/skills/item_1082_passive",
+          "status": 404,
+          "data": {
+            "error": {
+              "code": "404.SKILL_NOT_FOUND",
+              "details": {
+                "skillKey": "item_1082_passive"
+              },
+              "message": "技能不存在"
+            }
+          }
+        },
+        {
+          "route": "/skills/item_1082_passive/parameters",
+          "status": 404,
+          "data": {
+            "error": {
+              "code": "404.SKILL_NOT_FOUND",
+              "details": {
+                "skillKey": "item_1082_passive"
+              },
+              "message": "技能不存在"
+            }
+          }
+        },
+        {
+          "route": "/skills/item_1082_passive/formulas",
+          "status": 404,
+          "data": {
+            "error": {
+              "code": "404.SKILL_NOT_FOUND",
+              "details": {
+                "skillKey": "item_1082_passive"
+              },
+              "message": "技能不存在"
+            }
+          }
+        },
+        {
+          "route": "/skills/item_1082_passive/effects",
+          "status": 404,
+          "data": {
+            "error": {
+              "code": "404.SKILL_NOT_FOUND",
+              "details": {
+                "skillKey": "item_1082_passive"
+              },
+              "message": "技能不存在"
+            }
+          }
+        },
+        {
+          "route": "/skills/item_1082_passive/processes",
+          "status": 404,
+          "data": {
+            "error": {
+              "code": "404.SKILL_NOT_FOUND",
+              "details": {
+                "skillKey": "item_1082_passive"
+              },
+              "message": "技能不存在"
+            }
+          }
+        },
+        {
+          "route": "/skills/item_1082_passive/internal-states",
+          "status": 404,
+          "data": {
+            "error": {
+              "code": "404.SKILL_NOT_FOUND",
+              "details": {
+                "skillKey": "item_1082_passive"
+              },
+              "message": "技能不存在"
+            }
+          }
+        },
+        {
+          "route": "/skills/item_1082_passive/trigger-rules",
+          "status": 404,
+          "data": {
+            "error": {
+              "code": "404.SKILL_NOT_FOUND",
+              "details": {
+                "skillKey": "item_1082_passive"
+              },
+              "message": "技能不存在"
+            }
+          }
+        },
+        {
+          "route": "/skills/item_1082_passive/representative-image",
+          "status": 404,
+          "data": {
+            "error": {
+              "code": "404.SKILL_NOT_FOUND",
+              "details": {
+                "skillKey": "item_1082_passive"
+              },
+              "message": "技能不存在"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

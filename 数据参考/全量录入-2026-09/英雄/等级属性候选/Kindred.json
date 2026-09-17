@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Kindred",
+  "sourceNumericId": "203",
+  "name": "千珏",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 595,
+      "growth": 104,
+      "sources": [
+        "原始资料/zh_CN/champion/Kindred.json:stats.hp/hpperlevel",
+        "角色根记录/Kindred.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 595,
+        "2": 669.88,
+        "3": 748.4,
+        "4": 830.56,
+        "5": 916.36,
+        "6": 1005.8,
+        "7": 1098.88,
+        "8": 1195.6,
+        "9": 1295.96,
+        "10": 1399.96,
+        "11": 1507.6,
+        "12": 1618.88,
+        "13": 1733.8,
+        "14": 1852.36,
+        "15": 1974.56,
+        "16": 2100.4,
+        "17": 2229.88,
+        "18": 2363
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 7,
+      "growth": 0.55,
+      "sources": [
+        "原始资料/zh_CN/champion/Kindred.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Kindred.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 7,
+        "2": 7.396,
+        "3": 7.81125,
+        "4": 8.24575,
+        "5": 8.6995,
+        "6": 9.1725,
+        "7": 9.66475,
+        "8": 10.17625,
+        "9": 10.707,
+        "10": 11.257,
+        "11": 11.82625,
+        "12": 12.41475,
+        "13": 13.0225,
+        "14": 13.6495,
+        "15": 14.29575,
+        "16": 14.96125,
+        "17": 15.646,
+        "18": 16.35
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 29,
+      "growth": 4.7,
+      "sources": [
+        "原始资料/zh_CN/champion/Kindred.json:stats.armor/armorperlevel",
+        "角色根记录/Kindred.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 29,
+        "2": 32.384,
+        "3": 35.9325,
+        "4": 39.6455,
+        "5": 43.523,
+        "6": 47.565,
+        "7": 51.7715,
+        "8": 56.1425,
+        "9": 60.678,
+        "10": 65.378,
+        "11": 70.2425,
+        "12": 75.2715,
+        "13": 80.465,
+        "14": 85.823,
+        "15": 91.3455,
+        "16": 97.0325,
+        "17": 102.884,
+        "18": 108.9
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 33,
+      "growth": 1.1,
+      "sources": [
+        "原始资料/zh_CN/champion/Kindred.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Kindred.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 33,
+        "2": 33.792,
+        "3": 34.6225,
+        "4": 35.4915,
+        "5": 36.399,
+        "6": 37.345,
+        "7": 38.3295,
+        "8": 39.3525,
+        "9": 40.414,
+        "10": 41.514,
+        "11": 42.6525,
+        "12": 43.8295,
+        "13": 45.045,
+        "14": 46.299,
+        "15": 47.5915,
+        "16": 48.9225,
+        "17": 50.292,
+        "18": 51.7
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 65,
+      "growth": 3.25,
+      "sources": [
+        "角色根记录/Kindred.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 65,
+        "2": 67.34,
+        "3": 69.79375,
+        "4": 72.36125,
+        "5": 75.0425,
+        "6": 77.8375,
+        "7": 80.74625,
+        "8": 83.76875,
+        "9": 86.905,
+        "10": 90.155,
+        "11": 93.51875,
+        "12": 96.99625,
+        "13": 100.5875,
+        "14": 104.2925,
+        "15": 108.11125,
+        "16": 112.04375,
+        "17": 116.09,
+        "18": 120.25
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 325,
+      "growth": null,
+      "sources": [
+        "角色根记录/Kindred.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 325,
+        "2": 325,
+        "3": 325,
+        "4": 325,
+        "5": 325,
+        "6": 325,
+        "7": 325,
+        "8": 325,
+        "9": 325,
+        "10": 325,
+        "11": 325,
+        "12": 325,
+        "13": 325,
+        "14": 325,
+        "15": 325,
+        "16": 325,
+        "17": 325,
+        "18": 325
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 500,
+      "growth": null,
+      "sources": [
+        "角色根记录/Kindred.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 500,
+        "2": 500,
+        "3": 500,
+        "4": 500,
+        "5": 500,
+        "6": 500,
+        "7": 500,
+        "8": 500,
+        "9": 500,
+        "10": 500,
+        "11": 500,
+        "12": 500,
+        "13": 500,
+        "14": 500,
+        "15": 500,
+        "16": 500,
+        "17": 500,
+        "18": 500
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.625,
+      "attackSpeedRatio": 0.625,
+      "growthPercent": 3.5,
+      "sources": [
+        "角色根记录/Kindred.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.625,
+        "2": 0.64075,
+        "3": 0.657266,
+        "4": 0.674547,
+        "5": 0.692594,
+        "6": 0.711406,
+        "7": 0.730984,
+        "8": 0.751328,
+        "9": 0.772437,
+        "10": 0.794312,
+        "11": 0.816953,
+        "12": 0.840359,
+        "13": 0.864531,
+        "14": 0.889469,
+        "15": 0.915172,
+        "16": 0.941641,
+        "17": 0.968875,
+        "18": 0.996875
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 300,
+      "growth": 35,
+      "sources": [
+        "原始资料/zh_CN/champion/Kindred.json:stats.mp/mpperlevel",
+        "角色根记录/Kindred.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 300,
+        "2": 325.2,
+        "3": 351.625,
+        "4": 379.275,
+        "5": 408.15,
+        "6": 438.25,
+        "7": 469.575,
+        "8": 502.125,
+        "9": 535.9,
+        "10": 570.9,
+        "11": 607.125,
+        "12": 644.575,
+        "13": 683.25,
+        "14": 723.15,
+        "15": 764.275,
+        "16": 806.625,
+        "17": 850.2,
+        "18": 895
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 7,
+      "growth": 0.4,
+      "sources": [
+        "原始资料/zh_CN/champion/Kindred.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Kindred.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 7,
+        "2": 7.288,
+        "3": 7.59,
+        "4": 7.906,
+        "5": 8.236,
+        "6": 8.58,
+        "7": 8.938,
+        "8": 9.31,
+        "9": 9.696,
+        "10": 10.096,
+        "11": 10.51,
+        "12": 10.938,
+        "13": 11.38,
+        "14": 11.836,
+        "15": 12.306,
+        "16": 12.79,
+        "17": 13.288,
+        "18": 13.8
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.625,
+    "ratio": 0.625,
+    "growthPercent": 3.5,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

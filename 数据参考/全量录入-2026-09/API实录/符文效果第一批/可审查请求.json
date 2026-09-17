@@ -1,0 +1,506 @@
+[
+  {
+    "id": 5007,
+    "status": "固定自身属性配置候选",
+    "requests": [
+      {
+        "method": "POST",
+        "path": "/skills",
+        "body": {
+          "skillKey": "rune_5007_passive",
+          "name": "符文碎片·技能急速",
+          "description": "+8技能急速。来源：客户端提取16.17符文5007。给持有者增加8点技能急速；不是8%冷却缩减，也不直接修改某个技能的冷却。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "passive"
+          ]
+        }
+      },
+      {
+        "method": "POST",
+        "path": "/skills/rune_5007_passive/parameters",
+        "body": {
+          "parameterKey": "ability_haste_bonus",
+          "name": "技能急速点数",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 8,
+          "levelValues": null,
+          "description": "/60/longDesc：+8技能急速。给持有者增加8点技能急速；不是8%冷却缩减，也不直接修改某个技能的冷却。",
+          "sortOrder": 10
+        }
+      },
+      {
+        "method": "POST",
+        "path": "/skills/rune_5007_passive/effects",
+        "body": {
+          "effectKey": "stat_bonus",
+          "name": "技能急速常驻加成",
+          "description": "给持有者增加8点技能急速；不是8%冷却缩减，也不直接修改某个技能的冷却。",
+          "sortOrder": 10,
+          "lifecycle": {
+            "durationValue": null,
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "instanceScope": "SOURCE",
+            "reapplicationStackMode": "KEEP",
+            "reapplicationDurationMode": null,
+            "expiryMode": "EXPLICIT_ONLY",
+            "periodicIntervalValue": null,
+            "firstPeriodicExecution": null
+          },
+          "results": [
+            {
+              "resultKey": "stat_bonus",
+              "name": "技能急速加成",
+              "description": "给持有者增加8点技能急速；不是8%冷却缩减，也不直接修改某个技能的冷却。",
+              "sortOrder": 10,
+              "resultType": "ATTRIBUTE_CHANGE",
+              "target": "SOURCE",
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "valueReadMode": "APPLICATION_SNAPSHOT",
+                "stackValueMode": "SHARED",
+                "reapplicationValueMode": "REPLACE",
+                "periodicExecutionMode": null
+              },
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "ability_haste_bonus"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": 0,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "attributeKey": "ability_haste",
+                "operation": "INCREASE",
+                "modifierZoneKey": "attribute_flat_add"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "method": "POST",
+        "path": "/skills/rune_5007_passive/trigger-rules",
+        "body": {
+          "ruleKey": "initialize_stat_bonus",
+          "name": "初始化技能急速常驻加成",
+          "description": "来源对象初始化完成时，建立此来源的单层常驻属性加成。重复施加保持一层，不在初始化时造成伤害、治疗或扣除资源。",
+          "sortOrder": 10,
+          "eventSource": {
+            "eventType": "SOURCE_INITIALIZED",
+            "detail": {}
+          },
+          "perTargetCooldown": null,
+          "maxTriggersPerProcess": null,
+          "conditionGroups": [],
+          "actions": [
+            {
+              "actionKey": "execute_stat_bonus",
+              "name": "执行技能急速加成",
+              "actionType": "EXECUTE_EFFECT",
+              "targetContext": "EVENT_SOURCE",
+              "sortOrder": 10,
+              "detail": {
+                "effectKey": "stat_bonus"
+              },
+              "runtimeInputBindings": [],
+              "resultModifiers": []
+            }
+          ]
+        }
+      },
+      {
+        "method": "POST",
+        "path": "/rune-skill-relations",
+        "body": {
+          "runeKey": "rune_5007",
+          "skillKey": "rune_5007_passive",
+          "sortOrder": 0
+        }
+      }
+    ]
+  },
+  {
+    "id": 5005,
+    "status": "固定自身属性配置候选",
+    "requests": [
+      {
+        "method": "POST",
+        "path": "/skills",
+        "body": {
+          "skillKey": "rune_5005_passive",
+          "name": "符文碎片·攻击速度",
+          "description": "+10%攻击速度。来源：客户端提取16.17符文5005。向额外攻击速度比例贡献0.10，即10个百分点；不是增加每秒0.10次，也不是把当前总攻速乘1.10。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "passive"
+          ]
+        }
+      },
+      {
+        "method": "POST",
+        "path": "/skills/rune_5005_passive/parameters",
+        "body": {
+          "parameterKey": "bonus_attack_speed_ratio",
+          "name": "攻击速度比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.1,
+          "levelValues": null,
+          "description": "/77/longDesc：+10%攻击速度。向额外攻击速度比例贡献0.10，即10个百分点；不是增加每秒0.10次，也不是把当前总攻速乘1.10。",
+          "sortOrder": 10
+        }
+      },
+      {
+        "method": "POST",
+        "path": "/skills/rune_5005_passive/effects",
+        "body": {
+          "effectKey": "stat_bonus",
+          "name": "攻击速度常驻加成",
+          "description": "向额外攻击速度比例贡献0.10，即10个百分点；不是增加每秒0.10次，也不是把当前总攻速乘1.10。",
+          "sortOrder": 10,
+          "lifecycle": {
+            "durationValue": null,
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "instanceScope": "SOURCE",
+            "reapplicationStackMode": "KEEP",
+            "reapplicationDurationMode": null,
+            "expiryMode": "EXPLICIT_ONLY",
+            "periodicIntervalValue": null,
+            "firstPeriodicExecution": null
+          },
+          "results": [
+            {
+              "resultKey": "stat_bonus",
+              "name": "攻击速度加成",
+              "description": "向额外攻击速度比例贡献0.10，即10个百分点；不是增加每秒0.10次，也不是把当前总攻速乘1.10。",
+              "sortOrder": 10,
+              "resultType": "ATTRIBUTE_CHANGE",
+              "target": "SOURCE",
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "valueReadMode": "APPLICATION_SNAPSHOT",
+                "stackValueMode": "SHARED",
+                "reapplicationValueMode": "REPLACE",
+                "periodicExecutionMode": null
+              },
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "bonus_attack_speed_ratio"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": 0,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "attributeKey": "bonus_attack_speed_percent",
+                "operation": "INCREASE",
+                "modifierZoneKey": "attribute_flat_add"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "method": "POST",
+        "path": "/skills/rune_5005_passive/trigger-rules",
+        "body": {
+          "ruleKey": "initialize_stat_bonus",
+          "name": "初始化攻击速度常驻加成",
+          "description": "来源对象初始化完成时，建立此来源的单层常驻属性加成。重复施加保持一层，不在初始化时造成伤害、治疗或扣除资源。",
+          "sortOrder": 10,
+          "eventSource": {
+            "eventType": "SOURCE_INITIALIZED",
+            "detail": {}
+          },
+          "perTargetCooldown": null,
+          "maxTriggersPerProcess": null,
+          "conditionGroups": [],
+          "actions": [
+            {
+              "actionKey": "execute_stat_bonus",
+              "name": "执行攻击速度加成",
+              "actionType": "EXECUTE_EFFECT",
+              "targetContext": "EVENT_SOURCE",
+              "sortOrder": 10,
+              "detail": {
+                "effectKey": "stat_bonus"
+              },
+              "runtimeInputBindings": [],
+              "resultModifiers": []
+            }
+          ]
+        }
+      },
+      {
+        "method": "POST",
+        "path": "/rune-skill-relations",
+        "body": {
+          "runeKey": "rune_5005",
+          "skillKey": "rune_5005_passive",
+          "sortOrder": 0
+        }
+      }
+    ]
+  },
+  {
+    "id": 5011,
+    "status": "固定自身属性配置候选",
+    "requests": [
+      {
+        "method": "POST",
+        "path": "/skills",
+        "body": {
+          "skillKey": "rune_5011_passive",
+          "name": "符文碎片·固定生命值",
+          "description": "+65生命值。来源：客户端提取16.17符文5011。增加持有者65点生命值属性；不创建治疗、回复当前生命或每次事件获得65生命的离散效果。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "passive"
+          ]
+        }
+      },
+      {
+        "method": "POST",
+        "path": "/skills/rune_5011_passive/parameters",
+        "body": {
+          "parameterKey": "health_bonus",
+          "name": "固定生命值点数",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 65,
+          "levelValues": null,
+          "description": "/51/longDesc：+65生命值。增加持有者65点生命值属性；不创建治疗、回复当前生命或每次事件获得65生命的离散效果。",
+          "sortOrder": 10
+        }
+      },
+      {
+        "method": "POST",
+        "path": "/skills/rune_5011_passive/effects",
+        "body": {
+          "effectKey": "stat_bonus",
+          "name": "固定生命值常驻加成",
+          "description": "增加持有者65点生命值属性；不创建治疗、回复当前生命或每次事件获得65生命的离散效果。",
+          "sortOrder": 10,
+          "lifecycle": {
+            "durationValue": null,
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "instanceScope": "SOURCE",
+            "reapplicationStackMode": "KEEP",
+            "reapplicationDurationMode": null,
+            "expiryMode": "EXPLICIT_ONLY",
+            "periodicIntervalValue": null,
+            "firstPeriodicExecution": null
+          },
+          "results": [
+            {
+              "resultKey": "stat_bonus",
+              "name": "固定生命值加成",
+              "description": "增加持有者65点生命值属性；不创建治疗、回复当前生命或每次事件获得65生命的离散效果。",
+              "sortOrder": 10,
+              "resultType": "ATTRIBUTE_CHANGE",
+              "target": "SOURCE",
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "valueReadMode": "APPLICATION_SNAPSHOT",
+                "stackValueMode": "SHARED",
+                "reapplicationValueMode": "REPLACE",
+                "periodicExecutionMode": null
+              },
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "health_bonus"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": 0,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "attributeKey": "hp",
+                "operation": "INCREASE",
+                "modifierZoneKey": "attribute_flat_add"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "method": "POST",
+        "path": "/skills/rune_5011_passive/trigger-rules",
+        "body": {
+          "ruleKey": "initialize_stat_bonus",
+          "name": "初始化固定生命值常驻加成",
+          "description": "来源对象初始化完成时，建立此来源的单层常驻属性加成。重复施加保持一层，不在初始化时造成伤害、治疗或扣除资源。",
+          "sortOrder": 10,
+          "eventSource": {
+            "eventType": "SOURCE_INITIALIZED",
+            "detail": {}
+          },
+          "perTargetCooldown": null,
+          "maxTriggersPerProcess": null,
+          "conditionGroups": [],
+          "actions": [
+            {
+              "actionKey": "execute_stat_bonus",
+              "name": "执行固定生命值加成",
+              "actionType": "EXECUTE_EFFECT",
+              "targetContext": "EVENT_SOURCE",
+              "sortOrder": 10,
+              "detail": {
+                "effectKey": "stat_bonus"
+              },
+              "runtimeInputBindings": [],
+              "resultModifiers": []
+            }
+          ]
+        }
+      },
+      {
+        "method": "POST",
+        "path": "/rune-skill-relations",
+        "body": {
+          "runeKey": "rune_5011",
+          "skillKey": "rune_5011_passive",
+          "sortOrder": 0
+        }
+      }
+    ]
+  },
+  {
+    "id": 5010,
+    "status": "仅参数候选",
+    "requests": [
+      {
+        "method": "POST",
+        "path": "/skills",
+        "body": {
+          "skillKey": "rune_5010_passive",
+          "name": "符文碎片·移动速度",
+          "description": "+2.5% 移动速度。来源：客户端提取16.17符文5010。记录2.5%移速加成比例0.025；多个百分比移速来源的加算/乘算分组在当前冻结文本中尚未确证。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "passive"
+          ]
+        }
+      },
+      {
+        "method": "POST",
+        "path": "/skills/rune_5010_passive/parameters",
+        "body": {
+          "parameterKey": "move_speed_ratio",
+          "name": "移动速度比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.025,
+          "levelValues": null,
+          "description": "/82/longDesc：+2.5% 移动速度。记录2.5%移速加成比例0.025；多个百分比移速来源的加算/乘算分组在当前冻结文本中尚未确证。",
+          "sortOrder": 10
+        }
+      },
+      {
+        "method": "POST",
+        "path": "/rune-skill-relations",
+        "body": {
+          "runeKey": "rune_5010",
+          "skillKey": "rune_5010_passive",
+          "sortOrder": 0
+        }
+      }
+    ]
+  },
+  {
+    "id": 5013,
+    "status": "仅参数候选",
+    "requests": [
+      {
+        "method": "POST",
+        "path": "/skills",
+        "body": {
+          "skillKey": "rune_5013_passive",
+          "name": "符文碎片·韧性和减速抗性",
+          "description": "+15%韧性和减速抗性。来源：客户端提取16.17符文5013。确定提供15%韧性和15%减速抗性；两者为不同属性。多来源合并规则待核，因此当前不配置持续属性效果。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "passive"
+          ]
+        }
+      },
+      {
+        "method": "POST",
+        "path": "/skills/rune_5013_passive/parameters",
+        "body": {
+          "parameterKey": "tenacity_ratio",
+          "name": "韧性和减速抗性比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.15,
+          "levelValues": null,
+          "description": "/52/longDesc：+15%韧性和减速抗性。确定提供15%韧性和15%减速抗性；两者为不同属性。多来源合并规则待核，因此当前不配置持续属性效果。",
+          "sortOrder": 10
+        }
+      },
+      {
+        "method": "POST",
+        "path": "/skills/rune_5013_passive/parameters",
+        "body": {
+          "parameterKey": "slow_resist_ratio",
+          "name": "减速抗性比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.15,
+          "levelValues": null,
+          "description": "/52/longDesc同时给出15%减速抗性，按1代表100%记录，组合口径待核。",
+          "sortOrder": 20
+        }
+      },
+      {
+        "method": "POST",
+        "path": "/rune-skill-relations",
+        "body": {
+          "runeKey": "rune_5013",
+          "skillKey": "rune_5013_passive",
+          "sortOrder": 0
+        }
+      }
+    ]
+  }
+]

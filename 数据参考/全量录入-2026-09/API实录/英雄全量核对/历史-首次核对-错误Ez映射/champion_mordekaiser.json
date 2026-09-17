@@ -1,0 +1,148 @@
+{
+  "sourceFile": "Mordekaiser.json",
+  "characterKey": "champion_mordekaiser",
+  "name": "莫德凯撒",
+  "sourceNumericId": "82",
+  "checkedAt": "2026-09-06T18:17:51.972Z",
+  "sourceMissing": [
+    {
+      "attribute": "hpregen",
+      "label": "生命回复",
+      "reason": "客户端基础值或成长字段省略，未使用默认零值填补",
+      "missingFields": [
+        "baseStaticHPRegenModifiable"
+      ],
+      "officialBase": 5,
+      "officialGrowth": 0.75
+    },
+    {
+      "attribute": "resource",
+      "label": "资源",
+      "resourceType": "护盾",
+      "reason": "特殊或未明确资源不按法力统一生成；保留原始资源说明及根字段，待机制核对"
+    }
+  ],
+  "status": "differences_found",
+  "differences": [],
+  "missingValues": [
+    {
+      "level": "1",
+      "attributeKey": "attack_speed",
+      "source": 0.625
+    },
+    {
+      "level": "2",
+      "attributeKey": "attack_speed",
+      "source": 0.6295
+    },
+    {
+      "level": "3",
+      "attributeKey": "attack_speed",
+      "source": 0.634219
+    },
+    {
+      "level": "4",
+      "attributeKey": "attack_speed",
+      "source": 0.639156
+    },
+    {
+      "level": "5",
+      "attributeKey": "attack_speed",
+      "source": 0.644312
+    },
+    {
+      "level": "6",
+      "attributeKey": "attack_speed",
+      "source": 0.649687
+    },
+    {
+      "level": "7",
+      "attributeKey": "attack_speed",
+      "source": 0.655281
+    },
+    {
+      "level": "8",
+      "attributeKey": "attack_speed",
+      "source": 0.661094
+    },
+    {
+      "level": "9",
+      "attributeKey": "attack_speed",
+      "source": 0.667125
+    },
+    {
+      "level": "10",
+      "attributeKey": "attack_speed",
+      "source": 0.673375
+    },
+    {
+      "level": "11",
+      "attributeKey": "attack_speed",
+      "source": 0.679844
+    },
+    {
+      "level": "12",
+      "attributeKey": "attack_speed",
+      "source": 0.686531
+    },
+    {
+      "level": "13",
+      "attributeKey": "attack_speed",
+      "source": 0.693438
+    },
+    {
+      "level": "14",
+      "attributeKey": "attack_speed",
+      "source": 0.700562
+    },
+    {
+      "level": "15",
+      "attributeKey": "attack_speed",
+      "source": 0.707906
+    },
+    {
+      "level": "16",
+      "attributeKey": "attack_speed",
+      "source": 0.715469
+    },
+    {
+      "level": "17",
+      "attributeKey": "attack_speed",
+      "source": 0.72325
+    },
+    {
+      "level": "18",
+      "attributeKey": "attack_speed",
+      "source": 0.73125
+    }
+  ],
+  "sourceMissingConfigured": [],
+  "extraConfigured": [],
+  "unknownSourceRows": [],
+  "characterGet": {
+    "status": 200,
+    "ms": 22
+  },
+  "actualCharacter": {
+    "characterKey": "champion_mordekaiser",
+    "name": "莫德凯撒",
+    "description": "官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与候选源明确的1～18级基础自然成长，技能、图片、被动与特殊机制待录。"
+  },
+  "attributesGet": {
+    "status": 200,
+    "ms": 51
+  },
+  "explicitSourceAttributeKeys": [
+    "hp",
+    "armor",
+    "magic_resistance",
+    "attack_damage",
+    "move_speed",
+    "attack_range",
+    "attack_speed"
+  ],
+  "sourceExplicitAttributeCount": 7,
+  "sourceExplicitValueCount": 126,
+  "actualAttributeKeyCount": 6,
+  "actualLevelValueCount": 108
+}

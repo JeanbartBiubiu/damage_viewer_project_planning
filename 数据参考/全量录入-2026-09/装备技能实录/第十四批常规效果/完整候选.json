@@ -1,0 +1,1711 @@
+{
+  "generatedAt": "2026-09-08T17:09:42.734Z",
+  "stage": "仅候选，未调用业务写接口",
+  "clientVersion": "16.17",
+  "officialVersion": "16.17.1",
+  "objects": [
+    {
+      "equipmentKey": "item_3142",
+      "equipmentName": "幽梦之灵",
+      "skillKey": "item_3142_passive",
+      "source": {
+        "path": "Items/3142",
+        "bindings": {
+          "keyName": {
+            "sourceKey": "Item_3142_Name",
+            "key": "item_3142_name",
+            "text": "幽梦之灵"
+          },
+          "keyBrief": {
+            "sourceKey": "Item_3142_Brief",
+            "key": "item_3142_brief",
+            "text": "机动力"
+          },
+          "keyActive": {
+            "sourceKey": "Item_3142_Active",
+            "key": "item_3142_active",
+            "text": "%i:activeEffect% <active>鬼魂步伐</active>{{ Item_Cooldown }}<br>提供<speed>{{Item_Melee_Ranged_Split_Dynamic_B}}%移动速度</speed>和<keyword>幽灵</keyword>状态，持续@Duration@秒。"
+          },
+          "keyTooltip": {
+            "sourceKey": "Item_3142_Tooltip",
+            "key": "item_3142_tooltip",
+            "text": "<passive>鬼影萦绕</passive><br>提供非战斗状态下的<speed>@OOCMS@移动速度</speed>。"
+          },
+          "keyActiveExternal": {
+            "sourceKey": "Item_3142_ActiveExternal",
+            "key": "item_3142_activeexternal",
+            "text": "<br>%i:activeEffect% <active>鬼魂步伐</active><br>提供<speed>移动速度</speed>和<keyword>幽灵状态</keyword>，持续@Duration@秒。"
+          },
+          "keyColloquialism": {
+            "sourceKey": "Item_3142_Colloquialism",
+            "key": "item_3142_colloquialism",
+            "text": ";Youmuu's Ghostblade;youmengzhiling;ymzl;樱花刀;yinghuadao;穿甲;chuanjia;急速;jisu;技能急速;jinengjisu;jnjs"
+          },
+          "keyKeywordDefinitions": {
+            "sourceKey": "Item_3142_KeywordDefinitions",
+            "key": "item_3142_keyworddefinitions",
+            "text": "{{ Item_KeywordDefinition_Ghost }}<br><br>"
+          },
+          "keyTooltipExternal": {
+            "sourceKey": "Item_3142_TooltipExternal",
+            "key": "item_3142_tooltipexternal",
+            "text": "<passive>鬼影萦绕</passive><br>非战斗状态期间获得<speed>@OOCMS@移动速度</speed>。<br>"
+          }
+        },
+        "official": {
+          "name": "幽梦之灵",
+          "description": "<mainText><stats><attention>55</attention>攻击力<br><attention>18</attention>穿甲<br><attention>4%</attention>移动速度</stats><br><br><passive>鬼影萦绕</passive><br>非战斗状态期间获得<speed>0移动速度</speed>。<br><br><active>鬼魂步伐</active><br>提供<speed>移动速度</speed>和<keyword>幽灵状态</keyword>，持续0秒。</mainText>",
+          "colloq": ";youmengzhiling;ymzl;穿甲;Youmuu's Ghostblade",
+          "plaintext": "主动施放来显著提升移动速度",
+          "from": [
+            "3134",
+            "6690",
+            "1036"
+          ],
+          "image": {
+            "full": "3142.png",
+            "sprite": "item3.png",
+            "group": "item",
+            "x": 336,
+            "y": 432,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 675,
+            "purchasable": true,
+            "total": 2800,
+            "sell": 1960
+          },
+          "tags": [
+            "Damage",
+            "Active",
+            "NonbootsMovement",
+            "ArmorPenetration"
+          ],
+          "maps": {
+            "11": true,
+            "12": true,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatPhysicalDamageMod": 55,
+            "PercentMovementSpeedMod": 0.04
+          },
+          "depth": 3
+        },
+        "sourceFiles": [
+          {
+            "文件": "客户端原始资料/items-16.17.cdtb.bin.json.gz",
+            "解压文件名": "items-16.17.cdtb.bin.json",
+            "地址": "https://raw.communitydragon.org/16.17/game/items.cdtb.bin.json",
+            "目录或公告版本": "16.17",
+            "用途": "主证：客户端装备对象、命名数据、计算与说明绑定",
+            "下载文件修改时间UTC": "2026-09-06T15:00:14.328Z",
+            "原始字节数": 15923188,
+            "原始SHA256": "b59ec9320d05acefa344ea8a5ef615cf7f32959078475cafff63833462dc358f",
+            "压缩字节数": 1577238,
+            "压缩SHA256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7",
+            "verified": true
+          },
+          {
+            "文件": "客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+            "解压文件名": "lol-16.17-zh_CN.stringtable.json",
+            "地址": "https://raw.communitydragon.org/16.17/game/zh_cn/data/menu/en_us/lol.stringtable.json",
+            "目录或公告版本": "16.17",
+            "用途": "主证：中文游戏说明，文件内version=5是字符串表格式版本，不是游戏补丁版本",
+            "下载文件修改时间UTC": "2026-09-06T15:08:11.306Z",
+            "原始字节数": 32784742,
+            "原始SHA256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+            "压缩字节数": 8350124,
+            "压缩SHA256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+            "verified": true
+          },
+          {
+            "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+            "file": "官方原始资料/item-16.17.1-zh_CN.json",
+            "retrievedAt": "2026-09-06T14:10:07.953Z",
+            "byteSize": 691131,
+            "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973",
+            "verified": true
+          }
+        ]
+      },
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_3142_passive",
+          "name": "幽梦之灵·鬼影萦绕",
+          "description": "保留非战斗状态下近战20、远程10点固定移速；是否脱战与近远程选择仍待接线，不创建无条件永久移速效果。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "passive"
+          ]
+        },
+        "parameters": [
+          {
+            "parameterKey": "melee_out_of_combat_move_speed",
+            "name": "近战非战斗固定移速",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 20,
+            "levelValues": null,
+            "description": "当前OOCMS引用BaseOOCMS哈希；单位为固定移速。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "ranged_out_of_combat_move_speed",
+            "name": "远程非战斗固定移速",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 10,
+            "levelValues": null,
+            "description": "同一OOCMS计算的远程倍率为0.5，20×0.5=10；不采用未绑定模式覆盖。",
+            "sortOrder": 20
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": [],
+        "relation": {
+          "equipmentKey": "item_3142",
+          "skillKey": "item_3142_passive",
+          "sortOrder": 10
+        },
+        "representativeImage": {
+          "imageKey": "item_3142"
+        }
+      },
+      "disposition": {
+        "范围外": [],
+        "来源待核": [
+          {
+            "component": "非战斗判定",
+            "reason": "CombatTimer字段为3，但当前绑定说明没有明确其单位、起算和刷新条件，未猜成3000毫秒规则。"
+          }
+        ],
+        "系统缺口": [],
+        "尚未接线": [
+          {
+            "component": "近远程及脱战门槛",
+            "reason": "两组固定移速互斥，只有符合非战斗状态时获得，不与装备已有4%移速重复。"
+          }
+        ]
+      },
+      "proofs": [
+        {
+          "pointer": "/Items~13142/mDataValues/BaseOOCMS",
+          "accepted": 20,
+          "raw": [
+            {
+              "mName": "BaseOOCMS",
+              "mValue": 20,
+              "__type": "ItemDataValue"
+            }
+          ]
+        },
+        {
+          "pointer": "/Items~13142/mItemCalculations/OOCMS",
+          "accepted": {
+            "melee": 20,
+            "ranged": 10
+          },
+          "raw": {
+            "mFormulaParts": [
+              {
+                "mDataValue": "{74ac7847}",
+                "__type": "NamedDataValueCalculationPart"
+              }
+            ],
+            "mRangedMultiplier": {
+              "mNumber": 0.5,
+              "__type": "NumberCalculationPart"
+            },
+            "__type": "{e9a3c91d}"
+          }
+        }
+      ],
+      "safeguards": {
+        "equipment": {
+          "createdAt": "2026-09-06T18:10:54.244621Z",
+          "description": "来源：官方16.17.1装备3142。 原始说明：55攻击力\n18穿甲\n4%移动速度\n\n鬼影萦绕\n非战斗状态期间获得0移动速度。\n\n鬼魂步伐\n提供移动速度和幽灵状态，持续0秒。 被动与主动效果尚待配置。",
+          "equipmentKey": "item_3142",
+          "gameId": "lol",
+          "name": "幽梦之灵",
+          "updatedAt": "2026-09-06T18:10:54.244621Z"
+        },
+        "attributes": {
+          "attributeValues": {
+            "move_speed_percent": 0.04,
+            "armor_pen_flat": 18,
+            "attack_damage": 55
+          },
+          "equipmentKey": "item_3142"
+        },
+        "representativeImage": {
+          "image": {
+            "enabled": true,
+            "imageKey": "item_3142",
+            "name": "item_3142"
+          }
+        },
+        "relations": {
+          "items": [],
+          "total": 0
+        }
+      }
+    },
+    {
+      "equipmentKey": "item_3142",
+      "equipmentName": "幽梦之灵",
+      "skillKey": "item_3142_active",
+      "source": {
+        "path": "Items/3142",
+        "bindings": {
+          "keyName": {
+            "sourceKey": "Item_3142_Name",
+            "key": "item_3142_name",
+            "text": "幽梦之灵"
+          },
+          "keyBrief": {
+            "sourceKey": "Item_3142_Brief",
+            "key": "item_3142_brief",
+            "text": "机动力"
+          },
+          "keyActive": {
+            "sourceKey": "Item_3142_Active",
+            "key": "item_3142_active",
+            "text": "%i:activeEffect% <active>鬼魂步伐</active>{{ Item_Cooldown }}<br>提供<speed>{{Item_Melee_Ranged_Split_Dynamic_B}}%移动速度</speed>和<keyword>幽灵</keyword>状态，持续@Duration@秒。"
+          },
+          "keyTooltip": {
+            "sourceKey": "Item_3142_Tooltip",
+            "key": "item_3142_tooltip",
+            "text": "<passive>鬼影萦绕</passive><br>提供非战斗状态下的<speed>@OOCMS@移动速度</speed>。"
+          },
+          "keyActiveExternal": {
+            "sourceKey": "Item_3142_ActiveExternal",
+            "key": "item_3142_activeexternal",
+            "text": "<br>%i:activeEffect% <active>鬼魂步伐</active><br>提供<speed>移动速度</speed>和<keyword>幽灵状态</keyword>，持续@Duration@秒。"
+          },
+          "keyColloquialism": {
+            "sourceKey": "Item_3142_Colloquialism",
+            "key": "item_3142_colloquialism",
+            "text": ";Youmuu's Ghostblade;youmengzhiling;ymzl;樱花刀;yinghuadao;穿甲;chuanjia;急速;jisu;技能急速;jinengjisu;jnjs"
+          },
+          "keyKeywordDefinitions": {
+            "sourceKey": "Item_3142_KeywordDefinitions",
+            "key": "item_3142_keyworddefinitions",
+            "text": "{{ Item_KeywordDefinition_Ghost }}<br><br>"
+          },
+          "keyTooltipExternal": {
+            "sourceKey": "Item_3142_TooltipExternal",
+            "key": "item_3142_tooltipexternal",
+            "text": "<passive>鬼影萦绕</passive><br>非战斗状态期间获得<speed>@OOCMS@移动速度</speed>。<br>"
+          }
+        },
+        "official": {
+          "name": "幽梦之灵",
+          "description": "<mainText><stats><attention>55</attention>攻击力<br><attention>18</attention>穿甲<br><attention>4%</attention>移动速度</stats><br><br><passive>鬼影萦绕</passive><br>非战斗状态期间获得<speed>0移动速度</speed>。<br><br><active>鬼魂步伐</active><br>提供<speed>移动速度</speed>和<keyword>幽灵状态</keyword>，持续0秒。</mainText>",
+          "colloq": ";youmengzhiling;ymzl;穿甲;Youmuu's Ghostblade",
+          "plaintext": "主动施放来显著提升移动速度",
+          "from": [
+            "3134",
+            "6690",
+            "1036"
+          ],
+          "image": {
+            "full": "3142.png",
+            "sprite": "item3.png",
+            "group": "item",
+            "x": 336,
+            "y": 432,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 675,
+            "purchasable": true,
+            "total": 2800,
+            "sell": 1960
+          },
+          "tags": [
+            "Damage",
+            "Active",
+            "NonbootsMovement",
+            "ArmorPenetration"
+          ],
+          "maps": {
+            "11": true,
+            "12": true,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatPhysicalDamageMod": 55,
+            "PercentMovementSpeedMod": 0.04
+          },
+          "depth": 3
+        },
+        "sourceFiles": [
+          {
+            "文件": "客户端原始资料/items-16.17.cdtb.bin.json.gz",
+            "解压文件名": "items-16.17.cdtb.bin.json",
+            "地址": "https://raw.communitydragon.org/16.17/game/items.cdtb.bin.json",
+            "目录或公告版本": "16.17",
+            "用途": "主证：客户端装备对象、命名数据、计算与说明绑定",
+            "下载文件修改时间UTC": "2026-09-06T15:00:14.328Z",
+            "原始字节数": 15923188,
+            "原始SHA256": "b59ec9320d05acefa344ea8a5ef615cf7f32959078475cafff63833462dc358f",
+            "压缩字节数": 1577238,
+            "压缩SHA256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7",
+            "verified": true
+          },
+          {
+            "文件": "客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+            "解压文件名": "lol-16.17-zh_CN.stringtable.json",
+            "地址": "https://raw.communitydragon.org/16.17/game/zh_cn/data/menu/en_us/lol.stringtable.json",
+            "目录或公告版本": "16.17",
+            "用途": "主证：中文游戏说明，文件内version=5是字符串表格式版本，不是游戏补丁版本",
+            "下载文件修改时间UTC": "2026-09-06T15:08:11.306Z",
+            "原始字节数": 32784742,
+            "原始SHA256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+            "压缩字节数": 8350124,
+            "压缩SHA256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+            "verified": true
+          },
+          {
+            "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+            "file": "官方原始资料/item-16.17.1-zh_CN.json",
+            "retrievedAt": "2026-09-06T14:10:07.953Z",
+            "byteSize": 691131,
+            "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973",
+            "verified": true
+          }
+        ]
+      },
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_3142_active",
+          "name": "幽梦之灵·鬼魂步伐",
+          "description": "保留近战20%/远程15%主动移速与近战6000毫秒持续时间；远程时长按客户端6×0.667秒的独立公式表达，不凭展示取整写为4000毫秒。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 10,
+          "skillCategoryKeys": []
+        },
+        "parameters": [
+          {
+            "parameterKey": "melee_move_speed_ratio",
+            "name": "近战主动移动速度比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.2,
+            "levelValues": null,
+            "description": "绑定动态近战百分数20转换为0.2。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "ranged_move_speed_ratio",
+            "name": "远程主动移动速度比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.15,
+            "levelValues": null,
+            "description": "绑定动态远程百分数15转换为0.15。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "melee_duration_ms",
+            "name": "近战主动持续时间",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 6000,
+            "levelValues": null,
+            "description": "当前Duration计算明确6秒，换算6000毫秒。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "ranged_duration_multiplier",
+            "name": "远程主动持续时间倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.667,
+            "levelValues": null,
+            "description": "原浮点0.6669999957084656按来源小数精度保留0.667；不能改成2/3以得到4秒。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "cooldown_ms",
+            "name": "主动冷却",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 45000,
+            "levelValues": null,
+            "description": "两个同名Cooldown均为45秒，不择取冲突值。",
+            "sortOrder": 50
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "ranged_duration_ms",
+            "name": "远程主动持续时间",
+            "description": "6000×0.667=4002毫秒；仅保存独立时长计算，近远程选择未接线。",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "melee_duration_ms"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ranged_duration_multiplier"
+                }
+              ]
+            },
+            "sortOrder": 10
+          }
+        ],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": [],
+        "relation": {
+          "equipmentKey": "item_3142",
+          "skillKey": "item_3142_active",
+          "sortOrder": 20
+        },
+        "representativeImage": {
+          "imageKey": "item_3142"
+        }
+      },
+      "disposition": {
+        "范围外": [
+          {
+            "component": "幽灵碰撞与纯空间",
+            "reason": "不录忽略单位碰撞或空间执行。"
+          }
+        ],
+        "来源待核": [],
+        "系统缺口": [],
+        "尚未接线": [
+          {
+            "component": "近远程选择及施放",
+            "reason": "在没有互斥选择接线前不创建两份同时生效的移速效果；冷却开始和主动过程待补。"
+          }
+        ]
+      },
+      "proofs": [
+        {
+          "pointer": "/Items~13142/mItemCalculations/Duration",
+          "accepted": {
+            "meleeMs": 6000,
+            "rangedMultiplier": 0.667,
+            "rangedMs": 4002
+          },
+          "raw": {
+            "mFormulaParts": [
+              {
+                "mNumber": 6,
+                "__type": "NumberCalculationPart"
+              }
+            ],
+            "mRangedMultiplier": {
+              "mNumber": 0.6669999957084656,
+              "__type": "NumberCalculationPart"
+            },
+            "__type": "{e9a3c91d}"
+          }
+        },
+        {
+          "pointer": "/Items~13142/mDataValues/MeleeItemCalcValueB",
+          "accepted": 20,
+          "raw": [
+            {
+              "mName": "MeleeItemCalcValueB",
+              "mValue": 20,
+              "__type": "ItemDataValue"
+            }
+          ]
+        },
+        {
+          "pointer": "/Items~13142/mDataValues/RangedItemCalcValueB",
+          "accepted": 15,
+          "raw": [
+            {
+              "mName": "RangedItemCalcValueB",
+              "mValue": 15,
+              "__type": "ItemDataValue"
+            }
+          ]
+        },
+        {
+          "pointer": "/Items~13142/mDataValues/Cooldown",
+          "accepted": 45,
+          "raw": [
+            {
+              "mName": "Cooldown",
+              "mValue": 45,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "Cooldown",
+              "mValue": 45,
+              "__type": "ItemDataValue"
+            }
+          ]
+        }
+      ],
+      "safeguards": {
+        "equipment": {
+          "createdAt": "2026-09-06T18:10:54.244621Z",
+          "description": "来源：官方16.17.1装备3142。 原始说明：55攻击力\n18穿甲\n4%移动速度\n\n鬼影萦绕\n非战斗状态期间获得0移动速度。\n\n鬼魂步伐\n提供移动速度和幽灵状态，持续0秒。 被动与主动效果尚待配置。",
+          "equipmentKey": "item_3142",
+          "gameId": "lol",
+          "name": "幽梦之灵",
+          "updatedAt": "2026-09-06T18:10:54.244621Z"
+        },
+        "attributes": {
+          "attributeValues": {
+            "move_speed_percent": 0.04,
+            "armor_pen_flat": 18,
+            "attack_damage": 55
+          },
+          "equipmentKey": "item_3142"
+        },
+        "representativeImage": {
+          "image": {
+            "enabled": true,
+            "imageKey": "item_3142",
+            "name": "item_3142"
+          }
+        },
+        "relations": {
+          "items": [],
+          "total": 0
+        }
+      }
+    },
+    {
+      "equipmentKey": "item_3144",
+      "equipmentName": "斥候弹弓",
+      "skillKey": "item_3144_passive",
+      "source": {
+        "path": "Items/3144",
+        "bindings": {
+          "keyName": {
+            "sourceKey": "Item_3144_Name",
+            "key": "item_3144_name",
+            "text": "斥候弹弓"
+          },
+          "keyTooltip": {
+            "sourceKey": "Item_3144_Tooltip",
+            "key": "item_3144_tooltip",
+            "text": "<passive>靶心</passive> {{ Item_Cooldown }}<br>对一名敌方英雄造成伤害时会造成<magicDamage>@DamageAmount@额外魔法伤害</magicDamage>。<br>攻击可使这个冷却时间缩减1秒。"
+          },
+          "keyTooltipExternal": {
+            "sourceKey": "Item_3144_TooltipExternal",
+            "key": "item_3144_tooltipexternal",
+            "text": "<passive>靶心</passive><br>对一名敌方英雄造成伤害时会造成<magicDamage>额外魔法伤害</magicDamage>。<br>攻击可使这个冷却时间缩减1秒。"
+          }
+        },
+        "official": {
+          "name": "斥候弹弓",
+          "description": "<mainText><stats><attention>20%</attention>攻击速度</stats><br><br><passive>靶心</passive><br>对一名敌方英雄造成伤害时会造成<magicDamage>额外魔法伤害</magicDamage>。<br>攻击可使这个冷却时间缩减1秒。</mainText>",
+          "colloq": ";bierjiwotewandao;bejwtwd",
+          "plaintext": "主动施放来对目标英雄造成魔法伤害和减速",
+          "from": [
+            "1042",
+            "1042"
+          ],
+          "into": [
+            "2512",
+            "3094",
+            "3087",
+            "3032",
+            "3085",
+            "3095"
+          ],
+          "image": {
+            "full": "3144.png",
+            "sprite": "item3.png",
+            "group": "item",
+            "x": 432,
+            "y": 432,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 100,
+            "purchasable": true,
+            "total": 600,
+            "sell": 420
+          },
+          "tags": [
+            "AttackSpeed"
+          ],
+          "maps": {
+            "11": true,
+            "12": true,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "PercentAttackSpeedMod": 0.2
+          },
+          "depth": 2
+        },
+        "sourceFiles": [
+          {
+            "文件": "客户端原始资料/items-16.17.cdtb.bin.json.gz",
+            "解压文件名": "items-16.17.cdtb.bin.json",
+            "地址": "https://raw.communitydragon.org/16.17/game/items.cdtb.bin.json",
+            "目录或公告版本": "16.17",
+            "用途": "主证：客户端装备对象、命名数据、计算与说明绑定",
+            "下载文件修改时间UTC": "2026-09-06T15:00:14.328Z",
+            "原始字节数": 15923188,
+            "原始SHA256": "b59ec9320d05acefa344ea8a5ef615cf7f32959078475cafff63833462dc358f",
+            "压缩字节数": 1577238,
+            "压缩SHA256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7",
+            "verified": true
+          },
+          {
+            "文件": "客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+            "解压文件名": "lol-16.17-zh_CN.stringtable.json",
+            "地址": "https://raw.communitydragon.org/16.17/game/zh_cn/data/menu/en_us/lol.stringtable.json",
+            "目录或公告版本": "16.17",
+            "用途": "主证：中文游戏说明，文件内version=5是字符串表格式版本，不是游戏补丁版本",
+            "下载文件修改时间UTC": "2026-09-06T15:08:11.306Z",
+            "原始字节数": 32784742,
+            "原始SHA256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+            "压缩字节数": 8350124,
+            "压缩SHA256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+            "verified": true
+          },
+          {
+            "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+            "file": "官方原始资料/item-16.17.1-zh_CN.json",
+            "retrievedAt": "2026-09-06T14:10:07.953Z",
+            "byteSize": 691131,
+            "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973",
+            "verified": true
+          }
+        ]
+      },
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_3144_passive",
+          "name": "斥候弹弓·靶心",
+          "description": "保留对英雄伤害触发的40魔法附伤、40秒冷却与攻击减冷却1秒。法术护盾资格和合法事件未明确，不创建未知阻挡粒度的伤害效果。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "passive"
+          ]
+        },
+        "parameters": [
+          {
+            "parameterKey": "magic_damage",
+            "name": "额外魔法伤害",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 40,
+            "levelValues": null,
+            "description": "当前根DamageAmount明确NumberCalculationPart=40。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "cooldown_ms",
+            "name": "被动冷却",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 40000,
+            "levelValues": null,
+            "description": "当前Cooldown=40秒。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "cooldown_reduction_ms_per_attack",
+            "name": "每次符合条件攻击减冷却",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1000,
+            "levelValues": null,
+            "description": "当前绑定中文明确攻击减冷却1秒，具体攻击时点及目标资格另待核。",
+            "sortOrder": 30
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": [],
+        "relation": {
+          "equipmentKey": "item_3144",
+          "skillKey": "item_3144_passive",
+          "sortOrder": 10
+        },
+        "representativeImage": {
+          "imageKey": "item_3144"
+        }
+      },
+      "disposition": {
+        "范围外": [],
+        "来源待核": [
+          {
+            "component": "法术护盾与攻击资格",
+            "reason": "不将法术护盾null当未知，也不凭广义伤害文字认定任意周期、反射、递归伤害或所有攻击均合法。"
+          }
+        ],
+        "系统缺口": [],
+        "尚未接线": [
+          {
+            "component": "冷却和减冷却",
+            "reason": "持有者独立冷却、触发消费、攻击减冷却与避免递归等待完整事件依据。"
+          }
+        ]
+      },
+      "proofs": [
+        {
+          "pointer": "/Items~13144/mItemCalculations/DamageAmount",
+          "accepted": 40,
+          "raw": {
+            "mFormulaParts": [
+              {
+                "mNumber": 40,
+                "__type": "NumberCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          }
+        },
+        {
+          "pointer": "/Items~13144/mDataValues/Cooldown",
+          "accepted": 40,
+          "raw": [
+            {
+              "mName": "Cooldown",
+              "mValue": 40,
+              "__type": "ItemDataValue"
+            }
+          ]
+        }
+      ],
+      "safeguards": {
+        "equipment": {
+          "createdAt": "2026-09-06T18:10:55.468396Z",
+          "description": "来源：官方16.17.1装备3144。 原始说明：20%攻击速度\n\n靶心\n对一名敌方英雄造成伤害时会造成额外魔法伤害。\n攻击可使这个冷却时间缩减1秒。 被动与主动效果尚待配置。",
+          "equipmentKey": "item_3144",
+          "gameId": "lol",
+          "name": "斥候弹弓",
+          "updatedAt": "2026-09-06T18:10:55.468396Z"
+        },
+        "attributes": {
+          "attributeValues": {
+            "bonus_attack_speed_percent": 0.2
+          },
+          "equipmentKey": "item_3144"
+        },
+        "representativeImage": {
+          "image": {
+            "enabled": true,
+            "imageKey": "item_3144",
+            "name": "item_3144"
+          }
+        },
+        "relations": {
+          "items": [],
+          "total": 0
+        }
+      }
+    },
+    {
+      "equipmentKey": "item_3802",
+      "equipmentName": "遗失的章节",
+      "skillKey": "item_3802_passive",
+      "source": {
+        "path": "Items/3802",
+        "bindings": {
+          "keyName": {
+            "sourceKey": "Item_3802_Name",
+            "key": "item_3802_name",
+            "text": "遗失的章节"
+          },
+          "keyTooltip": {
+            "sourceKey": "Item_3802_Tooltip",
+            "key": "item_3802_tooltip",
+            "text": "<passive>启蒙</passive><br>升级时会在@RestorationDuration@秒里持续回复共<scaleMana>@ManaRestorePercent*100@%最大法力值</scaleMana>。"
+          },
+          "keyColloquialism": {
+            "sourceKey": "Item_3802_Colloquialism",
+            "key": "item_3802_colloquialism",
+            "text": ";Lost Chapter"
+          },
+          "keySecondaryBrief": {
+            "sourceKey": "Item_Unique_Enlighten",
+            "key": "item_unique_enlighten",
+            "text": "唯一：启蒙"
+          }
+        },
+        "official": {
+          "name": "遗失的章节",
+          "description": "<mainText><stats><attention>40</attention>法术强度<br><attention>300</attention>法力<br><attention>10</attention>技能急速</stats><br><br><passive>启蒙</passive><br>升级时会在3秒里持续回复共<scaleMana>20%最大法力值</scaleMana>。</mainText>",
+          "colloq": ";Lost;Chapter",
+          "plaintext": "升级时回复法力值。",
+          "from": [
+            "1052",
+            "1027",
+            "2022"
+          ],
+          "into": [
+            "2522",
+            "323003",
+            "6656",
+            "3003",
+            "6655",
+            "2503",
+            "3118",
+            "4644"
+          ],
+          "image": {
+            "full": "3802.png",
+            "sprite": "item4.png",
+            "group": "item",
+            "x": 96,
+            "y": 336,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 250,
+            "purchasable": true,
+            "total": 1200,
+            "sell": 840
+          },
+          "tags": [
+            "SpellDamage",
+            "Mana",
+            "ManaRegen",
+            "CooldownReduction",
+            "AbilityHaste"
+          ],
+          "maps": {
+            "11": true,
+            "12": true,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatMPPoolMod": 300,
+            "FlatMagicDamageMod": 40
+          },
+          "depth": 2
+        },
+        "sourceFiles": [
+          {
+            "文件": "客户端原始资料/items-16.17.cdtb.bin.json.gz",
+            "解压文件名": "items-16.17.cdtb.bin.json",
+            "地址": "https://raw.communitydragon.org/16.17/game/items.cdtb.bin.json",
+            "目录或公告版本": "16.17",
+            "用途": "主证：客户端装备对象、命名数据、计算与说明绑定",
+            "下载文件修改时间UTC": "2026-09-06T15:00:14.328Z",
+            "原始字节数": 15923188,
+            "原始SHA256": "b59ec9320d05acefa344ea8a5ef615cf7f32959078475cafff63833462dc358f",
+            "压缩字节数": 1577238,
+            "压缩SHA256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7",
+            "verified": true
+          },
+          {
+            "文件": "客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+            "解压文件名": "lol-16.17-zh_CN.stringtable.json",
+            "地址": "https://raw.communitydragon.org/16.17/game/zh_cn/data/menu/en_us/lol.stringtable.json",
+            "目录或公告版本": "16.17",
+            "用途": "主证：中文游戏说明，文件内version=5是字符串表格式版本，不是游戏补丁版本",
+            "下载文件修改时间UTC": "2026-09-06T15:08:11.306Z",
+            "原始字节数": 32784742,
+            "原始SHA256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+            "压缩字节数": 8350124,
+            "压缩SHA256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+            "verified": true
+          },
+          {
+            "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+            "file": "官方原始资料/item-16.17.1-zh_CN.json",
+            "retrievedAt": "2026-09-06T14:10:07.953Z",
+            "byteSize": 691131,
+            "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973",
+            "verified": true
+          }
+        ]
+      },
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_3802_passive",
+          "name": "遗失的章节·启蒙",
+          "description": "升级时在3秒内回复共20%最大法力。仅保存确定总量与持续时间；最大法力读取时点和首次/后续回复间隔尚未确定，不伪造即时恢复或周期。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "passive"
+          ]
+        },
+        "parameters": [
+          {
+            "parameterKey": "max_mana_restore_ratio",
+            "name": "升级总回复最大法力比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.2,
+            "levelValues": null,
+            "description": "20%以0.2保存，总量不是每秒或每跳量。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "restoration_duration_ms",
+            "name": "升级回复持续时间",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 3000,
+            "levelValues": null,
+            "description": "当前明确3秒，换算3000毫秒。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "max_mana_for_restoration",
+            "name": "本次升级回复使用的最大法力",
+            "valueType": "DECIMAL",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "非负小数输入；应由已核实的本次升级回复取值时点提供最大法力。该时点尚待核，不默认读取每跳现值或缺失为0。",
+            "sortOrder": 30
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "total_mana_restoration",
+            "name": "升级总法力回复量",
+            "description": "本次确证取值口径的最大法力×0.2；独立总量公式不决定回复跳频或读取时点。",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "max_mana_for_restoration"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "max_mana_restore_ratio"
+                }
+              ]
+            },
+            "sortOrder": 10
+          }
+        ],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": [],
+        "relation": {
+          "equipmentKey": "item_3802",
+          "skillKey": "item_3802_passive",
+          "sortOrder": 10
+        },
+        "representativeImage": {
+          "imageKey": "item_3802"
+        }
+      },
+      "disposition": {
+        "范围外": [],
+        "来源待核": [
+          {
+            "component": "回复时序与取值",
+            "reason": "最大法力取值阶段、每跳间隔、首次时点与重叠升级的处理未确证。"
+          }
+        ],
+        "系统缺口": [],
+        "尚未接线": [
+          {
+            "component": "升级回复",
+            "reason": "只记录独立总量，不平均分跳、不建瞬时治疗或伪造固定周期。"
+          }
+        ]
+      },
+      "proofs": [
+        {
+          "pointer": "/Items~13802/mDataValues/ManaRestorePercent",
+          "accepted": 0.2,
+          "raw": [
+            {
+              "mName": "ManaRestorePercent",
+              "mValue": 0.20000000298023224,
+              "__type": "ItemDataValue"
+            }
+          ]
+        },
+        {
+          "pointer": "/Items~13802/mDataValues/RestorationDuration",
+          "accepted": 3,
+          "raw": [
+            {
+              "mName": "RestorationDuration",
+              "mValue": 3,
+              "__type": "ItemDataValue"
+            }
+          ]
+        }
+      ],
+      "safeguards": {
+        "equipment": {
+          "createdAt": "2026-09-06T18:11:08.666832Z",
+          "description": "来源：官方16.17.1装备3802。 原始说明：40法术强度\n300法力\n10技能急速\n\n启蒙\n升级时会在3秒里持续回复共20%最大法力值。 被动与主动效果尚待配置。",
+          "equipmentKey": "item_3802",
+          "gameId": "lol",
+          "name": "遗失的章节",
+          "updatedAt": "2026-09-06T18:11:08.666832Z"
+        },
+        "attributes": {
+          "attributeValues": {
+            "mana": 300,
+            "ability_power": 40,
+            "ability_haste": 10
+          },
+          "equipmentKey": "item_3802"
+        },
+        "representativeImage": {
+          "image": {
+            "enabled": true,
+            "imageKey": "item_3802",
+            "name": "item_3802"
+          }
+        },
+        "relations": {
+          "items": [],
+          "total": 0
+        }
+      }
+    },
+    {
+      "equipmentKey": "item_3070",
+      "equipmentName": "女神之泪",
+      "skillKey": "item_3070_passive",
+      "source": {
+        "path": "Items/3070",
+        "bindings": {
+          "keyName": {
+            "sourceKey": "Item_3070_Name",
+            "key": "item_3070_name",
+            "text": "女神之泪"
+          },
+          "keyBrief": {
+            "sourceKey": "Item_3070_Brief",
+            "key": "item_3070_brief",
+            "text": "法力值增长"
+          },
+          "keyTooltip": {
+            "sourceKey": "Item_3070_Tooltip",
+            "key": "item_3070_tooltip",
+            "text": "<passive>法力流</passive> %i:cooldown% (@ManaChargeAmmoCD@秒，最大@ManaChargeMaxAmmo@层)<br>技能在命中时会提供<scaleMana>@ManaPerCharge@最大法力值</scaleMana>(对英雄时翻倍)，至多至<scaleMana>@MaxMana@</scaleMana>。<br><br><passive>帮助之手</passive><br>攻击会对小兵造成额外的<physicalDamage>@BonusMinionDamage@物理伤害</physicalDamage>。"
+          },
+          "keyColloquialism": {
+            "sourceKey": "Item_3070_Colloquialism",
+            "key": "item_3070_colloquialism",
+            "text": ";archangel's staff; Seraph's embrace; Winter's approach; Fimbulwinter; Muramana; Manamune;Whispering Circlet;Diadem of Songs;yanlei;nvshenzhilei;nszl;eryutouhuan;eyth;gezhiquanguan;gzqg;"
+          },
+          "keySecondaryBrief": {
+            "sourceKey": "Item_Unique_Manaflow",
+            "key": "item_unique_manaflow",
+            "text": "半唯一：法力流"
+          }
+        },
+        "official": {
+          "name": "女神之泪",
+          "description": "<mainText><stats><attention>240</attention>法力</stats><br><br><passive>法力流</passive> (8秒，最大4层)<br>技能在命中时会提供<scaleMana>3最大法力值</scaleMana>(对英雄时翻倍)，至多至<scaleMana>360</scaleMana>。<br><br><passive>帮助之手</passive><br>攻击会对小兵造成额外的<physicalDamage>5物理伤害</physicalDamage>。</mainText>",
+          "colloq": "",
+          "plaintext": "在花费法力时提升最大法力值",
+          "into": [
+            "3003",
+            "3004",
+            "2526",
+            "3119"
+          ],
+          "image": {
+            "full": "3070.png",
+            "sprite": "item3.png",
+            "group": "item",
+            "x": 48,
+            "y": 240,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 400,
+            "purchasable": true,
+            "total": 400,
+            "sell": 280
+          },
+          "tags": [
+            "Mana",
+            "ManaRegen"
+          ],
+          "maps": {
+            "11": true,
+            "12": true,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatMPPoolMod": 240
+          }
+        },
+        "sourceFiles": [
+          {
+            "文件": "客户端原始资料/items-16.17.cdtb.bin.json.gz",
+            "解压文件名": "items-16.17.cdtb.bin.json",
+            "地址": "https://raw.communitydragon.org/16.17/game/items.cdtb.bin.json",
+            "目录或公告版本": "16.17",
+            "用途": "主证：客户端装备对象、命名数据、计算与说明绑定",
+            "下载文件修改时间UTC": "2026-09-06T15:00:14.328Z",
+            "原始字节数": 15923188,
+            "原始SHA256": "b59ec9320d05acefa344ea8a5ef615cf7f32959078475cafff63833462dc358f",
+            "压缩字节数": 1577238,
+            "压缩SHA256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7",
+            "verified": true
+          },
+          {
+            "文件": "客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+            "解压文件名": "lol-16.17-zh_CN.stringtable.json",
+            "地址": "https://raw.communitydragon.org/16.17/game/zh_cn/data/menu/en_us/lol.stringtable.json",
+            "目录或公告版本": "16.17",
+            "用途": "主证：中文游戏说明，文件内version=5是字符串表格式版本，不是游戏补丁版本",
+            "下载文件修改时间UTC": "2026-09-06T15:08:11.306Z",
+            "原始字节数": 32784742,
+            "原始SHA256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+            "压缩字节数": 8350124,
+            "压缩SHA256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+            "verified": true
+          },
+          {
+            "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+            "file": "官方原始资料/item-16.17.1-zh_CN.json",
+            "retrievedAt": "2026-09-06T14:10:07.953Z",
+            "byteSize": 691131,
+            "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973",
+            "verified": true
+          }
+        ]
+      },
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_3070_passive",
+          "name": "女神之泪·法力流",
+          "description": "当前女神之泪说明只写技能命中：每次3最大法力、对英雄翻倍、累计上限360，8秒恢复一份充能、最多4份。保留数值，不从魔宗扩大为普攻也触发。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "passive"
+          ]
+        },
+        "parameters": [
+          {
+            "parameterKey": "max_mana_per_hit",
+            "name": "每次合法技能命中增加最大法力",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 3,
+            "levelValues": null,
+            "description": "当前根ManaPerCharge，保留原单位；充能数和累计法力分别记录。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "max_accumulated_mana",
+            "name": "法力流累计最大法力上限",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 360,
+            "levelValues": null,
+            "description": "当前根MaxMana，保留原单位；充能数和累计法力分别记录。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "charge_recovery_ms",
+            "name": "法力流充能恢复间隔",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 8000,
+            "levelValues": null,
+            "description": "当前根ManaChargeAmmoCD，秒换算毫秒；充能数和累计法力分别记录。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "max_charges",
+            "name": "法力流最大充能次数",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 4,
+            "levelValues": null,
+            "description": "当前根ManaChargeMaxAmmo，保留原单位；充能数和累计法力分别记录。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "champion_hit_multiplier",
+            "name": "英雄命中收益倍率",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 2,
+            "levelValues": null,
+            "description": "当前绑定文字明确对英雄翻倍，不扩大普攻资格。",
+            "sortOrder": 50
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "champion_hit_max_mana",
+            "name": "合法英雄技能命中增加最大法力",
+            "description": "3×2=6；资格、同次施法去重、充能消费和累计封顶尚未接线。",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "max_mana_per_hit"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "champion_hit_multiplier"
+                }
+              ]
+            },
+            "sortOrder": 10
+          }
+        ],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": [],
+        "relation": {
+          "equipmentKey": "item_3070",
+          "skillKey": "item_3070_passive",
+          "sortOrder": 10
+        },
+        "representativeImage": {
+          "imageKey": "item_3070"
+        }
+      },
+      "disposition": {
+        "范围外": [
+          {
+            "component": "帮助之手",
+            "reason": "仅对小兵的普攻附伤与1V1无关，不录入。"
+          }
+        ],
+        "来源待核": [
+          {
+            "component": "同次施法与初始充能",
+            "reason": "InternalCDPerCastID=6.5与缺值TakedownMana不直接推成时限或零；初始充能、同次施法限制需补证。"
+          }
+        ],
+        "系统缺口": [],
+        "尚未接线": [
+          {
+            "component": "升级共享累计法力",
+            "reason": "升级到魔宗/大天使等应核对累计量保留及共享资格，不重置、不重复加240基础法力、不挂含敬畏的整技能。"
+          }
+        ]
+      },
+      "proofs": [
+        {
+          "pointer": "/Items~13070/mDataValues/ManaPerCharge",
+          "accepted": 3,
+          "raw": [
+            {
+              "mName": "ManaPerCharge",
+              "mValue": 3,
+              "__type": "ItemDataValue"
+            }
+          ]
+        },
+        {
+          "pointer": "/Items~13070/mDataValues/MaxMana",
+          "accepted": 360,
+          "raw": [
+            {
+              "mName": "MaxMana",
+              "mValue": 360,
+              "__type": "ItemDataValue"
+            }
+          ]
+        },
+        {
+          "pointer": "/Items~13070/mDataValues/ManaChargeAmmoCD",
+          "accepted": 8,
+          "raw": [
+            {
+              "mName": "ManaChargeAmmoCD",
+              "mValue": 8,
+              "__type": "ItemDataValue"
+            }
+          ]
+        },
+        {
+          "pointer": "/Items~13070/mDataValues/ManaChargeMaxAmmo",
+          "accepted": 4,
+          "raw": [
+            {
+              "mName": "ManaChargeMaxAmmo",
+              "mValue": 4,
+              "__type": "ItemDataValue"
+            }
+          ]
+        }
+      ],
+      "safeguards": {
+        "equipment": {
+          "createdAt": "2026-09-06T17:19:09.078021Z",
+          "description": "来源：官方16.17.1装备3070。 原始说明：240法力 法力流 (8秒，最大4层) 技能在命中时会提供3最大法力值(对英雄时翻倍)，至多至360。 帮助之手 攻击会对小兵造成额外的5物理伤害。 被动与主动效果尚待配置。",
+          "equipmentKey": "item_3070",
+          "gameId": "lol",
+          "name": "女神之泪",
+          "updatedAt": "2026-09-06T17:19:09.078021Z"
+        },
+        "attributes": {
+          "attributeValues": {
+            "mana": 240
+          },
+          "equipmentKey": "item_3070"
+        },
+        "representativeImage": {
+          "image": {
+            "enabled": true,
+            "imageKey": "item_3070",
+            "name": "item_3070"
+          }
+        },
+        "relations": {
+          "items": [],
+          "total": 0
+        }
+      }
+    },
+    {
+      "equipmentKey": "item_3077",
+      "equipmentName": "提亚马特",
+      "skillKey": "item_3077_active",
+      "source": {
+        "path": "Items/3077",
+        "bindings": {
+          "keyName": {
+            "sourceKey": "Item_3077_Name",
+            "key": "item_3077_name",
+            "text": "提亚马特"
+          },
+          "keyTooltip": {
+            "sourceKey": "Item_3077_Tooltip",
+            "key": "item_3077_tooltip",
+            "text": "<passive>顺劈</passive><br>攻击会对附近的敌人们造成<physicalDamage>{{ Item_Melee_Ranged_Split_Dynamic }}物理伤害</physicalDamage>。"
+          },
+          "keyActive": {
+            "sourceKey": "Item_3077_Active",
+            "key": "item_3077_active",
+            "text": "%i:activeEffect% <active>新月</active> {{Item_Cooldown}}<br>对你周围的敌人们造成<physicalDamage>@PrimaryDamage@物理伤害</physicalDamage>。"
+          },
+          "keyTooltipExtended": {
+            "sourceKey": "Item_3077_TooltipExtended",
+            "key": "item_3077_tooltipextended",
+            "text": "<passive>顺劈</passive><br>攻击会对附近的敌人们造成<physicalDamage>{{ Item_Melee_Ranged_Split }}物理伤害</physicalDamage>。"
+          },
+          "keyTooltipExtendedRules": {
+            "sourceKey": "Item_3077_TooltipExtendedRules",
+            "key": "item_3077_tooltipextendedrules",
+            "text": "<br><br><rules><passive>顺劈</passive>不会在建筑物上触发。</rules>"
+          },
+          "keySecondaryBrief": {
+            "sourceKey": "Item_Unique_Hydra",
+            "key": "item_unique_hydra",
+            "text": "唯一：九头蛇"
+          },
+          "keyTooltipExternal": {
+            "sourceKey": "Item_3077_TooltipExternal",
+            "key": "item_3077_tooltipexternal",
+            "text": "<passive>顺劈</passive><br>攻击会对附近的敌人们造成<physicalDamage>物理伤害</physicalDamage>。<br>"
+          },
+          "keyActiveExternal": {
+            "sourceKey": "Item_3077_ActiveExternal",
+            "key": "item_3077_activeexternal",
+            "text": "%i:activeEffect% <active>新月</active><br>对你周围的敌人们造成<physicalDamage>物理伤害</physicalDamage>。"
+          }
+        },
+        "official": {
+          "name": "提亚马特",
+          "description": "<mainText><stats><attention>25</attention>攻击力</stats><br><br><passive>顺劈</passive><br>攻击会对附近的敌人们造成<physicalDamage>物理伤害</physicalDamage>。<br><active>新月</active><br>对你周围的敌人们造成<physicalDamage>物理伤害</physicalDamage>。</mainText>",
+          "colloq": ";tiyamate;tymt;Tiamat",
+          "plaintext": "近战攻击会命中身边的敌人",
+          "from": [
+            "1036",
+            "1036"
+          ],
+          "into": [
+            "3074",
+            "3748",
+            "6698",
+            "6631"
+          ],
+          "image": {
+            "full": "3077.png",
+            "sprite": "item3.png",
+            "group": "item",
+            "x": 384,
+            "y": 240,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 500,
+            "purchasable": true,
+            "total": 1200,
+            "sell": 840
+          },
+          "tags": [
+            "Damage",
+            "OnHit"
+          ],
+          "maps": {
+            "11": true,
+            "12": true,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatPhysicalDamageMod": 25
+          },
+          "depth": 2
+        },
+        "sourceFiles": [
+          {
+            "文件": "客户端原始资料/items-16.17.cdtb.bin.json.gz",
+            "解压文件名": "items-16.17.cdtb.bin.json",
+            "地址": "https://raw.communitydragon.org/16.17/game/items.cdtb.bin.json",
+            "目录或公告版本": "16.17",
+            "用途": "主证：客户端装备对象、命名数据、计算与说明绑定",
+            "下载文件修改时间UTC": "2026-09-06T15:00:14.328Z",
+            "原始字节数": 15923188,
+            "原始SHA256": "b59ec9320d05acefa344ea8a5ef615cf7f32959078475cafff63833462dc358f",
+            "压缩字节数": 1577238,
+            "压缩SHA256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7",
+            "verified": true
+          },
+          {
+            "文件": "客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+            "解压文件名": "lol-16.17-zh_CN.stringtable.json",
+            "地址": "https://raw.communitydragon.org/16.17/game/zh_cn/data/menu/en_us/lol.stringtable.json",
+            "目录或公告版本": "16.17",
+            "用途": "主证：中文游戏说明，文件内version=5是字符串表格式版本，不是游戏补丁版本",
+            "下载文件修改时间UTC": "2026-09-06T15:08:11.306Z",
+            "原始字节数": 32784742,
+            "原始SHA256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+            "压缩字节数": 8350124,
+            "压缩SHA256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+            "verified": true
+          },
+          {
+            "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+            "file": "官方原始资料/item-16.17.1-zh_CN.json",
+            "retrievedAt": "2026-09-06T14:10:07.953Z",
+            "byteSize": 691131,
+            "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973",
+            "verified": true
+          }
+        ]
+      },
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_3077_active",
+          "name": "提亚马特·新月",
+          "description": "保留主动对单个对手0.75总攻击力物理伤害的独立公式、10秒冷却。旁溅被动不能加在攻击主目标上，主动法术护盾资格与施放时点仍待核。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 10,
+          "skillCategoryKeys": []
+        },
+        "parameters": [
+          {
+            "parameterKey": "total_attack_damage_ratio",
+            "name": "主动总攻击力比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.75,
+            "levelValues": null,
+            "description": "当前PrimaryDamage使用StatByNamedDataValueCalculationPart、mStat=2和ActiveADRatio。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "cooldown_ms",
+            "name": "新月主动冷却",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 10000,
+            "levelValues": null,
+            "description": "当前根Cooldown=10秒。",
+            "sortOrder": 20
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "active_physical_damage",
+            "name": "新月主动物理伤害",
+            "description": "0.75×自身总攻击力；公式不包含被动旁溅、不结算基础普攻，也未接入主动命中。",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "TOTAL"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "total_attack_damage_ratio"
+                }
+              ]
+            },
+            "sortOrder": 10
+          }
+        ],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": [],
+        "relation": {
+          "equipmentKey": "item_3077",
+          "skillKey": "item_3077_active",
+          "sortOrder": 20
+        },
+        "representativeImage": {
+          "imageKey": "item_3077"
+        }
+      },
+      "disposition": {
+        "范围外": [
+          {
+            "component": "被动旁溅与多目标",
+            "reason": "攻击邻近额外目标的旁溅分发不属于本轮1V1，不将40%/20%附加给原攻击目标。"
+          }
+        ],
+        "来源待核": [
+          {
+            "component": "主动护盾资格与时间",
+            "reason": "护盾阻挡资格及主动施放时间仍需明确；不借未绑定辅助对象覆盖当前根。"
+          }
+        ],
+        "系统缺口": [],
+        "尚未接线": [
+          {
+            "component": "主动单目标命中",
+            "reason": "独立伤害公式可先保存，命中与冷却过程不构造假事件。"
+          }
+        ]
+      },
+      "proofs": [
+        {
+          "pointer": "/Items~13077/mItemCalculations/PrimaryDamage",
+          "accepted": {
+            "ratio": 0.75,
+            "attribute": "TOTAL attack_damage"
+          },
+          "raw": {
+            "mFormulaParts": [
+              {
+                "mStat": 2,
+                "mDataValue": "ActiveADRatio",
+                "__type": "StatByNamedDataValueCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          }
+        },
+        {
+          "pointer": "/Items~13077/mDataValues/ActiveADRatio",
+          "accepted": 0.75,
+          "raw": [
+            {
+              "mName": "ActiveADRatio",
+              "mValue": 0.75,
+              "__type": "ItemDataValue"
+            }
+          ]
+        },
+        {
+          "pointer": "/Items~13077/mDataValues/Cooldown",
+          "accepted": 10,
+          "raw": [
+            {
+              "mName": "Cooldown",
+              "mValue": 10,
+              "__type": "ItemDataValue"
+            }
+          ]
+        }
+      ],
+      "safeguards": {
+        "equipment": {
+          "createdAt": "2026-09-06T17:31:24.14789Z",
+          "description": "来源：官方16.17.1装备3077。 原始说明：25攻击力 顺劈和新月造成物理伤害。 被动与主动效果尚待配置。",
+          "equipmentKey": "item_3077",
+          "gameId": "lol",
+          "name": "提亚马特",
+          "updatedAt": "2026-09-06T17:31:24.14789Z"
+        },
+        "attributes": {
+          "attributeValues": {
+            "attack_damage": 25
+          },
+          "equipmentKey": "item_3077"
+        },
+        "representativeImage": {
+          "image": {
+            "enabled": true,
+            "imageKey": "item_3077",
+            "name": "item_3077"
+          }
+        },
+        "relations": {
+          "items": [],
+          "total": 0
+        }
+      }
+    }
+  ],
+  "totals": {
+    "equipment": 5,
+    "skills": 6,
+    "parameters": 20,
+    "formulas": 4,
+    "effects": 0,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0,
+    "relations": 6,
+    "representativeImages": 6,
+    "components": 42
+  },
+  "entryBoundary": "只读前检.mjs 仅 GET；生成候选.mjs 只写本目录文件，没有业务写入入口。",
+  "configurationBoundary": "候选的独立效果、参数和公式不表示合法事件、冷却消费、状态或运行时已接线。"
+}

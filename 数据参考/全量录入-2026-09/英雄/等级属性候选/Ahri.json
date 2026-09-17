@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Ahri",
+  "sourceNumericId": "103",
+  "name": "阿狸",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 590,
+      "growth": 104,
+      "sources": [
+        "原始资料/zh_CN/champion/Ahri.json:stats.hp/hpperlevel",
+        "角色根记录/Ahri.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 590,
+        "2": 664.88,
+        "3": 743.4,
+        "4": 825.56,
+        "5": 911.36,
+        "6": 1000.8,
+        "7": 1093.88,
+        "8": 1190.6,
+        "9": 1290.96,
+        "10": 1394.96,
+        "11": 1502.6,
+        "12": 1613.88,
+        "13": 1728.8,
+        "14": 1847.36,
+        "15": 1969.56,
+        "16": 2095.4,
+        "17": 2224.88,
+        "18": 2358
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 2.5,
+      "growth": 0.6,
+      "sources": [
+        "原始资料/zh_CN/champion/Ahri.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Ahri.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 2.5,
+        "2": 2.932,
+        "3": 3.385,
+        "4": 3.859,
+        "5": 4.354,
+        "6": 4.87,
+        "7": 5.407,
+        "8": 5.965,
+        "9": 6.544,
+        "10": 7.144,
+        "11": 7.765,
+        "12": 8.407,
+        "13": 9.07,
+        "14": 9.754,
+        "15": 10.459,
+        "16": 11.185,
+        "17": 11.932,
+        "18": 12.7
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 21,
+      "growth": 4.2,
+      "sources": [
+        "原始资料/zh_CN/champion/Ahri.json:stats.armor/armorperlevel",
+        "角色根记录/Ahri.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 21,
+        "2": 24.024,
+        "3": 27.195,
+        "4": 30.513,
+        "5": 33.978,
+        "6": 37.59,
+        "7": 41.349,
+        "8": 45.255,
+        "9": 49.308,
+        "10": 53.508,
+        "11": 57.855,
+        "12": 62.349,
+        "13": 66.99,
+        "14": 71.778,
+        "15": 76.713,
+        "16": 81.795,
+        "17": 87.024,
+        "18": 92.4
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 30,
+      "growth": 1.3,
+      "sources": [
+        "原始资料/zh_CN/champion/Ahri.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Ahri.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 30,
+        "2": 30.936,
+        "3": 31.9175,
+        "4": 32.9445,
+        "5": 34.017,
+        "6": 35.135,
+        "7": 36.2985,
+        "8": 37.5075,
+        "9": 38.762,
+        "10": 40.062,
+        "11": 41.4075,
+        "12": 42.7985,
+        "13": 44.235,
+        "14": 45.717,
+        "15": 47.2445,
+        "16": 48.8175,
+        "17": 50.436,
+        "18": 52.1
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 53,
+      "growth": 3,
+      "sources": [
+        "角色根记录/Ahri.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 53,
+        "2": 55.16,
+        "3": 57.425,
+        "4": 59.795,
+        "5": 62.27,
+        "6": 64.85,
+        "7": 67.535,
+        "8": 70.325,
+        "9": 73.22,
+        "10": 76.22,
+        "11": 79.325,
+        "12": 82.535,
+        "13": 85.85,
+        "14": 89.27,
+        "15": 92.795,
+        "16": 96.425,
+        "17": 100.16,
+        "18": 104
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 330,
+      "growth": null,
+      "sources": [
+        "角色根记录/Ahri.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 330,
+        "2": 330,
+        "3": 330,
+        "4": 330,
+        "5": 330,
+        "6": 330,
+        "7": 330,
+        "8": 330,
+        "9": 330,
+        "10": 330,
+        "11": 330,
+        "12": 330,
+        "13": 330,
+        "14": 330,
+        "15": 330,
+        "16": 330,
+        "17": 330,
+        "18": 330
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 550,
+      "growth": null,
+      "sources": [
+        "角色根记录/Ahri.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 550,
+        "2": 550,
+        "3": 550,
+        "4": 550,
+        "5": 550,
+        "6": 550,
+        "7": 550,
+        "8": 550,
+        "9": 550,
+        "10": 550,
+        "11": 550,
+        "12": 550,
+        "13": 550,
+        "14": 550,
+        "15": 550,
+        "16": 550,
+        "17": 550,
+        "18": 550
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.668,
+      "attackSpeedRatio": 0.625,
+      "growthPercent": 2.2,
+      "sources": [
+        "角色根记录/Ahri.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.668,
+        "2": 0.6779,
+        "3": 0.688281,
+        "4": 0.699144,
+        "5": 0.710488,
+        "6": 0.722313,
+        "7": 0.734619,
+        "8": 0.747406,
+        "9": 0.760675,
+        "10": 0.774425,
+        "11": 0.788656,
+        "12": 0.803369,
+        "13": 0.818563,
+        "14": 0.834238,
+        "15": 0.850394,
+        "16": 0.867031,
+        "17": 0.88415,
+        "18": 0.90175
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 418,
+      "growth": 25,
+      "sources": [
+        "原始资料/zh_CN/champion/Ahri.json:stats.mp/mpperlevel",
+        "角色根记录/Ahri.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 418,
+        "2": 436,
+        "3": 454.875,
+        "4": 474.625,
+        "5": 495.25,
+        "6": 516.75,
+        "7": 539.125,
+        "8": 562.375,
+        "9": 586.5,
+        "10": 611.5,
+        "11": 637.375,
+        "12": 664.125,
+        "13": 691.75,
+        "14": 720.25,
+        "15": 749.625,
+        "16": 779.875,
+        "17": 811,
+        "18": 843
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 8,
+      "growth": 0.8,
+      "sources": [
+        "原始资料/zh_CN/champion/Ahri.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Ahri.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 8,
+        "2": 8.576,
+        "3": 9.18,
+        "4": 9.812,
+        "5": 10.472,
+        "6": 11.16,
+        "7": 11.876,
+        "8": 12.62,
+        "9": 13.392,
+        "10": 14.192,
+        "11": 15.02,
+        "12": 15.876,
+        "13": 16.76,
+        "14": 17.672,
+        "15": 18.612,
+        "16": 19.58,
+        "17": 20.576,
+        "18": 21.6
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.668,
+    "ratio": 0.625,
+    "growthPercent": 2.2,
+    "ratioDiffersFromBase": true
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

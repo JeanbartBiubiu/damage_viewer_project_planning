@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Fiora",
+  "sourceNumericId": "114",
+  "name": "菲奥娜",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 620,
+      "growth": 99,
+      "sources": [
+        "原始资料/zh_CN/champion/Fiora.json:stats.hp/hpperlevel",
+        "角色根记录/Fiora.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 620,
+        "2": 691.28,
+        "3": 766.025,
+        "4": 844.235,
+        "5": 925.91,
+        "6": 1011.05,
+        "7": 1099.655,
+        "8": 1191.725,
+        "9": 1287.26,
+        "10": 1386.26,
+        "11": 1488.725,
+        "12": 1594.655,
+        "13": 1704.05,
+        "14": 1816.91,
+        "15": 1933.235,
+        "16": 2053.025,
+        "17": 2176.28,
+        "18": 2303
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 8.5,
+      "growth": 0.55,
+      "sources": [
+        "原始资料/zh_CN/champion/Fiora.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Fiora.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 8.5,
+        "2": 8.896,
+        "3": 9.31125,
+        "4": 9.74575,
+        "5": 10.1995,
+        "6": 10.6725,
+        "7": 11.16475,
+        "8": 11.67625,
+        "9": 12.207,
+        "10": 12.757,
+        "11": 13.32625,
+        "12": 13.91475,
+        "13": 14.5225,
+        "14": 15.1495,
+        "15": 15.79575,
+        "16": 16.46125,
+        "17": 17.146,
+        "18": 17.85
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 33,
+      "growth": 4.7,
+      "sources": [
+        "原始资料/zh_CN/champion/Fiora.json:stats.armor/armorperlevel",
+        "角色根记录/Fiora.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 33,
+        "2": 36.384,
+        "3": 39.9325,
+        "4": 43.6455,
+        "5": 47.523,
+        "6": 51.565,
+        "7": 55.7715,
+        "8": 60.1425,
+        "9": 64.678,
+        "10": 69.378,
+        "11": 74.2425,
+        "12": 79.2715,
+        "13": 84.465,
+        "14": 89.823,
+        "15": 95.3455,
+        "16": 101.0325,
+        "17": 106.884,
+        "18": 112.9
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 32,
+      "growth": 2.05,
+      "sources": [
+        "原始资料/zh_CN/champion/Fiora.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Fiora.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 32,
+        "2": 33.476,
+        "3": 35.02375,
+        "4": 36.64325,
+        "5": 38.3345,
+        "6": 40.0975,
+        "7": 41.93225,
+        "8": 43.83875,
+        "9": 45.817,
+        "10": 47.867,
+        "11": 49.98875,
+        "12": 52.18225,
+        "13": 54.4475,
+        "14": 56.7845,
+        "15": 59.19325,
+        "16": 61.67375,
+        "17": 64.226,
+        "18": 66.85
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 66,
+      "growth": 3.3,
+      "sources": [
+        "角色根记录/Fiora.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 66,
+        "2": 68.376,
+        "3": 70.8675,
+        "4": 73.4745,
+        "5": 76.197,
+        "6": 79.035,
+        "7": 81.9885,
+        "8": 85.0575,
+        "9": 88.242,
+        "10": 91.542,
+        "11": 94.9575,
+        "12": 98.4885,
+        "13": 102.135,
+        "14": 105.897,
+        "15": 109.7745,
+        "16": 113.7675,
+        "17": 117.876,
+        "18": 122.1
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 345,
+      "growth": null,
+      "sources": [
+        "角色根记录/Fiora.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 345,
+        "2": 345,
+        "3": 345,
+        "4": 345,
+        "5": 345,
+        "6": 345,
+        "7": 345,
+        "8": 345,
+        "9": 345,
+        "10": 345,
+        "11": 345,
+        "12": 345,
+        "13": 345,
+        "14": 345,
+        "15": 345,
+        "16": 345,
+        "17": 345,
+        "18": 345
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 150,
+      "growth": null,
+      "sources": [
+        "角色根记录/Fiora.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 150,
+        "2": 150,
+        "3": 150,
+        "4": 150,
+        "5": 150,
+        "6": 150,
+        "7": 150,
+        "8": 150,
+        "9": 150,
+        "10": 150,
+        "11": 150,
+        "12": 150,
+        "13": 150,
+        "14": 150,
+        "15": 150,
+        "16": 150,
+        "17": 150,
+        "18": 150
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.69,
+      "attackSpeedRatio": 0.69,
+      "growthPercent": 3.2,
+      "sources": [
+        "角色根记录/Fiora.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.69,
+        "2": 0.705898,
+        "3": 0.722568,
+        "4": 0.740011,
+        "5": 0.758227,
+        "6": 0.777216,
+        "7": 0.796978,
+        "8": 0.817512,
+        "9": 0.838819,
+        "10": 0.860899,
+        "11": 0.883752,
+        "12": 0.907378,
+        "13": 0.931776,
+        "14": 0.956947,
+        "15": 0.982891,
+        "16": 1.009608,
+        "17": 1.037098,
+        "18": 1.06536
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 300,
+      "growth": 60,
+      "sources": [
+        "原始资料/zh_CN/champion/Fiora.json:stats.mp/mpperlevel",
+        "角色根记录/Fiora.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 300,
+        "2": 343.2,
+        "3": 388.5,
+        "4": 435.9,
+        "5": 485.4,
+        "6": 537,
+        "7": 590.7,
+        "8": 646.5,
+        "9": 704.4,
+        "10": 764.4,
+        "11": 826.5,
+        "12": 890.7,
+        "13": 957,
+        "14": 1025.4,
+        "15": 1095.9,
+        "16": 1168.5,
+        "17": 1243.2,
+        "18": 1320
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 8,
+      "growth": 0.7,
+      "sources": [
+        "原始资料/zh_CN/champion/Fiora.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Fiora.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 8,
+        "2": 8.504,
+        "3": 9.0325,
+        "4": 9.5855,
+        "5": 10.163,
+        "6": 10.765,
+        "7": 11.3915,
+        "8": 12.0425,
+        "9": 12.718,
+        "10": 13.418,
+        "11": 14.1425,
+        "12": 14.8915,
+        "13": 15.665,
+        "14": 16.463,
+        "15": 17.2855,
+        "16": 18.1325,
+        "17": 19.004,
+        "18": 19.9
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.69,
+    "ratio": 0.69,
+    "growthPercent": 3.2,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

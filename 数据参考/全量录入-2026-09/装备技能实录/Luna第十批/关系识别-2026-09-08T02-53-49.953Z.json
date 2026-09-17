@@ -1,0 +1,649 @@
+{
+  "generatedAt": "2026-09-08T02:53:51.822Z",
+  "mode": "只读真实GET关系识别；不写业务API",
+  "apiBaseUrl": "http://127.0.0.1:8080/api/admin/games/lol",
+  "rule": "必须先解析真实装备键，再以装备技能关联返回的真实skillKey为准；预期item_ID_passive的404只作探针，不判定未录入，不覆盖既有技能。",
+  "objects": [
+    {
+      "requestedEquipmentKey": "item_1056",
+      "requestedEquipmentName": "多兰戒",
+      "keyCandidates": [
+        "item_1056",
+        "duolanjie",
+        "1056"
+      ],
+      "keyProbes": [
+        {
+          "key": "item_1056",
+          "response": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.EQUIPMENT_NOT_FOUND",
+                "details": {
+                  "equipmentKey": "item_1056"
+                },
+                "message": "装备不存在"
+              }
+            }
+          }
+        },
+        {
+          "key": "duolanjie",
+          "response": {
+            "status": 200,
+            "data": {
+              "createdAt": "2026-08-23T12:39:05.182888Z",
+              "description": "来源：官方16.17.1装备1056。\n\n原始说明：18法术强度\n90生命值\n\n汲取\n每秒回复1法力值，在对一名敌方英雄造成伤害后，提升至每秒2法力值，持续5秒。如果你不能获得法力值，则转而治疗45%此数值的生命值。\n\n帮助之手\n攻击会对小兵造成5额外物理伤害。\n\n被动与主动效果尚待配置。",
+              "equipmentKey": "duolanjie",
+              "gameId": "lol",
+              "name": "多兰之戒",
+              "updatedAt": "2026-09-06T16:32:27.525352Z"
+            }
+          }
+        },
+        {
+          "key": "1056",
+          "response": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.EQUIPMENT_NOT_FOUND",
+                "details": {
+                  "equipmentKey": "1056"
+                },
+                "message": "装备不存在"
+              }
+            }
+          }
+        }
+      ],
+      "selectedEquipmentKey": "duolanjie",
+      "equipmentName": "多兰之戒",
+      "equipment": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-08-23T12:39:05.182888Z",
+          "description": "来源：官方16.17.1装备1056。\n\n原始说明：18法术强度\n90生命值\n\n汲取\n每秒回复1法力值，在对一名敌方英雄造成伤害后，提升至每秒2法力值，持续5秒。如果你不能获得法力值，则转而治疗45%此数值的生命值。\n\n帮助之手\n攻击会对小兵造成5额外物理伤害。\n\n被动与主动效果尚待配置。",
+          "equipmentKey": "duolanjie",
+          "gameId": "lol",
+          "name": "多兰之戒",
+          "updatedAt": "2026-09-06T16:32:27.525352Z"
+        }
+      },
+      "attributes": {
+        "status": 200,
+        "data": {
+          "attributeValues": {
+            "hp": 90,
+            "mana": 50,
+            "ability_power": 18
+          },
+          "equipmentKey": "duolanjie"
+        }
+      },
+      "representativeImage": {
+        "status": 200,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "entry_16171_duolanjie",
+            "name": "duolanjie"
+          }
+        }
+      },
+      "relation": {
+        "path": "/equipment-skill-relations?equipmentKey=duolanjie",
+        "response": {
+          "status": 200,
+          "data": {
+            "items": [],
+            "total": 0
+          }
+        },
+        "items": []
+      },
+      "linkedSkills": [],
+      "expectedPassiveProbe": {
+        "status": 404,
+        "data": {
+          "error": {
+            "code": "404.SKILL_NOT_FOUND",
+            "details": {
+              "skillKey": "duolanjie_passive"
+            },
+            "message": "技能不存在"
+          }
+        }
+      },
+      "selectedSkillKeys": [],
+      "aliasWarning": []
+    },
+    {
+      "requestedEquipmentKey": "item_1082",
+      "requestedEquipmentName": "黑暗封印",
+      "keyCandidates": [
+        "item_1082"
+      ],
+      "keyProbes": [
+        {
+          "key": "item_1082",
+          "response": {
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-06T16:34:34.925758Z",
+              "description": "来源：官方16.17.1装备1082。\n\n原始说明：15法术强度\n50生命值\n\n荣耀\n参与击杀后提供荣耀层数，至多至10层。阵亡时损失5层荣耀。\n每层荣耀提供4法术强度。\n\n被动与主动效果尚待配置。",
+              "equipmentKey": "item_1082",
+              "gameId": "lol",
+              "name": "黑暗封印",
+              "updatedAt": "2026-09-06T16:34:34.925758Z"
+            }
+          }
+        }
+      ],
+      "selectedEquipmentKey": "item_1082",
+      "equipmentName": "黑暗封印",
+      "equipment": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T16:34:34.925758Z",
+          "description": "来源：官方16.17.1装备1082。\n\n原始说明：15法术强度\n50生命值\n\n荣耀\n参与击杀后提供荣耀层数，至多至10层。阵亡时损失5层荣耀。\n每层荣耀提供4法术强度。\n\n被动与主动效果尚待配置。",
+          "equipmentKey": "item_1082",
+          "gameId": "lol",
+          "name": "黑暗封印",
+          "updatedAt": "2026-09-06T16:34:34.925758Z"
+        }
+      },
+      "attributes": {
+        "status": 200,
+        "data": {
+          "attributeValues": {
+            "hp": 50,
+            "ability_power": 15
+          },
+          "equipmentKey": "item_1082"
+        }
+      },
+      "representativeImage": {
+        "status": 200,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "item_1082",
+            "name": "item_1082"
+          }
+        }
+      },
+      "relation": {
+        "path": "/equipment-skill-relations?equipmentKey=item_1082",
+        "response": {
+          "status": 200,
+          "data": {
+            "items": [],
+            "total": 0
+          }
+        },
+        "items": []
+      },
+      "linkedSkills": [],
+      "expectedPassiveProbe": {
+        "status": 404,
+        "data": {
+          "error": {
+            "code": "404.SKILL_NOT_FOUND",
+            "details": {
+              "skillKey": "item_1082_passive"
+            },
+            "message": "技能不存在"
+          }
+        }
+      },
+      "selectedSkillKeys": [],
+      "aliasWarning": []
+    },
+    {
+      "requestedEquipmentKey": "item_3004",
+      "requestedEquipmentName": "魔宗",
+      "keyCandidates": [
+        "item_3004"
+      ],
+      "keyProbes": [
+        {
+          "key": "item_3004",
+          "response": {
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-06T17:05:01.071972Z",
+              "description": "来源：官方16.17.1装备3004。 原始说明：35攻击力 500法力 15技能急速 敬畏 获得0额外攻击力。 法力流 (8秒，最大4层) 普攻和技能在命中时会提供3最大法力值(对英雄时翻倍)。 在360最大法力值时转变为魔切。 被动与主动效果尚待配置。",
+              "equipmentKey": "item_3004",
+              "gameId": "lol",
+              "name": "魔宗",
+              "updatedAt": "2026-09-06T17:05:01.071972Z"
+            }
+          }
+        }
+      ],
+      "selectedEquipmentKey": "item_3004",
+      "equipmentName": "魔宗",
+      "equipment": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T17:05:01.071972Z",
+          "description": "来源：官方16.17.1装备3004。 原始说明：35攻击力 500法力 15技能急速 敬畏 获得0额外攻击力。 法力流 (8秒，最大4层) 普攻和技能在命中时会提供3最大法力值(对英雄时翻倍)。 在360最大法力值时转变为魔切。 被动与主动效果尚待配置。",
+          "equipmentKey": "item_3004",
+          "gameId": "lol",
+          "name": "魔宗",
+          "updatedAt": "2026-09-06T17:05:01.071972Z"
+        }
+      },
+      "attributes": {
+        "status": 200,
+        "data": {
+          "attributeValues": {
+            "mana": 500,
+            "attack_damage": 35,
+            "ability_haste": 15
+          },
+          "equipmentKey": "item_3004"
+        }
+      },
+      "representativeImage": {
+        "status": 200,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "item_3004",
+            "name": "item_3004"
+          }
+        }
+      },
+      "relation": {
+        "path": "/equipment-skill-relations?equipmentKey=item_3004",
+        "response": {
+          "status": 200,
+          "data": {
+            "items": [],
+            "total": 0
+          }
+        },
+        "items": []
+      },
+      "linkedSkills": [],
+      "expectedPassiveProbe": {
+        "status": 404,
+        "data": {
+          "error": {
+            "code": "404.SKILL_NOT_FOUND",
+            "details": {
+              "skillKey": "item_3004_passive"
+            },
+            "message": "技能不存在"
+          }
+        }
+      },
+      "selectedSkillKeys": [],
+      "aliasWarning": []
+    },
+    {
+      "requestedEquipmentKey": "item_3041",
+      "requestedEquipmentName": "梅贾的窃魂卷",
+      "keyCandidates": [
+        "item_3041"
+      ],
+      "keyProbes": [
+        {
+          "key": "item_3041",
+          "response": {
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-06T17:11:31.948994Z",
+              "description": "来源：官方16.17.1装备3041。 原始说明：20法术强度 100生命值 荣耀 参与击杀后提供荣耀层数，至多至25层。阵亡时损失10层荣耀。每层荣耀提供5法术强度，并在10层或以上荣耀时提供10%移动速度。 被动与主动效果尚待配置。",
+              "equipmentKey": "item_3041",
+              "gameId": "lol",
+              "name": "梅贾的窃魂卷",
+              "updatedAt": "2026-09-06T17:11:31.948994Z"
+            }
+          }
+        }
+      ],
+      "selectedEquipmentKey": "item_3041",
+      "equipmentName": "梅贾的窃魂卷",
+      "equipment": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T17:11:31.948994Z",
+          "description": "来源：官方16.17.1装备3041。 原始说明：20法术强度 100生命值 荣耀 参与击杀后提供荣耀层数，至多至25层。阵亡时损失10层荣耀。每层荣耀提供5法术强度，并在10层或以上荣耀时提供10%移动速度。 被动与主动效果尚待配置。",
+          "equipmentKey": "item_3041",
+          "gameId": "lol",
+          "name": "梅贾的窃魂卷",
+          "updatedAt": "2026-09-06T17:11:31.948994Z"
+        }
+      },
+      "attributes": {
+        "status": 200,
+        "data": {
+          "attributeValues": {
+            "hp": 100,
+            "ability_power": 20
+          },
+          "equipmentKey": "item_3041"
+        }
+      },
+      "representativeImage": {
+        "status": 200,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "item_3041",
+            "name": "item_3041"
+          }
+        }
+      },
+      "relation": {
+        "path": "/equipment-skill-relations?equipmentKey=item_3041",
+        "response": {
+          "status": 200,
+          "data": {
+            "items": [],
+            "total": 0
+          }
+        },
+        "items": []
+      },
+      "linkedSkills": [],
+      "expectedPassiveProbe": {
+        "status": 404,
+        "data": {
+          "error": {
+            "code": "404.SKILL_NOT_FOUND",
+            "details": {
+              "skillKey": "item_3041_passive"
+            },
+            "message": "技能不存在"
+          }
+        }
+      },
+      "selectedSkillKeys": [],
+      "aliasWarning": []
+    },
+    {
+      "requestedEquipmentKey": "item_3053",
+      "requestedEquipmentName": "斯特拉克的挑战护手",
+      "keyCandidates": [
+        "item_3053"
+      ],
+      "keyProbes": [
+        {
+          "key": "item_3053",
+          "response": {
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-06T17:16:08.400971Z",
+              "description": "来源：官方16.17.1装备3053。 原始说明：400生命值 20%韧性 抓人双爪 获得额外攻击力。 救主灵刃 在受到将使你的生命值跌到30%以下的伤害时，提供持续4.5秒的不断衰减的护盾值。 被动与主动效果尚待配置。",
+              "equipmentKey": "item_3053",
+              "gameId": "lol",
+              "name": "斯特拉克的挑战护手",
+              "updatedAt": "2026-09-06T17:16:08.400971Z"
+            }
+          }
+        }
+      ],
+      "selectedEquipmentKey": "item_3053",
+      "equipmentName": "斯特拉克的挑战护手",
+      "equipment": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T17:16:08.400971Z",
+          "description": "来源：官方16.17.1装备3053。 原始说明：400生命值 20%韧性 抓人双爪 获得额外攻击力。 救主灵刃 在受到将使你的生命值跌到30%以下的伤害时，提供持续4.5秒的不断衰减的护盾值。 被动与主动效果尚待配置。",
+          "equipmentKey": "item_3053",
+          "gameId": "lol",
+          "name": "斯特拉克的挑战护手",
+          "updatedAt": "2026-09-06T17:16:08.400971Z"
+        }
+      },
+      "attributes": {
+        "status": 200,
+        "data": {
+          "attributeValues": {
+            "hp": 400,
+            "tenacity_percent": 0.2
+          },
+          "equipmentKey": "item_3053"
+        }
+      },
+      "representativeImage": {
+        "status": 200,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "item_3053",
+            "name": "item_3053"
+          }
+        }
+      },
+      "relation": {
+        "path": "/equipment-skill-relations?equipmentKey=item_3053",
+        "response": {
+          "status": 200,
+          "data": {
+            "items": [],
+            "total": 0
+          }
+        },
+        "items": []
+      },
+      "linkedSkills": [],
+      "expectedPassiveProbe": {
+        "status": 404,
+        "data": {
+          "error": {
+            "code": "404.SKILL_NOT_FOUND",
+            "details": {
+              "skillKey": "item_3053_passive"
+            },
+            "message": "技能不存在"
+          }
+        }
+      },
+      "selectedSkillKeys": [],
+      "aliasWarning": []
+    },
+    {
+      "requestedEquipmentKey": "item_3068",
+      "requestedEquipmentName": "日炎圣盾",
+      "keyCandidates": [
+        "item_3068"
+      ],
+      "keyProbes": [
+        {
+          "key": "item_3068",
+          "response": {
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-06T17:18:22.994338Z",
+              "description": "来源：官方16.17.1装备3068。 原始说明：350生命值 50护甲 10技能急速 献祭 承受或造成伤害后，每秒对附近敌人造成魔法伤害，持续3秒。 被动与主动效果尚待配置。",
+              "equipmentKey": "item_3068",
+              "gameId": "lol",
+              "name": "日炎圣盾",
+              "updatedAt": "2026-09-06T17:18:22.994338Z"
+            }
+          }
+        }
+      ],
+      "selectedEquipmentKey": "item_3068",
+      "equipmentName": "日炎圣盾",
+      "equipment": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T17:18:22.994338Z",
+          "description": "来源：官方16.17.1装备3068。 原始说明：350生命值 50护甲 10技能急速 献祭 承受或造成伤害后，每秒对附近敌人造成魔法伤害，持续3秒。 被动与主动效果尚待配置。",
+          "equipmentKey": "item_3068",
+          "gameId": "lol",
+          "name": "日炎圣盾",
+          "updatedAt": "2026-09-06T17:18:22.994338Z"
+        }
+      },
+      "attributes": {
+        "status": 200,
+        "data": {
+          "attributeValues": {
+            "hp": 350,
+            "armor": 50,
+            "ability_haste": 10
+          },
+          "equipmentKey": "item_3068"
+        }
+      },
+      "representativeImage": {
+        "status": 200,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "item_3068",
+            "name": "item_3068"
+          }
+        }
+      },
+      "relation": {
+        "path": "/equipment-skill-relations?equipmentKey=item_3068",
+        "response": {
+          "status": 200,
+          "data": {
+            "items": [],
+            "total": 0
+          }
+        },
+        "items": []
+      },
+      "linkedSkills": [],
+      "expectedPassiveProbe": {
+        "status": 404,
+        "data": {
+          "error": {
+            "code": "404.SKILL_NOT_FOUND",
+            "details": {
+              "skillKey": "item_3068_passive"
+            },
+            "message": "技能不存在"
+          }
+        }
+      },
+      "selectedSkillKeys": [],
+      "aliasWarning": []
+    }
+  ],
+  "summary": {
+    "equipmentCount": 6,
+    "keyResolutions": [
+      {
+        "requestedEquipmentKey": "item_1056",
+        "selectedEquipmentKey": "duolanjie",
+        "keyProbeStatuses": [
+          {
+            "key": "item_1056",
+            "status": 404
+          },
+          {
+            "key": "duolanjie",
+            "status": 200
+          },
+          {
+            "key": "1056",
+            "status": 404
+          }
+        ]
+      },
+      {
+        "requestedEquipmentKey": "item_1082",
+        "selectedEquipmentKey": "item_1082",
+        "keyProbeStatuses": [
+          {
+            "key": "item_1082",
+            "status": 200
+          }
+        ]
+      },
+      {
+        "requestedEquipmentKey": "item_3004",
+        "selectedEquipmentKey": "item_3004",
+        "keyProbeStatuses": [
+          {
+            "key": "item_3004",
+            "status": 200
+          }
+        ]
+      },
+      {
+        "requestedEquipmentKey": "item_3041",
+        "selectedEquipmentKey": "item_3041",
+        "keyProbeStatuses": [
+          {
+            "key": "item_3041",
+            "status": 200
+          }
+        ]
+      },
+      {
+        "requestedEquipmentKey": "item_3053",
+        "selectedEquipmentKey": "item_3053",
+        "keyProbeStatuses": [
+          {
+            "key": "item_3053",
+            "status": 200
+          }
+        ]
+      },
+      {
+        "requestedEquipmentKey": "item_3068",
+        "selectedEquipmentKey": "item_3068",
+        "keyProbeStatuses": [
+          {
+            "key": "item_3068",
+            "status": 200
+          }
+        ]
+      }
+    ],
+    "relationStatuses": [
+      {
+        "equipmentKey": "duolanjie",
+        "status": 200,
+        "linkedCount": 0,
+        "aliases": []
+      },
+      {
+        "equipmentKey": "item_1082",
+        "status": 200,
+        "linkedCount": 0,
+        "aliases": []
+      },
+      {
+        "equipmentKey": "item_3004",
+        "status": 200,
+        "linkedCount": 0,
+        "aliases": []
+      },
+      {
+        "equipmentKey": "item_3041",
+        "status": 200,
+        "linkedCount": 0,
+        "aliases": []
+      },
+      {
+        "equipmentKey": "item_3053",
+        "status": 200,
+        "linkedCount": 0,
+        "aliases": []
+      },
+      {
+        "equipmentKey": "item_3068",
+        "status": 200,
+        "linkedCount": 0,
+        "aliases": []
+      }
+    ],
+    "aliasEquipmentCount": 0,
+    "expectedPassive404Count": 6,
+    "requestErrorCount": 0
+  }
+}
