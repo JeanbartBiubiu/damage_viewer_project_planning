@@ -1,0 +1,3410 @@
+{
+  "version": "16.17.1",
+  "existingAttributeCatalogSource": "本阶段主任务提供的标识清单；未在本子任务读取数据库或页面单位",
+  "unitRule": "同时给出原文百分数和小数比例；value按显示单位（例如15表示15%），valueFraction为0.15。页面保存前按现有属性定义选对应表示，不能把同一个百分比乘100两次。",
+  "counts": {
+    "candidateItems": 181,
+    "pureAttributeItems": 47,
+    "existingCatalogReady": 23,
+    "needsNewAttributes": 24,
+    "newAttributeKinds": 11,
+    "nonPureItems": 134
+  },
+  "requiredNewAttributes": [
+    {
+      "suggestedKey": "base_mana_regen_percent",
+      "name": "基础法力回复",
+      "unit": "百分数（10表示10%）",
+      "sourceItemIds": [
+        "1004",
+        "3114",
+        "4642"
+      ]
+    },
+    {
+      "suggestedKey": "base_hp_regen_percent",
+      "name": "基础生命回复",
+      "unit": "百分数（10表示10%）",
+      "sourceItemIds": [
+        "1006",
+        "3211",
+        "3801"
+      ]
+    },
+    {
+      "suggestedKey": "life_steal_percent",
+      "name": "生命偷取",
+      "unit": "百分数（10表示10%）",
+      "sourceItemIds": [
+        "1053"
+      ]
+    },
+    {
+      "suggestedKey": "omnivamp_percent",
+      "name": "全能吸血",
+      "unit": "百分数（10表示10%）",
+      "sourceItemIds": [
+        "1055",
+        "1086"
+      ]
+    },
+    {
+      "suggestedKey": "ability_haste",
+      "name": "技能急速",
+      "unit": "固定值",
+      "sourceItemIds": [
+        "2020",
+        "2022",
+        "3024",
+        "3067",
+        "3108",
+        "3133",
+        "4642"
+      ]
+    },
+    {
+      "suggestedKey": "magic_pen_flat",
+      "name": "法术穿透",
+      "unit": "固定值",
+      "sourceItemIds": [
+        "3020"
+      ]
+    },
+    {
+      "suggestedKey": "critical_strike_damage_bonus_percent",
+      "name": "暴击伤害",
+      "unit": "百分数（10表示10%）",
+      "sourceItemIds": [
+        "3031"
+      ]
+    },
+    {
+      "suggestedKey": "move_speed_percent",
+      "name": "移动速度",
+      "unit": "百分数（10表示10%）",
+      "sourceItemIds": [
+        "3066",
+        "3086",
+        "3113",
+        "6690"
+      ]
+    },
+    {
+      "suggestedKey": "tenacity_percent",
+      "name": "韧性",
+      "unit": "百分数（10表示10%）",
+      "sourceItemIds": [
+        "3111"
+      ]
+    },
+    {
+      "suggestedKey": "heal_shield_power_percent",
+      "name": "治疗和护盾强度",
+      "unit": "百分数（10表示10%）",
+      "sourceItemIds": [
+        "3114"
+      ]
+    },
+    {
+      "suggestedKey": "magic_pen_percent",
+      "name": "法术穿透",
+      "unit": "百分数（10表示10%）",
+      "sourceItemIds": [
+        "3135",
+        "4630"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "itemId": "1001",
+      "proposedKey": "item_1001",
+      "existingEquipmentKey": null,
+      "name": "鞋子",
+      "description": "16.17.1；移动速度 +25",
+      "attributes": [
+        {
+          "name": "移动速度",
+          "value": 25,
+          "unit": "固定值",
+          "valueFraction": null,
+          "sourceText": "25移动速度",
+          "sourceStatsField": "FlatMovementSpeedMod",
+          "sourceStatsValue": 25,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": "move_speed",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": []
+        }
+      ],
+      "requiredSkills": [],
+      "needsNewAttributes": false,
+      "suggestedStatus": "现有属性目录可表达，待页面核单位并保存",
+      "sourceVersion": "16.17.1",
+      "sourceUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+      "sourcePointer": "/data/1001",
+      "sourceDescription": "<mainText><stats><attention>25</attention>移动速度</stats><br><br></mainText>",
+      "sourceStats": {
+        "FlatMovementSpeedMod": 25
+      },
+      "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/item/1001.png",
+      "gold": {
+        "base": 300,
+        "purchasable": true,
+        "total": 300,
+        "sell": 210
+      },
+      "from": [],
+      "reviewBoundary": "逐项核对本版官方说明只有直接固定属性，且所有stats字段与说明一致；不代表核过客户端隐藏机制或装备购买互斥。"
+    },
+    {
+      "itemId": "1004",
+      "proposedKey": "item_1004",
+      "existingEquipmentKey": null,
+      "name": "仙女护符",
+      "description": "16.17.1；基础法力回复 +50%",
+      "attributes": [
+        {
+          "name": "基础法力回复",
+          "value": 50,
+          "unit": "百分数（10表示10%）",
+          "valueFraction": 0.5,
+          "sourceText": "50%基础法力回复",
+          "sourceStatsField": null,
+          "sourceStatsValue": null,
+          "crossCheck": "数值取自完整说明；stats缺该字段，不填0",
+          "existingAttributeKey": null,
+          "suggestedNewAttributeKey": "base_mana_regen_percent",
+          "requiresNewAttribute": true,
+          "notes": [
+            "以角色基础回复为基数的百分比加成，禁止写入固定hp_regen或mana_regen。"
+          ]
+        }
+      ],
+      "requiredSkills": [],
+      "needsNewAttributes": true,
+      "suggestedStatus": "需补属性目录后完整录入",
+      "sourceVersion": "16.17.1",
+      "sourceUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+      "sourcePointer": "/data/1004",
+      "sourceDescription": "<mainText><stats><attention>50%</attention>基础法力回复</stats><br><br></mainText>",
+      "sourceStats": {},
+      "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/item/1004.png",
+      "gold": {
+        "base": 200,
+        "purchasable": true,
+        "total": 200,
+        "sell": 140
+      },
+      "from": [],
+      "reviewBoundary": "逐项核对本版官方说明只有直接固定属性，且所有stats字段与说明一致；不代表核过客户端隐藏机制或装备购买互斥。"
+    },
+    {
+      "itemId": "1006",
+      "proposedKey": "item_1006",
+      "existingEquipmentKey": null,
+      "name": "治疗宝珠",
+      "description": "16.17.1；基础生命回复 +100%",
+      "attributes": [
+        {
+          "name": "基础生命回复",
+          "value": 100,
+          "unit": "百分数（10表示10%）",
+          "valueFraction": 1,
+          "sourceText": "100%基础生命回复",
+          "sourceStatsField": null,
+          "sourceStatsValue": null,
+          "crossCheck": "数值取自完整说明；stats缺该字段，不填0",
+          "existingAttributeKey": null,
+          "suggestedNewAttributeKey": "base_hp_regen_percent",
+          "requiresNewAttribute": true,
+          "notes": [
+            "以角色基础回复为基数的百分比加成，禁止写入固定hp_regen或mana_regen。"
+          ]
+        }
+      ],
+      "requiredSkills": [],
+      "needsNewAttributes": true,
+      "suggestedStatus": "需补属性目录后完整录入",
+      "sourceVersion": "16.17.1",
+      "sourceUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+      "sourcePointer": "/data/1006",
+      "sourceDescription": "<mainText><stats><attention>100%</attention>基础生命回复</stats><br><br></mainText>",
+      "sourceStats": {},
+      "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/item/1006.png",
+      "gold": {
+        "base": 300,
+        "purchasable": true,
+        "total": 300,
+        "sell": 120
+      },
+      "from": [],
+      "reviewBoundary": "逐项核对本版官方说明只有直接固定属性，且所有stats字段与说明一致；不代表核过客户端隐藏机制或装备购买互斥。"
+    },
+    {
+      "itemId": "1011",
+      "proposedKey": "item_1011",
+      "existingEquipmentKey": null,
+      "name": "巨人腰带",
+      "description": "16.17.1；生命值 +350",
+      "attributes": [
+        {
+          "name": "生命值",
+          "value": 350,
+          "unit": "固定值",
+          "valueFraction": null,
+          "sourceText": "350生命值",
+          "sourceStatsField": "FlatHPPoolMod",
+          "sourceStatsValue": 350,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": "hp",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": []
+        }
+      ],
+      "requiredSkills": [],
+      "needsNewAttributes": false,
+      "suggestedStatus": "现有属性目录可表达，待页面核单位并保存",
+      "sourceVersion": "16.17.1",
+      "sourceUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+      "sourcePointer": "/data/1011",
+      "sourceDescription": "<mainText><stats><attention>350</attention>生命值</stats><br><br></mainText>",
+      "sourceStats": {
+        "FlatHPPoolMod": 350
+      },
+      "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/item/1011.png",
+      "gold": {
+        "base": 500,
+        "purchasable": true,
+        "total": 900,
+        "sell": 630
+      },
+      "from": [
+        "1028"
+      ],
+      "reviewBoundary": "逐项核对本版官方说明只有直接固定属性，且所有stats字段与说明一致；不代表核过客户端隐藏机制或装备购买互斥。"
+    },
+    {
+      "itemId": "1018",
+      "proposedKey": "item_1018",
+      "existingEquipmentKey": null,
+      "name": "灵巧披风",
+      "description": "16.17.1；暴击几率 +15%",
+      "attributes": [
+        {
+          "name": "暴击几率",
+          "value": 15,
+          "unit": "百分数（10表示10%）",
+          "valueFraction": 0.15,
+          "sourceText": "15%暴击几率",
+          "sourceStatsField": "FlatCritChanceMod",
+          "sourceStatsValue": 0.15,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": "critical_strike_chance",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": []
+        }
+      ],
+      "requiredSkills": [],
+      "needsNewAttributes": false,
+      "suggestedStatus": "现有属性目录可表达，待页面核单位并保存",
+      "sourceVersion": "16.17.1",
+      "sourceUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+      "sourcePointer": "/data/1018",
+      "sourceDescription": "<mainText><stats><attention>15%</attention>暴击几率</stats><br><br></mainText>",
+      "sourceStats": {
+        "FlatCritChanceMod": 0.15
+      },
+      "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/item/1018.png",
+      "gold": {
+        "base": 600,
+        "purchasable": true,
+        "total": 600,
+        "sell": 420
+      },
+      "from": [],
+      "reviewBoundary": "逐项核对本版官方说明只有直接固定属性，且所有stats字段与说明一致；不代表核过客户端隐藏机制或装备购买互斥。"
+    },
+    {
+      "itemId": "1026",
+      "proposedKey": "item_1026",
+      "existingEquipmentKey": null,
+      "name": "爆裂魔杖",
+      "description": "16.17.1；法术强度 +45",
+      "attributes": [
+        {
+          "name": "法术强度",
+          "value": 45,
+          "unit": "固定值",
+          "valueFraction": null,
+          "sourceText": "45法术强度",
+          "sourceStatsField": "FlatMagicDamageMod",
+          "sourceStatsValue": 45,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": "ability_power",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": []
+        }
+      ],
+      "requiredSkills": [],
+      "needsNewAttributes": false,
+      "suggestedStatus": "现有属性目录可表达，待页面核单位并保存",
+      "sourceVersion": "16.17.1",
+      "sourceUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+      "sourcePointer": "/data/1026",
+      "sourceDescription": "<mainText><stats><attention>45</attention>法术强度</stats><br><br></mainText>",
+      "sourceStats": {
+        "FlatMagicDamageMod": 45
+      },
+      "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/item/1026.png",
+      "gold": {
+        "base": 850,
+        "purchasable": true,
+        "total": 850,
+        "sell": 595
+      },
+      "from": [],
+      "reviewBoundary": "逐项核对本版官方说明只有直接固定属性，且所有stats字段与说明一致；不代表核过客户端隐藏机制或装备购买互斥。"
+    },
+    {
+      "itemId": "1027",
+      "proposedKey": "item_1027",
+      "existingEquipmentKey": null,
+      "name": "蓝水晶",
+      "description": "16.17.1；法力 +300",
+      "attributes": [
+        {
+          "name": "法力",
+          "value": 300,
+          "unit": "固定值",
+          "valueFraction": null,
+          "sourceText": "300法力",
+          "sourceStatsField": "FlatMPPoolMod",
+          "sourceStatsValue": 300,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": "mana",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": []
+        }
+      ],
+      "requiredSkills": [],
+      "needsNewAttributes": false,
+      "suggestedStatus": "现有属性目录可表达，待页面核单位并保存",
+      "sourceVersion": "16.17.1",
+      "sourceUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+      "sourcePointer": "/data/1027",
+      "sourceDescription": "<mainText><stats><attention>300</attention>法力</stats><br><br></mainText>",
+      "sourceStats": {
+        "FlatMPPoolMod": 300
+      },
+      "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/item/1027.png",
+      "gold": {
+        "base": 300,
+        "purchasable": true,
+        "total": 300,
+        "sell": 210
+      },
+      "from": [],
+      "reviewBoundary": "逐项核对本版官方说明只有直接固定属性，且所有stats字段与说明一致；不代表核过客户端隐藏机制或装备购买互斥。"
+    },
+    {
+      "itemId": "1028",
+      "proposedKey": "item_1028",
+      "existingEquipmentKey": null,
+      "name": "红水晶",
+      "description": "16.17.1；生命值 +150",
+      "attributes": [
+        {
+          "name": "生命值",
+          "value": 150,
+          "unit": "固定值",
+          "valueFraction": null,
+          "sourceText": "150生命值",
+          "sourceStatsField": "FlatHPPoolMod",
+          "sourceStatsValue": 150,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": "hp",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": []
+        }
+      ],
+      "requiredSkills": [],
+      "needsNewAttributes": false,
+      "suggestedStatus": "现有属性目录可表达，待页面核单位并保存",
+      "sourceVersion": "16.17.1",
+      "sourceUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+      "sourcePointer": "/data/1028",
+      "sourceDescription": "<mainText><stats><attention>150</attention>生命值</stats><br><br></mainText>",
+      "sourceStats": {
+        "FlatHPPoolMod": 150
+      },
+      "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/item/1028.png",
+      "gold": {
+        "base": 400,
+        "purchasable": true,
+        "total": 400,
+        "sell": 280
+      },
+      "from": [],
+      "reviewBoundary": "逐项核对本版官方说明只有直接固定属性，且所有stats字段与说明一致；不代表核过客户端隐藏机制或装备购买互斥。"
+    },
+    {
+      "itemId": "1029",
+      "proposedKey": "item_1029",
+      "existingEquipmentKey": null,
+      "name": "布甲",
+      "description": "16.17.1；护甲 +15",
+      "attributes": [
+        {
+          "name": "护甲",
+          "value": 15,
+          "unit": "固定值",
+          "valueFraction": null,
+          "sourceText": "15护甲",
+          "sourceStatsField": "FlatArmorMod",
+          "sourceStatsValue": 15,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": "armor",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": []
+        }
+      ],
+      "requiredSkills": [],
+      "needsNewAttributes": false,
+      "suggestedStatus": "现有属性目录可表达，待页面核单位并保存",
+      "sourceVersion": "16.17.1",
+      "sourceUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+      "sourcePointer": "/data/1029",
+      "sourceDescription": "<mainText><stats><attention>15</attention>护甲</stats><br><br></mainText>",
+      "sourceStats": {
+        "FlatArmorMod": 15
+      },
+      "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/item/1029.png",
+      "gold": {
+        "base": 300,
+        "purchasable": true,
+        "total": 300,
+        "sell": 210
+      },
+      "from": [],
+      "reviewBoundary": "逐项核对本版官方说明只有直接固定属性，且所有stats字段与说明一致；不代表核过客户端隐藏机制或装备购买互斥。"
+    },
+    {
+      "itemId": "1031",
+      "proposedKey": "item_1031",
+      "existingEquipmentKey": null,
+      "name": "锁子甲",
+      "description": "16.17.1；护甲 +40",
+      "attributes": [
+        {
+          "name": "护甲",
+          "value": 40,
+          "unit": "固定值",
+          "valueFraction": null,
+          "sourceText": "40护甲",
+          "sourceStatsField": "FlatArmorMod",
+          "sourceStatsValue": 40,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": "armor",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": []
+        }
+      ],
+      "requiredSkills": [],
+      "needsNewAttributes": false,
+      "suggestedStatus": "现有属性目录可表达，待页面核单位并保存",
+      "sourceVersion": "16.17.1",
+      "sourceUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+      "sourcePointer": "/data/1031",
+      "sourceDescription": "<mainText><stats><attention>40</attention>护甲</stats><br><br></mainText>",
+      "sourceStats": {
+        "FlatArmorMod": 40
+      },
+      "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/item/1031.png",
+      "gold": {
+        "base": 500,
+        "purchasable": true,
+        "total": 800,
+        "sell": 560
+      },
+      "from": [
+        "1029"
+      ],
+      "reviewBoundary": "逐项核对本版官方说明只有直接固定属性，且所有stats字段与说明一致；不代表核过客户端隐藏机制或装备购买互斥。"
+    },
+    {
+      "itemId": "1033",
+      "proposedKey": "item_1033",
+      "existingEquipmentKey": null,
+      "name": "抗魔斗篷",
+      "description": "16.17.1；魔法抗性 +20",
+      "attributes": [
+        {
+          "name": "魔法抗性",
+          "value": 20,
+          "unit": "固定值",
+          "valueFraction": null,
+          "sourceText": "20魔法抗性",
+          "sourceStatsField": "FlatSpellBlockMod",
+          "sourceStatsValue": 20,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": "magic_resistance",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": []
+        }
+      ],
+      "requiredSkills": [],
+      "needsNewAttributes": false,
+      "suggestedStatus": "现有属性目录可表达，待页面核单位并保存",
+      "sourceVersion": "16.17.1",
+      "sourceUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+      "sourcePointer": "/data/1033",
+      "sourceDescription": "<mainText><stats><attention>20</attention>魔法抗性</stats><br><br></mainText>",
+      "sourceStats": {
+        "FlatSpellBlockMod": 20
+      },
+      "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/item/1033.png",
+      "gold": {
+        "base": 400,
+        "purchasable": true,
+        "total": 400,
+        "sell": 280
+      },
+      "from": [],
+      "reviewBoundary": "逐项核对本版官方说明只有直接固定属性，且所有stats字段与说明一致；不代表核过客户端隐藏机制或装备购买互斥。"
+    },
+    {
+      "itemId": "1036",
+      "proposedKey": "item_1036",
+      "existingEquipmentKey": null,
+      "name": "长剑",
+      "description": "16.17.1；攻击力 +10",
+      "attributes": [
+        {
+          "name": "攻击力",
+          "value": 10,
+          "unit": "固定值",
+          "valueFraction": null,
+          "sourceText": "10攻击力",
+          "sourceStatsField": "FlatPhysicalDamageMod",
+          "sourceStatsValue": 10,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": "attack_damage",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": []
+        }
+      ],
+      "requiredSkills": [],
+      "needsNewAttributes": false,
+      "suggestedStatus": "现有属性目录可表达，待页面核单位并保存",
+      "sourceVersion": "16.17.1",
+      "sourceUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+      "sourcePointer": "/data/1036",
+      "sourceDescription": "<mainText><stats><attention>10</attention>攻击力</stats><br><br></mainText>",
+      "sourceStats": {
+        "FlatPhysicalDamageMod": 10
+      },
+      "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/item/1036.png",
+      "gold": {
+        "base": 350,
+        "purchasable": true,
+        "total": 350,
+        "sell": 245
+      },
+      "from": [],
+      "reviewBoundary": "逐项核对本版官方说明只有直接固定属性，且所有stats字段与说明一致；不代表核过客户端隐藏机制或装备购买互斥。"
+    },
+    {
+      "itemId": "1037",
+      "proposedKey": "item_1037",
+      "existingEquipmentKey": null,
+      "name": "十字镐",
+      "description": "16.17.1；攻击力 +25",
+      "attributes": [
+        {
+          "name": "攻击力",
+          "value": 25,
+          "unit": "固定值",
+          "valueFraction": null,
+          "sourceText": "25攻击力",
+          "sourceStatsField": "FlatPhysicalDamageMod",
+          "sourceStatsValue": 25,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": "attack_damage",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": []
+        }
+      ],
+      "requiredSkills": [],
+      "needsNewAttributes": false,
+      "suggestedStatus": "现有属性目录可表达，待页面核单位并保存",
+      "sourceVersion": "16.17.1",
+      "sourceUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+      "sourcePointer": "/data/1037",
+      "sourceDescription": "<mainText><stats><attention>25</attention>攻击力</stats><br><br></mainText>",
+      "sourceStats": {
+        "FlatPhysicalDamageMod": 25
+      },
+      "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/item/1037.png",
+      "gold": {
+        "base": 875,
+        "purchasable": true,
+        "total": 875,
+        "sell": 613
+      },
+      "from": [],
+      "reviewBoundary": "逐项核对本版官方说明只有直接固定属性，且所有stats字段与说明一致；不代表核过客户端隐藏机制或装备购买互斥。"
+    },
+    {
+      "itemId": "1038",
+      "proposedKey": "item_1038",
+      "existingEquipmentKey": null,
+      "name": "暴风之剑",
+      "description": "16.17.1；攻击力 +40",
+      "attributes": [
+        {
+          "name": "攻击力",
+          "value": 40,
+          "unit": "固定值",
+          "valueFraction": null,
+          "sourceText": "40攻击力",
+          "sourceStatsField": "FlatPhysicalDamageMod",
+          "sourceStatsValue": 40,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": "attack_damage",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": []
+        }
+      ],
+      "requiredSkills": [],
+      "needsNewAttributes": false,
+      "suggestedStatus": "现有属性目录可表达，待页面核单位并保存",
+      "sourceVersion": "16.17.1",
+      "sourceUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+      "sourcePointer": "/data/1038",
+      "sourceDescription": "<mainText><stats><attention>40</attention>攻击力</stats><br><br></mainText>",
+      "sourceStats": {
+        "FlatPhysicalDamageMod": 40
+      },
+      "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/item/1038.png",
+      "gold": {
+        "base": 1300,
+        "purchasable": true,
+        "total": 1300,
+        "sell": 910
+      },
+      "from": [],
+      "reviewBoundary": "逐项核对本版官方说明只有直接固定属性，且所有stats字段与说明一致；不代表核过客户端隐藏机制或装备购买互斥。"
+    },
+    {
+      "itemId": "1042",
+      "proposedKey": "item_1042",
+      "existingEquipmentKey": null,
+      "name": "短剑",
+      "description": "16.17.1；攻击速度 +10%",
+      "attributes": [
+        {
+          "name": "攻击速度",
+          "value": 10,
+          "unit": "百分数（10表示10%）",
+          "valueFraction": 0.1,
+          "sourceText": "10%攻击速度",
+          "sourceStatsField": "PercentAttackSpeedMod",
+          "sourceStatsValue": 0.1,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": "bonus_attack_speed_percent",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": [
+            "这是额外攻击速度百分比，不是每秒基础攻击次数，禁止写入attack_speed。"
+          ]
+        }
+      ],
+      "requiredSkills": [],
+      "needsNewAttributes": false,
+      "suggestedStatus": "现有属性目录可表达，待页面核单位并保存",
+      "sourceVersion": "16.17.1",
+      "sourceUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+      "sourcePointer": "/data/1042",
+      "sourceDescription": "<mainText><stats><attention>10%</attention>攻击速度</stats><br><br></mainText>",
+      "sourceStats": {
+        "PercentAttackSpeedMod": 0.1
+      },
+      "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/item/1042.png",
+      "gold": {
+        "base": 250,
+        "purchasable": true,
+        "total": 250,
+        "sell": 175
+      },
+      "from": [],
+      "reviewBoundary": "逐项核对本版官方说明只有直接固定属性，且所有stats字段与说明一致；不代表核过客户端隐藏机制或装备购买互斥。"
+    },
+    {
+      "itemId": "1052",
+      "proposedKey": "item_1052",
+      "existingEquipmentKey": null,
+      "name": "增幅典籍",
+      "description": "16.17.1；法术强度 +20",
+      "attributes": [
+        {
+          "name": "法术强度",
+          "value": 20,
+          "unit": "固定值",
+          "valueFraction": null,
+          "sourceText": "20法术强度",
+          "sourceStatsField": "FlatMagicDamageMod",
+          "sourceStatsValue": 20,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": "ability_power",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": []
+        }
+      ],
+      "requiredSkills": [],
+      "needsNewAttributes": false,
+      "suggestedStatus": "现有属性目录可表达，待页面核单位并保存",
+      "sourceVersion": "16.17.1",
+      "sourceUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+      "sourcePointer": "/data/1052",
+      "sourceDescription": "<mainText><stats><attention>20</attention>法术强度</stats><br><br></mainText>",
+      "sourceStats": {
+        "FlatMagicDamageMod": 20
+      },
+      "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/item/1052.png",
+      "gold": {
+        "base": 400,
+        "purchasable": true,
+        "total": 400,
+        "sell": 280
+      },
+      "from": [],
+      "reviewBoundary": "逐项核对本版官方说明只有直接固定属性，且所有stats字段与说明一致；不代表核过客户端隐藏机制或装备购买互斥。"
+    },
+    {
+      "itemId": "1053",
+      "proposedKey": "item_1053",
+      "existingEquipmentKey": null,
+      "name": "吸血鬼节杖",
+      "description": "16.17.1；攻击力 +15；生命偷取 +7%",
+      "attributes": [
+        {
+          "name": "攻击力",
+          "value": 15,
+          "unit": "固定值",
+          "valueFraction": null,
+          "sourceText": "15攻击力",
+          "sourceStatsField": "FlatPhysicalDamageMod",
+          "sourceStatsValue": 15,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": "attack_damage",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": []
+        },
+        {
+          "name": "生命偷取",
+          "value": 7,
+          "unit": "百分数（10表示10%）",
+          "valueFraction": 0.07,
+          "sourceText": "7%生命偷取",
+          "sourceStatsField": "PercentLifeStealMod",
+          "sourceStatsValue": 0.07,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": null,
+          "suggestedNewAttributeKey": "life_steal_percent",
+          "requiresNewAttribute": true,
+          "notes": []
+        }
+      ],
+      "requiredSkills": [],
+      "needsNewAttributes": true,
+      "suggestedStatus": "需补属性目录后完整录入",
+      "sourceVersion": "16.17.1",
+      "sourceUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+      "sourcePointer": "/data/1053",
+      "sourceDescription": "<mainText><stats><attention>15</attention>攻击力<br><attention>7%</attention>生命偷取</stats><br><br></mainText>",
+      "sourceStats": {
+        "FlatPhysicalDamageMod": 15,
+        "PercentLifeStealMod": 0.07
+      },
+      "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/item/1053.png",
+      "gold": {
+        "base": 550,
+        "purchasable": true,
+        "total": 900,
+        "sell": 630
+      },
+      "from": [
+        "1036"
+      ],
+      "reviewBoundary": "逐项核对本版官方说明只有直接固定属性，且所有stats字段与说明一致；不代表核过客户端隐藏机制或装备购买互斥。"
+    },
+    {
+      "itemId": "1055",
+      "proposedKey": "item_1055",
+      "existingEquipmentKey": "duolan_jian",
+      "name": "多兰之刃",
+      "description": "16.17.1；攻击力 +10；生命值 +80；全能吸血 +2.5%",
+      "attributes": [
+        {
+          "name": "攻击力",
+          "value": 10,
+          "unit": "固定值",
+          "valueFraction": null,
+          "sourceText": "10攻击力",
+          "sourceStatsField": "FlatPhysicalDamageMod",
+          "sourceStatsValue": 10,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": "attack_damage",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": []
+        },
+        {
+          "name": "生命值",
+          "value": 80,
+          "unit": "固定值",
+          "valueFraction": null,
+          "sourceText": "80生命值",
+          "sourceStatsField": "FlatHPPoolMod",
+          "sourceStatsValue": 80,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": "hp",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": []
+        },
+        {
+          "name": "全能吸血",
+          "value": 2.5,
+          "unit": "百分数（10表示10%）",
+          "valueFraction": 0.025,
+          "sourceText": "2.5%全能吸血",
+          "sourceStatsField": null,
+          "sourceStatsValue": null,
+          "crossCheck": "数值取自完整说明；stats缺该字段，不填0",
+          "existingAttributeKey": null,
+          "suggestedNewAttributeKey": "omnivamp_percent",
+          "requiresNewAttribute": true,
+          "notes": []
+        }
+      ],
+      "requiredSkills": [],
+      "needsNewAttributes": true,
+      "suggestedStatus": "需补属性目录后完整录入",
+      "sourceVersion": "16.17.1",
+      "sourceUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+      "sourcePointer": "/data/1055",
+      "sourceDescription": "<mainText><stats><attention>10</attention>攻击力<br><attention>80</attention>生命值<br><attention>2.5%</attention>全能吸血</stats><br><br></mainText>",
+      "sourceStats": {
+        "FlatHPPoolMod": 80,
+        "FlatPhysicalDamageMod": 10
+      },
+      "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/item/1055.png",
+      "gold": {
+        "base": 450,
+        "purchasable": true,
+        "total": 450,
+        "sell": 180
+      },
+      "from": [],
+      "reviewBoundary": "逐项核对本版官方说明只有直接固定属性，且所有stats字段与说明一致；不代表核过客户端隐藏机制或装备购买互斥。"
+    },
+    {
+      "itemId": "1057",
+      "proposedKey": "item_1057",
+      "existingEquipmentKey": null,
+      "name": "负极斗篷",
+      "description": "16.17.1；魔法抗性 +45",
+      "attributes": [
+        {
+          "name": "魔法抗性",
+          "value": 45,
+          "unit": "固定值",
+          "valueFraction": null,
+          "sourceText": "45魔法抗性",
+          "sourceStatsField": "FlatSpellBlockMod",
+          "sourceStatsValue": 45,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": "magic_resistance",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": []
+        }
+      ],
+      "requiredSkills": [],
+      "needsNewAttributes": false,
+      "suggestedStatus": "现有属性目录可表达，待页面核单位并保存",
+      "sourceVersion": "16.17.1",
+      "sourceUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+      "sourcePointer": "/data/1057",
+      "sourceDescription": "<mainText><stats><attention>45</attention>魔法抗性</stats><br><br></mainText>",
+      "sourceStats": {
+        "FlatSpellBlockMod": 45
+      },
+      "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/item/1057.png",
+      "gold": {
+        "base": 450,
+        "purchasable": true,
+        "total": 850,
+        "sell": 595
+      },
+      "from": [
+        "1033"
+      ],
+      "reviewBoundary": "逐项核对本版官方说明只有直接固定属性，且所有stats字段与说明一致；不代表核过客户端隐藏机制或装备购买互斥。"
+    },
+    {
+      "itemId": "1058",
+      "proposedKey": "item_1058",
+      "existingEquipmentKey": null,
+      "name": "无用大棒",
+      "description": "16.17.1；法术强度 +65",
+      "attributes": [
+        {
+          "name": "法术强度",
+          "value": 65,
+          "unit": "固定值",
+          "valueFraction": null,
+          "sourceText": "65法术强度",
+          "sourceStatsField": "FlatMagicDamageMod",
+          "sourceStatsValue": 65,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": "ability_power",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": []
+        }
+      ],
+      "requiredSkills": [],
+      "needsNewAttributes": false,
+      "suggestedStatus": "现有属性目录可表达，待页面核单位并保存",
+      "sourceVersion": "16.17.1",
+      "sourceUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+      "sourcePointer": "/data/1058",
+      "sourceDescription": "<mainText><stats><attention>65</attention>法术强度</stats><br><br></mainText>",
+      "sourceStats": {
+        "FlatMagicDamageMod": 65
+      },
+      "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/item/1058.png",
+      "gold": {
+        "base": 1200,
+        "purchasable": true,
+        "total": 1200,
+        "sell": 840
+      },
+      "from": [],
+      "reviewBoundary": "逐项核对本版官方说明只有直接固定属性，且所有stats字段与说明一致；不代表核过客户端隐藏机制或装备购买互斥。"
+    },
+    {
+      "itemId": "1086",
+      "proposedKey": "item_1086",
+      "existingEquipmentKey": null,
+      "name": "多兰之弓",
+      "description": "16.17.1；攻击力 +8；攻击速度 +15%；全能吸血 +1.5%",
+      "attributes": [
+        {
+          "name": "攻击力",
+          "value": 8,
+          "unit": "固定值",
+          "valueFraction": null,
+          "sourceText": "8攻击力",
+          "sourceStatsField": "FlatPhysicalDamageMod",
+          "sourceStatsValue": 8,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": "attack_damage",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": []
+        },
+        {
+          "name": "攻击速度",
+          "value": 15,
+          "unit": "百分数（10表示10%）",
+          "valueFraction": 0.15,
+          "sourceText": "15%攻击速度",
+          "sourceStatsField": "PercentAttackSpeedMod",
+          "sourceStatsValue": 0.15,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": "bonus_attack_speed_percent",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": [
+            "这是额外攻击速度百分比，不是每秒基础攻击次数，禁止写入attack_speed。"
+          ]
+        },
+        {
+          "name": "全能吸血",
+          "value": 1.5,
+          "unit": "百分数（10表示10%）",
+          "valueFraction": 0.015,
+          "sourceText": "1.5%全能吸血",
+          "sourceStatsField": null,
+          "sourceStatsValue": null,
+          "crossCheck": "数值取自完整说明；stats缺该字段，不填0",
+          "existingAttributeKey": null,
+          "suggestedNewAttributeKey": "omnivamp_percent",
+          "requiresNewAttribute": true,
+          "notes": []
+        }
+      ],
+      "requiredSkills": [],
+      "needsNewAttributes": true,
+      "suggestedStatus": "需补属性目录后完整录入",
+      "sourceVersion": "16.17.1",
+      "sourceUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+      "sourcePointer": "/data/1086",
+      "sourceDescription": "<mainText><stats><attention>8</attention>攻击力<br><attention>15%</attention>攻击速度<br><attention>1.5%</attention>全能吸血</stats><br><br></mainText>",
+      "sourceStats": {
+        "FlatPhysicalDamageMod": 8,
+        "PercentAttackSpeedMod": 0.15
+      },
+      "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/item/1086.png",
+      "gold": {
+        "base": 400,
+        "purchasable": true,
+        "total": 400,
+        "sell": 160
+      },
+      "from": [],
+      "reviewBoundary": "逐项核对本版官方说明只有直接固定属性，且所有stats字段与说明一致；不代表核过客户端隐藏机制或装备购买互斥。"
+    },
+    {
+      "itemId": "2019",
+      "proposedKey": "item_2019",
+      "existingEquipmentKey": null,
+      "name": "钢铁印章",
+      "description": "16.17.1；攻击力 +15；护甲 +30",
+      "attributes": [
+        {
+          "name": "攻击力",
+          "value": 15,
+          "unit": "固定值",
+          "valueFraction": null,
+          "sourceText": "15攻击力",
+          "sourceStatsField": "FlatPhysicalDamageMod",
+          "sourceStatsValue": 15,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": "attack_damage",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": []
+        },
+        {
+          "name": "护甲",
+          "value": 30,
+          "unit": "固定值",
+          "valueFraction": null,
+          "sourceText": "30护甲",
+          "sourceStatsField": "FlatArmorMod",
+          "sourceStatsValue": 30,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": "armor",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": []
+        }
+      ],
+      "requiredSkills": [],
+      "needsNewAttributes": false,
+      "suggestedStatus": "现有属性目录可表达，待页面核单位并保存",
+      "sourceVersion": "16.17.1",
+      "sourceUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+      "sourcePointer": "/data/2019",
+      "sourceDescription": "<mainText><stats><attention>15</attention>攻击力<br><attention>30</attention>护甲</stats><br><br></mainText>",
+      "sourceStats": {
+        "FlatArmorMod": 30,
+        "FlatPhysicalDamageMod": 15
+      },
+      "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/item/2019.png",
+      "gold": {
+        "base": 150,
+        "purchasable": true,
+        "total": 1100,
+        "sell": 770
+      },
+      "from": [
+        "1029",
+        "1036",
+        "1029"
+      ],
+      "reviewBoundary": "逐项核对本版官方说明只有直接固定属性，且所有stats字段与说明一致；不代表核过客户端隐藏机制或装备购买互斥。"
+    },
+    {
+      "itemId": "2020",
+      "proposedKey": "item_2020",
+      "existingEquipmentKey": null,
+      "name": "残暴之力",
+      "description": "16.17.1；攻击力 +25；技能急速 +10；穿甲 +5",
+      "attributes": [
+        {
+          "name": "攻击力",
+          "value": 25,
+          "unit": "固定值",
+          "valueFraction": null,
+          "sourceText": "25攻击力",
+          "sourceStatsField": "FlatPhysicalDamageMod",
+          "sourceStatsValue": 25,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": "attack_damage",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": []
+        },
+        {
+          "name": "技能急速",
+          "value": 10,
+          "unit": "固定值",
+          "valueFraction": null,
+          "sourceText": "10技能急速",
+          "sourceStatsField": null,
+          "sourceStatsValue": null,
+          "crossCheck": "数值取自完整说明；stats缺该字段，不填0",
+          "existingAttributeKey": null,
+          "suggestedNewAttributeKey": "ability_haste",
+          "requiresNewAttribute": true,
+          "notes": []
+        },
+        {
+          "name": "穿甲",
+          "value": 5,
+          "unit": "固定值",
+          "valueFraction": null,
+          "sourceText": "5穿甲",
+          "sourceStatsField": null,
+          "sourceStatsValue": null,
+          "crossCheck": "数值取自完整说明；stats缺该字段，不填0",
+          "existingAttributeKey": "armor_pen_flat",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": []
+        }
+      ],
+      "requiredSkills": [],
+      "needsNewAttributes": true,
+      "suggestedStatus": "需补属性目录后完整录入",
+      "sourceVersion": "16.17.1",
+      "sourceUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+      "sourcePointer": "/data/2020",
+      "sourceDescription": "<mainText><stats><attention>25</attention>攻击力<br><attention>10</attention>技能急速<br><attention>5</attention>穿甲</stats><br><br></mainText>",
+      "sourceStats": {
+        "FlatPhysicalDamageMod": 25
+      },
+      "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/item/2020.png",
+      "gold": {
+        "base": 212,
+        "purchasable": true,
+        "total": 1337,
+        "sell": 936
+      },
+      "from": [
+        "2022",
+        "1037"
+      ],
+      "reviewBoundary": "逐项核对本版官方说明只有直接固定属性，且所有stats字段与说明一致；不代表核过客户端隐藏机制或装备购买互斥。"
+    },
+    {
+      "itemId": "2021",
+      "proposedKey": "item_2021",
+      "existingEquipmentKey": null,
+      "name": "掘道钻头",
+      "description": "16.17.1；攻击力 +15；生命值 +250",
+      "attributes": [
+        {
+          "name": "攻击力",
+          "value": 15,
+          "unit": "固定值",
+          "valueFraction": null,
+          "sourceText": "15攻击力",
+          "sourceStatsField": "FlatPhysicalDamageMod",
+          "sourceStatsValue": 15,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": "attack_damage",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": []
+        },
+        {
+          "name": "生命值",
+          "value": 250,
+          "unit": "固定值",
+          "valueFraction": null,
+          "sourceText": "250生命值",
+          "sourceStatsField": "FlatHPPoolMod",
+          "sourceStatsValue": 250,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": "hp",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": []
+        }
+      ],
+      "requiredSkills": [],
+      "needsNewAttributes": false,
+      "suggestedStatus": "现有属性目录可表达，待页面核单位并保存",
+      "sourceVersion": "16.17.1",
+      "sourceUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+      "sourcePointer": "/data/2021",
+      "sourceDescription": "<mainText><stats><attention>15</attention>攻击力<br><attention>250</attention>生命值</stats><br><br></mainText>",
+      "sourceStats": {
+        "FlatHPPoolMod": 250,
+        "FlatPhysicalDamageMod": 15
+      },
+      "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/item/2021.png",
+      "gold": {
+        "base": 400,
+        "purchasable": true,
+        "total": 1150,
+        "sell": 805
+      },
+      "from": [
+        "1036",
+        "1028"
+      ],
+      "reviewBoundary": "逐项核对本版官方说明只有直接固定属性，且所有stats字段与说明一致；不代表核过客户端隐藏机制或装备购买互斥。"
+    },
+    {
+      "itemId": "2022",
+      "proposedKey": "item_2022",
+      "existingEquipmentKey": null,
+      "name": "荧尘",
+      "description": "16.17.1；技能急速 +5",
+      "attributes": [
+        {
+          "name": "技能急速",
+          "value": 5,
+          "unit": "固定值",
+          "valueFraction": null,
+          "sourceText": "5技能急速",
+          "sourceStatsField": null,
+          "sourceStatsValue": null,
+          "crossCheck": "数值取自完整说明；stats缺该字段，不填0",
+          "existingAttributeKey": null,
+          "suggestedNewAttributeKey": "ability_haste",
+          "requiresNewAttribute": true,
+          "notes": []
+        }
+      ],
+      "requiredSkills": [],
+      "needsNewAttributes": true,
+      "suggestedStatus": "需补属性目录后完整录入",
+      "sourceVersion": "16.17.1",
+      "sourceUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+      "sourcePointer": "/data/2022",
+      "sourceDescription": "<mainText><stats><attention>5</attention>技能急速</stats><br><br></mainText>",
+      "sourceStats": {},
+      "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/item/2022.png",
+      "gold": {
+        "base": 250,
+        "purchasable": true,
+        "total": 250,
+        "sell": 175
+      },
+      "from": [],
+      "reviewBoundary": "逐项核对本版官方说明只有直接固定属性，且所有stats字段与说明一致；不代表核过客户端隐藏机制或装备购买互斥。"
+    },
+    {
+      "itemId": "3006",
+      "proposedKey": "item_3006",
+      "existingEquipmentKey": null,
+      "name": "狂战士胫甲",
+      "description": "16.17.1；攻击速度 +30%；移动速度 +45",
+      "attributes": [
+        {
+          "name": "攻击速度",
+          "value": 30,
+          "unit": "百分数（10表示10%）",
+          "valueFraction": 0.3,
+          "sourceText": "30%攻击速度",
+          "sourceStatsField": "PercentAttackSpeedMod",
+          "sourceStatsValue": 0.3,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": "bonus_attack_speed_percent",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": [
+            "这是额外攻击速度百分比，不是每秒基础攻击次数，禁止写入attack_speed。"
+          ]
+        },
+        {
+          "name": "移动速度",
+          "value": 45,
+          "unit": "固定值",
+          "valueFraction": null,
+          "sourceText": "45移动速度",
+          "sourceStatsField": "FlatMovementSpeedMod",
+          "sourceStatsValue": 45,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": "move_speed",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": []
+        }
+      ],
+      "requiredSkills": [],
+      "needsNewAttributes": false,
+      "suggestedStatus": "现有属性目录可表达，待页面核单位并保存",
+      "sourceVersion": "16.17.1",
+      "sourceUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+      "sourcePointer": "/data/3006",
+      "sourceDescription": "<mainText><stats><attention>30%</attention>攻击速度<br><attention>45</attention>移动速度</stats><br><br></mainText>",
+      "sourceStats": {
+        "FlatMovementSpeedMod": 45,
+        "PercentAttackSpeedMod": 0.3
+      },
+      "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/item/3006.png",
+      "gold": {
+        "base": 300,
+        "purchasable": true,
+        "total": 1100,
+        "sell": 770
+      },
+      "from": [
+        "1001",
+        "1042",
+        "1042"
+      ],
+      "reviewBoundary": "逐项核对本版官方说明只有直接固定属性，且所有stats字段与说明一致；不代表核过客户端隐藏机制或装备购买互斥。"
+    },
+    {
+      "itemId": "3020",
+      "proposedKey": "item_3020",
+      "existingEquipmentKey": null,
+      "name": "法师之靴",
+      "description": "16.17.1；法术穿透 +12；移动速度 +45",
+      "attributes": [
+        {
+          "name": "法术穿透",
+          "value": 12,
+          "unit": "固定值",
+          "valueFraction": null,
+          "sourceText": "12法术穿透",
+          "sourceStatsField": null,
+          "sourceStatsValue": null,
+          "crossCheck": "数值取自完整说明；stats缺该字段，不填0",
+          "existingAttributeKey": null,
+          "suggestedNewAttributeKey": "magic_pen_flat",
+          "requiresNewAttribute": true,
+          "notes": []
+        },
+        {
+          "name": "移动速度",
+          "value": 45,
+          "unit": "固定值",
+          "valueFraction": null,
+          "sourceText": "45移动速度",
+          "sourceStatsField": "FlatMovementSpeedMod",
+          "sourceStatsValue": 45,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": "move_speed",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": []
+        }
+      ],
+      "requiredSkills": [],
+      "needsNewAttributes": true,
+      "suggestedStatus": "需补属性目录后完整录入",
+      "sourceVersion": "16.17.1",
+      "sourceUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+      "sourcePointer": "/data/3020",
+      "sourceDescription": "<mainText><stats><attention>12</attention>法术穿透<br><attention>45</attention>移动速度</stats><br><br></mainText>",
+      "sourceStats": {
+        "FlatMovementSpeedMod": 45
+      },
+      "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/item/3020.png",
+      "gold": {
+        "base": 800,
+        "purchasable": true,
+        "total": 1100,
+        "sell": 770
+      },
+      "from": [
+        "1001"
+      ],
+      "reviewBoundary": "逐项核对本版官方说明只有直接固定属性，且所有stats字段与说明一致；不代表核过客户端隐藏机制或装备购买互斥。"
+    },
+    {
+      "itemId": "3024",
+      "proposedKey": "item_3024",
+      "existingEquipmentKey": null,
+      "name": "冰川圆盾",
+      "description": "16.17.1；护甲 +25；法力 +300；技能急速 +10",
+      "attributes": [
+        {
+          "name": "护甲",
+          "value": 25,
+          "unit": "固定值",
+          "valueFraction": null,
+          "sourceText": "25护甲",
+          "sourceStatsField": "FlatArmorMod",
+          "sourceStatsValue": 25,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": "armor",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": []
+        },
+        {
+          "name": "法力",
+          "value": 300,
+          "unit": "固定值",
+          "valueFraction": null,
+          "sourceText": "300法力",
+          "sourceStatsField": "FlatMPPoolMod",
+          "sourceStatsValue": 300,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": "mana",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": []
+        },
+        {
+          "name": "技能急速",
+          "value": 10,
+          "unit": "固定值",
+          "valueFraction": null,
+          "sourceText": "10技能急速",
+          "sourceStatsField": null,
+          "sourceStatsValue": null,
+          "crossCheck": "数值取自完整说明；stats缺该字段，不填0",
+          "existingAttributeKey": null,
+          "suggestedNewAttributeKey": "ability_haste",
+          "requiresNewAttribute": true,
+          "notes": []
+        }
+      ],
+      "requiredSkills": [],
+      "needsNewAttributes": true,
+      "suggestedStatus": "需补属性目录后完整录入",
+      "sourceVersion": "16.17.1",
+      "sourceUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+      "sourcePointer": "/data/3024",
+      "sourceDescription": "<mainText><stats><attention>25</attention>护甲<br><attention>300</attention>法力<br><attention>10</attention>技能急速</stats><br><br></mainText>",
+      "sourceStats": {
+        "FlatMPPoolMod": 300,
+        "FlatArmorMod": 25
+      },
+      "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/item/3024.png",
+      "gold": {
+        "base": 50,
+        "purchasable": true,
+        "total": 900,
+        "sell": 630
+      },
+      "from": [
+        "1029",
+        "1027",
+        "2022"
+      ],
+      "reviewBoundary": "逐项核对本版官方说明只有直接固定属性，且所有stats字段与说明一致；不代表核过客户端隐藏机制或装备购买互斥。"
+    },
+    {
+      "itemId": "3031",
+      "proposedKey": "item_3031",
+      "existingEquipmentKey": null,
+      "name": "无尽之刃",
+      "description": "16.17.1；攻击力 +75；暴击几率 +25%；暴击伤害 +30%",
+      "attributes": [
+        {
+          "name": "攻击力",
+          "value": 75,
+          "unit": "固定值",
+          "valueFraction": null,
+          "sourceText": "75攻击力",
+          "sourceStatsField": "FlatPhysicalDamageMod",
+          "sourceStatsValue": 75,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": "attack_damage",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": []
+        },
+        {
+          "name": "暴击几率",
+          "value": 25,
+          "unit": "百分数（10表示10%）",
+          "valueFraction": 0.25,
+          "sourceText": "25%暴击几率",
+          "sourceStatsField": "FlatCritChanceMod",
+          "sourceStatsValue": 0.25,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": "critical_strike_chance",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": []
+        },
+        {
+          "name": "暴击伤害",
+          "value": 30,
+          "unit": "百分数（10表示10%）",
+          "valueFraction": 0.3,
+          "sourceText": "30%暴击伤害",
+          "sourceStatsField": null,
+          "sourceStatsValue": null,
+          "crossCheck": "数值取自完整说明；stats缺该字段，不填0",
+          "existingAttributeKey": null,
+          "suggestedNewAttributeKey": "critical_strike_damage_bonus_percent",
+          "requiresNewAttribute": true,
+          "notes": [
+            "只保留原文+30%的暴击伤害加成；本资料未证实叠加运算，不擅自换成总暴击倍率。"
+          ]
+        }
+      ],
+      "requiredSkills": [],
+      "needsNewAttributes": true,
+      "suggestedStatus": "需补属性目录后完整录入",
+      "sourceVersion": "16.17.1",
+      "sourceUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+      "sourcePointer": "/data/3031",
+      "sourceDescription": "<mainText><stats><attention>75</attention>攻击力<br><attention>25%</attention>暴击几率<br><attention>30%</attention>暴击伤害</stats><br><br></mainText>",
+      "sourceStats": {
+        "FlatCritChanceMod": 0.25,
+        "FlatPhysicalDamageMod": 75
+      },
+      "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/item/3031.png",
+      "gold": {
+        "base": 725,
+        "purchasable": true,
+        "total": 3500,
+        "sell": 2450
+      },
+      "from": [
+        "1038",
+        "1037",
+        "1018"
+      ],
+      "reviewBoundary": "逐项核对本版官方说明只有直接固定属性，且所有stats字段与说明一致；不代表核过客户端隐藏机制或装备购买互斥。"
+    },
+    {
+      "itemId": "3035",
+      "proposedKey": "item_3035",
+      "existingEquipmentKey": null,
+      "name": "最后的轻语",
+      "description": "16.17.1；攻击力 +20；护甲穿透 +18%",
+      "attributes": [
+        {
+          "name": "攻击力",
+          "value": 20,
+          "unit": "固定值",
+          "valueFraction": null,
+          "sourceText": "20攻击力",
+          "sourceStatsField": "FlatPhysicalDamageMod",
+          "sourceStatsValue": 20,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": "attack_damage",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": []
+        },
+        {
+          "name": "护甲穿透",
+          "value": 18,
+          "unit": "百分数（10表示10%）",
+          "valueFraction": 0.18,
+          "sourceText": "18%护甲穿透",
+          "sourceStatsField": null,
+          "sourceStatsValue": null,
+          "crossCheck": "数值取自完整说明；stats缺该字段，不填0",
+          "existingAttributeKey": "armor_pen_percent",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": []
+        }
+      ],
+      "requiredSkills": [],
+      "needsNewAttributes": false,
+      "suggestedStatus": "现有属性目录可表达，待页面核单位并保存",
+      "sourceVersion": "16.17.1",
+      "sourceUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+      "sourcePointer": "/data/3035",
+      "sourceDescription": "<mainText><stats><attention>20</attention>攻击力<br><attention>18%</attention>护甲穿透</stats><br><br></mainText>",
+      "sourceStats": {
+        "FlatPhysicalDamageMod": 20
+      },
+      "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/item/3035.png",
+      "gold": {
+        "base": 750,
+        "purchasable": true,
+        "total": 1450,
+        "sell": 1015
+      },
+      "from": [
+        "1036",
+        "1036"
+      ],
+      "reviewBoundary": "逐项核对本版官方说明只有直接固定属性，且所有stats字段与说明一致；不代表核过客户端隐藏机制或装备购买互斥。"
+    },
+    {
+      "itemId": "3051",
+      "proposedKey": "item_3051",
+      "existingEquipmentKey": null,
+      "name": "缚炉之斧",
+      "description": "16.17.1；攻击力 +20；攻击速度 +20%",
+      "attributes": [
+        {
+          "name": "攻击力",
+          "value": 20,
+          "unit": "固定值",
+          "valueFraction": null,
+          "sourceText": "20攻击力",
+          "sourceStatsField": "FlatPhysicalDamageMod",
+          "sourceStatsValue": 20,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": "attack_damage",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": []
+        },
+        {
+          "name": "攻击速度",
+          "value": 20,
+          "unit": "百分数（10表示10%）",
+          "valueFraction": 0.2,
+          "sourceText": "20%攻击速度",
+          "sourceStatsField": "PercentAttackSpeedMod",
+          "sourceStatsValue": 0.2,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": "bonus_attack_speed_percent",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": [
+            "这是额外攻击速度百分比，不是每秒基础攻击次数，禁止写入attack_speed。"
+          ]
+        }
+      ],
+      "requiredSkills": [],
+      "needsNewAttributes": false,
+      "suggestedStatus": "现有属性目录可表达，待页面核单位并保存",
+      "sourceVersion": "16.17.1",
+      "sourceUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+      "sourcePointer": "/data/3051",
+      "sourceDescription": "<mainText><stats><attention>20</attention>攻击力<br><attention>20%</attention>攻击速度</stats><br><br></mainText>",
+      "sourceStats": {
+        "FlatPhysicalDamageMod": 20,
+        "PercentAttackSpeedMod": 0.2
+      },
+      "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/item/3051.png",
+      "gold": {
+        "base": 250,
+        "purchasable": true,
+        "total": 1200,
+        "sell": 840
+      },
+      "from": [
+        "1036",
+        "1042",
+        "1036"
+      ],
+      "reviewBoundary": "逐项核对本版官方说明只有直接固定属性，且所有stats字段与说明一致；不代表核过客户端隐藏机制或装备购买互斥。"
+    },
+    {
+      "itemId": "3066",
+      "proposedKey": "item_3066",
+      "existingEquipmentKey": null,
+      "name": "带翼的月板甲",
+      "description": "16.17.1；生命值 +200；移动速度 +4%",
+      "attributes": [
+        {
+          "name": "生命值",
+          "value": 200,
+          "unit": "固定值",
+          "valueFraction": null,
+          "sourceText": "200生命值",
+          "sourceStatsField": "FlatHPPoolMod",
+          "sourceStatsValue": 200,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": "hp",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": []
+        },
+        {
+          "name": "移动速度",
+          "value": 4,
+          "unit": "百分数（10表示10%）",
+          "valueFraction": 0.04,
+          "sourceText": "4%移动速度",
+          "sourceStatsField": "PercentMovementSpeedMod",
+          "sourceStatsValue": 0.04,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": null,
+          "suggestedNewAttributeKey": "move_speed_percent",
+          "requiresNewAttribute": true,
+          "notes": [
+            "百分比移速，禁止写入固定move_speed。"
+          ]
+        }
+      ],
+      "requiredSkills": [],
+      "needsNewAttributes": true,
+      "suggestedStatus": "需补属性目录后完整录入",
+      "sourceVersion": "16.17.1",
+      "sourceUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+      "sourcePointer": "/data/3066",
+      "sourceDescription": "<mainText><stats><attention>200</attention>生命值<br><attention>4%</attention>移动速度</stats><br><br></mainText>",
+      "sourceStats": {
+        "FlatHPPoolMod": 200,
+        "PercentMovementSpeedMod": 0.04
+      },
+      "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/item/3066.png",
+      "gold": {
+        "base": 400,
+        "purchasable": true,
+        "total": 800,
+        "sell": 560
+      },
+      "from": [
+        "1028"
+      ],
+      "reviewBoundary": "逐项核对本版官方说明只有直接固定属性，且所有stats字段与说明一致；不代表核过客户端隐藏机制或装备购买互斥。"
+    },
+    {
+      "itemId": "3067",
+      "proposedKey": "item_3067",
+      "existingEquipmentKey": null,
+      "name": "燃烧宝石",
+      "description": "16.17.1；生命值 +200；技能急速 +10",
+      "attributes": [
+        {
+          "name": "生命值",
+          "value": 200,
+          "unit": "固定值",
+          "valueFraction": null,
+          "sourceText": "200生命值",
+          "sourceStatsField": "FlatHPPoolMod",
+          "sourceStatsValue": 200,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": "hp",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": []
+        },
+        {
+          "name": "技能急速",
+          "value": 10,
+          "unit": "固定值",
+          "valueFraction": null,
+          "sourceText": "10技能急速",
+          "sourceStatsField": null,
+          "sourceStatsValue": null,
+          "crossCheck": "数值取自完整说明；stats缺该字段，不填0",
+          "existingAttributeKey": null,
+          "suggestedNewAttributeKey": "ability_haste",
+          "requiresNewAttribute": true,
+          "notes": []
+        }
+      ],
+      "requiredSkills": [],
+      "needsNewAttributes": true,
+      "suggestedStatus": "需补属性目录后完整录入",
+      "sourceVersion": "16.17.1",
+      "sourceUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+      "sourcePointer": "/data/3067",
+      "sourceDescription": "<mainText><stats><attention>200</attention>生命值<br><attention>10</attention>技能急速</stats><br><br></mainText>",
+      "sourceStats": {
+        "FlatHPPoolMod": 200
+      },
+      "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/item/3067.png",
+      "gold": {
+        "base": 150,
+        "purchasable": true,
+        "total": 800,
+        "sell": 560
+      },
+      "from": [
+        "1028",
+        "2022"
+      ],
+      "reviewBoundary": "逐项核对本版官方说明只有直接固定属性，且所有stats字段与说明一致；不代表核过客户端隐藏机制或装备购买互斥。"
+    },
+    {
+      "itemId": "3086",
+      "proposedKey": "item_3086",
+      "existingEquipmentKey": null,
+      "name": "狂热",
+      "description": "16.17.1；攻击速度 +15%；暴击几率 +15%；移动速度 +4%",
+      "attributes": [
+        {
+          "name": "攻击速度",
+          "value": 15,
+          "unit": "百分数（10表示10%）",
+          "valueFraction": 0.15,
+          "sourceText": "15%攻击速度",
+          "sourceStatsField": "PercentAttackSpeedMod",
+          "sourceStatsValue": 0.15,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": "bonus_attack_speed_percent",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": [
+            "这是额外攻击速度百分比，不是每秒基础攻击次数，禁止写入attack_speed。"
+          ]
+        },
+        {
+          "name": "暴击几率",
+          "value": 15,
+          "unit": "百分数（10表示10%）",
+          "valueFraction": 0.15,
+          "sourceText": "15%暴击几率",
+          "sourceStatsField": "FlatCritChanceMod",
+          "sourceStatsValue": 0.15,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": "critical_strike_chance",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": []
+        },
+        {
+          "name": "移动速度",
+          "value": 4,
+          "unit": "百分数（10表示10%）",
+          "valueFraction": 0.04,
+          "sourceText": "4%移动速度",
+          "sourceStatsField": "PercentMovementSpeedMod",
+          "sourceStatsValue": 0.04,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": null,
+          "suggestedNewAttributeKey": "move_speed_percent",
+          "requiresNewAttribute": true,
+          "notes": [
+            "百分比移速，禁止写入固定move_speed。"
+          ]
+        }
+      ],
+      "requiredSkills": [],
+      "needsNewAttributes": true,
+      "suggestedStatus": "需补属性目录后完整录入",
+      "sourceVersion": "16.17.1",
+      "sourceUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+      "sourcePointer": "/data/3086",
+      "sourceDescription": "<mainText><stats><attention>15%</attention>攻击速度<br><attention>15%</attention>暴击几率<br><attention>4%</attention>移动速度</stats><br><br></mainText>",
+      "sourceStats": {
+        "FlatCritChanceMod": 0.15,
+        "PercentAttackSpeedMod": 0.15,
+        "PercentMovementSpeedMod": 0.04
+      },
+      "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/item/3086.png",
+      "gold": {
+        "base": 350,
+        "purchasable": true,
+        "total": 1200,
+        "sell": 840
+      },
+      "from": [
+        "1018",
+        "1042"
+      ],
+      "reviewBoundary": "逐项核对本版官方说明只有直接固定属性，且所有stats字段与说明一致；不代表核过客户端隐藏机制或装备购买互斥。"
+    },
+    {
+      "itemId": "3108",
+      "proposedKey": "item_3108",
+      "existingEquipmentKey": null,
+      "name": "恶魔法典",
+      "description": "16.17.1；法术强度 +25；技能急速 +10",
+      "attributes": [
+        {
+          "name": "法术强度",
+          "value": 25,
+          "unit": "固定值",
+          "valueFraction": null,
+          "sourceText": "25法术强度",
+          "sourceStatsField": "FlatMagicDamageMod",
+          "sourceStatsValue": 25,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": "ability_power",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": []
+        },
+        {
+          "name": "技能急速",
+          "value": 10,
+          "unit": "固定值",
+          "valueFraction": null,
+          "sourceText": "10技能急速",
+          "sourceStatsField": null,
+          "sourceStatsValue": null,
+          "crossCheck": "数值取自完整说明；stats缺该字段，不填0",
+          "existingAttributeKey": null,
+          "suggestedNewAttributeKey": "ability_haste",
+          "requiresNewAttribute": true,
+          "notes": []
+        }
+      ],
+      "requiredSkills": [],
+      "needsNewAttributes": true,
+      "suggestedStatus": "需补属性目录后完整录入",
+      "sourceVersion": "16.17.1",
+      "sourceUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+      "sourcePointer": "/data/3108",
+      "sourceDescription": "<mainText><stats><attention>25</attention>法术强度<br><attention>10</attention>技能急速</stats><br><br></mainText>",
+      "sourceStats": {
+        "FlatMagicDamageMod": 25
+      },
+      "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/item/3108.png",
+      "gold": {
+        "base": 200,
+        "purchasable": true,
+        "total": 850,
+        "sell": 595
+      },
+      "from": [
+        "1052",
+        "2022"
+      ],
+      "reviewBoundary": "逐项核对本版官方说明只有直接固定属性，且所有stats字段与说明一致；不代表核过客户端隐藏机制或装备购买互斥。"
+    },
+    {
+      "itemId": "3111",
+      "proposedKey": "item_3111",
+      "existingEquipmentKey": null,
+      "name": "水银之靴",
+      "description": "16.17.1；魔法抗性 +20；移动速度 +45；韧性 +30%",
+      "attributes": [
+        {
+          "name": "魔法抗性",
+          "value": 20,
+          "unit": "固定值",
+          "valueFraction": null,
+          "sourceText": "20魔法抗性",
+          "sourceStatsField": "FlatSpellBlockMod",
+          "sourceStatsValue": 20,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": "magic_resistance",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": []
+        },
+        {
+          "name": "移动速度",
+          "value": 45,
+          "unit": "固定值",
+          "valueFraction": null,
+          "sourceText": "45移动速度",
+          "sourceStatsField": "FlatMovementSpeedMod",
+          "sourceStatsValue": 45,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": "move_speed",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": []
+        },
+        {
+          "name": "韧性",
+          "value": 30,
+          "unit": "百分数（10表示10%）",
+          "valueFraction": 0.3,
+          "sourceText": "30%韧性",
+          "sourceStatsField": null,
+          "sourceStatsValue": null,
+          "crossCheck": "数值取自完整说明；stats缺该字段，不填0",
+          "existingAttributeKey": null,
+          "suggestedNewAttributeKey": "tenacity_percent",
+          "requiresNewAttribute": true,
+          "notes": []
+        }
+      ],
+      "requiredSkills": [],
+      "needsNewAttributes": true,
+      "suggestedStatus": "需补属性目录后完整录入",
+      "sourceVersion": "16.17.1",
+      "sourceUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+      "sourcePointer": "/data/3111",
+      "sourceDescription": "<mainText><stats><attention>20</attention>魔法抗性<br><attention>45</attention>移动速度<br><attention>30%</attention>韧性</stats><br><br></mainText>",
+      "sourceStats": {
+        "FlatSpellBlockMod": 20,
+        "FlatMovementSpeedMod": 45
+      },
+      "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/item/3111.png",
+      "gold": {
+        "base": 550,
+        "purchasable": true,
+        "total": 1250,
+        "sell": 875
+      },
+      "from": [
+        "1001",
+        "1033"
+      ],
+      "reviewBoundary": "逐项核对本版官方说明只有直接固定属性，且所有stats字段与说明一致；不代表核过客户端隐藏机制或装备购买互斥。"
+    },
+    {
+      "itemId": "3113",
+      "proposedKey": "item_3113",
+      "existingEquipmentKey": null,
+      "name": "以太精魂",
+      "description": "16.17.1；法术强度 +30；移动速度 +4%",
+      "attributes": [
+        {
+          "name": "法术强度",
+          "value": 30,
+          "unit": "固定值",
+          "valueFraction": null,
+          "sourceText": "30法术强度",
+          "sourceStatsField": "FlatMagicDamageMod",
+          "sourceStatsValue": 30,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": "ability_power",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": []
+        },
+        {
+          "name": "移动速度",
+          "value": 4,
+          "unit": "百分数（10表示10%）",
+          "valueFraction": 0.04,
+          "sourceText": "4%移动速度",
+          "sourceStatsField": "PercentMovementSpeedMod",
+          "sourceStatsValue": 0.04,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": null,
+          "suggestedNewAttributeKey": "move_speed_percent",
+          "requiresNewAttribute": true,
+          "notes": [
+            "百分比移速，禁止写入固定move_speed。"
+          ]
+        }
+      ],
+      "requiredSkills": [],
+      "needsNewAttributes": true,
+      "suggestedStatus": "需补属性目录后完整录入",
+      "sourceVersion": "16.17.1",
+      "sourceUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+      "sourcePointer": "/data/3113",
+      "sourceDescription": "<mainText><stats><attention>30</attention>法术强度<br><attention>4%</attention>移动速度</stats><br><br></mainText>",
+      "sourceStats": {
+        "FlatMagicDamageMod": 30,
+        "PercentMovementSpeedMod": 0.04
+      },
+      "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/item/3113.png",
+      "gold": {
+        "base": 500,
+        "purchasable": true,
+        "total": 900,
+        "sell": 630
+      },
+      "from": [
+        "1052"
+      ],
+      "reviewBoundary": "逐项核对本版官方说明只有直接固定属性，且所有stats字段与说明一致；不代表核过客户端隐藏机制或装备购买互斥。"
+    },
+    {
+      "itemId": "3114",
+      "proposedKey": "item_3114",
+      "existingEquipmentKey": null,
+      "name": "禁忌雕像",
+      "description": "16.17.1；基础法力回复 +50%；治疗和护盾强度 +8%",
+      "attributes": [
+        {
+          "name": "基础法力回复",
+          "value": 50,
+          "unit": "百分数（10表示10%）",
+          "valueFraction": 0.5,
+          "sourceText": "50%基础法力回复",
+          "sourceStatsField": null,
+          "sourceStatsValue": null,
+          "crossCheck": "数值取自完整说明；stats缺该字段，不填0",
+          "existingAttributeKey": null,
+          "suggestedNewAttributeKey": "base_mana_regen_percent",
+          "requiresNewAttribute": true,
+          "notes": [
+            "以角色基础回复为基数的百分比加成，禁止写入固定hp_regen或mana_regen。"
+          ]
+        },
+        {
+          "name": "治疗和护盾强度",
+          "value": 8,
+          "unit": "百分数（10表示10%）",
+          "valueFraction": 0.08,
+          "sourceText": "8%治疗和护盾强度",
+          "sourceStatsField": null,
+          "sourceStatsValue": null,
+          "crossCheck": "数值取自完整说明；stats缺该字段，不填0",
+          "existingAttributeKey": null,
+          "suggestedNewAttributeKey": "heal_shield_power_percent",
+          "requiresNewAttribute": true,
+          "notes": []
+        }
+      ],
+      "requiredSkills": [],
+      "needsNewAttributes": true,
+      "suggestedStatus": "需补属性目录后完整录入",
+      "sourceVersion": "16.17.1",
+      "sourceUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+      "sourcePointer": "/data/3114",
+      "sourceDescription": "<mainText><stats><attention>50%</attention>基础法力回复<br><attention>8%</attention>治疗和护盾强度</stats><br><br></mainText>",
+      "sourceStats": {},
+      "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/item/3114.png",
+      "gold": {
+        "base": 400,
+        "purchasable": true,
+        "total": 600,
+        "sell": 420
+      },
+      "from": [
+        "1004"
+      ],
+      "reviewBoundary": "逐项核对本版官方说明只有直接固定属性，且所有stats字段与说明一致；不代表核过客户端隐藏机制或装备购买互斥。"
+    },
+    {
+      "itemId": "3133",
+      "proposedKey": "item_3133",
+      "existingEquipmentKey": null,
+      "name": "考尔菲德的战锤",
+      "description": "16.17.1；攻击力 +20；技能急速 +10",
+      "attributes": [
+        {
+          "name": "攻击力",
+          "value": 20,
+          "unit": "固定值",
+          "valueFraction": null,
+          "sourceText": "20攻击力",
+          "sourceStatsField": "FlatPhysicalDamageMod",
+          "sourceStatsValue": 20,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": "attack_damage",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": []
+        },
+        {
+          "name": "技能急速",
+          "value": 10,
+          "unit": "固定值",
+          "valueFraction": null,
+          "sourceText": "10技能急速",
+          "sourceStatsField": null,
+          "sourceStatsValue": null,
+          "crossCheck": "数值取自完整说明；stats缺该字段，不填0",
+          "existingAttributeKey": null,
+          "suggestedNewAttributeKey": "ability_haste",
+          "requiresNewAttribute": true,
+          "notes": []
+        }
+      ],
+      "requiredSkills": [],
+      "needsNewAttributes": true,
+      "suggestedStatus": "需补属性目录后完整录入",
+      "sourceVersion": "16.17.1",
+      "sourceUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+      "sourcePointer": "/data/3133",
+      "sourceDescription": "<mainText><stats><attention>20</attention>攻击力<br><attention>10</attention>技能急速</stats><br><br></mainText>",
+      "sourceStats": {
+        "FlatPhysicalDamageMod": 20
+      },
+      "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/item/3133.png",
+      "gold": {
+        "base": 100,
+        "purchasable": true,
+        "total": 1050,
+        "sell": 735
+      },
+      "from": [
+        "1036",
+        "2022",
+        "1036"
+      ],
+      "reviewBoundary": "逐项核对本版官方说明只有直接固定属性，且所有stats字段与说明一致；不代表核过客户端隐藏机制或装备购买互斥。"
+    },
+    {
+      "itemId": "3134",
+      "proposedKey": "item_3134",
+      "existingEquipmentKey": null,
+      "name": "锯齿短匕",
+      "description": "16.17.1；攻击力 +20；穿甲 +10",
+      "attributes": [
+        {
+          "name": "攻击力",
+          "value": 20,
+          "unit": "固定值",
+          "valueFraction": null,
+          "sourceText": "20攻击力",
+          "sourceStatsField": "FlatPhysicalDamageMod",
+          "sourceStatsValue": 20,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": "attack_damage",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": []
+        },
+        {
+          "name": "穿甲",
+          "value": 10,
+          "unit": "固定值",
+          "valueFraction": null,
+          "sourceText": "10穿甲",
+          "sourceStatsField": null,
+          "sourceStatsValue": null,
+          "crossCheck": "数值取自完整说明；stats缺该字段，不填0",
+          "existingAttributeKey": "armor_pen_flat",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": []
+        }
+      ],
+      "requiredSkills": [],
+      "needsNewAttributes": false,
+      "suggestedStatus": "现有属性目录可表达，待页面核单位并保存",
+      "sourceVersion": "16.17.1",
+      "sourceUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+      "sourcePointer": "/data/3134",
+      "sourceDescription": "<mainText><stats><attention>20</attention>攻击力<br><attention>10</attention>穿甲</stats><br><br></mainText>",
+      "sourceStats": {
+        "FlatPhysicalDamageMod": 20
+      },
+      "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/item/3134.png",
+      "gold": {
+        "base": 300,
+        "purchasable": true,
+        "total": 1000,
+        "sell": 700
+      },
+      "from": [
+        "1036",
+        "1036"
+      ],
+      "reviewBoundary": "逐项核对本版官方说明只有直接固定属性，且所有stats字段与说明一致；不代表核过客户端隐藏机制或装备购买互斥。"
+    },
+    {
+      "itemId": "3135",
+      "proposedKey": "item_3135",
+      "existingEquipmentKey": null,
+      "name": "虚空之杖",
+      "description": "16.17.1；法术强度 +95；法术穿透 +40%",
+      "attributes": [
+        {
+          "name": "法术强度",
+          "value": 95,
+          "unit": "固定值",
+          "valueFraction": null,
+          "sourceText": "95法术强度",
+          "sourceStatsField": "FlatMagicDamageMod",
+          "sourceStatsValue": 95,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": "ability_power",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": []
+        },
+        {
+          "name": "法术穿透",
+          "value": 40,
+          "unit": "百分数（10表示10%）",
+          "valueFraction": 0.4,
+          "sourceText": "40%法术穿透",
+          "sourceStatsField": null,
+          "sourceStatsValue": null,
+          "crossCheck": "数值取自完整说明；stats缺该字段，不填0",
+          "existingAttributeKey": null,
+          "suggestedNewAttributeKey": "magic_pen_percent",
+          "requiresNewAttribute": true,
+          "notes": []
+        }
+      ],
+      "requiredSkills": [],
+      "needsNewAttributes": true,
+      "suggestedStatus": "需补属性目录后完整录入",
+      "sourceVersion": "16.17.1",
+      "sourceUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+      "sourcePointer": "/data/3135",
+      "sourceDescription": "<mainText><stats><attention>95</attention>法术强度<br><attention>40%</attention>法术穿透</stats><br><br></mainText>",
+      "sourceStats": {
+        "FlatMagicDamageMod": 95
+      },
+      "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/item/3135.png",
+      "gold": {
+        "base": 1050,
+        "purchasable": true,
+        "total": 3000,
+        "sell": 2100
+      },
+      "from": [
+        "4630",
+        "1026"
+      ],
+      "reviewBoundary": "逐项核对本版官方说明只有直接固定属性，且所有stats字段与说明一致；不代表核过客户端隐藏机制或装备购买互斥。"
+    },
+    {
+      "itemId": "3211",
+      "proposedKey": "item_3211",
+      "existingEquipmentKey": null,
+      "name": "幽魂斗篷",
+      "description": "16.17.1；生命值 +200；魔法抗性 +35；基础生命回复 +100%",
+      "attributes": [
+        {
+          "name": "生命值",
+          "value": 200,
+          "unit": "固定值",
+          "valueFraction": null,
+          "sourceText": "200生命值",
+          "sourceStatsField": "FlatHPPoolMod",
+          "sourceStatsValue": 200,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": "hp",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": []
+        },
+        {
+          "name": "魔法抗性",
+          "value": 35,
+          "unit": "固定值",
+          "valueFraction": null,
+          "sourceText": "35魔法抗性",
+          "sourceStatsField": "FlatSpellBlockMod",
+          "sourceStatsValue": 35,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": "magic_resistance",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": []
+        },
+        {
+          "name": "基础生命回复",
+          "value": 100,
+          "unit": "百分数（10表示10%）",
+          "valueFraction": 1,
+          "sourceText": "100%基础生命回复",
+          "sourceStatsField": null,
+          "sourceStatsValue": null,
+          "crossCheck": "数值取自完整说明；stats缺该字段，不填0",
+          "existingAttributeKey": null,
+          "suggestedNewAttributeKey": "base_hp_regen_percent",
+          "requiresNewAttribute": true,
+          "notes": [
+            "以角色基础回复为基数的百分比加成，禁止写入固定hp_regen或mana_regen。"
+          ]
+        }
+      ],
+      "requiredSkills": [],
+      "needsNewAttributes": true,
+      "suggestedStatus": "需补属性目录后完整录入",
+      "sourceVersion": "16.17.1",
+      "sourceUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+      "sourcePointer": "/data/3211",
+      "sourceDescription": "<mainText><stats><attention>200</attention>生命值<br><attention>35</attention>魔法抗性<br><attention>100%</attention>基础生命回复</stats><br><br></mainText>",
+      "sourceStats": {
+        "FlatSpellBlockMod": 35,
+        "FlatHPPoolMod": 200
+      },
+      "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/item/3211.png",
+      "gold": {
+        "base": 150,
+        "purchasable": true,
+        "total": 1250,
+        "sell": 875
+      },
+      "from": [
+        "1028",
+        "1033",
+        "1006"
+      ],
+      "reviewBoundary": "逐项核对本版官方说明只有直接固定属性，且所有stats字段与说明一致；不代表核过客户端隐藏机制或装备购买互斥。"
+    },
+    {
+      "itemId": "3801",
+      "proposedKey": "item_3801",
+      "existingEquipmentKey": null,
+      "name": "晶体护腕",
+      "description": "16.17.1；生命值 +200；基础生命回复 +100%",
+      "attributes": [
+        {
+          "name": "生命值",
+          "value": 200,
+          "unit": "固定值",
+          "valueFraction": null,
+          "sourceText": "200生命值",
+          "sourceStatsField": "FlatHPPoolMod",
+          "sourceStatsValue": 200,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": "hp",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": []
+        },
+        {
+          "name": "基础生命回复",
+          "value": 100,
+          "unit": "百分数（10表示10%）",
+          "valueFraction": 1,
+          "sourceText": "100%基础生命回复",
+          "sourceStatsField": null,
+          "sourceStatsValue": null,
+          "crossCheck": "数值取自完整说明；stats缺该字段，不填0",
+          "existingAttributeKey": null,
+          "suggestedNewAttributeKey": "base_hp_regen_percent",
+          "requiresNewAttribute": true,
+          "notes": [
+            "以角色基础回复为基数的百分比加成，禁止写入固定hp_regen或mana_regen。"
+          ]
+        }
+      ],
+      "requiredSkills": [],
+      "needsNewAttributes": true,
+      "suggestedStatus": "需补属性目录后完整录入",
+      "sourceVersion": "16.17.1",
+      "sourceUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+      "sourcePointer": "/data/3801",
+      "sourceDescription": "<mainText><stats><attention>200</attention>生命值<br><attention>100%</attention>基础生命回复</stats><br><br></mainText>",
+      "sourceStats": {
+        "FlatHPPoolMod": 200
+      },
+      "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/item/3801.png",
+      "gold": {
+        "base": 100,
+        "purchasable": true,
+        "total": 800,
+        "sell": 560
+      },
+      "from": [
+        "1028",
+        "1006"
+      ],
+      "reviewBoundary": "逐项核对本版官方说明只有直接固定属性，且所有stats字段与说明一致；不代表核过客户端隐藏机制或装备购买互斥。"
+    },
+    {
+      "itemId": "4630",
+      "proposedKey": "item_4630",
+      "existingEquipmentKey": null,
+      "name": "枯萎珠宝",
+      "description": "16.17.1；法术强度 +25；法术穿透 +13%",
+      "attributes": [
+        {
+          "name": "法术强度",
+          "value": 25,
+          "unit": "固定值",
+          "valueFraction": null,
+          "sourceText": "25法术强度",
+          "sourceStatsField": "FlatMagicDamageMod",
+          "sourceStatsValue": 25,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": "ability_power",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": []
+        },
+        {
+          "name": "法术穿透",
+          "value": 13,
+          "unit": "百分数（10表示10%）",
+          "valueFraction": 0.13,
+          "sourceText": "13%法术穿透",
+          "sourceStatsField": null,
+          "sourceStatsValue": null,
+          "crossCheck": "数值取自完整说明；stats缺该字段，不填0",
+          "existingAttributeKey": null,
+          "suggestedNewAttributeKey": "magic_pen_percent",
+          "requiresNewAttribute": true,
+          "notes": []
+        }
+      ],
+      "requiredSkills": [],
+      "needsNewAttributes": true,
+      "suggestedStatus": "需补属性目录后完整录入",
+      "sourceVersion": "16.17.1",
+      "sourceUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+      "sourcePointer": "/data/4630",
+      "sourceDescription": "<mainText><stats><attention>25</attention>法术强度<br><attention>13%</attention>法术穿透</stats><br><br></mainText>",
+      "sourceStats": {
+        "FlatMagicDamageMod": 25
+      },
+      "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/item/4630.png",
+      "gold": {
+        "base": 700,
+        "purchasable": true,
+        "total": 1100,
+        "sell": 770
+      },
+      "from": [
+        "1052"
+      ],
+      "reviewBoundary": "逐项核对本版官方说明只有直接固定属性，且所有stats字段与说明一致；不代表核过客户端隐藏机制或装备购买互斥。"
+    },
+    {
+      "itemId": "4642",
+      "proposedKey": "item_4642",
+      "existingEquipmentKey": null,
+      "name": "班德尔玻璃镜",
+      "description": "16.17.1；法术强度 +20；基础法力回复 +100%；技能急速 +10",
+      "attributes": [
+        {
+          "name": "法术强度",
+          "value": 20,
+          "unit": "固定值",
+          "valueFraction": null,
+          "sourceText": "20法术强度",
+          "sourceStatsField": "FlatMagicDamageMod",
+          "sourceStatsValue": 20,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": "ability_power",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": []
+        },
+        {
+          "name": "基础法力回复",
+          "value": 100,
+          "unit": "百分数（10表示10%）",
+          "valueFraction": 1,
+          "sourceText": "100%基础法力回复",
+          "sourceStatsField": null,
+          "sourceStatsValue": null,
+          "crossCheck": "数值取自完整说明；stats缺该字段，不填0",
+          "existingAttributeKey": null,
+          "suggestedNewAttributeKey": "base_mana_regen_percent",
+          "requiresNewAttribute": true,
+          "notes": [
+            "以角色基础回复为基数的百分比加成，禁止写入固定hp_regen或mana_regen。"
+          ]
+        },
+        {
+          "name": "技能急速",
+          "value": 10,
+          "unit": "固定值",
+          "valueFraction": null,
+          "sourceText": "10技能急速",
+          "sourceStatsField": null,
+          "sourceStatsValue": null,
+          "crossCheck": "数值取自完整说明；stats缺该字段，不填0",
+          "existingAttributeKey": null,
+          "suggestedNewAttributeKey": "ability_haste",
+          "requiresNewAttribute": true,
+          "notes": []
+        }
+      ],
+      "requiredSkills": [],
+      "needsNewAttributes": true,
+      "suggestedStatus": "需补属性目录后完整录入",
+      "sourceVersion": "16.17.1",
+      "sourceUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+      "sourcePointer": "/data/4642",
+      "sourceDescription": "<mainText><stats><attention>20</attention>法术强度<br><attention>100%</attention>基础法力回复<br><attention>10</attention>技能急速</stats><br><br></mainText>",
+      "sourceStats": {
+        "FlatMagicDamageMod": 20
+      },
+      "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/item/4642.png",
+      "gold": {
+        "base": 50,
+        "purchasable": true,
+        "total": 900,
+        "sell": 630
+      },
+      "from": [
+        "1004",
+        "1052",
+        "2022"
+      ],
+      "reviewBoundary": "逐项核对本版官方说明只有直接固定属性，且所有stats字段与说明一致；不代表核过客户端隐藏机制或装备购买互斥。"
+    },
+    {
+      "itemId": "6670",
+      "proposedKey": "item_6670",
+      "existingEquipmentKey": null,
+      "name": "正午箭袋",
+      "description": "16.17.1；攻击力 +15；暴击几率 +20%",
+      "attributes": [
+        {
+          "name": "攻击力",
+          "value": 15,
+          "unit": "固定值",
+          "valueFraction": null,
+          "sourceText": "15攻击力",
+          "sourceStatsField": "FlatPhysicalDamageMod",
+          "sourceStatsValue": 15,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": "attack_damage",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": []
+        },
+        {
+          "name": "暴击几率",
+          "value": 20,
+          "unit": "百分数（10表示10%）",
+          "valueFraction": 0.2,
+          "sourceText": "20%暴击几率",
+          "sourceStatsField": "FlatCritChanceMod",
+          "sourceStatsValue": 0.2,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": "critical_strike_chance",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": []
+        }
+      ],
+      "requiredSkills": [],
+      "needsNewAttributes": false,
+      "suggestedStatus": "现有属性目录可表达，待页面核单位并保存",
+      "sourceVersion": "16.17.1",
+      "sourceUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+      "sourcePointer": "/data/6670",
+      "sourceDescription": "<mainText><stats><attention>15</attention>攻击力<br><attention>20%</attention>暴击几率</stats><br><br></mainText>",
+      "sourceStats": {
+        "FlatCritChanceMod": 0.2,
+        "FlatPhysicalDamageMod": 15
+      },
+      "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/item/6670.png",
+      "gold": {
+        "base": 350,
+        "purchasable": true,
+        "total": 1300,
+        "sell": 910
+      },
+      "from": [
+        "1036",
+        "1018"
+      ],
+      "reviewBoundary": "逐项核对本版官方说明只有直接固定属性，且所有stats字段与说明一致；不代表核过客户端隐藏机制或装备购买互斥。"
+    },
+    {
+      "itemId": "6690",
+      "proposedKey": "item_6690",
+      "existingEquipmentKey": null,
+      "name": "剑翎",
+      "description": "16.17.1；攻击力 +15；移动速度 +4%",
+      "attributes": [
+        {
+          "name": "攻击力",
+          "value": 15,
+          "unit": "固定值",
+          "valueFraction": null,
+          "sourceText": "15攻击力",
+          "sourceStatsField": "FlatPhysicalDamageMod",
+          "sourceStatsValue": 15,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": "attack_damage",
+          "suggestedNewAttributeKey": null,
+          "requiresNewAttribute": false,
+          "notes": []
+        },
+        {
+          "name": "移动速度",
+          "value": 4,
+          "unit": "百分数（10表示10%）",
+          "valueFraction": 0.04,
+          "sourceText": "4%移动速度",
+          "sourceStatsField": "PercentMovementSpeedMod",
+          "sourceStatsValue": 0.04,
+          "crossCheck": "说明与stats一致",
+          "existingAttributeKey": null,
+          "suggestedNewAttributeKey": "move_speed_percent",
+          "requiresNewAttribute": true,
+          "notes": [
+            "百分比移速，禁止写入固定move_speed。"
+          ]
+        }
+      ],
+      "requiredSkills": [],
+      "needsNewAttributes": true,
+      "suggestedStatus": "需补属性目录后完整录入",
+      "sourceVersion": "16.17.1",
+      "sourceUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+      "sourcePointer": "/data/6690",
+      "sourceDescription": "<mainText><stats><attention>15</attention>攻击力<br><attention>4%</attention>移动速度</stats><br><br></mainText>",
+      "sourceStats": {
+        "FlatPhysicalDamageMod": 15,
+        "PercentMovementSpeedMod": 0.04
+      },
+      "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/item/6690.png",
+      "gold": {
+        "base": 425,
+        "purchasable": true,
+        "total": 775,
+        "sell": 543
+      },
+      "from": [
+        "1036"
+      ],
+      "reviewBoundary": "逐项核对本版官方说明只有直接固定属性，且所有stats字段与说明一致；不代表核过客户端隐藏机制或装备购买互斥。"
+    }
+  ],
+  "excludedFromPureList": [
+    {
+      "itemId": "1043",
+      "name": "反曲之弓",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "1054",
+      "name": "多兰之盾",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "1056",
+      "name": "多兰之戒",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "1082",
+      "name": "黑暗封印",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "1083",
+      "name": "萃取",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "1120",
+      "name": "多兰之盔",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "2065",
+      "name": "舒瑞娅的战歌",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "2420",
+      "name": "探索者的护臂",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "2501",
+      "name": "霸王血铠",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "2502",
+      "name": "无终恨意",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "2503",
+      "name": "黯炎火炬",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "2504",
+      "name": "败魔",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "2508",
+      "name": "命定灰烬",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "2510",
+      "name": "黄昏与黎明",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "2512",
+      "name": "猎魔人弩箭",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "2517",
+      "name": "无穷饥渴",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "2520",
+      "name": "破垒者",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "2522",
+      "name": "实现器",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "2523",
+      "name": "海克斯镜片 C44",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "2524",
+      "name": "班德尔音管",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "2525",
+      "name": "原生质护带",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "2526",
+      "name": "耳语头环",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3003",
+      "name": "大天使之杖",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3004",
+      "name": "魔宗",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3008",
+      "name": "暴食胫甲",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3009",
+      "name": "轻灵之靴",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3026",
+      "name": "守护天使",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3032",
+      "name": "育恩塔尔荒野箭",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3033",
+      "name": "凡性的提醒",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3036",
+      "name": "多米尼克领主的致意",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3041",
+      "name": "梅贾的窃魂卷",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3044",
+      "name": "净蚀",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3046",
+      "name": "幻影之舞",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3047",
+      "name": "铁板靴",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3050",
+      "name": "基克的聚合",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3053",
+      "name": "斯特拉克的挑战护手",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3057",
+      "name": "耀光",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3065",
+      "name": "振奋盔甲",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3068",
+      "name": "日炎圣盾",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3070",
+      "name": "女神之泪",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3071",
+      "name": "黑色切割者",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3072",
+      "name": "饮血剑",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3073",
+      "name": "海克斯注力刚壁",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3074",
+      "name": "贪欲九头蛇",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3075",
+      "name": "荆棘之甲",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3076",
+      "name": "棘刺背心",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3077",
+      "name": "提亚马特",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3078",
+      "name": "三相之力",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3082",
+      "name": "守望者铠甲",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3083",
+      "name": "狂徒铠甲",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3084",
+      "name": "心之钢",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3085",
+      "name": "卢安娜的飓风",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3087",
+      "name": "斯塔缇克电刃",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3089",
+      "name": "灭世者的死亡之帽",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3091",
+      "name": "智慧末刃",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3094",
+      "name": "疾射火炮",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3095",
+      "name": "岚切",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3100",
+      "name": "巫妖之祸",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3102",
+      "name": "女妖面纱",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3107",
+      "name": "救赎",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3109",
+      "name": "骑士之誓",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3110",
+      "name": "冰霜之心",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3115",
+      "name": "纳什之牙",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3116",
+      "name": "瑞莱的冰晶节杖",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3118",
+      "name": "残疫",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3119",
+      "name": "凛冬之临",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3123",
+      "name": "死刑宣告",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3124",
+      "name": "鬼索的狂暴之刃",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3137",
+      "name": "蜕生",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3139",
+      "name": "水银弯刀",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3140",
+      "name": "水银饰带",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3142",
+      "name": "幽梦之灵",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3143",
+      "name": "兰顿之兆",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3144",
+      "name": "斥候弹弓",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3145",
+      "name": "海克斯科技发电机",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3146",
+      "name": "海克斯科技枪刃",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3147",
+      "name": "幽魂面具",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3152",
+      "name": "海克斯科技火箭腰带",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3153",
+      "name": "破败王者之刃",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3155",
+      "name": "海克斯饮魔刀",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3156",
+      "name": "玛莫提乌斯之噬",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3157",
+      "name": "中娅沙漏",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3158",
+      "name": "明朗之靴",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3161",
+      "name": "朔极之矛",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3165",
+      "name": "莫雷洛秘典",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3179",
+      "name": "黯影阔剑",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3181",
+      "name": "破舰者",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3190",
+      "name": "钢铁烈阳之匣",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3222",
+      "name": "米凯尔的祝福",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3302",
+      "name": "界弓",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3504",
+      "name": "炽热香炉",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3508",
+      "name": "夺萃之镰",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3742",
+      "name": "亡者的板甲",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3748",
+      "name": "巨型九头蛇",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3802",
+      "name": "遗失的章节",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3803",
+      "name": "万世催化石",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3814",
+      "name": "夜之锋刃",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "3916",
+      "name": "湮灭宝珠",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "4005",
+      "name": "帝国指令",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "4401",
+      "name": "自然之力",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "4628",
+      "name": "视界专注",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "4629",
+      "name": "星界驱驰",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "4632",
+      "name": "翠绿屏障",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "4633",
+      "name": "裂隙制造者",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "4645",
+      "name": "影焰",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "4646",
+      "name": "风暴狂涌",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "6333",
+      "name": "死亡之舞",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "6609",
+      "name": "炼金朋克链锯剑",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "6610",
+      "name": "焚天",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "6616",
+      "name": "流水法杖",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "6617",
+      "name": "月石再生器",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "6620",
+      "name": "海力亚的回响",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "6621",
+      "name": "黎明核心",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "6631",
+      "name": "挺进破坏者",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "6653",
+      "name": "兰德里的折磨",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "6655",
+      "name": "卢登的回声",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "6657",
+      "name": "时光之杖",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "6660",
+      "name": "斑比的熔渣",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "6662",
+      "name": "冰脉护手",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "6664",
+      "name": "璀璨回响",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "6665",
+      "name": "千变者贾修",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "6672",
+      "name": "海妖杀手",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "6673",
+      "name": "不朽盾弓",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "6675",
+      "name": "纳沃利烁刃",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "6676",
+      "name": "收集者",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "6692",
+      "name": "星蚀",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "6694",
+      "name": "赛瑞尔达的怨恨",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "6695",
+      "name": "巨蛇之牙",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "6696",
+      "name": "公理圆弧",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "6697",
+      "name": "狂妄",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "6698",
+      "name": "亵渎九头蛇",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "6699",
+      "name": "电震涡流剑",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "8010",
+      "name": "放血者的诅咒",
+      "reason": "属性以外还有机制或规则说明"
+    },
+    {
+      "itemId": "8020",
+      "name": "深渊面具",
+      "reason": "属性以外还有机制或规则说明"
+    }
+  ]
+}

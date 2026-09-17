@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Sivir",
+  "sourceNumericId": "15",
+  "name": "希维尔",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 600,
+      "growth": 104,
+      "sources": [
+        "原始资料/zh_CN/champion/Sivir.json:stats.hp/hpperlevel",
+        "角色根记录/Sivir.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 600,
+        "2": 674.88,
+        "3": 753.4,
+        "4": 835.56,
+        "5": 921.36,
+        "6": 1010.8,
+        "7": 1103.88,
+        "8": 1200.6,
+        "9": 1300.96,
+        "10": 1404.96,
+        "11": 1512.6,
+        "12": 1623.88,
+        "13": 1738.8,
+        "14": 1857.36,
+        "15": 1979.56,
+        "16": 2105.4,
+        "17": 2234.88,
+        "18": 2368
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 3.25,
+      "growth": 0.55,
+      "sources": [
+        "原始资料/zh_CN/champion/Sivir.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Sivir.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 3.25,
+        "2": 3.646,
+        "3": 4.06125,
+        "4": 4.49575,
+        "5": 4.9495,
+        "6": 5.4225,
+        "7": 5.91475,
+        "8": 6.42625,
+        "9": 6.957,
+        "10": 7.507,
+        "11": 8.07625,
+        "12": 8.66475,
+        "13": 9.2725,
+        "14": 9.8995,
+        "15": 10.54575,
+        "16": 11.21125,
+        "17": 11.896,
+        "18": 12.6
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 30,
+      "growth": 4,
+      "sources": [
+        "原始资料/zh_CN/champion/Sivir.json:stats.armor/armorperlevel",
+        "角色根记录/Sivir.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 30,
+        "2": 32.88,
+        "3": 35.9,
+        "4": 39.06,
+        "5": 42.36,
+        "6": 45.8,
+        "7": 49.38,
+        "8": 53.1,
+        "9": 56.96,
+        "10": 60.96,
+        "11": 65.1,
+        "12": 69.38,
+        "13": 73.8,
+        "14": 78.36,
+        "15": 83.06,
+        "16": 87.9,
+        "17": 92.88,
+        "18": 98
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 33,
+      "growth": 1.1,
+      "sources": [
+        "原始资料/zh_CN/champion/Sivir.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Sivir.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 33,
+        "2": 33.792,
+        "3": 34.6225,
+        "4": 35.4915,
+        "5": 36.399,
+        "6": 37.345,
+        "7": 38.3295,
+        "8": 39.3525,
+        "9": 40.414,
+        "10": 41.514,
+        "11": 42.6525,
+        "12": 43.8295,
+        "13": 45.045,
+        "14": 46.299,
+        "15": 47.5915,
+        "16": 48.9225,
+        "17": 50.292,
+        "18": 51.7
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 60,
+      "growth": 2.5,
+      "sources": [
+        "角色根记录/Sivir.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 60,
+        "2": 61.8,
+        "3": 63.6875,
+        "4": 65.6625,
+        "5": 67.725,
+        "6": 69.875,
+        "7": 72.1125,
+        "8": 74.4375,
+        "9": 76.85,
+        "10": 79.35,
+        "11": 81.9375,
+        "12": 84.6125,
+        "13": 87.375,
+        "14": 90.225,
+        "15": 93.1625,
+        "16": 96.1875,
+        "17": 99.3,
+        "18": 102.5
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 335,
+      "growth": null,
+      "sources": [
+        "角色根记录/Sivir.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 335,
+        "2": 335,
+        "3": 335,
+        "4": 335,
+        "5": 335,
+        "6": 335,
+        "7": 335,
+        "8": 335,
+        "9": 335,
+        "10": 335,
+        "11": 335,
+        "12": 335,
+        "13": 335,
+        "14": 335,
+        "15": 335,
+        "16": 335,
+        "17": 335,
+        "18": 335
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 500,
+      "growth": null,
+      "sources": [
+        "角色根记录/Sivir.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 500,
+        "2": 500,
+        "3": 500,
+        "4": 500,
+        "5": 500,
+        "6": 500,
+        "7": 500,
+        "8": 500,
+        "9": 500,
+        "10": 500,
+        "11": 500,
+        "12": 500,
+        "13": 500,
+        "14": 500,
+        "15": 500,
+        "16": 500,
+        "17": 500,
+        "18": 500
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.625,
+      "attackSpeedRatio": 0.625,
+      "growthPercent": 1.6,
+      "sources": [
+        "角色根记录/Sivir.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.625,
+        "2": 0.6322,
+        "3": 0.63975,
+        "4": 0.64765,
+        "5": 0.6559,
+        "6": 0.6645,
+        "7": 0.67345,
+        "8": 0.68275,
+        "9": 0.6924,
+        "10": 0.7024,
+        "11": 0.71275,
+        "12": 0.72345,
+        "13": 0.7345,
+        "14": 0.7459,
+        "15": 0.75765,
+        "16": 0.76975,
+        "17": 0.7822,
+        "18": 0.795
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 340,
+      "growth": 45,
+      "sources": [
+        "原始资料/zh_CN/champion/Sivir.json:stats.mp/mpperlevel",
+        "角色根记录/Sivir.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 340,
+        "2": 372.4,
+        "3": 406.375,
+        "4": 441.925,
+        "5": 479.05,
+        "6": 517.75,
+        "7": 558.025,
+        "8": 599.875,
+        "9": 643.3,
+        "10": 688.3,
+        "11": 734.875,
+        "12": 783.025,
+        "13": 832.75,
+        "14": 884.05,
+        "15": 936.925,
+        "16": 991.375,
+        "17": 1047.4,
+        "18": 1105
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 6,
+      "growth": 0.8,
+      "sources": [
+        "原始资料/zh_CN/champion/Sivir.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Sivir.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 6,
+        "2": 6.576,
+        "3": 7.18,
+        "4": 7.812,
+        "5": 8.472,
+        "6": 9.16,
+        "7": 9.876,
+        "8": 10.62,
+        "9": 11.392,
+        "10": 12.192,
+        "11": 13.02,
+        "12": 13.876,
+        "13": 14.76,
+        "14": 15.672,
+        "15": 16.612,
+        "16": 17.58,
+        "17": 18.576,
+        "18": 19.6
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.625,
+    "ratio": 0.625,
+    "growthPercent": 1.6,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

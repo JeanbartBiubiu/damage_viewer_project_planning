@@ -1,0 +1,296 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "DrMundo",
+  "sourceNumericId": "36",
+  "name": "蒙多医生",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 640,
+      "growth": 103,
+      "sources": [
+        "原始资料/zh_CN/champion/DrMundo.json:stats.hp/hpperlevel",
+        "角色根记录/DrMundo.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 640,
+        "2": 714.16,
+        "3": 791.925,
+        "4": 873.295,
+        "5": 958.27,
+        "6": 1046.85,
+        "7": 1139.035,
+        "8": 1234.825,
+        "9": 1334.22,
+        "10": 1437.22,
+        "11": 1543.825,
+        "12": 1654.035,
+        "13": 1767.85,
+        "14": 1885.27,
+        "15": 2006.295,
+        "16": 2130.925,
+        "17": 2259.16,
+        "18": 2391
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 7,
+      "growth": 0.5,
+      "sources": [
+        "原始资料/zh_CN/champion/DrMundo.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/DrMundo.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 7,
+        "2": 7.36,
+        "3": 7.7375,
+        "4": 8.1325,
+        "5": 8.545,
+        "6": 8.975,
+        "7": 9.4225,
+        "8": 9.8875,
+        "9": 10.37,
+        "10": 10.87,
+        "11": 11.3875,
+        "12": 11.9225,
+        "13": 12.475,
+        "14": 13.045,
+        "15": 13.6325,
+        "16": 14.2375,
+        "17": 14.86,
+        "18": 15.5
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 32,
+      "growth": 4.5,
+      "sources": [
+        "原始资料/zh_CN/champion/DrMundo.json:stats.armor/armorperlevel",
+        "角色根记录/DrMundo.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 32,
+        "2": 35.24,
+        "3": 38.6375,
+        "4": 42.1925,
+        "5": 45.905,
+        "6": 49.775,
+        "7": 53.8025,
+        "8": 57.9875,
+        "9": 62.33,
+        "10": 66.83,
+        "11": 71.4875,
+        "12": 76.3025,
+        "13": 81.275,
+        "14": 86.405,
+        "15": 91.6925,
+        "16": 97.1375,
+        "17": 102.74,
+        "18": 108.5
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 29,
+      "growth": 2.3,
+      "sources": [
+        "原始资料/zh_CN/champion/DrMundo.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/DrMundo.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 29,
+        "2": 30.656,
+        "3": 32.3925,
+        "4": 34.2095,
+        "5": 36.107,
+        "6": 38.085,
+        "7": 40.1435,
+        "8": 42.2825,
+        "9": 44.502,
+        "10": 46.802,
+        "11": 49.1825,
+        "12": 51.6435,
+        "13": 54.185,
+        "14": 56.807,
+        "15": 59.5095,
+        "16": 62.2925,
+        "17": 65.156,
+        "18": 68.1
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 61,
+      "growth": 2.5,
+      "sources": [
+        "角色根记录/DrMundo.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 61,
+        "2": 62.8,
+        "3": 64.6875,
+        "4": 66.6625,
+        "5": 68.725,
+        "6": 70.875,
+        "7": 73.1125,
+        "8": 75.4375,
+        "9": 77.85,
+        "10": 80.35,
+        "11": 82.9375,
+        "12": 85.6125,
+        "13": 88.375,
+        "14": 91.225,
+        "15": 94.1625,
+        "16": 97.1875,
+        "17": 100.3,
+        "18": 103.5
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 345,
+      "growth": null,
+      "sources": [
+        "角色根记录/DrMundo.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 345,
+        "2": 345,
+        "3": 345,
+        "4": 345,
+        "5": 345,
+        "6": 345,
+        "7": 345,
+        "8": 345,
+        "9": 345,
+        "10": 345,
+        "11": 345,
+        "12": 345,
+        "13": 345,
+        "14": 345,
+        "15": 345,
+        "16": 345,
+        "17": 345,
+        "18": 345
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 125,
+      "growth": null,
+      "sources": [
+        "角色根记录/DrMundo.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 125,
+        "2": 125,
+        "3": 125,
+        "4": 125,
+        "5": 125,
+        "6": 125,
+        "7": 125,
+        "8": 125,
+        "9": 125,
+        "10": 125,
+        "11": 125,
+        "12": 125,
+        "13": 125,
+        "14": 125,
+        "15": 125,
+        "16": 125,
+        "17": 125,
+        "18": 125
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.67,
+      "attackSpeedRatio": 0.625,
+      "growthPercent": 3.3,
+      "sources": [
+        "角色根记录/DrMundo.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.67,
+        "2": 0.68485,
+        "3": 0.700422,
+        "4": 0.716716,
+        "5": 0.733731,
+        "6": 0.751469,
+        "7": 0.769928,
+        "8": 0.789109,
+        "9": 0.809013,
+        "10": 0.829638,
+        "11": 0.850984,
+        "12": 0.873053,
+        "13": 0.895844,
+        "14": 0.919356,
+        "15": 0.943591,
+        "16": 0.968547,
+        "17": 0.994225,
+        "18": 1.020625
+      }
+    }
+  ],
+  "missing": [
+    {
+      "attribute": "resource",
+      "label": "资源",
+      "resourceType": "无",
+      "reason": "特殊或未明确资源不按法力统一生成；保留原始资源说明及根字段，待机制核对"
+    }
+  ],
+  "attackSpeedInputs": {
+    "base": 0.67,
+    "ratio": 0.625,
+    "growthPercent": 3.3,
+    "ratioDiffersFromBase": true
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

@@ -1,0 +1,81 @@
+{
+  "at": "2026-09-08T16:19:51.194Z",
+  "runtime": "Cursor SDK 1.0.24",
+  "model": {
+    "id": "grok-4.6",
+    "params": [
+      {
+        "id": "effort",
+        "value": "high"
+      },
+      {
+        "id": "fast",
+        "value": "false"
+      }
+    ]
+  },
+  "runId": "run-2d11dc3e-9f7b-46b7-82de-d7460a651b58",
+  "revision": "luna10-secondgroup-8e1befbdbdeef83b78f0208fd2eff260a1e0d3333a5db514f1c5eda3d4ab88e2",
+  "status": "finished",
+  "verdict": "READY",
+  "eventCount": 3717,
+  "readOnlyAudit": {
+    "available": true,
+    "runDeltaCount": 0,
+    "toolRuns": 35,
+    "shellRuns": 4,
+    "toolNames": [
+      "glob",
+      "read",
+      "grep",
+      "shell"
+    ],
+    "eventTruncationFlags": [],
+    "manualReview": "4条shell均为枚举、读取、内存解压及算术，无写文件或API写命令；.gitignore为主负责人运行前创建，前后签名相同。仅为文件及事件审计，不代表操作系统隔离。"
+  },
+  "sourceChecks": [
+    {
+      "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+      "sha256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7"
+    },
+    {
+      "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+      "sha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e"
+    },
+    {
+      "file": "数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+      "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973"
+    },
+    {
+      "file": "数据参考/全量录入-2026-09/装备符文/装备全量处置清单.json",
+      "sha256": "7b1df1fe63d3ce00d466be458e5c07a1b8b6b6220ba1c728c4cc8324b72e64c6"
+    },
+    {
+      "file": "数据参考/全量录入-2026-09/装备效果补证/来源与覆盖.json",
+      "sha256": "97f70eaa0ec570668400d8c8e4654a5657e2ceb39872a1aad7acf4cc53b8c19c"
+    },
+    {
+      "file": "数据参考/全量录入-2026-09/API实录/装备/summary.json",
+      "sha256": "e653d0ca5a97d12449ff5034937a8eca2e004e1e4fd0b11ab80cec09a718c0b9"
+    },
+    {
+      "file": "数据参考/全量录入-2026-09/装备技能实录/Luna第十批/关系识别-2026-09-08T02-52-11.404Z.json",
+      "sha256": "08ecc61fb52ec7ef6643d92067122b67f119f04ae9a04f4fb0d4946e51362f4e"
+    },
+    {
+      "file": "数据参考/全量录入-2026-09/装备技能实录/Luna第十批/关系识别-2026-09-08T02-53-49.953Z.json",
+      "sha256": "408c575ba4547a3ea34186253b8c819b9b5885597374158804cf4f376f3129d8"
+    }
+  ],
+  "remainingApiChecks": [
+    "跨集合相同键按各集合命名空间处理，写前GET及实际回读继续核对",
+    "独立未引用公式允许保存，未接线不能算完整机制",
+    "荣耀没有初始化规则，显式叠层未等于购买即获得层数"
+  ],
+  "evidencePaths": {
+    "summary": "C:/project/damage_web_dev/.agents/artifacts/cursor-secondgroup-review/.agents/artifacts/cursor-task-2026-09-08T16-00-44-527Z/summary.json",
+    "events": "C:/project/damage_web_dev/.agents/artifacts/cursor-secondgroup-review/.agents/artifacts/cursor-task-2026-09-08T16-00-44-527Z/events.jsonl",
+    "diff": "C:/project/damage_web_dev/.agents/artifacts/cursor-secondgroup-review/.agents/artifacts/cursor-task-2026-09-08T16-00-44-527Z/diff.patch"
+  },
+  "boundary": "准许确定组成进入成熟API预检；不是实际写入、完整机制或战斗验收。"
+}

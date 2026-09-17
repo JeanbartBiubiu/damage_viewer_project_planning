@@ -1,0 +1,1428 @@
+{
+  "generatedAt": "2026-09-08T18:12:08.106Z",
+  "mode": "仅GET；独立于写入脚本重新读取全组成",
+  "apiBaseUrl": "http://127.0.0.1:8080/api/admin/games/lol",
+  "candidateSha256": "b09ddbacf245676678b2a41153dbd5339d91c4a952a907dc0bce769e22e12800",
+  "sourceCandidateSha256": "f8a58e18946439ae4d90d3ae49dcdb53ad84982a2d95ab443a206de539493d61",
+  "relationEvidenceSha256": "408c575ba4547a3ea34186253b8c819b9b5885597374158804cf4f376f3129d8",
+  "objects": [
+    {
+      "equipmentKey": "item_3053",
+      "skillKey": "item_3053_passive",
+      "endpoints": [
+        {
+          "kind": "同键/别名探针",
+          "path": "/equipment/item_3053",
+          "status": 200,
+          "expected": {
+            "createdAt": "2026-09-06T17:16:08.400971Z",
+            "description": "来源：官方16.17.1装备3053。 原始说明：400生命值 20%韧性 抓人双爪 获得额外攻击力。 救主灵刃 在受到将使你的生命值跌到30%以下的伤害时，提供持续4.5秒的不断衰减的护盾值。 被动与主动效果尚待配置。",
+            "equipmentKey": "item_3053",
+            "gameId": "lol",
+            "name": "斯特拉克的挑战护手",
+            "updatedAt": "2026-09-06T17:16:08.400971Z"
+          },
+          "actual": {
+            "createdAt": "2026-09-06T17:16:08.400971Z",
+            "description": "来源：官方16.17.1装备3053。 原始说明：400生命值 20%韧性 抓人双爪 获得额外攻击力。 救主灵刃 在受到将使你的生命值跌到30%以下的伤害时，提供持续4.5秒的不断衰减的护盾值。 被动与主动效果尚待配置。",
+            "equipmentKey": "item_3053",
+            "gameId": "lol",
+            "name": "斯特拉克的挑战护手",
+            "updatedAt": "2026-09-06T17:16:08.400971Z"
+          },
+          "fields": [
+            {
+              "path": "/equipment/item_3053.createdAt",
+              "expected": "2026-09-06T17:16:08.400971Z",
+              "actual": "2026-09-06T17:16:08.400971Z",
+              "equal": true
+            },
+            {
+              "path": "/equipment/item_3053.description",
+              "expected": "来源：官方16.17.1装备3053。 原始说明：400生命值 20%韧性 抓人双爪 获得额外攻击力。 救主灵刃 在受到将使你的生命值跌到30%以下的伤害时，提供持续4.5秒的不断衰减的护盾值。 被动与主动效果尚待配置。",
+              "actual": "来源：官方16.17.1装备3053。 原始说明：400生命值 20%韧性 抓人双爪 获得额外攻击力。 救主灵刃 在受到将使你的生命值跌到30%以下的伤害时，提供持续4.5秒的不断衰减的护盾值。 被动与主动效果尚待配置。",
+              "equal": true
+            },
+            {
+              "path": "/equipment/item_3053.equipmentKey",
+              "expected": "item_3053",
+              "actual": "item_3053",
+              "equal": true
+            },
+            {
+              "path": "/equipment/item_3053.gameId",
+              "expected": "lol",
+              "actual": "lol",
+              "equal": true
+            },
+            {
+              "path": "/equipment/item_3053.name",
+              "expected": "斯特拉克的挑战护手",
+              "actual": "斯特拉克的挑战护手",
+              "equal": true
+            },
+            {
+              "path": "/equipment/item_3053.updatedAt",
+              "expected": "2026-09-06T17:16:08.400971Z",
+              "actual": "2026-09-06T17:16:08.400971Z",
+              "equal": true
+            }
+          ],
+          "matches": true
+        },
+        {
+          "kind": "装备元数据",
+          "path": "/equipment/item_3053",
+          "status": 200,
+          "expected": {
+            "createdAt": "2026-09-06T17:16:08.400971Z",
+            "description": "来源：官方16.17.1装备3053。 原始说明：400生命值 20%韧性 抓人双爪 获得额外攻击力。 救主灵刃 在受到将使你的生命值跌到30%以下的伤害时，提供持续4.5秒的不断衰减的护盾值。 被动与主动效果尚待配置。",
+            "equipmentKey": "item_3053",
+            "gameId": "lol",
+            "name": "斯特拉克的挑战护手",
+            "updatedAt": "2026-09-06T17:16:08.400971Z"
+          },
+          "actual": {
+            "createdAt": "2026-09-06T17:16:08.400971Z",
+            "description": "来源：官方16.17.1装备3053。 原始说明：400生命值 20%韧性 抓人双爪 获得额外攻击力。 救主灵刃 在受到将使你的生命值跌到30%以下的伤害时，提供持续4.5秒的不断衰减的护盾值。 被动与主动效果尚待配置。",
+            "equipmentKey": "item_3053",
+            "gameId": "lol",
+            "name": "斯特拉克的挑战护手",
+            "updatedAt": "2026-09-06T17:16:08.400971Z"
+          },
+          "fields": [
+            {
+              "path": "/equipment/item_3053.createdAt",
+              "expected": "2026-09-06T17:16:08.400971Z",
+              "actual": "2026-09-06T17:16:08.400971Z",
+              "equal": true
+            },
+            {
+              "path": "/equipment/item_3053.description",
+              "expected": "来源：官方16.17.1装备3053。 原始说明：400生命值 20%韧性 抓人双爪 获得额外攻击力。 救主灵刃 在受到将使你的生命值跌到30%以下的伤害时，提供持续4.5秒的不断衰减的护盾值。 被动与主动效果尚待配置。",
+              "actual": "来源：官方16.17.1装备3053。 原始说明：400生命值 20%韧性 抓人双爪 获得额外攻击力。 救主灵刃 在受到将使你的生命值跌到30%以下的伤害时，提供持续4.5秒的不断衰减的护盾值。 被动与主动效果尚待配置。",
+              "equal": true
+            },
+            {
+              "path": "/equipment/item_3053.equipmentKey",
+              "expected": "item_3053",
+              "actual": "item_3053",
+              "equal": true
+            },
+            {
+              "path": "/equipment/item_3053.gameId",
+              "expected": "lol",
+              "actual": "lol",
+              "equal": true
+            },
+            {
+              "path": "/equipment/item_3053.name",
+              "expected": "斯特拉克的挑战护手",
+              "actual": "斯特拉克的挑战护手",
+              "equal": true
+            },
+            {
+              "path": "/equipment/item_3053.updatedAt",
+              "expected": "2026-09-06T17:16:08.400971Z",
+              "actual": "2026-09-06T17:16:08.400971Z",
+              "equal": true
+            }
+          ],
+          "matches": true
+        },
+        {
+          "kind": "完整直接属性",
+          "path": "/equipment/item_3053/attributes",
+          "status": 200,
+          "expected": {
+            "hp": 400,
+            "tenacity_percent": 0.2
+          },
+          "actual": {
+            "hp": 400,
+            "tenacity_percent": 0.2
+          },
+          "fields": [
+            {
+              "path": "/equipment/item_3053/attributes.hp",
+              "expected": 400,
+              "actual": 400,
+              "equal": true
+            },
+            {
+              "path": "/equipment/item_3053/attributes.tenacity_percent",
+              "expected": 0.2,
+              "actual": 0.2,
+              "equal": true
+            }
+          ],
+          "matches": true
+        },
+        {
+          "kind": "装备代表图",
+          "path": "/equipment/item_3053/representative-image",
+          "status": 200,
+          "expected": {
+            "image": {
+              "enabled": true,
+              "imageKey": "item_3053",
+              "name": "item_3053"
+            }
+          },
+          "actual": {
+            "image": {
+              "enabled": true,
+              "imageKey": "item_3053",
+              "name": "item_3053"
+            }
+          },
+          "fields": [
+            {
+              "path": "/equipment/item_3053/representative-image.image.enabled",
+              "expected": true,
+              "actual": true,
+              "equal": true
+            },
+            {
+              "path": "/equipment/item_3053/representative-image.image.imageKey",
+              "expected": "item_3053",
+              "actual": "item_3053",
+              "equal": true
+            },
+            {
+              "path": "/equipment/item_3053/representative-image.image.name",
+              "expected": "item_3053",
+              "actual": "item_3053",
+              "equal": true
+            }
+          ],
+          "matches": true
+        },
+        {
+          "kind": "技能",
+          "path": "/skills/item_3053_passive",
+          "status": 200,
+          "expected": {
+            "skillKey": "item_3053_passive",
+            "name": "斯特拉克的挑战护手·被动",
+            "description": "按冻结16.17客户端和16.17.1官方资料保存抓人双爪、救主灵刃的确定数值参数；伤害事件、护盾衰减、快照与冷却行为列为待核。",
+            "maxLevel": 1,
+            "status": "ENABLED",
+            "sortOrder": 0,
+            "skillCategoryKeys": [
+              "passive"
+            ]
+          },
+          "actual": {
+            "createdAt": "2026-09-08T18:10:57.55654Z",
+            "description": "按冻结16.17客户端和16.17.1官方资料保存抓人双爪、救主灵刃的确定数值参数；伤害事件、护盾衰减、快照与冷却行为列为待核。",
+            "gameId": "lol",
+            "maxLevel": 1,
+            "name": "斯特拉克的挑战护手·被动",
+            "skillCategoryKeys": [
+              "passive"
+            ],
+            "skillKey": "item_3053_passive",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T18:10:57.55654Z"
+          },
+          "fields": [
+            {
+              "path": "/skills/item_3053_passive.skillKey",
+              "expected": "item_3053_passive",
+              "actual": "item_3053_passive",
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3053_passive.name",
+              "expected": "斯特拉克的挑战护手·被动",
+              "actual": "斯特拉克的挑战护手·被动",
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3053_passive.description",
+              "expected": "按冻结16.17客户端和16.17.1官方资料保存抓人双爪、救主灵刃的确定数值参数；伤害事件、护盾衰减、快照与冷却行为列为待核。",
+              "actual": "按冻结16.17客户端和16.17.1官方资料保存抓人双爪、救主灵刃的确定数值参数；伤害事件、护盾衰减、快照与冷却行为列为待核。",
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3053_passive.maxLevel",
+              "expected": 1,
+              "actual": 1,
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3053_passive.status",
+              "expected": "ENABLED",
+              "actual": "ENABLED",
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3053_passive.sortOrder",
+              "expected": 0,
+              "actual": 0,
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3053_passive.skillCategoryKeys.length",
+              "expected": 1,
+              "actual": 1,
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3053_passive.skillCategoryKeys[0]",
+              "expected": "passive",
+              "actual": "passive",
+              "equal": true
+            }
+          ],
+          "matches": true
+        },
+        {
+          "kind": "参数",
+          "path": "/skills/item_3053_passive/parameters/bonus_ad_from_base_attack_ratio",
+          "status": 200,
+          "expected": {
+            "parameterKey": "bonus_ad_from_base_attack_ratio",
+            "name": "抓人双爪基础攻击力转额外攻击力比例",
+            "valueType": "DECIMAL",
+            "fixedValue": 0.5,
+            "sortOrder": 10,
+            "description": "当前客户端ADtoAD=0.5；保存基础攻击力转额外攻击力比例，应用读取时点未配。",
+            "valueMode": "FIXED",
+            "levelValues": null
+          },
+          "actual": {
+            "createdAt": "2026-09-08T18:10:58.390994Z",
+            "description": "当前客户端ADtoAD=0.5；保存基础攻击力转额外攻击力比例，应用读取时点未配。",
+            "fixedValue": 0.5,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "抓人双爪基础攻击力转额外攻击力比例",
+            "parameterKey": "bonus_ad_from_base_attack_ratio",
+            "skillKey": "item_3053_passive",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-08T18:10:58.390994Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          "fields": [
+            {
+              "path": "/skills/item_3053_passive/parameters/bonus_ad_from_base_attack_ratio.parameterKey",
+              "expected": "bonus_ad_from_base_attack_ratio",
+              "actual": "bonus_ad_from_base_attack_ratio",
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3053_passive/parameters/bonus_ad_from_base_attack_ratio.name",
+              "expected": "抓人双爪基础攻击力转额外攻击力比例",
+              "actual": "抓人双爪基础攻击力转额外攻击力比例",
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3053_passive/parameters/bonus_ad_from_base_attack_ratio.valueType",
+              "expected": "DECIMAL",
+              "actual": "DECIMAL",
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3053_passive/parameters/bonus_ad_from_base_attack_ratio.fixedValue",
+              "expected": 0.5,
+              "actual": 0.5,
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3053_passive/parameters/bonus_ad_from_base_attack_ratio.sortOrder",
+              "expected": 10,
+              "actual": 10,
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3053_passive/parameters/bonus_ad_from_base_attack_ratio.description",
+              "expected": "当前客户端ADtoAD=0.5；保存基础攻击力转额外攻击力比例，应用读取时点未配。",
+              "actual": "当前客户端ADtoAD=0.5；保存基础攻击力转额外攻击力比例，应用读取时点未配。",
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3053_passive/parameters/bonus_ad_from_base_attack_ratio.valueMode",
+              "expected": "FIXED",
+              "actual": "FIXED",
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3053_passive/parameters/bonus_ad_from_base_attack_ratio.levelValues",
+              "expected": null,
+              "actual": null,
+              "equal": true
+            }
+          ],
+          "matches": true
+        },
+        {
+          "kind": "参数",
+          "path": "/skills/item_3053_passive/parameters/lifeline_health_threshold",
+          "status": 200,
+          "expected": {
+            "parameterKey": "lifeline_health_threshold",
+            "name": "救主灵刃生命值阈值",
+            "valueType": "DECIMAL",
+            "fixedValue": 0.3,
+            "sortOrder": 20,
+            "description": "当前客户端LowHealthThreshold=0.3；保存30%阈值，准确伤害前置事件未配。",
+            "valueMode": "FIXED",
+            "levelValues": null
+          },
+          "actual": {
+            "createdAt": "2026-09-08T18:10:59.039523Z",
+            "description": "当前客户端LowHealthThreshold=0.3；保存30%阈值，准确伤害前置事件未配。",
+            "fixedValue": 0.3,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "救主灵刃生命值阈值",
+            "parameterKey": "lifeline_health_threshold",
+            "skillKey": "item_3053_passive",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-08T18:10:59.039523Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          "fields": [
+            {
+              "path": "/skills/item_3053_passive/parameters/lifeline_health_threshold.parameterKey",
+              "expected": "lifeline_health_threshold",
+              "actual": "lifeline_health_threshold",
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3053_passive/parameters/lifeline_health_threshold.name",
+              "expected": "救主灵刃生命值阈值",
+              "actual": "救主灵刃生命值阈值",
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3053_passive/parameters/lifeline_health_threshold.valueType",
+              "expected": "DECIMAL",
+              "actual": "DECIMAL",
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3053_passive/parameters/lifeline_health_threshold.fixedValue",
+              "expected": 0.3,
+              "actual": 0.3,
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3053_passive/parameters/lifeline_health_threshold.sortOrder",
+              "expected": 20,
+              "actual": 20,
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3053_passive/parameters/lifeline_health_threshold.description",
+              "expected": "当前客户端LowHealthThreshold=0.3；保存30%阈值，准确伤害前置事件未配。",
+              "actual": "当前客户端LowHealthThreshold=0.3；保存30%阈值，准确伤害前置事件未配。",
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3053_passive/parameters/lifeline_health_threshold.valueMode",
+              "expected": "FIXED",
+              "actual": "FIXED",
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3053_passive/parameters/lifeline_health_threshold.levelValues",
+              "expected": null,
+              "actual": null,
+              "equal": true
+            }
+          ],
+          "matches": true
+        },
+        {
+          "kind": "参数",
+          "path": "/skills/item_3053_passive/parameters/lifeline_shield_duration_ms",
+          "status": 200,
+          "expected": {
+            "parameterKey": "lifeline_shield_duration_ms",
+            "name": "救主灵刃护盾持续时间",
+            "valueType": "INTEGER",
+            "fixedValue": 4500,
+            "sortOrder": 30,
+            "description": "当前客户端ShieldDuration=4.5秒，规范化为4500毫秒；护盾衰减曲线和取值时点未配。",
+            "valueMode": "FIXED",
+            "levelValues": null
+          },
+          "actual": {
+            "createdAt": "2026-09-08T18:10:59.639001Z",
+            "description": "当前客户端ShieldDuration=4.5秒，规范化为4500毫秒；护盾衰减曲线和取值时点未配。",
+            "fixedValue": 4500,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "救主灵刃护盾持续时间",
+            "parameterKey": "lifeline_shield_duration_ms",
+            "skillKey": "item_3053_passive",
+            "sortOrder": 30,
+            "updatedAt": "2026-09-08T18:10:59.639001Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          "fields": [
+            {
+              "path": "/skills/item_3053_passive/parameters/lifeline_shield_duration_ms.parameterKey",
+              "expected": "lifeline_shield_duration_ms",
+              "actual": "lifeline_shield_duration_ms",
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3053_passive/parameters/lifeline_shield_duration_ms.name",
+              "expected": "救主灵刃护盾持续时间",
+              "actual": "救主灵刃护盾持续时间",
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3053_passive/parameters/lifeline_shield_duration_ms.valueType",
+              "expected": "INTEGER",
+              "actual": "INTEGER",
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3053_passive/parameters/lifeline_shield_duration_ms.fixedValue",
+              "expected": 4500,
+              "actual": 4500,
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3053_passive/parameters/lifeline_shield_duration_ms.sortOrder",
+              "expected": 30,
+              "actual": 30,
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3053_passive/parameters/lifeline_shield_duration_ms.description",
+              "expected": "当前客户端ShieldDuration=4.5秒，规范化为4500毫秒；护盾衰减曲线和取值时点未配。",
+              "actual": "当前客户端ShieldDuration=4.5秒，规范化为4500毫秒；护盾衰减曲线和取值时点未配。",
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3053_passive/parameters/lifeline_shield_duration_ms.valueMode",
+              "expected": "FIXED",
+              "actual": "FIXED",
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3053_passive/parameters/lifeline_shield_duration_ms.levelValues",
+              "expected": null,
+              "actual": null,
+              "equal": true
+            }
+          ],
+          "matches": true
+        },
+        {
+          "kind": "参数",
+          "path": "/skills/item_3053_passive/parameters/lifeline_shield_bonus_health_ratio",
+          "status": 200,
+          "expected": {
+            "parameterKey": "lifeline_shield_bonus_health_ratio",
+            "name": "救主灵刃额外生命值护盾比例",
+            "valueType": "DECIMAL",
+            "fixedValue": 0.6,
+            "sortOrder": 40,
+            "description": "当前客户端BaseShieldRatio=0.6；护盾基数候选为来源持有者额外生命值，快照与动态读取未配。",
+            "valueMode": "FIXED",
+            "levelValues": null
+          },
+          "actual": {
+            "createdAt": "2026-09-08T18:11:00.313959Z",
+            "description": "当前客户端BaseShieldRatio=0.6；护盾基数候选为来源持有者额外生命值，快照与动态读取未配。",
+            "fixedValue": 0.6,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "救主灵刃额外生命值护盾比例",
+            "parameterKey": "lifeline_shield_bonus_health_ratio",
+            "skillKey": "item_3053_passive",
+            "sortOrder": 40,
+            "updatedAt": "2026-09-08T18:11:00.313959Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          "fields": [
+            {
+              "path": "/skills/item_3053_passive/parameters/lifeline_shield_bonus_health_ratio.parameterKey",
+              "expected": "lifeline_shield_bonus_health_ratio",
+              "actual": "lifeline_shield_bonus_health_ratio",
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3053_passive/parameters/lifeline_shield_bonus_health_ratio.name",
+              "expected": "救主灵刃额外生命值护盾比例",
+              "actual": "救主灵刃额外生命值护盾比例",
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3053_passive/parameters/lifeline_shield_bonus_health_ratio.valueType",
+              "expected": "DECIMAL",
+              "actual": "DECIMAL",
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3053_passive/parameters/lifeline_shield_bonus_health_ratio.fixedValue",
+              "expected": 0.6,
+              "actual": 0.6,
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3053_passive/parameters/lifeline_shield_bonus_health_ratio.sortOrder",
+              "expected": 40,
+              "actual": 40,
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3053_passive/parameters/lifeline_shield_bonus_health_ratio.description",
+              "expected": "当前客户端BaseShieldRatio=0.6；护盾基数候选为来源持有者额外生命值，快照与动态读取未配。",
+              "actual": "当前客户端BaseShieldRatio=0.6；护盾基数候选为来源持有者额外生命值，快照与动态读取未配。",
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3053_passive/parameters/lifeline_shield_bonus_health_ratio.valueMode",
+              "expected": "FIXED",
+              "actual": "FIXED",
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3053_passive/parameters/lifeline_shield_bonus_health_ratio.levelValues",
+              "expected": null,
+              "actual": null,
+              "equal": true
+            }
+          ],
+          "matches": true
+        },
+        {
+          "kind": "参数",
+          "path": "/skills/item_3053_passive/parameters/lifeline_cooldown_ms",
+          "status": 200,
+          "expected": {
+            "parameterKey": "lifeline_cooldown_ms",
+            "name": "救主灵刃冷却时间",
+            "valueType": "INTEGER",
+            "fixedValue": 90000,
+            "sortOrder": 50,
+            "description": "当前客户端Cooldown=90秒，规范化为90000毫秒；冷却启动和重复授盾行为未配。",
+            "valueMode": "FIXED",
+            "levelValues": null
+          },
+          "actual": {
+            "createdAt": "2026-09-08T18:11:01.021012Z",
+            "description": "当前客户端Cooldown=90秒，规范化为90000毫秒；冷却启动和重复授盾行为未配。",
+            "fixedValue": 90000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "救主灵刃冷却时间",
+            "parameterKey": "lifeline_cooldown_ms",
+            "skillKey": "item_3053_passive",
+            "sortOrder": 50,
+            "updatedAt": "2026-09-08T18:11:01.021012Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          "fields": [
+            {
+              "path": "/skills/item_3053_passive/parameters/lifeline_cooldown_ms.parameterKey",
+              "expected": "lifeline_cooldown_ms",
+              "actual": "lifeline_cooldown_ms",
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3053_passive/parameters/lifeline_cooldown_ms.name",
+              "expected": "救主灵刃冷却时间",
+              "actual": "救主灵刃冷却时间",
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3053_passive/parameters/lifeline_cooldown_ms.valueType",
+              "expected": "INTEGER",
+              "actual": "INTEGER",
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3053_passive/parameters/lifeline_cooldown_ms.fixedValue",
+              "expected": 90000,
+              "actual": 90000,
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3053_passive/parameters/lifeline_cooldown_ms.sortOrder",
+              "expected": 50,
+              "actual": 50,
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3053_passive/parameters/lifeline_cooldown_ms.description",
+              "expected": "当前客户端Cooldown=90秒，规范化为90000毫秒；冷却启动和重复授盾行为未配。",
+              "actual": "当前客户端Cooldown=90秒，规范化为90000毫秒；冷却启动和重复授盾行为未配。",
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3053_passive/parameters/lifeline_cooldown_ms.valueMode",
+              "expected": "FIXED",
+              "actual": "FIXED",
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3053_passive/parameters/lifeline_cooldown_ms.levelValues",
+              "expected": null,
+              "actual": null,
+              "equal": true
+            }
+          ],
+          "matches": true
+        },
+        {
+          "kind": "装备技能挂载",
+          "path": "/equipment-skill-relations?equipmentKey=item_3053",
+          "status": 200,
+          "expected": {
+            "equipmentKey": "item_3053",
+            "skillKey": "item_3053_passive",
+            "sortOrder": 10
+          },
+          "actual": {
+            "equipmentKey": "item_3053",
+            "equipmentName": "斯特拉克的挑战护手",
+            "gameId": "lol",
+            "skillKey": "item_3053_passive",
+            "skillName": "斯特拉克的挑战护手·被动",
+            "skillStatus": "ENABLED",
+            "sortOrder": 10
+          },
+          "fields": [
+            {
+              "path": "/equipment-skill-relations?equipmentKey=item_3053.equipmentKey",
+              "expected": "item_3053",
+              "actual": "item_3053",
+              "equal": true
+            },
+            {
+              "path": "/equipment-skill-relations?equipmentKey=item_3053.skillKey",
+              "expected": "item_3053_passive",
+              "actual": "item_3053_passive",
+              "equal": true
+            },
+            {
+              "path": "/equipment-skill-relations?equipmentKey=item_3053.sortOrder",
+              "expected": 10,
+              "actual": 10,
+              "equal": true
+            }
+          ],
+          "matches": true
+        },
+        {
+          "kind": "技能代表图复用",
+          "path": "/skills/item_3053_passive/representative-image",
+          "status": 200,
+          "expected": {
+            "imageKey": "item_3053"
+          },
+          "actual": {
+            "imageKey": "item_3053"
+          },
+          "fields": [
+            {
+              "path": "/skills/item_3053_passive/representative-image.imageKey",
+              "expected": "item_3053",
+              "actual": "item_3053",
+              "equal": true
+            }
+          ],
+          "matches": true
+        }
+      ],
+      "errors": [],
+      "attributeKeys": [
+        "hp",
+        "tenacity_percent"
+      ],
+      "allComponentsRead": true
+    },
+    {
+      "equipmentKey": "item_3068",
+      "skillKey": "item_3068_passive",
+      "endpoints": [
+        {
+          "kind": "同键/别名探针",
+          "path": "/equipment/item_3068",
+          "status": 200,
+          "expected": {
+            "createdAt": "2026-09-06T17:18:22.994338Z",
+            "description": "来源：官方16.17.1装备3068。 原始说明：350生命值 50护甲 10技能急速 献祭 承受或造成伤害后，每秒对附近敌人造成魔法伤害，持续3秒。 被动与主动效果尚待配置。",
+            "equipmentKey": "item_3068",
+            "gameId": "lol",
+            "name": "日炎圣盾",
+            "updatedAt": "2026-09-06T17:18:22.994338Z"
+          },
+          "actual": {
+            "createdAt": "2026-09-06T17:18:22.994338Z",
+            "description": "来源：官方16.17.1装备3068。 原始说明：350生命值 50护甲 10技能急速 献祭 承受或造成伤害后，每秒对附近敌人造成魔法伤害，持续3秒。 被动与主动效果尚待配置。",
+            "equipmentKey": "item_3068",
+            "gameId": "lol",
+            "name": "日炎圣盾",
+            "updatedAt": "2026-09-06T17:18:22.994338Z"
+          },
+          "fields": [
+            {
+              "path": "/equipment/item_3068.createdAt",
+              "expected": "2026-09-06T17:18:22.994338Z",
+              "actual": "2026-09-06T17:18:22.994338Z",
+              "equal": true
+            },
+            {
+              "path": "/equipment/item_3068.description",
+              "expected": "来源：官方16.17.1装备3068。 原始说明：350生命值 50护甲 10技能急速 献祭 承受或造成伤害后，每秒对附近敌人造成魔法伤害，持续3秒。 被动与主动效果尚待配置。",
+              "actual": "来源：官方16.17.1装备3068。 原始说明：350生命值 50护甲 10技能急速 献祭 承受或造成伤害后，每秒对附近敌人造成魔法伤害，持续3秒。 被动与主动效果尚待配置。",
+              "equal": true
+            },
+            {
+              "path": "/equipment/item_3068.equipmentKey",
+              "expected": "item_3068",
+              "actual": "item_3068",
+              "equal": true
+            },
+            {
+              "path": "/equipment/item_3068.gameId",
+              "expected": "lol",
+              "actual": "lol",
+              "equal": true
+            },
+            {
+              "path": "/equipment/item_3068.name",
+              "expected": "日炎圣盾",
+              "actual": "日炎圣盾",
+              "equal": true
+            },
+            {
+              "path": "/equipment/item_3068.updatedAt",
+              "expected": "2026-09-06T17:18:22.994338Z",
+              "actual": "2026-09-06T17:18:22.994338Z",
+              "equal": true
+            }
+          ],
+          "matches": true
+        },
+        {
+          "kind": "装备元数据",
+          "path": "/equipment/item_3068",
+          "status": 200,
+          "expected": {
+            "createdAt": "2026-09-06T17:18:22.994338Z",
+            "description": "来源：官方16.17.1装备3068。 原始说明：350生命值 50护甲 10技能急速 献祭 承受或造成伤害后，每秒对附近敌人造成魔法伤害，持续3秒。 被动与主动效果尚待配置。",
+            "equipmentKey": "item_3068",
+            "gameId": "lol",
+            "name": "日炎圣盾",
+            "updatedAt": "2026-09-06T17:18:22.994338Z"
+          },
+          "actual": {
+            "createdAt": "2026-09-06T17:18:22.994338Z",
+            "description": "来源：官方16.17.1装备3068。 原始说明：350生命值 50护甲 10技能急速 献祭 承受或造成伤害后，每秒对附近敌人造成魔法伤害，持续3秒。 被动与主动效果尚待配置。",
+            "equipmentKey": "item_3068",
+            "gameId": "lol",
+            "name": "日炎圣盾",
+            "updatedAt": "2026-09-06T17:18:22.994338Z"
+          },
+          "fields": [
+            {
+              "path": "/equipment/item_3068.createdAt",
+              "expected": "2026-09-06T17:18:22.994338Z",
+              "actual": "2026-09-06T17:18:22.994338Z",
+              "equal": true
+            },
+            {
+              "path": "/equipment/item_3068.description",
+              "expected": "来源：官方16.17.1装备3068。 原始说明：350生命值 50护甲 10技能急速 献祭 承受或造成伤害后，每秒对附近敌人造成魔法伤害，持续3秒。 被动与主动效果尚待配置。",
+              "actual": "来源：官方16.17.1装备3068。 原始说明：350生命值 50护甲 10技能急速 献祭 承受或造成伤害后，每秒对附近敌人造成魔法伤害，持续3秒。 被动与主动效果尚待配置。",
+              "equal": true
+            },
+            {
+              "path": "/equipment/item_3068.equipmentKey",
+              "expected": "item_3068",
+              "actual": "item_3068",
+              "equal": true
+            },
+            {
+              "path": "/equipment/item_3068.gameId",
+              "expected": "lol",
+              "actual": "lol",
+              "equal": true
+            },
+            {
+              "path": "/equipment/item_3068.name",
+              "expected": "日炎圣盾",
+              "actual": "日炎圣盾",
+              "equal": true
+            },
+            {
+              "path": "/equipment/item_3068.updatedAt",
+              "expected": "2026-09-06T17:18:22.994338Z",
+              "actual": "2026-09-06T17:18:22.994338Z",
+              "equal": true
+            }
+          ],
+          "matches": true
+        },
+        {
+          "kind": "完整直接属性",
+          "path": "/equipment/item_3068/attributes",
+          "status": 200,
+          "expected": {
+            "hp": 350,
+            "armor": 50,
+            "ability_haste": 10
+          },
+          "actual": {
+            "hp": 350,
+            "armor": 50,
+            "ability_haste": 10
+          },
+          "fields": [
+            {
+              "path": "/equipment/item_3068/attributes.hp",
+              "expected": 350,
+              "actual": 350,
+              "equal": true
+            },
+            {
+              "path": "/equipment/item_3068/attributes.armor",
+              "expected": 50,
+              "actual": 50,
+              "equal": true
+            },
+            {
+              "path": "/equipment/item_3068/attributes.ability_haste",
+              "expected": 10,
+              "actual": 10,
+              "equal": true
+            }
+          ],
+          "matches": true
+        },
+        {
+          "kind": "装备代表图",
+          "path": "/equipment/item_3068/representative-image",
+          "status": 200,
+          "expected": {
+            "image": {
+              "enabled": true,
+              "imageKey": "item_3068",
+              "name": "item_3068"
+            }
+          },
+          "actual": {
+            "image": {
+              "enabled": true,
+              "imageKey": "item_3068",
+              "name": "item_3068"
+            }
+          },
+          "fields": [
+            {
+              "path": "/equipment/item_3068/representative-image.image.enabled",
+              "expected": true,
+              "actual": true,
+              "equal": true
+            },
+            {
+              "path": "/equipment/item_3068/representative-image.image.imageKey",
+              "expected": "item_3068",
+              "actual": "item_3068",
+              "equal": true
+            },
+            {
+              "path": "/equipment/item_3068/representative-image.image.name",
+              "expected": "item_3068",
+              "actual": "item_3068",
+              "equal": true
+            }
+          ],
+          "matches": true
+        },
+        {
+          "kind": "技能",
+          "path": "/skills/item_3068_passive",
+          "status": 200,
+          "expected": {
+            "skillKey": "item_3068_passive",
+            "name": "日炎圣盾·献祭",
+            "description": "按冻结16.17客户端和16.17.1官方资料保存献祭的确定数值参数；触发事件、周期、首跳、目标筛选和旧叠层列为待核。",
+            "maxLevel": 1,
+            "status": "ENABLED",
+            "sortOrder": 0,
+            "skillCategoryKeys": [
+              "passive"
+            ]
+          },
+          "actual": {
+            "createdAt": "2026-09-08T18:11:04.185169Z",
+            "description": "按冻结16.17客户端和16.17.1官方资料保存献祭的确定数值参数；触发事件、周期、首跳、目标筛选和旧叠层列为待核。",
+            "gameId": "lol",
+            "maxLevel": 1,
+            "name": "日炎圣盾·献祭",
+            "skillCategoryKeys": [
+              "passive"
+            ],
+            "skillKey": "item_3068_passive",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T18:11:04.185169Z"
+          },
+          "fields": [
+            {
+              "path": "/skills/item_3068_passive.skillKey",
+              "expected": "item_3068_passive",
+              "actual": "item_3068_passive",
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3068_passive.name",
+              "expected": "日炎圣盾·献祭",
+              "actual": "日炎圣盾·献祭",
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3068_passive.description",
+              "expected": "按冻结16.17客户端和16.17.1官方资料保存献祭的确定数值参数；触发事件、周期、首跳、目标筛选和旧叠层列为待核。",
+              "actual": "按冻结16.17客户端和16.17.1官方资料保存献祭的确定数值参数；触发事件、周期、首跳、目标筛选和旧叠层列为待核。",
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3068_passive.maxLevel",
+              "expected": 1,
+              "actual": 1,
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3068_passive.status",
+              "expected": "ENABLED",
+              "actual": "ENABLED",
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3068_passive.sortOrder",
+              "expected": 0,
+              "actual": 0,
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3068_passive.skillCategoryKeys.length",
+              "expected": 1,
+              "actual": 1,
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3068_passive.skillCategoryKeys[0]",
+              "expected": "passive",
+              "actual": "passive",
+              "equal": true
+            }
+          ],
+          "matches": true
+        },
+        {
+          "kind": "参数",
+          "path": "/skills/item_3068_passive/parameters/immolate_duration_ms",
+          "status": 200,
+          "expected": {
+            "parameterKey": "immolate_duration_ms",
+            "name": "献祭持续时间",
+            "valueType": "INTEGER",
+            "fixedValue": 3000,
+            "sortOrder": 10,
+            "description": "当前客户端AuraDuration=3秒，规范化为3000毫秒；刷新、重叠和结束边界未配。",
+            "valueMode": "FIXED",
+            "levelValues": null
+          },
+          "actual": {
+            "createdAt": "2026-09-08T18:11:04.990466Z",
+            "description": "当前客户端AuraDuration=3秒，规范化为3000毫秒；刷新、重叠和结束边界未配。",
+            "fixedValue": 3000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "献祭持续时间",
+            "parameterKey": "immolate_duration_ms",
+            "skillKey": "item_3068_passive",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-08T18:11:04.990466Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          "fields": [
+            {
+              "path": "/skills/item_3068_passive/parameters/immolate_duration_ms.parameterKey",
+              "expected": "immolate_duration_ms",
+              "actual": "immolate_duration_ms",
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3068_passive/parameters/immolate_duration_ms.name",
+              "expected": "献祭持续时间",
+              "actual": "献祭持续时间",
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3068_passive/parameters/immolate_duration_ms.valueType",
+              "expected": "INTEGER",
+              "actual": "INTEGER",
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3068_passive/parameters/immolate_duration_ms.fixedValue",
+              "expected": 3000,
+              "actual": 3000,
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3068_passive/parameters/immolate_duration_ms.sortOrder",
+              "expected": 10,
+              "actual": 10,
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3068_passive/parameters/immolate_duration_ms.description",
+              "expected": "当前客户端AuraDuration=3秒，规范化为3000毫秒；刷新、重叠和结束边界未配。",
+              "actual": "当前客户端AuraDuration=3秒，规范化为3000毫秒；刷新、重叠和结束边界未配。",
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3068_passive/parameters/immolate_duration_ms.valueMode",
+              "expected": "FIXED",
+              "actual": "FIXED",
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3068_passive/parameters/immolate_duration_ms.levelValues",
+              "expected": null,
+              "actual": null,
+              "equal": true
+            }
+          ],
+          "matches": true
+        },
+        {
+          "kind": "参数",
+          "path": "/skills/item_3068_passive/parameters/immolate_ticks_per_second",
+          "status": 200,
+          "expected": {
+            "parameterKey": "immolate_ticks_per_second",
+            "name": "献祭每秒伤害次数速率",
+            "valueType": "INTEGER",
+            "fixedValue": 1,
+            "sortOrder": 20,
+            "description": "当前客户端TicksPerSecond=1，仅保存DPS显示换算速率；不转换为1000毫秒周期，不代表首跳时点。",
+            "valueMode": "FIXED",
+            "levelValues": null
+          },
+          "actual": {
+            "createdAt": "2026-09-08T18:11:05.644121Z",
+            "description": "当前客户端TicksPerSecond=1，仅保存DPS显示换算速率；不转换为1000毫秒周期，不代表首跳时点。",
+            "fixedValue": 1,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "献祭每秒伤害次数速率",
+            "parameterKey": "immolate_ticks_per_second",
+            "skillKey": "item_3068_passive",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-08T18:11:05.644121Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          "fields": [
+            {
+              "path": "/skills/item_3068_passive/parameters/immolate_ticks_per_second.parameterKey",
+              "expected": "immolate_ticks_per_second",
+              "actual": "immolate_ticks_per_second",
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3068_passive/parameters/immolate_ticks_per_second.name",
+              "expected": "献祭每秒伤害次数速率",
+              "actual": "献祭每秒伤害次数速率",
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3068_passive/parameters/immolate_ticks_per_second.valueType",
+              "expected": "INTEGER",
+              "actual": "INTEGER",
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3068_passive/parameters/immolate_ticks_per_second.fixedValue",
+              "expected": 1,
+              "actual": 1,
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3068_passive/parameters/immolate_ticks_per_second.sortOrder",
+              "expected": 20,
+              "actual": 20,
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3068_passive/parameters/immolate_ticks_per_second.description",
+              "expected": "当前客户端TicksPerSecond=1，仅保存DPS显示换算速率；不转换为1000毫秒周期，不代表首跳时点。",
+              "actual": "当前客户端TicksPerSecond=1，仅保存DPS显示换算速率；不转换为1000毫秒周期，不代表首跳时点。",
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3068_passive/parameters/immolate_ticks_per_second.valueMode",
+              "expected": "FIXED",
+              "actual": "FIXED",
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3068_passive/parameters/immolate_ticks_per_second.levelValues",
+              "expected": null,
+              "actual": null,
+              "equal": true
+            }
+          ],
+          "matches": true
+        },
+        {
+          "kind": "参数",
+          "path": "/skills/item_3068_passive/parameters/immolate_base_damage_per_tick",
+          "status": 200,
+          "expected": {
+            "parameterKey": "immolate_base_damage_per_tick",
+            "name": "献祭每次基础魔法伤害",
+            "valueType": "INTEGER",
+            "fixedValue": 20,
+            "sortOrder": 30,
+            "description": "当前客户端DamagePerTick根节点固定20；只保存每次基础伤害，不生成周期伤害效果。",
+            "valueMode": "FIXED",
+            "levelValues": null
+          },
+          "actual": {
+            "createdAt": "2026-09-08T18:11:06.27698Z",
+            "description": "当前客户端DamagePerTick根节点固定20；只保存每次基础伤害，不生成周期伤害效果。",
+            "fixedValue": 20,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "献祭每次基础魔法伤害",
+            "parameterKey": "immolate_base_damage_per_tick",
+            "skillKey": "item_3068_passive",
+            "sortOrder": 30,
+            "updatedAt": "2026-09-08T18:11:06.27698Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          "fields": [
+            {
+              "path": "/skills/item_3068_passive/parameters/immolate_base_damage_per_tick.parameterKey",
+              "expected": "immolate_base_damage_per_tick",
+              "actual": "immolate_base_damage_per_tick",
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3068_passive/parameters/immolate_base_damage_per_tick.name",
+              "expected": "献祭每次基础魔法伤害",
+              "actual": "献祭每次基础魔法伤害",
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3068_passive/parameters/immolate_base_damage_per_tick.valueType",
+              "expected": "INTEGER",
+              "actual": "INTEGER",
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3068_passive/parameters/immolate_base_damage_per_tick.fixedValue",
+              "expected": 20,
+              "actual": 20,
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3068_passive/parameters/immolate_base_damage_per_tick.sortOrder",
+              "expected": 30,
+              "actual": 30,
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3068_passive/parameters/immolate_base_damage_per_tick.description",
+              "expected": "当前客户端DamagePerTick根节点固定20；只保存每次基础伤害，不生成周期伤害效果。",
+              "actual": "当前客户端DamagePerTick根节点固定20；只保存每次基础伤害，不生成周期伤害效果。",
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3068_passive/parameters/immolate_base_damage_per_tick.valueMode",
+              "expected": "FIXED",
+              "actual": "FIXED",
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3068_passive/parameters/immolate_base_damage_per_tick.levelValues",
+              "expected": null,
+              "actual": null,
+              "equal": true
+            }
+          ],
+          "matches": true
+        },
+        {
+          "kind": "参数",
+          "path": "/skills/item_3068_passive/parameters/immolate_bonus_health_ratio_per_tick",
+          "status": 200,
+          "expected": {
+            "parameterKey": "immolate_bonus_health_ratio_per_tick",
+            "name": "献祭额外生命值每次伤害比例",
+            "valueType": "DECIMAL",
+            "fixedValue": 0.015,
+            "sortOrder": 40,
+            "description": "当前客户端系数约0.015，说明为1.5%；按小数比例保存，基数候选为SOURCE额外生命值，取值时点未配。",
+            "valueMode": "FIXED",
+            "levelValues": null
+          },
+          "actual": {
+            "createdAt": "2026-09-08T18:11:06.993086Z",
+            "description": "当前客户端系数约0.015，说明为1.5%；按小数比例保存，基数候选为SOURCE额外生命值，取值时点未配。",
+            "fixedValue": 0.015,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "献祭额外生命值每次伤害比例",
+            "parameterKey": "immolate_bonus_health_ratio_per_tick",
+            "skillKey": "item_3068_passive",
+            "sortOrder": 40,
+            "updatedAt": "2026-09-08T18:11:06.993086Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          "fields": [
+            {
+              "path": "/skills/item_3068_passive/parameters/immolate_bonus_health_ratio_per_tick.parameterKey",
+              "expected": "immolate_bonus_health_ratio_per_tick",
+              "actual": "immolate_bonus_health_ratio_per_tick",
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3068_passive/parameters/immolate_bonus_health_ratio_per_tick.name",
+              "expected": "献祭额外生命值每次伤害比例",
+              "actual": "献祭额外生命值每次伤害比例",
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3068_passive/parameters/immolate_bonus_health_ratio_per_tick.valueType",
+              "expected": "DECIMAL",
+              "actual": "DECIMAL",
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3068_passive/parameters/immolate_bonus_health_ratio_per_tick.fixedValue",
+              "expected": 0.015,
+              "actual": 0.015,
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3068_passive/parameters/immolate_bonus_health_ratio_per_tick.sortOrder",
+              "expected": 40,
+              "actual": 40,
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3068_passive/parameters/immolate_bonus_health_ratio_per_tick.description",
+              "expected": "当前客户端系数约0.015，说明为1.5%；按小数比例保存，基数候选为SOURCE额外生命值，取值时点未配。",
+              "actual": "当前客户端系数约0.015，说明为1.5%；按小数比例保存，基数候选为SOURCE额外生命值，取值时点未配。",
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3068_passive/parameters/immolate_bonus_health_ratio_per_tick.valueMode",
+              "expected": "FIXED",
+              "actual": "FIXED",
+              "equal": true
+            },
+            {
+              "path": "/skills/item_3068_passive/parameters/immolate_bonus_health_ratio_per_tick.levelValues",
+              "expected": null,
+              "actual": null,
+              "equal": true
+            }
+          ],
+          "matches": true
+        },
+        {
+          "kind": "装备技能挂载",
+          "path": "/equipment-skill-relations?equipmentKey=item_3068",
+          "status": 200,
+          "expected": {
+            "equipmentKey": "item_3068",
+            "skillKey": "item_3068_passive",
+            "sortOrder": 10
+          },
+          "actual": {
+            "equipmentKey": "item_3068",
+            "equipmentName": "日炎圣盾",
+            "gameId": "lol",
+            "skillKey": "item_3068_passive",
+            "skillName": "日炎圣盾·献祭",
+            "skillStatus": "ENABLED",
+            "sortOrder": 10
+          },
+          "fields": [
+            {
+              "path": "/equipment-skill-relations?equipmentKey=item_3068.equipmentKey",
+              "expected": "item_3068",
+              "actual": "item_3068",
+              "equal": true
+            },
+            {
+              "path": "/equipment-skill-relations?equipmentKey=item_3068.skillKey",
+              "expected": "item_3068_passive",
+              "actual": "item_3068_passive",
+              "equal": true
+            },
+            {
+              "path": "/equipment-skill-relations?equipmentKey=item_3068.sortOrder",
+              "expected": 10,
+              "actual": 10,
+              "equal": true
+            }
+          ],
+          "matches": true
+        },
+        {
+          "kind": "技能代表图复用",
+          "path": "/skills/item_3068_passive/representative-image",
+          "status": 200,
+          "expected": {
+            "imageKey": "item_3068"
+          },
+          "actual": {
+            "imageKey": "item_3068"
+          },
+          "fields": [
+            {
+              "path": "/skills/item_3068_passive/representative-image.imageKey",
+              "expected": "item_3068",
+              "actual": "item_3068",
+              "equal": true
+            }
+          ],
+          "matches": true
+        }
+      ],
+      "errors": [],
+      "attributeKeys": [
+        "hp",
+        "armor",
+        "ability_haste"
+      ],
+      "allComponentsRead": true
+    }
+  ],
+  "summary": {
+    "endpointCount": 23,
+    "okCount": 23,
+    "mismatchCount": 0,
+    "failedObjectCount": 0
+  },
+  "stopped": false
+}

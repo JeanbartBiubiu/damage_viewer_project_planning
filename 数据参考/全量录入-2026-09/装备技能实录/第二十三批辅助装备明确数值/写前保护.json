@@ -1,0 +1,383 @@
+[
+  {
+    "route": "/skill-categories",
+    "status": 200,
+    "data": {
+      "items": [
+        {
+          "createdAt": "2026-09-04T16:08:30.744289Z",
+          "description": null,
+          "gameId": "lol",
+          "name": "位移技能",
+          "skillCategoryKey": "move_skill",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-04T16:08:30.744289Z"
+        },
+        {
+          "createdAt": "2026-08-26T05:59:27.858757Z",
+          "description": null,
+          "gameId": "lol",
+          "name": "普通技能",
+          "skillCategoryKey": "common",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-08-26T05:59:27.858757Z"
+        },
+        {
+          "createdAt": "2026-08-26T05:59:36.038429Z",
+          "description": null,
+          "gameId": "lol",
+          "name": "被动技能",
+          "skillCategoryKey": "passive",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-08-26T05:59:36.038429Z"
+        }
+      ],
+      "total": 3
+    }
+  },
+  {
+    "route": "/equipment/item_3222",
+    "status": 200,
+    "data": {
+      "createdAt": "2026-09-06T18:11:04.941515Z",
+      "description": "来源：官方16.17.1装备3222。 原始说明：250生命值\n100%基础法力回复\n12%治疗和护盾强度\n15技能急速\n\n纯化 \n移除一名友方英雄身上的所有控制类减益效果(滞空和压制除外)并为其回复100 - 250生命值。 被动与主动效果尚待配置。",
+      "equipmentKey": "item_3222",
+      "gameId": "lol",
+      "name": "米凯尔的祝福",
+      "updatedAt": "2026-09-06T18:11:04.941515Z"
+    }
+  },
+  {
+    "route": "/equipment/item_3222/attributes",
+    "status": 200,
+    "data": {
+      "attributeValues": {
+        "hp": 250,
+        "base_mana_regen_percent": 1,
+        "ability_haste": 15,
+        "heal_shield_power_percent": 0.12
+      },
+      "equipmentKey": "item_3222"
+    }
+  },
+  {
+    "route": "/equipment/item_3222/representative-image",
+    "status": 200,
+    "data": {
+      "image": {
+        "enabled": true,
+        "imageKey": "item_3222",
+        "name": "item_3222"
+      }
+    }
+  },
+  {
+    "route": "/equipment-skill-relations?equipmentKey=item_3222",
+    "status": 200,
+    "data": {
+      "items": [],
+      "total": 0
+    }
+  },
+  {
+    "route": "/skills/item_3222_active",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_NOT_FOUND",
+        "details": {
+          "skillKey": "item_3222_active"
+        },
+        "message": "技能不存在"
+      }
+    }
+  },
+  {
+    "route": "/equipment/item_2065",
+    "status": 200,
+    "data": {
+      "createdAt": "2026-09-06T16:46:46.532278Z",
+      "description": "来源：官方16.17.1装备2065。 原始说明：50法术强度\n15技能急速\n4%移动速度\n125%基础法力回复\n\n鼓舞演讲\n为附近友军们提供持续4秒的30%移动速度。 被动与主动效果尚待配置。",
+      "equipmentKey": "item_2065",
+      "gameId": "lol",
+      "name": "舒瑞娅的战歌",
+      "updatedAt": "2026-09-06T16:46:46.532278Z"
+    }
+  },
+  {
+    "route": "/equipment/item_2065/attributes",
+    "status": 200,
+    "data": {
+      "attributeValues": {
+        "move_speed_percent": 0.04,
+        "base_mana_regen_percent": 1.25,
+        "ability_power": 50,
+        "ability_haste": 15
+      },
+      "equipmentKey": "item_2065"
+    }
+  },
+  {
+    "route": "/equipment/item_2065/representative-image",
+    "status": 200,
+    "data": {
+      "image": {
+        "enabled": true,
+        "imageKey": "item_2065",
+        "name": "item_2065"
+      }
+    }
+  },
+  {
+    "route": "/equipment-skill-relations?equipmentKey=item_2065",
+    "status": 200,
+    "data": {
+      "items": [],
+      "total": 0
+    }
+  },
+  {
+    "route": "/skills/item_2065_active",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_NOT_FOUND",
+        "details": {
+          "skillKey": "item_2065_active"
+        },
+        "message": "技能不存在"
+      }
+    }
+  },
+  {
+    "route": "/equipment/item_6620",
+    "status": 200,
+    "data": {
+      "createdAt": "2026-09-06T18:11:18.986662Z",
+      "description": "来源：官方16.17.1装备6620。 原始说明：35法术强度\n200生命值\n20技能急速\n125%基础法力回复\n\n灵魂吸取\n获得【灵魂充能】，数额相当于对英雄的30%折前伤害值。为一位友军提供治疗或护盾时，会消耗所有灵魂充能来回复生命值。 被动与主动效果尚待配置。",
+      "equipmentKey": "item_6620",
+      "gameId": "lol",
+      "name": "海力亚的回响",
+      "updatedAt": "2026-09-06T18:11:18.986662Z"
+    }
+  },
+  {
+    "route": "/equipment/item_6620/attributes",
+    "status": 200,
+    "data": {
+      "attributeValues": {
+        "hp": 200,
+        "base_mana_regen_percent": 1.25,
+        "ability_power": 35,
+        "ability_haste": 20
+      },
+      "equipmentKey": "item_6620"
+    }
+  },
+  {
+    "route": "/equipment/item_6620/representative-image",
+    "status": 200,
+    "data": {
+      "image": {
+        "enabled": true,
+        "imageKey": "item_6620",
+        "name": "item_6620"
+      }
+    }
+  },
+  {
+    "route": "/equipment-skill-relations?equipmentKey=item_6620",
+    "status": 200,
+    "data": {
+      "items": [],
+      "total": 0
+    }
+  },
+  {
+    "route": "/skills/item_6620_passive",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_NOT_FOUND",
+        "details": {
+          "skillKey": "item_6620_passive"
+        },
+        "message": "技能不存在"
+      }
+    }
+  },
+  {
+    "route": "/equipment/item_3504",
+    "status": 200,
+    "data": {
+      "createdAt": "2026-09-06T18:11:06.174195Z",
+      "description": "来源：官方16.17.1装备3504。 原始说明：45法术强度\n10%治疗和护盾强度\n125%基础法力回复\n4%移动速度\n\n圣洁化\n对一名友方英雄施加治疗或护盾时，会使你们两个都获得持续6秒的强化，提供25%攻击速度和20魔法伤害 攻击特效。 被动与主动效果尚待配置。",
+      "equipmentKey": "item_3504",
+      "gameId": "lol",
+      "name": "炽热香炉",
+      "updatedAt": "2026-09-06T18:11:06.174195Z"
+    }
+  },
+  {
+    "route": "/equipment/item_3504/attributes",
+    "status": 200,
+    "data": {
+      "attributeValues": {
+        "move_speed_percent": 0.04,
+        "base_mana_regen_percent": 1.25,
+        "ability_power": 45,
+        "heal_shield_power_percent": 0.1
+      },
+      "equipmentKey": "item_3504"
+    }
+  },
+  {
+    "route": "/equipment/item_3504/representative-image",
+    "status": 200,
+    "data": {
+      "image": {
+        "enabled": true,
+        "imageKey": "item_3504",
+        "name": "item_3504"
+      }
+    }
+  },
+  {
+    "route": "/equipment-skill-relations?equipmentKey=item_3504",
+    "status": 200,
+    "data": {
+      "items": [],
+      "total": 0
+    }
+  },
+  {
+    "route": "/skills/item_3504_passive",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_NOT_FOUND",
+        "details": {
+          "skillKey": "item_3504_passive"
+        },
+        "message": "技能不存在"
+      }
+    }
+  },
+  {
+    "route": "/equipment/item_6616",
+    "status": 200,
+    "data": {
+      "createdAt": "2026-09-06T18:11:17.798455Z",
+      "description": "来源：官方16.17.1装备6616。 原始说明：35法术强度\n10%治疗和护盾强度\n125%基础法力回复\n10技能急速\n\n湍流\n当你为一名友军提供治疗或护盾效果时，你和你的目标都会获得持续6秒的40法术强度和15技能急速。 被动与主动效果尚待配置。",
+      "equipmentKey": "item_6616",
+      "gameId": "lol",
+      "name": "流水法杖",
+      "updatedAt": "2026-09-06T18:11:17.798455Z"
+    }
+  },
+  {
+    "route": "/equipment/item_6616/attributes",
+    "status": 200,
+    "data": {
+      "attributeValues": {
+        "base_mana_regen_percent": 1.25,
+        "ability_power": 35,
+        "ability_haste": 10,
+        "heal_shield_power_percent": 0.1
+      },
+      "equipmentKey": "item_6616"
+    }
+  },
+  {
+    "route": "/equipment/item_6616/representative-image",
+    "status": 200,
+    "data": {
+      "image": {
+        "enabled": true,
+        "imageKey": "item_6616",
+        "name": "item_6616"
+      }
+    }
+  },
+  {
+    "route": "/equipment-skill-relations?equipmentKey=item_6616",
+    "status": 200,
+    "data": {
+      "items": [],
+      "total": 0
+    }
+  },
+  {
+    "route": "/skills/item_6616_passive",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_NOT_FOUND",
+        "details": {
+          "skillKey": "item_6616_passive"
+        },
+        "message": "技能不存在"
+      }
+    }
+  },
+  {
+    "route": "/equipment/item_6617",
+    "status": 200,
+    "data": {
+      "createdAt": "2026-09-06T18:11:18.405821Z",
+      "description": "来源：官方16.17.1装备6617。 原始说明：25法术强度\n200生命值\n20技能急速\n125%基础法力回复\n\n星光恩典\n对一名友军的治疗或护盾会连锁至另一名友方英雄(你自己除外)，提供相当于 30%原治疗值的治疗效果或 35%原护盾值的护盾效果。 被动与主动效果尚待配置。",
+      "equipmentKey": "item_6617",
+      "gameId": "lol",
+      "name": "月石再生器",
+      "updatedAt": "2026-09-06T18:11:18.405821Z"
+    }
+  },
+  {
+    "route": "/equipment/item_6617/attributes",
+    "status": 200,
+    "data": {
+      "attributeValues": {
+        "hp": 200,
+        "base_mana_regen_percent": 1.25,
+        "ability_power": 25,
+        "ability_haste": 20
+      },
+      "equipmentKey": "item_6617"
+    }
+  },
+  {
+    "route": "/equipment/item_6617/representative-image",
+    "status": 200,
+    "data": {
+      "image": {
+        "enabled": true,
+        "imageKey": "item_6617",
+        "name": "item_6617"
+      }
+    }
+  },
+  {
+    "route": "/equipment-skill-relations?equipmentKey=item_6617",
+    "status": 200,
+    "data": {
+      "items": [],
+      "total": 0
+    }
+  },
+  {
+    "route": "/skills/item_6617_passive",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_NOT_FOUND",
+        "details": {
+          "skillKey": "item_6617_passive"
+        },
+        "message": "技能不存在"
+      }
+    }
+  }
+]

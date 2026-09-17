@@ -1,0 +1,193 @@
+{
+  "at": "2026-09-09T10:26:42.283Z",
+  "status": "REVIEWED_FOR_SCOPED_APPLY",
+  "candidateSha256": "9dc1b9628720c0afc91d9e835649ae6899dd9bfcbacac136fae7c7081ab79f62",
+  "parameters": 28,
+  "formulas": 5,
+  "requests": 48,
+  "differences": [
+    {
+      "skill": "item_3173_passive",
+      "key": "shield_breakpoint_level",
+      "change": "removed-unused-source-algorithm-field"
+    },
+    {
+      "skill": "item_3173_passive",
+      "key": "shield_bonus_per_level",
+      "change": "removed-unused-source-algorithm-field"
+    },
+    {
+      "skill": "item_3174_passive",
+      "key": "shield_breakpoint_level",
+      "change": "removed-unused-source-algorithm-field"
+    },
+    {
+      "skill": "item_3174_passive",
+      "key": "shield_bonus_per_level",
+      "change": "removed-unused-source-algorithm-field"
+    }
+  ],
+  "checks": [
+    "All 48 request bodies match frozen final candidate",
+    "Only four unused source algorithm fields removed and stack input type corrected",
+    "Other final business payloads unchanged from reviewed draft"
+  ],
+  "businessWrites": 0,
+  "expressions": [
+    {
+      "skillKey": "item_3168_passive",
+      "formulas": [
+        {
+          "formulaKey": "stacked_omnivamp",
+          "name": "杀戮层数全能吸血",
+          "description": "MIN(当前杀戮层数,10)×0.006；上限必须进入公式。只保存合法层数公式，不创建全能吸血效果，也不把主体已录4%算进本公式。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "MIN",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "actual_stacks"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "max_stacks"
+                  }
+                ]
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "omnivamp_per_stack"
+              }
+            ]
+          },
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "skillKey": "item_3170_passive",
+      "formulas": [
+        {
+          "formulaKey": "adaptive_force_from_move_speed",
+          "name": "狂热适应之力",
+          "description": "0.05×当前来源移动速度输入；只保存乘算，不换算AD/AP，不取整，不创建永久移速或适应之力效果。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ms_adaptive_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "actual_source_move_speed"
+              }
+            ]
+          },
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "skillKey": "item_3171_passive",
+      "formulas": [
+        {
+          "formulaKey": "ranged_move_speed_ratio",
+          "name": "远程额外移动速度比例",
+          "description": "近战10%比例×远程倍率0.8=8%；不把10%写成固定10点移速，不创建移速效果。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "melee_move_speed_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ranged_move_speed_multiplier"
+              }
+            ]
+          },
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "skillKey": "item_3173_passive",
+      "formulas": [
+        {
+          "formulaKey": "magic_shield_value",
+          "name": "不懈魔法护盾值",
+          "description": "当前等级基础护盾输入+0.08×来源mStat12/formula2输入。魔法类型仅来源旁证，不创建护盾效果。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "actual_level_base_shield"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "shield_amount_ratio"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "source_mstat12_formula2_value"
+                  }
+                ]
+              }
+            ]
+          },
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "skillKey": "item_3174_passive",
+      "formulas": [
+        {
+          "formulaKey": "physical_shield_value",
+          "name": "耐久物理护盾值",
+          "description": "当前等级基础护盾输入+0.08×来源mStat12/formula2输入。物理类型仅来源旁证，不创建护盾效果。镀板10%减幅不进入本公式。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "actual_level_base_shield"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "shield_amount_ratio"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "source_mstat12_formula2_value"
+                  }
+                ]
+              }
+            ]
+          },
+          "sortOrder": 10
+        }
+      ]
+    }
+  ]
+}

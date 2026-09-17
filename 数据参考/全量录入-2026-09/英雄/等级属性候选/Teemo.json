@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Teemo",
+  "sourceNumericId": "17",
+  "name": "提莫",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 615,
+      "growth": 104,
+      "sources": [
+        "原始资料/zh_CN/champion/Teemo.json:stats.hp/hpperlevel",
+        "角色根记录/Teemo.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 615,
+        "2": 689.88,
+        "3": 768.4,
+        "4": 850.56,
+        "5": 936.36,
+        "6": 1025.8,
+        "7": 1118.88,
+        "8": 1215.6,
+        "9": 1315.96,
+        "10": 1419.96,
+        "11": 1527.6,
+        "12": 1638.88,
+        "13": 1753.8,
+        "14": 1872.36,
+        "15": 1994.56,
+        "16": 2120.4,
+        "17": 2249.88,
+        "18": 2383
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 5.5,
+      "growth": 0.65,
+      "sources": [
+        "原始资料/zh_CN/champion/Teemo.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Teemo.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 5.5,
+        "2": 5.968,
+        "3": 6.45875,
+        "4": 6.97225,
+        "5": 7.5085,
+        "6": 8.0675,
+        "7": 8.64925,
+        "8": 9.25375,
+        "9": 9.881,
+        "10": 10.531,
+        "11": 11.20375,
+        "12": 11.89925,
+        "13": 12.6175,
+        "14": 13.3585,
+        "15": 14.12225,
+        "16": 14.90875,
+        "17": 15.718,
+        "18": 16.55
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 24,
+      "growth": 4.5,
+      "sources": [
+        "原始资料/zh_CN/champion/Teemo.json:stats.armor/armorperlevel",
+        "角色根记录/Teemo.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 24,
+        "2": 27.24,
+        "3": 30.6375,
+        "4": 34.1925,
+        "5": 37.905,
+        "6": 41.775,
+        "7": 45.8025,
+        "8": 49.9875,
+        "9": 54.33,
+        "10": 58.83,
+        "11": 63.4875,
+        "12": 68.3025,
+        "13": 73.275,
+        "14": 78.405,
+        "15": 83.6925,
+        "16": 89.1375,
+        "17": 94.74,
+        "18": 100.5
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 30,
+      "growth": 1.3,
+      "sources": [
+        "原始资料/zh_CN/champion/Teemo.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Teemo.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 30,
+        "2": 30.936,
+        "3": 31.9175,
+        "4": 32.9445,
+        "5": 34.017,
+        "6": 35.135,
+        "7": 36.2985,
+        "8": 37.5075,
+        "9": 38.762,
+        "10": 40.062,
+        "11": 41.4075,
+        "12": 42.7985,
+        "13": 44.235,
+        "14": 45.717,
+        "15": 47.2445,
+        "16": 48.8175,
+        "17": 50.436,
+        "18": 52.1
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 54,
+      "growth": 3,
+      "sources": [
+        "角色根记录/Teemo.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 54,
+        "2": 56.16,
+        "3": 58.425,
+        "4": 60.795,
+        "5": 63.27,
+        "6": 65.85,
+        "7": 68.535,
+        "8": 71.325,
+        "9": 74.22,
+        "10": 77.22,
+        "11": 80.325,
+        "12": 83.535,
+        "13": 86.85,
+        "14": 90.27,
+        "15": 93.795,
+        "16": 97.425,
+        "17": 101.16,
+        "18": 105
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 330,
+      "growth": null,
+      "sources": [
+        "角色根记录/Teemo.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 330,
+        "2": 330,
+        "3": 330,
+        "4": 330,
+        "5": 330,
+        "6": 330,
+        "7": 330,
+        "8": 330,
+        "9": 330,
+        "10": 330,
+        "11": 330,
+        "12": 330,
+        "13": 330,
+        "14": 330,
+        "15": 330,
+        "16": 330,
+        "17": 330,
+        "18": 330
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 500,
+      "growth": null,
+      "sources": [
+        "角色根记录/Teemo.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 500,
+        "2": 500,
+        "3": 500,
+        "4": 500,
+        "5": 500,
+        "6": 500,
+        "7": 500,
+        "8": 500,
+        "9": 500,
+        "10": 500,
+        "11": 500,
+        "12": 500,
+        "13": 500,
+        "14": 500,
+        "15": 500,
+        "16": 500,
+        "17": 500,
+        "18": 500
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.69,
+      "attackSpeedRatio": 0.69,
+      "growthPercent": 3.38,
+      "sources": [
+        "角色根记录/Teemo.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.69,
+        "2": 0.706792,
+        "3": 0.7244,
+        "4": 0.742824,
+        "5": 0.762065,
+        "6": 0.782122,
+        "7": 0.802995,
+        "8": 0.824685,
+        "9": 0.84719,
+        "10": 0.870512,
+        "11": 0.894651,
+        "12": 0.919605,
+        "13": 0.945376,
+        "14": 0.971963,
+        "15": 0.999366,
+        "16": 1.027586,
+        "17": 1.056622,
+        "18": 1.086474
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 334,
+      "growth": 25,
+      "sources": [
+        "原始资料/zh_CN/champion/Teemo.json:stats.mp/mpperlevel",
+        "角色根记录/Teemo.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 334,
+        "2": 352,
+        "3": 370.875,
+        "4": 390.625,
+        "5": 411.25,
+        "6": 432.75,
+        "7": 455.125,
+        "8": 478.375,
+        "9": 502.5,
+        "10": 527.5,
+        "11": 553.375,
+        "12": 580.125,
+        "13": 607.75,
+        "14": 636.25,
+        "15": 665.625,
+        "16": 695.875,
+        "17": 727,
+        "18": 759
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 9.6,
+      "growth": 0.45,
+      "sources": [
+        "原始资料/zh_CN/champion/Teemo.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Teemo.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 9.6,
+        "2": 9.924,
+        "3": 10.26375,
+        "4": 10.61925,
+        "5": 10.9905,
+        "6": 11.3775,
+        "7": 11.78025,
+        "8": 12.19875,
+        "9": 12.633,
+        "10": 13.083,
+        "11": 13.54875,
+        "12": 14.03025,
+        "13": 14.5275,
+        "14": 15.0405,
+        "15": 15.56925,
+        "16": 16.11375,
+        "17": 16.674,
+        "18": 17.25
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.69,
+    "ratio": 0.69,
+    "growthPercent": 3.38,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

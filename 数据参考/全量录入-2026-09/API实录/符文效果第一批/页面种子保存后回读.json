@@ -1,0 +1,153 @@
+{
+  "at": "2026-09-09T00:52:23.629Z",
+  "checks": [
+    {
+      "route": "/rune-skill-relations?runeKey=rune_5007",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "gameId": "lol",
+            "runeKey": "rune_5007",
+            "runeName": "技能急速",
+            "skillKey": "rune_5007_passive",
+            "skillName": "符文碎片·技能急速",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          }
+        ],
+        "total": 1
+      }
+    },
+    {
+      "route": "/rune-skill-relations?skillKey=rune_5007_passive",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "gameId": "lol",
+            "runeKey": "rune_5007",
+            "runeName": "技能急速",
+            "skillKey": "rune_5007_passive",
+            "skillName": "符文碎片·技能急速",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          }
+        ],
+        "total": 1
+      }
+    },
+    {
+      "route": "/skills/rune_5007_passive/parameters/ability_haste_bonus",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T18:47:44.207587Z",
+        "description": "/60/longDesc：+8技能急速。给持有者增加8点技能急速；不是8%冷却缩减，也不直接修改某个技能的冷却。",
+        "fixedValue": 8,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "技能急速点数",
+        "parameterKey": "ability_haste_bonus",
+        "skillKey": "rune_5007_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T18:47:44.207587Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/rune_5007_passive/effects/stat_bonus",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T18:47:45.124227Z",
+        "description": "给持有者增加8点技能急速；不是8%冷却缩减，也不直接修改某个技能的冷却。",
+        "effectKey": "stat_bonus",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": null,
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "技能急速常驻加成",
+        "results": [
+          {
+            "description": "给持有者增加8点技能急速；不是8%冷却缩减，也不直接修改某个技能的冷却。",
+            "detail": {
+              "attributeKey": "ability_haste",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "技能急速加成",
+            "resultKey": "stat_bonus",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "ability_haste_bonus"
+              }
+            }
+          }
+        ],
+        "skillKey": "rune_5007_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T18:47:45.124227Z"
+      }
+    },
+    {
+      "route": "/skills/rune_5007_passive/trigger-rules/initialize_stat_bonus",
+      "status": 200,
+      "data": {
+        "actions": [
+          {
+            "actionKey": "execute_stat_bonus",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "stat_bonus"
+            },
+            "name": "执行技能急速加成",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "EVENT_SOURCE"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "来源对象初始化完成时，建立此来源的单层常驻属性加成。重复施加保持一层，不在初始化时造成伤害、治疗或扣除资源。",
+        "eventSource": {
+          "detail": {},
+          "eventType": "SOURCE_INITIALIZED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "初始化技能急速常驻加成",
+        "perTargetCooldown": null,
+        "ruleKey": "initialize_stat_bonus",
+        "sortOrder": 10
+      }
+    }
+  ]
+}

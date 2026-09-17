@@ -1,0 +1,33 @@
+{
+  "actualEntry": "主负责人使用CUA在属性管理新增并保存",
+  "expected": {
+    "attributeKey": "slow_resist_percent",
+    "name": "减速抗性比例",
+    "valueType": "DECIMAL",
+    "minValue": null,
+    "maxValue": null,
+    "description": "降低减速幅度的比例，1表示100%，0.25表示25%。客户端16.17装备3009根字段mPercentSlowResistMod=0.25，当前说明将减速效果效能降低25%。与韧性和移动速度分别维护；多个来源的组合规则另行核对。",
+    "status": "ENABLED",
+    "sortOrder": 421
+  },
+  "attribute": {
+    "route": "/attributes/slow_resist_percent",
+    "method": "GET",
+    "status": 200,
+    "checkedAt": "2026-09-08T14:33:59.402Z",
+    "data": {
+      "attributeKey": "slow_resist_percent",
+      "createdAt": "2026-09-08T14:32:32.234108Z",
+      "description": "降低减速幅度的比例，1表示100%，0.25表示25%。客户端16.17装备3009根字段mPercentSlowResistMod=0.25，当前说明将减速效果效能降低25%。与韧性和移动速度分别维护；多个来源的组合规则另行核对。",
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": null,
+      "name": "减速抗性比例",
+      "sortOrder": 421,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-08T14:32:32.234108Z",
+      "valueType": "DECIMAL"
+    }
+  },
+  "passed": true
+}

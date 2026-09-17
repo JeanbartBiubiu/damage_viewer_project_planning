@@ -1,0 +1,5666 @@
+{
+  "observedAt": "2026-09-07T17:59:41.945Z",
+  "mode": "补缺实录",
+  "candidateSha256": "a7f8646df0296ced433a1259f82acfb46479bc28f44348d53d8d8850bc9c33be",
+  "gameId": "lol",
+  "selectedHeroes": [
+    "Galio",
+    "Graves",
+    "Gwen",
+    "Illaoi",
+    "Janna",
+    "Jhin",
+    "Jinx",
+    "Kalista",
+    "Kayle",
+    "Khazix",
+    "KogMaw",
+    "MasterYi",
+    "Mordekaiser",
+    "Morgana",
+    "Nocturne",
+    "Olaf",
+    "Pantheon",
+    "Poppy",
+    "Quinn",
+    "Rakan",
+    "Rell",
+    "Samira",
+    "Sejuani",
+    "Senna"
+  ],
+  "preflightPassed": true,
+  "records": [
+    {
+      "skillKey": "galio_q",
+      "endpoint": "/skills/galio_q/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 11000,
+          "2": 10000,
+          "3": 9000,
+          "4": 8000,
+          "5": 7000
+        },
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Galio.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T17:59:51.118874Z",
+        "description": "DDragon16.17.1 Galio.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 11000,
+          "2": 10000,
+          "3": 9000,
+          "4": 8000,
+          "5": 7000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "galio_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T17:59:51.118874Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T17:59:51.543Z"
+    },
+    {
+      "skillKey": "galio_q",
+      "endpoint": "/skills/galio_q/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 60,
+          "2": 65,
+          "3": 70,
+          "4": 75,
+          "5": 80
+        },
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Galio.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T17:59:51.554009Z",
+        "description": "DDragon16.17.1 Galio.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 65,
+          "3": 70,
+          "4": 75,
+          "5": 80
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "galio_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T17:59:51.554009Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T17:59:51.965Z"
+    },
+    {
+      "skillKey": "galio_w",
+      "endpoint": "/skills/galio_w/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 18000,
+          "2": 17000,
+          "3": 16000,
+          "4": 15000,
+          "5": 14000
+        },
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Galio.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T17:59:52.030519Z",
+        "description": "DDragon16.17.1 Galio.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 18000,
+          "2": 17000,
+          "3": 16000,
+          "4": 15000,
+          "5": 14000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "galio_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T17:59:52.030519Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T17:59:52.470Z"
+    },
+    {
+      "skillKey": "galio_w",
+      "endpoint": "/skills/galio_w/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 50,
+        "levelValues": null,
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Galio.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T17:59:52.493351Z",
+        "description": "DDragon16.17.1 Galio.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 50,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "galio_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T17:59:52.493351Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T17:59:52.890Z"
+    },
+    {
+      "skillKey": "galio_e",
+      "endpoint": "/skills/galio_e/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 11000,
+          "2": 10000,
+          "3": 9000,
+          "4": 8000,
+          "5": 7000
+        },
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Galio.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T17:59:52.889558Z",
+        "description": "DDragon16.17.1 Galio.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 11000,
+          "2": 10000,
+          "3": 9000,
+          "4": 8000,
+          "5": 7000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "galio_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T17:59:52.889558Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T17:59:53.332Z"
+    },
+    {
+      "skillKey": "galio_e",
+      "endpoint": "/skills/galio_e/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 50,
+        "levelValues": null,
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Galio.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T17:59:53.334489Z",
+        "description": "DDragon16.17.1 Galio.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 50,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "galio_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T17:59:53.334489Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T17:59:53.690Z"
+    },
+    {
+      "skillKey": "graves_q",
+      "endpoint": "/skills/graves_q/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 13000,
+          "2": 11250,
+          "3": 9500,
+          "4": 7750,
+          "5": 6000
+        },
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Graves.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T17:59:53.715242Z",
+        "description": "DDragon16.17.1 Graves.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 13000,
+          "2": 11250,
+          "3": 9500,
+          "4": 7750,
+          "5": 6000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "graves_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T17:59:53.715242Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T17:59:54.115Z"
+    },
+    {
+      "skillKey": "graves_q",
+      "endpoint": "/skills/graves_q/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 80,
+        "levelValues": null,
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Graves.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T17:59:54.119427Z",
+        "description": "DDragon16.17.1 Graves.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 80,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "graves_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T17:59:54.119427Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T17:59:54.491Z"
+    },
+    {
+      "skillKey": "graves_w",
+      "endpoint": "/skills/graves_w/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 26000,
+          "2": 24000,
+          "3": 22000,
+          "4": 20000,
+          "5": 18000
+        },
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Graves.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T17:59:54.536941Z",
+        "description": "DDragon16.17.1 Graves.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 26000,
+          "2": 24000,
+          "3": 22000,
+          "4": 20000,
+          "5": 18000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "graves_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T17:59:54.536941Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T17:59:54.935Z"
+    },
+    {
+      "skillKey": "graves_w",
+      "endpoint": "/skills/graves_w/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 70,
+          "2": 75,
+          "3": 80,
+          "4": 85,
+          "5": 90
+        },
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Graves.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T17:59:54.963419Z",
+        "description": "DDragon16.17.1 Graves.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 75,
+          "3": 80,
+          "4": 85,
+          "5": 90
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "graves_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T17:59:54.963419Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T17:59:55.371Z"
+    },
+    {
+      "skillKey": "graves_e",
+      "endpoint": "/skills/graves_e/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 16000,
+          "2": 15000,
+          "3": 14000,
+          "4": 13000,
+          "5": 12000
+        },
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Graves.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T17:59:55.367495Z",
+        "description": "DDragon16.17.1 Graves.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 16000,
+          "2": 15000,
+          "3": 14000,
+          "4": 13000,
+          "5": 12000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "graves_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T17:59:55.367495Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T17:59:55.729Z"
+    },
+    {
+      "skillKey": "graves_e",
+      "endpoint": "/skills/graves_e/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 40,
+        "levelValues": null,
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Graves.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T17:59:55.723856Z",
+        "description": "DDragon16.17.1 Graves.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 40,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "graves_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T17:59:55.723856Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T17:59:56.153Z"
+    },
+    {
+      "skillKey": "graves_r",
+      "endpoint": "/skills/graves_r/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 100000,
+          "2": 80000,
+          "3": 60000
+        },
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Graves.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T17:59:56.157736Z",
+        "description": "DDragon16.17.1 Graves.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 100000,
+          "2": 80000,
+          "3": 60000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "graves_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T17:59:56.157736Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T17:59:56.571Z"
+    },
+    {
+      "skillKey": "graves_r",
+      "endpoint": "/skills/graves_r/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 100,
+        "levelValues": null,
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Graves.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T17:59:56.555434Z",
+        "description": "DDragon16.17.1 Graves.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "graves_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T17:59:56.555434Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T17:59:56.940Z"
+    },
+    {
+      "skillKey": "gwen_q",
+      "endpoint": "/skills/gwen_q/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 6500,
+          "2": 5750,
+          "3": 5000,
+          "4": 4250,
+          "5": 3500
+        },
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Gwen.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T17:59:56.926362Z",
+        "description": "DDragon16.17.1 Gwen.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 6500,
+          "2": 5750,
+          "3": 5000,
+          "4": 4250,
+          "5": 3500
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "gwen_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T17:59:56.926362Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T17:59:57.365Z"
+    },
+    {
+      "skillKey": "gwen_q",
+      "endpoint": "/skills/gwen_q/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 40,
+        "levelValues": null,
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Gwen.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T17:59:57.347967Z",
+        "description": "DDragon16.17.1 Gwen.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 40,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "gwen_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T17:59:57.347967Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T17:59:57.701Z"
+    },
+    {
+      "skillKey": "gwen_w",
+      "endpoint": "/skills/gwen_w/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 60,
+        "levelValues": null,
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Gwen.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T17:59:57.683302Z",
+        "description": "DDragon16.17.1 Gwen.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 60,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "gwen_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T17:59:57.683302Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T17:59:58.084Z"
+    },
+    {
+      "skillKey": "gwen_e",
+      "endpoint": "/skills/gwen_e/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 13000,
+          "2": 12500,
+          "3": 12000,
+          "4": 11500,
+          "5": 11000
+        },
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Gwen.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T17:59:58.07364Z",
+        "description": "DDragon16.17.1 Gwen.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 13000,
+          "2": 12500,
+          "3": 12000,
+          "4": 11500,
+          "5": 11000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "gwen_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T17:59:58.07364Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T17:59:58.497Z"
+    },
+    {
+      "skillKey": "gwen_e",
+      "endpoint": "/skills/gwen_e/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 35,
+        "levelValues": null,
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Gwen.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T17:59:58.494975Z",
+        "description": "DDragon16.17.1 Gwen.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 35,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "gwen_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T17:59:58.494975Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T17:59:58.885Z"
+    },
+    {
+      "skillKey": "gwen_r",
+      "endpoint": "/skills/gwen_r/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 100,
+        "levelValues": null,
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Gwen.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T17:59:58.868914Z",
+        "description": "DDragon16.17.1 Gwen.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "gwen_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T17:59:58.868914Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T17:59:59.279Z"
+    },
+    {
+      "skillKey": "illaoi_q",
+      "endpoint": "/skills/illaoi_q/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 10000,
+          "2": 9000,
+          "3": 8000,
+          "4": 7000,
+          "5": 6000
+        },
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Illaoi.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T17:59:59.27027Z",
+        "description": "DDragon16.17.1 Illaoi.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 10000,
+          "2": 9000,
+          "3": 8000,
+          "4": 7000,
+          "5": 6000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "illaoi_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T17:59:59.27027Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T17:59:59.649Z"
+    },
+    {
+      "skillKey": "illaoi_q",
+      "endpoint": "/skills/illaoi_q/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 40,
+          "2": 45,
+          "3": 50,
+          "4": 55,
+          "5": 60
+        },
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Illaoi.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T17:59:59.689314Z",
+        "description": "DDragon16.17.1 Illaoi.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 40,
+          "2": 45,
+          "3": 50,
+          "4": 55,
+          "5": 60
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "illaoi_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T17:59:59.689314Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:00.066Z"
+    },
+    {
+      "skillKey": "illaoi_w",
+      "endpoint": "/skills/illaoi_w/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4000,
+        "levelValues": null,
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Illaoi.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:00.051501Z",
+        "description": "DDragon16.17.1 Illaoi.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 4000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "illaoi_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:00.051501Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:00.572Z"
+    },
+    {
+      "skillKey": "illaoi_w",
+      "endpoint": "/skills/illaoi_w/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 30,
+        "levelValues": null,
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Illaoi.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:00.570686Z",
+        "description": "DDragon16.17.1 Illaoi.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 30,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "illaoi_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:00.570686Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:01.015Z"
+    },
+    {
+      "skillKey": "illaoi_r",
+      "endpoint": "/skills/illaoi_r/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 120000,
+          "2": 95000,
+          "3": 70000
+        },
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Illaoi.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:01.007041Z",
+        "description": "DDragon16.17.1 Illaoi.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 120000,
+          "2": 95000,
+          "3": 70000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "illaoi_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:01.007041Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:01.417Z"
+    },
+    {
+      "skillKey": "illaoi_r",
+      "endpoint": "/skills/illaoi_r/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 100,
+        "levelValues": null,
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Illaoi.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:01.406465Z",
+        "description": "DDragon16.17.1 Illaoi.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "illaoi_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:01.406465Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:01.800Z"
+    },
+    {
+      "skillKey": "janna_q",
+      "endpoint": "/skills/janna_q/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 90,
+          "2": 95,
+          "3": 100,
+          "4": 105,
+          "5": 110
+        },
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Janna.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:01.784279Z",
+        "description": "DDragon16.17.1 Janna.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 90,
+          "2": 95,
+          "3": 100,
+          "4": 105,
+          "5": 110
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "janna_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:01.784279Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:02.171Z"
+    },
+    {
+      "skillKey": "janna_w",
+      "endpoint": "/skills/janna_w/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 8000,
+          "2": 7500,
+          "3": 7000,
+          "4": 6500,
+          "5": 6000
+        },
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Janna.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:02.159195Z",
+        "description": "DDragon16.17.1 Janna.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 8000,
+          "2": 7500,
+          "3": 7000,
+          "4": 6500,
+          "5": 6000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "janna_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:02.159195Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:02.602Z"
+    },
+    {
+      "skillKey": "janna_w",
+      "endpoint": "/skills/janna_w/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 50,
+          "2": 55,
+          "3": 60,
+          "4": 65,
+          "5": 70
+        },
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Janna.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:02.583061Z",
+        "description": "DDragon16.17.1 Janna.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 50,
+          "2": 55,
+          "3": 60,
+          "4": 65,
+          "5": 70
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "janna_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:02.583061Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:03.001Z"
+    },
+    {
+      "skillKey": "janna_e",
+      "endpoint": "/skills/janna_e/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 16000,
+          "2": 15000,
+          "3": 14000,
+          "4": 13000,
+          "5": 12000
+        },
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Janna.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:02.988367Z",
+        "description": "DDragon16.17.1 Janna.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 16000,
+          "2": 15000,
+          "3": 14000,
+          "4": 13000,
+          "5": 12000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "janna_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:02.988367Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:03.392Z"
+    },
+    {
+      "skillKey": "janna_e",
+      "endpoint": "/skills/janna_e/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 70,
+          "2": 75,
+          "3": 80,
+          "4": 85,
+          "5": 90
+        },
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Janna.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:03.378982Z",
+        "description": "DDragon16.17.1 Janna.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 75,
+          "3": 80,
+          "4": 85,
+          "5": 90
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "janna_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:03.378982Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:03.825Z"
+    },
+    {
+      "skillKey": "janna_r",
+      "endpoint": "/skills/janna_r/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 130000,
+          "2": 115000,
+          "3": 100000
+        },
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Janna.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:03.808813Z",
+        "description": "DDragon16.17.1 Janna.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 130000,
+          "2": 115000,
+          "3": 100000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "janna_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:03.808813Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:04.207Z"
+    },
+    {
+      "skillKey": "janna_r",
+      "endpoint": "/skills/janna_r/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 100,
+        "levelValues": null,
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Janna.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:04.203253Z",
+        "description": "DDragon16.17.1 Janna.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "janna_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:04.203253Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:04.587Z"
+    },
+    {
+      "skillKey": "jhin_q",
+      "endpoint": "/skills/jhin_q/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 7000,
+          "2": 6500,
+          "3": 6000,
+          "4": 5500,
+          "5": 5000
+        },
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Jhin.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:04.580711Z",
+        "description": "DDragon16.17.1 Jhin.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 7000,
+          "2": 6500,
+          "3": 6000,
+          "4": 5500,
+          "5": 5000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "jhin_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:04.580711Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:05.044Z"
+    },
+    {
+      "skillKey": "jhin_q",
+      "endpoint": "/skills/jhin_q/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 40,
+          "2": 45,
+          "3": 50,
+          "4": 55,
+          "5": 60
+        },
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Jhin.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:05.026883Z",
+        "description": "DDragon16.17.1 Jhin.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 40,
+          "2": 45,
+          "3": 50,
+          "4": 55,
+          "5": 60
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "jhin_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:05.026883Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:05.383Z"
+    },
+    {
+      "skillKey": "jhin_w",
+      "endpoint": "/skills/jhin_w/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 12000,
+        "levelValues": null,
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Jhin.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:05.41607Z",
+        "description": "DDragon16.17.1 Jhin.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 12000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "jhin_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:05.41607Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:05.824Z"
+    },
+    {
+      "skillKey": "jhin_w",
+      "endpoint": "/skills/jhin_w/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 50,
+          "2": 55,
+          "3": 60,
+          "4": 65,
+          "5": 70
+        },
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Jhin.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:05.812954Z",
+        "description": "DDragon16.17.1 Jhin.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 50,
+          "2": 55,
+          "3": 60,
+          "4": 65,
+          "5": 70
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "jhin_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:05.812954Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:06.255Z"
+    },
+    {
+      "skillKey": "jhin_r",
+      "endpoint": "/skills/jhin_r/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 120000,
+          "2": 105000,
+          "3": 90000
+        },
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Jhin.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:06.241292Z",
+        "description": "DDragon16.17.1 Jhin.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 120000,
+          "2": 105000,
+          "3": 90000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "jhin_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:06.241292Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:06.824Z"
+    },
+    {
+      "skillKey": "jhin_r",
+      "endpoint": "/skills/jhin_r/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 100,
+        "levelValues": null,
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Jhin.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:06.823811Z",
+        "description": "DDragon16.17.1 Jhin.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "jhin_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:06.823811Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:07.236Z"
+    },
+    {
+      "skillKey": "jinx_w",
+      "endpoint": "/skills/jinx_w/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 8000,
+          "2": 7000,
+          "3": 6000,
+          "4": 5000,
+          "5": 4000
+        },
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Jinx.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:07.228519Z",
+        "description": "DDragon16.17.1 Jinx.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 8000,
+          "2": 7000,
+          "3": 6000,
+          "4": 5000,
+          "5": 4000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "jinx_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:07.228519Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:07.635Z"
+    },
+    {
+      "skillKey": "jinx_w",
+      "endpoint": "/skills/jinx_w/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 40,
+          "2": 45,
+          "3": 50,
+          "4": 55,
+          "5": 60
+        },
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Jinx.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:07.618767Z",
+        "description": "DDragon16.17.1 Jinx.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 40,
+          "2": 45,
+          "3": 50,
+          "4": 55,
+          "5": 60
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "jinx_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:07.618767Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:08.037Z"
+    },
+    {
+      "skillKey": "jinx_r",
+      "endpoint": "/skills/jinx_r/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 85000,
+          "2": 65000,
+          "3": 45000
+        },
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Jinx.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:08.02928Z",
+        "description": "DDragon16.17.1 Jinx.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 85000,
+          "2": 65000,
+          "3": 45000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "jinx_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:08.02928Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:08.426Z"
+    },
+    {
+      "skillKey": "jinx_r",
+      "endpoint": "/skills/jinx_r/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 100,
+        "levelValues": null,
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Jinx.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:08.419868Z",
+        "description": "DDragon16.17.1 Jinx.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "jinx_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:08.419868Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:08.857Z"
+    },
+    {
+      "skillKey": "kalista_q",
+      "endpoint": "/skills/kalista_q/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 9000,
+        "levelValues": null,
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Kalista.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:08.849216Z",
+        "description": "DDragon16.17.1 Kalista.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 9000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "kalista_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:08.849216Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:09.231Z"
+    },
+    {
+      "skillKey": "kalista_q",
+      "endpoint": "/skills/kalista_q/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 60,
+          "2": 65,
+          "3": 70,
+          "4": 75,
+          "5": 80
+        },
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Kalista.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:09.248057Z",
+        "description": "DDragon16.17.1 Kalista.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 65,
+          "3": 70,
+          "4": 75,
+          "5": 80
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "kalista_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:09.248057Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:09.623Z"
+    },
+    {
+      "skillKey": "kalista_e",
+      "endpoint": "/skills/kalista_e/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 30,
+        "levelValues": null,
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Kalista.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:09.608323Z",
+        "description": "DDragon16.17.1 Kalista.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 30,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "kalista_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:09.608323Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:10.037Z"
+    },
+    {
+      "skillKey": "kayle_q",
+      "endpoint": "/skills/kayle_q/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 12000,
+          "2": 11000,
+          "3": 10000,
+          "4": 9000,
+          "5": 8000
+        },
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Kayle.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:10.037443Z",
+        "description": "DDragon16.17.1 Kayle.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 12000,
+          "2": 11000,
+          "3": 10000,
+          "4": 9000,
+          "5": 8000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "kayle_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:10.037443Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:10.408Z"
+    },
+    {
+      "skillKey": "kayle_q",
+      "endpoint": "/skills/kayle_q/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 60,
+          "2": 70,
+          "3": 80,
+          "4": 90,
+          "5": 100
+        },
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Kayle.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:10.402274Z",
+        "description": "DDragon16.17.1 Kayle.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 70,
+          "3": 80,
+          "4": 90,
+          "5": 100
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "kayle_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:10.402274Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:10.798Z"
+    },
+    {
+      "skillKey": "kayle_w",
+      "endpoint": "/skills/kayle_w/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 15000,
+        "levelValues": null,
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Kayle.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:10.781822Z",
+        "description": "DDragon16.17.1 Kayle.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 15000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "kayle_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:10.781822Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:11.156Z"
+    },
+    {
+      "skillKey": "kayle_w",
+      "endpoint": "/skills/kayle_w/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 70,
+          "2": 75,
+          "3": 80,
+          "4": 85,
+          "5": 90
+        },
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Kayle.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:11.1929Z",
+        "description": "DDragon16.17.1 Kayle.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 75,
+          "3": 80,
+          "4": 85,
+          "5": 90
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "kayle_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:11.1929Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:11.572Z"
+    },
+    {
+      "skillKey": "kayle_e",
+      "endpoint": "/skills/kayle_e/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 8000,
+          "2": 7500,
+          "3": 7000,
+          "4": 6500,
+          "5": 6000
+        },
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Kayle.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:11.560532Z",
+        "description": "DDragon16.17.1 Kayle.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 8000,
+          "2": 7500,
+          "3": 7000,
+          "4": 6500,
+          "5": 6000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "kayle_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:11.560532Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:11.993Z"
+    },
+    {
+      "skillKey": "kayle_r",
+      "endpoint": "/skills/kayle_r/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 160000,
+          "2": 120000,
+          "3": 80000
+        },
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Kayle.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:11.978636Z",
+        "description": "DDragon16.17.1 Kayle.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 160000,
+          "2": 120000,
+          "3": 80000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "kayle_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:11.978636Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:12.371Z"
+    },
+    {
+      "skillKey": "khazix_q",
+      "endpoint": "/skills/khazix_q/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4000,
+        "levelValues": null,
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Khazix.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:12.356939Z",
+        "description": "DDragon16.17.1 Khazix.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 4000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "khazix_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:12.356939Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:12.783Z"
+    },
+    {
+      "skillKey": "khazix_q",
+      "endpoint": "/skills/khazix_q/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 20,
+        "levelValues": null,
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Khazix.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:12.770887Z",
+        "description": "DDragon16.17.1 Khazix.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 20,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "khazix_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:12.770887Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:13.149Z"
+    },
+    {
+      "skillKey": "khazix_w",
+      "endpoint": "/skills/khazix_w/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 9000,
+        "levelValues": null,
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Khazix.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:13.139943Z",
+        "description": "DDragon16.17.1 Khazix.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 9000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "khazix_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:13.139943Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:13.537Z"
+    },
+    {
+      "skillKey": "khazix_w",
+      "endpoint": "/skills/khazix_w/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 55,
+          "2": 60,
+          "3": 65,
+          "4": 70,
+          "5": 75
+        },
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Khazix.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:13.522515Z",
+        "description": "DDragon16.17.1 Khazix.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 55,
+          "2": 60,
+          "3": 65,
+          "4": 70,
+          "5": 75
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "khazix_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:13.522515Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:13.948Z"
+    },
+    {
+      "skillKey": "khazix_e",
+      "endpoint": "/skills/khazix_e/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 20000,
+          "2": 18000,
+          "3": 16000,
+          "4": 14000,
+          "5": 12000
+        },
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Khazix.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:13.93672Z",
+        "description": "DDragon16.17.1 Khazix.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 20000,
+          "2": 18000,
+          "3": 16000,
+          "4": 14000,
+          "5": 12000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "khazix_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:13.93672Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:14.302Z"
+    },
+    {
+      "skillKey": "khazix_e",
+      "endpoint": "/skills/khazix_e/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 50,
+        "levelValues": null,
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Khazix.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:14.296767Z",
+        "description": "DDragon16.17.1 Khazix.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 50,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "khazix_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:14.296767Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:14.676Z"
+    },
+    {
+      "skillKey": "khazix_r",
+      "endpoint": "/skills/khazix_r/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 100,
+        "levelValues": null,
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Khazix.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:14.660067Z",
+        "description": "DDragon16.17.1 Khazix.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "khazix_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:14.660067Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:15.087Z"
+    },
+    {
+      "skillKey": "kogmaw_q",
+      "endpoint": "/skills/kogmaw_q/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 7000,
+        "levelValues": null,
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 KogMaw.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:15.073968Z",
+        "description": "DDragon16.17.1 KogMaw.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 7000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "kogmaw_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:15.073968Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:15.447Z"
+    },
+    {
+      "skillKey": "kogmaw_q",
+      "endpoint": "/skills/kogmaw_q/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 40,
+        "levelValues": null,
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 KogMaw.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:15.437135Z",
+        "description": "DDragon16.17.1 KogMaw.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 40,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "kogmaw_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:15.437135Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:15.829Z"
+    },
+    {
+      "skillKey": "kogmaw_w",
+      "endpoint": "/skills/kogmaw_w/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 17000,
+        "levelValues": null,
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 KogMaw.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:15.822368Z",
+        "description": "DDragon16.17.1 KogMaw.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 17000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "kogmaw_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:15.822368Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:16.192Z"
+    },
+    {
+      "skillKey": "kogmaw_w",
+      "endpoint": "/skills/kogmaw_w/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 40,
+        "levelValues": null,
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 KogMaw.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:16.181576Z",
+        "description": "DDragon16.17.1 KogMaw.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 40,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "kogmaw_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:16.181576Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:16.638Z"
+    },
+    {
+      "skillKey": "kogmaw_e",
+      "endpoint": "/skills/kogmaw_e/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 12000,
+        "levelValues": null,
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 KogMaw.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:16.621096Z",
+        "description": "DDragon16.17.1 KogMaw.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 12000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "kogmaw_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:16.621096Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:17.006Z"
+    },
+    {
+      "skillKey": "kogmaw_e",
+      "endpoint": "/skills/kogmaw_e/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 40,
+          "2": 55,
+          "3": 70,
+          "4": 85,
+          "5": 100
+        },
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 KogMaw.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:16.987923Z",
+        "description": "DDragon16.17.1 KogMaw.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 40,
+          "2": 55,
+          "3": 70,
+          "4": 85,
+          "5": 100
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "kogmaw_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:16.987923Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:17.345Z"
+    },
+    {
+      "skillKey": "kogmaw_r",
+      "endpoint": "/skills/kogmaw_r/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 2000,
+          "2": 1500,
+          "3": 1000
+        },
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 KogMaw.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:17.333173Z",
+        "description": "DDragon16.17.1 KogMaw.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 2000,
+          "2": 1500,
+          "3": 1000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "kogmaw_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:17.333173Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:17.771Z"
+    },
+    {
+      "skillKey": "kogmaw_r",
+      "endpoint": "/skills/kogmaw_r/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 40,
+        "levelValues": null,
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 KogMaw.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。此40法力仅为无额外层数的基础消耗，连续施放的8秒累加及400上限另行配置。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:17.769045Z",
+        "description": "DDragon16.17.1 KogMaw.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。此40法力仅为无额外层数的基础消耗，连续施放的8秒累加及400上限另行配置。",
+        "fixedValue": 40,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "kogmaw_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:17.769045Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:18.128Z"
+    },
+    {
+      "skillKey": "masteryi_q",
+      "endpoint": "/skills/masteryi_q/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 20000,
+          "2": 19500,
+          "3": 19000,
+          "4": 18500,
+          "5": 18000
+        },
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 MasterYi.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:18.119306Z",
+        "description": "DDragon16.17.1 MasterYi.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 20000,
+          "2": 19500,
+          "3": 19000,
+          "4": 18500,
+          "5": 18000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "masteryi_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:18.119306Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:18.528Z"
+    },
+    {
+      "skillKey": "masteryi_q",
+      "endpoint": "/skills/masteryi_q/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 50,
+          "2": 55,
+          "3": 60,
+          "4": 65,
+          "5": 70
+        },
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 MasterYi.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:18.514474Z",
+        "description": "DDragon16.17.1 MasterYi.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 50,
+          "2": 55,
+          "3": 60,
+          "4": 65,
+          "5": 70
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "masteryi_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:18.514474Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:18.934Z"
+    },
+    {
+      "skillKey": "masteryi_e",
+      "endpoint": "/skills/masteryi_e/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 14000,
+        "levelValues": null,
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 MasterYi.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:18.924141Z",
+        "description": "DDragon16.17.1 MasterYi.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 14000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "masteryi_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:18.924141Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:19.323Z"
+    },
+    {
+      "skillKey": "masteryi_r",
+      "endpoint": "/skills/masteryi_r/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 85000,
+        "levelValues": null,
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 MasterYi.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:19.317976Z",
+        "description": "DDragon16.17.1 MasterYi.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 85000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "masteryi_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:19.317976Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:19.740Z"
+    },
+    {
+      "skillKey": "masteryi_r",
+      "endpoint": "/skills/masteryi_r/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 100,
+        "levelValues": null,
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 MasterYi.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:19.729247Z",
+        "description": "DDragon16.17.1 MasterYi.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "masteryi_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:19.729247Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:20.107Z"
+    },
+    {
+      "skillKey": "mordekaiser_q",
+      "endpoint": "/skills/mordekaiser_q/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 8000,
+          "2": 7000,
+          "3": 6000,
+          "4": 5000,
+          "5": 4000
+        },
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Mordekaiser.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:20.159597Z",
+        "description": "DDragon16.17.1 Mordekaiser.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 8000,
+          "2": 7000,
+          "3": 6000,
+          "4": 5000,
+          "5": 4000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "mordekaiser_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:20.159597Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:20.555Z"
+    },
+    {
+      "skillKey": "mordekaiser_r",
+      "endpoint": "/skills/mordekaiser_r/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 140000,
+          "2": 120000,
+          "3": 100000
+        },
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Mordekaiser.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:20.54849Z",
+        "description": "DDragon16.17.1 Mordekaiser.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 140000,
+          "2": 120000,
+          "3": 100000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "mordekaiser_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:20.54849Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:20.918Z"
+    },
+    {
+      "skillKey": "morgana_q",
+      "endpoint": "/skills/morgana_q/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 50,
+          "2": 55,
+          "3": 60,
+          "4": 65,
+          "5": 70
+        },
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Morgana.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:20.906959Z",
+        "description": "DDragon16.17.1 Morgana.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 50,
+          "2": 55,
+          "3": 60,
+          "4": 65,
+          "5": 70
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "morgana_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:20.906959Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:21.344Z"
+    },
+    {
+      "skillKey": "morgana_w",
+      "endpoint": "/skills/morgana_w/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 12000,
+        "levelValues": null,
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Morgana.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:21.332198Z",
+        "description": "DDragon16.17.1 Morgana.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 12000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "morgana_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:21.332198Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:21.752Z"
+    },
+    {
+      "skillKey": "morgana_w",
+      "endpoint": "/skills/morgana_w/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 70,
+          "2": 80,
+          "3": 90,
+          "4": 100,
+          "5": 110
+        },
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Morgana.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:21.741214Z",
+        "description": "DDragon16.17.1 Morgana.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 80,
+          "3": 90,
+          "4": 100,
+          "5": 110
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "morgana_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:21.741214Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:22.154Z"
+    },
+    {
+      "skillKey": "morgana_e",
+      "endpoint": "/skills/morgana_e/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 26000,
+          "2": 23500,
+          "3": 21000,
+          "4": 18500,
+          "5": 16000
+        },
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Morgana.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:22.135946Z",
+        "description": "DDragon16.17.1 Morgana.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 26000,
+          "2": 23500,
+          "3": 21000,
+          "4": 18500,
+          "5": 16000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "morgana_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:22.135946Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:22.615Z"
+    },
+    {
+      "skillKey": "morgana_e",
+      "endpoint": "/skills/morgana_e/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 80,
+        "levelValues": null,
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Morgana.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:22.615737Z",
+        "description": "DDragon16.17.1 Morgana.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 80,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "morgana_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:22.615737Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:23.048Z"
+    },
+    {
+      "skillKey": "morgana_r",
+      "endpoint": "/skills/morgana_r/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 120000,
+          "2": 110000,
+          "3": 100000
+        },
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Morgana.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:23.038382Z",
+        "description": "DDragon16.17.1 Morgana.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 120000,
+          "2": 110000,
+          "3": 100000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "morgana_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:23.038382Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:23.424Z"
+    },
+    {
+      "skillKey": "morgana_r",
+      "endpoint": "/skills/morgana_r/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 100,
+        "levelValues": null,
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Morgana.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:23.410983Z",
+        "description": "DDragon16.17.1 Morgana.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "morgana_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:23.410983Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:23.794Z"
+    },
+    {
+      "skillKey": "nocturne_q",
+      "endpoint": "/skills/nocturne_q/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 8000,
+        "levelValues": null,
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Nocturne.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:23.779374Z",
+        "description": "DDragon16.17.1 Nocturne.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 8000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "nocturne_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:23.779374Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:24.229Z"
+    },
+    {
+      "skillKey": "nocturne_q",
+      "endpoint": "/skills/nocturne_q/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 60,
+          "2": 65,
+          "3": 70,
+          "4": 75,
+          "5": 80
+        },
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Nocturne.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:24.220088Z",
+        "description": "DDragon16.17.1 Nocturne.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 65,
+          "3": 70,
+          "4": 75,
+          "5": 80
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "nocturne_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:24.220088Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:24.584Z"
+    },
+    {
+      "skillKey": "nocturne_w",
+      "endpoint": "/skills/nocturne_w/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 20000,
+          "2": 18000,
+          "3": 16000,
+          "4": 14000,
+          "5": 12000
+        },
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Nocturne.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:24.591022Z",
+        "description": "DDragon16.17.1 Nocturne.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 20000,
+          "2": 18000,
+          "3": 16000,
+          "4": 14000,
+          "5": 12000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "nocturne_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:24.591022Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:24.937Z"
+    },
+    {
+      "skillKey": "nocturne_w",
+      "endpoint": "/skills/nocturne_w/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 50,
+        "levelValues": null,
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Nocturne.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:24.920937Z",
+        "description": "DDragon16.17.1 Nocturne.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 50,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "nocturne_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:24.920937Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:25.317Z"
+    },
+    {
+      "skillKey": "nocturne_e",
+      "endpoint": "/skills/nocturne_e/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 15000,
+          "2": 14000,
+          "3": 13000,
+          "4": 12000,
+          "5": 11000
+        },
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Nocturne.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:25.304078Z",
+        "description": "DDragon16.17.1 Nocturne.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 15000,
+          "2": 14000,
+          "3": 13000,
+          "4": 12000,
+          "5": 11000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "nocturne_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:25.304078Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:25.671Z"
+    },
+    {
+      "skillKey": "nocturne_e",
+      "endpoint": "/skills/nocturne_e/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 60,
+          "2": 65,
+          "3": 70,
+          "4": 75,
+          "5": 80
+        },
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Nocturne.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:25.661905Z",
+        "description": "DDragon16.17.1 Nocturne.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 65,
+          "3": 70,
+          "4": 75,
+          "5": 80
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "nocturne_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:25.661905Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:26.053Z"
+    },
+    {
+      "skillKey": "nocturne_r",
+      "endpoint": "/skills/nocturne_r/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 100,
+        "levelValues": null,
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Nocturne.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:26.042462Z",
+        "description": "DDragon16.17.1 Nocturne.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "nocturne_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:26.042462Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:26.400Z"
+    },
+    {
+      "skillKey": "olaf_q",
+      "endpoint": "/skills/olaf_q/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 9000,
+        "levelValues": null,
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Olaf.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:26.390995Z",
+        "description": "DDragon16.17.1 Olaf.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 9000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "olaf_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:26.390995Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:26.823Z"
+    },
+    {
+      "skillKey": "olaf_q",
+      "endpoint": "/skills/olaf_q/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 50,
+          "2": 55,
+          "3": 60,
+          "4": 65,
+          "5": 70
+        },
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Olaf.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:26.813067Z",
+        "description": "DDragon16.17.1 Olaf.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 50,
+          "2": 55,
+          "3": 60,
+          "4": 65,
+          "5": 70
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "olaf_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:26.813067Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:27.171Z"
+    },
+    {
+      "skillKey": "olaf_w",
+      "endpoint": "/skills/olaf_w/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 16000,
+          "2": 15000,
+          "3": 14000,
+          "4": 13000,
+          "5": 12000
+        },
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Olaf.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:27.192219Z",
+        "description": "DDragon16.17.1 Olaf.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 16000,
+          "2": 15000,
+          "3": 14000,
+          "4": 13000,
+          "5": 12000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "olaf_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:27.192219Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:27.609Z"
+    },
+    {
+      "skillKey": "olaf_w",
+      "endpoint": "/skills/olaf_w/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 50,
+        "levelValues": null,
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Olaf.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:27.598941Z",
+        "description": "DDragon16.17.1 Olaf.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 50,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "olaf_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:27.598941Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:28.026Z"
+    },
+    {
+      "skillKey": "olaf_e",
+      "endpoint": "/skills/olaf_e/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 11000,
+          "2": 10000,
+          "3": 9000,
+          "4": 8000,
+          "5": 7000
+        },
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Olaf.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:28.016173Z",
+        "description": "DDragon16.17.1 Olaf.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 11000,
+          "2": 10000,
+          "3": 9000,
+          "4": 8000,
+          "5": 7000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "olaf_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:28.016173Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:28.434Z"
+    },
+    {
+      "skillKey": "olaf_r",
+      "endpoint": "/skills/olaf_r/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 100000,
+          "2": 90000,
+          "3": 80000
+        },
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Olaf.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:28.447949Z",
+        "description": "DDragon16.17.1 Olaf.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 100000,
+          "2": 90000,
+          "3": 80000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "olaf_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:28.447949Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:28.819Z"
+    },
+    {
+      "skillKey": "olaf_r",
+      "endpoint": "/skills/olaf_r/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 100,
+        "levelValues": null,
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Olaf.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:28.805571Z",
+        "description": "DDragon16.17.1 Olaf.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "olaf_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:28.805571Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:29.485Z"
+    },
+    {
+      "skillKey": "pantheon_q",
+      "endpoint": "/skills/pantheon_q/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 11000,
+          "2": 10250,
+          "3": 9500,
+          "4": 8750,
+          "5": 8000
+        },
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Pantheon.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:29.480646Z",
+        "description": "DDragon16.17.1 Pantheon.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 11000,
+          "2": 10250,
+          "3": 9500,
+          "4": 8750,
+          "5": 8000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "pantheon_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:29.480646Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:29.889Z"
+    },
+    {
+      "skillKey": "pantheon_q",
+      "endpoint": "/skills/pantheon_q/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 25,
+        "levelValues": null,
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Pantheon.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:29.875066Z",
+        "description": "DDragon16.17.1 Pantheon.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 25,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "pantheon_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:29.875066Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:30.237Z"
+    },
+    {
+      "skillKey": "pantheon_w",
+      "endpoint": "/skills/pantheon_w/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 13000,
+          "2": 12000,
+          "3": 11000,
+          "4": 10000,
+          "5": 9000
+        },
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Pantheon.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:30.233025Z",
+        "description": "DDragon16.17.1 Pantheon.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 13000,
+          "2": 12000,
+          "3": 11000,
+          "4": 10000,
+          "5": 9000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "pantheon_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:30.233025Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:30.723Z"
+    },
+    {
+      "skillKey": "pantheon_w",
+      "endpoint": "/skills/pantheon_w/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 55,
+        "levelValues": null,
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Pantheon.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:30.724401Z",
+        "description": "DDragon16.17.1 Pantheon.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 55,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "pantheon_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:30.724401Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:31.123Z"
+    },
+    {
+      "skillKey": "pantheon_e",
+      "endpoint": "/skills/pantheon_e/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 22000,
+          "2": 21000,
+          "3": 20000,
+          "4": 19000,
+          "5": 18000
+        },
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Pantheon.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:31.106916Z",
+        "description": "DDragon16.17.1 Pantheon.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 22000,
+          "2": 21000,
+          "3": 20000,
+          "4": 19000,
+          "5": 18000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "pantheon_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:31.106916Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:31.481Z"
+    },
+    {
+      "skillKey": "pantheon_e",
+      "endpoint": "/skills/pantheon_e/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 80,
+        "levelValues": null,
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Pantheon.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:31.471606Z",
+        "description": "DDragon16.17.1 Pantheon.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 80,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "pantheon_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:31.471606Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:31.868Z"
+    },
+    {
+      "skillKey": "pantheon_r",
+      "endpoint": "/skills/pantheon_r/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 180000,
+          "2": 165000,
+          "3": 150000
+        },
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Pantheon.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:31.861545Z",
+        "description": "DDragon16.17.1 Pantheon.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 180000,
+          "2": 165000,
+          "3": 150000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "pantheon_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:31.861545Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:32.240Z"
+    },
+    {
+      "skillKey": "pantheon_r",
+      "endpoint": "/skills/pantheon_r/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 100,
+        "levelValues": null,
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Pantheon.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:32.230755Z",
+        "description": "DDragon16.17.1 Pantheon.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "pantheon_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:32.230755Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:32.628Z"
+    },
+    {
+      "skillKey": "poppy_q",
+      "endpoint": "/skills/poppy_q/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 8000,
+          "2": 7000,
+          "3": 6000,
+          "4": 5000,
+          "5": 4000
+        },
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Poppy.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:32.620346Z",
+        "description": "DDragon16.17.1 Poppy.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 8000,
+          "2": 7000,
+          "3": 6000,
+          "4": 5000,
+          "5": 4000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "poppy_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:32.620346Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:33.031Z"
+    },
+    {
+      "skillKey": "poppy_q",
+      "endpoint": "/skills/poppy_q/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 35,
+          "2": 40,
+          "3": 45,
+          "4": 50,
+          "5": 55
+        },
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Poppy.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:33.019246Z",
+        "description": "DDragon16.17.1 Poppy.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 35,
+          "2": 40,
+          "3": 45,
+          "4": 50,
+          "5": 55
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "poppy_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:33.019246Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:33.404Z"
+    },
+    {
+      "skillKey": "poppy_w",
+      "endpoint": "/skills/poppy_w/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 20000,
+          "2": 18000,
+          "3": 16000,
+          "4": 14000,
+          "5": 12000
+        },
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Poppy.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:33.38497Z",
+        "description": "DDragon16.17.1 Poppy.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 20000,
+          "2": 18000,
+          "3": 16000,
+          "4": 14000,
+          "5": 12000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "poppy_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:33.38497Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:33.812Z"
+    },
+    {
+      "skillKey": "poppy_w",
+      "endpoint": "/skills/poppy_w/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 50,
+        "levelValues": null,
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Poppy.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:33.811471Z",
+        "description": "DDragon16.17.1 Poppy.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 50,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "poppy_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:33.811471Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:34.284Z"
+    },
+    {
+      "skillKey": "poppy_e",
+      "endpoint": "/skills/poppy_e/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 14000,
+          "2": 13000,
+          "3": 12000,
+          "4": 11000,
+          "5": 10000
+        },
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Poppy.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:34.291243Z",
+        "description": "DDragon16.17.1 Poppy.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 14000,
+          "2": 13000,
+          "3": 12000,
+          "4": 11000,
+          "5": 10000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "poppy_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:34.291243Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:34.685Z"
+    },
+    {
+      "skillKey": "poppy_e",
+      "endpoint": "/skills/poppy_e/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 70,
+        "levelValues": null,
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Poppy.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:34.683416Z",
+        "description": "DDragon16.17.1 Poppy.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 70,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "poppy_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:34.683416Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:35.063Z"
+    },
+    {
+      "skillKey": "poppy_r",
+      "endpoint": "/skills/poppy_r/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 140000,
+          "2": 120000,
+          "3": 100000
+        },
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Poppy.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:35.053888Z",
+        "description": "DDragon16.17.1 Poppy.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 140000,
+          "2": 120000,
+          "3": 100000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "poppy_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:35.053888Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:35.455Z"
+    },
+    {
+      "skillKey": "poppy_r",
+      "endpoint": "/skills/poppy_r/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 100,
+        "levelValues": null,
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Poppy.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:35.440802Z",
+        "description": "DDragon16.17.1 Poppy.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "poppy_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:35.440802Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:35.876Z"
+    },
+    {
+      "skillKey": "quinn_q",
+      "endpoint": "/skills/quinn_q/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 11000,
+          "2": 10500,
+          "3": 10000,
+          "4": 9500,
+          "5": 9000
+        },
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Quinn.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:35.862277Z",
+        "description": "DDragon16.17.1 Quinn.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 11000,
+          "2": 10500,
+          "3": 10000,
+          "4": 9500,
+          "5": 9000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "quinn_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:35.862277Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:36.240Z"
+    },
+    {
+      "skillKey": "quinn_q",
+      "endpoint": "/skills/quinn_q/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 50,
+          "2": 55,
+          "3": 60,
+          "4": 65,
+          "5": 70
+        },
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Quinn.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:36.223223Z",
+        "description": "DDragon16.17.1 Quinn.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 50,
+          "2": 55,
+          "3": 60,
+          "4": 65,
+          "5": 70
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "quinn_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:36.223223Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:36.584Z"
+    },
+    {
+      "skillKey": "quinn_e",
+      "endpoint": "/skills/quinn_e/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 12000,
+          "2": 11000,
+          "3": 10000,
+          "4": 9000,
+          "5": 8000
+        },
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Quinn.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:36.573076Z",
+        "description": "DDragon16.17.1 Quinn.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 12000,
+          "2": 11000,
+          "3": 10000,
+          "4": 9000,
+          "5": 8000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "quinn_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:36.573076Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:36.988Z"
+    },
+    {
+      "skillKey": "quinn_e",
+      "endpoint": "/skills/quinn_e/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 50,
+        "levelValues": null,
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Quinn.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:36.973952Z",
+        "description": "DDragon16.17.1 Quinn.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 50,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "quinn_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:36.973952Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:37.354Z"
+    },
+    {
+      "skillKey": "rakan_q",
+      "endpoint": "/skills/rakan_q/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 11000,
+          "2": 10000,
+          "3": 9000,
+          "4": 8000,
+          "5": 7000
+        },
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Rakan.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:37.346027Z",
+        "description": "DDragon16.17.1 Rakan.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 11000,
+          "2": 10000,
+          "3": 9000,
+          "4": 8000,
+          "5": 7000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "rakan_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:37.346027Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:37.748Z"
+    },
+    {
+      "skillKey": "rakan_q",
+      "endpoint": "/skills/rakan_q/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 45,
+        "levelValues": null,
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Rakan.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:37.729064Z",
+        "description": "DDragon16.17.1 Rakan.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 45,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "rakan_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:37.729064Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:38.152Z"
+    },
+    {
+      "skillKey": "rakan_w",
+      "endpoint": "/skills/rakan_w/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 14000,
+          "2": 13000,
+          "3": 12000,
+          "4": 11000,
+          "5": 10000
+        },
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Rakan.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:38.138531Z",
+        "description": "DDragon16.17.1 Rakan.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 14000,
+          "2": 13000,
+          "3": 12000,
+          "4": 11000,
+          "5": 10000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "rakan_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:38.138531Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:38.539Z"
+    },
+    {
+      "skillKey": "rakan_w",
+      "endpoint": "/skills/rakan_w/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 50,
+          "2": 60,
+          "3": 70,
+          "4": 80,
+          "5": 90
+        },
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Rakan.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:38.523773Z",
+        "description": "DDragon16.17.1 Rakan.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 50,
+          "2": 60,
+          "3": 70,
+          "4": 80,
+          "5": 90
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "rakan_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:38.523773Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:38.903Z"
+    },
+    {
+      "skillKey": "rakan_r",
+      "endpoint": "/skills/rakan_r/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 130000,
+          "2": 110000,
+          "3": 90000
+        },
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Rakan.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:38.892331Z",
+        "description": "DDragon16.17.1 Rakan.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 130000,
+          "2": 110000,
+          "3": 90000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "rakan_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:38.892331Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:39.247Z"
+    },
+    {
+      "skillKey": "rakan_r",
+      "endpoint": "/skills/rakan_r/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 100,
+        "levelValues": null,
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Rakan.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:39.238057Z",
+        "description": "DDragon16.17.1 Rakan.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "rakan_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:39.238057Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:39.655Z"
+    },
+    {
+      "skillKey": "rell_q",
+      "endpoint": "/skills/rell_q/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 11000,
+          "2": 10500,
+          "3": 10000,
+          "4": 9500,
+          "5": 9000
+        },
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Rell.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:39.64547Z",
+        "description": "DDragon16.17.1 Rell.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 11000,
+          "2": 10500,
+          "3": 10000,
+          "4": 9500,
+          "5": 9000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "rell_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:39.64547Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:40.061Z"
+    },
+    {
+      "skillKey": "rell_q",
+      "endpoint": "/skills/rell_q/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 50,
+        "levelValues": null,
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Rell.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:40.057435Z",
+        "description": "DDragon16.17.1 Rell.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 50,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "rell_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:40.057435Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:40.426Z"
+    },
+    {
+      "skillKey": "rell_w",
+      "endpoint": "/skills/rell_w/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 40,
+        "levelValues": null,
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Rell.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:40.418586Z",
+        "description": "DDragon16.17.1 Rell.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 40,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "rell_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:40.418586Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:40.901Z"
+    },
+    {
+      "skillKey": "rell_e",
+      "endpoint": "/skills/rell_e/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 14000,
+          "2": 13000,
+          "3": 12000,
+          "4": 11000,
+          "5": 10000
+        },
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Rell.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:40.906434Z",
+        "description": "DDragon16.17.1 Rell.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 14000,
+          "2": 13000,
+          "3": 12000,
+          "4": 11000,
+          "5": 10000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "rell_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:40.906434Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:41.316Z"
+    },
+    {
+      "skillKey": "rell_e",
+      "endpoint": "/skills/rell_e/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 40,
+        "levelValues": null,
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Rell.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:41.30699Z",
+        "description": "DDragon16.17.1 Rell.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 40,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "rell_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:41.30699Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:41.689Z"
+    },
+    {
+      "skillKey": "rell_r",
+      "endpoint": "/skills/rell_r/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 120000,
+          "2": 100000,
+          "3": 80000
+        },
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Rell.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:41.675838Z",
+        "description": "DDragon16.17.1 Rell.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 120000,
+          "2": 100000,
+          "3": 80000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "rell_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:41.675838Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:42.077Z"
+    },
+    {
+      "skillKey": "rell_r",
+      "endpoint": "/skills/rell_r/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 100,
+        "levelValues": null,
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Rell.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:42.070103Z",
+        "description": "DDragon16.17.1 Rell.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "rell_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:42.070103Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:42.475Z"
+    },
+    {
+      "skillKey": "samira_q",
+      "endpoint": "/skills/samira_q/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 6000,
+          "2": 5000,
+          "3": 4000,
+          "4": 3000,
+          "5": 2000
+        },
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Samira.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:42.473591Z",
+        "description": "DDragon16.17.1 Samira.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 6000,
+          "2": 5000,
+          "3": 4000,
+          "4": 3000,
+          "5": 2000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "samira_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:42.473591Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:42.904Z"
+    },
+    {
+      "skillKey": "samira_q",
+      "endpoint": "/skills/samira_q/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 30,
+        "levelValues": null,
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Samira.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:42.889265Z",
+        "description": "DDragon16.17.1 Samira.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 30,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "samira_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:42.889265Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:43.315Z"
+    },
+    {
+      "skillKey": "samira_w",
+      "endpoint": "/skills/samira_w/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 30000,
+          "2": 28000,
+          "3": 26000,
+          "4": 24000,
+          "5": 22000
+        },
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Samira.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:43.302261Z",
+        "description": "DDragon16.17.1 Samira.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 30000,
+          "2": 28000,
+          "3": 26000,
+          "4": 24000,
+          "5": 22000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "samira_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:43.302261Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:43.681Z"
+    },
+    {
+      "skillKey": "samira_w",
+      "endpoint": "/skills/samira_w/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 60,
+        "levelValues": null,
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Samira.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:43.670287Z",
+        "description": "DDragon16.17.1 Samira.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 60,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "samira_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:43.670287Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:44.069Z"
+    },
+    {
+      "skillKey": "samira_e",
+      "endpoint": "/skills/samira_e/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 20000,
+          "2": 18000,
+          "3": 16000,
+          "4": 14000,
+          "5": 12000
+        },
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Samira.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:44.060143Z",
+        "description": "DDragon16.17.1 Samira.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 20000,
+          "2": 18000,
+          "3": 16000,
+          "4": 14000,
+          "5": 12000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "samira_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:44.060143Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:44.519Z"
+    },
+    {
+      "skillKey": "samira_e",
+      "endpoint": "/skills/samira_e/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 40,
+        "levelValues": null,
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Samira.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:44.523293Z",
+        "description": "DDragon16.17.1 Samira.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 40,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "samira_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:44.523293Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:44.899Z"
+    },
+    {
+      "skillKey": "samira_r",
+      "endpoint": "/skills/samira_r/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 5000,
+        "levelValues": null,
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Samira.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。冻结根明确mCooldownNotAffectedByCDR=true；该5000毫秒冷却不可按通用技能急速折算。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:44.889942Z",
+        "description": "DDragon16.17.1 Samira.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。冻结根明确mCooldownNotAffectedByCDR=true；该5000毫秒冷却不可按通用技能急速折算。",
+        "fixedValue": 5000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "samira_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:44.889942Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:45.341Z"
+    },
+    {
+      "skillKey": "sejuani_q",
+      "endpoint": "/skills/sejuani_q/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 18000,
+          "2": 16500,
+          "3": 15000,
+          "4": 13500,
+          "5": 12000
+        },
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Sejuani.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:45.342166Z",
+        "description": "DDragon16.17.1 Sejuani.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 18000,
+          "2": 16500,
+          "3": 15000,
+          "4": 13500,
+          "5": 12000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "sejuani_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:45.342166Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:45.712Z"
+    },
+    {
+      "skillKey": "sejuani_q",
+      "endpoint": "/skills/sejuani_q/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 60,
+          "2": 65,
+          "3": 70,
+          "4": 75,
+          "5": 80
+        },
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Sejuani.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:45.756882Z",
+        "description": "DDragon16.17.1 Sejuani.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 65,
+          "3": 70,
+          "4": 75,
+          "5": 80
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "sejuani_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:45.756882Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:46.274Z"
+    },
+    {
+      "skillKey": "sejuani_w",
+      "endpoint": "/skills/sejuani_w/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 9000,
+          "2": 8000,
+          "3": 7000,
+          "4": 6000,
+          "5": 5000
+        },
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Sejuani.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:46.272631Z",
+        "description": "DDragon16.17.1 Sejuani.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 9000,
+          "2": 8000,
+          "3": 7000,
+          "4": 6000,
+          "5": 5000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "sejuani_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:46.272631Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:46.707Z"
+    },
+    {
+      "skillKey": "sejuani_w",
+      "endpoint": "/skills/sejuani_w/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 60,
+        "levelValues": null,
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Sejuani.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:46.691211Z",
+        "description": "DDragon16.17.1 Sejuani.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 60,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "sejuani_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:46.691211Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:47.162Z"
+    },
+    {
+      "skillKey": "sejuani_e",
+      "endpoint": "/skills/sejuani_e/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1500,
+        "levelValues": null,
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Sejuani.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:47.175614Z",
+        "description": "DDragon16.17.1 Sejuani.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 1500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "sejuani_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:47.175614Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:47.555Z"
+    },
+    {
+      "skillKey": "sejuani_e",
+      "endpoint": "/skills/sejuani_e/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 20,
+        "levelValues": null,
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Sejuani.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:47.552665Z",
+        "description": "DDragon16.17.1 Sejuani.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 20,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "sejuani_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:47.552665Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:47.961Z"
+    },
+    {
+      "skillKey": "sejuani_r",
+      "endpoint": "/skills/sejuani_r/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 120000,
+          "2": 105000,
+          "3": 90000
+        },
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Sejuani.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:47.956599Z",
+        "description": "DDragon16.17.1 Sejuani.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 120000,
+          "2": 105000,
+          "3": 90000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "sejuani_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:47.956599Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:48.380Z"
+    },
+    {
+      "skillKey": "sejuani_r",
+      "endpoint": "/skills/sejuani_r/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 100,
+        "levelValues": null,
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Sejuani.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:48.366849Z",
+        "description": "DDragon16.17.1 Sejuani.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "sejuani_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:48.366849Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:48.742Z"
+    },
+    {
+      "skillKey": "senna_q",
+      "endpoint": "/skills/senna_q/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 15000,
+        "levelValues": null,
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Senna.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:48.730983Z",
+        "description": "DDragon16.17.1 Senna.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 15000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "senna_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:48.730983Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:49.110Z"
+    },
+    {
+      "skillKey": "senna_q",
+      "endpoint": "/skills/senna_q/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 70,
+          "2": 80,
+          "3": 90,
+          "4": 100,
+          "5": 110
+        },
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Senna.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:49.109185Z",
+        "description": "DDragon16.17.1 Senna.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 80,
+          "3": 90,
+          "4": 100,
+          "5": 110
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "senna_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:49.109185Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:49.501Z"
+    },
+    {
+      "skillKey": "senna_w",
+      "endpoint": "/skills/senna_w/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 11000,
+        "levelValues": null,
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Senna.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:49.488211Z",
+        "description": "DDragon16.17.1 Senna.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 11000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "senna_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:49.488211Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:49.934Z"
+    },
+    {
+      "skillKey": "senna_w",
+      "endpoint": "/skills/senna_w/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 50,
+          "2": 55,
+          "3": 60,
+          "4": 65,
+          "5": 70
+        },
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Senna.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:49.931932Z",
+        "description": "DDragon16.17.1 Senna.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 50,
+          "2": 55,
+          "3": 60,
+          "4": 65,
+          "5": 70
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "senna_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:49.931932Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:50.339Z"
+    },
+    {
+      "skillKey": "senna_e",
+      "endpoint": "/skills/senna_e/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 26000,
+          "2": 24500,
+          "3": 23000,
+          "4": 21500,
+          "5": 20000
+        },
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Senna.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:50.341192Z",
+        "description": "DDragon16.17.1 Senna.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 26000,
+          "2": 24500,
+          "3": 23000,
+          "4": 21500,
+          "5": 20000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "senna_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:50.341192Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:50.718Z"
+    },
+    {
+      "skillKey": "senna_e",
+      "endpoint": "/skills/senna_e/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 70,
+        "levelValues": null,
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Senna.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:50.73275Z",
+        "description": "DDragon16.17.1 Senna.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 70,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "senna_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:50.73275Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:51.156Z"
+    },
+    {
+      "skillKey": "senna_r",
+      "endpoint": "/skills/senna_r/parameters/cooldown_ms",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 140000,
+          "2": 120000,
+          "3": 100000
+        },
+        "sortOrder": 100,
+        "description": "DDragon16.17.1 Senna.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:51.157444Z",
+        "description": "DDragon16.17.1 Senna.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 140000,
+          "2": 120000,
+          "3": 100000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "senna_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:51.157444Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:51.565Z"
+    },
+    {
+      "skillKey": "senna_r",
+      "endpoint": "/skills/senna_r/parameters/mana_cost",
+      "action": "新增",
+      "expected": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 100,
+        "levelValues": null,
+        "sortOrder": 110,
+        "description": "DDragon16.17.1 Senna.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+      },
+      "actual": {
+        "createdAt": "2026-09-07T18:00:51.545739Z",
+        "description": "DDragon16.17.1 Senna.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "senna_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:51.545739Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "matches": true,
+      "checkedAt": "2026-09-07T18:00:51.919Z"
+    }
+  ],
+  "missing": [],
+  "conflicts": [],
+  "totals": {
+    "heroes": 24,
+    "slotsVisited": 96,
+    "skillsWithParameters": 83,
+    "parameters": 151
+  },
+  "mechanismStatus": "仅基础公共参数，完整机制未完成",
+  "runtimeValidation": "未执行",
+  "counts": {
+    "verifiedParameters": 151,
+    "verifiedSkills": 83,
+    "created": 151,
+    "missing": 0,
+    "conflicts": 0
+  },
+  "passed": true
+}

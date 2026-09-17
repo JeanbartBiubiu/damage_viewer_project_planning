@@ -1,0 +1,1971 @@
+{
+  "at": "2026-09-09T04:10:03.755Z",
+  "clientVersion": "16.17",
+  "officialVersion": "16.17.1",
+  "rawSha256": "1427c70c4d1172198a1a9787362224c871a90cc4f66f3f769ef5830cbcd401b1",
+  "originalSource": "../符文客户端数值补证",
+  "entries": [
+    {
+      "id": 8005,
+      "name": "强攻",
+      "scope": "范围内",
+      "previousMissing": [
+        "40–160基础伤害等级值及适应选择"
+      ],
+      "sourcePath": "Perks/Styles/Precision/PressTheAttack",
+      "sourceObjectSha256": "064bbba89cb87305ba1d863e7ad80ee86c1c5e6d9f037ee0031334bc8c0d36c1",
+      "object": {
+        "mPerkId": 8005,
+        "mPerkName": "PressTheAttack",
+        "mDisplayNameLocalizationKey": "perk_displayname_PressTheAttack",
+        "mTooltipNameLocalizationKey": "perk_tooltip_PressTheAttack",
+        "mShortDescLocalizationKey": "perk_short_desc_PressTheAttack",
+        "mLongDescLocalizationKey": "perk_long_desc_PressTheAttack",
+        "mEndOfGameStatDescriptions": [
+          "perk_eog_stat_desc_PressTheAttack",
+          "perk_eog_stat_desc_PressTheAttack2"
+        ],
+        "mDisplayStatLocalizationKey": "perk_display_stat_total",
+        "mIconTextureName": "assets/perks/styles/precision/presstheattack/presstheattack.tex",
+        "mScript": {
+          "mSpellScriptName": "ASSETS/Perks/Styles/Precision/PressTheAttack/PressTheAttack.lua",
+          "mSpellScriptData": {
+            "mEffectAmount": {
+              "MinDamage": 40,
+              "MaxDamage": 160,
+              "BonusADRatio": 0,
+              "APRatio": 0,
+              "LethalityRatio": 0,
+              "HitsRequired": 3,
+              "TimeBetweenHits": 4,
+              "AmpPotencyMaxSelf": 0.07999999821186066,
+              "AmpDuration": 5,
+              "AmpPotencyMaxOthers": 0.07999999821186066,
+              "AmpPotencyStartSelf": 0.07999999821186066,
+              "AmpPotencyStartOthers": 0.07999999821186066,
+              "BonusPercentDamage": 0.07999999821186066,
+              "OutOfCombatTimer": 5,
+              "Cooldown": 6
+            },
+            "__type": "PerkScriptData"
+          },
+          "__type": "PerkScript"
+        },
+        "mBuffs": [
+          {
+            "mBuffScriptName": "ASSETS/Perks/Styles/Precision/PressTheAttack/PressTheAttackStack.lua",
+            "mBuffSpellObject": {
+              "mBuff": {
+                "mDescription": "buff_desc_PressTheAttack_Stack",
+                "__type": "BuffData"
+              },
+              "__type": "SpellObject"
+            },
+            "__type": "PerkBuff"
+          },
+          {
+            "mBuffScriptName": "ASSETS/Perks/Styles/Precision/PressTheAttack/PressTheAttackDamageAmp.lua",
+            "mBuffSpellObject": {
+              "mBuff": {
+                "mDescription": "buff_desc_PressTheAttack_Amp",
+                "__type": "BuffData"
+              },
+              "__type": "SpellObject"
+            },
+            "__type": "PerkBuff"
+          },
+          {
+            "mBuffScriptName": "ASSETS/Perks/Styles/Precision/PressTheAttack/PressTheAttackLockout.lua",
+            "mBuffSpellObject": {
+              "mBuff": {
+                "mDescription": "buff_desc_PressTheAttackCD",
+                "__type": "BuffData"
+              },
+              "__type": "SpellObject"
+            },
+            "__type": "PerkBuff"
+          },
+          {
+            "mBuffScriptName": "ASSETS/Perks/Styles/Precision/PressTheAttack/PressTheAttackSelfBuff.lua",
+            "mBuffSpellObject": {
+              "mBuff": {
+                "mDescription": "buff_desc_PressTheAttackSelfBuff",
+                "__type": "BuffData"
+              },
+              "__type": "SpellObject"
+            },
+            "__type": "PerkBuff"
+          }
+        ],
+        "mVFXResourceResolver": {
+          "resourceMap": {
+            "{8d83eb72}": "Perks/Styles/Precision/PressTheAttack/Particles/Perks_TunnelVision_DamageAmpTar",
+            "Perks_TunnelVision_03": "Perks/Styles/Precision/PressTheAttack/Particles/Perks_TunnelVision_03",
+            "Perks_TunnelVision_07": "Perks/Styles/Precision/PressTheAttack/Particles/Perks_TunnelVision_07",
+            "Perks_TunnelVision_11": "Perks/Styles/Precision/PressTheAttack/Particles/Perks_TunnelVision_11",
+            "Perks_TunnelVision_Target": "Perks/Styles/Precision/PressTheAttack/Particles/Perks_TunnelVision_Target",
+            "Perks_TunnelVision_Tar": "Perks/Styles/Precision/PressTheAttack/Particles/Perks_TunnelVision_Tar"
+          },
+          "__type": "ResourceResolver"
+        },
+        "mDefault": true,
+        "__type": "Perk"
+      },
+      "bound": {
+        "mDisplayNameLocalizationKey": {
+          "sourceKey": "perk_displayname_PressTheAttack",
+          "resolvedKey": "perk_displayname_presstheattack",
+          "text": "强攻"
+        },
+        "mTooltipNameLocalizationKey": {
+          "sourceKey": "perk_tooltip_PressTheAttack",
+          "resolvedKey": "perk_tooltip_presstheattack",
+          "text": "用@HitsRequired@次连续的普攻击中一名敌方英雄时，将造成<scaleLevel>@f4@</scaleLevel>额外<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_AdaptiveDmg'><font color='#48C4B7'>自适应伤害</font></lol-uikit-tooltipped-keyword>(基于等级)并使你造成的伤害增幅@BonusPercentDamage*100@%，持续到你离开与英雄的战斗状态为止。<br><hr><br>已造成的额外伤害：<scaleAD>@f2@</scaleAD><br>3击冷却时间：@Cooldown@秒"
+        },
+        "mShortDescLocalizationKey": {
+          "sourceKey": "perk_short_desc_PressTheAttack",
+          "resolvedKey": "perk_short_desc_presstheattack",
+          "text": "连续@HitsRequired@次命中一名敌方英雄将造成额外伤害，并增加你的伤害，直到你离开与英雄的战斗状态。"
+        },
+        "mLongDescLocalizationKey": {
+          "sourceKey": "perk_long_desc_PressTheAttack",
+          "resolvedKey": "perk_long_desc_presstheattack",
+          "text": "用@HitsRequired@次连续的普攻击中一名敌方英雄时，将造成@MinDamage@ - @MaxDamage@的额外<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_AdaptiveDmg'><font color='#48C4B7'>自适应伤害</font></lol-uikit-tooltipped-keyword>(基于等级)并使你造成的伤害增幅@BonusPercentDamage*100@%，持续到你离开与英雄的战斗状态为止。"
+        },
+        "mDisplayStatLocalizationKey": {
+          "sourceKey": "perk_display_stat_total",
+          "resolvedKey": "perk_display_stat_total",
+          "text": "@f1@"
+        }
+      },
+      "summary": {
+        "effectAmounts": {
+          "MinDamage": 40,
+          "MaxDamage": 160,
+          "BonusADRatio": 0,
+          "APRatio": 0,
+          "LethalityRatio": 0,
+          "HitsRequired": 3,
+          "TimeBetweenHits": 4,
+          "AmpPotencyMaxSelf": 0.07999999821186066,
+          "AmpDuration": 5,
+          "AmpPotencyMaxOthers": 0.07999999821186066,
+          "AmpPotencyStartSelf": 0.07999999821186066,
+          "AmpPotencyStartOthers": 0.07999999821186066,
+          "BonusPercentDamage": 0.07999999821186066,
+          "OutOfCombatTimer": 5,
+          "Cooldown": 6
+        },
+        "calculations": {},
+        "otherModeOverrides": [],
+        "hasDefaultScript": true,
+        "scriptPath": "ASSETS/Perks/Styles/Precision/PressTheAttack/PressTheAttack.lua"
+      }
+    },
+    {
+      "id": 8008,
+      "name": "致命节奏",
+      "scope": "范围内",
+      "previousMissing": [
+        "两类基础伤害等级值及适应选择"
+      ],
+      "sourcePath": "Perks/Styles/Precision/LethalTempo",
+      "sourceObjectSha256": "fc1df73c3b6016d4b7d3203a21c951b0d4159edf9e41ef10f7cd75ed0372e8a6",
+      "object": {
+        "mPerkId": 8008,
+        "mPerkName": "LethalTempo",
+        "mDisplayNameLocalizationKey": "perk_displayname_LethalTempo",
+        "mTooltipNameLocalizationKey": "perk_tooltip_LethalTempo",
+        "mPingTextLocalizationKey": "perk_pingtip_LethalTempo",
+        "mShortDescLocalizationKey": "perk_short_desc_LethalTempo",
+        "mLongDescLocalizationKey": "perk_long_desc_LethalTempo",
+        "mEndOfGameStatDescriptions": [
+          "perk_eog_stat_desc_LethalTempo1"
+        ],
+        "mDisplayStatLocalizationKey": "perk_display_stat_LethalTempo",
+        "mIconTextureName": "assets/perks/styles/precision/lethaltempo/lethaltempotemp.tex",
+        "mScript": {
+          "mSpellScriptName": "ASSETS/Perks/Styles/Precision/LethalTempo/LethalTempo.lua",
+          "mSpellScriptData": {
+            "mEffectAmount": {
+              "Duration": 6,
+              "MaxStacks": 6,
+              "TTASPerStackMelee": 0.05999999865889549,
+              "PerfectlyTimedForgivance": 0.25,
+              "TTASPerStackRanged": 0.03999999910593033,
+              "TTMinNoteDamageMelee": 9,
+              "TTMaxNoteDamageMelee": 30,
+              "TTMinNoteDamageRanged": 6,
+              "TTMaxNoteDamageRanged": 24
+            },
+            "mCalculations": {
+              "NoteDamage": {
+                "mMultiplier": {
+                  "mSubparts": [
+                    {
+                      "mNumber": 1,
+                      "__type": "NumberCalculationPart"
+                    },
+                    {
+                      "mStat": 4,
+                      "mStatFormula": 2,
+                      "mCoefficient": 1,
+                      "__type": "StatByCoefficientCalculationPart"
+                    }
+                  ],
+                  "__type": "SumOfSubPartsCalculationPart"
+                },
+                "mFormulaParts": [
+                  {
+                    "mStartValue": 9,
+                    "mEndValue": 30,
+                    "__type": "ByCharLevelInterpolationCalculationPart"
+                  }
+                ],
+                "mPrecision": 1,
+                "mRangedMultiplier": {
+                  "mNumber": 0.6669999957084656,
+                  "__type": "NumberCalculationPart"
+                },
+                "__type": "{e9a3c91d}"
+              },
+              "ASPerStack": {
+                "mFormulaParts": [
+                  {
+                    "mNumber": 0.05999999865889549,
+                    "__type": "NumberCalculationPart"
+                  }
+                ],
+                "mDisplayAsPercent": true,
+                "mPrecision": 1,
+                "mRangedMultiplier": {
+                  "mNumber": 0.800000011920929,
+                  "__type": "NumberCalculationPart"
+                },
+                "__type": "{e9a3c91d}"
+              }
+            },
+            "__type": "PerkScriptData"
+          },
+          "__type": "PerkScript"
+        },
+        "mBuffs": [
+          {
+            "mBuffScriptName": "ASSETS/Perks/Styles/Precision/LethalTempo/LethalTempo.lua",
+            "mBuffSpellObject": {
+              "mBuff": {
+                "mDescription": "Buff_LethalTempo_Tooltip",
+                "__type": "BuffData"
+              },
+              "__type": "SpellObject"
+            },
+            "__type": "PerkBuff"
+          }
+        ],
+        "mVFXResourceResolver": {
+          "resourceMap": {
+            "{15da3293}": "Perks/Styles/Precision/LethalTempo/Particles/Perks_LethalTempo_Stack_1",
+            "{16da3426}": "Perks/Styles/Precision/LethalTempo/Particles/Perks_LethalTempo_Stack_2",
+            "{17da35b9}": "Perks/Styles/Precision/LethalTempo/Particles/Perks_LethalTempo_Stack_3",
+            "{18da374c}": "Perks/Styles/Precision/LethalTempo/Particles/Perks_LethalTempo_Stack_4",
+            "{19da38df}": "Perks/Styles/Precision/LethalTempo/Particles/Perks_LethalTempo_Stack_5",
+            "{1ada3a72}": "Perks/Styles/Precision/LethalTempo/Particles/Perks_LethalTempo_Stack_6",
+            "{6778e480}": "Perks/Styles/Precision/LethalTempo/Particles/Perks_LethalTempo_Mis",
+            "{a70add4c}": "Perks/Styles/Precision/LethalTempo/Particles/Perks_LethalTempo_Tar",
+            "{98d5ca69}": "Perks/Styles/Precision/LethalTempo/Particles/Perks_LethalTempo_PerfectMis",
+            "{95500436}": "Perks/Styles/Precision/LethalTempo/Particles/Perks_LethalTempo_Mis2",
+            "{f38d8d41}": "Perks/Styles/Precision/LethalTempo/Particles/Perks_LethalTempo_PerfectMis2"
+          },
+          "__type": "ResourceResolver"
+        },
+        "__type": "Perk"
+      },
+      "bound": {
+        "mDisplayNameLocalizationKey": {
+          "sourceKey": "perk_displayname_LethalTempo",
+          "resolvedKey": "perk_displayname_lethaltempo",
+          "text": "致命节奏"
+        },
+        "mTooltipNameLocalizationKey": {
+          "sourceKey": "perk_tooltip_LethalTempo",
+          "resolvedKey": "perk_tooltip_lethaltempo",
+          "text": "攻击一个敌方英雄会为你提供持续@Duration@秒的%i:scaleAS%@ASPerStack@攻击速度，至多至@MaxStacks@层。在满层时，攻击还会造成@NoteDamage@ (%i:scaleAS%) <lol-uikit-tooltipped-keyword key='LinkTooltip_Description_AdaptiveDmg'><font color='#48C4B7'>额外自适应伤害</font></lol-uikit-tooltipped-keyword> %i:OnHit% <OnHit>攻击特效</OnHit>。<br><br>满层运转时间：@f1@秒<br>已造成的伤害：@f2@<br><br>这个符文还会追踪你在之前攻击一个英雄之后，在你的攻击就绪的@PerfectlyTimedForgivance.2@秒内对英雄们打出的普攻次数占比：@f3@% (@f4@ / @f5@)"
+        },
+        "mPingTextLocalizationKey": {
+          "sourceKey": "perk_pingtip_LethalTempo",
+          "resolvedKey": "perk_pingtip_lethaltempo",
+          "text": "@SrcNameWithColon@致命节奏：完美时机的攻击次数：@f3@% (@f4@ / @f5@)"
+        },
+        "mShortDescLocalizationKey": {
+          "sourceKey": "perk_short_desc_LethalTempo",
+          "resolvedKey": "perk_short_desc_lethaltempo",
+          "text": "攻击一个敌方英雄会为你提供攻击速度，至多至@MaxStacks@层。在满层时，攻击还会附带<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_AdaptiveDmg'><font color='#48C4B7'>额外自适应伤害</font></lol-uikit-tooltipped-keyword>。"
+        },
+        "mLongDescLocalizationKey": {
+          "sourceKey": "perk_long_desc_LethalTempo",
+          "resolvedKey": "perk_long_desc_lethaltempo",
+          "text": "攻击一个敌方英雄会为你提供持续@Duration@秒的[@TTASPerStackMelee*100@%近战 || @TTASPerStackRanged*100@%远程]攻击速度，至多至@MaxStacks@层。在满层时，攻击还会附带[@TTMinNoteDamageMelee@ - @TTMaxNoteDamageMelee@近战 || @TTMinNoteDamageRanged@ - @TTMaxNoteDamageRanged@远程] <lol-uikit-tooltipped-keyword key='LinkTooltip_Description_AdaptiveDmg'>额外自适应伤害，每1%额外攻击速度都会使其提升1%</lol-uikit-tooltipped-keyword>。"
+        },
+        "mDisplayStatLocalizationKey": {
+          "sourceKey": "perk_display_stat_LethalTempo",
+          "resolvedKey": "perk_display_stat_lethaltempo",
+          "text": "@f1@"
+        }
+      },
+      "summary": {
+        "effectAmounts": {
+          "Duration": 6,
+          "MaxStacks": 6,
+          "TTASPerStackMelee": 0.05999999865889549,
+          "PerfectlyTimedForgivance": 0.25,
+          "TTASPerStackRanged": 0.03999999910593033,
+          "TTMinNoteDamageMelee": 9,
+          "TTMaxNoteDamageMelee": 30,
+          "TTMinNoteDamageRanged": 6,
+          "TTMaxNoteDamageRanged": 24
+        },
+        "calculations": {
+          "NoteDamage": {
+            "mMultiplier": {
+              "mSubparts": [
+                {
+                  "mNumber": 1,
+                  "__type": "NumberCalculationPart"
+                },
+                {
+                  "mStat": 4,
+                  "mStatFormula": 2,
+                  "mCoefficient": 1,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "SumOfSubPartsCalculationPart"
+            },
+            "mFormulaParts": [
+              {
+                "mStartValue": 9,
+                "mEndValue": 30,
+                "__type": "ByCharLevelInterpolationCalculationPart"
+              }
+            ],
+            "mPrecision": 1,
+            "mRangedMultiplier": {
+              "mNumber": 0.6669999957084656,
+              "__type": "NumberCalculationPart"
+            },
+            "__type": "{e9a3c91d}"
+          },
+          "ASPerStack": {
+            "mFormulaParts": [
+              {
+                "mNumber": 0.05999999865889549,
+                "__type": "NumberCalculationPart"
+              }
+            ],
+            "mDisplayAsPercent": true,
+            "mPrecision": 1,
+            "mRangedMultiplier": {
+              "mNumber": 0.800000011920929,
+              "__type": "NumberCalculationPart"
+            },
+            "__type": "{e9a3c91d}"
+          }
+        },
+        "otherModeOverrides": [],
+        "hasDefaultScript": true,
+        "scriptPath": "ASSETS/Perks/Styles/Precision/LethalTempo/LethalTempo.lua"
+      }
+    },
+    {
+      "id": 8010,
+      "name": "征服者",
+      "scope": "范围内",
+      "previousMissing": [
+        "1.8–4每层适应值的等级曲线与转换"
+      ],
+      "sourcePath": "Perks/Styles/Precision/Conqueror",
+      "sourceObjectSha256": "c518745288bc82b9618ebaea81226c6e4a9a9d33b0b7a6119888ee75691654bd",
+      "object": {
+        "mPerkId": 8010,
+        "mPerkName": "Conqueror",
+        "mDisplayNameLocalizationKey": "perk_displayname_Conqueror",
+        "mTooltipNameLocalizationKey": "perk_tooltip_Conqueror",
+        "mShortDescLocalizationKey": "perk_short_desc_Conqueror",
+        "mLongDescLocalizationKey": "perk_long_desc_Conqueror",
+        "mEndOfGameStatDescriptions": [
+          "perk_eog_stat_desc_Conqueror"
+        ],
+        "mDisplayStatLocalizationKey": "perk_display_stat_total",
+        "mIconTextureName": "assets/perks/styles/precision/conqueror/conqueror.tex",
+        "mScript": {
+          "mSpellScriptName": "ASSETS/Perks/Styles/Precision/Conqueror/Conqueror.lua",
+          "mSpellScriptData": {
+            "mEffectAmount": {
+              "MinAdaptivePerStack": 1.7999999523162842,
+              "MaxAdaptivePerStack": 4,
+              "MaxStacks": 12,
+              "BuffDuration": 5,
+              "TimeUntilNextStackFromSameSpell": 4,
+              "HealingPercent": 0.07999999821186066,
+              "RangedHealingPercent": 0.05000000074505806
+            },
+            "__type": "PerkScriptData"
+          },
+          "__type": "PerkScript"
+        },
+        "mBuffs": [
+          {
+            "mBuffScriptName": "ASSETS/Perks/Styles/Precision/Conqueror/Conqueror.lua",
+            "mBuffSpellObject": {
+              "mBuff": {
+                "mDescription": "buff_desc_Conqueror_Stacking",
+                "__type": "BuffData"
+              },
+              "__type": "SpellObject"
+            },
+            "__type": "PerkBuff"
+          },
+          {
+            "mBuffScriptName": "ASSETS/Perks/Styles/Precision/Conqueror/ConquerorONH.lua",
+            "mBuffSpellObject": {
+              "mBuff": {
+                "mDescription": "buff_desc_Conqueror_ONH",
+                "__type": "BuffData"
+              },
+              "__type": "SpellObject"
+            },
+            "__type": "PerkBuff"
+          },
+          {
+            "mBuffScriptName": "ASSETS/Perks/Styles/Precision/Conqueror/ConquerorEnrage.lua",
+            "mBuffSpellObject": {
+              "mBuff": {
+                "mDescription": "buff_desc_Conqueror_Enrage",
+                "__type": "BuffData"
+              },
+              "__type": "SpellObject"
+            },
+            "__type": "PerkBuff"
+          }
+        ],
+        "mVFXResourceResolver": {
+          "resourceMap": {
+            "Perks_Conqueror_Activate": "Perks/Styles/Precision/Conqueror/Particles/Perks_Conqueror_Activate",
+            "Perks_Conqueror_Buff": "Perks/Styles/Precision/Conqueror/Particles/Perks_Conqueror_Buff"
+          },
+          "__type": "ResourceResolver"
+        },
+        "mMajorChangePatchVersion": "9.4",
+        "__type": "Perk"
+      },
+      "bound": {
+        "mDisplayNameLocalizationKey": {
+          "sourceKey": "perk_displayname_Conqueror",
+          "resolvedKey": "perk_displayname_conqueror",
+          "text": "征服者"
+        },
+        "mTooltipNameLocalizationKey": {
+          "sourceKey": "perk_tooltip_Conqueror",
+          "resolvedKey": "perk_tooltip_conqueror",
+          "text": "普通攻击或伤害型技能在命中一名敌方英雄时会提供2层【征服者】效果，持续@BuffDuration@秒，每层提供{{perk_substring_ConquerorAdaptive_@f4@}}。至多可叠加@MaxStacks@次。远程英雄的每次普攻只会提供1层效果。<br><br>在叠满层数后，你对英雄造成的@HealingPercent*100@%伤害会转化为对自身的治疗效果(远程英雄的转化率为@RangedHealingPercent*100@%)。<br><br>治疗量总和：@f1@"
+        },
+        "mShortDescLocalizationKey": {
+          "sourceKey": "perk_short_desc_Conqueror",
+          "resolvedKey": "perk_short_desc_conqueror",
+          "text": "在攻击敌方英雄时提供适应之力。在达到@MaxStacks@层后，将你的一部分伤害转化为等额的治疗效果。"
+        },
+        "mLongDescLocalizationKey": {
+          "sourceKey": "perk_long_desc_Conqueror",
+          "resolvedKey": "perk_long_desc_conqueror",
+          "text": "普通攻击或伤害型技能在命中一名敌方英雄时会提供2层【征服者】效果，持续@BuffDuration@秒，每层效果提供@MinAdaptivePerStack@-@MaxAdaptivePerStack@<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_Adaptive'><font color='#48C4B7'>适应之力</font></lol-uikit-tooltipped-keyword>。至多可叠加@MaxStacks@次。远程英雄的每次普攻只会提供1层效果。<br><br>在叠满层数后，你对英雄造成的@HealingPercent*100@%伤害会转化为对自身的治疗效果(远程英雄的转化率为@RangedHealingPercent*100@%)。"
+        },
+        "mDisplayStatLocalizationKey": {
+          "sourceKey": "perk_display_stat_total",
+          "resolvedKey": "perk_display_stat_total",
+          "text": "@f1@"
+        }
+      },
+      "summary": {
+        "effectAmounts": {
+          "MinAdaptivePerStack": 1.7999999523162842,
+          "MaxAdaptivePerStack": 4,
+          "MaxStacks": 12,
+          "BuffDuration": 5,
+          "TimeUntilNextStackFromSameSpell": 4,
+          "HealingPercent": 0.07999999821186066,
+          "RangedHealingPercent": 0.05000000074505806
+        },
+        "calculations": {},
+        "otherModeOverrides": [],
+        "hasDefaultScript": true,
+        "scriptPath": "ASSETS/Perks/Styles/Precision/Conqueror/Conqueror.lua"
+      }
+    },
+    {
+      "id": 8021,
+      "name": "迅捷步法",
+      "scope": "混合保留",
+      "previousMissing": [
+        "15–160治疗等级值、攻击/移动充能权重"
+      ],
+      "sourcePath": "Perks/Styles/Precision/FleetFootwork",
+      "sourceObjectSha256": "6acb0bb449c7ebfee00480418e9c6e916ebbc4cec6245ed5404ea1e54a255bd3",
+      "object": {
+        "mPerkId": 8021,
+        "mPerkName": "FleetFootwork",
+        "mDisplayNameLocalizationKey": "perk_displayname_FleetFootwork",
+        "mTooltipNameLocalizationKey": "perk_tooltip_FleetFootwork",
+        "mShortDescLocalizationKey": "perk_short_desc_FleetFootwork",
+        "mLongDescLocalizationKey": "perk_long_desc_FleetFootwork",
+        "mEndOfGameStatDescriptions": [
+          "perk_eog_stat_desc_FleetFootwork1"
+        ],
+        "mDisplayStatLocalizationKey": "perk_display_stat_total",
+        "mIconTextureName": "assets/perks/styles/precision/fleetfootwork/fleetfootwork.tex",
+        "mScript": {
+          "mSpellScriptName": "ASSETS/Perks/Styles/Precision/FleetFootwork/FleetFootwork.lua",
+          "mSpellScriptData": {
+            "mEffectAmount": {
+              "HealBonusADRatio": 0.10000000149011612,
+              "HealAPRatio": 0.05000000074505806,
+              "HealBase": 15,
+              "HealMax": 160,
+              "MSBuff": 0.20000000298023224,
+              "MSDuration": 1,
+              "RangedMSMod": 0.75,
+              "RangedHealMod": 0.6000000238418579,
+              "MinionHealMod": 0.15000000596046448
+            },
+            "mCalculations": {
+              "HealAmount": {
+                "mSimpleTooltipCalculationDisplay": 4,
+                "mFormulaParts": [
+                  {
+                    "mStartValue": 15,
+                    "mEndValue": 160,
+                    "mScaleByStatProgressionMultiplier": true,
+                    "__type": "ByCharLevelInterpolationCalculationPart"
+                  },
+                  {
+                    "mStat": 2,
+                    "mStatFormula": 2,
+                    "mDataValue": "HealBonusADRatio",
+                    "__type": "StatByNamedDataValueCalculationPart"
+                  },
+                  {
+                    "mDataValue": "HealAPRatio",
+                    "__type": "StatByNamedDataValueCalculationPart"
+                  }
+                ],
+                "mRangedMultiplier": {
+                  "mDataValue": "RangedHealMod",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                "__type": "{e9a3c91d}"
+              },
+              "{ad820ad4}": {
+                "mFormulaParts": [
+                  {
+                    "mStartValue": 5,
+                    "mEndValue": 100,
+                    "mScaleByStatProgressionMultiplier": true,
+                    "__type": "ByCharLevelInterpolationCalculationPart"
+                  }
+                ],
+                "__type": "GameCalculation"
+              },
+              "MoveSpeedCalc": {
+                "mFormulaParts": [
+                  {
+                    "mDataValue": "MSBuff",
+                    "__type": "NamedDataValueCalculationPart"
+                  }
+                ],
+                "mDisplayAsPercent": true,
+                "mRangedMultiplier": {
+                  "mDataValue": "RangedMSMod",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                "__type": "{e9a3c91d}"
+              }
+            },
+            "__type": "PerkScriptData"
+          },
+          "__type": "PerkScript"
+        },
+        "mBuffs": [
+          {
+            "mBuffScriptName": "ASSETS/Perks/Styles/Precision/FleetFootwork/FleetFootworkHaste.lua",
+            "mBuffSpellObject": {
+              "mBuff": {
+                "mDescription": "buff_desc_FleetFootwork",
+                "__type": "BuffData"
+              },
+              "__type": "SpellObject"
+            },
+            "__type": "PerkBuff"
+          }
+        ],
+        "mVFXResourceResolver": {
+          "resourceMap": {
+            "Perks_FleetFootwork_Buff": "Perks/Styles/Precision/FleetFootwork/Particles/Perks_FleetFootwork_Buff",
+            "Perks_FleetFootwork_Haste": "Perks/Styles/Precision/FleetFootwork/Particles/Perks_FleetFootwork_Haste",
+            "Perks_FleetFootwork_Heal_Mis": "Perks/Styles/Precision/FleetFootwork/Particles/Perks_FleetFootwork_Heal_Mis",
+            "Perks_FleetFootwork_Heal": "Perks/Styles/Precision/FleetFootwork/Particles/Perks_FleetFootwork_Heal",
+            "Perks_FleetFootwork_Cas": "Perks/Styles/Precision/FleetFootwork/Particles/Perks_FleetFootwork_Cas"
+          },
+          "__type": "ResourceResolver"
+        },
+        "__type": "Perk"
+      },
+      "bound": {
+        "mDisplayNameLocalizationKey": {
+          "sourceKey": "perk_displayname_FleetFootwork",
+          "resolvedKey": "perk_displayname_fleetfootwork",
+          "text": "迅捷步法"
+        },
+        "mTooltipNameLocalizationKey": {
+          "sourceKey": "perk_tooltip_FleetFootwork",
+          "resolvedKey": "perk_tooltip_fleetfootwork",
+          "text": "攻击和移动会积攒能量层数。在100层时，你的下次攻击会充盈能量。<br><br>充盈能量的攻击会为你治疗<healing>@HealAmount@生命值</healing>并为你提供持续@MSDuration@秒的<speed>@MoveSpeedCalc@移动速度</speed>。<br><rules><br>来自小兵的治疗效果只有@MinionHealMod*100@%效能。<br></rules><hr><br>治疗效果总和：@f1@"
+        },
+        "mShortDescLocalizationKey": {
+          "sourceKey": "perk_short_desc_FleetFootwork",
+          "resolvedKey": "perk_short_desc_fleetfootwork",
+          "text": "攻击和移动会积攒能量层数。在100层时，你的下次攻击会治疗你并提升<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_MS'>移动速度</lol-uikit-tooltipped-keyword>。"
+        },
+        "mLongDescLocalizationKey": {
+          "sourceKey": "perk_long_desc_FleetFootwork",
+          "resolvedKey": "perk_long_desc_fleetfootwork",
+          "text": "攻击和移动会积攒能量层数。在100层时，你的下次攻击会充盈能量。<br><br>充盈能量的攻击会为你治疗@HealBase@ - @HealMax@ (+@HealBonusADRatio.-1@额外攻击力，+@HealAPRatio.-1@法术强度)生命值并为你提供持续@MSDuration.0@秒的<speed>@MSBuff*100@%移动速度加成</speed>。<br><br>对远程英雄来说，治疗效果只有@RangedHealMod*100@%效能并且移动速度只有@RangedMSMod*100@%效能。对抗小兵时的所有治疗效果只有@MinionHealMod*100@%效能。"
+        },
+        "mDisplayStatLocalizationKey": {
+          "sourceKey": "perk_display_stat_total",
+          "resolvedKey": "perk_display_stat_total",
+          "text": "@f1@"
+        }
+      },
+      "summary": {
+        "effectAmounts": {
+          "HealBonusADRatio": 0.10000000149011612,
+          "HealAPRatio": 0.05000000074505806,
+          "HealBase": 15,
+          "HealMax": 160,
+          "MSBuff": 0.20000000298023224,
+          "MSDuration": 1,
+          "RangedMSMod": 0.75,
+          "RangedHealMod": 0.6000000238418579,
+          "MinionHealMod": 0.15000000596046448
+        },
+        "calculations": {
+          "HealAmount": {
+            "mSimpleTooltipCalculationDisplay": 4,
+            "mFormulaParts": [
+              {
+                "mStartValue": 15,
+                "mEndValue": 160,
+                "mScaleByStatProgressionMultiplier": true,
+                "__type": "ByCharLevelInterpolationCalculationPart"
+              },
+              {
+                "mStat": 2,
+                "mStatFormula": 2,
+                "mDataValue": "HealBonusADRatio",
+                "__type": "StatByNamedDataValueCalculationPart"
+              },
+              {
+                "mDataValue": "HealAPRatio",
+                "__type": "StatByNamedDataValueCalculationPart"
+              }
+            ],
+            "mRangedMultiplier": {
+              "mDataValue": "RangedHealMod",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            "__type": "{e9a3c91d}"
+          },
+          "{ad820ad4}": {
+            "mFormulaParts": [
+              {
+                "mStartValue": 5,
+                "mEndValue": 100,
+                "mScaleByStatProgressionMultiplier": true,
+                "__type": "ByCharLevelInterpolationCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "MoveSpeedCalc": {
+            "mFormulaParts": [
+              {
+                "mDataValue": "MSBuff",
+                "__type": "NamedDataValueCalculationPart"
+              }
+            ],
+            "mDisplayAsPercent": true,
+            "mRangedMultiplier": {
+              "mDataValue": "RangedMSMod",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            "__type": "{e9a3c91d}"
+          }
+        },
+        "otherModeOverrides": [],
+        "hasDefaultScript": true,
+        "scriptPath": "ASSETS/Perks/Styles/Precision/FleetFootwork/FleetFootwork.lua"
+      }
+    },
+    {
+      "id": 8230,
+      "name": "风暴掠袭者的狂涌",
+      "scope": "范围内",
+      "previousMissing": [
+        "20–10秒冷却等级值"
+      ],
+      "sourcePath": "Perks/Styles/Sorcery/PhaseRush",
+      "sourceObjectSha256": "7e43bf475d75403544c7e1273585b3b01969458cbabea036181b68bb93c8134c",
+      "object": {
+        "mPerkId": 8230,
+        "mPerkName": "PhaseRush",
+        "mDisplayNameLocalizationKey": "perk_displayname_PhaseRush",
+        "mTooltipNameLocalizationKey": "perk_tooltip_PhaseRush",
+        "mShortDescLocalizationKey": "perk_short_desc_PhaseRush",
+        "mLongDescLocalizationKey": "perk_long_desc_PhaseRush",
+        "mEndOfGameStatDescriptions": [
+          "perk_eog_stat_desc_PhaseRush"
+        ],
+        "mDisplayStatLocalizationKey": "perk_display_stat_PhaseRush",
+        "mIconTextureName": "assets/perks/styles/sorcery/phaserush/stormraiderssurgeruneicon2.tex",
+        "mScript": {
+          "mSpellScriptName": "ASSETS/Perks/Styles/Sorcery/PhaseRush/StormraidersSurge.lua",
+          "mSpellScriptData": {
+            "mEffectAmount": {
+              "SlowResist": 0.5,
+              "Duration": 4,
+              "Window": 3,
+              "MinCooldown": 10,
+              "MaxCooldown": 20,
+              "RangedEffectiveness": 0.75,
+              "DamageThreshold": 0.25,
+              "HasteMax": 0.47999998927116394
+            },
+            "mEffectAmountGameMode": {
+              "URF": {
+                "mEffectAmountPerMode": {
+                  "MinCooldown": 10,
+                  "MaxCooldown": 10
+                },
+                "__type": "PerkEffectAmountPerMode"
+              }
+            },
+            "mCalculations": {
+              "CooldownCalc": {
+                "mSimpleTooltipCalculationDisplay": 4,
+                "mFormulaParts": [
+                  {
+                    "mStartValue": 20,
+                    "mEndValue": 10,
+                    "__type": "ByCharLevelInterpolationCalculationPart"
+                  }
+                ],
+                "__type": "GameCalculation"
+              },
+              "MoveSpeedCalc": {
+                "mSimpleTooltipCalculationDisplay": 4,
+                "mFormulaParts": [
+                  {
+                    "mStartValue": 0.47999998927116394,
+                    "mEndValue": 0.47999998927116394,
+                    "__type": "ByCharLevelInterpolationCalculationPart"
+                  }
+                ],
+                "mDisplayAsPercent": true,
+                "mRangedMultiplier": {
+                  "mDataValue": "RangedEffectiveness",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                "__type": "{e9a3c91d}"
+              }
+            },
+            "__type": "PerkScriptData"
+          },
+          "__type": "PerkScript"
+        },
+        "mBuffs": [
+          {
+            "mBuffScriptName": "ASSETS/Perks/Styles/Sorcery/PhaseRush/PhaseRush.lua",
+            "mBuffSpellObject": {
+              "mBuff": {
+                "mDescription": "buff_desc_8230_Ready",
+                "__type": "BuffData"
+              },
+              "__type": "SpellObject"
+            },
+            "__type": "PerkBuff"
+          },
+          {
+            "mBuffScriptName": "ASSETS/Perks/Styles/Sorcery/PhaseRush/PhaseRushBuff.lua",
+            "mBuffSpellObject": {
+              "mBuff": {
+                "mDescription": "buff_desc_8230_Buff",
+                "__type": "BuffData"
+              },
+              "__type": "SpellObject"
+            },
+            "__type": "PerkBuff"
+          },
+          {
+            "mBuffScriptName": "ASSETS/Perks/Styles/Sorcery/PhaseRush/PhaseRushLockout.lua",
+            "mBuffSpellObject": {
+              "mBuff": {
+                "mDescription": "buff_desc_8230_Cooldown",
+                "__type": "BuffData"
+              },
+              "__type": "SpellObject"
+            },
+            "__type": "PerkBuff"
+          }
+        ],
+        "mVFXResourceResolver": {
+          "resourceMap": {
+            "Perks_Spellslingers_Active": "Perks/Styles/Sorcery/PhaseRush/Particles/Perks_Spellslingers_Active",
+            "Perks_Spellslingers_Haste": "Perks/Styles/Sorcery/PhaseRush/Particles/Perks_Spellslingers_Haste"
+          },
+          "__type": "ResourceResolver"
+        },
+        "mMajorChangePatchVersion": "16.9",
+        "__type": "Perk"
+      },
+      "bound": {
+        "mDisplayNameLocalizationKey": {
+          "sourceKey": "perk_displayname_PhaseRush",
+          "resolvedKey": "perk_displayname_phaserush",
+          "text": "风暴掠袭者的狂涌"
+        },
+        "mTooltipNameLocalizationKey": {
+          "sourceKey": "perk_tooltip_PhaseRush",
+          "resolvedKey": "perk_tooltip_phaserush",
+          "text": "在@Window@秒内对一个英雄造成相当于其@DamageThreshold*100@%最大生命值的伤害时，提供持续@Duration@秒的<speed>@MoveSpeedCalc@%移动速度</speed>和<status>@SlowResist*100@%减速抗性</status>。<br><br>冷却时间：<attention>@CooldownCalc@秒</attention><br><br>总激活次数：<attention>@f1@</attention>"
+        },
+        "mShortDescLocalizationKey": {
+          "sourceKey": "perk_short_desc_PhaseRush",
+          "resolvedKey": "perk_short_desc_phaserush",
+          "text": "对一个英雄造成其@DamageThreshold*100@%最大生命值的伤害时，会提供爆发性的<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_MS'>移动速度</lol-uikit-tooltipped-keyword>和减速抗性。 "
+        },
+        "mLongDescLocalizationKey": {
+          "sourceKey": "perk_long_desc_PhaseRush",
+          "resolvedKey": "perk_long_desc_phaserush",
+          "text": "在@Window@秒内对一个英雄造成相当于其@DamageThreshold*100@%最大生命值的伤害时，提供持续@Duration@秒的<speed>@HasteMax*100@%移动速度</speed>和<status>@SlowResist*100@%减速抗性</status>。移动速度加成对远程英雄的效能为@RangedEffectiveness*100@%。<br>冷却时间：@MaxCooldown@秒 - @MinCooldown@秒"
+        },
+        "mDisplayStatLocalizationKey": {
+          "sourceKey": "perk_display_stat_PhaseRush",
+          "resolvedKey": "perk_display_stat_phaserush",
+          "text": "@f1@"
+        }
+      },
+      "summary": {
+        "effectAmounts": {
+          "SlowResist": 0.5,
+          "Duration": 4,
+          "Window": 3,
+          "MinCooldown": 10,
+          "MaxCooldown": 20,
+          "RangedEffectiveness": 0.75,
+          "DamageThreshold": 0.25,
+          "HasteMax": 0.47999998927116394
+        },
+        "calculations": {
+          "CooldownCalc": {
+            "mSimpleTooltipCalculationDisplay": 4,
+            "mFormulaParts": [
+              {
+                "mStartValue": 20,
+                "mEndValue": 10,
+                "__type": "ByCharLevelInterpolationCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "MoveSpeedCalc": {
+            "mSimpleTooltipCalculationDisplay": 4,
+            "mFormulaParts": [
+              {
+                "mStartValue": 0.47999998927116394,
+                "mEndValue": 0.47999998927116394,
+                "__type": "ByCharLevelInterpolationCalculationPart"
+              }
+            ],
+            "mDisplayAsPercent": true,
+            "mRangedMultiplier": {
+              "mDataValue": "RangedEffectiveness",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            "__type": "{e9a3c91d}"
+          }
+        },
+        "otherModeOverrides": [
+          "URF"
+        ],
+        "hasDefaultScript": true,
+        "scriptPath": "ASSETS/Perks/Styles/Sorcery/PhaseRush/StormraidersSurge.lua"
+      }
+    },
+    {
+      "id": 8299,
+      "name": "坚毅不倒",
+      "scope": "范围内",
+      "previousMissing": [
+        "30%至60%生命之间的伤害增幅曲线"
+      ],
+      "sourcePath": "Perks/Styles/Precision/LastStand",
+      "sourceObjectSha256": "7018e5164c5d3756fa7082f8632502efb5fb4c44b802303c18dccec92a75255c",
+      "object": {
+        "mPerkId": 8299,
+        "mPerkName": "LastStand",
+        "mDisplayNameLocalizationKey": "perk_displayname_8234",
+        "mTooltipNameLocalizationKey": "perk_tooltip_8234",
+        "mShortDescLocalizationKey": "perk_short_desc_8234",
+        "mLongDescLocalizationKey": "perk_long_desc_8234",
+        "mEndOfGameStatDescriptions": [
+          "perk_eog_stat_desc_LastStand1"
+        ],
+        "mDisplayStatLocalizationKey": "perk_display_stat_total",
+        "mIconTextureName": "assets/perks/styles/sorcery/laststand/laststand.tex",
+        "mScript": {
+          "mSpellScriptName": "ASSETS/Perks/Styles/Sorcery/LastStand/LastStand.lua",
+          "mSpellScriptData": {
+            "mEffectAmount": {
+              "MinBonusDamagePercent": 0.05000000074505806,
+              "MaxBonusDamagePercent": 0.10999999940395355,
+              "HealthThresholdStart": 0.6000000238418579,
+              "HealthThresholdEnd": 0.30000001192092896
+            },
+            "__type": "PerkScriptData"
+          },
+          "__type": "PerkScript"
+        },
+        "__type": "Perk"
+      },
+      "bound": {
+        "mDisplayNameLocalizationKey": {
+          "sourceKey": "perk_displayname_8234",
+          "resolvedKey": "perk_displayname_8234",
+          "text": "坚毅不倒"
+        },
+        "mTooltipNameLocalizationKey": {
+          "sourceKey": "perk_tooltip_8234",
+          "resolvedKey": "perk_tooltip_8234",
+          "text": "{{perk_long_desc_8234}}<br><br><rules>最小加成为@MinBonusDamagePercent*100@%.<br>在生命值低于@HealthThresholdEnd*100@%时提供最大加成。</rules><br><hr><br>总加成伤害：<scaleAD>@f1@</scaleAD>"
+        },
+        "mShortDescLocalizationKey": {
+          "sourceKey": "perk_short_desc_8234",
+          "resolvedKey": "perk_short_desc_8234",
+          "text": "当你的生命值较低时，你的攻击对英雄多造成伤害。"
+        },
+        "mLongDescLocalizationKey": {
+          "sourceKey": "perk_long_desc_8234",
+          "resolvedKey": "perk_long_desc_8234",
+          "text": "当你的生命值低于@HealthThresholdStart.0*100@%时，对英雄多造成@MinBonusDamagePercent.0*100@% -@MaxBonusDamagePercent.0*100@%伤害。最大伤害会在@HealthThresholdEnd.0*100@%生命值时提供。"
+        },
+        "mDisplayStatLocalizationKey": {
+          "sourceKey": "perk_display_stat_total",
+          "resolvedKey": "perk_display_stat_total",
+          "text": "@f1@"
+        }
+      },
+      "summary": {
+        "effectAmounts": {
+          "MinBonusDamagePercent": 0.05000000074505806,
+          "MaxBonusDamagePercent": 0.10999999940395355,
+          "HealthThresholdStart": 0.6000000238418579,
+          "HealthThresholdEnd": 0.30000001192092896
+        },
+        "calculations": {},
+        "otherModeOverrides": [],
+        "hasDefaultScript": true,
+        "scriptPath": "ASSETS/Perks/Styles/Sorcery/LastStand/LastStand.lua"
+      }
+    },
+    {
+      "id": 8401,
+      "name": "护盾猛击",
+      "scope": "范围内",
+      "previousMissing": [
+        "5–30基础伤害等级值及适应选择"
+      ],
+      "sourcePath": "Perks/Styles/Resolve/ShieldBash",
+      "sourceObjectSha256": "6bb072aa25623345331c3efa1a2aa40117721112197d1e5eb7ab8972cc235bc5",
+      "object": {
+        "mPerkId": 8401,
+        "mPerkName": "ShieldBash",
+        "mDisplayNameLocalizationKey": "perk_displayname_ShieldBash",
+        "mTooltipNameLocalizationKey": "perk_tooltip_ShieldBash",
+        "mShortDescLocalizationKey": "perk_short_desc_ShieldBash",
+        "mLongDescLocalizationKey": "perk_long_desc_ShieldBash",
+        "mEndOfGameStatDescriptions": [
+          "perk_eog_stat_desc_ShieldBash1"
+        ],
+        "mDisplayStatLocalizationKey": "perk_display_stat_ShieldBash",
+        "mIconTextureName": "assets/perks/styles/resolve/mirrorshell/mirrorshell.tex",
+        "mScript": {
+          "mSpellScriptName": "ASSETS/Perks/Styles/Resolve/ShieldBash/ShieldBash.lua",
+          "mSpellScriptData": {
+            "mEffectAmount": {
+              "ProcDuration": 2,
+              "ShieldRatio": 15,
+              "BonusHealthRatio": 2.5,
+              "BonusShieldMult": 0.10000000149011612,
+              "ProcBaseMin": 5,
+              "ProcBaseMax": 30
+            },
+            "__type": "PerkScriptData"
+          },
+          "__type": "PerkScript"
+        },
+        "mBuffs": [
+          {
+            "mBuffScriptName": "ASSETS/Perks/Styles/Resolve/ShieldBash/ShieldBashProc.lua",
+            "__type": "PerkBuff"
+          }
+        ],
+        "mMajorChangePatchVersion": "8.23",
+        "__type": "Perk"
+      },
+      "bound": {
+        "mDisplayNameLocalizationKey": {
+          "sourceKey": "perk_displayname_ShieldBash",
+          "resolvedKey": "perk_displayname_shieldbash",
+          "text": "护盾猛击"
+        },
+        "mTooltipNameLocalizationKey": {
+          "sourceKey": "perk_tooltip_ShieldBash",
+          "resolvedKey": "perk_tooltip_shieldbash",
+          "text": "在你获得一个新的护盾时，你的下一次对英雄发起的普攻造成<scaleLevel>@f4@</scaleLevel><scaleHealth>(+@f2@)</scaleHealth><scaleMana>(+@ShieldRatio.1@%新护盾值)</scaleMana>额外{{perk_substring_shieldbashadaptive_@f5@}}。<br><br>在护盾消散后，你最多有@ProcDuration@秒的时间来使用这个效果。<br><hr><br>已造成的伤害总和：@f1@"
+        },
+        "mShortDescLocalizationKey": {
+          "sourceKey": "perk_short_desc_ShieldBash",
+          "resolvedKey": "perk_short_desc_shieldbash",
+          "text": "当你获得一个护盾时，你的下次对英雄发起的普攻造成额外<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_Adaptive'><font color='#48C4B7'>自适应</font></lol-uikit-tooltipped-keyword>伤害。"
+        },
+        "mLongDescLocalizationKey": {
+          "sourceKey": "perk_long_desc_ShieldBash",
+          "resolvedKey": "perk_long_desc_shieldbash",
+          "text": "在你获得一个新的护盾时，你的下一次对英雄发起的普攻造成<scaleLevel>@ProcBaseMin@ - @ProcBaseMax@</scaleLevel><scaleHealth>(+@BonusHealthRatio.1@%额外生命值)</scaleHealth><scaleMana>(+@ShieldRatio.1@%新护盾值)</scaleMana>额外<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_Adaptive'><font color='#48C4B7'>自适应</font></lol-uikit-tooltipped-keyword>伤害。<br><br>在护盾消散后，你最多有@ProcDuration@秒的时间来使用这个效果。"
+        },
+        "mDisplayStatLocalizationKey": {
+          "sourceKey": "perk_display_stat_ShieldBash",
+          "resolvedKey": "perk_display_stat_shieldbash",
+          "text": "@f1@"
+        }
+      },
+      "summary": {
+        "effectAmounts": {
+          "ProcDuration": 2,
+          "ShieldRatio": 15,
+          "BonusHealthRatio": 2.5,
+          "BonusShieldMult": 0.10000000149011612,
+          "ProcBaseMin": 5,
+          "ProcBaseMax": 30
+        },
+        "calculations": {},
+        "otherModeOverrides": [],
+        "hasDefaultScript": true,
+        "scriptPath": "ASSETS/Perks/Styles/Resolve/ShieldBash/ShieldBash.lua"
+      }
+    },
+    {
+      "id": 8473,
+      "name": "骸骨镀层",
+      "scope": "范围内",
+      "previousMissing": [
+        "30–60固定减伤的完整等级值"
+      ],
+      "sourcePath": "Perks/Styles/Resolve/BonePlating",
+      "sourceObjectSha256": "b6bded21fa71c2b2ad672482c43aea5589149be90f20226378157c88fa4faad1",
+      "object": {
+        "mPerkId": 8473,
+        "mPerkName": "BonePlating",
+        "mDisplayNameLocalizationKey": "perk_displayname_BonePlating",
+        "mTooltipNameLocalizationKey": "perk_tooltip_BonePlatingTooltip",
+        "mShortDescLocalizationKey": "perk_short_desc_BonePlating",
+        "mLongDescLocalizationKey": "perk_long_desc_BonePlating",
+        "mEndOfGameStatDescriptions": [
+          "perk_eog_stat_desc_BonePlating"
+        ],
+        "mDisplayStatLocalizationKey": "perk_display_stat_total",
+        "mIconTextureName": "assets/perks/styles/resolve/boneplating/boneplating.tex",
+        "mScript": {
+          "mSpellScriptName": "ASSETS/Perks/Styles/Resolve/BonePlating/BonePlating.lua",
+          "mSpellScriptData": {
+            "mEffectAmount": {
+              "BlockBase": 30,
+              "BlockMax": 60,
+              "BlockCount": 3,
+              "BlockDuration": 1.5,
+              "Cooldown": 55
+            },
+            "mEffectAmountGameMode": {
+              "ARAM": {
+                "mEffectAmountPerMode": {
+                  "Cooldown": 40
+                },
+                "__type": "PerkEffectAmountPerMode"
+              }
+            },
+            "mCalculations": {
+              "BlockCalc": {
+                "mSimpleTooltipCalculationDisplay": 4,
+                "mFormulaParts": [
+                  {
+                    "mStartValue": 30,
+                    "mEndValue": 60,
+                    "__type": "ByCharLevelInterpolationCalculationPart"
+                  }
+                ],
+                "__type": "GameCalculation"
+              }
+            },
+            "__type": "PerkScriptData"
+          },
+          "__type": "PerkScript"
+        },
+        "mBuffs": [
+          {
+            "mBuffScriptName": "ASSETS/Perks/Styles/Resolve/BonePlating/BonePlating.lua",
+            "mBuffSpellObject": {
+              "mBuff": {
+                "mDescription": "buff_desc_BonePlatingBlocking",
+                "__type": "BuffData"
+              },
+              "__type": "SpellObject"
+            },
+            "__type": "PerkBuff"
+          },
+          {
+            "mBuffScriptName": "ASSETS/Perks/Styles/Resolve/BonePlating/BonePlatingCD.lua",
+            "mBuffSpellObject": {
+              "mBuff": {
+                "mDescription": "buff_desc_BonePlatingCD",
+                "__type": "BuffData"
+              },
+              "__type": "SpellObject"
+            },
+            "__type": "PerkBuff"
+          },
+          {
+            "mBuffScriptName": "ASSETS/Perks/Styles/Resolve/BonePlating/BonePlatingReady.lua",
+            "mBuffSpellObject": {
+              "mBuff": {
+                "mDescription": "buff_desc_BonePlatingBlocking",
+                "__type": "BuffData"
+              },
+              "__type": "SpellObject"
+            },
+            "__type": "PerkBuff"
+          }
+        ],
+        "mVFXResourceResolver": {
+          "resourceMap": {
+            "BonePlating_Buckler2": "Perks/Styles/Resolve/BonePlating/Particles/BonePlating_Buckler2",
+            "Perks_BonePlating_Break": "Perks/Styles/Resolve/BonePlating/Particles/Perks_BonePlating_Break"
+          },
+          "__type": "ResourceResolver"
+        },
+        "mMajorChangePatchVersion": "9.9",
+        "__type": "Perk"
+      },
+      "bound": {
+        "mDisplayNameLocalizationKey": {
+          "sourceKey": "perk_displayname_BonePlating",
+          "resolvedKey": "perk_displayname_boneplating",
+          "text": "骸骨镀层"
+        },
+        "mTooltipNameLocalizationKey": {
+          "sourceKey": "perk_tooltip_BonePlatingTooltip",
+          "resolvedKey": "perk_tooltip_boneplatingtooltip",
+          "text": "在承受来自一名敌方英雄的伤害后，你所受的下@BlockCount@次来自英雄的技能或攻击将少造成@BlockCalc@伤害。<br>持续时长：@BlockDuration.1@秒<br>冷却时间：@Cooldown@秒<br><br>减少的伤害总和：<scaleLevel>@f1@</scaleLevel>"
+        },
+        "mShortDescLocalizationKey": {
+          "sourceKey": "perk_short_desc_BonePlating",
+          "resolvedKey": "perk_short_desc_boneplating",
+          "text": "{{perk_long_desc_BonePlating}}"
+        },
+        "mLongDescLocalizationKey": {
+          "sourceKey": "perk_long_desc_BonePlating",
+          "resolvedKey": "perk_long_desc_boneplating",
+          "text": "在承受来自一名敌方英雄的伤害后，你所受的下@BlockCount@次来自英雄的技能或攻击将少造成@BlockBase@-@BlockMax@伤害(基于等级)。<br><br>持续时长：@BlockDuration@秒<br>冷却时间：@Cooldown@秒"
+        },
+        "mDisplayStatLocalizationKey": {
+          "sourceKey": "perk_display_stat_total",
+          "resolvedKey": "perk_display_stat_total",
+          "text": "@f1@"
+        }
+      },
+      "summary": {
+        "effectAmounts": {
+          "BlockBase": 30,
+          "BlockMax": 60,
+          "BlockCount": 3,
+          "BlockDuration": 1.5,
+          "Cooldown": 55
+        },
+        "calculations": {
+          "BlockCalc": {
+            "mSimpleTooltipCalculationDisplay": 4,
+            "mFormulaParts": [
+              {
+                "mStartValue": 30,
+                "mEndValue": 60,
+                "__type": "ByCharLevelInterpolationCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          }
+        },
+        "otherModeOverrides": [
+          "ARAM"
+        ],
+        "hasDefaultScript": true,
+        "scriptPath": "ASSETS/Perks/Styles/Resolve/BonePlating/BonePlating.lua"
+      }
+    },
+    {
+      "id": 8369,
+      "name": "先攻",
+      "scope": "混合保留",
+      "previousMissing": [
+        "25–15秒冷却等级值"
+      ],
+      "sourcePath": "Perks/Styles/Inspiration/FirstStrike",
+      "sourceObjectSha256": "c4fa298e6da87419af4f518a7383cbc3c7e3367fa875518dca8867066d9d4112",
+      "object": {
+        "mPerkId": 8369,
+        "mPerkName": "FirstStrike",
+        "mDisplayNameLocalizationKey": "perk_displayname_FirstStrike",
+        "mTooltipNameLocalizationKey": "perk_tooltip_FirstStrike",
+        "mShortDescLocalizationKey": "perk_short_desc_FirstStrike",
+        "mLongDescLocalizationKey": "perk_long_desc_FirstStrike",
+        "mEndOfGameStatDescriptions": [
+          "perk_eog_stat_desc_FirstStrike",
+          "perk_eog2_stat_desc_FirstStrike"
+        ],
+        "mDisplayStatLocalizationKey": "perk_display_stat_FirstStrike",
+        "mIconTextureName": "assets/perks/styles/inspiration/firststrike/firststrike.tex",
+        "mScript": {
+          "mSpellScriptName": "ASSETS/Perks/Styles/Inspiration/FirstStrike/FirstStrike.lua",
+          "mSpellScriptData": {
+            "mEffectAmount": {
+              "Duration": 3,
+              "DamageAmp": 0.07000000029802322,
+              "OOCTimer": 10,
+              "GoldProcBonus": 10,
+              "GoldPercentBonus": 0.5,
+              "GoldPercentBonusRanged": 0.3499999940395355,
+              "GraceWindow": 0.25,
+              "TooltipOnlyCooldownStartAmount": 25,
+              "TooltipOnlyCooldownEndAmount": 15,
+              "MissileNoiseNumberLimiter": 3,
+              "MissileNoiseRangeLimiter": 1500,
+              "ModesCooldownReduction": 1,
+              "{b50bc5ec}": 0.5,
+              "{7563bf99}": 0.699999988079071
+            },
+            "mEffectAmountGameMode": {
+              "URF": {
+                "mEffectAmountPerMode": {
+                  "ModesCooldownReduction": 0.6000000238418579
+                },
+                "__type": "PerkEffectAmountPerMode"
+              },
+              "ARAM": {
+                "mEffectAmountPerMode": {
+                  "GoldProcBonus": 15,
+                  "GoldPercentBonus": 0.6000000238418579,
+                  "GoldPercentBonusRanged": 0.44999998807907104,
+                  "{b50bc5ec}": 0.6000000238418579
+                },
+                "__type": "PerkEffectAmountPerMode"
+              }
+            },
+            "mCalculations": {
+              "Cooldown": {
+                "mFormulaParts": [
+                  {
+                    "mPart1": {
+                      "mStartValue": 25,
+                      "mEndValue": 15,
+                      "mScalePastDefaultMaxLevel": false,
+                      "__type": "ByCharLevelInterpolationCalculationPart"
+                    },
+                    "mPart2": {
+                      "mDataValue": "ModesCooldownReduction",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    "__type": "ProductOfSubPartsCalculationPart"
+                  }
+                ],
+                "__type": "GameCalculation"
+              },
+              "ChampRange": {
+                "mSimpleTooltipCalculationDisplay": 5,
+                "mExpandedTooltipCalculationDisplay": 5,
+                "mDefaultGameCalculation": "{792cf56b}",
+                "mConditionalGameCalculation": "{06387172}",
+                "mConditionalCalculationRequirements": {
+                  "__type": "IsRangedCastRequirement"
+                },
+                "__type": "GameCalculationConditional"
+              },
+              "MeleeItemCalcValue": {
+                "mSimpleTooltipCalculationDisplay": 6,
+                "mExpandedTooltipCalculationDisplay": 6,
+                "mFormulaParts": [
+                  {
+                    "mDataValue": "{b50bc5ec}",
+                    "__type": "NamedDataValueCalculationPart"
+                  }
+                ],
+                "mDisplayAsPercent": true,
+                "__type": "GameCalculation"
+              },
+              "RangedItemCalcValue": {
+                "mMultiplier": {
+                  "mDataValue": "{7563bf99}",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                "mModifiedGameCalculation": "MeleeItemCalcValue",
+                "__type": "GameCalculationModified"
+              },
+              "{792cf56b}": {
+                "mFormulaParts": [
+                  {
+                    "mNumber": 1,
+                    "__type": "NumberCalculationPart"
+                  }
+                ],
+                "__type": "GameCalculation"
+              },
+              "{06387172}": {
+                "mFormulaParts": [
+                  {
+                    "mNumber": 2,
+                    "__type": "NumberCalculationPart"
+                  }
+                ],
+                "__type": "GameCalculation"
+              }
+            },
+            "__type": "PerkScriptData"
+          },
+          "__type": "PerkScript"
+        },
+        "mBuffs": [
+          {
+            "mBuffScriptName": "ASSETS/Perks/Styles/Inspiration/FirstStrike/FirstStrikeCD.lua",
+            "mBuffSpellObject": {
+              "mBuff": {
+                "mDescription": "Buff_Perks_FirstStrike_Cooldown",
+                "__type": "BuffData"
+              },
+              "__type": "SpellObject"
+            },
+            "__type": "PerkBuff"
+          },
+          {
+            "mBuffScriptName": "ASSETS/Perks/Styles/Inspiration/FirstStrike/FirstStrikeAvailable.lua",
+            "mBuffSpellObject": {
+              "mBuff": {
+                "mDescription": "buff_desc_FirstStrike_Available",
+                "PersistentEffectConditions": [
+                  {
+                    "PersistentVfxs": [
+                      {
+                        "boneName": "C_Buffbone_Glb_Layout_Loc",
+                        "effectKey": "{0e8e91a5}",
+                        "__type": "PersistentVfxData"
+                      }
+                    ],
+                    "__type": "PersistentEffectConditionData"
+                  }
+                ],
+                "__type": "BuffData"
+              },
+              "__type": "SpellObject"
+            },
+            "__type": "PerkBuff"
+          },
+          {
+            "mBuffScriptName": "ASSETS/Perks/Styles/Inspiration/FirstStrike/FirstStrike.lua",
+            "mBuffSpellObject": {
+              "mBuff": {
+                "mDescription": "buff_desc_FirstStrike",
+                "PersistentEffectConditions": [
+                  {
+                    "PersistentVfxs": [
+                      {
+                        "boneName": "C_Buffbone_Glb_Layout_Loc",
+                        "effectKey": "{601bd6a1}",
+                        "__type": "PersistentVfxData"
+                      }
+                    ],
+                    "__type": "PersistentEffectConditionData"
+                  }
+                ],
+                "__type": "BuffData"
+              },
+              "__type": "SpellObject"
+            },
+            "__type": "PerkBuff"
+          }
+        ],
+        "mVFXResourceResolver": {
+          "resourceMap": {
+            "{03659ab7}": "Perks/Styles/Inspiration/FirstStrike/Particles/Perks_FirstStrike_Mis",
+            "{2978064b}": "Perks/Styles/Inspiration/FirstStrike/Particles/Perks_FirstStrike_Tar",
+            "{0e8e91a5}": "Perks/Styles/Inspiration/FirstStrike/Particles/Perks_FirstStrike_Buff",
+            "{41cbbf7e}": "Perks/Styles/Inspiration/FirstStrike/Particles/Perks_FirstStrike_Buff_Start",
+            "{0604a5cd}": "Perks/Styles/Inspiration/FirstStrike/Particles/Perks_FirstStrike_GoldReward",
+            "{601bd6a1}": "Perks/Styles/Inspiration/FirstStrike/Particles/Perks_FirstStrike_Buff_Activated",
+            "{37975d3a}": "Perks/Styles/Inspiration/FirstStrike/Particles/Perks_FirstStrike_Fail"
+          },
+          "__type": "ResourceResolver"
+        },
+        "mMajorChangePatchVersion": "11.23",
+        "__type": "Perk"
+      },
+      "bound": {
+        "mDisplayNameLocalizationKey": {
+          "sourceKey": "perk_displayname_FirstStrike",
+          "resolvedKey": "perk_displayname_firststrike",
+          "text": "先攻"
+        },
+        "mTooltipNameLocalizationKey": {
+          "sourceKey": "perk_tooltip_FirstStrike",
+          "resolvedKey": "perk_tooltip_firststrike",
+          "text": "在进入与英雄战斗的@GraceWindow.2@秒内，对一名敌方英雄进行的攻击或技能将提供@GoldProcBonus@金币和<b>先攻</b>效果，持续@Duration@秒，来使你对英雄们造成<truedamage>@DamageAmp*100@%</truedamage>额外<truedamage>伤害</truedamage>，并提供<gold>{{ Item_Melee_Ranged_Split }}</gold>%该额外伤害值的<gold>金币</gold>。<br><br>冷却时间：<scaleLevel>@Cooldown@</scaleLevel>秒<br><hr><br>已造成的伤害：@f1@<br>已获得金币：@f2@"
+        },
+        "mShortDescLocalizationKey": {
+          "sourceKey": "perk_short_desc_FirstStrike",
+          "resolvedKey": "perk_short_desc_firststrike",
+          "text": "在你率先发起与英雄的战斗时，造成@DamageAmp*100@%额外伤害，持续@Duration@秒，并基于该额外伤害提供金币。"
+        },
+        "mLongDescLocalizationKey": {
+          "sourceKey": "perk_long_desc_FirstStrike",
+          "resolvedKey": "perk_long_desc_firststrike",
+          "text": "在进入与英雄战斗的@GraceWindow@秒内，对一名敌方英雄进行的攻击或技能将提供@GoldProcBonus@金币和<b>先攻</b>效果，持续@Duration@秒，来使你对英雄们造成<truedamage>@DamageAmp*100@%</truedamage>额外<truedamage>伤害</truedamage>，并提供<gold>@GoldPercentBonus*100@% (远程英雄为@GoldPercentBonusRanged*100@%)</gold>该额外伤害值的<gold>金币</gold>。<br><br>冷却时间：<scaleLevel>@TooltipOnlyCooldownStartAmount@ - @TooltipOnlyCooldownEndAmount@</scaleLevel>秒"
+        },
+        "mDisplayStatLocalizationKey": {
+          "sourceKey": "perk_display_stat_FirstStrike",
+          "resolvedKey": "perk_display_stat_firststrike",
+          "text": "@f1@"
+        }
+      },
+      "summary": {
+        "effectAmounts": {
+          "Duration": 3,
+          "DamageAmp": 0.07000000029802322,
+          "OOCTimer": 10,
+          "GoldProcBonus": 10,
+          "GoldPercentBonus": 0.5,
+          "GoldPercentBonusRanged": 0.3499999940395355,
+          "GraceWindow": 0.25,
+          "TooltipOnlyCooldownStartAmount": 25,
+          "TooltipOnlyCooldownEndAmount": 15,
+          "MissileNoiseNumberLimiter": 3,
+          "MissileNoiseRangeLimiter": 1500,
+          "ModesCooldownReduction": 1,
+          "{b50bc5ec}": 0.5,
+          "{7563bf99}": 0.699999988079071
+        },
+        "calculations": {
+          "Cooldown": {
+            "mFormulaParts": [
+              {
+                "mPart1": {
+                  "mStartValue": 25,
+                  "mEndValue": 15,
+                  "mScalePastDefaultMaxLevel": false,
+                  "__type": "ByCharLevelInterpolationCalculationPart"
+                },
+                "mPart2": {
+                  "mDataValue": "ModesCooldownReduction",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                "__type": "ProductOfSubPartsCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "ChampRange": {
+            "mSimpleTooltipCalculationDisplay": 5,
+            "mExpandedTooltipCalculationDisplay": 5,
+            "mDefaultGameCalculation": "{792cf56b}",
+            "mConditionalGameCalculation": "{06387172}",
+            "mConditionalCalculationRequirements": {
+              "__type": "IsRangedCastRequirement"
+            },
+            "__type": "GameCalculationConditional"
+          },
+          "MeleeItemCalcValue": {
+            "mSimpleTooltipCalculationDisplay": 6,
+            "mExpandedTooltipCalculationDisplay": 6,
+            "mFormulaParts": [
+              {
+                "mDataValue": "{b50bc5ec}",
+                "__type": "NamedDataValueCalculationPart"
+              }
+            ],
+            "mDisplayAsPercent": true,
+            "__type": "GameCalculation"
+          },
+          "RangedItemCalcValue": {
+            "mMultiplier": {
+              "mDataValue": "{7563bf99}",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            "mModifiedGameCalculation": "MeleeItemCalcValue",
+            "__type": "GameCalculationModified"
+          },
+          "{792cf56b}": {
+            "mFormulaParts": [
+              {
+                "mNumber": 1,
+                "__type": "NumberCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "{06387172}": {
+            "mFormulaParts": [
+              {
+                "mNumber": 2,
+                "__type": "NumberCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          }
+        },
+        "otherModeOverrides": [
+          "URF",
+          "ARAM"
+        ],
+        "hasDefaultScript": true,
+        "scriptPath": "ASSETS/Perks/Styles/Inspiration/FirstStrike/FirstStrike.lua"
+      }
+    },
+    {
+      "id": 8224,
+      "name": "公理秘术",
+      "scope": "混合保留",
+      "previousMissing": [],
+      "sourcePath": "Perks/Styles/Sorcery/NullifyingOrb",
+      "sourceObjectSha256": "aafa17fce954cebb42674bf04334a78ee7797cbee5a87d1946a248f68be4c525",
+      "object": {
+        "mPerkId": 8224,
+        "mPerkName": "NullifyingOrb",
+        "mDisplayNameLocalizationKey": "perk_displayname_AxiomArcanist",
+        "mTooltipNameLocalizationKey": "perk_tooltip_AxiomArcanist",
+        "mShortDescLocalizationKey": "perk_short_desc_AxiomArcanist",
+        "mLongDescLocalizationKey": "perk_long_desc_AxiomArcanist",
+        "mEndOfGameStatDescriptions": [
+          "perk_eog_stat_desc_AxiomArcanist",
+          "perk_eog_stat_desc_AxiomArcanist_2"
+        ],
+        "mDisplayStatLocalizationKey": "perk_display_stat_AxiomArcanist",
+        "mIconTextureName": "assets/perks/styles/sorcery/nullifyingorb/axiom_arcanist.tex",
+        "mScript": {
+          "mSpellScriptName": "ASSETS/Perks/Styles/Sorcery/NullifyingOrb/AxiomArcanist.lua",
+          "mSpellScriptData": {
+            "mEffectAmount": {
+              "UltimateRefundBase": 7,
+              "DamageAmp": 0.11999999731779099,
+              "AOEAmp": 0.07999999821186066
+            },
+            "__type": "PerkScriptData"
+          },
+          "__type": "PerkScript"
+        },
+        "mVFXResourceResolver": {
+          "resourceMap": {
+            "Perks_NullifyingOrb_Shield": "Perks/Styles/Sorcery/NullifyingOrb/Particles/Perks_NullifyingOrb_Shield",
+            "Perks_NullifyingOrb_Shield_Break": "Perks/Styles/Sorcery/NullifyingOrb/Particles/Perks_NullifyingOrb_Shield_Break"
+          },
+          "__type": "ResourceResolver"
+        },
+        "mMajorChangePatchVersion": "14.1",
+        "__type": "Perk"
+      },
+      "bound": {
+        "mDisplayNameLocalizationKey": {
+          "sourceKey": "perk_displayname_AxiomArcanist",
+          "resolvedKey": "perk_displayname_axiomarcanist",
+          "text": "公理秘术"
+        },
+        "mTooltipNameLocalizationKey": {
+          "sourceKey": "perk_tooltip_AxiomArcanist",
+          "resolvedKey": "perk_tooltip_axiomarcanist",
+          "text": "你的终极技能的伤害、治疗和护盾提升@DamageAmp*100@%。<br>(群体伤害的提升幅度会降低至@AOEAmp*100@%)<br><br>参与击杀一名敌方英雄后，会使你的终极技能的当前冷却时间缩短@UltimateRefundBase@%。<br><br>已缩短的终极技能冷却：@f1@秒<br>对英雄的额外终极技能伤害/治疗/护盾：@f2@"
+        },
+        "mShortDescLocalizationKey": {
+          "sourceKey": "perk_short_desc_AxiomArcanist",
+          "resolvedKey": "perk_short_desc_axiomarcanist",
+          "text": "你的终极技能的伤害、治疗和护盾获得提升。参与击杀一名敌方英雄后，会使你的终极技能的当前冷却时间缩短。"
+        },
+        "mLongDescLocalizationKey": {
+          "sourceKey": "perk_long_desc_AxiomArcanist",
+          "resolvedKey": "perk_long_desc_axiomarcanist",
+          "text": "你的终极技能的伤害、治疗和护盾提升@DamageAmp*100@%。<br>(群体伤害的提升幅度会降低至@AOEAmp*100@%)<br><br>参与击杀一名敌方英雄后，会使你的终极技能的当前冷却时间缩短@UltimateRefundBase@%。"
+        },
+        "mDisplayStatLocalizationKey": {
+          "sourceKey": "perk_display_stat_AxiomArcanist",
+          "resolvedKey": "perk_display_stat_axiomarcanist",
+          "text": "@f2@"
+        }
+      },
+      "summary": {
+        "effectAmounts": {
+          "UltimateRefundBase": 7,
+          "DamageAmp": 0.11999999731779099,
+          "AOEAmp": 0.07999999821186066
+        },
+        "calculations": {},
+        "otherModeOverrides": [],
+        "hasDefaultScript": true,
+        "scriptPath": "ASSETS/Perks/Styles/Sorcery/NullifyingOrb/AxiomArcanist.lua"
+      }
+    },
+    {
+      "id": 8992,
+      "name": "冥火之触",
+      "scope": "范围内",
+      "previousMissing": [
+        "3–12每秒伤害等级值和真实跳频"
+      ],
+      "sourcePath": "Perks/Styles/Sorcery/DeathfireTouch",
+      "sourceObjectSha256": "4820692d748b638eeb346fcc2933afd0a44769a672b44c7d2c337d60d3e7d453",
+      "object": {
+        "mPerkId": 8992,
+        "mPerkName": "DeathfireTouch",
+        "mDisplayNameLocalizationKey": "perk_displayname_DeathfireTouch",
+        "mTooltipNameLocalizationKey": "perk_tooltip_DeathfireTouch",
+        "mShortDescLocalizationKey": "perk_short_desc_DeathfireTouch",
+        "mLongDescLocalizationKey": "perk_long_desc_DeathfireTouch",
+        "mEndOfGameStatDescriptions": [
+          "perk_eog_stat_desc_DeathfireTouch"
+        ],
+        "mDisplayStatLocalizationKey": "perk_display_stat_total",
+        "mIconTextureName": "assets/perks/styles/sorcery/deathfiretouch/deathfire_touch_keystone.tex",
+        "mScript": {
+          "mSpellScriptName": "ASSETS/Perks/Styles/Sorcery/DeathfireTouch/DeathfireTouchManager.lua",
+          "mSpellScriptData": {
+            "mEffectAmount": {
+              "ADRatio": 0.07000000029802322,
+              "APRatio": 0.02500000037252903,
+              "Duration": 4,
+              "TimeToAmp": 3,
+              "DamageMultiplier": 0.75,
+              "AoEDuration": 2,
+              "DotDuration": 1,
+              "Level1DamageTOOLTIP": 3,
+              "{2156e250}": 12,
+              "TicksPerSecond": 2,
+              "APRatioTT": 2.5,
+              "ADRatioTT": 7
+            },
+            "mCalculations": {
+              "DamageCalc": {
+                "mSimpleTooltipCalculationDisplay": 4,
+                "mFormulaParts": [
+                  {
+                    "mStartValue": 3,
+                    "mEndValue": 12,
+                    "__type": "ByCharLevelInterpolationCalculationPart"
+                  },
+                  {
+                    "mDataValue": "APRatio",
+                    "__type": "StatByNamedDataValueCalculationPart"
+                  },
+                  {
+                    "mStat": 2,
+                    "mStatFormula": 2,
+                    "mDataValue": "ADRatio",
+                    "__type": "StatByNamedDataValueCalculationPart"
+                  }
+                ],
+                "__type": "GameCalculation"
+              }
+            },
+            "__type": "PerkScriptData"
+          },
+          "__type": "PerkScript"
+        },
+        "mBuffs": [
+          {
+            "mBuffScriptName": "ASSETS/Perks/Styles/Sorcery/DeathfireTouch/DeathfireTouchManager.lua",
+            "mBuffSpellObject": {
+              "mBuff": {
+                "mDescription": "buff_desc_DFT_On",
+                "__type": "BuffData"
+              },
+              "__type": "SpellObject"
+            },
+            "__type": "PerkBuff"
+          },
+          {
+            "mBuffScriptName": "ASSETS/Perks/Styles/Sorcery/DeathfireTouch/DeathfireTouchBurn.lua",
+            "mBuffSpellObject": {
+              "mBuff": {
+                "mDescription": "buff_desc_DFT_burn",
+                "__type": "BuffData"
+              },
+              "__type": "SpellObject"
+            },
+            "__type": "PerkBuff"
+          }
+        ],
+        "mVFXResourceResolver": {
+          "resourceMap": {
+            "{1eaac5b4}": "Perks/Styles/Sorcery/DeathfireTouch/Particles/TargetBurn",
+            "{3196bce7}": "Perks/Styles/Sorcery/DeathfireTouch/Particles/TargetBurnEnhanced"
+          },
+          "__type": "ResourceResolver"
+        },
+        "mMajorChangePatchVersion": "16.9",
+        "__type": "Perk"
+      },
+      "bound": {
+        "mDisplayNameLocalizationKey": {
+          "sourceKey": "perk_displayname_DeathfireTouch",
+          "resolvedKey": "perk_displayname_deathfiretouch",
+          "text": "冥火之触"
+        },
+        "mTooltipNameLocalizationKey": {
+          "sourceKey": "perk_tooltip_DeathfireTouch",
+          "resolvedKey": "perk_tooltip_deathfiretouch",
+          "text": "用一个技能对一名英雄造成伤害时，会灼烧其造成每秒<magicDamage>@DamageCalc@魔法伤害</magicDamage>。在灼烧@TimeToAmp@秒之后，如果该目标仍在着火状态，则这个灼烧的伤害提升@DamageMultiplier*100@%。<br><rules><br>持续时长：<br>单体目标技能：@Duration@秒<br>群体目标技能：@AoEDuration@秒<br>持续伤害技能：@DotDuration@秒<br></rules><br>你已通过【冥火之触】的灼烧对英雄们造成了@f1@伤害。"
+        },
+        "mShortDescLocalizationKey": {
+          "sourceKey": "perk_short_desc_DeathfireTouch",
+          "resolvedKey": "perk_short_desc_deathfiretouch",
+          "text": "用一个技能对一名英雄造成伤害时，会持续灼烧该英雄。"
+        },
+        "mLongDescLocalizationKey": {
+          "sourceKey": "perk_long_desc_DeathfireTouch",
+          "resolvedKey": "perk_long_desc_deathfiretouch",
+          "text": "用一个技能对一名英雄造成伤害时，会灼烧其造成每秒@Level1DamageTOOLTIP@ - @Level18DamageTOOLTIP@ 基于等级 (+<scaleAP>@APRatioTT.1@%法术强度</scaleAP>) (+<scaleAD>@ADRatioTT@%额外攻击力</scaleAD>)魔法伤害。在灼烧@TimeToAmp@秒之后，如果该目标仍在着火状态，则这个灼烧的伤害提升@DamageMultiplier*100@%。<br><rules><br>持续时长：<br>单体目标技能：@Duration@秒<br>群体目标技能：@AoEDuration@秒<br>持续伤害技能：@DotDuration@秒<br></rules>"
+        },
+        "mDisplayStatLocalizationKey": {
+          "sourceKey": "perk_display_stat_total",
+          "resolvedKey": "perk_display_stat_total",
+          "text": "@f1@"
+        }
+      },
+      "summary": {
+        "effectAmounts": {
+          "ADRatio": 0.07000000029802322,
+          "APRatio": 0.02500000037252903,
+          "Duration": 4,
+          "TimeToAmp": 3,
+          "DamageMultiplier": 0.75,
+          "AoEDuration": 2,
+          "DotDuration": 1,
+          "Level1DamageTOOLTIP": 3,
+          "{2156e250}": 12,
+          "TicksPerSecond": 2,
+          "APRatioTT": 2.5,
+          "ADRatioTT": 7
+        },
+        "calculations": {
+          "DamageCalc": {
+            "mSimpleTooltipCalculationDisplay": 4,
+            "mFormulaParts": [
+              {
+                "mStartValue": 3,
+                "mEndValue": 12,
+                "__type": "ByCharLevelInterpolationCalculationPart"
+              },
+              {
+                "mDataValue": "APRatio",
+                "__type": "StatByNamedDataValueCalculationPart"
+              },
+              {
+                "mStat": 2,
+                "mStatFormula": 2,
+                "mDataValue": "ADRatio",
+                "__type": "StatByNamedDataValueCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          }
+        },
+        "otherModeOverrides": [],
+        "hasDefaultScript": true,
+        "scriptPath": "ASSETS/Perks/Styles/Sorcery/DeathfireTouch/DeathfireTouchManager.lua"
+      }
+    },
+    {
+      "id": 8236,
+      "name": "风暴聚集",
+      "scope": "范围内",
+      "previousMissing": [
+        "60分钟后的增长规则及适应选择"
+      ],
+      "sourcePath": "Perks/Styles/Sorcery/GatheringStorm",
+      "sourceObjectSha256": "e40f475bb3cbf440b92ec0d82d192d6901df85f4b8f04e30cc704b115d062839",
+      "object": {
+        "mPerkId": 8236,
+        "mPerkName": "GatheringStorm",
+        "mDisplayNameLocalizationKey": "perk_displayname_GatheringStorm",
+        "mTooltipNameLocalizationKey": "perk_tooltip_GatheringStorm",
+        "mShortDescLocalizationKey": "perk_short_desc_GatheringStorm",
+        "mLongDescLocalizationKey": "perk_long_desc_GatheringStorm",
+        "mEndOfGameStatDescriptions": [
+          "perk_eog_stat_desc_GatheringStorm1"
+        ],
+        "mDisplayStatLocalizationKey": "perk_display_stat_adaptive",
+        "mIconTextureName": "assets/perks/styles/sorcery/gatheringstorm/gatheringstorm.tex",
+        "mScript": {
+          "mSpellScriptName": "ASSETS/Perks/Styles/Sorcery/GatheringStorm/GatheringStorm.lua",
+          "mSpellScriptData": {
+            "mEffectAmount": {
+              "UpdateAfterMinutes": 10,
+              "AdaptiveAP": 8,
+              "AdaptiveAD": 6,
+              "{c5d14564}": 8
+            },
+            "mEffectAmountGameMode": {
+              "NEXUSBLITZ": {
+                "mEffectAmountPerMode": {
+                  "UpdateAfterMinutes": 4.5
+                },
+                "__type": "PerkEffectAmountPerMode"
+              },
+              "URF": {
+                "mEffectAmountPerMode": {
+                  "UpdateAfterMinutes": 6
+                },
+                "__type": "PerkEffectAmountPerMode"
+              },
+              "ARAM": {
+                "mEffectAmountPerMode": {
+                  "UpdateAfterMinutes": 6
+                },
+                "__type": "PerkEffectAmountPerMode"
+              },
+              "KINGPORO": {
+                "mEffectAmountPerMode": {
+                  "UpdateAfterMinutes": 6
+                },
+                "__type": "PerkEffectAmountPerMode"
+              },
+              "SWIFTPLAY": {
+                "mEffectAmountPerMode": {
+                  "UpdateAfterMinutes": 7
+                },
+                "__type": "PerkEffectAmountPerMode"
+              },
+              "{a110bc47}": {
+                "mEffectAmountPerMode": {
+                  "UpdateAfterMinutes": 4
+                },
+                "__type": "PerkEffectAmountPerMode"
+              },
+              "Ruby": {
+                "mEffectAmountPerMode": {
+                  "UpdateAfterMinutes": 4
+                },
+                "__type": "PerkEffectAmountPerMode"
+              },
+              "RUBY_TRIAL_1": {
+                "mEffectAmountPerMode": {
+                  "UpdateAfterMinutes": 4
+                },
+                "__type": "PerkEffectAmountPerMode"
+              },
+              "RUBY_TRIAL_2": {
+                "mEffectAmountPerMode": {
+                  "UpdateAfterMinutes": 4
+                },
+                "__type": "PerkEffectAmountPerMode"
+              },
+              "{aecea60c}": {
+                "mEffectAmountPerMode": {
+                  "UpdateAfterMinutes": 4
+                },
+                "__type": "PerkEffectAmountPerMode"
+              }
+            },
+            "__type": "PerkScriptData"
+          },
+          "__type": "PerkScript"
+        },
+        "mVFXResourceResolver": {
+          "resourceMap": {
+            "Perks_LegendBloodline_Stack": "Perks/Styles/Precision/LegendBloodline/Particles/Perks_LegendBloodline_Stack",
+            "Perks_GatheringStorm_Active": "Perks/Styles/Sorcery/GatheringStorm/Particles/Perks_GatheringStorm_Active"
+          },
+          "__type": "ResourceResolver"
+        },
+        "mDefault": true,
+        "__type": "Perk"
+      },
+      "bound": {
+        "mDisplayNameLocalizationKey": {
+          "sourceKey": "perk_displayname_GatheringStorm",
+          "resolvedKey": "perk_displayname_gatheringstorm",
+          "text": "风暴聚集"
+        },
+        "mTooltipNameLocalizationKey": {
+          "sourceKey": "perk_tooltip_GatheringStorm",
+          "resolvedKey": "perk_tooltip_gatheringstorm",
+          "text": "{{perk_long_desc_GatheringStorm}}<br><hr><br>{{ adaptive_force_tip_bonus_@f2@ }}"
+        },
+        "mShortDescLocalizationKey": {
+          "sourceKey": "perk_short_desc_GatheringStorm",
+          "resolvedKey": "perk_short_desc_gatheringstorm",
+          "text": "随着游戏的进程而获得数额不断提升的攻击力或法术强度，<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_Adaptive'>自动适应</lol-uikit-tooltipped-keyword>。"
+        },
+        "mLongDescLocalizationKey": {
+          "sourceKey": "perk_long_desc_GatheringStorm",
+          "resolvedKey": "perk_long_desc_gatheringstorm",
+          "text": "每@UpdateAfterMinutes@分钟获得法术强度或攻击力，<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_Adaptive'><font color='#48C4B7'>自动适应</font></lol-uikit-tooltipped-keyword>。<br><br><i>@UpdateAfterMinutes@分钟</i>: + 8法术强度 或 5攻击力<br><i>@UpdateAfterMinutes*2@分钟</i>: + 24法术强度 或 14攻击力<br><i>@UpdateAfterMinutes*3@分钟</i>: + 48法术强度 或 29攻击力<br><i>@UpdateAfterMinutes*4@分钟</i>: + 80法术强度 或 48攻击力<br><i>@UpdateAfterMinutes*5@分钟</i>: + 120法术强度 或 72攻击力<br><i>@UpdateAfterMinutes*6@分钟</i>: + 168法术强度 或 101攻击力<br>以此类推……"
+        },
+        "mDisplayStatLocalizationKey": {
+          "sourceKey": "perk_display_stat_adaptive",
+          "resolvedKey": "perk_display_stat_adaptive",
+          "text": "@f1@"
+        }
+      },
+      "summary": {
+        "effectAmounts": {
+          "UpdateAfterMinutes": 10,
+          "AdaptiveAP": 8,
+          "AdaptiveAD": 6,
+          "{c5d14564}": 8
+        },
+        "calculations": {},
+        "otherModeOverrides": [
+          "NEXUSBLITZ",
+          "URF",
+          "ARAM",
+          "KINGPORO",
+          "SWIFTPLAY",
+          "{a110bc47}",
+          "Ruby",
+          "RUBY_TRIAL_1",
+          "RUBY_TRIAL_2",
+          "{aecea60c}"
+        ],
+        "hasDefaultScript": true,
+        "scriptPath": "ASSETS/Perks/Styles/Sorcery/GatheringStorm/GatheringStorm.lua"
+      }
+    }
+  ],
+  "boundaries": [
+    "当前同对象普通模式具名绑定优先，不混其他模式覆盖。",
+    "金币等独立经济收益可排除，但有伤害/状态等混合组成则保留。",
+    "层数、低血量、战斗状态及实际伤害转治疗需核对归属和采样；不能默认满层或全体伤害。",
+    "等级插值、断点和匿名计算未知时不猜；比例、百分数点、毫秒分别标清。",
+    "AP、总AD、额外AD及12/2额外HP仅采用既有同构建窄映射。"
+  ]
+}

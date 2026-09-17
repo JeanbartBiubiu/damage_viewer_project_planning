@@ -1,0 +1,224 @@
+{
+  "version": "16.17.1",
+  "sourceSha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973",
+  "byteSize": 691131,
+  "items": [
+    {
+      "id": 2010,
+      "file": "官方原始资料/item-16.17.1-zh_CN.json",
+      "pointer": "/data/2010",
+      "raw": {
+        "name": "永续意志夹心饼干",
+        "description": "<mainText><stats></stats><br><br><active>主动 - 消耗：</active>食用饼干，以在5秒里持续回复<healing>生命值</healing>，基于你的已损失生命值获得提升。消耗或出售一块饼干，都会永久提供<healing>30最大生命值</healing>。 </mainText>",
+        "colloq": ";",
+        "plaintext": "",
+        "stacks": 10,
+        "consumed": true,
+        "inStore": false,
+        "hideFromAll": true,
+        "image": {
+          "full": "2010.png",
+          "sprite": "item0.png",
+          "group": "item",
+          "x": 432,
+          "y": 384,
+          "w": 48,
+          "h": 48
+        },
+        "gold": {
+          "base": 50,
+          "purchasable": false,
+          "total": 50,
+          "sell": 5
+        },
+        "tags": [],
+        "maps": {
+          "11": true,
+          "12": true,
+          "22": false,
+          "30": true,
+          "453": true
+        },
+        "stats": {},
+        "effect": {
+          "Effect1Amount": "10"
+        }
+      },
+      "text": "主动 - 消耗：食用饼干，以在5秒里持续回复生命值，基于你的已损失生命值获得提升。消耗或出售一块饼干，都会永久提供30最大生命值。"
+    },
+    {
+      "id": 2150,
+      "file": "官方原始资料/item-16.17.1-zh_CN.json",
+      "pointer": "/data/2150",
+      "raw": {
+        "name": "技能合剂",
+        "description": "<mainText><stats></stats><br><br><active>消耗</active><br>提供1技能点数。<br><br><rules>这个装备不会提升你的等级或允许对那些已经升满的技能投入技能点数。</rules></mainText>",
+        "colloq": "",
+        "plaintext": "",
+        "consumed": true,
+        "inStore": false,
+        "image": {
+          "full": "2150.png",
+          "sprite": "item1.png",
+          "group": "item",
+          "x": 192,
+          "y": 48,
+          "w": 48,
+          "h": 48
+        },
+        "gold": {
+          "base": 0,
+          "purchasable": false,
+          "total": 0,
+          "sell": 0
+        },
+        "tags": [
+          "Consumable"
+        ],
+        "maps": {
+          "11": true,
+          "12": true,
+          "22": false,
+          "30": false,
+          "453": true
+        },
+        "stats": {}
+      },
+      "text": "消耗提供1技能点数。这个装备不会提升你的等级或允许对那些已经升满的技能投入技能点数。"
+    },
+    {
+      "id": 2151,
+      "file": "官方原始资料/item-16.17.1-zh_CN.json",
+      "pointer": "/data/2151",
+      "raw": {
+        "name": "贪财合剂",
+        "description": "<mainText><stats></stats><br><br><active>消耗</active><br>获得对抗小兵时附带的<trueDamage>5真实伤害</trueDamage>，持续60秒。在这个效果到期时，获得60金币。 </mainText>",
+        "colloq": "",
+        "plaintext": "",
+        "consumed": true,
+        "inStore": false,
+        "image": {
+          "full": "2151.png",
+          "sprite": "item1.png",
+          "group": "item",
+          "x": 240,
+          "y": 48,
+          "w": 48,
+          "h": 48
+        },
+        "gold": {
+          "base": 50,
+          "purchasable": false,
+          "total": 50,
+          "sell": 20
+        },
+        "tags": [
+          "Health",
+          "Consumable",
+          "Tenacity"
+        ],
+        "maps": {
+          "11": true,
+          "12": true,
+          "22": false,
+          "30": false,
+          "453": true
+        },
+        "stats": {}
+      },
+      "text": "消耗获得对抗小兵时附带的5真实伤害，持续60秒。在这个效果到期时，获得60金币。"
+    },
+    {
+      "id": 2152,
+      "file": "官方原始资料/item-16.17.1-zh_CN.json",
+      "pointer": "/data/2152",
+      "raw": {
+        "name": "原力合剂",
+        "description": "<mainText><stats></stats><br><br><active>消耗</active><br>提供25适应之力，持续60秒。 </mainText>",
+        "colloq": "",
+        "plaintext": "",
+        "consumed": true,
+        "inStore": false,
+        "image": {
+          "full": "2152.png",
+          "sprite": "item1.png",
+          "group": "item",
+          "x": 288,
+          "y": 48,
+          "w": 48,
+          "h": 48
+        },
+        "gold": {
+          "base": 50,
+          "purchasable": false,
+          "total": 50,
+          "sell": 20
+        },
+        "tags": [
+          "Consumable",
+          "Tenacity"
+        ],
+        "maps": {
+          "11": true,
+          "12": true,
+          "22": false,
+          "30": false,
+          "453": true
+        },
+        "stats": {}
+      },
+      "text": "消耗提供25适应之力，持续60秒。"
+    },
+    {
+      "id": 2422,
+      "file": "官方原始资料/item-16.17.1-zh_CN.json",
+      "pointer": "/data/2422",
+      "raw": {
+        "name": "有点神奇之鞋",
+        "description": "<mainText><stats><attention>25</attention>移动速度</stats><br><br>提供额外的<speed>10移动速度</speed>。通过【有点神奇之鞋】合成的鞋类装备都会保持这个移动速度加成。</mainText>",
+        "colloq": "",
+        "plaintext": "",
+        "inStore": false,
+        "into": [
+          "3006",
+          "3047",
+          "3020",
+          "3158",
+          "3111",
+          "3117",
+          "3009",
+          "3008"
+        ],
+        "image": {
+          "full": "2422.png",
+          "sprite": "item2.png",
+          "group": "item",
+          "x": 432,
+          "y": 432,
+          "w": 48,
+          "h": 48
+        },
+        "gold": {
+          "base": 300,
+          "purchasable": false,
+          "total": 300,
+          "sell": 90
+        },
+        "tags": [
+          "Boots"
+        ],
+        "maps": {
+          "11": true,
+          "12": true,
+          "22": false,
+          "30": false,
+          "453": true
+        },
+        "stats": {
+          "FlatMovementSpeedMod": 25
+        }
+      },
+      "text": "25移动速度提供额外的10移动速度。通过【有点神奇之鞋】合成的鞋类装备都会保持这个移动速度加成。"
+    }
+  ]
+}

@@ -1,0 +1,186 @@
+{
+  "at": "2026-09-09T01:02:11.767Z",
+  "frontendCommit": "ad0e3a4d",
+  "backendCommit": "4809f105",
+  "browser": {
+    "url": "http://127.0.0.1:5173/#/runes",
+    "checks": [
+      "强攻、适应之力在真实页面创建并保存",
+      "精密系与碎片布局在页面创建，之后批量补全",
+      "强攻与精密在对象行直接上传图片，左侧显示；上传后字节及用途回读",
+      "同一适应之力在两行复用，关闭重开；完整布局中成长生命也在两行复用",
+      "完整6分组在页面显示23槽71位置，五系代表图片可见",
+      "重开精密4槽13位置和碎片3槽9位置，顺序与来源一致",
+      "技能急速被动在页面创建，再从符文行关联并关闭重开，双向GET一致"
+    ],
+    "cache": {
+      "before": 3207,
+      "receivedChanges": 72,
+      "after": 3279,
+      "readFailures": 0,
+      "url": "http://127.0.0.1:5173/#/images"
+    }
+  },
+  "checks": [
+    {
+      "route": "/rune-paths/rune_path_8000",
+      "status": 200,
+      "actual": {
+        "createdAt": "2026-09-08T18:22:43.40936Z",
+        "description": "强化攻击和持续伤害",
+        "gameId": "lol",
+        "kind": "RUNE_PATH",
+        "name": "精密",
+        "pathKey": "rune_path_8000",
+        "slots": [
+          {
+            "category": "KEYSTONE",
+            "name": "基石",
+            "runeKeys": [
+              "rune_8005",
+              "rune_8008",
+              "rune_8021",
+              "rune_8010"
+            ]
+          },
+          {
+            "category": "MINOR",
+            "name": "英武",
+            "runeKeys": [
+              "rune_9101",
+              "rune_9111",
+              "rune_8009"
+            ]
+          },
+          {
+            "category": "MINOR",
+            "name": "传说",
+            "runeKeys": [
+              "rune_9104",
+              "rune_9105",
+              "rune_9103"
+            ]
+          },
+          {
+            "category": "MINOR",
+            "name": "战斗",
+            "runeKeys": [
+              "rune_8014",
+              "rune_8017",
+              "rune_8299"
+            ]
+          }
+        ],
+        "sortOrder": 2,
+        "updatedAt": "2026-09-08T18:47:57.379131Z"
+      },
+      "matched": true
+    },
+    {
+      "route": "/rune-paths/rune_shards",
+      "status": 200,
+      "actual": {
+        "createdAt": "2026-09-08T18:24:45.561602Z",
+        "description": null,
+        "gameId": "lol",
+        "kind": "SHARD_GROUP",
+        "name": "属性碎片",
+        "pathKey": "rune_shards",
+        "slots": [
+          {
+            "category": "SHARD",
+            "name": "进攻",
+            "runeKeys": [
+              "rune_5008",
+              "rune_5005",
+              "rune_5007"
+            ]
+          },
+          {
+            "category": "SHARD",
+            "name": "灵活",
+            "runeKeys": [
+              "rune_5008",
+              "rune_5010",
+              "rune_5001"
+            ]
+          },
+          {
+            "category": "SHARD",
+            "name": "防御",
+            "runeKeys": [
+              "rune_5011",
+              "rune_5013",
+              "rune_5001"
+            ]
+          }
+        ],
+        "sortOrder": 5,
+        "updatedAt": "2026-09-08T18:47:59.220531Z"
+      },
+      "matched": true
+    },
+    {
+      "route": "/runes/rune_5008",
+      "status": 200,
+      "actual": {
+        "category": "SHARD",
+        "createdAt": "2026-09-08T18:19:00.809364Z",
+        "description": "+9 适应之力",
+        "gameId": "lol",
+        "name": "适应之力",
+        "runeKey": "rune_5008",
+        "updatedAt": "2026-09-08T18:19:00.809364Z"
+      },
+      "matched": true
+    },
+    {
+      "route": "/runes/rune_5007",
+      "status": 200,
+      "actual": {
+        "category": "SHARD",
+        "createdAt": "2026-09-08T18:47:52.924916Z",
+        "description": "+8技能急速",
+        "gameId": "lol",
+        "name": "技能急速",
+        "runeKey": "rune_5007",
+        "updatedAt": "2026-09-08T18:47:52.924916Z"
+      },
+      "matched": true
+    },
+    {
+      "route": "/runes/rune_5001",
+      "status": 200,
+      "actual": {
+        "category": "SHARD",
+        "createdAt": "2026-09-08T18:47:54.229904Z",
+        "description": "+10-180生命值(基于等级)",
+        "gameId": "lol",
+        "name": "成长生命值",
+        "runeKey": "rune_5001",
+        "updatedAt": "2026-09-08T18:47:54.229904Z"
+      },
+      "matched": true
+    },
+    {
+      "route": "/runes/rune_8005/representative-image",
+      "status": 200,
+      "imageKey": "image_bba88a8f-14ef-492a-a6ef-44c6e8be886f",
+      "matched": true
+    },
+    {
+      "route": "/runes/rune_5007/representative-image",
+      "status": 200,
+      "imageKey": "rune_5007",
+      "matched": true
+    },
+    {
+      "route": "/rune-paths/rune_path_8000/representative-image",
+      "status": 200,
+      "imageKey": "image_6a4b2d5e-4ed9-4a41-bfa1-a90a9c86c034",
+      "matched": true
+    }
+  ],
+  "boundary": "身份、布局、图片及代表技能挂载的管理验收；全部符文机制尚未完成，战斗运行未执行",
+  "independentGetCount": 8
+}

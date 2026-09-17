@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Amumu",
+  "sourceNumericId": "32",
+  "name": "阿木木",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 685,
+      "growth": 94,
+      "sources": [
+        "原始资料/zh_CN/champion/Amumu.json:stats.hp/hpperlevel",
+        "角色根记录/Amumu.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 685,
+        "2": 752.68,
+        "3": 823.65,
+        "4": 897.91,
+        "5": 975.46,
+        "6": 1056.3,
+        "7": 1140.43,
+        "8": 1227.85,
+        "9": 1318.56,
+        "10": 1412.56,
+        "11": 1509.85,
+        "12": 1610.43,
+        "13": 1714.3,
+        "14": 1821.46,
+        "15": 1931.91,
+        "16": 2045.65,
+        "17": 2162.68,
+        "18": 2283
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 9,
+      "growth": 0.85,
+      "sources": [
+        "原始资料/zh_CN/champion/Amumu.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Amumu.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 9,
+        "2": 9.612,
+        "3": 10.25375,
+        "4": 10.92525,
+        "5": 11.6265,
+        "6": 12.3575,
+        "7": 13.11825,
+        "8": 13.90875,
+        "9": 14.729,
+        "10": 15.579,
+        "11": 16.45875,
+        "12": 17.36825,
+        "13": 18.3075,
+        "14": 19.2765,
+        "15": 20.27525,
+        "16": 21.30375,
+        "17": 22.362,
+        "18": 23.45
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 33,
+      "growth": 4,
+      "sources": [
+        "原始资料/zh_CN/champion/Amumu.json:stats.armor/armorperlevel",
+        "角色根记录/Amumu.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 33,
+        "2": 35.88,
+        "3": 38.9,
+        "4": 42.06,
+        "5": 45.36,
+        "6": 48.8,
+        "7": 52.38,
+        "8": 56.1,
+        "9": 59.96,
+        "10": 63.96,
+        "11": 68.1,
+        "12": 72.38,
+        "13": 76.8,
+        "14": 81.36,
+        "15": 86.06,
+        "16": 90.9,
+        "17": 95.88,
+        "18": 101
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 32,
+      "growth": 2.05,
+      "sources": [
+        "原始资料/zh_CN/champion/Amumu.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Amumu.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 32,
+        "2": 33.476,
+        "3": 35.02375,
+        "4": 36.64325,
+        "5": 38.3345,
+        "6": 40.0975,
+        "7": 41.93225,
+        "8": 43.83875,
+        "9": 45.817,
+        "10": 47.867,
+        "11": 49.98875,
+        "12": 52.18225,
+        "13": 54.4475,
+        "14": 56.7845,
+        "15": 59.19325,
+        "16": 61.67375,
+        "17": 64.226,
+        "18": 66.85
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 57,
+      "growth": 3.8,
+      "sources": [
+        "角色根记录/Amumu.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 57,
+        "2": 59.736,
+        "3": 62.605,
+        "4": 65.607,
+        "5": 68.742,
+        "6": 72.01,
+        "7": 75.411,
+        "8": 78.945,
+        "9": 82.612,
+        "10": 86.412,
+        "11": 90.345,
+        "12": 94.411,
+        "13": 98.61,
+        "14": 102.942,
+        "15": 107.407,
+        "16": 112.005,
+        "17": 116.736,
+        "18": 121.6
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 335,
+      "growth": null,
+      "sources": [
+        "角色根记录/Amumu.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 335,
+        "2": 335,
+        "3": 335,
+        "4": 335,
+        "5": 335,
+        "6": 335,
+        "7": 335,
+        "8": 335,
+        "9": 335,
+        "10": 335,
+        "11": 335,
+        "12": 335,
+        "13": 335,
+        "14": 335,
+        "15": 335,
+        "16": 335,
+        "17": 335,
+        "18": 335
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 125,
+      "growth": null,
+      "sources": [
+        "角色根记录/Amumu.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 125,
+        "2": 125,
+        "3": 125,
+        "4": 125,
+        "5": 125,
+        "6": 125,
+        "7": 125,
+        "8": 125,
+        "9": 125,
+        "10": 125,
+        "11": 125,
+        "12": 125,
+        "13": 125,
+        "14": 125,
+        "15": 125,
+        "16": 125,
+        "17": 125,
+        "18": 125
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.736,
+      "attackSpeedRatio": 0.638,
+      "growthPercent": 2.18,
+      "sources": [
+        "角色根记录/Amumu.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.736,
+        "2": 0.746014,
+        "3": 0.756515,
+        "4": 0.767503,
+        "5": 0.778977,
+        "6": 0.790938,
+        "7": 0.803386,
+        "8": 0.816321,
+        "9": 0.829743,
+        "10": 0.843651,
+        "11": 0.858046,
+        "12": 0.872928,
+        "13": 0.888297,
+        "14": 0.904153,
+        "15": 0.920495,
+        "16": 0.937324,
+        "17": 0.95464,
+        "18": 0.972443
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 285,
+      "growth": 40,
+      "sources": [
+        "原始资料/zh_CN/champion/Amumu.json:stats.mp/mpperlevel",
+        "角色根记录/Amumu.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 285,
+        "2": 313.8,
+        "3": 344,
+        "4": 375.6,
+        "5": 408.6,
+        "6": 443,
+        "7": 478.8,
+        "8": 516,
+        "9": 554.6,
+        "10": 594.6,
+        "11": 636,
+        "12": 678.8,
+        "13": 723,
+        "14": 768.6,
+        "15": 815.6,
+        "16": 864,
+        "17": 913.8,
+        "18": 965
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 7.4,
+      "growth": 0.55,
+      "sources": [
+        "原始资料/zh_CN/champion/Amumu.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Amumu.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 7.4,
+        "2": 7.796,
+        "3": 8.21125,
+        "4": 8.64575,
+        "5": 9.0995,
+        "6": 9.5725,
+        "7": 10.06475,
+        "8": 10.57625,
+        "9": 11.107,
+        "10": 11.657,
+        "11": 12.22625,
+        "12": 12.81475,
+        "13": 13.4225,
+        "14": 14.0495,
+        "15": 14.69575,
+        "16": 15.36125,
+        "17": 16.046,
+        "18": 16.75
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.736,
+    "ratio": 0.638,
+    "growthPercent": 2.18,
+    "ratioDiffersFromBase": true
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

@@ -1,0 +1,379 @@
+{
+  "sources": [
+    {
+      "relativePath": "装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+      "compressedSha256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7",
+      "rawSha256": "b59ec9320d05acefa344ea8a5ef615cf7f32959078475cafff63833462dc358f"
+    },
+    {
+      "relativePath": "装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+      "compressedSha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+      "rawSha256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031"
+    },
+    {
+      "relativePath": "API实录/符文客户端数值补证/perks-16.17.cdtb.bin.json.gz",
+      "compressedSha256": "141a289f8b83c543c108930675088ec1e5bd0f482799d2677a436f0ff9e65fac",
+      "rawSha256": "1427c70c4d1172198a1a9787362224c871a90cc4f66f3f769ef5830cbcd401b1"
+    }
+  ],
+  "sourceUrls": [
+    "https://raw.communitydragon.org/16.17/game/items.cdtb.bin.json",
+    "https://raw.communitydragon.org/16.17/game/zh_cn/data/menu/en_us/lol.stringtable.json",
+    "https://raw.communitydragon.org/16.17/game/perks.cdtb.bin.json"
+  ],
+  "versionBoundary": "已独立核对三包均来自固定16.17目录和冻结SHA；对象中没有精确构建号字段，16.17.8104348不能由这三对象本身重新证明。官方显示来自16.17.1。",
+  "itemPath": "Items/2010",
+  "item": {
+    "spellName": "Item2010",
+    "mDisplayName": "Item_2010_Name",
+    "itemID": 2010,
+    "maxStack": 10,
+    "mItemGroups": [
+      "Items/ItemGroups/Default",
+      "Items/ItemGroups/TotalBiscuit"
+    ],
+    "price": 50,
+    "consumed": true,
+    "clickable": true,
+    "mCanBeSold": true,
+    "epicness": 1,
+    "mEffectAmount": [
+      10
+    ],
+    "mDataValues": [
+      {
+        "mName": "PotionDurationTOOLTIP",
+        "mValue": 5,
+        "__type": "ItemDataValue"
+      },
+      {
+        "mName": "BonusMaxHealthTOOLTIP",
+        "mValue": 30,
+        "__type": "ItemDataValue"
+      },
+      {
+        "mName": "FlatHealTOOLTIP",
+        "mValue": 20,
+        "__type": "ItemDataValue"
+      },
+      {
+        "mName": "MaxHPMultiplierTOOLTIP",
+        "mValue": 0.014999999664723873,
+        "__type": "ItemDataValue"
+      },
+      {
+        "mName": "MaxHealIncreaseTOOLTIP",
+        "mValue": 100,
+        "__type": "ItemDataValue"
+      },
+      {
+        "mName": "MinHPThresholdTOOLTIP",
+        "mValue": 0.30000001192092896,
+        "__type": "ItemDataValue"
+      }
+    ],
+    "mItemCalculations": {
+      "TotalHealCalcTOOLTIP": {
+        "mFormulaParts": [
+          {
+            "mStat": 12,
+            "mDataValue": "{d3850e11}",
+            "__type": "StatByNamedDataValueCalculationPart"
+          },
+          {
+            "mDataValue": "{4fe025a7}",
+            "__type": "NamedDataValueCalculationPart"
+          }
+        ],
+        "__type": "GameCalculation"
+      }
+    },
+    "sellBackModifier": 0.10000000149011612,
+    "mItemDataAvailability": {
+      "mForceLoad": true,
+      "mHidefromAll": true,
+      "__type": "ItemDataAvailability"
+    },
+    "mItemAttributes": [
+      1
+    ],
+    "mItemDataClient": {
+      "mTooltipData": {
+        "mObjectName": "2010",
+        "mFormat": "{32559c50}",
+        "mLocKeys": {
+          "keyName": "Item_2010_Name",
+          "keyActive": "Item_2010_Active",
+          "keyActiveExternal": "Item_2010_ActiveExternal",
+          "keyActiveExtended": "Item_2010_ActiveExtended"
+        },
+        "mLists": {
+          "Stats": {
+            "__type": "TooltipInstanceList"
+          }
+        },
+        "__type": "TooltipInstanceItem"
+      },
+      "mDescription": "GeneratedTip_Item_2010_Description",
+      "mDynamicTooltip": "GeneratedTip_Item_2010_TooltipInventory",
+      "mShopTooltip": "GeneratedTip_Item_2010_TooltipShop",
+      "inventoryIcon": "assets/items/icons2d/2010_class_t1_totalbiscuitofeverlastingwill.dds",
+      "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/2010_Class_T1_TotalBiscuitofEverlastingWill.png",
+      "epicness": 0,
+      "__type": "ItemDataClient"
+    },
+    "__type": "ItemData"
+  },
+  "spellPath": "Items/Spells/Item2010",
+  "spell": {
+    "ObjectName": "Item2010",
+    "objectPath": "Items/Spells/Item2010",
+    "mScriptName": "Item2010",
+    "mSpell": {
+      "flags": 4,
+      "mAffectsTypeFlags": 13519,
+      "mSpellTags": [
+        "Trait_Biscuit"
+      ],
+      "mAnimationName": "Spell1",
+      "mImgIconName": [
+        "2003_Regeneration_Potion.dds"
+      ],
+      "cooldownTime": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "Cooldown": {
+        "values": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "{0a3e0478}": 1,
+        "__type": "{0a0eddc9}"
+      },
+      "mDoesntBreakChannels": true,
+      "castRange": [
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200
+      ],
+      "castRangeValues": {
+        "values": [
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200
+        ],
+        "{0a3e0478}": 200,
+        "__type": "{0a0eddc9}"
+      },
+      "castRadius": [
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100
+      ],
+      "castConeDistance": 100,
+      "missileSpeed": 0,
+      "mMissileEffectName": "doesnotexist.troy",
+      "mTargetingTypeData": {
+        "__type": "Self"
+      },
+      "__type": "SpellDataResource"
+    },
+    "mBuff": {
+      "mDescription": "game_buff_tooltip_ItemMiniRegenPotion",
+      "mTooltipData": {
+        "mObjectName": "Item2010",
+        "mFormat": "{b34f999a}",
+        "mLocKeys": {
+          "keyName": "Item_2010_Name",
+          "keyTooltip": "Buff_Item2010_Tooltip"
+        },
+        "__type": "TooltipInstanceBuff"
+      },
+      "__type": "BuffData"
+    },
+    "BotData": {
+      "{6d548702}": {
+        "__type": "GameCalculation"
+      },
+      "{ec17e271}": [
+        {
+          "EffectTag": 32,
+          "EffectCalculation": {
+            "mFormulaParts": [
+              {
+                "mNumber": 0.11999999731779099,
+                "__type": "NumberCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "__type": "{b09016f6}"
+        }
+      ],
+      "{38382c53}": [
+        {
+          "{e38f54f7}": 4096,
+          "{0717e686}": false,
+          "__type": "{150d1b92}"
+        },
+        {
+          "{e38f54f7}": 1024,
+          "{0717e686}": false,
+          "__type": "{150d1b92}"
+        },
+        {
+          "{e38f54f7}": 128,
+          "{0717e686}": false,
+          "__type": "{150d1b92}"
+        },
+        {
+          "{e38f54f7}": 64,
+          "{0717e686}": false,
+          "__type": "{150d1b92}"
+        },
+        {
+          "{e38f54f7}": 1,
+          "{0717e686}": false,
+          "__type": "{150d1b92}"
+        },
+        {
+          "{e38f54f7}": 2,
+          "{0717e686}": false,
+          "__type": "{150d1b92}"
+        },
+        {
+          "{e38f54f7}": 4,
+          "{0717e686}": false,
+          "__type": "{150d1b92}"
+        },
+        {
+          "{e38f54f7}": 8,
+          "{0717e686}": false,
+          "__type": "{150d1b92}"
+        }
+      ],
+      "__type": "BotsSpellData"
+    },
+    "__type": "SpellObject"
+  },
+  "bindings": [
+    {
+      "node": {
+        "mStat": 12,
+        "mDataValue": "{d3850e11}",
+        "__type": "StatByNamedDataValueCalculationPart"
+      },
+      "matchingValues": [
+        {
+          "mName": "MaxHPMultiplierTOOLTIP",
+          "mValue": 0.014999999664723873,
+          "__type": "ItemDataValue"
+        }
+      ]
+    },
+    {
+      "node": {
+        "mDataValue": "{4fe025a7}",
+        "__type": "NamedDataValueCalculationPart"
+      },
+      "matchingValues": [
+        {
+          "mName": "FlatHealTOOLTIP",
+          "mValue": 20,
+          "__type": "ItemDataValue"
+        }
+      ]
+    }
+  ],
+  "loc": {
+    "keyActive": {
+      "key": "Item_2010_Active",
+      "path": "/entries/item_2010_active",
+      "text": "{{ Item_Active_Consume }}食用饼干，以在@PotionDurationTOOLTIP@秒里持续回复共<healing>@TotalHealCalcTOOLTIP@生命值</healing>，基于你的已损失生命值至多提升至@MaxHealIncreaseTOOLTIP@%。消耗或出售一块饼干，都会永久提供<healing>@BonusMaxHealthTOOLTIP@最大生命值</healing>。 "
+    },
+    "keyActiveExtended": {
+      "key": "Item_2010_ActiveExtended",
+      "path": "/entries/item_2010_activeextended",
+      "text": "{{ Item_Active_Consume }}食用饼干，以在@PotionDurationTOOLTIP@秒里持续回复共<healing>@TotalHealCalcTOOLTIP@生命值</healing>，基于你的已损失生命值获得提升，至多至@MaxHealIncreaseTOOLTIP@%。消耗或出售一块饼干，都会永久提供<healing>@BonusMaxHealthTOOLTIP@最大生命值</healing>。<br><br><rules>最大治疗效果会在@MinHPThresholdTOOLTIP*100@%生命值时达成。</rules>"
+    }
+  },
+  "runePath": "Perks/Styles/Inspiration/BiscuitDelivery",
+  "rune": {
+    "mPerkId": 8345,
+    "mPerkName": "BiscuitDelivery",
+    "mDisplayNameLocalizationKey": "perk_displayname_BiscuitDelivery",
+    "mTooltipNameLocalizationKey": "perk_tooltip_BiscuitDelivery",
+    "mShortDescLocalizationKey": "perk_short_desc_BiscuitDelivery",
+    "mLongDescLocalizationKey": "perk_long_desc_BiscuitDelivery",
+    "mEndOfGameStatDescriptions": [
+      "perk_eog_stat_desc_BiscuitDelivery1",
+      "perk_eog_stat_desc_BiscuitDelivery2"
+    ],
+    "mDisplayStatLocalizationKey": "perk_display_stat_ratio",
+    "mIconTextureName": "assets/perks/styles/inspiration/biscuitdelivery/biscuitdelivery.tex",
+    "mScript": {
+      "mSpellScriptName": "ASSETS/Perks/Styles/Inspiration/BiscuitDelivery/BiscuitDelivery.lua",
+      "mSpellScriptData": {
+        "mEffectAmount": {
+          "BiscuitMinuteInterval": 2,
+          "SwapOverMinute": 6,
+          "PermanentHP": 30,
+          "HealthHealPercent": 0.014999999664723873,
+          "DurationOfEffect": 5,
+          "FlatHeal": 20,
+          "{936e8fc2}": 0.30000001192092896,
+          "MaximumHealIncrease": 1
+        },
+        "mEffectAmountGameMode": {
+          "NEXUSBLITZ": {
+            "mEffectAmountPerMode": {
+              "BiscuitMinuteInterval": 1.5
+            },
+            "__type": "PerkEffectAmountPerMode"
+          },
+          "URF": {
+            "mEffectAmountPerMode": {
+              "BiscuitMinuteInterval": 1.5
+            },
+            "__type": "PerkEffectAmountPerMode"
+          }
+        },
+        "__type": "PerkScriptData"
+      },
+      "__type": "PerkScript"
+    },
+    "__type": "Perk"
+  },
+  "official": {
+    "id": 8345,
+    "key": "BiscuitDelivery",
+    "icon": "perk-images/Styles/Inspiration/BiscuitDelivery/BiscuitDelivery.png",
+    "name": "饼干配送",
+    "shortDesc": "每过2分钟获得一个免费的【饼干】，直到6分钟为止。享用或出售一个饼干可永久提升你的最大生命值并回复生命值。",
+    "longDesc": "饼干配送：每过2分钟获得一个永续意志夹心饼干，直到6分钟。<br><br>饼干可回复20+你的2%最大生命值，基于已损失生命值获得提升，至多可提升100%。消耗或出售一块饼干，都会为你永久提供30最大生命值。 "
+  },
+  "conclusion": "本物品具名计算、当前长文及符文原值足够采用20+0.015×自身最大生命基础恢复量，并确认食用后5秒持续恢复。消费或出售只共同证明永久+30最大生命；不依据旧短文认定出售治疗。不将本例推广成所有mStat12/0的通用映射。"
+}

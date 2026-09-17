@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Pyke",
+  "sourceNumericId": "555",
+  "name": "派克",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 670,
+      "growth": 110,
+      "sources": [
+        "原始资料/zh_CN/champion/Pyke.json:stats.hp/hpperlevel",
+        "角色根记录/Pyke.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 670,
+        "2": 749.2,
+        "3": 832.25,
+        "4": 919.15,
+        "5": 1009.9,
+        "6": 1104.5,
+        "7": 1202.95,
+        "8": 1305.25,
+        "9": 1411.4,
+        "10": 1521.4,
+        "11": 1635.25,
+        "12": 1752.95,
+        "13": 1874.5,
+        "14": 1999.9,
+        "15": 2129.15,
+        "16": 2262.25,
+        "17": 2399.2,
+        "18": 2540
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 7,
+      "growth": 0.5,
+      "sources": [
+        "原始资料/zh_CN/champion/Pyke.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Pyke.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 7,
+        "2": 7.36,
+        "3": 7.7375,
+        "4": 8.1325,
+        "5": 8.545,
+        "6": 8.975,
+        "7": 9.4225,
+        "8": 9.8875,
+        "9": 10.37,
+        "10": 10.87,
+        "11": 11.3875,
+        "12": 11.9225,
+        "13": 12.475,
+        "14": 13.045,
+        "15": 13.6325,
+        "16": 14.2375,
+        "17": 14.86,
+        "18": 15.5
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 37,
+      "growth": 4.7,
+      "sources": [
+        "原始资料/zh_CN/champion/Pyke.json:stats.armor/armorperlevel",
+        "角色根记录/Pyke.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 37,
+        "2": 40.384,
+        "3": 43.9325,
+        "4": 47.6455,
+        "5": 51.523,
+        "6": 55.565,
+        "7": 59.7715,
+        "8": 64.1425,
+        "9": 68.678,
+        "10": 73.378,
+        "11": 78.2425,
+        "12": 83.2715,
+        "13": 88.465,
+        "14": 93.823,
+        "15": 99.3455,
+        "16": 105.0325,
+        "17": 110.884,
+        "18": 116.9
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 32,
+      "growth": 2.05,
+      "sources": [
+        "原始资料/zh_CN/champion/Pyke.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Pyke.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 32,
+        "2": 33.476,
+        "3": 35.02375,
+        "4": 36.64325,
+        "5": 38.3345,
+        "6": 40.0975,
+        "7": 41.93225,
+        "8": 43.83875,
+        "9": 45.817,
+        "10": 47.867,
+        "11": 49.98875,
+        "12": 52.18225,
+        "13": 54.4475,
+        "14": 56.7845,
+        "15": 59.19325,
+        "16": 61.67375,
+        "17": 64.226,
+        "18": 66.85
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 62,
+      "growth": 2,
+      "sources": [
+        "角色根记录/Pyke.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 62,
+        "2": 63.44,
+        "3": 64.95,
+        "4": 66.53,
+        "5": 68.18,
+        "6": 69.9,
+        "7": 71.69,
+        "8": 73.55,
+        "9": 75.48,
+        "10": 77.48,
+        "11": 79.55,
+        "12": 81.69,
+        "13": 83.9,
+        "14": 86.18,
+        "15": 88.53,
+        "16": 90.95,
+        "17": 93.44,
+        "18": 96
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 330,
+      "growth": null,
+      "sources": [
+        "角色根记录/Pyke.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 330,
+        "2": 330,
+        "3": 330,
+        "4": 330,
+        "5": 330,
+        "6": 330,
+        "7": 330,
+        "8": 330,
+        "9": 330,
+        "10": 330,
+        "11": 330,
+        "12": 330,
+        "13": 330,
+        "14": 330,
+        "15": 330,
+        "16": 330,
+        "17": 330,
+        "18": 330
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 150,
+      "growth": null,
+      "sources": [
+        "角色根记录/Pyke.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 150,
+        "2": 150,
+        "3": 150,
+        "4": 150,
+        "5": 150,
+        "6": 150,
+        "7": 150,
+        "8": 150,
+        "9": 150,
+        "10": 150,
+        "11": 150,
+        "12": 150,
+        "13": 150,
+        "14": 150,
+        "15": 150,
+        "16": 150,
+        "17": 150,
+        "18": 150
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.667,
+      "attackSpeedRatio": 0.667,
+      "growthPercent": 2.5,
+      "sources": [
+        "角色根记录/Pyke.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.667,
+        "2": 0.679006,
+        "3": 0.691596,
+        "4": 0.704769,
+        "5": 0.718526,
+        "6": 0.732866,
+        "7": 0.74779,
+        "8": 0.763298,
+        "9": 0.77939,
+        "10": 0.796065,
+        "11": 0.813323,
+        "12": 0.831165,
+        "13": 0.849591,
+        "14": 0.868601,
+        "15": 0.888194,
+        "16": 0.908371,
+        "17": 0.929131,
+        "18": 0.950475
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 415,
+      "growth": 50,
+      "sources": [
+        "原始资料/zh_CN/champion/Pyke.json:stats.mp/mpperlevel",
+        "角色根记录/Pyke.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 415,
+        "2": 451,
+        "3": 488.75,
+        "4": 528.25,
+        "5": 569.5,
+        "6": 612.5,
+        "7": 657.25,
+        "8": 703.75,
+        "9": 752,
+        "10": 802,
+        "11": 853.75,
+        "12": 907.25,
+        "13": 962.5,
+        "14": 1019.5,
+        "15": 1078.25,
+        "16": 1138.75,
+        "17": 1201,
+        "18": 1265
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 8,
+      "growth": 1,
+      "sources": [
+        "原始资料/zh_CN/champion/Pyke.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Pyke.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 8,
+        "2": 8.72,
+        "3": 9.475,
+        "4": 10.265,
+        "5": 11.09,
+        "6": 11.95,
+        "7": 12.845,
+        "8": 13.775,
+        "9": 14.74,
+        "10": 15.74,
+        "11": 16.775,
+        "12": 17.845,
+        "13": 18.95,
+        "14": 20.09,
+        "15": 21.265,
+        "16": 22.475,
+        "17": 23.72,
+        "18": 25
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.667,
+    "ratio": 0.667,
+    "growthPercent": 2.5,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

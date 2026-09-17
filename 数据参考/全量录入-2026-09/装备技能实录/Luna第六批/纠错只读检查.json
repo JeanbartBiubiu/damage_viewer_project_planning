@@ -1,0 +1,1036 @@
+{
+  "at": "2026-09-07T18:19:04.318Z",
+  "mode": "read-only",
+  "preflight": [
+    {
+      "route": "/skills/item_3047_passive",
+      "status": 200,
+      "differences": []
+    },
+    {
+      "route": "/skills/item_3047_passive/parameters/incoming_attack_damage_reduction",
+      "status": 200,
+      "originalMatch": true,
+      "targetMatch": true,
+      "actual": {
+        "createdAt": "2026-09-07T17:56:46.51526Z",
+        "description": "即将到来的攻击伤害降低10%，小数0.1表示10%。",
+        "fixedValue": 0.1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "镀板攻击伤害降低比例",
+        "parameterKey": "incoming_attack_damage_reduction",
+        "skillKey": "item_3047_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T17:56:46.51526Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_3065_passive",
+      "status": 200,
+      "differences": []
+    },
+    {
+      "route": "/skills/item_3065_passive/parameters/heal_shield_power_bonus",
+      "status": 200,
+      "originalMatch": true,
+      "targetMatch": false,
+      "actual": {
+        "createdAt": "2026-09-07T17:56:48.498679Z",
+        "description": "自身治疗和护盾效果提升25%，小数0.25表示25%。",
+        "fixedValue": 0.25,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "无拘活力治疗护盾增益",
+        "parameterKey": "heal_shield_power_bonus",
+        "skillKey": "item_3065_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T17:56:48.498679Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_3065_passive/effects/heal_shield_power_bonus",
+      "status": 200,
+      "originalMatch": true,
+      "targetMatch": false,
+      "actual": {
+        "createdAt": "2026-09-07T17:56:48.936265Z",
+        "description": "来源对象自身受到的治疗和护盾效果提升25%。",
+        "effectKey": "heal_shield_power_bonus",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": null,
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "无拘活力治疗护盾增益",
+        "results": [
+          {
+            "description": "来源对象治疗和护盾强度增加25%。",
+            "detail": {
+              "attributeKey": "heal_shield_power_percent",
+              "modifierZoneKey": "attribute_percent_bonus",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "治疗和护盾强度提升",
+            "resultKey": "heal_shield_power_bonus",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "heal_shield_power_bonus"
+              }
+            }
+          }
+        ],
+        "skillKey": "item_3065_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T17:56:48.936265Z"
+      }
+    },
+    {
+      "route": "/skills/item_3065_passive/trigger-rules/initialize_heal_shield_power_bonus",
+      "status": 200,
+      "originalMatch": true,
+      "targetMatch": false,
+      "actual": {
+        "actions": [
+          {
+            "actionKey": "execute_heal_shield_power_bonus",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "heal_shield_power_bonus"
+            },
+            "name": "执行无拘活力",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "EVENT_SOURCE"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "装备持有时初始化自身治疗和护盾强度比例提升；不把提升误写成对其他目标施加的护盾。",
+        "eventSource": {
+          "detail": {},
+          "eventType": "SOURCE_INITIALIZED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "初始化无拘活力",
+        "perTargetCooldown": null,
+        "ruleKey": "initialize_heal_shield_power_bonus",
+        "sortOrder": 10
+      }
+    },
+    {
+      "route": "/skills/item_6621_passive",
+      "status": 200,
+      "differences": []
+    },
+    {
+      "route": "/skills/item_6621_passive/parameters/ap_per_100_base_mana_regen",
+      "status": 200,
+      "originalMatch": true,
+      "targetMatch": true,
+      "actual": {
+        "createdAt": "2026-09-07T17:56:51.53977Z",
+        "description": "每1.0（100%）基础法力回复提供10点法术强度。",
+        "fixedValue": 10,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "每100%基础法力回复法术强度",
+        "parameterKey": "ap_per_100_base_mana_regen",
+        "skillKey": "item_6621_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T17:56:51.53977Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/item_6621_passive/parameters/heal_shield_per_100_base_mana_regen",
+      "status": 200,
+      "originalMatch": true,
+      "targetMatch": true,
+      "actual": {
+        "createdAt": "2026-09-07T17:56:51.889917Z",
+        "description": "每1.0（100%）基础法力回复提供0.02治疗和护盾强度，小数0.02表示2%。",
+        "fixedValue": 0.02,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "每100%基础法力回复治疗护盾强度",
+        "parameterKey": "heal_shield_per_100_base_mana_regen",
+        "skillKey": "item_6621_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T17:56:51.889917Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_6621_passive/formulas/ap_from_base_mana_regen",
+      "status": 200,
+      "originalMatch": true,
+      "targetMatch": true,
+      "actual": {
+        "createdAt": "2026-09-07T17:56:52.342535Z",
+        "description": "基础法力回复比例乘以每100%基础法力回复提供的法术强度。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "attributeKey": "base_mana_regen_percent",
+              "attributeOwner": "SOURCE",
+              "attributeValueKind": "TOTAL",
+              "nodeType": "ATTRIBUTE"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "ap_per_100_base_mana_regen"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "ap_from_base_mana_regen",
+        "gameId": "lol",
+        "name": "基础法力回复转法术强度",
+        "skillKey": "item_6621_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T17:56:52.342535Z"
+      }
+    },
+    {
+      "route": "/skills/item_6621_passive/formulas/heal_shield_from_base_mana_regen",
+      "status": 200,
+      "originalMatch": true,
+      "targetMatch": true,
+      "actual": {
+        "createdAt": "2026-09-07T17:56:52.789055Z",
+        "description": "基础法力回复比例乘以每100%基础法力回复提供的治疗和护盾强度。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "attributeKey": "base_mana_regen_percent",
+              "attributeOwner": "SOURCE",
+              "attributeValueKind": "TOTAL",
+              "nodeType": "ATTRIBUTE"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "heal_shield_per_100_base_mana_regen"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "heal_shield_from_base_mana_regen",
+        "gameId": "lol",
+        "name": "基础法力回复转治疗护盾强度",
+        "skillKey": "item_6621_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T17:56:52.789055Z"
+      }
+    },
+    {
+      "route": "/skills/item_6621_passive/effects/ap_from_base_mana_regen",
+      "status": 200,
+      "originalMatch": true,
+      "targetMatch": false,
+      "actual": {
+        "createdAt": "2026-09-07T17:56:53.171172Z",
+        "description": "按来源对象基础法力回复比例增加法术强度。",
+        "effectKey": "ap_from_base_mana_regen",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": null,
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "基础法力回复转法术强度",
+        "results": [
+          {
+            "description": "每100%基础法力回复提供10点法术强度。",
+            "detail": {
+              "attributeKey": "ability_power",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "基础法力回复提供的法术强度",
+            "resultKey": "ap_from_base_mana_regen",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "ap_from_base_mana_regen",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "item_6621_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T17:56:53.171172Z"
+      }
+    },
+    {
+      "route": "/skills/item_6621_passive/effects/heal_shield_from_base_mana_regen",
+      "status": 200,
+      "originalMatch": true,
+      "targetMatch": false,
+      "actual": {
+        "createdAt": "2026-09-07T17:56:53.624517Z",
+        "description": "按来源对象基础法力回复比例增加治疗和护盾强度。",
+        "effectKey": "heal_shield_from_base_mana_regen",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": null,
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "基础法力回复转治疗护盾强度",
+        "results": [
+          {
+            "description": "每100%基础法力回复提供2%治疗和护盾强度。",
+            "detail": {
+              "attributeKey": "heal_shield_power_percent",
+              "modifierZoneKey": "attribute_percent_bonus",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "基础法力回复提供的治疗护盾强度",
+            "resultKey": "heal_shield_from_base_mana_regen",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "heal_shield_from_base_mana_regen",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "item_6621_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T17:56:53.624517Z"
+      }
+    },
+    {
+      "route": "/skills/item_6621_passive/trigger-rules/initialize_dawncore_scaling",
+      "status": 200,
+      "originalMatch": true,
+      "targetMatch": true,
+      "actual": {
+        "actions": [
+          {
+            "actionKey": "execute_ap_from_base_mana_regen",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "ap_from_base_mana_regen"
+            },
+            "name": "执行基础法力回复法术强度",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "EVENT_SOURCE"
+          },
+          {
+            "actionKey": "execute_heal_shield_from_base_mana_regen",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "heal_shield_from_base_mana_regen"
+            },
+            "name": "执行基础法力回复治疗护盾强度",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 20,
+            "targetContext": "EVENT_SOURCE"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "装备持有时读取来源对象基础法力回复比例并分别执行法术强度与治疗护盾强度增益。",
+        "eventSource": {
+          "detail": {},
+          "eventType": "SOURCE_INITIALIZED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "初始化最初之光",
+        "perTargetCooldown": null,
+        "ruleKey": "initialize_dawncore_scaling",
+        "sortOrder": 10
+      }
+    },
+    {
+      "route": "/skills/item_3124_passive",
+      "status": 200,
+      "differences": []
+    },
+    {
+      "route": "/skills/item_3124_passive/parameters/on_hit_magic_damage",
+      "status": 200,
+      "originalMatch": true,
+      "targetMatch": true,
+      "actual": {
+        "createdAt": "2026-09-07T17:56:56.270552Z",
+        "description": "攻击命中附带30点额外魔法伤害，单位：伤害点。",
+        "fixedValue": 30,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "怨怒额外魔法伤害",
+        "parameterKey": "on_hit_magic_damage",
+        "skillKey": "item_3124_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T17:56:56.270552Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/item_3124_passive/parameters/attack_speed_per_stack",
+      "status": 200,
+      "originalMatch": true,
+      "targetMatch": true,
+      "actual": {
+        "createdAt": "2026-09-07T17:56:56.660092Z",
+        "description": "每次攻击获得8%攻击速度，小数0.08表示8%。",
+        "fixedValue": 0.08,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "沸腾打击每层攻击速度",
+        "parameterKey": "attack_speed_per_stack",
+        "skillKey": "item_3124_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T17:56:56.660092Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_3124_passive/parameters/attack_speed_stack_duration_ms",
+      "status": 200,
+      "originalMatch": true,
+      "targetMatch": true,
+      "actual": {
+        "createdAt": "2026-09-07T17:56:56.99705Z",
+        "description": "攻速层数持续3秒，单位：毫秒。",
+        "fixedValue": 3000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "沸腾打击层数持续时间",
+        "parameterKey": "attack_speed_stack_duration_ms",
+        "skillKey": "item_3124_passive",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T17:56:56.99705Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/item_3124_passive/parameters/attack_speed_max_stacks",
+      "status": 200,
+      "originalMatch": true,
+      "targetMatch": true,
+      "actual": {
+        "createdAt": "2026-09-07T17:56:57.403053Z",
+        "description": "沸腾打击最多叠加4层。",
+        "fixedValue": 4,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "沸腾打击最大层数",
+        "parameterKey": "attack_speed_max_stacks",
+        "skillKey": "item_3124_passive",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-07T17:56:57.403053Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/item_3124_passive/formulas/max_attack_speed_bonus",
+      "status": 200,
+      "originalMatch": true,
+      "targetMatch": true,
+      "actual": {
+        "createdAt": "2026-09-07T17:56:57.829943Z",
+        "description": "按客户端MaxAttackSpeedCalc计算每层8%乘以4层，满层为32%。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "attack_speed_per_stack"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "attack_speed_max_stacks"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "max_attack_speed_bonus",
+        "gameId": "lol",
+        "name": "沸腾打击满层攻击速度",
+        "skillKey": "item_3124_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T17:56:57.829943Z"
+      }
+    },
+    {
+      "route": "/skills/item_3124_passive/effects/on_hit_magic_damage",
+      "status": 200,
+      "originalMatch": true,
+      "targetMatch": true,
+      "actual": {
+        "createdAt": "2026-09-07T17:56:58.228073Z",
+        "description": "攻击命中时造成30点额外魔法伤害攻击特效。",
+        "effectKey": "on_hit_magic_damage",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "怨怒攻击附伤",
+        "results": [
+          {
+            "description": "每次普通攻击命中造成30点额外魔法伤害。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "BASIC_ATTACK",
+              "originKind": "DIRECT",
+              "vampRules": []
+            },
+            "lifecycleBehavior": null,
+            "name": "怨怒魔法伤害",
+            "resultKey": "on_hit_magic_damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "on_hit_magic_damage"
+              }
+            }
+          }
+        ],
+        "skillKey": "item_3124_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T17:56:58.228073Z"
+      }
+    },
+    {
+      "route": "/skills/item_3124_passive/effects/attack_speed_stack",
+      "status": 200,
+      "originalMatch": true,
+      "targetMatch": false,
+      "actual": {
+        "createdAt": "2026-09-07T17:56:58.640137Z",
+        "description": "每次普通攻击命中获得8%攻击速度，最多4层，持续3秒。",
+        "effectKey": "attack_speed_stack",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "attack_speed_stack_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "attack_speed_max_stacks"
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "INCREASE"
+        },
+        "name": "沸腾打击攻击速度层数",
+        "results": [
+          {
+            "description": "每层增加8%攻击速度。",
+            "detail": {
+              "attributeKey": "bonus_attack_speed_percent",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "ADD",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "沸腾打击攻击速度",
+            "resultKey": "attack_speed_stack",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "attack_speed_per_stack"
+              }
+            }
+          }
+        ],
+        "skillKey": "item_3124_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T17:56:58.640137Z"
+      }
+    },
+    {
+      "route": "/skills/item_3124_passive/trigger-rules/resolve_rageblade_basic_attack",
+      "status": 200,
+      "originalMatch": true,
+      "targetMatch": true,
+      "actual": {
+        "actions": [
+          {
+            "actionKey": "execute_on_hit_magic_damage",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "on_hit_magic_damage"
+            },
+            "name": "执行怨怒额外魔法伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          },
+          {
+            "actionKey": "execute_attack_speed_stack",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "attack_speed_stack"
+            },
+            "name": "执行沸腾打击层数",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 20,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "按来源攻击附带与普通攻击叠层文案监听BASIC_ATTACK_HIT；技能触发攻击特效不扩大到该事件，第三次攻击双附伤另行待配。",
+        "eventSource": {
+          "detail": {},
+          "eventType": "BASIC_ATTACK_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "普通攻击命中结算怨怒与沸腾打击",
+        "perTargetCooldown": null,
+        "ruleKey": "resolve_rageblade_basic_attack",
+        "sortOrder": 10
+      }
+    },
+    {
+      "route": "/skills/item_3008_passive",
+      "status": 200,
+      "differences": []
+    },
+    {
+      "route": "/skills/item_3008_passive/parameters/omnivamp_per_kill_stack",
+      "status": 200,
+      "originalMatch": true,
+      "targetMatch": true,
+      "actual": {
+        "createdAt": "2026-09-07T17:58:19.723617Z",
+        "description": "参与击杀英雄后每层获得0.6%全能吸血，小数0.006表示0.6%。",
+        "fixedValue": 0.006,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "杀戮每层全能吸血",
+        "parameterKey": "omnivamp_per_kill_stack",
+        "skillKey": "item_3008_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T17:58:19.723617Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_3008_passive/parameters/omnivamp_max_stacks",
+      "status": 200,
+      "originalMatch": true,
+      "targetMatch": true,
+      "actual": {
+        "createdAt": "2026-09-07T17:58:20.149321Z",
+        "description": "杀戮最多叠加10层。",
+        "fixedValue": 10,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "杀戮最大层数",
+        "parameterKey": "omnivamp_max_stacks",
+        "skillKey": "item_3008_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T17:58:20.149321Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/item_3008_passive/effects/omnivamp_kill_stack",
+      "status": 200,
+      "originalMatch": true,
+      "targetMatch": false,
+      "actual": {
+        "createdAt": "2026-09-07T17:58:20.576647Z",
+        "description": "参与击杀英雄后获得0.6%全能吸血，最多10层，永久保留。",
+        "effectKey": "omnivamp_kill_stack",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "omnivamp_max_stacks"
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": null,
+          "reapplicationStackMode": "INCREASE"
+        },
+        "name": "杀戮全能吸血层数",
+        "results": [
+          {
+            "description": "每次参与击杀英雄增加0.6%全能吸血。",
+            "detail": {
+              "attributeKey": "omnivamp_percent",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "ADD",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "参与击杀全能吸血",
+            "resultKey": "omnivamp_kill_stack",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "omnivamp_per_kill_stack"
+              }
+            }
+          }
+        ],
+        "skillKey": "item_3008_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T17:58:20.576647Z"
+      }
+    },
+    {
+      "route": "/skills/item_3161_passive",
+      "status": 200,
+      "differences": []
+    },
+    {
+      "route": "/skills/item_3161_passive/parameters/basic_skill_haste",
+      "status": 200,
+      "originalMatch": true,
+      "targetMatch": true,
+      "actual": {
+        "createdAt": "2026-09-07T17:58:23.350127Z",
+        "description": "基础技能获得25点技能急速，基础技能范围使用现有common技能类别保存。",
+        "fixedValue": 25,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "龙之力量基础技能急速",
+        "parameterKey": "basic_skill_haste",
+        "skillKey": "item_3161_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T17:58:23.350127Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/item_3161_passive/parameters/skill_damage_bonus_per_stack",
+      "status": 200,
+      "originalMatch": true,
+      "targetMatch": true,
+      "actual": {
+        "createdAt": "2026-09-07T17:58:23.853509Z",
+        "description": "英雄技能和被动伤害每层提升3%，小数0.03表示3%。",
+        "fixedValue": 0.03,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "专注意志每层伤害增益",
+        "parameterKey": "skill_damage_bonus_per_stack",
+        "skillKey": "item_3161_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T17:58:23.853509Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_3161_passive/parameters/skill_damage_bonus_duration_ms",
+      "status": 200,
+      "originalMatch": true,
+      "targetMatch": true,
+      "actual": {
+        "createdAt": "2026-09-07T17:58:24.341112Z",
+        "description": "专注意志持续6秒，单位：毫秒。",
+        "fixedValue": 6000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "专注意志持续时间",
+        "parameterKey": "skill_damage_bonus_duration_ms",
+        "skillKey": "item_3161_passive",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T17:58:24.341112Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/item_3161_passive/parameters/skill_damage_bonus_max_stacks",
+      "status": 200,
+      "originalMatch": true,
+      "targetMatch": true,
+      "actual": {
+        "createdAt": "2026-09-07T17:58:25.164247Z",
+        "description": "专注意志最多叠加4层。",
+        "fixedValue": 4,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "专注意志最大层数",
+        "parameterKey": "skill_damage_bonus_max_stacks",
+        "skillKey": "item_3161_passive",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-07T17:58:25.164247Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/item_3161_passive/effects/basic_skill_haste",
+      "status": 200,
+      "originalMatch": true,
+      "targetMatch": true,
+      "actual": {
+        "createdAt": "2026-09-07T17:58:25.649542Z",
+        "description": "来源对象基础技能类别获得25点技能急速。",
+        "effectKey": "basic_skill_haste",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": null,
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "龙之力量基础技能急速",
+        "results": [
+          {
+            "description": "基础技能类别技能急速增加25点。",
+            "detail": {
+              "affectedSkillScope": {
+                "mode": "CATEGORIES",
+                "skillCategoryKeys": [
+                  "common"
+                ],
+                "skillKeys": []
+              },
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "KEEP",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "基础技能急速提升",
+            "resultKey": "basic_skill_haste",
+            "resultType": "SKILL_HASTE_MODIFIER",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "basic_skill_haste"
+              }
+            }
+          }
+        ],
+        "skillKey": "item_3161_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T17:58:25.649542Z"
+      }
+    },
+    {
+      "route": "/skills/item_3161_passive/trigger-rules/initialize_basic_skill_haste",
+      "status": 200,
+      "originalMatch": true,
+      "targetMatch": true,
+      "actual": {
+        "actions": [
+          {
+            "actionKey": "execute_basic_skill_haste",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "basic_skill_haste"
+            },
+            "name": "执行基础技能急速",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "EVENT_SOURCE"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "装备持有时对现有common技能类别应用25点技能急速；仅完成配置与回读。",
+        "eventSource": {
+          "detail": {},
+          "eventType": "SOURCE_INITIALIZED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "初始化龙之力量",
+        "perTargetCooldown": null,
+        "ruleKey": "initialize_basic_skill_haste",
+        "sortOrder": 10
+      }
+    },
+    {
+      "route": "/skills/ez_r",
+      "status": 200,
+      "originalMatch": true,
+      "targetMatch": false,
+      "actual": {
+        "createdAt": "2026-08-30T16:28:33.325266Z",
+        "description": "向目标方向发射全图能量波并短暂提供周围视野，对命中的敌人造成魔法伤害；小兵和非史诗级野怪承受较低伤害。",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "精准弹幕",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "ez_r",
+        "sortOrder": 50,
+        "status": "ENABLED",
+        "updatedAt": "2026-08-30T16:28:33.325266Z"
+      }
+    }
+  ],
+  "conflicts": [],
+  "writes": [],
+  "note": "全批旧值或精确目标检查后，仅执行8项已审纠错；不改共享目录。",
+  "finishedAt": "2026-09-07T18:19:08.088Z"
+}

@@ -1,0 +1,296 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Akali",
+  "sourceNumericId": "84",
+  "name": "阿卡丽",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 600,
+      "growth": 119,
+      "sources": [
+        "原始资料/zh_CN/champion/Akali.json:stats.hp/hpperlevel",
+        "角色根记录/Akali.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 600,
+        "2": 685.68,
+        "3": 775.525,
+        "4": 869.535,
+        "5": 967.71,
+        "6": 1070.05,
+        "7": 1176.555,
+        "8": 1287.225,
+        "9": 1402.06,
+        "10": 1521.06,
+        "11": 1644.225,
+        "12": 1771.555,
+        "13": 1903.05,
+        "14": 2038.71,
+        "15": 2178.535,
+        "16": 2322.525,
+        "17": 2470.68,
+        "18": 2623
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 9,
+      "growth": 0.9,
+      "sources": [
+        "原始资料/zh_CN/champion/Akali.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Akali.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 9,
+        "2": 9.648,
+        "3": 10.3275,
+        "4": 11.0385,
+        "5": 11.781,
+        "6": 12.555,
+        "7": 13.3605,
+        "8": 14.1975,
+        "9": 15.066,
+        "10": 15.966,
+        "11": 16.8975,
+        "12": 17.8605,
+        "13": 18.855,
+        "14": 19.881,
+        "15": 20.9385,
+        "16": 22.0275,
+        "17": 23.148,
+        "18": 24.3
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 23,
+      "growth": 4.7,
+      "sources": [
+        "原始资料/zh_CN/champion/Akali.json:stats.armor/armorperlevel",
+        "角色根记录/Akali.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 23,
+        "2": 26.384,
+        "3": 29.9325,
+        "4": 33.6455,
+        "5": 37.523,
+        "6": 41.565,
+        "7": 45.7715,
+        "8": 50.1425,
+        "9": 54.678,
+        "10": 59.378,
+        "11": 64.2425,
+        "12": 69.2715,
+        "13": 74.465,
+        "14": 79.823,
+        "15": 85.3455,
+        "16": 91.0325,
+        "17": 96.884,
+        "18": 102.9
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 37,
+      "growth": 2.05,
+      "sources": [
+        "原始资料/zh_CN/champion/Akali.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Akali.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 37,
+        "2": 38.476,
+        "3": 40.02375,
+        "4": 41.64325,
+        "5": 43.3345,
+        "6": 45.0975,
+        "7": 46.93225,
+        "8": 48.83875,
+        "9": 50.817,
+        "10": 52.867,
+        "11": 54.98875,
+        "12": 57.18225,
+        "13": 59.4475,
+        "14": 61.7845,
+        "15": 64.19325,
+        "16": 66.67375,
+        "17": 69.226,
+        "18": 71.85
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 62,
+      "growth": 3.3,
+      "sources": [
+        "角色根记录/Akali.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 62,
+        "2": 64.376,
+        "3": 66.8675,
+        "4": 69.4745,
+        "5": 72.197,
+        "6": 75.035,
+        "7": 77.9885,
+        "8": 81.0575,
+        "9": 84.242,
+        "10": 87.542,
+        "11": 90.9575,
+        "12": 94.4885,
+        "13": 98.135,
+        "14": 101.897,
+        "15": 105.7745,
+        "16": 109.7675,
+        "17": 113.876,
+        "18": 118.1
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 345,
+      "growth": null,
+      "sources": [
+        "角色根记录/Akali.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 345,
+        "2": 345,
+        "3": 345,
+        "4": 345,
+        "5": 345,
+        "6": 345,
+        "7": 345,
+        "8": 345,
+        "9": 345,
+        "10": 345,
+        "11": 345,
+        "12": 345,
+        "13": 345,
+        "14": 345,
+        "15": 345,
+        "16": 345,
+        "17": 345,
+        "18": 345
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 125,
+      "growth": null,
+      "sources": [
+        "角色根记录/Akali.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 125,
+        "2": 125,
+        "3": 125,
+        "4": 125,
+        "5": 125,
+        "6": 125,
+        "7": 125,
+        "8": 125,
+        "9": 125,
+        "10": 125,
+        "11": 125,
+        "12": 125,
+        "13": 125,
+        "14": 125,
+        "15": 125,
+        "16": 125,
+        "17": 125,
+        "18": 125
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.625,
+      "attackSpeedRatio": 0.625,
+      "growthPercent": 3.2,
+      "sources": [
+        "角色根记录/Akali.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.625,
+        "2": 0.6394,
+        "3": 0.6545,
+        "4": 0.6703,
+        "5": 0.6868,
+        "6": 0.704,
+        "7": 0.7219,
+        "8": 0.7405,
+        "9": 0.7598,
+        "10": 0.7798,
+        "11": 0.8005,
+        "12": 0.8219,
+        "13": 0.844,
+        "14": 0.8668,
+        "15": 0.8903,
+        "16": 0.9145,
+        "17": 0.9394,
+        "18": 0.965
+      }
+    }
+  ],
+  "missing": [
+    {
+      "attribute": "resource",
+      "label": "资源",
+      "resourceType": "能量",
+      "reason": "特殊或未明确资源不按法力统一生成；保留原始资源说明及根字段，待机制核对"
+    }
+  ],
+  "attackSpeedInputs": {
+    "base": 0.625,
+    "ratio": 0.625,
+    "growthPercent": 3.2,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

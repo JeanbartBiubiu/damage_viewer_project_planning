@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Smolder",
+  "sourceNumericId": "901",
+  "name": "斯莫德",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 575,
+      "growth": 100,
+      "sources": [
+        "原始资料/zh_CN/champion/Smolder.json:stats.hp/hpperlevel",
+        "角色根记录/Smolder.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 575,
+        "2": 647,
+        "3": 722.5,
+        "4": 801.5,
+        "5": 884,
+        "6": 970,
+        "7": 1059.5,
+        "8": 1152.5,
+        "9": 1249,
+        "10": 1349,
+        "11": 1452.5,
+        "12": 1559.5,
+        "13": 1670,
+        "14": 1784,
+        "15": 1901.5,
+        "16": 2022.5,
+        "17": 2147,
+        "18": 2275
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 3.75,
+      "growth": 0.6,
+      "sources": [
+        "原始资料/zh_CN/champion/Smolder.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Smolder.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 3.75,
+        "2": 4.182,
+        "3": 4.635,
+        "4": 5.109,
+        "5": 5.604,
+        "6": 6.12,
+        "7": 6.657,
+        "8": 7.215,
+        "9": 7.794,
+        "10": 8.394,
+        "11": 9.015,
+        "12": 9.657,
+        "13": 10.32,
+        "14": 11.004,
+        "15": 11.709,
+        "16": 12.435,
+        "17": 13.182,
+        "18": 13.95
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 24,
+      "growth": 4,
+      "sources": [
+        "原始资料/zh_CN/champion/Smolder.json:stats.armor/armorperlevel",
+        "角色根记录/Smolder.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 24,
+        "2": 26.88,
+        "3": 29.9,
+        "4": 33.06,
+        "5": 36.36,
+        "6": 39.8,
+        "7": 43.38,
+        "8": 47.1,
+        "9": 50.96,
+        "10": 54.96,
+        "11": 59.1,
+        "12": 63.38,
+        "13": 67.8,
+        "14": 72.36,
+        "15": 77.06,
+        "16": 81.9,
+        "17": 86.88,
+        "18": 92
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 33,
+      "growth": 1.1,
+      "sources": [
+        "原始资料/zh_CN/champion/Smolder.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Smolder.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 33,
+        "2": 33.792,
+        "3": 34.6225,
+        "4": 35.4915,
+        "5": 36.399,
+        "6": 37.345,
+        "7": 38.3295,
+        "8": 39.3525,
+        "9": 40.414,
+        "10": 41.514,
+        "11": 42.6525,
+        "12": 43.8295,
+        "13": 45.045,
+        "14": 46.299,
+        "15": 47.5915,
+        "16": 48.9225,
+        "17": 50.292,
+        "18": 51.7
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 58,
+      "growth": 2.3,
+      "sources": [
+        "角色根记录/Smolder.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 58,
+        "2": 59.656,
+        "3": 61.3925,
+        "4": 63.2095,
+        "5": 65.107,
+        "6": 67.085,
+        "7": 69.1435,
+        "8": 71.2825,
+        "9": 73.502,
+        "10": 75.802,
+        "11": 78.1825,
+        "12": 80.6435,
+        "13": 83.185,
+        "14": 85.807,
+        "15": 88.5095,
+        "16": 91.2925,
+        "17": 94.156,
+        "18": 97.1
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 330,
+      "growth": null,
+      "sources": [
+        "角色根记录/Smolder.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 330,
+        "2": 330,
+        "3": 330,
+        "4": 330,
+        "5": 330,
+        "6": 330,
+        "7": 330,
+        "8": 330,
+        "9": 330,
+        "10": 330,
+        "11": 330,
+        "12": 330,
+        "13": 330,
+        "14": 330,
+        "15": 330,
+        "16": 330,
+        "17": 330,
+        "18": 330
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 550,
+      "growth": null,
+      "sources": [
+        "角色根记录/Smolder.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 550,
+        "2": 550,
+        "3": 550,
+        "4": 550,
+        "5": 550,
+        "6": 550,
+        "7": 550,
+        "8": 550,
+        "9": 550,
+        "10": 550,
+        "11": 550,
+        "12": 550,
+        "13": 550,
+        "14": 550,
+        "15": 550,
+        "16": 550,
+        "17": 550,
+        "18": 550
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.638,
+      "attackSpeedRatio": 0.638,
+      "growthPercent": 4,
+      "sources": [
+        "角色根记录/Smolder.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.638,
+        "2": 0.656374,
+        "3": 0.675642,
+        "4": 0.695803,
+        "5": 0.716857,
+        "6": 0.738804,
+        "7": 0.761644,
+        "8": 0.785378,
+        "9": 0.810005,
+        "10": 0.835525,
+        "11": 0.861938,
+        "12": 0.889244,
+        "13": 0.917444,
+        "14": 0.946537,
+        "15": 0.976523,
+        "16": 1.007402,
+        "17": 1.039174,
+        "18": 1.07184
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 300,
+      "growth": 40,
+      "sources": [
+        "原始资料/zh_CN/champion/Smolder.json:stats.mp/mpperlevel",
+        "角色根记录/Smolder.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 300,
+        "2": 328.8,
+        "3": 359,
+        "4": 390.6,
+        "5": 423.6,
+        "6": 458,
+        "7": 493.8,
+        "8": 531,
+        "9": 569.6,
+        "10": 609.6,
+        "11": 651,
+        "12": 693.8,
+        "13": 738,
+        "14": 783.6,
+        "15": 830.6,
+        "16": 879,
+        "17": 928.8,
+        "18": 980
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 8.5,
+      "growth": 0.7,
+      "sources": [
+        "原始资料/zh_CN/champion/Smolder.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Smolder.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 8.5,
+        "2": 9.004,
+        "3": 9.5325,
+        "4": 10.0855,
+        "5": 10.663,
+        "6": 11.265,
+        "7": 11.8915,
+        "8": 12.5425,
+        "9": 13.218,
+        "10": 13.918,
+        "11": 14.6425,
+        "12": 15.3915,
+        "13": 16.165,
+        "14": 16.963,
+        "15": 17.7855,
+        "16": 18.6325,
+        "17": 19.504,
+        "18": 20.4
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.638,
+    "ratio": 0.638,
+    "growthPercent": 4,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

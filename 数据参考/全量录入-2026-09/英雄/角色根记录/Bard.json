@@ -1,0 +1,250 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Bard",
+  "sourceNumericId": "432",
+  "clientContentVersion": "16.17.8104348+branch.releases-16-17.content.release",
+  "source": {
+    "url": "https://raw.communitydragon.org/16.17/game/data/characters/bard/bard.bin.json",
+    "path": ".临时原始响应/16.17/Bard.bin.json",
+    "storage": "忽略提交的完整原始响应，可按URL复现",
+    "byteSize": 83271,
+    "sha256": "b036a3bbf0053a6fe910bd76e9241e12723d14f8c1c79168a15a5d52cfddf681",
+    "fetchedAt": "2026-09-06T14:26:14.174Z"
+  },
+  "recordKey": "Characters/Bard/CharacterRecords/Root",
+  "record": {
+    "mCharacterName": "Bard",
+    "baseHPModifiable": {
+      "baseValue": 630,
+      "__type": "ModifiableFloat"
+    },
+    "hpPerLevelModifiable": {
+      "baseValue": 103,
+      "__type": "ModifiableFloat"
+    },
+    "baseStaticHPRegenModifiable": {
+      "baseValue": 1.100000023841858,
+      "__type": "ModifiableFloat"
+    },
+    "hpRegenPerLevelModifiable": {
+      "baseValue": 0.10999999940395355,
+      "__type": "ModifiableFloat"
+    },
+    "healthBarHeight": 110,
+    "primaryAbilityResource": {
+      "arType": 0,
+      "{726ee5cd}": {
+        "baseValue": 350,
+        "__type": "ModifiableFloat"
+      },
+      "{6216bf7b}": {
+        "baseValue": 50,
+        "__type": "ModifiableFloat"
+      },
+      "{c4ab3550}": {
+        "baseValue": 1.2000000476837158,
+        "__type": "ModifiableFloat"
+      },
+      "{3a509002}": {
+        "baseValue": 0.09000000357627869,
+        "__type": "ModifiableFloat"
+      },
+      "__type": "AbilityResourceSlotInfo"
+    },
+    "baseDamageModifiable": {
+      "baseValue": 52,
+      "__type": "ModifiableFloat"
+    },
+    "damagePerLevelModifiable": {
+      "baseValue": 3,
+      "__type": "ModifiableFloat"
+    },
+    "baseArmorModifiable": {
+      "baseValue": 34,
+      "__type": "ModifiableFloat"
+    },
+    "armorPerLevelModifiable": {
+      "baseValue": 5,
+      "__type": "ModifiableFloat"
+    },
+    "baseMR": {
+      "baseValue": 30,
+      "__type": "ModifiableFloat"
+    },
+    "mrPerLevel": {
+      "baseValue": 1.2999999523162842,
+      "__type": "ModifiableFloat"
+    },
+    "critDamageMultiplier": 2,
+    "baseMoveSpeedModifiable": {
+      "baseValue": 335,
+      "__type": "ModifiableFloat"
+    },
+    "attackRangeModifiable": {
+      "baseValue": 500,
+      "__type": "ModifiableFloat"
+    },
+    "attackSpeedModifiable": {
+      "baseValue": 0.6579999923706055,
+      "__type": "ModifiableFloat"
+    },
+    "attackSpeedRatioModifiable": {
+      "baseValue": 0.6579999923706055,
+      "__type": "ModifiableFloat"
+    },
+    "attackSpeedPerLevelModifiable": {
+      "baseValue": 2,
+      "__type": "ModifiableFloat"
+    },
+    "mAdaptiveForceToAbilityPowerWeight": 1,
+    "acquisitionRange": 600,
+    "basicAttack": {
+      "mAttackTotalTime": 1.600000023841858,
+      "mAttackCastTime": 0.30000001192092896,
+      "mAttackDelayCastOffsetPercent": -0.10000000149011612,
+      "mAttackProbability": 1,
+      "__type": "AttackSlotData"
+    },
+    "extraAttacks": [
+      {
+        "mAttackName": "BardBasicAttack2",
+        "__type": "AttackSlotData"
+      },
+      {
+        "mAttackName": "BardBasicAttack3",
+        "__type": "AttackSlotData"
+      }
+    ],
+    "critAttacks": [
+      {
+        "mAttackDelayCastOffsetPercent": -0.10000000149011612,
+        "mAttackName": "BardCritAttack",
+        "__type": "AttackSlotData"
+      }
+    ],
+    "spellNames": [
+      "BardQAbility/BardQ",
+      "BardWAbility/BardW",
+      "BardEAbility/BardE",
+      "BardRAbility/BardR"
+    ],
+    "spells": [
+      "Characters/Bard/Spells/BardQAbility/BardQ",
+      "Characters/Bard/Spells/BardWAbility/BardW",
+      "Characters/Bard/Spells/BardEAbility/BardE",
+      "Characters/Bard/Spells/BardRAbility/BardR"
+    ],
+    "extraSpells": [
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell",
+      "BaseSpell"
+    ],
+    "extraSpellsList": [
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell",
+      "Shared/Spells/BaseSpell"
+    ],
+    "mAbilities": [
+      "Characters/Bard/Spells/BardQAbility",
+      "Characters/Bard/Spells/BardWAbility",
+      "Characters/Bard/Spells/BardEAbility",
+      "Characters/Bard/Spells/BardRAbility",
+      "Characters/Bard/Spells/BardPTooltip_D_nSAbility"
+    ],
+    "passiveName": "game_character_passiveName_Bard",
+    "passiveToolTip": "game_character_passiveDescription_Bard",
+    "passiveSpell": "BardPTooltip_D_nS",
+    "passive1IconName": "assets/characters/bard/hud/icons2d/bard_passive.dds",
+    "name": "game_character_displayname_Bard",
+    "mUseCCAnimations": true,
+    "selectionHeight": 302.7778015136719,
+    "selectionRadius": 130,
+    "pathfindingCollisionRadius": 35,
+    "overrideGameplayCollisionRadius": 80,
+    "unitTagsString": "Champion",
+    "mEducationToolData": {
+      "firstItem": 1056,
+      "__type": "ToolEducationData"
+    },
+    "characterToolData": {
+      "mapAIPresence": {
+        "0": {
+          "__type": "ToolAiPresence"
+        },
+        "1": {
+          "__type": "ToolAiPresence"
+        },
+        "2": {
+          "__type": "ToolAiPresence"
+        }
+      },
+      "passiveData": [
+        {
+          "name": "game_character_passiveName_Bard",
+          "__type": "ToolPassiveData"
+        }
+      ],
+      "searchTags": "support",
+      "searchTagsSecondary": "mage",
+      "championId": 432,
+      "roles": "SUPPORT",
+      "magicRank": 5,
+      "difficultyRank": 9,
+      "description": "game_character_description_Bard",
+      "defenseRank": 4,
+      "ChasingAttackRangePercent": 0.800000011920929,
+      "{aa75da9d}": false,
+      "attackRank": 4,
+      "__type": "CharacterToolData"
+    },
+    "platformEnabled": true,
+    "purchaseIdentities": [
+      "Ranged"
+    ],
+    "mPreferredPerkStyle": "Perks/Styles/Sorcery",
+    "mCharacterPassiveSpell": "Characters/Bard/Spells/BardPTooltip_D_nSAbility/BardPTooltip_D_nS",
+    "mCharacterPassiveBuffs": [
+      {
+        "mParentPassiveBuff": "Characters/Bard/Spells/BardPTooltip_D_nSAbility/BardPChimes",
+        "mAllowOnClones": false,
+        "__type": "CharacterPassiveData"
+      },
+      {
+        "mParentPassiveBuff": "Characters/Bard/Spells/BardPTooltip_D_nSAbility/BardPSpirits",
+        "__type": "CharacterPassiveData"
+      },
+      {
+        "mParentPassiveBuff": "Characters/Bard/Spells/BardVOManager",
+        "__type": "CharacterPassiveData"
+      }
+    ],
+    "{c5c48b41}": 1,
+    "__type": "CharacterRecord"
+  }
+}

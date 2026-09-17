@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Lucian",
+  "sourceNumericId": "236",
+  "name": "卢锡安",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 641,
+      "growth": 100,
+      "sources": [
+        "原始资料/zh_CN/champion/Lucian.json:stats.hp/hpperlevel",
+        "角色根记录/Lucian.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 641,
+        "2": 713,
+        "3": 788.5,
+        "4": 867.5,
+        "5": 950,
+        "6": 1036,
+        "7": 1125.5,
+        "8": 1218.5,
+        "9": 1315,
+        "10": 1415,
+        "11": 1518.5,
+        "12": 1625.5,
+        "13": 1736,
+        "14": 1850,
+        "15": 1967.5,
+        "16": 2088.5,
+        "17": 2213,
+        "18": 2341
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 3.75,
+      "growth": 0.65,
+      "sources": [
+        "原始资料/zh_CN/champion/Lucian.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Lucian.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 3.75,
+        "2": 4.218,
+        "3": 4.70875,
+        "4": 5.22225,
+        "5": 5.7585,
+        "6": 6.3175,
+        "7": 6.89925,
+        "8": 7.50375,
+        "9": 8.131,
+        "10": 8.781,
+        "11": 9.45375,
+        "12": 10.14925,
+        "13": 10.8675,
+        "14": 11.6085,
+        "15": 12.37225,
+        "16": 13.15875,
+        "17": 13.968,
+        "18": 14.8
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 28,
+      "growth": 4.2,
+      "sources": [
+        "原始资料/zh_CN/champion/Lucian.json:stats.armor/armorperlevel",
+        "角色根记录/Lucian.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 28,
+        "2": 31.024,
+        "3": 34.195,
+        "4": 37.513,
+        "5": 40.978,
+        "6": 44.59,
+        "7": 48.349,
+        "8": 52.255,
+        "9": 56.308,
+        "10": 60.508,
+        "11": 64.855,
+        "12": 69.349,
+        "13": 73.99,
+        "14": 78.778,
+        "15": 83.713,
+        "16": 88.795,
+        "17": 94.024,
+        "18": 99.4
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 33,
+      "growth": 1.1,
+      "sources": [
+        "原始资料/zh_CN/champion/Lucian.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Lucian.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 33,
+        "2": 33.792,
+        "3": 34.6225,
+        "4": 35.4915,
+        "5": 36.399,
+        "6": 37.345,
+        "7": 38.3295,
+        "8": 39.3525,
+        "9": 40.414,
+        "10": 41.514,
+        "11": 42.6525,
+        "12": 43.8295,
+        "13": 45.045,
+        "14": 46.299,
+        "15": 47.5915,
+        "16": 48.9225,
+        "17": 50.292,
+        "18": 51.7
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 60,
+      "growth": 2.5,
+      "sources": [
+        "角色根记录/Lucian.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 60,
+        "2": 61.8,
+        "3": 63.6875,
+        "4": 65.6625,
+        "5": 67.725,
+        "6": 69.875,
+        "7": 72.1125,
+        "8": 74.4375,
+        "9": 76.85,
+        "10": 79.35,
+        "11": 81.9375,
+        "12": 84.6125,
+        "13": 87.375,
+        "14": 90.225,
+        "15": 93.1625,
+        "16": 96.1875,
+        "17": 99.3,
+        "18": 102.5
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 335,
+      "growth": null,
+      "sources": [
+        "角色根记录/Lucian.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 335,
+        "2": 335,
+        "3": 335,
+        "4": 335,
+        "5": 335,
+        "6": 335,
+        "7": 335,
+        "8": 335,
+        "9": 335,
+        "10": 335,
+        "11": 335,
+        "12": 335,
+        "13": 335,
+        "14": 335,
+        "15": 335,
+        "16": 335,
+        "17": 335,
+        "18": 335
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 500,
+      "growth": null,
+      "sources": [
+        "角色根记录/Lucian.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 500,
+        "2": 500,
+        "3": 500,
+        "4": 500,
+        "5": 500,
+        "6": 500,
+        "7": 500,
+        "8": 500,
+        "9": 500,
+        "10": 500,
+        "11": 500,
+        "12": 500,
+        "13": 500,
+        "14": 500,
+        "15": 500,
+        "16": 500,
+        "17": 500,
+        "18": 500
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.638,
+      "attackSpeedRatio": 0.638,
+      "growthPercent": 2.5,
+      "sources": [
+        "角色根记录/Lucian.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.638,
+        "2": 0.649484,
+        "3": 0.661526,
+        "4": 0.674127,
+        "5": 0.687285,
+        "6": 0.701002,
+        "7": 0.715278,
+        "8": 0.730111,
+        "9": 0.745503,
+        "10": 0.761453,
+        "11": 0.777961,
+        "12": 0.795028,
+        "13": 0.812652,
+        "14": 0.830836,
+        "15": 0.849577,
+        "16": 0.868876,
+        "17": 0.888734,
+        "18": 0.90915
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 320,
+      "growth": 43,
+      "sources": [
+        "原始资料/zh_CN/champion/Lucian.json:stats.mp/mpperlevel",
+        "角色根记录/Lucian.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 320,
+        "2": 350.96,
+        "3": 383.425,
+        "4": 417.395,
+        "5": 452.87,
+        "6": 489.85,
+        "7": 528.335,
+        "8": 568.325,
+        "9": 609.82,
+        "10": 652.82,
+        "11": 697.325,
+        "12": 743.335,
+        "13": 790.85,
+        "14": 839.87,
+        "15": 890.395,
+        "16": 942.425,
+        "17": 995.96,
+        "18": 1051
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 7,
+      "growth": 0.8,
+      "sources": [
+        "原始资料/zh_CN/champion/Lucian.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Lucian.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 7,
+        "2": 7.576,
+        "3": 8.18,
+        "4": 8.812,
+        "5": 9.472,
+        "6": 10.16,
+        "7": 10.876,
+        "8": 11.62,
+        "9": 12.392,
+        "10": 13.192,
+        "11": 14.02,
+        "12": 14.876,
+        "13": 15.76,
+        "14": 16.672,
+        "15": 17.612,
+        "16": 18.58,
+        "17": 19.576,
+        "18": 20.6
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.638,
+    "ratio": 0.638,
+    "growthPercent": 2.5,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

@@ -1,0 +1,45 @@
+{
+  "generatedAt": "2026-09-06T19:16:26.821Z",
+  "scope": "本地已有16.17客户端响应与DDragon16.17.1中文主动槽位对照；排除赛拉斯、厄斐琉斯",
+  "excluded": [
+    "Sylas",
+    "Aphelios"
+  ],
+  "planSkillCount": 855,
+  "clientCoverage": [
+    {
+      "champion": "Ashe",
+      "rawFile": "ashe.bin.json",
+      "rawBytes": 100290,
+      "rawSha256": "9b2e4e241134f8e93153a752fe54f65c2dddccc795b9c9d575ec45111fccafd2",
+      "ddragonFile": "Ashe.json",
+      "activeSlots": 4,
+      "allSlotsHaveObjectAndFields": false
+    },
+    {
+      "champion": "Ezreal",
+      "rawFile": "ezreal.bin.json",
+      "rawBytes": 46524,
+      "rawSha256": "7c990bd7f7a9c6718dd4a1c1adc55af3a234e767afdad9eb9752feb853d5348e",
+      "ddragonFile": "Ezreal.json",
+      "activeSlots": 4,
+      "allSlotsHaveObjectAndFields": true
+    },
+    {
+      "champion": "Garen",
+      "rawFile": "garen.bin.json",
+      "rawBytes": 47339,
+      "rawSha256": "dd48d09a3ca8c1db5a35a3f47993cb7e1afd25b92e8a30d7748a37fcc238767e",
+      "ddragonFile": "Garen.json",
+      "activeSlots": 4,
+      "allSlotsHaveObjectAndFields": false
+    }
+  ],
+  "availableCandidates": 4,
+  "sourceNote": "CommunityDragon为社区客户端提取，不称Riot官方API",
+  "luxAdded": {
+    "rawFile": "艾希拉克丝客户端补证/lux.bin.json",
+    "reuseOnly": true,
+    "activeSlots": 4
+  }
+}

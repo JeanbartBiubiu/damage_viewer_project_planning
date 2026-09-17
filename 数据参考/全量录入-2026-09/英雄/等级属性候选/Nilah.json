@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Nilah",
+  "sourceNumericId": "895",
+  "name": "尼菈",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 570,
+      "growth": 101,
+      "sources": [
+        "原始资料/zh_CN/champion/Nilah.json:stats.hp/hpperlevel",
+        "角色根记录/Nilah.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 570,
+        "2": 642.72,
+        "3": 718.975,
+        "4": 798.765,
+        "5": 882.09,
+        "6": 968.95,
+        "7": 1059.345,
+        "8": 1153.275,
+        "9": 1250.74,
+        "10": 1351.74,
+        "11": 1456.275,
+        "12": 1564.345,
+        "13": 1675.95,
+        "14": 1791.09,
+        "15": 1909.765,
+        "16": 2031.975,
+        "17": 2157.72,
+        "18": 2287
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 6,
+      "growth": 0.9,
+      "sources": [
+        "原始资料/zh_CN/champion/Nilah.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Nilah.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 6,
+        "2": 6.648,
+        "3": 7.3275,
+        "4": 8.0385,
+        "5": 8.781,
+        "6": 9.555,
+        "7": 10.3605,
+        "8": 11.1975,
+        "9": 12.066,
+        "10": 12.966,
+        "11": 13.8975,
+        "12": 14.8605,
+        "13": 15.855,
+        "14": 16.881,
+        "15": 17.9385,
+        "16": 19.0275,
+        "17": 20.148,
+        "18": 21.3
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 27,
+      "growth": 4.2,
+      "sources": [
+        "原始资料/zh_CN/champion/Nilah.json:stats.armor/armorperlevel",
+        "角色根记录/Nilah.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 27,
+        "2": 30.024,
+        "3": 33.195,
+        "4": 36.513,
+        "5": 39.978,
+        "6": 43.59,
+        "7": 47.349,
+        "8": 51.255,
+        "9": 55.308,
+        "10": 59.508,
+        "11": 63.855,
+        "12": 68.349,
+        "13": 72.99,
+        "14": 77.778,
+        "15": 82.713,
+        "16": 87.795,
+        "17": 93.024,
+        "18": 98.4
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 32,
+      "growth": 2.05,
+      "sources": [
+        "原始资料/zh_CN/champion/Nilah.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Nilah.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 32,
+        "2": 33.476,
+        "3": 35.02375,
+        "4": 36.64325,
+        "5": 38.3345,
+        "6": 40.0975,
+        "7": 41.93225,
+        "8": 43.83875,
+        "9": 45.817,
+        "10": 47.867,
+        "11": 49.98875,
+        "12": 52.18225,
+        "13": 54.4475,
+        "14": 56.7845,
+        "15": 59.19325,
+        "16": 61.67375,
+        "17": 64.226,
+        "18": 66.85
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 58,
+      "growth": 2,
+      "sources": [
+        "角色根记录/Nilah.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 58,
+        "2": 59.44,
+        "3": 60.95,
+        "4": 62.53,
+        "5": 64.18,
+        "6": 65.9,
+        "7": 67.69,
+        "8": 69.55,
+        "9": 71.48,
+        "10": 73.48,
+        "11": 75.55,
+        "12": 77.69,
+        "13": 79.9,
+        "14": 82.18,
+        "15": 84.53,
+        "16": 86.95,
+        "17": 89.44,
+        "18": 92
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 340,
+      "growth": null,
+      "sources": [
+        "角色根记录/Nilah.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 340,
+        "2": 340,
+        "3": 340,
+        "4": 340,
+        "5": 340,
+        "6": 340,
+        "7": 340,
+        "8": 340,
+        "9": 340,
+        "10": 340,
+        "11": 340,
+        "12": 340,
+        "13": 340,
+        "14": 340,
+        "15": 340,
+        "16": 340,
+        "17": 340,
+        "18": 340
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 225,
+      "growth": null,
+      "sources": [
+        "角色根记录/Nilah.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 225,
+        "2": 225,
+        "3": 225,
+        "4": 225,
+        "5": 225,
+        "6": 225,
+        "7": 225,
+        "8": 225,
+        "9": 225,
+        "10": 225,
+        "11": 225,
+        "12": 225,
+        "13": 225,
+        "14": 225,
+        "15": 225,
+        "16": 225,
+        "17": 225,
+        "18": 225
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.697,
+      "attackSpeedRatio": 0.67,
+      "growthPercent": 1.25,
+      "sources": [
+        "角色根记录/Nilah.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.697,
+        "2": 0.70303,
+        "3": 0.709353,
+        "4": 0.715969,
+        "5": 0.722879,
+        "6": 0.730081,
+        "7": 0.737577,
+        "8": 0.745366,
+        "9": 0.753447,
+        "10": 0.761822,
+        "11": 0.770491,
+        "12": 0.779452,
+        "13": 0.788706,
+        "14": 0.798254,
+        "15": 0.808094,
+        "16": 0.818228,
+        "17": 0.828655,
+        "18": 0.839375
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 350,
+      "growth": 35,
+      "sources": [
+        "原始资料/zh_CN/champion/Nilah.json:stats.mp/mpperlevel",
+        "角色根记录/Nilah.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 350,
+        "2": 375.2,
+        "3": 401.625,
+        "4": 429.275,
+        "5": 458.15,
+        "6": 488.25,
+        "7": 519.575,
+        "8": 552.125,
+        "9": 585.9,
+        "10": 620.9,
+        "11": 657.125,
+        "12": 694.575,
+        "13": 733.25,
+        "14": 773.15,
+        "15": 814.275,
+        "16": 856.625,
+        "17": 900.2,
+        "18": 945
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 8.2,
+      "growth": 0.7,
+      "sources": [
+        "原始资料/zh_CN/champion/Nilah.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Nilah.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 8.2,
+        "2": 8.704,
+        "3": 9.2325,
+        "4": 9.7855,
+        "5": 10.363,
+        "6": 10.965,
+        "7": 11.5915,
+        "8": 12.2425,
+        "9": 12.918,
+        "10": 13.618,
+        "11": 14.3425,
+        "12": 15.0915,
+        "13": 15.865,
+        "14": 16.663,
+        "15": 17.4855,
+        "16": 18.3325,
+        "17": 19.204,
+        "18": 20.1
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.697,
+    "ratio": 0.67,
+    "growthPercent": 1.25,
+    "ratioDiffersFromBase": true
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

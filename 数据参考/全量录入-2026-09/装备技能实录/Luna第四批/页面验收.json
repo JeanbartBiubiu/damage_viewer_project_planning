@@ -1,0 +1,11 @@
+{
+  "date":"2026-09-08",
+  "method":"主负责人通过CUA操作真实浏览器",
+  "url":"http://127.0.0.1:5173/#/skills",
+  "skillKey":"item_6676_passive",
+  "representativeImageVisible":true,
+  "formula":{"formulaKey":"execute_threshold_health","operation":"MULTIPLY","left":"execute_threshold","right":"TARGET.hp.TOTAL","descriptionVerified":"2000生命对应100点阈值，严格低于条件另在合法触发中配置"},
+  "effect":{"effectKey":"execute_below_threshold","target":"当前目标","resultType":"斩杀","referenceSummary":"生命值 · 斩杀生命点数阈值","descriptionVerified":"通用斩杀小于或等于；来源严格低于，未宣称完整机制"},
+  "passed":true,
+  "runtimeValidation":"未执行"
+}

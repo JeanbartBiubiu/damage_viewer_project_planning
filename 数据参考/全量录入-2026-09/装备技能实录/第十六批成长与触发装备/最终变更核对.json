@@ -1,0 +1,509 @@
+{
+  "generatedAt": "2026-09-09T04:08:23.907Z",
+  "stage": "装备第十六批主审四项变更独立只读核对；只读候选、冻结来源、历史候选、主审记录和既有执行记录",
+  "planningDir": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备技能实录\\第十六批成长与触发装备",
+  "inputSha256": {
+    "current": "9a83728eadbc0ca64925e50a5f3bf249f114e7e4dff78b45e99760c476a55983",
+    "previous": "4b13e12da814a03211c6f1034e6d38d73bd04628c42787f3cdc79f5b8fc9a4de",
+    "finalVersion": "5ccccb63a72e1e29b6406ec8976b5a79962c7a3dd94c946a003190fc524650eb",
+    "reviewPatch": "3d2439f846d20c5aeb7da8a86fdb05c708317b2ee730454d65211ad99f11dbe6",
+    "frozen": "5a1ac9819cf064de2b6f743dfd0f3a512857224650746e423fdf9ebeed343cc2",
+    "before": "f25291115d34a00d328692b91d4c336ec52059424dcff768dc10a09097633836",
+    "readOnlyPlan": "f8f3e613f55f821ea24805cb2af05b7eb1f368fb1a3b1b97098f915e0506da69",
+    "readOnlyCheck": "f25291115d34a00d328692b91d4c336ec52059424dcff768dc10a09097633836"
+  },
+  "expected": {
+    "finalCandidateSha256": "9a83728eadbc0ca64925e50a5f3bf249f114e7e4dff78b45e99760c476a55983",
+    "sourceSha256": "5a1ac9819cf064de2b6f743dfd0f3a512857224650746e423fdf9ebeed343cc2",
+    "beforeSha256": "f25291115d34a00d328692b91d4c336ec52059424dcff768dc10a09097633836",
+    "objectIds": [
+      2510,
+      2512,
+      2517,
+      2520,
+      2523,
+      2524,
+      2526,
+      2530,
+      3040,
+      3042,
+      3073,
+      3083
+    ],
+    "changedObjectIds": [
+      2510,
+      2524,
+      3042,
+      3083
+    ]
+  },
+  "currentTotals": {
+    "equipment": 12,
+    "skills": 12,
+    "parameters": 67,
+    "formulas": 29,
+    "effects": 0,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0,
+    "relations": 12,
+    "representativeImages": 12,
+    "components": 132,
+    "omittedComponents": 21,
+    "pendingComponents": 11
+  },
+  "historicalCandidateSha256": "4b13e12da814a03211c6f1034e6d38d73bd04628c42787f3cdc79f5b8fc9a4de",
+  "mainReview": {
+    "at": "2026-09-09T03:33:23.285Z",
+    "candidateSha256": "9a83728eadbc0ca64925e50a5f3bf249f114e7e4dff78b45e99760c476a55983",
+    "totals": {
+      "equipment": 12,
+      "skills": 12,
+      "parameters": 67,
+      "formulas": 29,
+      "effects": 0,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "relations": 12,
+      "representativeImages": 12,
+      "components": 132,
+      "omittedComponents": 21,
+      "pendingComponents": 11
+    },
+    "notes": [
+      {
+        "id": 2510,
+        "change": "撤一个已解码属性输入，治疗第二项改来源额外生命值；不扩大到12/0或其他枚举。"
+      },
+      {
+        "id": 2524,
+        "change": "恢复被误排除的自身攻速；8秒仅基础分支，补远程0.5；两个数据哈希精确映射，纯队友和空间仍排除。"
+      },
+      {
+        "id": 3042,
+        "change": "技能伤害公式标明仅法力组成，缺失总攻击力系数不能被误读成零。"
+      },
+      {
+        "id": 3083,
+        "change": "补当前扩展绑定的非英雄伤害后3秒自身恢复禁用，不因外部伤害来源是小兵/野怪而删除自身依赖。"
+      }
+    ]
+  },
+  "reviewPatch": {
+    "originalSha256": "4b13e12da814a03211c6f1034e6d38d73bd04628c42787f3cdc79f5b8fc9a4de",
+    "notes": [
+      {
+        "id": 2510,
+        "change": "撤一个已解码属性输入，治疗第二项改来源额外生命值；不扩大到12/0或其他枚举。"
+      },
+      {
+        "id": 2524,
+        "change": "恢复被误排除的自身攻速；8秒仅基础分支，补远程0.5；两个数据哈希精确映射，纯队友和空间仍排除。"
+      },
+      {
+        "id": 3042,
+        "change": "技能伤害公式标明仅法力组成，缺失总攻击力系数不能被误读成零。"
+      },
+      {
+        "id": 3083,
+        "change": "补当前扩展绑定的非英雄伤害后3秒自身恢复禁用，不因外部伤害来源是小兵/野怪而删除自身依赖。"
+      }
+    ],
+    "sourceEvidence": {
+      "aftershockSourceObjectSha256": "b740424a9170e82972029bd6f85b438146d66a9cfc7fd6d668bbb757f15eb392",
+      "attackSpeedHashes": {
+        "MeleeAuraAttackSpeed": "{eb8d750f}",
+        "RangedAttackSpeedMultiplier": "{ca6deae2}"
+      }
+    },
+    "precedence": "本最终主审记录取代对象内旧审查说明中的相反范围判断；原资料与历史候选均保留。",
+    "finalSha256": "da379b40dd2b7aca1044b6bee53081e95d68af8d83163c6fbd1cd57cdcb6eac1",
+    "counts": {
+      "equipment": 12,
+      "skills": 12,
+      "parameters": 67,
+      "formulas": 29,
+      "effects": 0,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "relations": 12,
+      "representativeImages": 12,
+      "components": 127,
+      "omittedComponents": 21,
+      "pendingComponents": 11
+    }
+  },
+  "changedObjects": [
+    {
+      "id": 2510,
+      "beforeParameterKeys": [
+        "spellblade_cooldown_ms",
+        "spellblade_damage_mstat2_formula1_ratio",
+        "spellblade_damage_mstat2_formula1_input",
+        "spellblade_damage_default_ratio",
+        "spellblade_healing_default_ratio",
+        "spellblade_healing_mstat12_formula2_ratio",
+        "spellblade_healing_mstat12_formula2_input"
+      ],
+      "afterParameterKeys": [
+        "spellblade_cooldown_ms",
+        "spellblade_damage_mstat2_formula1_ratio",
+        "spellblade_damage_mstat2_formula1_input",
+        "spellblade_damage_default_ratio",
+        "spellblade_healing_default_ratio",
+        "spellblade_healing_mstat12_formula2_ratio"
+      ],
+      "beforeFormulaKeys": [
+        "spellblade_damage_value",
+        "spellblade_healing_value"
+      ],
+      "afterFormulaKeys": [
+        "spellblade_damage_value",
+        "spellblade_healing_value"
+      ]
+    },
+    {
+      "id": 2524,
+      "beforeParameterKeys": [
+        "melody_duration_ms",
+        "melody_move_speed"
+      ],
+      "afterParameterKeys": [
+        "melody_duration_ms",
+        "melody_move_speed",
+        "melody_ranged_duration_multiplier",
+        "melody_self_base_attack_speed_ratio",
+        "melody_self_ranged_attack_speed_multiplier"
+      ],
+      "beforeFormulaKeys": [],
+      "afterFormulaKeys": [
+        "melody_ranged_duration_ms",
+        "melody_self_ranged_attack_speed_ratio"
+      ]
+    },
+    {
+      "id": 3042,
+      "beforeParameterKeys": [
+        "bonus_ad_from_max_mana_ratio",
+        "on_hit_max_mana_damage_ratio",
+        "ranged_ability_max_mana_damage_ratio",
+        "melee_ability_max_mana_damage_ratio",
+        "champ_range_default_value",
+        "champ_range_ranged_value"
+      ],
+      "afterParameterKeys": [
+        "bonus_ad_from_max_mana_ratio",
+        "on_hit_max_mana_damage_ratio",
+        "ranged_ability_max_mana_damage_ratio",
+        "melee_ability_max_mana_damage_ratio",
+        "champ_range_default_value",
+        "champ_range_ranged_value"
+      ],
+      "beforeFormulaKeys": [
+        "bonus_attack_damage_from_max_mana",
+        "on_hit_damage_from_max_mana",
+        "melee_ability_damage_from_max_mana",
+        "ranged_ability_damage_from_max_mana",
+        "champ_range_default",
+        "champ_range_ranged"
+      ],
+      "afterFormulaKeys": [
+        "bonus_attack_damage_from_max_mana",
+        "on_hit_damage_from_max_mana",
+        "melee_ability_damage_from_max_mana",
+        "ranged_ability_damage_from_max_mana",
+        "champ_range_default",
+        "champ_range_ranged"
+      ]
+    },
+    {
+      "id": 3083,
+      "beforeParameterKeys": [
+        "warmog_health_threshold",
+        "warmog_no_champion_damage_duration_ms",
+        "warmog_healing_ratio",
+        "warmog_tooltip_multiplier",
+        "warmog_healing_stat_input",
+        "warmog_equipment_health_ratio",
+        "warmog_equipment_health_input"
+      ],
+      "afterParameterKeys": [
+        "warmog_health_threshold",
+        "warmog_no_champion_damage_duration_ms",
+        "warmog_healing_ratio",
+        "warmog_tooltip_multiplier",
+        "warmog_healing_stat_input",
+        "warmog_equipment_health_ratio",
+        "warmog_equipment_health_input",
+        "warmog_nonchampion_damage_lockout_ms"
+      ],
+      "beforeFormulaKeys": [
+        "warmog_base_healing_value",
+        "warmog_tooltip_healing_value",
+        "warmog_bonus_health_from_equipment"
+      ],
+      "afterFormulaKeys": [
+        "warmog_base_healing_value",
+        "warmog_tooltip_healing_value",
+        "warmog_bonus_health_from_equipment"
+      ]
+    }
+  ],
+  "arithmetic": {
+    "count": 11,
+    "passed": 11,
+    "cases": [
+      {
+        "name": "2510咒刃伤害",
+        "id": 2510,
+        "formulaKey": "spellblade_damage_value",
+        "parameters": {
+          "spellblade_damage_mstat2_formula1_input": 20
+        },
+        "attributes": {
+          "SOURCE:ability_power:TOTAL": 100
+        },
+        "expected": 25,
+        "actual": 25,
+        "explanation": "0.75×20+0.1×100"
+      },
+      {
+        "name": "2510自身治疗",
+        "id": 2510,
+        "formulaKey": "spellblade_healing_value",
+        "parameters": {},
+        "attributes": {
+          "SOURCE:ability_power:TOTAL": 100,
+          "SOURCE:hp:BONUS": 1000
+        },
+        "expected": 40,
+        "actual": 40,
+        "explanation": "0.1×100+0.03×1000"
+      },
+      {
+        "name": "2524远程持续",
+        "id": 2524,
+        "formulaKey": "melody_ranged_duration_ms",
+        "parameters": {},
+        "attributes": {},
+        "expected": 4000,
+        "actual": 4000,
+        "explanation": "8000×0.5"
+      },
+      {
+        "name": "2524自身远程攻速",
+        "id": 2524,
+        "formulaKey": "melody_self_ranged_attack_speed_ratio",
+        "parameters": {},
+        "attributes": {},
+        "expected": 0.2001,
+        "actual": 0.2001,
+        "explanation": "0.3×0.667，保留0.2001"
+      },
+      {
+        "name": "3042最大法力转额外攻击力",
+        "id": 3042,
+        "formulaKey": "bonus_attack_damage_from_max_mana",
+        "parameters": {},
+        "attributes": {
+          "SOURCE:mana:TOTAL": 2000
+        },
+        "expected": 40,
+        "actual": 40,
+        "explanation": "2000×0.02"
+      },
+      {
+        "name": "3042攻击特效法力伤害",
+        "id": 3042,
+        "formulaKey": "on_hit_damage_from_max_mana",
+        "parameters": {},
+        "attributes": {
+          "SOURCE:mana:TOTAL": 2000
+        },
+        "expected": 24,
+        "actual": 24,
+        "explanation": "2000×0.012"
+      },
+      {
+        "name": "3042近战技能法力组成",
+        "id": 3042,
+        "formulaKey": "melee_ability_damage_from_max_mana",
+        "parameters": {},
+        "attributes": {
+          "SOURCE:mana:TOTAL": 2000
+        },
+        "expected": 80,
+        "actual": 80,
+        "explanation": "2000×0.04"
+      },
+      {
+        "name": "3042远程技能法力组成",
+        "id": 3042,
+        "formulaKey": "ranged_ability_damage_from_max_mana",
+        "parameters": {},
+        "attributes": {
+          "SOURCE:mana:TOTAL": 2000
+        },
+        "expected": 60,
+        "actual": 60,
+        "explanation": "2000×0.03"
+      },
+      {
+        "name": "3083基础治疗",
+        "id": 3083,
+        "formulaKey": "warmog_base_healing_value",
+        "parameters": {
+          "warmog_healing_stat_input": 1000
+        },
+        "attributes": {},
+        "expected": 15,
+        "actual": 15,
+        "explanation": "0.015×1000"
+      },
+      {
+        "name": "3083提示治疗",
+        "id": 3083,
+        "formulaKey": "warmog_tooltip_healing_value",
+        "parameters": {
+          "warmog_healing_stat_input": 1000
+        },
+        "attributes": {},
+        "expected": 30,
+        "actual": 30,
+        "explanation": "0.015×1000×2"
+      },
+      {
+        "name": "3083装备生命转化",
+        "id": 3083,
+        "formulaKey": "warmog_bonus_health_from_equipment",
+        "parameters": {
+          "warmog_equipment_health_input": 1000
+        },
+        "attributes": {},
+        "expected": 120,
+        "actual": 120,
+        "explanation": "1000×0.12"
+      }
+    ]
+  },
+  "checks": {
+    "count": 22,
+    "passed": 22,
+    "failed": 0,
+    "allPassed": true,
+    "details": [
+      {
+        "name": "最终候选版本与主审记录一致",
+        "status": "通过"
+      },
+      {
+        "name": "12个来源对象和候选主体范围完整",
+        "status": "通过"
+      },
+      {
+        "name": "主审候选变化范围与四项记录一致",
+        "status": "通过"
+      },
+      {
+        "name": "全部最终公式结构可回读",
+        "status": "通过"
+      },
+      {
+        "name": "2510治疗第二项改为来源额外生命值",
+        "status": "通过"
+      },
+      {
+        "name": "2524自身攻速、远程分支和两个哈希映射准确",
+        "status": "通过"
+      },
+      {
+        "name": "2524源文本与最终分支用途一致",
+        "status": "通过"
+      },
+      {
+        "name": "3042公式仅表达已证法力组成并保留缺失项",
+        "status": "通过"
+      },
+      {
+        "name": "3083保留非英雄伤害后三秒失能",
+        "status": "通过"
+      },
+      {
+        "name": "主审来源证据哈希和近远程映射一致",
+        "status": "通过"
+      },
+      {
+        "name": "算例 2510咒刃伤害",
+        "status": "通过"
+      },
+      {
+        "name": "算例 2510自身治疗",
+        "status": "通过"
+      },
+      {
+        "name": "算例 2524远程持续",
+        "status": "通过"
+      },
+      {
+        "name": "算例 2524自身远程攻速",
+        "status": "通过"
+      },
+      {
+        "name": "算例 3042最大法力转额外攻击力",
+        "status": "通过"
+      },
+      {
+        "name": "算例 3042攻击特效法力伤害",
+        "status": "通过"
+      },
+      {
+        "name": "算例 3042近战技能法力组成",
+        "status": "通过"
+      },
+      {
+        "name": "算例 3042远程技能法力组成",
+        "status": "通过"
+      },
+      {
+        "name": "算例 3083基础治疗",
+        "status": "通过"
+      },
+      {
+        "name": "算例 3083提示治疗",
+        "status": "通过"
+      },
+      {
+        "name": "算例 3083装备生命转化",
+        "status": "通过"
+      },
+      {
+        "name": "现有写入记录仅作回读证据",
+        "status": "通过",
+        "note": "只读取既有记录，本脚本没有调用业务接口"
+      }
+    ]
+  },
+  "observedWriteRecord": {
+    "file": "写入执行记录-2026-09-09T03-37-49-059Z.json",
+    "mode": "显式补缺写入",
+    "eventCount": 264,
+    "finalSummary": {
+      "inventory": 983,
+      "same": 132,
+      "missing": 0,
+      "conflicts": 0,
+      "deferred": 0
+    },
+    "errors": [],
+    "candidateSha256": "9a83728eadbc0ca64925e50a5f3bf249f114e7e4dff78b45e99760c476a55983"
+  },
+  "conclusions": {
+    "item2510": "治疗第二项从显式未知属性输入改为SOURCE hp BONUS；mStat2/formula1第一伤害基数仍为显式输入。",
+    "item2524": "恢复包括自身的攻速数值；0.3×0.667保留为0.2001，持续时间基础8秒与远程0.5分支分开。",
+    "item3042": "四个伤害或转化公式均只表达SOURCE mana TOTAL已证组成；缺失AbilityTADRatio和6.5锁定单位仍保留缺口。",
+    "item3083": "非英雄伤害后3秒失能进入候选；0.5秒原字段与每秒提示×2按算术对应记录，未构造治疗周期。"
+  },
+  "blockers": []
+}

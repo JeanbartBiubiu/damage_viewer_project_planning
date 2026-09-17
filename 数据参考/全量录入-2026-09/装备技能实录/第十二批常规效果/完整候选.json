@@ -1,0 +1,1895 @@
+{
+  "generatedAt": "2026-09-08T15:18:42.542Z",
+  "stage": "仅来源和候选，未授权业务写入",
+  "clientVersion": "16.17",
+  "officialVersion": "16.17.1",
+  "objects": [
+    {
+      "equipmentKey": "item_3033",
+      "equipmentName": "凡性的提醒",
+      "skillKey": "item_3033_passive",
+      "source": {
+        "path": "Items/3033",
+        "bindings": {
+          "keyName": {
+            "sourceKey": "Item_3033_Name",
+            "key": "item_3033_name",
+            "text": "凡性的提醒"
+          },
+          "keyBrief": {
+            "sourceKey": "Item_3033_Brief",
+            "key": "item_3033_brief",
+            "text": "治疗克星"
+          },
+          "keyInventoryOnlyText": {
+            "sourceKey": "Item_3033_InventoryOnlyText",
+            "key": "item_3033_inventoryonlytext",
+            "text": "已降低的敌方治疗效果：<attention>@f2@</attention><br>已降低的敌方生命回复：<attention>@f3@</attention>"
+          },
+          "keyTooltip": {
+            "sourceKey": "Item_3033_Tooltip",
+            "key": "item_3033_tooltip",
+            "text": "<passive>重伤</passive><br>对敌方英雄造成物理伤害时会施加<keyword>@GrievousAmount*100@%重伤</keyword>效果，持续@GrievousDuration@秒。"
+          },
+          "keyColloquialism": {
+            "sourceKey": "Item_3033_Colloquialism",
+            "key": "item_3033_colloquialism",
+            "text": ";Mortal Reminder;zhongshang;重伤;fanxingdetixing;fxdtx"
+          },
+          "keyKeywordDefinitions": {
+            "sourceKey": "Item_3033_KeywordDefinitions",
+            "key": "item_3033_keyworddefinitions",
+            "text": "<br>{{ Item_KeywordDefinition_Wounds }}"
+          },
+          "keySecondaryBrief": {
+            "sourceKey": "Item_Unique_Fatality",
+            "key": "item_unique_fatality",
+            "text": "唯一：夺命"
+          }
+        },
+        "official": {
+          "name": "凡性的提醒",
+          "description": "<mainText><stats><attention>35</attention>攻击力<br><attention>30%</attention>护甲穿透<br><attention>25%</attention>暴击几率</stats><br><br><passive>重伤</passive><br>对敌方英雄造成物理伤害时会施加<keyword>40%重伤</keyword>效果，持续3秒。</mainText>",
+          "colloq": ";zhongshang;grievous;重伤;zs;Mortal Reminder",
+          "plaintext": "用于对抗拥有高生命回复和高护甲的敌人",
+          "from": [
+            "3123",
+            "3035",
+            "1018"
+          ],
+          "image": {
+            "full": "3033.png",
+            "sprite": "item3.png",
+            "group": "item",
+            "x": 144,
+            "y": 144,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 150,
+            "purchasable": true,
+            "total": 3000,
+            "sell": 2100
+          },
+          "tags": [
+            "Damage",
+            "CriticalStrike",
+            "ArmorPenetration"
+          ],
+          "maps": {
+            "11": true,
+            "12": true,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatCritChanceMod": 0.25,
+            "FlatPhysicalDamageMod": 35
+          },
+          "depth": 3
+        },
+        "sourceFiles": [
+          {
+            "文件": "客户端原始资料/items-16.17.cdtb.bin.json.gz",
+            "解压文件名": "items-16.17.cdtb.bin.json",
+            "地址": "https://raw.communitydragon.org/16.17/game/items.cdtb.bin.json",
+            "目录或公告版本": "16.17",
+            "用途": "主证：客户端装备对象、命名数据、计算与说明绑定",
+            "下载文件修改时间UTC": "2026-09-06T15:00:14.328Z",
+            "原始字节数": 15923188,
+            "原始SHA256": "b59ec9320d05acefa344ea8a5ef615cf7f32959078475cafff63833462dc358f",
+            "压缩字节数": 1577238,
+            "压缩SHA256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7",
+            "verified": true
+          },
+          {
+            "文件": "客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+            "解压文件名": "lol-16.17-zh_CN.stringtable.json",
+            "地址": "https://raw.communitydragon.org/16.17/game/zh_cn/data/menu/en_us/lol.stringtable.json",
+            "目录或公告版本": "16.17",
+            "用途": "主证：中文游戏说明，文件内version=5是字符串表格式版本，不是游戏补丁版本",
+            "下载文件修改时间UTC": "2026-09-06T15:08:11.306Z",
+            "原始字节数": 32784742,
+            "原始SHA256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+            "压缩字节数": 8350124,
+            "压缩SHA256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+            "verified": true
+          },
+          {
+            "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+            "file": "官方原始资料/item-16.17.1-zh_CN.json",
+            "retrievedAt": "2026-09-06T14:10:07.953Z",
+            "byteSize": 691131,
+            "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973",
+            "verified": true
+          }
+        ]
+      },
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_3033_passive",
+          "name": "凡性的提醒·重伤",
+          "description": "当前绑定说明：对敌方英雄造成物理伤害时施加40%重伤，持续3秒。本候选记录确证参数；重伤跨来源取强、治疗和生命回复覆盖、伤害事件英雄门槛仍待配。装备直接属性由装备自身提供，不重复施加。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "passive"
+          ]
+        },
+        "parameters": [
+          {
+            "parameterKey": "grievous_amount",
+            "name": "重伤减疗比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.4,
+            "levelValues": null,
+            "description": "当前根GrievousAmount与绑定主说明共同确证，0.4表示40%。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "grievous_duration_ms",
+            "name": "重伤持续时间",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 3000,
+            "levelValues": null,
+            "description": "当前根GrievousDuration=3秒，换算3000毫秒。",
+            "sortOrder": 20
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": [],
+        "relation": {
+          "equipmentKey": "item_3033",
+          "skillKey": "item_3033_passive",
+          "sortOrder": 10
+        },
+        "representativeImage": {
+          "imageKey": "item_3033"
+        }
+      },
+      "disposition": {
+        "范围外": [],
+        "来源待核": [],
+        "系统缺口": [
+          {
+            "component": "多个重伤来源只取最强",
+            "reason": "沿用3123/3916既有实录结论：普通比例加算会将两份40%叠成80%，不能仅新增治疗乘区就提交。跨来源取强方式待补。"
+          },
+          {
+            "component": "伤害事件与英雄类别门槛",
+            "reason": "当前要求对敌方英雄造成物理伤害，不是任意命中。既有实录发现DAMAGE_DEALT与英雄类别条件尚不能完整组合，未新造事件或放宽目标。"
+          },
+          {
+            "component": "重伤对生命回复的完整覆盖",
+            "reason": "当前绑定重伤定义已明确同时降低治疗与生命回复，游戏文字来源已确证；当前配置到运行的hp_regen覆盖路径尚未验证，不能把单个治疗修正结果当作完整覆盖。"
+          }
+        ],
+        "尚未接线": [
+          {
+            "component": "3秒重伤实例与刷新",
+            "reason": "待跨来源取强、作用范围及输入组合明确后，按来源目标期限配置重伤效果和刷新；本阶段效果、过程、状态、规则均为空。"
+          }
+        ]
+      },
+      "proofs": [
+        {
+          "source": "Items/3033/mDataValues",
+          "raw": [
+            {
+              "mName": "GrievousDuration",
+              "mValue": 3,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "GrievousAmount",
+              "mValue": 0.4000000059604645,
+              "__type": "ItemDataValue"
+            }
+          ],
+          "accepted": {
+            "grievous_amount": 0.4,
+            "grievous_duration_ms": 3000
+          },
+          "trigger": "对敌方英雄造成物理伤害",
+          "damageTypeKey": "physics"
+        }
+      ],
+      "arithmetic": [
+        {
+          "sample": "单份40%重伤作用于100治疗点，仅算术",
+          "expected": 40,
+          "actual": 40,
+          "match": true
+        },
+        {
+          "sample": "持续3秒换算毫秒",
+          "expected": 3000,
+          "actual": 3000,
+          "match": true
+        },
+        {
+          "sample": "同强度两份重伤仍为40%，禁止直接相加",
+          "expected": 0.4,
+          "actual": 0.4,
+          "match": true,
+          "boundary": "机制要求算例，尚无已保存效果实现该行为"
+        }
+      ],
+      "safeguards": {
+        "equipment": {
+          "createdAt": "2026-09-06T17:09:32.534046Z",
+          "description": "来源：官方16.17.1装备3033。 原始说明：35攻击力 30%护甲穿透 25%暴击几率 重伤 对敌方英雄造成物理伤害时会施加40%重伤效果，持续3秒。 被动与主动效果尚待配置。",
+          "equipmentKey": "item_3033",
+          "gameId": "lol",
+          "name": "凡性的提醒",
+          "updatedAt": "2026-09-06T17:09:32.534046Z"
+        },
+        "attributes": {
+          "attributeValues": {
+            "armor_pen_percent": 0.3,
+            "attack_damage": 35,
+            "critical_strike_chance": 0.25
+          },
+          "equipmentKey": "item_3033"
+        },
+        "representativeImage": {
+          "image": {
+            "enabled": true,
+            "imageKey": "item_3033",
+            "name": "item_3033"
+          }
+        },
+        "relations": {
+          "items": [],
+          "total": 0
+        }
+      }
+    },
+    {
+      "equipmentKey": "item_3165",
+      "equipmentName": "莫雷洛秘典",
+      "skillKey": "item_3165_passive",
+      "source": {
+        "path": "Items/3165",
+        "bindings": {
+          "keyName": {
+            "sourceKey": "Item_3165_Name",
+            "key": "item_3165_name",
+            "text": "莫雷洛秘典"
+          },
+          "keyInventoryOnlyText": {
+            "sourceKey": "Item_3165_InventoryOnlyText",
+            "key": "item_3165_inventoryonlytext",
+            "text": "已降低的治疗效果：<attention>@f2@</attention><br>已降低的生命回复：<attention>@f3@</attention>"
+          },
+          "keyBrief": {
+            "sourceKey": "Item_3165_Brief",
+            "key": "item_3165_brief",
+            "text": "治疗克星"
+          },
+          "keyTooltip": {
+            "sourceKey": "Item_3165_Tooltip",
+            "key": "item_3165_tooltip",
+            "text": "<passive>重伤</passive><br>对敌方英雄造成<magicDamage>魔法伤害</magicDamage>时会施加持续@GrievousDuration@秒的<keyword>@GrievousAmount*100@%重伤</keyword>效果。"
+          },
+          "keyColloquialism": {
+            "sourceKey": "Item_3165_Colloquialism",
+            "key": "item_3165_colloquialism",
+            "text": ";书;鬼书;重伤;应对治疗;克制治疗;Morellonomicon;moleiluomidian;mllmd;zhongshang"
+          },
+          "keyKeywordDefinitions": {
+            "sourceKey": "Item_3165_KeywordDefinitions",
+            "key": "item_3165_keyworddefinitions",
+            "text": "<br>{{ Item_KeywordDefinition_Wounds }}"
+          }
+        },
+        "official": {
+          "name": "莫雷洛秘典",
+          "description": "<mainText><stats><attention>75</attention>法术强度<br><attention>350</attention>生命值<br><attention>15</attention>技能急速</stats><br><br><passive>重伤</passive><br>对敌方英雄造成<magicDamage>魔法伤害</magicDamage>时会施加持续3秒的<keyword>40%重伤</keyword>效果。</mainText>",
+          "colloq": ";书;鬼书;重伤;应对治疗;克制治疗;Morellonomicon;moleiluomidian;mllmd;zhongshang",
+          "plaintext": "提升魔法伤害",
+          "from": [
+            "3916",
+            "1026",
+            "3067"
+          ],
+          "image": {
+            "full": "3165.png",
+            "sprite": "item4.png",
+            "group": "item",
+            "x": 0,
+            "y": 48,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 400,
+            "purchasable": true,
+            "total": 2850,
+            "sell": 1995
+          },
+          "tags": [
+            "Health",
+            "SpellDamage",
+            "CooldownReduction",
+            "AbilityHaste"
+          ],
+          "maps": {
+            "11": true,
+            "12": true,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatHPPoolMod": 350,
+            "FlatMagicDamageMod": 75
+          },
+          "depth": 3
+        },
+        "sourceFiles": [
+          {
+            "文件": "客户端原始资料/items-16.17.cdtb.bin.json.gz",
+            "解压文件名": "items-16.17.cdtb.bin.json",
+            "地址": "https://raw.communitydragon.org/16.17/game/items.cdtb.bin.json",
+            "目录或公告版本": "16.17",
+            "用途": "主证：客户端装备对象、命名数据、计算与说明绑定",
+            "下载文件修改时间UTC": "2026-09-06T15:00:14.328Z",
+            "原始字节数": 15923188,
+            "原始SHA256": "b59ec9320d05acefa344ea8a5ef615cf7f32959078475cafff63833462dc358f",
+            "压缩字节数": 1577238,
+            "压缩SHA256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7",
+            "verified": true
+          },
+          {
+            "文件": "客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+            "解压文件名": "lol-16.17-zh_CN.stringtable.json",
+            "地址": "https://raw.communitydragon.org/16.17/game/zh_cn/data/menu/en_us/lol.stringtable.json",
+            "目录或公告版本": "16.17",
+            "用途": "主证：中文游戏说明，文件内version=5是字符串表格式版本，不是游戏补丁版本",
+            "下载文件修改时间UTC": "2026-09-06T15:08:11.306Z",
+            "原始字节数": 32784742,
+            "原始SHA256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+            "压缩字节数": 8350124,
+            "压缩SHA256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+            "verified": true
+          },
+          {
+            "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+            "file": "官方原始资料/item-16.17.1-zh_CN.json",
+            "retrievedAt": "2026-09-06T14:10:07.953Z",
+            "byteSize": 691131,
+            "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973",
+            "verified": true
+          }
+        ]
+      },
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_3165_passive",
+          "name": "莫雷洛秘典·重伤",
+          "description": "当前绑定说明：对敌方英雄造成魔法伤害时施加40%重伤，持续3秒。本候选记录确证参数；重伤跨来源取强、治疗和生命回复覆盖、伤害事件英雄门槛仍待配。装备直接属性由装备自身提供，不重复施加。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "passive"
+          ]
+        },
+        "parameters": [
+          {
+            "parameterKey": "grievous_amount",
+            "name": "重伤减疗比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.4,
+            "levelValues": null,
+            "description": "当前根GrievousAmount与绑定主说明共同确证，0.4表示40%。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "grievous_duration_ms",
+            "name": "重伤持续时间",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 3000,
+            "levelValues": null,
+            "description": "当前根GrievousDuration=3秒，换算3000毫秒。",
+            "sortOrder": 20
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": [],
+        "relation": {
+          "equipmentKey": "item_3165",
+          "skillKey": "item_3165_passive",
+          "sortOrder": 10
+        },
+        "representativeImage": {
+          "imageKey": "item_3165"
+        }
+      },
+      "disposition": {
+        "范围外": [],
+        "来源待核": [],
+        "系统缺口": [
+          {
+            "component": "多个重伤来源只取最强",
+            "reason": "沿用3123/3916既有实录结论：普通比例加算会将两份40%叠成80%，不能仅新增治疗乘区就提交。跨来源取强方式待补。"
+          },
+          {
+            "component": "伤害事件与英雄类别门槛",
+            "reason": "当前要求对敌方英雄造成魔法伤害，不是任意命中。既有实录发现DAMAGE_DEALT与英雄类别条件尚不能完整组合，未新造事件或放宽目标。"
+          },
+          {
+            "component": "重伤对生命回复的完整覆盖",
+            "reason": "当前绑定重伤定义已明确同时降低治疗与生命回复，游戏文字来源已确证；当前配置到运行的hp_regen覆盖路径尚未验证，不能把单个治疗修正结果当作完整覆盖。"
+          }
+        ],
+        "尚未接线": [
+          {
+            "component": "3秒重伤实例与刷新",
+            "reason": "待跨来源取强、作用范围及输入组合明确后，按来源目标期限配置重伤效果和刷新；本阶段效果、过程、状态、规则均为空。"
+          }
+        ]
+      },
+      "proofs": [
+        {
+          "source": "Items/3165/mDataValues",
+          "raw": [
+            {
+              "mName": "GrievousAmount",
+              "mValue": 0.4000000059604645,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "GrievousDuration",
+              "mValue": 3,
+              "__type": "ItemDataValue"
+            }
+          ],
+          "accepted": {
+            "grievous_amount": 0.4,
+            "grievous_duration_ms": 3000
+          },
+          "trigger": "对敌方英雄造成魔法伤害",
+          "damageTypeKey": "magic"
+        }
+      ],
+      "arithmetic": [
+        {
+          "sample": "单份40%重伤作用于100治疗点，仅算术",
+          "expected": 40,
+          "actual": 40,
+          "match": true
+        },
+        {
+          "sample": "持续3秒换算毫秒",
+          "expected": 3000,
+          "actual": 3000,
+          "match": true
+        },
+        {
+          "sample": "同强度两份重伤仍为40%，禁止直接相加",
+          "expected": 0.4,
+          "actual": 0.4,
+          "match": true,
+          "boundary": "机制要求算例，尚无已保存效果实现该行为"
+        }
+      ],
+      "safeguards": {
+        "equipment": {
+          "createdAt": "2026-09-06T18:11:02.458491Z",
+          "description": "来源：官方16.17.1装备3165。 原始说明：75法术强度\n350生命值\n15技能急速\n\n重伤\n对敌方英雄造成魔法伤害时会施加持续3秒的40%重伤效果。 被动与主动效果尚待配置。",
+          "equipmentKey": "item_3165",
+          "gameId": "lol",
+          "name": "莫雷洛秘典",
+          "updatedAt": "2026-09-06T18:11:02.458491Z"
+        },
+        "attributes": {
+          "attributeValues": {
+            "hp": 350,
+            "ability_power": 75,
+            "ability_haste": 15
+          },
+          "equipmentKey": "item_3165"
+        },
+        "representativeImage": {
+          "image": {
+            "enabled": true,
+            "imageKey": "item_3165",
+            "name": "item_3165"
+          }
+        },
+        "relations": {
+          "items": [],
+          "total": 0
+        }
+      }
+    },
+    {
+      "equipmentKey": "item_6609",
+      "equipmentName": "炼金朋克链锯剑",
+      "skillKey": "item_6609_passive",
+      "source": {
+        "path": "Items/6609",
+        "bindings": {
+          "keyName": {
+            "sourceKey": "Item_6609_Name",
+            "key": "item_6609_name",
+            "text": "炼金朋克链锯剑"
+          },
+          "keyBrief": {
+            "sourceKey": "Item_6609_Brief",
+            "key": "item_6609_brief",
+            "text": "治疗克星"
+          },
+          "keyTooltip": {
+            "sourceKey": "Item_6609_Tooltip",
+            "key": "item_6609_tooltip",
+            "text": "<passive>劈削</passive><br>对敌方英雄造成物理伤害时会施加<keyword>@GrievousAmount*100@%重伤</keyword>效果，持续@GrievousDuration@秒。"
+          },
+          "keyColloquialism": {
+            "sourceKey": "Item_6609_Colloquialism",
+            "key": "item_6609_colloquialism",
+            "text": ";Chempunk Chainsword;zhongshang;重伤;lianjinpengkelianjujian;ljpkljj"
+          },
+          "keyKeywordDefinitions": {
+            "sourceKey": "Item_6609_KeywordDefinitions",
+            "key": "item_6609_keyworddefinitions",
+            "text": "<br>{{ Item_KeywordDefinition_Wounds }}"
+          },
+          "keyInventoryOnlyText": {
+            "sourceKey": "Item_226609_InventoryOnlyText",
+            "key": "item_226609_inventoryonlytext",
+            "text": "已降低敌人的治疗效果：<attention>@f2@</attention><br>已降低敌人的回复效果：<attention>@f3@</attention>"
+          }
+        },
+        "official": {
+          "name": "炼金朋克链锯剑",
+          "description": "<mainText><stats><attention>45</attention>攻击力<br><attention>450</attention>生命值<br><attention>15</attention>技能急速</stats><br><br><passive>劈削</passive><br>对敌方英雄造成物理伤害时会施加<keyword>40%重伤</keyword>效果，持续3秒。</mainText>",
+          "colloq": "",
+          "plaintext": "",
+          "from": [
+            "3123",
+            "1011",
+            "3133"
+          ],
+          "image": {
+            "full": "6609.png",
+            "sprite": "item5.png",
+            "group": "item",
+            "x": 384,
+            "y": 384,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 250,
+            "purchasable": true,
+            "total": 3000,
+            "sell": 2100
+          },
+          "tags": [
+            "Health",
+            "Damage",
+            "CooldownReduction",
+            "AbilityHaste"
+          ],
+          "maps": {
+            "11": true,
+            "12": true,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatHPPoolMod": 450,
+            "FlatPhysicalDamageMod": 45
+          },
+          "depth": 3
+        },
+        "sourceFiles": [
+          {
+            "文件": "客户端原始资料/items-16.17.cdtb.bin.json.gz",
+            "解压文件名": "items-16.17.cdtb.bin.json",
+            "地址": "https://raw.communitydragon.org/16.17/game/items.cdtb.bin.json",
+            "目录或公告版本": "16.17",
+            "用途": "主证：客户端装备对象、命名数据、计算与说明绑定",
+            "下载文件修改时间UTC": "2026-09-06T15:00:14.328Z",
+            "原始字节数": 15923188,
+            "原始SHA256": "b59ec9320d05acefa344ea8a5ef615cf7f32959078475cafff63833462dc358f",
+            "压缩字节数": 1577238,
+            "压缩SHA256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7",
+            "verified": true
+          },
+          {
+            "文件": "客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+            "解压文件名": "lol-16.17-zh_CN.stringtable.json",
+            "地址": "https://raw.communitydragon.org/16.17/game/zh_cn/data/menu/en_us/lol.stringtable.json",
+            "目录或公告版本": "16.17",
+            "用途": "主证：中文游戏说明，文件内version=5是字符串表格式版本，不是游戏补丁版本",
+            "下载文件修改时间UTC": "2026-09-06T15:08:11.306Z",
+            "原始字节数": 32784742,
+            "原始SHA256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+            "压缩字节数": 8350124,
+            "压缩SHA256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+            "verified": true
+          },
+          {
+            "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+            "file": "官方原始资料/item-16.17.1-zh_CN.json",
+            "retrievedAt": "2026-09-06T14:10:07.953Z",
+            "byteSize": 691131,
+            "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973",
+            "verified": true
+          }
+        ]
+      },
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_6609_passive",
+          "name": "炼金朋克链锯剑·劈削",
+          "description": "当前绑定说明：对敌方英雄造成物理伤害时施加40%重伤，持续3秒。本候选记录确证参数；重伤跨来源取强、治疗和生命回复覆盖、伤害事件英雄门槛仍待配。装备直接属性由装备自身提供，不重复施加。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "passive"
+          ]
+        },
+        "parameters": [
+          {
+            "parameterKey": "grievous_amount",
+            "name": "重伤减疗比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.4,
+            "levelValues": null,
+            "description": "当前根GrievousAmount与绑定主说明共同确证，0.4表示40%。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "grievous_duration_ms",
+            "name": "重伤持续时间",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 3000,
+            "levelValues": null,
+            "description": "当前根GrievousDuration=3秒，换算3000毫秒。",
+            "sortOrder": 20
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": [],
+        "relation": {
+          "equipmentKey": "item_6609",
+          "skillKey": "item_6609_passive",
+          "sortOrder": 10
+        },
+        "representativeImage": {
+          "imageKey": "item_6609"
+        }
+      },
+      "disposition": {
+        "范围外": [],
+        "来源待核": [],
+        "系统缺口": [
+          {
+            "component": "多个重伤来源只取最强",
+            "reason": "沿用3123/3916既有实录结论：普通比例加算会将两份40%叠成80%，不能仅新增治疗乘区就提交。跨来源取强方式待补。"
+          },
+          {
+            "component": "伤害事件与英雄类别门槛",
+            "reason": "当前要求对敌方英雄造成物理伤害，不是任意命中。既有实录发现DAMAGE_DEALT与英雄类别条件尚不能完整组合，未新造事件或放宽目标。"
+          },
+          {
+            "component": "重伤对生命回复的完整覆盖",
+            "reason": "当前绑定重伤定义已明确同时降低治疗与生命回复，游戏文字来源已确证；当前配置到运行的hp_regen覆盖路径尚未验证，不能把单个治疗修正结果当作完整覆盖。"
+          }
+        ],
+        "尚未接线": [
+          {
+            "component": "3秒重伤实例与刷新",
+            "reason": "待跨来源取强、作用范围及输入组合明确后，按来源目标期限配置重伤效果和刷新；本阶段效果、过程、状态、规则均为空。"
+          }
+        ]
+      },
+      "proofs": [
+        {
+          "source": "Items/6609/mDataValues",
+          "raw": [
+            {
+              "mName": "GrievousAmount",
+              "mValue": 0.4000000059604645,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "GrievousDuration",
+              "mValue": 3,
+              "__type": "ItemDataValue"
+            }
+          ],
+          "accepted": {
+            "grievous_amount": 0.4,
+            "grievous_duration_ms": 3000
+          },
+          "trigger": "对敌方英雄造成物理伤害",
+          "damageTypeKey": "physics"
+        }
+      ],
+      "arithmetic": [
+        {
+          "sample": "单份40%重伤作用于100治疗点，仅算术",
+          "expected": 40,
+          "actual": 40,
+          "match": true
+        },
+        {
+          "sample": "持续3秒换算毫秒",
+          "expected": 3000,
+          "actual": 3000,
+          "match": true
+        },
+        {
+          "sample": "同强度两份重伤仍为40%，禁止直接相加",
+          "expected": 0.4,
+          "actual": 0.4,
+          "match": true,
+          "boundary": "机制要求算例，尚无已保存效果实现该行为"
+        }
+      ],
+      "safeguards": {
+        "equipment": {
+          "createdAt": "2026-09-06T18:11:16.51713Z",
+          "description": "来源：官方16.17.1装备6609。 原始说明：45攻击力\n450生命值\n15技能急速\n\n劈削\n对敌方英雄造成物理伤害时会施加40%重伤效果，持续3秒。 被动与主动效果尚待配置。",
+          "equipmentKey": "item_6609",
+          "gameId": "lol",
+          "name": "炼金朋克链锯剑",
+          "updatedAt": "2026-09-06T18:11:16.51713Z"
+        },
+        "attributes": {
+          "attributeValues": {
+            "hp": 450,
+            "attack_damage": 45,
+            "ability_haste": 15
+          },
+          "equipmentKey": "item_6609"
+        },
+        "representativeImage": {
+          "image": {
+            "enabled": true,
+            "imageKey": "item_6609",
+            "name": "item_6609"
+          }
+        },
+        "relations": {
+          "items": [],
+          "total": 0
+        }
+      }
+    },
+    {
+      "equipmentKey": "item_2420",
+      "equipmentName": "探索者的护臂",
+      "skillKey": "item_2420_active",
+      "source": {
+        "path": "Items/2420",
+        "bindings": {
+          "keyName": {
+            "sourceKey": "Item_2420_Name",
+            "key": "item_2420_name",
+            "text": "探索者的护臂"
+          },
+          "keyActive": {
+            "sourceKey": "Item_2420_Active",
+            "key": "item_2420_active",
+            "text": "%i:activeEffect% <active>时间停止</active>(单次使用)<br>进入<keyword>凝滞</keyword>状态@Duration@秒。"
+          },
+          "keyColloquialism": {
+            "sourceKey": "Item_2420_Colloquialism",
+            "key": "item_2420_colloquialism",
+            "text": ";Stopwatch;miaobiao;mb;zhognya"
+          },
+          "keyKeywordDefinitions": {
+            "sourceKey": "Item_2420_KeywordDefinitions",
+            "key": "item_2420_keyworddefinitions",
+            "text": "{{ Item_KeywordDefinition_Stasis }}<br>"
+          },
+          "keySecondaryBrief": {
+            "sourceKey": "Item_Unique_Stasis",
+            "key": "item_unique_stasis",
+            "text": "唯一：凝滞"
+          },
+          "keyBrief": {
+            "sourceKey": "Item_2420_Brief",
+            "key": "item_2420_brief",
+            "text": "免疫伤害"
+          }
+        },
+        "official": {
+          "name": "探索者的护臂",
+          "description": "<mainText><stats><attention>40</attention>法术强度<br><attention>25</attention>护甲</stats><br><br><active>时间停止</active>(单次使用)<br>进入<keyword>凝滞</keyword>状态2.5秒。</mainText>",
+          "colloq": ";zysl;zhongya",
+          "plaintext": "主动施放来变得无敌但无法行动",
+          "from": [
+            "1052",
+            "1029",
+            "1052"
+          ],
+          "into": [
+            "3157"
+          ],
+          "image": {
+            "full": "2420.png",
+            "sprite": "item2.png",
+            "group": "item",
+            "x": 336,
+            "y": 432,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 500,
+            "purchasable": true,
+            "total": 1600,
+            "sell": 640
+          },
+          "tags": [
+            "Armor",
+            "SpellDamage",
+            "Active"
+          ],
+          "maps": {
+            "11": true,
+            "12": true,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatMagicDamageMod": 40,
+            "FlatArmorMod": 25
+          },
+          "effect": {
+            "Effect1Amount": "0",
+            "Effect2Amount": "2.5"
+          },
+          "depth": 2
+        },
+        "sourceFiles": [
+          {
+            "文件": "客户端原始资料/items-16.17.cdtb.bin.json.gz",
+            "解压文件名": "items-16.17.cdtb.bin.json",
+            "地址": "https://raw.communitydragon.org/16.17/game/items.cdtb.bin.json",
+            "目录或公告版本": "16.17",
+            "用途": "主证：客户端装备对象、命名数据、计算与说明绑定",
+            "下载文件修改时间UTC": "2026-09-06T15:00:14.328Z",
+            "原始字节数": 15923188,
+            "原始SHA256": "b59ec9320d05acefa344ea8a5ef615cf7f32959078475cafff63833462dc358f",
+            "压缩字节数": 1577238,
+            "压缩SHA256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7",
+            "verified": true
+          },
+          {
+            "文件": "客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+            "解压文件名": "lol-16.17-zh_CN.stringtable.json",
+            "地址": "https://raw.communitydragon.org/16.17/game/zh_cn/data/menu/en_us/lol.stringtable.json",
+            "目录或公告版本": "16.17",
+            "用途": "主证：中文游戏说明，文件内version=5是字符串表格式版本，不是游戏补丁版本",
+            "下载文件修改时间UTC": "2026-09-06T15:08:11.306Z",
+            "原始字节数": 32784742,
+            "原始SHA256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+            "压缩字节数": 8350124,
+            "压缩SHA256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+            "verified": true
+          },
+          {
+            "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+            "file": "官方原始资料/item-16.17.1-zh_CN.json",
+            "retrievedAt": "2026-09-06T14:10:07.953Z",
+            "byteSize": 691131,
+            "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973",
+            "verified": true
+          }
+        ]
+      },
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_2420_active",
+          "name": "探索者的护臂·时间停止",
+          "description": "当前绑定明确单次使用，进入凝滞2.5秒。候选仅记录确证的单次次数、持续时间及独立伤害免疫组成；不可被选取、无法移动和一次性使用控制未完整配置。不复制中娅沙漏120秒冷却。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": []
+        },
+        "parameters": [
+          {
+            "parameterKey": "stasis_duration_ms",
+            "name": "凝滞持续时间",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 2500,
+            "levelValues": null,
+            "description": "当前根Duration=2.5秒，绑定主动及官方说明一致。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "maximum_uses",
+            "name": "当前装备单次使用上限",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1,
+            "levelValues": null,
+            "description": "当前绑定主动明确单次使用；该值不是可周期恢复的弹药。",
+            "sortOrder": 20
+          }
+        ],
+        "formulas": [],
+        "effects": [
+          {
+            "description": "单次凝滞中的独立伤害免疫组成，持续2.5秒；不包含不可选取、移动限制和一次性消费，不自动触发。",
+            "effectKey": "stasis_damage_immunity",
+            "lifecycle": {
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "stasis_duration_ms"
+              },
+              "expiryMode": "ALL_AT_ONCE",
+              "firstPeriodicExecution": null,
+              "instanceScope": "SOURCE",
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "periodicIntervalValue": null,
+              "reapplicationDurationMode": "REFRESH_ALL",
+              "reapplicationStackMode": "KEEP"
+            },
+            "name": "探索者凝滞伤害免疫",
+            "results": [
+              {
+                "description": "来源在凝滞持续期间免疫所有伤害类型。",
+                "detail": {
+                  "damageTypeKey": null,
+                  "deliveryKind": "ANY",
+                  "originKind": "ANY"
+                },
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "periodicExecutionMode": null,
+                  "reapplicationValueMode": null,
+                  "stackValueMode": null,
+                  "valueReadMode": null
+                },
+                "name": "全类型伤害免疫",
+                "resultKey": "stasis_damage_immunity",
+                "resultType": "DAMAGE_IMMUNITY",
+                "sortOrder": 10,
+                "spellShieldBlockScope": null,
+                "target": "SOURCE",
+                "valueRule": null
+              }
+            ],
+            "sortOrder": 10
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": [],
+        "relation": {
+          "equipmentKey": "item_2420",
+          "skillKey": "item_2420_active",
+          "sortOrder": 10
+        },
+        "representativeImage": {
+          "imageKey": "item_2420"
+        }
+      },
+      "disposition": {
+        "范围外": [],
+        "来源待核": [
+          {
+            "component": "非商店方式重新获得装备的次数处理",
+            "reason": "同版本来源已确认2420使用后对应2421，且之后商店只出售碎裂的护臂；其他方式重新获得装备实例是否重置单次使用，仍未由这些记录确定。详见探索者使用后形态补证.json。"
+          }
+        ],
+        "系统缺口": [
+          {
+            "component": "完整凝滞限制",
+            "reason": "既有3157实录只确证DAMAGE_IMMUNITY结构；当前作者配置尚不能完整表达凝滞中的不可被选取和无法移动，不能把独立伤害免疫视为完整凝滞。"
+          }
+        ],
+        "尚未接线": [
+          {
+            "component": "单次使用消费及主动施放",
+            "reason": "当前单次使用上限1已明确，尚未建立物品实例消费与合法主动执行门槛；不建立冷却0或120秒的循环过程，不以来源初始化授予主动免疫。"
+          }
+        ]
+      },
+      "proofs": [
+        {
+          "source": "Items/2420/mDataValues.Duration + 当前keyActive",
+          "durationSeconds": 2.5,
+          "maximumUses": 1,
+          "activeBinding": {
+            "sourceKey": "Item_2420_Active",
+            "key": "item_2420_active",
+            "text": "%i:activeEffect% <active>时间停止</active>(单次使用)<br>进入<keyword>凝滞</keyword>状态@Duration@秒。"
+          },
+          "stasisDefinition": {
+            "sourceKey": "Item_KeywordDefinition_Stasis",
+            "key": "item_keyworddefinition_stasis",
+            "text": "<keyword>凝滞</keyword>：变得<keyword>免疫伤害</keyword>且<keyword>不可被选取</keyword>。在此期间无法移动。"
+          },
+          "reference": "item_3157_active仅复用合法伤害免疫结构，不复用其冷却与循环施放"
+        },
+        {
+          "source": "探索者使用后形态补证.json",
+          "transition": "同版本根转换记录{e246dfd1}的{06d9d838}=Items/2420，{917537a9}=Items/2421；2421的mRequiredBuffCurrencyName=Item2420",
+          "conclusion": "使用后形态2421已确证；官方2421文本确认护臂破碎后商店只出售碎裂的护臂，仍可用于升级。不改变本批独立免伤载荷。"
+        }
+      ],
+      "arithmetic": [
+        {
+          "sample": "2.5秒换算毫秒",
+          "expected": 2500,
+          "actual": 2500,
+          "match": true
+        },
+        {
+          "sample": "当前绑定单次使用次数",
+          "expected": 1,
+          "actual": 1,
+          "match": true
+        },
+        {
+          "sample": "不复制沙漏冷却参数或无限主动过程",
+          "expected": 0,
+          "actual": 0,
+          "match": true
+        }
+      ],
+      "safeguards": {
+        "equipment": {
+          "createdAt": "2026-09-06T16:49:12.81431Z",
+          "description": "来源：官方16.17.1装备2420。 原始说明：40法术强度 25护甲 时间停止(单次使用) 进入凝滞状态2.5秒。 被动与主动效果尚待配置。",
+          "equipmentKey": "item_2420",
+          "gameId": "lol",
+          "name": "探索者的护臂",
+          "updatedAt": "2026-09-06T16:49:12.81431Z"
+        },
+        "attributes": {
+          "attributeValues": {
+            "armor": 25,
+            "ability_power": 40
+          },
+          "equipmentKey": "item_2420"
+        },
+        "representativeImage": {
+          "image": {
+            "enabled": true,
+            "imageKey": "item_2420",
+            "name": "item_2420"
+          }
+        },
+        "relations": {
+          "items": [],
+          "total": 0
+        }
+      }
+    },
+    {
+      "equipmentKey": "item_3139",
+      "equipmentName": "水银弯刀",
+      "skillKey": "item_3139_active",
+      "source": {
+        "path": "Items/3139",
+        "bindings": {
+          "keyName": {
+            "sourceKey": "Item_3139_Name",
+            "key": "item_3139_name",
+            "text": "水银弯刀"
+          },
+          "keyBrief": {
+            "sourceKey": "Item_3139_Brief",
+            "key": "item_3139_brief",
+            "text": "移除限制效果"
+          },
+          "keyActive": {
+            "sourceKey": "Item_3139_Active",
+            "key": "item_3139_active",
+            "text": "%i:activeEffect% <active>水银</active> {{ Item_Cooldown }}<br><active>主动使用</active>以移除所有控制类减益效果(<keyword>浮空</keyword>除外)，并提供持续@MSDuration@秒的<speed>@MoveSpeed*100@%移动速度</speed>。"
+          },
+          "keyColloquialism": {
+            "sourceKey": "Item_3139_Colloquialism",
+            "key": "item_3139_colloquialism",
+            "text": ";水银;水银饰带;净化;应对控制;克制控制;Mercurial Scimitar;shuiyinwandao;sywd"
+          },
+          "keyKeywordDefinitions": {
+            "sourceKey": "Item_3139_KeywordDefinitions",
+            "key": "item_3139_keyworddefinitions",
+            "text": "{{ Item_KeywordDefinition_Airborne }}"
+          },
+          "keySecondaryBrief": {
+            "sourceKey": "Item_Unique_Quicksilver",
+            "key": "item_unique_quicksilver",
+            "text": "唯一：水银"
+          },
+          "keyActiveExternal": {
+            "sourceKey": "Item_3139_ActiveExternal",
+            "key": "item_3139_activeexternal",
+            "text": "{{ Item_OnActivation }} <br><active>水银</active><br>移除所有控制类减益效果(<keyword>浮空</keyword>除外)，并提供移动速度。"
+          }
+        },
+        "official": {
+          "name": "水银弯刀",
+          "description": "<mainText><stats><attention>50</attention>攻击力<br><attention>35</attention>魔法抗性<br><attention>10%</attention>生命偷取</stats><br><br><br><br><active>主动</active> <br><active>水银</active><br>移除所有控制类减益效果(<keyword>浮空</keyword>除外)，并提供移动速度。</mainText>",
+          "colloq": ";水银;水银饰带;净化;应对控制;克制控制;Mercurial Scimitar;shuiyinwandao;sywd",
+          "plaintext": "主动施放来移除所有控制类减益效果并提供巨幅移速",
+          "from": [
+            "3140",
+            "1037",
+            "1053"
+          ],
+          "image": {
+            "full": "3139.png",
+            "sprite": "item3.png",
+            "group": "item",
+            "x": 240,
+            "y": 432,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 125,
+            "purchasable": true,
+            "total": 3200,
+            "sell": 2240
+          },
+          "tags": [
+            "SpellBlock",
+            "Damage",
+            "LifeSteal",
+            "Active",
+            "NonbootsMovement",
+            "Tenacity"
+          ],
+          "maps": {
+            "11": true,
+            "12": true,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatSpellBlockMod": 35,
+            "FlatPhysicalDamageMod": 50,
+            "PercentLifeStealMod": 0.1
+          },
+          "effect": {
+            "Effect1Amount": "0.5",
+            "Effect2Amount": "2",
+            "Effect3Amount": "90"
+          },
+          "depth": 3
+        },
+        "sourceFiles": [
+          {
+            "文件": "客户端原始资料/items-16.17.cdtb.bin.json.gz",
+            "解压文件名": "items-16.17.cdtb.bin.json",
+            "地址": "https://raw.communitydragon.org/16.17/game/items.cdtb.bin.json",
+            "目录或公告版本": "16.17",
+            "用途": "主证：客户端装备对象、命名数据、计算与说明绑定",
+            "下载文件修改时间UTC": "2026-09-06T15:00:14.328Z",
+            "原始字节数": 15923188,
+            "原始SHA256": "b59ec9320d05acefa344ea8a5ef615cf7f32959078475cafff63833462dc358f",
+            "压缩字节数": 1577238,
+            "压缩SHA256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7",
+            "verified": true
+          },
+          {
+            "文件": "客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+            "解压文件名": "lol-16.17-zh_CN.stringtable.json",
+            "地址": "https://raw.communitydragon.org/16.17/game/zh_cn/data/menu/en_us/lol.stringtable.json",
+            "目录或公告版本": "16.17",
+            "用途": "主证：中文游戏说明，文件内version=5是字符串表格式版本，不是游戏补丁版本",
+            "下载文件修改时间UTC": "2026-09-06T15:08:11.306Z",
+            "原始字节数": 32784742,
+            "原始SHA256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+            "压缩字节数": 8350124,
+            "压缩SHA256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+            "verified": true
+          },
+          {
+            "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+            "file": "官方原始资料/item-16.17.1-zh_CN.json",
+            "retrievedAt": "2026-09-06T14:10:07.953Z",
+            "byteSize": 691131,
+            "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973",
+            "verified": true
+          }
+        ]
+      },
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_3139_active",
+          "name": "水银弯刀·水银",
+          "description": "当前绑定主动移除全部控制类减益但浮空除外，并给自身50%移动速度持续2秒，冷却90秒。独立移速组成保留；通用解控与浮空例外未完整表达，当前不接部分解控冒充水银。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": []
+        },
+        "parameters": [
+          {
+            "parameterKey": "active_cooldown_ms",
+            "name": "水银主动冷却",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 90000,
+            "levelValues": null,
+            "description": "当前根Cooldown=90秒，绑定Item_Cooldown模板明确读取该值。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "move_speed_ratio",
+            "name": "水银自身移动速度比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.5,
+            "levelValues": null,
+            "description": "当前根MoveSpeed=0.5，绑定主动说明×100显示50%。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "move_speed_duration_ms",
+            "name": "水银自身移速持续时间",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 2000,
+            "levelValues": null,
+            "description": "当前根MSDuration=2秒，换算2000毫秒。",
+            "sortOrder": 30
+          }
+        ],
+        "formulas": [],
+        "effects": [
+          {
+            "effectKey": "quicksilver_move_speed",
+            "name": "水银自身移动速度",
+            "description": "自身增加50个百分点移速加成，持续2秒；不表示50点固定移速，也不包含解除控制。",
+            "sortOrder": 10,
+            "lifecycle": {
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "move_speed_duration_ms"
+              },
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "instanceScope": "SOURCE",
+              "reapplicationStackMode": "KEEP",
+              "reapplicationDurationMode": "REFRESH_ALL",
+              "expiryMode": "ALL_AT_ONCE",
+              "periodicIntervalValue": null,
+              "firstPeriodicExecution": null
+            },
+            "results": [
+              {
+                "resultKey": "move_speed",
+                "name": "水银自身移动速度",
+                "description": "自身增加50个百分点移速加成，持续2秒；不表示50点固定移速，也不包含解除控制。",
+                "sortOrder": 10,
+                "resultType": "ATTRIBUTE_CHANGE",
+                "target": "SOURCE",
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "valueReadMode": "APPLICATION_SNAPSHOT",
+                  "stackValueMode": "SHARED",
+                  "reapplicationValueMode": "REPLACE",
+                  "periodicExecutionMode": null
+                },
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "move_speed_ratio"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "move_speed_percent",
+                  "operation": "INCREASE",
+                  "modifierZoneKey": "attribute_flat_add"
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": [],
+        "relation": {
+          "equipmentKey": "item_3139",
+          "skillKey": "item_3139_active",
+          "sortOrder": 10
+        },
+        "representativeImage": {
+          "imageKey": "item_3139"
+        }
+      },
+      "disposition": {
+        "范围外": [],
+        "来源待核": [],
+        "系统缺口": [
+          {
+            "component": "所有控制类减益移除并排除浮空",
+            "reason": "沿用3140实录限制：单个状态移除不足以表达完整通用控制集合及浮空例外。当前状态目录只有眩晕，不能只清眩晕，也不能反向取消所有状态。"
+          }
+        ],
+        "尚未接线": [
+          {
+            "component": "合法主动与移速施加",
+            "reason": "保留成熟自身2秒移速效果，尚不单独启动省略解控的完整水银过程；需核对受控制时允许主动与浮空期间不可主动的门槛。"
+          }
+        ]
+      },
+      "proofs": [
+        {
+          "source": "Items/3139/mDataValues + 当前keyActive",
+          "raw": [
+            {
+              "mName": "Cooldown",
+              "mValue": 90,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "MSDuration",
+              "mValue": 2,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "MoveSpeed",
+              "mValue": 0.5,
+              "__type": "ItemDataValue"
+            }
+          ],
+          "cleanseExclusion": "浮空",
+          "airborneDefinition": {
+            "sourceKey": "Item_KeywordDefinition_Airborne",
+            "key": "item_keyworddefinition_airborne",
+            "text": "<keyword>浮空</keyword>：被击到空中。在此期间无法移动、攻击、施放技能或使用装备的主动效果。 "
+          }
+        }
+      ],
+      "arithmetic": [
+        {
+          "sample": "90秒主动冷却",
+          "expected": 90000,
+          "actual": 90000,
+          "match": true
+        },
+        {
+          "sample": "50%移速按比例存储",
+          "expected": 0.5,
+          "actual": 0.5,
+          "match": true
+        },
+        {
+          "sample": "2秒移速时长",
+          "expected": 2000,
+          "actual": 2000,
+          "match": true
+        }
+      ],
+      "safeguards": {
+        "equipment": {
+          "createdAt": "2026-09-06T18:10:52.968564Z",
+          "description": "来源：官方16.17.1装备3139。 原始说明：50攻击力\n35魔法抗性\n10%生命偷取\n\n\n\n主动 \n水银\n移除所有控制类减益效果(浮空除外)，并提供移动速度。 被动与主动效果尚待配置。",
+          "equipmentKey": "item_3139",
+          "gameId": "lol",
+          "name": "水银弯刀",
+          "updatedAt": "2026-09-06T18:10:52.968564Z"
+        },
+        "attributes": {
+          "attributeValues": {
+            "magic_resistance": 35,
+            "attack_damage": 50,
+            "life_steal_percent": 0.1
+          },
+          "equipmentKey": "item_3139"
+        },
+        "representativeImage": {
+          "image": {
+            "enabled": true,
+            "imageKey": "item_3139",
+            "name": "item_3139"
+          }
+        },
+        "relations": {
+          "items": [],
+          "total": 0
+        }
+      }
+    },
+    {
+      "equipmentKey": "item_3044",
+      "equipmentName": "净蚀",
+      "skillKey": "item_3044_passive",
+      "source": {
+        "path": "Items/3044",
+        "bindings": {
+          "keyName": {
+            "sourceKey": "Item_3044_Name",
+            "key": "item_3044_name",
+            "text": "净蚀"
+          },
+          "keyTooltipInventory": {
+            "sourceKey": "Item_3044_TooltipDynamic",
+            "key": "item_3044_tooltipdynamic",
+            "text": "<passive>狂怒</passive><br>攻击一名单位会提供<speed>@MSBonusSplit@移动速度</speed>，持续@MoveSpeedDuration@秒。"
+          },
+          "keyTooltip": {
+            "sourceKey": "Item_3044_Tooltip",
+            "key": "item_3044_tooltip",
+            "text": "<passive>狂怒</passive><br>攻击会提供持续@MoveSpeedDuration@秒的<speed>@MSBonusSplit@移动速度</speed>。"
+          },
+          "keyColloquialism": {
+            "sourceKey": "Item_3044_Colloquialism",
+            "key": "item_3044_colloquialism",
+            "text": ";Phage;jingshi;xiaomuchui;js;小木锤"
+          },
+          "keyTooltipExternal": {
+            "sourceKey": "Item_3044_TooltipExternal",
+            "key": "item_3044_tooltipexternal",
+            "text": "<passive>狂怒</passive><br>攻击会提供持续@MoveSpeedDuration@秒的<speed>移动速度</speed>。"
+          }
+        },
+        "official": {
+          "name": "净蚀",
+          "description": "<mainText><stats><attention>15</attention>攻击力<br><attention>200</attention>生命值</stats><br><br><passive>狂怒</passive><br>攻击会提供持续2秒的<speed>移动速度</speed>。</mainText>",
+          "colloq": ";Phage;jingshi;xiaomuchui;js;小木锤",
+          "plaintext": "攻击和击杀会给予爆发性的加速效果",
+          "from": [
+            "1028",
+            "1036"
+          ],
+          "into": [
+            "3071",
+            "3078",
+            "3073",
+            "6630",
+            "6631"
+          ],
+          "image": {
+            "full": "3044.png",
+            "sprite": "item3.png",
+            "group": "item",
+            "x": 0,
+            "y": 192,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 350,
+            "purchasable": true,
+            "total": 1100,
+            "sell": 770
+          },
+          "tags": [
+            "Health",
+            "Damage",
+            "NonbootsMovement"
+          ],
+          "maps": {
+            "11": true,
+            "12": true,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatHPPoolMod": 200,
+            "FlatPhysicalDamageMod": 15
+          },
+          "effect": {
+            "Effect1Amount": "20",
+            "Effect2Amount": "2",
+            "Effect3Amount": "60",
+            "Effect4Amount": "0",
+            "Effect5Amount": "0",
+            "Effect6Amount": "0",
+            "Effect7Amount": "0",
+            "Effect8Amount": "8"
+          },
+          "depth": 2
+        },
+        "sourceFiles": [
+          {
+            "文件": "客户端原始资料/items-16.17.cdtb.bin.json.gz",
+            "解压文件名": "items-16.17.cdtb.bin.json",
+            "地址": "https://raw.communitydragon.org/16.17/game/items.cdtb.bin.json",
+            "目录或公告版本": "16.17",
+            "用途": "主证：客户端装备对象、命名数据、计算与说明绑定",
+            "下载文件修改时间UTC": "2026-09-06T15:00:14.328Z",
+            "原始字节数": 15923188,
+            "原始SHA256": "b59ec9320d05acefa344ea8a5ef615cf7f32959078475cafff63833462dc358f",
+            "压缩字节数": 1577238,
+            "压缩SHA256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7",
+            "verified": true
+          },
+          {
+            "文件": "客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+            "解压文件名": "lol-16.17-zh_CN.stringtable.json",
+            "地址": "https://raw.communitydragon.org/16.17/game/zh_cn/data/menu/en_us/lol.stringtable.json",
+            "目录或公告版本": "16.17",
+            "用途": "主证：中文游戏说明，文件内version=5是字符串表格式版本，不是游戏补丁版本",
+            "下载文件修改时间UTC": "2026-09-06T15:08:11.306Z",
+            "原始字节数": 32784742,
+            "原始SHA256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+            "压缩字节数": 8350124,
+            "压缩SHA256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+            "verified": true
+          },
+          {
+            "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+            "file": "官方原始资料/item-16.17.1-zh_CN.json",
+            "retrievedAt": "2026-09-06T14:10:07.953Z",
+            "byteSize": 691131,
+            "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973",
+            "verified": true
+          }
+        ]
+      },
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_3044_passive",
+          "name": "净蚀·狂怒",
+          "description": "当前绑定攻击单位后获得2秒移速：近战20点、远程10点。保留两个独立分支，来源近远程选择尚未接线，不复制三相之力无条件20点规则。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "passive"
+          ]
+        },
+        "parameters": [
+          {
+            "parameterKey": "melee_move_speed_bonus",
+            "name": "近战攻击后固定移速",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 20,
+            "levelValues": null,
+            "description": "当前MSBonusSplit基础值引用MoveSpeedBonus=20。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "ranged_multiplier",
+            "name": "远程移速倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.5,
+            "levelValues": null,
+            "description": "当前MSBonusSplit.mRangedMultiplier引用RangedMod=0.5。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "move_speed_duration_ms",
+            "name": "狂怒移速持续时间",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 2000,
+            "levelValues": null,
+            "description": "当前MoveSpeedDuration=2秒，换算2000毫秒。",
+            "sortOrder": 30
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "ranged_move_speed_bonus",
+            "name": "远程攻击后固定移速",
+            "description": "20点基础值×0.5远程倍率=10点；来源类型选择另配。",
+            "sortOrder": 10,
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "melee_move_speed_bonus"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ranged_multiplier"
+                }
+              ]
+            }
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "melee_move_speed",
+            "name": "近战狂怒移动速度",
+            "description": "仅近战来源实际攻击单位后选择此分支，20点固定移速持续2秒。",
+            "sortOrder": 10,
+            "lifecycle": {
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "move_speed_duration_ms"
+              },
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "instanceScope": "SOURCE",
+              "reapplicationStackMode": "KEEP",
+              "reapplicationDurationMode": "REFRESH_ALL",
+              "expiryMode": "ALL_AT_ONCE",
+              "periodicIntervalValue": null,
+              "firstPeriodicExecution": null
+            },
+            "results": [
+              {
+                "resultKey": "move_speed",
+                "name": "近战狂怒移动速度",
+                "description": "仅近战来源实际攻击单位后选择此分支，20点固定移速持续2秒。",
+                "sortOrder": 10,
+                "resultType": "ATTRIBUTE_CHANGE",
+                "target": "SOURCE",
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "valueReadMode": "APPLICATION_SNAPSHOT",
+                  "stackValueMode": "SHARED",
+                  "reapplicationValueMode": "REPLACE",
+                  "periodicExecutionMode": null
+                },
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "melee_move_speed_bonus"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "move_speed",
+                  "operation": "INCREASE",
+                  "modifierZoneKey": "attribute_flat_add"
+                }
+              }
+            ]
+          },
+          {
+            "effectKey": "ranged_move_speed",
+            "name": "远程狂怒移动速度",
+            "description": "仅远程来源实际攻击单位后选择此分支，10点固定移速持续2秒。",
+            "sortOrder": 20,
+            "lifecycle": {
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "move_speed_duration_ms"
+              },
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "instanceScope": "SOURCE",
+              "reapplicationStackMode": "KEEP",
+              "reapplicationDurationMode": "REFRESH_ALL",
+              "expiryMode": "ALL_AT_ONCE",
+              "periodicIntervalValue": null,
+              "firstPeriodicExecution": null
+            },
+            "results": [
+              {
+                "resultKey": "move_speed",
+                "name": "远程狂怒移动速度",
+                "description": "仅远程来源实际攻击单位后选择此分支，10点固定移速持续2秒。",
+                "sortOrder": 10,
+                "resultType": "ATTRIBUTE_CHANGE",
+                "target": "SOURCE",
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "valueReadMode": "APPLICATION_SNAPSHOT",
+                  "stackValueMode": "SHARED",
+                  "reapplicationValueMode": "REPLACE",
+                  "periodicExecutionMode": null
+                },
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "ranged_move_speed_bonus"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "move_speed",
+                  "operation": "INCREASE",
+                  "modifierZoneKey": "attribute_flat_add"
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": [],
+        "relation": {
+          "equipmentKey": "item_3044",
+          "skillKey": "item_3044_passive",
+          "sortOrder": 10
+        },
+        "representativeImage": {
+          "imageKey": "item_3044"
+        }
+      },
+      "disposition": {
+        "范围外": [],
+        "来源待核": [],
+        "系统缺口": [],
+        "尚未接线": [
+          {
+            "component": "来源近远程分类和互斥选择",
+            "reason": "当前实际攻击命中事件可沿3078成熟来源，但还需合法来源近远程条件。不能按攻击距离数值猜近远程，也不能无条件应用20点或同时叠加20与10点。"
+          }
+        ]
+      },
+      "proofs": [
+        {
+          "source": "Items/3044/mItemCalculations.MSBonusSplit",
+          "tree": {
+            "mExpandedTooltipCalculationDisplay": 5,
+            "mFormulaParts": [
+              {
+                "mDataValue": "MoveSpeedBonus",
+                "__type": "NamedDataValueCalculationPart"
+              }
+            ],
+            "mRangedMultiplier": {
+              "mDataValue": "RangedMod",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            "__type": "{e9a3c91d}"
+          },
+          "values": {
+            "melee": 20,
+            "ranged": 10,
+            "durationMs": 2000
+          },
+          "currentText": {
+            "sourceKey": "Item_3044_TooltipDynamic",
+            "key": "item_3044_tooltipdynamic",
+            "text": "<passive>狂怒</passive><br>攻击一名单位会提供<speed>@MSBonusSplit@移动速度</speed>，持续@MoveSpeedDuration@秒。"
+          }
+        }
+      ],
+      "arithmetic": [
+        {
+          "sample": "近战分支固定移速",
+          "expected": 20,
+          "actual": 20,
+          "match": true
+        },
+        {
+          "sample": "远程分支固定移速",
+          "expected": 10,
+          "actual": 10,
+          "match": true
+        },
+        {
+          "sample": "移速时长",
+          "expected": 2000,
+          "actual": 2000,
+          "match": true
+        },
+        {
+          "sample": "尚未选择来源类型时不写无条件攻击规则",
+          "expected": 0,
+          "actual": 0,
+          "match": true
+        }
+      ],
+      "safeguards": {
+        "equipment": {
+          "createdAt": "2026-09-06T17:12:16.286902Z",
+          "description": "来源：官方16.17.1装备3044。 原始说明：15攻击力 200生命值 狂怒 攻击会提供持续2秒的移动速度。 被动与主动效果尚待配置。",
+          "equipmentKey": "item_3044",
+          "gameId": "lol",
+          "name": "净蚀",
+          "updatedAt": "2026-09-06T17:12:16.286902Z"
+        },
+        "attributes": {
+          "attributeValues": {
+            "hp": 200,
+            "attack_damage": 15
+          },
+          "equipmentKey": "item_3044"
+        },
+        "representativeImage": {
+          "image": {
+            "enabled": true,
+            "imageKey": "item_3044",
+            "name": "item_3044"
+          }
+        },
+        "relations": {
+          "items": [],
+          "total": 0
+        }
+      }
+    }
+  ],
+  "totals": {
+    "skills": 6,
+    "parameters": 14,
+    "formulas": 1,
+    "effects": 4,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0,
+    "relations": 6,
+    "representativeImages": 6
+  },
+  "entryBoundary": "只读前检.mjs仅GET且拒绝--apply；当前没有创建入口。"
+}

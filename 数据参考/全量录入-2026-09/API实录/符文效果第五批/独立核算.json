@@ -1,0 +1,5370 @@
+{
+  "at": "2026-09-09T04:53:05.857Z",
+  "pass": true,
+  "apiWrites": 0,
+  "sourceFrozenSha256": "878fd1147a277282f6bacd04ecddafe55e980e729a67d4469b31b2ff93d492a7",
+  "sourceRawSha256": "1427c70c4d1172198a1a9787362224c871a90cc4f66f3f769ef5830cbcd401b1",
+  "candidateSha256": "f5f26d7af95018aa4021fbb4c8107211b0bd9fc04a5f684762b93800ee18a3fe",
+  "requestsSha256": "5fd438535c6133e2fb65bfc6a8bcb8a2df1caecc6f6df9c1c5df04f577003a61",
+  "checks": [
+    {
+      "name": "冻结来源文件散列",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "原始16.17客户端解压字节",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "精确12项范围",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "请求绑定本候选散列",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8005完整原始对象",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8005当前原树和中文完整保留",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8005/parameters稳定键唯一",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8005/formulas稳定键唯一",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8005/effects稳定键唯一",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8005/confirmed_level_damage_source_start只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8005/confirmed_level_damage_source_start有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8005/confirmed_level_damage_source_start原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "MinDamage",
+        "raw": 40,
+        "scale": 1,
+        "actual": 40
+      }
+    },
+    {
+      "name": "8005/confirmed_level_damage_source_end只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8005/confirmed_level_damage_source_end有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8005/confirmed_level_damage_source_end原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "MaxDamage",
+        "raw": 160,
+        "scale": 1,
+        "actual": 160
+      }
+    },
+    {
+      "name": "8005/confirmed_level_damage只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8005/confirmed_level_damage有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8005/required_hits只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8005/required_hits有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8005/required_hits原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "HitsRequired",
+        "raw": 3,
+        "scale": 1,
+        "actual": 3
+      }
+    },
+    {
+      "name": "8005/damage_amp_ratio只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8005/damage_amp_ratio有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8005/damage_amp_ratio原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "BonusPercentDamage",
+        "raw": 0.07999999821186066,
+        "scale": 1,
+        "actual": 0.08
+      }
+    },
+    {
+      "name": "8005/cooldown_ms只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8005/cooldown_ms有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8005/cooldown_ms原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "Cooldown",
+        "raw": 6,
+        "scale": 1000,
+        "actual": 6000
+      }
+    },
+    {
+      "name": "8005/qualified_damage_basis只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8005/qualified_damage_basis有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8005/BonusADRatio来源保留原值",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8005/APRatio来源保留原值",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8005/LethalityRatio来源保留原值",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8005/AmpPotencyMaxSelf来源保留原值",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8005/AmpDuration来源保留原值",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8005/AmpPotencyMaxOthers来源保留原值",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8005/AmpPotencyStartSelf来源保留原值",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8005/AmpPotencyStartOthers来源保留原值",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8005/TimeBetweenHits来源保留原值",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8005/OutOfCombatTimer来源保留原值",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8005全部原数值字段有归属",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "8005/third_attack_damage合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8005/third_attack_damage参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8005/additional_damage合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8005/additional_damage二元运算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8005/additional_damage合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8005/additional_damage参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8005/additional_damage合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8005/additional_damage参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8005无触发过程和周期伤害",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8005原身份图片关系保护完整",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8005仅复用同一代表图",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008完整原始对象",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008当前原树和中文完整保留",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/parameters稳定键唯一",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/formulas稳定键唯一",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/effects稳定键唯一",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/buff_duration_ms只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/buff_duration_ms有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/buff_duration_ms原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "Duration",
+        "raw": 6,
+        "scale": 1000,
+        "actual": 6000
+      }
+    },
+    {
+      "name": "8008/max_stacks只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/max_stacks有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/max_stacks原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "MaxStacks",
+        "raw": 6,
+        "scale": 1,
+        "actual": 6
+      }
+    },
+    {
+      "name": "8008/melee_as_per_stack只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/melee_as_per_stack有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/melee_as_per_stack原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "TTASPerStackMelee",
+        "raw": 0.05999999865889549,
+        "scale": 1,
+        "actual": 0.06
+      }
+    },
+    {
+      "name": "8008/actual_stacks只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/actual_stacks有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/confirmed_ranged_as_per_stack只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/confirmed_ranged_as_per_stack有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/confirmed_melee_level_damage_source_start只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/confirmed_melee_level_damage_source_start有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/confirmed_melee_level_damage_source_start原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "TTMinNoteDamageMelee",
+        "raw": 9,
+        "scale": 1,
+        "actual": 9
+      }
+    },
+    {
+      "name": "8008/confirmed_melee_level_damage_source_end只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/confirmed_melee_level_damage_source_end有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/confirmed_melee_level_damage_source_end原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "TTMaxNoteDamageMelee",
+        "raw": 30,
+        "scale": 1,
+        "actual": 30
+      }
+    },
+    {
+      "name": "8008/confirmed_melee_level_damage只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/confirmed_melee_level_damage有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/confirmed_ranged_level_damage只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/confirmed_ranged_level_damage有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/confirmed_bonus_attack_speed_ratio只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/confirmed_bonus_attack_speed_ratio有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/one只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/one有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/TTASPerStackRanged来源保留原值",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/TTMinNoteDamageRanged来源保留原值",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/TTMaxNoteDamageRanged来源保留原值",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/PerfectlyTimedForgivance来源保留原值",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008全部原数值字段有归属",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "8008/melee_attack_speed_amount合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/melee_attack_speed_amount二元运算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/melee_attack_speed_amount合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/melee_attack_speed_amount参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/melee_attack_speed_amount合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/melee_attack_speed_amount参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/ranged_attack_speed_amount合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/ranged_attack_speed_amount二元运算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/ranged_attack_speed_amount合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/ranged_attack_speed_amount参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/ranged_attack_speed_amount合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/ranged_attack_speed_amount参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/melee_full_stack_damage合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/melee_full_stack_damage二元运算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/melee_full_stack_damage合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/melee_full_stack_damage参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/melee_full_stack_damage合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/melee_full_stack_damage二元运算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/melee_full_stack_damage合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/melee_full_stack_damage参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/melee_full_stack_damage合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/melee_full_stack_damage参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/ranged_full_stack_damage合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/ranged_full_stack_damage二元运算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/ranged_full_stack_damage合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/ranged_full_stack_damage参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/ranged_full_stack_damage合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/ranged_full_stack_damage二元运算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/ranged_full_stack_damage合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/ranged_full_stack_damage参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/ranged_full_stack_damage合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/ranged_full_stack_damage参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008无触发过程和周期伤害",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/melee_current_attack_speed属性与修正区有效",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/melee_current_attack_speed一份总值替换，未叠乘层数",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008原身份图片关系保护完整",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008仅复用同一代表图",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8010完整原始对象",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8010当前原树和中文完整保留",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8010/parameters稳定键唯一",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8010/formulas稳定键唯一",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8010/effects稳定键唯一",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8010/confirmed_adaptive_per_stack_source_start只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8010/confirmed_adaptive_per_stack_source_start有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8010/confirmed_adaptive_per_stack_source_start原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "MinAdaptivePerStack",
+        "raw": 1.7999999523162842,
+        "scale": 1,
+        "actual": 1.8
+      }
+    },
+    {
+      "name": "8010/confirmed_adaptive_per_stack_source_end只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8010/confirmed_adaptive_per_stack_source_end有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8010/confirmed_adaptive_per_stack_source_end原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "MaxAdaptivePerStack",
+        "raw": 4,
+        "scale": 1,
+        "actual": 4
+      }
+    },
+    {
+      "name": "8010/confirmed_adaptive_per_stack只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8010/confirmed_adaptive_per_stack有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8010/max_stacks只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8010/max_stacks有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8010/max_stacks原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "MaxStacks",
+        "raw": 12,
+        "scale": 1,
+        "actual": 12
+      }
+    },
+    {
+      "name": "8010/buff_duration_ms只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8010/buff_duration_ms有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8010/buff_duration_ms原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "BuffDuration",
+        "raw": 5,
+        "scale": 1000,
+        "actual": 5000
+      }
+    },
+    {
+      "name": "8010/melee_heal_ratio只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8010/melee_heal_ratio有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8010/melee_heal_ratio原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "HealingPercent",
+        "raw": 0.07999999821186066,
+        "scale": 1,
+        "actual": 0.08
+      }
+    },
+    {
+      "name": "8010/ranged_heal_ratio只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8010/ranged_heal_ratio有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8010/ranged_heal_ratio原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "RangedHealingPercent",
+        "raw": 0.05000000074505806,
+        "scale": 1,
+        "actual": 0.05
+      }
+    },
+    {
+      "name": "8010/normal_hit_stacks只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8010/normal_hit_stacks有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8010/ranged_attack_stacks只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8010/ranged_attack_stacks有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8010/actual_stacks只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8010/actual_stacks有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8010/actual_damage_dealt_to_champion只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8010/actual_damage_dealt_to_champion有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8010/TimeUntilNextStackFromSameSpell来源保留原值",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8010全部原数值字段有归属",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "8010/adaptive_force_amount合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8010/adaptive_force_amount二元运算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8010/adaptive_force_amount合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8010/adaptive_force_amount参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8010/adaptive_force_amount合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8010/adaptive_force_amount参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8010/melee_self_heal合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8010/melee_self_heal二元运算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8010/melee_self_heal合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8010/melee_self_heal参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8010/melee_self_heal合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8010/melee_self_heal参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8010/ranged_self_heal合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8010/ranged_self_heal二元运算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8010/ranged_self_heal合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8010/ranged_self_heal参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8010/ranged_self_heal合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8010/ranged_self_heal参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8010无触发过程和周期伤害",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8010原身份图片关系保护完整",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8010仅复用同一代表图",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021完整原始对象",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021当前原树和中文完整保留",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/parameters稳定键唯一",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/formulas稳定键唯一",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/effects稳定键唯一",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/confirmed_level_heal_source_start只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/confirmed_level_heal_source_start有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/confirmed_level_heal_source_start原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "HealBase",
+        "raw": 15,
+        "scale": 1,
+        "actual": 15
+      }
+    },
+    {
+      "name": "8021/confirmed_level_heal_source_end只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/confirmed_level_heal_source_end有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/confirmed_level_heal_source_end原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "HealMax",
+        "raw": 160,
+        "scale": 1,
+        "actual": 160
+      }
+    },
+    {
+      "name": "8021/confirmed_level_heal只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/confirmed_level_heal有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/bonus_ad_ratio只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/bonus_ad_ratio有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/bonus_ad_ratio原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "HealBonusADRatio",
+        "raw": 0.10000000149011612,
+        "scale": 1,
+        "actual": 0.1
+      }
+    },
+    {
+      "name": "8021/ap_ratio只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ap_ratio有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ap_ratio原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "HealAPRatio",
+        "raw": 0.05000000074505806,
+        "scale": 1,
+        "actual": 0.05
+      }
+    },
+    {
+      "name": "8021/melee_move_speed_ratio只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/melee_move_speed_ratio有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/melee_move_speed_ratio原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "MSBuff",
+        "raw": 0.20000000298023224,
+        "scale": 1,
+        "actual": 0.2
+      }
+    },
+    {
+      "name": "8021/move_speed_duration_ms只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/move_speed_duration_ms有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/move_speed_duration_ms原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "MSDuration",
+        "raw": 1,
+        "scale": 1000,
+        "actual": 1000
+      }
+    },
+    {
+      "name": "8021/ranged_move_speed_multiplier只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_move_speed_multiplier有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_move_speed_multiplier原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "RangedMSMod",
+        "raw": 0.75,
+        "scale": 1,
+        "actual": 0.75
+      }
+    },
+    {
+      "name": "8021/ranged_heal_multiplier只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_heal_multiplier有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_heal_multiplier原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "RangedHealMod",
+        "raw": 0.6000000238418579,
+        "scale": 1,
+        "actual": 0.6
+      }
+    },
+    {
+      "name": "8021/minion_heal_multiplier只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/minion_heal_multiplier有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/minion_heal_multiplier原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "MinionHealMod",
+        "raw": 0.15000000596046448,
+        "scale": 1,
+        "actual": 0.15
+      }
+    },
+    {
+      "name": "8021/required_energy只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/required_energy有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021全部原数值字段有归属",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "8021/melee_heal合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/melee_heal二元运算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/melee_heal合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/melee_heal二元运算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/melee_heal合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/melee_heal参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/melee_heal合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/melee_heal二元运算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/melee_heal合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/melee_heal属性存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/melee_heal合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/melee_heal参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/melee_heal合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/melee_heal二元运算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/melee_heal合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/melee_heal属性存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/melee_heal合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/melee_heal参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_heal合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_heal二元运算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_heal合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_heal二元运算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_heal合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_heal二元运算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_heal合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_heal参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_heal合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_heal二元运算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_heal合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_heal属性存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_heal合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_heal参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_heal合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_heal二元运算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_heal合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_heal属性存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_heal合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_heal参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_heal合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_heal参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/melee_minion_heal合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/melee_minion_heal二元运算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/melee_minion_heal合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/melee_minion_heal二元运算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/melee_minion_heal合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/melee_minion_heal二元运算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/melee_minion_heal合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/melee_minion_heal参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/melee_minion_heal合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/melee_minion_heal二元运算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/melee_minion_heal合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/melee_minion_heal属性存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/melee_minion_heal合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/melee_minion_heal参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/melee_minion_heal合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/melee_minion_heal二元运算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/melee_minion_heal合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/melee_minion_heal属性存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/melee_minion_heal合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/melee_minion_heal参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/melee_minion_heal合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/melee_minion_heal参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_minion_heal合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_minion_heal二元运算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_minion_heal合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_minion_heal二元运算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_minion_heal合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_minion_heal二元运算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_minion_heal合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_minion_heal二元运算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_minion_heal合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_minion_heal参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_minion_heal合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_minion_heal二元运算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_minion_heal合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_minion_heal属性存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_minion_heal合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_minion_heal参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_minion_heal合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_minion_heal二元运算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_minion_heal合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_minion_heal属性存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_minion_heal合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_minion_heal参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_minion_heal合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_minion_heal参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_minion_heal合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_minion_heal参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_move_speed_ratio合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_move_speed_ratio二元运算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_move_speed_ratio合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_move_speed_ratio参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_move_speed_ratio合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_move_speed_ratio参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021无触发过程和周期伤害",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021原身份图片关系保护完整",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021仅复用同一代表图",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8230完整原始对象",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8230当前原树和中文完整保留",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8230/parameters稳定键唯一",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8230/formulas稳定键唯一",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8230/effects稳定键唯一",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8230/damage_window_ms只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8230/damage_window_ms有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8230/damage_window_ms原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "Window",
+        "raw": 3,
+        "scale": 1000,
+        "actual": 3000
+      }
+    },
+    {
+      "name": "8230/buff_duration_ms只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8230/buff_duration_ms有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8230/buff_duration_ms原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "Duration",
+        "raw": 4,
+        "scale": 1000,
+        "actual": 4000
+      }
+    },
+    {
+      "name": "8230/target_max_health_threshold_ratio只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8230/target_max_health_threshold_ratio有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8230/target_max_health_threshold_ratio原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "DamageThreshold",
+        "raw": 0.25,
+        "scale": 1,
+        "actual": 0.25
+      }
+    },
+    {
+      "name": "8230/melee_move_speed_ratio只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8230/melee_move_speed_ratio有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8230/melee_move_speed_ratio原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "HasteMax",
+        "raw": 0.47999998927116394,
+        "scale": 1,
+        "actual": 0.48
+      }
+    },
+    {
+      "name": "8230/ranged_move_speed_multiplier只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8230/ranged_move_speed_multiplier有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8230/ranged_move_speed_multiplier原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "RangedEffectiveness",
+        "raw": 0.75,
+        "scale": 1,
+        "actual": 0.75
+      }
+    },
+    {
+      "name": "8230/slow_resistance_ratio只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8230/slow_resistance_ratio有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8230/slow_resistance_ratio原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "SlowResist",
+        "raw": 0.5,
+        "scale": 1,
+        "actual": 0.5
+      }
+    },
+    {
+      "name": "8230/confirmed_cooldown_seconds_source_start只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8230/confirmed_cooldown_seconds_source_start有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8230/confirmed_cooldown_seconds_source_start原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "MaxCooldown",
+        "raw": 20,
+        "scale": 1,
+        "actual": 20
+      }
+    },
+    {
+      "name": "8230/confirmed_cooldown_seconds_source_end只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8230/confirmed_cooldown_seconds_source_end有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8230/confirmed_cooldown_seconds_source_end原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "MinCooldown",
+        "raw": 10,
+        "scale": 1,
+        "actual": 10
+      }
+    },
+    {
+      "name": "8230/confirmed_cooldown_seconds只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8230/confirmed_cooldown_seconds有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8230/seconds_to_ms只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8230/seconds_to_ms有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8230全部原数值字段有归属",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "8230/target_damage_threshold合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8230/target_damage_threshold二元运算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8230/target_damage_threshold合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8230/target_damage_threshold属性存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8230/target_damage_threshold合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8230/target_damage_threshold参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8230/ranged_move_speed_ratio合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8230/ranged_move_speed_ratio二元运算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8230/ranged_move_speed_ratio合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8230/ranged_move_speed_ratio参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8230/ranged_move_speed_ratio合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8230/ranged_move_speed_ratio参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8230/cooldown_ms合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8230/cooldown_ms二元运算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8230/cooldown_ms合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8230/cooldown_ms参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8230/cooldown_ms合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8230/cooldown_ms参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8230无触发过程和周期伤害",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8230原身份图片关系保护完整",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8230仅复用同一代表图",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8299完整原始对象",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8299当前原树和中文完整保留",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8299/parameters稳定键唯一",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8299/formulas稳定键唯一",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8299/effects稳定键唯一",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8299/health_threshold_start只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8299/health_threshold_start有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8299/health_threshold_start原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "HealthThresholdStart",
+        "raw": 0.6000000238418579,
+        "scale": 1,
+        "actual": 0.6
+      }
+    },
+    {
+      "name": "8299/health_threshold_end只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8299/health_threshold_end有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8299/health_threshold_end原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "HealthThresholdEnd",
+        "raw": 0.30000001192092896,
+        "scale": 1,
+        "actual": 0.3
+      }
+    },
+    {
+      "name": "8299/min_damage_amp_ratio只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8299/min_damage_amp_ratio有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8299/min_damage_amp_ratio原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "MinBonusDamagePercent",
+        "raw": 0.05000000074505806,
+        "scale": 1,
+        "actual": 0.05
+      }
+    },
+    {
+      "name": "8299/max_damage_amp_ratio只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8299/max_damage_amp_ratio有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8299/max_damage_amp_ratio原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "MaxBonusDamagePercent",
+        "raw": 0.10999999940395355,
+        "scale": 1,
+        "actual": 0.11
+      }
+    },
+    {
+      "name": "8299/confirmed_damage_amp_ratio只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8299/confirmed_damage_amp_ratio有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8299/qualified_damage_basis只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8299/qualified_damage_basis有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8299全部原数值字段有归属",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "8299/additional_damage合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8299/additional_damage二元运算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8299/additional_damage合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8299/additional_damage参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8299/additional_damage合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8299/additional_damage参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8299/maximum_branch_additional_damage合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8299/maximum_branch_additional_damage二元运算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8299/maximum_branch_additional_damage合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8299/maximum_branch_additional_damage参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8299/maximum_branch_additional_damage合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8299/maximum_branch_additional_damage参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8299无触发过程和周期伤害",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8299原身份图片关系保护完整",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8299仅复用同一代表图",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8401完整原始对象",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8401当前原树和中文完整保留",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8401/parameters稳定键唯一",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8401/formulas稳定键唯一",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8401/effects稳定键唯一",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8401/confirmed_level_damage_source_start只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8401/confirmed_level_damage_source_start有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8401/confirmed_level_damage_source_start原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "ProcBaseMin",
+        "raw": 5,
+        "scale": 1,
+        "actual": 5
+      }
+    },
+    {
+      "name": "8401/confirmed_level_damage_source_end只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8401/confirmed_level_damage_source_end有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8401/confirmed_level_damage_source_end原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "ProcBaseMax",
+        "raw": 30,
+        "scale": 1,
+        "actual": 30
+      }
+    },
+    {
+      "name": "8401/confirmed_level_damage只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8401/confirmed_level_damage有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8401/bonus_health_ratio只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8401/bonus_health_ratio有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8401/bonus_health_ratio原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "BonusHealthRatio",
+        "raw": 2.5,
+        "scale": 0.01,
+        "actual": 0.025
+      }
+    },
+    {
+      "name": "8401/new_shield_ratio只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8401/new_shield_ratio有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8401/new_shield_ratio原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "ShieldRatio",
+        "raw": 15,
+        "scale": 0.01,
+        "actual": 0.15
+      }
+    },
+    {
+      "name": "8401/after_shield_expiry_window_ms只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8401/after_shield_expiry_window_ms有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8401/after_shield_expiry_window_ms原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "ProcDuration",
+        "raw": 2,
+        "scale": 1000,
+        "actual": 2000
+      }
+    },
+    {
+      "name": "8401/new_shield_value只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8401/new_shield_value有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8401/BonusShieldMult来源保留原值",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8401全部原数值字段有归属",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "8401/damage_amount合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8401/damage_amount二元运算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8401/damage_amount合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8401/damage_amount二元运算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8401/damage_amount合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8401/damage_amount参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8401/damage_amount合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8401/damage_amount二元运算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8401/damage_amount合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8401/damage_amount属性存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8401/damage_amount合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8401/damage_amount参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8401/damage_amount合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8401/damage_amount二元运算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8401/damage_amount合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8401/damage_amount参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8401/damage_amount合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8401/damage_amount参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8401无触发过程和周期伤害",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8401原身份图片关系保护完整",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8401仅复用同一代表图",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8473完整原始对象",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8473当前原树和中文完整保留",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8473/parameters稳定键唯一",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8473/formulas稳定键唯一",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8473/effects稳定键唯一",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8473/confirmed_level_block_source_start只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8473/confirmed_level_block_source_start有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8473/confirmed_level_block_source_start原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "BlockBase",
+        "raw": 30,
+        "scale": 1,
+        "actual": 30
+      }
+    },
+    {
+      "name": "8473/confirmed_level_block_source_end只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8473/confirmed_level_block_source_end有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8473/confirmed_level_block_source_end原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "BlockMax",
+        "raw": 60,
+        "scale": 1,
+        "actual": 60
+      }
+    },
+    {
+      "name": "8473/confirmed_level_block只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8473/confirmed_level_block有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8473/block_count只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8473/block_count有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8473/block_count原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "BlockCount",
+        "raw": 3,
+        "scale": 1,
+        "actual": 3
+      }
+    },
+    {
+      "name": "8473/block_duration_ms只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8473/block_duration_ms有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8473/block_duration_ms原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "BlockDuration",
+        "raw": 1.5,
+        "scale": 1000,
+        "actual": 1500
+      }
+    },
+    {
+      "name": "8473/cooldown_ms只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8473/cooldown_ms有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8473/cooldown_ms原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "Cooldown",
+        "raw": 55,
+        "scale": 1000,
+        "actual": 55000
+      }
+    },
+    {
+      "name": "8473全部原数值字段有归属",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "8473/block_amount合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8473/block_amount参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8473无触发过程和周期伤害",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8473原身份图片关系保护完整",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8473仅复用同一代表图",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8369完整原始对象",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8369当前原树和中文完整保留",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8369/parameters稳定键唯一",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8369/formulas稳定键唯一",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8369/effects稳定键唯一",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8369/damage_amp_ratio只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8369/damage_amp_ratio有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8369/damage_amp_ratio原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "DamageAmp",
+        "raw": 0.07000000029802322,
+        "scale": 1,
+        "actual": 0.07
+      }
+    },
+    {
+      "name": "8369/buff_duration_ms只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8369/buff_duration_ms有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8369/buff_duration_ms原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "Duration",
+        "raw": 3,
+        "scale": 1000,
+        "actual": 3000
+      }
+    },
+    {
+      "name": "8369/combat_grace_window_ms只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8369/combat_grace_window_ms有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8369/combat_grace_window_ms原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "GraceWindow",
+        "raw": 0.25,
+        "scale": 1000,
+        "actual": 250
+      }
+    },
+    {
+      "name": "8369/confirmed_cooldown_seconds_source_start只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8369/confirmed_cooldown_seconds_source_start有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8369/confirmed_cooldown_seconds_source_start原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "TooltipOnlyCooldownStartAmount",
+        "raw": 25,
+        "scale": 1,
+        "actual": 25
+      }
+    },
+    {
+      "name": "8369/confirmed_cooldown_seconds_source_end只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8369/confirmed_cooldown_seconds_source_end有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8369/confirmed_cooldown_seconds_source_end原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "TooltipOnlyCooldownEndAmount",
+        "raw": 15,
+        "scale": 1,
+        "actual": 15
+      }
+    },
+    {
+      "name": "8369/confirmed_cooldown_seconds只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8369/confirmed_cooldown_seconds有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8369/seconds_to_ms只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8369/seconds_to_ms有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8369/ordinary_cooldown_multiplier只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8369/ordinary_cooldown_multiplier有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8369/ordinary_cooldown_multiplier原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "ModesCooldownReduction",
+        "raw": 1,
+        "scale": 1,
+        "actual": 1
+      }
+    },
+    {
+      "name": "8369/qualified_damage_basis只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8369/qualified_damage_basis有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8369/GoldProcBonus来源保留原值",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8369/GoldPercentBonus来源保留原值",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8369/GoldPercentBonusRanged来源保留原值",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8369/OOCTimer来源保留原值",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8369/MissileNoiseNumberLimiter来源保留原值",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8369/MissileNoiseRangeLimiter来源保留原值",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8369/{b50bc5ec}来源保留原值",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8369/{7563bf99}来源保留原值",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8369全部原数值字段有归属",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "8369/additional_damage合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8369/additional_damage二元运算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8369/additional_damage合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8369/additional_damage参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8369/additional_damage合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8369/additional_damage参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8369/cooldown_ms合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8369/cooldown_ms二元运算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8369/cooldown_ms合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8369/cooldown_ms二元运算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8369/cooldown_ms合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8369/cooldown_ms参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8369/cooldown_ms合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8369/cooldown_ms参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8369/cooldown_ms合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8369/cooldown_ms参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8369无触发过程和周期伤害",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8369原身份图片关系保护完整",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8369仅复用同一代表图",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8224完整原始对象",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8224当前原树和中文完整保留",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8224/parameters稳定键唯一",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8224/formulas稳定键唯一",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8224/effects稳定键唯一",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8224/single_damage_amp_ratio只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8224/single_damage_amp_ratio有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8224/single_damage_amp_ratio原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "DamageAmp",
+        "raw": 0.11999999731779099,
+        "scale": 1,
+        "actual": 0.12
+      }
+    },
+    {
+      "name": "8224/aoe_damage_amp_ratio只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8224/aoe_damage_amp_ratio有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8224/aoe_damage_amp_ratio原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "AOEAmp",
+        "raw": 0.07999999821186066,
+        "scale": 1,
+        "actual": 0.08
+      }
+    },
+    {
+      "name": "8224/current_ultimate_cooldown_refund_ratio只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8224/current_ultimate_cooldown_refund_ratio有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8224/current_ultimate_cooldown_refund_ratio原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "UltimateRefundBase",
+        "raw": 7,
+        "scale": 0.01,
+        "actual": 0.07
+      }
+    },
+    {
+      "name": "8224/current_ultimate_cooldown_ms只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8224/current_ultimate_cooldown_ms有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8224/qualified_ultimate_damage只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8224/qualified_ultimate_damage有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8224/qualified_self_healing_or_shield只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8224/qualified_self_healing_or_shield有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8224全部原数值字段有归属",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "8224/ultimate_current_cooldown_refund_ms合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8224/ultimate_current_cooldown_refund_ms二元运算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8224/ultimate_current_cooldown_refund_ms合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8224/ultimate_current_cooldown_refund_ms参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8224/ultimate_current_cooldown_refund_ms合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8224/ultimate_current_cooldown_refund_ms参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8224/single_target_additional_damage合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8224/single_target_additional_damage二元运算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8224/single_target_additional_damage合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8224/single_target_additional_damage参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8224/single_target_additional_damage合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8224/single_target_additional_damage参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8224/aoe_additional_damage合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8224/aoe_additional_damage二元运算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8224/aoe_additional_damage合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8224/aoe_additional_damage参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8224/aoe_additional_damage合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8224/aoe_additional_damage参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8224/additional_self_healing_or_shield合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8224/additional_self_healing_or_shield二元运算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8224/additional_self_healing_or_shield合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8224/additional_self_healing_or_shield参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8224/additional_self_healing_or_shield合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8224/additional_self_healing_or_shield参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8224无触发过程和周期伤害",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8224原身份图片关系保护完整",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8224仅复用同一代表图",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992完整原始对象",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992当前原树和中文完整保留",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/parameters稳定键唯一",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/formulas稳定键唯一",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/effects稳定键唯一",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/confirmed_level_damage_per_second只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/confirmed_level_damage_per_second有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/level_damage_source_start只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/level_damage_source_start有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/level_damage_source_end只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/level_damage_source_end有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/bonus_ad_ratio只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/bonus_ad_ratio有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/bonus_ad_ratio原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "ADRatio",
+        "raw": 0.07000000029802322,
+        "scale": 1,
+        "actual": 0.07
+      }
+    },
+    {
+      "name": "8992/ap_ratio只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/ap_ratio有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/ap_ratio原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "APRatio",
+        "raw": 0.02500000037252903,
+        "scale": 1,
+        "actual": 0.025
+      }
+    },
+    {
+      "name": "8992/single_duration_ms只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/single_duration_ms有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/single_duration_ms原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "Duration",
+        "raw": 4,
+        "scale": 1000,
+        "actual": 4000
+      }
+    },
+    {
+      "name": "8992/aoe_duration_ms只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/aoe_duration_ms有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/aoe_duration_ms原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "AoEDuration",
+        "raw": 2,
+        "scale": 1000,
+        "actual": 2000
+      }
+    },
+    {
+      "name": "8992/dot_duration_ms只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/dot_duration_ms有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/dot_duration_ms原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "DotDuration",
+        "raw": 1,
+        "scale": 1000,
+        "actual": 1000
+      }
+    },
+    {
+      "name": "8992/amplification_threshold_ms只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/amplification_threshold_ms有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/amplification_threshold_ms原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "TimeToAmp",
+        "raw": 3,
+        "scale": 1000,
+        "actual": 3000
+      }
+    },
+    {
+      "name": "8992/damage_increase_ratio只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/damage_increase_ratio有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/damage_increase_ratio原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "DamageMultiplier",
+        "raw": 0.75,
+        "scale": 1,
+        "actual": 0.75
+      }
+    },
+    {
+      "name": "8992/source_ticks_per_second只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/source_ticks_per_second有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/source_ticks_per_second原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "TicksPerSecond",
+        "raw": 2,
+        "scale": 1,
+        "actual": 2
+      }
+    },
+    {
+      "name": "8992/one只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/one有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/Level1DamageTOOLTIP来源保留原值",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/{2156e250}来源保留原值",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/APRatioTT来源保留原值",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/ADRatioTT来源保留原值",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992全部原数值字段有归属",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "8992/damage_per_second合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/damage_per_second二元运算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/damage_per_second合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/damage_per_second二元运算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/damage_per_second合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/damage_per_second参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/damage_per_second合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/damage_per_second二元运算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/damage_per_second合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/damage_per_second属性存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/damage_per_second合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/damage_per_second参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/damage_per_second合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/damage_per_second二元运算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/damage_per_second合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/damage_per_second属性存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/damage_per_second合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/damage_per_second参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/amplified_damage_per_second合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/amplified_damage_per_second二元运算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/amplified_damage_per_second合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/amplified_damage_per_second二元运算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/amplified_damage_per_second合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/amplified_damage_per_second二元运算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/amplified_damage_per_second合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/amplified_damage_per_second参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/amplified_damage_per_second合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/amplified_damage_per_second二元运算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/amplified_damage_per_second合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/amplified_damage_per_second属性存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/amplified_damage_per_second合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/amplified_damage_per_second参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/amplified_damage_per_second合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/amplified_damage_per_second二元运算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/amplified_damage_per_second合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/amplified_damage_per_second属性存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/amplified_damage_per_second合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/amplified_damage_per_second参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/amplified_damage_per_second合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/amplified_damage_per_second二元运算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/amplified_damage_per_second合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/amplified_damage_per_second参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/amplified_damage_per_second合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/amplified_damage_per_second参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992无触发过程和周期伤害",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992原身份图片关系保护完整",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992仅复用同一代表图",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8236完整原始对象",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8236当前原树和中文完整保留",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8236/parameters稳定键唯一",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8236/formulas稳定键唯一",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8236/effects稳定键唯一",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8236/checkpoint_interval_ms只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8236/checkpoint_interval_ms有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8236/checkpoint_interval_ms原值单位独立核对",
+      "pass": true,
+      "detail": {
+        "field": "UpdateAfterMinutes",
+        "raw": 10,
+        "scale": 60000,
+        "actual": 600000
+      }
+    },
+    {
+      "name": "8236/ap_at_10_minutes只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8236/ap_at_10_minutes有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8236/ap_at_20_minutes只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8236/ap_at_20_minutes有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8236/ap_at_30_minutes只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8236/ap_at_30_minutes有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8236/ap_at_40_minutes只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8236/ap_at_40_minutes有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8236/ap_at_50_minutes只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8236/ap_at_50_minutes有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8236/ap_at_60_minutes只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8236/ap_at_60_minutes有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8236/confirmed_current_ability_power只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8236/confirmed_current_ability_power有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8236/confirmed_current_attack_damage只用固定或无默认输入",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8236/confirmed_current_attack_damage有来源归属",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8236/AdaptiveAP来源保留原值",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8236/AdaptiveAD来源保留原值",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8236/{c5d14564}来源保留原值",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8236全部原数值字段有归属",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "8236/ability_power_amount合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8236/ability_power_amount参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8236/attack_damage_amount合法表达式节点",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8236/attack_damage_amount参数存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8236无触发过程和周期伤害",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8236/confirmed_ability_power属性与修正区有效",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8236/confirmed_ability_power一份总值替换，未叠乘层数",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8236原身份图片关系保护完整",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8236仅复用同一代表图",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "被动分类存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "原69身份与6布局只读保留",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无身份或原图上传",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "近战额外攻速使用已有比例属性",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "不将额外攻速比例加到每秒次数",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8005/third_attack_damage独立算例",
+      "pass": true,
+      "detail": {
+        "actual": 100,
+        "expected": 100
+      }
+    },
+    {
+      "name": "8005/additional_damage独立算例",
+      "pass": true,
+      "detail": {
+        "actual": 40,
+        "expected": 40
+      }
+    },
+    {
+      "name": "8008/melee_attack_speed_amount独立算例",
+      "pass": true,
+      "detail": {
+        "actual": 0.36,
+        "expected": 0.36
+      }
+    },
+    {
+      "name": "8008/ranged_attack_speed_amount独立算例",
+      "pass": true,
+      "detail": {
+        "actual": 0.30000000000000004,
+        "expected": 0.3
+      }
+    },
+    {
+      "name": "8008/melee_full_stack_damage独立算例",
+      "pass": true,
+      "detail": {
+        "actual": 27,
+        "expected": 27
+      }
+    },
+    {
+      "name": "8008/ranged_full_stack_damage独立算例",
+      "pass": true,
+      "detail": {
+        "actual": 25.5,
+        "expected": 25.5
+      }
+    },
+    {
+      "name": "8008/melee_attack_speed_amount独立算例",
+      "pass": true,
+      "detail": {
+        "actual": 0.24,
+        "expected": 0.24
+      }
+    },
+    {
+      "name": "8010/adaptive_force_amount独立算例",
+      "pass": true,
+      "detail": {
+        "actual": 30,
+        "expected": 30
+      }
+    },
+    {
+      "name": "8010/melee_self_heal独立算例",
+      "pass": true,
+      "detail": {
+        "actual": 32,
+        "expected": 32
+      }
+    },
+    {
+      "name": "8010/ranged_self_heal独立算例",
+      "pass": true,
+      "detail": {
+        "actual": 20,
+        "expected": 20
+      }
+    },
+    {
+      "name": "8010/melee_self_heal独立算例",
+      "pass": true,
+      "detail": {
+        "actual": 8,
+        "expected": 8
+      }
+    },
+    {
+      "name": "8021/melee_heal独立算例",
+      "pass": true,
+      "detail": {
+        "actual": 100,
+        "expected": 100
+      }
+    },
+    {
+      "name": "8021/ranged_heal独立算例",
+      "pass": true,
+      "detail": {
+        "actual": 60,
+        "expected": 60
+      }
+    },
+    {
+      "name": "8021/melee_minion_heal独立算例",
+      "pass": true,
+      "detail": {
+        "actual": 15,
+        "expected": 15
+      }
+    },
+    {
+      "name": "8021/ranged_minion_heal独立算例",
+      "pass": true,
+      "detail": {
+        "actual": 9,
+        "expected": 9
+      }
+    },
+    {
+      "name": "8021/ranged_move_speed_ratio独立算例",
+      "pass": true,
+      "detail": {
+        "actual": 0.15000000000000002,
+        "expected": 0.15
+      }
+    },
+    {
+      "name": "8021/melee_heal独立算例",
+      "pass": true,
+      "detail": {
+        "actual": 100,
+        "expected": 100
+      }
+    },
+    {
+      "name": "8230/target_damage_threshold独立算例",
+      "pass": true,
+      "detail": {
+        "actual": 500,
+        "expected": 500
+      }
+    },
+    {
+      "name": "8230/ranged_move_speed_ratio独立算例",
+      "pass": true,
+      "detail": {
+        "actual": 0.36,
+        "expected": 0.36
+      }
+    },
+    {
+      "name": "8230/cooldown_ms独立算例",
+      "pass": true,
+      "detail": {
+        "actual": 13700,
+        "expected": 13700
+      }
+    },
+    {
+      "name": "8299/additional_damage独立算例",
+      "pass": true,
+      "detail": {
+        "actual": 45,
+        "expected": 45
+      }
+    },
+    {
+      "name": "8299/maximum_branch_additional_damage独立算例",
+      "pass": true,
+      "detail": {
+        "actual": 55,
+        "expected": 55
+      }
+    },
+    {
+      "name": "8401/damage_amount独立算例",
+      "pass": true,
+      "detail": {
+        "actual": 57.5,
+        "expected": 57.5
+      }
+    },
+    {
+      "name": "8401/damage_amount独立算例",
+      "pass": true,
+      "detail": {
+        "actual": 57.5,
+        "expected": 57.5
+      }
+    },
+    {
+      "name": "8473/block_amount独立算例",
+      "pass": true,
+      "detail": {
+        "actual": 45,
+        "expected": 45
+      }
+    },
+    {
+      "name": "8369/additional_damage独立算例",
+      "pass": true,
+      "detail": {
+        "actual": 35,
+        "expected": 35
+      }
+    },
+    {
+      "name": "8369/cooldown_ms独立算例",
+      "pass": true,
+      "detail": {
+        "actual": 20000,
+        "expected": 20000
+      }
+    },
+    {
+      "name": "8224/ultimate_current_cooldown_refund_ms独立算例",
+      "pass": true,
+      "detail": {
+        "actual": 1400.0000000000002,
+        "expected": 1400
+      }
+    },
+    {
+      "name": "8224/single_target_additional_damage独立算例",
+      "pass": true,
+      "detail": {
+        "actual": 60,
+        "expected": 60
+      }
+    },
+    {
+      "name": "8224/aoe_additional_damage独立算例",
+      "pass": true,
+      "detail": {
+        "actual": 40,
+        "expected": 40
+      }
+    },
+    {
+      "name": "8224/additional_self_healing_or_shield独立算例",
+      "pass": true,
+      "detail": {
+        "actual": 36,
+        "expected": 36
+      }
+    },
+    {
+      "name": "8992/damage_per_second独立算例",
+      "pass": true,
+      "detail": {
+        "actual": 18,
+        "expected": 18
+      }
+    },
+    {
+      "name": "8992/amplified_damage_per_second独立算例",
+      "pass": true,
+      "detail": {
+        "actual": 31.5,
+        "expected": 31.5
+      }
+    },
+    {
+      "name": "8992/damage_per_second独立算例",
+      "pass": true,
+      "detail": {
+        "actual": 18,
+        "expected": 18
+      }
+    },
+    {
+      "name": "8236/ability_power_amount独立算例",
+      "pass": true,
+      "detail": {
+        "actual": 48,
+        "expected": 48
+      }
+    },
+    {
+      "name": "8236/attack_damage_amount独立算例",
+      "pass": true,
+      "detail": {
+        "actual": 29,
+        "expected": 29
+      }
+    },
+    {
+      "name": "8005/third_attack_damage已有独立算例",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8005/third_attack_damage缺输入拒算 confirmed_level_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8005/additional_damage已有独立算例",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8005/additional_damage缺输入拒算 qualified_damage_basis",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/melee_attack_speed_amount已有独立算例",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/melee_attack_speed_amount缺输入拒算 actual_stacks",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/ranged_attack_speed_amount已有独立算例",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/ranged_attack_speed_amount缺输入拒算 confirmed_ranged_as_per_stack",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/ranged_attack_speed_amount缺输入拒算 actual_stacks",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/melee_full_stack_damage已有独立算例",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/melee_full_stack_damage缺输入拒算 confirmed_melee_level_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/melee_full_stack_damage缺输入拒算 confirmed_bonus_attack_speed_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/ranged_full_stack_damage已有独立算例",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/ranged_full_stack_damage缺输入拒算 confirmed_ranged_level_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008/ranged_full_stack_damage缺输入拒算 confirmed_bonus_attack_speed_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8010/adaptive_force_amount已有独立算例",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8010/adaptive_force_amount缺输入拒算 confirmed_adaptive_per_stack",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8010/adaptive_force_amount缺输入拒算 actual_stacks",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8010/melee_self_heal已有独立算例",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8010/melee_self_heal缺输入拒算 actual_damage_dealt_to_champion",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8010/ranged_self_heal已有独立算例",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8010/ranged_self_heal缺输入拒算 actual_damage_dealt_to_champion",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/melee_heal已有独立算例",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/melee_heal缺输入拒算 confirmed_level_heal",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_heal已有独立算例",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_heal缺输入拒算 confirmed_level_heal",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/melee_minion_heal已有独立算例",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/melee_minion_heal缺输入拒算 confirmed_level_heal",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_minion_heal已有独立算例",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_minion_heal缺输入拒算 confirmed_level_heal",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021/ranged_move_speed_ratio已有独立算例",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8230/target_damage_threshold已有独立算例",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8230/ranged_move_speed_ratio已有独立算例",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8230/cooldown_ms已有独立算例",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8230/cooldown_ms缺输入拒算 confirmed_cooldown_seconds",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8299/additional_damage已有独立算例",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8299/additional_damage缺输入拒算 qualified_damage_basis",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8299/additional_damage缺输入拒算 confirmed_damage_amp_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8299/maximum_branch_additional_damage已有独立算例",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8299/maximum_branch_additional_damage缺输入拒算 qualified_damage_basis",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8401/damage_amount已有独立算例",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8401/damage_amount缺输入拒算 confirmed_level_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8401/damage_amount缺输入拒算 new_shield_value",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8473/block_amount已有独立算例",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8473/block_amount缺输入拒算 confirmed_level_block",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8369/additional_damage已有独立算例",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8369/additional_damage缺输入拒算 qualified_damage_basis",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8369/cooldown_ms已有独立算例",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8369/cooldown_ms缺输入拒算 confirmed_cooldown_seconds",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8224/ultimate_current_cooldown_refund_ms已有独立算例",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8224/ultimate_current_cooldown_refund_ms缺输入拒算 current_ultimate_cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8224/single_target_additional_damage已有独立算例",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8224/single_target_additional_damage缺输入拒算 qualified_ultimate_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8224/aoe_additional_damage已有独立算例",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8224/aoe_additional_damage缺输入拒算 qualified_ultimate_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8224/additional_self_healing_or_shield已有独立算例",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8224/additional_self_healing_or_shield缺输入拒算 qualified_self_healing_or_shield",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/damage_per_second已有独立算例",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/damage_per_second缺输入拒算 confirmed_level_damage_per_second",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/amplified_damage_per_second已有独立算例",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992/amplified_damage_per_second缺输入拒算 confirmed_level_damage_per_second",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8236/ability_power_amount已有独立算例",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8236/ability_power_amount缺输入拒算 confirmed_current_ability_power",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8236/attack_damage_amount已有独立算例",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8236/attack_damage_amount缺输入拒算 confirmed_current_attack_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008原树与长说明远程攻速冲突确实存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008远程附伤上限冲突确实存在",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8008近战原树与长说明一致",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8021原树确为额外AD、法强与远程效能",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8230不用旧三次命中",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8992原树每秒AD口径",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8236六档AP与原文逐项同值",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "8236分钟正确转换毫秒",
+      "pass": true,
+      "detail": null
+    }
+  ],
+  "cases": [
+    {
+      "id": 8005,
+      "formulaKey": "third_attack_damage",
+      "inputs": {
+        "confirmed_level_damage": 100,
+        "qualified_damage_basis": 500
+      },
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 250,
+        "SOURCE.attack_damage.BONUS": 100,
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.hp.BONUS": 500,
+        "SOURCE.hp.TOTAL": 2000,
+        "SOURCE.hp.CURRENT": 500,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "actual": 100,
+      "expected": 100,
+      "pass": true,
+      "boundary": "输入仅为独立算例，不默认真实层数、等级、AD冲突分支或战斗事件"
+    },
+    {
+      "id": 8005,
+      "formulaKey": "additional_damage",
+      "inputs": {
+        "confirmed_level_damage": 100,
+        "qualified_damage_basis": 500
+      },
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 250,
+        "SOURCE.attack_damage.BONUS": 100,
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.hp.BONUS": 500,
+        "SOURCE.hp.TOTAL": 2000,
+        "SOURCE.hp.CURRENT": 500,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "actual": 40,
+      "expected": 40,
+      "pass": true,
+      "boundary": "输入仅为独立算例，不默认真实层数、等级、AD冲突分支或战斗事件"
+    },
+    {
+      "id": 8008,
+      "formulaKey": "melee_attack_speed_amount",
+      "inputs": {
+        "actual_stacks": 6,
+        "confirmed_ranged_as_per_stack": 0.05,
+        "confirmed_melee_level_damage": 18,
+        "confirmed_ranged_level_damage": 17,
+        "confirmed_bonus_attack_speed_ratio": 0.5
+      },
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 250,
+        "SOURCE.attack_damage.BONUS": 100,
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.hp.BONUS": 500,
+        "SOURCE.hp.TOTAL": 2000,
+        "SOURCE.hp.CURRENT": 500,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "actual": 0.36,
+      "expected": 0.36,
+      "pass": true,
+      "boundary": "输入仅为独立算例，不默认真实层数、等级、AD冲突分支或战斗事件"
+    },
+    {
+      "id": 8008,
+      "formulaKey": "ranged_attack_speed_amount",
+      "inputs": {
+        "actual_stacks": 6,
+        "confirmed_ranged_as_per_stack": 0.05,
+        "confirmed_melee_level_damage": 18,
+        "confirmed_ranged_level_damage": 17,
+        "confirmed_bonus_attack_speed_ratio": 0.5
+      },
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 250,
+        "SOURCE.attack_damage.BONUS": 100,
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.hp.BONUS": 500,
+        "SOURCE.hp.TOTAL": 2000,
+        "SOURCE.hp.CURRENT": 500,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "actual": 0.30000000000000004,
+      "expected": 0.3,
+      "pass": true,
+      "boundary": "输入仅为独立算例，不默认真实层数、等级、AD冲突分支或战斗事件"
+    },
+    {
+      "id": 8008,
+      "formulaKey": "melee_full_stack_damage",
+      "inputs": {
+        "actual_stacks": 6,
+        "confirmed_ranged_as_per_stack": 0.05,
+        "confirmed_melee_level_damage": 18,
+        "confirmed_ranged_level_damage": 17,
+        "confirmed_bonus_attack_speed_ratio": 0.5
+      },
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 250,
+        "SOURCE.attack_damage.BONUS": 100,
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.hp.BONUS": 500,
+        "SOURCE.hp.TOTAL": 2000,
+        "SOURCE.hp.CURRENT": 500,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "actual": 27,
+      "expected": 27,
+      "pass": true,
+      "boundary": "输入仅为独立算例，不默认真实层数、等级、AD冲突分支或战斗事件"
+    },
+    {
+      "id": 8008,
+      "formulaKey": "ranged_full_stack_damage",
+      "inputs": {
+        "actual_stacks": 6,
+        "confirmed_ranged_as_per_stack": 0.05,
+        "confirmed_melee_level_damage": 18,
+        "confirmed_ranged_level_damage": 17,
+        "confirmed_bonus_attack_speed_ratio": 0.5
+      },
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 250,
+        "SOURCE.attack_damage.BONUS": 100,
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.hp.BONUS": 500,
+        "SOURCE.hp.TOTAL": 2000,
+        "SOURCE.hp.CURRENT": 500,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "actual": 25.5,
+      "expected": 25.5,
+      "pass": true,
+      "boundary": "输入仅为独立算例，不默认真实层数、等级、AD冲突分支或战斗事件"
+    },
+    {
+      "id": 8008,
+      "formulaKey": "melee_attack_speed_amount",
+      "inputs": {
+        "actual_stacks": 4,
+        "confirmed_ranged_as_per_stack": 0.05,
+        "confirmed_melee_level_damage": 18,
+        "confirmed_ranged_level_damage": 17,
+        "confirmed_bonus_attack_speed_ratio": 0.5
+      },
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 250,
+        "SOURCE.attack_damage.BONUS": 100,
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.hp.BONUS": 500,
+        "SOURCE.hp.TOTAL": 2000,
+        "SOURCE.hp.CURRENT": 500,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "actual": 0.24,
+      "expected": 0.24,
+      "pass": true,
+      "boundary": "输入仅为独立算例，不默认真实层数、等级、AD冲突分支或战斗事件"
+    },
+    {
+      "id": 8010,
+      "formulaKey": "adaptive_force_amount",
+      "inputs": {
+        "confirmed_adaptive_per_stack": 2.5,
+        "actual_stacks": 12,
+        "actual_damage_dealt_to_champion": 400
+      },
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 250,
+        "SOURCE.attack_damage.BONUS": 100,
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.hp.BONUS": 500,
+        "SOURCE.hp.TOTAL": 2000,
+        "SOURCE.hp.CURRENT": 500,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "actual": 30,
+      "expected": 30,
+      "pass": true,
+      "boundary": "输入仅为独立算例，不默认真实层数、等级、AD冲突分支或战斗事件"
+    },
+    {
+      "id": 8010,
+      "formulaKey": "melee_self_heal",
+      "inputs": {
+        "confirmed_adaptive_per_stack": 2.5,
+        "actual_stacks": 12,
+        "actual_damage_dealt_to_champion": 400
+      },
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 250,
+        "SOURCE.attack_damage.BONUS": 100,
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.hp.BONUS": 500,
+        "SOURCE.hp.TOTAL": 2000,
+        "SOURCE.hp.CURRENT": 500,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "actual": 32,
+      "expected": 32,
+      "pass": true,
+      "boundary": "输入仅为独立算例，不默认真实层数、等级、AD冲突分支或战斗事件"
+    },
+    {
+      "id": 8010,
+      "formulaKey": "ranged_self_heal",
+      "inputs": {
+        "confirmed_adaptive_per_stack": 2.5,
+        "actual_stacks": 12,
+        "actual_damage_dealt_to_champion": 400
+      },
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 250,
+        "SOURCE.attack_damage.BONUS": 100,
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.hp.BONUS": 500,
+        "SOURCE.hp.TOTAL": 2000,
+        "SOURCE.hp.CURRENT": 500,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "actual": 20,
+      "expected": 20,
+      "pass": true,
+      "boundary": "输入仅为独立算例，不默认真实层数、等级、AD冲突分支或战斗事件"
+    },
+    {
+      "id": 8010,
+      "formulaKey": "melee_self_heal",
+      "inputs": {
+        "confirmed_adaptive_per_stack": 2.5,
+        "actual_stacks": 12,
+        "actual_damage_dealt_to_champion": 100
+      },
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 250,
+        "SOURCE.attack_damage.BONUS": 100,
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.hp.BONUS": 500,
+        "SOURCE.hp.TOTAL": 2000,
+        "SOURCE.hp.CURRENT": 500,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "actual": 8,
+      "expected": 8,
+      "pass": true,
+      "boundary": "输入仅为独立算例，不默认真实层数、等级、AD冲突分支或战斗事件"
+    },
+    {
+      "id": 8021,
+      "formulaKey": "melee_heal",
+      "inputs": {
+        "confirmed_level_heal": 80
+      },
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 250,
+        "SOURCE.attack_damage.BONUS": 100,
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.hp.BONUS": 500,
+        "SOURCE.hp.TOTAL": 2000,
+        "SOURCE.hp.CURRENT": 500,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "actual": 100,
+      "expected": 100,
+      "pass": true,
+      "boundary": "输入仅为独立算例，不默认真实层数、等级、AD冲突分支或战斗事件"
+    },
+    {
+      "id": 8021,
+      "formulaKey": "ranged_heal",
+      "inputs": {
+        "confirmed_level_heal": 80
+      },
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 250,
+        "SOURCE.attack_damage.BONUS": 100,
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.hp.BONUS": 500,
+        "SOURCE.hp.TOTAL": 2000,
+        "SOURCE.hp.CURRENT": 500,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "actual": 60,
+      "expected": 60,
+      "pass": true,
+      "boundary": "输入仅为独立算例，不默认真实层数、等级、AD冲突分支或战斗事件"
+    },
+    {
+      "id": 8021,
+      "formulaKey": "melee_minion_heal",
+      "inputs": {
+        "confirmed_level_heal": 80
+      },
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 250,
+        "SOURCE.attack_damage.BONUS": 100,
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.hp.BONUS": 500,
+        "SOURCE.hp.TOTAL": 2000,
+        "SOURCE.hp.CURRENT": 500,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "actual": 15,
+      "expected": 15,
+      "pass": true,
+      "boundary": "输入仅为独立算例，不默认真实层数、等级、AD冲突分支或战斗事件"
+    },
+    {
+      "id": 8021,
+      "formulaKey": "ranged_minion_heal",
+      "inputs": {
+        "confirmed_level_heal": 80
+      },
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 250,
+        "SOURCE.attack_damage.BONUS": 100,
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.hp.BONUS": 500,
+        "SOURCE.hp.TOTAL": 2000,
+        "SOURCE.hp.CURRENT": 500,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "actual": 9,
+      "expected": 9,
+      "pass": true,
+      "boundary": "输入仅为独立算例，不默认真实层数、等级、AD冲突分支或战斗事件"
+    },
+    {
+      "id": 8021,
+      "formulaKey": "ranged_move_speed_ratio",
+      "inputs": {
+        "confirmed_level_heal": 80
+      },
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 250,
+        "SOURCE.attack_damage.BONUS": 100,
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.hp.BONUS": 500,
+        "SOURCE.hp.TOTAL": 2000,
+        "SOURCE.hp.CURRENT": 500,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "actual": 0.15000000000000002,
+      "expected": 0.15,
+      "pass": true,
+      "boundary": "输入仅为独立算例，不默认真实层数、等级、AD冲突分支或战斗事件"
+    },
+    {
+      "id": 8021,
+      "formulaKey": "melee_heal",
+      "inputs": {
+        "confirmed_level_heal": 80
+      },
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 999,
+        "SOURCE.attack_damage.BONUS": 100,
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.hp.BONUS": 500,
+        "SOURCE.hp.TOTAL": 2000,
+        "SOURCE.hp.CURRENT": 500,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "actual": 100,
+      "expected": 100,
+      "pass": true,
+      "boundary": "输入仅为独立算例，不默认真实层数、等级、AD冲突分支或战斗事件"
+    },
+    {
+      "id": 8230,
+      "formulaKey": "target_damage_threshold",
+      "inputs": {
+        "confirmed_cooldown_seconds": 13.7
+      },
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 250,
+        "SOURCE.attack_damage.BONUS": 100,
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.hp.BONUS": 500,
+        "SOURCE.hp.TOTAL": 2000,
+        "SOURCE.hp.CURRENT": 500,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "actual": 500,
+      "expected": 500,
+      "pass": true,
+      "boundary": "输入仅为独立算例，不默认真实层数、等级、AD冲突分支或战斗事件"
+    },
+    {
+      "id": 8230,
+      "formulaKey": "ranged_move_speed_ratio",
+      "inputs": {
+        "confirmed_cooldown_seconds": 13.7
+      },
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 250,
+        "SOURCE.attack_damage.BONUS": 100,
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.hp.BONUS": 500,
+        "SOURCE.hp.TOTAL": 2000,
+        "SOURCE.hp.CURRENT": 500,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "actual": 0.36,
+      "expected": 0.36,
+      "pass": true,
+      "boundary": "输入仅为独立算例，不默认真实层数、等级、AD冲突分支或战斗事件"
+    },
+    {
+      "id": 8230,
+      "formulaKey": "cooldown_ms",
+      "inputs": {
+        "confirmed_cooldown_seconds": 13.7
+      },
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 250,
+        "SOURCE.attack_damage.BONUS": 100,
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.hp.BONUS": 500,
+        "SOURCE.hp.TOTAL": 2000,
+        "SOURCE.hp.CURRENT": 500,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "actual": 13700,
+      "expected": 13700,
+      "pass": true,
+      "boundary": "输入仅为独立算例，不默认真实层数、等级、AD冲突分支或战斗事件"
+    },
+    {
+      "id": 8299,
+      "formulaKey": "additional_damage",
+      "inputs": {
+        "confirmed_damage_amp_ratio": 0.09,
+        "qualified_damage_basis": 500
+      },
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 250,
+        "SOURCE.attack_damage.BONUS": 100,
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.hp.BONUS": 500,
+        "SOURCE.hp.TOTAL": 2000,
+        "SOURCE.hp.CURRENT": 500,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "actual": 45,
+      "expected": 45,
+      "pass": true,
+      "boundary": "输入仅为独立算例，不默认真实层数、等级、AD冲突分支或战斗事件"
+    },
+    {
+      "id": 8299,
+      "formulaKey": "maximum_branch_additional_damage",
+      "inputs": {
+        "confirmed_damage_amp_ratio": 0.09,
+        "qualified_damage_basis": 500
+      },
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 250,
+        "SOURCE.attack_damage.BONUS": 100,
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.hp.BONUS": 500,
+        "SOURCE.hp.TOTAL": 2000,
+        "SOURCE.hp.CURRENT": 500,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "actual": 55,
+      "expected": 55,
+      "pass": true,
+      "boundary": "输入仅为独立算例，不默认真实层数、等级、AD冲突分支或战斗事件"
+    },
+    {
+      "id": 8401,
+      "formulaKey": "damage_amount",
+      "inputs": {
+        "confirmed_level_damage": 15,
+        "new_shield_value": 200
+      },
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 250,
+        "SOURCE.attack_damage.BONUS": 100,
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.hp.BONUS": 500,
+        "SOURCE.hp.TOTAL": 2000,
+        "SOURCE.hp.CURRENT": 500,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "actual": 57.5,
+      "expected": 57.5,
+      "pass": true,
+      "boundary": "输入仅为独立算例，不默认真实层数、等级、AD冲突分支或战斗事件"
+    },
+    {
+      "id": 8401,
+      "formulaKey": "damage_amount",
+      "inputs": {
+        "confirmed_level_damage": 15,
+        "new_shield_value": 200
+      },
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 250,
+        "SOURCE.attack_damage.BONUS": 100,
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.hp.BONUS": 500,
+        "SOURCE.hp.TOTAL": 9000,
+        "SOURCE.hp.CURRENT": 500,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "actual": 57.5,
+      "expected": 57.5,
+      "pass": true,
+      "boundary": "输入仅为独立算例，不默认真实层数、等级、AD冲突分支或战斗事件"
+    },
+    {
+      "id": 8473,
+      "formulaKey": "block_amount",
+      "inputs": {
+        "confirmed_level_block": 45
+      },
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 250,
+        "SOURCE.attack_damage.BONUS": 100,
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.hp.BONUS": 500,
+        "SOURCE.hp.TOTAL": 2000,
+        "SOURCE.hp.CURRENT": 500,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "actual": 45,
+      "expected": 45,
+      "pass": true,
+      "boundary": "输入仅为独立算例，不默认真实层数、等级、AD冲突分支或战斗事件"
+    },
+    {
+      "id": 8369,
+      "formulaKey": "additional_damage",
+      "inputs": {
+        "confirmed_cooldown_seconds": 20,
+        "qualified_damage_basis": 500
+      },
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 250,
+        "SOURCE.attack_damage.BONUS": 100,
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.hp.BONUS": 500,
+        "SOURCE.hp.TOTAL": 2000,
+        "SOURCE.hp.CURRENT": 500,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "actual": 35,
+      "expected": 35,
+      "pass": true,
+      "boundary": "输入仅为独立算例，不默认真实层数、等级、AD冲突分支或战斗事件"
+    },
+    {
+      "id": 8369,
+      "formulaKey": "cooldown_ms",
+      "inputs": {
+        "confirmed_cooldown_seconds": 20,
+        "qualified_damage_basis": 500
+      },
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 250,
+        "SOURCE.attack_damage.BONUS": 100,
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.hp.BONUS": 500,
+        "SOURCE.hp.TOTAL": 2000,
+        "SOURCE.hp.CURRENT": 500,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "actual": 20000,
+      "expected": 20000,
+      "pass": true,
+      "boundary": "输入仅为独立算例，不默认真实层数、等级、AD冲突分支或战斗事件"
+    },
+    {
+      "id": 8224,
+      "formulaKey": "ultimate_current_cooldown_refund_ms",
+      "inputs": {
+        "current_ultimate_cooldown_ms": 20000,
+        "qualified_ultimate_damage": 500,
+        "qualified_self_healing_or_shield": 300
+      },
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 250,
+        "SOURCE.attack_damage.BONUS": 100,
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.hp.BONUS": 500,
+        "SOURCE.hp.TOTAL": 2000,
+        "SOURCE.hp.CURRENT": 500,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "actual": 1400.0000000000002,
+      "expected": 1400,
+      "pass": true,
+      "boundary": "输入仅为独立算例，不默认真实层数、等级、AD冲突分支或战斗事件"
+    },
+    {
+      "id": 8224,
+      "formulaKey": "single_target_additional_damage",
+      "inputs": {
+        "current_ultimate_cooldown_ms": 20000,
+        "qualified_ultimate_damage": 500,
+        "qualified_self_healing_or_shield": 300
+      },
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 250,
+        "SOURCE.attack_damage.BONUS": 100,
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.hp.BONUS": 500,
+        "SOURCE.hp.TOTAL": 2000,
+        "SOURCE.hp.CURRENT": 500,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "actual": 60,
+      "expected": 60,
+      "pass": true,
+      "boundary": "输入仅为独立算例，不默认真实层数、等级、AD冲突分支或战斗事件"
+    },
+    {
+      "id": 8224,
+      "formulaKey": "aoe_additional_damage",
+      "inputs": {
+        "current_ultimate_cooldown_ms": 20000,
+        "qualified_ultimate_damage": 500,
+        "qualified_self_healing_or_shield": 300
+      },
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 250,
+        "SOURCE.attack_damage.BONUS": 100,
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.hp.BONUS": 500,
+        "SOURCE.hp.TOTAL": 2000,
+        "SOURCE.hp.CURRENT": 500,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "actual": 40,
+      "expected": 40,
+      "pass": true,
+      "boundary": "输入仅为独立算例，不默认真实层数、等级、AD冲突分支或战斗事件"
+    },
+    {
+      "id": 8224,
+      "formulaKey": "additional_self_healing_or_shield",
+      "inputs": {
+        "current_ultimate_cooldown_ms": 20000,
+        "qualified_ultimate_damage": 500,
+        "qualified_self_healing_or_shield": 300
+      },
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 250,
+        "SOURCE.attack_damage.BONUS": 100,
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.hp.BONUS": 500,
+        "SOURCE.hp.TOTAL": 2000,
+        "SOURCE.hp.CURRENT": 500,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "actual": 36,
+      "expected": 36,
+      "pass": true,
+      "boundary": "输入仅为独立算例，不默认真实层数、等级、AD冲突分支或战斗事件"
+    },
+    {
+      "id": 8992,
+      "formulaKey": "damage_per_second",
+      "inputs": {
+        "confirmed_level_damage_per_second": 6
+      },
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 250,
+        "SOURCE.attack_damage.BONUS": 100,
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.hp.BONUS": 500,
+        "SOURCE.hp.TOTAL": 2000,
+        "SOURCE.hp.CURRENT": 500,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "actual": 18,
+      "expected": 18,
+      "pass": true,
+      "boundary": "输入仅为独立算例，不默认真实层数、等级、AD冲突分支或战斗事件"
+    },
+    {
+      "id": 8992,
+      "formulaKey": "amplified_damage_per_second",
+      "inputs": {
+        "confirmed_level_damage_per_second": 6
+      },
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 250,
+        "SOURCE.attack_damage.BONUS": 100,
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.hp.BONUS": 500,
+        "SOURCE.hp.TOTAL": 2000,
+        "SOURCE.hp.CURRENT": 500,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "actual": 31.5,
+      "expected": 31.5,
+      "pass": true,
+      "boundary": "输入仅为独立算例，不默认真实层数、等级、AD冲突分支或战斗事件"
+    },
+    {
+      "id": 8992,
+      "formulaKey": "damage_per_second",
+      "inputs": {
+        "confirmed_level_damage_per_second": 6
+      },
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 999,
+        "SOURCE.attack_damage.BONUS": 100,
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.hp.BONUS": 500,
+        "SOURCE.hp.TOTAL": 2000,
+        "SOURCE.hp.CURRENT": 500,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "actual": 18,
+      "expected": 18,
+      "pass": true,
+      "boundary": "输入仅为独立算例，不默认真实层数、等级、AD冲突分支或战斗事件"
+    },
+    {
+      "id": 8236,
+      "formulaKey": "ability_power_amount",
+      "inputs": {
+        "confirmed_current_ability_power": 48,
+        "confirmed_current_attack_damage": 29
+      },
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 250,
+        "SOURCE.attack_damage.BONUS": 100,
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.hp.BONUS": 500,
+        "SOURCE.hp.TOTAL": 2000,
+        "SOURCE.hp.CURRENT": 500,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "actual": 48,
+      "expected": 48,
+      "pass": true,
+      "boundary": "输入仅为独立算例，不默认真实层数、等级、AD冲突分支或战斗事件"
+    },
+    {
+      "id": 8236,
+      "formulaKey": "attack_damage_amount",
+      "inputs": {
+        "confirmed_current_ability_power": 48,
+        "confirmed_current_attack_damage": 29
+      },
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 250,
+        "SOURCE.attack_damage.BONUS": 100,
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.hp.BONUS": 500,
+        "SOURCE.hp.TOTAL": 2000,
+        "SOURCE.hp.CURRENT": 500,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "actual": 29,
+      "expected": 29,
+      "pass": true,
+      "boundary": "输入仅为独立算例，不默认真实层数、等级、AD冲突分支或战斗事件"
+    }
+  ],
+  "conflicts": [
+    {
+      "id": 8008,
+      "kind": "远程每层攻速",
+      "rawCalculation": 0.047999999642372115,
+      "longText": 0.03999999910593033
+    },
+    {
+      "id": 8008,
+      "kind": "远程等级附伤两端点",
+      "rawCalculation": [
+        6.00299996137619,
+        20.009999871253967
+      ],
+      "longText": [
+        6,
+        24
+      ]
+    },
+    {
+      "id": 8236,
+      "kind": "首档AD",
+      "raw": 6,
+      "longText": 5
+    }
+  ],
+  "failures": [],
+  "boundary": "固定来源和候选独立算术；79次保护GET与1次属性GET证据另存。没有业务写入或战斗运行；外供输入不构成曲线/来源冲突/资格已解决的证明。"
+}

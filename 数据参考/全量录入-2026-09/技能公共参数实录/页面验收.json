@@ -1,0 +1,14 @@
+{
+  "checkedDate": "2026-09-08",
+  "method": "CUA 真实浏览器查看已保存参数，独立于写入响应",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "records": [
+    { "skillKey": "nasus_q", "visibleTitle": "参数与公式 - 内瑟斯·汲魂痛击", "mana_cost": 20, "cooldown_ms": [7500, 6500, 5500, 4500, 3500], "verified": true },
+    { "skillKey": "jax_w", "visibleTitle": "参数与公式 - 贾克斯·蓄力一击", "mana_cost": 30, "cooldown_ms": [7000, 6000, 5000, 4000, 3000], "verified": true }
+  ],
+  "observations": [
+    "关闭弹窗的动画期间立即查询会读到关闭过程中的旧状态；等待新增参数按钮隐藏后再查询，目标技能正常显示。",
+    "参数名和稳定标识在不同文本节点中，自动化完整文本精确定位未匹配；可访问性树明确显示完整数值，未认定为产品数据缺失。"
+  ],
+  "runtimeValidation": "未执行"
+}

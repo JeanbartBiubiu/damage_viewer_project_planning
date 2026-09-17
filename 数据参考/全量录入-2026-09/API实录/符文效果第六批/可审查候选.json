@@ -1,0 +1,1938 @@
+{
+  "at": "2026-09-09T06:10:38.566Z",
+  "executor": "Codex执行代理；第六批仅候选、冻结源、独立算术与体验报告，未执行业务写入",
+  "sourceFrozenSha256": "f36e250fe8cc6d1ebf83b1f727b0dc797a78ddd5d99f062be42c5dc52e07d2c0",
+  "sourceRawSha256": "1427c70c4d1172198a1a9787362224c871a90cc4f66f3f769ef5830cbcd401b1",
+  "boundary": "普通模式16.17客户端；官方身份16.17.1；当前69身份和实际挂载以只读GET为准；仅候选不写业务",
+  "currentReadEvidence": {
+    "path": "API实录/符文效果第六批/当前69身份与挂载独立GET.json",
+    "sha256": "99e0d445c4f04f4fd1b4daa73299ff91dcb7f35de8071ed90d0aae17f7d7ceef",
+    "getRequests": 124,
+    "summary": {
+      "identityCount": 69,
+      "mountedRuneCount": 53,
+      "remainingRuneCount": 16,
+      "relationCount": 53,
+      "uniqueMountedSkillCount": 53,
+      "skillDirectoryCount": 53,
+      "skillDirectoryNotMounted": [],
+      "mountedSkillDetailsCount": 53,
+      "priorBatchSkillCount": 53,
+      "apiWrites": 0
+    },
+    "priorBatchEvidence": {
+      "ledgerSkillKeys": [
+        "rune_5005_passive",
+        "rune_5007_passive",
+        "rune_5010_passive",
+        "rune_5011_passive",
+        "rune_5013_passive",
+        "rune_8009_passive",
+        "rune_8014_passive",
+        "rune_8017_passive",
+        "rune_8105_passive",
+        "rune_8106_passive",
+        "rune_8112_passive",
+        "rune_8126_passive",
+        "rune_8128_passive",
+        "rune_8139_passive",
+        "rune_8143_passive",
+        "rune_8210_passive",
+        "rune_8214_passive",
+        "rune_8226_passive",
+        "rune_8229_passive",
+        "rune_8232_passive",
+        "rune_8233_passive",
+        "rune_8234_passive",
+        "rune_8237_passive",
+        "rune_8242_passive",
+        "rune_8304_passive",
+        "rune_8313_passive",
+        "rune_8347_passive",
+        "rune_8351_passive",
+        "rune_8352_passive",
+        "rune_8410_passive",
+        "rune_8429_passive",
+        "rune_8437_passive",
+        "rune_8439_passive",
+        "rune_8444_passive",
+        "rune_8451_passive",
+        "rune_8453_passive",
+        "rune_9101_passive",
+        "rune_9103_passive",
+        "rune_9104_passive",
+        "rune_9111_passive",
+        "rune_9923_passive"
+      ],
+      "fifthBatchCandidate": {
+        "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\API实录\\符文效果第五批\\可审查候选.json",
+        "sha256": "f5f26d7af95018aa4021fbb4c8107211b0bd9fc04a5f684762b93800ee18a3fe",
+        "skillKeys": [
+          "rune_8005_passive",
+          "rune_8008_passive",
+          "rune_8010_passive",
+          "rune_8021_passive",
+          "rune_8224_passive",
+          "rune_8230_passive",
+          "rune_8236_passive",
+          "rune_8299_passive",
+          "rune_8369_passive",
+          "rune_8401_passive",
+          "rune_8473_passive",
+          "rune_8992_passive"
+        ]
+      },
+      "allPriorBatchSkillKeys": [
+        "rune_5005_passive",
+        "rune_5007_passive",
+        "rune_5010_passive",
+        "rune_5011_passive",
+        "rune_5013_passive",
+        "rune_8005_passive",
+        "rune_8008_passive",
+        "rune_8009_passive",
+        "rune_8010_passive",
+        "rune_8014_passive",
+        "rune_8017_passive",
+        "rune_8021_passive",
+        "rune_8105_passive",
+        "rune_8106_passive",
+        "rune_8112_passive",
+        "rune_8126_passive",
+        "rune_8128_passive",
+        "rune_8139_passive",
+        "rune_8143_passive",
+        "rune_8210_passive",
+        "rune_8214_passive",
+        "rune_8224_passive",
+        "rune_8226_passive",
+        "rune_8229_passive",
+        "rune_8230_passive",
+        "rune_8232_passive",
+        "rune_8233_passive",
+        "rune_8234_passive",
+        "rune_8236_passive",
+        "rune_8237_passive",
+        "rune_8242_passive",
+        "rune_8299_passive",
+        "rune_8304_passive",
+        "rune_8313_passive",
+        "rune_8347_passive",
+        "rune_8351_passive",
+        "rune_8352_passive",
+        "rune_8369_passive",
+        "rune_8401_passive",
+        "rune_8410_passive",
+        "rune_8429_passive",
+        "rune_8437_passive",
+        "rune_8439_passive",
+        "rune_8444_passive",
+        "rune_8451_passive",
+        "rune_8453_passive",
+        "rune_8473_passive",
+        "rune_8992_passive",
+        "rune_9101_passive",
+        "rune_9103_passive",
+        "rune_9104_passive",
+        "rune_9111_passive",
+        "rune_9923_passive"
+      ]
+    }
+  },
+  "counts": {
+    "remainingIdentities": 16,
+    "selectedCandidates": 7,
+    "excludedRemaining": 9,
+    "skill": 7,
+    "parameter": 40,
+    "formula": 8,
+    "effect": 0,
+    "relation": 7,
+    "rule": 0,
+    "process": 0,
+    "internalState": 0
+  },
+  "remainingDisposition": [
+    {
+      "id": 5001,
+      "runeKey": "rune_5001",
+      "name": "成长生命值",
+      "category": "SHARD",
+      "scope": "属性碎片",
+      "disposition": "候选",
+      "reason": "自身生命属性直接影响单挑生存和治疗基数；来源只给10至180端点，当前等级值保留为运行输入。"
+    },
+    {
+      "id": 5008,
+      "runeKey": "rune_5008",
+      "name": "适应之力",
+      "category": "SHARD",
+      "scope": "属性碎片",
+      "disposition": "候选",
+      "reason": "自身适应属性会影响伤害或法术强度；仅保存明确的9适应之力，转换到攻击力或法术强度仍由运行时决定。"
+    },
+    {
+      "id": 8135,
+      "runeKey": "rune_8135",
+      "name": "寻宝猎人",
+      "category": "MINOR",
+      "scope": "范围外",
+      "disposition": "排除",
+      "reason": "全部收益为参与击杀后的金币奖励，没有独立的英雄战斗属性或伤害组成。"
+    },
+    {
+      "id": 8137,
+      "runeKey": "rune_8137",
+      "name": "第六感",
+      "category": "MINOR",
+      "scope": "范围外",
+      "disposition": "排除",
+      "reason": "只感知、标记和显形守卫，收益对象是视野守卫，不构成英雄一对一战斗属性。"
+    },
+    {
+      "id": 8140,
+      "runeKey": "rune_8140",
+      "name": "可怖纪念品",
+      "category": "MINOR",
+      "scope": "混合保留",
+      "disposition": "排除",
+      "reason": "普通模式为饰品急速和视野进度；只有不存在视野饰品的特殊模式才替换为召唤师技能急速，当前模式分支与层数计量无法作为普通一对一组件。"
+    },
+    {
+      "id": 8141,
+      "runeKey": "rune_8141",
+      "name": "深入守卫",
+      "category": "MINOR",
+      "scope": "范围外",
+      "disposition": "排除",
+      "reason": "只改变深入守卫的生命值和持续时间，收益对象为守卫，不是英雄自身。"
+    },
+    {
+      "id": 8275,
+      "runeKey": "rune_8275",
+      "name": "灵光披风",
+      "category": "MINOR",
+      "scope": "混合保留",
+      "disposition": "候选",
+      "reason": "施放召唤师技能后的自身移速会影响一对一战斗；单位碰撞属于纯空间效果，单独排除。"
+    },
+    {
+      "id": 8306,
+      "runeKey": "rune_8306",
+      "name": "海克斯科技闪现罗网",
+      "category": "MINOR",
+      "scope": "范围外",
+      "disposition": "排除",
+      "reason": "需要替换召唤师闪现并改变位置，主体是召唤师技能替换、引导和空间位移，当前范围不建立独立战斗组件。"
+    },
+    {
+      "id": 8316,
+      "runeKey": "rune_8316",
+      "name": "多面手",
+      "category": "MINOR",
+      "scope": "范围内",
+      "disposition": "候选",
+      "reason": "自身技能急速和适应属性能直接影响一对一技能；不同装备属性的去重集合和适应转换保留为运行输入。"
+    },
+    {
+      "id": 8321,
+      "runeKey": "rune_8321",
+      "name": "返现",
+      "category": "MINOR",
+      "scope": "范围外",
+      "disposition": "排除",
+      "reason": "只在购买传说装备时返还金币，纯经济收益不建立战斗组件。"
+    },
+    {
+      "id": 8345,
+      "runeKey": "rune_8345",
+      "name": "饼干配送",
+      "category": "MINOR",
+      "scope": "范围内",
+      "disposition": "候选",
+      "reason": "消耗或出售饼干后的自身最大生命和恢复影响一对一状态；取得、消耗次数与已损生命增幅保留为运行输入。"
+    },
+    {
+      "id": 8360,
+      "runeKey": "rune_8360",
+      "name": "启封的秘籍",
+      "category": "KEYSTONE",
+      "scope": "范围内",
+      "disposition": "排除",
+      "reason": "主体是非战斗状态下替换召唤师技能及独立召唤师技能实例，按本批既定召唤师替换排除。"
+    },
+    {
+      "id": 8446,
+      "runeKey": "rune_8446",
+      "name": "爆破",
+      "category": "MINOR",
+      "scope": "范围外",
+      "disposition": "排除",
+      "reason": "额外伤害的目标明确是防御塔，属于专用建筑目标，不录成对英雄伤害。"
+    },
+    {
+      "id": 8463,
+      "runeKey": "rune_8463",
+      "name": "生命源泉",
+      "category": "MINOR",
+      "scope": "混合保留",
+      "disposition": "候选",
+      "reason": "自身干扰敌方英雄移动后的治疗属于一对一自身收益；附近最低友方治疗支路排除，治疗资格和基础等级求值保留缺口。"
+    },
+    {
+      "id": 8465,
+      "runeKey": "rune_8465",
+      "name": "守护者",
+      "category": "KEYSTONE",
+      "scope": "范围外",
+      "disposition": "排除",
+      "reason": "自身护盾要求存在被守护的友军并与其共同触发，严格一对一没有独立合法触发条件。"
+    },
+    {
+      "id": 9105,
+      "runeKey": "rune_9105",
+      "name": "传说：急速",
+      "category": "MINOR",
+      "scope": "范围内",
+      "disposition": "候选",
+      "reason": "自身基础技能急速直接影响一对一技能；击杀进度的对象权重和基础技能集合保持为运行输入，纯进度来源不误删。"
+    }
+  ],
+  "proposals": [
+    {
+      "id": 5001,
+      "runeKey": "rune_5001",
+      "skillKey": "rune_5001_passive",
+      "name": "成长生命值",
+      "category": "SHARD",
+      "scope": "属性碎片；保留自身等级成长生命值",
+      "sourcePath": "Perks/StatMods/HealthScaling",
+      "sourceObjectSha256": "7413c009d2542a88536a0e266bc644b94c0462c7ff47aaaa5a2f7b24ed964282",
+      "officialSourcePath": null,
+      "parameters": [
+        {
+          "parameterKey": "health_bonus_source_min",
+          "name": "成长生命值来源下限",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 10,
+          "levelValues": null,
+          "description": "只保留来源下限；不作为所有等级的固定值。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "health_bonus_source_max",
+          "name": "成长生命值来源上限",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 180,
+          "levelValues": null,
+          "description": "只保留来源上限；不作为所有等级的固定值。",
+          "sortOrder": 20
+        },
+        {
+          "parameterKey": "actual_character_level",
+          "name": "实际角色等级",
+          "valueType": "INTEGER",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "由运行时提供；等级值和取整规则不在当前来源中完整公开。",
+          "sortOrder": 30
+        },
+        {
+          "parameterKey": "actual_level_health_bonus",
+          "name": "当前等级成长生命值",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "由同版本等级求值链提供；没有默认值，不按10至180线性插值。",
+          "sortOrder": 40
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "resolved_health_bonus",
+          "name": "当前等级成长生命值结果",
+          "description": "仅传递运行时已核实的当前等级结果，不把来源端点当作公式。",
+          "sortOrder": 10,
+          "expression": {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_level_health_bonus"
+          }
+        }
+      ],
+      "effects": [],
+      "triggerRules": [],
+      "processes": [],
+      "internalStates": [],
+      "parameterEvidence": [
+        {
+          "parameterKey": "health_bonus_source_min",
+          "category": "来源确定",
+          "sourcePath": "Perks/StatMods/HealthScaling/mScript/mSpellScriptData/mEffectAmount/StatGainMin",
+          "sourceRawValue": 10,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "health_bonus_source_max",
+          "category": "来源确定",
+          "sourcePath": "Perks/StatMods/HealthScaling/mScript/mSpellScriptData/mEffectAmount/StatGainMax",
+          "sourceRawValue": 180,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "actual_character_level",
+          "category": "未接线输入",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": false
+        },
+        {
+          "parameterKey": "actual_level_health_bonus",
+          "category": "未接线输入",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": false
+        }
+      ],
+      "pending": [
+        {
+          "type": "来源",
+          "reason": "仅有10和180端点，缺少1至18级求值、取整和断点算法。",
+          "needed": "同版完整等级曲线或运行时供值。"
+        },
+        {
+          "type": "未接线",
+          "reason": "属性碎片选择、应用和等级刷新尚未接入。",
+          "needed": "合法碎片选择与自身生命属性应用事件。"
+        }
+      ],
+      "excluded": [],
+      "qualification": {
+        "required": [
+          "当前选择成长生命值碎片",
+          "实际角色等级或已核实当前等级生命值"
+        ],
+        "notDefaulted": [
+          "未知等级值默认为0",
+          "端点线性插值",
+          "所有等级固定为180"
+        ]
+      },
+      "sourceOnly": [],
+      "sourceCalculations": {},
+      "currentBoundText": {
+        "mDisplayNameLocalizationKey": {
+          "sourceKey": "perk_displayname_HealthScaling",
+          "resolvedKey": "perk_displayname_healthscaling",
+          "text": "成长生命值"
+        },
+        "mTooltipNameLocalizationKey": {
+          "sourceKey": "perk_tooltip_StatModHealthScaling",
+          "resolvedKey": "perk_tooltip_statmodhealthscaling",
+          "text": "<scaleHealth>+@f1@生命值</scaleHealth>(基于等级)"
+        },
+        "mShortDescLocalizationKey": {
+          "sourceKey": "perk_long_desc_StatModHealthScaling",
+          "resolvedKey": "perk_long_desc_statmodhealthscaling",
+          "text": "+@StatGainMin@-@StatGainMax@生命值(基于等级)"
+        },
+        "mLongDescLocalizationKey": {
+          "sourceKey": "perk_long_desc_StatModHealthScaling",
+          "resolvedKey": "perk_long_desc_statmodhealthscaling",
+          "text": "+@StatGainMin@-@StatGainMax@生命值(基于等级)"
+        }
+      },
+      "skillBody": {
+        "skillKey": "rune_5001_passive",
+        "name": "符文·成长生命值",
+        "description": "本批仅保存成长生命值10至180端点和当前等级生命值运行输入；不凭端点生成等级曲线，不自动挂接属性效果。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      },
+      "relationBody": {
+        "runeKey": "rune_5001",
+        "skillKey": "rune_5001_passive",
+        "sortOrder": 0
+      }
+    },
+    {
+      "id": 5008,
+      "runeKey": "rune_5008",
+      "skillKey": "rune_5008_passive",
+      "name": "适应之力",
+      "category": "SHARD",
+      "scope": "属性碎片；保留自身适应之力数值",
+      "sourcePath": "Perks/StatMods/Adaptive",
+      "sourceObjectSha256": "54c8a4f316c5a09a2a3f82ef7aca8a4c7f6172ac807c97eec56215a5b78297c4",
+      "officialSourcePath": null,
+      "parameters": [
+        {
+          "parameterKey": "adaptive_force_value",
+          "name": "适应之力数值",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 9,
+          "levelValues": null,
+          "description": "客户端绑定说明直接显示9适应之力。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "resolved_adaptive_value",
+          "name": "已解析的适应属性结果",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "由运行时按英雄当前适应方向提供攻击力或法术强度结果；未知时不补值。",
+          "sortOrder": 20
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "resolved_adaptive_attribute_value",
+          "name": "适应属性运行时结果",
+          "description": "只传递运行时适应解析结果；不在候选中选择攻击力或法术强度分支。",
+          "sortOrder": 10,
+          "expression": {
+            "nodeType": "PARAMETER",
+            "parameterKey": "resolved_adaptive_value"
+          }
+        }
+      ],
+      "effects": [],
+      "triggerRules": [],
+      "processes": [],
+      "internalStates": [],
+      "parameterEvidence": [
+        {
+          "parameterKey": "adaptive_force_value",
+          "category": "来源确定",
+          "sourcePath": "Perks/StatMods/Adaptive/mScript/mSpellScriptData/mEffectAmount/StatGain2",
+          "sourceRawValue": 9,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "resolved_adaptive_value",
+          "category": "未接线输入",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": false
+        }
+      ],
+      "pending": [
+        {
+          "type": "来源",
+          "reason": "适应之力到攻击力或法术强度的选择和换算身份未由当前对象独立证明。",
+          "needed": "同版适应解析规则和属性结果。"
+        },
+        {
+          "type": "未接线",
+          "reason": "属性碎片选择、叠加和对伤害/法强的应用尚未接入。",
+          "needed": "合法碎片应用事件及实际属性方向。"
+        }
+      ],
+      "excluded": [],
+      "qualification": {
+        "required": [
+          "当前选择适应之力碎片",
+          "运行时提供适应方向和结果"
+        ],
+        "notDefaulted": [
+          "9适应之力固定当9法术强度",
+          "5.4固定当额外攻击力",
+          "未知解析结果默认为0"
+        ]
+      },
+      "sourceOnly": [
+        {
+          "field": "StatGain1",
+          "raw": 5.400000095367432,
+          "type": "来源待核",
+          "reason": "客户端保留的5.4数值没有在当前绑定说明中说明属性身份；不当作固定额外攻击力。"
+        }
+      ],
+      "sourceCalculations": {},
+      "currentBoundText": {
+        "mDisplayNameLocalizationKey": {
+          "sourceKey": "perk_displayname_Adaptive",
+          "resolvedKey": "perk_displayname_adaptive",
+          "text": "适应之力"
+        },
+        "mTooltipNameLocalizationKey": {
+          "sourceKey": "perk_tooltip_StatModAdaptive",
+          "resolvedKey": "perk_tooltip_statmodadaptive",
+          "text": "{{perk_tooltip_dynamic_StatModAdaptive_@f1@}}"
+        },
+        "mShortDescLocalizationKey": {
+          "sourceKey": "perk_long_desc_StatModAdaptive",
+          "resolvedKey": "perk_long_desc_statmodadaptive",
+          "text": "+@StatGain2@ <lol-uikit-tooltipped-keyword key='LinkTooltip_Description_Adaptive'><font color='#48C4B7'>适应之力</font></lol-uikit-tooltipped-keyword>"
+        },
+        "mLongDescLocalizationKey": {
+          "sourceKey": "perk_long_desc_StatModAdaptive",
+          "resolvedKey": "perk_long_desc_statmodadaptive",
+          "text": "+@StatGain2@ <lol-uikit-tooltipped-keyword key='LinkTooltip_Description_Adaptive'><font color='#48C4B7'>适应之力</font></lol-uikit-tooltipped-keyword>"
+        }
+      },
+      "skillBody": {
+        "skillKey": "rune_5008_passive",
+        "name": "符文·适应之力",
+        "description": "本批仅保存客户端明确的9适应之力和运行时解析结果；不把5.4当作固定额外攻击力，不默认解析为法术强度。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      },
+      "relationBody": {
+        "runeKey": "rune_5008",
+        "skillKey": "rune_5008_passive",
+        "sortOrder": 0
+      }
+    },
+    {
+      "id": 8275,
+      "runeKey": "rune_8275",
+      "skillKey": "rune_8275_passive",
+      "name": "灵光披风",
+      "category": "MINOR",
+      "scope": "混合保留；保留自身召唤师技能后的短时移速",
+      "sourcePath": "Perks/Styles/Sorcery/NimbusCloak",
+      "sourceObjectSha256": "50b0d960f8b0f89ea2b21f679c9ed41c9cc9800e1dfc696b55d913f1e081e210",
+      "officialSourcePath": "/4/slots/1/runes/2",
+      "parameters": [
+        {
+          "parameterKey": "boost_duration_ms",
+          "name": "移速提升持续时间",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 2000,
+          "levelValues": null,
+          "description": "来源2秒转换为毫秒。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "low_cooldown_speed_ratio",
+          "name": "短冷却召唤师技能移速比例下限",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.15,
+          "levelValues": null,
+          "description": "只保留来源15%端点，不当作所有召唤师技能的固定值。",
+          "sortOrder": 20
+        },
+        {
+          "parameterKey": "high_cooldown_speed_ratio",
+          "name": "长冷却召唤师技能移速比例上限",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.45,
+          "levelValues": null,
+          "description": "只保留来源45%端点，不把未知映射线性插值。",
+          "sortOrder": 30
+        },
+        {
+          "parameterKey": "actual_summoner_spell_cooldown_seconds",
+          "name": "实际召唤师技能冷却时间",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "由实际施放的召唤师技能提供；冷却到移速比例的分段规则未公开。",
+          "sortOrder": 40
+        },
+        {
+          "parameterKey": "actual_move_speed_boost_ratio",
+          "name": "实际移速提升比例",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "由同版冷却映射和不断衰减过程提供；不默认15%或45%。",
+          "sortOrder": 50
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "resolved_move_speed_boost_ratio",
+          "name": "实际移速提升比例结果",
+          "description": "只传递运行时已核实的比例，避免凭端点制造映射。",
+          "sortOrder": 10,
+          "expression": {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_move_speed_boost_ratio"
+          }
+        }
+      ],
+      "effects": [],
+      "triggerRules": [],
+      "processes": [],
+      "internalStates": [],
+      "parameterEvidence": [
+        {
+          "parameterKey": "boost_duration_ms",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Sorcery/NimbusCloak/mScript/mSpellScriptData/mEffectAmount/Duration",
+          "sourceRawValue": 2,
+          "scale": 1000,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "low_cooldown_speed_ratio",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Sorcery/NimbusCloak/mScript/mSpellScriptData/mEffectAmount/LowCDMSBoost",
+          "sourceRawValue": 0.15000000596046448,
+          "scale": 1,
+          "normalization": "同版本绑定说明的可读数值；清除float32尾差，未改变语义。",
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "high_cooldown_speed_ratio",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Sorcery/NimbusCloak/mScript/mSpellScriptData/mEffectAmount/HighCDMSBoost",
+          "sourceRawValue": 0.44999998807907104,
+          "scale": 1,
+          "normalization": "同版本绑定说明的可读数值；清除float32尾差，未改变语义。",
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "actual_summoner_spell_cooldown_seconds",
+          "category": "未接线输入",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": false
+        },
+        {
+          "parameterKey": "actual_move_speed_boost_ratio",
+          "category": "未接线输入",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": false
+        }
+      ],
+      "pending": [
+        {
+          "type": "来源",
+          "reason": "召唤师技能冷却到15%至45%移速的完整映射、衰减函数和移速组合顺序未证实。",
+          "needed": "同版计算或运行时已求值比例。"
+        },
+        {
+          "type": "未接线",
+          "reason": "召唤师技能施放事件和效果刷新尚未接入。",
+          "needed": "合法召唤师技能事件、2秒效果生命周期。"
+        }
+      ],
+      "excluded": [
+        {
+          "branch": "单位碰撞",
+          "reason": "纯空间效果；不影响本批自身移速数值。"
+        }
+      ],
+      "qualification": {
+        "required": [
+          "自身施放合法召唤师技能",
+          "运行时提供冷却映射后的实际移速比例"
+        ],
+        "notDefaulted": [
+          "所有召唤师技能固定45%",
+          "端点之间线性插值",
+          "碰撞效果作为战斗属性"
+        ]
+      },
+      "sourceOnly": [
+        {
+          "field": "{1c32110c}",
+          "raw": 0.3499999940395355,
+          "type": "来源待核",
+          "reason": "同对象中的中间比例键未具名，不把它猜作固定区间或衰减斜率。"
+        },
+        {
+          "field": "{2fd68801}",
+          "raw": 100,
+          "type": "来源待核",
+          "reason": "同对象中的未命名100保留为原始值，不猜计时单位。"
+        },
+        {
+          "field": "{b0d06764}",
+          "raw": 250,
+          "type": "来源待核",
+          "reason": "同对象中的未命名250保留为原始值，不猜计时单位。"
+        }
+      ],
+      "sourceCalculations": {},
+      "currentBoundText": {
+        "mDisplayNameLocalizationKey": {
+          "sourceKey": "perk_displayname_NimbusCloak",
+          "resolvedKey": "perk_displayname_nimbuscloak",
+          "text": "灵光披风"
+        },
+        "mTooltipNameLocalizationKey": {
+          "sourceKey": "perk_tooltip_NimbusCloak",
+          "resolvedKey": "perk_tooltip_nimbuscloak",
+          "text": "在你施放一个召唤师技能后，为你提供一个不断衰减的<speed>移动速度</speed>提升，持续@Duration@秒，并允许你无视单位的碰撞体积。<br><hr><br>提升：<speed>@LowCDMSBoost*100@% - @HighCDMSBoost*100@%移动速度</speed>，基于召唤师技能的冷却时间(该召唤师技能的冷却时间越长，则提供的<speed>移动速度</speed>加成越多)。<br><hr><br>已激活的次数：@f1@"
+        },
+        "mShortDescLocalizationKey": {
+          "sourceKey": "perk_short_desc_NimbusCloak",
+          "resolvedKey": "perk_short_desc_nimbuscloak",
+          "text": "在你施放一个召唤师技能后，为你提供一个短暂的<speed>移动速度</speed>提升，并允许你无视单位的碰撞体积。"
+        },
+        "mLongDescLocalizationKey": {
+          "sourceKey": "perk_long_desc_NimbusCloak",
+          "resolvedKey": "perk_long_desc_nimbuscloak",
+          "text": "在你施放一个召唤师技能后，为你提供一个<speed>移动速度</speed>提升，持续@Duration@秒，并允许你无视单位的碰撞体积。<br><br>提升：<speed>@LowCDMSBoost*100@% - @HighCDMSBoost*100@%移动速度</speed>，基于召唤师技能的冷却时间(该召唤师技能的冷却时间越长，则提供的<speed>移动速度</speed>加成越多)。 "
+        },
+        "mDisplayStatLocalizationKey": {
+          "sourceKey": "perk_display_stat_NimbusCloak",
+          "resolvedKey": "perk_display_stat_nimbuscloak",
+          "text": "@f1@"
+        }
+      },
+      "skillBody": {
+        "skillKey": "rune_8275_passive",
+        "name": "符文·灵光披风",
+        "description": "本批仅保存召唤师技能施放后的自身移速比例端点和2秒时长；单位碰撞排除，冷却映射与衰减留运行时输入。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      },
+      "relationBody": {
+        "runeKey": "rune_8275",
+        "skillKey": "rune_8275_passive",
+        "sortOrder": 0
+      }
+    },
+    {
+      "id": 8316,
+      "runeKey": "rune_8316",
+      "skillKey": "rune_8316_passive",
+      "name": "多面手",
+      "category": "MINOR",
+      "scope": "范围内；保留装备属性计数带来的自身技能急速和里程碑适应之力",
+      "sourcePath": "{f781f833}",
+      "sourceObjectSha256": "ccadd474a9940a40e68ddcfaf91d77a4b1c10478c23f3e785098a7c00bd8d2fe",
+      "officialSourcePath": "/1/slots/3/runes/2",
+      "parameters": [
+        {
+          "parameterKey": "haste_per_distinct_attribute",
+          "name": "每种不同装备属性技能急速",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1,
+          "levelValues": null,
+          "description": "来源绑定每层1技能急速。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "milestone_5_attributes",
+          "name": "五层里程碑",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 5,
+          "levelValues": null,
+          "description": "来源绑定的第一里程碑。",
+          "sortOrder": 20
+        },
+        {
+          "parameterKey": "adaptive_force_at_5",
+          "name": "五层适应之力",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 8,
+          "levelValues": null,
+          "description": "来源绑定五层额外8适应之力。",
+          "sortOrder": 30
+        },
+        {
+          "parameterKey": "milestone_10_attributes",
+          "name": "十层里程碑",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 10,
+          "levelValues": null,
+          "description": "来源绑定的第二里程碑。",
+          "sortOrder": 40
+        },
+        {
+          "parameterKey": "adaptive_force_at_10",
+          "name": "十层适应之力",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 20,
+          "levelValues": null,
+          "description": "来源绑定十层额外20适应之力。",
+          "sortOrder": 50
+        },
+        {
+          "parameterKey": "actual_distinct_equipment_attribute_count",
+          "name": "实际不同装备属性数量",
+          "valueType": "INTEGER",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "由装备属性集合去重结果提供；不能把装备件数直接当属性种类数。",
+          "sortOrder": 60
+        },
+        {
+          "parameterKey": "resolved_milestone_adaptive_value",
+          "name": "已解析里程碑适应属性结果",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "由运行时按适应方向提供；5层和10层之外不自动推导。",
+          "sortOrder": 70
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "skill_haste_from_distinct_attributes",
+          "name": "不同装备属性带来的技能急速",
+          "description": "仅计算每层1技能急速；实际装备集合、去重和应用时机仍需运行时供值。",
+          "sortOrder": 10,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "haste_per_distinct_attribute"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "actual_distinct_equipment_attribute_count"
+              }
+            ]
+          }
+        }
+      ],
+      "effects": [],
+      "triggerRules": [],
+      "processes": [],
+      "internalStates": [],
+      "parameterEvidence": [
+        {
+          "parameterKey": "haste_per_distinct_attribute",
+          "category": "来源确定",
+          "sourcePath": "{f781f833}/mScript/mSpellScriptData/mEffectAmount/HastePerStack",
+          "sourceRawValue": 1,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "milestone_5_attributes",
+          "category": "当前绑定文字",
+          "sourcePath": null,
+          "sourceRawValue": 5,
+          "scale": 1,
+          "normalization": "官方和客户端长说明均明确5层；不是运行默认层数。",
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "adaptive_force_at_5",
+          "category": "来源确定",
+          "sourcePath": "{f781f833}/mScript/mSpellScriptData/mEffectAmount/{1b48f5ea}",
+          "sourceRawValue": 8,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "milestone_10_attributes",
+          "category": "当前绑定文字",
+          "sourcePath": null,
+          "sourceRawValue": 10,
+          "scale": 1,
+          "normalization": "官方和客户端长说明均明确10层；不是运行默认层数。",
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "adaptive_force_at_10",
+          "category": "来源确定",
+          "sourcePath": "{f781f833}/mScript/mSpellScriptData/mEffectAmount/{55d14eea}",
+          "sourceRawValue": 20,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "actual_distinct_equipment_attribute_count",
+          "category": "未接线输入",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": false
+        },
+        {
+          "parameterKey": "resolved_milestone_adaptive_value",
+          "category": "未接线输入",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": false
+        }
+      ],
+      "pending": [
+        {
+          "type": "来源",
+          "reason": "不同装备属性的类别清单、重复去重、装备变化入口和上限未完整证实。",
+          "needed": "同版装备属性集合与去重规则。"
+        },
+        {
+          "type": "未接线",
+          "reason": "技能急速和适应属性对自身技能的应用尚未接入。",
+          "needed": "属性效果应用与里程碑刷新事件。"
+        }
+      ],
+      "excluded": [],
+      "qualification": {
+        "required": [
+          "实际装备提供的不同属性集合",
+          "运行时提供当前计数和适应解析结果"
+        ],
+        "notDefaulted": [
+          "装备件数等于属性种类数",
+          "达到10层",
+          "8或20直接当攻击力/法术强度"
+        ]
+      },
+      "sourceOnly": [
+        {
+          "field": "适应转换",
+          "raw": null,
+          "type": "来源待核",
+          "reason": "8和20适应之力的攻击力/法术强度解析未独立证明，保留适应结果为运行输入。"
+        }
+      ],
+      "sourceCalculations": {},
+      "currentBoundText": {
+        "mDisplayNameLocalizationKey": {
+          "sourceKey": "perk_displayname_MinionDematerializer",
+          "resolvedKey": "perk_displayname_miniondematerializer",
+          "text": "多面手"
+        },
+        "mTooltipNameLocalizationKey": {
+          "sourceKey": "perk_tooltip_MinionDematerializer",
+          "resolvedKey": "perk_tooltip_miniondematerializer",
+          "text": "{{perk_long_desc_MinionDematerializer}}<br><hr><br>不同属性的数量：@f1@<br>额外适应之力：+@f2@"
+        },
+        "mShortDescLocalizationKey": {
+          "sourceKey": "perk_short_desc_MinionDematerializer",
+          "resolvedKey": "perk_short_desc_miniondematerializer",
+          "text": "每从装备中获得一种不同属性，就会获得一层【多面手】。每层为你提供<speed>@HasteperStack@技能急速</speed>。<br><br>在5层和10层时获得额外的<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_Adaptive'>适应之力</lol-uikit-tooltipped-keyword>。"
+        },
+        "mLongDescLocalizationKey": {
+          "sourceKey": "perk_long_desc_MinionDematerializer",
+          "resolvedKey": "perk_long_desc_miniondematerializer",
+          "text": "每从装备中获得一种不同属性，就会获得一层【多面手】。每层为你提供<speed>@HasteperStack@技能急速</speed>。<br><br>在5层和10层时相应获得@Adaptive5@或@Adaptive10@额外<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_Adaptive'>适应之力</lol-uikit-tooltipped-keyword>。"
+        },
+        "mDisplayStatLocalizationKey": {
+          "sourceKey": "perk_display_stat_MinionDematerializer",
+          "resolvedKey": "perk_display_stat_miniondematerializer",
+          "text": "@f1@ - @f2@"
+        }
+      },
+      "skillBody": {
+        "skillKey": "rune_8316_passive",
+        "name": "符文·多面手",
+        "description": "本批仅保存不同装备属性计数、每层1技能急速及5/10层8/20适应之力；属性去重集合与适应转换不默认。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      },
+      "relationBody": {
+        "runeKey": "rune_8316",
+        "skillKey": "rune_8316_passive",
+        "sortOrder": 0
+      }
+    },
+    {
+      "id": 8345,
+      "runeKey": "rune_8345",
+      "skillKey": "rune_8345_passive",
+      "name": "饼干配送",
+      "category": "MINOR",
+      "scope": "混合保留；保留自身饼干恢复和永久最大生命值",
+      "sourcePath": "Perks/Styles/Inspiration/BiscuitDelivery",
+      "sourceObjectSha256": "255e6a1bd23f1529f45b3cd9a96468af44a2bc45ac485ab25beeadfd4d4f05c7",
+      "officialSourcePath": "/1/slots/2/runes/2",
+      "parameters": [
+        {
+          "parameterKey": "biscuit_interval_ms",
+          "name": "饼干取得间隔",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 120000,
+          "levelValues": null,
+          "description": "来源2分钟转换为毫秒。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "delivery_end_minute",
+          "name": "饼干取得截止分钟",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 6,
+          "levelValues": null,
+          "description": "来源直到6分钟；具体首次发放时点留给运行时。",
+          "sortOrder": 20
+        },
+        {
+          "parameterKey": "flat_recovery",
+          "name": "饼干基础恢复量",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 20,
+          "levelValues": null,
+          "description": "来源固定恢复量，未构造直接治疗效果。",
+          "sortOrder": 30
+        },
+        {
+          "parameterKey": "client_health_recovery_ratio",
+          "name": "客户端绑定最大生命恢复比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.015,
+          "levelValues": null,
+          "description": "客户端16.17当前对象明确1.5%；与官方2%并列，不静默替换。",
+          "sortOrder": 40
+        },
+        {
+          "parameterKey": "official_health_recovery_ratio",
+          "name": "官方说明最大生命恢复比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.02,
+          "levelValues": null,
+          "description": "官方16.17.1长说明显示2%；来源与客户端当前对象存在差异。",
+          "sortOrder": 50
+        },
+        {
+          "parameterKey": "selected_health_recovery_ratio",
+          "name": "采用的最大生命恢复比例",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "由主负责人后续按版本消费链选择；未解决前不能固定1.5%或2%。",
+          "sortOrder": 60
+        },
+        {
+          "parameterKey": "permanent_health_per_cookie",
+          "name": "每块饼干永久最大生命",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 30,
+          "levelValues": null,
+          "description": "消耗或出售一块饼干均永久提供30最大生命值。",
+          "sortOrder": 70
+        },
+        {
+          "parameterKey": "maximum_recovery_increase_ratio",
+          "name": "已损生命恢复提升上限",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1,
+          "levelValues": null,
+          "description": "来源明确最多提升100%；提升曲线仍缺失。",
+          "sortOrder": 80
+        },
+        {
+          "parameterKey": "recovery_effect_duration_ms",
+          "name": "恢复效果来源持续时间",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 5000,
+          "levelValues": null,
+          "description": "客户端字段5秒转换为毫秒；不据此假定每跳或直接治疗生命周期。",
+          "sortOrder": 90
+        },
+        {
+          "parameterKey": "actual_consumed_or_sold_count",
+          "name": "实际已消耗或出售饼干数",
+          "valueType": "INTEGER",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "由真实饼干消耗或出售事件供值，不默认已有或满额饼干。",
+          "sortOrder": 100
+        },
+        {
+          "parameterKey": "actual_missing_health_boost_ratio",
+          "name": "实际已损生命恢复提升比例",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "由当前已损生命和同版曲线供值；不得用0或线性比例替代。",
+          "sortOrder": 110
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "base_biscuit_recovery",
+          "name": "饼干基础恢复量",
+          "description": "只计算“基础值+最大生命比例”的基数；已损生命提升和直接治疗资格仍未接线。",
+          "sortOrder": 10,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "flat_recovery"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "selected_health_recovery_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "hp",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "formulaKey": "permanent_health_gain",
+          "name": "饼干永久最大生命增量",
+          "description": "只计算已发生消耗或出售的永久生命增量；不把取得数量当作已消费数量。",
+          "sortOrder": 20,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "permanent_health_per_cookie"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "actual_consumed_or_sold_count"
+              }
+            ]
+          }
+        }
+      ],
+      "effects": [],
+      "triggerRules": [],
+      "processes": [],
+      "internalStates": [],
+      "parameterEvidence": [
+        {
+          "parameterKey": "biscuit_interval_ms",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Inspiration/BiscuitDelivery/mScript/mSpellScriptData/mEffectAmount/BiscuitMinuteInterval",
+          "sourceRawValue": 2,
+          "scale": 60000,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "delivery_end_minute",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Inspiration/BiscuitDelivery/mScript/mSpellScriptData/mEffectAmount/SwapOverMinute",
+          "sourceRawValue": 6,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "flat_recovery",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Inspiration/BiscuitDelivery/mScript/mSpellScriptData/mEffectAmount/FlatHeal",
+          "sourceRawValue": 20,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "client_health_recovery_ratio",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Inspiration/BiscuitDelivery/mScript/mSpellScriptData/mEffectAmount/HealthHealPercent",
+          "sourceRawValue": 0.014999999664723873,
+          "scale": 1,
+          "normalization": "同版本绑定说明的可读数值；清除float32尾差，未改变语义。",
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "official_health_recovery_ratio",
+          "category": "来源冲突",
+          "sourcePath": null,
+          "sourceRawValue": 0.02,
+          "scale": 1,
+          "normalization": "官方16.17.1长说明“2%最大生命值”。",
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "selected_health_recovery_ratio",
+          "category": "未接线输入",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": false
+        },
+        {
+          "parameterKey": "permanent_health_per_cookie",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Inspiration/BiscuitDelivery/mScript/mSpellScriptData/mEffectAmount/PermanentHP",
+          "sourceRawValue": 30,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "maximum_recovery_increase_ratio",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Inspiration/BiscuitDelivery/mScript/mSpellScriptData/mEffectAmount/MaximumHealIncrease",
+          "sourceRawValue": 1,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "recovery_effect_duration_ms",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Inspiration/BiscuitDelivery/mScript/mSpellScriptData/mEffectAmount/DurationOfEffect",
+          "sourceRawValue": 5,
+          "scale": 1000,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "actual_consumed_or_sold_count",
+          "category": "未接线输入",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": false
+        },
+        {
+          "parameterKey": "actual_missing_health_boost_ratio",
+          "category": "未接线输入",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": false
+        }
+      ],
+      "pending": [
+        {
+          "type": "来源",
+          "reason": "客户端1.5%与官方2%不一致；已损生命到最多100%提升的曲线、取整和时序缺失。",
+          "needed": "同版实际消费链和完整恢复求值规则。"
+        },
+        {
+          "type": "未接线",
+          "reason": "饼干取得、消耗或出售事件及永久属性应用尚未接入。",
+          "needed": "合法饼干事件、一次性消耗防重复和自身最大生命属性。"
+        }
+      ],
+      "excluded": [],
+      "qualification": {
+        "required": [
+          "真实饼干取得并消耗或出售",
+          "采用版本明确的恢复比例",
+          "运行时已损生命提升结果"
+        ],
+        "notDefaulted": [
+          "1.5%与2%任选其一静默固定",
+          "总恢复量当作一次直接治疗",
+          "取得饼干立即获得永久生命",
+          "已损生命提升默认为0或线性"
+        ]
+      },
+      "sourceOnly": [
+        {
+          "field": "officialLong/health_ratio",
+          "raw": 0.02,
+          "type": "来源冲突",
+          "reason": "官方16.17.1长说明为2%，客户端16.17对象为1.5%；两者同时冻结，等待实际消费链。"
+        },
+        {
+          "field": "{936e8fc2}",
+          "raw": 0.30000001192092896,
+          "type": "来源待核",
+          "reason": "客户端未命名0.3未在当前绑定说明中消费，不猜作恢复增幅、冷却或比例。"
+        }
+      ],
+      "sourceCalculations": {},
+      "currentBoundText": {
+        "mDisplayNameLocalizationKey": {
+          "sourceKey": "perk_displayname_BiscuitDelivery",
+          "resolvedKey": "perk_displayname_biscuitdelivery",
+          "text": "饼干配送"
+        },
+        "mTooltipNameLocalizationKey": {
+          "sourceKey": "perk_tooltip_BiscuitDelivery",
+          "resolvedKey": "perk_tooltip_biscuitdelivery",
+          "text": "{{ perk_long_desc_BiscuitDelivery }}<br><hr><br>已提供的饼干数：@f1@/@f2@<br>饼干治疗：@f3@"
+        },
+        "mShortDescLocalizationKey": {
+          "sourceKey": "perk_short_desc_BiscuitDelivery",
+          "resolvedKey": "perk_short_desc_biscuitdelivery",
+          "text": "每过@BiscuitMinuteInterval@分钟获得一个免费的【饼干】，直到@SwapOverMinute@分钟为止。享用或出售一个饼干可永久提升你的最大生命值并回复生命值。"
+        },
+        "mLongDescLocalizationKey": {
+          "sourceKey": "perk_long_desc_BiscuitDelivery",
+          "resolvedKey": "perk_long_desc_biscuitdelivery",
+          "text": "饼干配送：每过@BiscuitMinuteInterval@分钟获得一个{{game_item_displayname_2010}}，直到@SwapOverMinute@分钟。<br><br>饼干可回复@FlatHeal@+你的@HealthHealPercent.0*100@%最大生命值，基于已损失生命值获得提升，至多可提升@MaximumHealIncrease*100@%。消耗或出售一块饼干，都会为你永久提供@PermanentHP@最大生命值。 "
+        },
+        "mDisplayStatLocalizationKey": {
+          "sourceKey": "perk_display_stat_ratio",
+          "resolvedKey": "perk_display_stat_ratio",
+          "text": "@f1@/@f2@"
+        }
+      },
+      "skillBody": {
+        "skillKey": "rune_8345_passive",
+        "name": "符文·饼干配送",
+        "description": "本批仅保存饼干取得周期、已知恢复参数和永久生命参数；客户端1.5%与官方16.17.1说明2%并列保留，治疗资格和已损生命增幅不默认。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      },
+      "relationBody": {
+        "runeKey": "rune_8345",
+        "skillKey": "rune_8345_passive",
+        "sortOrder": 0
+      }
+    },
+    {
+      "id": 8463,
+      "runeKey": "rune_8463",
+      "skillKey": "rune_8463_passive",
+      "name": "生命源泉",
+      "category": "MINOR",
+      "scope": "混合保留；保留自身受益的治疗数值和远程效能",
+      "sourcePath": "Perks/Styles/Resolve/FontOfLife",
+      "sourceObjectSha256": "802916ff35ab22e675ce9537e23ae60abdf3f8650802d67b401ad59dd3fb6b1e",
+      "officialSourcePath": "/3/slots/1/runes/1",
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "生命源泉冷却时间",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 20000,
+          "levelValues": null,
+          "description": "来源20秒转换为毫秒。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "ranged_effectiveness_ratio",
+          "name": "远程使用效能",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.7,
+          "levelValues": null,
+          "description": "来源远程70%效能。",
+          "sortOrder": 20
+        },
+        {
+          "parameterKey": "base_heal_source_min",
+          "name": "基础治疗量来源下限",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 10,
+          "levelValues": null,
+          "description": "仅保留等级曲线下限。",
+          "sortOrder": 30
+        },
+        {
+          "parameterKey": "base_heal_source_max",
+          "name": "基础治疗量来源上限",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 50,
+          "levelValues": null,
+          "description": "仅保留等级曲线上限。",
+          "sortOrder": 40
+        },
+        {
+          "parameterKey": "actual_base_heal",
+          "name": "当前等级基础治疗量",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "由当前等级求值运行时提供；不按10至50线性插值。",
+          "sortOrder": 50
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "ranged_heal_amount",
+          "name": "远程当前等级治疗量",
+          "description": "只计算已确认远程70%效能；没有创建直接治疗效果。",
+          "sortOrder": 10,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "actual_base_heal"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ranged_effectiveness_ratio"
+              }
+            ]
+          }
+        }
+      ],
+      "effects": [],
+      "triggerRules": [],
+      "processes": [],
+      "internalStates": [],
+      "parameterEvidence": [
+        {
+          "parameterKey": "cooldown_ms",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Resolve/FontOfLife/mScript/mSpellScriptData/mEffectAmount/Cooldown",
+          "sourceRawValue": 20,
+          "scale": 1000,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "ranged_effectiveness_ratio",
+          "category": "来源确定",
+          "sourcePath": "Perks/Styles/Resolve/FontOfLife/mScript/mSpellScriptData/mEffectAmount/RangedMod",
+          "sourceRawValue": 0.699999988079071,
+          "scale": 1,
+          "normalization": "同版本绑定说明的可读数值；清除float32尾差，未改变语义。",
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "base_heal_source_min",
+          "category": "来源确定",
+          "sourcePath": null,
+          "sourceRawValue": 10,
+          "scale": 1,
+          "normalization": "当前绑定计算树 BaseHeal.mFormulaParts[0].mStartValue=10。",
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "base_heal_source_max",
+          "category": "来源确定",
+          "sourcePath": null,
+          "sourceRawValue": 50,
+          "scale": 1,
+          "normalization": "当前绑定计算树 BaseHeal.mFormulaParts[0].mEndValue=50。",
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "actual_base_heal",
+          "category": "未接线输入",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": false
+        }
+      ],
+      "pending": [
+        {
+          "type": "来源",
+          "reason": "基础治疗10至50的等级求值、取整和治疗时点未完整证实。",
+          "needed": "同版完整等级曲线或运行时当前基础治疗量。"
+        },
+        {
+          "type": "未接线",
+          "reason": "干扰敌方英雄移动的合法状态集合、触发来源归属和自身治疗结果尚未接入。",
+          "needed": "自身触发事件、治疗对象筛选和冷却生命周期。"
+        }
+      ],
+      "excluded": [
+        {
+          "branch": "附近生命值最低的友方英雄治疗",
+          "reason": "纯第三方友军支路；严格一对一只保留自身数值。"
+        }
+      ],
+      "qualification": {
+        "required": [
+          "自身对当前敌方英雄造成合法移动干扰",
+          "冷却可用",
+          "运行时提供当前等级基础治疗量"
+        ],
+        "notDefaulted": [
+          "未知基础治疗默认为0",
+          "把10至50线性插值",
+          "没有移动干扰也直接治疗",
+          "把友军治疗转给自身"
+        ]
+      },
+      "sourceOnly": [
+        {
+          "field": "BaseHeal.mFormulaParts",
+          "raw": [
+            {
+              "mStartValue": 10,
+              "mEndValue": 50,
+              "__type": "ByCharLevelInterpolationCalculationPart"
+            }
+          ],
+          "type": "来源待核",
+          "reason": "当前等级治疗端点存在，但完整等级求值和治疗取样时点未证实。"
+        }
+      ],
+      "sourceCalculations": {
+        "BaseHeal": {
+          "mSimpleTooltipCalculationDisplay": 4,
+          "mFormulaParts": [
+            {
+              "mStartValue": 10,
+              "mEndValue": 50,
+              "__type": "ByCharLevelInterpolationCalculationPart"
+            }
+          ],
+          "mRangedMultiplier": {
+            "mDataValue": "RangedMod",
+            "__type": "NamedDataValueCalculationPart"
+          },
+          "__type": "{e9a3c91d}"
+        }
+      },
+      "currentBoundText": {
+        "mDisplayNameLocalizationKey": {
+          "sourceKey": "perk_displayname_FontOfLife",
+          "resolvedKey": "perk_displayname_fontoflife",
+          "text": "生命源泉"
+        },
+        "mTooltipNameLocalizationKey": {
+          "sourceKey": "perk_tooltip_FontOfLife",
+          "resolvedKey": "perk_tooltip_fontoflife",
+          "text": "干扰敌方英雄的移动可为你和附近生命值最低的友方英雄回复<healing>@BaseHeal@生命值</healing>。<br>冷却时间：@Cooldown@秒<br><br>治疗效果总和：<healing>@f1@</healing>"
+        },
+        "mShortDescLocalizationKey": {
+          "sourceKey": "perk_short_desc_FontOfLife",
+          "resolvedKey": "perk_short_desc_fontoflife",
+          "text": "<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_ImpairMov'>干扰</lol-uikit-tooltipped-keyword>一个敌方英雄的移动可治疗附近的友方英雄们。 "
+        },
+        "mLongDescLocalizationKey": {
+          "sourceKey": "perk_long_desc_FontOfLife",
+          "resolvedKey": "perk_long_desc_fontoflife",
+          "text": "干扰敌方英雄的移动可为你和附近生命值最低的友方英雄回复<healing>@BaseHeal@生命值</healing>。<br><br>远程英雄的使用效能为@RangedMod*100@%。<br><br>冷却时间：@Cooldown@秒"
+        },
+        "mDisplayStatLocalizationKey": {
+          "sourceKey": "perk_display_stat_total",
+          "resolvedKey": "perk_display_stat_total",
+          "text": "@f1@"
+        }
+      },
+      "skillBody": {
+        "skillKey": "rune_8463_passive",
+        "name": "符文·生命源泉",
+        "description": "本批仅保存生命源泉20秒冷却、远程70%效能和基础治疗端点；不造缺少资格的直接治疗效果，附近队友治疗支路排除。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      },
+      "relationBody": {
+        "runeKey": "rune_8463",
+        "skillKey": "rune_8463_passive",
+        "sortOrder": 0
+      }
+    },
+    {
+      "id": 9105,
+      "runeKey": "rune_9105",
+      "skillKey": "rune_9105_passive",
+      "name": "传说：急速",
+      "category": "MINOR",
+      "scope": "范围内；保留自身基础技能急速和进度依赖",
+      "sourcePath": "{3ecd47e5}",
+      "sourceObjectSha256": "22549efca8a42d8329c2f806877c0406cdca47a6a7c3aa4a448c83d32accbe75",
+      "officialSourcePath": "/2/slots/2/runes/1",
+      "parameters": [
+        {
+          "parameterKey": "haste_per_legend_stack",
+          "name": "每层基础技能急速",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 1.5,
+          "levelValues": null,
+          "description": "来源明确每层1.5基础技能急速。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "haste_base",
+          "name": "基础技能急速基础值",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 0,
+          "levelValues": null,
+          "description": "客户端对象显式提供0；不表示当前已获得层数。",
+          "sortOrder": 20
+        },
+        {
+          "parameterKey": "max_legend_stacks",
+          "name": "传说层数上限",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 10,
+          "levelValues": null,
+          "description": "来源明确最大层数10。",
+          "sortOrder": 30
+        },
+        {
+          "parameterKey": "large_monster_progress_value",
+          "name": "大型野怪进度原始值",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 25,
+          "levelValues": null,
+          "description": "仅保留客户端进度值；不猜进度单位与换算层数。",
+          "sortOrder": 40
+        },
+        {
+          "parameterKey": "minion_progress_value",
+          "name": "小兵进度原始值",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 4,
+          "levelValues": null,
+          "description": "仅保留客户端进度值；不猜进度单位与换算层数。",
+          "sortOrder": 50
+        },
+        {
+          "parameterKey": "actual_legend_stacks",
+          "name": "实际传说层数",
+          "valueType": "INTEGER",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "由英雄、史诗野怪、大型野怪和小兵进度的已核实累计结果提供；不默认0或10。",
+          "sortOrder": 60
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "base_skill_haste_from_legend",
+          "name": "当前传说层数基础技能急速",
+          "description": "只计算每层1.5基础技能急速；实际层数和基础技能归属由运行时提供。",
+          "sortOrder": 10,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "haste_per_legend_stack"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "actual_legend_stacks"
+              }
+            ]
+          }
+        }
+      ],
+      "effects": [],
+      "triggerRules": [],
+      "processes": [],
+      "internalStates": [],
+      "parameterEvidence": [
+        {
+          "parameterKey": "haste_per_legend_stack",
+          "category": "来源确定",
+          "sourcePath": "{3ecd47e5}/mScript/mSpellScriptData/mEffectAmount/HastePerStack",
+          "sourceRawValue": 1.5,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "haste_base",
+          "category": "来源确定",
+          "sourcePath": "{3ecd47e5}/mScript/mSpellScriptData/mEffectAmount/HasteBase",
+          "sourceRawValue": 0,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "max_legend_stacks",
+          "category": "来源确定",
+          "sourcePath": "{3ecd47e5}/mScript/mSpellScriptData/mEffectAmount/MaxLegendStacks",
+          "sourceRawValue": 10,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "large_monster_progress_value",
+          "category": "来源确定",
+          "sourcePath": "{3ecd47e5}/mScript/mSpellScriptData/mEffectAmount/LargeMonsterKillValue",
+          "sourceRawValue": 25,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "minion_progress_value",
+          "category": "来源确定",
+          "sourcePath": "{3ecd47e5}/mScript/mSpellScriptData/mEffectAmount/MinionKillValue",
+          "sourceRawValue": 4,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": true
+        },
+        {
+          "parameterKey": "actual_legend_stacks",
+          "category": "未接线输入",
+          "sourcePath": null,
+          "sourceRawValue": null,
+          "scale": 1,
+          "normalization": null,
+          "defaultSupplied": false
+        }
+      ],
+      "pending": [
+        {
+          "type": "来源",
+          "reason": "英雄、史诗野怪、大型野怪和小兵的进度权重与层数换算未完整证实。",
+          "needed": "同版进度消费链和层数求值。"
+        },
+        {
+          "type": "系统",
+          "reason": "基础技能集合和急速属性应用范围尚未由当前目录完整接线。",
+          "needed": "明确的基础技能分类集合，不包含终极技能。"
+        },
+        {
+          "type": "未接线",
+          "reason": "击杀进度累计、层数刷新和急速应用尚未接入。",
+          "needed": "合法进度事件和自身技能属性应用。"
+        }
+      ],
+      "excluded": [],
+      "qualification": {
+        "required": [
+          "运行时已核实传说层数",
+          "明确的基础技能集合"
+        ],
+        "notDefaulted": [
+          "未知层数默认为0或10",
+          "把进度原始值直接当层数",
+          "急速应用到终极技能或所有技能"
+        ]
+      },
+      "sourceOnly": [
+        {
+          "field": "{3e1fdd4a}",
+          "raw": 100,
+          "type": "来源待核",
+          "reason": "未命名进度字段保留原值，不猜作英雄或史诗野怪权重。"
+        },
+        {
+          "field": "{8fb410e2}",
+          "raw": 100,
+          "type": "来源待核",
+          "reason": "未命名进度字段保留原值，不猜作英雄或史诗野怪权重。"
+        },
+        {
+          "field": "{f6570baa}",
+          "raw": 100,
+          "type": "来源待核",
+          "reason": "未命名进度字段保留原值，不猜作英雄或史诗野怪权重。"
+        }
+      ],
+      "sourceCalculations": {},
+      "currentBoundText": {
+        "mDisplayNameLocalizationKey": {
+          "sourceKey": "perk_displayname_9105",
+          "resolvedKey": "perk_displayname_9105",
+          "text": "传说：急速"
+        },
+        "mTooltipNameLocalizationKey": {
+          "sourceKey": "perk_tooltip_9105",
+          "resolvedKey": "perk_tooltip_9105",
+          "text": "{{perk_long_desc_LegendHaste}}<br><hr><br>已提供的基础技能急速总和：<scaleAD>@f1.1@</scaleAD> (<statGood>@f3@ / @MaxLegendStacks@</statGood>){{ perk_legend_next_stack_@f4@ }}"
+        },
+        "mShortDescLocalizationKey": {
+          "sourceKey": "perk_short_desc_LegendHaste",
+          "resolvedKey": "perk_short_desc_legendhaste",
+          "text": "<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_Takedown'>参与击杀</lol-uikit-tooltipped-keyword>敌人将提供永久的基础技能<b>急速</b>。 "
+        },
+        "mLongDescLocalizationKey": {
+          "sourceKey": "perk_long_desc_LegendHaste",
+          "resolvedKey": "perk_long_desc_legendhaste",
+          "text": "每层<i>传说</i>效果提供1.5基础技能急速(<statGood>最大层数：@MaxLegendStacks@</statGood>)。<br><br>赚取<i>传说</i>层数进度的方式为：参与击杀英雄，参与击杀史诗级野怪，击杀大型野怪，击杀小兵。"
+        },
+        "mDisplayStatLocalizationKey": {
+          "sourceKey": "perk_display_stat_LegendHaste",
+          "resolvedKey": "perk_display_stat_legendhaste",
+          "text": "@f1.1@"
+        }
+      },
+      "skillBody": {
+        "skillKey": "rune_9105_passive",
+        "name": "符文·传说：急速",
+        "description": "本批仅保存传说：急速每层1.5、上限10和进度原始值；基础技能集合、进度权重和当前层数留运行时输入。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      },
+      "relationBody": {
+        "runeKey": "rune_9105",
+        "skillKey": "rune_9105_passive",
+        "sortOrder": 0
+      }
+    }
+  ]
+}

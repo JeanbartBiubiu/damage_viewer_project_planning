@@ -1,0 +1,292 @@
+{
+  "generatedAt": "2026-09-07T17:18:34.579Z",
+  "sourceVersion": "16.17.1",
+  "clientDirectoryVersion": "16.17",
+  "scope": "只核对并录入 item_3072、item_3031、item_3508、item_6676、item_3140、item_3157；不重复保存基础属性，不保存金币效果。",
+  "rows": [
+    {
+      "equipmentKey": "item_3072",
+      "equipmentName": "饮血剑",
+      "skillKey": "item_3072_passive",
+      "status": "部分录入，待配内容尚未完成",
+      "directAttributePreflight": {
+        "status": 200,
+        "attributeValues": {
+          "attack_damage": 80,
+          "life_steal_percent": 0.15
+        }
+      },
+      "equipmentImagePreflight": {
+        "status": 200,
+        "imageKey": "item_3072"
+      },
+      "summary": "只保存165至315的护盾上限；撤去直接给满上限的护盾效果及未经证明的25秒生命周期参数。实际溢出生命偷取金额和事件是作者配置结构缺口。",
+      "pending": [
+        "当前作者配置结构缺少“生命偷取溢出治疗”的金额及事件，无法准确表达实际护盾授予量；上限参数保留，不能以SOURCE_INITIALIZED直接给满护盾。",
+        "客户端DecayTime=25与Threshold=0.699999988079071只留在原始字段证据；尚未证明完整衰减/结束条件，不将25秒自动解释为持续到期。"
+      ],
+      "sourceRefs": [
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+          "pointer": "Items/3072/mDataValues、Items/3072/mItemCalculations/OvershieldCalc/mFormulaParts[0]、Items/3072/mItemDataClient/mTooltipData/mLocKeys",
+          "evidence": "DecayTime=25；Threshold=0.699999988079071；护盾计算Level1=165，等级9起每级增加15；直接属性80攻击力、0.15生命偷取。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+          "pointer": "entries/item_3072_tooltip、entries/Item_3072_TooltipExternal、entries/GeneratedTip_Item_3072_Description",
+          "evidence": "生命偷取溢出治疗转护盾，护盾上限来自OvershieldCalc。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+          "pointer": "/data/3072/description、/data/3072/stats",
+          "evidence": "官方说明为80攻击力、15%生命偷取和灵液护盾；基础属性已由装备自身保存。"
+        }
+      ],
+      "finalCounts": {
+        "parameters": 1,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internal-states": 0,
+        "trigger-rules": 0
+      }
+    },
+    {
+      "equipmentKey": "item_3031",
+      "equipmentName": "无尽之刃",
+      "skillKey": null,
+      "status": "范围内核对后跳过技能创建",
+      "directAttributePreflight": {
+        "status": 200,
+        "attributeValues": {
+          "attack_damage": 75,
+          "critical_strike_chance": 0.25,
+          "critical_strike_damage_bonus_percent": 0.3
+        }
+      },
+      "equipmentImagePreflight": {
+        "status": 200,
+        "imageKey": "image_fd870b35-fcdb-4b40-be22-aa42c581a4f9"
+      },
+      "summary": "只有75攻击力、25%暴击几率、30%暴击伤害直接属性；客户端独立提示与计算式为空。",
+      "pending": [],
+      "sourceRefs": [
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+          "pointer": "Items/3031/mFlatPhysicalDamageMod、mFlatCritChanceMod、mFlatCritDamageMod、mItemCalculations、mDataValues、mItemDataClient/mTooltipData/mLocKeys",
+          "evidence": "直接属性为75攻击力、25%暴击几率、30%暴击伤害；客户端没有独立计算式，Item_3031_Tooltip为空。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+          "pointer": "/data/3031/description、/data/3031/stats",
+          "evidence": "官方说明仅列75攻击力、25%暴击几率、30%暴击伤害，无额外被动段。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+          "pointer": "entries/item_3031_tooltip、entries/GeneratedTip_Item_3031_Description",
+          "evidence": "绑定提示为空或只生成直接属性，没有独立效果文案。"
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3508",
+      "equipmentName": "夺萃之镰",
+      "skillKey": "item_3508_passive",
+      "status": "部分录入，待配内容尚未完成",
+      "directAttributePreflight": {
+        "status": 200,
+        "attributeValues": {
+          "attack_damage": 50,
+          "critical_strike_chance": 0.25,
+          "ability_haste": 20
+        }
+      },
+      "equipmentImagePreflight": {
+        "status": 200,
+        "imageKey": "item_3508"
+      },
+      "summary": "保留1.25倍基础攻击力加50倍暴击率、伤害50%回蓝和1500毫秒冷却；旧2026-06 Wiki的10000毫秒窗口已移出当前业务参数。",
+      "pending": [
+        "施放后的就绪状态、下一次普攻同时执行伤害和回蓝、消费及1500毫秒冷却待配置，不把所有普攻直接接为咒刃。",
+        "旧2026-06 Wiki记录中的10000毫秒就绪窗口不属于冻结16.17来源，已移出当前参数；当前版本的失效窗口需补证。",
+        "法力回复是本轮1V1相关资源组成，已保存独立效果；还须完成实际触发配置，不能因为战斗运行不在本轮而永久跳过。"
+      ],
+      "sourceRefs": [
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+          "pointer": "Items/3508/mDataValues、Items/3508/mItemCalculations/SpellbladeDamage、Items/3508/mItemCalculations/TotalManaRefund",
+          "evidence": "BaseADRatio=1.25；CritChanceMultiplier=50；TotalManaRefund为SpellbladeDamage乘0.5；SpellbladeCooldown=1.5秒；直接属性50攻击力、20技能急速、25%暴击几率。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+          "pointer": "entries/item_3508_tooltip、entries/Item_3508_TooltipExternal、entries/GeneratedTip_Item_3508_TooltipInventory",
+          "evidence": "施放技能后下一次普通攻击造成额外物理伤害并提供法力值，标记为攻击特效。"
+        },
+        {
+          "file": "文档记录/详细设计/wasm/通用ABI-夺萃之镰Spellblade机制详细设计.md",
+          "pointer": "第1节数值真源与第2节伤害合同",
+          "evidence": "历史参考：10000毫秒就绪窗口来自旧2026-06 Wiki，不作为本批16.17数值来源。伤害、回蓝和1500毫秒冷却分别以当前冻结客户端为准。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+          "pointer": "/data/3508/description、/data/3508/stats",
+          "evidence": "官方说明为咒刃额外物理伤害与法力值攻击特效；基础属性已由装备自身保存。"
+        }
+      ],
+      "finalCounts": {
+        "parameters": 4,
+        "formulas": 2,
+        "effects": 2,
+        "processes": 0,
+        "internal-states": 0,
+        "trigger-rules": 0
+      }
+    },
+    {
+      "equipmentKey": "item_6676",
+      "equipmentName": "收集者",
+      "skillKey": "item_6676_passive",
+      "status": "部分录入，待配内容尚未完成",
+      "directAttributePreflight": {
+        "status": 200,
+        "attributeValues": {
+          "armor_pen_flat": 10,
+          "attack_damage": 50,
+          "critical_strike_chance": 0.25
+        }
+      },
+      "equipmentImagePreflight": {
+        "status": 200,
+        "imageKey": "item_6676"
+      },
+      "summary": "5%比例经公式转换为目标最大生命的绝对点数后交给斩杀结果；还须配置合法伤害、英雄目标及严格小于条件。",
+      "pending": [
+        "来源语义是“你的伤害”结算后检查英雄目标；DAMAGE_DEALT事件存在，但TARGET_CATEGORY_CHECK按现有管理结构只适用于SKILL_HIT或BASIC_ATTACK_HIT，无法同时覆盖所有伤害并准确限定英雄。本批不接一个会误杀小兵或漏掉技能伤害的宽泛规则。",
+        "来源要求生命严格低于5%，通用EXECUTE结果判断为小于或等于绝对阈值，后续合法触发必须配置严格LT；最大生命2000时剩余100不符合来源条件，99符合。",
+        "击杀英雄额外25金币属于本批明确跳过的金币效果，不计入待补机制。"
+      ],
+      "sourceRefs": [
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+          "pointer": "Items/6676/mDataValues、Items/6676/mFlatPhysicalDamageMod、Items/6676/mFlatCritChanceMod、Items/6676/PhysicalLethality",
+          "evidence": "ExecuteThreshold=0.05000000074505806；GoldAmount=25；直接属性50攻击力、25%暴击几率、10固定护甲穿透。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+          "pointer": "entries/item_6676_tooltip、entries/GeneratedTip_Item_6676_Description",
+          "evidence": "你的伤害会处决低于5%生命值的英雄；击杀英雄提供25额外金币。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+          "pointer": "/data/6676/description、/data/6676/stats",
+          "evidence": "官方说明与客户端一致；金币段按任务范围跳过。"
+        }
+      ],
+      "finalCounts": {
+        "parameters": 1,
+        "formulas": 1,
+        "effects": 1,
+        "processes": 0,
+        "internal-states": 0,
+        "trigger-rules": 0
+      }
+    },
+    {
+      "equipmentKey": "item_3140",
+      "equipmentName": "水银饰带",
+      "skillKey": "item_3140_active",
+      "status": "部分录入，待配内容尚未完成",
+      "directAttributePreflight": {
+        "status": 200,
+        "attributeValues": {
+          "magic_resistance": 30
+        }
+      },
+      "equipmentImagePreflight": {
+        "status": 200,
+        "imageKey": "item_3140"
+      },
+      "summary": "90秒主动冷却保留；全部控制移除并排除滞空无法由现有单状态操作完整表达，属于作者配置结构缺口。",
+      "pending": [
+        "当前STATUS_OPERATION只能引用单个已存在状态；共享状态目录当前没有通用控制类别，也没有滞空排除条件。若只移除现有眩晕会把“所有控制类减益”错误缩小，因此不写效果或主动触发。",
+        "API已有的技能分类只有普通技能、被动技能和位移技能；本主动技能使用空分类列表，不新增共享分类。"
+      ],
+      "sourceRefs": [
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+          "pointer": "Items/3140/mDataValues/Cooldown、Items/3140/mFlatSpellBlockMod、Items/3140/mItemDataClient/mTooltipData/mLocKeys",
+          "evidence": "Cooldown=90秒；直接属性30魔法抗性；主动键为Item_3140_Active。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+          "pointer": "entries/item_3140_active、entries/Item_3140_ActiveExternal",
+          "evidence": "主动移除所有控制类减益效果，滞空除外。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+          "pointer": "/data/3140/description、/data/3140/stats",
+          "evidence": "官方说明为30魔法抗性和水银主动；基础属性已由装备自身保存。"
+        }
+      ],
+      "finalCounts": {
+        "parameters": 1,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internal-states": 0,
+        "trigger-rules": 0
+      }
+    },
+    {
+      "equipmentKey": "item_3157",
+      "equipmentName": "中娅沙漏",
+      "skillKey": "item_3157_active",
+      "status": "部分录入，待配内容尚未完成",
+      "directAttributePreflight": {
+        "status": 200,
+        "attributeValues": {
+          "armor": 50,
+          "ability_power": 105
+        }
+      },
+      "equipmentImagePreflight": {
+        "status": 200,
+        "imageKey": "item_3157"
+      },
+      "summary": "保留2.5秒伤害免疫和120秒冷却；主动过程可继续配置，不可选取和凝滞行动限制属于现有结构缺口。",
+      "pending": [
+        "现有结果类型可以表达全类型DAMAGE_IMMUNITY，已保存该独立组成；不可选取和凝滞行动限制属于现有作者配置结构缺口，不是一个新增状态键即可完成。",
+        "主动施放过程可以用现有结构继续配置；它与尚不可完整表达的不可选取及行动限制分开记账，不把SOURCE_INITIALIZED用于主动技能。",
+        "API已有的技能分类没有主动分类，本技能使用空分类列表，不新增共享分类。"
+      ],
+      "sourceRefs": [
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+          "pointer": "Items/3157/mDataValues/Duration、Items/3157/mDataValues/Cooldown、Items/3157/mEffectAmount、Items/3157/mFlatArmorMod、Items/3157/mFlatMagicDamageMod、Items/3157/mItemDataClient/mTooltipData/mLocKeys",
+          "evidence": "Duration=2.5秒；Cooldown=120秒；效果数组2.5/120；直接属性50护甲、105法术强度。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+          "pointer": "entries/item_3157_active、entries/item_3157_tooltipextended、entries/Item_3157_ActiveExternal",
+          "evidence": "主动进入凝滞状态2.5秒，冷却由客户端替换值显示。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+          "pointer": "/data/3157/description、/data/3157/stats",
+          "evidence": "官方说明为105法术强度、50护甲和进入凝滞2.5秒；基础属性已由装备自身保存。"
+        }
+      ],
+      "finalCounts": {
+        "parameters": 2,
+        "formulas": 0,
+        "effects": 1,
+        "processes": 0,
+        "internal-states": 0,
+        "trigger-rules": 0
+      }
+    }
+  ],
+  "updatedAt": "2026-09-07T17:46:08.815Z",
+  "correctionEvidence": "纠错后独立回读.json",
+  "classificationNote": "近战与远程是攻击方式类别，不是双方距离；不得用距离比较替代。原装备属性及图片预检保留原证据时间，不冒称本次重新写入。"
+}

@@ -1,0 +1,78 @@
+{
+  "checkedAt": "2026-09-07T17:17:23.146Z",
+  "corrections": [
+    {
+      "endpoint": "/skills/item_1054_passive/trigger-rules/minion_bonus_damage_on_basic_attack_hit",
+      "action": "移除本批越界或错误分类组成",
+      "absentAfter": true
+    },
+    {
+      "endpoint": "/skills/item_1054_passive/effects/base_regen",
+      "action": "移除本批越界或错误分类组成",
+      "absentAfter": true
+    },
+    {
+      "endpoint": "/skills/item_1054_passive/effects/minion_bonus_damage",
+      "action": "移除本批越界或错误分类组成",
+      "absentAfter": true
+    },
+    {
+      "endpoint": "/skills/item_1054_passive/parameters/base_regen_per_5s",
+      "action": "移除本批越界或错误分类组成",
+      "absentAfter": true
+    },
+    {
+      "endpoint": "/skills/item_1054_passive/parameters/minion_bonus_damage",
+      "action": "移除本批越界或错误分类组成",
+      "absentAfter": true
+    },
+    {
+      "endpoint": "/skills/item_3153_passive/parameters/minion_monster_damage_cap",
+      "action": "移除本批越界或错误分类组成",
+      "absentAfter": true
+    },
+    {
+      "endpoint": "/skills/item_1054_passive",
+      "action": "仅修正名称或语义说明",
+      "matches": true
+    },
+    {
+      "endpoint": "/skills/item_3153_passive",
+      "action": "仅修正名称或语义说明",
+      "matches": true
+    },
+    {
+      "endpoint": "/skills/item_3155_passive/parameters/low_health_threshold",
+      "action": "仅修正名称或语义说明",
+      "matches": true
+    },
+    {
+      "endpoint": "/skills/item_3156_passive/effects/shield_melee",
+      "action": "仅修正名称或语义说明",
+      "matches": true
+    },
+    {
+      "endpoint": "/skills/item_3156_passive/effects/shield_ranged",
+      "action": "仅修正名称或语义说明",
+      "matches": true
+    },
+    {
+      "endpoint": "/skills/item_3156_passive/parameters/low_health_threshold",
+      "action": "仅修正名称或语义说明",
+      "matches": true
+    }
+  ],
+  "directAttribute": {
+    "equipmentKey": "item_1054",
+    "before": {
+      "hp": 110
+    },
+    "after": {
+      "hp": 110,
+      "hp_regen": 4
+    },
+    "source": "官方FlatHPRegenMod=0.8/秒与客户端约0.8/秒；hp_regen目录单位每5秒"
+  },
+  "passed": true,
+  "runtimeValidation": "未执行"
+}

@@ -1,0 +1,908 @@
+{
+  "batch": "Luna第十批/第三组/3053",
+  "generatedAt": "2026-09-08T17:42:58.615Z",
+  "status": "冻结来源摘录；只读；未调用业务API写入；对象仅为3053。",
+  "versionBoundary": {
+    "client": "16.17",
+    "official": "16.17.1",
+    "locale": "zh_CN",
+    "map": "普通地图候选；不采用模式覆盖值"
+  },
+  "sourceIndex": {
+    "数据参考\\全量录入-2026-09\\装备效果补证\\客户端原始资料\\items-16.17.cdtb.bin.json.gz": {
+      "sha256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7",
+      "bytes": 1577238,
+      "decompressedSha256": "b59ec9320d05acefa344ea8a5ef615cf7f32959078475cafff63833462dc358f"
+    },
+    "数据参考\\全量录入-2026-09\\装备效果补证\\客户端原始资料\\lol-16.17-zh_CN.stringtable.json.gz": {
+      "sha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+      "bytes": 8350124,
+      "decompressedSha256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031"
+    },
+    "数据参考\\全量录入-2026-09\\装备符文\\官方原始资料\\item-16.17.1-zh_CN.json": {
+      "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973",
+      "bytes": 691131
+    },
+    "数据参考\\全量录入-2026-09\\装备符文\\装备全量处置清单.json": {
+      "sha256": "7b1df1fe63d3ce00d466be458e5c07a1b8b6b6220ba1c728c4cc8324b72e64c6",
+      "bytes": 1878434
+    },
+    "数据参考\\全量录入-2026-09\\装备效果补证\\来源与覆盖.json": {
+      "sha256": "97f70eaa0ec570668400d8c8e4654a5657e2ceb39872a1aad7acf4cc53b8c19c",
+      "bytes": 9380
+    },
+    "数据参考\\全量录入-2026-09\\API实录\\装备\\summary.json": {
+      "sha256": "e653d0ca5a97d12449ff5034937a8eca2e004e1e4fd0b11ab80cec09a718c0b9",
+      "bytes": 228004
+    },
+    "数据参考\\全量录入-2026-09\\装备技能实录\\Luna第九批\\属性映射补证.json": {
+      "sha256": "65862cd426d071a061ca977aea288c59a3536f7819e33e9f1da1022c4857b610",
+      "bytes": 6140
+    },
+    "数据参考\\全量录入-2026-09\\装备技能实录\\Luna第十批\\关系识别-2026-09-08T02-52-11.404Z.json": {
+      "sha256": "08ecc61fb52ec7ef6643d92067122b67f119f04ae9a04f4fb0d4946e51362f4e",
+      "bytes": 11829
+    },
+    "数据参考\\全量录入-2026-09\\装备技能实录\\Luna第十批\\关系识别-2026-09-08T02-53-49.953Z.json": {
+      "sha256": "408c575ba4547a3ea34186253b8c819b9b5885597374158804cf4f376f3129d8",
+      "bytes": 19660
+    }
+  },
+  "coverageSourceHashes": [
+    {
+      "文件": "客户端原始资料/items-16.17.cdtb.bin.json.gz",
+      "解压文件名": "items-16.17.cdtb.bin.json",
+      "地址": "https://raw.communitydragon.org/16.17/game/items.cdtb.bin.json",
+      "目录或公告版本": "16.17",
+      "用途": "主证：客户端装备对象、命名数据、计算与说明绑定",
+      "下载文件修改时间UTC": "2026-09-06T15:00:14.328Z",
+      "原始字节数": 15923188,
+      "原始SHA256": "b59ec9320d05acefa344ea8a5ef615cf7f32959078475cafff63833462dc358f",
+      "压缩字节数": 1577238,
+      "压缩SHA256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7"
+    },
+    {
+      "文件": "客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+      "解压文件名": "lol-16.17-zh_CN.stringtable.json",
+      "地址": "https://raw.communitydragon.org/16.17/game/zh_cn/data/menu/en_us/lol.stringtable.json",
+      "目录或公告版本": "16.17",
+      "用途": "主证：中文游戏说明，文件内version=5是字符串表格式版本，不是游戏补丁版本",
+      "下载文件修改时间UTC": "2026-09-06T15:08:11.306Z",
+      "原始字节数": 32784742,
+      "原始SHA256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+      "压缩字节数": 8350124,
+      "压缩SHA256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e"
+    },
+    {
+      "文件": "客户端原始资料/items-16.17-zh_CN.json.gz",
+      "解压文件名": "items-16.17-zh_CN.json",
+      "地址": "https://raw.communitydragon.org/16.17/plugins/rcp-be-lol-game-data/global/zh_cn/v1/items.json",
+      "目录或公告版本": "16.17",
+      "用途": "交叉核对：客户端对外装备列表，说明仍可能省略动态效果",
+      "下载文件修改时间UTC": "2026-09-06T14:59:31.906Z",
+      "原始字节数": 680850,
+      "原始SHA256": "98febe7dcc32bd1f3d0b1955494dcac57baf4877afea5f0c93c057c179cbcf64",
+      "压缩字节数": 96301,
+      "压缩SHA256": "f4ed06bce504288345ed7761ea1a12612ef5afd6400ebb1f27290204e1f24e20"
+    },
+    {
+      "文件": "客户端原始资料/官方26.16更新说明.html.gz",
+      "解压文件名": "官方26.16更新说明.html",
+      "地址": "https://www.leagueoflegends.com/en-us/news/game-updates/league-of-legends-patch-26-16-notes/",
+      "目录或公告版本": "26.16",
+      "用途": "旁证：星蚀数值、额外攻击力语义；挑战护手基础攻击力语义。不得单独充当16.17快照",
+      "下载文件修改时间UTC": "2026-09-06T15:10:20.303Z",
+      "原始字节数": 348216,
+      "原始SHA256": "ae8efd145af0fbff605dac293e414de0fe0efe6b9f7893ac26c593adeb92f98a",
+      "压缩字节数": 60756,
+      "压缩SHA256": "514a87f3450d9bd493f2d68a6e9d0ece1ceb4f0b3454315f445bd55025d88aff"
+    },
+    {
+      "文件": "客户端原始资料/官方26.17更新说明.html.gz",
+      "解压文件名": "官方26.17更新说明.html",
+      "地址": "https://www.leagueoflegends.com/en-us/news/game-updates/league-of-legends-patch-26-17-notes/",
+      "目录或公告版本": "26.17",
+      "用途": "版本公告核对；未检索到星蚀条目，不以没有公告代替当前对象证明",
+      "下载文件修改时间UTC": "2026-09-06T15:10:21.829Z",
+      "原始字节数": 316347,
+      "原始SHA256": "82ba65084f1f732053a84397305f8f739be0511b9a6756dfb527888fd90c1649",
+      "压缩字节数": 54252,
+      "压缩SHA256": "fe5acabd0e7422c990401dbec0606e52331a3ac21e6df7612b4bcae65344bd1f"
+    },
+    {
+      "文件": "客户端原始资料/globals-16.17.cdtb.bin.json.gz",
+      "解压文件名": "globals-16.17.cdtb.bin.json",
+      "地址": "https://raw.communitydragon.org/16.17/game/globals.cdtb.bin.json",
+      "目录或公告版本": "16.17",
+      "用途": "探索留档：未找到可直接使用的完整属性枚举定义，不用于填值",
+      "下载文件修改时间UTC": "2026-09-06T15:02:11.961Z",
+      "原始字节数": 433600,
+      "原始SHA256": "88fe4aa45fc6bc6a2f5c0a375de2f9412db486d1428f5e36db7bf4ef343644f5",
+      "压缩字节数": 50367,
+      "压缩SHA256": "036580274b1fb45d52c9874c472c6ee3b0a5537606ee47ccf33ea97effd43bc2"
+    },
+    {
+      "文件": "客户端原始资料/shared-16.17.cdtb.bin.json.gz",
+      "解压文件名": "shared-16.17.cdtb.bin.json",
+      "地址": "https://raw.communitydragon.org/16.17/game/shared.cdtb.bin.json",
+      "目录或公告版本": "16.17",
+      "用途": "探索留档：未取得这15件的实际触发脚本，不用于推算缺失规则",
+      "下载文件修改时间UTC": "2026-09-06T15:10:18.509Z",
+      "原始字节数": 8636644,
+      "原始SHA256": "7b87a25efd4dc7c808a504f5c92cbe21388f4145b7d1688494769f43946df59a",
+      "压缩字节数": 805030,
+      "压缩SHA256": "2908a56756968ec40a646b3f7672768c0a3838de0f00a12a45f8048e7909b4e9"
+    },
+    {
+      "文件": "客户端原始资料/common-16.17.bin.json.gz",
+      "解压文件名": "common-16.17.bin.json",
+      "地址": "https://raw.communitydragon.org/16.17/game/common.bin.json",
+      "目录或公告版本": "16.17",
+      "用途": "探索留档：未取得完整属性枚举，不用于填值",
+      "下载文件修改时间UTC": "2026-09-06T15:12:16.978Z",
+      "原始字节数": 16130,
+      "原始SHA256": "077cb25b6ddd2086943e2e373a38146c0b8bc8f0cb75e786703b1da4e4490ba7",
+      "压缩字节数": 3141,
+      "压缩SHA256": "10d31083aade19bb5648b5ea3563f29f0f84441acf298cbd44e7e0c5fc27427f"
+    },
+    {
+      "文件": "客户端原始资料/gameplay-16.17.bin.json.gz",
+      "解压文件名": "gameplay-16.17.bin.json",
+      "地址": "https://raw.communitydragon.org/16.17/game/gameplay.bin.json",
+      "目录或公告版本": "16.17",
+      "用途": "探索留档：未取得完整属性枚举，不用于填值",
+      "下载文件修改时间UTC": "2026-09-06T15:12:54.139Z",
+      "原始字节数": 448508,
+      "原始SHA256": "dfe4cedded5088aaf0434a44d7d0757abc67d827315a3046c4bd7cb2b956860f",
+      "压缩字节数": 20194,
+      "压缩SHA256": "0fcf6710f65e16b0bf0afe2909756c87a4acbf823cdc86909aecf0ec28477a35"
+    }
+  ],
+  "object": {
+    "itemId": "3053",
+    "requestedEquipmentKey": "item_3053",
+    "selectedEquipmentKey": "item_3053",
+    "equipmentName": "斯特拉克的挑战护手",
+    "client": {
+      "objectPath": "Items/3053",
+      "currentRoot": {
+        "mDisplayName": "Item_3053_Name",
+        "itemID": 3053,
+        "maxStack": 1,
+        "mItemGroups": [
+          "Items/ItemGroups/Default",
+          "Items/ItemGroups/LifelineItems"
+        ],
+        "mItemAdviceAttributes": [
+          "{dfe0e8e4}"
+        ],
+        "price": 775,
+        "mItemCalloutSpectator": true,
+        "mCanBeSold": true,
+        "epicness": 5,
+        "recipeItemLinks": [
+          "Items/1037",
+          "Items/2021",
+          "Items/1028"
+        ],
+        "mEffectAmount": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "mDataValues": [
+          {
+            "mName": "LowHealthThreshold",
+            "mValue": 0.30000001192092896,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "ShieldDuration",
+            "mValue": 4.5,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "HealthPercent",
+            "mValue": 0.10000000149011612,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "HealPercent",
+            "mValue": 0.019999999552965164,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "RangedEffectiveness",
+            "mValue": 0.6000000238418579,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "ReductionAmount",
+            "mValue": 0.5,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "BaseShieldRatio",
+            "mValue": 0.6000000238418579,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "HealDuration",
+            "mValue": 5,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "ADtoAD",
+            "mValue": 0.5,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "TimeBeforeDecay",
+            "mValue": 0.75,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "TenacityDuration",
+            "mValue": 8,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "SizeIncrease",
+            "mValue": 0.10000000149011612,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "TenacityAmount",
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "Cooldown",
+            "mValue": 90,
+            "__type": "ItemDataValue"
+          }
+        ],
+        "DataValuesModeOverride": {
+          "ARAM": {
+            "DataValues": [
+              {
+                "mName": "ADtoAD",
+                "mValue": 0.5,
+                "__type": "ItemDataValue"
+              },
+              {
+                "mName": "BaseShieldRatio",
+                "mValue": 0.699999988079071,
+                "__type": "ItemDataValue"
+              },
+              {
+                "mName": "Cooldown",
+                "mValue": 75,
+                "__type": "ItemDataValue"
+              }
+            ],
+            "__type": "ItemDataValues"
+          },
+          "{bffdf499}": {
+            "DataValues": [
+              {
+                "mName": "ADtoAD",
+                "mValue": 0.5,
+                "__type": "ItemDataValue"
+              },
+              {
+                "mName": "BaseShieldRatio",
+                "mValue": 0.699999988079071,
+                "__type": "ItemDataValue"
+              },
+              {
+                "mName": "Cooldown",
+                "mValue": 60,
+                "__type": "ItemDataValue"
+              }
+            ],
+            "__type": "ItemDataValues"
+          }
+        },
+        "mItemCalculations": {
+          "MeleeItemCalcValue": {
+            "mSimpleTooltipCalculationDisplay": 6,
+            "mExpandedTooltipCalculationDisplay": 6,
+            "mFormulaParts": [
+              {
+                "mStat": 12,
+                "mDataValue": "HealPercent",
+                "__type": "StatByNamedDataValueCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "BonusShield": {
+            "mMultiplier": {
+              "mBuffName": "{6faa06b7}",
+              "mCoefficient": 1,
+              "__type": "BuffCounterByCoefficientCalculationPart"
+            },
+            "mModifiedGameCalculation": "MeleeItemCalcValueB",
+            "__type": "GameCalculationModified"
+          },
+          "MeleeItemCalcValueB": {
+            "mFormulaParts": [
+              {
+                "mStat": 12,
+                "mStatFormula": 2,
+                "mDataValue": "HealthPercent",
+                "__type": "StatByNamedDataValueCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "RangedItemCalcValueB": {
+            "mMultiplier": {
+              "mDataValue": "RangedEffectiveness",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            "mSimpleTooltipCalculationDisplay": 6,
+            "mExpandedTooltipCalculationDisplay": 6,
+            "mModifiedGameCalculation": "MeleeItemCalcValueB",
+            "__type": "GameCalculationModified"
+          },
+          "ChampRange": {
+            "mSimpleTooltipCalculationDisplay": 5,
+            "mExpandedTooltipCalculationDisplay": 5,
+            "tooltipOnly": true,
+            "mFormulaParts": [
+              {
+                "mCeiling": 3,
+                "mFloor": 2,
+                "mSubparts": [
+                  {
+                    "mStat": 31,
+                    "mStatFormula": 1,
+                    "mSubpart": {
+                      "mNumber": 0.009999999776482582,
+                      "__type": "NumberCalculationPart"
+                    },
+                    "__type": "StatBySubPartCalculationPart"
+                  }
+                ],
+                "__type": "ClampSubPartsCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "RangedItemCalcValue": {
+            "mMultiplier": {
+              "mDataValue": "RangedEffectiveness",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            "mModifiedGameCalculation": "MeleeItemCalcValue",
+            "__type": "GameCalculationModified"
+          },
+          "ShieldSize": {
+            "mFormulaParts": [
+              {
+                "mStat": 12,
+                "mStatFormula": 2,
+                "mDataValue": "BaseShieldRatio",
+                "__type": "StatByNamedDataValueCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "BonusAD": {
+            "mFormulaParts": [
+              {
+                "mStat": 2,
+                "mStatFormula": 1,
+                "mDataValue": "ADtoAD",
+                "__type": "StatByNamedDataValueCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          }
+        },
+        "mEffectByLevelAmount": [
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          440,
+          500,
+          580,
+          700,
+          825,
+          950,
+          1100,
+          1250,
+          1400,
+          1550,
+          1700,
+          1800,
+          1800,
+          1800,
+          1800,
+          1800,
+          1800,
+          1800,
+          1800,
+          1800,
+          1800,
+          1800,
+          1800,
+          1800
+        ],
+        "mFlatHPPoolMod": 400,
+        "mPercentTenacityItemMod": 0.20000000298023224,
+        "mCategories": [
+          "Health",
+          "Damage",
+          "Tenacity"
+        ],
+        "mItemDataAvailability": {
+          "mInStore": true,
+          "__type": "ItemDataAvailability"
+        },
+        "mItemAttributes": [
+          1
+        ],
+        "mItemDataClient": {
+          "mTooltipData": {
+            "mObjectName": "3053",
+            "mFormat": "{32559c50}",
+            "mLocKeys": {
+              "keyName": "Item_3053_Name",
+              "keyBrief": "Item_3053_Brief",
+              "keyTooltip": "Item_3053_Tooltip",
+              "keyColloquialism": "Item_3053_Colloquialism",
+              "keyInventoryOnlyText": "Item_3053_InventoryOnlyText",
+              "keySecondaryBrief": "Item_Unique_Lifeline",
+              "keyTooltipExternal": "Item_3053_TooltipExternal"
+            },
+            "mLists": {
+              "Stats": {
+                "Elements": [
+                  {
+                    "type": "Health",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "Tenacity",
+                    "__type": "TooltipInstanceListElement"
+                  }
+                ],
+                "__type": "TooltipInstanceList"
+              }
+            },
+            "__type": "TooltipInstanceItem"
+          },
+          "mDescription": "GeneratedTip_Item_3053_Description",
+          "mDynamicTooltip": "GeneratedTip_Item_3053_TooltipInventory",
+          "mShopTooltip": "GeneratedTip_Item_3053_TooltipShop",
+          "inventoryIcon": "assets/items/icons2d/3053_steraks_gage.dds",
+          "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/3053_Tank_T3_SteraksGage.png",
+          "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/3053_Tank_T3_SteraksGage.png",
+          "epicness": 5,
+          "__type": "ItemDataClient"
+        },
+        "mVFXResourceResolver": {
+          "__type": "ResourceResolver"
+        },
+        "__type": "ItemData"
+      },
+      "dataValues": {
+        "LowHealthThreshold": 0.30000001192092896,
+        "ShieldDuration": 4.5,
+        "HealthPercent": 0.10000000149011612,
+        "HealPercent": 0.019999999552965164,
+        "RangedEffectiveness": 0.6000000238418579,
+        "ReductionAmount": 0.5,
+        "BaseShieldRatio": 0.6000000238418579,
+        "HealDuration": 5,
+        "ADtoAD": 0.5,
+        "TimeBeforeDecay": 0.75,
+        "TenacityDuration": 8,
+        "SizeIncrease": 0.10000000149011612,
+        "TenacityAmount": null,
+        "Cooldown": 90
+      },
+      "currentBoundStringKeys": {
+        "keyName": "Item_3053_Name",
+        "keyBrief": "Item_3053_Brief",
+        "keyTooltip": "Item_3053_Tooltip",
+        "keyColloquialism": "Item_3053_Colloquialism",
+        "keyInventoryOnlyText": "Item_3053_InventoryOnlyText",
+        "keySecondaryBrief": "Item_Unique_Lifeline",
+        "keyTooltipExternal": "Item_3053_TooltipExternal"
+      },
+      "currentBoundStringTable": {
+        "item_3053_name": "斯特拉克的挑战护手",
+        "item_3053_brief": "爆发克星",
+        "item_3053_tooltip": "<passive>抓人双爪</passive><br>获得<scaleAD>@BonusAD@额外攻击力</scaleAD>。<br><br><passive>救主灵刃</passive>{{ Item_Cooldown }}<br>在受到将使你的生命值跌到@LowHealthThreshold*100@%以下的伤害时，提供持续@ShieldDuration@秒的<shield>不断衰减的@ShieldSize@护盾值</shield>。",
+        "item_3053_colloquialism": ";Sterak's Gage;xueshou;sitelakedetiaozhanhushou;stlkdtzhs",
+        "item_3053_inventoryonlytext": "护盾已抵消的伤害：<attention>@f5@</attention>",
+        "item_unique_lifeline": "唯一：救主灵刃",
+        "item_3053_tooltipexternal": "<passive>抓人双爪</passive><br>获得<scaleAD>额外攻击力</scaleAD>。<br><br><passive>救主灵刃</passive><br>在受到将使你的生命值跌到@LowHealthThreshold*100@%以下的伤害时，提供持续@ShieldDuration@秒的<shield>不断衰减的护盾值</shield>。",
+        "generatedtip_item_3053_description": "<section></section><section><attention>%i:scaleHealth%@FlatHPPoolMod@</attention>生命值<br><attention>%i:scaleTenacity%@PercentTenacityItemMod*100@%</attention>韧性</section><section><passive>抓人双爪</passive><br>获得<scaleAD>@BonusAD@额外攻击力</scaleAD>。<br><br><passive>救主灵刃</passive>{{ Item_Cooldown }}<br>在受到将使你的生命值跌到@LowHealthThreshold*100@%以下的伤害时，提供持续@ShieldDuration@秒的<shield>不断衰减的@ShieldSize@护盾值</shield>。</section><section></section><section><flavorText></flavorText></section>",
+        "generatedtip_item_3053_tooltipinventory": "<titleLeft><itemName@ItemActiveness@>斯特拉克的挑战护手</itemName@ItemActiveness@></titleLeft><titleRight>{{ Item_Gold_Value_Sell }} <rules>(@SellBackModifier*100@%)</rules></titleRight><subtitleLeft>{{ Item_BriefIcon_@ItemActiveness@ }}爆发克星</subtitleLeft><subtitleRight>唯一：救主灵刃</subtitleRight><mainText><section><attention>%i:scaleHealth%@FlatHPPoolMod@</attention>生命值<br><attention>%i:scaleTenacity%@PercentTenacityItemMod*100@%</attention>韧性@ExtendedStats@</section><section><passive>抓人双爪</passive><br>获得<scaleAD>@BonusAD@额外攻击力</scaleAD>。<br><br><passive>救主灵刃</passive>{{ Item_Cooldown }}<br>在受到将使你的生命值跌到@LowHealthThreshold*100@%以下的伤害时，提供持续@ShieldDuration@秒的<shield>不断衰减的@ShieldSize@护盾值</shield>。</section><section></section><section><flavorText></flavorText></section></mainText><postScriptLeft>护盾已抵消的伤害：<attention>@f5@</attention></postScriptLeft>",
+        "generatedtip_item_3053_tooltipshop": "<titleLeft><itemName@ItemActiveness@>斯特拉克的挑战护手</itemName@ItemActiveness@></titleLeft><titleRight>{{ Item_Gold_Value }}</titleRight><subtitleLeft>{{ Item_BriefIcon_@ItemActiveness@ }}爆发克星</subtitleLeft><subtitleRight>唯一：救主灵刃</subtitleRight><mainText><section></section><section><attention>%i:scaleHealth%@FlatHPPoolMod@</attention>生命值<br><attention>%i:scaleTenacity%@PercentTenacityItemMod*100@%</attention>韧性</section><section><passive>抓人双爪</passive><br>获得<scaleAD>@BonusAD@额外攻击力</scaleAD>。<br><br><passive>救主灵刃</passive>{{ Item_Cooldown }}<br>在受到将使你的生命值跌到@LowHealthThreshold*100@%以下的伤害时，提供持续@ShieldDuration@秒的<shield>不断衰减的@ShieldSize@护盾值</shield>。</section><section></section><section><flavorText></flavorText></section></mainText><br>",
+        "item_3053_tooltipdynamic": "<passive>抓人双爪：</passive><br>获得<scaleAD>@BonusAD@额外攻击力</scaleAD>。<br><br><passive>救主灵刃：</passive>{{ Item_Cooldown }}<br>在受到将使你的生命值跌到@LowHealthThreshold*100@%以下的伤害时，提供在@ShieldDuration@秒里持续衰减的<shield>@ShieldSize@护盾值</shield>。",
+        "item_3053_healing_buff": "<titleLeft>斯特拉克的狂怒</titleLeft><mainText>这个单位会从与其交战的每个敌方英雄中获得治疗效果。</mainText><postScriptLeft>来自：@SourceName@</postScriptLeft>",
+        "buff_desc_steraksshield": "<titleLeft>斯特拉克之怒</titleLeft><mainText>提升体型、韧性，以及纯粹的愤怒。</mainText><postScriptLeft>来自：@SourceName@</postScriptLeft>"
+      },
+      "missingBoundStringNames": [
+        "Item_3053_TooltipExtended",
+        "Item_3053_KeywordDefinitions"
+      ],
+      "boundSpellObjects": {
+        "Items/3053/Spells/3053Shield": {
+          "ObjectName": "3053Shield",
+          "objectPath": "Items/3053/Spells/3053Shield",
+          "mScriptName": "3053Shield",
+          "mBuff": {
+            "mDescription": "buff_desc_SteraksShield",
+            "__type": "BuffData"
+          },
+          "__type": "SpellObject"
+        },
+        "Items/3053/Spells/3053StackingBuff": {
+          "ObjectName": "3053StackingBuff",
+          "objectPath": "Items/3053/Spells/3053StackingBuff",
+          "mScriptName": "3053StackingBuff",
+          "mBuff": {
+            "mDescription": "Item_3053_Healing_Buff",
+            "__type": "BuffData"
+          },
+          "__type": "SpellObject"
+        },
+        "Items/3053/Spells/3053TenacityBuff": {
+          "ObjectName": "3053TenacityBuff",
+          "objectPath": "Items/3053/Spells/3053TenacityBuff",
+          "mScriptName": "3053TenacityBuff",
+          "mBuff": {
+            "mDescription": "buff_desc_SteraksShield",
+            "__type": "BuffData"
+          },
+          "__type": "SpellObject"
+        }
+      }
+    },
+    "official": {
+      "sourceVersion": "16.17.1",
+      "sourcePointer": "/data/3053",
+      "item": {
+        "name": "斯特拉克的挑战护手",
+        "description": "<mainText><stats><attention>400</attention>生命值<br><attention>20%</attention>韧性</stats><br><br><passive>抓人双爪</passive><br>获得<scaleAD>额外攻击力</scaleAD>。<br><br><passive>救主灵刃</passive><br>在受到将使你的生命值跌到30%以下的伤害时，提供持续4.5秒的<shield>不断衰减的护盾值</shield>。</mainText>",
+        "colloq": ";zhongzhuang;zz;Sterak's Gage",
+        "plaintext": "提供抵抗大额爆发伤害的护盾",
+        "from": [
+          "1037",
+          "2021",
+          "1028"
+        ],
+        "image": {
+          "full": "3053.png",
+          "sprite": "item3.png",
+          "group": "item",
+          "x": 240,
+          "y": 192,
+          "w": 48,
+          "h": 48
+        },
+        "gold": {
+          "base": 775,
+          "purchasable": true,
+          "total": 3200,
+          "sell": 2240
+        },
+        "tags": [
+          "Health",
+          "Damage",
+          "Tenacity"
+        ],
+        "maps": {
+          "11": true,
+          "12": true,
+          "22": false,
+          "30": false,
+          "453": true
+        },
+        "stats": {
+          "FlatHPPoolMod": 400
+        },
+        "depth": 3
+      }
+    },
+    "disposition": {
+      "itemId": "3053",
+      "proposedKey": "item_3053",
+      "name": "斯特拉克的挑战护手",
+      "rawName": "斯特拉克的挑战护手",
+      "existingEquipmentKey": null,
+      "sourceVersion": "16.17.1",
+      "sourceLocale": "zh_CN",
+      "sourceUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+      "sourcePointer": "/data/3053",
+      "maps": {
+        "11": true,
+        "12": true,
+        "22": false,
+        "30": false,
+        "453": true
+      },
+      "scopeCategory": "可购买普通装备候选",
+      "entryStatus": "待录",
+      "reason": "maps[11]=true、可购买、未隐藏；仍需逐项核对模式和机制，不是客户端可购买证明",
+      "enteredInSystem": false,
+      "acquisition": {
+        "purchasable": true,
+        "inStore": null,
+        "hideFromAll": null,
+        "requiredChampion": null,
+        "specialRecipe": null,
+        "consumed": false
+      },
+      "gold": {
+        "base": 775,
+        "purchasable": true,
+        "total": 3200,
+        "sell": 2240
+      },
+      "from": [
+        "1037",
+        "2021",
+        "1028"
+      ],
+      "into": [],
+      "tags": [
+        "Health",
+        "Damage",
+        "Tenacity"
+      ],
+      "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/item/3053.png",
+      "description": "<mainText><stats><attention>400</attention>生命值<br><attention>20%</attention>韧性</stats><br><br><passive>抓人双爪</passive><br>获得<scaleAD>额外攻击力</scaleAD>。<br><br><passive>救主灵刃</passive><br>在受到将使你的生命值跌到30%以下的伤害时，提供持续4.5秒的<shield>不断衰减的护盾值</shield>。</mainText>",
+      "descriptionText": "400生命值\n20%韧性\n\n抓人双爪\n获得额外攻击力。\n\n救主灵刃\n在受到将使你的生命值跌到30%以下的伤害时，提供持续4.5秒的不断衰减的护盾值。",
+      "plaintext": "提供抵抗大额爆发伤害的护盾",
+      "stats": {
+        "FlatHPPoolMod": 400
+      },
+      "descriptionStats": [
+        "400生命值",
+        "20%韧性"
+      ],
+      "effect": null,
+      "sourceAnomalies": [],
+      "mechanismReview": "尚未逐项审查全部机制"
+    },
+    "historicalApi": {
+      "itemId": "3053",
+      "equipmentKey": "item_3053",
+      "name": "斯特拉克的挑战护手",
+      "plannedDirectAttributes": {
+        "hp": 400,
+        "tenacity_percent": 0.2
+      },
+      "sourceVersion": "16.17.1",
+      "sourceDescriptionText": "400生命值\n20%韧性\n\n抓人双爪\n获得额外攻击力。\n\n救主灵刃\n在受到将使你的生命值跌到30%以下的伤害时，提供持续4.5秒的不断衰减的护盾值。",
+      "startedAt": "2026-09-06T18:10:42.597Z",
+      "action": "reused",
+      "actualEquipment": {
+        "equipmentKey": "item_3053",
+        "name": "斯特拉克的挑战护手",
+        "description": "来源：官方16.17.1装备3053。 原始说明：400生命值 20%韧性 抓人双爪 获得额外攻击力。 救主灵刃 在受到将使你的生命值跌到30%以下的伤害时，提供持续4.5秒的不断衰减的护盾值。 被动与主动效果尚待配置。"
+      },
+      "planDifference": {
+        "expected": {
+          "name": "斯特拉克的挑战护手",
+          "description": "来源：官方16.17.1装备3053。 原始说明：400生命值\n20%韧性\n\n抓人双爪\n获得额外攻击力。\n\n救主灵刃\n在受到将使你的生命值跌到30%以下的伤害时，提供持续4.5秒的不断衰减的护盾值。 被动与主动效果尚待配置。"
+        },
+        "actual": {
+          "name": "斯特拉克的挑战护手",
+          "description": "来源：官方16.17.1装备3053。 原始说明：400生命值 20%韧性 抓人双爪 获得额外攻击力。 救主灵刃 在受到将使你的生命值跌到30%以下的伤害时，提供持续4.5秒的不断衰减的护盾值。 被动与主动效果尚待配置。"
+        }
+      },
+      "beforeAttributeValues": {
+        "hp": 400,
+        "tenacity_percent": 0.2
+      },
+      "expectedAttributeValues": {
+        "hp": 400,
+        "tenacity_percent": 0.2
+      },
+      "attributePutStatus": "not_needed",
+      "readbackStatus": 200,
+      "readbackAttributeValues": {
+        "hp": 400,
+        "tenacity_percent": 0.2
+      },
+      "readbackMatches": true,
+      "status": "completed",
+      "completedAt": "2026-09-06T18:10:42.770Z"
+    },
+    "relationEvidence": [
+      {
+        "file": "数据参考\\全量录入-2026-09\\装备技能实录\\Luna第十批\\关系识别-2026-09-08T02-52-11.404Z.json",
+        "generatedAt": "2026-09-08T02:52:13.099Z",
+        "record": null
+      },
+      {
+        "file": "数据参考\\全量录入-2026-09\\装备技能实录\\Luna第十批\\关系识别-2026-09-08T02-53-49.953Z.json",
+        "generatedAt": "2026-09-08T02:53:51.822Z",
+        "record": {
+          "requestedEquipmentKey": "item_3053",
+          "requestedEquipmentName": "斯特拉克的挑战护手",
+          "keyCandidates": [
+            "item_3053"
+          ],
+          "keyProbes": [
+            {
+              "key": "item_3053",
+              "response": {
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-06T17:16:08.400971Z",
+                  "description": "来源：官方16.17.1装备3053。 原始说明：400生命值 20%韧性 抓人双爪 获得额外攻击力。 救主灵刃 在受到将使你的生命值跌到30%以下的伤害时，提供持续4.5秒的不断衰减的护盾值。 被动与主动效果尚待配置。",
+                  "equipmentKey": "item_3053",
+                  "gameId": "lol",
+                  "name": "斯特拉克的挑战护手",
+                  "updatedAt": "2026-09-06T17:16:08.400971Z"
+                }
+              }
+            }
+          ],
+          "selectedEquipmentKey": "item_3053",
+          "equipmentName": "斯特拉克的挑战护手",
+          "equipment": {
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-06T17:16:08.400971Z",
+              "description": "来源：官方16.17.1装备3053。 原始说明：400生命值 20%韧性 抓人双爪 获得额外攻击力。 救主灵刃 在受到将使你的生命值跌到30%以下的伤害时，提供持续4.5秒的不断衰减的护盾值。 被动与主动效果尚待配置。",
+              "equipmentKey": "item_3053",
+              "gameId": "lol",
+              "name": "斯特拉克的挑战护手",
+              "updatedAt": "2026-09-06T17:16:08.400971Z"
+            }
+          },
+          "attributes": {
+            "status": 200,
+            "data": {
+              "attributeValues": {
+                "hp": 400,
+                "tenacity_percent": 0.2
+              },
+              "equipmentKey": "item_3053"
+            }
+          },
+          "representativeImage": {
+            "status": 200,
+            "data": {
+              "image": {
+                "enabled": true,
+                "imageKey": "item_3053",
+                "name": "item_3053"
+              }
+            }
+          },
+          "relation": {
+            "path": "/equipment-skill-relations?equipmentKey=item_3053",
+            "response": {
+              "status": 200,
+              "data": {
+                "items": [],
+                "total": 0
+              }
+            },
+            "items": []
+          },
+          "linkedSkills": [],
+          "expectedPassiveProbe": {
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_NOT_FOUND",
+                "details": {
+                  "skillKey": "item_3053_passive"
+                },
+                "message": "技能不存在"
+              }
+            }
+          },
+          "selectedSkillKeys": [],
+          "aliasWarning": []
+        }
+      }
+    ],
+    "attributeMappingEvidence": {
+      "sourceFile": "数据参考\\全量录入-2026-09\\装备技能实录\\Luna第九批\\属性映射补证.json",
+      "clientVersion": "16.17",
+      "officialVersion": "16.17.1",
+      "evidence": [
+        {
+          "sourceFile": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+          "pointer": "Items/4633/mItemCalculations/{1247259a}/mFormulaParts/0",
+          "rawCalculation": {
+            "mFormulaParts": [
+              {
+                "mStat": 12,
+                "mStatFormula": 2,
+                "mDataValue": "HealthToAPConversionPercent",
+                "__type": "StatByNamedDataValueCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "currentBoundStringKeys": {
+            "keyName": "Item_4633_Name",
+            "keyBrief": "Item_4633_Brief",
+            "keyTooltip": "Item_4633_Tooltip",
+            "keyColloquialism": "Item_4633_Colloquialism",
+            "keyTooltipInventory": "Item_4633_TooltipInventory",
+            "keyTooltipInventoryExtended": "Item_4633_ActiveInventoryExtended",
+            "keyTooltipExternal": "Item_4633_TooltipExternal"
+          },
+          "stringSourceFile": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+          "stringPointer": "entries/item_4633_tooltip",
+          "rawText": "<passive>虚空腐蚀</passive><br>在与敌方英雄作战时，每过1秒，就会造成@EternityDamageIncreasePerSecond*100@%额外伤害，至多至@EternityDamageIncreaseMax*100@%。在最大强度时，获得<omnivamp>{{ Item_Melee_Ranged_Split_Dynamic }}全能吸血</omnivamp>。<br><br><passive>虚空灌注</passive><br>获得相当于你@HealthToAPConversionPercent*100@%<scaleHealth>额外生命值</scaleHealth>的<scaleAP>法术强度</scaleAP>。",
+          "mapping": {
+            "attributeOwner": "SOURCE",
+            "attributeKey": "hp",
+            "attributeValueKind": "BONUS"
+          },
+          "note": "当前绑定说明明确使用额外生命值转法术强度，计算节点mStat=12、mStatFormula=2。"
+        }
+      ],
+      "appliedTo": [
+        {
+          "equipmentKey": "item_2502",
+          "raw": {
+            "mFormulaParts": [
+              {
+                "mStat": 12,
+                "mStatFormula": 2,
+                "mDataValue": "BonusHealthDrainPercentage",
+                "__type": "StatByNamedDataValueCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "system": "SOURCE hp BONUS × 0.03"
+        },
+        {
+          "equipmentKey": "item_2504",
+          "raw": {
+            "mFormulaParts": [
+              {
+                "mStat": 12,
+                "mDataValue": "ShieldAmount",
+                "__type": "StatByNamedDataValueCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "system": "SOURCE hp TOTAL × 0.15"
+        }
+      ],
+      "note": "仅作为mStat=12、mStatFormula=2到SOURCE hp BONUS的既有映射辅助；不把辅助映射当成3053运行时或触发证明。"
+    },
+    "sourcePointers": {
+      "clientRoot": "客户端原始资料/items-16.17.cdtb.bin.json.gz:Items/3053",
+      "boundTooltip": "客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz:entries/item_3053_tooltip",
+      "boundDynamicTooltip": "客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz:entries/item_3053_tooltipdynamic",
+      "boundExtendedInventory": "客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz:entries/generatedtip_item_3053_tooltipinventoryextended",
+      "official": "装备符文/官方原始资料/item-16.17.1-zh_CN.json:/data/3053",
+      "disposition": "装备符文/装备全量处置清单.json:/items/166",
+      "historicalApi": "API实录/装备/summary.json:/results[equipmentKey=item_3053]",
+      "relationCorrected": "装备技能实录/Luna第十批/关系识别-2026-09-08T02-53-49.953Z.json:/objects[requestedEquipmentKey=item_3053]",
+      "mapping": "装备技能实录/Luna第九批/属性映射补证.json:/evidence、/appliedTo"
+    }
+  }
+}

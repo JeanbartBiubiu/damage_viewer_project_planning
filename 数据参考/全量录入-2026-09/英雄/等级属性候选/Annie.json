@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Annie",
+  "sourceNumericId": "1",
+  "name": "安妮",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 560,
+      "growth": 96,
+      "sources": [
+        "原始资料/zh_CN/champion/Annie.json:stats.hp/hpperlevel",
+        "角色根记录/Annie.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 560,
+        "2": 629.12,
+        "3": 701.6,
+        "4": 777.44,
+        "5": 856.64,
+        "6": 939.2,
+        "7": 1025.12,
+        "8": 1114.4,
+        "9": 1207.04,
+        "10": 1303.04,
+        "11": 1402.4,
+        "12": 1505.12,
+        "13": 1611.2,
+        "14": 1720.64,
+        "15": 1833.44,
+        "16": 1949.6,
+        "17": 2069.12,
+        "18": 2192
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 5.5,
+      "growth": 0.55,
+      "sources": [
+        "原始资料/zh_CN/champion/Annie.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Annie.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 5.5,
+        "2": 5.896,
+        "3": 6.31125,
+        "4": 6.74575,
+        "5": 7.1995,
+        "6": 7.6725,
+        "7": 8.16475,
+        "8": 8.67625,
+        "9": 9.207,
+        "10": 9.757,
+        "11": 10.32625,
+        "12": 10.91475,
+        "13": 11.5225,
+        "14": 12.1495,
+        "15": 12.79575,
+        "16": 13.46125,
+        "17": 14.146,
+        "18": 14.85
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 23,
+      "growth": 4,
+      "sources": [
+        "原始资料/zh_CN/champion/Annie.json:stats.armor/armorperlevel",
+        "角色根记录/Annie.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 23,
+        "2": 25.88,
+        "3": 28.9,
+        "4": 32.06,
+        "5": 35.36,
+        "6": 38.8,
+        "7": 42.38,
+        "8": 46.1,
+        "9": 49.96,
+        "10": 53.96,
+        "11": 58.1,
+        "12": 62.38,
+        "13": 66.8,
+        "14": 71.36,
+        "15": 76.06,
+        "16": 80.9,
+        "17": 85.88,
+        "18": 91
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 30,
+      "growth": 1.3,
+      "sources": [
+        "原始资料/zh_CN/champion/Annie.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Annie.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 30,
+        "2": 30.936,
+        "3": 31.9175,
+        "4": 32.9445,
+        "5": 34.017,
+        "6": 35.135,
+        "7": 36.2985,
+        "8": 37.5075,
+        "9": 38.762,
+        "10": 40.062,
+        "11": 41.4075,
+        "12": 42.7985,
+        "13": 44.235,
+        "14": 45.717,
+        "15": 47.2445,
+        "16": 48.8175,
+        "17": 50.436,
+        "18": 52.1
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 50,
+      "growth": 2.65,
+      "sources": [
+        "角色根记录/Annie.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 50,
+        "2": 51.908,
+        "3": 53.90875,
+        "4": 56.00225,
+        "5": 58.1885,
+        "6": 60.4675,
+        "7": 62.83925,
+        "8": 65.30375,
+        "9": 67.861,
+        "10": 70.511,
+        "11": 73.25375,
+        "12": 76.08925,
+        "13": 79.0175,
+        "14": 82.0385,
+        "15": 85.15225,
+        "16": 88.35875,
+        "17": 91.658,
+        "18": 95.05
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 335,
+      "growth": null,
+      "sources": [
+        "角色根记录/Annie.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 335,
+        "2": 335,
+        "3": 335,
+        "4": 335,
+        "5": 335,
+        "6": 335,
+        "7": 335,
+        "8": 335,
+        "9": 335,
+        "10": 335,
+        "11": 335,
+        "12": 335,
+        "13": 335,
+        "14": 335,
+        "15": 335,
+        "16": 335,
+        "17": 335,
+        "18": 335
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 625,
+      "growth": null,
+      "sources": [
+        "角色根记录/Annie.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 625,
+        "2": 625,
+        "3": 625,
+        "4": 625,
+        "5": 625,
+        "6": 625,
+        "7": 625,
+        "8": 625,
+        "9": 625,
+        "10": 625,
+        "11": 625,
+        "12": 625,
+        "13": 625,
+        "14": 625,
+        "15": 625,
+        "16": 625,
+        "17": 625,
+        "18": 625
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.61,
+      "attackSpeedRatio": 0.625,
+      "growthPercent": 1.36,
+      "sources": [
+        "角色根记录/Annie.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.61,
+        "2": 0.61612,
+        "3": 0.622537,
+        "4": 0.629252,
+        "5": 0.636265,
+        "6": 0.643575,
+        "7": 0.651182,
+        "8": 0.659088,
+        "9": 0.66729,
+        "10": 0.67579,
+        "11": 0.684588,
+        "12": 0.693682,
+        "13": 0.703075,
+        "14": 0.712765,
+        "15": 0.722753,
+        "16": 0.733038,
+        "17": 0.74362,
+        "18": 0.7545
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 418,
+      "growth": 25,
+      "sources": [
+        "原始资料/zh_CN/champion/Annie.json:stats.mp/mpperlevel",
+        "角色根记录/Annie.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 418,
+        "2": 436,
+        "3": 454.875,
+        "4": 474.625,
+        "5": 495.25,
+        "6": 516.75,
+        "7": 539.125,
+        "8": 562.375,
+        "9": 586.5,
+        "10": 611.5,
+        "11": 637.375,
+        "12": 664.125,
+        "13": 691.75,
+        "14": 720.25,
+        "15": 749.625,
+        "16": 779.875,
+        "17": 811,
+        "18": 843
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 8,
+      "growth": 0.8,
+      "sources": [
+        "原始资料/zh_CN/champion/Annie.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Annie.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 8,
+        "2": 8.576,
+        "3": 9.18,
+        "4": 9.812,
+        "5": 10.472,
+        "6": 11.16,
+        "7": 11.876,
+        "8": 12.62,
+        "9": 13.392,
+        "10": 14.192,
+        "11": 15.02,
+        "12": 15.876,
+        "13": 16.76,
+        "14": 17.672,
+        "15": 18.612,
+        "16": 19.58,
+        "17": 20.576,
+        "18": 21.6
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.61,
+    "ratio": 0.625,
+    "growthPercent": 1.36,
+    "ratioDiffersFromBase": true
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

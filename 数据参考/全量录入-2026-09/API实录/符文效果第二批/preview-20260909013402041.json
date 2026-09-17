@@ -1,0 +1,119 @@
+{
+  "startedAt": "2026-09-09T01:34:02.041Z",
+  "mode": "--preview",
+  "requestSha256": "45942778a468d2b1c9557ecd3c052ff9c54c514087b7659ae801c71b1d780095",
+  "preflight": [
+    {
+      "route": "/skills/rune_9104_passive",
+      "kind": "skill",
+      "state": "missing"
+    },
+    {
+      "route": "/skills/rune_9104_passive/parameters/base_attack_speed_ratio",
+      "kind": "parameter",
+      "state": "missing"
+    },
+    {
+      "route": "/skills/rune_9104_passive/parameters/attack_speed_ratio_per_stack",
+      "kind": "parameter",
+      "state": "missing"
+    },
+    {
+      "route": "/skills/rune_9104_passive/parameters/maximum_legend_stacks",
+      "kind": "parameter",
+      "state": "missing"
+    },
+    {
+      "route": "/skills/rune_9104_passive/effects/base_attack_speed",
+      "kind": "effect",
+      "state": "missing"
+    },
+    {
+      "route": "/skills/rune_9104_passive/trigger-rules/initialize_base_attack_speed",
+      "kind": "rule",
+      "state": "missing"
+    }
+  ],
+  "writes": [],
+  "imagePreflight": [
+    {
+      "runeKey": "rune_9104",
+      "skillKey": "rune_9104_passive",
+      "imageKey": "rune_9104",
+      "state": "missing"
+    },
+    {
+      "runeKey": "rune_8210",
+      "skillKey": "rune_8210_passive",
+      "imageKey": "rune_8210",
+      "state": "missing"
+    },
+    {
+      "runeKey": "rune_8453",
+      "skillKey": "rune_8453_passive",
+      "imageKey": "rune_8453",
+      "state": "missing"
+    },
+    {
+      "runeKey": "rune_9111",
+      "skillKey": "rune_9111_passive",
+      "imageKey": "rune_9111",
+      "state": "missing"
+    },
+    {
+      "runeKey": "rune_8009",
+      "skillKey": "rune_8009_passive",
+      "imageKey": "rune_8009",
+      "state": "missing"
+    },
+    {
+      "runeKey": "rune_8226",
+      "skillKey": "rune_8226_passive",
+      "imageKey": "rune_8226",
+      "state": "missing"
+    },
+    {
+      "runeKey": "rune_8437",
+      "skillKey": "rune_8437_passive",
+      "imageKey": "rune_8437",
+      "state": "missing"
+    },
+    {
+      "runeKey": "rune_8351",
+      "skillKey": "rune_8351_passive",
+      "imageKey": "rune_8351",
+      "state": "missing"
+    },
+    {
+      "runeKey": "rune_8313",
+      "skillKey": "rune_8313_passive",
+      "imageKey": "rune_8313",
+      "state": "missing"
+    },
+    {
+      "runeKey": "rune_8242",
+      "skillKey": "rune_8242_passive",
+      "imageKey": "rune_8242",
+      "state": "missing"
+    },
+    {
+      "runeKey": "rune_9103",
+      "skillKey": "rune_9103_passive",
+      "imageKey": "rune_9103",
+      "state": "missing"
+    },
+    {
+      "runeKey": "rune_8128",
+      "skillKey": "rune_8128_passive",
+      "imageKey": "rune_8128",
+      "state": "missing"
+    }
+  ],
+  "imageWrites": [],
+  "finalReads": [],
+  "summary": null,
+  "failure": {
+    "name": "Error",
+    "message": "/rune-skill-relations?runeKey=rune_9104&skillKey=rune_9104_passive读取失败HTTP404"
+  }
+}

@@ -1,0 +1,1017 @@
+{
+  "generatedAt": "2026-09-08T14:31:18.881Z",
+  "sources": [
+    {
+      "文件": "客户端原始资料/items-16.17.cdtb.bin.json.gz",
+      "解压文件名": "items-16.17.cdtb.bin.json",
+      "地址": "https://raw.communitydragon.org/16.17/game/items.cdtb.bin.json",
+      "目录或公告版本": "16.17",
+      "用途": "主证：客户端装备对象、命名数据、计算与说明绑定",
+      "下载文件修改时间UTC": "2026-09-06T15:00:14.328Z",
+      "原始字节数": 15923188,
+      "原始SHA256": "b59ec9320d05acefa344ea8a5ef615cf7f32959078475cafff63833462dc358f",
+      "压缩字节数": 1577238,
+      "压缩SHA256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7"
+    },
+    {
+      "文件": "客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+      "解压文件名": "lol-16.17-zh_CN.stringtable.json",
+      "地址": "https://raw.communitydragon.org/16.17/game/zh_cn/data/menu/en_us/lol.stringtable.json",
+      "目录或公告版本": "16.17",
+      "用途": "主证：中文游戏说明，文件内version=5是字符串表格式版本，不是游戏补丁版本",
+      "下载文件修改时间UTC": "2026-09-06T15:08:11.306Z",
+      "原始字节数": 32784742,
+      "原始SHA256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+      "压缩字节数": 8350124,
+      "压缩SHA256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e"
+    }
+  ],
+  "roots": [
+    {
+      "id": 1120,
+      "name": "多兰之盔",
+      "pointer": "/Items~11120",
+      "object": {
+        "mDisplayName": "Item_1120_Name",
+        "itemID": 1120,
+        "maxStack": 1,
+        "mItemGroups": [
+          "Items/ItemGroups/Default",
+          "Items/ItemGroups/DoransItems",
+          "{5c63b904}"
+        ],
+        "price": 450,
+        "mCanBeSold": true,
+        "epicness": 1,
+        "mDataValues": [
+          {
+            "mName": "BonusDamageToMinions",
+            "mValue": 5,
+            "__type": "ItemDataValue"
+          }
+        ],
+        "mFlatHPPoolMod": 150,
+        "mFlatArmorMod": 8,
+        "mFlatSpellBlockMod": 8,
+        "sellBackModifier": 0.4000000059604645,
+        "mCategories": [
+          "Health",
+          "SpellBlock",
+          "Armor",
+          "Lane"
+        ],
+        "mItemDataAvailability": {
+          "mInStore": true,
+          "__type": "ItemDataAvailability"
+        },
+        "mItemAttributes": [
+          8
+        ],
+        "LastMajorChangeMajorPatchVersion": 16,
+        "LastMajorChangeMinorPatchVersion": 9,
+        "mItemDataClient": {
+          "mTooltipData": {
+            "mObjectName": "1120",
+            "mFormat": "{32559c50}",
+            "mLocKeys": {
+              "keyName": "Item_1120_Name",
+              "keyBrief": "Item_1120_Brief",
+              "keyTooltip": "Item_1120_Tooltip",
+              "keySecondaryBrief": "Item_Unique_Doran"
+            },
+            "mLists": {
+              "Stats": {
+                "Elements": [
+                  {
+                    "type": "Health",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "Armor",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "MagicResist",
+                    "__type": "TooltipInstanceListElement"
+                  }
+                ],
+                "__type": "TooltipInstanceList"
+              }
+            },
+            "__type": "TooltipInstanceItem"
+          },
+          "mDescription": "GeneratedTip_Item_1120_Description",
+          "mDynamicTooltip": "GeneratedTip_Item_1120_TooltipInventory",
+          "mShopTooltip": "GeneratedTip_Item_1120_TooltipShop",
+          "inventoryIcon": "assets/items/icons2d/1120_dorans_helm.tex",
+          "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/1120_Dorans_Helm_44.png",
+          "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/1120_Dorans_Helm_88.png",
+          "epicness": 0,
+          "__type": "ItemDataClient"
+        },
+        "__type": "ItemData"
+      },
+      "bindings": [
+        {
+          "field": "keyName",
+          "key": "Item_1120_Name",
+          "pointer": "/entries/item_1120_name",
+          "value": "多兰之盔"
+        },
+        {
+          "field": "keyBrief",
+          "key": "Item_1120_Brief",
+          "pointer": "/entries/item_1120_brief",
+          "value": "双抗"
+        },
+        {
+          "field": "keyTooltip",
+          "key": "Item_1120_Tooltip",
+          "pointer": "/entries/item_1120_tooltip",
+          "value": "<passive>帮助之手</passive><br>攻击会对小兵造成<physicalDamage>@BonusDamageToMinions@额外物理伤害</physicalDamage>。"
+        },
+        {
+          "field": "keySecondaryBrief",
+          "key": "Item_Unique_Doran",
+          "pointer": "/entries/item_unique_doran",
+          "value": "唯一：初始装备"
+        }
+      ],
+      "official": {
+        "name": "多兰之盔",
+        "description": "<mainText><stats><attention>150</attention>生命值<br><attention>8</attention>护甲<br><attention>8</attention>魔法抗性</stats><br><br><passive>帮助之手</passive><br>攻击会对小兵造成<physicalDamage>5额外物理伤害</physicalDamage>。</mainText>",
+        "colloq": "",
+        "plaintext": "",
+        "image": {
+          "full": "1120.png",
+          "sprite": "item0.png",
+          "group": "item",
+          "x": 96,
+          "y": 192,
+          "w": 48,
+          "h": 48
+        },
+        "gold": {
+          "base": 450,
+          "purchasable": true,
+          "total": 450,
+          "sell": 180
+        },
+        "tags": [
+          "Health",
+          "SpellBlock",
+          "Armor",
+          "Lane"
+        ],
+        "maps": {
+          "11": true,
+          "12": true,
+          "22": false,
+          "30": false,
+          "453": true
+        },
+        "stats": {
+          "FlatSpellBlockMod": 8,
+          "FlatHPPoolMod": 150,
+          "FlatArmorMod": 8
+        }
+      },
+      "decision": {
+        "status": "范围内直接属性已录；额外效果范围外",
+        "reason": "帮助之手只对小兵造成伤害，不作用于对手英雄。"
+      }
+    },
+    {
+      "id": 3009,
+      "name": "轻灵之靴",
+      "pointer": "/Items~13009",
+      "object": {
+        "mDisplayName": "Item_3009_Name",
+        "itemID": 3009,
+        "maxStack": 1,
+        "mItemGroups": [
+          "Items/ItemGroups/Default",
+          "Items/ItemGroups/Boots",
+          "Items/ItemGroups/BootsWithoutActives"
+        ],
+        "mItemAdviceAttributes": [
+          "{af00f7f5}"
+        ],
+        "price": 700,
+        "mCanBeSold": true,
+        "epicness": 4,
+        "recipeItemLinks": [
+          "Items/1001"
+        ],
+        "mDataValues": [
+          {
+            "mName": "SlowResistTooltip",
+            "mValue": 25,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "FeatsMS",
+            "mValue": 5,
+            "__type": "ItemDataValue"
+          }
+        ],
+        "mPercentSlowResistMod": 0.25,
+        "mFlatMovementSpeedMod": 55,
+        "mCategories": [
+          "Boots"
+        ],
+        "mItemDataAvailability": {
+          "mInStore": true,
+          "__type": "ItemDataAvailability"
+        },
+        "mItemAttributes": [
+          32,
+          2,
+          1
+        ],
+        "mItemDataClient": {
+          "mTooltipData": {
+            "mObjectName": "3009",
+            "mFormat": "{32559c50}",
+            "EnableExtendedTooltip": false,
+            "mLocKeys": {
+              "keyName": "Item_3009_Name",
+              "keyBrief": "Item_3009_Brief",
+              "keyTooltip": "Item_3009_Tooltip",
+              "keyColloquialism": "Item_3009_Colloquialism"
+            },
+            "mLists": {
+              "Stats": {
+                "Elements": [
+                  {
+                    "type": "MoveSpeed",
+                    "__type": "TooltipInstanceListElement"
+                  }
+                ],
+                "__type": "TooltipInstanceList"
+              }
+            },
+            "__type": "TooltipInstanceItem"
+          },
+          "mDescription": "GeneratedTip_Item_3009_Description",
+          "mDynamicTooltip": "GeneratedTip_Item_3009_TooltipInventory",
+          "mShopTooltip": "GeneratedTip_Item_3009_TooltipShop",
+          "inventoryIcon": "assets/items/icons2d/3009_class_t2_bootsofswiftness.dds",
+          "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/3009_Class_T2_BootsofSwiftness.png",
+          "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/3009_Class_T2_BootsofSwiftness.png",
+          "epicness": 4,
+          "__type": "ItemDataClient"
+        },
+        "__type": "ItemData"
+      },
+      "bindings": [
+        {
+          "field": "keyName",
+          "key": "Item_3009_Name",
+          "pointer": "/entries/item_3009_name",
+          "value": "轻灵之靴"
+        },
+        {
+          "field": "keyBrief",
+          "key": "Item_3009_Brief",
+          "pointer": "/entries/item_3009_brief",
+          "value": "战斗机动力"
+        },
+        {
+          "field": "keyTooltip",
+          "key": "Item_3009_Tooltip",
+          "pointer": "/entries/item_3009_tooltip",
+          "value": "<passive>迅捷步</passive><br>将<keyword>减速</keyword>效果的效能降低@SlowResistTooltip@%。"
+        },
+        {
+          "field": "keyColloquialism",
+          "key": "Item_3009_Colloquialism",
+          "pointer": "/entries/item_3009_colloquialism",
+          "value": ";Boots of Swiftness;sansuxie;ssx;qinglingzhixue;qlzx"
+        }
+      ],
+      "official": {
+        "name": "轻灵之靴",
+        "description": "<mainText><stats><attention>55</attention>移动速度</stats><br><br><passive>迅捷步</passive><br>将<keyword>减速</keyword>效果的效能降低25%。</mainText>",
+        "colloq": ";qinglingzhixue;qlzx;Boots of Swiftness",
+        "plaintext": "增强移动速度并抵抗减速效果",
+        "from": [
+          "1001"
+        ],
+        "into": [
+          "3170"
+        ],
+        "image": {
+          "full": "3009.png",
+          "sprite": "item3.png",
+          "group": "item",
+          "x": 96,
+          "y": 96,
+          "w": 48,
+          "h": 48
+        },
+        "gold": {
+          "base": 700,
+          "purchasable": true,
+          "total": 1000,
+          "sell": 700
+        },
+        "tags": [
+          "Boots"
+        ],
+        "maps": {
+          "11": true,
+          "12": true,
+          "22": false,
+          "30": false,
+          "453": true
+        },
+        "stats": {
+          "FlatMovementSpeedMod": 55
+        },
+        "depth": 2
+      },
+      "decision": {
+        "status": "补录常驻直接属性",
+        "reason": "客户端根对象直接给出25%减速抗性；新建属性目录并在现有装备属性中补值，不另建技能或触发规则。"
+      }
+    },
+    {
+      "id": 3046,
+      "name": "幻影之舞",
+      "pointer": "/Items~13046",
+      "object": {
+        "mDisplayName": "Item_3046_Name",
+        "itemID": 3046,
+        "maxStack": 1,
+        "mItemGroups": [
+          "Items/ItemGroups/Default",
+          "{2db003d4}"
+        ],
+        "mItemAdviceAttributes": [
+          "{3868804c}"
+        ],
+        "price": 950,
+        "mItemCalloutSpectator": true,
+        "mCanBeSold": true,
+        "epicness": 5,
+        "recipeItemLinks": [
+          "Items/1042",
+          "Items/3086",
+          "Items/1042"
+        ],
+        "mPercentMovementSpeedMod": 0.10000000149011612,
+        "mFlatCritChanceMod": 0.25,
+        "mPercentAttackSpeedMod": 0.6499999761581421,
+        "mCategories": [
+          "CriticalStrike",
+          "AttackSpeed",
+          "NonbootsMovement"
+        ],
+        "mItemDataAvailability": {
+          "mInStore": true,
+          "__type": "ItemDataAvailability"
+        },
+        "mItemAttributes": [
+          2
+        ],
+        "mItemDataClient": {
+          "mTooltipData": {
+            "mObjectName": "3046",
+            "mFormat": "{32559c50}",
+            "mLocKeys": {
+              "keyName": "Item_3046_Name",
+              "keyBrief": "Item_3046_Brief",
+              "keyTooltip": "Item_3046_Tooltip",
+              "keyColloquialism": "Item_3046_Colloquialism",
+              "keyKeywordDefinitions": "Item_3046_KeywordDefinitions"
+            },
+            "mLists": {
+              "Stats": {
+                "Elements": [
+                  {
+                    "type": "AttackSpeed",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "CritChance",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "MoveSpeedPercent",
+                    "__type": "TooltipInstanceListElement"
+                  }
+                ],
+                "__type": "TooltipInstanceList"
+              }
+            },
+            "__type": "TooltipInstanceItem"
+          },
+          "mDescription": "GeneratedTip_Item_3046_Description",
+          "mDynamicTooltip": "GeneratedTip_Item_3046_TooltipInventory",
+          "mShopTooltip": "GeneratedTip_Item_3046_TooltipShop",
+          "inventoryIcon": "assets/items/icons2d/3046_marksman_t3_phantomdancer.dds",
+          "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/3046_Marksman_T3_PhantomDancer.png",
+          "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/3046_Marksman_T3_PhantomDancer.png",
+          "epicness": 5,
+          "__type": "ItemDataClient"
+        },
+        "mVFXResourceResolver": {
+          "resourceMap": {
+            "{27730094}": "Items/3046/Particles/3046_SpeedBuff_Self",
+            "{9e481c93}": "Items/3046/Particles/3046_AttackBuff_Self"
+          },
+          "__type": "ResourceResolver"
+        },
+        "__type": "ItemData"
+      },
+      "bindings": [
+        {
+          "field": "keyName",
+          "key": "Item_3046_Name",
+          "pointer": "/entries/item_3046_name",
+          "value": "幻影之舞"
+        },
+        {
+          "field": "keyBrief",
+          "key": "Item_3046_Brief",
+          "pointer": "/entries/item_3046_brief",
+          "value": "攻击速度"
+        },
+        {
+          "field": "keyTooltip",
+          "key": "Item_3046_Tooltip",
+          "pointer": "/entries/item_3046_tooltip",
+          "value": "<passive>幽影华尔兹</passive>变为<keyword>幽灵</keyword>状态。"
+        },
+        {
+          "field": "keyColloquialism",
+          "key": "Item_3046_Colloquialism",
+          "pointer": "/entries/item_3046_colloquialism",
+          "value": ";鬼魂;幻影之舞;香蕉;Phantom Dancer;huanyingzhiwu;hyzw;红双刀;hongshuangdao"
+        },
+        {
+          "field": "keyKeywordDefinitions",
+          "key": "Item_3046_KeywordDefinitions",
+          "pointer": "/entries/item_3046_keyworddefinitions",
+          "value": "{{ Item_KeywordDefinition_Ghost }}"
+        }
+      ],
+      "official": {
+        "name": "幻影之舞",
+        "description": "<mainText><stats><attention>65%</attention>攻击速度<br><attention>25%</attention>暴击几率<br><attention>10%</attention>移动速度</stats><br><br><passive>幽影华尔兹</passive>变为<keyword>幽灵</keyword>状态。</mainText>",
+        "colloq": ";鬼魂;幻影之舞;香蕉;Phantom Dancer;huanyingzhiwu;hyzw;红双刀;hongshuangdao",
+        "plaintext": "攻击敌方英雄时移动得更快，并在低血量时提供一层护盾。",
+        "from": [
+          "1042",
+          "3086",
+          "1042"
+        ],
+        "image": {
+          "full": "3046.png",
+          "sprite": "item3.png",
+          "group": "item",
+          "x": 48,
+          "y": 192,
+          "w": 48,
+          "h": 48
+        },
+        "gold": {
+          "base": 950,
+          "purchasable": true,
+          "total": 2650,
+          "sell": 1855
+        },
+        "tags": [
+          "CriticalStrike",
+          "AttackSpeed",
+          "NonbootsMovement"
+        ],
+        "maps": {
+          "11": true,
+          "12": true,
+          "22": false,
+          "30": false,
+          "453": true
+        },
+        "stats": {
+          "FlatCritChanceMod": 0.25,
+          "PercentAttackSpeedMod": 0.65,
+          "PercentMovementSpeedMod": 0.1
+        },
+        "depth": 3
+      },
+      "decision": {
+        "status": "范围内直接属性已录；额外效果范围外",
+        "reason": "幽灵状态当前定义为无视其他单位碰撞体积，属于已排除的纯空间效果。官方简述旧护盾不属于当前绑定说明。"
+      }
+    },
+    {
+      "id": 3085,
+      "name": "卢安娜的飓风",
+      "pointer": "/Items~13085",
+      "object": {
+        "spellName": "AtmasImpalerDummySpell",
+        "mDisplayName": "Item_3085_Name",
+        "mRequiredPurchaseIdentities": [
+          "Ranged"
+        ],
+        "itemID": 3085,
+        "maxStack": 1,
+        "mItemGroups": [
+          "Items/ItemGroups/Default",
+          "{a092a3c9}",
+          "{78ac5965}"
+        ],
+        "mItemAdviceAttributes": [
+          "{3868804c}"
+        ],
+        "price": 850,
+        "mItemCalloutSpectator": true,
+        "mCanBeSold": true,
+        "epicness": 5,
+        "recipeItemLinks": [
+          "Items/3086",
+          "Items/3144"
+        ],
+        "mEffectAmount": [
+          0,
+          40,
+          2,
+          0,
+          40,
+          1
+        ],
+        "mDataValues": [
+          {
+            "mName": "BoltMinPercent",
+            "mValue": 40,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "BoltMaxPercent",
+            "mValue": 40,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "ExtraRangeOnBoltCheck",
+            "mValue": 65,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "OnHitDamage",
+            "__type": "ItemDataValue"
+          }
+        ],
+        "mItemCalculations": {
+          "BoltDamage": {
+            "mFormulaParts": [
+              {
+                "mStat": 2,
+                "mSubpart": {
+                  "mNumber": 0.6499999761581421,
+                  "__type": "NumberCalculationPart"
+                },
+                "__type": "StatBySubPartCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "{232dac8a}": {
+            "mFormulaParts": [
+              {
+                "mNumber": 0.6499999761581421,
+                "__type": "NumberCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "ChampRange": {
+            "mSimpleTooltipCalculationDisplay": 5,
+            "mExpandedTooltipCalculationDisplay": 5,
+            "mDefaultGameCalculation": "{792cf56b}",
+            "mConditionalGameCalculation": "{06387172}",
+            "mConditionalCalculationRequirements": {
+              "__type": "IsRangedCastRequirement"
+            },
+            "__type": "GameCalculationConditional"
+          },
+          "{792cf56b}": {
+            "mFormulaParts": [
+              {
+                "mNumber": 1,
+                "__type": "NumberCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "{06387172}": {
+            "mFormulaParts": [
+              {
+                "mNumber": 2,
+                "__type": "NumberCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          }
+        },
+        "mPercentMovementSpeedMod": 0.05000000074505806,
+        "mFlatCritChanceMod": 0.25,
+        "mPercentAttackSpeedMod": 0.4000000059604645,
+        "mCategories": [
+          "CriticalStrike",
+          "AttackSpeed",
+          "OnHit",
+          "NonbootsMovement"
+        ],
+        "mItemDataAvailability": {
+          "mInStore": true,
+          "__type": "ItemDataAvailability"
+        },
+        "mItemAttributes": [
+          2
+        ],
+        "mItemDataClient": {
+          "mTooltipData": {
+            "mObjectName": "3085",
+            "mFormat": "{32559c50}",
+            "mLocKeys": {
+              "keyName": "Item_3085_Name",
+              "keyBrief": "Item_3085_Brief",
+              "keyTooltip": "Item_3085_Tooltip",
+              "keyShopOnlyText": "Item_3085_ShopOnlyText",
+              "keyTooltipExtendedRules": "Item_3085_TooltipExtendedRules",
+              "keyTooltipExternal": "Item_3085_TooltipExternal"
+            },
+            "mLists": {
+              "Stats": {
+                "Elements": [
+                  {
+                    "type": "AttackSpeed",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "CritChance",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "MoveSpeedPercent",
+                    "__type": "TooltipInstanceListElement"
+                  }
+                ],
+                "__type": "TooltipInstanceList"
+              }
+            },
+            "__type": "TooltipInstanceItem"
+          },
+          "mDescription": "GeneratedTip_Item_3085_Description",
+          "mDynamicTooltip": "GeneratedTip_Item_3085_TooltipInventory",
+          "mShopTooltip": "GeneratedTip_Item_3085_TooltipShop",
+          "inventoryIcon": "assets/items/icons2d/3085_marksman_t3_runaans.dds",
+          "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/3085_Marksman_T3_Runaans.png",
+          "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/3085_Marksman_T3_Runaans.png",
+          "epicness": 5,
+          "__type": "ItemDataClient"
+        },
+        "__type": "ItemData"
+      },
+      "bindings": [
+        {
+          "field": "keyName",
+          "key": "Item_3085_Name",
+          "pointer": "/entries/item_3085_name",
+          "value": "卢安娜的飓风"
+        },
+        {
+          "field": "keyBrief",
+          "key": "Item_3085_Brief",
+          "pointer": "/entries/item_3085_brief",
+          "value": "多重射击"
+        },
+        {
+          "field": "keyTooltip",
+          "key": "Item_3085_Tooltip",
+          "pointer": "/entries/item_3085_tooltip",
+          "value": "<passive>风怒</passive><br>攻击对目标附近的@Effect3Amount@个额外敌人发射弩箭。<br>每根弩箭造成<physicalDamage>@BoltDamage@物理伤害</physicalDamage>并施加{{ Item_Keyword_OnHit }}。"
+        },
+        {
+          "field": "keyShopOnlyText",
+          "key": "Item_3085_ShopOnlyText",
+          "pointer": "/entries/item_3085_shoponlytext",
+          "value": "<rules><font color = '#FF0000'>必须是%i:rangedActive%远程英雄</font></rules>"
+        },
+        {
+          "field": "keyTooltipExtendedRules",
+          "key": "Item_3085_TooltipExtendedRules",
+          "pointer": "/entries/item_3085_tooltipextendedrules",
+          "value": "<rules><passive>风怒</passive>可以<attention>暴击</attention>。</rules>"
+        },
+        {
+          "field": "keyTooltipExternal",
+          "key": "Item_3085_TooltipExternal",
+          "pointer": "/entries/item_3085_tooltipexternal",
+          "value": "<passive>风怒</passive><br>攻击对目标附近的@Effect3Amount@个额外敌人发射弩箭。<br>每根弩箭造成<physicalDamage>物理伤害</physicalDamage>并施加{{ Item_Keyword_OnHit }}。"
+        }
+      ],
+      "official": {
+        "name": "卢安娜的飓风",
+        "description": "<mainText><stats><attention>40%</attention>攻击速度<br><attention>25%</attention>暴击几率<br><attention>5%</attention>移动速度</stats><br><br><passive>风怒</passive><br>攻击对目标附近的2个额外敌人发射弩箭。<br>每根弩箭造成<physicalDamage>物理伤害</physicalDamage>并施加<OnHit>攻击特效</OnHit>。</mainText>",
+        "colloq": ";luannadejufeng;landjf;Runaan's Hurricane",
+        "plaintext": "远程攻击会对目标身边的2个敌人发射弩箭",
+        "from": [
+          "3086",
+          "3144"
+        ],
+        "image": {
+          "full": "3085.png",
+          "sprite": "item3.png",
+          "group": "item",
+          "x": 144,
+          "y": 288,
+          "w": 48,
+          "h": 48
+        },
+        "gold": {
+          "base": 850,
+          "purchasable": true,
+          "total": 2650,
+          "sell": 1855
+        },
+        "tags": [
+          "CriticalStrike",
+          "AttackSpeed",
+          "OnHit",
+          "NonbootsMovement"
+        ],
+        "maps": {
+          "11": true,
+          "12": true,
+          "22": false,
+          "30": false,
+          "453": true
+        },
+        "stats": {
+          "FlatCritChanceMod": 0.25,
+          "PercentAttackSpeedMod": 0.4,
+          "PercentMovementSpeedMod": 0.05
+        },
+        "effect": {
+          "Effect1Amount": "0",
+          "Effect2Amount": "40",
+          "Effect3Amount": "2",
+          "Effect4Amount": "0",
+          "Effect5Amount": "40",
+          "Effect6Amount": "1"
+        },
+        "depth": 3
+      },
+      "decision": {
+        "status": "范围内直接属性已录；额外效果范围外",
+        "reason": "弩箭发向主目标之外的两个额外敌人，本次1V1不把其伤害重复添加到主目标。远程购买限制保留来源，不伪造战斗效果。"
+      }
+    },
+    {
+      "id": 3109,
+      "name": "骑士之誓",
+      "pointer": "/Items~13109",
+      "object": {
+        "spellName": "ItemKnightsVow",
+        "mDisplayName": "Item_3109_Name",
+        "itemID": 3109,
+        "maxStack": 1,
+        "mItemGroups": [
+          "Items/ItemGroups/Default",
+          "{193d883a}"
+        ],
+        "mItemAdviceAttributes": [
+          "{dfe0e8e4}"
+        ],
+        "price": 400,
+        "clickable": true,
+        "mItemCalloutSpectator": true,
+        "ShowCooldownVfxToAllies": false,
+        "mCanBeSold": true,
+        "epicness": 5,
+        "recipeItemLinks": [
+          "Items/3067",
+          "Items/1031",
+          "Items/1006"
+        ],
+        "mScripts": [
+          "3109"
+        ],
+        "mEffectAmount": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "mDataValues": [
+          {
+            "mName": "DamageRedirection",
+            "mValue": 0.14000000059604645,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "DamageRedirectionThreshold",
+            "mValue": 0.30000001192092896,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "TetherRange",
+            "mValue": 1250,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "AllyHealingConversion",
+            "mValue": 0.11999999731779099,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "Cooldown",
+            "mValue": 60,
+            "__type": "ItemDataValue"
+          }
+        ],
+        "mAbilityHasteMod": 10,
+        "mFlatHPPoolMod": 200,
+        "mPercentBaseHPRegenMod": 1,
+        "mFlatArmorMod": 40,
+        "mCategories": [
+          "Health",
+          "HealthRegen",
+          "Armor",
+          "Aura",
+          "Active",
+          "CooldownReduction",
+          "AbilityHaste"
+        ],
+        "mItemDataAvailability": {
+          "mInStore": true,
+          "__type": "ItemDataAvailability"
+        },
+        "mItemAttributes": [
+          32,
+          8
+        ],
+        "mItemDataClient": {
+          "mTooltipData": {
+            "mObjectName": "3109",
+            "mFormat": "{32559c50}",
+            "EnableExtendedTooltip": false,
+            "mLocKeys": {
+              "keyName": "Item_3109_Name",
+              "keyBrief": "Item_3109_Brief",
+              "keyActive": "Item_3109_Active",
+              "keyTooltip": "Item_3109_Tooltip",
+              "keyColloquialism": "Item_3109_Colloquialism",
+              "keyInventoryOnlyText": "Item_3109_InventoryOnlyText"
+            },
+            "mLists": {
+              "Stats": {
+                "Elements": [
+                  {
+                    "type": "Health",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "Armor",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "AbilityHaste",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "BaseHealthRegen",
+                    "__type": "TooltipInstanceListElement"
+                  }
+                ],
+                "__type": "TooltipInstanceList"
+              }
+            },
+            "__type": "TooltipInstanceItem"
+          },
+          "mDescription": "GeneratedTip_Item_3109_Description",
+          "mDynamicTooltip": "GeneratedTip_Item_3109_TooltipInventory",
+          "mShopTooltip": "GeneratedTip_Item_3109_TooltipShop",
+          "inventoryIcon": "assets/items/icons2d/3109_tank_t3_knightsvow.dds",
+          "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/3109_Tank_T3_KnightsVow.png",
+          "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/3109_Tank_T3_KnightsVow.png",
+          "epicness": 5,
+          "__type": "ItemDataClient"
+        },
+        "mVFXResourceResolver": {
+          "resourceMap": {
+            "{6d559275}": "Items/3109/Particles/3109_Jump_Indicator_Beam",
+            "{d3968606}": "Items/3109/Particles/3109_Crown",
+            "{cf2b213f}": "Items/3109/Particles/3109_Link",
+            "{9d52dfc2}": "Items/3109/Particles/3109_BrokenLink",
+            "{c80c3cb2}": "Items/3109/Particles/3109_Shield",
+            "{bf92d9d6}": "Items/3109/Particles/3109_empower_buff"
+          },
+          "__type": "ResourceResolver"
+        },
+        "__type": "ItemData"
+      },
+      "bindings": [
+        {
+          "field": "keyName",
+          "key": "Item_3109_Name",
+          "pointer": "/entries/item_3109_name",
+          "value": "骑士之誓"
+        },
+        {
+          "field": "keyBrief",
+          "key": "Item_3109_Brief",
+          "pointer": "/entries/item_3109_brief",
+          "value": "保护友军"
+        },
+        {
+          "field": "keyActive",
+          "key": "Item_3109_Active",
+          "pointer": "/entries/item_3109_active",
+          "value": "%i:activeEffect% <active>立誓</active>{{ Item_Cooldown }}<br>指定一名友方英雄作为你的<attention>誓约者</attention>。"
+        },
+        {
+          "field": "keyTooltip",
+          "key": "Item_3109_Tooltip",
+          "pointer": "/entries/item_3109_tooltip",
+          "value": "<passive>牺牲</passive><br>当你的<attention>誓约者</attention>在附近时，将其所受的@DamageRedirection*100@%伤害转移到你身上，并为你提供相当于其对英雄的@AllyHealingConversion*100@%已造成伤害值的<healing>治疗效果</healing>。"
+        },
+        {
+          "field": "keyColloquialism",
+          "key": "Item_3109_Colloquialism",
+          "pointer": "/entries/item_3109_colloquialism",
+          "value": ";Knight's Vow;qishizhishi;qszs"
+        },
+        {
+          "field": "keyInventoryOnlyText",
+          "key": "Item_3109_InventoryOnlyText",
+          "pointer": "/entries/item_3109_inventoryonlytext",
+          "value": "已转移的伤害：<attention>@f1@</attention><br>已接受的治疗效果：<attention>@f3@</attention><br>"
+        }
+      ],
+      "official": {
+        "name": "骑士之誓",
+        "description": "<mainText><stats><attention>200</attention>生命值<br><attention>40</attention>护甲<br><attention>10</attention>技能急速<br><attention>100%</attention>基础生命回复</stats><br><br><passive>牺牲</passive><br>当你的<attention>誓约者</attention>在附近时，将其所受的14%伤害转移到你身上，并为你提供相当于其对英雄的12%已造成伤害值的<healing>治疗效果</healing>。<active>立誓</active>(0秒)<br>指定一名友方英雄作为你的<attention>誓约者</attention>。</mainText>",
+        "colloq": ";Knight's Vow",
+        "plaintext": "与一名友方英雄搭档来保护彼此",
+        "from": [
+          "3067",
+          "1031",
+          "1006"
+        ],
+        "image": {
+          "full": "3109.png",
+          "sprite": "item3.png",
+          "group": "item",
+          "x": 240,
+          "y": 336,
+          "w": 48,
+          "h": 48
+        },
+        "gold": {
+          "base": 400,
+          "purchasable": true,
+          "total": 2300,
+          "sell": 1610
+        },
+        "tags": [
+          "Health",
+          "HealthRegen",
+          "Armor",
+          "Aura",
+          "Active",
+          "CooldownReduction",
+          "AbilityHaste"
+        ],
+        "maps": {
+          "11": true,
+          "12": true,
+          "22": false,
+          "30": false,
+          "453": true
+        },
+        "stats": {
+          "FlatHPPoolMod": 200,
+          "FlatArmorMod": 40
+        },
+        "depth": 3
+      },
+      "decision": {
+        "status": "范围内直接属性已录；额外效果范围外",
+        "reason": "主动要求绑定另一名友方英雄；自身治疗读取该队友对英雄的伤害，伤害转移读取该队友所受伤害，均无独立的本体1V1触发。保留自身直接属性。"
+      }
+    }
+  ],
+  "indirectDefinition": {
+    "pointer": "/entries/item_keyworddefinition_ghost",
+    "value": "<keyword>幽灵</keyword>：无视其它单位的碰撞体积。"
+  },
+  "scopeRule": "只有交战双方；不会因为文字出现自身治疗就忽略必需的第三方队友依赖。已有业务数据不因排除自动删除。",
+  "passed": true
+}

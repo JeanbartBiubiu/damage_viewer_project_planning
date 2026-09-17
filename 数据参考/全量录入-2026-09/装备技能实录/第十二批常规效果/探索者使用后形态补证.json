@@ -1,0 +1,136 @@
+{
+  "at": "2026-09-08T15:15:49.635Z",
+  "clientVersion": "16.17",
+  "officialVersion": "16.17.1",
+  "clientSha256": "b59ec9320d05acefa344ea8a5ef615cf7f32959078475cafff63833462dc358f",
+  "transition": {
+    "path": "{e246dfd1}",
+    "object": {
+      "mItemModifierID": "{a0be64e2}",
+      "mModifiedGroup": "Items/ItemGroups/BuildsFromStopwatchGroup",
+      "{06d9d838}": "Items/2420",
+      "{917537a9}": "Items/2421",
+      "__type": "ItemModifier"
+    }
+  },
+  "usedItem": {
+    "path": "Items/2421",
+    "object": {
+      "mDisplayName": "Item_2421_Name",
+      "itemID": 2421,
+      "maxStack": 1,
+      "mItemGroups": [
+        "Items/ItemGroups/Default",
+        "Items/ItemGroups/StopwatchGroup"
+      ],
+      "price": 500,
+      "mRequiredBuffCurrencyName": "Item2420",
+      "mCanBeSold": true,
+      "recipeItemLinks": [
+        "Items/1052",
+        "Items/1029",
+        "Items/1052"
+      ],
+      "mItemModifiers": [
+        "{e246dfd1}"
+      ],
+      "mFlatArmorMod": 25,
+      "mFlatMagicDamageMod": 40,
+      "sellBackModifier": 0.4000000059604645,
+      "mItemDataBuild": {
+        "itemLinks": [
+          "Items/3157"
+        ],
+        "__type": "ItemDataBuild"
+      },
+      "mItemDataAvailability": {
+        "mInStore": true,
+        "mForceLoad": true,
+        "mHidefromAll": true,
+        "__type": "ItemDataAvailability"
+      },
+      "mItemAttributes": [
+        1
+      ],
+      "mItemDataClient": {
+        "mTooltipData": {
+          "mObjectName": "2421",
+          "mFormat": "{32559c50}",
+          "mLocKeys": {
+            "keyName": "Item_2421_Name",
+            "keyTooltip": "Item_2421_Tooltip",
+            "keyFlavorText": "Item_2421_FlavorText"
+          },
+          "mLists": {
+            "Stats": {
+              "Elements": [
+                {
+                  "type": "AbilityPower",
+                  "__type": "TooltipInstanceListElement"
+                },
+                {
+                  "type": "Armor",
+                  "__type": "TooltipInstanceListElement"
+                }
+              ],
+              "__type": "TooltipInstanceList"
+            }
+          },
+          "__type": "TooltipInstanceItem"
+        },
+        "mDescription": "GeneratedTip_Item_2421_Description",
+        "mDynamicTooltip": "GeneratedTip_Item_2421_TooltipInventory",
+        "mShopTooltip": "GeneratedTip_Item_2421_TooltipShop",
+        "inventoryIcon": "assets/items/icons2d/2420_shatteredarmguard.dds",
+        "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/2420_ShatteredArmguard44.png",
+        "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/2420_ShatteredArmguard88.png",
+        "__type": "ItemDataClient"
+      },
+      "__type": "ItemData"
+    }
+  },
+  "official": {
+    "name": "碎裂的护臂",
+    "description": "<mainText><stats><attention>40</attention>法术强度<br><attention>25</attention>护甲</stats><br><br><passive>支离破碎的时间</passive><br>【护臂】目前是破碎状态，但仍然可以用于升级。<br><br><rules>在打破一个【护臂】后，商店主人就只会卖给你<rarityGeneric>碎裂的护臂</rarityGeneric>了。</rules><br><br></mainText>",
+    "colloq": ";Shattered Armguard",
+    "plaintext": "升级为秒表",
+    "from": [
+      "1052",
+      "1029",
+      "1052"
+    ],
+    "hideFromAll": true,
+    "into": [
+      "3157"
+    ],
+    "image": {
+      "full": "2421.png",
+      "sprite": "item2.png",
+      "group": "item",
+      "x": 384,
+      "y": 432,
+      "w": 48,
+      "h": 48
+    },
+    "gold": {
+      "base": 500,
+      "purchasable": true,
+      "total": 1600,
+      "sell": 640
+    },
+    "tags": [],
+    "maps": {
+      "11": true,
+      "12": true,
+      "22": false,
+      "30": false,
+      "453": true
+    },
+    "stats": {
+      "FlatMagicDamageMod": 40,
+      "FlatArmorMod": 25
+    },
+    "depth": 2
+  },
+  "conclusion": "本次来源已确认2420使用后对应2421；官方2421文本确认护臂破碎后商店只出售碎裂的护臂，且仍可用于升级。非商店方式重新获得装备实例时的使用次数规则仍未据此确定。"
+}

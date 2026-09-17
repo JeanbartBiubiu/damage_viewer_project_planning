@@ -1,0 +1,2231 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-13T10:03:40.699Z",
+  "status": "PASS",
+  "methodPolicy": "GET_ONLY",
+  "authorizationValueRecorded": false,
+  "businessWrites": 0,
+  "getCount": 209,
+  "statusCounts": {
+    "200": 209
+  },
+  "source": {
+    "version": "16.17.1",
+    "inventorySha256": "fa24d0ef27877f91867fb6f80171e16373961bba8a4831f1eb37eee86a04f3ee",
+    "mechanismSha256": "419c74a3a22f88f7be5d6499f788914d838712c2c95c61012f168cca9878668b",
+    "finalCoverageSha256": "7f9f0a12f938baa2e1160de04a62c64b5fe63adb405563e4d04761420024c1e3",
+    "firstShardCandidateSha256": "0536707d23a90f95f3affe07f85b000c86f1b33cfe867d4600f4957059298177",
+    "lastShardCandidateSha256": "c4da75bce82f5312a7ba62e94f669daaa9212f649a0758683f3352ac6bfac259"
+  },
+  "current": {
+    "runeCount": 69,
+    "skillCount": 1062,
+    "mountedRuneSkills": 60,
+    "explicitExclusions": 9,
+    "runeImages": 69,
+    "skillImages": 60,
+    "completeStaticShardDetails": 9
+  },
+  "expectedDistribution": {
+    "已录入": 3,
+    "明确排除": 9,
+    "资料待核": 34,
+    "系统暂缓": 23
+  },
+  "priorFailedReadOnlyAttempt": {
+    "outcome": "在图片键同名假设处停止；未生成证据文件",
+    "correction": "改为核对符文与其技能复用同一张启用图片，不要求图片资源键等于符文键",
+    "businessWrites": 0,
+    "evidenceFileWritten": false,
+    "exactCompletedGetCountRecorded": false
+  },
+  "mappings": [
+    {
+      "runeId": 5001,
+      "runeKey": "rune_5001",
+      "name": "成长生命值",
+      "category": "SHARD",
+      "sourceKind": "shard",
+      "current": {
+        "name": "成长生命值",
+        "category": "SHARD"
+      },
+      "relation": {
+        "skillKey": "rune_5001_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_5001",
+        "skill": "rune_5001"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [
+          "仅有10和180端点，缺少1至18级求值、取整和断点算法。"
+        ],
+        "systemPending": [
+          "属性碎片选择、应用和等级刷新尚未接入。"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "仅有10和180端点，缺少1至18级求值、取整和断点算法。",
+          "属性碎片选择、应用和等级刷新尚未接入。"
+        ]
+      }
+    },
+    {
+      "runeId": 5005,
+      "runeKey": "rune_5005",
+      "name": "攻击速度",
+      "category": "SHARD",
+      "sourceKind": "shard",
+      "current": {
+        "name": "攻击速度",
+        "category": "SHARD"
+      },
+      "relation": {
+        "skillKey": "rune_5005_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_5005",
+        "skill": "rune_5005"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [],
+        "systemPending": [],
+        "configurationComplete": true,
+        "samples": [
+          "固定自身属性已保存、独立回读并完成代表页面核对"
+        ]
+      }
+    },
+    {
+      "runeId": 5007,
+      "runeKey": "rune_5007",
+      "name": "技能急速",
+      "category": "SHARD",
+      "sourceKind": "shard",
+      "current": {
+        "name": "技能急速",
+        "category": "SHARD"
+      },
+      "relation": {
+        "skillKey": "rune_5007_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_5007",
+        "skill": "rune_5007"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [],
+        "systemPending": [],
+        "configurationComplete": true,
+        "samples": [
+          "固定自身属性已保存、独立回读并完成代表页面核对"
+        ]
+      }
+    },
+    {
+      "runeId": 5008,
+      "runeKey": "rune_5008",
+      "name": "适应之力",
+      "category": "SHARD",
+      "sourceKind": "shard",
+      "current": {
+        "name": "适应之力",
+        "category": "SHARD"
+      },
+      "relation": {
+        "skillKey": "rune_5008_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_5008",
+        "skill": "rune_5008"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [
+          "适应之力到攻击力或法术强度的选择和换算身份未由当前对象独立证明。"
+        ],
+        "systemPending": [
+          "属性碎片选择、叠加和对伤害/法强的应用尚未接入。"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "适应之力到攻击力或法术强度的选择和换算身份未由当前对象独立证明。",
+          "属性碎片选择、叠加和对伤害/法强的应用尚未接入。"
+        ]
+      }
+    },
+    {
+      "runeId": 5010,
+      "runeKey": "rune_5010",
+      "name": "移动速度",
+      "category": "SHARD",
+      "sourceKind": "shard",
+      "current": {
+        "name": "移动速度",
+        "category": "SHARD"
+      },
+      "relation": {
+        "skillKey": "rune_5010_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_5010",
+        "skill": "rune_5010"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [],
+        "systemPending": [
+          "固定参数已保存，但持续属性效果、选择应用或多来源组合尚未完成"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "当前只保存参数，不能当作完整常驻属性机制"
+        ]
+      }
+    },
+    {
+      "runeId": 5011,
+      "runeKey": "rune_5011",
+      "name": "生命值",
+      "category": "SHARD",
+      "sourceKind": "shard",
+      "current": {
+        "name": "生命值",
+        "category": "SHARD"
+      },
+      "relation": {
+        "skillKey": "rune_5011_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_5011",
+        "skill": "rune_5011"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [],
+        "systemPending": [],
+        "configurationComplete": true,
+        "samples": [
+          "固定自身属性已保存、独立回读并完成代表页面核对"
+        ]
+      }
+    },
+    {
+      "runeId": 5013,
+      "runeKey": "rune_5013",
+      "name": "韧性和减速抗性",
+      "category": "SHARD",
+      "sourceKind": "shard",
+      "current": {
+        "name": "韧性和减速抗性",
+        "category": "SHARD"
+      },
+      "relation": {
+        "skillKey": "rune_5013_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_5013",
+        "skill": "rune_5013"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [],
+        "systemPending": [
+          "固定参数已保存，但持续属性效果、选择应用或多来源组合尚未完成"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "当前只保存参数，不能当作完整常驻属性机制"
+        ]
+      }
+    },
+    {
+      "runeId": 8005,
+      "runeKey": "rune_8005",
+      "name": "强攻",
+      "category": "KEYSTONE",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "强攻",
+        "category": "KEYSTONE"
+      },
+      "relation": {
+        "skillKey": "rune_8005_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "image_bba88a8f-14ef-492a-a6ef-44c6e8be886f",
+        "skill": "image_bba88a8f-14ef-492a-a6ef-44c6e8be886f"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [
+          "40–160基础伤害等级值及适应选择"
+        ],
+        "systemPending": [
+          "基础伤害等级表与自适应类型；换目标/重置规则；战斗退出事件；伤害合法乘区"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "40–160基础伤害等级值及适应选择",
+          "基础伤害等级表与自适应类型；换目标/重置规则；战斗退出事件；伤害合法乘区"
+        ]
+      }
+    },
+    {
+      "runeId": 8008,
+      "runeKey": "rune_8008",
+      "name": "致命节奏",
+      "category": "KEYSTONE",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "致命节奏",
+        "category": "KEYSTONE"
+      },
+      "relation": {
+        "skillKey": "rune_8008_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_8008",
+        "skill": "rune_8008"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [
+          "两类基础伤害等级值及适应选择"
+        ],
+        "systemPending": [
+          "两套等级曲线；近远程分类；自适应选择；触发/刷新与达到满层的本次攻击是否带特效"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "两类基础伤害等级值及适应选择",
+          "两套等级曲线；近远程分类；自适应选择；触发/刷新与达到满层的本次攻击是否带特效"
+        ]
+      }
+    },
+    {
+      "runeId": 8009,
+      "runeKey": "rune_8009",
+      "name": "气定神闲",
+      "category": "MINOR",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "气定神闲",
+        "category": "MINOR"
+      },
+      "relation": {
+        "skillKey": "rune_8009_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_8009",
+        "skill": "rune_8009"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [
+          "6–50法力恢复等级值"
+        ],
+        "systemPending": [
+          "法力等级曲线；法力/能量角色资源选择；远程分类；参与击杀和每次伤害去重"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "6–50法力恢复等级值",
+          "法力等级曲线；法力/能量角色资源选择；远程分类；参与击杀和每次伤害去重"
+        ]
+      }
+    },
+    {
+      "runeId": 8010,
+      "runeKey": "rune_8010",
+      "name": "征服者",
+      "category": "KEYSTONE",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "征服者",
+        "category": "KEYSTONE"
+      },
+      "relation": {
+        "skillKey": "rune_8010_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_8010",
+        "skill": "rune_8010"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [
+          "1.8–4每层适应值的等级曲线与转换"
+        ],
+        "systemPending": [
+          "适应等级曲线与转换；每施法/持续伤害叠层去重；治疗取哪一伤害阶段；近远程条件"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "1.8–4每层适应值的等级曲线与转换",
+          "适应等级曲线与转换；每施法/持续伤害叠层去重；治疗取哪一伤害阶段；近远程条件"
+        ]
+      }
+    },
+    {
+      "runeId": 8014,
+      "runeKey": "rune_8014",
+      "name": "致命一击",
+      "category": "MINOR",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "致命一击",
+        "category": "MINOR"
+      },
+      "relation": {
+        "skillKey": "rune_8014_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_8014",
+        "skill": "rune_8014"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [],
+        "systemPending": [
+          "伤害乘区/伤害包范围，伤害前还是事件后目标生命采样"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "伤害乘区/伤害包范围，伤害前还是事件后目标生命采样"
+        ]
+      }
+    },
+    {
+      "runeId": 8017,
+      "runeKey": "rune_8017",
+      "name": "砍倒",
+      "category": "MINOR",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "砍倒",
+        "category": "MINOR"
+      },
+      "relation": {
+        "skillKey": "rune_8017_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_8017",
+        "skill": "rune_8017"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [],
+        "systemPending": [
+          "伤害乘区及目标生命采样时点；不采用旧版最大生命差公式"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "伤害乘区及目标生命采样时点；不采用旧版最大生命差公式"
+        ]
+      }
+    },
+    {
+      "runeId": 8021,
+      "runeKey": "rune_8021",
+      "name": "迅捷步法",
+      "category": "KEYSTONE",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "迅捷步法",
+        "category": "KEYSTONE"
+      },
+      "relation": {
+        "skillKey": "rune_8021_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_8021",
+        "skill": "rune_8021"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [
+          "15–160治疗等级值、攻击/移动充能权重"
+        ],
+        "systemPending": [
+          "移动/攻击充能权重；治疗等级表；近远程分类；移速组合和充能消费时点"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "15–160治疗等级值、攻击/移动充能权重",
+          "移动/攻击充能权重；治疗等级表；近远程分类；移速组合和充能消费时点"
+        ]
+      }
+    },
+    {
+      "runeId": 8105,
+      "runeKey": "rune_8105",
+      "name": "无情猎手",
+      "category": "MINOR",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "无情猎手",
+        "category": "MINOR"
+      },
+      "relation": {
+        "skillKey": "rune_8105_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_8105",
+        "skill": "rune_8105"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [],
+        "systemPending": [
+          "非战斗状态进入退出定义；独特英雄去重；合法层数来源；上限不由团队人数硬猜"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "非战斗状态进入退出定义；独特英雄去重；合法层数来源；上限不由团队人数硬猜"
+        ]
+      }
+    },
+    {
+      "runeId": 8106,
+      "runeKey": "rune_8106",
+      "name": "终极猎人",
+      "category": "MINOR",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "终极猎人",
+        "category": "MINOR"
+      },
+      "relation": {
+        "skillKey": "rune_8106_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_8106",
+        "skill": "rune_8106"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [],
+        "systemPending": [
+          "终极技能键集合逐项引用；独特英雄层数来源及更新；不能用全技能急速替代"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "终极技能键集合逐项引用；独特英雄层数来源及更新；不能用全技能急速替代"
+        ]
+      }
+    },
+    {
+      "runeId": 8112,
+      "runeKey": "rune_8112",
+      "name": "电刑",
+      "category": "KEYSTONE",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "电刑",
+        "category": "KEYSTONE"
+      },
+      "relation": {
+        "skillKey": "rune_8112_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_8112",
+        "skill": "rune_8112"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [
+          "70–240基础伤害的完整等级值"
+        ],
+        "systemPending": [
+          "基础伤害逐等级值；自适应伤害选择规则；独立施法/攻击去重及持续伤害是否计数"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "70–240基础伤害的完整等级值",
+          "基础伤害逐等级值；自适应伤害选择规则；独立施法/攻击去重及持续伤害是否计数"
+        ]
+      }
+    },
+    {
+      "runeId": 8126,
+      "runeKey": "rune_8126",
+      "name": "恶意中伤",
+      "category": "MINOR",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "恶意中伤",
+        "category": "MINOR"
+      },
+      "relation": {
+        "skillKey": "rune_8126_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_8126",
+        "skill": "rune_8126"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [
+          "10–45真实伤害等级值"
+        ],
+        "systemPending": [
+          "逐等级伤害；合法受损状态全集与施加/命中顺序；当前状态目录仅眩晕不能替代全部受损"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "10–45真实伤害等级值",
+          "逐等级伤害；合法受损状态全集与施加/命中顺序；当前状态目录仅眩晕不能替代全部受损"
+        ]
+      }
+    },
+    {
+      "runeId": 8128,
+      "runeKey": "rune_8128",
+      "name": "黑暗收割",
+      "category": "KEYSTONE",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "黑暗收割",
+        "category": "KEYSTONE"
+      },
+      "relation": {
+        "skillKey": "rune_8128_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_8128",
+        "skill": "rune_8128"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [],
+        "systemPending": [
+          "自适应类型；灵魂在本次伤害前还是后增加；参与击杀事件与防重复触发；运行输入灵魂数的来源"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "自适应类型；灵魂在本次伤害前还是后增加；参与击杀事件与防重复触发；运行输入灵魂数的来源"
+        ]
+      }
+    },
+    {
+      "runeId": 8135,
+      "runeKey": "rune_8135",
+      "name": "寻宝猎人",
+      "category": "MINOR",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "寻宝猎人",
+        "category": "MINOR"
+      },
+      "relation": null,
+      "images": {
+        "rune": "rune_8135",
+        "skill": null
+      },
+      "basis": {
+        "explicitScopeExclusion": true,
+        "sourcePending": [],
+        "systemPending": [],
+        "configurationComplete": false,
+        "samples": []
+      }
+    },
+    {
+      "runeId": 8137,
+      "runeKey": "rune_8137",
+      "name": "第六感",
+      "category": "MINOR",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "第六感",
+        "category": "MINOR"
+      },
+      "relation": null,
+      "images": {
+        "rune": "rune_8137",
+        "skill": null
+      },
+      "basis": {
+        "explicitScopeExclusion": true,
+        "sourcePending": [],
+        "systemPending": [],
+        "configurationComplete": false,
+        "samples": []
+      }
+    },
+    {
+      "runeId": 8139,
+      "runeKey": "rune_8139",
+      "name": "血之滋味",
+      "category": "MINOR",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "血之滋味",
+        "category": "MINOR"
+      },
+      "relation": {
+        "skillKey": "rune_8139_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_8139",
+        "skill": "rune_8139"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [
+          "16–40治疗等级值"
+        ],
+        "systemPending": [
+          "治疗等级曲线；伤害来源过滤和触发去重"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "16–40治疗等级值",
+          "治疗等级曲线；伤害来源过滤和触发去重"
+        ]
+      }
+    },
+    {
+      "runeId": 8140,
+      "runeKey": "rune_8140",
+      "name": "可怖纪念品",
+      "category": "MINOR",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "可怖纪念品",
+        "category": "MINOR"
+      },
+      "relation": null,
+      "images": {
+        "rune": "rune_8140",
+        "skill": null
+      },
+      "basis": {
+        "explicitScopeExclusion": true,
+        "sourcePending": [
+          "纪念品与替代召唤师技能急速3的精确计量关系"
+        ],
+        "systemPending": [
+          "适用模式事实；数字3与层数的精确组合表达；召唤师技能集合和冷却作用身份；参与击杀事件"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "纪念品与替代召唤师技能急速3的精确计量关系",
+          "适用模式事实；数字3与层数的精确组合表达；召唤师技能集合和冷却作用身份；参与击杀事件"
+        ]
+      }
+    },
+    {
+      "runeId": 8141,
+      "runeKey": "rune_8141",
+      "name": "深入守卫",
+      "category": "MINOR",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "深入守卫",
+        "category": "MINOR"
+      },
+      "relation": null,
+      "images": {
+        "rune": "rune_8141",
+        "skill": null
+      },
+      "basis": {
+        "explicitScopeExclusion": true,
+        "sourcePending": [],
+        "systemPending": [],
+        "configurationComplete": false,
+        "samples": []
+      }
+    },
+    {
+      "runeId": 8143,
+      "runeKey": "rune_8143",
+      "name": "猛然冲击",
+      "category": "MINOR",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "猛然冲击",
+        "category": "MINOR"
+      },
+      "relation": {
+        "skillKey": "rune_8143_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_8143",
+        "skill": "rune_8143"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [
+          "20–80真实伤害等级值"
+        ],
+        "systemPending": [
+          "逐等级伤害；离开潜行及传送等事件；位移分类不等于完整触发类型"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "20–80真实伤害等级值",
+          "逐等级伤害；离开潜行及传送等事件；位移分类不等于完整触发类型"
+        ]
+      }
+    },
+    {
+      "runeId": 8210,
+      "runeKey": "rune_8210",
+      "name": "超然",
+      "category": "MINOR",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "超然",
+        "category": "MINOR"
+      },
+      "relation": {
+        "skillKey": "rune_8210_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_8210",
+        "skill": "rune_8210"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [],
+        "systemPending": [
+          "等级变动重读；基础技能范围；每个基础技能当前剩余冷却输入；参与击杀事件"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "等级变动重读；基础技能范围；每个基础技能当前剩余冷却输入；参与击杀事件"
+        ]
+      }
+    },
+    {
+      "runeId": 8214,
+      "runeKey": "rune_8214",
+      "name": "召唤：艾黎",
+      "category": "KEYSTONE",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "召唤：艾黎",
+        "category": "KEYSTONE"
+      },
+      "relation": {
+        "skillKey": "rune_8214_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_8214",
+        "skill": "rune_8214"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [
+          "10–50伤害等级值、自适应选择和飞行/返回时机"
+        ],
+        "systemPending": [
+          "逐等级伤害和适应类型；飞行/返回时机及已返回事件；不能用随意固定冷却替代返回等待"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "10–50伤害等级值、自适应选择和飞行/返回时机",
+          "逐等级伤害和适应类型；飞行/返回时机及已返回事件；不能用随意固定冷却替代返回等待"
+        ]
+      }
+    },
+    {
+      "runeId": 8224,
+      "runeKey": "rune_8224",
+      "name": "公理秘术",
+      "category": "MINOR",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "公理秘术",
+        "category": "MINOR"
+      },
+      "relation": {
+        "skillKey": "rune_8224_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_8224",
+        "skill": "rune_8224"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [],
+        "systemPending": [
+          "终极/群体键集合；伤害和治疗乘区；护盾增强方向；现有公式无法直接读取任意技能当前冷却百分比；参与击杀事件"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "终极/群体键集合；伤害和治疗乘区；护盾增强方向；现有公式无法直接读取任意技能当前冷却百分比；参与击杀事件"
+        ]
+      }
+    },
+    {
+      "runeId": 8226,
+      "runeKey": "rune_8226",
+      "name": "法力流系带",
+      "category": "MINOR",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "法力流系带",
+        "category": "MINOR"
+      },
+      "relation": {
+        "skillKey": "rune_8226_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_8226",
+        "skill": "rune_8226"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [],
+        "systemPending": [
+          "命中有效性与逐施法去重；永久累计状态来源；满层首跳时点和移除恢复规则"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "命中有效性与逐施法去重；永久累计状态来源；满层首跳时点和移除恢复规则"
+        ]
+      }
+    },
+    {
+      "runeId": 8229,
+      "runeKey": "rune_8229",
+      "name": "奥术彗星",
+      "category": "KEYSTONE",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "奥术彗星",
+        "category": "KEYSTONE"
+      },
+      "relation": {
+        "skillKey": "rune_8229_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_8229",
+        "skill": "rune_8229"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [
+          "15–100伤害、20–8秒冷却和距离增幅曲线"
+        ],
+        "systemPending": [
+          "伤害与冷却等级曲线；距离函数和距离采样时点；落点命中、弹道等待；适应类型"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "15–100伤害、20–8秒冷却和距离增幅曲线",
+          "伤害与冷却等级曲线；距离函数和距离采样时点；落点命中、弹道等待；适应类型"
+        ]
+      }
+    },
+    {
+      "runeId": 8230,
+      "runeKey": "rune_8230",
+      "name": "风暴掠袭者的狂涌",
+      "category": "KEYSTONE",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "风暴掠袭者的狂涌",
+        "category": "KEYSTONE"
+      },
+      "relation": {
+        "skillKey": "rune_8230_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_8230",
+        "skill": "rune_8230"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [
+          "20–10秒冷却等级值"
+        ],
+        "systemPending": [
+          "冷却曲线；窗口伤害累计和采样阶段；目标最大生命取值；移速/减速抗性组合"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "20–10秒冷却等级值",
+          "冷却曲线；窗口伤害累计和采样阶段；目标最大生命取值；移速/减速抗性组合"
+        ]
+      }
+    },
+    {
+      "runeId": 8232,
+      "runeKey": "rune_8232",
+      "name": "水上行走",
+      "category": "MINOR",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "水上行走",
+        "category": "MINOR"
+      },
+      "relation": {
+        "skillKey": "rune_8232_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_8232",
+        "skill": "rune_8232"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [
+          "13–30适应之力等级曲线和转换"
+        ],
+        "systemPending": [
+          "河道条件输入；适应曲线/转换；不在全地图无条件授予"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "13–30适应之力等级曲线和转换",
+          "河道条件输入；适应曲线/转换；不在全地图无条件授予"
+        ]
+      }
+    },
+    {
+      "runeId": 8233,
+      "runeKey": "rune_8233",
+      "name": "绝对专注",
+      "category": "MINOR",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "绝对专注",
+        "category": "MINOR"
+      },
+      "relation": {
+        "skillKey": "rune_8233_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_8233",
+        "skill": "rune_8233"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [
+          "完整等级属性曲线和适应选择"
+        ],
+        "systemPending": [
+          "两属性整等级曲线与适应选择；血量状态刷新；不能按端点线性插值"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "完整等级属性曲线和适应选择",
+          "两属性整等级曲线与适应选择；血量状态刷新；不能按端点线性插值"
+        ]
+      }
+    },
+    {
+      "runeId": 8234,
+      "runeKey": "rune_8234",
+      "name": "迅捷",
+      "category": "MINOR",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "迅捷",
+        "category": "MINOR"
+      },
+      "relation": {
+        "skillKey": "rune_8234_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_8234",
+        "skill": "rune_8234"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [],
+        "systemPending": [
+          "何为移动加成基数、哪些来源受增幅及组合顺序；不能直接把当前总移速乘1.07"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "何为移动加成基数、哪些来源受增幅及组合顺序；不能直接把当前总移速乘1.07"
+        ]
+      }
+    },
+    {
+      "runeId": 8236,
+      "runeKey": "rune_8236",
+      "name": "风暴聚集",
+      "category": "MINOR",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "风暴聚集",
+        "category": "MINOR"
+      },
+      "relation": {
+        "skillKey": "rune_8236_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_8236",
+        "skill": "rune_8236"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [
+          "60分钟后的增长规则及适应选择"
+        ],
+        "systemPending": [
+          "60分钟后准确规则；适应选择；绝对游戏时间及分段输入；不能把已有累计值再逐段相加"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "60分钟后的增长规则及适应选择",
+          "60分钟后准确规则；适应选择；绝对游戏时间及分段输入；不能把已有累计值再逐段相加"
+        ]
+      }
+    },
+    {
+      "runeId": 8237,
+      "runeKey": "rune_8237",
+      "name": "焦灼",
+      "category": "MINOR",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "焦灼",
+        "category": "MINOR"
+      },
+      "relation": {
+        "skillKey": "rune_8237_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_8237",
+        "skill": "rune_8237"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [
+          "20–40焦灼伤害的完整等级值"
+        ],
+        "systemPending": [
+          "逐等级伤害；“下一个伤害型技能”有效命中/重施去重"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "20–40焦灼伤害的完整等级值",
+          "逐等级伤害；“下一个伤害型技能”有效命中/重施去重"
+        ]
+      }
+    },
+    {
+      "runeId": 8242,
+      "runeKey": "rune_8242",
+      "name": "坚定",
+      "category": "MINOR",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "坚定",
+        "category": "MINOR"
+      },
+      "relation": {
+        "skillKey": "rune_8242_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_8242",
+        "skill": "rune_8242"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [],
+        "systemPending": [
+          "完整控制开始/结束事件；重叠控制续期；不能只选择眩晕代表全部控制"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "完整控制开始/结束事件；重叠控制续期；不能只选择眩晕代表全部控制"
+        ]
+      }
+    },
+    {
+      "runeId": 8275,
+      "runeKey": "rune_8275",
+      "name": "灵光披风",
+      "category": "MINOR",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "灵光披风",
+        "category": "MINOR"
+      },
+      "relation": {
+        "skillKey": "rune_8275_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_8275",
+        "skill": "rune_8275"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [
+          "召唤师技能冷却到15%–45%移速的映射与衰减"
+        ],
+        "systemPending": [
+          "冷却到移速的完整分段/映射；衰减方式；召唤师技能事件过滤；移速组合"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "召唤师技能冷却到15%–45%移速的映射与衰减",
+          "冷却到移速的完整分段/映射；衰减方式；召唤师技能事件过滤；移速组合"
+        ]
+      }
+    },
+    {
+      "runeId": 8299,
+      "runeKey": "rune_8299",
+      "name": "坚毅不倒",
+      "category": "MINOR",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "坚毅不倒",
+        "category": "MINOR"
+      },
+      "relation": {
+        "skillKey": "rune_8299_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_8299",
+        "skill": "rune_8299"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [
+          "30%至60%生命之间的伤害增幅曲线"
+        ],
+        "systemPending": [
+          "30%到60%之间的准确插值；伤害区和采样时点"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "30%至60%生命之间的伤害增幅曲线",
+          "30%到60%之间的准确插值；伤害区和采样时点"
+        ]
+      }
+    },
+    {
+      "runeId": 8304,
+      "runeKey": "rune_8304",
+      "name": "神奇之鞋",
+      "category": "MINOR",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "神奇之鞋",
+        "category": "MINOR"
+      },
+      "relation": {
+        "skillKey": "rune_8304_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_8304",
+        "skill": "rune_8304"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [],
+        "systemPending": [
+          "装备实际存在/升级继承的条件装配；避免与装备直接25基础移速或已保存被动重复加算"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "装备实际存在/升级继承的条件装配；避免与装备直接25基础移速或已保存被动重复加算"
+        ]
+      }
+    },
+    {
+      "runeId": 8306,
+      "runeKey": "rune_8306",
+      "name": "海克斯科技闪现罗网",
+      "category": "MINOR",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "海克斯科技闪现罗网",
+        "category": "MINOR"
+      },
+      "relation": null,
+      "images": {
+        "rune": "rune_8306",
+        "skill": null
+      },
+      "basis": {
+        "explicitScopeExclusion": true,
+        "sourcePending": [],
+        "systemPending": [],
+        "configurationComplete": false,
+        "samples": []
+      }
+    },
+    {
+      "runeId": 8313,
+      "runeKey": "rune_8313",
+      "name": "三重补药",
+      "category": "MINOR",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "三重补药",
+        "category": "MINOR"
+      },
+      "relation": {
+        "skillKey": "rune_8313_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_8313",
+        "skill": "rune_8313"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [
+          "适应之力的攻击力/法强转换和选择规则"
+        ],
+        "systemPending": [
+          "适应选择/转换；消耗事件与单次消费；技能点分配及等级上限条件；不可把技能点当作经验排除"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "适应之力的攻击力/法强转换和选择规则",
+          "适应选择/转换；消耗事件与单次消费；技能点分配及等级上限条件；不可把技能点当作经验排除"
+        ]
+      }
+    },
+    {
+      "runeId": 8316,
+      "runeKey": "rune_8316",
+      "name": "多面手",
+      "category": "MINOR",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "多面手",
+        "category": "MINOR"
+      },
+      "relation": {
+        "skillKey": "rune_8316_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_8316",
+        "skill": "rune_8316"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [
+          "不同装备属性计数清单及适应之力转换"
+        ],
+        "systemPending": [
+          "不同属性种类计数规则、去重与上限；适应转换；实际装备集合变化入口"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "不同装备属性计数清单及适应之力转换",
+          "不同属性种类计数规则、去重与上限；适应转换；实际装备集合变化入口"
+        ]
+      }
+    },
+    {
+      "runeId": 8321,
+      "runeKey": "rune_8321",
+      "name": "返现",
+      "category": "MINOR",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "返现",
+        "category": "MINOR"
+      },
+      "relation": null,
+      "images": {
+        "rune": "rune_8321",
+        "skill": null
+      },
+      "basis": {
+        "explicitScopeExclusion": true,
+        "sourcePending": [],
+        "systemPending": [],
+        "configurationComplete": false,
+        "samples": []
+      }
+    },
+    {
+      "runeId": 8345,
+      "runeKey": "rune_8345",
+      "name": "饼干配送",
+      "category": "MINOR",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "饼干配送",
+        "category": "MINOR"
+      },
+      "relation": {
+        "skillKey": "rune_8345_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_8345",
+        "skill": "rune_8345"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [
+          "已损生命比例到饼干治疗增幅的曲线"
+        ],
+        "systemPending": [
+          "已损生命到增幅的精确曲线；治疗跳频；消费/出售重复防护；不能因出售含经济字眼丢永久生命"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "已损生命比例到饼干治疗增幅的曲线",
+          "已损生命到增幅的精确曲线；治疗跳频；消费/出售重复防护；不能因出售含经济字眼丢永久生命"
+        ]
+      }
+    },
+    {
+      "runeId": 8347,
+      "runeKey": "rune_8347",
+      "name": "星界洞悉",
+      "category": "MINOR",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "星界洞悉",
+        "category": "MINOR"
+      },
+      "relation": {
+        "skillKey": "rune_8347_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_8347",
+        "skill": "rune_8347"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [],
+        "systemPending": [
+          "合法技能集合及不同急速属性作用范围；不是通用技能急速28"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "合法技能集合及不同急速属性作用范围；不是通用技能急速28"
+        ]
+      }
+    },
+    {
+      "runeId": 8351,
+      "runeKey": "rune_8351",
+      "name": "冰川增幅",
+      "category": "KEYSTONE",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "冰川增幅",
+        "category": "KEYSTONE"
+      },
+      "relation": {
+        "skillKey": "rune_8351_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_8351",
+        "skill": "rune_8351"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [],
+        "systemPending": [
+          "完整定身状态集合及原始定身时长输入；霜冻区目标留存/退出；减速计算及多来源组合，当前只有眩晕状态"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "完整定身状态集合及原始定身时长输入；霜冻区目标留存/退出；减速计算及多来源组合，当前只有眩晕状态"
+        ]
+      }
+    },
+    {
+      "runeId": 8352,
+      "runeKey": "rune_8352",
+      "name": "时间扭曲补药",
+      "category": "MINOR",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "时间扭曲补药",
+        "category": "MINOR"
+      },
+      "relation": {
+        "skillKey": "rune_8352_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_8352",
+        "skill": "rune_8352"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [],
+        "systemPending": [
+          "原药水总额度、剩余周期调整和取值时点；合法消耗关联；不能加40%后仍保留100%原治疗"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "原药水总额度、剩余周期调整和取值时点；合法消耗关联；不能加40%后仍保留100%原治疗"
+        ]
+      }
+    },
+    {
+      "runeId": 8360,
+      "runeKey": "rune_8360",
+      "name": "启封的秘籍",
+      "category": "KEYSTONE",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "启封的秘籍",
+        "category": "KEYSTONE"
+      },
+      "relation": null,
+      "images": {
+        "rune": "rune_8360",
+        "skill": null
+      },
+      "basis": {
+        "explicitScopeExclusion": true,
+        "sourcePending": [
+          "@f3@初始置换冷却、惩戒提升伤害值"
+        ],
+        "systemPending": [
+          "初始冷却@f3@；置换技能集合与次数冷却下限；非战斗判定；惩戒具体伤害与对象；替换技能实例能力"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "@f3@初始置换冷却、惩戒提升伤害值",
+          "初始冷却@f3@；置换技能集合与次数冷却下限；非战斗判定；惩戒具体伤害与对象；替换技能实例能力"
+        ]
+      }
+    },
+    {
+      "runeId": 8369,
+      "runeKey": "rune_8369",
+      "name": "先攻",
+      "category": "KEYSTONE",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "先攻",
+        "category": "KEYSTONE"
+      },
+      "relation": {
+        "skillKey": "rune_8369_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_8369",
+        "skill": "rune_8369"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [
+          "25–15秒冷却等级值"
+        ],
+        "systemPending": [
+          "逐等级冷却；谁先进入英雄战斗；伤害乘区与合法伤害包过滤"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "25–15秒冷却等级值",
+          "逐等级冷却；谁先进入英雄战斗；伤害乘区与合法伤害包过滤"
+        ]
+      }
+    },
+    {
+      "runeId": 8401,
+      "runeKey": "rune_8401",
+      "name": "护盾猛击",
+      "category": "MINOR",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "护盾猛击",
+        "category": "MINOR"
+      },
+      "relation": {
+        "skillKey": "rune_8401_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_8401",
+        "skill": "rune_8401"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [
+          "5–30基础伤害等级值及适应选择"
+        ],
+        "systemPending": [
+          "逐等级基础；自适应类型；新护盾金额事件字段、刷新与叠加合并规则；本次新护盾与当前剩余护盾不同"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "5–30基础伤害等级值及适应选择",
+          "逐等级基础；自适应类型；新护盾金额事件字段、刷新与叠加合并规则；本次新护盾与当前剩余护盾不同"
+        ]
+      }
+    },
+    {
+      "runeId": 8410,
+      "runeKey": "rune_8410",
+      "name": "行近速率",
+      "category": "MINOR",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "行近速率",
+        "category": "MINOR"
+      },
+      "relation": {
+        "skillKey": "rune_8410_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_8410",
+        "skill": "rune_8410"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [],
+        "systemPending": [
+          "朝向移动/距离事件；控制归属与合法减速/定身全集；百分比移速组合"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "朝向移动/距离事件；控制归属与合法减速/定身全集；百分比移速组合"
+        ]
+      }
+    },
+    {
+      "runeId": 8429,
+      "runeKey": "rune_8429",
+      "name": "调节",
+      "category": "MINOR",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "调节",
+        "category": "MINOR"
+      },
+      "relation": {
+        "skillKey": "rune_8429_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_8429",
+        "skill": "rune_8429"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [],
+        "systemPending": [
+          "游戏绝对时间条件；固定与比例顺序及跨来源组合；不能用来源创建12分钟延迟代替开局时间"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "游戏绝对时间条件；固定与比例顺序及跨来源组合；不能用来源创建12分钟延迟代替开局时间"
+        ]
+      }
+    },
+    {
+      "runeId": 8437,
+      "runeKey": "rune_8437",
+      "name": "不灭之握",
+      "category": "KEYSTONE",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "不灭之握",
+        "category": "KEYSTONE"
+      },
+      "relation": {
+        "skillKey": "rune_8437_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_8437",
+        "skill": "rune_8437"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [],
+        "systemPending": [
+          "战斗计时开始/停止和就绪消费；近远程分类；永久增长的无上限持久累计模型"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "战斗计时开始/停止和就绪消费；近远程分类；永久增长的无上限持久累计模型"
+        ]
+      }
+    },
+    {
+      "runeId": 8439,
+      "runeKey": "rune_8439",
+      "name": "余震",
+      "category": "KEYSTONE",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "余震",
+        "category": "KEYSTONE"
+      },
+      "relation": {
+        "skillKey": "rune_8439_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_8439",
+        "skill": "rune_8439"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [
+          "伤害25–120及双抗上限80–150的等级值"
+        ],
+        "systemPending": [
+          "两个等级曲线；双抗采样排除本效果自反馈；合法定身来源和爆炸命中范围"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "伤害25–120及双抗上限80–150的等级值",
+          "两个等级曲线；双抗采样排除本效果自反馈；合法定身来源和爆炸命中范围"
+        ]
+      }
+    },
+    {
+      "runeId": 8444,
+      "runeKey": "rune_8444",
+      "name": "复苏之风",
+      "category": "MINOR",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "复苏之风",
+        "category": "MINOR"
+      },
+      "relation": {
+        "skillKey": "rune_8444_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_8444",
+        "skill": "rune_8444"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [],
+        "systemPending": [
+          "已损生命快照还是动态；具体跳频/首跳；再次受伤刷新叠加规则"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "已损生命快照还是动态；具体跳频/首跳；再次受伤刷新叠加规则"
+        ]
+      }
+    },
+    {
+      "runeId": 8446,
+      "runeKey": "rune_8446",
+      "name": "爆破",
+      "category": "MINOR",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "爆破",
+        "category": "MINOR"
+      },
+      "relation": null,
+      "images": {
+        "rune": "rune_8446",
+        "skill": null
+      },
+      "basis": {
+        "explicitScopeExclusion": true,
+        "sourcePending": [],
+        "systemPending": [],
+        "configurationComplete": false,
+        "samples": []
+      }
+    },
+    {
+      "runeId": 8451,
+      "runeKey": "rune_8451",
+      "name": "过度生长",
+      "category": "MINOR",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "过度生长",
+        "category": "MINOR"
+      },
+      "relation": {
+        "skillKey": "rune_8451_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_8451",
+        "skill": "rune_8451"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [],
+        "systemPending": [
+          "吸收范围及战前进度；累计除8取整而现行公式无FLOOR；最大生命比例的跨来源组合"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "吸收范围及战前进度；累计除8取整而现行公式无FLOOR；最大生命比例的跨来源组合"
+        ]
+      }
+    },
+    {
+      "runeId": 8453,
+      "runeKey": "rune_8453",
+      "name": "复苏",
+      "category": "MINOR",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "复苏",
+        "category": "MINOR"
+      },
+      "relation": {
+        "skillKey": "rune_8453_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_8453",
+        "skill": "rune_8453"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [],
+        "systemPending": [
+          "施放/获得两方向和低血量采样；低血量对谁判定；治疗修正区及受到护盾增幅结构；不把10%全写成施放强度属性"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "施放/获得两方向和低血量采样；低血量对谁判定；治疗修正区及受到护盾增幅结构；不把10%全写成施放强度属性"
+        ]
+      }
+    },
+    {
+      "runeId": 8463,
+      "runeKey": "rune_8463",
+      "name": "生命源泉",
+      "category": "MINOR",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "生命源泉",
+        "category": "MINOR"
+      },
+      "relation": {
+        "skillKey": "rune_8463_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_8463",
+        "skill": "rune_8463"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [
+          "@BaseHeal@治疗量"
+        ],
+        "systemPending": [
+          "治疗@BaseHeal@仍缺值；合法移动受损及控制归属；近远程分类"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "@BaseHeal@治疗量",
+          "治疗@BaseHeal@仍缺值；合法移动受损及控制归属；近远程分类"
+        ]
+      }
+    },
+    {
+      "runeId": 8465,
+      "runeKey": "rune_8465",
+      "name": "守护者",
+      "category": "KEYSTONE",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "守护者",
+        "category": "KEYSTONE"
+      },
+      "relation": null,
+      "images": {
+        "rune": "rune_8465",
+        "skill": null
+      },
+      "basis": {
+        "explicitScopeExclusion": true,
+        "sourcePending": [],
+        "systemPending": [],
+        "configurationComplete": false,
+        "samples": []
+      }
+    },
+    {
+      "runeId": 8473,
+      "runeKey": "rune_8473",
+      "name": "骸骨镀层",
+      "category": "MINOR",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "骸骨镀层",
+        "category": "MINOR"
+      },
+      "relation": {
+        "skillKey": "rune_8473_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_8473",
+        "skill": "rune_8473"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [
+          "30–60固定减伤的完整等级值"
+        ],
+        "systemPending": [
+          "逐等级减伤；是否同一伤害来源；首伤是否消费次数及多段合并；现有DAMAGE_MODIFIER仅比例，固定伤害抵扣能力缺口"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "30–60固定减伤的完整等级值",
+          "逐等级减伤；是否同一伤害来源；首伤是否消费次数及多段合并；现有DAMAGE_MODIFIER仅比例，固定伤害抵扣能力缺口"
+        ]
+      }
+    },
+    {
+      "runeId": 8992,
+      "runeKey": "rune_8992",
+      "name": "冥火之触",
+      "category": "KEYSTONE",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "冥火之触",
+        "category": "KEYSTONE"
+      },
+      "relation": {
+        "skillKey": "rune_8992_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_8992",
+        "skill": "rune_8992"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [
+          "3–12每秒伤害等级值和真实跳频"
+        ],
+        "systemPending": [
+          "逐等级伤害；实际跳频与首跳；重施刷新/跨来源同一燃烧计时；技能分类目录不含完整三类"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "3–12每秒伤害等级值和真实跳频",
+          "逐等级伤害；实际跳频与首跳；重施刷新/跨来源同一燃烧计时；技能分类目录不含完整三类"
+        ]
+      }
+    },
+    {
+      "runeId": 9101,
+      "runeKey": "rune_9101",
+      "name": "吸收生命力",
+      "category": "MINOR",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "吸收生命力",
+        "category": "MINOR"
+      },
+      "relation": {
+        "skillKey": "rune_9101_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_9101",
+        "skill": "rune_9101"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [
+          "@HealAmount@仅补到1–23端点，缺完整等级表"
+        ],
+        "systemPending": [
+          "完整逐等级值；英雄击杀与非英雄目标范围；触发延时和合法击杀归属"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "@HealAmount@仅补到1–23端点，缺完整等级表",
+          "完整逐等级值；英雄击杀与非英雄目标范围；触发延时和合法击杀归属"
+        ]
+      }
+    },
+    {
+      "runeId": 9103,
+      "runeKey": "rune_9103",
+      "name": "传说：血统",
+      "category": "MINOR",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "传说：血统",
+        "category": "MINOR"
+      },
+      "relation": {
+        "skillKey": "rune_9103_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_9103",
+        "skill": "rune_9103"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [
+          "各类对象击杀提供的传奇进度权重"
+        ],
+        "systemPending": [
+          "进度权重和当前层数；满层授予一次与失去层数规则；不得无条件给85生命"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "各类对象击杀提供的传奇进度权重",
+          "进度权重和当前层数；满层授予一次与失去层数规则；不得无条件给85生命"
+        ]
+      }
+    },
+    {
+      "runeId": 9104,
+      "runeKey": "rune_9104",
+      "name": "传说：欢欣",
+      "category": "MINOR",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "传说：欢欣",
+        "category": "MINOR"
+      },
+      "relation": {
+        "skillKey": "rune_9104_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_9104",
+        "skill": "rune_9104"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [
+          "各类对象击杀提供的传奇进度权重"
+        ],
+        "systemPending": [
+          "各类击杀进度权重、战前层数来源、动态层数更新；不能删除小兵/野怪取得的已有层数"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "各类对象击杀提供的传奇进度权重",
+          "各类击杀进度权重、战前层数来源、动态层数更新；不能删除小兵/野怪取得的已有层数"
+        ]
+      }
+    },
+    {
+      "runeId": 9105,
+      "runeKey": "rune_9105",
+      "name": "传说：急速",
+      "category": "MINOR",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "传说：急速",
+        "category": "MINOR"
+      },
+      "relation": {
+        "skillKey": "rune_9105_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_9105",
+        "skill": "rune_9105"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [
+          "各类对象击杀提供的传奇进度权重"
+        ],
+        "systemPending": [
+          "进度权重；基础技能集合不能误包含终极技能；层数来源与更新"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "各类对象击杀提供的传奇进度权重",
+          "进度权重；基础技能集合不能误包含终极技能；层数来源与更新"
+        ]
+      }
+    },
+    {
+      "runeId": 9111,
+      "runeKey": "rune_9111",
+      "name": "凯旋",
+      "category": "MINOR",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "凯旋",
+        "category": "MINOR"
+      },
+      "relation": {
+        "skillKey": "rune_9111_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_9111",
+        "skill": "rune_9111"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [],
+        "systemPending": [
+          "参与击杀事件是否包含助攻及准确治疗时点；当前KILL不能假冒所有参与击杀"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "参与击杀事件是否包含助攻及准确治疗时点；当前KILL不能假冒所有参与击杀"
+        ]
+      }
+    },
+    {
+      "runeId": 9923,
+      "runeKey": "rune_9923",
+      "name": "丛刃",
+      "category": "KEYSTONE",
+      "sourceKind": "ordinary",
+      "current": {
+        "name": "丛刃",
+        "category": "KEYSTONE"
+      },
+      "relation": {
+        "skillKey": "rune_9923_passive",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      },
+      "images": {
+        "rune": "rune_9923",
+        "skill": "rune_9923"
+      },
+      "basis": {
+        "explicitScopeExclusion": false,
+        "sourcePending": [
+          "2–20伤害等级值、重置攻击额外次数上限"
+        ],
+        "systemPending": [
+          "基础伤害等级曲线；额外重置次数上限@MaxBonusHits@；近远程真实分类；突破攻速上限能力与攻击重置事件"
+        ],
+        "configurationComplete": false,
+        "samples": [
+          "2–20伤害等级值、重置攻击额外次数上限",
+          "基础伤害等级曲线；额外重置次数上限@MaxBonusHits@；近远程真实分类；突破攻速上限能力与攻击重置事件"
+        ]
+      }
+    }
+  ],
+  "requestAudit": {
+    "methods": {
+      "GET": 209
+    },
+    "statuses": {
+      "200": 209
+    },
+    "pathsSha256": "e26207cb319f4355390ed42c76d79721bcac7beb806b6230fb1af94af3ca5f16"
+  },
+  "boundary": "69项均有当前主体、挂载或具体排除及代表图证据；3项固定属性碎片达到完整静态配置，34项资料待核和23项系统暂缓仍是开放队列。未执行业务写入、Wasm、宿主或真实战斗。"
+}

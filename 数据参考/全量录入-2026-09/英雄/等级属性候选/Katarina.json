@@ -1,0 +1,296 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Katarina",
+  "sourceNumericId": "55",
+  "name": "卡特琳娜",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 672,
+      "growth": 108,
+      "sources": [
+        "原始资料/zh_CN/champion/Katarina.json:stats.hp/hpperlevel",
+        "角色根记录/Katarina.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 672,
+        "2": 749.76,
+        "3": 831.3,
+        "4": 916.62,
+        "5": 1005.72,
+        "6": 1098.6,
+        "7": 1195.26,
+        "8": 1295.7,
+        "9": 1399.92,
+        "10": 1507.92,
+        "11": 1619.7,
+        "12": 1735.26,
+        "13": 1854.6,
+        "14": 1977.72,
+        "15": 2104.62,
+        "16": 2235.3,
+        "17": 2369.76,
+        "18": 2508
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 7.5,
+      "growth": 0.7,
+      "sources": [
+        "原始资料/zh_CN/champion/Katarina.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Katarina.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 7.5,
+        "2": 8.004,
+        "3": 8.5325,
+        "4": 9.0855,
+        "5": 9.663,
+        "6": 10.265,
+        "7": 10.8915,
+        "8": 11.5425,
+        "9": 12.218,
+        "10": 12.918,
+        "11": 13.6425,
+        "12": 14.3915,
+        "13": 15.165,
+        "14": 15.963,
+        "15": 16.7855,
+        "16": 17.6325,
+        "17": 18.504,
+        "18": 19.4
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 32,
+      "growth": 4.7,
+      "sources": [
+        "原始资料/zh_CN/champion/Katarina.json:stats.armor/armorperlevel",
+        "角色根记录/Katarina.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 32,
+        "2": 35.384,
+        "3": 38.9325,
+        "4": 42.6455,
+        "5": 46.523,
+        "6": 50.565,
+        "7": 54.7715,
+        "8": 59.1425,
+        "9": 63.678,
+        "10": 68.378,
+        "11": 73.2425,
+        "12": 78.2715,
+        "13": 83.465,
+        "14": 88.823,
+        "15": 94.3455,
+        "16": 100.0325,
+        "17": 105.884,
+        "18": 111.9
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 32,
+      "growth": 2.05,
+      "sources": [
+        "原始资料/zh_CN/champion/Katarina.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Katarina.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 32,
+        "2": 33.476,
+        "3": 35.02375,
+        "4": 36.64325,
+        "5": 38.3345,
+        "6": 40.0975,
+        "7": 41.93225,
+        "8": 43.83875,
+        "9": 45.817,
+        "10": 47.867,
+        "11": 49.98875,
+        "12": 52.18225,
+        "13": 54.4475,
+        "14": 56.7845,
+        "15": 59.19325,
+        "16": 61.67375,
+        "17": 64.226,
+        "18": 66.85
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 58,
+      "growth": 3.2,
+      "sources": [
+        "角色根记录/Katarina.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 58,
+        "2": 60.304,
+        "3": 62.72,
+        "4": 65.248,
+        "5": 67.888,
+        "6": 70.64,
+        "7": 73.504,
+        "8": 76.48,
+        "9": 79.568,
+        "10": 82.768,
+        "11": 86.08,
+        "12": 89.504,
+        "13": 93.04,
+        "14": 96.688,
+        "15": 100.448,
+        "16": 104.32,
+        "17": 108.304,
+        "18": 112.4
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 335,
+      "growth": null,
+      "sources": [
+        "角色根记录/Katarina.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 335,
+        "2": 335,
+        "3": 335,
+        "4": 335,
+        "5": 335,
+        "6": 335,
+        "7": 335,
+        "8": 335,
+        "9": 335,
+        "10": 335,
+        "11": 335,
+        "12": 335,
+        "13": 335,
+        "14": 335,
+        "15": 335,
+        "16": 335,
+        "17": 335,
+        "18": 335
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 125,
+      "growth": null,
+      "sources": [
+        "角色根记录/Katarina.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 125,
+        "2": 125,
+        "3": 125,
+        "4": 125,
+        "5": 125,
+        "6": 125,
+        "7": 125,
+        "8": 125,
+        "9": 125,
+        "10": 125,
+        "11": 125,
+        "12": 125,
+        "13": 125,
+        "14": 125,
+        "15": 125,
+        "16": 125,
+        "17": 125,
+        "18": 125
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.658,
+      "attackSpeedRatio": 0.658,
+      "growthPercent": 2.74,
+      "sources": [
+        "角色根记录/Katarina.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.658,
+        "2": 0.670981,
+        "3": 0.684593,
+        "4": 0.698836,
+        "5": 0.71371,
+        "6": 0.729215,
+        "7": 0.745351,
+        "8": 0.762119,
+        "9": 0.779517,
+        "10": 0.797546,
+        "11": 0.816206,
+        "12": 0.835497,
+        "13": 0.85542,
+        "14": 0.875973,
+        "15": 0.897157,
+        "16": 0.918973,
+        "17": 0.941419,
+        "18": 0.964496
+      }
+    }
+  ],
+  "missing": [
+    {
+      "attribute": "resource",
+      "label": "资源",
+      "resourceType": "无",
+      "reason": "特殊或未明确资源不按法力统一生成；保留原始资源说明及根字段，待机制核对"
+    }
+  ],
+  "attackSpeedInputs": {
+    "base": 0.658,
+    "ratio": 0.658,
+    "growthPercent": 2.74,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

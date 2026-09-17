@@ -1,0 +1,296 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Vladimir",
+  "sourceNumericId": "8",
+  "name": "弗拉基米尔",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 600,
+      "growth": 110,
+      "sources": [
+        "原始资料/zh_CN/champion/Vladimir.json:stats.hp/hpperlevel",
+        "角色根记录/Vladimir.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 600,
+        "2": 679.2,
+        "3": 762.25,
+        "4": 849.15,
+        "5": 939.9,
+        "6": 1034.5,
+        "7": 1132.95,
+        "8": 1235.25,
+        "9": 1341.4,
+        "10": 1451.4,
+        "11": 1565.25,
+        "12": 1682.95,
+        "13": 1804.5,
+        "14": 1929.9,
+        "15": 2059.15,
+        "16": 2192.25,
+        "17": 2329.2,
+        "18": 2470
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 7,
+      "growth": 0.6,
+      "sources": [
+        "原始资料/zh_CN/champion/Vladimir.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Vladimir.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 7,
+        "2": 7.432,
+        "3": 7.885,
+        "4": 8.359,
+        "5": 8.854,
+        "6": 9.37,
+        "7": 9.907,
+        "8": 10.465,
+        "9": 11.044,
+        "10": 11.644,
+        "11": 12.265,
+        "12": 12.907,
+        "13": 13.57,
+        "14": 14.254,
+        "15": 14.959,
+        "16": 15.685,
+        "17": 16.432,
+        "18": 17.2
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 24,
+      "growth": 4.5,
+      "sources": [
+        "原始资料/zh_CN/champion/Vladimir.json:stats.armor/armorperlevel",
+        "角色根记录/Vladimir.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 24,
+        "2": 27.24,
+        "3": 30.6375,
+        "4": 34.1925,
+        "5": 37.905,
+        "6": 41.775,
+        "7": 45.8025,
+        "8": 49.9875,
+        "9": 54.33,
+        "10": 58.83,
+        "11": 63.4875,
+        "12": 68.3025,
+        "13": 73.275,
+        "14": 78.405,
+        "15": 83.6925,
+        "16": 89.1375,
+        "17": 94.74,
+        "18": 100.5
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 30,
+      "growth": 1.3,
+      "sources": [
+        "原始资料/zh_CN/champion/Vladimir.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Vladimir.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 30,
+        "2": 30.936,
+        "3": 31.9175,
+        "4": 32.9445,
+        "5": 34.017,
+        "6": 35.135,
+        "7": 36.2985,
+        "8": 37.5075,
+        "9": 38.762,
+        "10": 40.062,
+        "11": 41.4075,
+        "12": 42.7985,
+        "13": 44.235,
+        "14": 45.717,
+        "15": 47.2445,
+        "16": 48.8175,
+        "17": 50.436,
+        "18": 52.1
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 55,
+      "growth": 3,
+      "sources": [
+        "角色根记录/Vladimir.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 55,
+        "2": 57.16,
+        "3": 59.425,
+        "4": 61.795,
+        "5": 64.27,
+        "6": 66.85,
+        "7": 69.535,
+        "8": 72.325,
+        "9": 75.22,
+        "10": 78.22,
+        "11": 81.325,
+        "12": 84.535,
+        "13": 87.85,
+        "14": 91.27,
+        "15": 94.795,
+        "16": 98.425,
+        "17": 102.16,
+        "18": 106
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 330,
+      "growth": null,
+      "sources": [
+        "角色根记录/Vladimir.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 330,
+        "2": 330,
+        "3": 330,
+        "4": 330,
+        "5": 330,
+        "6": 330,
+        "7": 330,
+        "8": 330,
+        "9": 330,
+        "10": 330,
+        "11": 330,
+        "12": 330,
+        "13": 330,
+        "14": 330,
+        "15": 330,
+        "16": 330,
+        "17": 330,
+        "18": 330
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 450,
+      "growth": null,
+      "sources": [
+        "角色根记录/Vladimir.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 450,
+        "2": 450,
+        "3": 450,
+        "4": 450,
+        "5": 450,
+        "6": 450,
+        "7": 450,
+        "8": 450,
+        "9": 450,
+        "10": 450,
+        "11": 450,
+        "12": 450,
+        "13": 450,
+        "14": 450,
+        "15": 450,
+        "16": 450,
+        "17": 450,
+        "18": 450
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.658,
+      "attackSpeedRatio": 0.658,
+      "growthPercent": 2,
+      "sources": [
+        "角色根记录/Vladimir.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.658,
+        "2": 0.667475,
+        "3": 0.677411,
+        "4": 0.687807,
+        "5": 0.698664,
+        "6": 0.709982,
+        "7": 0.72176,
+        "8": 0.733999,
+        "9": 0.746698,
+        "10": 0.759858,
+        "11": 0.773479,
+        "12": 0.78756,
+        "13": 0.802102,
+        "14": 0.817104,
+        "15": 0.832567,
+        "16": 0.848491,
+        "17": 0.864875,
+        "18": 0.88172
+      }
+    }
+  ],
+  "missing": [
+    {
+      "attribute": "resource",
+      "label": "资源",
+      "resourceType": "猩红冲刺",
+      "reason": "特殊或未明确资源不按法力统一生成；保留原始资源说明及根字段，待机制核对"
+    }
+  ],
+  "attackSpeedInputs": {
+    "base": 0.658,
+    "ratio": 0.658,
+    "growthPercent": 2,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

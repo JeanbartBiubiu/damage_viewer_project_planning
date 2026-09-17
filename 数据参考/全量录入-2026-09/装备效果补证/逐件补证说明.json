@@ -1,0 +1,180 @@
+{
+  "1054": {
+    "结论": "部分补齐",
+    "可用说明": "耐久专注：每5秒回复4生命。受到英雄伤害后在8秒内回复生命，近战上限40、远程上限30，具体回复量取决于已损失生命。受到群体伤害或周期型伤害时，此次治疗效能为66%。帮助之手：攻击对小兵造成5额外物理伤害。",
+    "已证明": [
+      ["受击回复持续8秒，近战最多40、远程最多30", ["RegenDuration", "MaxRegenAmount", "MaxRangeRegenAmount"], ["StringCalculations/MeleeRangeSplitRegen"], ["item_1054_tooltip"]],
+      ["已损失生命影响治疗量；群体和周期伤害治疗效能66%", ["RangeRegenMult"], [], ["item_1054_tooltipextendedrules"]],
+      ["每5秒回复4生命；对小兵普攻额外5物理伤害", ["BonusDamageToMinions"], ["mFlatHPRegenMod"], ["item_1054_tooltip"]]
+    ],
+    "仍缺": ["已损失生命比例到受击总回复量的完整函数、上下界及取样时点", "再次受击如何刷新或覆盖8秒治疗"],
+    "禁止采用": ["mEffectAmount[2]=45与当前绑定命名变量40不一致，不能替代当前近战上限", "RangeRegenMult=0.66在扩展文案中用于群体/周期伤害，不是远程上限的计算式；不能把远程写成40×0.66"],
+    "证据层次": "实际绑定说明及命名变量；没有完整治疗脚本"
+  },
+  "1056": {
+    "结论": "额外复核原有明确文案",
+    "可用说明": "汲取：每秒回复1法力；对敌方英雄造成伤害后，提升为每秒2法力，持续5秒。不能获得法力时，转而治疗上述数值45%的生命。帮助之手：攻击对小兵造成5额外物理伤害。",
+    "已证明": [
+      ["基础每秒1法力；伤害英雄后每秒2法力、持续5秒；无法获得法力时转45%生命", ["ManaRestorePerSecond", "ManaRestorePerSecondUpgraded", "UpgradeDuration", "ManaToHealthConversion"], [], ["item_1056_tooltip"]],
+      ["普攻对小兵增加5物理伤害", ["BonusDamage"], [], ["item_1056_tooltip"]]
+    ],
+    "仍缺": [],
+    "运行边界": ["重复伤害刷新、回复节拍及无法获得法力的角色分类未由本次静态资料验证"],
+    "禁止采用": ["HealthRestorePerSecond=0.55未被当前绑定说明引用，与1×45%=0.45不同；不覆盖明确的45%换算", "同文件未绑定的item_1056_tooltipexternal仍是旧泛化文字，不优先于当前keyTooltip"],
+    "证据层次": "不是原104件缺项之一；按要求补核多兰戒，不计入缺项关闭数"
+  },
+  "3057": {
+    "结论": "部分补齐",
+    "可用说明": "咒刃：施放技能后，下一次普通攻击附带100%基础攻击力的额外物理伤害，属于攻击特效。冷却1.5秒。等待下一击的有效时限仍待证实。",
+    "已证明": [
+      ["咒刃伤害是1倍基础攻击力，物理攻击特效", [], ["mItemCalculations/SpellbladeDamage"], ["item_3057_tooltip"]],
+      ["冷却1.5秒", ["SpellbladeCooldown", "Cooldown"], [], ["item_3057_tooltip", "item_cooldown"]]
+    ],
+    "仍缺": ["施法后等待下一次攻击的有效时限"],
+    "运行边界": ["冷却从施法还是消耗攻击开始、重复施法能否刷新待击状态，仍需脚本或实际战斗验证"],
+    "禁止采用": ["不能把巫妖之祸的10秒等待时限复制给耀光"],
+    "证据层次": "mStat=2、mStatFormula=1的基础攻击力含义由同16.17斯特拉克的挑战护手公式与官方26.16公告交叉核对"
+  },
+  "3078": {
+    "结论": "部分补齐",
+    "可用说明": "咒刃：施放技能后，下一次普通攻击附带200%基础攻击力的额外物理伤害，属于攻击特效，冷却1.5秒。加快：攻击单位后获得20固定移动速度，持续2秒。咒刃等待下一击的时限仍待证实。",
+    "已证明": [
+      ["咒刃伤害2倍基础攻击力；冷却1.5秒", ["SpellbladeMultiplier", "SpellbladeCooldown", "Cooldown"], ["mItemCalculations/SpellbladeDamage"], ["item_3078_tooltip", "item_cooldown"]],
+      ["攻击单位获得20固定移速，持续2秒", ["MoveSpeedBonus", "MSDuration"], [], ["item_3078_tooltip"]]
+    ],
+    "仍缺": ["施法后等待下一击的有效时限"],
+    "运行边界": ["加快的重复刷新与咒刃冷却起算时点仍需运行证据"],
+    "禁止采用": ["不沿用巫妖之祸的10秒时限；加快20是固定移速，不是20%移速"],
+    "证据层次": "当前命名计算与实际绑定文案；基础攻击力枚举有同版本旁证"
+  },
+  "3100": {
+    "结论": "原明确资料缺口补齐",
+    "可用说明": "咒刃：施放技能后，10秒内的下一次攻击获得50%额外攻击速度，并附带75%基础攻击力+45%法术强度的额外魔法伤害，属于攻击特效。冷却1.5秒。50%攻速属于咒刃待击效果，不能录成永久装备属性。",
+    "已证明": [
+      ["咒刃魔法伤害为75%基础攻击力+45%法术强度", ["SpellbladeADRatio", "LichBaneAPValue"], ["mItemCalculations/SpellbladeDamage"], ["item_3100_tooltip"]],
+      ["施法后10秒内下一击获得50%攻速；冷却1.5秒", ["SpellBladeDuration", "SheenASBuff", "SpellbladeCooldown", "Cooldown"], [], ["item_3100_tooltip", "item_cooldown"]]
+    ],
+    "仍缺": [],
+    "运行边界": ["触发攻击类型、重复施法刷新以及冷却起算点没有战斗验证"],
+    "禁止采用": ["Data Dragon外部简介省略了10秒等待和50%攻速，不能据此删除当前正式Tooltip明示的效果", "item_3100_tooltipextended的就绪状态文字未由本对象keyTooltipExtended直接绑定，不单独扩展为不施法也常驻50%攻速"],
+    "证据层次": "伤害加数、系数与时间均已定位；法强来自明确命名LichBaneAPValue，基础攻击力枚举有同版本旁证"
+  },
+  "3115": {
+    "结论": "原明确资料缺口补齐",
+    "可用说明": "艾卡西亚之咬：普通攻击附带15+15%法术强度的额外魔法伤害，属于攻击特效。",
+    "已证明": [
+      ["额外魔法攻击特效伤害15+15%法术强度", ["NashorsBaseValue", "NashorsAPValue"], ["mItemCalculations/TotalOnHitDamage"], ["item_3115_tooltip"]]
+    ],
+    "仍缺": [],
+    "运行边界": ["每次普攻与能触发攻击特效的其他技能之间的系统事件关系由主任务处理"],
+    "禁止采用": ["Items/Spells/Malady中的模板伤害35等数值与当前绑定TotalOnHitDamage无关，不作为此攻击特效参数"],
+    "证据层次": "明确的基础值与AP命名系数相加；伤害类型和普攻条件由绑定文案证明"
+  },
+  "3153": {
+    "结论": "部分补齐",
+    "可用说明": "雾之锋：普攻附带目标当前生命值9%（近战）/6%（远程）的额外物理伤害；对小兵和野怪单次此效果的伤害上限100。抓挠之影：对一名英雄攻击3次后，造成30%减速1秒，冷却15秒。原始字段另有6秒攻击计数窗口，但未找到它被当前生效脚本读取的证据，暂不作为已确认规则。",
+    "已证明": [
+      ["当前生命伤害近战9%、远程6%，对小兵和野怪上限100", ["MeleeValue", "RangedValue", "MonsterDamageCap"], ["mItemCalculations/MeleeItemCalcValue", "mItemCalculations/RangedItemCalcValue"], ["item_3153_tooltip", "item_3153_tooltipextended", "item_melee_ranged_split_dynamic", "item_range_type_melee_dynamic", "item_range_type_ranged_dynamic"]],
+      ["三次攻击英雄后30%减速1秒，冷却15秒", ["MoveSpeedMod", "MoveSpeedDuration", "Cooldown"], [], ["item_3153_tooltip", "item_cooldown"]]
+    ],
+    "仍缺": ["AttackCounterDuration=6的脚本读取与计时起点，是否每次攻击刷新", "攻击计数是否按目标独立、切换目标是否清空"],
+    "未确认字段": ["AttackCounterDuration", "RangedMoveSpeedMod"],
+    "禁止采用": ["当前keyTooltip/生成库存文案使用三次攻击与30%减速；未绑定的item_3153_tooltipdynamic却写第一次攻击及远程15%，不能混用", "SiphonDamage计算仍在文件中，但当前绑定说明没有虹吸额外伤害，不添加该旧效果", "MonsterDamageCap虽然名字仅提野怪，绑定扩展文案明确同时作用于小兵和野怪"],
+    "证据层次": "主效果引用链完整；计数窗口只找到裸字段，仍保留缺项"
+  },
+  "3091": {
+    "结论": "原明确资料缺口补齐",
+    "可用说明": "喧争：普通攻击附带45额外魔法伤害，属于攻击特效。",
+    "已证明": [
+      ["额外魔法伤害为固定45，不按等级或属性成长", [], ["mItemCalculations/OnHitDamage"], ["item_3091_tooltip"]]
+    ],
+    "仍缺": [],
+    "运行边界": ["攻击特效事件覆盖范围由系统录入阶段核对"],
+    "禁止采用": ["不沿用历史版本的等级成长伤害"],
+    "证据层次": "实际绑定OnHitDamage仅含NumberCalculationPart=45"
+  },
+  "3075": {
+    "结论": "原明确资料缺口补齐",
+    "可用说明": "荆棘：被一次攻击命中后，对攻击者造成20+10%额外护甲的魔法伤害；如果攻击者是英雄，还施加40%重伤，持续3秒。",
+    "已证明": [
+      ["反击魔法伤害20+10%额外护甲", ["BaseDamage", "BonusArmorDamageRatio"], ["mItemCalculations/TotalDamage"], ["item_3075_tooltip"]],
+      ["被攻击命中触发；英雄攻击者承受40%重伤3秒", ["GrievousAmount", "GrievousDuration"], [], ["item_3075_tooltip"]]
+    ],
+    "仍缺": [],
+    "运行边界": ["被格挡攻击、攻击特效施法与远程弹体时序未执行战斗验证"],
+    "禁止采用": ["未绑定的EnhancedGrievousAmount不能用来新增一个强化重伤阶段", "AtmasImpalerDummySpell中的模板伤害/冷却不作为荆棘参数"],
+    "证据层次": "当前TotalDamage相加公式及明确BonusArmorDamageRatio字段；额外而非总护甲"
+  },
+  "3155": {
+    "结论": "部分补齐",
+    "可用说明": "救主灵刃：受到将使生命值低于30%的魔法伤害时，获得持续2.5秒的魔法伤害护盾，冷却90秒。近战护盾的客户端等级插值起值110、终值280；远程为近战计算结果的75%。逐等级数列尚未核实，不把110–280直接写成固定护盾或擅自展开为18级数组。",
+    "已证明": [
+      ["魔法伤害触发、低于30%生命、护盾持续2.5秒、冷却90秒", ["LowHealthThreshold", "ShieldLifetime", "Cooldown"], [], ["item_3155_tooltip", "item_cooldown"]],
+      ["等级插值起值110、终值280，远程为75%", [], ["mItemCalculations/MeleeItemCalcValue", "mItemCalculations/RangedItemCalcValue", "StringCalculations/MeleeRangedSplit"], ["item_3155_tooltip"]]
+    ],
+    "仍缺": ["ByCharLevelInterpolationCalculationPart当前默认等级范围和插值计算规则，尚未证明逐等级值"],
+    "运行边界": ["救主灵刃互斥装备组与同一伤害事件中的护盾时序由录入阶段检查"],
+    "禁止采用": ["不依据旧攻略直接补出110+10×(等级−1)；当前静态对象未列出插值使用的等级上下限"],
+    "证据层次": "端点、远程乘数与冷却已证明，完整护盾等级函数仍缺"
+  },
+  "3156": {
+    "结论": "部分补齐",
+    "可用说明": "救主灵刃：受到将使生命值低于30%的魔法伤害时，获得持续3秒的魔法伤害护盾，并获得持续到战斗状态结束的10%全能吸血。护盾近战为200+150%额外攻击力；远程为近战结果的75%，即150+112.5%额外攻击力。冷却90秒。战斗状态结束的具体判定时长仍待证实。",
+    "已证明": [
+      ["魔法盾近战200+150%额外AD，远程为75%", ["ShieldSize", "ShieldADScaling", "RangedShieldMod"], ["mItemCalculations/MeleeItemCalcValue", "mItemCalculations/RangedItemCalcValue"], ["item_3156_tooltip"]],
+      ["魔法伤害将生命压到30%以下触发，护盾3秒、全能吸血10%直到战斗状态结束、冷却90秒", ["LowHealthThreshold", "ShieldDuration", "BuffVamp", "Cooldown"], [], ["item_3156_tooltip", "item_cooldown"]]
+    ],
+    "仍缺": ["战斗状态的进入、续期和退出计时规则；BuffDuration=5与BuffExtension=3的实际读取关系"],
+    "未确认字段": ["BuffDuration", "BuffExtension"],
+    "禁止采用": ["未绑定的item_3156_tooltipdynamic写生命偷取，当前keyTooltip与外部文案均写全能吸血，录入用全能吸血", "不能仅凭BuffDuration=5断定脱战需要5秒，也不能仅凭BuffExtension=3断定每次伤害刷新3秒"],
+    "证据层次": "公式与触发文案可补；额外AD枚举由星蚀同版本公式及官方公告旁证"
+  },
+  "6673": {
+    "结论": "部分补齐",
+    "可用说明": "救主灵刃：受到将使生命值低于30%的伤害时获得护盾，持续3秒，冷却90秒。原始护盾计算给出1级起值400、等级9的分段点及该点开始每级增加30，远程乘数80%。尚未执行当前分段计算器核验，先保留这些原始计算字段，不生成完整逐等级数组。",
+    "已证明": [
+      ["任意符合阈值的伤害触发，阈值30%，持续3秒，冷却90秒", ["HealthThreshold", "ShieldDuration", "Cooldown"], [], ["item_6673_tooltip", "item_cooldown"]],
+      ["ShieldAmount具有等级1值400、分段点9、mBonusPerLevelAtAndAfter=30、远程乘数80%", [], ["mItemCalculations/ShieldAmount"], ["item_6673_tooltip"]]
+    ],
+    "仍缺": ["ByCharLevelBreakpointsCalculationPart与未还原名称的外层计算类型{e9a3c91d}的当前执行语义，尚未对逐等级护盾值进行计算器回读"],
+    "未确认字段": ["BuffDuration"],
+    "禁止采用": ["BuffDuration=8未被当前绑定护盾文案引用，不能把护盾持续3秒改成8秒或增添旧攻速/攻击力增益", "不能把400当各等级固定护盾"],
+    "证据层次": "分段字段和远程乘数明确；外层同类型在星蚀已有近远程旁证，但没有本装备完整计算器验证"
+  },
+  "3026": {
+    "结论": "原明确资料缺口补齐",
+    "可用说明": "重生：受到致命伤害后凝滞4秒并原地复活，恢复50%基础生命值和100%最大法力值。冷却300秒。",
+    "已证明": [
+      ["致命伤害后4秒凝滞复活，50%基础生命和100%最大法力", [], ["mEffectAmount"], ["item_3026_tooltip"]],
+      ["复活冷却300秒", ["Cooldown"], [], ["item_3026_tooltip", "item_cooldown"]]
+    ],
+    "仍缺": [],
+    "运行边界": ["复活期间不可选取、生命回复与其他复活效果优先级未由本次静态资料证明"],
+    "禁止采用": ["恢复基准是基础生命值而非最大生命值", "Items/Spells/GuardianAngel含模板冷却60；当前装备Tooltip使用Cooldown=300，不把模板值当复活冷却"],
+    "证据层次": "绑定说明和装备命名冷却，旧候选只有冷却缺项已补齐"
+  },
+  "3102": {
+    "结论": "原明确资料缺口补齐",
+    "可用说明": "废除：获得法术护盾，格挡下一个敌方技能。护盾冷却40秒；在冷却完成前受到英雄伤害，会重新开始计算这40秒。",
+    "已证明": [
+      ["护盾格挡下一敌方技能、冷却40秒", ["Cooldown"], [], ["item_3102_tooltip", "item_cooldown"]],
+      ["冷却期间受到英雄伤害重新计时", [], [], ["item_3102_tooltipextended", "generatedtip_item_3102_tooltipinventoryextended", "generatedtip_item_3102_tooltipshopextended"]]
+    ],
+    "仍缺": [],
+    "运行边界": ["具体哪些持续技能或多段技能算作一次法术格挡，需要系统技能事件语义支持"],
+    "禁止采用": ["不能省略英雄伤害导致冷却重置的条件，也不扩展为任何伤害都重置"],
+    "证据层次": "库存和商店扩展文案一致；冷却与重获条件均补齐"
+  },
+  "6692": {
+    "结论": "部分补齐",
+    "可用说明": "永升之月：2秒内用2次独立攻击或技能命中同一名英雄，造成目标最大生命值8%（近战）/5%（远程）的物理伤害，并获得持续2秒的护盾。护盾近战为150+40%额外攻击力，远程为75+20%额外攻击力。冷却6秒。独立命中的去重细则仍待证实。",
+    "已证明": [
+      ["2秒触发窗口、2秒护盾、6秒冷却", ["WindowDuration", "ShieldDuration", "Cooldown"], [], ["item_6692_tooltip", "item_cooldown"]],
+      ["近战8%/远程5%目标最大生命值物理伤害；外部简介省略了当前伤害效果", ["MeleePercMaxHP", "RangedPercMaxHPMult"], ["mItemCalculations/MaxHealthDamageCalc"], ["item_6692_tooltip", "generatedtip_item_6692_tooltipinventory"]],
+      ["护盾近战150+40%额外AD，远程75+20%额外AD", ["MeleeBaseShield", "MeleeBonusADShieldRatio", "RangedShieldMult"], ["mItemCalculations/{d02ea590}"], ["item_6692_tooltip", "generatedtip_item_6692_tooltipinventory"]]
+    ],
+    "仍缺": ["独立攻击/技能的去重规则，持续伤害、同一技能多段和复合攻击如何计数"],
+    "禁止采用": ["Data Dragon与客户端对外简介仅写护盾，当前keyTooltip及库存模板均保留百分比生命物理伤害，不能继续按仅护盾录入", "此次用16.17当前字段与绑定说明作主证；官方26.16公告仅证明同样数值和含义，不单独视为16.17完整快照"],
+    "证据层次": "客户端命名数据、散列名计算、实际绑定模板及官方更新说明互证；散列名已用小写FNV-1a确定性核对"
+  }
+}

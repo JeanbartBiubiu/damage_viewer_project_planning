@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Chogath",
+  "sourceNumericId": "31",
+  "name": "科加斯",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 644,
+      "growth": 94,
+      "sources": [
+        "原始资料/zh_CN/champion/Chogath.json:stats.hp/hpperlevel",
+        "角色根记录/Chogath.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 644,
+        "2": 711.68,
+        "3": 782.65,
+        "4": 856.91,
+        "5": 934.46,
+        "6": 1015.3,
+        "7": 1099.43,
+        "8": 1186.85,
+        "9": 1277.56,
+        "10": 1371.56,
+        "11": 1468.85,
+        "12": 1569.43,
+        "13": 1673.3,
+        "14": 1780.46,
+        "15": 1890.91,
+        "16": 2004.65,
+        "17": 2121.68,
+        "18": 2242
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 9,
+      "growth": 0.85,
+      "sources": [
+        "原始资料/zh_CN/champion/Chogath.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Chogath.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 9,
+        "2": 9.612,
+        "3": 10.25375,
+        "4": 10.92525,
+        "5": 11.6265,
+        "6": 12.3575,
+        "7": 13.11825,
+        "8": 13.90875,
+        "9": 14.729,
+        "10": 15.579,
+        "11": 16.45875,
+        "12": 17.36825,
+        "13": 18.3075,
+        "14": 19.2765,
+        "15": 20.27525,
+        "16": 21.30375,
+        "17": 22.362,
+        "18": 23.45
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 38,
+      "growth": 4.5,
+      "sources": [
+        "原始资料/zh_CN/champion/Chogath.json:stats.armor/armorperlevel",
+        "角色根记录/Chogath.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 38,
+        "2": 41.24,
+        "3": 44.6375,
+        "4": 48.1925,
+        "5": 51.905,
+        "6": 55.775,
+        "7": 59.8025,
+        "8": 63.9875,
+        "9": 68.33,
+        "10": 72.83,
+        "11": 77.4875,
+        "12": 82.3025,
+        "13": 87.275,
+        "14": 92.405,
+        "15": 97.6925,
+        "16": 103.1375,
+        "17": 108.74,
+        "18": 114.5
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 32,
+      "growth": 2.05,
+      "sources": [
+        "原始资料/zh_CN/champion/Chogath.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Chogath.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 32,
+        "2": 33.476,
+        "3": 35.02375,
+        "4": 36.64325,
+        "5": 38.3345,
+        "6": 40.0975,
+        "7": 41.93225,
+        "8": 43.83875,
+        "9": 45.817,
+        "10": 47.867,
+        "11": 49.98875,
+        "12": 52.18225,
+        "13": 54.4475,
+        "14": 56.7845,
+        "15": 59.19325,
+        "16": 61.67375,
+        "17": 64.226,
+        "18": 66.85
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 69,
+      "growth": 4.2,
+      "sources": [
+        "角色根记录/Chogath.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 69,
+        "2": 72.024,
+        "3": 75.195,
+        "4": 78.513,
+        "5": 81.978,
+        "6": 85.59,
+        "7": 89.349,
+        "8": 93.255,
+        "9": 97.308,
+        "10": 101.508,
+        "11": 105.855,
+        "12": 110.349,
+        "13": 114.99,
+        "14": 119.778,
+        "15": 124.713,
+        "16": 129.795,
+        "17": 135.024,
+        "18": 140.4
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 345,
+      "growth": null,
+      "sources": [
+        "角色根记录/Chogath.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 345,
+        "2": 345,
+        "3": 345,
+        "4": 345,
+        "5": 345,
+        "6": 345,
+        "7": 345,
+        "8": 345,
+        "9": 345,
+        "10": 345,
+        "11": 345,
+        "12": 345,
+        "13": 345,
+        "14": 345,
+        "15": 345,
+        "16": 345,
+        "17": 345,
+        "18": 345
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 125,
+      "growth": null,
+      "sources": [
+        "角色根记录/Chogath.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 125,
+        "2": 125,
+        "3": 125,
+        "4": 125,
+        "5": 125,
+        "6": 125,
+        "7": 125,
+        "8": 125,
+        "9": 125,
+        "10": 125,
+        "11": 125,
+        "12": 125,
+        "13": 125,
+        "14": 125,
+        "15": 125,
+        "16": 125,
+        "17": 125,
+        "18": 125
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.658,
+      "attackSpeedRatio": 0.625,
+      "growthPercent": 1.44,
+      "sources": [
+        "角色根记录/Chogath.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.658,
+        "2": 0.66448,
+        "3": 0.671275,
+        "4": 0.678385,
+        "5": 0.68581,
+        "6": 0.69355,
+        "7": 0.701605,
+        "8": 0.709975,
+        "9": 0.71866,
+        "10": 0.72766,
+        "11": 0.736975,
+        "12": 0.746605,
+        "13": 0.75655,
+        "14": 0.76681,
+        "15": 0.777385,
+        "16": 0.788275,
+        "17": 0.79948,
+        "18": 0.811
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 270,
+      "growth": 60,
+      "sources": [
+        "原始资料/zh_CN/champion/Chogath.json:stats.mp/mpperlevel",
+        "角色根记录/Chogath.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 270,
+        "2": 313.2,
+        "3": 358.5,
+        "4": 405.9,
+        "5": 455.4,
+        "6": 507,
+        "7": 560.7,
+        "8": 616.5,
+        "9": 674.4,
+        "10": 734.4,
+        "11": 796.5,
+        "12": 860.7,
+        "13": 927,
+        "14": 995.4,
+        "15": 1065.9,
+        "16": 1138.5,
+        "17": 1213.2,
+        "18": 1290
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 7.2,
+      "growth": 0.45,
+      "sources": [
+        "原始资料/zh_CN/champion/Chogath.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Chogath.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 7.2,
+        "2": 7.524,
+        "3": 7.86375,
+        "4": 8.21925,
+        "5": 8.5905,
+        "6": 8.9775,
+        "7": 9.38025,
+        "8": 9.79875,
+        "9": 10.233,
+        "10": 10.683,
+        "11": 11.14875,
+        "12": 11.63025,
+        "13": 12.1275,
+        "14": 12.6405,
+        "15": 13.16925,
+        "16": 13.71375,
+        "17": 14.274,
+        "18": 14.85
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.658,
+    "ratio": 0.625,
+    "growthPercent": 1.44,
+    "ratioDiffersFromBase": true
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Ivern",
+  "sourceNumericId": "427",
+  "name": "艾翁",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 630,
+      "growth": 99,
+      "sources": [
+        "原始资料/zh_CN/champion/Ivern.json:stats.hp/hpperlevel",
+        "角色根记录/Ivern.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 630,
+        "2": 701.28,
+        "3": 776.025,
+        "4": 854.235,
+        "5": 935.91,
+        "6": 1021.05,
+        "7": 1109.655,
+        "8": 1201.725,
+        "9": 1297.26,
+        "10": 1396.26,
+        "11": 1498.725,
+        "12": 1604.655,
+        "13": 1714.05,
+        "14": 1826.91,
+        "15": 1943.235,
+        "16": 2063.025,
+        "17": 2186.28,
+        "18": 2313
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 7,
+      "growth": 0.85,
+      "sources": [
+        "原始资料/zh_CN/champion/Ivern.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Ivern.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 7,
+        "2": 7.612,
+        "3": 8.25375,
+        "4": 8.92525,
+        "5": 9.6265,
+        "6": 10.3575,
+        "7": 11.11825,
+        "8": 11.90875,
+        "9": 12.729,
+        "10": 13.579,
+        "11": 14.45875,
+        "12": 15.36825,
+        "13": 16.3075,
+        "14": 17.2765,
+        "15": 18.27525,
+        "16": 19.30375,
+        "17": 20.362,
+        "18": 21.45
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 27,
+      "growth": 4.7,
+      "sources": [
+        "原始资料/zh_CN/champion/Ivern.json:stats.armor/armorperlevel",
+        "角色根记录/Ivern.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 27,
+        "2": 30.384,
+        "3": 33.9325,
+        "4": 37.6455,
+        "5": 41.523,
+        "6": 45.565,
+        "7": 49.7715,
+        "8": 54.1425,
+        "9": 58.678,
+        "10": 63.378,
+        "11": 68.2425,
+        "12": 73.2715,
+        "13": 78.465,
+        "14": 83.823,
+        "15": 89.3455,
+        "16": 95.0325,
+        "17": 100.884,
+        "18": 106.9
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 30,
+      "growth": 1.3,
+      "sources": [
+        "原始资料/zh_CN/champion/Ivern.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Ivern.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 30,
+        "2": 30.936,
+        "3": 31.9175,
+        "4": 32.9445,
+        "5": 34.017,
+        "6": 35.135,
+        "7": 36.2985,
+        "8": 37.5075,
+        "9": 38.762,
+        "10": 40.062,
+        "11": 41.4075,
+        "12": 42.7985,
+        "13": 44.235,
+        "14": 45.717,
+        "15": 47.2445,
+        "16": 48.8175,
+        "17": 50.436,
+        "18": 52.1
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 50,
+      "growth": 3,
+      "sources": [
+        "角色根记录/Ivern.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 50,
+        "2": 52.16,
+        "3": 54.425,
+        "4": 56.795,
+        "5": 59.27,
+        "6": 61.85,
+        "7": 64.535,
+        "8": 67.325,
+        "9": 70.22,
+        "10": 73.22,
+        "11": 76.325,
+        "12": 79.535,
+        "13": 82.85,
+        "14": 86.27,
+        "15": 89.795,
+        "16": 93.425,
+        "17": 97.16,
+        "18": 101
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 330,
+      "growth": null,
+      "sources": [
+        "角色根记录/Ivern.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 330,
+        "2": 330,
+        "3": 330,
+        "4": 330,
+        "5": 330,
+        "6": 330,
+        "7": 330,
+        "8": 330,
+        "9": 330,
+        "10": 330,
+        "11": 330,
+        "12": 330,
+        "13": 330,
+        "14": 330,
+        "15": 330,
+        "16": 330,
+        "17": 330,
+        "18": 330
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 475,
+      "growth": null,
+      "sources": [
+        "角色根记录/Ivern.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 475,
+        "2": 475,
+        "3": 475,
+        "4": 475,
+        "5": 475,
+        "6": 475,
+        "7": 475,
+        "8": 475,
+        "9": 475,
+        "10": 475,
+        "11": 475,
+        "12": 475,
+        "13": 475,
+        "14": 475,
+        "15": 475,
+        "16": 475,
+        "17": 475,
+        "18": 475
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.644,
+      "attackSpeedRatio": 0.644,
+      "growthPercent": 3.4,
+      "sources": [
+        "角色根记录/Ivern.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.644,
+        "2": 0.659765,
+        "3": 0.676297,
+        "4": 0.693594,
+        "5": 0.711659,
+        "6": 0.730489,
+        "7": 0.750086,
+        "8": 0.770449,
+        "9": 0.791579,
+        "10": 0.813475,
+        "11": 0.836137,
+        "12": 0.859566,
+        "13": 0.883761,
+        "14": 0.908723,
+        "15": 0.93445,
+        "16": 0.960945,
+        "17": 0.988205,
+        "18": 1.016232
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 450,
+      "growth": 60,
+      "sources": [
+        "原始资料/zh_CN/champion/Ivern.json:stats.mp/mpperlevel",
+        "角色根记录/Ivern.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 450,
+        "2": 493.2,
+        "3": 538.5,
+        "4": 585.9,
+        "5": 635.4,
+        "6": 687,
+        "7": 740.7,
+        "8": 796.5,
+        "9": 854.4,
+        "10": 914.4,
+        "11": 976.5,
+        "12": 1040.7,
+        "13": 1107,
+        "14": 1175.4,
+        "15": 1245.9,
+        "16": 1318.5,
+        "17": 1393.2,
+        "18": 1470
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 6,
+      "growth": 0.75,
+      "sources": [
+        "原始资料/zh_CN/champion/Ivern.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Ivern.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 6,
+        "2": 6.54,
+        "3": 7.10625,
+        "4": 7.69875,
+        "5": 8.3175,
+        "6": 8.9625,
+        "7": 9.63375,
+        "8": 10.33125,
+        "9": 11.055,
+        "10": 11.805,
+        "11": 12.58125,
+        "12": 13.38375,
+        "13": 14.2125,
+        "14": 15.0675,
+        "15": 15.94875,
+        "16": 16.85625,
+        "17": 17.79,
+        "18": 18.75
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.644,
+    "ratio": 0.644,
+    "growthPercent": 3.4,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

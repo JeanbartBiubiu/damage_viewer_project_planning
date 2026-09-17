@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Olaf",
+  "sourceNumericId": "2",
+  "name": "奥拉夫",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 645,
+      "growth": 119,
+      "sources": [
+        "原始资料/zh_CN/champion/Olaf.json:stats.hp/hpperlevel",
+        "角色根记录/Olaf.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 645,
+        "2": 730.68,
+        "3": 820.525,
+        "4": 914.535,
+        "5": 1012.71,
+        "6": 1115.05,
+        "7": 1221.555,
+        "8": 1332.225,
+        "9": 1447.06,
+        "10": 1566.06,
+        "11": 1689.225,
+        "12": 1816.555,
+        "13": 1948.05,
+        "14": 2083.71,
+        "15": 2223.535,
+        "16": 2367.525,
+        "17": 2515.68,
+        "18": 2668
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 6.5,
+      "growth": 0.6,
+      "sources": [
+        "原始资料/zh_CN/champion/Olaf.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Olaf.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 6.5,
+        "2": 6.932,
+        "3": 7.385,
+        "4": 7.859,
+        "5": 8.354,
+        "6": 8.87,
+        "7": 9.407,
+        "8": 9.965,
+        "9": 10.544,
+        "10": 11.144,
+        "11": 11.765,
+        "12": 12.407,
+        "13": 13.07,
+        "14": 13.754,
+        "15": 14.459,
+        "16": 15.185,
+        "17": 15.932,
+        "18": 16.7
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 35,
+      "growth": 4.2,
+      "sources": [
+        "原始资料/zh_CN/champion/Olaf.json:stats.armor/armorperlevel",
+        "角色根记录/Olaf.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 35,
+        "2": 38.024,
+        "3": 41.195,
+        "4": 44.513,
+        "5": 47.978,
+        "6": 51.59,
+        "7": 55.349,
+        "8": 59.255,
+        "9": 63.308,
+        "10": 67.508,
+        "11": 71.855,
+        "12": 76.349,
+        "13": 80.99,
+        "14": 85.778,
+        "15": 90.713,
+        "16": 95.795,
+        "17": 101.024,
+        "18": 106.4
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 32,
+      "growth": 2.05,
+      "sources": [
+        "原始资料/zh_CN/champion/Olaf.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Olaf.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 32,
+        "2": 33.476,
+        "3": 35.02375,
+        "4": 36.64325,
+        "5": 38.3345,
+        "6": 40.0975,
+        "7": 41.93225,
+        "8": 43.83875,
+        "9": 45.817,
+        "10": 47.867,
+        "11": 49.98875,
+        "12": 52.18225,
+        "13": 54.4475,
+        "14": 56.7845,
+        "15": 59.19325,
+        "16": 61.67375,
+        "17": 64.226,
+        "18": 66.85
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 68,
+      "growth": 4.7,
+      "sources": [
+        "角色根记录/Olaf.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 68,
+        "2": 71.384,
+        "3": 74.9325,
+        "4": 78.6455,
+        "5": 82.523,
+        "6": 86.565,
+        "7": 90.7715,
+        "8": 95.1425,
+        "9": 99.678,
+        "10": 104.378,
+        "11": 109.2425,
+        "12": 114.2715,
+        "13": 119.465,
+        "14": 124.823,
+        "15": 130.3455,
+        "16": 136.0325,
+        "17": 141.884,
+        "18": 147.9
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 350,
+      "growth": null,
+      "sources": [
+        "角色根记录/Olaf.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 350,
+        "2": 350,
+        "3": 350,
+        "4": 350,
+        "5": 350,
+        "6": 350,
+        "7": 350,
+        "8": 350,
+        "9": 350,
+        "10": 350,
+        "11": 350,
+        "12": 350,
+        "13": 350,
+        "14": 350,
+        "15": 350,
+        "16": 350,
+        "17": 350,
+        "18": 350
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 125,
+      "growth": null,
+      "sources": [
+        "角色根记录/Olaf.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 125,
+        "2": 125,
+        "3": 125,
+        "4": 125,
+        "5": 125,
+        "6": 125,
+        "7": 125,
+        "8": 125,
+        "9": 125,
+        "10": 125,
+        "11": 125,
+        "12": 125,
+        "13": 125,
+        "14": 125,
+        "15": 125,
+        "16": 125,
+        "17": 125,
+        "18": 125
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.72,
+      "attackSpeedRatio": 0.694,
+      "growthPercent": 2.7,
+      "sources": [
+        "角色根记录/Olaf.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.72,
+        "2": 0.733491,
+        "3": 0.747639,
+        "4": 0.762442,
+        "5": 0.7779,
+        "6": 0.794015,
+        "7": 0.810786,
+        "8": 0.828212,
+        "9": 0.846294,
+        "10": 0.865032,
+        "11": 0.884426,
+        "12": 0.904476,
+        "13": 0.925181,
+        "14": 0.946542,
+        "15": 0.96856,
+        "16": 0.991233,
+        "17": 1.014561,
+        "18": 1.038546
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 316,
+      "growth": 50,
+      "sources": [
+        "原始资料/zh_CN/champion/Olaf.json:stats.mp/mpperlevel",
+        "角色根记录/Olaf.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 316,
+        "2": 352,
+        "3": 389.75,
+        "4": 429.25,
+        "5": 470.5,
+        "6": 513.5,
+        "7": 558.25,
+        "8": 604.75,
+        "9": 653,
+        "10": 703,
+        "11": 754.75,
+        "12": 808.25,
+        "13": 863.5,
+        "14": 920.5,
+        "15": 979.25,
+        "16": 1039.75,
+        "17": 1102,
+        "18": 1166
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 7.5,
+      "growth": 0.6,
+      "sources": [
+        "原始资料/zh_CN/champion/Olaf.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Olaf.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 7.5,
+        "2": 7.932,
+        "3": 8.385,
+        "4": 8.859,
+        "5": 9.354,
+        "6": 9.87,
+        "7": 10.407,
+        "8": 10.965,
+        "9": 11.544,
+        "10": 12.144,
+        "11": 12.765,
+        "12": 13.407,
+        "13": 14.07,
+        "14": 14.754,
+        "15": 15.459,
+        "16": 16.185,
+        "17": 16.932,
+        "18": 17.7
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.72,
+    "ratio": 0.694,
+    "growthPercent": 2.7,
+    "ratioDiffersFromBase": true
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

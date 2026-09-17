@@ -1,0 +1,6 @@
+import {readFile,writeFile} from 'node:fs/promises';
+import {objects} from './录入装备技能.mjs';
+const result=JSON.parse(await readFile(new URL('./纠错后独立回读.json',import.meta.url),'utf8'));
+if(result.failures.length)throw Error('纠错回读尚未通过');
+await writeFile(new URL('./来源与处置清单.json',import.meta.url),JSON.stringify({generatedAt:new Date().toISOString(),executor:'Luna原录入；接手代理按独立审查纠错',versions:{official:'16.17.1',client:'16.17'},counts:result.counts,verification:{checks:result.checks.length,arithmetic:result.arithmetic.length,invariants:result.invariants.length,failures:0,boundary:result.boundary},sourceFiles:'源引用逐装备列出；原哈希和写入证据存修正前证据，当前只读证据另存',objects:objects.map(o=>({equipmentKey:o.equipmentKey,skillKey:o.skill.skillKey,name:o.equipmentName,directAttributes:o.directAttributes,sourceRefs:o.sourceRefs,saved:{parameters:o.parameters.map(v=>v.parameterKey),formulas:o.formulas.map(v=>v.formulaKey),effects:o.effects.map(v=>v.effectKey),triggerRules:o.triggerRules.map(v=>v.ruleKey)},pendingRules:o.pendingRules,pendingEffects:o.pendingEffects,scope:'本轮可证明组成；未声称全机制运行通过'})),classificationCorrection:{skillKey:'ez_r',change:'仅移除common',otherFieldsMatch:true,basicCategoryCount:result.classifications.basicCategory.length,rSkillCount:result.classifications.rSkills.length,basicR:result.classifications.basicR}},null,2)+'\n');
+console.log('已生成来源与处置清单');

@@ -1,0 +1,1188 @@
+{
+  "batch": "Luna第十批/第二组",
+  "generatedAt": "2026-09-08T15:46:43.717Z",
+  "status": "仅冻结来源和候选整理；未调用业务写接口；对象为3004和3041。",
+  "versionBoundary": {
+    "client": "16.17",
+    "official": "16.17.1",
+    "locale": "zh_CN",
+    "map": "普通地图候选；不采用模式覆盖值"
+  },
+  "sourceIndex": {
+    "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz": {
+      "sha256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7",
+      "bytes": 1577238,
+      "decompressedSha256": "b59ec9320d05acefa344ea8a5ef615cf7f32959078475cafff63833462dc358f"
+    },
+    "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz": {
+      "sha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+      "bytes": 8350124,
+      "decompressedSha256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031"
+    },
+    "数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json": {
+      "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973",
+      "bytes": 691131
+    },
+    "数据参考/全量录入-2026-09/装备符文/装备全量处置清单.json": {
+      "sha256": "7b1df1fe63d3ce00d466be458e5c07a1b8b6b6220ba1c728c4cc8324b72e64c6",
+      "bytes": 1878434
+    },
+    "数据参考/全量录入-2026-09/装备效果补证/来源与覆盖.json": {
+      "sha256": "97f70eaa0ec570668400d8c8e4654a5657e2ceb39872a1aad7acf4cc53b8c19c",
+      "bytes": 9380
+    },
+    "数据参考/全量录入-2026-09/API实录/装备/summary.json": {
+      "sha256": "e653d0ca5a97d12449ff5034937a8eca2e004e1e4fd0b11ab80cec09a718c0b9",
+      "bytes": 228004
+    },
+    "数据参考/全量录入-2026-09/装备技能实录/Luna第十批/关系识别-2026-09-08T02-52-11.404Z.json": {
+      "sha256": "08ecc61fb52ec7ef6643d92067122b67f119f04ae9a04f4fb0d4946e51362f4e",
+      "bytes": 11829
+    },
+    "数据参考/全量录入-2026-09/装备技能实录/Luna第十批/关系识别-2026-09-08T02-53-49.953Z.json": {
+      "sha256": "408c575ba4547a3ea34186253b8c819b9b5885597374158804cf4f376f3129d8",
+      "bytes": 19660
+    }
+  },
+  "coverageSourceHashes": [
+    {
+      "文件": "客户端原始资料/items-16.17.cdtb.bin.json.gz",
+      "解压文件名": "items-16.17.cdtb.bin.json",
+      "地址": "https://raw.communitydragon.org/16.17/game/items.cdtb.bin.json",
+      "目录或公告版本": "16.17",
+      "用途": "主证：客户端装备对象、命名数据、计算与说明绑定",
+      "下载文件修改时间UTC": "2026-09-06T15:00:14.328Z",
+      "原始字节数": 15923188,
+      "原始SHA256": "b59ec9320d05acefa344ea8a5ef615cf7f32959078475cafff63833462dc358f",
+      "压缩字节数": 1577238,
+      "压缩SHA256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7"
+    },
+    {
+      "文件": "客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+      "解压文件名": "lol-16.17-zh_CN.stringtable.json",
+      "地址": "https://raw.communitydragon.org/16.17/game/zh_cn/data/menu/en_us/lol.stringtable.json",
+      "目录或公告版本": "16.17",
+      "用途": "主证：中文游戏说明，文件内version=5是字符串表格式版本，不是游戏补丁版本",
+      "下载文件修改时间UTC": "2026-09-06T15:08:11.306Z",
+      "原始字节数": 32784742,
+      "原始SHA256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+      "压缩字节数": 8350124,
+      "压缩SHA256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e"
+    },
+    {
+      "文件": "客户端原始资料/items-16.17-zh_CN.json.gz",
+      "解压文件名": "items-16.17-zh_CN.json",
+      "地址": "https://raw.communitydragon.org/16.17/plugins/rcp-be-lol-game-data/global/zh_cn/v1/items.json",
+      "目录或公告版本": "16.17",
+      "用途": "交叉核对：客户端对外装备列表，说明仍可能省略动态效果",
+      "下载文件修改时间UTC": "2026-09-06T14:59:31.906Z",
+      "原始字节数": 680850,
+      "原始SHA256": "98febe7dcc32bd1f3d0b1955494dcac57baf4877afea5f0c93c057c179cbcf64",
+      "压缩字节数": 96301,
+      "压缩SHA256": "f4ed06bce504288345ed7761ea1a12612ef5afd6400ebb1f27290204e1f24e20"
+    },
+    {
+      "文件": "客户端原始资料/官方26.16更新说明.html.gz",
+      "解压文件名": "官方26.16更新说明.html",
+      "地址": "https://www.leagueoflegends.com/en-us/news/game-updates/league-of-legends-patch-26-16-notes/",
+      "目录或公告版本": "26.16",
+      "用途": "旁证：星蚀数值、额外攻击力语义；挑战护手基础攻击力语义。不得单独充当16.17快照",
+      "下载文件修改时间UTC": "2026-09-06T15:10:20.303Z",
+      "原始字节数": 348216,
+      "原始SHA256": "ae8efd145af0fbff605dac293e414de0fe0efe6b9f7893ac26c593adeb92f98a",
+      "压缩字节数": 60756,
+      "压缩SHA256": "514a87f3450d9bd493f2d68a6e9d0ece1ceb4f0b3454315f445bd55025d88aff"
+    },
+    {
+      "文件": "客户端原始资料/官方26.17更新说明.html.gz",
+      "解压文件名": "官方26.17更新说明.html",
+      "地址": "https://www.leagueoflegends.com/en-us/news/game-updates/league-of-legends-patch-26-17-notes/",
+      "目录或公告版本": "26.17",
+      "用途": "版本公告核对；未检索到星蚀条目，不以没有公告代替当前对象证明",
+      "下载文件修改时间UTC": "2026-09-06T15:10:21.829Z",
+      "原始字节数": 316347,
+      "原始SHA256": "82ba65084f1f732053a84397305f8f739be0511b9a6756dfb527888fd90c1649",
+      "压缩字节数": 54252,
+      "压缩SHA256": "fe5acabd0e7422c990401dbec0606e52331a3ac21e6df7612b4bcae65344bd1f"
+    },
+    {
+      "文件": "客户端原始资料/globals-16.17.cdtb.bin.json.gz",
+      "解压文件名": "globals-16.17.cdtb.bin.json",
+      "地址": "https://raw.communitydragon.org/16.17/game/globals.cdtb.bin.json",
+      "目录或公告版本": "16.17",
+      "用途": "探索留档：未找到可直接使用的完整属性枚举定义，不用于填值",
+      "下载文件修改时间UTC": "2026-09-06T15:02:11.961Z",
+      "原始字节数": 433600,
+      "原始SHA256": "88fe4aa45fc6bc6a2f5c0a375de2f9412db486d1428f5e36db7bf4ef343644f5",
+      "压缩字节数": 50367,
+      "压缩SHA256": "036580274b1fb45d52c9874c472c6ee3b0a5537606ee47ccf33ea97effd43bc2"
+    },
+    {
+      "文件": "客户端原始资料/shared-16.17.cdtb.bin.json.gz",
+      "解压文件名": "shared-16.17.cdtb.bin.json",
+      "地址": "https://raw.communitydragon.org/16.17/game/shared.cdtb.bin.json",
+      "目录或公告版本": "16.17",
+      "用途": "探索留档：未取得这15件的实际触发脚本，不用于推算缺失规则",
+      "下载文件修改时间UTC": "2026-09-06T15:10:18.509Z",
+      "原始字节数": 8636644,
+      "原始SHA256": "7b87a25efd4dc7c808a504f5c92cbe21388f4145b7d1688494769f43946df59a",
+      "压缩字节数": 805030,
+      "压缩SHA256": "2908a56756968ec40a646b3f7672768c0a3838de0f00a12a45f8048e7909b4e9"
+    },
+    {
+      "文件": "客户端原始资料/common-16.17.bin.json.gz",
+      "解压文件名": "common-16.17.bin.json",
+      "地址": "https://raw.communitydragon.org/16.17/game/common.bin.json",
+      "目录或公告版本": "16.17",
+      "用途": "探索留档：未取得完整属性枚举，不用于填值",
+      "下载文件修改时间UTC": "2026-09-06T15:12:16.978Z",
+      "原始字节数": 16130,
+      "原始SHA256": "077cb25b6ddd2086943e2e373a38146c0b8bc8f0cb75e786703b1da4e4490ba7",
+      "压缩字节数": 3141,
+      "压缩SHA256": "10d31083aade19bb5648b5ea3563f29f0f84441acf298cbd44e7e0c5fc27427f"
+    },
+    {
+      "文件": "客户端原始资料/gameplay-16.17.bin.json.gz",
+      "解压文件名": "gameplay-16.17.bin.json",
+      "地址": "https://raw.communitydragon.org/16.17/game/gameplay.bin.json",
+      "目录或公告版本": "16.17",
+      "用途": "探索留档：未取得完整属性枚举，不用于填值",
+      "下载文件修改时间UTC": "2026-09-06T15:12:54.139Z",
+      "原始字节数": 448508,
+      "原始SHA256": "dfe4cedded5088aaf0434a44d7d0757abc67d827315a3046c4bd7cb2b956860f",
+      "压缩字节数": 20194,
+      "压缩SHA256": "0fcf6710f65e16b0bf0afe2909756c87a4acbf823cdc86909aecf0ec28477a35"
+    }
+  ],
+  "relationRule": "先使用关系快照确认真实装备键；关系为空和预期被动404只能说明当前没有关联，不覆盖既有属性或技能。",
+  "sharedGloryBinding": {
+    "item_1082": {
+      "calculationName": "CurrentGloryAP",
+      "formulaPartType": "BuffCounterByNamedDataValueCalculationPart",
+      "buffName": "{22eeba1f}",
+      "dataValue": "APPerGlory",
+      "raw": {
+        "mFormulaParts": [
+          {
+            "mBuffName": "{22eeba1f}",
+            "mDataValue": "APPerGlory",
+            "__type": "BuffCounterByNamedDataValueCalculationPart"
+          }
+        ],
+        "__type": "GameCalculation"
+      }
+    },
+    "item_3041": {
+      "calculationName": "CurrentGloryAP",
+      "formulaPartType": "BuffCounterByNamedDataValueCalculationPart",
+      "buffName": "{22eeba1f}",
+      "dataValue": "APPerGlory",
+      "raw": {
+        "mFormulaParts": [
+          {
+            "mBuffName": "{22eeba1f}",
+            "mDataValue": "APPerGlory",
+            "__type": "BuffCounterByNamedDataValueCalculationPart"
+          }
+        ],
+        "__type": "GameCalculation"
+      }
+    },
+    "conclusion": "冻结客户端中1082和3041的CurrentGloryAP均绑定同一mBuffName={22eeba1f}与DataValue APPerGlory；本候选只记录共享依赖，不创建第二个计数器或虚构运行时字段。"
+  },
+  "objects": [
+    {
+      "itemId": "3004",
+      "requestedEquipmentKey": "item_3004",
+      "selectedEquipmentKey": "item_3004",
+      "equipmentName": "魔宗",
+      "skillKey": "item_3004_passive",
+      "client": {
+        "objectPath": "Items/3004",
+        "object": {
+          "spellName": "ManamuneDummySpell",
+          "mDisplayName": "Item_3004_Name",
+          "itemID": 3004,
+          "maxStack": 1,
+          "price": 1100,
+          "recipeItemLinks": [
+            "Items/3070",
+            "Items/3133",
+            "Items/1036"
+          ],
+          "mScripts": [
+            "3004"
+          ],
+          "mDataValues": [
+            {
+              "mName": "ManaPerCharge",
+              "mValue": 3,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "ManaChargeAmmoCD",
+              "mValue": 8,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "ManaChargeMaxAmmo",
+              "mValue": 4,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "MaxMana",
+              "mValue": 360,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "TakedownMana",
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "InternalCDPerCastID",
+              "mValue": 6.5,
+              "__type": "ItemDataValue"
+            }
+          ],
+          "DataValuesModeOverride": {
+            "ARAM": {
+              "DataValues": [
+                {
+                  "mName": "ManaPerCharge",
+                  "mValue": 4.5,
+                  "__type": "ItemDataValue"
+                }
+              ],
+              "__type": "ItemDataValues"
+            },
+            "NEXUSBLITZ": {
+              "DataValues": [
+                {
+                  "mName": "ManaPerCharge",
+                  "mValue": 4.5,
+                  "__type": "ItemDataValue"
+                }
+              ],
+              "__type": "ItemDataValues"
+            },
+            "ONEFORALL": {
+              "DataValues": [
+                {
+                  "mName": "ManaPerCharge",
+                  "mValue": 4.5,
+                  "__type": "ItemDataValue"
+                }
+              ],
+              "__type": "ItemDataValues"
+            },
+            "{a110bc47}": {
+              "DataValues": [
+                {
+                  "mName": "ManaPerCharge",
+                  "mValue": 4.5,
+                  "__type": "ItemDataValue"
+                }
+              ],
+              "__type": "ItemDataValues"
+            },
+            "Ruby": {
+              "DataValues": [
+                {
+                  "mName": "ManaPerCharge",
+                  "mValue": 4.5,
+                  "__type": "ItemDataValue"
+                }
+              ],
+              "__type": "ItemDataValues"
+            },
+            "RUBY_TRIAL_1": {
+              "DataValues": [
+                {
+                  "mName": "ManaPerCharge",
+                  "mValue": 4.5,
+                  "__type": "ItemDataValue"
+                }
+              ],
+              "__type": "ItemDataValues"
+            },
+            "RUBY_TRIAL_2": {
+              "DataValues": [
+                {
+                  "mName": "ManaPerCharge",
+                  "mValue": 4.5,
+                  "__type": "ItemDataValue"
+                }
+              ],
+              "__type": "ItemDataValues"
+            },
+            "{aecea60c}": {
+              "DataValues": [
+                {
+                  "mName": "ManaPerCharge",
+                  "mValue": 4.5,
+                  "__type": "ItemDataValue"
+                }
+              ],
+              "__type": "ItemDataValues"
+            },
+            "{bffdf499}": {
+              "DataValues": [
+                {
+                  "mName": "ManaPerCharge",
+                  "mValue": 4.5,
+                  "__type": "ItemDataValue"
+                }
+              ],
+              "__type": "ItemDataValues"
+            }
+          },
+          "mItemCalculations": {
+            "BonusADFromMana": {
+              "mFormulaParts": [
+                {
+                  "mCoefficient": 0.019999999552965164,
+                  "__type": "AbilityResourceByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "mItemAttributes": [
+            2,
+            1,
+            4
+          ],
+          "mCategories": [
+            "Damage",
+            "Mana",
+            "CooldownReduction",
+            "OnHit",
+            "AbilityHaste"
+          ],
+          "mFlatPhysicalDamageMod": 35,
+          "mAbilityHasteMod": 15,
+          "flatMPPoolMod": 500,
+          "mItemDataAvailability": {
+            "mInStore": true,
+            "__type": "ItemDataAvailability"
+          },
+          "mItemDataClient": {
+            "mTooltipData": {
+              "mObjectName": "3004",
+              "mFormat": "{32559c50}",
+              "mLocKeys": {
+                "keyName": "Item_3004_Name",
+                "keyBrief": "Item_3004_Brief",
+                "keyTooltip": "Item_3004_Tooltip",
+                "keyColloquialism": "Item_3004_Colloquialism",
+                "keySecondaryBrief": "Item_Unique_Manaflow"
+              },
+              "mLists": {
+                "Stats": {
+                  "Elements": [
+                    {
+                      "type": "AttackDamage",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "Mana",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "AbilityHaste",
+                      "__type": "TooltipInstanceListElement"
+                    }
+                  ],
+                  "__type": "TooltipInstanceList"
+                }
+              },
+              "__type": "TooltipInstanceItem"
+            },
+            "mDescription": "GeneratedTip_Item_3004_Description",
+            "mDynamicTooltip": "GeneratedTip_Item_3004_TooltipInventory",
+            "mShopTooltip": "GeneratedTip_Item_3004_TooltipShop",
+            "inventoryIcon": "assets/items/icons2d/3004_marksman_t3_manamune.dds",
+            "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/3004_Marksman_T3_Manamune.png",
+            "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/3004_Marksman_T3_Manamune.png",
+            "epicness": 5,
+            "__type": "ItemDataClient"
+          }
+        },
+        "dataValues": {
+          "ManaPerCharge": 3,
+          "ManaChargeAmmoCD": 8,
+          "ManaChargeMaxAmmo": 4,
+          "MaxMana": 360,
+          "TakedownMana": null,
+          "InternalCDPerCastID": 6.5
+        },
+        "currentBoundStringTable": {
+          "item_3004_name": "魔宗",
+          "item_3004_brief": "法力值增长",
+          "item_3004_tooltip": "<passive>敬畏</passive><br>获得<scaleAD>@BonusADFromMana@额外攻击力</scaleAD>。<br><br><passive>法力流</passive> %i:cooldown% (@ManaChargeAmmoCD@秒，最大@ManaChargeMaxAmmo@层)<br>普攻和技能在命中时会提供<scaleMana>@ManaPerCharge@最大法力值</scaleMana>(对英雄时翻倍)。<br>在<scaleMana>@MaxMana@最大法力值</scaleMana>时转变为<rarityLegendary>魔切</rarityLegendary>。",
+          "item_3004_colloquialism": ";法力成长;成长法力;泪;魔切;Muramana;tear;mozong;mz;moqie;mq;nvshenlei;yanlei;Manamune;魔宗",
+          "item_unique_manaflow": "半唯一：法力流",
+          "generatedtip_item_3004_description": "<section></section><section><attention>%i:scaleAD%@FlatPhysicalDamageMod@</attention>攻击力<br><attention>%i:scaleMana% @FlatMPPoolMod@</attention>法力<br><attention>%i:scaleCooldown%@AbilityHasteMod@</attention>技能急速</section><section><passive>敬畏</passive><br>获得<scaleAD>@BonusADFromMana@额外攻击力</scaleAD>。<br><br><passive>法力流</passive> %i:cooldown% (@ManaChargeAmmoCD@秒，最大@ManaChargeMaxAmmo@层)<br>普攻和技能在命中时会提供<scaleMana>@ManaPerCharge@最大法力值</scaleMana>(对英雄时翻倍)。<br>在<scaleMana>@MaxMana@最大法力值</scaleMana>时转变为<rarityLegendary>魔切</rarityLegendary>。</section><section></section><section><flavorText></flavorText></section>",
+          "generatedtip_item_3004_tooltipinventory": "<titleLeft><itemName@ItemActiveness@>魔宗</itemName@ItemActiveness@></titleLeft><titleRight>{{ Item_Gold_Value_Sell }} <rules>(@SellBackModifier*100@%)</rules></titleRight><subtitleLeft>{{ Item_BriefIcon_@ItemActiveness@ }}法力值增长</subtitleLeft><subtitleRight>半唯一：法力流</subtitleRight><mainText><section><attention>%i:scaleAD%@FlatPhysicalDamageMod@</attention>攻击力<br><attention>%i:scaleMana% @FlatMPPoolMod@</attention>法力<br><attention>%i:scaleCooldown%@AbilityHasteMod@</attention>技能急速@ExtendedStats@</section><section><passive>敬畏</passive><br>获得<scaleAD>@BonusADFromMana@额外攻击力</scaleAD>。<br><br><passive>法力流</passive> %i:cooldown% (@ManaChargeAmmoCD@秒，最大@ManaChargeMaxAmmo@层)<br>普攻和技能在命中时会提供<scaleMana>@ManaPerCharge@最大法力值</scaleMana>(对英雄时翻倍)。<br>在<scaleMana>@MaxMana@最大法力值</scaleMana>时转变为<rarityLegendary>魔切</rarityLegendary>。</section><section></section><section><flavorText></flavorText></section></mainText><postScriptLeft></postScriptLeft>",
+          "generatedtip_item_3004_tooltipshop": "<titleLeft><itemName@ItemActiveness@>魔宗</itemName@ItemActiveness@></titleLeft><titleRight>{{ Item_Gold_Value }}</titleRight><subtitleLeft>{{ Item_BriefIcon_@ItemActiveness@ }}法力值增长</subtitleLeft><subtitleRight>半唯一：法力流</subtitleRight><mainText><section></section><section><attention>%i:scaleAD%@FlatPhysicalDamageMod@</attention>攻击力<br><attention>%i:scaleMana% @FlatMPPoolMod@</attention>法力<br><attention>%i:scaleCooldown%@AbilityHasteMod@</attention>技能急速</section><section><passive>敬畏</passive><br>获得<scaleAD>@BonusADFromMana@额外攻击力</scaleAD>。<br><br><passive>法力流</passive> %i:cooldown% (@ManaChargeAmmoCD@秒，最大@ManaChargeMaxAmmo@层)<br>普攻和技能在命中时会提供<scaleMana>@ManaPerCharge@最大法力值</scaleMana>(对英雄时翻倍)。<br>在<scaleMana>@MaxMana@最大法力值</scaleMana>时转变为<rarityLegendary>魔切</rarityLegendary>。</section><section></section><section><flavorText></flavorText></section></mainText><br>"
+        },
+        "missingBoundStringNames": [],
+        "boundSpellObjects": {}
+      },
+      "official": {
+        "sourceVersion": "16.17.1",
+        "sourceUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+        "sourcePointer": "/data/3004",
+        "item": {
+          "name": "魔宗",
+          "description": "<mainText><stats><attention>35</attention>攻击力<br><attention>500</attention>法力<br><attention>15</attention>技能急速</stats><br><br><passive>敬畏</passive><br>获得<scaleAD>0额外攻击力</scaleAD>。<br><br><passive>法力流</passive> (8秒，最大4层)<br>普攻和技能在命中时会提供<scaleMana>3最大法力值</scaleMana>(对英雄时翻倍)。<br>在<scaleMana>360最大法力值</scaleMana>时转变为<rarityLegendary>魔切</rarityLegendary>。</mainText>",
+          "colloq": "",
+          "plaintext": "基于最大法力值提升攻击力",
+          "from": [
+            "3070",
+            "3133",
+            "1036"
+          ],
+          "image": {
+            "full": "3004.png",
+            "sprite": "item3.png",
+            "group": "item",
+            "x": 384,
+            "y": 48,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 1100,
+            "purchasable": true,
+            "total": 2900,
+            "sell": 2030
+          },
+          "tags": [
+            "Damage",
+            "Mana",
+            "CooldownReduction",
+            "OnHit",
+            "AbilityHaste"
+          ],
+          "maps": {
+            "11": true,
+            "12": true,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatMPPoolMod": 500,
+            "FlatPhysicalDamageMod": 35
+          },
+          "depth": 3
+        }
+      },
+      "disposition": {
+        "itemId": "3004",
+        "proposedKey": "item_3004",
+        "name": "魔宗",
+        "rawName": "魔宗",
+        "existingEquipmentKey": null,
+        "sourceVersion": "16.17.1",
+        "sourceLocale": "zh_CN",
+        "sourceUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+        "sourcePointer": "/data/3004",
+        "maps": {
+          "11": true,
+          "12": true,
+          "22": false,
+          "30": false,
+          "453": true
+        },
+        "scopeCategory": "可购买普通装备候选",
+        "entryStatus": "待录",
+        "reason": "maps[11]=true、可购买、未隐藏；仍需逐项核对模式和机制，不是客户端可购买证明",
+        "enteredInSystem": false,
+        "acquisition": {
+          "purchasable": true,
+          "inStore": null,
+          "hideFromAll": null,
+          "requiredChampion": null,
+          "specialRecipe": null,
+          "consumed": false
+        },
+        "gold": {
+          "base": 1100,
+          "purchasable": true,
+          "total": 2900,
+          "sell": 2030
+        },
+        "from": [
+          "3070",
+          "3133",
+          "1036"
+        ],
+        "into": [],
+        "tags": [
+          "Damage",
+          "Mana",
+          "CooldownReduction",
+          "OnHit",
+          "AbilityHaste"
+        ],
+        "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/item/3004.png",
+        "description": "<mainText><stats><attention>35</attention>攻击力<br><attention>500</attention>法力<br><attention>15</attention>技能急速</stats><br><br><passive>敬畏</passive><br>获得<scaleAD>0额外攻击力</scaleAD>。<br><br><passive>法力流</passive> (8秒，最大4层)<br>普攻和技能在命中时会提供<scaleMana>3最大法力值</scaleMana>(对英雄时翻倍)。<br>在<scaleMana>360最大法力值</scaleMana>时转变为<rarityLegendary>魔切</rarityLegendary>。</mainText>",
+        "descriptionText": "35攻击力\n500法力\n15技能急速\n\n敬畏\n获得0额外攻击力。\n\n法力流 (8秒，最大4层)\n普攻和技能在命中时会提供3最大法力值(对英雄时翻倍)。\n在360最大法力值时转变为魔切。",
+        "plaintext": "基于最大法力值提升攻击力",
+        "stats": {
+          "FlatMPPoolMod": 500,
+          "FlatPhysicalDamageMod": 35
+        },
+        "descriptionStats": [
+          "35攻击力",
+          "500法力",
+          "15技能急速"
+        ],
+        "effect": null,
+        "sourceAnomalies": [
+          "stats未列出说明中的技能急速"
+        ],
+        "mechanismReview": "尚未逐项审查全部机制"
+      },
+      "historicalApi": {
+        "itemId": "3004",
+        "equipmentKey": "item_3004",
+        "name": "魔宗",
+        "plannedDirectAttributes": {
+          "attack_damage": 35,
+          "mana": 500,
+          "ability_haste": 15
+        },
+        "sourceVersion": "16.17.1",
+        "sourceDescriptionText": "35攻击力\n500法力\n15技能急速\n\n敬畏\n获得0额外攻击力。\n\n法力流 (8秒，最大4层)\n普攻和技能在命中时会提供3最大法力值(对英雄时翻倍)。\n在360最大法力值时转变为魔切。",
+        "startedAt": "2026-09-06T18:10:41.059Z",
+        "action": "reused",
+        "actualEquipment": {
+          "equipmentKey": "item_3004",
+          "name": "魔宗",
+          "description": "来源：官方16.17.1装备3004。 原始说明：35攻击力 500法力 15技能急速 敬畏 获得0额外攻击力。 法力流 (8秒，最大4层) 普攻和技能在命中时会提供3最大法力值(对英雄时翻倍)。 在360最大法力值时转变为魔切。 被动与主动效果尚待配置。"
+        },
+        "planDifference": {
+          "expected": {
+            "name": "魔宗",
+            "description": "来源：官方16.17.1装备3004。 原始说明：35攻击力\n500法力\n15技能急速\n\n敬畏\n获得0额外攻击力。\n\n法力流 (8秒，最大4层)\n普攻和技能在命中时会提供3最大法力值(对英雄时翻倍)。\n在360最大法力值时转变为魔切。 被动与主动效果尚待配置。"
+          },
+          "actual": {
+            "name": "魔宗",
+            "description": "来源：官方16.17.1装备3004。 原始说明：35攻击力 500法力 15技能急速 敬畏 获得0额外攻击力。 法力流 (8秒，最大4层) 普攻和技能在命中时会提供3最大法力值(对英雄时翻倍)。 在360最大法力值时转变为魔切。 被动与主动效果尚待配置。"
+          }
+        },
+        "beforeAttributeValues": {
+          "mana": 500,
+          "attack_damage": 35,
+          "ability_haste": 15
+        },
+        "expectedAttributeValues": {
+          "mana": 500,
+          "attack_damage": 35,
+          "ability_haste": 15
+        },
+        "attributePutStatus": "not_needed",
+        "readbackStatus": 200,
+        "readbackAttributeValues": {
+          "mana": 500,
+          "attack_damage": 35,
+          "ability_haste": 15
+        },
+        "readbackMatches": true,
+        "status": "completed",
+        "completedAt": "2026-09-06T18:10:41.192Z"
+      },
+      "relationEvidence": [
+        {
+          "file": "数据参考/全量录入-2026-09/装备技能实录/Luna第十批/关系识别-2026-09-08T02-52-11.404Z.json",
+          "generatedAt": "2026-09-08T02:52:13.099Z",
+          "record": null
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备技能实录/Luna第十批/关系识别-2026-09-08T02-53-49.953Z.json",
+          "generatedAt": "2026-09-08T02:53:51.822Z",
+          "record": {
+            "requestedEquipmentKey": "item_3004",
+            "requestedEquipmentName": "魔宗",
+            "keyCandidates": [
+              "item_3004"
+            ],
+            "keyProbes": [
+              {
+                "key": "item_3004",
+                "response": {
+                  "status": 200,
+                  "data": {
+                    "createdAt": "2026-09-06T17:05:01.071972Z",
+                    "description": "来源：官方16.17.1装备3004。 原始说明：35攻击力 500法力 15技能急速 敬畏 获得0额外攻击力。 法力流 (8秒，最大4层) 普攻和技能在命中时会提供3最大法力值(对英雄时翻倍)。 在360最大法力值时转变为魔切。 被动与主动效果尚待配置。",
+                    "equipmentKey": "item_3004",
+                    "gameId": "lol",
+                    "name": "魔宗",
+                    "updatedAt": "2026-09-06T17:05:01.071972Z"
+                  }
+                }
+              }
+            ],
+            "selectedEquipmentKey": "item_3004",
+            "equipmentName": "魔宗",
+            "equipment": {
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-06T17:05:01.071972Z",
+                "description": "来源：官方16.17.1装备3004。 原始说明：35攻击力 500法力 15技能急速 敬畏 获得0额外攻击力。 法力流 (8秒，最大4层) 普攻和技能在命中时会提供3最大法力值(对英雄时翻倍)。 在360最大法力值时转变为魔切。 被动与主动效果尚待配置。",
+                "equipmentKey": "item_3004",
+                "gameId": "lol",
+                "name": "魔宗",
+                "updatedAt": "2026-09-06T17:05:01.071972Z"
+              }
+            },
+            "attributes": {
+              "status": 200,
+              "data": {
+                "attributeValues": {
+                  "mana": 500,
+                  "attack_damage": 35,
+                  "ability_haste": 15
+                },
+                "equipmentKey": "item_3004"
+              }
+            },
+            "representativeImage": {
+              "status": 200,
+              "data": {
+                "image": {
+                  "enabled": true,
+                  "imageKey": "item_3004",
+                  "name": "item_3004"
+                }
+              }
+            },
+            "relation": {
+              "path": "/equipment-skill-relations?equipmentKey=item_3004",
+              "response": {
+                "status": 200,
+                "data": {
+                  "items": [],
+                  "total": 0
+                }
+              },
+              "items": []
+            },
+            "linkedSkills": [],
+            "expectedPassiveProbe": {
+              "status": 404,
+              "data": {
+                "error": {
+                  "code": "404.SKILL_NOT_FOUND",
+                  "details": {
+                    "skillKey": "item_3004_passive"
+                  },
+                  "message": "技能不存在"
+                }
+              }
+            },
+            "selectedSkillKeys": [],
+            "aliasWarning": []
+          }
+        }
+      ],
+      "sourceRefs": [
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+          "pointer": "Items/3004/mDataValues、Items/3004/mItemCalculations、Items/3004/mItemDataClient/mTooltipData/mLocKeys",
+          "evidence": "ManaPerCharge=3、ManaChargeAmmoCD=8、ManaChargeMaxAmmo=4、MaxMana=360；BonusADFromMana系数原始值约0.02；直接属性为500法力、35攻击力、15技能急速。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+          "pointer": "entries/item_3004_tooltip、entries/generatedtip_item_3004_description、entries/generatedtip_item_3004_tooltipinventory",
+          "evidence": "当前绑定扩展文本确认0.02计算占位、8秒4层、3最大法力且英雄翻倍、360累计阈值。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+          "pointer": "/data/3004/description、/data/3004/stats",
+          "evidence": "官方16.17.1资料与当前冻结客户端交叉核对；地图和模式范围按处置清单保留。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备符文/装备全量处置清单.json",
+          "pointer": "/items/139",
+          "evidence": "普通地图可购买装备处置条目；不把清单的待录状态当成客户端机制证明。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/API实录/装备/summary.json",
+          "pointer": "/results[equipmentKey=item_3004]",
+          "evidence": "历史装备和属性GET回读；固定属性本阶段保护，不重复提交。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备技能实录/Luna第十批/关系识别-2026-09-08T02-53-49.953Z.json",
+          "pointer": "/objects[requestedEquipmentKey=item_3004]",
+          "evidence": "关系快照选中item_3004且装备、属性、关系GET为200；当前关联为空，预期item_3004_passive探针404只作探针。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备技能实录/Luna第十批/关系识别-2026-09-08T02-52-11.404Z.json",
+          "pointer": "/objects[requestedEquipmentKey=item_3004]",
+          "evidence": "初始关系快照留作时间顺序和重复核对证据。"
+        }
+      ]
+    },
+    {
+      "itemId": "3041",
+      "requestedEquipmentKey": "item_3041",
+      "selectedEquipmentKey": "item_3041",
+      "equipmentName": "梅贾的窃魂卷",
+      "skillKey": "item_3041_passive",
+      "client": {
+        "objectPath": "Items/3041",
+        "object": {
+          "mDisplayName": "Item_3041_Name",
+          "itemID": 3041,
+          "maxStack": 1,
+          "price": 1150,
+          "recipeItemLinks": [
+            "Items/1082"
+          ],
+          "mDataValues": [
+            {
+              "mName": "MaxGloryStacks",
+              "mValue": 25,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "APPerGlory",
+              "mValue": 5,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "GloryOnKill",
+              "mValue": 4,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "GloryOnAssist",
+              "mValue": 2,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "GloryLossOnDeath",
+              "mValue": 10,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "GloryThreshold",
+              "mValue": 10,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "MoveSpeedMod",
+              "mValue": 0.10000000149011612,
+              "__type": "ItemDataValue"
+            }
+          ],
+          "DataValuesModeOverride": {
+            "URF": {
+              "DataValues": [
+                {
+                  "mName": "GloryOnKill",
+                  "mValue": 2,
+                  "__type": "ItemDataValue"
+                },
+                {
+                  "mName": "GloryOnAssist",
+                  "mValue": 1,
+                  "__type": "ItemDataValue"
+                },
+                {
+                  "mName": "GloryLossOnDeath",
+                  "mValue": 5,
+                  "__type": "ItemDataValue"
+                }
+              ],
+              "__type": "ItemDataValues"
+            }
+          },
+          "mItemCalculations": {
+            "CurrentGloryAP": {
+              "mFormulaParts": [
+                {
+                  "mBuffName": "{22eeba1f}",
+                  "mDataValue": "APPerGlory",
+                  "__type": "BuffCounterByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "mItemAttributes": [
+            16
+          ],
+          "mCategories": [
+            "Health",
+            "SpellDamage",
+            "NonbootsMovement"
+          ],
+          "mFlatHPPoolMod": 100,
+          "mFlatMagicDamageMod": 20,
+          "mItemDataAvailability": {
+            "mInStore": true,
+            "__type": "ItemDataAvailability"
+          },
+          "mItemDataClient": {
+            "mTooltipData": {
+              "mObjectName": "3041",
+              "mFormat": "{32559c50}",
+              "mLocKeys": {
+                "keyName": "Item_3041_Name",
+                "keyBrief": "Item_3041_Brief",
+                "keyTooltip": "Item_3041_Tooltip",
+                "keyColloquialism": "Item_3041_Colloquialism",
+                "keyTooltipExtended": "Item_3041_TooltipExtended",
+                "keySecondaryBrief": "Item_Unique_Glory",
+                "keyKeywordDefinitions": "Item_3041_KeywordDefinitions"
+              },
+              "mLists": {
+                "Stats": {
+                  "Elements": [
+                    {
+                      "type": "AbilityPower",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "Health",
+                      "__type": "TooltipInstanceListElement"
+                    }
+                  ],
+                  "__type": "TooltipInstanceList"
+                }
+              },
+              "__type": "TooltipInstanceItem"
+            },
+            "mDescription": "GeneratedTip_Item_3041_Description",
+            "mDynamicTooltip": "GeneratedTip_Item_3041_TooltipInventory",
+            "mShopTooltip": "GeneratedTip_Item_3041_TooltipShop",
+            "inventoryIcon": "assets/items/icons2d/3041_mage_t2_mejaissoulstealer.dds",
+            "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/3041_Mage_T2_MejaisSoulstealer.png",
+            "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/3041_Mage_T2_MejaisSoulstealer.png",
+            "epicness": 5,
+            "__type": "ItemDataClient"
+          },
+          "mEffectAmount": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "dataValues": {
+          "MaxGloryStacks": 25,
+          "APPerGlory": 5,
+          "GloryOnKill": 4,
+          "GloryOnAssist": 2,
+          "GloryLossOnDeath": 10,
+          "GloryThreshold": 10,
+          "MoveSpeedMod": 0.10000000149011612
+        },
+        "currentBoundStringTable": {
+          "item_3041_name": "梅贾的窃魂卷",
+          "item_3041_brief": "放手一搏",
+          "item_3041_tooltip": "<passive>荣耀</passive><br><keyword>参与击杀</keyword>后提供<passive>荣耀</passive>层数，至多至@MaxGloryStacks@层。阵亡时损失@GloryLossOnDeath@层<passive>荣耀</passive>。<br>每层<passive>荣耀</passive>提供<scaleAP>@APPerGlory@法术强度</scaleAP>，并在@GloryThreshold@层或以上<passive>荣耀</passive>时提供<speed>@MoveSpeedMod*100@%移动速度</speed>。",
+          "item_3041_colloquialism": ";风险;博弈;成长;书;杀人书;Mejai's Soulstealer;shu;sharenshu;meijiadeqiehunjuan;mjdqhj",
+          "item_3041_tooltipextended": "{{Item_3041_Tooltip}}<br><br><rules>击杀提供@GloryOnKill@层<passive>荣耀</passive>，助攻提供@GloryOnAssist@层。</rules>",
+          "item_unique_glory": "唯一：荣耀",
+          "item_3041_keyworddefinitions": "{{Item_KeywordDefinition_Takedown}}",
+          "generatedtip_item_3041_description": "<section></section><section><attention>%i:scaleAP%@FlatMagicDamageMod@</attention>法术强度<br><attention>%i:scaleHealth%@FlatHPPoolMod@</attention>生命值</section><section><passive>荣耀</passive><br><keyword>参与击杀</keyword>后提供<passive>荣耀</passive>层数，至多至@MaxGloryStacks@层。阵亡时损失@GloryLossOnDeath@层<passive>荣耀</passive>。<br>每层<passive>荣耀</passive>提供<scaleAP>@APPerGlory@法术强度</scaleAP>，并在@GloryThreshold@层或以上<passive>荣耀</passive>时提供<speed>@MoveSpeedMod*100@%移动速度</speed>。</section><section></section><section><flavorText></flavorText></section>",
+          "generatedtip_item_3041_tooltipinventory": "<titleLeft><itemName@ItemActiveness@>梅贾的窃魂卷</itemName@ItemActiveness@></titleLeft><titleRight>{{ Item_Gold_Value_Sell }} <rules>(@SellBackModifier*100@%)</rules></titleRight><subtitleLeft>{{ Item_BriefIcon_@ItemActiveness@ }}放手一搏</subtitleLeft><subtitleRight>唯一：荣耀</subtitleRight><mainText><section><attention>%i:scaleAP%@FlatMagicDamageMod@</attention>法术强度<br><attention>%i:scaleHealth%@FlatHPPoolMod@</attention>生命值@ExtendedStats@</section><section><passive>荣耀</passive><br><keyword>参与击杀</keyword>后提供<passive>荣耀</passive>层数，至多至@MaxGloryStacks@层。阵亡时损失@GloryLossOnDeath@层<passive>荣耀</passive>。<br>每层<passive>荣耀</passive>提供<scaleAP>@APPerGlory@法术强度</scaleAP>，并在@GloryThreshold@层或以上<passive>荣耀</passive>时提供<speed>@MoveSpeedMod*100@%移动速度</speed>。</section><section></section><section><flavorText></flavorText></section></mainText><postScriptLeft></postScriptLeft>",
+          "generatedtip_item_3041_tooltipshop": "<titleLeft><itemName@ItemActiveness@>梅贾的窃魂卷</itemName@ItemActiveness@></titleLeft><titleRight>{{ Item_Gold_Value }}</titleRight><subtitleLeft>{{ Item_BriefIcon_@ItemActiveness@ }}放手一搏</subtitleLeft><subtitleRight>唯一：荣耀</subtitleRight><mainText><section></section><section><attention>%i:scaleAP%@FlatMagicDamageMod@</attention>法术强度<br><attention>%i:scaleHealth%@FlatHPPoolMod@</attention>生命值</section><section><passive>荣耀</passive><br><keyword>参与击杀</keyword>后提供<passive>荣耀</passive>层数，至多至@MaxGloryStacks@层。阵亡时损失@GloryLossOnDeath@层<passive>荣耀</passive>。<br>每层<passive>荣耀</passive>提供<scaleAP>@APPerGlory@法术强度</scaleAP>，并在@GloryThreshold@层或以上<passive>荣耀</passive>时提供<speed>@MoveSpeedMod*100@%移动速度</speed>。</section><section></section><section><flavorText></flavorText></section></mainText><br>"
+        },
+        "missingBoundStringNames": [],
+        "boundSpellObjects": {}
+      },
+      "official": {
+        "sourceVersion": "16.17.1",
+        "sourceUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+        "sourcePointer": "/data/3041",
+        "item": {
+          "name": "梅贾的窃魂卷",
+          "description": "<mainText><stats><attention>20</attention>法术强度<br><attention>100</attention>生命值</stats><br><br><passive>荣耀</passive><br><keyword>参与击杀</keyword>后提供<passive>荣耀</passive>层数，至多至25层。阵亡时损失10层<passive>荣耀</passive>。<br>每层<passive>荣耀</passive>提供<scaleAP>5法术强度</scaleAP>，并在10层或以上<passive>荣耀</passive>时提供<speed>10%移动速度</speed>。</mainText>",
+          "colloq": ";风险;博弈;成长;书;杀人书;Mejai's Soulstealer;shu;sharenshu;meijiadeqiehunjuan;mjdqhj",
+          "plaintext": "击杀和助攻提供法术强度",
+          "from": [
+            "1082"
+          ],
+          "image": {
+            "full": "3041.png",
+            "sprite": "item3.png",
+            "group": "item",
+            "x": 384,
+            "y": 144,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 1150,
+            "purchasable": true,
+            "total": 1500,
+            "sell": 1050
+          },
+          "tags": [
+            "Health",
+            "SpellDamage",
+            "NonbootsMovement"
+          ],
+          "maps": {
+            "11": true,
+            "12": false,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatHPPoolMod": 100,
+            "FlatMagicDamageMod": 20
+          },
+          "depth": 2
+        }
+      },
+      "disposition": {
+        "itemId": "3041",
+        "proposedKey": "item_3041",
+        "name": "梅贾的窃魂卷",
+        "rawName": "梅贾的窃魂卷",
+        "existingEquipmentKey": null,
+        "sourceVersion": "16.17.1",
+        "sourceLocale": "zh_CN",
+        "sourceUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+        "sourcePointer": "/data/3041",
+        "maps": {
+          "11": true,
+          "12": false,
+          "22": false,
+          "30": false,
+          "453": true
+        },
+        "scopeCategory": "可购买普通装备候选",
+        "entryStatus": "待录",
+        "reason": "maps[11]=true、可购买、未隐藏；仍需逐项核对模式和机制，不是客户端可购买证明",
+        "enteredInSystem": false,
+        "acquisition": {
+          "purchasable": true,
+          "inStore": null,
+          "hideFromAll": null,
+          "requiredChampion": null,
+          "specialRecipe": null,
+          "consumed": false
+        },
+        "gold": {
+          "base": 1150,
+          "purchasable": true,
+          "total": 1500,
+          "sell": 1050
+        },
+        "from": [
+          "1082"
+        ],
+        "into": [],
+        "tags": [
+          "Health",
+          "SpellDamage",
+          "NonbootsMovement"
+        ],
+        "imageUrl": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/item/3041.png",
+        "description": "<mainText><stats><attention>20</attention>法术强度<br><attention>100</attention>生命值</stats><br><br><passive>荣耀</passive><br><keyword>参与击杀</keyword>后提供<passive>荣耀</passive>层数，至多至25层。阵亡时损失10层<passive>荣耀</passive>。<br>每层<passive>荣耀</passive>提供<scaleAP>5法术强度</scaleAP>，并在10层或以上<passive>荣耀</passive>时提供<speed>10%移动速度</speed>。</mainText>",
+        "descriptionText": "20法术强度\n100生命值\n\n荣耀\n参与击杀后提供荣耀层数，至多至25层。阵亡时损失10层荣耀。\n每层荣耀提供5法术强度，并在10层或以上荣耀时提供10%移动速度。",
+        "plaintext": "击杀和助攻提供法术强度",
+        "stats": {
+          "FlatHPPoolMod": 100,
+          "FlatMagicDamageMod": 20
+        },
+        "descriptionStats": [
+          "20法术强度",
+          "100生命值"
+        ],
+        "effect": null,
+        "sourceAnomalies": [],
+        "mechanismReview": "尚未逐项审查全部机制"
+      },
+      "historicalApi": {
+        "itemId": "3041",
+        "equipmentKey": "item_3041",
+        "name": "梅贾的窃魂卷",
+        "plannedDirectAttributes": {
+          "ability_power": 20,
+          "hp": 100
+        },
+        "sourceVersion": "16.17.1",
+        "sourceDescriptionText": "20法术强度\n100生命值\n\n荣耀\n参与击杀后提供荣耀层数，至多至25层。阵亡时损失10层荣耀。\n每层荣耀提供5法术强度，并在10层或以上荣耀时提供10%移动速度。",
+        "startedAt": "2026-09-06T18:10:42.005Z",
+        "action": "reused",
+        "actualEquipment": {
+          "equipmentKey": "item_3041",
+          "name": "梅贾的窃魂卷",
+          "description": "来源：官方16.17.1装备3041。 原始说明：20法术强度 100生命值 荣耀 参与击杀后提供荣耀层数，至多至25层。阵亡时损失10层荣耀。每层荣耀提供5法术强度，并在10层或以上荣耀时提供10%移动速度。 被动与主动效果尚待配置。"
+        },
+        "planDifference": {
+          "expected": {
+            "name": "梅贾的窃魂卷",
+            "description": "来源：官方16.17.1装备3041。 原始说明：20法术强度\n100生命值\n\n荣耀\n参与击杀后提供荣耀层数，至多至25层。阵亡时损失10层荣耀。\n每层荣耀提供5法术强度，并在10层或以上荣耀时提供10%移动速度。 被动与主动效果尚待配置。"
+          },
+          "actual": {
+            "name": "梅贾的窃魂卷",
+            "description": "来源：官方16.17.1装备3041。 原始说明：20法术强度 100生命值 荣耀 参与击杀后提供荣耀层数，至多至25层。阵亡时损失10层荣耀。每层荣耀提供5法术强度，并在10层或以上荣耀时提供10%移动速度。 被动与主动效果尚待配置。"
+          }
+        },
+        "beforeAttributeValues": {
+          "hp": 100,
+          "ability_power": 20
+        },
+        "expectedAttributeValues": {
+          "hp": 100,
+          "ability_power": 20
+        },
+        "attributePutStatus": "not_needed",
+        "readbackStatus": 200,
+        "readbackAttributeValues": {
+          "hp": 100,
+          "ability_power": 20
+        },
+        "readbackMatches": true,
+        "status": "completed",
+        "completedAt": "2026-09-06T18:10:42.118Z"
+      },
+      "relationEvidence": [
+        {
+          "file": "数据参考/全量录入-2026-09/装备技能实录/Luna第十批/关系识别-2026-09-08T02-52-11.404Z.json",
+          "generatedAt": "2026-09-08T02:52:13.099Z",
+          "record": null
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备技能实录/Luna第十批/关系识别-2026-09-08T02-53-49.953Z.json",
+          "generatedAt": "2026-09-08T02:53:51.822Z",
+          "record": {
+            "requestedEquipmentKey": "item_3041",
+            "requestedEquipmentName": "梅贾的窃魂卷",
+            "keyCandidates": [
+              "item_3041"
+            ],
+            "keyProbes": [
+              {
+                "key": "item_3041",
+                "response": {
+                  "status": 200,
+                  "data": {
+                    "createdAt": "2026-09-06T17:11:31.948994Z",
+                    "description": "来源：官方16.17.1装备3041。 原始说明：20法术强度 100生命值 荣耀 参与击杀后提供荣耀层数，至多至25层。阵亡时损失10层荣耀。每层荣耀提供5法术强度，并在10层或以上荣耀时提供10%移动速度。 被动与主动效果尚待配置。",
+                    "equipmentKey": "item_3041",
+                    "gameId": "lol",
+                    "name": "梅贾的窃魂卷",
+                    "updatedAt": "2026-09-06T17:11:31.948994Z"
+                  }
+                }
+              }
+            ],
+            "selectedEquipmentKey": "item_3041",
+            "equipmentName": "梅贾的窃魂卷",
+            "equipment": {
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-06T17:11:31.948994Z",
+                "description": "来源：官方16.17.1装备3041。 原始说明：20法术强度 100生命值 荣耀 参与击杀后提供荣耀层数，至多至25层。阵亡时损失10层荣耀。每层荣耀提供5法术强度，并在10层或以上荣耀时提供10%移动速度。 被动与主动效果尚待配置。",
+                "equipmentKey": "item_3041",
+                "gameId": "lol",
+                "name": "梅贾的窃魂卷",
+                "updatedAt": "2026-09-06T17:11:31.948994Z"
+              }
+            },
+            "attributes": {
+              "status": 200,
+              "data": {
+                "attributeValues": {
+                  "hp": 100,
+                  "ability_power": 20
+                },
+                "equipmentKey": "item_3041"
+              }
+            },
+            "representativeImage": {
+              "status": 200,
+              "data": {
+                "image": {
+                  "enabled": true,
+                  "imageKey": "item_3041",
+                  "name": "item_3041"
+                }
+              }
+            },
+            "relation": {
+              "path": "/equipment-skill-relations?equipmentKey=item_3041",
+              "response": {
+                "status": 200,
+                "data": {
+                  "items": [],
+                  "total": 0
+                }
+              },
+              "items": []
+            },
+            "linkedSkills": [],
+            "expectedPassiveProbe": {
+              "status": 404,
+              "data": {
+                "error": {
+                  "code": "404.SKILL_NOT_FOUND",
+                  "details": {
+                    "skillKey": "item_3041_passive"
+                  },
+                  "message": "技能不存在"
+                }
+              }
+            },
+            "selectedSkillKeys": [],
+            "aliasWarning": []
+          }
+        }
+      ],
+      "sourceRefs": [
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+          "pointer": "Items/3041/mDataValues、Items/3041/mItemCalculations、Items/3041/mItemDataClient/mTooltipData/mLocKeys",
+          "evidence": "MaxGloryStacks=25、APPerGlory=5、GloryOnKill=4、GloryOnAssist=2、GloryLossOnDeath=10、GloryThreshold=10、MoveSpeedMod约0.1；CurrentGloryAP绑定荣耀计数。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+          "pointer": "entries/item_3041_tooltip、entries/item_3041_tooltipextended、entries/item_3041_keyworddefinitions、entries/generatedtip_item_3041_description、entries/generatedtip_item_3041_tooltipinventory",
+          "evidence": "当前绑定基础及扩展文本分别确认25层、每层5法术强度、击杀4、助攻2、阵亡损失10和10层10%移动速度门槛。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+          "pointer": "/data/3041/description、/data/3041/stats",
+          "evidence": "官方16.17.1资料与当前冻结客户端交叉核对；地图和模式范围按处置清单保留。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备符文/装备全量处置清单.json",
+          "pointer": "/items/159",
+          "evidence": "普通地图可购买装备处置条目；不把清单的待录状态当成客户端机制证明。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/API实录/装备/summary.json",
+          "pointer": "/results[equipmentKey=item_3041]",
+          "evidence": "历史装备和属性GET回读；固定属性本阶段保护，不重复提交。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备技能实录/Luna第十批/关系识别-2026-09-08T02-53-49.953Z.json",
+          "pointer": "/objects[requestedEquipmentKey=item_3041]",
+          "evidence": "关系快照选中item_3041且装备、属性、关系GET为200；当前关联为空，预期item_3041_passive探针404只作探针。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备技能实录/Luna第十批/关系识别-2026-09-08T02-52-11.404Z.json",
+          "pointer": "/objects[requestedEquipmentKey=item_3041]",
+          "evidence": "初始关系快照留作时间顺序和重复核对证据。"
+        }
+      ]
+    }
+  ]
+}

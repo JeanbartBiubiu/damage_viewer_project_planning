@@ -1,0 +1,888 @@
+{
+  "generatedAt": "2026-09-09T08:49:56.923Z",
+  "stage": "第十九批最终候选写前只读保护快照；未调用业务写接口",
+  "apiBaseUrl": "http://127.0.0.1:8080/api/admin/games/lol",
+  "gameId": "lol",
+  "clientVersion": "16.17",
+  "officialVersion": "16.17.1",
+  "gameSourceBuild": "16.17.8104348",
+  "authHeaderPersisted": false,
+  "apiWrites": 0,
+  "noBusinessWrites": true,
+  "scope": {
+    "selectedEquipmentKeys": [
+      "item_3074",
+      "item_3748",
+      "item_6698",
+      "item_3107",
+      "item_3190",
+      "item_6664",
+      "item_8020"
+    ],
+    "targetEquipmentKeys": [
+      "item_3074",
+      "item_3748",
+      "item_6698",
+      "item_3107",
+      "item_3190",
+      "item_3222",
+      "item_6664",
+      "item_8020",
+      "item_3085",
+      "item_3504"
+    ],
+    "targetSkillKeys": [
+      "item_3074_passive",
+      "item_3074_active",
+      "item_3748_passive",
+      "item_3748_active",
+      "item_6698_passive",
+      "item_6698_active",
+      "item_3107_passive",
+      "item_3107_active",
+      "item_3190_passive",
+      "item_3190_active",
+      "item_3222_passive",
+      "item_3222_active",
+      "item_6664_passive",
+      "item_6664_active",
+      "item_8020_passive",
+      "item_8020_active",
+      "item_3085_passive",
+      "item_3085_active",
+      "item_3504_passive",
+      "item_3504_active"
+    ]
+  },
+  "requestPlan": {
+    "equipment": 7,
+    "attributes": 7,
+    "representativeImages": 7,
+    "targetRelations": 10,
+    "targetSkillSubjects": 20,
+    "total": 51
+  },
+  "equipmentGET": [
+    {
+      "route": "/equipment/item_3074",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T17:29:02.631963Z",
+        "description": "来源：官方16.17.1装备3074。 原始说明：65攻击力 15技能急速 12%生命偷取 顺劈和血斩造成物理伤害。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3074",
+        "gameId": "lol",
+        "name": "贪欲九头蛇",
+        "updatedAt": "2026-09-06T17:29:02.631963Z"
+      }
+    },
+    {
+      "route": "/equipment/item_3748",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:11:08.035077Z",
+        "description": "来源：官方16.17.1装备3748。 原始说明：40攻击力\n600生命值\n\n顺劈\n攻击附带物理伤害并对目标身后的敌人们造成物理伤害。\n刚斩\n强化你的下一次顺劈，使其造成额外物理伤害 攻击特效并对目标身后的敌人们造成额外物理伤害。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3748",
+        "gameId": "lol",
+        "name": "巨型九头蛇",
+        "updatedAt": "2026-09-06T18:11:08.035077Z"
+      }
+    },
+    {
+      "route": "/equipment/item_6698",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:11:30.649447Z",
+        "description": "来源：官方16.17.1装备6698。 原始说明：55攻击力\n18穿甲\n10技能急速\n\n顺劈\n攻击会对附近的敌人们造成物理伤害。\n邪斩\n对你附近的敌人们造成物理伤害。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_6698",
+        "gameId": "lol",
+        "name": "亵渎九头蛇",
+        "updatedAt": "2026-09-06T18:11:30.649447Z"
+      }
+    },
+    {
+      "route": "/equipment/item_3107",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:09:52.526811Z",
+        "description": "来源：官方16.17.1装备3107。 原始说明：30法术强度\n15技能急速\n100%基础法力回复\n10%治疗和护盾强度\n\n干涉 \n在2.5秒后，为友方单位们回复150 - 350生命值，并对敌方英雄们造成10%最大生命值的真实伤害。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3107",
+        "gameId": "lol",
+        "name": "救赎",
+        "updatedAt": "2026-09-06T18:09:52.526811Z"
+      }
+    },
+    {
+      "route": "/equipment/item_3190",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:11:04.336476Z",
+        "description": "来源：官方16.17.1装备3190。 原始说明：200生命值\n30护甲\n30魔法抗性\n10技能急速\n\n虔诚\n为附近友军提供290 - 360护盾值，在2.5秒里持续衰减。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3190",
+        "gameId": "lol",
+        "name": "钢铁烈阳之匣",
+        "updatedAt": "2026-09-06T18:11:04.336476Z"
+      }
+    },
+    {
+      "route": "/equipment/item_6664",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:11:24.014122Z",
+        "description": "来源：官方16.17.1装备6664。 原始说明：400生命值\n40魔法抗性\n10技能急速\n100%基础生命回复\n\n献祭\n承受或造成伤害后，每秒对附近敌人造成魔法伤害，持续3秒。\n\n荒弃\n击杀一个敌人时，会在其周围造成魔法伤害。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_6664",
+        "gameId": "lol",
+        "name": "璀璨回响",
+        "updatedAt": "2026-09-06T18:11:24.014122Z"
+      }
+    },
+    {
+      "route": "/equipment/item_8020",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:11:32.523656Z",
+        "description": "来源：官方16.17.1装备8020。 原始说明：350生命值\n45魔法抗性\n15技能急速\n\n损毁\n使附近的敌方英雄承受12%额外魔法伤害。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_8020",
+        "gameId": "lol",
+        "name": "深渊面具",
+        "updatedAt": "2026-09-06T18:11:32.523656Z"
+      }
+    }
+  ],
+  "equipmentAttributesGET": [
+    {
+      "route": "/equipment/item_3074/attributes",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "attributeValues": {
+          "attack_damage": 65,
+          "ability_haste": 15,
+          "life_steal_percent": 0.12
+        },
+        "equipmentKey": "item_3074"
+      }
+    },
+    {
+      "route": "/equipment/item_3748/attributes",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "attributeValues": {
+          "hp": 600,
+          "attack_damage": 40
+        },
+        "equipmentKey": "item_3748"
+      }
+    },
+    {
+      "route": "/equipment/item_6698/attributes",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "attributeValues": {
+          "armor_pen_flat": 18,
+          "attack_damage": 55,
+          "ability_haste": 10
+        },
+        "equipmentKey": "item_6698"
+      }
+    },
+    {
+      "route": "/equipment/item_3107/attributes",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "attributeValues": {
+          "base_mana_regen_percent": 1,
+          "ability_power": 30,
+          "ability_haste": 15,
+          "heal_shield_power_percent": 0.1
+        },
+        "equipmentKey": "item_3107"
+      }
+    },
+    {
+      "route": "/equipment/item_3190/attributes",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "attributeValues": {
+          "hp": 200,
+          "armor": 30,
+          "magic_resistance": 30,
+          "ability_haste": 10
+        },
+        "equipmentKey": "item_3190"
+      }
+    },
+    {
+      "route": "/equipment/item_6664/attributes",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "attributeValues": {
+          "hp": 400,
+          "base_hp_regen_percent": 1,
+          "magic_resistance": 40,
+          "ability_haste": 10
+        },
+        "equipmentKey": "item_6664"
+      }
+    },
+    {
+      "route": "/equipment/item_8020/attributes",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "attributeValues": {
+          "hp": 350,
+          "magic_resistance": 45,
+          "ability_haste": 15
+        },
+        "equipmentKey": "item_8020"
+      }
+    }
+  ],
+  "representativeImageGET": [
+    {
+      "route": "/equipment/item_3074/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_3074",
+          "name": "item_3074"
+        }
+      }
+    },
+    {
+      "route": "/equipment/item_3748/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_3748",
+          "name": "item_3748"
+        }
+      }
+    },
+    {
+      "route": "/equipment/item_6698/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_6698",
+          "name": "item_6698"
+        }
+      }
+    },
+    {
+      "route": "/equipment/item_3107/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_3107",
+          "name": "item_3107"
+        }
+      }
+    },
+    {
+      "route": "/equipment/item_3190/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_3190",
+          "name": "item_3190"
+        }
+      }
+    },
+    {
+      "route": "/equipment/item_6664/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_6664",
+          "name": "item_6664"
+        }
+      }
+    },
+    {
+      "route": "/equipment/item_8020/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_8020",
+          "name": "item_8020"
+        }
+      }
+    }
+  ],
+  "targetRelationGET": [
+    {
+      "equipmentKey": "item_3074",
+      "response": {
+        "route": "/equipment-skill-relations?equipmentKey=item_3074",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "items": [],
+          "total": 0
+        }
+      }
+    },
+    {
+      "equipmentKey": "item_3748",
+      "response": {
+        "route": "/equipment-skill-relations?equipmentKey=item_3748",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "items": [],
+          "total": 0
+        }
+      }
+    },
+    {
+      "equipmentKey": "item_6698",
+      "response": {
+        "route": "/equipment-skill-relations?equipmentKey=item_6698",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "items": [],
+          "total": 0
+        }
+      }
+    },
+    {
+      "equipmentKey": "item_3107",
+      "response": {
+        "route": "/equipment-skill-relations?equipmentKey=item_3107",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "items": [],
+          "total": 0
+        }
+      }
+    },
+    {
+      "equipmentKey": "item_3190",
+      "response": {
+        "route": "/equipment-skill-relations?equipmentKey=item_3190",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "items": [],
+          "total": 0
+        }
+      }
+    },
+    {
+      "equipmentKey": "item_3222",
+      "response": {
+        "route": "/equipment-skill-relations?equipmentKey=item_3222",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "items": [],
+          "total": 0
+        }
+      }
+    },
+    {
+      "equipmentKey": "item_6664",
+      "response": {
+        "route": "/equipment-skill-relations?equipmentKey=item_6664",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "items": [],
+          "total": 0
+        }
+      }
+    },
+    {
+      "equipmentKey": "item_8020",
+      "response": {
+        "route": "/equipment-skill-relations?equipmentKey=item_8020",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "items": [],
+          "total": 0
+        }
+      }
+    },
+    {
+      "equipmentKey": "item_3085",
+      "response": {
+        "route": "/equipment-skill-relations?equipmentKey=item_3085",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "items": [],
+          "total": 0
+        }
+      }
+    },
+    {
+      "equipmentKey": "item_3504",
+      "response": {
+        "route": "/equipment-skill-relations?equipmentKey=item_3504",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "items": [],
+          "total": 0
+        }
+      }
+    }
+  ],
+  "targetSkillGET": [
+    {
+      "equipmentKey": "item_3074",
+      "skillKey": "item_3074_passive",
+      "response": {
+        "route": "/skills/item_3074_passive",
+        "method": "GET",
+        "status": 404,
+        "ok": false,
+        "data": {
+          "error": {
+            "code": "404.SKILL_NOT_FOUND",
+            "details": {
+              "skillKey": "item_3074_passive"
+            },
+            "message": "技能不存在"
+          }
+        }
+      }
+    },
+    {
+      "equipmentKey": "item_3074",
+      "skillKey": "item_3074_active",
+      "response": {
+        "route": "/skills/item_3074_active",
+        "method": "GET",
+        "status": 404,
+        "ok": false,
+        "data": {
+          "error": {
+            "code": "404.SKILL_NOT_FOUND",
+            "details": {
+              "skillKey": "item_3074_active"
+            },
+            "message": "技能不存在"
+          }
+        }
+      }
+    },
+    {
+      "equipmentKey": "item_3748",
+      "skillKey": "item_3748_passive",
+      "response": {
+        "route": "/skills/item_3748_passive",
+        "method": "GET",
+        "status": 404,
+        "ok": false,
+        "data": {
+          "error": {
+            "code": "404.SKILL_NOT_FOUND",
+            "details": {
+              "skillKey": "item_3748_passive"
+            },
+            "message": "技能不存在"
+          }
+        }
+      }
+    },
+    {
+      "equipmentKey": "item_3748",
+      "skillKey": "item_3748_active",
+      "response": {
+        "route": "/skills/item_3748_active",
+        "method": "GET",
+        "status": 404,
+        "ok": false,
+        "data": {
+          "error": {
+            "code": "404.SKILL_NOT_FOUND",
+            "details": {
+              "skillKey": "item_3748_active"
+            },
+            "message": "技能不存在"
+          }
+        }
+      }
+    },
+    {
+      "equipmentKey": "item_6698",
+      "skillKey": "item_6698_passive",
+      "response": {
+        "route": "/skills/item_6698_passive",
+        "method": "GET",
+        "status": 404,
+        "ok": false,
+        "data": {
+          "error": {
+            "code": "404.SKILL_NOT_FOUND",
+            "details": {
+              "skillKey": "item_6698_passive"
+            },
+            "message": "技能不存在"
+          }
+        }
+      }
+    },
+    {
+      "equipmentKey": "item_6698",
+      "skillKey": "item_6698_active",
+      "response": {
+        "route": "/skills/item_6698_active",
+        "method": "GET",
+        "status": 404,
+        "ok": false,
+        "data": {
+          "error": {
+            "code": "404.SKILL_NOT_FOUND",
+            "details": {
+              "skillKey": "item_6698_active"
+            },
+            "message": "技能不存在"
+          }
+        }
+      }
+    },
+    {
+      "equipmentKey": "item_3107",
+      "skillKey": "item_3107_passive",
+      "response": {
+        "route": "/skills/item_3107_passive",
+        "method": "GET",
+        "status": 404,
+        "ok": false,
+        "data": {
+          "error": {
+            "code": "404.SKILL_NOT_FOUND",
+            "details": {
+              "skillKey": "item_3107_passive"
+            },
+            "message": "技能不存在"
+          }
+        }
+      }
+    },
+    {
+      "equipmentKey": "item_3107",
+      "skillKey": "item_3107_active",
+      "response": {
+        "route": "/skills/item_3107_active",
+        "method": "GET",
+        "status": 404,
+        "ok": false,
+        "data": {
+          "error": {
+            "code": "404.SKILL_NOT_FOUND",
+            "details": {
+              "skillKey": "item_3107_active"
+            },
+            "message": "技能不存在"
+          }
+        }
+      }
+    },
+    {
+      "equipmentKey": "item_3190",
+      "skillKey": "item_3190_passive",
+      "response": {
+        "route": "/skills/item_3190_passive",
+        "method": "GET",
+        "status": 404,
+        "ok": false,
+        "data": {
+          "error": {
+            "code": "404.SKILL_NOT_FOUND",
+            "details": {
+              "skillKey": "item_3190_passive"
+            },
+            "message": "技能不存在"
+          }
+        }
+      }
+    },
+    {
+      "equipmentKey": "item_3190",
+      "skillKey": "item_3190_active",
+      "response": {
+        "route": "/skills/item_3190_active",
+        "method": "GET",
+        "status": 404,
+        "ok": false,
+        "data": {
+          "error": {
+            "code": "404.SKILL_NOT_FOUND",
+            "details": {
+              "skillKey": "item_3190_active"
+            },
+            "message": "技能不存在"
+          }
+        }
+      }
+    },
+    {
+      "equipmentKey": "item_3222",
+      "skillKey": "item_3222_passive",
+      "response": {
+        "route": "/skills/item_3222_passive",
+        "method": "GET",
+        "status": 404,
+        "ok": false,
+        "data": {
+          "error": {
+            "code": "404.SKILL_NOT_FOUND",
+            "details": {
+              "skillKey": "item_3222_passive"
+            },
+            "message": "技能不存在"
+          }
+        }
+      }
+    },
+    {
+      "equipmentKey": "item_3222",
+      "skillKey": "item_3222_active",
+      "response": {
+        "route": "/skills/item_3222_active",
+        "method": "GET",
+        "status": 404,
+        "ok": false,
+        "data": {
+          "error": {
+            "code": "404.SKILL_NOT_FOUND",
+            "details": {
+              "skillKey": "item_3222_active"
+            },
+            "message": "技能不存在"
+          }
+        }
+      }
+    },
+    {
+      "equipmentKey": "item_6664",
+      "skillKey": "item_6664_passive",
+      "response": {
+        "route": "/skills/item_6664_passive",
+        "method": "GET",
+        "status": 404,
+        "ok": false,
+        "data": {
+          "error": {
+            "code": "404.SKILL_NOT_FOUND",
+            "details": {
+              "skillKey": "item_6664_passive"
+            },
+            "message": "技能不存在"
+          }
+        }
+      }
+    },
+    {
+      "equipmentKey": "item_6664",
+      "skillKey": "item_6664_active",
+      "response": {
+        "route": "/skills/item_6664_active",
+        "method": "GET",
+        "status": 404,
+        "ok": false,
+        "data": {
+          "error": {
+            "code": "404.SKILL_NOT_FOUND",
+            "details": {
+              "skillKey": "item_6664_active"
+            },
+            "message": "技能不存在"
+          }
+        }
+      }
+    },
+    {
+      "equipmentKey": "item_8020",
+      "skillKey": "item_8020_passive",
+      "response": {
+        "route": "/skills/item_8020_passive",
+        "method": "GET",
+        "status": 404,
+        "ok": false,
+        "data": {
+          "error": {
+            "code": "404.SKILL_NOT_FOUND",
+            "details": {
+              "skillKey": "item_8020_passive"
+            },
+            "message": "技能不存在"
+          }
+        }
+      }
+    },
+    {
+      "equipmentKey": "item_8020",
+      "skillKey": "item_8020_active",
+      "response": {
+        "route": "/skills/item_8020_active",
+        "method": "GET",
+        "status": 404,
+        "ok": false,
+        "data": {
+          "error": {
+            "code": "404.SKILL_NOT_FOUND",
+            "details": {
+              "skillKey": "item_8020_active"
+            },
+            "message": "技能不存在"
+          }
+        }
+      }
+    },
+    {
+      "equipmentKey": "item_3085",
+      "skillKey": "item_3085_passive",
+      "response": {
+        "route": "/skills/item_3085_passive",
+        "method": "GET",
+        "status": 404,
+        "ok": false,
+        "data": {
+          "error": {
+            "code": "404.SKILL_NOT_FOUND",
+            "details": {
+              "skillKey": "item_3085_passive"
+            },
+            "message": "技能不存在"
+          }
+        }
+      }
+    },
+    {
+      "equipmentKey": "item_3085",
+      "skillKey": "item_3085_active",
+      "response": {
+        "route": "/skills/item_3085_active",
+        "method": "GET",
+        "status": 404,
+        "ok": false,
+        "data": {
+          "error": {
+            "code": "404.SKILL_NOT_FOUND",
+            "details": {
+              "skillKey": "item_3085_active"
+            },
+            "message": "技能不存在"
+          }
+        }
+      }
+    },
+    {
+      "equipmentKey": "item_3504",
+      "skillKey": "item_3504_passive",
+      "response": {
+        "route": "/skills/item_3504_passive",
+        "method": "GET",
+        "status": 404,
+        "ok": false,
+        "data": {
+          "error": {
+            "code": "404.SKILL_NOT_FOUND",
+            "details": {
+              "skillKey": "item_3504_passive"
+            },
+            "message": "技能不存在"
+          }
+        }
+      }
+    },
+    {
+      "equipmentKey": "item_3504",
+      "skillKey": "item_3504_active",
+      "response": {
+        "route": "/skills/item_3504_active",
+        "method": "GET",
+        "status": 404,
+        "ok": false,
+        "data": {
+          "error": {
+            "code": "404.SKILL_NOT_FOUND",
+            "details": {
+              "skillKey": "item_3504_active"
+            },
+            "message": "技能不存在"
+          }
+        }
+      }
+    }
+  ],
+  "summary": {
+    "getRequests": 51,
+    "apiWrites": 0,
+    "selectedEquipmentCount": 7,
+    "selectedEquipmentBody200": 7,
+    "selectedAttributes200": 7,
+    "selectedRepresentativeImages200": 7,
+    "targetRelationRows": 10,
+    "targetRelation200": 10,
+    "targetRelationEmpty": 10,
+    "targetSkillRows": 20,
+    "targetSkill404": 20,
+    "targetSkill200": 0
+  }
+}

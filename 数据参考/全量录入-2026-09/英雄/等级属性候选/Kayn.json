@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Kayn",
+  "sourceNumericId": "141",
+  "name": "凯隐",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 655,
+      "growth": 103,
+      "sources": [
+        "原始资料/zh_CN/champion/Kayn.json:stats.hp/hpperlevel",
+        "角色根记录/Kayn.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 655,
+        "2": 729.16,
+        "3": 806.925,
+        "4": 888.295,
+        "5": 973.27,
+        "6": 1061.85,
+        "7": 1154.035,
+        "8": 1249.825,
+        "9": 1349.22,
+        "10": 1452.22,
+        "11": 1558.825,
+        "12": 1669.035,
+        "13": 1782.85,
+        "14": 1900.27,
+        "15": 2021.295,
+        "16": 2145.925,
+        "17": 2274.16,
+        "18": 2406
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 8,
+      "growth": 0.75,
+      "sources": [
+        "原始资料/zh_CN/champion/Kayn.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Kayn.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 8,
+        "2": 8.54,
+        "3": 9.10625,
+        "4": 9.69875,
+        "5": 10.3175,
+        "6": 10.9625,
+        "7": 11.63375,
+        "8": 12.33125,
+        "9": 13.055,
+        "10": 13.805,
+        "11": 14.58125,
+        "12": 15.38375,
+        "13": 16.2125,
+        "14": 17.0675,
+        "15": 17.94875,
+        "16": 18.85625,
+        "17": 19.79,
+        "18": 20.75
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 38,
+      "growth": 4.5,
+      "sources": [
+        "原始资料/zh_CN/champion/Kayn.json:stats.armor/armorperlevel",
+        "角色根记录/Kayn.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 38,
+        "2": 41.24,
+        "3": 44.6375,
+        "4": 48.1925,
+        "5": 51.905,
+        "6": 55.775,
+        "7": 59.8025,
+        "8": 63.9875,
+        "9": 68.33,
+        "10": 72.83,
+        "11": 77.4875,
+        "12": 82.3025,
+        "13": 87.275,
+        "14": 92.405,
+        "15": 97.6925,
+        "16": 103.1375,
+        "17": 108.74,
+        "18": 114.5
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 32,
+      "growth": 2.05,
+      "sources": [
+        "原始资料/zh_CN/champion/Kayn.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Kayn.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 32,
+        "2": 33.476,
+        "3": 35.02375,
+        "4": 36.64325,
+        "5": 38.3345,
+        "6": 40.0975,
+        "7": 41.93225,
+        "8": 43.83875,
+        "9": 45.817,
+        "10": 47.867,
+        "11": 49.98875,
+        "12": 52.18225,
+        "13": 54.4475,
+        "14": 56.7845,
+        "15": 59.19325,
+        "16": 61.67375,
+        "17": 64.226,
+        "18": 66.85
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 68,
+      "growth": 3.3,
+      "sources": [
+        "角色根记录/Kayn.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 68,
+        "2": 70.376,
+        "3": 72.8675,
+        "4": 75.4745,
+        "5": 78.197,
+        "6": 81.035,
+        "7": 83.9885,
+        "8": 87.0575,
+        "9": 90.242,
+        "10": 93.542,
+        "11": 96.9575,
+        "12": 100.4885,
+        "13": 104.135,
+        "14": 107.897,
+        "15": 111.7745,
+        "16": 115.7675,
+        "17": 119.876,
+        "18": 124.1
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 340,
+      "growth": null,
+      "sources": [
+        "角色根记录/Kayn.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 340,
+        "2": 340,
+        "3": 340,
+        "4": 340,
+        "5": 340,
+        "6": 340,
+        "7": 340,
+        "8": 340,
+        "9": 340,
+        "10": 340,
+        "11": 340,
+        "12": 340,
+        "13": 340,
+        "14": 340,
+        "15": 340,
+        "16": 340,
+        "17": 340,
+        "18": 340
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 175,
+      "growth": null,
+      "sources": [
+        "角色根记录/Kayn.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 175,
+        "2": 175,
+        "3": 175,
+        "4": 175,
+        "5": 175,
+        "6": 175,
+        "7": 175,
+        "8": 175,
+        "9": 175,
+        "10": 175,
+        "11": 175,
+        "12": 175,
+        "13": 175,
+        "14": 175,
+        "15": 175,
+        "16": 175,
+        "17": 175,
+        "18": 175
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.669,
+      "attackSpeedRatio": 0.669,
+      "growthPercent": 2.7,
+      "sources": [
+        "角色根记录/Kayn.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.669,
+        "2": 0.682005,
+        "3": 0.695643,
+        "4": 0.709913,
+        "5": 0.724815,
+        "6": 0.740349,
+        "7": 0.756515,
+        "8": 0.773314,
+        "9": 0.790745,
+        "10": 0.808808,
+        "11": 0.827503,
+        "12": 0.84683,
+        "13": 0.86679,
+        "14": 0.887382,
+        "15": 0.908606,
+        "16": 0.930462,
+        "17": 0.95295,
+        "18": 0.976071
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 410,
+      "growth": 50,
+      "sources": [
+        "原始资料/zh_CN/champion/Kayn.json:stats.mp/mpperlevel",
+        "角色根记录/Kayn.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 410,
+        "2": 446,
+        "3": 483.75,
+        "4": 523.25,
+        "5": 564.5,
+        "6": 607.5,
+        "7": 652.25,
+        "8": 698.75,
+        "9": 747,
+        "10": 797,
+        "11": 848.75,
+        "12": 902.25,
+        "13": 957.5,
+        "14": 1014.5,
+        "15": 1073.25,
+        "16": 1133.75,
+        "17": 1196,
+        "18": 1260
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 11.5,
+      "growth": 0.95,
+      "sources": [
+        "原始资料/zh_CN/champion/Kayn.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Kayn.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 11.5,
+        "2": 12.184,
+        "3": 12.90125,
+        "4": 13.65175,
+        "5": 14.4355,
+        "6": 15.2525,
+        "7": 16.10275,
+        "8": 16.98625,
+        "9": 17.903,
+        "10": 18.853,
+        "11": 19.83625,
+        "12": 20.85275,
+        "13": 21.9025,
+        "14": 22.9855,
+        "15": 24.10175,
+        "16": 25.25125,
+        "17": 26.434,
+        "18": 27.65
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.669,
+    "ratio": 0.669,
+    "growthPercent": 2.7,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

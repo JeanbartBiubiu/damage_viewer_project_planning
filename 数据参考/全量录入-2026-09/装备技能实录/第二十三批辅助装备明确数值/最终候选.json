@@ -1,0 +1,409 @@
+{
+  "at": "2026-09-09T11:17:15.649Z",
+  "version": {
+    "client": "16.17",
+    "official": "16.17.1",
+    "build": "16.17.8104348"
+  },
+  "objects": [
+    {
+      "equipmentKey": "item_3222",
+      "skillKey": "item_3222_active",
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_3222_active",
+          "name": "米凯尔的祝福·纯化",
+          "description": "固定16.17当前绑定的明确数值。自身适用资格仍待核对，不视为已完成1V1机制，也不自动生效。友方目标是否允许持有者自己，以及自身控制状态下的施放资格；100至250是正文显示范围；目标等级曲线、等级边界及取整尚未证明；净化控制集合、实际治疗入口与执行顺序。第三位友方英雄的独立收益按范围跳过。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": []
+        },
+        "parameters": [
+          {
+            "parameterKey": "cooldown_ms",
+            "name": "纯化冷却时长",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 120000,
+            "levelValues": null,
+            "description": "单位：毫秒。16.17 当前根数据 Cooldown=120，秒乘1000转毫秒；按当前绑定文字归一为120000。仅记录已证数值；自身适用资格及自动应用仍待核对。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "heal_minimum",
+            "name": "显示最低治疗量",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 100,
+            "levelValues": null,
+            "description": "单位：生命值。16.17 当前根数据 HealAmountMin=100，按当前绑定文字归一为100。仅记录已证数值；自身适用资格及自动应用仍待核对。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "heal_maximum",
+            "name": "显示最高治疗量",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 250,
+            "levelValues": null,
+            "description": "单位：生命值。16.17 当前根数据 HealAmountMax=250，按当前绑定文字归一为250。仅记录已证数值；自身适用资格及自动应用仍待核对。",
+            "sortOrder": 30
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": [],
+        "relation": {
+          "equipmentKey": "item_3222",
+          "skillKey": "item_3222_active",
+          "sortOrder": 10
+        },
+        "representativeImage": {
+          "imageKey": "item_3222"
+        }
+      },
+      "pending": [
+        "友方目标是否允许持有者自己，以及自身控制状态下的施放资格",
+        "100至250是正文显示范围；目标等级曲线、等级边界及取整尚未证明",
+        "净化控制集合、实际治疗入口与执行顺序"
+      ],
+      "excluded": [
+        "作用于第三位友方英雄的净化与治疗"
+      ],
+      "protectedEquipmentName": "米凯尔的祝福"
+    },
+    {
+      "equipmentKey": "item_2065",
+      "skillKey": "item_2065_active",
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_2065_active",
+          "name": "舒瑞娅的战歌·鼓舞演讲",
+          "description": "固定16.17当前绑定的明确数值。自身适用资格仍待核对，不视为已完成1V1机制，也不自动生效。附近友军加速是否明确包含持有者自己；加速资格、覆盖刷新与移动速度修正入口。第三位友方英雄的独立收益按范围跳过。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": []
+        },
+        "parameters": [
+          {
+            "parameterKey": "active_move_speed_ratio",
+            "name": "主动移动速度比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.3,
+            "levelValues": null,
+            "description": "单位：比例。16.17 当前根数据 ActiveMoveSpeed=0.30000001192092896，按当前绑定文字归一为0.3。仅记录已证数值；自身适用资格及自动应用仍待核对。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "buff_duration_ms",
+            "name": "主动加速持续时长",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 4000,
+            "levelValues": null,
+            "description": "单位：毫秒。16.17 当前根数据 BuffDuration=4，秒乘1000转毫秒；按当前绑定文字归一为4000。仅记录已证数值；自身适用资格及自动应用仍待核对。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "cooldown_ms",
+            "name": "主动冷却时长",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 75000,
+            "levelValues": null,
+            "description": "单位：毫秒。16.17 当前根数据 Cooldown=75，秒乘1000转毫秒；按当前绑定文字归一为75000。仅记录已证数值；自身适用资格及自动应用仍待核对。",
+            "sortOrder": 30
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": [],
+        "relation": {
+          "equipmentKey": "item_2065",
+          "skillKey": "item_2065_active",
+          "sortOrder": 10
+        },
+        "representativeImage": {
+          "imageKey": "item_2065"
+        }
+      },
+      "pending": [
+        "附近友军加速是否明确包含持有者自己",
+        "加速资格、覆盖刷新与移动速度修正入口"
+      ],
+      "excluded": [
+        "第三位友军获得的加速"
+      ],
+      "protectedEquipmentName": "舒瑞娅的战歌"
+    },
+    {
+      "equipmentKey": "item_6620",
+      "skillKey": "item_6620_passive",
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_6620_passive",
+          "name": "海力亚的回响·灵魂吸取",
+          "description": "固定16.17当前绑定的明确数值。自身适用资格仍待核对，不视为已完成1V1机制，也不自动生效。对自己治疗或护盾能否触发消耗，以及治疗目标资格；MaxCharges等级计算算法未证，不以线性插值或零替代；累积、封顶、消耗时点与治疗入口；当前无完整充能公式。第三位友方英雄的独立收益按范围跳过。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "passive"
+          ]
+        },
+        "parameters": [
+          {
+            "parameterKey": "damage_storage_ratio",
+            "name": "对英雄折前伤害储存比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.3,
+            "levelValues": null,
+            "description": "单位：比例。16.17 当前根数据 DamageStorageRate=0.30000001192092896，按当前绑定文字归一为0.3。仅记录已证数值；自身适用资格及自动应用仍待核对。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "charge_to_heal_ratio",
+            "name": "灵魂充能转治疗比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 1,
+            "levelValues": null,
+            "description": "单位：比例。16.17 当前根数据 ChargeToHealConversion=1，按当前绑定文字归一为1。仅记录已证数值；自身适用资格及自动应用仍待核对。",
+            "sortOrder": 20
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": [],
+        "relation": {
+          "equipmentKey": "item_6620",
+          "skillKey": "item_6620_passive",
+          "sortOrder": 10
+        },
+        "representativeImage": {
+          "imageKey": "item_6620"
+        }
+      },
+      "pending": [
+        "对自己治疗或护盾能否触发消耗，以及治疗目标资格",
+        "MaxCharges等级计算算法未证，不以线性插值或零替代",
+        "累积、封顶、消耗时点与治疗入口；当前无完整充能公式"
+      ],
+      "excluded": [
+        "仅提供给第三位友军的治疗"
+      ],
+      "protectedEquipmentName": "海力亚的回响"
+    },
+    {
+      "equipmentKey": "item_3504",
+      "skillKey": "item_3504_passive",
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_3504_passive",
+          "name": "炽热香炉·圣洁化",
+          "description": "固定16.17当前绑定的明确数值。自身适用资格仍待核对，不视为已完成1V1机制，也不自动生效。对自己治疗或护盾能否触发；当前文字明确持有者也会获得强化，但未证明自身能成为初始目标；触发资格、强化刷新、攻击特效时点与属性修正入口。第三位友方英雄的独立收益按范围跳过。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "passive"
+          ]
+        },
+        "parameters": [
+          {
+            "parameterKey": "attack_speed_ratio",
+            "name": "强化攻击速度比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.25,
+            "levelValues": null,
+            "description": "单位：比例。16.17 当前根数据 AttackSpeedMin=0.25，按当前绑定文字归一为0.25。仅记录已证数值；自身适用资格及自动应用仍待核对。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "on_hit_magic_damage",
+            "name": "强化攻击附加魔法伤害",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 20,
+            "levelValues": null,
+            "description": "单位：伤害值。16.17 当前根数据 OnHitMin=20，按当前绑定文字归一为20。仅记录已证数值；自身适用资格及自动应用仍待核对。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "buff_duration_ms",
+            "name": "强化持续时长",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 6000,
+            "levelValues": null,
+            "description": "单位：毫秒。16.17 当前根数据 Duration=6，秒乘1000转毫秒；按当前绑定文字归一为6000。仅记录已证数值；自身适用资格及自动应用仍待核对。",
+            "sortOrder": 30
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": [],
+        "relation": {
+          "equipmentKey": "item_3504",
+          "skillKey": "item_3504_passive",
+          "sortOrder": 10
+        },
+        "representativeImage": {
+          "imageKey": "item_3504"
+        }
+      },
+      "pending": [
+        "对自己治疗或护盾能否触发；当前文字明确持有者也会获得强化，但未证明自身能成为初始目标",
+        "触发资格、强化刷新、攻击特效时点与属性修正入口"
+      ],
+      "excluded": [
+        "第三位友方英雄获得的强化"
+      ],
+      "protectedEquipmentName": "炽热香炉"
+    },
+    {
+      "equipmentKey": "item_6616",
+      "skillKey": "item_6616_passive",
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_6616_passive",
+          "name": "流水法杖·湍流",
+          "description": "固定16.17当前绑定的明确数值。自身适用资格仍待核对，不视为已完成1V1机制，也不自动生效。对自己治疗或护盾能否触发；正文持有者收益不代表已证自身触发资格；触发、持续时间刷新与属性修正入口。第三位友方英雄的独立收益按范围跳过。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "passive"
+          ]
+        },
+        "parameters": [
+          {
+            "parameterKey": "bonus_ability_power",
+            "name": "湍流额外法术强度",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 40,
+            "levelValues": null,
+            "description": "单位：法术强度。16.17 当前根数据 APMod=40，按当前绑定文字归一为40。仅记录已证数值；自身适用资格及自动应用仍待核对。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "bonus_ability_haste",
+            "name": "湍流额外技能急速",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 15,
+            "levelValues": null,
+            "description": "单位：技能急速。16.17 当前根数据 AHMod=15，按当前绑定文字归一为15。仅记录已证数值；自身适用资格及自动应用仍待核对。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "buff_duration_ms",
+            "name": "湍流持续时长",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 6000,
+            "levelValues": null,
+            "description": "单位：毫秒。16.17 当前根数据 BuffDuration=6，秒乘1000转毫秒；按当前绑定文字归一为6000。仅记录已证数值；自身适用资格及自动应用仍待核对。",
+            "sortOrder": 30
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": [],
+        "relation": {
+          "equipmentKey": "item_6616",
+          "skillKey": "item_6616_passive",
+          "sortOrder": 10
+        },
+        "representativeImage": {
+          "imageKey": "item_6616"
+        }
+      },
+      "pending": [
+        "对自己治疗或护盾能否触发；正文持有者收益不代表已证自身触发资格",
+        "触发、持续时间刷新与属性修正入口"
+      ],
+      "excluded": [
+        "第三位友方英雄获得的法强与技能急速"
+      ],
+      "protectedEquipmentName": "流水法杖"
+    },
+    {
+      "equipmentKey": "item_6617",
+      "skillKey": "item_6617_passive",
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_6617_passive",
+          "name": "月石再生器·星光恩典",
+          "description": "固定16.17当前绑定的明确数值。自身适用资格仍待核对，不视为已完成1V1机制，也不自动生效。首个治疗或护盾目标能否是持有者自己；不能从连锁目标排除自己反推初始目标资格；无其他友军判定、原治疗与护盾数值口径、时点与结果入口。第三位友方英雄的独立收益按范围跳过。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "passive"
+          ]
+        },
+        "parameters": [
+          {
+            "parameterKey": "single_target_heal_ratio",
+            "name": "无其他友军时原目标额外治疗比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.3,
+            "levelValues": null,
+            "description": "单位：比例。16.17 当前根数据 SingleHeal=0.30000001192092896，按当前绑定文字归一为0.3。仅记录已证数值；自身适用资格及自动应用仍待核对。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "single_target_shield_ratio",
+            "name": "无其他友军时原目标额外护盾比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.35,
+            "levelValues": null,
+            "description": "单位：比例。16.17 当前根数据 SingleShield=0.3499999940395355，按当前绑定文字归一为0.35。仅记录已证数值；自身适用资格及自动应用仍待核对。",
+            "sortOrder": 20
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": [],
+        "relation": {
+          "equipmentKey": "item_6617",
+          "skillKey": "item_6617_passive",
+          "sortOrder": 10
+        },
+        "representativeImage": {
+          "imageKey": "item_6617"
+        }
+      },
+      "pending": [
+        "首个治疗或护盾目标能否是持有者自己；不能从连锁目标排除自己反推初始目标资格",
+        "无其他友军判定、原治疗与护盾数值口径、时点与结果入口"
+      ],
+      "excluded": [
+        "连锁至另一位友方英雄的治疗或护盾；正文明确该连锁目标排除自己"
+      ],
+      "protectedEquipmentName": "月石再生器"
+    }
+  ],
+  "businessWrites": 0
+}

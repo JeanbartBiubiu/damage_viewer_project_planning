@@ -1,0 +1,11 @@
+{
+  "observedOn":"2026-09-08",
+  "passed":true,
+  "page":"http://127.0.0.1:5173/#/skills",
+  "observations":[
+    {"skillKey":"urgot_w","imageVisible":true,"cooldownMs":[12000,9000,6000,3000,0],"manaCost":[40,30,20,10,0],"method":"查询并打开参数窗口，完整五级回显正确"},
+    {"skillKey":"warwick_w","imageVisible":true,"cooldownMs":[80000,70000,60000,50000,40000],"manaCost":55,"method":"关闭前一技能，重新查询并打开参数，普通冷却没有误填为3000毫秒弹药恢复"}
+  ],
+  "independentReadbackEvidence":"独立核对.json",
+  "boundary":"真实页面代表查看及148参数独立GET，不表示完整技能或战斗运行验收"
+}

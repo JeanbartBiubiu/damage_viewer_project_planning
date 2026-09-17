@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "TahmKench",
+  "sourceNumericId": "223",
+  "name": "塔姆",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 640,
+      "growth": 103,
+      "sources": [
+        "原始资料/zh_CN/champion/TahmKench.json:stats.hp/hpperlevel",
+        "角色根记录/TahmKench.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 640,
+        "2": 714.16,
+        "3": 791.925,
+        "4": 873.295,
+        "5": 958.27,
+        "6": 1046.85,
+        "7": 1139.035,
+        "8": 1234.825,
+        "9": 1334.22,
+        "10": 1437.22,
+        "11": 1543.825,
+        "12": 1654.035,
+        "13": 1767.85,
+        "14": 1885.27,
+        "15": 2006.295,
+        "16": 2130.925,
+        "17": 2259.16,
+        "18": 2391
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 6.5,
+      "growth": 0.55,
+      "sources": [
+        "原始资料/zh_CN/champion/TahmKench.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/TahmKench.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 6.5,
+        "2": 6.896,
+        "3": 7.31125,
+        "4": 7.74575,
+        "5": 8.1995,
+        "6": 8.6725,
+        "7": 9.16475,
+        "8": 9.67625,
+        "9": 10.207,
+        "10": 10.757,
+        "11": 11.32625,
+        "12": 11.91475,
+        "13": 12.5225,
+        "14": 13.1495,
+        "15": 13.79575,
+        "16": 14.46125,
+        "17": 15.146,
+        "18": 15.85
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 39,
+      "growth": 4.7,
+      "sources": [
+        "原始资料/zh_CN/champion/TahmKench.json:stats.armor/armorperlevel",
+        "角色根记录/TahmKench.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 39,
+        "2": 42.384,
+        "3": 45.9325,
+        "4": 49.6455,
+        "5": 53.523,
+        "6": 57.565,
+        "7": 61.7715,
+        "8": 66.1425,
+        "9": 70.678,
+        "10": 75.378,
+        "11": 80.2425,
+        "12": 85.2715,
+        "13": 90.465,
+        "14": 95.823,
+        "15": 101.3455,
+        "16": 107.0325,
+        "17": 112.884,
+        "18": 118.9
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 32,
+      "growth": 2.05,
+      "sources": [
+        "原始资料/zh_CN/champion/TahmKench.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/TahmKench.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 32,
+        "2": 33.476,
+        "3": 35.02375,
+        "4": 36.64325,
+        "5": 38.3345,
+        "6": 40.0975,
+        "7": 41.93225,
+        "8": 43.83875,
+        "9": 45.817,
+        "10": 47.867,
+        "11": 49.98875,
+        "12": 52.18225,
+        "13": 54.4475,
+        "14": 56.7845,
+        "15": 59.19325,
+        "16": 61.67375,
+        "17": 64.226,
+        "18": 66.85
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 56,
+      "growth": 3.2,
+      "sources": [
+        "角色根记录/TahmKench.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 56,
+        "2": 58.304,
+        "3": 60.72,
+        "4": 63.248,
+        "5": 65.888,
+        "6": 68.64,
+        "7": 71.504,
+        "8": 74.48,
+        "9": 77.568,
+        "10": 80.768,
+        "11": 84.08,
+        "12": 87.504,
+        "13": 91.04,
+        "14": 94.688,
+        "15": 98.448,
+        "16": 102.32,
+        "17": 106.304,
+        "18": 110.4
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 335,
+      "growth": null,
+      "sources": [
+        "角色根记录/TahmKench.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 335,
+        "2": 335,
+        "3": 335,
+        "4": 335,
+        "5": 335,
+        "6": 335,
+        "7": 335,
+        "8": 335,
+        "9": 335,
+        "10": 335,
+        "11": 335,
+        "12": 335,
+        "13": 335,
+        "14": 335,
+        "15": 335,
+        "16": 335,
+        "17": 335,
+        "18": 335
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 175,
+      "growth": null,
+      "sources": [
+        "角色根记录/TahmKench.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 175,
+        "2": 175,
+        "3": 175,
+        "4": 175,
+        "5": 175,
+        "6": 175,
+        "7": 175,
+        "8": 175,
+        "9": 175,
+        "10": 175,
+        "11": 175,
+        "12": 175,
+        "13": 175,
+        "14": 175,
+        "15": 175,
+        "16": 175,
+        "17": 175,
+        "18": 175
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.658,
+      "attackSpeedRatio": 0.658,
+      "growthPercent": 2.5,
+      "sources": [
+        "角色根记录/TahmKench.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.658,
+        "2": 0.669844,
+        "3": 0.682264,
+        "4": 0.695259,
+        "5": 0.708831,
+        "6": 0.722978,
+        "7": 0.7377,
+        "8": 0.752999,
+        "9": 0.768873,
+        "10": 0.785323,
+        "11": 0.802349,
+        "12": 0.81995,
+        "13": 0.838128,
+        "14": 0.856881,
+        "15": 0.876209,
+        "16": 0.896114,
+        "17": 0.916594,
+        "18": 0.93765
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 325,
+      "growth": 50,
+      "sources": [
+        "原始资料/zh_CN/champion/TahmKench.json:stats.mp/mpperlevel",
+        "角色根记录/TahmKench.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 325,
+        "2": 361,
+        "3": 398.75,
+        "4": 438.25,
+        "5": 479.5,
+        "6": 522.5,
+        "7": 567.25,
+        "8": 613.75,
+        "9": 662,
+        "10": 712,
+        "11": 763.75,
+        "12": 817.25,
+        "13": 872.5,
+        "14": 929.5,
+        "15": 988.25,
+        "16": 1048.75,
+        "17": 1111,
+        "18": 1175
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 8,
+      "growth": 1,
+      "sources": [
+        "原始资料/zh_CN/champion/TahmKench.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/TahmKench.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 8,
+        "2": 8.72,
+        "3": 9.475,
+        "4": 10.265,
+        "5": 11.09,
+        "6": 11.95,
+        "7": 12.845,
+        "8": 13.775,
+        "9": 14.74,
+        "10": 15.74,
+        "11": 16.775,
+        "12": 17.845,
+        "13": 18.95,
+        "14": 20.09,
+        "15": 21.265,
+        "16": 22.475,
+        "17": 23.72,
+        "18": 25
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.658,
+    "ratio": 0.658,
+    "growthPercent": 2.5,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

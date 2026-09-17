@@ -1,0 +1,56 @@
+{
+  "rune": {
+    "runeKey": "rune_8005",
+    "name": "强攻",
+    "description": "用3次连续的普攻击中一名敌方英雄时，将造成40 - 160的额外自适应伤害(基于等级)并使你造成的伤害增幅8%，持续到你离开与英雄的战斗状态为止。",
+    "category": "KEYSTONE"
+  },
+  "runePng": "页面图片/rune_8005.png",
+  "partialPath": {
+    "pathKey": "rune_path_8000",
+    "name": "精密",
+    "description": "强化攻击和持续伤害",
+    "kind": "RUNE_PATH",
+    "sortOrder": 2,
+    "slots": [
+      {
+        "name": "基石",
+        "category": "KEYSTONE",
+        "runeKeys": [
+          "rune_8005"
+        ]
+      }
+    ]
+  },
+  "shard": {
+    "runeKey": "rune_5008",
+    "name": "适应之力",
+    "description": "+9 适应之力",
+    "category": "SHARD"
+  },
+  "shardPng": "页面图片/rune_5008.png",
+  "partialShardPath": {
+    "pathKey": "rune_shards",
+    "name": "属性碎片",
+    "description": null,
+    "kind": "SHARD_GROUP",
+    "sortOrder": 5,
+    "slots": [
+      {
+        "name": "进攻",
+        "category": "SHARD",
+        "runeKeys": [
+          "rune_5008"
+        ]
+      },
+      {
+        "name": "灵活",
+        "category": "SHARD",
+        "runeKeys": [
+          "rune_5008"
+        ]
+      }
+    ]
+  },
+  "warning": "此处布局仅供首次真实页面验收，目录补齐后须用分组请求.json整体替换；不是最终完整布局。"
+}

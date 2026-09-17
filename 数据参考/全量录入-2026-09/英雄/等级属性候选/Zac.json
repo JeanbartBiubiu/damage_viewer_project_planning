@@ -1,0 +1,273 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Zac",
+  "sourceNumericId": "154",
+  "name": "扎克",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 685,
+      "growth": 109,
+      "sources": [
+        "原始资料/zh_CN/champion/Zac.json:stats.hp/hpperlevel",
+        "角色根记录/Zac.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 685,
+        "2": 763.48,
+        "3": 845.775,
+        "4": 931.885,
+        "5": 1021.81,
+        "6": 1115.55,
+        "7": 1213.105,
+        "8": 1314.475,
+        "9": 1419.66,
+        "10": 1528.66,
+        "11": 1641.475,
+        "12": 1758.105,
+        "13": 1878.55,
+        "14": 2002.81,
+        "15": 2130.885,
+        "16": 2262.775,
+        "17": 2398.48,
+        "18": 2538
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 33,
+      "growth": 5.2,
+      "sources": [
+        "原始资料/zh_CN/champion/Zac.json:stats.armor/armorperlevel",
+        "角色根记录/Zac.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 33,
+        "2": 36.744,
+        "3": 40.67,
+        "4": 44.778,
+        "5": 49.068,
+        "6": 53.54,
+        "7": 58.194,
+        "8": 63.03,
+        "9": 68.048,
+        "10": 73.248,
+        "11": 78.63,
+        "12": 84.194,
+        "13": 89.94,
+        "14": 95.868,
+        "15": 101.978,
+        "16": 108.27,
+        "17": 114.744,
+        "18": 121.4
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 32,
+      "growth": 2.05,
+      "sources": [
+        "原始资料/zh_CN/champion/Zac.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Zac.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 32,
+        "2": 33.476,
+        "3": 35.02375,
+        "4": 36.64325,
+        "5": 38.3345,
+        "6": 40.0975,
+        "7": 41.93225,
+        "8": 43.83875,
+        "9": 45.817,
+        "10": 47.867,
+        "11": 49.98875,
+        "12": 52.18225,
+        "13": 54.4475,
+        "14": 56.7845,
+        "15": 59.19325,
+        "16": 61.67375,
+        "17": 64.226,
+        "18": 66.85
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 60,
+      "growth": 3.4,
+      "sources": [
+        "角色根记录/Zac.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 60,
+        "2": 62.448,
+        "3": 65.015,
+        "4": 67.701,
+        "5": 70.506,
+        "6": 73.43,
+        "7": 76.473,
+        "8": 79.635,
+        "9": 82.916,
+        "10": 86.316,
+        "11": 89.835,
+        "12": 93.473,
+        "13": 97.23,
+        "14": 101.106,
+        "15": 105.101,
+        "16": 109.215,
+        "17": 113.448,
+        "18": 117.8
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 340,
+      "growth": null,
+      "sources": [
+        "角色根记录/Zac.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 340,
+        "2": 340,
+        "3": 340,
+        "4": 340,
+        "5": 340,
+        "6": 340,
+        "7": 340,
+        "8": 340,
+        "9": 340,
+        "10": 340,
+        "11": 340,
+        "12": 340,
+        "13": 340,
+        "14": 340,
+        "15": 340,
+        "16": 340,
+        "17": 340,
+        "18": 340
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 175,
+      "growth": null,
+      "sources": [
+        "角色根记录/Zac.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 175,
+        "2": 175,
+        "3": 175,
+        "4": 175,
+        "5": 175,
+        "6": 175,
+        "7": 175,
+        "8": 175,
+        "9": 175,
+        "10": 175,
+        "11": 175,
+        "12": 175,
+        "13": 175,
+        "14": 175,
+        "15": 175,
+        "16": 175,
+        "17": 175,
+        "18": 175
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.736,
+      "attackSpeedRatio": 0.638,
+      "growthPercent": 1.6,
+      "sources": [
+        "角色根记录/Zac.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.736,
+        "2": 0.74335,
+        "3": 0.751057,
+        "4": 0.759121,
+        "5": 0.767543,
+        "6": 0.776322,
+        "7": 0.785458,
+        "8": 0.794951,
+        "9": 0.804802,
+        "10": 0.81501,
+        "11": 0.825575,
+        "12": 0.836498,
+        "13": 0.847778,
+        "14": 0.859415,
+        "15": 0.871409,
+        "16": 0.883761,
+        "17": 0.89647,
+        "18": 0.909536
+      }
+    }
+  ],
+  "missing": [
+    {
+      "attribute": "hpregen",
+      "label": "生命回复",
+      "reason": "客户端基础值或成长字段省略，未使用默认零值填补",
+      "missingFields": [
+        "baseStaticHPRegenModifiable"
+      ],
+      "officialBase": 5,
+      "officialGrowth": 0.5
+    },
+    {
+      "attribute": "resource",
+      "label": "资源",
+      "resourceType": "无",
+      "reason": "特殊或未明确资源不按法力统一生成；保留原始资源说明及根字段，待机制核对"
+    }
+  ],
+  "attackSpeedInputs": {
+    "base": 0.736,
+    "ratio": 0.638,
+    "growthPercent": 1.6,
+    "ratioDiffersFromBase": true
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

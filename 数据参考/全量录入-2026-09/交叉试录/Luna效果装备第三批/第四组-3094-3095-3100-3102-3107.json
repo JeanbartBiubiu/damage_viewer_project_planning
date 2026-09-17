@@ -1,0 +1,69 @@
+{
+  "batch": "第四组",
+  "items": [
+    {
+      "id": 3094,
+      "key": "item_3094",
+      "name": "疾射火炮",
+      "directAttributes": {
+        "bonus_attack_speed_percent": 0.35,
+        "critical_strike_chance": 0.25,
+        "move_speed_percent": 0.04
+      },
+      "readback": "关闭重开后3个属性已配置：额外攻击速度比例=0.35，暴击几率=0.25，移动速度加成比例=0.04",
+      "status": "completed"
+    },
+    {
+      "id": 3095,
+      "key": "item_3095",
+      "name": "岚切",
+      "directAttributes": {
+        "attack_damage": 50,
+        "bonus_attack_speed_percent": 0.25,
+        "critical_strike_chance": 0.25
+      },
+      "readback": "关闭重开后3个属性已配置：攻击力=50，额外攻击速度比例=0.25，暴击几率=0.25",
+      "status": "completed"
+    },
+    {
+      "id": 3100,
+      "key": "item_3100",
+      "name": "巫妖之祸",
+      "directAttributes": {
+        "ability_power": 100,
+        "move_speed_percent": 0.06,
+        "ability_haste": 10
+      },
+      "readback": "关闭重开后3个属性已配置：法术强度=100，移动速度加成比例=0.06，技能急速=10",
+      "status": "completed"
+    },
+    {
+      "id": 3102,
+      "key": "item_3102",
+      "name": "女妖面纱",
+      "directAttributes": {
+        "ability_power": 105,
+        "magic_resistance": 40
+      },
+      "readback": "关闭重开后2个属性已配置：法术强度=105，魔法抗性=40",
+      "status": "completed"
+    },
+    {
+      "id": 3107,
+      "key": "item_3107",
+      "name": "救赎",
+      "directAttributes": {
+        "ability_power": 30,
+        "ability_haste": 15,
+        "base_mana_regen_percent": 1,
+        "heal_shield_power_percent": 0.1
+      },
+      "readback": "本轮停止前未处理",
+      "status": "pending"
+    }
+  ],
+  "notes": [
+    "效果文字仅保留在装备说明，未转为直接属性。",
+    "根据主负责人新授权，本轮完成3102后停止后续浏览器写入，3107留待统一API批量补齐。"
+  ]
+}

@@ -1,0 +1,333 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Maokai",
+  "sourceNumericId": "57",
+  "name": "茂凯",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 665,
+      "growth": 109,
+      "sources": [
+        "原始资料/zh_CN/champion/Maokai.json:stats.hp/hpperlevel",
+        "角色根记录/Maokai.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 665,
+        "2": 743.48,
+        "3": 825.775,
+        "4": 911.885,
+        "5": 1001.81,
+        "6": 1095.55,
+        "7": 1193.105,
+        "8": 1294.475,
+        "9": 1399.66,
+        "10": 1508.66,
+        "11": 1621.475,
+        "12": 1738.105,
+        "13": 1858.55,
+        "14": 1982.81,
+        "15": 2110.885,
+        "16": 2242.775,
+        "17": 2378.48,
+        "18": 2518
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 35,
+      "growth": 5.2,
+      "sources": [
+        "原始资料/zh_CN/champion/Maokai.json:stats.armor/armorperlevel",
+        "角色根记录/Maokai.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 35,
+        "2": 38.744,
+        "3": 42.67,
+        "4": 46.778,
+        "5": 51.068,
+        "6": 55.54,
+        "7": 60.194,
+        "8": 65.03,
+        "9": 70.048,
+        "10": 75.248,
+        "11": 80.63,
+        "12": 86.194,
+        "13": 91.94,
+        "14": 97.868,
+        "15": 103.978,
+        "16": 110.27,
+        "17": 116.744,
+        "18": 123.4
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 32,
+      "growth": 2.05,
+      "sources": [
+        "原始资料/zh_CN/champion/Maokai.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Maokai.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 32,
+        "2": 33.476,
+        "3": 35.02375,
+        "4": 36.64325,
+        "5": 38.3345,
+        "6": 40.0975,
+        "7": 41.93225,
+        "8": 43.83875,
+        "9": 45.817,
+        "10": 47.867,
+        "11": 49.98875,
+        "12": 52.18225,
+        "13": 54.4475,
+        "14": 56.7845,
+        "15": 59.19325,
+        "16": 61.67375,
+        "17": 64.226,
+        "18": 66.85
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 64,
+      "growth": 3.3,
+      "sources": [
+        "角色根记录/Maokai.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 64,
+        "2": 66.376,
+        "3": 68.8675,
+        "4": 71.4745,
+        "5": 74.197,
+        "6": 77.035,
+        "7": 79.9885,
+        "8": 83.0575,
+        "9": 86.242,
+        "10": 89.542,
+        "11": 92.9575,
+        "12": 96.4885,
+        "13": 100.135,
+        "14": 103.897,
+        "15": 107.7745,
+        "16": 111.7675,
+        "17": 115.876,
+        "18": 120.1
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 335,
+      "growth": null,
+      "sources": [
+        "角色根记录/Maokai.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 335,
+        "2": 335,
+        "3": 335,
+        "4": 335,
+        "5": 335,
+        "6": 335,
+        "7": 335,
+        "8": 335,
+        "9": 335,
+        "10": 335,
+        "11": 335,
+        "12": 335,
+        "13": 335,
+        "14": 335,
+        "15": 335,
+        "16": 335,
+        "17": 335,
+        "18": 335
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 125,
+      "growth": null,
+      "sources": [
+        "角色根记录/Maokai.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 125,
+        "2": 125,
+        "3": 125,
+        "4": 125,
+        "5": 125,
+        "6": 125,
+        "7": 125,
+        "8": 125,
+        "9": 125,
+        "10": 125,
+        "11": 125,
+        "12": 125,
+        "13": 125,
+        "14": 125,
+        "15": 125,
+        "16": 125,
+        "17": 125,
+        "18": 125
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.8,
+      "attackSpeedRatio": 0.695,
+      "growthPercent": 2.125,
+      "sources": [
+        "角色根记录/Maokai.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.8,
+        "2": 0.810634,
+        "3": 0.821784,
+        "4": 0.833451,
+        "5": 0.845635,
+        "6": 0.858337,
+        "7": 0.871555,
+        "8": 0.88529,
+        "9": 0.899541,
+        "10": 0.91431,
+        "11": 0.929596,
+        "12": 0.945398,
+        "13": 0.961718,
+        "14": 0.978554,
+        "15": 0.995907,
+        "16": 1.013778,
+        "17": 1.032165,
+        "18": 1.051069
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 375,
+      "growth": 43,
+      "sources": [
+        "原始资料/zh_CN/champion/Maokai.json:stats.mp/mpperlevel",
+        "角色根记录/Maokai.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 375,
+        "2": 405.96,
+        "3": 438.425,
+        "4": 472.395,
+        "5": 507.87,
+        "6": 544.85,
+        "7": 583.335,
+        "8": 623.325,
+        "9": 664.82,
+        "10": 707.82,
+        "11": 752.325,
+        "12": 798.335,
+        "13": 845.85,
+        "14": 894.87,
+        "15": 945.395,
+        "16": 997.425,
+        "17": 1050.96,
+        "18": 1106
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 6,
+      "growth": 0.6,
+      "sources": [
+        "原始资料/zh_CN/champion/Maokai.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Maokai.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 6,
+        "2": 6.432,
+        "3": 6.885,
+        "4": 7.359,
+        "5": 7.854,
+        "6": 8.37,
+        "7": 8.907,
+        "8": 9.465,
+        "9": 10.044,
+        "10": 10.644,
+        "11": 11.265,
+        "12": 11.907,
+        "13": 12.57,
+        "14": 13.254,
+        "15": 13.959,
+        "16": 14.685,
+        "17": 15.432,
+        "18": 16.2
+      }
+    }
+  ],
+  "missing": [
+    {
+      "attribute": "hpregen",
+      "label": "生命回复",
+      "reason": "客户端基础值或成长字段省略，未使用默认零值填补",
+      "missingFields": [
+        "baseStaticHPRegenModifiable"
+      ],
+      "officialBase": 5,
+      "officialGrowth": 0.75
+    }
+  ],
+  "attackSpeedInputs": {
+    "base": 0.8,
+    "ratio": 0.695,
+    "growthPercent": 2.125,
+    "ratioDiffersFromBase": true
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

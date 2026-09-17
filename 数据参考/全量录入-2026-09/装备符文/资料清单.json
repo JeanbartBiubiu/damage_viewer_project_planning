@@ -1,0 +1,80 @@
+{
+  "schemaVersion": "equipment-rune-inventory-v1",
+  "fixedVersion": "16.17.1",
+  "locale": "zh_CN",
+  "scope": "召唤师峡谷英雄、装备、符文优先；斗魂竞技场与海克斯大乱斗的海克斯后置。本目录负责装备符文资料。",
+  "sources": [
+    {
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+      "file": "官方原始资料/item-16.17.1-zh_CN.json",
+      "retrievedAt": "2026-09-06T14:10:07.953Z",
+      "byteSize": 691131,
+      "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973"
+    },
+    {
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/runesReforged.json",
+      "file": "官方原始资料/runesReforged-16.17.1-zh_CN.json",
+      "retrievedAt": "2026-09-06T14:10:11.735Z",
+      "byteSize": 36166,
+      "sha256": "a6330b50b15a735d5b33543d5485d5ce3abac6b6e310a2182f70327ee5484ab0"
+    },
+    {
+      "url": "https://ddragon.leagueoflegends.com/api/versions.json",
+      "file": "官方原始资料/versions.json",
+      "retrievedAt": "2026-09-06T14:10:12.332Z",
+      "byteSize": 5189,
+      "sha256": "178005ff120963169159a1563e5b1817601778940129f32aa0240a9fd15b8fed"
+    }
+  ],
+  "documentation": [
+    "https://developer.riotgames.com/docs/lol#data-dragon",
+    "https://www.riotgames.com/en/news/runes-reforged-technical-retro"
+  ],
+  "counts": {
+    "rawItems": 868,
+    "map11FlaggedItems": 316,
+    "otherMapItems": 552,
+    "map11Categories": {
+      "可购买普通装备候选": 181,
+      "打野装备与宠物": 6,
+      "非玩家或系统占位": 25,
+      "消耗品": 9,
+      "符文生成物": 6,
+      "模式归属待核": 46,
+      "饰品与视野": 4,
+      "特殊升级或使用后形态": 13,
+      "非普通商店条目": 11,
+      "英雄专属": 6,
+      "经济与辅助任务": 9
+    },
+    "map11Status": {
+      "待录": 194,
+      "待核机制": 6,
+      "后置": 44,
+      "待核范围": 9,
+      "资料待核": 63
+    },
+    "firstSimpleEquipmentBatch": 10,
+    "runePaths": 5,
+    "keystones": 17,
+    "minorRunes": 45,
+    "totalRuneRecords": 62,
+    "verifiedShardRecords": 7,
+    "verifiedShardSlotChoices": 9
+  },
+  "completeness": {
+    "allRawItemIdsAccountedFor": true,
+    "allMap11FlaggedIdsAccountedFor": true,
+    "allRuneIdsAccountedFor": true,
+    "liveClientItemAvailabilityVerified": false,
+    "allRuneMechanismsReviewed": false,
+    "shardDisplayCoverageVerifiedFromClientMirror": true,
+    "fullShardMechanismsVerified": false,
+    "enteredInSystem": false
+  },
+  "supplementalManifest": "补充资料清单.json",
+  "oldWikiSnapshot": {
+    "path": "../../lol-wiki-current-items",
+    "usage": "仅作为后续机制补充；旧333条资料没有与16.17.1证明一致，不混入本轮固定版本属性。"
+  }
+}

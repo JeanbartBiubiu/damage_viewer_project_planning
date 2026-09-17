@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Malphite",
+  "sourceNumericId": "54",
+  "name": "墨菲特",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 665,
+      "growth": 104,
+      "sources": [
+        "原始资料/zh_CN/champion/Malphite.json:stats.hp/hpperlevel",
+        "角色根记录/Malphite.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 665,
+        "2": 739.88,
+        "3": 818.4,
+        "4": 900.56,
+        "5": 986.36,
+        "6": 1075.8,
+        "7": 1168.88,
+        "8": 1265.6,
+        "9": 1365.96,
+        "10": 1469.96,
+        "11": 1577.6,
+        "12": 1688.88,
+        "13": 1803.8,
+        "14": 1922.36,
+        "15": 2044.56,
+        "16": 2170.4,
+        "17": 2299.88,
+        "18": 2433
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 7,
+      "growth": 0.55,
+      "sources": [
+        "原始资料/zh_CN/champion/Malphite.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Malphite.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 7,
+        "2": 7.396,
+        "3": 7.81125,
+        "4": 8.24575,
+        "5": 8.6995,
+        "6": 9.1725,
+        "7": 9.66475,
+        "8": 10.17625,
+        "9": 10.707,
+        "10": 11.257,
+        "11": 11.82625,
+        "12": 12.41475,
+        "13": 13.0225,
+        "14": 13.6495,
+        "15": 14.29575,
+        "16": 14.96125,
+        "17": 15.646,
+        "18": 16.35
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 40,
+      "growth": 4.95,
+      "sources": [
+        "原始资料/zh_CN/champion/Malphite.json:stats.armor/armorperlevel",
+        "角色根记录/Malphite.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 40,
+        "2": 43.564,
+        "3": 47.30125,
+        "4": 51.21175,
+        "5": 55.2955,
+        "6": 59.5525,
+        "7": 63.98275,
+        "8": 68.58625,
+        "9": 73.363,
+        "10": 78.313,
+        "11": 83.43625,
+        "12": 88.73275,
+        "13": 94.2025,
+        "14": 99.8455,
+        "15": 105.66175,
+        "16": 111.65125,
+        "17": 117.814,
+        "18": 124.15
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 28,
+      "growth": 2.05,
+      "sources": [
+        "原始资料/zh_CN/champion/Malphite.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Malphite.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 28,
+        "2": 29.476,
+        "3": 31.02375,
+        "4": 32.64325,
+        "5": 34.3345,
+        "6": 36.0975,
+        "7": 37.93225,
+        "8": 39.83875,
+        "9": 41.817,
+        "10": 43.867,
+        "11": 45.98875,
+        "12": 48.18225,
+        "13": 50.4475,
+        "14": 52.7845,
+        "15": 55.19325,
+        "16": 57.67375,
+        "17": 60.226,
+        "18": 62.85
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 62,
+      "growth": 4,
+      "sources": [
+        "角色根记录/Malphite.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 62,
+        "2": 64.88,
+        "3": 67.9,
+        "4": 71.06,
+        "5": 74.36,
+        "6": 77.8,
+        "7": 81.38,
+        "8": 85.1,
+        "9": 88.96,
+        "10": 92.96,
+        "11": 97.1,
+        "12": 101.38,
+        "13": 105.8,
+        "14": 110.36,
+        "15": 115.06,
+        "16": 119.9,
+        "17": 124.88,
+        "18": 130
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 335,
+      "growth": null,
+      "sources": [
+        "角色根记录/Malphite.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 335,
+        "2": 335,
+        "3": 335,
+        "4": 335,
+        "5": 335,
+        "6": 335,
+        "7": 335,
+        "8": 335,
+        "9": 335,
+        "10": 335,
+        "11": 335,
+        "12": 335,
+        "13": 335,
+        "14": 335,
+        "15": 335,
+        "16": 335,
+        "17": 335,
+        "18": 335
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 125,
+      "growth": null,
+      "sources": [
+        "角色根记录/Malphite.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 125,
+        "2": 125,
+        "3": 125,
+        "4": 125,
+        "5": 125,
+        "6": 125,
+        "7": 125,
+        "8": 125,
+        "9": 125,
+        "10": 125,
+        "11": 125,
+        "12": 125,
+        "13": 125,
+        "14": 125,
+        "15": 125,
+        "16": 125,
+        "17": 125,
+        "18": 125
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.736,
+      "attackSpeedRatio": 0.638,
+      "growthPercent": 3.4,
+      "sources": [
+        "角色根记录/Malphite.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.736,
+        "2": 0.751618,
+        "3": 0.767996,
+        "4": 0.785132,
+        "5": 0.803028,
+        "6": 0.821683,
+        "7": 0.841098,
+        "8": 0.861271,
+        "9": 0.882204,
+        "10": 0.903896,
+        "11": 0.926347,
+        "12": 0.949558,
+        "13": 0.973527,
+        "14": 0.998256,
+        "15": 1.023744,
+        "16": 1.049992,
+        "17": 1.076998,
+        "18": 1.104764
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 280,
+      "growth": 60,
+      "sources": [
+        "原始资料/zh_CN/champion/Malphite.json:stats.mp/mpperlevel",
+        "角色根记录/Malphite.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 280,
+        "2": 323.2,
+        "3": 368.5,
+        "4": 415.9,
+        "5": 465.4,
+        "6": 517,
+        "7": 570.7,
+        "8": 626.5,
+        "9": 684.4,
+        "10": 744.4,
+        "11": 806.5,
+        "12": 870.7,
+        "13": 937,
+        "14": 1005.4,
+        "15": 1075.9,
+        "16": 1148.5,
+        "17": 1223.2,
+        "18": 1300
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 7.3,
+      "growth": 0.55,
+      "sources": [
+        "原始资料/zh_CN/champion/Malphite.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Malphite.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 7.3,
+        "2": 7.696,
+        "3": 8.11125,
+        "4": 8.54575,
+        "5": 8.9995,
+        "6": 9.4725,
+        "7": 9.96475,
+        "8": 10.47625,
+        "9": 11.007,
+        "10": 11.557,
+        "11": 12.12625,
+        "12": 12.71475,
+        "13": 13.3225,
+        "14": 13.9495,
+        "15": 14.59575,
+        "16": 15.26125,
+        "17": 15.946,
+        "18": 16.65
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.736,
+    "ratio": 0.638,
+    "growthPercent": 3.4,
+    "ratioDiffersFromBase": true
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

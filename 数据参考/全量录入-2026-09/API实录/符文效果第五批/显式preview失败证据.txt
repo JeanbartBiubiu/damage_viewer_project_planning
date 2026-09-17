@@ -1,0 +1,15 @@
+命令：接口补缺.mjs --preview
+
+结果：工具在访问接口前因参数断言失败，未产生API请求。
+
+node:fs:622
+  return binding.open(
+                 ^
+
+AssertionError [ERR_ASSERTION]: 默认只读预检；--apply补缺；--verify只读
+    at file:///C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/API实录/符文效果第五批/接口补缺.mjs:2:41
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:647:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:107:5)
+
+Node.js v24.19.0

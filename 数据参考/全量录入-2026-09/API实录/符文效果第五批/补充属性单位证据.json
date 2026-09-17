@@ -1,0 +1,21 @@
+{
+  "at": "2026-09-09T04:52:19.696Z",
+  "method": "GET",
+  "route": "/attributes/bonus_attack_speed_percent",
+  "status": 200,
+  "data": {
+    "attributeKey": "bonus_attack_speed_percent",
+    "createdAt": "2026-08-30T16:27:55.439812Z",
+    "description": "以 1 表示 100%；用于记录等级成长和咒能高涨等效果",
+    "gameId": "lol",
+    "maxValue": null,
+    "minValue": null,
+    "name": "额外攻击速度比例",
+    "sortOrder": 521,
+    "status": "ENABLED",
+    "updatedAt": "2026-08-30T16:27:55.439812Z",
+    "valueType": "DECIMAL"
+  },
+  "apiWrites": 0,
+  "conclusion": "既有额外攻击速度比例属性可用；应把6%写为0.06至此属性，不写到每秒攻击次数attack_speed。初稿字段选择错误，不是系统缺少目录。"
+}

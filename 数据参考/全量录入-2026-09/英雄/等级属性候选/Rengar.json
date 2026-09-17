@@ -1,0 +1,296 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Rengar",
+  "sourceNumericId": "107",
+  "name": "雷恩加尔",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 590,
+      "growth": 104,
+      "sources": [
+        "原始资料/zh_CN/champion/Rengar.json:stats.hp/hpperlevel",
+        "角色根记录/Rengar.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 590,
+        "2": 664.88,
+        "3": 743.4,
+        "4": 825.56,
+        "5": 911.36,
+        "6": 1000.8,
+        "7": 1093.88,
+        "8": 1190.6,
+        "9": 1290.96,
+        "10": 1394.96,
+        "11": 1502.6,
+        "12": 1613.88,
+        "13": 1728.8,
+        "14": 1847.36,
+        "15": 1969.56,
+        "16": 2095.4,
+        "17": 2224.88,
+        "18": 2358
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 6,
+      "growth": 0.5,
+      "sources": [
+        "原始资料/zh_CN/champion/Rengar.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Rengar.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 6,
+        "2": 6.36,
+        "3": 6.7375,
+        "4": 7.1325,
+        "5": 7.545,
+        "6": 7.975,
+        "7": 8.4225,
+        "8": 8.8875,
+        "9": 9.37,
+        "10": 9.87,
+        "11": 10.3875,
+        "12": 10.9225,
+        "13": 11.475,
+        "14": 12.045,
+        "15": 12.6325,
+        "16": 13.2375,
+        "17": 13.86,
+        "18": 14.5
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 34,
+      "growth": 4.2,
+      "sources": [
+        "原始资料/zh_CN/champion/Rengar.json:stats.armor/armorperlevel",
+        "角色根记录/Rengar.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 34,
+        "2": 37.024,
+        "3": 40.195,
+        "4": 43.513,
+        "5": 46.978,
+        "6": 50.59,
+        "7": 54.349,
+        "8": 58.255,
+        "9": 62.308,
+        "10": 66.508,
+        "11": 70.855,
+        "12": 75.349,
+        "13": 79.99,
+        "14": 84.778,
+        "15": 89.713,
+        "16": 94.795,
+        "17": 100.024,
+        "18": 105.4
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 32,
+      "growth": 2.05,
+      "sources": [
+        "原始资料/zh_CN/champion/Rengar.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Rengar.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 32,
+        "2": 33.476,
+        "3": 35.02375,
+        "4": 36.64325,
+        "5": 38.3345,
+        "6": 40.0975,
+        "7": 41.93225,
+        "8": 43.83875,
+        "9": 45.817,
+        "10": 47.867,
+        "11": 49.98875,
+        "12": 52.18225,
+        "13": 54.4475,
+        "14": 56.7845,
+        "15": 59.19325,
+        "16": 61.67375,
+        "17": 64.226,
+        "18": 66.85
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 68,
+      "growth": 3,
+      "sources": [
+        "角色根记录/Rengar.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 68,
+        "2": 70.16,
+        "3": 72.425,
+        "4": 74.795,
+        "5": 77.27,
+        "6": 79.85,
+        "7": 82.535,
+        "8": 85.325,
+        "9": 88.22,
+        "10": 91.22,
+        "11": 94.325,
+        "12": 97.535,
+        "13": 100.85,
+        "14": 104.27,
+        "15": 107.795,
+        "16": 111.425,
+        "17": 115.16,
+        "18": 119
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 345,
+      "growth": null,
+      "sources": [
+        "角色根记录/Rengar.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 345,
+        "2": 345,
+        "3": 345,
+        "4": 345,
+        "5": 345,
+        "6": 345,
+        "7": 345,
+        "8": 345,
+        "9": 345,
+        "10": 345,
+        "11": 345,
+        "12": 345,
+        "13": 345,
+        "14": 345,
+        "15": 345,
+        "16": 345,
+        "17": 345,
+        "18": 345
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 125,
+      "growth": null,
+      "sources": [
+        "角色根记录/Rengar.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 125,
+        "2": 125,
+        "3": 125,
+        "4": 125,
+        "5": 125,
+        "6": 125,
+        "7": 125,
+        "8": 125,
+        "9": 125,
+        "10": 125,
+        "11": 125,
+        "12": 125,
+        "13": 125,
+        "14": 125,
+        "15": 125,
+        "16": 125,
+        "17": 125,
+        "18": 125
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.667,
+      "attackSpeedRatio": 0.667,
+      "growthPercent": 3,
+      "sources": [
+        "角色根记录/Rengar.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.667,
+        "2": 0.681407,
+        "3": 0.696515,
+        "4": 0.712323,
+        "5": 0.728831,
+        "6": 0.74604,
+        "7": 0.763948,
+        "8": 0.782558,
+        "9": 0.801867,
+        "10": 0.821877,
+        "11": 0.842588,
+        "12": 0.863998,
+        "13": 0.88611,
+        "14": 0.908921,
+        "15": 0.932433,
+        "16": 0.956645,
+        "17": 0.981557,
+        "18": 1.00717
+      }
+    }
+  ],
+  "missing": [
+    {
+      "attribute": "resource",
+      "label": "资源",
+      "resourceType": "残暴",
+      "reason": "特殊或未明确资源不按法力统一生成；保留原始资源说明及根字段，待机制核对"
+    }
+  ],
+  "attackSpeedInputs": {
+    "base": 0.667,
+    "ratio": 0.667,
+    "growthPercent": 3,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

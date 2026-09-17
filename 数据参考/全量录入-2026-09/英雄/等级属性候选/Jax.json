@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Jax",
+  "sourceNumericId": "24",
+  "name": "贾克斯",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 650,
+      "growth": 103,
+      "sources": [
+        "原始资料/zh_CN/champion/Jax.json:stats.hp/hpperlevel",
+        "角色根记录/Jax.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 650,
+        "2": 724.16,
+        "3": 801.925,
+        "4": 883.295,
+        "5": 968.27,
+        "6": 1056.85,
+        "7": 1149.035,
+        "8": 1244.825,
+        "9": 1344.22,
+        "10": 1447.22,
+        "11": 1553.825,
+        "12": 1664.035,
+        "13": 1777.85,
+        "14": 1895.27,
+        "15": 2016.295,
+        "16": 2140.925,
+        "17": 2269.16,
+        "18": 2401
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 8.5,
+      "growth": 0.55,
+      "sources": [
+        "原始资料/zh_CN/champion/Jax.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Jax.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 8.5,
+        "2": 8.896,
+        "3": 9.31125,
+        "4": 9.74575,
+        "5": 10.1995,
+        "6": 10.6725,
+        "7": 11.16475,
+        "8": 11.67625,
+        "9": 12.207,
+        "10": 12.757,
+        "11": 13.32625,
+        "12": 13.91475,
+        "13": 14.5225,
+        "14": 15.1495,
+        "15": 15.79575,
+        "16": 16.46125,
+        "17": 17.146,
+        "18": 17.85
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 36,
+      "growth": 4.2,
+      "sources": [
+        "原始资料/zh_CN/champion/Jax.json:stats.armor/armorperlevel",
+        "角色根记录/Jax.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 36,
+        "2": 39.024,
+        "3": 42.195,
+        "4": 45.513,
+        "5": 48.978,
+        "6": 52.59,
+        "7": 56.349,
+        "8": 60.255,
+        "9": 64.308,
+        "10": 68.508,
+        "11": 72.855,
+        "12": 77.349,
+        "13": 81.99,
+        "14": 86.778,
+        "15": 91.713,
+        "16": 96.795,
+        "17": 102.024,
+        "18": 107.4
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 32,
+      "growth": 2.05,
+      "sources": [
+        "原始资料/zh_CN/champion/Jax.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Jax.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 32,
+        "2": 33.476,
+        "3": 35.02375,
+        "4": 36.64325,
+        "5": 38.3345,
+        "6": 40.0975,
+        "7": 41.93225,
+        "8": 43.83875,
+        "9": 45.817,
+        "10": 47.867,
+        "11": 49.98875,
+        "12": 52.18225,
+        "13": 54.4475,
+        "14": 56.7845,
+        "15": 59.19325,
+        "16": 61.67375,
+        "17": 64.226,
+        "18": 66.85
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 68,
+      "growth": 4.25,
+      "sources": [
+        "角色根记录/Jax.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 68,
+        "2": 71.06,
+        "3": 74.26875,
+        "4": 77.62625,
+        "5": 81.1325,
+        "6": 84.7875,
+        "7": 88.59125,
+        "8": 92.54375,
+        "9": 96.645,
+        "10": 100.895,
+        "11": 105.29375,
+        "12": 109.84125,
+        "13": 114.5375,
+        "14": 119.3825,
+        "15": 124.37625,
+        "16": 129.51875,
+        "17": 134.81,
+        "18": 140.25
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 350,
+      "growth": null,
+      "sources": [
+        "角色根记录/Jax.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 350,
+        "2": 350,
+        "3": 350,
+        "4": 350,
+        "5": 350,
+        "6": 350,
+        "7": 350,
+        "8": 350,
+        "9": 350,
+        "10": 350,
+        "11": 350,
+        "12": 350,
+        "13": 350,
+        "14": 350,
+        "15": 350,
+        "16": 350,
+        "17": 350,
+        "18": 350
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 125,
+      "growth": null,
+      "sources": [
+        "角色根记录/Jax.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 125,
+        "2": 125,
+        "3": 125,
+        "4": 125,
+        "5": 125,
+        "6": 125,
+        "7": 125,
+        "8": 125,
+        "9": 125,
+        "10": 125,
+        "11": 125,
+        "12": 125,
+        "13": 125,
+        "14": 125,
+        "15": 125,
+        "16": 125,
+        "17": 125,
+        "18": 125
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.638,
+      "attackSpeedRatio": 0.638,
+      "growthPercent": 3.4,
+      "sources": [
+        "角色根记录/Jax.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.638,
+        "2": 0.653618,
+        "3": 0.669996,
+        "4": 0.687132,
+        "5": 0.705028,
+        "6": 0.723683,
+        "7": 0.743098,
+        "8": 0.763271,
+        "9": 0.784204,
+        "10": 0.805896,
+        "11": 0.828347,
+        "12": 0.851558,
+        "13": 0.875527,
+        "14": 0.900256,
+        "15": 0.925744,
+        "16": 0.951992,
+        "17": 0.978998,
+        "18": 1.006764
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 339,
+      "growth": 52,
+      "sources": [
+        "原始资料/zh_CN/champion/Jax.json:stats.mp/mpperlevel",
+        "角色根记录/Jax.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 339,
+        "2": 376.44,
+        "3": 415.7,
+        "4": 456.78,
+        "5": 499.68,
+        "6": 544.4,
+        "7": 590.94,
+        "8": 639.3,
+        "9": 689.48,
+        "10": 741.48,
+        "11": 795.3,
+        "12": 850.94,
+        "13": 908.4,
+        "14": 967.68,
+        "15": 1028.78,
+        "16": 1091.7,
+        "17": 1156.44,
+        "18": 1223
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 8.2,
+      "growth": 0.7,
+      "sources": [
+        "原始资料/zh_CN/champion/Jax.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Jax.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 8.2,
+        "2": 8.704,
+        "3": 9.2325,
+        "4": 9.7855,
+        "5": 10.363,
+        "6": 10.965,
+        "7": 11.5915,
+        "8": 12.2425,
+        "9": 12.918,
+        "10": 13.618,
+        "11": 14.3425,
+        "12": 15.0915,
+        "13": 15.865,
+        "14": 16.663,
+        "15": 17.4855,
+        "16": 18.3325,
+        "17": 19.204,
+        "18": 20.1
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.638,
+    "ratio": 0.638,
+    "growthPercent": 3.4,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

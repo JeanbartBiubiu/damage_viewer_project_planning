@@ -1,0 +1,14 @@
+import {existsSync} from 'node:fs';
+if(existsSync(new URL('./冻结来源.json',import.meta.url)))throw Error('来源已冻结，不覆盖');
+import {readFile,writeFile} from 'node:fs/promises';
+import {gunzipSync} from 'node:zlib';
+import {createHash} from 'node:crypto';
+import assert from 'node:assert/strict';
+const base=new URL('../../',import.meta.url),here=new URL('./',import.meta.url),sha=b=>createHash('sha256').update(b).digest('hex'),read=p=>readFile(new URL(p,base),'utf8').then(JSON.parse),manifest=await read('装备效果补证/来源与覆盖.json'),sources=[];
+async function frozen(name){const record=manifest.原始资料.find(x=>x.文件.endsWith(name));assert.ok(record);const compressed=await readFile(new URL('装备效果补证/'+record.文件,base)),raw=gunzipSync(compressed);assert.equal(sha(compressed),record.压缩SHA256);assert.equal(sha(raw),record.原始SHA256);sources.push({...record,verified:true});return JSON.parse(raw);}
+const client=await frozen('items-16.17.cdtb.bin.json.gz'),loc=await frozen('lol-16.17-zh_CN.stringtable.json.gz'),entries=loc.entries??loc,officialBytes=await readFile(new URL('装备符文/官方原始资料/item-16.17.1-zh_CN.json',base)),official=JSON.parse(officialBytes),officialManifest=await read('装备符文/资料清单.json'),officialRecord=officialManifest.sources.find(x=>x.file.endsWith('item-16.17.1-zh_CN.json'));assert.equal(sha(officialBytes),officialRecord.sha256);assert.equal(official.version,'16.17.1');sources.push({...officialRecord,verified:true});
+const keyMap=new Map(Object.keys(entries).map(k=>[k.toLowerCase(),k])),selected=[2522,2525,3119,3121,3137,3181,6333,6610,4401,6665,6695,6696],references=[],keywords={};
+function boundText(key,seen=new Set()){const exact=keyMap.get(key.toLowerCase());if(!exact)return {sourceKey:key,key:null,text:null};const text=entries[exact];if(!seen.has(exact)){seen.add(exact);for(const m of text.matchAll(/\{\{\s*([^{}]+?)\s*\}\}/g)){const child=boundText(m[1],seen);keywords[child.sourceKey]=child;}}return {sourceKey:key,key:exact,text};}
+function item(id){const path='Items/'+id,object=client[path];assert.equal(object.itemID,id);const bound=Object.fromEntries(Object.entries(object.mItemDataClient.mTooltipData.mLocKeys).map(([field,key])=>[field,boundText(key)]));return {id,equipmentKey:'item_'+id,name:official.data[id].name,path,object,bound,official:official.data[id]};}
+const out={generatedAt:new Date().toISOString(),clientVersion:'16.17',officialVersion:'16.17.1',boundary:'候选来源冻结；只沿当前Items编号对象的mLocKeys绑定说明及其直接模板引用，不用名称相似旧对象。',sources,objects:selected.map(item),referenceObjects:references.map(item),boundDefinitions:keywords};
+await writeFile(new URL('冻结来源.json',here),JSON.stringify(out,null,2)+'\n');console.log(JSON.stringify({selected:out.objects.length,references:out.referenceObjects.length,sources:sources.length,keywordDefinitions:Object.keys(keywords).length}));

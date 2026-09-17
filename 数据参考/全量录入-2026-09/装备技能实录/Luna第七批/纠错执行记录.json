@@ -1,0 +1,2375 @@
+{
+  "startedAt": "2026-09-07T18:55:45.684Z",
+  "mode": "有界纠错",
+  "preflight": [
+    {
+      "route": "/skills/item_6657_passive/trigger-rules/initialize_timeless_growth",
+      "state": "待纠错",
+      "before": {
+        "status": 200,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_timeless_growth",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "timeless_growth"
+              },
+              "name": "启动时无限周期效果",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "EVENT_SOURCE"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "装备生效时启动每60秒的时无限周期效果；满层等级提升和永恒两个事件另行待配。",
+          "eventSource": {
+            "detail": {},
+            "eventType": "SOURCE_INITIALIZED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "初始化时无限周期成长",
+          "perTargetCooldown": null,
+          "ruleKey": "initialize_timeless_growth",
+          "sortOrder": 10
+        }
+      }
+    },
+    {
+      "route": "/skills/item_3003_passive",
+      "state": "待纠错",
+      "before": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:19:45.795412Z",
+          "description": "保存16.17客户端绑定值与官方16.17.1说明共同确证的敬畏1%额外法力转法术强度，以及法力流的8秒、5层、每次5最大法力、英雄命中翻倍和360最大法力升级阈值。装备自身70法术强度、600法力和25技能急速不在技能结果中重复施加；本批只把额外法力转法术强度配置为动态属性效果，法力流命中筛选与升级目标待补。",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "大天使之杖·敬畏与法力流",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "item_3003_passive",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-07T18:19:45.795412Z"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_3003_passive/parameters/ap_from_bonus_mana_ratio",
+      "state": "已为目标值",
+      "before": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:19:46.604792Z",
+          "description": "每1点额外法力提供0.01点法术强度，小数0.01表示1%。",
+          "fixedValue": 0.01,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "敬畏额外法力转法术强度比例",
+          "parameterKey": "ap_from_bonus_mana_ratio",
+          "skillKey": "item_3003_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T18:19:46.604792Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_3003_passive/parameters/mana_flow_charge_window_ms",
+      "state": "已为目标值",
+      "before": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:19:47.049807Z",
+          "description": "法力流充能窗口为8秒，单位：毫秒。",
+          "fixedValue": 8000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "法力流充能窗口",
+          "parameterKey": "mana_flow_charge_window_ms",
+          "skillKey": "item_3003_passive",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-07T18:19:47.049807Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_3003_passive/parameters/mana_flow_max_charges",
+      "state": "已为目标值",
+      "before": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:19:47.522958Z",
+          "description": "法力流最多5层充能。",
+          "fixedValue": 5,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "法力流最大充能层数",
+          "parameterKey": "mana_flow_max_charges",
+          "skillKey": "item_3003_passive",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-07T18:19:47.522958Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_3003_passive/parameters/mana_flow_mana_per_skill_hit",
+      "state": "已为目标值",
+      "before": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:19:48.050583Z",
+          "description": "技能命中提供5点最大法力；英雄命中另由翻倍参数表示。",
+          "fixedValue": 5,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "法力流每次技能命中最大法力",
+          "parameterKey": "mana_flow_mana_per_skill_hit",
+          "skillKey": "item_3003_passive",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-07T18:19:48.050583Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_3003_passive/parameters/mana_flow_hero_hit_multiplier",
+      "state": "已为目标值",
+      "before": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:19:48.500305Z",
+          "description": "对英雄命中时相对基础5点最大法力取2倍。",
+          "fixedValue": 2,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "法力流英雄命中倍率",
+          "parameterKey": "mana_flow_hero_hit_multiplier",
+          "skillKey": "item_3003_passive",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-07T18:19:48.500305Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_3003_passive/parameters/mana_flow_transform_threshold",
+      "state": "待纠错",
+      "before": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:19:49.108258Z",
+          "description": "达到360点最大法力时转变为炽天使之拥；升级目标与替换关系待补。",
+          "fixedValue": 360,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "法力流升级最大法力阈值",
+          "parameterKey": "mana_flow_transform_threshold",
+          "skillKey": "item_3003_passive",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-07T18:19:49.108258Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_3003_passive/formulas/ap_from_bonus_mana",
+      "state": "已为目标值",
+      "before": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:19:49.619429Z",
+          "description": "按来源对象额外法力值乘以敬畏比例计算法术强度。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "attributeKey": "mana",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "BONUS",
+                "nodeType": "ATTRIBUTE"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_from_bonus_mana_ratio"
+              }
+            ],
+            "operation": "MULTIPLY"
+          },
+          "formulaKey": "ap_from_bonus_mana",
+          "gameId": "lol",
+          "name": "额外法力转法术强度",
+          "skillKey": "item_3003_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T18:19:49.619429Z"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_3003_passive/effects/ap_from_bonus_mana",
+      "state": "已为目标值",
+      "before": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:20:23.115882Z",
+          "description": "装备持有者按当前额外法力值获得1%法术强度。",
+          "effectKey": "ap_from_bonus_mana",
+          "gameId": "lol",
+          "lifecycle": {
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "durationValue": null,
+            "expiryMode": "EXPLICIT_ONLY",
+            "firstPeriodicExecution": null,
+            "instanceScope": "SOURCE",
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "periodicIntervalValue": null,
+            "reapplicationDurationMode": null,
+            "reapplicationStackMode": "KEEP"
+          },
+          "name": "敬畏额外法力转法术强度",
+          "results": [
+            {
+              "description": "每1点额外法力提供0.01点法术强度；按当前时点读取。",
+              "detail": {
+                "attributeKey": "ability_power",
+                "modifierZoneKey": "attribute_flat_add",
+                "operation": "INCREASE"
+              },
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "periodicExecutionMode": null,
+                "reapplicationValueMode": null,
+                "stackValueMode": "SHARED",
+                "valueReadMode": "MOMENT_EVALUATION"
+              },
+              "name": "额外法力提供的法术强度",
+              "resultKey": "ap_from_bonus_mana",
+              "resultType": "ATTRIBUTE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "ap_from_bonus_mana",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "skillKey": "item_3003_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T18:20:23.115882Z"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_3003_passive/trigger-rules/initialize_ap_from_bonus_mana",
+      "state": "已为目标值",
+      "before": {
+        "status": 200,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_ap_from_bonus_mana",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "ap_from_bonus_mana"
+              },
+              "name": "执行敬畏属性效果",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "EVENT_SOURCE"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "装备生效时建立按当前额外法力读取的敬畏属性效果；法力流技能命中筛选不在本规则中扩大。",
+          "eventSource": {
+            "detail": {},
+            "eventType": "SOURCE_INITIALIZED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "初始化敬畏额外法力转法术强度",
+          "perTargetCooldown": null,
+          "ruleKey": "initialize_ap_from_bonus_mana",
+          "sortOrder": 10
+        }
+      }
+    },
+    {
+      "route": "/skills/item_6675_passive",
+      "state": "待纠错",
+      "before": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:20:25.577116Z",
+          "description": "保存16.17客户端与官方16.17.1说明共同确证的攻击使各基础技能缩短15%剩余冷却时间。装备自身40%攻击速度、25%暴击几率和4%移动速度不在技能结果中重复施加；当前规则只接已有BASIC_ATTACK_HIT，技能触发的攻击特效是否进入该攻击事件留待核对。",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "纳沃利烁刃·超凡入圣",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "item_6675_passive",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-07T18:20:25.577116Z"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_6675_passive/parameters/basic_skill_cooldown_reduction_ratio",
+      "state": "已为目标值",
+      "before": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:20:26.115487Z",
+          "description": "每次攻击使基础技能剩余冷却缩短15%，小数0.15表示15%。",
+          "fixedValue": 0.15,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础技能剩余冷却缩短比例",
+          "parameterKey": "basic_skill_cooldown_reduction_ratio",
+          "skillKey": "item_6675_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T18:20:26.115487Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_6675_passive/effects/basic_skill_cooldown_reduction",
+      "state": "待纠错",
+      "before": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:20:26.526199Z",
+          "description": "攻击命中时缩短来源对象各基础技能15%的剩余冷却时间。",
+          "effectKey": "basic_skill_cooldown_reduction",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "基础技能剩余冷却缩短",
+          "results": [
+            {
+              "description": "缩短各基础技能15%剩余冷却时间。",
+              "detail": {
+                "affectedSkillScope": {
+                  "mode": "CATEGORIES",
+                  "skillCategoryKeys": [
+                    "common"
+                  ],
+                  "skillKeys": []
+                },
+                "operation": "REDUCE"
+              },
+              "lifecycleBehavior": null,
+              "name": "基础技能冷却缩短",
+              "resultKey": "basic_skill_cooldown_reduction",
+              "resultType": "COOLDOWN_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "basic_skill_cooldown_reduction_ratio"
+                }
+              }
+            }
+          ],
+          "skillKey": "item_6675_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T18:20:26.526199Z"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_4633_passive",
+      "state": "待纠错",
+      "before": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:21:46.326386Z",
+          "description": "保存16.17客户端与官方16.17.1说明共同确证的虚空灌注2%额外生命转法术强度，以及虚空腐蚀每秒2%、最多8%的确证参数。装备自身70法术强度、350生命值和15技能急速不在技能结果中重复施加；虚空腐蚀的敌方英雄战斗筛选、战斗结束层数处理和满层全能吸血数值留待补配。",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "裂隙制造者·虚空灌注与虚空腐蚀",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "item_4633_passive",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-07T18:21:46.326386Z"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_4633_passive/parameters/ap_from_bonus_hp_ratio",
+      "state": "已为目标值",
+      "before": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:21:46.806508Z",
+          "description": "每1点额外生命提供0.02点法术强度，小数0.02表示2%。",
+          "fixedValue": 0.02,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "虚空灌注额外生命转法术强度比例",
+          "parameterKey": "ap_from_bonus_hp_ratio",
+          "skillKey": "item_4633_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T18:21:46.806508Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_4633_passive/parameters/void_corrosion_damage_bonus_per_second",
+      "state": "已为目标值",
+      "before": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:21:47.253519Z",
+          "description": "与敌方英雄作战时每过1秒增加2%额外伤害，小数0.02表示2%；事件筛选待补。",
+          "fixedValue": 0.02,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "虚空腐蚀每秒伤害增幅",
+          "parameterKey": "void_corrosion_damage_bonus_per_second",
+          "skillKey": "item_4633_passive",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-07T18:21:47.253519Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_4633_passive/parameters/void_corrosion_damage_bonus_max",
+      "state": "已为目标值",
+      "before": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:21:47.70827Z",
+          "description": "虚空腐蚀额外伤害增幅最多8%，小数0.08表示8%；伤害修正乘区待补。",
+          "fixedValue": 0.08,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "虚空腐蚀最大伤害增幅",
+          "parameterKey": "void_corrosion_damage_bonus_max",
+          "skillKey": "item_4633_passive",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-07T18:21:47.70827Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_4633_passive/parameters/void_corrosion_interval_ms",
+      "state": "已为目标值",
+      "before": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:21:48.407617Z",
+          "description": "每过1秒增加一档伤害增幅，单位：毫秒。",
+          "fixedValue": 1000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "虚空腐蚀叠层间隔",
+          "parameterKey": "void_corrosion_interval_ms",
+          "skillKey": "item_4633_passive",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-07T18:21:48.407617Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_4633_passive/parameters/void_corrosion_melee_omnivamp",
+      "state": "待纠错",
+      "before": {
+        "status": 404,
+        "data": {
+          "error": {
+            "code": "404.SKILL_PARAMETER_NOT_FOUND",
+            "details": {
+              "parameterKey": "void_corrosion_melee_omnivamp"
+            },
+            "message": "技能参数不存在"
+          }
+        }
+      }
+    },
+    {
+      "route": "/skills/item_4633_passive/parameters/void_corrosion_ranged_omnivamp",
+      "state": "待纠错",
+      "before": {
+        "status": 404,
+        "data": {
+          "error": {
+            "code": "404.SKILL_PARAMETER_NOT_FOUND",
+            "details": {
+              "parameterKey": "void_corrosion_ranged_omnivamp"
+            },
+            "message": "技能参数不存在"
+          }
+        }
+      }
+    },
+    {
+      "route": "/skills/item_4633_passive/formulas/ap_from_bonus_hp",
+      "state": "已为目标值",
+      "before": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:21:48.873025Z",
+          "description": "按来源对象额外生命值乘以虚空灌注比例计算法术强度。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "attributeKey": "hp",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "BONUS",
+                "nodeType": "ATTRIBUTE"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_from_bonus_hp_ratio"
+              }
+            ],
+            "operation": "MULTIPLY"
+          },
+          "formulaKey": "ap_from_bonus_hp",
+          "gameId": "lol",
+          "name": "额外生命转法术强度",
+          "skillKey": "item_4633_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T18:21:48.873025Z"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_4633_passive/effects/ap_from_bonus_hp",
+      "state": "已为目标值",
+      "before": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:21:49.418484Z",
+          "description": "装备持有者按当前额外生命值获得2%法术强度。",
+          "effectKey": "ap_from_bonus_hp",
+          "gameId": "lol",
+          "lifecycle": {
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "durationValue": null,
+            "expiryMode": "EXPLICIT_ONLY",
+            "firstPeriodicExecution": null,
+            "instanceScope": "SOURCE",
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "periodicIntervalValue": null,
+            "reapplicationDurationMode": null,
+            "reapplicationStackMode": "KEEP"
+          },
+          "name": "虚空灌注额外生命转法术强度",
+          "results": [
+            {
+              "description": "每1点额外生命提供0.02点法术强度；按当前时点读取。",
+              "detail": {
+                "attributeKey": "ability_power",
+                "modifierZoneKey": "attribute_flat_add",
+                "operation": "INCREASE"
+              },
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "periodicExecutionMode": null,
+                "reapplicationValueMode": null,
+                "stackValueMode": "SHARED",
+                "valueReadMode": "MOMENT_EVALUATION"
+              },
+              "name": "额外生命提供的法术强度",
+              "resultKey": "ap_from_bonus_hp",
+              "resultType": "ATTRIBUTE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "ap_from_bonus_hp",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "skillKey": "item_4633_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T18:21:49.418484Z"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_4633_passive/trigger-rules/initialize_ap_from_bonus_hp",
+      "state": "已为目标值",
+      "before": {
+        "status": 200,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_ap_from_bonus_hp",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "ap_from_bonus_hp"
+              },
+              "name": "执行虚空灌注属性效果",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "EVENT_SOURCE"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "装备生效时建立按当前额外生命读取的虚空灌注属性效果；虚空腐蚀战斗筛选不在本规则中扩大。",
+          "eventSource": {
+            "detail": {},
+            "eventType": "SOURCE_INITIALIZED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "初始化虚空灌注",
+          "perTargetCooldown": null,
+          "ruleKey": "initialize_ap_from_bonus_hp",
+          "sortOrder": 10
+        }
+      }
+    },
+    {
+      "route": "/skills/item_2501_passive",
+      "state": "待纠错",
+      "before": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:21:52.033553Z",
+          "description": "保存16.17客户端与官方16.17.1说明共同确证的专横2.5%额外生命转攻击力，以及报复12%攻击力提升参数。装备自身550生命值和30攻击力不在技能结果中重复施加；本批只把专横的额外生命转攻击力配置为动态属性效果，报复的已损失生命完整函数留待补配。",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "霸王血铠·专横与报复",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "item_2501_passive",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-07T18:21:52.033553Z"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_2501_passive/parameters/ad_from_bonus_hp_ratio",
+      "state": "已为目标值",
+      "before": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:21:52.545314Z",
+          "description": "每1点额外生命提供0.025点攻击力，小数0.025表示2.5%。",
+          "fixedValue": 0.025,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "专横额外生命转攻击力比例",
+          "parameterKey": "ad_from_bonus_hp_ratio",
+          "skillKey": "item_2501_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T18:21:52.545314Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_2501_passive/parameters/revenge_attack_damage_ratio",
+      "state": "已为目标值",
+      "before": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:21:52.997578Z",
+          "description": "来源明示报复提供12%攻击力提升，小数0.12表示12%；已损失生命百分比完整函数待补。",
+          "fixedValue": 0.12,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "报复攻击力提升比例",
+          "parameterKey": "revenge_attack_damage_ratio",
+          "skillKey": "item_2501_passive",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-07T18:21:52.997578Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_2501_passive/parameters/revenge_missing_health_threshold",
+      "state": "已为目标值",
+      "before": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:21:53.541071Z",
+          "description": "客户端绑定树记录MissingHealthThreshold=0.7；与报复完整函数的具体组合关系待来源核定，不将其直接当作触发阈值。",
+          "fixedValue": 0.7,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "报复已损失生命条件阈值",
+          "parameterKey": "revenge_missing_health_threshold",
+          "skillKey": "item_2501_passive",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-07T18:21:53.541071Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_2501_passive/parameters/revenge_remaining_health_threshold",
+      "state": "待纠错",
+      "before": {
+        "status": 404,
+        "data": {
+          "error": {
+            "code": "404.SKILL_PARAMETER_NOT_FOUND",
+            "details": {
+              "parameterKey": "revenge_remaining_health_threshold"
+            },
+            "message": "技能参数不存在"
+          }
+        }
+      }
+    },
+    {
+      "route": "/skills/item_2501_passive/formulas/ad_from_bonus_hp",
+      "state": "已为目标值",
+      "before": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:21:54.028962Z",
+          "description": "按来源对象额外生命值乘以专横比例计算攻击力。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "attributeKey": "hp",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "BONUS",
+                "nodeType": "ATTRIBUTE"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ad_from_bonus_hp_ratio"
+              }
+            ],
+            "operation": "MULTIPLY"
+          },
+          "formulaKey": "ad_from_bonus_hp",
+          "gameId": "lol",
+          "name": "额外生命转攻击力",
+          "skillKey": "item_2501_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T18:21:54.028962Z"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_2501_passive/effects/ad_from_bonus_hp",
+      "state": "已为目标值",
+      "before": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:21:54.587233Z",
+          "description": "装备持有者按当前额外生命值获得2.5%攻击力。",
+          "effectKey": "ad_from_bonus_hp",
+          "gameId": "lol",
+          "lifecycle": {
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "durationValue": null,
+            "expiryMode": "EXPLICIT_ONLY",
+            "firstPeriodicExecution": null,
+            "instanceScope": "SOURCE",
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "periodicIntervalValue": null,
+            "reapplicationDurationMode": null,
+            "reapplicationStackMode": "KEEP"
+          },
+          "name": "专横额外生命转攻击力",
+          "results": [
+            {
+              "description": "每1点额外生命提供0.025点攻击力；按当前时点读取。",
+              "detail": {
+                "attributeKey": "attack_damage",
+                "modifierZoneKey": "attribute_flat_add",
+                "operation": "INCREASE"
+              },
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "periodicExecutionMode": null,
+                "reapplicationValueMode": null,
+                "stackValueMode": "SHARED",
+                "valueReadMode": "MOMENT_EVALUATION"
+              },
+              "name": "额外生命提供的攻击力",
+              "resultKey": "ad_from_bonus_hp",
+              "resultType": "ATTRIBUTE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "ad_from_bonus_hp",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "skillKey": "item_2501_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T18:21:54.587233Z"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_2501_passive/trigger-rules/initialize_ad_from_bonus_hp",
+      "state": "已为目标值",
+      "before": {
+        "status": 200,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_ad_from_bonus_hp",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "ad_from_bonus_hp"
+              },
+              "name": "执行专横属性效果",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "EVENT_SOURCE"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "装备生效时建立按当前额外生命读取的专横属性效果；报复完整函数不在本规则中猜测。",
+          "eventSource": {
+            "detail": {},
+            "eventType": "SOURCE_INITIALIZED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "初始化专横",
+          "perTargetCooldown": null,
+          "ruleKey": "initialize_ad_from_bonus_hp",
+          "sortOrder": 10
+        }
+      }
+    },
+    {
+      "route": "/skills/item_3814_passive",
+      "state": "待纠错",
+      "before": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:21:57.037782Z",
+          "description": "保存16.17客户端与官方16.17.1说明共同确证的提供一层法术护盾、格挡下一个敌方技能，以及客户端记录的40秒冷却参数。装备自身50攻击力、15固定护甲穿透和250生命值不在技能结果中重复施加；法术护盾重获时间和重获条件留待补配。",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "夜之锋刃·废除",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "item_3814_passive",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-07T18:21:57.037782Z"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_3814_passive/parameters/spell_shield_cooldown_ms",
+      "state": "已为目标值",
+      "before": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:21:57.469385Z",
+          "description": "法术护盾冷却时间为40秒，单位：毫秒；冷却开始与重获条件待补。",
+          "fixedValue": 40000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "法术护盾冷却时间",
+          "parameterKey": "spell_shield_cooldown_ms",
+          "skillKey": "item_3814_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T18:21:57.469385Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_3814_passive/effects/spell_shield",
+      "state": "已为目标值",
+      "before": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:21:57.893417Z",
+          "description": "保存格挡下一个敌方技能的法术护盾结果；初始化后的消费和冷却重获规则待补。",
+          "effectKey": "spell_shield",
+          "gameId": "lol",
+          "lifecycle": {
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "durationValue": null,
+            "expiryMode": "EXPLICIT_ONLY",
+            "firstPeriodicExecution": null,
+            "instanceScope": "SOURCE",
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "periodicIntervalValue": null,
+            "reapplicationDurationMode": null,
+            "reapplicationStackMode": "KEEP"
+          },
+          "name": "法术护盾",
+          "results": [
+            {
+              "description": "格挡下一个敌方技能。",
+              "detail": {},
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "periodicExecutionMode": null,
+                "reapplicationValueMode": null,
+                "stackValueMode": null,
+                "valueReadMode": null
+              },
+              "name": "格挡下一个敌方技能",
+              "resultKey": "spell_shield",
+              "resultType": "SPELL_SHIELD",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": null
+            }
+          ],
+          "skillKey": "item_3814_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T18:21:57.893417Z"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_3814_passive/effects/consume_spell_shield",
+      "state": "待纠错",
+      "before": {
+        "status": 404,
+        "data": {
+          "error": {
+            "code": "404.SKILL_EFFECT_NOT_FOUND",
+            "details": {
+              "effectKey": "consume_spell_shield"
+            },
+            "message": "技能效果不存在"
+          }
+        }
+      }
+    },
+    {
+      "route": "/skills/item_3814_passive/trigger-rules/initialize_spell_shield",
+      "state": "已为目标值",
+      "before": {
+        "status": 200,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_spell_shield",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "spell_shield"
+              },
+              "name": "执行法术护盾",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "EVENT_SOURCE"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "装备生效时建立一层法术护盾；成功格挡后的消费和40秒重获规则待补。",
+          "eventSource": {
+            "detail": {},
+            "eventType": "SOURCE_INITIALIZED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "初始化废除法术护盾",
+          "perTargetCooldown": null,
+          "ruleKey": "initialize_spell_shield",
+          "sortOrder": 10
+        }
+      }
+    },
+    {
+      "route": "/skills/item_3814_passive/trigger-rules/consume_on_successful_block",
+      "state": "待纠错",
+      "before": {
+        "status": 404,
+        "data": {
+          "error": {
+            "code": "404.SKILL_TRIGGER_RULE_NOT_FOUND",
+            "details": {
+              "ruleKey": "consume_on_successful_block"
+            },
+            "message": "技能触发规则不存在"
+          }
+        }
+      }
+    },
+    {
+      "route": "/skills/item_6657_passive",
+      "state": "待纠错",
+      "before": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:22:00.223935Z",
+          "description": "保存16.17客户端与官方16.17.1说明共同确证的时无限每60秒获得10生命值、30法力和3法术强度、最多10层，以及永恒10%受英雄伤害回蓝和25%技能法力消耗自我治疗参数。装备自身45法术强度、350生命值和500法力不在技能结果中重复施加；本批建立时无限的60秒周期属性组成，满层升级和永恒的英雄受击/技能消耗条件留待补配。",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "时光之杖·时无限与永恒",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "item_6657_passive",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-07T18:22:00.223935Z"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_6657_passive/parameters/timeless_growth_interval_ms",
+      "state": "已为目标值",
+      "before": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:22:00.93696Z",
+          "description": "时无限每60秒增加一层，单位：毫秒。",
+          "fixedValue": 60000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "时无限成长间隔",
+          "parameterKey": "timeless_growth_interval_ms",
+          "skillKey": "item_6657_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T18:22:00.93696Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_6657_passive/parameters/timeless_growth_max_stacks",
+      "state": "已为目标值",
+      "before": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:22:01.471072Z",
+          "description": "时无限最多10层。",
+          "fixedValue": 10,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "时无限最大层数",
+          "parameterKey": "timeless_growth_max_stacks",
+          "skillKey": "item_6657_passive",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-07T18:22:01.471072Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_6657_passive/parameters/timeless_hp_per_stack",
+      "state": "已为目标值",
+      "before": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:22:01.958089Z",
+          "description": "每层增加10点生命值。",
+          "fixedValue": 10,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "时无限每层生命值",
+          "parameterKey": "timeless_hp_per_stack",
+          "skillKey": "item_6657_passive",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-07T18:22:01.958089Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_6657_passive/parameters/timeless_mana_per_stack",
+      "state": "已为目标值",
+      "before": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:22:02.444966Z",
+          "description": "每层增加30点法力值。",
+          "fixedValue": 30,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "时无限每层法力",
+          "parameterKey": "timeless_mana_per_stack",
+          "skillKey": "item_6657_passive",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-07T18:22:02.444966Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_6657_passive/parameters/timeless_ap_per_stack",
+      "state": "已为目标值",
+      "before": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:22:02.905277Z",
+          "description": "每层增加3点法术强度。",
+          "fixedValue": 3,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "时无限每层法术强度",
+          "parameterKey": "timeless_ap_per_stack",
+          "skillKey": "item_6657_passive",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-07T18:22:02.905277Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_6657_passive/parameters/timeless_max_stack_level_bonus",
+      "state": "已为目标值",
+      "before": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:22:03.637009Z",
+          "description": "达到最大层数时等级提升1级；当前技能效果没有等级提升结果，留待补配。",
+          "fixedValue": 1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "时无限满层等级提升",
+          "parameterKey": "timeless_max_stack_level_bonus",
+          "skillKey": "item_6657_passive",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-07T18:22:03.637009Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_6657_passive/parameters/eternity_mana_restore_ratio",
+      "state": "待纠错",
+      "before": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:22:04.227657Z",
+          "description": "承受来自英雄的伤害时回复相当于伤害值10%的法力，小数0.1表示10%；英雄来源筛选待补。",
+          "fixedValue": 0.1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "永恒受英雄伤害回蓝比例",
+          "parameterKey": "eternity_mana_restore_ratio",
+          "skillKey": "item_6657_passive",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-07T18:22:04.227657Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_6657_passive/parameters/eternity_skill_cost_heal_ratio",
+      "state": "已为目标值",
+      "before": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:22:04.742965Z",
+          "description": "施放技能时治疗相当于法力消耗25%的生命值，小数0.25表示25%；消耗读取和持续技能规则待补。",
+          "fixedValue": 0.25,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "永恒技能消耗治疗比例",
+          "parameterKey": "eternity_skill_cost_heal_ratio",
+          "skillKey": "item_6657_passive",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-07T18:22:04.742965Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_6657_passive/parameters/eternity_max_heal_per_cast",
+      "state": "待纠错",
+      "before": {
+        "status": 404,
+        "data": {
+          "error": {
+            "code": "404.SKILL_PARAMETER_NOT_FOUND",
+            "details": {
+              "parameterKey": "eternity_max_heal_per_cast"
+            },
+            "message": "技能参数不存在"
+          }
+        }
+      }
+    },
+    {
+      "route": "/skills/item_6657_passive/parameters/eternity_sustained_heal_per_second",
+      "state": "待纠错",
+      "before": {
+        "status": 404,
+        "data": {
+          "error": {
+            "code": "404.SKILL_PARAMETER_NOT_FOUND",
+            "details": {
+              "parameterKey": "eternity_sustained_heal_per_second"
+            },
+            "message": "技能参数不存在"
+          }
+        }
+      }
+    },
+    {
+      "route": "/skills/item_6657_passive/effects/timeless_growth",
+      "state": "待纠错",
+      "before": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:22:32.191968Z",
+          "description": "装备生效后每60秒执行一档时无限成长，保存每层10生命、30法力和3法术强度以及10层上限。",
+          "effectKey": "timeless_growth",
+          "gameId": "lol",
+          "lifecycle": {
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "durationValue": null,
+            "expiryMode": "EXPLICIT_ONLY",
+            "firstPeriodicExecution": "AFTER_INTERVAL",
+            "instanceScope": "SOURCE",
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 10
+            },
+            "periodicIntervalValue": {
+              "kind": "FIXED",
+              "value": 60000
+            },
+            "reapplicationDurationMode": null,
+            "reapplicationStackMode": "INCREASE"
+          },
+          "name": "时无限周期成长",
+          "results": [
+            {
+              "description": "周期成长每层增加3点法术强度。",
+              "detail": {
+                "attributeKey": "ability_power",
+                "modifierZoneKey": null,
+                "operation": "INCREASE"
+              },
+              "lifecycleBehavior": {
+                "moment": "PERIODIC",
+                "periodicExecutionMode": "ONCE_PER_INSTANCE",
+                "reapplicationValueMode": null,
+                "stackValueMode": null,
+                "valueReadMode": "MOMENT_EVALUATION"
+              },
+              "name": "时无限每层法术强度",
+              "resultKey": "timeless_ap_per_stack",
+              "resultType": "ATTRIBUTE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "timeless_ap_per_stack"
+                }
+              }
+            },
+            {
+              "description": "周期成长每层增加10点生命值。",
+              "detail": {
+                "attributeKey": "hp",
+                "modifierZoneKey": null,
+                "operation": "INCREASE"
+              },
+              "lifecycleBehavior": {
+                "moment": "PERIODIC",
+                "periodicExecutionMode": "ONCE_PER_INSTANCE",
+                "reapplicationValueMode": null,
+                "stackValueMode": null,
+                "valueReadMode": "MOMENT_EVALUATION"
+              },
+              "name": "时无限每层生命值",
+              "resultKey": "timeless_hp_per_stack",
+              "resultType": "ATTRIBUTE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "timeless_hp_per_stack"
+                }
+              }
+            },
+            {
+              "description": "周期成长每层增加30点法力值。",
+              "detail": {
+                "attributeKey": "mana",
+                "modifierZoneKey": null,
+                "operation": "INCREASE"
+              },
+              "lifecycleBehavior": {
+                "moment": "PERIODIC",
+                "periodicExecutionMode": "ONCE_PER_INSTANCE",
+                "reapplicationValueMode": null,
+                "stackValueMode": null,
+                "valueReadMode": "MOMENT_EVALUATION"
+              },
+              "name": "时无限每层法力",
+              "resultKey": "timeless_mana_per_stack",
+              "resultType": "ATTRIBUTE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "timeless_mana_per_stack"
+                }
+              }
+            }
+          ],
+          "skillKey": "item_6657_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T18:22:32.191968Z"
+        }
+      }
+    }
+  ],
+  "changes": [
+    {
+      "route": "/skills/item_6657_passive/trigger-rules/initialize_timeless_growth",
+      "method": "DELETE",
+      "before": {
+        "status": 200,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_timeless_growth",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "timeless_growth"
+              },
+              "name": "启动时无限周期效果",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "EVENT_SOURCE"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "装备生效时启动每60秒的时无限周期效果；满层等级提升和永恒两个事件另行待配。",
+          "eventSource": {
+            "detail": {},
+            "eventType": "SOURCE_INITIALIZED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "初始化时无限周期成长",
+          "perTargetCooldown": null,
+          "ruleKey": "initialize_timeless_growth",
+          "sortOrder": 10
+        }
+      },
+      "writeStatus": 204,
+      "readback": {
+        "status": 404,
+        "data": {
+          "error": {
+            "code": "404.SKILL_TRIGGER_RULE_NOT_FOUND",
+            "details": {
+              "ruleKey": "initialize_timeless_growth"
+            },
+            "message": "技能触发规则不存在"
+          }
+        }
+      }
+    },
+    {
+      "route": "/skills/item_3003_passive",
+      "method": "PUT",
+      "before": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:19:45.795412Z",
+          "description": "保存16.17客户端绑定值与官方16.17.1说明共同确证的敬畏1%额外法力转法术强度，以及法力流的8秒、5层、每次5最大法力、英雄命中翻倍和360最大法力升级阈值。装备自身70法术强度、600法力和25技能急速不在技能结果中重复施加；本批只把额外法力转法术强度配置为动态属性效果，法力流命中筛选与升级目标待补。",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "大天使之杖·敬畏与法力流",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "item_3003_passive",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-07T18:19:45.795412Z"
+        }
+      },
+      "writeStatus": 200,
+      "readback": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:19:45.795412Z",
+          "description": "保存16.17客户端绑定值与官方16.17.1说明共同确证的敬畏1%额外法力转法术强度，以及法力流的8秒、5层、每次5最大法力、英雄命中翻倍和法力流累计增加360最大法力的升级阈值。装备自身70法术强度、600法力和25技能急速不在技能结果中重复施加；本批只把额外法力转法术强度配置为动态属性效果，法力流命中筛选与升级目标待补。",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "大天使之杖·敬畏与法力流",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "item_3003_passive",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-07T18:55:49.725882Z"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_3003_passive/parameters/mana_flow_transform_threshold",
+      "method": "PUT",
+      "before": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:19:49.108258Z",
+          "description": "达到360点最大法力时转变为炽天使之拥；升级目标与替换关系待补。",
+          "fixedValue": 360,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "法力流升级最大法力阈值",
+          "parameterKey": "mana_flow_transform_threshold",
+          "skillKey": "item_3003_passive",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-07T18:19:49.108258Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      },
+      "writeStatus": 200,
+      "readback": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:19:49.108258Z",
+          "description": "法力流累计增加360最大法力后升级；不是角色总最大法力达到360，装备自身600法力不计入进度。",
+          "fixedValue": 360,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "法力流累计增加法力升级阈值",
+          "parameterKey": "mana_flow_transform_threshold",
+          "skillKey": "item_3003_passive",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-07T18:55:50.341497Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_6675_passive",
+      "method": "PUT",
+      "before": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:20:25.577116Z",
+          "description": "保存16.17客户端与官方16.17.1说明共同确证的攻击使各基础技能缩短15%剩余冷却时间。装备自身40%攻击速度、25%暴击几率和4%移动速度不在技能结果中重复施加；当前规则只接已有BASIC_ATTACK_HIT，技能触发的攻击特效是否进入该攻击事件留待核对。",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "纳沃利烁刃·超凡入圣",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "item_6675_passive",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-07T18:20:25.577116Z"
+        }
+      },
+      "writeStatus": 200,
+      "readback": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:20:25.577116Z",
+          "description": "保存冻结16.17客户端与官方16.17.1确证的每次攻击缩短各基础技能15%剩余冷却比例。当前冷却变化结果按毫秒解释，错误0.15毫秒效果已撤；已有SOURCE结果可指持有者，尚缺各受影响技能剩余冷却比例操作。装备直接属性不重复施加。",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "纳沃利烁刃·超凡入圣",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "item_6675_passive",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-07T18:55:51.120373Z"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_6675_passive/effects/basic_skill_cooldown_reduction",
+      "method": "DELETE",
+      "before": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:20:26.526199Z",
+          "description": "攻击命中时缩短来源对象各基础技能15%的剩余冷却时间。",
+          "effectKey": "basic_skill_cooldown_reduction",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "基础技能剩余冷却缩短",
+          "results": [
+            {
+              "description": "缩短各基础技能15%剩余冷却时间。",
+              "detail": {
+                "affectedSkillScope": {
+                  "mode": "CATEGORIES",
+                  "skillCategoryKeys": [
+                    "common"
+                  ],
+                  "skillKeys": []
+                },
+                "operation": "REDUCE"
+              },
+              "lifecycleBehavior": null,
+              "name": "基础技能冷却缩短",
+              "resultKey": "basic_skill_cooldown_reduction",
+              "resultType": "COOLDOWN_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "basic_skill_cooldown_reduction_ratio"
+                }
+              }
+            }
+          ],
+          "skillKey": "item_6675_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T18:20:26.526199Z"
+        }
+      },
+      "writeStatus": 204,
+      "readback": {
+        "status": 404,
+        "data": {
+          "error": {
+            "code": "404.SKILL_EFFECT_NOT_FOUND",
+            "details": {
+              "effectKey": "basic_skill_cooldown_reduction"
+            },
+            "message": "技能效果不存在"
+          }
+        }
+      }
+    },
+    {
+      "route": "/skills/item_4633_passive",
+      "method": "PUT",
+      "before": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:21:46.326386Z",
+          "description": "保存16.17客户端与官方16.17.1说明共同确证的虚空灌注2%额外生命转法术强度，以及虚空腐蚀每秒2%、最多8%的确证参数。装备自身70法术强度、350生命值和15技能急速不在技能结果中重复施加；虚空腐蚀的敌方英雄战斗筛选、战斗结束层数处理和满层全能吸血数值留待补配。",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "裂隙制造者·虚空灌注与虚空腐蚀",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "item_4633_passive",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-07T18:21:46.326386Z"
+        }
+      },
+      "writeStatus": 200,
+      "readback": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:21:46.326386Z",
+          "description": "保存16.17客户端与官方16.17.1说明共同确证的虚空灌注2%额外生命转法术强度，以及虚空腐蚀每秒2%、最多8%的确证参数。装备自身70法术强度、350生命值和15技能急速不在技能结果中重复施加；虚空腐蚀的敌方英雄战斗筛选、战斗结束层数处理及满强度近战10%/远程6%全能吸血效果留待补配。",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "裂隙制造者·虚空灌注与虚空腐蚀",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "item_4633_passive",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-07T18:55:52.221426Z"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_4633_passive/parameters/void_corrosion_melee_omnivamp",
+      "method": "POST",
+      "before": {
+        "status": 404,
+        "data": {
+          "error": {
+            "code": "404.SKILL_PARAMETER_NOT_FOUND",
+            "details": {
+              "parameterKey": "void_corrosion_melee_omnivamp"
+            },
+            "message": "技能参数不存在"
+          }
+        }
+      },
+      "writeStatus": 201,
+      "readback": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:55:52.843185Z",
+          "description": "当前根VampAmountMelee和绑定扩展说明确证满强度近战10%全能吸血。",
+          "fixedValue": 0.1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "虚空腐蚀满强度近战全能吸血比例",
+          "parameterKey": "void_corrosion_melee_omnivamp",
+          "skillKey": "item_4633_passive",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-07T18:55:52.843185Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_4633_passive/parameters/void_corrosion_ranged_omnivamp",
+      "method": "POST",
+      "before": {
+        "status": 404,
+        "data": {
+          "error": {
+            "code": "404.SKILL_PARAMETER_NOT_FOUND",
+            "details": {
+              "parameterKey": "void_corrosion_ranged_omnivamp"
+            },
+            "message": "技能参数不存在"
+          }
+        }
+      },
+      "writeStatus": 201,
+      "readback": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:55:53.384983Z",
+          "description": "当前根VampAmountRanged和绑定扩展说明确证满强度远程6%全能吸血。",
+          "fixedValue": 0.06,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "虚空腐蚀满强度远程全能吸血比例",
+          "parameterKey": "void_corrosion_ranged_omnivamp",
+          "skillKey": "item_4633_passive",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-07T18:55:53.384983Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_2501_passive",
+      "method": "PUT",
+      "before": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:21:52.033553Z",
+          "description": "保存16.17客户端与官方16.17.1说明共同确证的专横2.5%额外生命转攻击力，以及报复12%攻击力提升参数。装备自身550生命值和30攻击力不在技能结果中重复施加；本批只把专横的额外生命转攻击力配置为动态属性效果，报复的已损失生命完整函数留待补配。",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "霸王血铠·专横与报复",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "item_2501_passive",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-07T18:21:52.033553Z"
+        }
+      },
+      "writeStatus": 200,
+      "readback": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:21:52.033553Z",
+          "description": "保存16.17客户端与官方16.17.1说明共同确证的专横2.5%额外生命转攻击力，以及报复12%攻击力提升参数。装备自身550生命值和30攻击力不在技能结果中重复施加；本批只把专横的额外生命转攻击力配置为动态属性效果，报复低于30%剩余生命达到最高12%的边界已补参数，中间增长函数留待补证。",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "霸王血铠·专横与报复",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "item_2501_passive",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-07T18:55:53.963284Z"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_2501_passive/parameters/revenge_remaining_health_threshold",
+      "method": "POST",
+      "before": {
+        "status": 404,
+        "data": {
+          "error": {
+            "code": "404.SKILL_PARAMETER_NOT_FOUND",
+            "details": {
+              "parameterKey": "revenge_remaining_health_threshold"
+            },
+            "message": "技能参数不存在"
+          }
+        }
+      },
+      "writeStatus": 201,
+      "readback": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:55:54.508042Z",
+          "description": "当前绑定RemainingHealthThreshold计算为1-0.7=0.3，扩展说明明确低于30%生命达到最高12%；中间增长函数尚待补证。",
+          "fixedValue": 0.3,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "报复达到最高加成的剩余生命比例",
+          "parameterKey": "revenge_remaining_health_threshold",
+          "skillKey": "item_2501_passive",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-07T18:55:54.508042Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_3814_passive",
+      "method": "PUT",
+      "before": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:21:57.037782Z",
+          "description": "保存16.17客户端与官方16.17.1说明共同确证的提供一层法术护盾、格挡下一个敌方技能，以及客户端记录的40秒冷却参数。装备自身50攻击力、15固定护甲穿透和250生命值不在技能结果中重复施加；法术护盾重获时间和重获条件留待补配。",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "夜之锋刃·废除",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "item_3814_passive",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-07T18:21:57.037782Z"
+        }
+      },
+      "writeStatus": 200,
+      "readback": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:21:57.037782Z",
+          "description": "保存冻结16.17客户端与官方16.17.1确证的一层法术护盾、40秒冷却及冷却中受到英雄伤害重新起算。已配置初始化与成功阻挡后显式消费；40秒重获与英雄伤害重置规则待接线，直接装备属性不重复施加。",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "夜之锋刃·废除",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "item_3814_passive",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-07T18:55:55.117278Z"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_3814_passive/effects/consume_spell_shield",
+      "method": "POST",
+      "before": {
+        "status": 404,
+        "data": {
+          "error": {
+            "code": "404.SKILL_EFFECT_NOT_FOUND",
+            "details": {
+              "effectKey": "consume_spell_shield"
+            },
+            "message": "技能效果不存在"
+          }
+        }
+      },
+      "writeStatus": 201,
+      "readback": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:55:55.71486Z",
+          "description": "仅在法术护盾成功阻挡事件中执行，移除本技能的自身护盾。",
+          "effectKey": "consume_spell_shield",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "成功格挡后消耗法术护盾",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "operation": "REMOVE",
+                "targetEffectKey": "spell_shield"
+              },
+              "lifecycleBehavior": null,
+              "name": "移除已格挡护盾",
+              "resultKey": "remove_spell_shield",
+              "resultType": "LIFECYCLE_OPERATION",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": null
+            }
+          ],
+          "skillKey": "item_3814_passive",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-07T18:55:55.71486Z"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_3814_passive/trigger-rules/consume_on_successful_block",
+      "method": "POST",
+      "before": {
+        "status": 404,
+        "data": {
+          "error": {
+            "code": "404.SKILL_TRIGGER_RULE_NOT_FOUND",
+            "details": {
+              "ruleKey": "consume_on_successful_block"
+            },
+            "message": "技能触发规则不存在"
+          }
+        }
+      },
+      "writeStatus": 201,
+      "readback": {
+        "status": 200,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "consume_shield",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "consume_spell_shield"
+              },
+              "name": "消耗本次格挡护盾",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "法术护盾不自动消费，成功格挡后显式移除；恢复另配。",
+          "eventSource": {
+            "detail": {
+              "shieldEffectKey": "spell_shield"
+            },
+            "eventType": "SPELL_SHIELD_BLOCKED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "成功格挡后消耗护盾",
+          "perTargetCooldown": null,
+          "ruleKey": "consume_on_successful_block",
+          "sortOrder": 20
+        }
+      }
+    },
+    {
+      "route": "/skills/item_6657_passive",
+      "method": "PUT",
+      "before": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:22:00.223935Z",
+          "description": "保存16.17客户端与官方16.17.1说明共同确证的时无限每60秒获得10生命值、30法力和3法术强度、最多10层，以及永恒10%受英雄伤害回蓝和25%技能法力消耗自我治疗参数。装备自身45法术强度、350生命值和500法力不在技能结果中重复施加；本批建立时无限的60秒周期属性组成，满层升级和永恒的英雄受击/技能消耗条件留待补配。",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "时光之杖·时无限与永恒",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "item_6657_passive",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-07T18:22:00.223935Z"
+        }
+      },
+      "writeStatus": 200,
+      "readback": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:22:00.223935Z",
+          "description": "保存冻结16.17客户端与官方16.17.1确证的每60秒增加10生命、30法力和3法强，共10次成长并永久保留。原无限周期已改为有界被动过程与显式逐层属性；直接装备属性不重复施加。满层升1级及永恒的减免前英雄伤害回蓝、实际施法消耗治疗仍待接线。",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "时光之杖·时无限与永恒",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "item_6657_passive",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-07T18:55:57.446228Z"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_6657_passive/parameters/eternity_mana_restore_ratio",
+      "method": "PUT",
+      "before": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:22:04.227657Z",
+          "description": "承受来自英雄的伤害时回复相当于伤害值10%的法力，小数0.1表示10%；英雄来源筛选待补。",
+          "fixedValue": 0.1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "永恒受英雄伤害回蓝比例",
+          "parameterKey": "eternity_mana_restore_ratio",
+          "skillKey": "item_6657_passive",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-07T18:22:04.227657Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      },
+      "writeStatus": 200,
+      "readback": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:22:04.227657Z",
+          "description": "收到来自英雄的减免前伤害，回复其10%的法力；基数按当前根绑定扩展说明，英雄来源及伤害值绑定待配。",
+          "fixedValue": 0.1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "永恒受英雄伤害回蓝比例",
+          "parameterKey": "eternity_mana_restore_ratio",
+          "skillKey": "item_6657_passive",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-07T18:55:57.974264Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_6657_passive/parameters/eternity_max_heal_per_cast",
+      "method": "POST",
+      "before": {
+        "status": 404,
+        "data": {
+          "error": {
+            "code": "404.SKILL_PARAMETER_NOT_FOUND",
+            "details": {
+              "parameterKey": "eternity_max_heal_per_cast"
+            },
+            "message": "技能参数不存在"
+          }
+        }
+      },
+      "writeStatus": 201,
+      "readback": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:55:58.529364Z",
+          "description": "当前根EternityMaxHealPerCast与绑定扩展说明确证，每次施放最多治疗20生命。",
+          "fixedValue": 20,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "永恒每次施放治疗上限",
+          "parameterKey": "eternity_max_heal_per_cast",
+          "skillKey": "item_6657_passive",
+          "sortOrder": 90,
+          "updatedAt": "2026-09-07T18:55:58.529364Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_6657_passive/parameters/eternity_sustained_heal_per_second",
+      "method": "POST",
+      "before": {
+        "status": 404,
+        "data": {
+          "error": {
+            "code": "404.SKILL_PARAMETER_NOT_FOUND",
+            "details": {
+              "parameterKey": "eternity_sustained_heal_per_second"
+            },
+            "message": "技能参数不存在"
+          }
+        }
+      },
+      "writeStatus": 201,
+      "readback": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:55:59.124983Z",
+          "description": "当前绑定扩展说明明确维持型技能每秒最多治疗20生命；不是每次周期都固定治疗20。",
+          "fixedValue": 20,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "永恒维持型技能每秒治疗上限",
+          "parameterKey": "eternity_sustained_heal_per_second",
+          "skillKey": "item_6657_passive",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:55:59.124983Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_6657_passive/effects/timeless_growth",
+      "method": "PUT",
+      "before": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:22:32.191968Z",
+          "description": "装备生效后每60秒执行一档时无限成长，保存每层10生命、30法力和3法术强度以及10层上限。",
+          "effectKey": "timeless_growth",
+          "gameId": "lol",
+          "lifecycle": {
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "durationValue": null,
+            "expiryMode": "EXPLICIT_ONLY",
+            "firstPeriodicExecution": "AFTER_INTERVAL",
+            "instanceScope": "SOURCE",
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 10
+            },
+            "periodicIntervalValue": {
+              "kind": "FIXED",
+              "value": 60000
+            },
+            "reapplicationDurationMode": null,
+            "reapplicationStackMode": "INCREASE"
+          },
+          "name": "时无限周期成长",
+          "results": [
+            {
+              "description": "周期成长每层增加3点法术强度。",
+              "detail": {
+                "attributeKey": "ability_power",
+                "modifierZoneKey": null,
+                "operation": "INCREASE"
+              },
+              "lifecycleBehavior": {
+                "moment": "PERIODIC",
+                "periodicExecutionMode": "ONCE_PER_INSTANCE",
+                "reapplicationValueMode": null,
+                "stackValueMode": null,
+                "valueReadMode": "MOMENT_EVALUATION"
+              },
+              "name": "时无限每层法术强度",
+              "resultKey": "timeless_ap_per_stack",
+              "resultType": "ATTRIBUTE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "timeless_ap_per_stack"
+                }
+              }
+            },
+            {
+              "description": "周期成长每层增加10点生命值。",
+              "detail": {
+                "attributeKey": "hp",
+                "modifierZoneKey": null,
+                "operation": "INCREASE"
+              },
+              "lifecycleBehavior": {
+                "moment": "PERIODIC",
+                "periodicExecutionMode": "ONCE_PER_INSTANCE",
+                "reapplicationValueMode": null,
+                "stackValueMode": null,
+                "valueReadMode": "MOMENT_EVALUATION"
+              },
+              "name": "时无限每层生命值",
+              "resultKey": "timeless_hp_per_stack",
+              "resultType": "ATTRIBUTE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "timeless_hp_per_stack"
+                }
+              }
+            },
+            {
+              "description": "周期成长每层增加30点法力值。",
+              "detail": {
+                "attributeKey": "mana",
+                "modifierZoneKey": null,
+                "operation": "INCREASE"
+              },
+              "lifecycleBehavior": {
+                "moment": "PERIODIC",
+                "periodicExecutionMode": "ONCE_PER_INSTANCE",
+                "reapplicationValueMode": null,
+                "stackValueMode": null,
+                "valueReadMode": "MOMENT_EVALUATION"
+              },
+              "name": "时无限每层法力",
+              "resultKey": "timeless_mana_per_stack",
+              "resultType": "ATTRIBUTE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "timeless_mana_per_stack"
+                }
+              }
+            }
+          ],
+          "skillKey": "item_6657_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T18:22:32.191968Z"
+        }
+      },
+      "writeStatus": 200,
+      "readback": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:22:32.191968Z",
+          "description": "由十次成长过程每分钟施加一层，最多十层并永久保留各层属性。",
+          "effectKey": "timeless_growth",
+          "gameId": "lol",
+          "lifecycle": {
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "durationValue": null,
+            "expiryMode": "EXPLICIT_ONLY",
+            "firstPeriodicExecution": null,
+            "instanceScope": "SOURCE",
+            "maxStacksValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "timeless_growth_max_stacks"
+            },
+            "periodicIntervalValue": null,
+            "reapplicationDurationMode": null,
+            "reapplicationStackMode": "INCREASE"
+          },
+          "name": "时无限成长层数",
+          "results": [
+            {
+              "description": "显式成长每层增加3点法术强度。",
+              "detail": {
+                "attributeKey": "ability_power",
+                "modifierZoneKey": "attribute_flat_add",
+                "operation": "INCREASE"
+              },
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "periodicExecutionMode": null,
+                "reapplicationValueMode": null,
+                "stackValueMode": "PER_STACK",
+                "valueReadMode": "APPLICATION_SNAPSHOT"
+              },
+              "name": "时无限每层法术强度",
+              "resultKey": "timeless_ap_per_stack",
+              "resultType": "ATTRIBUTE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "timeless_ap_per_stack"
+                }
+              }
+            },
+            {
+              "description": "显式成长每层增加10点生命值。",
+              "detail": {
+                "attributeKey": "hp",
+                "modifierZoneKey": "attribute_flat_add",
+                "operation": "INCREASE"
+              },
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "periodicExecutionMode": null,
+                "reapplicationValueMode": null,
+                "stackValueMode": "PER_STACK",
+                "valueReadMode": "APPLICATION_SNAPSHOT"
+              },
+              "name": "时无限每层生命值",
+              "resultKey": "timeless_hp_per_stack",
+              "resultType": "ATTRIBUTE_CHANGE",
+              "sortOrder": 20,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "timeless_hp_per_stack"
+                }
+              }
+            },
+            {
+              "description": "显式成长每层增加30点法力值。",
+              "detail": {
+                "attributeKey": "mana",
+                "modifierZoneKey": "attribute_flat_add",
+                "operation": "INCREASE"
+              },
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "periodicExecutionMode": null,
+                "reapplicationValueMode": null,
+                "stackValueMode": "PER_STACK",
+                "valueReadMode": "APPLICATION_SNAPSHOT"
+              },
+              "name": "时无限每层法力",
+              "resultKey": "timeless_mana_per_stack",
+              "resultType": "ATTRIBUTE_CHANGE",
+              "sortOrder": 30,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "timeless_mana_per_stack"
+                }
+              }
+            }
+          ],
+          "skillKey": "item_6657_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T18:55:59.670102Z"
+        }
+      }
+    }
+  ],
+  "deferredBrowser": [
+    "item_6657_passive/processes/timeless_growth_process",
+    "item_6657_passive/trigger-rules/initialize_timeless_growth"
+  ],
+  "preflightPassed": true,
+  "pendingPrerequisites": 0,
+  "finishedAt": "2026-09-07T18:56:00.485Z"
+}

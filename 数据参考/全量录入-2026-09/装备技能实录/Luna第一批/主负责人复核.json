@@ -1,0 +1,198 @@
+{
+  "observedAt": "2026-09-07T15:16:13.201Z",
+  "records": [
+    {
+      "itemKey": "item_3091",
+      "skillKey": "item_3091_passive",
+      "parameterCount": 1,
+      "formulaCount": 0,
+      "effect": {
+        "createdAt": "2026-09-07T14:36:01.295172Z",
+        "description": "普通攻击命中时结算45点额外魔法伤害；触发范围按普通攻击命中事件保存。",
+        "effectKey": "on_hit_damage",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "喧争攻击特效",
+        "results": [
+          {
+            "description": "固定45点魔法伤害，属于攻击特效。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "BASIC_ATTACK",
+              "originKind": "DIRECT",
+              "vampRules": []
+            },
+            "lifecycleBehavior": null,
+            "name": "额外魔法伤害",
+            "resultKey": "magic_damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "on_hit_damage"
+              }
+            }
+          }
+        ],
+        "skillKey": "item_3091_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T14:42:20.14872Z"
+      },
+      "rule": {
+        "actions": [
+          {
+            "actionKey": "execute_on_hit_damage",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "on_hit_damage"
+            },
+            "name": "执行喧争额外伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "监听普通攻击命中并执行喧争额外魔法伤害。技能触发攻击特效的事件范围未在本次录入中扩大。",
+        "eventSource": {
+          "detail": {},
+          "eventType": "BASIC_ATTACK_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "普通攻击命中结算喧争",
+        "perTargetCooldown": null,
+        "ruleKey": "resolve_on_basic_attack_hit",
+        "sortOrder": 10
+      },
+      "relation": {
+        "equipmentKey": "item_3091",
+        "equipmentName": "智慧末刃",
+        "gameId": "lol",
+        "skillKey": "item_3091_passive",
+        "skillName": "智慧末刃·喧争",
+        "skillStatus": "ENABLED",
+        "sortOrder": 10
+      },
+      "skillImage": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_3091",
+          "name": "item_3091"
+        }
+      },
+      "arithmetic": {
+        "expected": 45,
+        "actual": 45
+      }
+    },
+    {
+      "itemKey": "item_3115",
+      "skillKey": "item_3115_passive",
+      "parameterCount": 2,
+      "formulaCount": 1,
+      "effect": {
+        "createdAt": "2026-09-07T14:36:03.815334Z",
+        "description": "普通攻击命中时结算15点加15%法术强度的额外魔法伤害；触发范围按普通攻击命中事件保存。",
+        "effectKey": "on_hit_damage",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "艾卡西亚之咬攻击特效",
+        "results": [
+          {
+            "description": "15点基础伤害加15%法术强度，属于攻击特效。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "BASIC_ATTACK",
+              "originKind": "DIRECT",
+              "vampRules": []
+            },
+            "lifecycleBehavior": null,
+            "name": "额外魔法伤害",
+            "resultKey": "magic_damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "on_hit_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "item_3115_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T14:36:03.815334Z"
+      },
+      "rule": {
+        "actions": [
+          {
+            "actionKey": "execute_on_hit_damage",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "on_hit_damage"
+            },
+            "name": "执行艾卡西亚之咬额外伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "监听普通攻击命中并执行艾卡西亚之咬额外魔法伤害。技能触发攻击特效的事件范围未在本次录入中扩大。",
+        "eventSource": {
+          "detail": {},
+          "eventType": "BASIC_ATTACK_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "普通攻击命中结算艾卡西亚之咬",
+        "perTargetCooldown": null,
+        "ruleKey": "resolve_on_basic_attack_hit",
+        "sortOrder": 10
+      },
+      "relation": {
+        "equipmentKey": "item_3115",
+        "equipmentName": "纳什之牙",
+        "gameId": "lol",
+        "skillKey": "item_3115_passive",
+        "skillName": "纳什之牙·艾卡西亚之咬",
+        "skillStatus": "ENABLED",
+        "sortOrder": 10
+      },
+      "skillImage": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_3115",
+          "name": "item_3115"
+        }
+      },
+      "arithmetic": {
+        "ap": 200,
+        "expected": 45,
+        "actual": 45
+      }
+    }
+  ],
+  "passed": true,
+  "runtime": "未执行"
+}

@@ -1,0 +1,14 @@
+{
+  "组次": 1,
+  "对象数": 5,
+  "范围": ["item_1043","item_1054","duolanjie","item_1082","item_1083"],
+  "证据": "均在装备管理页保存基本资料；直接属性弹窗保存后关闭并重开，配置数量分别为1、1、2、2、1。",
+  "项目": [
+    {"itemId":"1043","equipmentKey":"item_1043","name":"反曲之弓","directAttributes":{"bonus_attack_speed_percent":0.15},"status":"基本资料成功，直接属性成功，关闭重开回读成功"},
+    {"itemId":"1054","equipmentKey":"item_1054","name":"多兰之盾","directAttributes":{"hp":110},"status":"基本资料成功，直接属性成功，关闭重开回读成功","备注":"每5秒4生命回复来自被动，未录入直接属性"},
+    {"itemId":"1056","equipmentKey":"duolanjie","name":"多兰之戒","directAttributes":{"ability_power":18,"hp":90},"status":"复用既有装备，基本资料更新成功，直接属性成功，关闭重开回读成功"},
+    {"itemId":"1082","equipmentKey":"item_1082","name":"黑暗封印","directAttributes":{"ability_power":15,"hp":50},"status":"基本资料成功，直接属性成功，关闭重开回读成功"},
+    {"itemId":"1083","equipmentKey":"item_1083","name":"萃取","directAttributes":{"attack_damage":7},"status":"基本资料成功，直接属性成功，关闭重开回读成功"}
+  ],
+  "效果边界":"说明保留16.17.1来源和原始说明；被动与主动效果尚待配置，未声称机制已录入。"
+}

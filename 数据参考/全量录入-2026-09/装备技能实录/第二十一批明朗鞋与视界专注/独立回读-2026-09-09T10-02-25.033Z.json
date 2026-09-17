@@ -1,0 +1,638 @@
+{
+  "at": "2026-09-09T10:02:27.043Z",
+  "mode": "--verify",
+  "passed": true,
+  "candidateSha256": "0527d1d034297a8b68fadf973c91688e01f3ceb881a7382f1db860f71896fad6",
+  "planSha256": "61c0b1278066eeecc3d09e42f1eed432e988f317c749f4c82862701f00e8cce9",
+  "GETs": 35,
+  "writes": [],
+  "result": {
+    "targetGETs": 12,
+    "componentLists": 12,
+    "parameterCount": 5,
+    "formulaCount": 1,
+    "math": {
+      "source": "本次独立GET",
+      "cases": [
+        {
+          "input": 100,
+          "expected": 10,
+          "actual": 10
+        },
+        {
+          "input": 123.5,
+          "expected": 12.35,
+          "actual": 12.350000000000001
+        }
+      ],
+      "missingRuntimeRejected": true
+    }
+  },
+  "error": null,
+  "events": [
+    {
+      "at": "2026-09-09T10:02:25.121Z",
+      "method": "GET",
+      "route": "/skill-categories",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "createdAt": "2026-09-04T16:08:30.744289Z",
+            "description": null,
+            "gameId": "lol",
+            "name": "位移技能",
+            "skillCategoryKey": "move_skill",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-04T16:08:30.744289Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:59:27.858757Z",
+            "description": null,
+            "gameId": "lol",
+            "name": "普通技能",
+            "skillCategoryKey": "common",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:27.858757Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:59:36.038429Z",
+            "description": null,
+            "gameId": "lol",
+            "name": "被动技能",
+            "skillCategoryKey": "passive",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:36.038429Z"
+          }
+        ],
+        "total": 3
+      }
+    },
+    {
+      "at": "2026-09-09T10:02:25.174Z",
+      "method": "GET",
+      "route": "/equipment/item_3158",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:11:01.174835Z",
+        "description": "来源：官方16.17.1装备3158。 原始说明：10技能急速\n45移动速度\n\n艾欧尼亚的洞悉\n获得10召唤师技能急速。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3158",
+        "gameId": "lol",
+        "name": "明朗之靴",
+        "updatedAt": "2026-09-06T18:11:01.174835Z"
+      }
+    },
+    {
+      "at": "2026-09-09T10:02:25.237Z",
+      "method": "GET",
+      "route": "/equipment/item_3158/attributes",
+      "status": 200,
+      "data": {
+        "attributeValues": {
+          "move_speed": 45,
+          "ability_haste": 10
+        },
+        "equipmentKey": "item_3158"
+      }
+    },
+    {
+      "at": "2026-09-09T10:02:25.325Z",
+      "method": "GET",
+      "route": "/equipment/item_3158/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_3158",
+          "name": "item_3158"
+        }
+      }
+    },
+    {
+      "at": "2026-09-09T10:02:25.378Z",
+      "method": "GET",
+      "route": "/equipment-skill-relations?equipmentKey=item_3158",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "equipmentKey": "item_3158",
+            "equipmentName": "明朗之靴",
+            "gameId": "lol",
+            "skillKey": "item_3158_passive",
+            "skillName": "明朗之靴·艾欧尼亚的洞悉",
+            "skillStatus": "ENABLED",
+            "sortOrder": 10
+          }
+        ],
+        "total": 1
+      }
+    },
+    {
+      "at": "2026-09-09T10:02:25.431Z",
+      "method": "GET",
+      "route": "/skills/item_3158_passive",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T10:01:01.48811Z",
+        "description": "当前16.17绑定说明获得10召唤师技能急速；与已录基础技能急速区分。保留明确数值，召唤师技能范围和冷却修正入口待接。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "明朗之靴·艾欧尼亚的洞悉",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "item_3158_passive",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-09T10:01:01.48811Z"
+      }
+    },
+    {
+      "at": "2026-09-09T10:02:25.469Z",
+      "method": "GET",
+      "route": "/equipment/item_4628",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:11:12.435182Z",
+        "description": "来源：官方16.17.1装备4628。 原始说明：75法术强度\n25技能急速\n\n高能射击\n在对600码或更远的英雄造成技能伤害时，将其显形6秒。\n\n专注\n在高能射击触发时，显形目标1400码内的所有其它敌方英雄3秒。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_4628",
+        "gameId": "lol",
+        "name": "视界专注",
+        "updatedAt": "2026-09-06T18:11:12.435182Z"
+      }
+    },
+    {
+      "at": "2026-09-09T10:02:25.528Z",
+      "method": "GET",
+      "route": "/equipment/item_4628/attributes",
+      "status": 200,
+      "data": {
+        "attributeValues": {
+          "ability_power": 75,
+          "ability_haste": 25
+        },
+        "equipmentKey": "item_4628"
+      }
+    },
+    {
+      "at": "2026-09-09T10:02:25.577Z",
+      "method": "GET",
+      "route": "/equipment/item_4628/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_4628",
+          "name": "item_4628"
+        }
+      }
+    },
+    {
+      "at": "2026-09-09T10:02:25.623Z",
+      "method": "GET",
+      "route": "/equipment-skill-relations?equipmentKey=item_4628",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "equipmentKey": "item_4628",
+            "equipmentName": "视界专注",
+            "gameId": "lol",
+            "skillKey": "item_4628_passive",
+            "skillName": "视界专注·高能射击",
+            "skillStatus": "ENABLED",
+            "sortOrder": 10
+          }
+        ],
+        "total": 1
+      }
+    },
+    {
+      "at": "2026-09-09T10:02:25.704Z",
+      "method": "GET",
+      "route": "/skills/item_4628_passive",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T10:01:05.823032Z",
+        "description": "从技能施放位置计算，与600码或更远的英雄造成技能伤害后显形6秒，对高能射击显形目标造成10%提升伤害。宠物和陷阱不触发，领域类技能仅初始放置触发。保留唯一敌人增伤分支；触发资格、命中顺序及修正乘区待接，不将仅显形其他敌人的专注支路并入。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "视界专注·高能射击",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "item_4628_passive",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-09T10:01:05.823032Z"
+      }
+    },
+    {
+      "at": "2026-09-09T10:02:25.747Z",
+      "method": "GET",
+      "route": "/skills/item_3158_passive",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T10:01:01.48811Z",
+        "description": "当前16.17绑定说明获得10召唤师技能急速；与已录基础技能急速区分。保留明确数值，召唤师技能范围和冷却修正入口待接。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "明朗之靴·艾欧尼亚的洞悉",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "item_3158_passive",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-09T10:01:01.48811Z"
+      }
+    },
+    {
+      "at": "2026-09-09T10:02:25.797Z",
+      "method": "GET",
+      "route": "/skills/item_3158_passive/parameters/summoner_haste",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T10:01:02.70161Z",
+        "description": "Item_3158_Tooltip绑定SummonerHaste=10；未使用FeatsHaste旧字段。",
+        "fixedValue": 10,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "召唤师技能急速",
+        "parameterKey": "summoner_haste",
+        "skillKey": "item_3158_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T10:01:02.70161Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "at": "2026-09-09T10:02:25.842Z",
+      "method": "GET",
+      "route": "/equipment-skill-relations?equipmentKey=item_3158",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "equipmentKey": "item_3158",
+            "equipmentName": "明朗之靴",
+            "gameId": "lol",
+            "skillKey": "item_3158_passive",
+            "skillName": "明朗之靴·艾欧尼亚的洞悉",
+            "skillStatus": "ENABLED",
+            "sortOrder": 10
+          }
+        ],
+        "total": 1
+      }
+    },
+    {
+      "at": "2026-09-09T10:02:25.956Z",
+      "method": "GET",
+      "route": "/skills/item_3158_passive/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_3158",
+          "name": "item_3158"
+        }
+      }
+    },
+    {
+      "at": "2026-09-09T10:02:25.992Z",
+      "method": "GET",
+      "route": "/skills/item_4628_passive",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T10:01:05.823032Z",
+        "description": "从技能施放位置计算，与600码或更远的英雄造成技能伤害后显形6秒，对高能射击显形目标造成10%提升伤害。宠物和陷阱不触发，领域类技能仅初始放置触发。保留唯一敌人增伤分支；触发资格、命中顺序及修正乘区待接，不将仅显形其他敌人的专注支路并入。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "视界专注·高能射击",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "item_4628_passive",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-09T10:01:05.823032Z"
+      }
+    },
+    {
+      "at": "2026-09-09T10:02:26.044Z",
+      "method": "GET",
+      "route": "/skills/item_4628_passive/parameters/minimum_cast_distance",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T10:01:06.8891Z",
+        "description": "当前正文SnipeRange=600；600码或更远，距离从技能施放位置起算。",
+        "fixedValue": 600,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "高能射击最小施放距离",
+        "parameterKey": "minimum_cast_distance",
+        "skillKey": "item_4628_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T10:01:06.8891Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "at": "2026-09-09T10:02:26.082Z",
+      "method": "GET",
+      "route": "/skills/item_4628_passive/parameters/hypershot_duration_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T10:01:08.11321Z",
+        "description": "当前正文BuffDuration=6秒，转换为6000毫秒；不是专注支路的3秒。",
+        "fixedValue": 6000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "高能射击显形持续",
+        "parameterKey": "hypershot_duration_ms",
+        "skillKey": "item_4628_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T10:01:08.11321Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "at": "2026-09-09T10:02:26.134Z",
+      "method": "GET",
+      "route": "/skills/item_4628_passive/parameters/damage_amplification_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T10:01:09.202388Z",
+        "description": "当前正文DamageAmp*100明确10%提升；保留原值，不使用缺增伤文案的外部简略说明覆盖。",
+        "fixedValue": 0.1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "高能射击伤害提升比例",
+        "parameterKey": "damage_amplification_ratio",
+        "skillKey": "item_4628_passive",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T10:01:09.202388Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "at": "2026-09-09T10:02:26.186Z",
+      "method": "GET",
+      "route": "/skills/item_4628_passive/parameters/actual_qualified_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T10:01:10.222342Z",
+        "description": "由同一次对高能射击显形目标的合资格伤害结算提供；乘区和取样时点待核，不补零，不默认所有伤害合资格。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "当前合资格伤害值",
+        "parameterKey": "actual_qualified_damage",
+        "skillKey": "item_4628_passive",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T10:01:10.222342Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "at": "2026-09-09T10:02:26.225Z",
+      "method": "GET",
+      "route": "/skills/item_4628_passive/formulas/additional_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T10:01:11.351606Z",
+        "description": "当前合资格伤害×0.1，只表达提升部分；触发和修正资格未接，不自动造成伤害。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_qualified_damage"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "damage_amplification_ratio"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "additional_damage",
+        "gameId": "lol",
+        "name": "高能射击额外伤害值",
+        "skillKey": "item_4628_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T10:01:11.351606Z"
+      }
+    },
+    {
+      "at": "2026-09-09T10:02:26.272Z",
+      "method": "GET",
+      "route": "/equipment-skill-relations?equipmentKey=item_4628",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "equipmentKey": "item_4628",
+            "equipmentName": "视界专注",
+            "gameId": "lol",
+            "skillKey": "item_4628_passive",
+            "skillName": "视界专注·高能射击",
+            "skillStatus": "ENABLED",
+            "sortOrder": 10
+          }
+        ],
+        "total": 1
+      }
+    },
+    {
+      "at": "2026-09-09T10:02:26.385Z",
+      "method": "GET",
+      "route": "/skills/item_4628_passive/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_4628",
+          "name": "item_4628"
+        }
+      }
+    },
+    {
+      "at": "2026-09-09T10:02:26.427Z",
+      "method": "GET",
+      "route": "/skills/item_3158_passive/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T10:01:02.70161Z",
+          "description": "Item_3158_Tooltip绑定SummonerHaste=10；未使用FeatsHaste旧字段。",
+          "fixedValue": 10,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "召唤师技能急速",
+          "parameterKey": "summoner_haste",
+          "skillKey": "item_3158_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T10:01:02.70161Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "at": "2026-09-09T10:02:26.472Z",
+      "method": "GET",
+      "route": "/skills/item_3158_passive/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "at": "2026-09-09T10:02:26.541Z",
+      "method": "GET",
+      "route": "/skills/item_3158_passive/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "at": "2026-09-09T10:02:26.600Z",
+      "method": "GET",
+      "route": "/skills/item_3158_passive/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "at": "2026-09-09T10:02:26.644Z",
+      "method": "GET",
+      "route": "/skills/item_3158_passive/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "at": "2026-09-09T10:02:26.693Z",
+      "method": "GET",
+      "route": "/skills/item_3158_passive/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "at": "2026-09-09T10:02:26.746Z",
+      "method": "GET",
+      "route": "/skills/item_4628_passive/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T10:01:06.8891Z",
+          "description": "当前正文SnipeRange=600；600码或更远，距离从技能施放位置起算。",
+          "fixedValue": 600,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "高能射击最小施放距离",
+          "parameterKey": "minimum_cast_distance",
+          "skillKey": "item_4628_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T10:01:06.8891Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T10:01:08.11321Z",
+          "description": "当前正文BuffDuration=6秒，转换为6000毫秒；不是专注支路的3秒。",
+          "fixedValue": 6000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "高能射击显形持续",
+          "parameterKey": "hypershot_duration_ms",
+          "skillKey": "item_4628_passive",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T10:01:08.11321Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T10:01:09.202388Z",
+          "description": "当前正文DamageAmp*100明确10%提升；保留原值，不使用缺增伤文案的外部简略说明覆盖。",
+          "fixedValue": 0.1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "高能射击伤害提升比例",
+          "parameterKey": "damage_amplification_ratio",
+          "skillKey": "item_4628_passive",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T10:01:09.202388Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T10:01:10.222342Z",
+          "description": "由同一次对高能射击显形目标的合资格伤害结算提供；乘区和取样时点待核，不补零，不默认所有伤害合资格。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "当前合资格伤害值",
+          "parameterKey": "actual_qualified_damage",
+          "skillKey": "item_4628_passive",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T10:01:10.222342Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        }
+      ]
+    },
+    {
+      "at": "2026-09-09T10:02:26.800Z",
+      "method": "GET",
+      "route": "/skills/item_4628_passive/formulas",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T10:01:11.351606Z",
+          "description": "当前合资格伤害×0.1，只表达提升部分；触发和修正资格未接，不自动造成伤害。",
+          "formulaKey": "additional_damage",
+          "gameId": "lol",
+          "name": "高能射击额外伤害值",
+          "skillKey": "item_4628_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T10:01:11.351606Z"
+        }
+      ]
+    },
+    {
+      "at": "2026-09-09T10:02:26.857Z",
+      "method": "GET",
+      "route": "/skills/item_4628_passive/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "at": "2026-09-09T10:02:26.908Z",
+      "method": "GET",
+      "route": "/skills/item_4628_passive/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "at": "2026-09-09T10:02:26.988Z",
+      "method": "GET",
+      "route": "/skills/item_4628_passive/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "at": "2026-09-09T10:02:27.042Z",
+      "method": "GET",
+      "route": "/skills/item_4628_passive/trigger-rules",
+      "status": 200,
+      "data": []
+    }
+  ]
+}

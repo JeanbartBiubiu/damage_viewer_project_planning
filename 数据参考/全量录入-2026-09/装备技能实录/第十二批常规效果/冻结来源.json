@@ -1,0 +1,2129 @@
+{
+  "generatedAt": "2026-09-08T14:50:13.747Z",
+  "clientVersion": "16.17",
+  "officialVersion": "16.17.1",
+  "boundary": "候选来源冻结；只沿当前Items编号对象的mLocKeys绑定说明及其直接模板引用，不用名称相似旧对象。",
+  "sources": [
+    {
+      "文件": "客户端原始资料/items-16.17.cdtb.bin.json.gz",
+      "解压文件名": "items-16.17.cdtb.bin.json",
+      "地址": "https://raw.communitydragon.org/16.17/game/items.cdtb.bin.json",
+      "目录或公告版本": "16.17",
+      "用途": "主证：客户端装备对象、命名数据、计算与说明绑定",
+      "下载文件修改时间UTC": "2026-09-06T15:00:14.328Z",
+      "原始字节数": 15923188,
+      "原始SHA256": "b59ec9320d05acefa344ea8a5ef615cf7f32959078475cafff63833462dc358f",
+      "压缩字节数": 1577238,
+      "压缩SHA256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7",
+      "verified": true
+    },
+    {
+      "文件": "客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+      "解压文件名": "lol-16.17-zh_CN.stringtable.json",
+      "地址": "https://raw.communitydragon.org/16.17/game/zh_cn/data/menu/en_us/lol.stringtable.json",
+      "目录或公告版本": "16.17",
+      "用途": "主证：中文游戏说明，文件内version=5是字符串表格式版本，不是游戏补丁版本",
+      "下载文件修改时间UTC": "2026-09-06T15:08:11.306Z",
+      "原始字节数": 32784742,
+      "原始SHA256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+      "压缩字节数": 8350124,
+      "压缩SHA256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+      "verified": true
+    },
+    {
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/item.json",
+      "file": "官方原始资料/item-16.17.1-zh_CN.json",
+      "retrievedAt": "2026-09-06T14:10:07.953Z",
+      "byteSize": 691131,
+      "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973",
+      "verified": true
+    }
+  ],
+  "objects": [
+    {
+      "id": 3033,
+      "equipmentKey": "item_3033",
+      "name": "凡性的提醒",
+      "path": "Items/3033",
+      "object": {
+        "mDisplayName": "Item_3033_Name",
+        "itemID": 3033,
+        "maxStack": 1,
+        "mItemGroups": [
+          "Items/ItemGroups/Default",
+          "{aaa3fca8}",
+          "Items/ItemGroups/LastWhisper",
+          "{8875daa8}"
+        ],
+        "mItemAdviceAttributes": [
+          "{50f0b493}"
+        ],
+        "price": 150,
+        "mItemCalloutPlayer": true,
+        "mItemCalloutSpectator": true,
+        "mCanBeSold": true,
+        "epicness": 5,
+        "recipeItemLinks": [
+          "Items/3123",
+          "Items/3035",
+          "Items/1018"
+        ],
+        "mEffectAmount": [
+          0,
+          0
+        ],
+        "mDataValues": [
+          {
+            "mName": "GrievousDuration",
+            "mValue": 3,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "GrievousAmount",
+            "mValue": 0.4000000059604645,
+            "__type": "ItemDataValue"
+          }
+        ],
+        "mPercentArmorPenetrationMod": 0.30000001192092896,
+        "mFlatCritChanceMod": 0.25,
+        "mFlatPhysicalDamageMod": 35,
+        "mCategories": [
+          "Damage",
+          "CriticalStrike",
+          "ArmorPenetration"
+        ],
+        "mItemDataAvailability": {
+          "mInStore": true,
+          "__type": "ItemDataAvailability"
+        },
+        "mItemAttributes": [
+          2
+        ],
+        "mItemDataClient": {
+          "mTooltipData": {
+            "mObjectName": "3033",
+            "mFormat": "{32559c50}",
+            "mLocKeys": {
+              "keyName": "Item_3033_Name",
+              "keyBrief": "Item_3033_Brief",
+              "keyInventoryOnlyText": "Item_3033_InventoryOnlyText",
+              "keyTooltip": "Item_3033_Tooltip",
+              "keyColloquialism": "Item_3033_Colloquialism",
+              "keyKeywordDefinitions": "Item_3033_KeywordDefinitions",
+              "keySecondaryBrief": "Item_Unique_Fatality"
+            },
+            "mLists": {
+              "Stats": {
+                "Elements": [
+                  {
+                    "type": "AttackDamage",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "ArmorPenPercent",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "CritChance",
+                    "__type": "TooltipInstanceListElement"
+                  }
+                ],
+                "__type": "TooltipInstanceList"
+              }
+            },
+            "__type": "TooltipInstanceItem"
+          },
+          "mDescription": "GeneratedTip_Item_3033_Description",
+          "mDynamicTooltip": "GeneratedTip_Item_3033_TooltipInventory",
+          "mShopTooltip": "GeneratedTip_Item_3033_TooltipShop",
+          "inventoryIcon": "assets/items/icons2d/3033_marksman_t3_mortalreminder.dds",
+          "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/3033_Marksman_T3_MortalReminder.png",
+          "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/3033_Marksman_T3_MortalReminder.png",
+          "epicness": 5,
+          "__type": "ItemDataClient"
+        },
+        "__type": "ItemData"
+      },
+      "bound": {
+        "keyName": {
+          "sourceKey": "Item_3033_Name",
+          "key": "item_3033_name",
+          "text": "凡性的提醒"
+        },
+        "keyBrief": {
+          "sourceKey": "Item_3033_Brief",
+          "key": "item_3033_brief",
+          "text": "治疗克星"
+        },
+        "keyInventoryOnlyText": {
+          "sourceKey": "Item_3033_InventoryOnlyText",
+          "key": "item_3033_inventoryonlytext",
+          "text": "已降低的敌方治疗效果：<attention>@f2@</attention><br>已降低的敌方生命回复：<attention>@f3@</attention>"
+        },
+        "keyTooltip": {
+          "sourceKey": "Item_3033_Tooltip",
+          "key": "item_3033_tooltip",
+          "text": "<passive>重伤</passive><br>对敌方英雄造成物理伤害时会施加<keyword>@GrievousAmount*100@%重伤</keyword>效果，持续@GrievousDuration@秒。"
+        },
+        "keyColloquialism": {
+          "sourceKey": "Item_3033_Colloquialism",
+          "key": "item_3033_colloquialism",
+          "text": ";Mortal Reminder;zhongshang;重伤;fanxingdetixing;fxdtx"
+        },
+        "keyKeywordDefinitions": {
+          "sourceKey": "Item_3033_KeywordDefinitions",
+          "key": "item_3033_keyworddefinitions",
+          "text": "<br>{{ Item_KeywordDefinition_Wounds }}"
+        },
+        "keySecondaryBrief": {
+          "sourceKey": "Item_Unique_Fatality",
+          "key": "item_unique_fatality",
+          "text": "唯一：夺命"
+        }
+      },
+      "official": {
+        "name": "凡性的提醒",
+        "description": "<mainText><stats><attention>35</attention>攻击力<br><attention>30%</attention>护甲穿透<br><attention>25%</attention>暴击几率</stats><br><br><passive>重伤</passive><br>对敌方英雄造成物理伤害时会施加<keyword>40%重伤</keyword>效果，持续3秒。</mainText>",
+        "colloq": ";zhongshang;grievous;重伤;zs;Mortal Reminder",
+        "plaintext": "用于对抗拥有高生命回复和高护甲的敌人",
+        "from": [
+          "3123",
+          "3035",
+          "1018"
+        ],
+        "image": {
+          "full": "3033.png",
+          "sprite": "item3.png",
+          "group": "item",
+          "x": 144,
+          "y": 144,
+          "w": 48,
+          "h": 48
+        },
+        "gold": {
+          "base": 150,
+          "purchasable": true,
+          "total": 3000,
+          "sell": 2100
+        },
+        "tags": [
+          "Damage",
+          "CriticalStrike",
+          "ArmorPenetration"
+        ],
+        "maps": {
+          "11": true,
+          "12": true,
+          "22": false,
+          "30": false,
+          "453": true
+        },
+        "stats": {
+          "FlatCritChanceMod": 0.25,
+          "FlatPhysicalDamageMod": 35
+        },
+        "depth": 3
+      }
+    },
+    {
+      "id": 3165,
+      "equipmentKey": "item_3165",
+      "name": "莫雷洛秘典",
+      "path": "Items/3165",
+      "object": {
+        "mDisplayName": "Item_3165_Name",
+        "itemID": 3165,
+        "maxStack": 1,
+        "mItemGroups": [
+          "Items/ItemGroups/Default",
+          "{0938f1dc}",
+          "{8875daa8}"
+        ],
+        "mItemAdviceAttributes": [
+          "{50f0b493}"
+        ],
+        "price": 400,
+        "mItemCalloutPlayer": true,
+        "mItemCalloutSpectator": true,
+        "mCanBeSold": true,
+        "epicness": 5,
+        "recipeItemLinks": [
+          "Items/3916",
+          "Items/1026",
+          "Items/3067"
+        ],
+        "mEffectAmount": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "mDataValues": [
+          {
+            "mName": "GrievousAmount",
+            "mValue": 0.4000000059604645,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "GrievousDuration",
+            "mValue": 3,
+            "__type": "ItemDataValue"
+          }
+        ],
+        "mAbilityHasteMod": 15,
+        "mFlatHPPoolMod": 350,
+        "mFlatMagicDamageMod": 75,
+        "mCategories": [
+          "Health",
+          "SpellDamage",
+          "CooldownReduction",
+          "AbilityHaste"
+        ],
+        "mItemDataAvailability": {
+          "mInStore": true,
+          "__type": "ItemDataAvailability"
+        },
+        "mItemAttributes": [
+          16,
+          32
+        ],
+        "mItemDataClient": {
+          "mTooltipData": {
+            "mObjectName": "3165",
+            "mFormat": "{32559c50}",
+            "mLocKeys": {
+              "keyName": "Item_3165_Name",
+              "keyInventoryOnlyText": "Item_3165_InventoryOnlyText",
+              "keyBrief": "Item_3165_Brief",
+              "keyTooltip": "Item_3165_Tooltip",
+              "keyColloquialism": "Item_3165_Colloquialism",
+              "keyKeywordDefinitions": "Item_3165_KeywordDefinitions"
+            },
+            "mLists": {
+              "Stats": {
+                "Elements": [
+                  {
+                    "type": "AbilityPower",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "Health",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "AbilityHaste",
+                    "__type": "TooltipInstanceListElement"
+                  }
+                ],
+                "__type": "TooltipInstanceList"
+              }
+            },
+            "__type": "TooltipInstanceItem"
+          },
+          "mDescription": "GeneratedTip_Item_3165_Description",
+          "mDynamicTooltip": "GeneratedTip_Item_3165_TooltipInventory",
+          "mShopTooltip": "GeneratedTip_Item_3165_TooltipShop",
+          "inventoryIcon": "assets/items/icons2d/3165_mage_t3_morellonomicon.dds",
+          "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/3165_Mage_T3_Morellonomicon.png",
+          "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/3165_Mage_T3_Morellonomicon.png",
+          "epicness": 5,
+          "__type": "ItemDataClient"
+        },
+        "__type": "ItemData"
+      },
+      "bound": {
+        "keyName": {
+          "sourceKey": "Item_3165_Name",
+          "key": "item_3165_name",
+          "text": "莫雷洛秘典"
+        },
+        "keyInventoryOnlyText": {
+          "sourceKey": "Item_3165_InventoryOnlyText",
+          "key": "item_3165_inventoryonlytext",
+          "text": "已降低的治疗效果：<attention>@f2@</attention><br>已降低的生命回复：<attention>@f3@</attention>"
+        },
+        "keyBrief": {
+          "sourceKey": "Item_3165_Brief",
+          "key": "item_3165_brief",
+          "text": "治疗克星"
+        },
+        "keyTooltip": {
+          "sourceKey": "Item_3165_Tooltip",
+          "key": "item_3165_tooltip",
+          "text": "<passive>重伤</passive><br>对敌方英雄造成<magicDamage>魔法伤害</magicDamage>时会施加持续@GrievousDuration@秒的<keyword>@GrievousAmount*100@%重伤</keyword>效果。"
+        },
+        "keyColloquialism": {
+          "sourceKey": "Item_3165_Colloquialism",
+          "key": "item_3165_colloquialism",
+          "text": ";书;鬼书;重伤;应对治疗;克制治疗;Morellonomicon;moleiluomidian;mllmd;zhongshang"
+        },
+        "keyKeywordDefinitions": {
+          "sourceKey": "Item_3165_KeywordDefinitions",
+          "key": "item_3165_keyworddefinitions",
+          "text": "<br>{{ Item_KeywordDefinition_Wounds }}"
+        }
+      },
+      "official": {
+        "name": "莫雷洛秘典",
+        "description": "<mainText><stats><attention>75</attention>法术强度<br><attention>350</attention>生命值<br><attention>15</attention>技能急速</stats><br><br><passive>重伤</passive><br>对敌方英雄造成<magicDamage>魔法伤害</magicDamage>时会施加持续3秒的<keyword>40%重伤</keyword>效果。</mainText>",
+        "colloq": ";书;鬼书;重伤;应对治疗;克制治疗;Morellonomicon;moleiluomidian;mllmd;zhongshang",
+        "plaintext": "提升魔法伤害",
+        "from": [
+          "3916",
+          "1026",
+          "3067"
+        ],
+        "image": {
+          "full": "3165.png",
+          "sprite": "item4.png",
+          "group": "item",
+          "x": 0,
+          "y": 48,
+          "w": 48,
+          "h": 48
+        },
+        "gold": {
+          "base": 400,
+          "purchasable": true,
+          "total": 2850,
+          "sell": 1995
+        },
+        "tags": [
+          "Health",
+          "SpellDamage",
+          "CooldownReduction",
+          "AbilityHaste"
+        ],
+        "maps": {
+          "11": true,
+          "12": true,
+          "22": false,
+          "30": false,
+          "453": true
+        },
+        "stats": {
+          "FlatHPPoolMod": 350,
+          "FlatMagicDamageMod": 75
+        },
+        "depth": 3
+      }
+    },
+    {
+      "id": 6609,
+      "equipmentKey": "item_6609",
+      "name": "炼金朋克链锯剑",
+      "path": "Items/6609",
+      "object": {
+        "mDisplayName": "Item_6609_Name",
+        "itemID": 6609,
+        "maxStack": 1,
+        "mItemGroups": [
+          "Items/ItemGroups/Default",
+          "{b458712e}",
+          "{8875daa8}"
+        ],
+        "mItemAdviceAttributes": [
+          "{50f0b493}"
+        ],
+        "price": 250,
+        "mItemCalloutPlayer": true,
+        "mItemCalloutSpectator": true,
+        "mCanBeSold": true,
+        "epicness": 5,
+        "recipeItemLinks": [
+          "Items/3123",
+          "Items/1011",
+          "Items/3133"
+        ],
+        "mDataValues": [
+          {
+            "mName": "GrievousAmount",
+            "mValue": 0.4000000059604645,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "GrievousDuration",
+            "mValue": 3,
+            "__type": "ItemDataValue"
+          }
+        ],
+        "mAbilityHasteMod": 15,
+        "mFlatHPPoolMod": 450,
+        "mFlatPhysicalDamageMod": 45,
+        "mCategories": [
+          "Health",
+          "Damage",
+          "CooldownReduction",
+          "AbilityHaste"
+        ],
+        "mItemDataAvailability": {
+          "mInStore": true,
+          "__type": "ItemDataAvailability"
+        },
+        "mItemAttributes": [
+          1,
+          4
+        ],
+        "mItemDataClient": {
+          "mTooltipData": {
+            "mObjectName": "6609",
+            "mFormat": "{32559c50}",
+            "mLocKeys": {
+              "keyName": "Item_6609_Name",
+              "keyBrief": "Item_6609_Brief",
+              "keyTooltip": "Item_6609_Tooltip",
+              "keyColloquialism": "Item_6609_Colloquialism",
+              "keyKeywordDefinitions": "Item_6609_KeywordDefinitions",
+              "keyInventoryOnlyText": "Item_226609_InventoryOnlyText"
+            },
+            "mLists": {
+              "Stats": {
+                "Elements": [
+                  {
+                    "type": "AttackDamage",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "Health",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "AbilityHaste",
+                    "__type": "TooltipInstanceListElement"
+                  }
+                ],
+                "__type": "TooltipInstanceList"
+              }
+            },
+            "__type": "TooltipInstanceItem"
+          },
+          "mDescription": "GeneratedTip_Item_6609_Description",
+          "mDynamicTooltip": "GeneratedTip_Item_6609_TooltipInventory",
+          "mShopTooltip": "GeneratedTip_Item_6609_TooltipShop",
+          "inventoryIcon": "assets/items/icons2d/6609_fighter_t3_chempunkchainsword.dds",
+          "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/6609_Fighter_T3_ChempunkChainsword.png",
+          "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/6609_Fighter_T3_ChempunkChainsword.png",
+          "epicness": 5,
+          "__type": "ItemDataClient"
+        },
+        "__type": "ItemData"
+      },
+      "bound": {
+        "keyName": {
+          "sourceKey": "Item_6609_Name",
+          "key": "item_6609_name",
+          "text": "炼金朋克链锯剑"
+        },
+        "keyBrief": {
+          "sourceKey": "Item_6609_Brief",
+          "key": "item_6609_brief",
+          "text": "治疗克星"
+        },
+        "keyTooltip": {
+          "sourceKey": "Item_6609_Tooltip",
+          "key": "item_6609_tooltip",
+          "text": "<passive>劈削</passive><br>对敌方英雄造成物理伤害时会施加<keyword>@GrievousAmount*100@%重伤</keyword>效果，持续@GrievousDuration@秒。"
+        },
+        "keyColloquialism": {
+          "sourceKey": "Item_6609_Colloquialism",
+          "key": "item_6609_colloquialism",
+          "text": ";Chempunk Chainsword;zhongshang;重伤;lianjinpengkelianjujian;ljpkljj"
+        },
+        "keyKeywordDefinitions": {
+          "sourceKey": "Item_6609_KeywordDefinitions",
+          "key": "item_6609_keyworddefinitions",
+          "text": "<br>{{ Item_KeywordDefinition_Wounds }}"
+        },
+        "keyInventoryOnlyText": {
+          "sourceKey": "Item_226609_InventoryOnlyText",
+          "key": "item_226609_inventoryonlytext",
+          "text": "已降低敌人的治疗效果：<attention>@f2@</attention><br>已降低敌人的回复效果：<attention>@f3@</attention>"
+        }
+      },
+      "official": {
+        "name": "炼金朋克链锯剑",
+        "description": "<mainText><stats><attention>45</attention>攻击力<br><attention>450</attention>生命值<br><attention>15</attention>技能急速</stats><br><br><passive>劈削</passive><br>对敌方英雄造成物理伤害时会施加<keyword>40%重伤</keyword>效果，持续3秒。</mainText>",
+        "colloq": "",
+        "plaintext": "",
+        "from": [
+          "3123",
+          "1011",
+          "3133"
+        ],
+        "image": {
+          "full": "6609.png",
+          "sprite": "item5.png",
+          "group": "item",
+          "x": 384,
+          "y": 384,
+          "w": 48,
+          "h": 48
+        },
+        "gold": {
+          "base": 250,
+          "purchasable": true,
+          "total": 3000,
+          "sell": 2100
+        },
+        "tags": [
+          "Health",
+          "Damage",
+          "CooldownReduction",
+          "AbilityHaste"
+        ],
+        "maps": {
+          "11": true,
+          "12": true,
+          "22": false,
+          "30": false,
+          "453": true
+        },
+        "stats": {
+          "FlatHPPoolMod": 450,
+          "FlatPhysicalDamageMod": 45
+        },
+        "depth": 3
+      }
+    },
+    {
+      "id": 2420,
+      "equipmentKey": "item_2420",
+      "name": "探索者的护臂",
+      "path": "Items/2420",
+      "object": {
+        "spellName": "Item2420",
+        "mDisplayName": "Item_2420_Name",
+        "itemID": 2420,
+        "maxStack": 1,
+        "mItemGroups": [
+          "Items/ItemGroups/Default",
+          "Items/ItemGroups/StopwatchGroup",
+          "{4c987493}"
+        ],
+        "price": 500,
+        "clickable": true,
+        "mItemCalloutSpectator": true,
+        "mCanBeSold": true,
+        "epicness": 4,
+        "recipeItemLinks": [
+          "Items/1052",
+          "Items/1029",
+          "Items/1052"
+        ],
+        "mEffectAmount": [
+          0,
+          2.5
+        ],
+        "mDataValues": [
+          {
+            "mName": "Duration",
+            "mValue": 2.5,
+            "__type": "ItemDataValue"
+          }
+        ],
+        "mFlatArmorMod": 25,
+        "mFlatMagicDamageMod": 40,
+        "sellBackModifier": 0.4000000059604645,
+        "mCategories": [
+          "Armor",
+          "SpellDamage",
+          "Active"
+        ],
+        "mItemDataAvailability": {
+          "mInStore": true,
+          "__type": "ItemDataAvailability"
+        },
+        "mItemAttributes": [
+          16
+        ],
+        "mItemDataClient": {
+          "mTooltipData": {
+            "mObjectName": "2420",
+            "mFormat": "{32559c50}",
+            "mLocKeys": {
+              "keyName": "Item_2420_Name",
+              "keyActive": "Item_2420_Active",
+              "keyColloquialism": "Item_2420_Colloquialism",
+              "keyKeywordDefinitions": "Item_2420_KeywordDefinitions",
+              "keySecondaryBrief": "Item_Unique_Stasis",
+              "keyBrief": "Item_2420_Brief"
+            },
+            "mLists": {
+              "Stats": {
+                "Elements": [
+                  {
+                    "type": "AbilityPower",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "Armor",
+                    "__type": "TooltipInstanceListElement"
+                  }
+                ],
+                "__type": "TooltipInstanceList"
+              }
+            },
+            "__type": "TooltipInstanceItem"
+          },
+          "mDescription": "GeneratedTip_Item_2420_Description",
+          "mDynamicTooltip": "GeneratedTip_Item_2420_TooltipInventory",
+          "mShopTooltip": "GeneratedTip_Item_2420_TooltipShop",
+          "inventoryIcon": "assets/items/icons2d/3191_battlemage_t2_seekersarmguard.dds",
+          "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/3191_Battlemage_T2_SeekersArmguard.png",
+          "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/3191_Battlemage_T2_SeekersArmguard.png",
+          "__type": "ItemDataClient"
+        },
+        "__type": "ItemData"
+      },
+      "bound": {
+        "keyName": {
+          "sourceKey": "Item_2420_Name",
+          "key": "item_2420_name",
+          "text": "探索者的护臂"
+        },
+        "keyActive": {
+          "sourceKey": "Item_2420_Active",
+          "key": "item_2420_active",
+          "text": "%i:activeEffect% <active>时间停止</active>(单次使用)<br>进入<keyword>凝滞</keyword>状态@Duration@秒。"
+        },
+        "keyColloquialism": {
+          "sourceKey": "Item_2420_Colloquialism",
+          "key": "item_2420_colloquialism",
+          "text": ";Stopwatch;miaobiao;mb;zhognya"
+        },
+        "keyKeywordDefinitions": {
+          "sourceKey": "Item_2420_KeywordDefinitions",
+          "key": "item_2420_keyworddefinitions",
+          "text": "{{ Item_KeywordDefinition_Stasis }}<br>"
+        },
+        "keySecondaryBrief": {
+          "sourceKey": "Item_Unique_Stasis",
+          "key": "item_unique_stasis",
+          "text": "唯一：凝滞"
+        },
+        "keyBrief": {
+          "sourceKey": "Item_2420_Brief",
+          "key": "item_2420_brief",
+          "text": "免疫伤害"
+        }
+      },
+      "official": {
+        "name": "探索者的护臂",
+        "description": "<mainText><stats><attention>40</attention>法术强度<br><attention>25</attention>护甲</stats><br><br><active>时间停止</active>(单次使用)<br>进入<keyword>凝滞</keyword>状态2.5秒。</mainText>",
+        "colloq": ";zysl;zhongya",
+        "plaintext": "主动施放来变得无敌但无法行动",
+        "from": [
+          "1052",
+          "1029",
+          "1052"
+        ],
+        "into": [
+          "3157"
+        ],
+        "image": {
+          "full": "2420.png",
+          "sprite": "item2.png",
+          "group": "item",
+          "x": 336,
+          "y": 432,
+          "w": 48,
+          "h": 48
+        },
+        "gold": {
+          "base": 500,
+          "purchasable": true,
+          "total": 1600,
+          "sell": 640
+        },
+        "tags": [
+          "Armor",
+          "SpellDamage",
+          "Active"
+        ],
+        "maps": {
+          "11": true,
+          "12": true,
+          "22": false,
+          "30": false,
+          "453": true
+        },
+        "stats": {
+          "FlatMagicDamageMod": 40,
+          "FlatArmorMod": 25
+        },
+        "effect": {
+          "Effect1Amount": "0",
+          "Effect2Amount": "2.5"
+        },
+        "depth": 2
+      }
+    },
+    {
+      "id": 3139,
+      "equipmentKey": "item_3139",
+      "name": "水银弯刀",
+      "path": "Items/3139",
+      "object": {
+        "spellName": "ItemMercurial",
+        "mDisplayName": "Item_3139_Name",
+        "itemID": 3139,
+        "maxStack": 1,
+        "mItemGroups": [
+          "Items/ItemGroups/Default",
+          "Items/ItemGroups/Quicksilver"
+        ],
+        "mItemAdviceAttributes": [
+          "{4b94dc6f}",
+          "{af00f7f5}"
+        ],
+        "price": 125,
+        "clickable": true,
+        "mItemCalloutSpectator": true,
+        "mCanBeSold": true,
+        "epicness": 5,
+        "recipeItemLinks": [
+          "Items/3140",
+          "Items/1037",
+          "Items/1053"
+        ],
+        "mEffectAmount": [
+          0.5,
+          2,
+          90,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "mDataValues": [
+          {
+            "mName": "Cooldown",
+            "mValue": 90,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "MSDuration",
+            "mValue": 2,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "MoveSpeed",
+            "mValue": 0.5,
+            "__type": "ItemDataValue"
+          }
+        ],
+        "mFlatSpellBlockMod": 35,
+        "mFlatPhysicalDamageMod": 50,
+        "mPercentLifeStealMod": 0.10000000149011612,
+        "mCategories": [
+          "SpellBlock",
+          "Damage",
+          "LifeSteal",
+          "Active",
+          "NonbootsMovement",
+          "Tenacity"
+        ],
+        "mItemDataAvailability": {
+          "mInStore": true,
+          "__type": "ItemDataAvailability"
+        },
+        "mItemAttributes": [
+          2,
+          1
+        ],
+        "mItemDataClient": {
+          "mTooltipData": {
+            "mObjectName": "3139",
+            "mFormat": "{32559c50}",
+            "mLocKeys": {
+              "keyName": "Item_3139_Name",
+              "keyBrief": "Item_3139_Brief",
+              "keyActive": "Item_3139_Active",
+              "keyColloquialism": "Item_3139_Colloquialism",
+              "keyKeywordDefinitions": "Item_3139_KeywordDefinitions",
+              "keySecondaryBrief": "Item_Unique_Quicksilver",
+              "keyActiveExternal": "Item_3139_ActiveExternal"
+            },
+            "mLists": {
+              "Stats": {
+                "Elements": [
+                  {
+                    "type": "AttackDamage",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "MagicResist",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "LifeSteal",
+                    "__type": "TooltipInstanceListElement"
+                  }
+                ],
+                "__type": "TooltipInstanceList"
+              }
+            },
+            "__type": "TooltipInstanceItem"
+          },
+          "mDescription": "GeneratedTip_Item_3139_Description",
+          "mDynamicTooltip": "GeneratedTip_Item_3139_TooltipInventory",
+          "mShopTooltip": "GeneratedTip_Item_3139_TooltipShop",
+          "inventoryIcon": "assets/items/icons2d/3139_marksman_t3_mercurialscimitar.dds",
+          "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/3139_Marksman_T3_MercurialScimitar.png",
+          "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/3139_Marksman_T3_MercurialScimitar.png",
+          "epicness": 5,
+          "__type": "ItemDataClient"
+        },
+        "__type": "ItemData"
+      },
+      "bound": {
+        "keyName": {
+          "sourceKey": "Item_3139_Name",
+          "key": "item_3139_name",
+          "text": "水银弯刀"
+        },
+        "keyBrief": {
+          "sourceKey": "Item_3139_Brief",
+          "key": "item_3139_brief",
+          "text": "移除限制效果"
+        },
+        "keyActive": {
+          "sourceKey": "Item_3139_Active",
+          "key": "item_3139_active",
+          "text": "%i:activeEffect% <active>水银</active> {{ Item_Cooldown }}<br><active>主动使用</active>以移除所有控制类减益效果(<keyword>浮空</keyword>除外)，并提供持续@MSDuration@秒的<speed>@MoveSpeed*100@%移动速度</speed>。"
+        },
+        "keyColloquialism": {
+          "sourceKey": "Item_3139_Colloquialism",
+          "key": "item_3139_colloquialism",
+          "text": ";水银;水银饰带;净化;应对控制;克制控制;Mercurial Scimitar;shuiyinwandao;sywd"
+        },
+        "keyKeywordDefinitions": {
+          "sourceKey": "Item_3139_KeywordDefinitions",
+          "key": "item_3139_keyworddefinitions",
+          "text": "{{ Item_KeywordDefinition_Airborne }}"
+        },
+        "keySecondaryBrief": {
+          "sourceKey": "Item_Unique_Quicksilver",
+          "key": "item_unique_quicksilver",
+          "text": "唯一：水银"
+        },
+        "keyActiveExternal": {
+          "sourceKey": "Item_3139_ActiveExternal",
+          "key": "item_3139_activeexternal",
+          "text": "{{ Item_OnActivation }} <br><active>水银</active><br>移除所有控制类减益效果(<keyword>浮空</keyword>除外)，并提供移动速度。"
+        }
+      },
+      "official": {
+        "name": "水银弯刀",
+        "description": "<mainText><stats><attention>50</attention>攻击力<br><attention>35</attention>魔法抗性<br><attention>10%</attention>生命偷取</stats><br><br><br><br><active>主动</active> <br><active>水银</active><br>移除所有控制类减益效果(<keyword>浮空</keyword>除外)，并提供移动速度。</mainText>",
+        "colloq": ";水银;水银饰带;净化;应对控制;克制控制;Mercurial Scimitar;shuiyinwandao;sywd",
+        "plaintext": "主动施放来移除所有控制类减益效果并提供巨幅移速",
+        "from": [
+          "3140",
+          "1037",
+          "1053"
+        ],
+        "image": {
+          "full": "3139.png",
+          "sprite": "item3.png",
+          "group": "item",
+          "x": 240,
+          "y": 432,
+          "w": 48,
+          "h": 48
+        },
+        "gold": {
+          "base": 125,
+          "purchasable": true,
+          "total": 3200,
+          "sell": 2240
+        },
+        "tags": [
+          "SpellBlock",
+          "Damage",
+          "LifeSteal",
+          "Active",
+          "NonbootsMovement",
+          "Tenacity"
+        ],
+        "maps": {
+          "11": true,
+          "12": true,
+          "22": false,
+          "30": false,
+          "453": true
+        },
+        "stats": {
+          "FlatSpellBlockMod": 35,
+          "FlatPhysicalDamageMod": 50,
+          "PercentLifeStealMod": 0.1
+        },
+        "effect": {
+          "Effect1Amount": "0.5",
+          "Effect2Amount": "2",
+          "Effect3Amount": "90"
+        },
+        "depth": 3
+      }
+    },
+    {
+      "id": 3044,
+      "equipmentKey": "item_3044",
+      "name": "净蚀",
+      "path": "Items/3044",
+      "object": {
+        "mDisplayName": "Item_3044_Name",
+        "itemID": 3044,
+        "maxStack": 1,
+        "mItemGroups": [
+          "Items/ItemGroups/Default"
+        ],
+        "price": 350,
+        "mCanBeSold": true,
+        "epicness": 4,
+        "recipeItemLinks": [
+          "Items/1028",
+          "Items/1036"
+        ],
+        "mEffectAmount": [
+          20,
+          2,
+          60,
+          0,
+          0,
+          0,
+          0,
+          8
+        ],
+        "mDataValues": [
+          {
+            "mName": "MoveSpeedBonus",
+            "mValue": 20,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "MoveSpeedDuration",
+            "mValue": 2,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "RangedMod",
+            "mValue": 0.5,
+            "__type": "ItemDataValue"
+          }
+        ],
+        "mItemCalculations": {
+          "MSBonusSplit": {
+            "mExpandedTooltipCalculationDisplay": 5,
+            "mFormulaParts": [
+              {
+                "mDataValue": "MoveSpeedBonus",
+                "__type": "NamedDataValueCalculationPart"
+              }
+            ],
+            "mRangedMultiplier": {
+              "mDataValue": "RangedMod",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            "__type": "{e9a3c91d}"
+          }
+        },
+        "mFlatHPPoolMod": 200,
+        "mFlatPhysicalDamageMod": 15,
+        "mCategories": [
+          "Health",
+          "Damage",
+          "NonbootsMovement"
+        ],
+        "mItemDataAvailability": {
+          "mInStore": true,
+          "__type": "ItemDataAvailability"
+        },
+        "mItemAttributes": [
+          1
+        ],
+        "mItemDataClient": {
+          "mTooltipData": {
+            "mObjectName": "3044",
+            "mFormat": "{32559c50}",
+            "EnableExtendedTooltip": false,
+            "mLocKeys": {
+              "keyName": "Item_3044_Name",
+              "keyTooltipInventory": "Item_3044_TooltipDynamic",
+              "keyTooltip": "Item_3044_Tooltip",
+              "keyColloquialism": "Item_3044_Colloquialism",
+              "keyTooltipExternal": "Item_3044_TooltipExternal"
+            },
+            "mLists": {
+              "Stats": {
+                "Elements": [
+                  {
+                    "type": "AttackDamage",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "Health",
+                    "__type": "TooltipInstanceListElement"
+                  }
+                ],
+                "__type": "TooltipInstanceList"
+              }
+            },
+            "__type": "TooltipInstanceItem"
+          },
+          "mDescription": "GeneratedTip_Item_3044_Description",
+          "mDynamicTooltip": "GeneratedTip_Item_3044_TooltipInventory",
+          "mShopTooltip": "GeneratedTip_Item_3044_TooltipShop",
+          "inventoryIcon": "assets/items/icons2d/3044_fighter_t2_phage.dds",
+          "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/3044_Fighter_T2_Phage.png",
+          "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/3044_Fighter_T2_Phage.png",
+          "epicness": 4,
+          "__type": "ItemDataClient"
+        },
+        "__type": "ItemData"
+      },
+      "bound": {
+        "keyName": {
+          "sourceKey": "Item_3044_Name",
+          "key": "item_3044_name",
+          "text": "净蚀"
+        },
+        "keyTooltipInventory": {
+          "sourceKey": "Item_3044_TooltipDynamic",
+          "key": "item_3044_tooltipdynamic",
+          "text": "<passive>狂怒</passive><br>攻击一名单位会提供<speed>@MSBonusSplit@移动速度</speed>，持续@MoveSpeedDuration@秒。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Item_3044_Tooltip",
+          "key": "item_3044_tooltip",
+          "text": "<passive>狂怒</passive><br>攻击会提供持续@MoveSpeedDuration@秒的<speed>@MSBonusSplit@移动速度</speed>。"
+        },
+        "keyColloquialism": {
+          "sourceKey": "Item_3044_Colloquialism",
+          "key": "item_3044_colloquialism",
+          "text": ";Phage;jingshi;xiaomuchui;js;小木锤"
+        },
+        "keyTooltipExternal": {
+          "sourceKey": "Item_3044_TooltipExternal",
+          "key": "item_3044_tooltipexternal",
+          "text": "<passive>狂怒</passive><br>攻击会提供持续@MoveSpeedDuration@秒的<speed>移动速度</speed>。"
+        }
+      },
+      "official": {
+        "name": "净蚀",
+        "description": "<mainText><stats><attention>15</attention>攻击力<br><attention>200</attention>生命值</stats><br><br><passive>狂怒</passive><br>攻击会提供持续2秒的<speed>移动速度</speed>。</mainText>",
+        "colloq": ";Phage;jingshi;xiaomuchui;js;小木锤",
+        "plaintext": "攻击和击杀会给予爆发性的加速效果",
+        "from": [
+          "1028",
+          "1036"
+        ],
+        "into": [
+          "3071",
+          "3078",
+          "3073",
+          "6630",
+          "6631"
+        ],
+        "image": {
+          "full": "3044.png",
+          "sprite": "item3.png",
+          "group": "item",
+          "x": 0,
+          "y": 192,
+          "w": 48,
+          "h": 48
+        },
+        "gold": {
+          "base": 350,
+          "purchasable": true,
+          "total": 1100,
+          "sell": 770
+        },
+        "tags": [
+          "Health",
+          "Damage",
+          "NonbootsMovement"
+        ],
+        "maps": {
+          "11": true,
+          "12": true,
+          "22": false,
+          "30": false,
+          "453": true
+        },
+        "stats": {
+          "FlatHPPoolMod": 200,
+          "FlatPhysicalDamageMod": 15
+        },
+        "effect": {
+          "Effect1Amount": "20",
+          "Effect2Amount": "2",
+          "Effect3Amount": "60",
+          "Effect4Amount": "0",
+          "Effect5Amount": "0",
+          "Effect6Amount": "0",
+          "Effect7Amount": "0",
+          "Effect8Amount": "8"
+        },
+        "depth": 2
+      }
+    }
+  ],
+  "referenceObjects": [
+    {
+      "id": 3123,
+      "equipmentKey": "item_3123",
+      "name": "死刑宣告",
+      "path": "Items/3123",
+      "object": {
+        "mDisplayName": "Item_3123_Name",
+        "itemID": 3123,
+        "maxStack": 1,
+        "mItemGroups": [
+          "Items/ItemGroups/Default",
+          "{8875daa8}"
+        ],
+        "price": 450,
+        "mItemCalloutPlayer": true,
+        "mCanBeSold": true,
+        "epicness": 4,
+        "recipeItemLinks": [
+          "Items/1036"
+        ],
+        "mEffectAmount": [
+          3
+        ],
+        "mDataValues": [
+          {
+            "mName": "GrievousDuration",
+            "mValue": 3,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "GrievousAmount",
+            "mValue": 0.4000000059604645,
+            "__type": "ItemDataValue"
+          }
+        ],
+        "mFlatPhysicalDamageMod": 15,
+        "mCategories": [
+          "Damage"
+        ],
+        "mItemDataAvailability": {
+          "mInStore": true,
+          "__type": "ItemDataAvailability"
+        },
+        "mItemAttributes": [
+          1,
+          2,
+          4
+        ],
+        "mItemDataClient": {
+          "mTooltipData": {
+            "mObjectName": "3123",
+            "mFormat": "{32559c50}",
+            "mLocKeys": {
+              "keyName": "Item_3123_Name",
+              "keyInventoryOnlyText": "Item_3123_InventoryOnlyText",
+              "keyTooltip": "Item_3123_Tooltip",
+              "keyColloquialism": "Item_3123_Colloquialism",
+              "keyKeywordDefinitions": "Item_3123_KeywordDefinitions",
+              "keyBrief": "Item_3123_Brief"
+            },
+            "mLists": {
+              "Stats": {
+                "Elements": [
+                  {
+                    "type": "AttackDamage",
+                    "__type": "TooltipInstanceListElement"
+                  }
+                ],
+                "__type": "TooltipInstanceList"
+              }
+            },
+            "__type": "TooltipInstanceItem"
+          },
+          "mDescription": "GeneratedTip_Item_3123_Description",
+          "mDynamicTooltip": "GeneratedTip_Item_3123_TooltipInventory",
+          "mShopTooltip": "GeneratedTip_Item_3123_TooltipShop",
+          "inventoryIcon": "assets/items/icons2d/3123_fighter_t2_executionerscalling.dds",
+          "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/3123_Fighter_T2_ExecutionersCalling.png",
+          "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/3123_Fighter_T2_ExecutionersCalling.png",
+          "epicness": 4,
+          "__type": "ItemDataClient"
+        },
+        "__type": "ItemData"
+      },
+      "bound": {
+        "keyName": {
+          "sourceKey": "Item_3123_Name",
+          "key": "item_3123_name",
+          "text": "死刑宣告"
+        },
+        "keyInventoryOnlyText": {
+          "sourceKey": "Item_3123_InventoryOnlyText",
+          "key": "item_3123_inventoryonlytext",
+          "text": "已降低的敌方治疗效果：<attention>@f2@</attention><br>已降低的敌方生命回复：<attention>@f3@</attention>"
+        },
+        "keyTooltip": {
+          "sourceKey": "Item_3123_Tooltip",
+          "key": "item_3123_tooltip",
+          "text": "<passive>重伤</passive><br>对敌方英雄造成物理伤害时会施加持续@GrievousDuration@秒的<keyword>@GrievousAmount*100@%重伤</keyword>效果。"
+        },
+        "keyColloquialism": {
+          "sourceKey": "Item_3123_Colloquialism",
+          "key": "item_3123_colloquialism",
+          "text": ";应对治疗;克制治疗;Executioner's Calling;sixingxuangao;zhongshang;重伤;zhongshang"
+        },
+        "keyKeywordDefinitions": {
+          "sourceKey": "Item_3123_KeywordDefinitions",
+          "key": "item_3123_keyworddefinitions",
+          "text": "{{ Item_KeywordDefinition_Wounds }}"
+        },
+        "keyBrief": {
+          "sourceKey": "Item_3123_Brief",
+          "key": "item_3123_brief",
+          "text": "治疗克星"
+        }
+      },
+      "official": {
+        "name": "死刑宣告",
+        "description": "<mainText><stats><attention>15</attention>攻击力</stats><br><br><passive>重伤</passive><br>对敌方英雄造成物理伤害时会施加持续3秒的<keyword>40%重伤</keyword>效果。</mainText>",
+        "colloq": ";应对治疗;克制治疗;Executioner's Calling;sixingxuangao;zhongshang;重伤;zhongshang",
+        "plaintext": "用于对抗拥有高生命回复的敌人",
+        "from": [
+          "1036"
+        ],
+        "into": [
+          "3033",
+          "6609"
+        ],
+        "image": {
+          "full": "3123.png",
+          "sprite": "item3.png",
+          "group": "item",
+          "x": 336,
+          "y": 384,
+          "w": 48,
+          "h": 48
+        },
+        "gold": {
+          "base": 450,
+          "purchasable": true,
+          "total": 800,
+          "sell": 560
+        },
+        "tags": [
+          "Damage"
+        ],
+        "maps": {
+          "11": true,
+          "12": true,
+          "22": false,
+          "30": false,
+          "453": true
+        },
+        "stats": {
+          "FlatPhysicalDamageMod": 15
+        },
+        "effect": {
+          "Effect1Amount": "3"
+        },
+        "depth": 2
+      }
+    },
+    {
+      "id": 3916,
+      "equipmentKey": "item_3916",
+      "name": "湮灭宝珠",
+      "path": "Items/3916",
+      "object": {
+        "mDisplayName": "Item_3916_Name",
+        "itemID": 3916,
+        "mItemGroups": [
+          "Items/ItemGroups/Default",
+          "{8875daa8}"
+        ],
+        "price": 400,
+        "mItemCalloutPlayer": true,
+        "mItemCalloutSpectator": true,
+        "mCanBeSold": true,
+        "epicness": 4,
+        "recipeItemLinks": [
+          "Items/1052"
+        ],
+        "mEffectAmount": [
+          0
+        ],
+        "mDataValues": [
+          {
+            "mName": "GrievousAmount",
+            "mValue": 0.4000000059604645,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "GrievousDuration",
+            "mValue": 3,
+            "__type": "ItemDataValue"
+          }
+        ],
+        "mFlatMagicDamageMod": 25,
+        "mCategories": [
+          "SpellDamage"
+        ],
+        "mItemDataAvailability": {
+          "mInStore": true,
+          "__type": "ItemDataAvailability"
+        },
+        "mItemAttributes": [
+          16,
+          32
+        ],
+        "mItemDataClient": {
+          "mTooltipData": {
+            "mObjectName": "3916",
+            "mFormat": "{32559c50}",
+            "mLocKeys": {
+              "keyName": "Item_3916_Name",
+              "keyInventoryOnlyText": "Item_3916_InventoryOnlyText",
+              "keyTooltip": "Item_3916_Tooltip",
+              "keyColloquialism": "Item_3916_Colloquialism",
+              "keyKeywordDefinitions": "Item_3916_KeywordDefinitions",
+              "keyBrief": "Item_3916_Brief"
+            },
+            "mLists": {
+              "Stats": {
+                "Elements": [
+                  {
+                    "type": "AbilityPower",
+                    "__type": "TooltipInstanceListElement"
+                  }
+                ],
+                "__type": "TooltipInstanceList"
+              }
+            },
+            "__type": "TooltipInstanceItem"
+          },
+          "mDescription": "GeneratedTip_Item_3916_Description",
+          "mDynamicTooltip": "GeneratedTip_Item_3916_TooltipInventory",
+          "mShopTooltip": "GeneratedTip_Item_3916_TooltipShop",
+          "inventoryIcon": "assets/items/icons2d/3916_mage_t2_oblivionorb.dds",
+          "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/3916_Mage_T2_OblivionOrb.png",
+          "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/3916_Mage_T2_OblivionOrb.png",
+          "epicness": 4,
+          "__type": "ItemDataClient"
+        },
+        "__type": "ItemData"
+      },
+      "bound": {
+        "keyName": {
+          "sourceKey": "Item_3916_Name",
+          "key": "item_3916_name",
+          "text": "湮灭宝珠"
+        },
+        "keyInventoryOnlyText": {
+          "sourceKey": "Item_3916_InventoryOnlyText",
+          "key": "item_3916_inventoryonlytext",
+          "text": "已降低的治疗效果：<attention>@f2@</attention><br>已降低的生命回复：<attention>@f3@</attention>"
+        },
+        "keyTooltip": {
+          "sourceKey": "Item_3916_Tooltip",
+          "key": "item_3916_tooltip",
+          "text": "<passive>重伤</passive><br>对敌方英雄造成<magicDamage>魔法伤害</magicDamage>时会施加持续@GrievousDuration@秒的<keyword>@GrievousAmount*100@%重伤</keyword>效果。"
+        },
+        "keyColloquialism": {
+          "sourceKey": "Item_3916_Colloquialism",
+          "key": "item_3916_colloquialism",
+          "text": ";Oblivion Orb;zhongshang;重伤;yanmiebaozhu;ymbz"
+        },
+        "keyKeywordDefinitions": {
+          "sourceKey": "Item_3916_KeywordDefinitions",
+          "key": "item_3916_keyworddefinitions",
+          "text": "<br><br>{{ Item_KeywordDefinition_Wounds }}"
+        },
+        "keyBrief": {
+          "sourceKey": "Item_3916_Brief",
+          "key": "item_3916_brief",
+          "text": "治疗克星"
+        }
+      },
+      "official": {
+        "name": "湮灭宝珠",
+        "description": "<mainText><stats><attention>25</attention>法术强度</stats><br><br><passive>重伤</passive><br>对敌方英雄造成<magicDamage>魔法伤害</magicDamage>时会施加持续3秒的<keyword>40%重伤</keyword>效果。</mainText>",
+        "colloq": "",
+        "plaintext": "提升魔法伤害",
+        "stacks": 0,
+        "from": [
+          "1052"
+        ],
+        "into": [
+          "223011",
+          "3165",
+          "3011"
+        ],
+        "image": {
+          "full": "3916.png",
+          "sprite": "item4.png",
+          "group": "item",
+          "x": 384,
+          "y": 432,
+          "w": 48,
+          "h": 48
+        },
+        "gold": {
+          "base": 400,
+          "purchasable": true,
+          "total": 800,
+          "sell": 560
+        },
+        "tags": [
+          "SpellDamage"
+        ],
+        "maps": {
+          "11": true,
+          "12": true,
+          "22": false,
+          "30": false,
+          "453": true
+        },
+        "stats": {
+          "FlatMagicDamageMod": 25
+        },
+        "depth": 2
+      }
+    },
+    {
+      "id": 3157,
+      "equipmentKey": "item_3157",
+      "name": "中娅沙漏",
+      "path": "Items/3157",
+      "object": {
+        "spellName": "ZhonyasHourglass",
+        "mDisplayName": "Item_3157_Name",
+        "itemID": 3157,
+        "maxStack": 1,
+        "mItemGroups": [
+          "Items/ItemGroups/Default",
+          "Items/ItemGroups/BuildsFromStopwatchGroup",
+          "{9b3188ed}",
+          "{4c987493}"
+        ],
+        "mItemAdviceAttributes": [
+          "{165d7c1f}",
+          "{dfe0e8e4}"
+        ],
+        "price": 450,
+        "clickable": true,
+        "mItemCalloutSpectator": true,
+        "mCanBeSold": true,
+        "epicness": 5,
+        "recipeItemLinks": [
+          "Items/1058",
+          "Items/2420"
+        ],
+        "mEffectAmount": [
+          0,
+          2.5,
+          120
+        ],
+        "mDataValues": [
+          {
+            "mName": "Cooldown",
+            "mValue": 120,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "Duration",
+            "mValue": 2.5,
+            "__type": "ItemDataValue"
+          }
+        ],
+        "mFlatArmorMod": 50,
+        "mFlatMagicDamageMod": 105,
+        "mCategories": [
+          "Armor",
+          "SpellDamage",
+          "Active"
+        ],
+        "mItemDataAvailability": {
+          "mInStore": true,
+          "__type": "ItemDataAvailability"
+        },
+        "mItemAttributes": [
+          16
+        ],
+        "mItemDataClient": {
+          "mTooltipData": {
+            "mObjectName": "3157",
+            "mFormat": "{32559c50}",
+            "mLocKeys": {
+              "keyName": "Item_3157_Name",
+              "keyBrief": "Item_3157_Brief",
+              "keyActive": "Item_3157_Active",
+              "keyColloquialism": "Item_3157_Colloquialism",
+              "keyKeywordDefinitions": "Item_3157_KeywordDefinitions",
+              "keySecondaryBrief": "Item_Unique_Stasis",
+              "keyActiveExternal": "Item_3157_ActiveExternal"
+            },
+            "mLists": {
+              "Stats": {
+                "Elements": [
+                  {
+                    "type": "AbilityPower",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "Armor",
+                    "__type": "TooltipInstanceListElement"
+                  }
+                ],
+                "__type": "TooltipInstanceList"
+              }
+            },
+            "__type": "TooltipInstanceItem"
+          },
+          "mDescription": "GeneratedTip_Item_3157_Description",
+          "mDynamicTooltip": "GeneratedTip_Item_3157_TooltipInventory",
+          "mShopTooltip": "GeneratedTip_Item_3157_TooltipShop",
+          "inventoryIcon": "assets/items/icons2d/3157_mage_t3_zhonyashourglass.dds",
+          "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/3157_Mage_T3_ZhonyasHourglass.png",
+          "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/3157_Mage_T3_ZhonyasHourglass.png",
+          "epicness": 5,
+          "__type": "ItemDataClient"
+        },
+        "mVFXResourceResolver": {
+          "resourceMap": {
+            "{ae8b3f99}": "Items/3157/Particles/3157_Zhonya_Buf"
+          },
+          "__type": "ResourceResolver"
+        },
+        "__type": "ItemData"
+      },
+      "bound": {
+        "keyName": {
+          "sourceKey": "Item_3157_Name",
+          "key": "item_3157_name",
+          "text": "中娅沙漏"
+        },
+        "keyBrief": {
+          "sourceKey": "Item_3157_Brief",
+          "key": "item_3157_brief",
+          "text": "免疫伤害"
+        },
+        "keyActive": {
+          "sourceKey": "Item_3157_Active",
+          "key": "item_3157_active",
+          "text": "%i:activeEffect% <active>时间停止</active> {{ Item_Cooldown }}<br>进入<keyword>凝滞</keyword>状态@Duration@秒。"
+        },
+        "keyColloquialism": {
+          "sourceKey": "Item_3157_Colloquialism",
+          "key": "item_3157_colloquialism",
+          "text": ";zhg;zonyas;Wooglets;Witchcap;沃格勒特;巫师帽;wogelete;wushimao;zhongyashalou;zysl;Zhonya's Hourglass"
+        },
+        "keyKeywordDefinitions": {
+          "sourceKey": "Item_3157_KeywordDefinitions",
+          "key": "item_3157_keyworddefinitions",
+          "text": "{{ Item_KeywordDefinition_Stasis }}"
+        },
+        "keySecondaryBrief": {
+          "sourceKey": "Item_Unique_Stasis",
+          "key": "item_unique_stasis",
+          "text": "唯一：凝滞"
+        },
+        "keyActiveExternal": {
+          "sourceKey": "Item_3157_ActiveExternal",
+          "key": "item_3157_activeexternal",
+          "text": "<br>%i:activeEffect% <br><active>时间停止</active><br>进入<keyword>凝滞</keyword>状态@Duration@秒。"
+        }
+      },
+      "official": {
+        "name": "中娅沙漏",
+        "description": "<mainText><stats><attention>105</attention>法术强度<br><attention>50</attention>护甲</stats><br><br><br><br><active>时间停止</active><br>进入<keyword>凝滞</keyword>状态2.5秒。</mainText>",
+        "colloq": ";zhongyashalou;zysl;Zhonya's Hourglass",
+        "plaintext": "主动施放来变得无敌但无法行动",
+        "from": [
+          "1058",
+          "2420"
+        ],
+        "image": {
+          "full": "3157.png",
+          "sprite": "item4.png",
+          "group": "item",
+          "x": 336,
+          "y": 0,
+          "w": 48,
+          "h": 48
+        },
+        "gold": {
+          "base": 450,
+          "purchasable": true,
+          "total": 3250,
+          "sell": 2275
+        },
+        "tags": [
+          "Armor",
+          "SpellDamage",
+          "Active"
+        ],
+        "maps": {
+          "11": true,
+          "12": true,
+          "22": false,
+          "30": false,
+          "453": true
+        },
+        "stats": {
+          "FlatMagicDamageMod": 105,
+          "FlatArmorMod": 50
+        },
+        "effect": {
+          "Effect1Amount": "0",
+          "Effect2Amount": "2.5",
+          "Effect3Amount": "120"
+        },
+        "depth": 3
+      }
+    },
+    {
+      "id": 3140,
+      "equipmentKey": "item_3140",
+      "name": "水银饰带",
+      "path": "Items/3140",
+      "object": {
+        "spellName": "QuicksilverSash",
+        "mDisplayName": "Item_3140_Name",
+        "itemID": 3140,
+        "maxStack": 1,
+        "mItemGroups": [
+          "Items/ItemGroups/Default",
+          "Items/ItemGroups/Quicksilver"
+        ],
+        "price": 900,
+        "clickable": true,
+        "mItemCalloutSpectator": true,
+        "mCanBeSold": true,
+        "epicness": 4,
+        "recipeItemLinks": [
+          "Items/1033"
+        ],
+        "mEffectAmount": [
+          0
+        ],
+        "mDataValues": [
+          {
+            "mName": "Cooldown",
+            "mValue": 90,
+            "__type": "ItemDataValue"
+          }
+        ],
+        "mFlatSpellBlockMod": 30,
+        "mCategories": [
+          "Active",
+          "SpellBlock"
+        ],
+        "mItemDataAvailability": {
+          "mInStore": true,
+          "__type": "ItemDataAvailability"
+        },
+        "mItemAttributes": [
+          2
+        ],
+        "mItemDataClient": {
+          "mTooltipData": {
+            "mObjectName": "3140",
+            "mFormat": "{32559c50}",
+            "mLocKeys": {
+              "keyName": "Item_3140_Name",
+              "keyActive": "Item_3140_Active",
+              "keyColloquialism": "Item_3140_Colloquialism",
+              "keyKeywordDefinitions": "Item_3140_KeywordDefinitions",
+              "keySecondaryBrief": "Item_Unique_Quicksilver",
+              "keyActiveExternal": "Item_3140_ActiveExternal"
+            },
+            "mLists": {
+              "Stats": {
+                "Elements": [
+                  {
+                    "type": "MagicResist",
+                    "__type": "TooltipInstanceListElement"
+                  }
+                ],
+                "__type": "TooltipInstanceList"
+              }
+            },
+            "__type": "TooltipInstanceItem"
+          },
+          "mDescription": "GeneratedTip_Item_3140_Description",
+          "mDynamicTooltip": "GeneratedTip_Item_3140_TooltipInventory",
+          "mShopTooltip": "GeneratedTip_Item_3140_TooltipShop",
+          "inventoryIcon": "assets/items/icons2d/3140_marksman_t2_quicksilversash.dds",
+          "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/3140_Marksman_T2_QuicksilverSash.png",
+          "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/3140_Marksman_T2_QuicksilverSash.png",
+          "epicness": 4,
+          "__type": "ItemDataClient"
+        },
+        "__type": "ItemData"
+      },
+      "bound": {
+        "keyName": {
+          "sourceKey": "Item_3140_Name",
+          "key": "item_3140_name",
+          "text": "水银饰带"
+        },
+        "keyActive": {
+          "sourceKey": "Item_3140_Active",
+          "key": "item_3140_active",
+          "text": "%i:activeEffect% <active>水银</active> {{ Item_Cooldown }}<br>移除所有控制类减益效果(<keyword>滞空</keyword>除外)。"
+        },
+        "keyColloquialism": {
+          "sourceKey": "Item_3140_Colloquialism",
+          "key": "item_3140_colloquialism",
+          "text": ";水银;水银弯刀;净化;应对控制;克制控制;控制;Quicksilver Sash;shuiyinshidai;sysd"
+        },
+        "keyKeywordDefinitions": {
+          "sourceKey": "Item_3140_KeywordDefinitions",
+          "key": "item_3140_keyworddefinitions",
+          "text": "{{ Item_KeywordDefinition_Airborne }}"
+        },
+        "keySecondaryBrief": {
+          "sourceKey": "Item_Unique_Quicksilver",
+          "key": "item_unique_quicksilver",
+          "text": "唯一：水银"
+        },
+        "keyActiveExternal": {
+          "sourceKey": "Item_3140_ActiveExternal",
+          "key": "item_3140_activeexternal",
+          "text": "%i:activeEffect% <active>水银</active><br>移除所有控制类减益效果(<keyword>滞空</keyword>除外)。"
+        }
+      },
+      "official": {
+        "name": "水银饰带",
+        "description": "<mainText><stats><attention>30</attention>魔法抗性</stats><br><br><active>水银</active><br>移除所有控制类减益效果(<keyword>滞空</keyword>除外)。</mainText>",
+        "colloq": ";水银;水银弯刀;净化;应对控制;克制控制;控制;Quicksilver Sash;shuiyinshidai;sysd",
+        "plaintext": "主动施放来移除所有控制类减益效果",
+        "from": [
+          "1033"
+        ],
+        "into": [
+          "3139",
+          "6035"
+        ],
+        "image": {
+          "full": "3140.png",
+          "sprite": "item3.png",
+          "group": "item",
+          "x": 288,
+          "y": 432,
+          "w": 48,
+          "h": 48
+        },
+        "gold": {
+          "base": 900,
+          "purchasable": true,
+          "total": 1300,
+          "sell": 910
+        },
+        "tags": [
+          "Active",
+          "SpellBlock"
+        ],
+        "maps": {
+          "11": true,
+          "12": true,
+          "22": false,
+          "30": false,
+          "453": true
+        },
+        "stats": {
+          "FlatSpellBlockMod": 30
+        },
+        "depth": 2
+      }
+    },
+    {
+      "id": 3078,
+      "equipmentKey": "item_3078",
+      "name": "三相之力",
+      "path": "Items/3078",
+      "object": {
+        "mDisplayName": "Item_3078_Name",
+        "itemID": 3078,
+        "maxStack": 1,
+        "mItemGroups": [
+          "Items/ItemGroups/Default",
+          "{2dadc53d}",
+          "{8b55a7b3}"
+        ],
+        "price": 133,
+        "mItemCalloutSpectator": true,
+        "ShowCooldownVfxToAllies": false,
+        "ShowCooldownInPings": false,
+        "mCanBeSold": true,
+        "epicness": 5,
+        "recipeItemLinks": [
+          "Items/3057",
+          "Items/3044",
+          "Items/3051"
+        ],
+        "mEffectAmount": [
+          25,
+          60,
+          2,
+          1.5,
+          1.5
+        ],
+        "mDataValues": [
+          {
+            "mName": "SpellbladeMultiplier",
+            "mValue": 2,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "MoveSpeedBonus",
+            "mValue": 20,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "MSDuration",
+            "mValue": 2,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "SpellbladeCooldown",
+            "mValue": 1.5,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "Cooldown",
+            "mValue": 1.5,
+            "__type": "ItemDataValue"
+          }
+        ],
+        "mItemCalculations": {
+          "SpellbladeDamage": {
+            "mFormulaParts": [
+              {
+                "mStat": 2,
+                "mStatFormula": 1,
+                "mDataValue": "SpellbladeMultiplier",
+                "__type": "StatByNamedDataValueCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "{6e4cefdc}": {
+            "mFormulaParts": [
+              {
+                "mNumber": 20,
+                "__type": "NumberCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          }
+        },
+        "mAbilityHasteMod": 15,
+        "mFlatHPPoolMod": 333,
+        "mFlatPhysicalDamageMod": 36,
+        "mPercentAttackSpeedMod": 0.30000001192092896,
+        "mCategories": [
+          "Health",
+          "Damage",
+          "AttackSpeed",
+          "CooldownReduction",
+          "OnHit",
+          "NonbootsMovement",
+          "AbilityHaste"
+        ],
+        "mItemDataAvailability": {
+          "mInStore": true,
+          "__type": "ItemDataAvailability"
+        },
+        "mItemAttributes": [
+          1
+        ],
+        "mItemDataClient": {
+          "mTooltipData": {
+            "mObjectName": "3078",
+            "mFormat": "{32559c50}",
+            "mLocKeys": {
+              "keyName": "Item_3078_Name",
+              "keyBrief": "Item_3078_Brief",
+              "keyTooltip": "Item_3078_Tooltip",
+              "keyColloquialism": "Item_3078_Colloquialism",
+              "keySecondaryBrief": "Item_Unique_Spellblade",
+              "keyInventoryOnlyText": "Item_223078_InventoryOnlyText",
+              "keyTooltipExternal": "Item_3078_TooltipExternal"
+            },
+            "mLists": {
+              "Stats": {
+                "Elements": [
+                  {
+                    "type": "AttackDamage",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "AttackSpeed",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "Health",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "AbilityHaste",
+                    "__type": "TooltipInstanceListElement"
+                  }
+                ],
+                "__type": "TooltipInstanceList"
+              }
+            },
+            "__type": "TooltipInstanceItem"
+          },
+          "mDescription": "GeneratedTip_Item_3078_Description",
+          "mDynamicTooltip": "GeneratedTip_Item_3078_TooltipInventory",
+          "mShopTooltip": "GeneratedTip_Item_3078_TooltipShop",
+          "inventoryIcon": "assets/items/icons2d/3078_fighter_t4_trinityforce.dds",
+          "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/3078_Fighter_T4_TrinityForce.png",
+          "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/3078_Fighter_T4_TrinityForce.png",
+          "epicness": 6,
+          "__type": "ItemDataClient"
+        },
+        "mVFXResourceResolver": {
+          "resourceMap": {
+            "{6b4d055e}": "Items/3078/Particles/RampedFX",
+            "{44849641}": "Items/3078/Particles/Item_3078_TrinityForce_Hand_Glow",
+            "{21bc1ca2}": "Items/3078/Particles/Item_TrinityForce_3078_Haste"
+          },
+          "__type": "ResourceResolver"
+        },
+        "__type": "ItemData"
+      },
+      "bound": {
+        "keyName": {
+          "sourceKey": "Item_3078_Name",
+          "key": "item_3078_name",
+          "text": "三相之力"
+        },
+        "keyBrief": {
+          "sourceKey": "Item_3078_Brief",
+          "key": "item_3078_brief",
+          "text": "单挑能力"
+        },
+        "keyTooltip": {
+          "sourceKey": "Item_3078_Tooltip",
+          "key": "item_3078_tooltip",
+          "text": "<passive>咒刃</passive> {{ Item_Cooldown }}<br>施放技能后，你的下一次普通攻击会造成<physicalDamage>@SpellbladeDamage@额外物理伤害</physicalDamage>{{ Item_Keyword_OnHit }}。<br> <br><passive>加快</passive><br>攻击一个单位时会提供持续@MSDuration@秒的<speed>@MoveSpeedBonus@移动速度</speed>。"
+        },
+        "keyColloquialism": {
+          "sourceKey": "Item_3078_Colloquialism",
+          "key": "item_3078_colloquialism",
+          "text": ";triforce;tons of damage;33333;Spellblade;sanxiang;sxzl;咒刃;zhouren;Trinity Force"
+        },
+        "keySecondaryBrief": {
+          "sourceKey": "Item_Unique_Spellblade",
+          "key": "item_unique_spellblade",
+          "text": "唯一：咒刃"
+        },
+        "keyInventoryOnlyText": {
+          "sourceKey": "Item_223078_InventoryOnlyText",
+          "key": "item_223078_inventoryonlytext",
+          "text": "对英雄的伤害：<attention>@f4@</attention>"
+        },
+        "keyTooltipExternal": {
+          "sourceKey": "Item_3078_TooltipExternal",
+          "key": "item_3078_tooltipexternal",
+          "text": "<passive>咒刃</passive><br>施放技能后，你的下一次普通攻击会造成<physicalDamage>额外物理伤害</physicalDamage>{{ Item_Keyword_OnHit }}。<br> <br><passive>加快</passive><br>攻击一个单位时会提供持续@MSDuration@秒的<speed>@MoveSpeedBonus@移动速度</speed>。"
+        }
+      },
+      "official": {
+        "name": "三相之力",
+        "description": "<mainText><stats><attention>36</attention>攻击力<br><attention>30%</attention>攻击速度<br><attention>333</attention>生命值<br><attention>15</attention>技能急速</stats><br><br><passive>咒刃</passive><br>施放技能后，你的下一次普通攻击会造成<physicalDamage>额外物理伤害</physicalDamage><OnHit>攻击特效</OnHit>。<br> <br><passive>加快</passive><br>攻击一个单位时会提供持续2秒的<speed>20移动速度</speed>。</mainText>",
+        "colloq": ";sanxiangzhili;sxzl;成吨的伤害;chengdundeshanghai;cddsh;Trinity Force",
+        "plaintext": "成吨的伤害",
+        "from": [
+          "3057",
+          "3044",
+          "3051"
+        ],
+        "image": {
+          "full": "3078.png",
+          "sprite": "item3.png",
+          "group": "item",
+          "x": 432,
+          "y": 240,
+          "w": 48,
+          "h": 48
+        },
+        "gold": {
+          "base": 133,
+          "purchasable": true,
+          "total": 3333,
+          "sell": 2333
+        },
+        "tags": [
+          "Health",
+          "Damage",
+          "AttackSpeed",
+          "CooldownReduction",
+          "OnHit",
+          "NonbootsMovement",
+          "AbilityHaste"
+        ],
+        "maps": {
+          "11": true,
+          "12": true,
+          "22": false,
+          "30": false,
+          "453": true
+        },
+        "stats": {
+          "FlatHPPoolMod": 333,
+          "FlatPhysicalDamageMod": 36,
+          "PercentAttackSpeedMod": 0.3
+        },
+        "effect": {
+          "Effect1Amount": "25",
+          "Effect2Amount": "60",
+          "Effect3Amount": "2",
+          "Effect4Amount": "1.5",
+          "Effect5Amount": "1.5"
+        },
+        "depth": 3
+      }
+    }
+  ],
+  "boundDefinitions": {
+    "Item_KeywordDefinition_Wounds": {
+      "sourceKey": "Item_KeywordDefinition_Wounds",
+      "key": "item_keyworddefinition_wounds",
+      "text": "<keyword>重伤</keyword>：降低治疗效果和生命回复的效能。"
+    },
+    "Item_KeywordDefinition_Stasis": {
+      "sourceKey": "Item_KeywordDefinition_Stasis",
+      "key": "item_keyworddefinition_stasis",
+      "text": "<keyword>凝滞</keyword>：变得<keyword>免疫伤害</keyword>且<keyword>不可被选取</keyword>。在此期间无法移动。"
+    },
+    "Item_Cooldown": {
+      "sourceKey": "Item_Cooldown",
+      "key": "item_cooldown",
+      "text": "%i:cooldown% (@Cooldown@秒)"
+    },
+    "Item_KeywordDefinition_Airborne": {
+      "sourceKey": "Item_KeywordDefinition_Airborne",
+      "key": "item_keyworddefinition_airborne",
+      "text": "<keyword>浮空</keyword>：被击到空中。在此期间无法移动、攻击、施放技能或使用装备的主动效果。 "
+    },
+    "Item_OnActivation": {
+      "sourceKey": "Item_OnActivation",
+      "key": "item_onactivation",
+      "text": "<br><br>%i:activeEffect% <active>主动</active>"
+    },
+    "Item_Keyword_OnHit": {
+      "sourceKey": "Item_Keyword_OnHit",
+      "key": "item_keyword_onhit",
+      "text": "%i:OnHit%<OnHit>攻击特效</OnHit>"
+    }
+  }
+}

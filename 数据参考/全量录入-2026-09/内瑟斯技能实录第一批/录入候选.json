@@ -1,0 +1,1672 @@
+{
+  "generatedAt": "2026-09-07T17:06:33.141Z",
+  "source": {
+    "championId": "Nasus",
+    "chineseName": "沙漠死神",
+    "resourceType": "法力",
+    "client": {
+      "path": "客户端原文/Nasus.json.gz",
+      "sha256": "d9e3e055a3d3c5c76627badaa4f4bc57ec0bde0eb4eda1c2fad37e3c968dc5e7",
+      "compressedSha256": "dad0b2fe3a52800faceaf75b9e70cced0ba8128acb3384712cea739ab4386051",
+      "byteSize": 46849,
+      "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/nasus/nasus.bin.json",
+      "fetchedAt": "2026-09-06T14:26:29.749Z",
+      "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+    },
+    "official": {
+      "path": "../英雄/原始资料/zh_CN/champion/Nasus.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Nasus.json",
+      "fetchedAt": "2026-09-06T14:12:50.525Z",
+      "byteSize": 14861,
+      "sha256": "81dfb23296dc46f729f9d6d43609c2a8580b7fa27146c41e65d148f4e1101e2d"
+    },
+    "rootPath": "Characters/Nasus/CharacterRecords/Root",
+    "skills": [
+      {
+        "slot": "P",
+        "officialId": null,
+        "name": "吞噬灵魂",
+        "clientPath": "Characters/Nasus/Spells/NasusPassiveAbility/NasusPassive",
+        "bindingAvailable": true,
+        "officialMaxRank": 1,
+        "cooldown": null,
+        "cost": null,
+        "resource": null,
+        "clientCooldown": null,
+        "clientMana": null,
+        "clientCastTime": null,
+        "dataValueNames": [],
+        "calculationNames": [
+          "LifestealTooltip"
+        ],
+        "note": "被动只沿mCharacterPassiveSpell，不借用主动槽位。"
+      },
+      {
+        "slot": "Q",
+        "officialId": "NasusQ",
+        "name": "汲魂痛击",
+        "clientPath": "Characters/Nasus/Spells/NasusQAbility/NasusQ",
+        "bindingAvailable": true,
+        "officialMaxRank": 5,
+        "cooldown": [
+          7.5,
+          6.5,
+          5.5,
+          4.5,
+          3.5
+        ],
+        "cost": [
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "resource": "{{ cost }} {{ abilityresourcename }}",
+        "clientCooldown": [
+          8.5,
+          7.5,
+          6.5,
+          5.5,
+          4.5,
+          3.5,
+          2.5
+        ],
+        "clientMana": [
+          20,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "clientCastTime": 0.5217499732971191,
+        "dataValueNames": [
+          "BonusRange",
+          "BonusDamage",
+          "BasicStacks",
+          "BigStacks",
+          "BuffDuration"
+        ],
+        "calculationNames": [
+          "TotalDamage",
+          "CritDamage"
+        ],
+        "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+      },
+      {
+        "slot": "W",
+        "officialId": "NasusW",
+        "name": "枯萎",
+        "clientPath": "Characters/Nasus/Spells/NasusWAbility/NasusW",
+        "bindingAvailable": true,
+        "officialMaxRank": 5,
+        "cooldown": [
+          15,
+          14,
+          13,
+          12,
+          11
+        ],
+        "cost": [
+          80,
+          80,
+          80,
+          80,
+          80
+        ],
+        "resource": "{{ cost }} {{ abilityresourcename }}",
+        "clientCooldown": [
+          16,
+          15,
+          14,
+          13,
+          12,
+          11,
+          11
+        ],
+        "clientMana": [
+          80,
+          80,
+          80,
+          80,
+          80,
+          80
+        ],
+        "clientCastTime": 0.25,
+        "dataValueNames": [
+          "SlowBase",
+          "SlowPerTick",
+          "MaxSlowTooltipOnly",
+          "AttackSpeedSlowMult",
+          "Duration"
+        ],
+        "calculationNames": [],
+        "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+      },
+      {
+        "slot": "E",
+        "officialId": "NasusE",
+        "name": "灵魂烈焰",
+        "clientPath": "Characters/Nasus/Spells/NasusEAbility/NasusE",
+        "bindingAvailable": true,
+        "officialMaxRank": 5,
+        "cooldown": [
+          12,
+          12,
+          12,
+          12,
+          12
+        ],
+        "cost": [
+          60,
+          70,
+          80,
+          90,
+          100
+        ],
+        "resource": "{{ cost }} {{ abilityresourcename }}",
+        "clientCooldown": [
+          12,
+          12,
+          12,
+          12,
+          12,
+          12,
+          12
+        ],
+        "clientMana": [
+          60,
+          70,
+          80,
+          90,
+          100,
+          100
+        ],
+        "clientCastTime": 0.25,
+        "dataValueNames": [
+          "DamagePerTick",
+          "ArmorShredPercent",
+          "Duration",
+          "InitialHitDamage"
+        ],
+        "calculationNames": [
+          "TotalDotDamage",
+          "InitialDamage"
+        ],
+        "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+      },
+      {
+        "slot": "R",
+        "officialId": "NasusR",
+        "name": "死神降临",
+        "clientPath": "Characters/Nasus/Spells/NasusRAbility/NasusR",
+        "bindingAvailable": true,
+        "officialMaxRank": 3,
+        "cooldown": [
+          120,
+          100,
+          80
+        ],
+        "cost": [
+          100,
+          100,
+          100
+        ],
+        "resource": "{{ cost }} {{ abilityresourcename }}",
+        "clientCooldown": [
+          120,
+          120,
+          100,
+          80,
+          80,
+          80,
+          80
+        ],
+        "clientMana": [
+          100,
+          100,
+          100,
+          100,
+          100,
+          0
+        ],
+        "clientCastTime": 0.25,
+        "dataValueNames": [
+          "BonusHealth",
+          "AttackRangeIncrease",
+          "AOEDamagePercent",
+          "TickRate",
+          "InitialResistGain",
+          "MaxDamageCap",
+          "Duration",
+          "QCDR",
+          "SizeIncreasePercent",
+          "BaseAoERadius",
+          "MinAoERadius"
+        ],
+        "calculationNames": [
+          "DamageCalc"
+        ],
+        "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+      }
+    ]
+  },
+  "proof": [
+    {
+      "slot": "Q",
+      "path": "Characters/Nasus/Spells/NasusQAbility/NasusQ",
+      "pointer": "mSpell/DataValues/1/values",
+      "name": "BonusDamage",
+      "original": [
+        20,
+        40,
+        60,
+        80,
+        100,
+        120,
+        140
+      ],
+      "offset": 1,
+      "scale": 1,
+      "picked": [
+        40,
+        60,
+        80,
+        100,
+        120
+      ]
+    },
+    {
+      "slot": "Q",
+      "path": "Characters/Nasus/Spells/NasusQAbility/NasusQ",
+      "pointer": "mSpell/DataValues/4/values",
+      "name": "BuffDuration",
+      "original": [
+        10,
+        10,
+        10,
+        10,
+        10,
+        10,
+        10
+      ],
+      "offset": 1,
+      "scale": 1000,
+      "picked": [
+        10000,
+        10000,
+        10000,
+        10000,
+        10000
+      ]
+    },
+    {
+      "slot": "Q",
+      "path": "Characters/Nasus/Spells/NasusQAbility/NasusQ",
+      "pointer": "mSpell/DataValues/3/values",
+      "name": "BigStacks",
+      "original": [
+        10,
+        10,
+        10,
+        10,
+        10,
+        10,
+        10
+      ],
+      "offset": 1,
+      "scale": 1,
+      "picked": [
+        10,
+        10,
+        10,
+        10,
+        10
+      ]
+    },
+    {
+      "slot": "W",
+      "path": "Characters/Nasus/Spells/NasusWAbility/NasusW",
+      "pointer": "mSpell/DataValues/0/values",
+      "name": "SlowBase",
+      "original": [
+        35,
+        35,
+        35,
+        35,
+        35,
+        35,
+        35
+      ],
+      "offset": 1,
+      "scale": 0.01,
+      "picked": [
+        0.35,
+        0.35,
+        0.35,
+        0.35,
+        0.35
+      ]
+    },
+    {
+      "slot": "W",
+      "path": "Characters/Nasus/Spells/NasusWAbility/NasusW",
+      "pointer": "mSpell/DataValues/2/values",
+      "name": "MaxSlowTooltipOnly",
+      "original": [
+        35,
+        47,
+        59,
+        71,
+        83,
+        95,
+        107
+      ],
+      "offset": 1,
+      "scale": 0.01,
+      "picked": [
+        0.47,
+        0.59,
+        0.71,
+        0.83,
+        0.95
+      ]
+    },
+    {
+      "slot": "W",
+      "path": "Characters/Nasus/Spells/NasusWAbility/NasusW",
+      "pointer": "mSpell/DataValues/3/values",
+      "name": "AttackSpeedSlowMult",
+      "original": [
+        0.75,
+        0.75,
+        0.75,
+        0.75,
+        0.75,
+        0.75,
+        0.75
+      ],
+      "offset": 1,
+      "scale": 1,
+      "picked": [
+        0.75,
+        0.75,
+        0.75,
+        0.75,
+        0.75
+      ]
+    },
+    {
+      "slot": "W",
+      "path": "Characters/Nasus/Spells/NasusWAbility/NasusW",
+      "pointer": "mSpell/DataValues/4/values",
+      "name": "Duration",
+      "original": [
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "offset": 1,
+      "scale": 1000,
+      "picked": [
+        5000,
+        5000,
+        5000,
+        5000,
+        5000
+      ]
+    },
+    {
+      "slot": "E",
+      "path": "Characters/Nasus/Spells/NasusEAbility/NasusE",
+      "pointer": "mSpell/DataValues/3/values",
+      "name": "InitialHitDamage",
+      "original": [
+        50,
+        50,
+        80,
+        110,
+        140,
+        170,
+        170
+      ],
+      "offset": 1,
+      "scale": 1,
+      "picked": [
+        50,
+        80,
+        110,
+        140,
+        170
+      ]
+    },
+    {
+      "slot": "E",
+      "path": "Characters/Nasus/Spells/NasusEAbility/NasusE",
+      "pointer": "mSpell/DataValues/0/values",
+      "name": "DamagePerTick",
+      "original": [
+        10,
+        10,
+        16,
+        22,
+        28,
+        34,
+        34
+      ],
+      "offset": 1,
+      "scale": 1,
+      "picked": [
+        10,
+        16,
+        22,
+        28,
+        34
+      ]
+    },
+    {
+      "slot": "E",
+      "path": "Characters/Nasus/Spells/NasusEAbility/NasusE",
+      "pointer": "mSpell/DataValues/2/values",
+      "name": "Duration",
+      "original": [
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "offset": 1,
+      "scale": 1000,
+      "picked": [
+        5000,
+        5000,
+        5000,
+        5000,
+        5000
+      ]
+    },
+    {
+      "slot": "E",
+      "path": "Characters/Nasus/Spells/NasusEAbility/NasusE",
+      "pointer": "mSpell/DataValues/1/values",
+      "name": "ArmorShredPercent",
+      "original": [
+        -0.30000001192092896,
+        -0.30000001192092896,
+        -0.3499999940395355,
+        -0.4000000059604645,
+        -0.44999998807907104,
+        -0.5,
+        -0.5
+      ],
+      "offset": 1,
+      "scale": -1,
+      "picked": [
+        0.3,
+        0.35,
+        0.4,
+        0.45,
+        0.5
+      ]
+    },
+    {
+      "slot": "R",
+      "path": "Characters/Nasus/Spells/NasusRAbility/NasusR",
+      "pointer": "mSpell/DataValues/0/values",
+      "name": "BonusHealth",
+      "original": [
+        150,
+        300,
+        450,
+        600,
+        750,
+        900,
+        1050
+      ],
+      "offset": 1,
+      "scale": 1,
+      "picked": [
+        300,
+        450,
+        600
+      ]
+    },
+    {
+      "slot": "R",
+      "path": "Characters/Nasus/Spells/NasusRAbility/NasusR",
+      "pointer": "mSpell/DataValues/4/values",
+      "name": "InitialResistGain",
+      "original": [
+        25,
+        40,
+        55,
+        70,
+        85,
+        100,
+        115
+      ],
+      "offset": 1,
+      "scale": 1,
+      "picked": [
+        40,
+        55,
+        70
+      ]
+    },
+    {
+      "slot": "R",
+      "path": "Characters/Nasus/Spells/NasusRAbility/NasusR",
+      "pointer": "mSpell/DataValues/2/values",
+      "name": "AOEDamagePercent",
+      "original": [
+        0.019999999552965164,
+        0.029999999329447746,
+        0.03999999910593033,
+        0.05000000074505806,
+        0.05999999865889549,
+        0.07000000029802322,
+        0.07999999821186066
+      ],
+      "offset": 1,
+      "scale": 1,
+      "picked": [
+        0.03,
+        0.04,
+        0.05
+      ]
+    },
+    {
+      "slot": "R",
+      "path": "Characters/Nasus/Spells/NasusRAbility/NasusR",
+      "pointer": "mSpell/DataValues/6/values",
+      "name": "Duration",
+      "original": [
+        15,
+        15,
+        15,
+        15,
+        15,
+        15,
+        15
+      ],
+      "offset": 1,
+      "scale": 1000,
+      "picked": [
+        15000,
+        15000,
+        15000
+      ]
+    },
+    {
+      "slot": "R",
+      "path": "Characters/Nasus/Spells/NasusRAbility/NasusR",
+      "pointer": "mSpell/DataValues/7/values",
+      "name": "QCDR",
+      "original": [
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5
+      ],
+      "offset": 1,
+      "scale": 1,
+      "picked": [
+        0.5,
+        0.5,
+        0.5
+      ]
+    }
+  ],
+  "passiveCurve": {
+    "mLevel1Value": 10,
+    "mBreakpoints": [
+      {
+        "mLevel": 7,
+        "mAdditionalBonusAtThisLevel": 5,
+        "__type": "Breakpoint"
+      },
+      {
+        "mLevel": 13,
+        "mAdditionalBonusAtThisLevel": 5,
+        "__type": "Breakpoint"
+      }
+    ],
+    "__type": "ByCharLevelBreakpointsCalculationPart"
+  },
+  "skills": [
+    {
+      "slot": "P",
+      "skillKey": "nasus_p",
+      "maxLevel": 1,
+      "parameters": [
+        {
+          "parameterKey": "life_steal_ratio",
+          "name": "生命偷取增加比例",
+          "valueType": "DECIMAL",
+          "valueMode": "CHARACTER_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 0.1,
+            "2": 0.1,
+            "3": 0.1,
+            "4": 0.1,
+            "5": 0.1,
+            "6": 0.1,
+            "7": 0.15,
+            "8": 0.15,
+            "9": 0.15,
+            "10": 0.15,
+            "11": 0.15,
+            "12": 0.15,
+            "13": 0.2,
+            "14": 0.2,
+            "15": 0.2,
+            "16": 0.2,
+            "17": 0.2,
+            "18": 0.2
+          },
+          "description": "客户端 LifestealTooltip：1～6级10%，7～12级15%，13～18级20%；增加百分点。",
+          "sortOrder": 10
+        }
+      ],
+      "formulas": [],
+      "effects": [
+        {
+          "effectKey": "soul_eater_lifesteal",
+          "name": "吞噬灵魂生命偷取",
+          "lifecycle": {
+            "durationValue": null,
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "instanceScope": "SOURCE",
+            "reapplicationStackMode": "KEEP",
+            "reapplicationDurationMode": null,
+            "expiryMode": "EXPLICIT_ONLY",
+            "periodicIntervalValue": null,
+            "firstPeriodicExecution": null
+          },
+          "results": [
+            {
+              "resultKey": "lifesteal",
+              "name": "增加生命偷取百分点",
+              "resultType": "ATTRIBUTE_CHANGE",
+              "target": "SOURCE",
+              "description": null,
+              "sortOrder": 10,
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "valueReadMode": "MOMENT_EVALUATION",
+                "stackValueMode": "SHARED",
+                "reapplicationValueMode": null,
+                "periodicExecutionMode": null
+              },
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "life_steal_ratio"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": null,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "attributeKey": "life_steal_percent",
+                "operation": "INCREASE",
+                "modifierZoneKey": "attribute_flat_add"
+              }
+            }
+          ],
+          "description": "无限期自身属性效果，按当前角色等级读取；initialize_lifesteal 初始化规则施加到自身。不是直接治疗，未执行战斗验证。",
+          "sortOrder": 10
+        }
+      ],
+      "processes": [],
+      "gaps": []
+    },
+    {
+      "slot": "Q",
+      "skillKey": "nasus_q",
+      "maxLevel": 5,
+      "parameters": [
+        {
+          "parameterKey": "base_bonus_damage",
+          "name": "Q 基础额外伤害",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 40,
+            "2": 60,
+            "3": 80,
+            "4": 100,
+            "5": 120
+          },
+          "description": "角色根引用 NasusQ，不采用残留 SiphoningStrike 对象。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "buff_duration_ms",
+          "name": "强化攻击窗口（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 10000,
+          "levelValues": null,
+          "description": "BuffDuration 秒转毫秒。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "champion_kill_stack_gain",
+          "name": "Q 击杀英雄增加的伤害点数",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 10,
+          "levelValues": null,
+          "description": "累计的是伤害点数，不是击杀次数；仅保留一对一相关来源。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "q_stack_damage",
+          "name": "累计汲魂额外伤害点数",
+          "valueType": "INTEGER",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "原计算 NasusQStacks 计数；由录入或计算输入提供，永久增长与击杀归属尚未接线。",
+          "sortOrder": 10
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "bonus_damage",
+          "name": "Q 普通命中额外伤害",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_bonus_damage"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "q_stack_damage"
+              }
+            ]
+          },
+          "description": "只计算普通命中的额外部分，不重复叠加基础普攻攻击力。原完整树另含总攻击力；暴击分支只放大攻击力与基础额外伤害，累计伤害不一起放大。",
+          "sortOrder": 10
+        }
+      ],
+      "effects": [
+        {
+          "effectKey": "mana_cost",
+          "name": "施放法力消耗",
+          "lifecycle": null,
+          "results": [
+            {
+              "resultKey": "consume_mana",
+              "name": "消耗法力",
+              "resultType": "RESOURCE_CHANGE",
+              "target": "SOURCE",
+              "description": null,
+              "sortOrder": 10,
+              "lifecycleBehavior": null,
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "mana_cost"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": null,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "attributeKey": "mana",
+                "operation": "CONSUME"
+              }
+            }
+          ],
+          "description": "复用公共参数批次已保存的 mana_cost，实际扣除时点由过程绑定决定。",
+          "sortOrder": 10
+        }
+      ],
+      "processes": [],
+      "gaps": [
+        "强化一次普攻的步骤已有结构；需要确认消费时点。",
+        "基础额外伤害沿用同次普攻暴击判定的关系当前缺失；累计伤害不暴击。未将整个额外部分统一标为可暴击或不可暴击。",
+        "永久计数和击杀归属待接线；小兵、野怪计数增长分支按本轮范围跳过。"
+      ]
+    },
+    {
+      "slot": "W",
+      "skillKey": "nasus_w",
+      "maxLevel": 5,
+      "parameters": [
+        {
+          "parameterKey": "slow_start_ratio",
+          "name": "初始减速比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.35,
+          "levelValues": null,
+          "description": "起始减速35%，不是移速减少0.35点。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "slow_max_ratio",
+          "name": "结束前最大减速比例",
+          "valueType": "DECIMAL",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 0.47,
+            "2": 0.59,
+            "3": 0.71,
+            "4": 0.83,
+            "5": 0.95
+          },
+          "description": "渐进减速终点；更新时间未补证。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "attack_speed_slow_multiplier",
+          "name": "攻速降低与减速的比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.75,
+          "levelValues": null,
+          "description": "官方说明：降低攻击速度的比例为当前减速比例的75%。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "duration_ms",
+          "name": "枯萎持续时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 5000,
+          "levelValues": null,
+          "description": "持续5秒，不能据此推断每次更新时间。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "cast_time_ms",
+          "name": "施法时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 250,
+          "levelValues": null,
+          "description": "当前主技能 spellCastTime=0.25秒；Q 的攻击施法字段不套用普通施法时长。",
+          "sortOrder": 10
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "initial_attack_speed_slow_ratio",
+          "name": "初始攻击速度降低比例",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "slow_start_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "attack_speed_slow_multiplier"
+              }
+            ]
+          },
+          "description": "初始26.25%；仅端点数值，未建立完整减速控制。",
+          "sortOrder": 10
+        },
+        {
+          "formulaKey": "max_attack_speed_slow_ratio",
+          "name": "结束前攻击速度降低比例",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "slow_max_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "attack_speed_slow_multiplier"
+              }
+            ]
+          },
+          "description": "结束前35.25/44.25/53.25/62.25/71.25%；未将端点当全程值。",
+          "sortOrder": 10
+        }
+      ],
+      "effects": [
+        {
+          "effectKey": "mana_cost",
+          "name": "施放法力消耗",
+          "lifecycle": null,
+          "results": [
+            {
+              "resultKey": "consume_mana",
+              "name": "消耗法力",
+              "resultType": "RESOURCE_CHANGE",
+              "target": "SOURCE",
+              "description": null,
+              "sortOrder": 10,
+              "lifecycleBehavior": null,
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "mana_cost"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": null,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "attributeKey": "mana",
+                "operation": "CONSUME"
+              }
+            }
+          ],
+          "description": "复用公共参数批次已保存的 mana_cost，实际扣除时点由过程绑定决定。",
+          "sortOrder": 10
+        }
+      ],
+      "processes": [
+        {
+          "processKey": "cast",
+          "name": "施法与法力消耗",
+          "activationType": "ACTIVE",
+          "sortOrder": 10,
+          "description": "仅普通施法延迟、开始冷却与法力消耗，不用施法结束替代实际命中。伤害或持续属性效果独立保留。",
+          "cooldown": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cooldown_ms"
+            },
+            "startMoment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            }
+          },
+          "steps": [
+            {
+              "stepKey": "cast_time",
+              "name": "施法时间",
+              "description": null,
+              "sortOrder": 10,
+              "stepType": "DELAY",
+              "detail": {
+                "delayValue": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "cast_time_ms"
+                }
+              }
+            }
+          ],
+          "effectBindings": [
+            {
+              "bindingKey": "mana_cost",
+              "effectKey": "mana_cost",
+              "sortOrder": 10,
+              "moment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              }
+            }
+          ],
+          "stateOperations": []
+        }
+      ],
+      "gaps": [
+        "SlowPerTick 本地缺少执行间隔和首次更新时间；不推成连续线性或每秒刷新。",
+        "控制类别、强度与生命周期的结构化绑定缺口另统一修正，不代用眩晕或普通负移速。"
+      ]
+    },
+    {
+      "slot": "E",
+      "skillKey": "nasus_e",
+      "maxLevel": 5,
+      "parameters": [
+        {
+          "parameterKey": "initial_base_damage",
+          "name": "初始魔法伤害基础值",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 50,
+            "2": 80,
+            "3": 110,
+            "4": 140,
+            "5": 170
+          },
+          "description": "InitialHitDamage 当前主对象。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "initial_ap_ratio",
+          "name": "初始伤害法强比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.6,
+          "levelValues": null,
+          "description": "InitialDamage 计算式 Stat 法术强度系数。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "damage_per_second_base",
+          "name": "每秒魔法伤害基础值",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 10,
+            "2": 16,
+            "3": 22,
+            "4": 28,
+            "5": 34
+          },
+          "description": "官方升级提示明确为每秒伤害；名称含Tick不证明周期频率。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "damage_per_second_ap_ratio",
+          "name": "每秒伤害法强比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.12,
+          "levelValues": null,
+          "description": "TotalDotDamage 计算式对应每秒部分系数；全程总量还需乘5。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "duration_ms",
+          "name": "灵魂烈焰持续时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 5000,
+          "levelValues": null,
+          "description": "场地持续5秒，停留不足不能结算完整5秒。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "armor_reduction_ratio",
+          "name": "目标护甲降低比例",
+          "valueType": "DECIMAL",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 0.3,
+            "2": 0.35,
+            "3": 0.4,
+            "4": 0.45,
+            "5": 0.5
+          },
+          "description": "原值为负；这里保存降低比例的正数，目标护甲削减，不是来源穿透。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "cast_time_ms",
+          "name": "施法时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 250,
+          "levelValues": null,
+          "description": "当前主技能 spellCastTime=0.25秒；Q 的攻击施法字段不套用普通施法时长。",
+          "sortOrder": 10
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "initial_damage",
+          "name": "灵魂烈焰初始魔法伤害",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "initial_base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "initial_ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          "description": "一次实际初始命中50/80/110/140/170加60%法强。",
+          "sortOrder": 10
+        },
+        {
+          "formulaKey": "damage_per_second",
+          "name": "灵魂烈焰每秒魔法伤害",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "damage_per_second_base"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "damage_per_second_ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          "description": "每秒量，不作为每次Tick或一次立即伤害直接执行。",
+          "sortOrder": 10
+        }
+      ],
+      "effects": [
+        {
+          "effectKey": "initial_damage",
+          "name": "灵魂烈焰初始伤害",
+          "lifecycle": null,
+          "results": [
+            {
+              "resultKey": "damage",
+              "name": "初始魔法伤害",
+              "resultType": "DAMAGE",
+              "target": "TARGET",
+              "description": null,
+              "sortOrder": 10,
+              "lifecycleBehavior": null,
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "FORMULA",
+                  "formulaKey": "initial_damage"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": null,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "damageTypeKey": "magic",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "vampRules": []
+              }
+            }
+          ],
+          "description": "只保存独立伤害组成，未挂接必定命中；法术护盾与吸血交互待补，空项不是不受影响的证据。",
+          "sortOrder": 10
+        },
+        {
+          "effectKey": "mana_cost",
+          "name": "施放法力消耗",
+          "lifecycle": null,
+          "results": [
+            {
+              "resultKey": "consume_mana",
+              "name": "消耗法力",
+              "resultType": "RESOURCE_CHANGE",
+              "target": "SOURCE",
+              "description": null,
+              "sortOrder": 10,
+              "lifecycleBehavior": null,
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "mana_cost"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": null,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "attributeKey": "mana",
+                "operation": "CONSUME"
+              }
+            }
+          ],
+          "description": "复用公共参数批次已保存的 mana_cost，实际扣除时点由过程绑定决定。",
+          "sortOrder": 10
+        }
+      ],
+      "processes": [
+        {
+          "processKey": "cast",
+          "name": "施法与法力消耗",
+          "activationType": "ACTIVE",
+          "sortOrder": 10,
+          "description": "仅普通施法延迟、开始冷却与法力消耗，不用施法结束替代实际命中。伤害或持续属性效果独立保留。",
+          "cooldown": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cooldown_ms"
+            },
+            "startMoment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            }
+          },
+          "steps": [
+            {
+              "stepKey": "cast_time",
+              "name": "施法时间",
+              "description": null,
+              "sortOrder": 10,
+              "stepType": "DELAY",
+              "detail": {
+                "delayValue": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "cast_time_ms"
+                }
+              }
+            }
+          ],
+          "effectBindings": [
+            {
+              "bindingKey": "mana_cost",
+              "effectKey": "mana_cost",
+              "sortOrder": 10,
+              "moment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              }
+            }
+          ],
+          "stateOperations": []
+        }
+      ],
+      "gaps": [
+        "周期频率、第一次结算时间、离开后的伤害/削甲解除时间待补证。",
+        "初始命中和持续削甲的护盾交互另补，尚未挂接命中规则。"
+      ]
+    },
+    {
+      "slot": "R",
+      "skillKey": "nasus_r",
+      "maxLevel": 3,
+      "parameters": [
+        {
+          "parameterKey": "bonus_health",
+          "name": "沙漠死神增加最大生命值",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 300,
+            "2": 450,
+            "3": 600
+          },
+          "description": "最大生命值属性加成，不额外推定立即治疗。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "bonus_resistance",
+          "name": "沙漠死神增加双抗",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 40,
+            "2": 55,
+            "3": 70
+          },
+          "description": "护甲和魔法抗性分别固定加算。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "max_health_damage_ratio_per_second",
+          "name": "每秒目标最大生命伤害比例",
+          "valueType": "DECIMAL",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 0.03,
+            "2": 0.04,
+            "3": 0.05
+          },
+          "description": "官方英文明确目标最大生命值口径。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "ap_ratio_per_second",
+          "name": "每秒最大生命伤害法强系数",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.0001,
+          "levelValues": null,
+          "description": "每100法强增加1个百分点最大生命伤害；系数本身为0.0001。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "duration_ms",
+          "name": "沙漠死神持续时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 15000,
+          "levelValues": null,
+          "description": "持续15秒。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "q_cooldown_reduction_ratio",
+          "name": "期间 Q 基础冷却缩短比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.5,
+          "levelValues": null,
+          "description": "基础冷却减半，不是50点技能急速或剩余冷却减固定毫秒。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "cast_time_ms",
+          "name": "施法时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 250,
+          "levelValues": null,
+          "description": "当前主技能 spellCastTime=0.25秒；Q 的攻击施法字段不套用普通施法时长。",
+          "sortOrder": 10
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "damage_per_second",
+          "name": "沙漠死神每秒魔法伤害",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "max_health_damage_ratio_per_second"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "ap_ratio_per_second"
+                      },
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "ability_power",
+                        "attributeValueKind": "TOTAL"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "TARGET",
+                "attributeKey": "hp",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          },
+          "description": "每秒量乘目标最大生命值；不将每秒量直接用于0.5秒一次的结算。客户端240上限适用目标不明，不给英雄伤害加该上限。",
+          "sortOrder": 10
+        }
+      ],
+      "effects": [
+        {
+          "effectKey": "fury_attributes",
+          "name": "沙漠死神自身属性",
+          "lifecycle": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "duration_ms"
+            },
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "instanceScope": "SOURCE",
+            "reapplicationStackMode": "KEEP",
+            "reapplicationDurationMode": "REFRESH_ALL",
+            "expiryMode": "ALL_AT_ONCE",
+            "periodicIntervalValue": null,
+            "firstPeriodicExecution": null
+          },
+          "results": [
+            {
+              "resultKey": "armor",
+              "name": "增加护甲",
+              "resultType": "ATTRIBUTE_CHANGE",
+              "target": "SOURCE",
+              "description": null,
+              "sortOrder": 10,
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "valueReadMode": "APPLICATION_SNAPSHOT",
+                "stackValueMode": "SHARED",
+                "reapplicationValueMode": "REPLACE",
+                "periodicExecutionMode": null
+              },
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "bonus_resistance"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": null,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "attributeKey": "armor",
+                "operation": "INCREASE",
+                "modifierZoneKey": "attribute_flat_add"
+              }
+            },
+            {
+              "resultKey": "health",
+              "name": "增加最大生命值",
+              "resultType": "ATTRIBUTE_CHANGE",
+              "target": "SOURCE",
+              "description": null,
+              "sortOrder": 10,
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "valueReadMode": "APPLICATION_SNAPSHOT",
+                "stackValueMode": "SHARED",
+                "reapplicationValueMode": "REPLACE",
+                "periodicExecutionMode": null
+              },
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "bonus_health"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": null,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "attributeKey": "hp",
+                "operation": "INCREASE",
+                "modifierZoneKey": "attribute_flat_add"
+              }
+            },
+            {
+              "resultKey": "magic_resistance",
+              "name": "增加魔法抗性",
+              "resultType": "ATTRIBUTE_CHANGE",
+              "target": "SOURCE",
+              "description": null,
+              "sortOrder": 10,
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "valueReadMode": "APPLICATION_SNAPSHOT",
+                "stackValueMode": "SHARED",
+                "reapplicationValueMode": "REPLACE",
+                "periodicExecutionMode": null
+              },
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "bonus_resistance"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": null,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "attributeKey": "magic_resistance",
+                "operation": "INCREASE",
+                "modifierZoneKey": "attribute_flat_add"
+              }
+            }
+          ],
+          "description": "自身持续15秒的三项属性加成；未把增加最大生命视作额外治疗，施加时点与 Q 冷却修正另接。",
+          "sortOrder": 10
+        },
+        {
+          "effectKey": "mana_cost",
+          "name": "施放法力消耗",
+          "lifecycle": null,
+          "results": [
+            {
+              "resultKey": "consume_mana",
+              "name": "消耗法力",
+              "resultType": "RESOURCE_CHANGE",
+              "target": "SOURCE",
+              "description": null,
+              "sortOrder": 10,
+              "lifecycleBehavior": null,
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "mana_cost"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": null,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "attributeKey": "mana",
+                "operation": "CONSUME"
+              }
+            }
+          ],
+          "description": "复用公共参数批次已保存的 mana_cost，实际扣除时点由过程绑定决定。",
+          "sortOrder": 10
+        }
+      ],
+      "processes": [
+        {
+          "processKey": "cast",
+          "name": "施法与法力消耗",
+          "activationType": "ACTIVE",
+          "sortOrder": 10,
+          "description": "仅普通施法延迟、开始冷却与法力消耗，不用施法结束替代实际命中。伤害或持续属性效果独立保留。",
+          "cooldown": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cooldown_ms"
+            },
+            "startMoment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            }
+          },
+          "steps": [
+            {
+              "stepKey": "cast_time",
+              "name": "施法时间",
+              "description": null,
+              "sortOrder": 10,
+              "stepType": "DELAY",
+              "detail": {
+                "delayValue": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "cast_time_ms"
+                }
+              }
+            }
+          ],
+          "effectBindings": [
+            {
+              "bindingKey": "mana_cost",
+              "effectKey": "mana_cost",
+              "sortOrder": 10,
+              "moment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              }
+            }
+          ],
+          "stateOperations": []
+        }
+      ],
+      "gaps": [
+        "TickRate=0.5 已有来源，首次结算时点和完整次数尚需补证。",
+        "Q 临时冷却可用已有标记、窗口与条件过程组合，不记为结构完全无法表达；在 Q 强化过程补齐后接线。",
+        "体型、范围等空间支路按既定范围跳过。"
+      ]
+    }
+  ],
+  "status": "部分录入；可证明组成，不等于完整机制",
+  "runtimeValidation": "未执行"
+}

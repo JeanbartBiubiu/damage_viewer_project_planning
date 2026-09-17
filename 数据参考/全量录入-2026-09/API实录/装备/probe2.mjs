@@ -1,0 +1,1 @@
+import fs from 'node:fs';const p='C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备效果候选/装备效果候选.json';const j=JSON.parse(fs.readFileSync(p,'utf8')); console.log(JSON.stringify({count:j.items.length,keys:j.items.slice(0,5).map(x=>x.equipmentKey),has3107:j.items.find(x=>x.equipmentKey==='item_3107')},null,2));

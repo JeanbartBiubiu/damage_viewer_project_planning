@@ -1,0 +1,296 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Zed",
+  "sourceNumericId": "238",
+  "name": "劫",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 654,
+      "growth": 99,
+      "sources": [
+        "原始资料/zh_CN/champion/Zed.json:stats.hp/hpperlevel",
+        "角色根记录/Zed.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 654,
+        "2": 725.28,
+        "3": 800.025,
+        "4": 878.235,
+        "5": 959.91,
+        "6": 1045.05,
+        "7": 1133.655,
+        "8": 1225.725,
+        "9": 1321.26,
+        "10": 1420.26,
+        "11": 1522.725,
+        "12": 1628.655,
+        "13": 1738.05,
+        "14": 1850.91,
+        "15": 1967.235,
+        "16": 2087.025,
+        "17": 2210.28,
+        "18": 2337
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 7,
+      "growth": 0.65,
+      "sources": [
+        "原始资料/zh_CN/champion/Zed.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Zed.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 7,
+        "2": 7.468,
+        "3": 7.95875,
+        "4": 8.47225,
+        "5": 9.0085,
+        "6": 9.5675,
+        "7": 10.14925,
+        "8": 10.75375,
+        "9": 11.381,
+        "10": 12.031,
+        "11": 12.70375,
+        "12": 13.39925,
+        "13": 14.1175,
+        "14": 14.8585,
+        "15": 15.62225,
+        "16": 16.40875,
+        "17": 17.218,
+        "18": 18.05
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 32,
+      "growth": 4.7,
+      "sources": [
+        "原始资料/zh_CN/champion/Zed.json:stats.armor/armorperlevel",
+        "角色根记录/Zed.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 32,
+        "2": 35.384,
+        "3": 38.9325,
+        "4": 42.6455,
+        "5": 46.523,
+        "6": 50.565,
+        "7": 54.7715,
+        "8": 59.1425,
+        "9": 63.678,
+        "10": 68.378,
+        "11": 73.2425,
+        "12": 78.2715,
+        "13": 83.465,
+        "14": 88.823,
+        "15": 94.3455,
+        "16": 100.0325,
+        "17": 105.884,
+        "18": 111.9
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 29,
+      "growth": 2.05,
+      "sources": [
+        "原始资料/zh_CN/champion/Zed.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Zed.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 29,
+        "2": 30.476,
+        "3": 32.02375,
+        "4": 33.64325,
+        "5": 35.3345,
+        "6": 37.0975,
+        "7": 38.93225,
+        "8": 40.83875,
+        "9": 42.817,
+        "10": 44.867,
+        "11": 46.98875,
+        "12": 49.18225,
+        "13": 51.4475,
+        "14": 53.7845,
+        "15": 56.19325,
+        "16": 58.67375,
+        "17": 61.226,
+        "18": 63.85
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 63,
+      "growth": 3.4,
+      "sources": [
+        "角色根记录/Zed.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 63,
+        "2": 65.448,
+        "3": 68.015,
+        "4": 70.701,
+        "5": 73.506,
+        "6": 76.43,
+        "7": 79.473,
+        "8": 82.635,
+        "9": 85.916,
+        "10": 89.316,
+        "11": 92.835,
+        "12": 96.473,
+        "13": 100.23,
+        "14": 104.106,
+        "15": 108.101,
+        "16": 112.215,
+        "17": 116.448,
+        "18": 120.8
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 345,
+      "growth": null,
+      "sources": [
+        "角色根记录/Zed.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 345,
+        "2": 345,
+        "3": 345,
+        "4": 345,
+        "5": 345,
+        "6": 345,
+        "7": 345,
+        "8": 345,
+        "9": 345,
+        "10": 345,
+        "11": 345,
+        "12": 345,
+        "13": 345,
+        "14": 345,
+        "15": 345,
+        "16": 345,
+        "17": 345,
+        "18": 345
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 125,
+      "growth": null,
+      "sources": [
+        "角色根记录/Zed.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 125,
+        "2": 125,
+        "3": 125,
+        "4": 125,
+        "5": 125,
+        "6": 125,
+        "7": 125,
+        "8": 125,
+        "9": 125,
+        "10": 125,
+        "11": 125,
+        "12": 125,
+        "13": 125,
+        "14": 125,
+        "15": 125,
+        "16": 125,
+        "17": 125,
+        "18": 125
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.651,
+      "attackSpeedRatio": 0.651,
+      "growthPercent": 3.3,
+      "sources": [
+        "角色根记录/Zed.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.651,
+        "2": 0.666468,
+        "3": 0.682687,
+        "4": 0.699659,
+        "5": 0.717382,
+        "6": 0.735858,
+        "7": 0.755085,
+        "8": 0.775064,
+        "9": 0.795795,
+        "10": 0.817278,
+        "11": 0.839513,
+        "12": 0.8625,
+        "13": 0.886239,
+        "14": 0.910729,
+        "15": 0.935972,
+        "16": 0.961966,
+        "17": 0.988713,
+        "18": 1.016211
+      }
+    }
+  ],
+  "missing": [
+    {
+      "attribute": "resource",
+      "label": "资源",
+      "resourceType": "能量",
+      "reason": "特殊或未明确资源不按法力统一生成；保留原始资源说明及根字段，待机制核对"
+    }
+  ],
+  "attackSpeedInputs": {
+    "base": 0.651,
+    "ratio": 0.651,
+    "growthPercent": 3.3,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

@@ -1,0 +1,915 @@
+{
+  "startedAt": "2026-09-07T17:33:04.283Z",
+  "mode": "显式有界纠错",
+  "originalCandidateSha256": "c0a1da399647a72468fbd167c6a6ae6b0399a527d5cdc1b6e1c732a70ef83a61",
+  "preflight": [
+    {
+      "route": "/skills/item_3072_passive",
+      "state": "original",
+      "actual": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T17:15:50.558743Z",
+          "description": "保存16.17客户端确证的生命偷取溢出治疗转护盾组成：角色等级1至8为165，9级起每级增加15，持续25秒。装备已有80攻击力和15%生命偷取，不在技能中重复施加；溢出治疗来源与触发接线待补。",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "饮血剑·灵液护盾",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "item_3072_passive",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-07T17:15:50.558743Z"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_3072_passive/parameters/overshield_by_character_level",
+      "state": "original",
+      "actual": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T17:15:51.011974Z",
+          "description": "客户端ByCharLevelBreakpointsCalculationPart展开值，单位：护盾点；1至8级165，9级及以后每级增加15。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 165,
+            "2": 165,
+            "3": 165,
+            "4": 165,
+            "5": 165,
+            "6": 165,
+            "7": 165,
+            "8": 165,
+            "9": 180,
+            "10": 195,
+            "11": 210,
+            "12": 225,
+            "13": 240,
+            "14": 255,
+            "15": 270,
+            "16": 285,
+            "17": 300,
+            "18": 315
+          },
+          "name": "灵液护盾等级值",
+          "parameterKey": "overshield_by_character_level",
+          "skillKey": "item_3072_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T17:15:51.011974Z",
+          "valueMode": "CHARACTER_LEVEL",
+          "valueType": "INTEGER"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_3072_passive/parameters/overshield_duration_ms",
+      "state": "original",
+      "actual": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T17:15:51.491187Z",
+          "description": "客户端DecayTime=25秒，单位：毫秒。",
+          "fixedValue": 25000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "灵液护盾持续时间",
+          "parameterKey": "overshield_duration_ms",
+          "skillKey": "item_3072_passive",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-07T17:15:51.491187Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_3072_passive/effects/lifesteal_overshield",
+      "state": "original",
+      "actual": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T17:15:51.911877Z",
+          "description": "保存生命偷取溢出治疗转为护盾的独立结果；护盾等级值和25秒生命周期已配置，溢出治疗金额、触发事件与重新应用规则待接线。",
+          "effectKey": "lifesteal_overshield",
+          "gameId": "lol",
+          "lifecycle": {
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "overshield_duration_ms"
+            },
+            "expiryMode": "ALL_AT_ONCE",
+            "firstPeriodicExecution": null,
+            "instanceScope": "SOURCE",
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "periodicIntervalValue": null,
+            "reapplicationDurationMode": "REFRESH_ALL",
+            "reapplicationStackMode": "KEEP"
+          },
+          "name": "生命偷取溢出护盾",
+          "results": [
+            {
+              "description": "以角色等级对应的165至315为护盾上限组成，吸收全部伤害类型。",
+              "detail": {
+                "absorbedDamageTypeKey": null,
+                "decayMode": "NONE"
+              },
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "periodicExecutionMode": null,
+                "reapplicationValueMode": "REPLACE",
+                "stackValueMode": "SHARED",
+                "valueReadMode": "APPLICATION_SNAPSHOT"
+              },
+              "name": "灵液护盾",
+              "resultKey": "lifesteal_overshield",
+              "resultType": "NORMAL_SHIELD",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "overshield_by_character_level"
+                }
+              }
+            }
+          ],
+          "skillKey": "item_3072_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T17:15:51.911877Z"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_3508_passive",
+      "state": "target",
+      "actual": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T17:15:52.839161Z",
+          "description": "保存16.17客户端确证的咒刃额外物理伤害与攻击特效法力回复：1.25×来源基础攻击力+50×来源暴击率，法力回复为该伤害的50%。装备已有50攻击力、20技能急速和25%暴击几率，不在技能中重复施加；施法后就绪、下一次普攻消费及1.5秒冷却接线待补。",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "夺萃之镰·咒刃",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "item_3508_passive",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-07T17:15:52.839161Z"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_3508_passive/parameters/spellblade_base_ad_ratio",
+      "state": "target",
+      "actual": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T17:15:53.246253Z",
+          "description": "咒刃额外物理伤害对来源基础攻击力的倍率，小数1表示100%。",
+          "fixedValue": 1.25,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "咒刃基础攻击力倍率",
+          "parameterKey": "spellblade_base_ad_ratio",
+          "skillKey": "item_3508_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T17:15:53.246253Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_3508_passive/parameters/spellblade_crit_chance_multiplier",
+      "state": "target",
+      "actual": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T17:15:53.703546Z",
+          "description": "客户端CritChanceMultiplier=50；来源暴击率按0至1的小数直接乘50，不是把50写成0.5。",
+          "fixedValue": 50,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "咒刃暴击率倍率",
+          "parameterKey": "spellblade_crit_chance_multiplier",
+          "skillKey": "item_3508_passive",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-07T17:15:53.703546Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_3508_passive/parameters/mana_refund_damage_multiplier",
+      "state": "target",
+      "actual": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T17:15:54.074684Z",
+          "description": "客户端TotalManaRefund为SpellbladeDamage乘0.5，小数1表示100%。",
+          "fixedValue": 0.5,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "法力回复伤害倍率",
+          "parameterKey": "mana_refund_damage_multiplier",
+          "skillKey": "item_3508_passive",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-07T17:15:54.074684Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_3508_passive/parameters/spellblade_ready_window_ms",
+      "state": "original",
+      "actual": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T17:15:54.473128Z",
+          "description": "现有项目16.17咒刃设计记录确认的施法后就绪窗口，单位：毫秒；本批未接就绪状态。",
+          "fixedValue": 10000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "咒刃就绪窗口",
+          "parameterKey": "spellblade_ready_window_ms",
+          "skillKey": "item_3508_passive",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-07T17:15:54.473128Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_3508_passive/parameters/spellblade_cooldown_ms",
+      "state": "target",
+      "actual": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T17:15:54.838375Z",
+          "description": "客户端SpellbladeCooldown=1.5秒，单位：毫秒；冷却消费规则待接线。",
+          "fixedValue": 1500,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "咒刃冷却时间",
+          "parameterKey": "spellblade_cooldown_ms",
+          "skillKey": "item_3508_passive",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-07T17:15:54.838375Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_3508_passive/formulas/spellblade_damage",
+      "state": "target",
+      "actual": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T17:15:55.250457Z",
+          "description": "1.25倍来源基础攻击力加50倍来源暴击率。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "spellblade_base_ad_ratio"
+                  },
+                  {
+                    "attributeKey": "attack_damage",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "BASE",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "spellblade_crit_chance_multiplier"
+                  },
+                  {
+                    "attributeKey": "critical_strike_chance",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          "formulaKey": "spellblade_damage",
+          "gameId": "lol",
+          "name": "咒刃额外物理伤害",
+          "skillKey": "item_3508_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T17:15:55.250457Z"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_3508_passive/formulas/total_mana_refund",
+      "state": "target",
+      "actual": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T17:15:55.687813Z",
+          "description": "咒刃额外物理伤害的50%。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "mana_refund_damage_multiplier"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "spellblade_base_ad_ratio"
+                      },
+                      {
+                        "attributeKey": "attack_damage",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "BASE",
+                        "nodeType": "ATTRIBUTE"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "spellblade_crit_chance_multiplier"
+                      },
+                      {
+                        "attributeKey": "critical_strike_chance",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "TOTAL",
+                        "nodeType": "ATTRIBUTE"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              }
+            ],
+            "operation": "MULTIPLY"
+          },
+          "formulaKey": "total_mana_refund",
+          "gameId": "lol",
+          "name": "咒刃攻击特效法力回复",
+          "skillKey": "item_3508_passive",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-07T17:15:55.687813Z"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_3508_passive/effects/spellblade_damage",
+      "state": "target",
+      "actual": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T17:15:56.07354Z",
+          "description": "保存施法后下一次普通攻击的额外物理伤害组成，攻击特效标为普攻命中；就绪与消费不由普攻全量替代。",
+          "effectKey": "spellblade_damage",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "咒刃额外物理伤害",
+          "results": [
+            {
+              "description": "1.25倍来源基础攻击力加50倍来源暴击率的额外物理伤害。",
+              "detail": {
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "damageTypeKey": "physics",
+                "deliveryKind": "BASIC_ATTACK",
+                "originKind": "DIRECT",
+                "vampRules": []
+              },
+              "lifecycleBehavior": null,
+              "name": "咒刃物理伤害",
+              "resultKey": "spellblade_damage",
+              "resultType": "DAMAGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "spellblade_damage",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "skillKey": "item_3508_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T17:15:56.07354Z"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_3508_passive/effects/total_mana_refund",
+      "state": "target",
+      "actual": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T17:15:56.957497Z",
+          "description": "保存攻击特效法力回复组成，实际施放和攻击命中时点待接线。",
+          "effectKey": "total_mana_refund",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "咒刃攻击特效法力回复",
+          "results": [
+            {
+              "description": "咒刃额外物理伤害的50%恢复为来源法力值。",
+              "detail": {
+                "attributeKey": "mana",
+                "operation": "RESTORE"
+              },
+              "lifecycleBehavior": null,
+              "name": "法力回复",
+              "resultKey": "total_mana_refund",
+              "resultType": "RESOURCE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "total_mana_refund",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "skillKey": "item_3508_passive",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-07T17:15:56.957497Z"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_6676_passive",
+      "state": "target",
+      "actual": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T17:15:57.839538Z",
+          "description": "保存16.17客户端确证的斩杀阈值：你的伤害使英雄生命值低于5%时执行斩杀。装备已有50攻击力、10固定护甲穿透和25%暴击几率，不在技能中重复施加；击杀额外25金币按本批范围跳过。",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "收集者·死",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "item_6676_passive",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-07T17:15:57.839538Z"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_6676_passive/parameters/execute_threshold",
+      "state": "target",
+      "actual": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T17:15:58.267949Z",
+          "description": "目标生命值低于5%时执行斩杀，小数0.05表示5%。",
+          "fixedValue": 0.05,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "斩杀生命值阈值",
+          "parameterKey": "execute_threshold",
+          "skillKey": "item_6676_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T17:15:58.267949Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_6676_passive/formulas/execute_threshold_health",
+      "state": "allowed-absence",
+      "actual": {
+        "status": 404,
+        "data": {
+          "error": {
+            "code": "404.SKILL_FORMULA_NOT_FOUND",
+            "details": {
+              "formulaKey": "execute_threshold_health"
+            },
+            "message": "技能公式不存在"
+          }
+        }
+      }
+    },
+    {
+      "route": "/skills/item_6676_passive/effects/execute_below_threshold",
+      "state": "original",
+      "actual": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T17:15:58.629566Z",
+          "description": "保存目标生命值低于5%时的斩杀结果，不把斩杀误录为额外伤害。",
+          "effectKey": "execute_below_threshold",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "低于阈值斩杀",
+          "results": [
+            {
+              "description": "执行目标生命值斩杀，阈值由execute_threshold提供。",
+              "detail": {
+                "attributeKey": "hp"
+              },
+              "lifecycleBehavior": null,
+              "name": "斩杀",
+              "resultKey": "execute_below_threshold",
+              "resultType": "EXECUTE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "execute_threshold"
+                }
+              }
+            }
+          ],
+          "skillKey": "item_6676_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T17:15:58.629566Z"
+        }
+      }
+    }
+  ],
+  "actions": [
+    {
+      "route": "/skills/item_6676_passive/formulas/execute_threshold_health",
+      "action": "CREATE",
+      "state": "allowed-absence",
+      "applied": true,
+      "writeStatus": 201,
+      "readback": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T17:33:06.219902Z",
+          "description": "5%比例乘目标总生命值得到绝对生命点数；总生命值2000时阈值100。来源严格低于5%的条件还须在合法触发中配置。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "execute_threshold"
+              },
+              {
+                "attributeKey": "hp",
+                "attributeOwner": "TARGET",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          },
+          "formulaKey": "execute_threshold_health",
+          "gameId": "lol",
+          "name": "斩杀生命点数阈值",
+          "skillKey": "item_6676_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T17:33:06.219902Z"
+        }
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/item_6676_passive/effects/execute_below_threshold",
+      "action": "UPDATE",
+      "state": "original",
+      "applied": true,
+      "writeStatus": 200,
+      "readback": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T17:15:58.629566Z",
+          "description": "斩杀结果读取目标最大生命5%的绝对生命点数。通用EXECUTE比较为小于或等于；来源要求低于5%，必须在合法触发中另配严格小于条件，本独立效果不代表机制完成。",
+          "effectKey": "execute_below_threshold",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "低于阈值斩杀",
+          "results": [
+            {
+              "description": "绝对生命点数阈值引用execute_threshold_health，不能将比例0.05当成0.05点生命。严格小于及伤害来源、英雄目标条件仍待配置。",
+              "detail": {
+                "attributeKey": "hp"
+              },
+              "lifecycleBehavior": null,
+              "name": "斩杀",
+              "resultKey": "execute_below_threshold",
+              "resultType": "EXECUTE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "execute_threshold_health",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "skillKey": "item_6676_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T17:33:06.594861Z"
+        }
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/item_3072_passive/effects/lifesteal_overshield",
+      "action": "DELETE",
+      "state": "original",
+      "applied": true,
+      "writeStatus": 204,
+      "readback": {
+        "status": 404,
+        "data": {
+          "error": {
+            "code": "404.SKILL_EFFECT_NOT_FOUND",
+            "details": {
+              "effectKey": "lifesteal_overshield"
+            },
+            "message": "技能效果不存在"
+          }
+        }
+      },
+      "listAfter": {
+        "status": 200,
+        "data": []
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/item_3072_passive/parameters/overshield_duration_ms",
+      "action": "DELETE",
+      "state": "original",
+      "applied": true,
+      "writeStatus": 204,
+      "readback": {
+        "status": 404,
+        "data": {
+          "error": {
+            "code": "404.SKILL_PARAMETER_NOT_FOUND",
+            "details": {
+              "parameterKey": "overshield_duration_ms"
+            },
+            "message": "技能参数不存在"
+          }
+        }
+      },
+      "listAfter": {
+        "status": 200,
+        "data": [
+          {
+            "createdAt": "2026-09-07T17:15:51.011974Z",
+            "description": "客户端ByCharLevelBreakpointsCalculationPart展开值，单位：护盾点；1至8级165，9级及以后每级增加15。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 165,
+              "2": 165,
+              "3": 165,
+              "4": 165,
+              "5": 165,
+              "6": 165,
+              "7": 165,
+              "8": 165,
+              "9": 180,
+              "10": 195,
+              "11": 210,
+              "12": 225,
+              "13": 240,
+              "14": 255,
+              "15": 270,
+              "16": 285,
+              "17": 300,
+              "18": 315
+            },
+            "name": "灵液护盾等级值",
+            "parameterKey": "overshield_by_character_level",
+            "skillKey": "item_3072_passive",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-07T17:15:51.011974Z",
+            "valueMode": "CHARACTER_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ]
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/item_3072_passive/parameters/overshield_by_character_level",
+      "action": "UPDATE",
+      "state": "original",
+      "applied": true,
+      "writeStatus": 200,
+      "readback": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T17:15:51.011974Z",
+          "description": "当前OvershieldCalc展开的护盾上限，单位：护盾点；1至8级165，9级180，此后每级加15，18级315。实际授予量来自溢出生命偷取，不能把上限直接给满。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 165,
+            "2": 165,
+            "3": 165,
+            "4": 165,
+            "5": 165,
+            "6": 165,
+            "7": 165,
+            "8": 165,
+            "9": 180,
+            "10": 195,
+            "11": 210,
+            "12": 225,
+            "13": 240,
+            "14": 255,
+            "15": 270,
+            "16": 285,
+            "17": 300,
+            "18": 315
+          },
+          "name": "灵液护盾上限",
+          "parameterKey": "overshield_by_character_level",
+          "skillKey": "item_3072_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T17:33:08.276294Z",
+          "valueMode": "CHARACTER_LEVEL",
+          "valueType": "INTEGER"
+        }
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/item_3072_passive",
+      "action": "UPDATE",
+      "state": "original",
+      "applied": true,
+      "writeStatus": 200,
+      "readback": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T17:15:50.558743Z",
+          "description": "保存16.17客户端确证的生命偷取溢出护盾上限：角色等级1至8为165，9级起每级增加15，18级315。上限不是实际授予量；实际溢出生命偷取金额和事件尚缺，未创建护盾效果。原始DecayTime=25只留来源，不推定完整生命周期。装备已有80攻击力和15%生命偷取，不重复施加。",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "饮血剑·灵液护盾",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "item_3072_passive",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-07T17:33:08.709236Z"
+        }
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/item_3508_passive/parameters/spellblade_ready_window_ms",
+      "action": "DELETE",
+      "state": "original",
+      "applied": true,
+      "writeStatus": 204,
+      "readback": {
+        "status": 404,
+        "data": {
+          "error": {
+            "code": "404.SKILL_PARAMETER_NOT_FOUND",
+            "details": {
+              "parameterKey": "spellblade_ready_window_ms"
+            },
+            "message": "技能参数不存在"
+          }
+        }
+      },
+      "listAfter": {
+        "status": 200,
+        "data": [
+          {
+            "createdAt": "2026-09-07T17:15:53.246253Z",
+            "description": "咒刃额外物理伤害对来源基础攻击力的倍率，小数1表示100%。",
+            "fixedValue": 1.25,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "咒刃基础攻击力倍率",
+            "parameterKey": "spellblade_base_ad_ratio",
+            "skillKey": "item_3508_passive",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-07T17:15:53.246253Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          {
+            "createdAt": "2026-09-07T17:15:53.703546Z",
+            "description": "客户端CritChanceMultiplier=50；来源暴击率按0至1的小数直接乘50，不是把50写成0.5。",
+            "fixedValue": 50,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "咒刃暴击率倍率",
+            "parameterKey": "spellblade_crit_chance_multiplier",
+            "skillKey": "item_3508_passive",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-07T17:15:53.703546Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          {
+            "createdAt": "2026-09-07T17:15:54.074684Z",
+            "description": "客户端TotalManaRefund为SpellbladeDamage乘0.5，小数1表示100%。",
+            "fixedValue": 0.5,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "法力回复伤害倍率",
+            "parameterKey": "mana_refund_damage_multiplier",
+            "skillKey": "item_3508_passive",
+            "sortOrder": 30,
+            "updatedAt": "2026-09-07T17:15:54.074684Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          {
+            "createdAt": "2026-09-07T17:15:54.838375Z",
+            "description": "客户端SpellbladeCooldown=1.5秒，单位：毫秒；冷却消费规则待接线。",
+            "fixedValue": 1500,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "咒刃冷却时间",
+            "parameterKey": "spellblade_cooldown_ms",
+            "skillKey": "item_3508_passive",
+            "sortOrder": 50,
+            "updatedAt": "2026-09-07T17:15:54.838375Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ]
+      },
+      "match": true
+    }
+  ],
+  "conflicts": [],
+  "failures": [],
+  "finishedAt": "2026-09-07T17:33:09.673Z"
+}

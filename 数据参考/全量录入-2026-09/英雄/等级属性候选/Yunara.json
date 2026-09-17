@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Yunara",
+  "sourceNumericId": "804",
+  "name": "芸阿娜",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 590,
+      "growth": 110,
+      "sources": [
+        "原始资料/zh_CN/champion/Yunara.json:stats.hp/hpperlevel",
+        "角色根记录/Yunara.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 590,
+        "2": 669.2,
+        "3": 752.25,
+        "4": 839.15,
+        "5": 929.9,
+        "6": 1024.5,
+        "7": 1122.95,
+        "8": 1225.25,
+        "9": 1331.4,
+        "10": 1441.4,
+        "11": 1555.25,
+        "12": 1672.95,
+        "13": 1794.5,
+        "14": 1919.9,
+        "15": 2049.15,
+        "16": 2182.25,
+        "17": 2319.2,
+        "18": 2460
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 4,
+      "growth": 0.55,
+      "sources": [
+        "原始资料/zh_CN/champion/Yunara.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Yunara.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 4,
+        "2": 4.396,
+        "3": 4.81125,
+        "4": 5.24575,
+        "5": 5.6995,
+        "6": 6.1725,
+        "7": 6.66475,
+        "8": 7.17625,
+        "9": 7.707,
+        "10": 8.257,
+        "11": 8.82625,
+        "12": 9.41475,
+        "13": 10.0225,
+        "14": 10.6495,
+        "15": 11.29575,
+        "16": 11.96125,
+        "17": 12.646,
+        "18": 13.35
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 25,
+      "growth": 4.4,
+      "sources": [
+        "原始资料/zh_CN/champion/Yunara.json:stats.armor/armorperlevel",
+        "角色根记录/Yunara.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 25,
+        "2": 28.168,
+        "3": 31.49,
+        "4": 34.966,
+        "5": 38.596,
+        "6": 42.38,
+        "7": 46.318,
+        "8": 50.41,
+        "9": 54.656,
+        "10": 59.056,
+        "11": 63.61,
+        "12": 68.318,
+        "13": 73.18,
+        "14": 78.196,
+        "15": 83.366,
+        "16": 88.69,
+        "17": 94.168,
+        "18": 99.8
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 33,
+      "growth": 1.1,
+      "sources": [
+        "原始资料/zh_CN/champion/Yunara.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Yunara.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 33,
+        "2": 33.792,
+        "3": 34.6225,
+        "4": 35.4915,
+        "5": 36.399,
+        "6": 37.345,
+        "7": 38.3295,
+        "8": 39.3525,
+        "9": 40.414,
+        "10": 41.514,
+        "11": 42.6525,
+        "12": 43.8295,
+        "13": 45.045,
+        "14": 46.299,
+        "15": 47.5915,
+        "16": 48.9225,
+        "17": 50.292,
+        "18": 51.7
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 55,
+      "growth": 3,
+      "sources": [
+        "角色根记录/Yunara.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 55,
+        "2": 57.16,
+        "3": 59.425,
+        "4": 61.795,
+        "5": 64.27,
+        "6": 66.85,
+        "7": 69.535,
+        "8": 72.325,
+        "9": 75.22,
+        "10": 78.22,
+        "11": 81.325,
+        "12": 84.535,
+        "13": 87.85,
+        "14": 91.27,
+        "15": 94.795,
+        "16": 98.425,
+        "17": 102.16,
+        "18": 106
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 325,
+      "growth": null,
+      "sources": [
+        "角色根记录/Yunara.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 325,
+        "2": 325,
+        "3": 325,
+        "4": 325,
+        "5": 325,
+        "6": 325,
+        "7": 325,
+        "8": 325,
+        "9": 325,
+        "10": 325,
+        "11": 325,
+        "12": 325,
+        "13": 325,
+        "14": 325,
+        "15": 325,
+        "16": 325,
+        "17": 325,
+        "18": 325
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 575,
+      "growth": null,
+      "sources": [
+        "角色根记录/Yunara.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 575,
+        "2": 575,
+        "3": 575,
+        "4": 575,
+        "5": 575,
+        "6": 575,
+        "7": 575,
+        "8": 575,
+        "9": 575,
+        "10": 575,
+        "11": 575,
+        "12": 575,
+        "13": 575,
+        "14": 575,
+        "15": 575,
+        "16": 575,
+        "17": 575,
+        "18": 575
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.65,
+      "attackSpeedRatio": 0.65,
+      "growthPercent": 2,
+      "sources": [
+        "角色根记录/Yunara.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.65,
+        "2": 0.65936,
+        "3": 0.669175,
+        "4": 0.679445,
+        "5": 0.69017,
+        "6": 0.70135,
+        "7": 0.712985,
+        "8": 0.725075,
+        "9": 0.73762,
+        "10": 0.75062,
+        "11": 0.764075,
+        "12": 0.777985,
+        "13": 0.79235,
+        "14": 0.80717,
+        "15": 0.822445,
+        "16": 0.838175,
+        "17": 0.85436,
+        "18": 0.871
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 275,
+      "growth": 45,
+      "sources": [
+        "原始资料/zh_CN/champion/Yunara.json:stats.mp/mpperlevel",
+        "角色根记录/Yunara.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 275,
+        "2": 307.4,
+        "3": 341.375,
+        "4": 376.925,
+        "5": 414.05,
+        "6": 452.75,
+        "7": 493.025,
+        "8": 534.875,
+        "9": 578.3,
+        "10": 623.3,
+        "11": 669.875,
+        "12": 718.025,
+        "13": 767.75,
+        "14": 819.05,
+        "15": 871.925,
+        "16": 926.375,
+        "17": 982.4,
+        "18": 1040
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 7.5,
+      "growth": 0.75,
+      "sources": [
+        "原始资料/zh_CN/champion/Yunara.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Yunara.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 7.5,
+        "2": 8.04,
+        "3": 8.60625,
+        "4": 9.19875,
+        "5": 9.8175,
+        "6": 10.4625,
+        "7": 11.13375,
+        "8": 11.83125,
+        "9": 12.555,
+        "10": 13.305,
+        "11": 14.08125,
+        "12": 14.88375,
+        "13": 15.7125,
+        "14": 16.5675,
+        "15": 17.44875,
+        "16": 18.35625,
+        "17": 19.29,
+        "18": 20.25
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.65,
+    "ratio": 0.65,
+    "growthPercent": 2,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

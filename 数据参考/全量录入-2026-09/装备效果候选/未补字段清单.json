@@ -1,0 +1,1366 @@
+{
+  "blockedItemCount": 104,
+  "blocked": [
+    {
+      "itemId": "1054",
+      "name": "多兰之盾",
+      "requiredEvidence": [
+        "受英雄伤害后8秒回复的总量或公式"
+      ],
+      "boundaryReview": "每5秒4生命回复对应stats每秒0.8；不要把0.8当每5秒回复",
+      "effectKeys": [
+        "item_1054_effect_1",
+        "item_1054_effect_2"
+      ]
+    },
+    {
+      "itemId": "1082",
+      "name": "黑暗封印",
+      "requiredEvidence": [
+        "击杀与助攻分别获得的荣耀层数"
+      ],
+      "boundaryReview": "荣耀10层上限与阵亡损失5层已有明确文本",
+      "effectKeys": [
+        "item_1082_effect_1",
+        "item_1082_effect_2",
+        "item_1082_effect_3",
+        "item_1082_effect_4"
+      ]
+    },
+    {
+      "itemId": "2065",
+      "name": "舒瑞娅的战歌",
+      "requiredEvidence": [
+        "主动冷却是否存在及数值",
+        "友军作用半径"
+      ],
+      "boundaryReview": "主动持续4秒、30%移速明确",
+      "effectKeys": [
+        "item_2065_effect_1"
+      ]
+    },
+    {
+      "itemId": "2501",
+      "name": "霸王血铠",
+      "requiredEvidence": [
+        "报复12%攻击力提升与已损失生命值百分比的完整函数"
+      ],
+      "boundaryReview": "专横2.5%额外生命转攻击力可直接准备",
+      "effectKeys": [
+        "item_2501_effect_1",
+        "item_2501_effect_2"
+      ]
+    },
+    {
+      "itemId": "2502",
+      "name": "无终恨意",
+      "requiredEvidence": [
+        "周期魔法伤害的基数或公式",
+        "作用半径"
+      ],
+      "boundaryReview": "与英雄战斗、4秒周期、250%已造成伤害治疗明确",
+      "effectKeys": [
+        "item_2502_effect_1"
+      ]
+    },
+    {
+      "itemId": "2503",
+      "name": "黯炎火炬",
+      "requiredEvidence": [
+        "邪焰3秒总伤害或每跳伤害公式",
+        "跳数或频率"
+      ],
+      "boundaryReview": "黯炎每目标4%法强；英雄、史诗及大型野怪范围明确，去重和刷新待核",
+      "effectKeys": [
+        "item_2503_effect_1",
+        "item_2503_effect_2",
+        "item_2503_effect_3"
+      ]
+    },
+    {
+      "itemId": "2504",
+      "name": "败魔",
+      "requiredEvidence": [
+        "魔法护盾数值或公式"
+      ],
+      "boundaryReview": "连续15秒未受魔法伤害条件明确；护盾重新获取时序待核",
+      "effectKeys": [
+        "item_2504_effect_1"
+      ]
+    },
+    {
+      "itemId": "2508",
+      "name": "命定灰烬",
+      "requiredEvidence": [
+        "持续伤害的跳数或频率",
+        "野怪额外45伤害的结算时序"
+      ],
+      "boundaryReview": "不要仅凭总计15及3秒猜每秒或每跳数值",
+      "effectKeys": [
+        "item_2508_effect_1"
+      ]
+    },
+    {
+      "itemId": "2510",
+      "name": "黄昏与黎明",
+      "requiredEvidence": [
+        "咒刃额外魔法伤害和治疗公式",
+        "咒刃冷却及等待下一击的时限"
+      ],
+      "boundaryReview": "显示0不是可直接保存的伤害或治疗常数；额外一次攻击特效需要事件重入边界核对",
+      "effectKeys": [
+        "item_2510_effect_1"
+      ]
+    },
+    {
+      "itemId": "2512",
+      "name": "猎魔人弩箭",
+      "requiredEvidence": [
+        "原本会暴击时的15%额外真实伤害基数",
+        "开战弹幕冷却是否存在及数值"
+      ],
+      "boundaryReview": "3次攻击、8秒、50%攻速、80%常规暴击伤害明确；终极技能急速须限定技能范围",
+      "effectKeys": [
+        "item_2512_effect_1",
+        "item_2512_effect_2"
+      ]
+    },
+    {
+      "itemId": "2517",
+      "name": "无穷饥渴",
+      "requiredEvidence": [
+        "额外攻击力转技能急速的公式",
+        "盛宴全能吸血数值、持续时间及近期伤害窗口"
+      ],
+      "boundaryReview": "文案只写适中时长，不能作为数值",
+      "effectKeys": [
+        "item_2517_effect_1",
+        "item_2517_effect_2"
+      ]
+    },
+    {
+      "itemId": "2520",
+      "name": "破垒者",
+      "requiredEvidence": [
+        "成型炸药冷却与真实伤害公式",
+        "蓄意破坏持续伤害公式及跳频"
+      ],
+      "boundaryReview": "两段显示0；3秒参与击杀窗口和90秒状态时长已有文本",
+      "effectKeys": [
+        "item_2520_effect_1",
+        "item_2520_effect_2"
+      ]
+    },
+    {
+      "itemId": "2522",
+      "name": "实现器",
+      "requiredEvidence": [
+        "主动冷却",
+        "技能伤害、护盾和治疗增益公式"
+      ],
+      "boundaryReview": "三项增益显示0；100%额外法力消耗、8秒及30%冷却转速明确",
+      "effectKeys": [
+        "item_2522_effect_1"
+      ]
+    },
+    {
+      "itemId": "2523",
+      "name": "海克斯镜片 C44",
+      "requiredEvidence": [
+        "距离到额外伤害百分比的完整函数"
+      ],
+      "boundaryReview": "500码达到10%上限已明确；3秒击杀窗口、8秒100额外射程明确",
+      "effectKeys": [
+        "item_2523_effect_1",
+        "item_2523_effect_2"
+      ]
+    },
+    {
+      "itemId": "2524",
+      "name": "班德尔音管",
+      "requiredEvidence": [
+        "嘹亮旋律持续时间",
+        "友军攻击速度数值",
+        "作用半径"
+      ],
+      "boundaryReview": "时长和攻速显示0；20固定移速明确",
+      "effectKeys": [
+        "item_2524_effect_1"
+      ]
+    },
+    {
+      "itemId": "2525",
+      "name": "原生质护带",
+      "requiredEvidence": [
+        "救主灵刃冷却",
+        "最大生命增长公式",
+        "5秒总治疗公式及跳频"
+      ],
+      "boundaryReview": "三项显示0；30%生命阈值和15%体型、10%移速、25%韧性明确",
+      "effectKeys": [
+        "item_2525_effect_1"
+      ]
+    },
+    {
+      "itemId": "2526",
+      "name": "耳语头环",
+      "requiredEvidence": [
+        "和谐治疗护盾强度公式"
+      ],
+      "boundaryReview": "和谐显示0%；8秒充能、5层充能上限、每次4法力与360升级阈值要分别保存，不能把充能与永久法力混成同一个层数",
+      "effectKeys": [
+        "item_2526_effect_1",
+        "item_2526_effect_2"
+      ]
+    },
+    {
+      "itemId": "3004",
+      "name": "魔宗",
+      "requiredEvidence": [
+        "敬畏额外攻击力公式"
+      ],
+      "boundaryReview": "敬畏显示0；充能与永久法力分开，升级目标3042后续核对",
+      "effectKeys": [
+        "item_3004_effect_1",
+        "item_3004_effect_2"
+      ]
+    },
+    {
+      "itemId": "3026",
+      "name": "守护天使",
+      "requiredEvidence": [
+        "复活冷却是否存在及数值"
+      ],
+      "boundaryReview": "致命伤害、4秒凝滞、恢复50%基础生命和100%最大法力明确，不能把基础生命改成最大生命",
+      "effectKeys": [
+        "item_3026_effect_1"
+      ]
+    },
+    {
+      "itemId": "3032",
+      "name": "育恩塔尔荒野箭",
+      "requiredEvidence": [
+        "每次攻击永久获得的暴击几率"
+      ],
+      "boundaryReview": "属性栏0%是当前成长展示候选，不能把25%上限直接当装备固定暴击属性；疾风骤雨冷却已给30秒",
+      "effectKeys": [
+        "item_3032_effect_1",
+        "item_3032_effect_2"
+      ]
+    },
+    {
+      "itemId": "3036",
+      "name": "多米尼克领主的致意",
+      "requiredEvidence": [
+        "额外生命值到伤害加成的完整函数"
+      ],
+      "boundaryReview": "1500额外生命达到15%上限明确，不自行线性插值",
+      "effectKeys": [
+        "item_3036_effect_1"
+      ]
+    },
+    {
+      "itemId": "3041",
+      "name": "梅贾的窃魂卷",
+      "requiredEvidence": [
+        "击杀与助攻分别获得的荣耀层数"
+      ],
+      "boundaryReview": "25层上限、死亡损失10层、每层5法强、10层以上10%移速明确",
+      "effectKeys": [
+        "item_3041_effect_1",
+        "item_3041_effect_2",
+        "item_3041_effect_3",
+        "item_3041_effect_4",
+        "item_3041_effect_5"
+      ]
+    },
+    {
+      "itemId": "3044",
+      "name": "净蚀",
+      "requiredEvidence": [
+        "攻击后获得的移动速度数值"
+      ],
+      "boundaryReview": "2秒时长明确；近战远程是否不同待核",
+      "effectKeys": [
+        "item_3044_effect_1"
+      ]
+    },
+    {
+      "itemId": "3050",
+      "name": "基克的聚合",
+      "requiredEvidence": [
+        "风暴作用半径",
+        "触发冷却是否存在及数值"
+      ],
+      "boundaryReview": "终极施放、5秒、每秒30魔法伤害、30%减速明确",
+      "effectKeys": [
+        "item_3050_effect_1"
+      ]
+    },
+    {
+      "itemId": "3053",
+      "name": "斯特拉克的挑战护手",
+      "requiredEvidence": [
+        "抓人双爪攻击力公式",
+        "护盾公式、冷却和衰减函数"
+      ],
+      "boundaryReview": "30%生命阈值与4.5秒持续时间明确",
+      "effectKeys": [
+        "item_3053_effect_1",
+        "item_3053_effect_2"
+      ]
+    },
+    {
+      "itemId": "3057",
+      "name": "耀光",
+      "requiredEvidence": [
+        "咒刃伤害公式、触发冷却及等待下一击时限"
+      ],
+      "boundaryReview": "不能把说明中缺失的额外伤害当0",
+      "effectKeys": [
+        "item_3057_effect_1"
+      ]
+    },
+    {
+      "itemId": "3068",
+      "name": "日炎圣盾",
+      "requiredEvidence": [
+        "献祭每秒伤害公式",
+        "作用半径"
+      ],
+      "boundaryReview": "承受或造成伤害、3秒持续已有文本；重复触发刷新方式待核",
+      "effectKeys": [
+        "item_3068_effect_1"
+      ]
+    },
+    {
+      "itemId": "3071",
+      "name": "黑色切割者",
+      "requiredEvidence": [
+        "热烈移动速度数值"
+      ],
+      "boundaryReview": "切割6%护甲削减、6秒、5层；移动速度显示0，不能把两被动都当已完整",
+      "effectKeys": [
+        "item_3071_effect_1",
+        "item_3071_effect_2"
+      ]
+    },
+    {
+      "itemId": "3072",
+      "name": "饮血剑",
+      "requiredEvidence": [
+        "溢出治疗护盾上限和保留/衰减规则"
+      ],
+      "boundaryReview": "只转换生命偷取的溢出治疗，不能把所有治疗都接入",
+      "effectKeys": [
+        "item_3072_effect_1"
+      ]
+    },
+    {
+      "itemId": "3073",
+      "name": "海克斯注力刚壁",
+      "requiredEvidence": [
+        "过载攻击速度及移动速度百分比",
+        "触发冷却是否存在及数值"
+      ],
+      "boundaryReview": "0%展示未解析；30终极技能急速和8秒状态时长明确",
+      "effectKeys": [
+        "item_3073_effect_1",
+        "item_3073_effect_2"
+      ]
+    },
+    {
+      "itemId": "3074",
+      "name": "贪欲九头蛇",
+      "requiredEvidence": [
+        "顺劈与血斩各自伤害公式、作用范围",
+        "血斩主动冷却"
+      ],
+      "boundaryReview": "血斩允许生命偷取与普通攻击伤害不能合并为同一来源",
+      "effectKeys": [
+        "item_3074_effect_1",
+        "item_3074_effect_2"
+      ]
+    },
+    {
+      "itemId": "3075",
+      "name": "荆棘之甲",
+      "requiredEvidence": [
+        "荆棘魔法伤害公式"
+      ],
+      "boundaryReview": "被攻击命中及对英雄40%重伤3秒明确",
+      "effectKeys": [
+        "item_3075_effect_1"
+      ]
+    },
+    {
+      "itemId": "3076",
+      "name": "棘刺背心",
+      "requiredEvidence": [
+        "荆棘魔法伤害数值或公式"
+      ],
+      "boundaryReview": "伤害显示0；对英雄40%重伤3秒明确",
+      "effectKeys": [
+        "item_3076_effect_1"
+      ]
+    },
+    {
+      "itemId": "3077",
+      "name": "提亚马特",
+      "requiredEvidence": [
+        "顺劈、新月各自伤害公式和范围",
+        "新月主动冷却"
+      ],
+      "boundaryReview": "被动攻击附伤与主动分别建候选",
+      "effectKeys": [
+        "item_3077_effect_1",
+        "item_3077_effect_2"
+      ]
+    },
+    {
+      "itemId": "3078",
+      "name": "三相之力",
+      "requiredEvidence": [
+        "咒刃伤害公式、触发冷却和待击时限"
+      ],
+      "boundaryReview": "加快20移速2秒可独立准备",
+      "effectKeys": [
+        "item_3078_effect_1",
+        "item_3078_effect_2"
+      ]
+    },
+    {
+      "itemId": "3082",
+      "name": "守望者铠甲",
+      "requiredEvidence": [
+        "攻击伤害降低的数值或公式"
+      ],
+      "boundaryReview": "不能凭物品名称复用其他减伤规则",
+      "effectKeys": [
+        "item_3082_effect_1"
+      ]
+    },
+    {
+      "itemId": "3083",
+      "name": "狂徒铠甲",
+      "requiredEvidence": [
+        "狂徒之心每秒治疗公式"
+      ],
+      "boundaryReview": "12%装备生命值转额外生命明确；2000额外生命门槛和8秒无伤条件明确，括号0不作独立常数",
+      "effectKeys": [
+        "item_3083_effect_1",
+        "item_3083_effect_2"
+      ]
+    },
+    {
+      "itemId": "3084",
+      "name": "心之钢",
+      "requiredEvidence": [
+        "每目标冷却",
+        "附近半径与蓄力所需秒数"
+      ],
+      "boundaryReview": "70+6%最大生命伤害、该伤害10%永久生命、每1000生命3%体型至多30%明确；实际伤害或折前伤害作为永久增长基数待核",
+      "effectKeys": [
+        "item_3084_effect_1",
+        "item_3084_effect_2"
+      ]
+    },
+    {
+      "itemId": "3085",
+      "name": "卢安娜的飓风",
+      "requiredEvidence": [
+        "弩箭伤害公式和额外目标搜索范围"
+      ],
+      "boundaryReview": "2个额外目标及攻击特效明确，暴击处理文案未给",
+      "effectKeys": [
+        "item_3085_effect_1"
+      ]
+    },
+    {
+      "itemId": "3087",
+      "name": "斯塔缇克电刃",
+      "requiredEvidence": [
+        "连锁闪电伤害、目标数/范围",
+        "每次攻击额外盈能层数",
+        "盈能门槛与积攒规则"
+      ],
+      "boundaryReview": "原文存在不完整语句，不能推导数值",
+      "effectKeys": [
+        "item_3087_effect_1",
+        "item_3087_effect_2"
+      ]
+    },
+    {
+      "itemId": "3091",
+      "name": "智慧末刃",
+      "requiredEvidence": [
+        "普攻额外魔法伤害公式"
+      ],
+      "boundaryReview": "攻击特效明确，不能靠旧装备数值填充",
+      "effectKeys": [
+        "item_3091_effect_1"
+      ]
+    },
+    {
+      "itemId": "3094",
+      "name": "疾射火炮",
+      "requiredEvidence": [
+        "盈能积攒规则、层数门槛和攻击距离额外上限是否存在"
+      ],
+      "boundaryReview": "40魔法伤害和35%额外射程明确",
+      "effectKeys": [
+        "item_3094_effect_1"
+      ]
+    },
+    {
+      "itemId": "3095",
+      "name": "岚切",
+      "requiredEvidence": [
+        "盈能魔法伤害公式及层数积攒规则"
+      ],
+      "boundaryReview": "伤害显示0；45%移速1.5秒明确",
+      "effectKeys": [
+        "item_3095_effect_1",
+        "item_3095_effect_2"
+      ]
+    },
+    {
+      "itemId": "3100",
+      "name": "巫妖之祸",
+      "requiredEvidence": [
+        "咒刃魔法伤害公式、冷却和待击时限"
+      ],
+      "boundaryReview": "不复用物理咒刃公式",
+      "effectKeys": [
+        "item_3100_effect_1"
+      ]
+    },
+    {
+      "itemId": "3102",
+      "name": "女妖面纱",
+      "requiredEvidence": [
+        "法术护盾重获时间与重获条件"
+      ],
+      "boundaryReview": "格挡下一个敌方技能的范围需按现有法术护盾语义核对",
+      "effectKeys": [
+        "item_3102_effect_1"
+      ]
+    },
+    {
+      "itemId": "3107",
+      "name": "救赎",
+      "requiredEvidence": [
+        "150–350治疗的取值依据或等级公式",
+        "施法/效果范围",
+        "主动冷却"
+      ],
+      "boundaryReview": "2.5秒延迟、10%最大生命真实伤害明确；最大生命所属目标需保持原文语义",
+      "effectKeys": [
+        "item_3107_effect_1"
+      ]
+    },
+    {
+      "itemId": "3109",
+      "name": "骑士之誓",
+      "requiredEvidence": [
+        "誓约者有效距离",
+        "立誓冷却",
+        "伤害转移与治疗的结算先后"
+      ],
+      "boundaryReview": "14%转伤与12%治疗明确；冷却显示0，转移伤害类型未给",
+      "effectKeys": [
+        "item_3109_effect_1",
+        "item_3109_effect_2"
+      ]
+    },
+    {
+      "itemId": "3110",
+      "name": "冰霜之心",
+      "requiredEvidence": [
+        "攻速削减光环范围"
+      ],
+      "boundaryReview": "只对附近敌方英雄降低20%攻速",
+      "effectKeys": [
+        "item_3110_effect_1"
+      ]
+    },
+    {
+      "itemId": "3115",
+      "name": "纳什之牙",
+      "requiredEvidence": [
+        "普攻额外魔法伤害公式"
+      ],
+      "boundaryReview": "攻击特效明确",
+      "effectKeys": [
+        "item_3115_effect_1"
+      ]
+    },
+    {
+      "itemId": "3118",
+      "name": "残疫",
+      "requiredEvidence": [
+        "每秒伤害公式",
+        "魔抗削减值",
+        "地面范围",
+        "单目标触发间隔是否存在"
+      ],
+      "boundaryReview": "20终极技能急速和3秒地面状态明确",
+      "effectKeys": [
+        "item_3118_effect_1",
+        "item_3118_effect_2"
+      ]
+    },
+    {
+      "itemId": "3119",
+      "name": "凛冬之临",
+      "requiredEvidence": [
+        "敬畏生命值公式"
+      ],
+      "boundaryReview": "生命值显示0；法力充能和永久增长分开，升级目标3121后续核对",
+      "effectKeys": [
+        "item_3119_effect_1",
+        "item_3119_effect_2"
+      ]
+    },
+    {
+      "itemId": "3137",
+      "name": "蜕生",
+      "requiredEvidence": [
+        "新星治疗公式和作用范围",
+        "触发冷却是否存在及数值"
+      ],
+      "boundaryReview": "被你伤害后3秒内阵亡已有明确窗口",
+      "effectKeys": [
+        "item_3137_effect_1"
+      ]
+    },
+    {
+      "itemId": "3139",
+      "name": "水银弯刀",
+      "requiredEvidence": [
+        "主动冷却",
+        "移动速度数值和持续时间"
+      ],
+      "boundaryReview": "控制清除排除浮空；不能把未明的移速写成0",
+      "effectKeys": [
+        "item_3139_effect_1"
+      ]
+    },
+    {
+      "itemId": "3140",
+      "name": "水银饰带",
+      "requiredEvidence": [
+        "主动冷却是否存在及数值"
+      ],
+      "boundaryReview": "控制清除排除滞空；不同控制术语需对照状态字典",
+      "effectKeys": [
+        "item_3140_effect_1"
+      ]
+    },
+    {
+      "itemId": "3142",
+      "name": "幽梦之灵",
+      "requiredEvidence": [
+        "非战斗判断时长和移速",
+        "主动移速、时长、冷却"
+      ],
+      "boundaryReview": "被动移速与主动时长显示0；幽灵不等同隐身",
+      "effectKeys": [
+        "item_3142_effect_1",
+        "item_3142_effect_2"
+      ]
+    },
+    {
+      "itemId": "3143",
+      "name": "兰顿之兆",
+      "requiredEvidence": [
+        "主动冷却与作用范围"
+      ],
+      "boundaryReview": "30%暴击伤害降低、70%减速2秒明确",
+      "effectKeys": [
+        "item_3143_effect_1",
+        "item_3143_effect_2"
+      ]
+    },
+    {
+      "itemId": "3144",
+      "name": "斥候弹弓",
+      "requiredEvidence": [
+        "额外魔法伤害公式和基础冷却"
+      ],
+      "boundaryReview": "攻击减少冷却1秒明确",
+      "effectKeys": [
+        "item_3144_effect_1"
+      ]
+    },
+    {
+      "itemId": "3145",
+      "name": "海克斯科技发电机",
+      "requiredEvidence": [
+        "额外魔法伤害公式",
+        "触发冷却是否存在及数值"
+      ],
+      "boundaryReview": "伤害敌方英雄的条件明确",
+      "effectKeys": [
+        "item_3145_effect_1"
+      ]
+    },
+    {
+      "itemId": "3146",
+      "name": "海克斯科技枪刃",
+      "requiredEvidence": [
+        "主动冷却、魔法伤害公式及施法距离"
+      ],
+      "boundaryReview": "冷却和伤害显示0；25%减速1.5秒明确",
+      "effectKeys": [
+        "item_3146_effect_1"
+      ]
+    },
+    {
+      "itemId": "3147",
+      "name": "幽魂面具",
+      "requiredEvidence": [
+        "战斗结束后层数或持续时间规则"
+      ],
+      "boundaryReview": "每秒2%额外伤害至多6%明确，不假定永久保留",
+      "effectKeys": [
+        "item_3147_effect_1"
+      ]
+    },
+    {
+      "itemId": "3152",
+      "name": "海克斯科技火箭腰带",
+      "requiredEvidence": [
+        "主动冷却、冲刺距离、魔法弹数量/范围及伤害公式"
+      ],
+      "boundaryReview": "冲刺与弹体命中分别记候选，不能只记录主动施放时伤害",
+      "effectKeys": [
+        "item_3152_effect_1"
+      ]
+    },
+    {
+      "itemId": "3153",
+      "name": "破败王者之刃",
+      "requiredEvidence": [
+        "当前生命百分比伤害系数及非英雄限制",
+        "三击状态窗口和减速冷却是否存在"
+      ],
+      "boundaryReview": "3次攻击触发30%减速1秒明确",
+      "effectKeys": [
+        "item_3153_effect_1",
+        "item_3153_effect_2"
+      ]
+    },
+    {
+      "itemId": "3155",
+      "name": "海克斯饮魔刀",
+      "requiredEvidence": [
+        "魔法护盾公式",
+        "救主灵刃冷却"
+      ],
+      "boundaryReview": "30%生命阈值、魔法伤害触发、2.5秒明确",
+      "effectKeys": [
+        "item_3155_effect_1"
+      ]
+    },
+    {
+      "itemId": "3156",
+      "name": "玛莫提乌斯之噬",
+      "requiredEvidence": [
+        "魔法护盾公式",
+        "救主灵刃冷却和战斗结束判定时长"
+      ],
+      "boundaryReview": "30%生命阈值、护盾3秒、10%全能吸血至战斗结束明确",
+      "effectKeys": [
+        "item_3156_effect_1"
+      ]
+    },
+    {
+      "itemId": "3157",
+      "name": "中娅沙漏",
+      "requiredEvidence": [
+        "主动冷却是否存在及数值"
+      ],
+      "boundaryReview": "2.5秒凝滞明确，不能因未写冷却而设0",
+      "effectKeys": [
+        "item_3157_effect_1"
+      ]
+    },
+    {
+      "itemId": "3179",
+      "name": "黯影阔剑",
+      "requiredEvidence": [
+        "未被看见的时长、真实伤害公式",
+        "视野扫描范围、持续时间和冷却",
+        "对守卫额外伤害"
+      ],
+      "boundaryReview": "视野/陷阱部分后置，战斗附伤也缺数值",
+      "effectKeys": [
+        "item_3179_effect_1",
+        "item_3179_effect_2"
+      ]
+    },
+    {
+      "itemId": "3181",
+      "name": "破舰者",
+      "requiredEvidence": [
+        "第五击伤害公式及建筑强化系数",
+        "兵线抗性数值和范围",
+        "叠层保留窗口"
+      ],
+      "boundaryReview": "友军士兵对象按约定后置，不能整件视为纯角色自增益",
+      "effectKeys": [
+        "item_3181_effect_1",
+        "item_3181_effect_2"
+      ]
+    },
+    {
+      "itemId": "3190",
+      "name": "钢铁烈阳之匣",
+      "requiredEvidence": [
+        "290–360护盾的取值依据/公式",
+        "范围",
+        "主动冷却",
+        "衰减曲线"
+      ],
+      "boundaryReview": "2.5秒持续衰减明确，不自行线性插值",
+      "effectKeys": [
+        "item_3190_effect_1"
+      ]
+    },
+    {
+      "itemId": "3222",
+      "name": "米凯尔的祝福",
+      "requiredEvidence": [
+        "100–250治疗取值依据/公式",
+        "施法距离",
+        "主动冷却"
+      ],
+      "boundaryReview": "排除滞空和压制明确，不能照搬水银饰带排除集合",
+      "effectKeys": [
+        "item_3222_effect_1"
+      ]
+    },
+    {
+      "itemId": "3302",
+      "name": "界弓",
+      "requiredEvidence": [
+        "攻击特效魔法伤害公式",
+        "光明攻击提供的护甲与魔抗数值",
+        "轮换周期和层数规则"
+      ],
+      "boundaryReview": "黑暗攻击10%双穿、5秒明确，晦影显示0",
+      "effectKeys": [
+        "item_3302_effect_1",
+        "item_3302_effect_2"
+      ]
+    },
+    {
+      "itemId": "3508",
+      "name": "夺萃之镰",
+      "requiredEvidence": [
+        "咒刃物理伤害、法力回复公式、冷却与待击时限"
+      ],
+      "boundaryReview": "伤害与法力两种结果同属攻击特效",
+      "effectKeys": [
+        "item_3508_effect_1"
+      ]
+    },
+    {
+      "itemId": "3742",
+      "name": "亡者的板甲",
+      "requiredEvidence": [
+        "移动积攒速度的规则",
+        "释放伤害公式"
+      ],
+      "boundaryReview": "20移速上限和15%减速抗性明确",
+      "effectKeys": [
+        "item_3742_effect_1",
+        "item_3742_effect_2"
+      ]
+    },
+    {
+      "itemId": "3748",
+      "name": "巨型九头蛇",
+      "requiredEvidence": [
+        "主目标附伤、目标身后范围伤害与刚斩强化各自公式",
+        "作用形状",
+        "主动冷却"
+      ],
+      "boundaryReview": "不同受击目标的伤害结果不能合并",
+      "effectKeys": [
+        "item_3748_effect_1",
+        "item_3748_effect_2",
+        "item_3748_effect_3"
+      ]
+    },
+    {
+      "itemId": "3802",
+      "name": "遗失的章节",
+      "requiredEvidence": [
+        "治疗/回复分段频率"
+      ],
+      "boundaryReview": "升级后3秒共20%最大法力明确，若只保存总量应保留持续回复未细化状态",
+      "effectKeys": [
+        "item_3802_effect_1"
+      ]
+    },
+    {
+      "itemId": "3803",
+      "name": "万世催化石",
+      "requiredEvidence": [
+        "治疗或回复上限是否存在",
+        "持续技能消耗的结算规则"
+      ],
+      "boundaryReview": "受英雄伤害10%回蓝、施法法力消耗25%治疗明确",
+      "effectKeys": [
+        "item_3803_effect_1"
+      ]
+    },
+    {
+      "itemId": "3814",
+      "name": "夜之锋刃",
+      "requiredEvidence": [
+        "法术护盾重获时间和条件"
+      ],
+      "boundaryReview": "阻挡下一个敌方技能，范围需沿用法术护盾语义核对",
+      "effectKeys": [
+        "item_3814_effect_1"
+      ]
+    },
+    {
+      "itemId": "4005",
+      "name": "帝国指令",
+      "requiredEvidence": [
+        "命令单目标触发冷却是否存在及数值"
+      ],
+      "boundaryReview": "20急速限定带定身的技能；7%易损持续4秒，不能把其固定写成额外伤害事件",
+      "effectKeys": [
+        "item_4005_effect_1",
+        "item_4005_effect_2"
+      ]
+    },
+    {
+      "itemId": "4401",
+      "name": "自然之力",
+      "requiredEvidence": [
+        "受击层数持续/刷新规则",
+        "满层增益持续时间"
+      ],
+      "boundaryReview": "8次英雄魔法伤害、70魔抗与6%移速明确",
+      "effectKeys": [
+        "item_4401_effect_1"
+      ]
+    },
+    {
+      "itemId": "4628",
+      "name": "视界专注",
+      "requiredEvidence": [
+        "专注触发冷却是否存在及数值"
+      ],
+      "boundaryReview": "600码阈值、显形6秒、1400码周边显形3秒；视野部分按既定边界后置",
+      "effectKeys": [
+        "item_4628_effect_1",
+        "item_4628_effect_2",
+        "item_4628_effect_3"
+      ]
+    },
+    {
+      "itemId": "4629",
+      "name": "星界驱驰",
+      "requiredEvidence": [
+        "咒舞移动速度数值"
+      ],
+      "boundaryReview": "英雄魔法或真实伤害、4秒时长明确",
+      "effectKeys": [
+        "item_4629_effect_1"
+      ]
+    },
+    {
+      "itemId": "4632",
+      "name": "翠绿屏障",
+      "requiredEvidence": [
+        "法术护盾重获时间和条件"
+      ],
+      "boundaryReview": "范围需与女妖面纱、夜之锋刃的法术护盾语义核对",
+      "effectKeys": [
+        "item_4632_effect_1"
+      ]
+    },
+    {
+      "itemId": "4633",
+      "name": "裂隙制造者",
+      "requiredEvidence": [
+        "满层全能吸血数值",
+        "战斗结束后的增伤层数处理"
+      ],
+      "boundaryReview": "每秒2%至多8%及2%额外生命转法强明确",
+      "effectKeys": [
+        "item_4633_effect_1",
+        "item_4633_effect_2"
+      ]
+    },
+    {
+      "itemId": "4646",
+      "name": "风暴狂涌",
+      "requiredEvidence": [
+        "风啸伤害公式、爆炸范围和触发冷却"
+      ],
+      "boundaryReview": "2.5秒造成25%最大生命伤害门槛、延迟2秒和提前阵亡转区域伤害明确",
+      "effectKeys": [
+        "item_4646_effect_1",
+        "item_4646_effect_2",
+        "item_4646_effect_3",
+        "item_4646_effect_4"
+      ]
+    },
+    {
+      "itemId": "6333",
+      "name": "死亡之舞",
+      "requiredEvidence": [
+        "延迟扣血比例、伤害类型和跳频",
+        "蔑视治疗公式"
+      ],
+      "boundaryReview": "3秒流血、3秒击杀窗口、2秒治疗明确，不能把全部伤害改为流血",
+      "effectKeys": [
+        "item_6333_effect_1",
+        "item_6333_effect_2",
+        "item_6333_effect_3"
+      ]
+    },
+    {
+      "itemId": "6610",
+      "name": "焚天",
+      "requiredEvidence": [
+        "治疗公式",
+        "每英雄第一次攻击的重置时间",
+        "特殊暴击倍率是否存在"
+      ],
+      "boundaryReview": "不同目标独立触发状态不能直接用全局一次状态",
+      "effectKeys": [
+        "item_6610_effect_1"
+      ]
+    },
+    {
+      "itemId": "6617",
+      "name": "月石再生器",
+      "requiredEvidence": [
+        "第二目标搜索距离和选择规则",
+        "没有第二目标时的处理"
+      ],
+      "boundaryReview": "自身排除、30%治疗/35%护盾连锁明确，避免连锁递归",
+      "effectKeys": [
+        "item_6617_effect_1"
+      ]
+    },
+    {
+      "itemId": "6620",
+      "name": "海力亚的回响",
+      "requiredEvidence": [
+        "灵魂充能上限、保留时间及到治疗量的转换规则"
+      ],
+      "boundaryReview": "30%折前伤害作为积攒来源明确，不改成折后伤害",
+      "effectKeys": [
+        "item_6620_effect_1",
+        "item_6620_effect_2"
+      ]
+    },
+    {
+      "itemId": "6631",
+      "name": "挺进破坏者",
+      "requiredEvidence": [
+        "顺劈和主动伤害公式",
+        "范围",
+        "主动冷却",
+        "减速持续时间及移速衰减曲线"
+      ],
+      "boundaryReview": "命中每英雄35%移速、3秒衰减和35%减速明确",
+      "effectKeys": [
+        "item_6631_effect_1",
+        "item_6631_effect_2"
+      ]
+    },
+    {
+      "itemId": "6653",
+      "name": "兰德里的折磨",
+      "requiredEvidence": [
+        "战斗结束后受苦层数处理",
+        "持续灼烧的跳频"
+      ],
+      "boundaryReview": "每秒2%目标最大生命3秒和每秒2%增伤至多6%明确",
+      "effectKeys": [
+        "item_6653_effect_1",
+        "item_6653_effect_2"
+      ]
+    },
+    {
+      "itemId": "6655",
+      "name": "卢登的回声",
+      "requiredEvidence": [
+        "每道回声伤害公式",
+        "范围",
+        "基础冷却及充能规则"
+      ],
+      "boundaryReview": "6道回声和剩余回声对主要目标20%伤害明确",
+      "effectKeys": [
+        "item_6655_effect_1"
+      ]
+    },
+    {
+      "itemId": "6657",
+      "name": "时光之杖",
+      "requiredEvidence": [
+        "永恒治疗/回复上限是否存在",
+        "持续技能消耗规则"
+      ],
+      "boundaryReview": "每60秒10生命/30法力/3法强、10层和满层升1级明确",
+      "effectKeys": [
+        "item_6657_effect_1",
+        "item_6657_effect_2"
+      ]
+    },
+    {
+      "itemId": "6660",
+      "name": "斑比的熔渣",
+      "requiredEvidence": [
+        "献祭伤害公式、跳频与范围"
+      ],
+      "boundaryReview": "承受或造成伤害和3秒持续明确",
+      "effectKeys": [
+        "item_6660_effect_1"
+      ]
+    },
+    {
+      "itemId": "6662",
+      "name": "冰脉护手",
+      "requiredEvidence": [
+        "咒刃伤害公式、冷却",
+        "冰冷地带范围和减速数值"
+      ],
+      "boundaryReview": "2秒地带明确，地形/区域表达按既定边界核对",
+      "effectKeys": [
+        "item_6662_effect_1"
+      ]
+    },
+    {
+      "itemId": "6664",
+      "name": "璀璨回响",
+      "requiredEvidence": [
+        "献祭每秒伤害与范围",
+        "荒弃爆炸伤害及范围"
+      ],
+      "boundaryReview": "献祭持续3秒和击杀触发爆炸明确",
+      "effectKeys": [
+        "item_6664_effect_1",
+        "item_6664_effect_2"
+      ]
+    },
+    {
+      "itemId": "6665",
+      "name": "千变者贾修",
+      "requiredEvidence": [
+        "战斗结束判定时长"
+      ],
+      "boundaryReview": "与英雄战斗5秒后额外双抗提升30%至战斗结束，不能提升基础双抗",
+      "effectKeys": [
+        "item_6665_effect_1"
+      ]
+    },
+    {
+      "itemId": "6672",
+      "name": "海妖杀手",
+      "requiredEvidence": [
+        "第三击伤害公式和已损失生命值提升函数",
+        "叠层保留时间"
+      ],
+      "boundaryReview": "攻击特效与每第三击明确",
+      "effectKeys": [
+        "item_6672_effect_1"
+      ]
+    },
+    {
+      "itemId": "6673",
+      "name": "不朽盾弓",
+      "requiredEvidence": [
+        "护盾公式及救主灵刃冷却"
+      ],
+      "boundaryReview": "30%生命阈值、3秒护盾明确",
+      "effectKeys": [
+        "item_6673_effect_1"
+      ]
+    },
+    {
+      "itemId": "6692",
+      "name": "星蚀",
+      "requiredEvidence": [
+        "护盾公式和触发冷却",
+        "独立攻击/技能的去重规则"
+      ],
+      "boundaryReview": "2秒内两次命中同一英雄、护盾2秒明确",
+      "effectKeys": [
+        "item_6692_effect_1"
+      ]
+    },
+    {
+      "itemId": "6695",
+      "name": "巨蛇之牙",
+      "requiredEvidence": [
+        "后续护盾削减及现有护盾削减比例",
+        "近战远程差别是否存在"
+      ],
+      "boundaryReview": "两处0%展示；3秒状态时长明确",
+      "effectKeys": [
+        "item_6695_effect_1",
+        "item_6695_effect_2"
+      ]
+    },
+    {
+      "itemId": "6696",
+      "name": "公理圆弧",
+      "requiredEvidence": [
+        "终极技能总冷却返还比例或公式"
+      ],
+      "boundaryReview": "3秒被伤害后阵亡窗口明确，不改成剩余冷却返还",
+      "effectKeys": [
+        "item_6696_effect_1"
+      ]
+    },
+    {
+      "itemId": "6697",
+      "name": "狂妄",
+      "requiredEvidence": [
+        "已击杀英雄数的计数范围和增益刷新/叠加处理"
+      ],
+      "boundaryReview": "12+3×已击杀英雄数、90秒、3秒伤害窗口明确，不能把一次参与击杀直接当3攻击力",
+      "effectKeys": [
+        "item_6697_effect_1"
+      ]
+    },
+    {
+      "itemId": "6698",
+      "name": "亵渎九头蛇",
+      "requiredEvidence": [
+        "顺劈与邪斩各自伤害公式、范围和主动冷却"
+      ],
+      "boundaryReview": "被动与主动分开候选",
+      "effectKeys": [
+        "item_6698_effect_1",
+        "item_6698_effect_2"
+      ]
+    },
+    {
+      "itemId": "6699",
+      "name": "电震涡流剑",
+      "requiredEvidence": [
+        "目标当前生命百分比系数",
+        "额外穿甲数值",
+        "盈能门槛与充能规则"
+      ],
+      "boundaryReview": "原文百分号前没有数字，额外穿甲前也没有数字；4秒持续明确",
+      "effectKeys": [
+        "item_6699_effect_1",
+        "item_6699_effect_2"
+      ]
+    },
+    {
+      "itemId": "8020",
+      "name": "深渊面具",
+      "requiredEvidence": [
+        "光环作用范围"
+      ],
+      "boundaryReview": "对附近敌方英雄的12%魔法伤害易损明确，不等同魔抗削减",
+      "effectKeys": [
+        "item_8020_effect_1"
+      ]
+    }
+  ],
+  "zeroDisplayItems": [
+    {
+      "itemId": "2510",
+      "name": "黄昏与黎明"
+    },
+    {
+      "itemId": "2520",
+      "name": "破垒者"
+    },
+    {
+      "itemId": "2522",
+      "name": "实现器"
+    },
+    {
+      "itemId": "2524",
+      "name": "班德尔音管"
+    },
+    {
+      "itemId": "2525",
+      "name": "原生质护带"
+    },
+    {
+      "itemId": "2526",
+      "name": "耳语头环"
+    },
+    {
+      "itemId": "3004",
+      "name": "魔宗"
+    },
+    {
+      "itemId": "3032",
+      "name": "育恩塔尔荒野箭"
+    },
+    {
+      "itemId": "3071",
+      "name": "黑色切割者"
+    },
+    {
+      "itemId": "3073",
+      "name": "海克斯注力刚壁"
+    },
+    {
+      "itemId": "3076",
+      "name": "棘刺背心"
+    },
+    {
+      "itemId": "3083",
+      "name": "狂徒铠甲"
+    },
+    {
+      "itemId": "3084",
+      "name": "心之钢"
+    },
+    {
+      "itemId": "3095",
+      "name": "岚切"
+    },
+    {
+      "itemId": "3109",
+      "name": "骑士之誓"
+    },
+    {
+      "itemId": "3119",
+      "name": "凛冬之临"
+    },
+    {
+      "itemId": "3142",
+      "name": "幽梦之灵"
+    },
+    {
+      "itemId": "3146",
+      "name": "海克斯科技枪刃"
+    },
+    {
+      "itemId": "3302",
+      "name": "界弓"
+    },
+    {
+      "itemId": "6695",
+      "name": "巨蛇之牙"
+    }
+  ],
+  "numberlessPlaceholders": [
+    {
+      "itemId": "6699",
+      "name": "电震涡流剑",
+      "text": "55攻击力\n10穿甲\n10技能急速\n\n通电\n用技能对一名敌人造成伤害会触发盈能(充能完毕时)。\n\n苍穹\n你的盈能攻击造成相当于%目标当前生命值的额外物理伤害，并为你提供持续4秒的 额外穿甲。"
+    }
+  ]
+}

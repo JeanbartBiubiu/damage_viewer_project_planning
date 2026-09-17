@@ -1,0 +1,39 @@
+{
+  "runId": "2026-09-09T05-07-07-734Z",
+  "startedAt": "2026-09-09T05:07:07.736Z",
+  "mode": "默认只读预检",
+  "apiBaseUrl": "http://127.0.0.1:8080/api/admin/games/lol",
+  "candidateSha256": "8eb1c181548df3710ab525bf2997137443fe7305b5e83d5d1e452e7b5f9b9e4a",
+  "sourceHash": "6e8846b7c748578f0c6868442d118eb4a6296b3a2add87b105c2cbeaab059a67",
+  "beforeHash": "b0e7148e371651c5013134a4533aa0585e0428d0851d9482a9e29cbdef2c70c9",
+  "activeSlotHash": "69a210c49a227de9156a7cf344ed9eda7ec2970c31f28f21393265583bd846d6",
+  "activeSlotEvidence": {
+    "route": "/skills/item_2522_active",
+    "status": 404,
+    "businessWrites": 0
+  },
+  "events": [],
+  "objectStops": [],
+  "errors": [
+    {
+      "message": "AssertionError [ERR_ASSERTION]: 请在进程环境中提供 DV_API_AUTH_HEADER；脚本不保存认证头"
+    }
+  ],
+  "sources": [
+    {
+      "file": "客户端原始资料/items-16.17.cdtb.bin.json.gz",
+      "compressedSha256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7",
+      "rawSha256": "b59ec9320d05acefa344ea8a5ef615cf7f32959078475cafff63833462dc358f"
+    },
+    {
+      "file": "客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+      "compressedSha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+      "rawSha256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031"
+    },
+    {
+      "file": "官方原始资料/item-16.17.1-zh_CN.json",
+      "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973"
+    }
+  ],
+  "finishedAt": "2026-09-09T05:07:07.855Z"
+}

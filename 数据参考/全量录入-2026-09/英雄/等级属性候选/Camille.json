@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "Camille",
+  "sourceNumericId": "164",
+  "name": "卡蜜尔",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 650,
+      "growth": 99,
+      "sources": [
+        "原始资料/zh_CN/champion/Camille.json:stats.hp/hpperlevel",
+        "角色根记录/Camille.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 650,
+        "2": 721.28,
+        "3": 796.025,
+        "4": 874.235,
+        "5": 955.91,
+        "6": 1041.05,
+        "7": 1129.655,
+        "8": 1221.725,
+        "9": 1317.26,
+        "10": 1416.26,
+        "11": 1518.725,
+        "12": 1624.655,
+        "13": 1734.05,
+        "14": 1846.91,
+        "15": 1963.235,
+        "16": 2083.025,
+        "17": 2206.28,
+        "18": 2333
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 8.5,
+      "growth": 0.8,
+      "sources": [
+        "原始资料/zh_CN/champion/Camille.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/Camille.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 8.5,
+        "2": 9.076,
+        "3": 9.68,
+        "4": 10.312,
+        "5": 10.972,
+        "6": 11.66,
+        "7": 12.376,
+        "8": 13.12,
+        "9": 13.892,
+        "10": 14.692,
+        "11": 15.52,
+        "12": 16.376,
+        "13": 17.26,
+        "14": 18.172,
+        "15": 19.112,
+        "16": 20.08,
+        "17": 21.076,
+        "18": 22.1
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 35,
+      "growth": 4.5,
+      "sources": [
+        "原始资料/zh_CN/champion/Camille.json:stats.armor/armorperlevel",
+        "角色根记录/Camille.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 35,
+        "2": 38.24,
+        "3": 41.6375,
+        "4": 45.1925,
+        "5": 48.905,
+        "6": 52.775,
+        "7": 56.8025,
+        "8": 60.9875,
+        "9": 65.33,
+        "10": 69.83,
+        "11": 74.4875,
+        "12": 79.3025,
+        "13": 84.275,
+        "14": 89.405,
+        "15": 94.6925,
+        "16": 100.1375,
+        "17": 105.74,
+        "18": 111.5
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 32,
+      "growth": 2.05,
+      "sources": [
+        "原始资料/zh_CN/champion/Camille.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/Camille.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 32,
+        "2": 33.476,
+        "3": 35.02375,
+        "4": 36.64325,
+        "5": 38.3345,
+        "6": 40.0975,
+        "7": 41.93225,
+        "8": 43.83875,
+        "9": 45.817,
+        "10": 47.867,
+        "11": 49.98875,
+        "12": 52.18225,
+        "13": 54.4475,
+        "14": 56.7845,
+        "15": 59.19325,
+        "16": 61.67375,
+        "17": 64.226,
+        "18": 66.85
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 68,
+      "growth": 3.8,
+      "sources": [
+        "角色根记录/Camille.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 68,
+        "2": 70.736,
+        "3": 73.605,
+        "4": 76.607,
+        "5": 79.742,
+        "6": 83.01,
+        "7": 86.411,
+        "8": 89.945,
+        "9": 93.612,
+        "10": 97.412,
+        "11": 101.345,
+        "12": 105.411,
+        "13": 109.61,
+        "14": 113.942,
+        "15": 118.407,
+        "16": 123.005,
+        "17": 127.736,
+        "18": 132.6
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 340,
+      "growth": null,
+      "sources": [
+        "角色根记录/Camille.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 340,
+        "2": 340,
+        "3": 340,
+        "4": 340,
+        "5": 340,
+        "6": 340,
+        "7": 340,
+        "8": 340,
+        "9": 340,
+        "10": 340,
+        "11": 340,
+        "12": 340,
+        "13": 340,
+        "14": 340,
+        "15": 340,
+        "16": 340,
+        "17": 340,
+        "18": 340
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 125,
+      "growth": null,
+      "sources": [
+        "角色根记录/Camille.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 125,
+        "2": 125,
+        "3": 125,
+        "4": 125,
+        "5": 125,
+        "6": 125,
+        "7": 125,
+        "8": 125,
+        "9": 125,
+        "10": 125,
+        "11": 125,
+        "12": 125,
+        "13": 125,
+        "14": 125,
+        "15": 125,
+        "16": 125,
+        "17": 125,
+        "18": 125
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.644,
+      "attackSpeedRatio": 0.644,
+      "growthPercent": 2.5,
+      "sources": [
+        "角色根记录/Camille.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.644,
+        "2": 0.655592,
+        "3": 0.667748,
+        "4": 0.680466,
+        "5": 0.693749,
+        "6": 0.707595,
+        "7": 0.722005,
+        "8": 0.736978,
+        "9": 0.752514,
+        "10": 0.768614,
+        "11": 0.785278,
+        "12": 0.802505,
+        "13": 0.820295,
+        "14": 0.838649,
+        "15": 0.857567,
+        "16": 0.877047,
+        "17": 0.897092,
+        "18": 0.9177
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 375,
+      "growth": 52,
+      "sources": [
+        "原始资料/zh_CN/champion/Camille.json:stats.mp/mpperlevel",
+        "角色根记录/Camille.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 375,
+        "2": 412.44,
+        "3": 451.7,
+        "4": 492.78,
+        "5": 535.68,
+        "6": 580.4,
+        "7": 626.94,
+        "8": 675.3,
+        "9": 725.48,
+        "10": 777.48,
+        "11": 831.3,
+        "12": 886.94,
+        "13": 944.4,
+        "14": 1003.68,
+        "15": 1064.78,
+        "16": 1127.7,
+        "17": 1192.44,
+        "18": 1259
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 8.15,
+      "growth": 0.75,
+      "sources": [
+        "原始资料/zh_CN/champion/Camille.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/Camille.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 8.15,
+        "2": 8.69,
+        "3": 9.25625,
+        "4": 9.84875,
+        "5": 10.4675,
+        "6": 11.1125,
+        "7": 11.78375,
+        "8": 12.48125,
+        "9": 13.205,
+        "10": 13.955,
+        "11": 14.73125,
+        "12": 15.53375,
+        "13": 16.3625,
+        "14": 17.2175,
+        "15": 18.09875,
+        "16": 19.00625,
+        "17": 19.94,
+        "18": 20.9
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.644,
+    "ratio": 0.644,
+    "growthPercent": 2.5,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

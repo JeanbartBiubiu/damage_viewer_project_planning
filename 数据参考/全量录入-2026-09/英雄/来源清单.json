@@ -1,0 +1,2510 @@
+{
+  "schemaVersion": 1,
+  "frozenAt": "2026-09-06T14:13:09.179Z",
+  "scope": {
+    "mode": "召唤师峡谷",
+    "primarySourceVersion": "16.17.1",
+    "versionMeaning": "Data Dragon 资料版本；不是逐区域客户端版本保证，也不是全部机制完整性保证",
+    "excludedChampions": [
+      {
+        "sourceChampionId": "Sylas",
+        "reason": "用户明确后置：赛拉斯及技能偷取机制。"
+      },
+      {
+        "sourceChampionId": "Aphelios",
+        "reason": "用户明确后置：厄斐琉斯及完整武器技能集合。"
+      }
+    ],
+    "mechanismExclusions": [
+      {
+        "key": "independent_summoned_objects",
+        "label": "陷阱、召唤物、士兵、炮台等独立战斗对象",
+        "action": "保留角色和原始技能说明；涉及独立对象的机制后置，其余可表达部分正常录入"
+      },
+      {
+        "key": "full_skill_set_replacement",
+        "label": "完整技能集合替换和完整变形技能集",
+        "action": "保留角色和原始技能说明；技能集合替换部分后置，简单模式和状态切换继续录入"
+      }
+    ],
+    "mechanismExclusionSource": "../../../文档记录/需求澄清/项目/效果与状态本地Wiki机制盘点.md#132-建议后置",
+    "exclusionReview": "未对其余 171 个英雄逐项人工判定后置机制；录入时按机制记录，不能自动排除整名英雄"
+  },
+  "statistics": {
+    "championCount": 173,
+    "inScopeChampionCount": 171,
+    "excludedChampionCount": 2,
+    "sourceSkillSlotCount": 865,
+    "inScopeSkillSlotCount": 855,
+    "excludedSkillSlotCount": 10,
+    "championWithLocalWikiSupplementCount": 33,
+    "skillWithLocalWikiSupplementCount": 165,
+    "activeSpellWithUnresolvedPlaceholderCount": 692,
+    "passiveWithoutStructuredNumericFieldsCount": 173,
+    "activeSpellWithUnresolvedMechanismPlaceholderCount": 682,
+    "activeSpellWithEmptyVarsCount": 692,
+    "activeSpellWithEmptyDatavaluesCount": 692,
+    "championWithZeroRawAttackDamageGrowthCount": 173
+  },
+  "officialFieldDocumentation": "https://developer.riotgames.com/docs/lol#data-dragon_champions",
+  "officialFieldConstraints": [
+    "英雄索引为摘要，单英雄详情包含更多字段。",
+    "说明中的 eN 占位符通常对应 effect/effectBurn 的 N 下标；aN/fN 通常对应 vars。未找到的变量保留缺失。",
+    "effect/effectBurn 第 0 项为原设计的一基下标占位，不作为等级数据。",
+    "法力或能量消耗通常在 cost；生命消耗可能在 effect，必须结合 resource 核对。",
+    "资料随补丁人工更新，可能滞后；资料版本不保证等于所有地区客户端版本。"
+  ],
+  "localWikiSupplement": {
+    "note": "本地既有 Wiki 为跨修订机制补充，不能声称与 16.17.1 同版本。",
+    "identityManifestPath": "../../lol-wiki-current-champions/identity-manifest.json",
+    "identityManifestSha256": "25b3cdbdd2b4b223bbd91736fbe8deb7bb2d2be900043da8d0565dfe8ec2a3dc",
+    "summaryPath": "../../lol-wiki-current-champions/summary.json",
+    "summarySha256": "45d955099e7d8de1deb294172b2a1d676d7df46300a82ae338ee1b047179f022",
+    "fetchedAt": "2026-07-18T18:57:47.640Z"
+  },
+  "sourceFiles": [
+    {
+      "path": "原始资料/en_US/champion.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion.json",
+      "fetchedAt": "2026-09-06T14:12:43.486Z",
+      "byteSize": 159008,
+      "sha256": "056275dcddac3ecc81c497d269b10e7abe6a66ceaa0d6d965f1fc8d00943760b"
+    },
+    {
+      "path": "原始资料/en_US/champion/Aatrox.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Aatrox.json",
+      "fetchedAt": "2026-09-06T14:12:57.847Z",
+      "byteSize": 11409,
+      "sha256": "c664e0da9f9af8bf9f590d3c59f94c095bf7ffe2836524632cc0b266b6582335"
+    },
+    {
+      "path": "原始资料/en_US/champion/Ahri.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Ahri.json",
+      "fetchedAt": "2026-09-06T14:12:57.851Z",
+      "byteSize": 15543,
+      "sha256": "0bd796d1e9376a738a70b2eb809d408ac296da11a527be2847aced37bfbaeea7"
+    },
+    {
+      "path": "原始资料/en_US/champion/Akali.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Akali.json",
+      "fetchedAt": "2026-09-06T14:12:58.296Z",
+      "byteSize": 16508,
+      "sha256": "a1a463248a0fbc4acb77c7decd0ab5db47afbe0d5210ac9b083e3861321adcb4"
+    },
+    {
+      "path": "原始资料/en_US/champion/Akshan.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Akshan.json",
+      "fetchedAt": "2026-09-06T14:12:58.063Z",
+      "byteSize": 10848,
+      "sha256": "f034d6505fed61427e5195319e5176015fb1e84019efcb6c0b3b69ad74089fa4"
+    },
+    {
+      "path": "原始资料/en_US/champion/Alistar.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Alistar.json",
+      "fetchedAt": "2026-09-06T14:12:58.062Z",
+      "byteSize": 11273,
+      "sha256": "d1148d031b0041aa0512b67f1794005cb823d2e63ea75116295f132e8cb769f1"
+    },
+    {
+      "path": "原始资料/en_US/champion/Ambessa.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Ambessa.json",
+      "fetchedAt": "2026-09-06T14:12:58.093Z",
+      "byteSize": 9944,
+      "sha256": "90efc96a2904f124bd1f59780d7a8175816bb7168af44a75e7a57f1cda8c42d8"
+    },
+    {
+      "path": "原始资料/en_US/champion/Amumu.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Amumu.json",
+      "fetchedAt": "2026-09-06T14:12:58.110Z",
+      "byteSize": 12985,
+      "sha256": "7c0160c4a6815044235fe9e91d4dd176d21986ed587baeb8dad3d4b23f08c09c"
+    },
+    {
+      "path": "原始资料/en_US/champion/Anivia.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Anivia.json",
+      "fetchedAt": "2026-09-06T14:12:58.861Z",
+      "byteSize": 13106,
+      "sha256": "b08210af0421bcc9d9a8af58e08c8a5ede8613132c6ccfa06ead4eaf50e229f1"
+    },
+    {
+      "path": "原始资料/en_US/champion/Annie.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Annie.json",
+      "fetchedAt": "2026-09-06T14:12:58.529Z",
+      "byteSize": 13051,
+      "sha256": "28803e672dcf429b1f10423c301f8c03831ad10987cb9b32cb6f7d8f117cd2f4"
+    },
+    {
+      "path": "原始资料/en_US/champion/Aphelios.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Aphelios.json",
+      "fetchedAt": "2026-09-06T14:12:58.827Z",
+      "byteSize": 10586,
+      "sha256": "43266dc7fbdf98c77a91060e6154f2943b585ea01f3ea08ce7dd91a586b42adc"
+    },
+    {
+      "path": "原始资料/en_US/champion/Ashe.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Ashe.json",
+      "fetchedAt": "2026-09-06T14:12:58.297Z",
+      "byteSize": 15496,
+      "sha256": "e85c7e4b51ee4e39e602a6792ed106909414ba267b1f3914677d218e5977ca95"
+    },
+    {
+      "path": "原始资料/en_US/champion/AurelionSol.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/AurelionSol.json",
+      "fetchedAt": "2026-09-06T14:12:58.728Z",
+      "byteSize": 13316,
+      "sha256": "ebaf9191e154ae99459bb82da0f10a314477b8bb6b75d70cef0f8518b303cf94"
+    },
+    {
+      "path": "原始资料/en_US/champion/Aurora.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Aurora.json",
+      "fetchedAt": "2026-09-06T14:12:58.563Z",
+      "byteSize": 10426,
+      "sha256": "a65d8990798c9d10e78f563b1a127e27dd7216702b558421ddfcaf92cbabb32c"
+    },
+    {
+      "path": "原始资料/en_US/champion/Azir.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Azir.json",
+      "fetchedAt": "2026-09-06T14:12:58.542Z",
+      "byteSize": 10728,
+      "sha256": "fd96763880c69b354363ec923fe936c7d051d8745c1571a0d0f480a728b02324"
+    },
+    {
+      "path": "原始资料/en_US/champion/Bard.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Bard.json",
+      "fetchedAt": "2026-09-06T14:12:58.728Z",
+      "byteSize": 12099,
+      "sha256": "1e8569f484eefca6757e1fe42a168201279c30ebae9691fe27ae0d2e797aac4e"
+    },
+    {
+      "path": "原始资料/en_US/champion/Belveth.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Belveth.json",
+      "fetchedAt": "2026-09-06T14:12:58.735Z",
+      "byteSize": 12169,
+      "sha256": "6210433ef95ccb2474046121860b8d403acd08c2c1da83db2488604a40f855fe"
+    },
+    {
+      "path": "原始资料/en_US/champion/Blitzcrank.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Blitzcrank.json",
+      "fetchedAt": "2026-09-06T14:12:58.748Z",
+      "byteSize": 14266,
+      "sha256": "1efe4454e3653ea80c2599dc2c14af2a4b0b658e795f9d4cc3de014122410892"
+    },
+    {
+      "path": "原始资料/en_US/champion/Brand.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Brand.json",
+      "fetchedAt": "2026-09-06T14:12:59.171Z",
+      "byteSize": 12631,
+      "sha256": "d1f7a34ee637918b864268464c39199eea9f53eb5a37101d403f544f5792a8dc"
+    },
+    {
+      "path": "原始资料/en_US/champion/Braum.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Braum.json",
+      "fetchedAt": "2026-09-06T14:12:59.194Z",
+      "byteSize": 14226,
+      "sha256": "12fe6bcad701ca3685a4a97b15df77c7c4ba69f64bbd5e670418174311b9b4c2"
+    },
+    {
+      "path": "原始资料/en_US/champion/Briar.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Briar.json",
+      "fetchedAt": "2026-09-06T14:12:58.929Z",
+      "byteSize": 12493,
+      "sha256": "bb2a274cfc06f424b5c4e05dc4cedb4b7017b356b4bbf9742adb468d08ecf575"
+    },
+    {
+      "path": "原始资料/en_US/champion/Caitlyn.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Caitlyn.json",
+      "fetchedAt": "2026-09-06T14:12:59.194Z",
+      "byteSize": 13451,
+      "sha256": "1d08f5abcbbcb71c0a09834a016782480b3710c20418bf84be0f6bafd92e3a4e"
+    },
+    {
+      "path": "原始资料/en_US/champion/Camille.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Camille.json",
+      "fetchedAt": "2026-09-06T14:12:59.733Z",
+      "byteSize": 13561,
+      "sha256": "180e61216b93db5f38ca5c1b33aa806921876a8e9d52ed5fa149f94da37f01c8"
+    },
+    {
+      "path": "原始资料/en_US/champion/Cassiopeia.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Cassiopeia.json",
+      "fetchedAt": "2026-09-06T14:12:59.068Z",
+      "byteSize": 11076,
+      "sha256": "4edf3e0f436010cc9731f47bde44b34216c932fff651dc1bb5825afb1d3a009f"
+    },
+    {
+      "path": "原始资料/en_US/champion/Chogath.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Chogath.json",
+      "fetchedAt": "2026-09-06T14:12:59.135Z",
+      "byteSize": 11525,
+      "sha256": "a132ad9f7eba390af39efe75a61d2bce5d76ae03e33e047552d9612b482c6843"
+    },
+    {
+      "path": "原始资料/en_US/champion/Corki.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Corki.json",
+      "fetchedAt": "2026-09-06T14:12:59.268Z",
+      "byteSize": 11213,
+      "sha256": "649b51b45506b7329d21a67b7a420f290bd7d234ab74b83185f3ee48dd656941"
+    },
+    {
+      "path": "原始资料/en_US/champion/Darius.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Darius.json",
+      "fetchedAt": "2026-09-06T14:12:59.345Z",
+      "byteSize": 15118,
+      "sha256": "8bd2e15dfa5c0f9b8ddbfbcebf7ea17dcf835eb30e39dd98f6fe3a81261ca2de"
+    },
+    {
+      "path": "原始资料/en_US/champion/Diana.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Diana.json",
+      "fetchedAt": "2026-09-06T14:12:59.367Z",
+      "byteSize": 15878,
+      "sha256": "06bba838083bb91b9d6c41f6c9f7395966d911719b9893be08734ba6425e8055"
+    },
+    {
+      "path": "原始资料/en_US/champion/Draven.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Draven.json",
+      "fetchedAt": "2026-09-06T14:13:00.330Z",
+      "byteSize": 15570,
+      "sha256": "9c501e289f365072f5b3c32d4bddc93ac1242107f9ca615145eff76d3af60361"
+    },
+    {
+      "path": "原始资料/en_US/champion/DrMundo.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/DrMundo.json",
+      "fetchedAt": "2026-09-06T14:12:59.395Z",
+      "byteSize": 12101,
+      "sha256": "d3908275387b3332bb81e679e98ecc58183f018e2050429832eaf53989061150"
+    },
+    {
+      "path": "原始资料/en_US/champion/Ekko.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Ekko.json",
+      "fetchedAt": "2026-09-06T14:13:00.146Z",
+      "byteSize": 14036,
+      "sha256": "48a6bcf175ce4c1f0c0793a3b1b842e9dc0fe25be00fac7177f084bc7b0e72bd"
+    },
+    {
+      "path": "原始资料/en_US/champion/Elise.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Elise.json",
+      "fetchedAt": "2026-09-06T14:12:59.544Z",
+      "byteSize": 11234,
+      "sha256": "2023ebfce4db100932007ad9762a82aaf4af27e4bdf7d32c2b85c58ae7019d20"
+    },
+    {
+      "path": "原始资料/en_US/champion/Evelynn.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Evelynn.json",
+      "fetchedAt": "2026-09-06T14:12:59.565Z",
+      "byteSize": 15324,
+      "sha256": "ba9acae889287d852708b0d046e5d39754ad4c792247627e8cc317965277108d"
+    },
+    {
+      "path": "原始资料/en_US/champion/Ezreal.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Ezreal.json",
+      "fetchedAt": "2026-09-06T14:12:59.678Z",
+      "byteSize": 14018,
+      "sha256": "85a806256ceb7438933256c8e602db476792cbc705f969374d9824d7e4cc5f54"
+    },
+    {
+      "path": "原始资料/en_US/champion/Fiddlesticks.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Fiddlesticks.json",
+      "fetchedAt": "2026-09-06T14:12:59.752Z",
+      "byteSize": 12602,
+      "sha256": "9450b63687528af668c561ae63ed650b079c877201bdf5df548045151aba7a78"
+    },
+    {
+      "path": "原始资料/en_US/champion/Fiora.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Fiora.json",
+      "fetchedAt": "2026-09-06T14:12:59.853Z",
+      "byteSize": 17557,
+      "sha256": "371446339c8230ebb175b0b33a5d4a14bc059a212978fc1f067304c6aa4f2a97"
+    },
+    {
+      "path": "原始资料/en_US/champion/Fizz.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Fizz.json",
+      "fetchedAt": "2026-09-06T14:12:59.881Z",
+      "byteSize": 12794,
+      "sha256": "d640d5f78e63094d782536b7d38b6f42736f0fa9a7318b74390e48014731445b"
+    },
+    {
+      "path": "原始资料/en_US/champion/Galio.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Galio.json",
+      "fetchedAt": "2026-09-06T14:13:00.171Z",
+      "byteSize": 12683,
+      "sha256": "34be318e7fa1c69832db57be4b6e7c8a6dbf62769c01efa2e44b5940c52d36d6"
+    },
+    {
+      "path": "原始资料/en_US/champion/Gangplank.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Gangplank.json",
+      "fetchedAt": "2026-09-06T14:13:00.022Z",
+      "byteSize": 11984,
+      "sha256": "3ce7c328a6e5f70c11f0a3fae755862b93f6928e156b5960d751c1032d7c899b"
+    },
+    {
+      "path": "原始资料/en_US/champion/Garen.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Garen.json",
+      "fetchedAt": "2026-09-06T14:13:00.865Z",
+      "byteSize": 12736,
+      "sha256": "084ab22eb9106290451fe02a2abd547591a9cb82f9e9956314965d8ddff2314a"
+    },
+    {
+      "path": "原始资料/en_US/champion/Gnar.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Gnar.json",
+      "fetchedAt": "2026-09-06T14:13:00.111Z",
+      "byteSize": 12466,
+      "sha256": "630a840adbcfab8e630432e81d4f610d2cfa468a34e76ba8fd07c2aed1b7ebee"
+    },
+    {
+      "path": "原始资料/en_US/champion/Gragas.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Gragas.json",
+      "fetchedAt": "2026-09-06T14:13:01.130Z",
+      "byteSize": 11590,
+      "sha256": "7b4225a4717dd889c8d9f703b85192675b4fa03a20c7ae12a23978f0ce509a4d"
+    },
+    {
+      "path": "原始资料/en_US/champion/Graves.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Graves.json",
+      "fetchedAt": "2026-09-06T14:13:00.621Z",
+      "byteSize": 12849,
+      "sha256": "51ecf242d2ff1dd3ade7865a48891a3f7dae38f9e10cee74edfc81d3b131bb97"
+    },
+    {
+      "path": "原始资料/en_US/champion/Gwen.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Gwen.json",
+      "fetchedAt": "2026-09-06T14:13:00.353Z",
+      "byteSize": 14075,
+      "sha256": "148da937751017e198ae16735ce29f65ab34ff8997938928ec86c4d48a1604a9"
+    },
+    {
+      "path": "原始资料/en_US/champion/Hecarim.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Hecarim.json",
+      "fetchedAt": "2026-09-06T14:13:00.375Z",
+      "byteSize": 12630,
+      "sha256": "4baafc18f4deecffc7d2242d11bdff63e188b07bc62a55645ee7916f08b25db1"
+    },
+    {
+      "path": "原始资料/en_US/champion/Heimerdinger.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Heimerdinger.json",
+      "fetchedAt": "2026-09-06T14:13:00.546Z",
+      "byteSize": 11637,
+      "sha256": "4e1db83b407293d822b37b7f9290753db3c7ba496bd9841ccd8b36c9725c9c3b"
+    },
+    {
+      "path": "原始资料/en_US/champion/Hwei.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Hwei.json",
+      "fetchedAt": "2026-09-06T14:13:01.202Z",
+      "byteSize": 13923,
+      "sha256": "bc8041bdda60837ebe38d73bb5e948d6045414584b28aeabf78cb0fa0618b47d"
+    },
+    {
+      "path": "原始资料/en_US/champion/Illaoi.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Illaoi.json",
+      "fetchedAt": "2026-09-06T14:13:00.577Z",
+      "byteSize": 12549,
+      "sha256": "6e7ff1ca83e22fc940270547c854163d095293fbef9cdf896815af763e7a72f2"
+    },
+    {
+      "path": "原始资料/en_US/champion/Irelia.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Irelia.json",
+      "fetchedAt": "2026-09-06T14:13:00.773Z",
+      "byteSize": 14418,
+      "sha256": "a3e756e5d0195c5426d01f79e3d8670c24868cd5ba8486f00a15dec1624873cf"
+    },
+    {
+      "path": "原始资料/en_US/champion/Ivern.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Ivern.json",
+      "fetchedAt": "2026-09-06T14:13:00.773Z",
+      "byteSize": 11841,
+      "sha256": "891792e3b500acaf06cf58158077a6038c3903083f0df2c513f75730f32df712"
+    },
+    {
+      "path": "原始资料/en_US/champion/Janna.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Janna.json",
+      "fetchedAt": "2026-09-06T14:13:00.818Z",
+      "byteSize": 14236,
+      "sha256": "c665a98569145613b2207f92c5861cac396cfc8f526d1eb4d6213cab77b51b36"
+    },
+    {
+      "path": "原始资料/en_US/champion/JarvanIV.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/JarvanIV.json",
+      "fetchedAt": "2026-09-06T14:13:00.961Z",
+      "byteSize": 13088,
+      "sha256": "27820f30fdda0380b5c25006a6253c4b4bc61050e63b4709c165bd99c14e4343"
+    },
+    {
+      "path": "原始资料/en_US/champion/Jax.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Jax.json",
+      "fetchedAt": "2026-09-06T14:13:00.963Z",
+      "byteSize": 11659,
+      "sha256": "3644401f86d6ac823ee0a00df8c70f1267e8a4e5f0d0c91776d38502e4de54a7"
+    },
+    {
+      "path": "原始资料/en_US/champion/Jayce.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Jayce.json",
+      "fetchedAt": "2026-09-06T14:13:02.110Z",
+      "byteSize": 12366,
+      "sha256": "f356f9ca7ce2047d627aca6bf233c211152ebd4f179c29b729b61015d62f2221"
+    },
+    {
+      "path": "原始资料/en_US/champion/Jhin.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Jhin.json",
+      "fetchedAt": "2026-09-06T14:13:01.069Z",
+      "byteSize": 14298,
+      "sha256": "9b41d842a27271347a2944321e4bec7b5ac19b811fe0e195412c50d78859e022"
+    },
+    {
+      "path": "原始资料/en_US/champion/Jinx.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Jinx.json",
+      "fetchedAt": "2026-09-06T14:13:01.719Z",
+      "byteSize": 14700,
+      "sha256": "9fa682459b4cf144a947404f40934c8921269cea4e055bb974c2bd38a129df51"
+    },
+    {
+      "path": "原始资料/en_US/champion/Kaisa.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Kaisa.json",
+      "fetchedAt": "2026-09-06T14:13:01.368Z",
+      "byteSize": 15451,
+      "sha256": "5f26c894f2f9646cf4023b2384ecad1c4d64502ab7d0a92f00d9e9c09a46e037"
+    },
+    {
+      "path": "原始资料/en_US/champion/Kalista.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Kalista.json",
+      "fetchedAt": "2026-09-06T14:13:01.322Z",
+      "byteSize": 11749,
+      "sha256": "e0df63a1631b2feb18ebf4eded239bd5cb108d2b09dc22da3d398e0846476bb9"
+    },
+    {
+      "path": "原始资料/en_US/champion/Karma.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Karma.json",
+      "fetchedAt": "2026-09-06T14:13:01.387Z",
+      "byteSize": 15337,
+      "sha256": "884c3fb901c073133f87cbf0f981fe83c4661ba54d2e8ba09994a1dad2472e43"
+    },
+    {
+      "path": "原始资料/en_US/champion/Karthus.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Karthus.json",
+      "fetchedAt": "2026-09-06T14:13:01.745Z",
+      "byteSize": 11042,
+      "sha256": "4444e0d13a00511afc14e79a3100a2521f4d425f3288b57b76e8e31939add1ea"
+    },
+    {
+      "path": "原始资料/en_US/champion/Kassadin.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Kassadin.json",
+      "fetchedAt": "2026-09-06T14:13:01.563Z",
+      "byteSize": 11193,
+      "sha256": "9afd359ea6daacd81b2589692e7da653926ec55b0b63184a521d0e1b24edbd25"
+    },
+    {
+      "path": "原始资料/en_US/champion/Katarina.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Katarina.json",
+      "fetchedAt": "2026-09-06T14:13:01.593Z",
+      "byteSize": 14753,
+      "sha256": "93dd12e52bf0482cdd305a305feac59d5d4ea685881c3c2b7f29944b9b7cdc38"
+    },
+    {
+      "path": "原始资料/en_US/champion/Kayle.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Kayle.json",
+      "fetchedAt": "2026-09-06T14:13:01.645Z",
+      "byteSize": 15967,
+      "sha256": "a22f0a67f0092f2538e188d9a538cb69c5005d3e4a70f058d7a2e63d6a60dff7"
+    },
+    {
+      "path": "原始资料/en_US/champion/Kayn.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Kayn.json",
+      "fetchedAt": "2026-09-06T14:13:01.755Z",
+      "byteSize": 11313,
+      "sha256": "53f87365dd29934abe25ebaad0c8126f535a64576c6d074d3f5b646fed2830f5"
+    },
+    {
+      "path": "原始资料/en_US/champion/Kennen.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Kennen.json",
+      "fetchedAt": "2026-09-06T14:13:01.785Z",
+      "byteSize": 10915,
+      "sha256": "e36f7ded9febcf4c115e6a33ebc249a59d210e3fc544d2763b1c78928591afa1"
+    },
+    {
+      "path": "原始资料/en_US/champion/Khazix.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Khazix.json",
+      "fetchedAt": "2026-09-06T14:13:01.847Z",
+      "byteSize": 14621,
+      "sha256": "593cf30e3826ee58667b15afcffd34840edab238ef2483578d47dfe1ef83be86"
+    },
+    {
+      "path": "原始资料/en_US/champion/Kindred.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Kindred.json",
+      "fetchedAt": "2026-09-06T14:13:01.906Z",
+      "byteSize": 12007,
+      "sha256": "eb19c102505cf6803fc0e130da4ff4ff36117e03e2c75fc6b8d6ddbc85b541d9"
+    },
+    {
+      "path": "原始资料/en_US/champion/Kled.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Kled.json",
+      "fetchedAt": "2026-09-06T14:13:02.193Z",
+      "byteSize": 10957,
+      "sha256": "b5153fbe8be32459da290254bc875911d583b9745dbea488402e00b983a1cbd2"
+    },
+    {
+      "path": "原始资料/en_US/champion/KogMaw.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/KogMaw.json",
+      "fetchedAt": "2026-09-06T14:13:01.947Z",
+      "byteSize": 13337,
+      "sha256": "5b6abbf6b34516b9d057ce5c2fdbbe99bc615b6630d29a77d9b65dd837338f37"
+    },
+    {
+      "path": "原始资料/en_US/champion/KSante.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/KSante.json",
+      "fetchedAt": "2026-09-06T14:13:01.456Z",
+      "byteSize": 10987,
+      "sha256": "11be7d8363e2188aca1e99fe6e2e468405503228d0817d9a39a3361a34d5de67"
+    },
+    {
+      "path": "原始资料/en_US/champion/Leblanc.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Leblanc.json",
+      "fetchedAt": "2026-09-06T14:13:01.985Z",
+      "byteSize": 13892,
+      "sha256": "dbb191eefa71623a57a812b5476bfc44eaf24cc7697d4bf7c428beb03f1b77e0"
+    },
+    {
+      "path": "原始资料/en_US/champion/LeeSin.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/LeeSin.json",
+      "fetchedAt": "2026-09-06T14:13:02.030Z",
+      "byteSize": 15947,
+      "sha256": "fd18d187390bdf3519900fcf45968d2b3f9382dc670ad24181029971631f52a7"
+    },
+    {
+      "path": "原始资料/en_US/champion/Leona.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Leona.json",
+      "fetchedAt": "2026-09-06T14:13:02.337Z",
+      "byteSize": 13995,
+      "sha256": "e9b27d6076d7f5be88b2843527d8163797776026accb9fc7b1bc42c937b33b4d"
+    },
+    {
+      "path": "原始资料/en_US/champion/Lillia.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Lillia.json",
+      "fetchedAt": "2026-09-06T14:13:02.736Z",
+      "byteSize": 12034,
+      "sha256": "67d2bc27e92f8a3550b924f62d08105c0b0fbb1695020b3d61fdc110c077a491"
+    },
+    {
+      "path": "原始资料/en_US/champion/Lissandra.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Lissandra.json",
+      "fetchedAt": "2026-09-06T14:13:02.396Z",
+      "byteSize": 13294,
+      "sha256": "a5b34cb789b73129a5a3bba84989d0a3da735ed368589719c987027a2110acaf"
+    },
+    {
+      "path": "原始资料/en_US/champion/Locke.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Locke.json",
+      "fetchedAt": "2026-09-06T14:13:02.243Z",
+      "byteSize": 9262,
+      "sha256": "5947eba27d4116c4c8addfb3e403dc47e2ade24c825ee3c92ea65153a01dc8b6"
+    },
+    {
+      "path": "原始资料/en_US/champion/Lucian.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Lucian.json",
+      "fetchedAt": "2026-09-06T14:13:02.318Z",
+      "byteSize": 14162,
+      "sha256": "536572decf3b3085feb7c23c7f875d1a3e48c693c9697f0df5fe7dac6f071344"
+    },
+    {
+      "path": "原始资料/en_US/champion/Lulu.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Lulu.json",
+      "fetchedAt": "2026-09-06T14:13:02.666Z",
+      "byteSize": 13816,
+      "sha256": "a996746c361e538c2fa9823c891dd4f4a950440f1a21ac0e253f569101ffba95"
+    },
+    {
+      "path": "原始资料/en_US/champion/Lux.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Lux.json",
+      "fetchedAt": "2026-09-06T14:13:02.452Z",
+      "byteSize": 14376,
+      "sha256": "c84ee27aa017c145900b232087833f444150f572165106c7b643ad844af4e9cd"
+    },
+    {
+      "path": "原始资料/en_US/champion/Malphite.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Malphite.json",
+      "fetchedAt": "2026-09-06T14:13:02.821Z",
+      "byteSize": 13145,
+      "sha256": "717e46ec145f0ccbd25237d32401d224c96e1a4727b72dcdf435729b1c60c707"
+    },
+    {
+      "path": "原始资料/en_US/champion/Malzahar.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Malzahar.json",
+      "fetchedAt": "2026-09-06T14:13:02.570Z",
+      "byteSize": 13250,
+      "sha256": "a03e55ea9ba72b12042c82c5f778ca7d54c60fc5833a91e3dc2f99969a55ac7e"
+    },
+    {
+      "path": "原始资料/en_US/champion/Maokai.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Maokai.json",
+      "fetchedAt": "2026-09-06T14:13:02.866Z",
+      "byteSize": 11299,
+      "sha256": "d39d6bed91e3f28eedff223f19b002d864f19c7f9cfe71440eb274c97a3a5697"
+    },
+    {
+      "path": "原始资料/en_US/champion/MasterYi.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/MasterYi.json",
+      "fetchedAt": "2026-09-06T14:13:03.877Z",
+      "byteSize": 16406,
+      "sha256": "11b8f0b3b614c71f45cc0d12a8971c7bc054a2a0a3c86c251ca9ac80324530e4"
+    },
+    {
+      "path": "原始资料/en_US/champion/Mel.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Mel.json",
+      "fetchedAt": "2026-09-06T14:13:02.752Z",
+      "byteSize": 10356,
+      "sha256": "6438fe49317c47fc84e6fa7501b69449ceac297655dbe030285b4c9a787cc4a0"
+    },
+    {
+      "path": "原始资料/en_US/champion/Milio.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Milio.json",
+      "fetchedAt": "2026-09-06T14:13:03.487Z",
+      "byteSize": 10419,
+      "sha256": "ffb052eb89af3ebb6cb548e8d7a9d81f927dedaee96584ee1bb8fcc460bd24db"
+    },
+    {
+      "path": "原始资料/en_US/champion/MissFortune.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/MissFortune.json",
+      "fetchedAt": "2026-09-06T14:13:02.952Z",
+      "byteSize": 14887,
+      "sha256": "428fed550291e9f903538b705ce407aac5c4fa24c918cb85ed3f3338f21a9505"
+    },
+    {
+      "path": "原始资料/en_US/champion/MonkeyKing.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/MonkeyKing.json",
+      "fetchedAt": "2026-09-06T14:13:02.952Z",
+      "byteSize": 11340,
+      "sha256": "e886cdcc0bf354e9b828d4a04861d937b27c7e1e2bfb108016b8411e2b55543b"
+    },
+    {
+      "path": "原始资料/en_US/champion/Mordekaiser.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Mordekaiser.json",
+      "fetchedAt": "2026-09-06T14:13:03.035Z",
+      "byteSize": 12613,
+      "sha256": "4d8e1c8828c714359f16a057e78b742b2876696d5fc050c84cfd1b5bbd53d1fd"
+    },
+    {
+      "path": "原始资料/en_US/champion/Morgana.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Morgana.json",
+      "fetchedAt": "2026-09-06T14:13:03.063Z",
+      "byteSize": 15251,
+      "sha256": "ccee87151700b5aead65c5da0ceadf9285848137b6451fe6d2893c96ee6ecf69"
+    },
+    {
+      "path": "原始资料/en_US/champion/Naafiri.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Naafiri.json",
+      "fetchedAt": "2026-09-06T14:13:03.145Z",
+      "byteSize": 12179,
+      "sha256": "e4e2f30c07c9149e8aae1cdaa52d63b68e3ea7cc61fc1a3c62fd39352db67fe4"
+    },
+    {
+      "path": "原始资料/en_US/champion/Nami.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Nami.json",
+      "fetchedAt": "2026-09-06T14:13:03.184Z",
+      "byteSize": 13533,
+      "sha256": "f58cd73def479e25a64163a614026d6e2de467086b7c86a58875bc4b486e5e51"
+    },
+    {
+      "path": "原始资料/en_US/champion/Nasus.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Nasus.json",
+      "fetchedAt": "2026-09-06T14:13:03.234Z",
+      "byteSize": 13647,
+      "sha256": "496b12f13b5f6837ea2c6a668289e27ecb2a7b7a1b64827751155b67922eca23"
+    },
+    {
+      "path": "原始资料/en_US/champion/Nautilus.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Nautilus.json",
+      "fetchedAt": "2026-09-06T14:13:03.245Z",
+      "byteSize": 12375,
+      "sha256": "b408e5a3ea7d026a91d273a9c0afa1555183f0748e297e7a988147b3baca1779"
+    },
+    {
+      "path": "原始资料/en_US/champion/Neeko.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Neeko.json",
+      "fetchedAt": "2026-09-06T14:13:03.340Z",
+      "byteSize": 12892,
+      "sha256": "de6adfb1b9c6d0d31cf682d0f092993959f91f7bb0a77d6f17c89862f28b3ef0"
+    },
+    {
+      "path": "原始资料/en_US/champion/Nidalee.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Nidalee.json",
+      "fetchedAt": "2026-09-06T14:13:03.387Z",
+      "byteSize": 14857,
+      "sha256": "201c2e648372107503957844a56ad137e1d0f8371a25db99d203e3fb1ad2112b"
+    },
+    {
+      "path": "原始资料/en_US/champion/Nilah.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Nilah.json",
+      "fetchedAt": "2026-09-06T14:13:03.683Z",
+      "byteSize": 10183,
+      "sha256": "f42c94090d549bafed2573b9293bb534613924db7cbc7adafa1a6084ced864b5"
+    },
+    {
+      "path": "原始资料/en_US/champion/Nocturne.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Nocturne.json",
+      "fetchedAt": "2026-09-06T14:13:03.673Z",
+      "byteSize": 11682,
+      "sha256": "def3fd2f6f97971b5c698d427a18f095a5b3f81dc4d1880fee8d56b819b762d9"
+    },
+    {
+      "path": "原始资料/en_US/champion/Nunu.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Nunu.json",
+      "fetchedAt": "2026-09-06T14:13:03.537Z",
+      "byteSize": 13905,
+      "sha256": "49b60d599a57b95aeb9cf2027bb0db1cd80f9e57be881773d9d4000a42591dd0"
+    },
+    {
+      "path": "原始资料/en_US/champion/Olaf.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Olaf.json",
+      "fetchedAt": "2026-09-06T14:13:03.584Z",
+      "byteSize": 12813,
+      "sha256": "8dda801a4b477dfe166fa01da8fabc29f143777b87084aa45a6e90144009ea97"
+    },
+    {
+      "path": "原始资料/en_US/champion/Orianna.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Orianna.json",
+      "fetchedAt": "2026-09-06T14:13:04.544Z",
+      "byteSize": 11706,
+      "sha256": "e9f9088c8c559512e8f2bf2e7c2346001a78ff4e5d652a3e89883a281be0f91b"
+    },
+    {
+      "path": "原始资料/en_US/champion/Ornn.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Ornn.json",
+      "fetchedAt": "2026-09-06T14:13:03.846Z",
+      "byteSize": 12214,
+      "sha256": "e42ddac6085903dfee23bfeb40e65c277bee8cf06ba167abb65da5b1060683a6"
+    },
+    {
+      "path": "原始资料/en_US/champion/Pantheon.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Pantheon.json",
+      "fetchedAt": "2026-09-06T14:13:03.786Z",
+      "byteSize": 13070,
+      "sha256": "7283a668ec2c0a0427f9545c19ceb59c2f64e2e0f72fea922660823b28fcb9ef"
+    },
+    {
+      "path": "原始资料/en_US/champion/Poppy.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Poppy.json",
+      "fetchedAt": "2026-09-06T14:13:04.532Z",
+      "byteSize": 13017,
+      "sha256": "8ae480bf3bfef390e825cbf3d8e0bebbfabc8b2a2a765ebbd646f6323fcc7f89"
+    },
+    {
+      "path": "原始资料/en_US/champion/Pyke.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Pyke.json",
+      "fetchedAt": "2026-09-06T14:13:03.883Z",
+      "byteSize": 15546,
+      "sha256": "4b6fb154bad2f82ef9a248ed9b9a2f54e930e8d4badb663008e230bddccb74d3"
+    },
+    {
+      "path": "原始资料/en_US/champion/Qiyana.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Qiyana.json",
+      "fetchedAt": "2026-09-06T14:13:03.988Z",
+      "byteSize": 12402,
+      "sha256": "6f03a668899c189c8793e2607134cb41571a6275055b0d9684267bef50b9354a"
+    },
+    {
+      "path": "原始资料/en_US/champion/Quinn.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Quinn.json",
+      "fetchedAt": "2026-09-06T14:13:04.028Z",
+      "byteSize": 11510,
+      "sha256": "6571ee9658fc24f20d18c7c3175231a64fa6d4b6ee5a6647c0803630580d1822"
+    },
+    {
+      "path": "原始资料/en_US/champion/Rakan.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Rakan.json",
+      "fetchedAt": "2026-09-06T14:13:04.650Z",
+      "byteSize": 12237,
+      "sha256": "a47afbca1632092d6456efb7ea0cc04c86c6ab30c3a5834bd953d8fcb3a90124"
+    },
+    {
+      "path": "原始资料/en_US/champion/Rammus.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Rammus.json",
+      "fetchedAt": "2026-09-06T14:13:04.095Z",
+      "byteSize": 11122,
+      "sha256": "f8d6298851bdac182136e56538dd4c4d148b6f7eef4b56fb31c90114a2025adf"
+    },
+    {
+      "path": "原始资料/en_US/champion/RekSai.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/RekSai.json",
+      "fetchedAt": "2026-09-06T14:13:04.193Z",
+      "byteSize": 11482,
+      "sha256": "42dbd96956e19574c6a5adb563076a00da070ae02c8a8e21c9ebd773365ea85c"
+    },
+    {
+      "path": "原始资料/en_US/champion/Rell.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Rell.json",
+      "fetchedAt": "2026-09-06T14:13:04.220Z",
+      "byteSize": 10591,
+      "sha256": "e07e574e864f3bf47a6ef02ef98b8f7768acb7daaa6214a05520d21391d868e4"
+    },
+    {
+      "path": "原始资料/en_US/champion/Renata.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Renata.json",
+      "fetchedAt": "2026-09-06T14:13:04.910Z",
+      "byteSize": 10419,
+      "sha256": "81aec72b91cb368b3e72a0de6782d173da8da556b719a1067c7ac6acd6b3b088"
+    },
+    {
+      "path": "原始资料/en_US/champion/Renekton.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Renekton.json",
+      "fetchedAt": "2026-09-06T14:13:04.403Z",
+      "byteSize": 14198,
+      "sha256": "d937f782b0fa45bfc73a12cbea9bf18a01e9714f43950327b8da65efa2d1ef9b"
+    },
+    {
+      "path": "原始资料/en_US/champion/Rengar.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Rengar.json",
+      "fetchedAt": "2026-09-06T14:13:04.421Z",
+      "byteSize": 13830,
+      "sha256": "2b77947a349c2e83bea72f0827bc769be2a6707578e726c41693f7c8266d1a71"
+    },
+    {
+      "path": "原始资料/en_US/champion/Riven.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Riven.json",
+      "fetchedAt": "2026-09-06T14:13:04.603Z",
+      "byteSize": 14258,
+      "sha256": "2000486ef6ec777d439dcbc410cb3810049f19a64df9cddd1f2cf873aab2750a"
+    },
+    {
+      "path": "原始资料/en_US/champion/Rumble.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Rumble.json",
+      "fetchedAt": "2026-09-06T14:13:05.416Z",
+      "byteSize": 11450,
+      "sha256": "74f97a533b393e3cb11331f8f7557ae990d6896255fc2595c3ad93f3656d04a1"
+    },
+    {
+      "path": "原始资料/en_US/champion/Ryze.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Ryze.json",
+      "fetchedAt": "2026-09-06T14:13:05.388Z",
+      "byteSize": 11771,
+      "sha256": "65862c88f63b650574db6254090818e75d42f96f32e54dd7e3cb96a8852c6a7c"
+    },
+    {
+      "path": "原始资料/en_US/champion/Samira.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Samira.json",
+      "fetchedAt": "2026-09-06T14:13:05.006Z",
+      "byteSize": 10950,
+      "sha256": "95489820514da2d519f74cf7d13a8b50142bd4914f8f3c046d2fc170ffd3cd4a"
+    },
+    {
+      "path": "原始资料/en_US/champion/Sejuani.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Sejuani.json",
+      "fetchedAt": "2026-09-06T14:13:07.994Z",
+      "byteSize": 13150,
+      "sha256": "36e8c8c7f7742fafb84f1646f751753dac45d398aeb83f47cb9514a7d6a9bbbd"
+    },
+    {
+      "path": "原始资料/en_US/champion/Senna.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Senna.json",
+      "fetchedAt": "2026-09-06T14:13:05.771Z",
+      "byteSize": 14966,
+      "sha256": "4f8bf94318e75639a1c2e2d2798150f46066fb8246cd8eb8981315227ff06033"
+    },
+    {
+      "path": "原始资料/en_US/champion/Seraphine.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Seraphine.json",
+      "fetchedAt": "2026-09-06T14:13:05.126Z",
+      "byteSize": 15004,
+      "sha256": "0668fcbfe69123e319b07e06e7228ab781f6faa336f4b758b798619d7ca84445"
+    },
+    {
+      "path": "原始资料/en_US/champion/Sett.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Sett.json",
+      "fetchedAt": "2026-09-06T14:13:05.449Z",
+      "byteSize": 14559,
+      "sha256": "7cd9ab40b3c5115560f7956c0eaea9d731c74dcdfd8df0b520f40c7f5a96ed92"
+    },
+    {
+      "path": "原始资料/en_US/champion/Shaco.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Shaco.json",
+      "fetchedAt": "2026-09-06T14:13:05.326Z",
+      "byteSize": 15560,
+      "sha256": "1b31dc27ee6c197ce2b88b10d5b5756d14a942d938309003533fc05d2e5db095"
+    },
+    {
+      "path": "原始资料/en_US/champion/Shen.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Shen.json",
+      "fetchedAt": "2026-09-06T14:13:06.161Z",
+      "byteSize": 13190,
+      "sha256": "88f18a33f8b51adcd2ecf9dabaa476214b7e378b95894dec9803dc454bff6231"
+    },
+    {
+      "path": "原始资料/en_US/champion/Shyvana.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Shyvana.json",
+      "fetchedAt": "2026-09-06T14:13:05.586Z",
+      "byteSize": 12341,
+      "sha256": "78d571f389f80fa830cdeebfd4af47ae421deb2a7cb9c534b0c73b34916bb206"
+    },
+    {
+      "path": "原始资料/en_US/champion/Singed.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Singed.json",
+      "fetchedAt": "2026-09-06T14:13:06.233Z",
+      "byteSize": 9785,
+      "sha256": "7b3b29d5a86779703d7c3ab4c1b7cbdd58edac8290575ab17a7b0103bdcc339e"
+    },
+    {
+      "path": "原始资料/en_US/champion/Sion.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Sion.json",
+      "fetchedAt": "2026-09-06T14:13:06.485Z",
+      "byteSize": 14603,
+      "sha256": "d9e88e8edb63dc983693008d4ded738f14717f91e18e2a8df3045e8050ece559"
+    },
+    {
+      "path": "原始资料/en_US/champion/Sivir.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Sivir.json",
+      "fetchedAt": "2026-09-06T14:13:05.798Z",
+      "byteSize": 14748,
+      "sha256": "0d958a138bfb8750ee6c7100e5e5f376e4d4ad7538919fbbce4f4e82e637afdc"
+    },
+    {
+      "path": "原始资料/en_US/champion/Skarner.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Skarner.json",
+      "fetchedAt": "2026-09-06T14:13:06.233Z",
+      "byteSize": 9912,
+      "sha256": "dba7c616a97453855cdca38601146cf5be1a6e6de13057b2f12707f49058823c"
+    },
+    {
+      "path": "原始资料/en_US/champion/Smolder.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Smolder.json",
+      "fetchedAt": "2026-09-06T14:13:05.997Z",
+      "byteSize": 10393,
+      "sha256": "dc3c9f0362e304a78a2722857841285f1ae1640586194445243c47b66d8fcd83"
+    },
+    {
+      "path": "原始资料/en_US/champion/Sona.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Sona.json",
+      "fetchedAt": "2026-09-06T14:13:06.865Z",
+      "byteSize": 15853,
+      "sha256": "d78dca0182dd1edf43adf92a7925245a84d95bb3c41f2dd5a9a0bae5efa34e70"
+    },
+    {
+      "path": "原始资料/en_US/champion/Soraka.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Soraka.json",
+      "fetchedAt": "2026-09-06T14:13:06.411Z",
+      "byteSize": 14167,
+      "sha256": "773697b7e891c168c599bccb5ff621f54e85da870194fa7cc8e61e4dd8c13c94"
+    },
+    {
+      "path": "原始资料/en_US/champion/Swain.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Swain.json",
+      "fetchedAt": "2026-09-06T14:13:06.507Z",
+      "byteSize": 13704,
+      "sha256": "73acf0e08a61f478b83896b19ea3b50b7545a4d9d6899ba198dcdc1772e97917"
+    },
+    {
+      "path": "原始资料/en_US/champion/Sylas.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Sylas.json",
+      "fetchedAt": "2026-09-06T14:13:06.426Z",
+      "byteSize": 12336,
+      "sha256": "9eb97d18015be523eea65985c73e16dd9c5be3dedc1f17ffba51c18839cb43d2"
+    },
+    {
+      "path": "原始资料/en_US/champion/Syndra.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Syndra.json",
+      "fetchedAt": "2026-09-06T14:13:06.865Z",
+      "byteSize": 15432,
+      "sha256": "07729d9f949d73357a25e0647dfb98c6ac6b76e7d9bd9a9b511144d5037f99f0"
+    },
+    {
+      "path": "原始资料/en_US/champion/TahmKench.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/TahmKench.json",
+      "fetchedAt": "2026-09-06T14:13:06.619Z",
+      "byteSize": 14437,
+      "sha256": "38af2b44bdf66b38ff3794573537e9f84c2053cb88cd4f666af2d03a5c275018"
+    },
+    {
+      "path": "原始资料/en_US/champion/Taliyah.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Taliyah.json",
+      "fetchedAt": "2026-09-06T14:13:06.701Z",
+      "byteSize": 10210,
+      "sha256": "7d7cb6dca54eb0cde9592ad75865c77b1ba1954ac3b8c417a804cef5ec1cf36e"
+    },
+    {
+      "path": "原始资料/en_US/champion/Talon.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Talon.json",
+      "fetchedAt": "2026-09-06T14:13:06.702Z",
+      "byteSize": 13572,
+      "sha256": "1504dbe1b9d6bcb58be3eecf6eadfee61c9422573063295ffbdbfe3075c2c550"
+    },
+    {
+      "path": "原始资料/en_US/champion/Taric.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Taric.json",
+      "fetchedAt": "2026-09-06T14:13:07.811Z",
+      "byteSize": 10958,
+      "sha256": "5f984d25b306077d1e4929823db2ab2407b0c797dbdfcb63de338bdbb6d1d5c0"
+    },
+    {
+      "path": "原始资料/en_US/champion/Teemo.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Teemo.json",
+      "fetchedAt": "2026-09-06T14:13:06.903Z",
+      "byteSize": 13566,
+      "sha256": "d925320feef190dbf5923ec83cf7129cb11a174e3982915360e7928edc1276ea"
+    },
+    {
+      "path": "原始资料/en_US/champion/Thresh.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Thresh.json",
+      "fetchedAt": "2026-09-06T14:13:06.891Z",
+      "byteSize": 14321,
+      "sha256": "7098a05ff5aadafb30a322dbb9c87d6f6c25c1bdbc896f521aef43c5c4106bbf"
+    },
+    {
+      "path": "原始资料/en_US/champion/Tristana.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Tristana.json",
+      "fetchedAt": "2026-09-06T14:13:07.061Z",
+      "byteSize": 15219,
+      "sha256": "2ad512109196fbfa13b18ae21b3b47ba6eab2ce057ab5c198816c8177b7d7162"
+    },
+    {
+      "path": "原始资料/en_US/champion/Trundle.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Trundle.json",
+      "fetchedAt": "2026-09-06T14:13:07.316Z",
+      "byteSize": 10104,
+      "sha256": "661058a6929c642c69902c5773403b61aed2d2f645aefea71ba93e238559b603"
+    },
+    {
+      "path": "原始资料/en_US/champion/Tryndamere.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Tryndamere.json",
+      "fetchedAt": "2026-09-06T14:13:07.083Z",
+      "byteSize": 11897,
+      "sha256": "dfc832a6c016bc41ff32f232a0f0d98c8ab05af07e8b3dd906d9b7743654079f"
+    },
+    {
+      "path": "原始资料/en_US/champion/TwistedFate.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/TwistedFate.json",
+      "fetchedAt": "2026-09-06T14:13:07.124Z",
+      "byteSize": 12420,
+      "sha256": "8bd11dee51dccdb8553f1df5d92495269d0083ba907b2837f19a8f0ba4ab06ed"
+    },
+    {
+      "path": "原始资料/en_US/champion/Twitch.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Twitch.json",
+      "fetchedAt": "2026-09-06T14:13:07.261Z",
+      "byteSize": 13250,
+      "sha256": "1fcd733f09d0274118fdd10ff1c1acd7ccff1abea86035d3e0aaeab87933ae70"
+    },
+    {
+      "path": "原始资料/en_US/champion/Udyr.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Udyr.json",
+      "fetchedAt": "2026-09-06T14:13:07.271Z",
+      "byteSize": 10470,
+      "sha256": "1e11bf8a57316ace04b460293ad23756e3987ec57e61fa54e211ab2699437553"
+    },
+    {
+      "path": "原始资料/en_US/champion/Urgot.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Urgot.json",
+      "fetchedAt": "2026-09-06T14:13:07.331Z",
+      "byteSize": 12218,
+      "sha256": "0db21afcdb83b4bb8354098f7ba3ccf4cf4840fb70b79fa0cd699503623a6726"
+    },
+    {
+      "path": "原始资料/en_US/champion/Varus.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Varus.json",
+      "fetchedAt": "2026-09-06T14:13:07.447Z",
+      "byteSize": 15543,
+      "sha256": "b303f92035ac267221e5de2014af2969d9ee1b8af2f56fef9362a49b6b762111"
+    },
+    {
+      "path": "原始资料/en_US/champion/Vayne.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Vayne.json",
+      "fetchedAt": "2026-09-06T14:13:08.176Z",
+      "byteSize": 13947,
+      "sha256": "b294d8942a268cd91464e255d8d04bab6e2299a7b5b4ff368ebdfd930c96123c"
+    },
+    {
+      "path": "原始资料/en_US/champion/Veigar.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Veigar.json",
+      "fetchedAt": "2026-09-06T14:13:07.531Z",
+      "byteSize": 14094,
+      "sha256": "71eed4440c741f187b3e36900a67e4544b188edb6aba4501ae3d981e494c28c2"
+    },
+    {
+      "path": "原始资料/en_US/champion/Velkoz.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Velkoz.json",
+      "fetchedAt": "2026-09-06T14:13:07.532Z",
+      "byteSize": 11438,
+      "sha256": "9155b29610fe47a8e5d8f553971cab87b0529ba68e9fcbbc4517a7b06dd18aab"
+    },
+    {
+      "path": "原始资料/en_US/champion/Vex.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Vex.json",
+      "fetchedAt": "2026-09-06T14:13:07.692Z",
+      "byteSize": 10418,
+      "sha256": "a0632afaa6281ad0615fd3eda6c0df3a8d260b23baccb6ed1746bcb4afbf4a8c"
+    },
+    {
+      "path": "原始资料/en_US/champion/Vi.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Vi.json",
+      "fetchedAt": "2026-09-06T14:13:07.736Z",
+      "byteSize": 12182,
+      "sha256": "fefe9cbecbe9065df9b0d0eedd086e64526fdaa92127a848df0d441c9fa7713a"
+    },
+    {
+      "path": "原始资料/en_US/champion/Viego.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Viego.json",
+      "fetchedAt": "2026-09-06T14:13:07.736Z",
+      "byteSize": 11696,
+      "sha256": "e11afd28ec683ad88bceb1e8335b553699175cd9b00723f30fa5414c25d2e200"
+    },
+    {
+      "path": "原始资料/en_US/champion/Viktor.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Viktor.json",
+      "fetchedAt": "2026-09-06T14:13:08.151Z",
+      "byteSize": 12144,
+      "sha256": "911d95e11f59a9790f3fd96041dfb4a3b680b63a8768eb9554be98f64329f184"
+    },
+    {
+      "path": "原始资料/en_US/champion/Vladimir.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Vladimir.json",
+      "fetchedAt": "2026-09-06T14:13:07.943Z",
+      "byteSize": 13990,
+      "sha256": "248262847f942d8f9a1593d874e0176e26634d01caa8b4a9209603a189562186"
+    },
+    {
+      "path": "原始资料/en_US/champion/Volibear.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Volibear.json",
+      "fetchedAt": "2026-09-06T14:13:07.942Z",
+      "byteSize": 11630,
+      "sha256": "a279c6cbf6d5c1962a792ef0db0b32b1d8946a8a6894e36efffab93449055282"
+    },
+    {
+      "path": "原始资料/en_US/champion/Warwick.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Warwick.json",
+      "fetchedAt": "2026-09-06T14:13:07.998Z",
+      "byteSize": 13284,
+      "sha256": "51c99190d8d00488dd56bde01be9a38927308933b07c8210242908497c2b81fc"
+    },
+    {
+      "path": "原始资料/en_US/champion/Xayah.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Xayah.json",
+      "fetchedAt": "2026-09-06T14:13:08.151Z",
+      "byteSize": 13346,
+      "sha256": "b9b7f1fc5e32801c8f577ee1579f8798b1173e7a4c31bdf26e57b3f78ac9b1bb"
+    },
+    {
+      "path": "原始资料/en_US/champion/Xerath.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Xerath.json",
+      "fetchedAt": "2026-09-06T14:13:08.395Z",
+      "byteSize": 10984,
+      "sha256": "6e690f8c2a6030d65f17a7fec27585ed15183a31f1d2a8f3aaa53e49878b46c0"
+    },
+    {
+      "path": "原始资料/en_US/champion/XinZhao.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/XinZhao.json",
+      "fetchedAt": "2026-09-06T14:13:08.185Z",
+      "byteSize": 13475,
+      "sha256": "b18ef2e6a8f216336536491771b586bfafe81b4ffb0822e4a0b25281b978e0e2"
+    },
+    {
+      "path": "原始资料/en_US/champion/Yasuo.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Yasuo.json",
+      "fetchedAt": "2026-09-06T14:13:08.179Z",
+      "byteSize": 16788,
+      "sha256": "3bdaf812168615b3c459af6c8d53810c13c437381347446c8d60eec168b95319"
+    },
+    {
+      "path": "原始资料/en_US/champion/Yone.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Yone.json",
+      "fetchedAt": "2026-09-06T14:13:08.350Z",
+      "byteSize": 13857,
+      "sha256": "4451efc14bf2194886dc53f16fcfa5f5e4a9378baeceb8ddbc77d06c9ee3169b"
+    },
+    {
+      "path": "原始资料/en_US/champion/Yorick.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Yorick.json",
+      "fetchedAt": "2026-09-06T14:13:08.340Z",
+      "byteSize": 14021,
+      "sha256": "eefcdf3e2fe4f0cf11980247170150257be633d3a01c3f7f07309687badd42a6"
+    },
+    {
+      "path": "原始资料/en_US/champion/Yunara.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Yunara.json",
+      "fetchedAt": "2026-09-06T14:13:08.366Z",
+      "byteSize": 9016,
+      "sha256": "84fbaa7946b9602998b5fbcc683f0974743d3a6f572affa96bfd231090d0c545"
+    },
+    {
+      "path": "原始资料/en_US/champion/Yuumi.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Yuumi.json",
+      "fetchedAt": "2026-09-06T14:13:08.375Z",
+      "byteSize": 16968,
+      "sha256": "62ff6b4dbbb41595dec794d46121ce51aa39af72c63c0e5452eeff4f5ec0411a"
+    },
+    {
+      "path": "原始资料/en_US/champion/Zaahen.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Zaahen.json",
+      "fetchedAt": "2026-09-06T14:13:08.387Z",
+      "byteSize": 8449,
+      "sha256": "0ba50a55d70a94182457652d56d1e3b4ac399cb72cc5cfef02fa4488d3b10091"
+    },
+    {
+      "path": "原始资料/en_US/champion/Zac.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Zac.json",
+      "fetchedAt": "2026-09-06T14:13:08.773Z",
+      "byteSize": 11981,
+      "sha256": "526fb23581c6db6f52a64b044f6f5890e44147b20bf007131120b4dd3789363b"
+    },
+    {
+      "path": "原始资料/en_US/champion/Zed.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Zed.json",
+      "fetchedAt": "2026-09-06T14:13:08.638Z",
+      "byteSize": 14611,
+      "sha256": "b8ed177ba68f1da73ea5cf093d3cd26ad8951bb9dbb14795ac4ae6c4ac1f96b8"
+    },
+    {
+      "path": "原始资料/en_US/champion/Zeri.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Zeri.json",
+      "fetchedAt": "2026-09-06T14:13:08.556Z",
+      "byteSize": 12419,
+      "sha256": "7aa147c5d4d14de31197b1cfe286dc8dc0021b33476e778dda112d2df5a8282f"
+    },
+    {
+      "path": "原始资料/en_US/champion/Ziggs.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Ziggs.json",
+      "fetchedAt": "2026-09-06T14:13:08.572Z",
+      "byteSize": 12352,
+      "sha256": "d4a123a496224f4bee3bc1e85f3ed255840311d7ce6e64a4e80040193aea4a94"
+    },
+    {
+      "path": "原始资料/en_US/champion/Zilean.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Zilean.json",
+      "fetchedAt": "2026-09-06T14:13:09.154Z",
+      "byteSize": 10486,
+      "sha256": "f184a68d16e71f3bed451a1a325a5588303459c873bbc030f21408dd10133332"
+    },
+    {
+      "path": "原始资料/en_US/champion/Zoe.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Zoe.json",
+      "fetchedAt": "2026-09-06T14:13:08.581Z",
+      "byteSize": 12564,
+      "sha256": "73de9e98e87d5b2e9708535d21a6a23e7ed71c5a6645abf1d7374c5a2435c81a"
+    },
+    {
+      "path": "原始资料/en_US/champion/Zyra.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion/Zyra.json",
+      "fetchedAt": "2026-09-06T14:13:08.737Z",
+      "byteSize": 15511,
+      "sha256": "4dea8c9a2d09d6cfb24bac8dec60651ac64b3745d561d2dca516f9951b284a57"
+    },
+    {
+      "path": "原始资料/versions.json",
+      "url": "https://ddragon.leagueoflegends.com/api/versions.json",
+      "fetchedAt": "2026-09-06T14:12:42.556Z",
+      "byteSize": 5189,
+      "sha256": "178005ff120963169159a1563e5b1817601778940129f32aa0240a9fd15b8fed"
+    },
+    {
+      "path": "原始资料/zh_CN/champion.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion.json",
+      "fetchedAt": "2026-09-06T14:12:43.025Z",
+      "byteSize": 195545,
+      "sha256": "b8d685c8ed41f2db5c34b2d0d910f4b9138ee0045af22af61bd30a13c4761c34"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Aatrox.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Aatrox.json",
+      "fetchedAt": "2026-09-06T14:12:43.892Z",
+      "byteSize": 12160,
+      "sha256": "d5d1a0d9ca8bf46300e6364aabc10b2bb8148a36d2df34b30023e0ed0626fbbf"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Ahri.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Ahri.json",
+      "fetchedAt": "2026-09-06T14:12:44.095Z",
+      "byteSize": 16182,
+      "sha256": "d7aa942350ef9d9756df1476a6bd83a3da4cf1dcee1b22107676d5b1a86c6b04"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Akali.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Akali.json",
+      "fetchedAt": "2026-09-06T14:12:44.287Z",
+      "byteSize": 17535,
+      "sha256": "f932c5caefdad1f1731ca4a296f9fb7909eacdb4a95f18497621af82b8d93a9f"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Akshan.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Akshan.json",
+      "fetchedAt": "2026-09-06T14:12:46.143Z",
+      "byteSize": 11419,
+      "sha256": "42ad2ac0e2119d4f494701b406f4d3b3ca8e5e6c1197a0a17a4138fb30dfa58a"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Alistar.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Alistar.json",
+      "fetchedAt": "2026-09-06T14:12:44.120Z",
+      "byteSize": 11700,
+      "sha256": "6521b313321ff025c937bafbb8cb1160cd732e88a8997ed9a2ecdbe48908db0b"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Ambessa.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Ambessa.json",
+      "fetchedAt": "2026-09-06T14:12:44.104Z",
+      "byteSize": 9878,
+      "sha256": "6bb2391bb93cece3b7da071fa55c776a0394e6b6c1018562aeed25b920c71523"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Amumu.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Amumu.json",
+      "fetchedAt": "2026-09-06T14:12:44.169Z",
+      "byteSize": 13973,
+      "sha256": "1ec70c09d774c7bd7605c2803e098699d5c42df8ceb22bc9c7ae6f4b7de956c5"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Anivia.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Anivia.json",
+      "fetchedAt": "2026-09-06T14:12:44.366Z",
+      "byteSize": 13951,
+      "sha256": "3650fafe1e626ee703325857ba4d4a180b86c5df0f2a06ea8994dc0a894c7061"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Annie.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Annie.json",
+      "fetchedAt": "2026-09-06T14:12:44.389Z",
+      "byteSize": 14075,
+      "sha256": "f85156d6973b65b85336f9789aed6fe7a2f106170e2130993e31c5b5ce546735"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Aphelios.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Aphelios.json",
+      "fetchedAt": "2026-09-06T14:12:44.389Z",
+      "byteSize": 10787,
+      "sha256": "c94bf0574eb3cb8fc110591dce9428539a4619a11ca38365a040c56256c55a4d"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Ashe.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Ashe.json",
+      "fetchedAt": "2026-09-06T14:12:44.526Z",
+      "byteSize": 16326,
+      "sha256": "6da1288d3a252541b543aeb4837a4a6b8399984b2ad437025b231f276ee356fb"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/AurelionSol.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/AurelionSol.json",
+      "fetchedAt": "2026-09-06T14:12:44.715Z",
+      "byteSize": 13533,
+      "sha256": "9b14944c4135d278230cfdc0a00edfc9323fe8641fc7a3e0c24f05cb1e2c1d65"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Aurora.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Aurora.json",
+      "fetchedAt": "2026-09-06T14:12:45.345Z",
+      "byteSize": 10814,
+      "sha256": "22f8d93fbf210a1f549e25813e16bebd457289130a819fbc7763dd8268ac1ff9"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Azir.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Azir.json",
+      "fetchedAt": "2026-09-06T14:12:44.652Z",
+      "byteSize": 11167,
+      "sha256": "026f976549428de38b5e4d7278d15ad682069ac2875b95e406cab3ea925f3aad"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Bard.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Bard.json",
+      "fetchedAt": "2026-09-06T14:12:44.653Z",
+      "byteSize": 12889,
+      "sha256": "b99ed05aa8778626db6b2fc2400ea65dedb509e85f6827f95d76e1482061056f"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Belveth.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Belveth.json",
+      "fetchedAt": "2026-09-06T14:12:45.396Z",
+      "byteSize": 12400,
+      "sha256": "d2b81549b084acd63bed5b6a106ee30a0774770b7c3a51a151a1c09d06d287a6"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Blitzcrank.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Blitzcrank.json",
+      "fetchedAt": "2026-09-06T14:12:45.562Z",
+      "byteSize": 15385,
+      "sha256": "d97f4cdd58e7e8be51098259aa34a395050cc3e79bbd0c4aef6426bd418f1451"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Brand.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Brand.json",
+      "fetchedAt": "2026-09-06T14:12:45.112Z",
+      "byteSize": 13574,
+      "sha256": "06a3fc920d516d6b709de1ad44b57fed6def7d238fd950e9d925d3a7b01a4a20"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Braum.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Braum.json",
+      "fetchedAt": "2026-09-06T14:12:44.968Z",
+      "byteSize": 15154,
+      "sha256": "2d8d2b7536fae05266ee2aa92ff6a67ea44f56d44e71cb1846a20767b6867d7d"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Briar.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Briar.json",
+      "fetchedAt": "2026-09-06T14:12:45.226Z",
+      "byteSize": 12919,
+      "sha256": "a784d03c70180139c96e89f2ff6535ad623019d91e28c307eabe7f5b844220c7"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Caitlyn.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Caitlyn.json",
+      "fetchedAt": "2026-09-06T14:12:45.377Z",
+      "byteSize": 13948,
+      "sha256": "f433e840b2cd3b0c2726f99490d37df0651d10273882de2aec09cb3547bb2248"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Camille.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Camille.json",
+      "fetchedAt": "2026-09-06T14:12:45.696Z",
+      "byteSize": 14452,
+      "sha256": "b9650ff2bbf0add8107854832bfa5c7df16f6ad4c88b6c5fd5720e120ecacdda"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Cassiopeia.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Cassiopeia.json",
+      "fetchedAt": "2026-09-06T14:12:45.599Z",
+      "byteSize": 11579,
+      "sha256": "7a7b11a5428ccfa86df2c0d5b49849fa690169f94f433b3ed646e8cf0d071cc5"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Chogath.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Chogath.json",
+      "fetchedAt": "2026-09-06T14:12:46.423Z",
+      "byteSize": 11512,
+      "sha256": "f4413f86c1c4c7074b433c703cf4e0cbb6c10a41b419e64f528dc2becfe96ff3"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Corki.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Corki.json",
+      "fetchedAt": "2026-09-06T14:12:45.671Z",
+      "byteSize": 11647,
+      "sha256": "01b2b48dcb7a979a5f94ee1983f5172f718861a0c34fd7e5da4f286c57376919"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Darius.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Darius.json",
+      "fetchedAt": "2026-09-06T14:12:46.033Z",
+      "byteSize": 15967,
+      "sha256": "af12c700bff495d4e531a10d4be8f6b68445fe34839bda302d4d8acd74aa89a7"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Diana.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Diana.json",
+      "fetchedAt": "2026-09-06T14:12:45.779Z",
+      "byteSize": 16631,
+      "sha256": "6f7990250417fffd6df771c9641c7519423e18d77a04c26d2c0c2e2d663da88d"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Draven.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Draven.json",
+      "fetchedAt": "2026-09-06T14:12:46.143Z",
+      "byteSize": 16481,
+      "sha256": "d58ecef124c884fcec1d9a9825b61fab5a07e0b794b9c52c1482bdcfd4d79488"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/DrMundo.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/DrMundo.json",
+      "fetchedAt": "2026-09-06T14:12:46.173Z",
+      "byteSize": 12896,
+      "sha256": "e7d38d995841cf424c81a225d88446e2a69054405f464bb2bf55e8736824b34b"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Ekko.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Ekko.json",
+      "fetchedAt": "2026-09-06T14:12:46.269Z",
+      "byteSize": 14892,
+      "sha256": "6aa103ae5915b298061ef9ba0428ba467cd08fc8bf5f0679bbd4df50ad38bdd8"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Elise.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Elise.json",
+      "fetchedAt": "2026-09-06T14:12:46.319Z",
+      "byteSize": 11834,
+      "sha256": "40f2c260e1ddc370fcce7865ecb169c32c59d95948277e407fe18ae2c79db1e9"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Evelynn.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Evelynn.json",
+      "fetchedAt": "2026-09-06T14:12:46.382Z",
+      "byteSize": 15888,
+      "sha256": "5df210b2d7104b36d419c2bb7e6672af6026628601ab9108ac7196a7c8ee2a56"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Ezreal.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Ezreal.json",
+      "fetchedAt": "2026-09-06T14:12:46.542Z",
+      "byteSize": 15017,
+      "sha256": "459a0edb04cc55f2a8d232acfd00a8f71d546045a231a428020327df2f9b1b1b"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Fiddlesticks.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Fiddlesticks.json",
+      "fetchedAt": "2026-09-06T14:12:46.651Z",
+      "byteSize": 12888,
+      "sha256": "cba3b4ef6c2b508acd2fe31e4818b5208c6178e2db93472fe9fda9bcace5c5b6"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Fiora.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Fiora.json",
+      "fetchedAt": "2026-09-06T14:12:46.542Z",
+      "byteSize": 19035,
+      "sha256": "212601130bfe3723ffeb58f8818e5c5466395c41f9c32e76c30761f67f509688"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Fizz.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Fizz.json",
+      "fetchedAt": "2026-09-06T14:12:46.616Z",
+      "byteSize": 13412,
+      "sha256": "dfaf2dd0edec8bc8fc5471cfc0aa133c148fed9172d0e694cd883ebc2e36338e"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Galio.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Galio.json",
+      "fetchedAt": "2026-09-06T14:12:47.206Z",
+      "byteSize": 13520,
+      "sha256": "baa6f532dde92bf2ce46ce0e38bcf9f2f7a5995f3873a4beffef5d9f72991f48"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Gangplank.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Gangplank.json",
+      "fetchedAt": "2026-09-06T14:12:46.667Z",
+      "byteSize": 12533,
+      "sha256": "15289c927823c8ff99c364ace04f2a76aaccfa32f8b469ed7d21dc979e5512d7"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Garen.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Garen.json",
+      "fetchedAt": "2026-09-06T14:12:47.375Z",
+      "byteSize": 13028,
+      "sha256": "9a0b86ecc2bb8311e76820adb50d90e1df055761809d664df107a345141ef65f"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Gnar.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Gnar.json",
+      "fetchedAt": "2026-09-06T14:12:47.026Z",
+      "byteSize": 13359,
+      "sha256": "1b417ea63be6a46189d2b75291f988135a4dc71279b1f2810f9a0cb21c0b57c6"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Gragas.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Gragas.json",
+      "fetchedAt": "2026-09-06T14:12:47.103Z",
+      "byteSize": 12557,
+      "sha256": "3d9280c9048361e5c71942374542b3a5be37e994609d0c2eb32d693914ace472"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Graves.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Graves.json",
+      "fetchedAt": "2026-09-06T14:12:47.744Z",
+      "byteSize": 13502,
+      "sha256": "2bffed5c33c68bf1cd792a4bf371d2c94483c72295242a7633e99d539b9b8afa"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Gwen.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Gwen.json",
+      "fetchedAt": "2026-09-06T14:12:46.877Z",
+      "byteSize": 14933,
+      "sha256": "7f61d0d5adaced63622da690fd699e9f9d28906b2cdf50845c878551fb89b4ee"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Hecarim.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Hecarim.json",
+      "fetchedAt": "2026-09-06T14:12:47.137Z",
+      "byteSize": 13439,
+      "sha256": "f6f7db213eccfc9e1e42073d628ac328dd9c74bae031cf42d7e39db5b03105f7"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Heimerdinger.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Heimerdinger.json",
+      "fetchedAt": "2026-09-06T14:12:47.522Z",
+      "byteSize": 11972,
+      "sha256": "7bd7e7b19040197e21e4491565320e9b0221fb0d03420dc083348d9073c9cad3"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Hwei.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Hwei.json",
+      "fetchedAt": "2026-09-06T14:12:47.289Z",
+      "byteSize": 13740,
+      "sha256": "59b6e7d0ff0a14c8b63b08b5f084d218d6953faab321e95f75754f89afa5bfb7"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Illaoi.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Illaoi.json",
+      "fetchedAt": "2026-09-06T14:12:47.622Z",
+      "byteSize": 12998,
+      "sha256": "1ba374b6fbf1144c94e55bfe1bf315aa7481b7fc11480015e548dff025623e31"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Irelia.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Irelia.json",
+      "fetchedAt": "2026-09-06T14:12:47.476Z",
+      "byteSize": 15459,
+      "sha256": "609b71e3e675c1a18b10c76310fc3f46253f5a003c5538d8e0fbdb1a5ad053a2"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Ivern.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Ivern.json",
+      "fetchedAt": "2026-09-06T14:12:47.540Z",
+      "byteSize": 12109,
+      "sha256": "944b848a16ce275abfe73bff480a001eafdf014df9f849b436cba47231a95be3"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Janna.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Janna.json",
+      "fetchedAt": "2026-09-06T14:12:47.650Z",
+      "byteSize": 14855,
+      "sha256": "8c316afb077627ac96c26f4b36cf401ce8a73d65a94e62c473f30419bd7f5f90"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/JarvanIV.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/JarvanIV.json",
+      "fetchedAt": "2026-09-06T14:12:47.721Z",
+      "byteSize": 13365,
+      "sha256": "6ad75b89b0c298bbe08c5aa13b46f8013f81a4c6fa460e6826157d8efce4e483"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Jax.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Jax.json",
+      "fetchedAt": "2026-09-06T14:12:47.779Z",
+      "byteSize": 12587,
+      "sha256": "d7d63ec3b5c3a157007de3f4ab93f6843d0b96fff4fe2d401c0bbb99a36b3700"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Jayce.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Jayce.json",
+      "fetchedAt": "2026-09-06T14:12:47.829Z",
+      "byteSize": 12750,
+      "sha256": "3a8b34f1bb2544e52f41d6b7f8462f15c84cccdada26262c5182e55223025c06"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Jhin.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Jhin.json",
+      "fetchedAt": "2026-09-06T14:12:48.393Z",
+      "byteSize": 14749,
+      "sha256": "834641187cbea1cc33eaad8bd8e4716bd204206a1c194871be898719bfae4f15"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Jinx.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Jinx.json",
+      "fetchedAt": "2026-09-06T14:12:48.301Z",
+      "byteSize": 15887,
+      "sha256": "4d1dcfe5c41eba2941f2bd883569c246e1a7409c76a0fc62358d0bf04aebf77f"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Kaisa.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Kaisa.json",
+      "fetchedAt": "2026-09-06T14:12:48.222Z",
+      "byteSize": 16116,
+      "sha256": "3674cf8819906208e57279a1aad7d9abdd817f38fda4c3749f64e8edc4fc6374"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Kalista.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Kalista.json",
+      "fetchedAt": "2026-09-06T14:12:48.054Z",
+      "byteSize": 12451,
+      "sha256": "b8aea6d5628e2c9aaa5e2219701863a6bdafdf7706879dbd33f16c0cf2f05f84"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Karma.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Karma.json",
+      "fetchedAt": "2026-09-06T14:12:48.546Z",
+      "byteSize": 16101,
+      "sha256": "64ff6e162133be05b7974549a370ddba1ca43011cfa084aece4f813d4a3f0576"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Karthus.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Karthus.json",
+      "fetchedAt": "2026-09-06T14:12:48.761Z",
+      "byteSize": 11486,
+      "sha256": "a9aac3b8eefaff307f0b521c0d3e7fe8e64fc2747515498ab60d37a84abcb018"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Kassadin.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Kassadin.json",
+      "fetchedAt": "2026-09-06T14:12:48.394Z",
+      "byteSize": 11848,
+      "sha256": "a77bbb111a0eed1ec55ff8a6017e8fde0fd0e183ad4aa347e962892325377b29"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Katarina.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Katarina.json",
+      "fetchedAt": "2026-09-06T14:12:48.722Z",
+      "byteSize": 15353,
+      "sha256": "2278baf5fe3501dd1b5b6f035ee96d8bdb0dc43393aeef34dd52c5ea40da7415"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Kayle.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Kayle.json",
+      "fetchedAt": "2026-09-06T14:12:48.557Z",
+      "byteSize": 16333,
+      "sha256": "5d4fa068b8f088e199e62fa9eed0c7b77476f4791e03d44993b9ecb876ed4b93"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Kayn.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Kayn.json",
+      "fetchedAt": "2026-09-06T14:12:48.855Z",
+      "byteSize": 11821,
+      "sha256": "0c9040098de2333888cbfba815c0abff484b033d9263bd9a3c6a018423f48ef5"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Kennen.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Kennen.json",
+      "fetchedAt": "2026-09-06T14:12:49.102Z",
+      "byteSize": 11162,
+      "sha256": "fc58a3db4962211aa0586864ad3daa0966e960e481ab9e6a68bbdf014c3fb188"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Khazix.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Khazix.json",
+      "fetchedAt": "2026-09-06T14:12:48.813Z",
+      "byteSize": 15300,
+      "sha256": "9c69f8bf69df86ba09431dc7878932c7fc4144b1cb493fb691edda69418acc90"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Kindred.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Kindred.json",
+      "fetchedAt": "2026-09-06T14:12:48.815Z",
+      "byteSize": 12157,
+      "sha256": "cfd31dd9f7ec9215293bebd200f8d5ce4800161fa2d66c2ab5009222b147cbd6"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Kled.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Kled.json",
+      "fetchedAt": "2026-09-06T14:12:49.238Z",
+      "byteSize": 11758,
+      "sha256": "642c6a28cc73b04e9b378ad6b1d0adb7a974fd2037cd5885007c32561519d21a"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/KogMaw.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/KogMaw.json",
+      "fetchedAt": "2026-09-06T14:12:49.058Z",
+      "byteSize": 13986,
+      "sha256": "0b3108e708beef63649ff526f6539c2575598f7f19c8e85553d4397bc67ed8ed"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/KSante.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/KSante.json",
+      "fetchedAt": "2026-09-06T14:12:48.186Z",
+      "byteSize": 11727,
+      "sha256": "4ef9b30c8c310e0ddb0bca86005c23e408c9e225e83bee82999a23bc554b00b2"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Leblanc.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Leblanc.json",
+      "fetchedAt": "2026-09-06T14:12:48.997Z",
+      "byteSize": 14682,
+      "sha256": "c38cbc98ff3211fd6d7b52c26036b7668e6d6bd0b2bd97b3c65569a4e783aeb4"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/LeeSin.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/LeeSin.json",
+      "fetchedAt": "2026-09-06T14:12:48.998Z",
+      "byteSize": 16203,
+      "sha256": "3dff63235df8785f38f43560a0c149f3edd05455a0e0e541e8aeee6d162929c9"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Leona.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Leona.json",
+      "fetchedAt": "2026-09-06T14:12:49.038Z",
+      "byteSize": 14207,
+      "sha256": "eaea33f42b422a429bfff246352a38fb925581c257d11adc6be541d13939f990"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Lillia.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Lillia.json",
+      "fetchedAt": "2026-09-06T14:12:49.476Z",
+      "byteSize": 12394,
+      "sha256": "37d6dea41960ccdd25d738138ec6f06099fd119e56d22fd8aee7f614179e75fc"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Lissandra.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Lissandra.json",
+      "fetchedAt": "2026-09-06T14:12:49.495Z",
+      "byteSize": 13742,
+      "sha256": "64f84b115e6b66a303885c16a2b0914240782b8c67c93818d68d514dff52de3d"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Locke.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Locke.json",
+      "fetchedAt": "2026-09-06T14:12:49.340Z",
+      "byteSize": 9602,
+      "sha256": "7df238cae97de011e84886a1de00143ac884854b939fb57361853dadafa2b3a8"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Lucian.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Lucian.json",
+      "fetchedAt": "2026-09-06T14:12:49.247Z",
+      "byteSize": 15275,
+      "sha256": "a6b528e66b67e4558b91190704eb68bdfbc3c528b19b73f9e71f0f63eba8f3c0"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Lulu.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Lulu.json",
+      "fetchedAt": "2026-09-06T14:12:49.383Z",
+      "byteSize": 14857,
+      "sha256": "0abb079c4f6724a5dbb91ca76fecd712ceac6668dd76ea66ca6ee249a87f009a"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Lux.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Lux.json",
+      "fetchedAt": "2026-09-06T14:12:49.777Z",
+      "byteSize": 15354,
+      "sha256": "61c06ce0893ff509453ed9a00903d9be172deff81559ec858a2297526561e46f"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Malphite.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Malphite.json",
+      "fetchedAt": "2026-09-06T14:12:49.517Z",
+      "byteSize": 13633,
+      "sha256": "cda7b95df866a1e9ba4843dedb619ecf7618ef6d46390f3ffa8eec35f2ed44e7"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Malzahar.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Malzahar.json",
+      "fetchedAt": "2026-09-06T14:12:49.613Z",
+      "byteSize": 14092,
+      "sha256": "a0f800de74e95f5602af0fd0538d54023ae9202406db7a24155c06c2760ca3ac"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Maokai.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Maokai.json",
+      "fetchedAt": "2026-09-06T14:12:49.964Z",
+      "byteSize": 11515,
+      "sha256": "5b526b253b2e8e5c878b819d6eda61fc011aec4672f90e7d2700eb718d2548cd"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/MasterYi.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/MasterYi.json",
+      "fetchedAt": "2026-09-06T14:12:49.777Z",
+      "byteSize": 15996,
+      "sha256": "f5035d61e1a80360aa3b33a66f9063b486d5a061f9d922a63f300e01ca42cac2"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Mel.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Mel.json",
+      "fetchedAt": "2026-09-06T14:12:51.459Z",
+      "byteSize": 10804,
+      "sha256": "08efeb0ff444311ea6be7505e473d31ac0560105db122fa93b4dc865bce1d439"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Milio.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Milio.json",
+      "fetchedAt": "2026-09-06T14:12:50.067Z",
+      "byteSize": 10792,
+      "sha256": "f0333388c0313145ff2531d17054ce52fba7ef0e95418567f79a46bcb127d50f"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/MissFortune.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/MissFortune.json",
+      "fetchedAt": "2026-09-06T14:12:49.782Z",
+      "byteSize": 15504,
+      "sha256": "5eeb47c09a79fbe5300cf58c266a7fd4db4431f2e8db24757e828c09d9559a0d"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/MonkeyKing.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/MonkeyKing.json",
+      "fetchedAt": "2026-09-06T14:12:50.795Z",
+      "byteSize": 11482,
+      "sha256": "f4974e58b61e7e610960cace54a0c678c89a3698c7bbf24b7c8b0a5117721570"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Mordekaiser.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Mordekaiser.json",
+      "fetchedAt": "2026-09-06T14:12:50.788Z",
+      "byteSize": 13197,
+      "sha256": "46e25cd50496cd4cba879e56ad3984d767ab4b9e8f2a8006698ac2153caea4c6"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Morgana.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Morgana.json",
+      "fetchedAt": "2026-09-06T14:12:50.631Z",
+      "byteSize": 15656,
+      "sha256": "0854dbf23fedd2878a255b0707e6c4f687386d55962dafadb9b17354414b0903"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Naafiri.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Naafiri.json",
+      "fetchedAt": "2026-09-06T14:12:50.697Z",
+      "byteSize": 12814,
+      "sha256": "26ad1abea0b50ee13cec2d6c67030ee81b535b690a3b6ed180329b72aaddada9"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Nami.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Nami.json",
+      "fetchedAt": "2026-09-06T14:12:50.246Z",
+      "byteSize": 14050,
+      "sha256": "f9b01b18408d0c55d84dd371581f47242072e041c53e4cf4bcb3272df2528e12"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Nasus.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Nasus.json",
+      "fetchedAt": "2026-09-06T14:12:50.525Z",
+      "byteSize": 14861,
+      "sha256": "81dfb23296dc46f729f9d6d43609c2a8580b7fa27146c41e65d148f4e1101e2d"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Nautilus.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Nautilus.json",
+      "fetchedAt": "2026-09-06T14:12:50.878Z",
+      "byteSize": 12923,
+      "sha256": "8e3f8406606349fdacc276de72124bd36afd90dd2aad4de3246f3c97ca29765f"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Neeko.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Neeko.json",
+      "fetchedAt": "2026-09-06T14:12:50.974Z",
+      "byteSize": 13208,
+      "sha256": "98533225e4396aecb5740906cff6dfa1dff4ab56fbc22f05454ab0a822043fe3"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Nidalee.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Nidalee.json",
+      "fetchedAt": "2026-09-06T14:12:50.975Z",
+      "byteSize": 15600,
+      "sha256": "30ee5b3115cc1dcfa964319b5d71f6ab2d0e079eea0a4bf38cfbfae0f2102854"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Nilah.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Nilah.json",
+      "fetchedAt": "2026-09-06T14:12:51.353Z",
+      "byteSize": 10526,
+      "sha256": "983c209564001e42e930a88e7527aa07ab0a7d74eccdf2d05bc3bbf5264783a0"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Nocturne.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Nocturne.json",
+      "fetchedAt": "2026-09-06T14:12:52.098Z",
+      "byteSize": 11943,
+      "sha256": "870f40f74748180f55b831a9a4cba36edb53a69bab912b5a1adb106eac913df5"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Nunu.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Nunu.json",
+      "fetchedAt": "2026-09-06T14:12:51.167Z",
+      "byteSize": 14730,
+      "sha256": "92bb38c1f8fddfb9f1d381a83b513c0230bf60aaaf2e36e4a47856f1a296e559"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Olaf.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Olaf.json",
+      "fetchedAt": "2026-09-06T14:12:51.262Z",
+      "byteSize": 14055,
+      "sha256": "9fed79e8e0031423229e7a3f4d3b65a93e5b51dc607535b598e5b3190c5dd7d5"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Orianna.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Orianna.json",
+      "fetchedAt": "2026-09-06T14:12:51.262Z",
+      "byteSize": 12461,
+      "sha256": "542d5145314f95bc92eaca73ee84f03ec8dd3c3ccfaf21dc420a639f8daf5e4d"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Ornn.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Ornn.json",
+      "fetchedAt": "2026-09-06T14:12:51.458Z",
+      "byteSize": 12988,
+      "sha256": "662ca9b9dcd0f7273981ea8ef6085cb1c98593bdc05c48dbf14e83c1b68565e9"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Pantheon.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Pantheon.json",
+      "fetchedAt": "2026-09-06T14:12:51.538Z",
+      "byteSize": 13388,
+      "sha256": "e61b985240b82a43ffc240dea0c2543b67d28a1b60dd0e72301cdd9431f8f1ad"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Poppy.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Poppy.json",
+      "fetchedAt": "2026-09-06T14:12:51.539Z",
+      "byteSize": 13592,
+      "sha256": "a5bcf3f83defabc4da303b3cea6fc30ccc17c07c7e611e6818a1bb9cd0187c52"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Pyke.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Pyke.json",
+      "fetchedAt": "2026-09-06T14:12:51.635Z",
+      "byteSize": 16052,
+      "sha256": "a4b3cdce641278cf1d7fb9a6a594fb1534e573bd683920133a0c98f7282719d5"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Qiyana.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Qiyana.json",
+      "fetchedAt": "2026-09-06T14:12:51.755Z",
+      "byteSize": 12745,
+      "sha256": "186a1e9074b85bad728dc1e62d50d02b2589b71878062554976ae4cb67af360c"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Quinn.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Quinn.json",
+      "fetchedAt": "2026-09-06T14:12:51.755Z",
+      "byteSize": 12071,
+      "sha256": "31651f05ce6233ead98f141ca6d0012299afed8723f3ee2465f374cf4c03adc6"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Rakan.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Rakan.json",
+      "fetchedAt": "2026-09-06T14:12:51.811Z",
+      "byteSize": 12648,
+      "sha256": "ee00126200d230363ab0b6be3af06821a53f00547c2f96c40c3c3589a82e7db0"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Rammus.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Rammus.json",
+      "fetchedAt": "2026-09-06T14:12:52.623Z",
+      "byteSize": 11643,
+      "sha256": "72b475a22fe47f43283a8913f50db7beaa2b454db598dbffc26097735986c007"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/RekSai.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/RekSai.json",
+      "fetchedAt": "2026-09-06T14:12:51.903Z",
+      "byteSize": 11939,
+      "sha256": "dd7e4a9d1674ab5243f31b161ad6c1df130b32052a2283615aa9aa0e74fd4694"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Rell.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Rell.json",
+      "fetchedAt": "2026-09-06T14:12:53.273Z",
+      "byteSize": 11150,
+      "sha256": "b90b33986ced4b0e4de1f18b73c18aa8105057c75418169898441609d861a2a1"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Renata.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Renata.json",
+      "fetchedAt": "2026-09-06T14:12:52.888Z",
+      "byteSize": 10805,
+      "sha256": "38b170969fbfdbc48ed2bfbbab1aee9579aa59fee117522b78da90c75580bb4c"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Renekton.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Renekton.json",
+      "fetchedAt": "2026-09-06T14:12:53.387Z",
+      "byteSize": 14709,
+      "sha256": "243ee23421b0d22ee8fba5297c1d280e209b6e62fb0eb0adac5b59fe92b916ab"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Rengar.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Rengar.json",
+      "fetchedAt": "2026-09-06T14:12:52.223Z",
+      "byteSize": 14518,
+      "sha256": "7d02438c643ff741f003c5e7a9ff010715a07b09570c2f4ed7cf6dfd2dbd49d2"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Riven.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Riven.json",
+      "fetchedAt": "2026-09-06T14:12:52.561Z",
+      "byteSize": 14489,
+      "sha256": "d376561f803515c9d703b3da1f2eb1133569b2b111b1c063708ad7213fb26d6f"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Rumble.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Rumble.json",
+      "fetchedAt": "2026-09-06T14:12:52.487Z",
+      "byteSize": 11612,
+      "sha256": "56b0ab88264c05e4180c81eeed3b0bab913079faa379f3d14f4e6d41c1babea3"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Ryze.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Ryze.json",
+      "fetchedAt": "2026-09-06T14:12:53.304Z",
+      "byteSize": 12533,
+      "sha256": "9fc21f4d7973f7b47a04eb6c9df7897954616c799a707929663886322aaffddf"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Samira.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Samira.json",
+      "fetchedAt": "2026-09-06T14:12:52.776Z",
+      "byteSize": 11543,
+      "sha256": "4be7690189c86740dab7bf9166d1700630db7cd65e4118dc23c65b3b2b73813e"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Sejuani.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Sejuani.json",
+      "fetchedAt": "2026-09-06T14:12:52.847Z",
+      "byteSize": 13906,
+      "sha256": "738f158d209b207a509f2ca7a5de6d4bf3a70b9d2c13cbae927b15c9b5a9d876"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Senna.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Senna.json",
+      "fetchedAt": "2026-09-06T14:12:53.061Z",
+      "byteSize": 15734,
+      "sha256": "d3d92ae90efb6e7d91d7d1fe5f98ef88a9d15b1f5b05a5249c64556bb4556a43"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Seraphine.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Seraphine.json",
+      "fetchedAt": "2026-09-06T14:12:53.530Z",
+      "byteSize": 15806,
+      "sha256": "9f9cce0312119116e2dfed1d91c7d87f1b79b42314a188b0d565330e917f6723"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Sett.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Sett.json",
+      "fetchedAt": "2026-09-06T14:12:53.163Z",
+      "byteSize": 14882,
+      "sha256": "c9d8782de0f5f0ecaffa770801d2b69e7ee9c4b916a5d09332b89aa311184e7d"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Shaco.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Shaco.json",
+      "fetchedAt": "2026-09-06T14:12:53.608Z",
+      "byteSize": 16088,
+      "sha256": "79716cb893a65f598b2fdc1dae0c83643f0a249fd05ab224583dec6a624c9ad1"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Shen.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Shen.json",
+      "fetchedAt": "2026-09-06T14:12:53.639Z",
+      "byteSize": 13534,
+      "sha256": "e1be63247dd0e129e1ade0ec6c280ad575a479caf31e32329e86ee43fd157dd3"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Shyvana.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Shyvana.json",
+      "fetchedAt": "2026-09-06T14:12:53.754Z",
+      "byteSize": 12616,
+      "sha256": "dd6f413446bbd8209f7caa2b3266ba6cabab8c2ebc396753ec481e0b807f5eeb"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Singed.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Singed.json",
+      "fetchedAt": "2026-09-06T14:12:53.608Z",
+      "byteSize": 10252,
+      "sha256": "289cdc6c527b129e004a54621ee618e6915db424205ec52057796c55fb5978a7"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Sion.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Sion.json",
+      "fetchedAt": "2026-09-06T14:12:53.872Z",
+      "byteSize": 15562,
+      "sha256": "d9c522243dd8142ff4639ad57c81801737ed489fe3660d0a2ecd2a319e0e871a"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Sivir.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Sivir.json",
+      "fetchedAt": "2026-09-06T14:12:55.663Z",
+      "byteSize": 15889,
+      "sha256": "6b4a17775c92eb58504c1239066d0f1dc8ba1064567632eb6bd5bcc47bdf807d"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Skarner.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Skarner.json",
+      "fetchedAt": "2026-09-06T14:12:54.103Z",
+      "byteSize": 10433,
+      "sha256": "162188a6f1d57e30d3611660f00c0154ef9b89f3de32a9b90ec51f2a4cd467f2"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Smolder.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Smolder.json",
+      "fetchedAt": "2026-09-06T14:12:53.776Z",
+      "byteSize": 10607,
+      "sha256": "5bcfc17ec6b76faab0029ff2ebeb6095271a0bbccd0d99970a4e830e31e7466a"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Sona.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Sona.json",
+      "fetchedAt": "2026-09-06T14:12:53.903Z",
+      "byteSize": 16506,
+      "sha256": "ecdaf99377b60b32671ca9d30ebf79bdc91ea3689c50fd97d8d4bbda3f768311"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Soraka.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Soraka.json",
+      "fetchedAt": "2026-09-06T14:12:54.033Z",
+      "byteSize": 14467,
+      "sha256": "a4893c5310ec7128592abd5e41c67d8bd82d0aa66ba9d200da7605a4913883f2"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Swain.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Swain.json",
+      "fetchedAt": "2026-09-06T14:12:54.033Z",
+      "byteSize": 14678,
+      "sha256": "543c939c76a1b0c63595c3ad3b0cc13fb99400583a09d613cf7c11ddfd13c73a"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Sylas.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Sylas.json",
+      "fetchedAt": "2026-09-06T14:12:54.136Z",
+      "byteSize": 13233,
+      "sha256": "bccc5dbb4c63b8d7b5692d725d4f556a2b03ac721f4960561dd441f1780e95b1"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Syndra.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Syndra.json",
+      "fetchedAt": "2026-09-06T14:12:54.736Z",
+      "byteSize": 16022,
+      "sha256": "68e295a441ba3daa36a46c1e63731ca2e51b29fedb7ea7e01ed5f7ed02a0b2ce"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/TahmKench.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/TahmKench.json",
+      "fetchedAt": "2026-09-06T14:12:54.302Z",
+      "byteSize": 14906,
+      "sha256": "d8f0b6de685265dacb88ad0f925a983cf274d1bf09194ba83aa2ab74fc9b2bc5"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Taliyah.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Taliyah.json",
+      "fetchedAt": "2026-09-06T14:12:54.528Z",
+      "byteSize": 10673,
+      "sha256": "cb91b47637ddde4cf6cf2e323e01d0cfe4ad980accf73e66734929e20a012f42"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Talon.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Talon.json",
+      "fetchedAt": "2026-09-06T14:12:54.391Z",
+      "byteSize": 14214,
+      "sha256": "4be5b2984f297a059fac079ad4c99b3e6f0072269da9d8ffbca72afbdbb5222a"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Taric.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Taric.json",
+      "fetchedAt": "2026-09-06T14:12:54.400Z",
+      "byteSize": 11820,
+      "sha256": "895cc96d875393186a8687e18a5452de15a10661c46e218c32d912f4681e57f4"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Teemo.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Teemo.json",
+      "fetchedAt": "2026-09-06T14:12:55.354Z",
+      "byteSize": 14142,
+      "sha256": "23a031a4c7ed02785986d4f8243913df34487c1b4c1057e28af0fb2cf6a2dd51"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Thresh.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Thresh.json",
+      "fetchedAt": "2026-09-06T14:12:54.669Z",
+      "byteSize": 14866,
+      "sha256": "81f33f31efd68916ba579dab1bc01107741545b1ceda8b935c74971ee7296b65"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Tristana.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Tristana.json",
+      "fetchedAt": "2026-09-06T14:12:54.661Z",
+      "byteSize": 15693,
+      "sha256": "84fb0ff7f6b1a921e6b13d3dfab5ac4ad48f32f012b9fb912e3bade1ed168b5a"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Trundle.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Trundle.json",
+      "fetchedAt": "2026-09-06T14:12:54.791Z",
+      "byteSize": 10577,
+      "sha256": "fd892e4b81b95aefe6c478d1ea1a75e09942b596b77984820f4199b259656e8e"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Tryndamere.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Tryndamere.json",
+      "fetchedAt": "2026-09-06T14:12:54.923Z",
+      "byteSize": 12073,
+      "sha256": "78def14678945c4197c0d5f56ecc9ca78271ae86361cf7e013dedc2b5f10d957"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/TwistedFate.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/TwistedFate.json",
+      "fetchedAt": "2026-09-06T14:12:55.161Z",
+      "byteSize": 12459,
+      "sha256": "6163447fc01fa1a63c3d959b1a072aba58892f54fd3581b037f93b538f494429"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Twitch.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Twitch.json",
+      "fetchedAt": "2026-09-06T14:12:54.998Z",
+      "byteSize": 13726,
+      "sha256": "11bd82969c5af05144c3d5812864a319a69a5050d8f91abc38a2c21bac7b6b81"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Udyr.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Udyr.json",
+      "fetchedAt": "2026-09-06T14:12:55.261Z",
+      "byteSize": 11000,
+      "sha256": "1acc759dc22a0e3fef86694a4d10094cc850ee2f01db12865819e5b46ee8d7e7"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Urgot.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Urgot.json",
+      "fetchedAt": "2026-09-06T14:12:55.734Z",
+      "byteSize": 13077,
+      "sha256": "0a081a1286923173fe0eeb855ce32d2b8658fe6ec040d5167f5d01551507943a"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Varus.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Varus.json",
+      "fetchedAt": "2026-09-06T14:12:56.879Z",
+      "byteSize": 16443,
+      "sha256": "619d6e042b1adcfcf8b81ef731e3014c270d5662dc05cb07b0c10cfed751d1ba"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Vayne.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Vayne.json",
+      "fetchedAt": "2026-09-06T14:12:55.353Z",
+      "byteSize": 14322,
+      "sha256": "843e2ef92e1c395aa3e02f4562478461d7bc14b6cfe5abd5b3bed5e95a60a711"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Veigar.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Veigar.json",
+      "fetchedAt": "2026-09-06T14:12:56.615Z",
+      "byteSize": 14350,
+      "sha256": "592296562a5b3760026265f64745ab952766be3bab7c3d01172e6d8ac1d1a0de"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Velkoz.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Velkoz.json",
+      "fetchedAt": "2026-09-06T14:12:55.608Z",
+      "byteSize": 11927,
+      "sha256": "a71638cb375aa8d12ab5ce401d6ffaa4b146856f5dbe54a36aeb39c40ae781af"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Vex.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Vex.json",
+      "fetchedAt": "2026-09-06T14:12:55.606Z",
+      "byteSize": 11137,
+      "sha256": "5e4c0eccbd8ce0947883690b57a6a208cbc3cfddb8943d53fa3878ca7a3d1a1c"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Vi.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Vi.json",
+      "fetchedAt": "2026-09-06T14:12:55.879Z",
+      "byteSize": 12790,
+      "sha256": "757be8a83852e8b5ac6c9038ba035d0b22ae18d47540ec0d69c290f2ccc351a1"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Viego.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Viego.json",
+      "fetchedAt": "2026-09-06T14:12:55.862Z",
+      "byteSize": 12202,
+      "sha256": "40a0fba1bd1cb497995696a5b01806ba5bcdacb781d8b24eea9d56292bab02d0"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Viktor.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Viktor.json",
+      "fetchedAt": "2026-09-06T14:12:56.499Z",
+      "byteSize": 12647,
+      "sha256": "769642e452a90a9f56ff58c204a22202a098d84955c8e68731c2e429a8c5fafb"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Vladimir.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Vladimir.json",
+      "fetchedAt": "2026-09-06T14:12:56.003Z",
+      "byteSize": 14780,
+      "sha256": "b6f1848c17d57deb50b6084eee7bc154ae2c3e5f588a889ede865318c45f0d23"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Volibear.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Volibear.json",
+      "fetchedAt": "2026-09-06T14:12:56.859Z",
+      "byteSize": 12250,
+      "sha256": "7cf5a9ab0366c455c41779e5555651adee7c5d9fe0193112898a721655f5a59c"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Warwick.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Warwick.json",
+      "fetchedAt": "2026-09-06T14:12:56.172Z",
+      "byteSize": 14299,
+      "sha256": "1dcdc5ac82bc39bea7dadb420f1b6ff0091b5298e5db9a2ba5d962961899a2dd"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Xayah.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Xayah.json",
+      "fetchedAt": "2026-09-06T14:12:56.805Z",
+      "byteSize": 13485,
+      "sha256": "3ff3bb0b246c18142d2dc8264e9981d68eceda174e6a40056320720f246be5ea"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Xerath.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Xerath.json",
+      "fetchedAt": "2026-09-06T14:12:57.132Z",
+      "byteSize": 11534,
+      "sha256": "5f4eff400aa79a63693c99966caec56013f53e52d8ced05912b9157a3b396c6a"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/XinZhao.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/XinZhao.json",
+      "fetchedAt": "2026-09-06T14:12:57.668Z",
+      "byteSize": 13441,
+      "sha256": "151060d8f973f6fee915bd51a5da20c34b1fd8bb2bbd089ffaa6e4412c7aa334"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Yasuo.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Yasuo.json",
+      "fetchedAt": "2026-09-06T14:12:57.112Z",
+      "byteSize": 17505,
+      "sha256": "265b97e19c71300efde2769e726753900cedb159d66a0a288f4f86fce2771f33"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Yone.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Yone.json",
+      "fetchedAt": "2026-09-06T14:12:57.216Z",
+      "byteSize": 14427,
+      "sha256": "4ef1ade7fde9a22385a91c804c5a446b77d712e59cf3904b2e4f0e4edf9847db"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Yorick.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Yorick.json",
+      "fetchedAt": "2026-09-06T14:12:57.140Z",
+      "byteSize": 14505,
+      "sha256": "a7e52e737f545d1740bf2634ef8c58bb3d8d37b7e49e56cc4f01fe08bba14a32"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Yunara.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Yunara.json",
+      "fetchedAt": "2026-09-06T14:12:57.136Z",
+      "byteSize": 9129,
+      "sha256": "aff3861d27750421be196e8faae0a05cd47de92164dd22237394e927e44245e9"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Yuumi.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Yuumi.json",
+      "fetchedAt": "2026-09-06T14:12:57.661Z",
+      "byteSize": 18098,
+      "sha256": "36eb6c2a08ac84827f25edbf64d700aa8bc5300ac6eb5cd267f76481c65ba7bc"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Zaahen.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Zaahen.json",
+      "fetchedAt": "2026-09-06T14:12:57.450Z",
+      "byteSize": 8826,
+      "sha256": "8695912927630edc5c975b908633a99f5e1ce4ef7b133ab101c7439f364e6524"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Zac.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Zac.json",
+      "fetchedAt": "2026-09-06T14:12:57.664Z",
+      "byteSize": 12749,
+      "sha256": "b7bb6c2c2bd93d55b3f8d8bfd04aee66138c96086dbe3dc3de8194293a7b0aab"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Zed.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Zed.json",
+      "fetchedAt": "2026-09-06T14:12:57.449Z",
+      "byteSize": 15426,
+      "sha256": "65ca0923564eab9cf0ce1d7a0f1872708362e85ba50e25343eada595a40533fd"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Zeri.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Zeri.json",
+      "fetchedAt": "2026-09-06T14:12:57.462Z",
+      "byteSize": 12997,
+      "sha256": "7b76f66a8b1e939cb52f84333181927a0005e21a3e88bf574268d9a0c108eaac"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Ziggs.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Ziggs.json",
+      "fetchedAt": "2026-09-06T14:12:58.350Z",
+      "byteSize": 13219,
+      "sha256": "418398beae7b1cca811443a26f562dc14fe8ecc42bc0927461934926bfd404ed"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Zilean.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Zilean.json",
+      "fetchedAt": "2026-09-06T14:12:57.870Z",
+      "byteSize": 10764,
+      "sha256": "358afc4390e66600ad8d7f1ed35cdaed8456a1e2f25c85fe0962ded936c285b6"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Zoe.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Zoe.json",
+      "fetchedAt": "2026-09-06T14:12:57.920Z",
+      "byteSize": 13668,
+      "sha256": "509e737269701efdb12ba0481dbb01ea4f47c9e58f93b635ba4a189f2afce959"
+    },
+    {
+      "path": "原始资料/zh_CN/champion/Zyra.json",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Zyra.json",
+      "fetchedAt": "2026-09-06T14:12:57.923Z",
+      "byteSize": 16164,
+      "sha256": "c1ffb17ff4f55221690e58b79a04fc807acff143977fc21db3d1efe0a7e7fe35"
+    }
+  ]
+}

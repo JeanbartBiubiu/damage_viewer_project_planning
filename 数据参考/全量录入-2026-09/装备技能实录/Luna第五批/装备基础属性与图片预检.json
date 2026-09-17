@@ -1,0 +1,136 @@
+{
+  "generatedAt": "2026-09-07T17:36:52.5174552Z",
+  "note": "只保存图片键和接口元数据，不保存图片内容；直接属性与图片均为接口回读证据",
+  "objects": [
+    {
+      "equipmentKey": "item_1043",
+      "equipmentName": "反曲之弓",
+      "directAttributesExpected": {
+        "bonus_attack_speed_percent": 0.15
+      },
+      "directAttributesReadback": {
+        "bonus_attack_speed_percent": 0.15
+      },
+      "directAttributeFields": {
+        "path": "bonus_attack_speed_percent",
+        "expected": 0.15,
+        "actual": 0.15,
+        "equal": true
+      },
+      "equipmentImageKey": "item_1043",
+      "skillImageKey": "item_1043",
+      "imageState": "same",
+      "imageReadbackPath": "/skills/item_1043_passive/representative-image"
+    },
+    {
+      "equipmentKey": "item_1083",
+      "equipmentName": "萃取",
+      "directAttributesExpected": {
+        "attack_damage": 7
+      },
+      "directAttributesReadback": {
+        "attack_damage": 7
+      },
+      "directAttributeFields": {
+        "path": "attack_damage",
+        "expected": 7,
+        "actual": 7,
+        "equal": true
+      },
+      "equipmentImageKey": "item_1083",
+      "skillImageKey": "item_1083",
+      "imageState": "same",
+      "imageReadbackPath": "/skills/item_1083_passive/representative-image"
+    },
+    {
+      "equipmentKey": "item_3123",
+      "equipmentName": "死刑宣告",
+      "directAttributesExpected": {
+        "attack_damage": 15
+      },
+      "directAttributesReadback": {
+        "attack_damage": 15
+      },
+      "directAttributeFields": {
+        "path": "attack_damage",
+        "expected": 15,
+        "actual": 15,
+        "equal": true
+      },
+      "equipmentImageKey": "item_3123",
+      "skillImageKey": "item_3123",
+      "imageState": "same",
+      "imageReadbackPath": "/skills/item_3123_passive/representative-image"
+    },
+    {
+      "equipmentKey": "item_3916",
+      "equipmentName": "湮灭宝珠",
+      "directAttributesExpected": {
+        "ability_power": 25
+      },
+      "directAttributesReadback": {
+        "ability_power": 25
+      },
+      "directAttributeFields": {
+        "path": "ability_power",
+        "expected": 25,
+        "actual": 25,
+        "equal": true
+      },
+      "equipmentImageKey": "item_3916",
+      "skillImageKey": "item_3916",
+      "imageState": "same",
+      "imageReadbackPath": "/skills/item_3916_passive/representative-image"
+    },
+    {
+      "equipmentKey": "item_3089",
+      "equipmentName": "灭世者的死亡之帽",
+      "directAttributesExpected": {
+        "ability_power": 130
+      },
+      "directAttributesReadback": {
+        "ability_power": 130
+      },
+      "directAttributeFields": {
+        "path": "ability_power",
+        "expected": 130,
+        "actual": 130,
+        "equal": true
+      },
+      "equipmentImageKey": "item_3089",
+      "skillImageKey": "item_3089",
+      "imageState": "created",
+      "imageReadbackPath": "/skills/item_3089_passive/representative-image"
+    },
+    {
+      "equipmentKey": "item_3116",
+      "equipmentName": "瑞莱的冰晶节杖",
+      "directAttributesExpected": {
+        "hp": 400,
+        "ability_power": 65
+      },
+      "directAttributesReadback": {
+        "hp": 400,
+        "ability_power": 65
+      },
+      "directAttributeFields": [
+        {
+          "path": "hp",
+          "expected": 400,
+          "actual": 400,
+          "equal": true
+        },
+        {
+          "path": "ability_power",
+          "expected": 65,
+          "actual": 65,
+          "equal": true
+        }
+      ],
+      "equipmentImageKey": "item_3116",
+      "skillImageKey": "item_3116",
+      "imageState": "created",
+      "imageReadbackPath": "/skills/item_3116_passive/representative-image"
+    }
+  ]
+}

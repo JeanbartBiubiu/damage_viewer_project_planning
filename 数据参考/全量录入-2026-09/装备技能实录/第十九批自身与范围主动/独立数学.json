@@ -1,0 +1,129 @@
+{
+  "generatedAt": "2026-09-09T08:54:29.352Z",
+  "stage": "最终候选独立数学核对；未调用业务接口",
+  "candidateSha256": "344cba87cb4fd4288b2c2b4ddd0b50ae8a9795f9d2b28a16d7f7414ca9727bf7",
+  "sourceFreezeSha256": "1ce775810bd1a252438386f6959dd8adf7a1de51224e3e055e3ffe8826ad7a79",
+  "formulaCount": 11,
+  "arithmeticCases": [
+    {
+      "label": "3748被动自身最大生命近战",
+      "actual": 20,
+      "expected": 20,
+      "passed": true,
+      "source": "SOURCE.hp.TOTAL",
+      "value": 2000
+    },
+    {
+      "label": "3748被动自身最大生命远程",
+      "actual": 10,
+      "expected": 10,
+      "passed": true,
+      "source": "SOURCE.hp.TOTAL",
+      "value": 2000
+    },
+    {
+      "label": "3748主动自身最大生命近战",
+      "actual": 80,
+      "expected": 80,
+      "passed": true,
+      "source": "SOURCE.hp.TOTAL",
+      "value": 2000
+    },
+    {
+      "label": "3748主动自身最大生命远程",
+      "actual": 40,
+      "expected": 40,
+      "passed": true,
+      "source": "SOURCE.hp.TOTAL",
+      "value": 2000
+    },
+    {
+      "label": "3748误用目标最大生命的被动近战值",
+      "actual": 30,
+      "expected": 30,
+      "passed": true,
+      "mustReject": true,
+      "reason": "公式读取SOURCE.hp.TOTAL，不读取TARGET.hp.TOTAL"
+    },
+    {
+      "label": "3748误用目标最大生命的主动近战值",
+      "actual": 120,
+      "expected": 120,
+      "passed": true,
+      "mustReject": true,
+      "reason": "公式读取SOURCE.hp.TOTAL，不读取TARGET.hp.TOTAL"
+    },
+    {
+      "label": "3748误用当前生命的被动近战值",
+      "actual": 5,
+      "expected": 5,
+      "passed": true,
+      "mustReject": true,
+      "reason": "不读取SOURCE.hp.CURRENT"
+    },
+    {
+      "label": "3748误用当前生命的主动近战值",
+      "actual": 20,
+      "expected": 20,
+      "passed": true,
+      "mustReject": true,
+      "reason": "不读取SOURCE.hp.CURRENT"
+    },
+    {
+      "label": "3748误用额外生命的被动近战值",
+      "actual": 8,
+      "expected": 8,
+      "passed": true,
+      "mustReject": true,
+      "reason": "不读取SOURCE.hp.BONUS"
+    },
+    {
+      "label": "3748误用额外生命的主动近战值",
+      "actual": 32,
+      "expected": 32,
+      "passed": true,
+      "mustReject": true,
+      "reason": "不读取SOURCE.hp.BONUS"
+    }
+  ],
+  "missingInputCase": {
+    "label": "3748缺少自身最大生命输入",
+    "inputs": {
+      "sourceBaseHealth": 1200,
+      "sourceBonusHealth": 800,
+      "targetMaxHealth": 3000,
+      "sourceCurrentHealth": 500
+    },
+    "expected": "ERROR.MISSING_SOURCE_HP_TOTAL",
+    "passed": true,
+    "reason": "SOURCE.hp.TOTAL缺值时报错，不补0、不改读目标/当前/额外生命"
+  },
+  "decimalCase3190": {
+    "label": "3190护盾运行时小数输入",
+    "parameterKey": "actual_self_shield_value",
+    "valueType": "DECIMAL",
+    "input": 1234.5,
+    "output": 1234.5,
+    "endpointParameters": {
+      "shield_min": 290,
+      "shield_max": 360
+    },
+    "passed": true
+  },
+  "auraRangeCase6664": {
+    "label": "6664光环与触发脉冲分离",
+    "aura_range": 325,
+    "proc_aoe_radius": 350,
+    "champion_proc_aoe_radius": 500,
+    "passed": true
+  },
+  "summary": {
+    "arithmeticCaseCount": 10,
+    "arithmeticPassed": 10,
+    "arithmeticAllPassed": true,
+    "missingInputPassed": true,
+    "decimalCasePassed": true,
+    "auraRangeCasePassed": true,
+    "allPassed": true
+  }
+}

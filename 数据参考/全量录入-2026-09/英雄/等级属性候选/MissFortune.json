@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "sourceChampionId": "MissFortune",
+  "sourceNumericId": "21",
+  "name": "厄运小姐",
+  "sourceVersion": {
+    "dataDragon": "16.17.1",
+    "client": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "status": "候选，待页面录入核对",
+  "levels": {
+    "min": 1,
+    "max": 18
+  },
+  "curveEvidence": "../等级曲线依据.json",
+  "scope": "纯基础属性及自然成长；不含被动、技能、物品、符文、叠层或形态。",
+  "attributes": [
+    {
+      "sourceAttributeKey": "hp",
+      "systemAttributeKey": null,
+      "label": "生命值",
+      "unit": "点",
+      "base": 625,
+      "growth": 100,
+      "sources": [
+        "原始资料/zh_CN/champion/MissFortune.json:stats.hp/hpperlevel",
+        "角色根记录/MissFortune.json:baseHPModifiable.baseValue/hpPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 625,
+        "2": 697,
+        "3": 772.5,
+        "4": 851.5,
+        "5": 934,
+        "6": 1020,
+        "7": 1109.5,
+        "8": 1202.5,
+        "9": 1299,
+        "10": 1399,
+        "11": 1502.5,
+        "12": 1609.5,
+        "13": 1720,
+        "14": 1834,
+        "15": 1951.5,
+        "16": 2072.5,
+        "17": 2197,
+        "18": 2325
+      }
+    },
+    {
+      "sourceAttributeKey": "hpregen",
+      "systemAttributeKey": null,
+      "label": "生命回复",
+      "unit": "每 5 秒",
+      "base": 3.75,
+      "growth": 0.65,
+      "sources": [
+        "原始资料/zh_CN/champion/MissFortune.json:stats.hpregen/hpregenperlevel",
+        "角色根记录/MissFortune.json:baseStaticHPRegenModifiable.baseValue/hpRegenPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 3.75,
+        "2": 4.218,
+        "3": 4.70875,
+        "4": 5.22225,
+        "5": 5.7585,
+        "6": 6.3175,
+        "7": 6.89925,
+        "8": 7.50375,
+        "9": 8.131,
+        "10": 8.781,
+        "11": 9.45375,
+        "12": 10.14925,
+        "13": 10.8675,
+        "14": 11.6085,
+        "15": 12.37225,
+        "16": 13.15875,
+        "17": 13.968,
+        "18": 14.8
+      }
+    },
+    {
+      "sourceAttributeKey": "armor",
+      "systemAttributeKey": null,
+      "label": "护甲",
+      "unit": "点",
+      "base": 25,
+      "growth": 4,
+      "sources": [
+        "原始资料/zh_CN/champion/MissFortune.json:stats.armor/armorperlevel",
+        "角色根记录/MissFortune.json:baseArmorModifiable.baseValue/armorPerLevelModifiable.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 25,
+        "2": 27.88,
+        "3": 30.9,
+        "4": 34.06,
+        "5": 37.36,
+        "6": 40.8,
+        "7": 44.38,
+        "8": 48.1,
+        "9": 51.96,
+        "10": 55.96,
+        "11": 60.1,
+        "12": 64.38,
+        "13": 68.8,
+        "14": 73.36,
+        "15": 78.06,
+        "16": 82.9,
+        "17": 87.88,
+        "18": 93
+      }
+    },
+    {
+      "sourceAttributeKey": "spellblock",
+      "systemAttributeKey": null,
+      "label": "魔法抗性",
+      "unit": "点",
+      "base": 33,
+      "growth": 1.1,
+      "sources": [
+        "原始资料/zh_CN/champion/MissFortune.json:stats.spellblock/spellblockperlevel",
+        "角色根记录/MissFortune.json:baseMR.baseValue/mrPerLevel.baseValue"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 33,
+        "2": 33.792,
+        "3": 34.6225,
+        "4": 35.4915,
+        "5": 36.399,
+        "6": 37.345,
+        "7": 38.3295,
+        "8": 39.3525,
+        "9": 40.414,
+        "10": 41.514,
+        "11": 42.6525,
+        "12": 43.8295,
+        "13": 45.045,
+        "14": 46.299,
+        "15": 47.5915,
+        "16": 48.9225,
+        "17": 50.292,
+        "18": 51.7
+      }
+    },
+    {
+      "sourceAttributeKey": "attackdamage",
+      "systemAttributeKey": null,
+      "label": "攻击力",
+      "unit": "点",
+      "base": 55,
+      "growth": 2.4,
+      "sources": [
+        "角色根记录/MissFortune.json:baseDamageModifiable.baseValue/damagePerLevelModifiable.baseValue",
+        "全英雄成长核对.json"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 55,
+        "2": 56.728,
+        "3": 58.54,
+        "4": 60.436,
+        "5": 62.416,
+        "6": 64.48,
+        "7": 66.628,
+        "8": 68.86,
+        "9": 71.176,
+        "10": 73.576,
+        "11": 76.06,
+        "12": 78.628,
+        "13": 81.28,
+        "14": 84.016,
+        "15": 86.836,
+        "16": 89.74,
+        "17": 92.728,
+        "18": 95.8
+      }
+    },
+    {
+      "sourceAttributeKey": "movespeed",
+      "systemAttributeKey": null,
+      "label": "基础移动速度",
+      "unit": "游戏单位",
+      "base": 325,
+      "growth": null,
+      "sources": [
+        "角色根记录/MissFortune.json:baseMoveSpeedModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 325,
+        "2": 325,
+        "3": 325,
+        "4": 325,
+        "5": 325,
+        "6": 325,
+        "7": 325,
+        "8": 325,
+        "9": 325,
+        "10": 325,
+        "11": 325,
+        "12": 325,
+        "13": 325,
+        "14": 325,
+        "15": 325,
+        "16": 325,
+        "17": 325,
+        "18": 325
+      }
+    },
+    {
+      "sourceAttributeKey": "attackrange",
+      "systemAttributeKey": null,
+      "label": "基础攻击距离",
+      "unit": "游戏单位",
+      "base": 550,
+      "growth": null,
+      "sources": [
+        "角色根记录/MissFortune.json:attackRangeModifiable.baseValue"
+      ],
+      "formula": "常量基础值",
+      "levelValues": {
+        "1": 550,
+        "2": 550,
+        "3": 550,
+        "4": 550,
+        "5": 550,
+        "6": 550,
+        "7": 550,
+        "8": 550,
+        "9": 550,
+        "10": 550,
+        "11": 550,
+        "12": 550,
+        "13": 550,
+        "14": 550,
+        "15": 550,
+        "16": 550,
+        "17": 550,
+        "18": 550
+      }
+    },
+    {
+      "sourceAttributeKey": "attackspeed",
+      "systemAttributeKey": null,
+      "label": "攻击速度",
+      "unit": "次/秒",
+      "base": 0.656,
+      "attackSpeedRatio": 0.656,
+      "growthPercent": 3,
+      "sources": [
+        "角色根记录/MissFortune.json:attackSpeedModifiable/attackSpeedRatioModifiable/attackSpeedPerLevelModifiable"
+      ],
+      "formula": "攻速独立收益系数",
+      "levelValues": {
+        "1": 0.656,
+        "2": 0.67017,
+        "3": 0.685028,
+        "4": 0.700575,
+        "5": 0.716811,
+        "6": 0.733736,
+        "7": 0.75135,
+        "8": 0.769652,
+        "9": 0.788643,
+        "10": 0.808323,
+        "11": 0.828692,
+        "12": 0.84975,
+        "13": 0.871496,
+        "14": 0.893931,
+        "15": 0.917055,
+        "16": 0.940868,
+        "17": 0.96537,
+        "18": 0.99056
+      }
+    },
+    {
+      "sourceAttributeKey": "mp",
+      "systemAttributeKey": null,
+      "label": "法力值",
+      "unit": "点",
+      "base": 300,
+      "growth": 40,
+      "sources": [
+        "原始资料/zh_CN/champion/MissFortune.json:stats.mp/mpperlevel",
+        "角色根记录/MissFortune.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 300,
+        "2": 328.8,
+        "3": 359,
+        "4": 390.6,
+        "5": 423.6,
+        "6": 458,
+        "7": 493.8,
+        "8": 531,
+        "9": 569.6,
+        "10": 609.6,
+        "11": 651,
+        "12": 693.8,
+        "13": 738,
+        "14": 783.6,
+        "15": 830.6,
+        "16": 879,
+        "17": 928.8,
+        "18": 980
+      }
+    },
+    {
+      "sourceAttributeKey": "mpregen",
+      "systemAttributeKey": null,
+      "label": "法力回复",
+      "unit": "每 5 秒",
+      "base": 8,
+      "growth": 0.8,
+      "sources": [
+        "原始资料/zh_CN/champion/MissFortune.json:stats.mpregen/mpregenperlevel",
+        "角色根记录/MissFortune.json:primaryAbilityResource.arType"
+      ],
+      "formula": "普通成长",
+      "levelValues": {
+        "1": 8,
+        "2": 8.576,
+        "3": 9.18,
+        "4": 9.812,
+        "5": 10.472,
+        "6": 11.16,
+        "7": 11.876,
+        "8": 12.62,
+        "9": 13.392,
+        "10": 14.192,
+        "11": 15.02,
+        "12": 15.876,
+        "13": 16.76,
+        "14": 17.672,
+        "15": 18.612,
+        "16": 19.58,
+        "17": 20.576,
+        "18": 21.6
+      }
+    }
+  ],
+  "missing": [],
+  "attackSpeedInputs": {
+    "base": 0.656,
+    "ratio": 0.656,
+    "growthPercent": 3,
+    "ratioDiffersFromBase": false
+  },
+  "manualMechanicReview": "尚未逐名人工核对被动和例外规则，不能把此文件当最终角色完整性证明。"
+}

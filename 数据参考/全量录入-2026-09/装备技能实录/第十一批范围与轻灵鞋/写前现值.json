@@ -1,0 +1,537 @@
+{
+  "generatedAt": "2026-09-08T14:31:20.854Z",
+  "mode": "仅GET",
+  "catalog": {
+    "items": [
+      {
+        "attributeKey": "move_speed",
+        "createdAt": "2026-08-22T15:27:35.616234Z",
+        "description": "角色面板移动速度",
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": 0,
+        "name": "移动速度",
+        "sortOrder": 100,
+        "status": "ENABLED",
+        "updatedAt": "2026-08-23T07:43:37.216118Z",
+        "valueType": "DECIMAL"
+      },
+      {
+        "attributeKey": "move_speed_percent",
+        "createdAt": "2026-09-06T14:37:34.305529Z",
+        "description": "移动速度加成比例，1 表示 100%，0.04 表示 4%。资料：16.17.1 装备说明。与固定移动速度分别维护。",
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": null,
+        "name": "移动速度加成比例",
+        "sortOrder": 101,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T14:37:34.305529Z",
+        "valueType": "DECIMAL"
+      },
+      {
+        "attributeKey": "armor_pen_flat",
+        "createdAt": "2026-08-22T15:27:35.850065Z",
+        "description": null,
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": 0,
+        "name": "固定护甲穿透",
+        "sortOrder": 200,
+        "status": "ENABLED",
+        "updatedAt": "2026-08-22T15:27:35.850065Z",
+        "valueType": "DECIMAL"
+      },
+      {
+        "attributeKey": "armor_pen_percent",
+        "createdAt": "2026-08-22T15:27:35.951829Z",
+        "description": null,
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": 0,
+        "name": "百分比护甲穿透",
+        "sortOrder": 210,
+        "status": "ENABLED",
+        "updatedAt": "2026-08-22T15:27:35.951829Z",
+        "valueType": "DECIMAL"
+      },
+      {
+        "attributeKey": "magic_pen_flat",
+        "createdAt": "2026-09-06T14:36:56.874035Z",
+        "description": "固定法术穿透的点数，12 表示 12 点法术穿透。资料：16.17.1 装备说明。与百分比法术穿透分别维护。",
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": null,
+        "name": "固定法术穿透",
+        "sortOrder": 220,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T14:36:56.874035Z",
+        "valueType": "DECIMAL"
+      },
+      {
+        "attributeKey": "magic_pen_percent",
+        "createdAt": "2026-09-06T14:38:47.365241Z",
+        "description": "百分比法术穿透，1 表示 100%，0.4 表示 40%。资料：16.17.1 装备说明。与固定法术穿透分别维护。",
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": null,
+        "name": "百分比法术穿透",
+        "sortOrder": 230,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T14:38:47.365241Z",
+        "valueType": "DECIMAL"
+      },
+      {
+        "attributeKey": "hp",
+        "createdAt": "2026-08-22T15:27:36.051116Z",
+        "description": null,
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": 0,
+        "name": "生命值",
+        "sortOrder": 300,
+        "status": "ENABLED",
+        "updatedAt": "2026-08-22T15:27:36.051116Z",
+        "valueType": "DECIMAL"
+      },
+      {
+        "attributeKey": "hp_regen",
+        "createdAt": "2026-08-30T16:27:54.925024Z",
+        "description": "角色每5秒生命回复；伊泽瑞尔数据按官方 16.17.1 版本录入",
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": 0,
+        "name": "每5秒生命回复",
+        "sortOrder": 305,
+        "status": "ENABLED",
+        "updatedAt": "2026-08-30T16:27:54.925024Z",
+        "valueType": "DECIMAL"
+      },
+      {
+        "attributeKey": "base_hp_regen_percent",
+        "createdAt": "2026-09-06T14:33:14.12308Z",
+        "description": "以角色基础生命回复为基数的加成比例，1 表示 100%，0.5 表示 50%。资料：16.17.1 装备说明。与每5秒固定生命回复分别维护。",
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": null,
+        "name": "基础生命回复加成比例",
+        "sortOrder": 306,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T14:33:14.12308Z",
+        "valueType": "DECIMAL"
+      },
+      {
+        "attributeKey": "mana",
+        "createdAt": "2026-08-22T15:27:36.139767Z",
+        "description": null,
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": 0,
+        "name": "法力值",
+        "sortOrder": 310,
+        "status": "ENABLED",
+        "updatedAt": "2026-08-22T15:27:36.139767Z",
+        "valueType": "DECIMAL"
+      },
+      {
+        "attributeKey": "mana_regen",
+        "createdAt": "2026-08-30T16:27:55.032387Z",
+        "description": "角色每5秒法力回复；伊泽瑞尔数据按官方 16.17.1 版本录入",
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": 0,
+        "name": "每5秒法力回复",
+        "sortOrder": 315,
+        "status": "ENABLED",
+        "updatedAt": "2026-08-30T16:27:55.032387Z",
+        "valueType": "DECIMAL"
+      },
+      {
+        "attributeKey": "base_mana_regen_percent",
+        "createdAt": "2026-09-06T14:33:07.568638Z",
+        "description": "以角色基础法力回复为基数的加成比例，1 表示 100%，0.5 表示 50%。资料：16.17.1 装备说明。与每5秒固定法力回复分别维护。",
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": null,
+        "name": "基础法力回复加成比例",
+        "sortOrder": 316,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T14:33:07.568638Z",
+        "valueType": "DECIMAL"
+      },
+      {
+        "attributeKey": "energy",
+        "createdAt": "2026-08-22T15:27:36.229561Z",
+        "description": null,
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": 0,
+        "name": "能量值",
+        "sortOrder": 320,
+        "status": "ENABLED",
+        "updatedAt": "2026-08-22T15:27:36.229561Z",
+        "valueType": "DECIMAL"
+      },
+      {
+        "attributeKey": "armor",
+        "createdAt": "2026-08-30T16:27:55.143372Z",
+        "description": "角色面板护甲",
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": null,
+        "name": "护甲",
+        "sortOrder": 400,
+        "status": "ENABLED",
+        "updatedAt": "2026-08-30T16:27:55.143372Z",
+        "valueType": "DECIMAL"
+      },
+      {
+        "attributeKey": "magic_resistance",
+        "createdAt": "2026-08-30T16:27:55.24073Z",
+        "description": "角色面板魔法抗性",
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": null,
+        "name": "魔法抗性",
+        "sortOrder": 410,
+        "status": "ENABLED",
+        "updatedAt": "2026-08-30T16:27:55.24073Z",
+        "valueType": "DECIMAL"
+      },
+      {
+        "attributeKey": "tenacity_percent",
+        "createdAt": "2026-09-06T14:37:40.8914Z",
+        "description": "韧性比例，1 表示 100%，0.3 表示 30%。资料：16.17.1 装备说明。控制适用范围和多个来源的组合规则由效果规则维护。",
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": null,
+        "name": "韧性比例",
+        "sortOrder": 420,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T14:37:40.8914Z",
+        "valueType": "DECIMAL"
+      },
+      {
+        "attributeKey": "attack_damage",
+        "createdAt": "2026-08-30T16:26:29.341938Z",
+        "description": "角色面板攻击力；伊泽瑞尔数据按官方 16.17.1 版本录入",
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": 0,
+        "name": "攻击力",
+        "sortOrder": 500,
+        "status": "ENABLED",
+        "updatedAt": "2026-08-30T16:26:29.341938Z",
+        "valueType": "DECIMAL"
+      },
+      {
+        "attributeKey": "ability_power",
+        "createdAt": "2026-08-30T16:26:39.898635Z",
+        "description": "角色法术强度；基础值为 0，可由装备和效果增加",
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": 0,
+        "name": "法术强度",
+        "sortOrder": 510,
+        "status": "ENABLED",
+        "updatedAt": "2026-08-30T16:26:39.898635Z",
+        "valueType": "DECIMAL"
+      },
+      {
+        "attributeKey": "attack_speed",
+        "createdAt": "2026-08-30T16:27:55.334742Z",
+        "description": "角色每秒攻击次数；等级值已含基础攻速成长",
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": 0,
+        "name": "攻击速度",
+        "sortOrder": 520,
+        "status": "ENABLED",
+        "updatedAt": "2026-08-30T16:27:55.334742Z",
+        "valueType": "DECIMAL"
+      },
+      {
+        "attributeKey": "bonus_attack_speed_percent",
+        "createdAt": "2026-08-30T16:27:55.439812Z",
+        "description": "以 1 表示 100%；用于记录等级成长和咒能高涨等效果",
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": null,
+        "name": "额外攻击速度比例",
+        "sortOrder": 521,
+        "status": "ENABLED",
+        "updatedAt": "2026-08-30T16:27:55.439812Z",
+        "valueType": "DECIMAL"
+      },
+      {
+        "attributeKey": "critical_strike_chance",
+        "createdAt": "2026-08-30T16:27:55.58546Z",
+        "description": "以 1 表示 100% 暴击几率",
+        "gameId": "lol",
+        "maxValue": 1,
+        "minValue": 0,
+        "name": "暴击几率",
+        "sortOrder": 530,
+        "status": "ENABLED",
+        "updatedAt": "2026-08-30T16:27:55.58546Z",
+        "valueType": "DECIMAL"
+      },
+      {
+        "attributeKey": "critical_strike_damage_bonus_percent",
+        "createdAt": "2026-09-06T14:37:27.711233Z",
+        "description": "暴击伤害倍率的额外加成，0.4 表示增加 40 个百分点，不表示最终暴击倍率。资料：16.17.1 装备说明；具体伤害适用范围由效果规则维护。",
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": null,
+        "name": "额外暴击伤害比例",
+        "sortOrder": 531,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T14:37:27.711233Z",
+        "valueType": "DECIMAL"
+      },
+      {
+        "attributeKey": "attack_range",
+        "createdAt": "2026-08-30T16:27:55.678337Z",
+        "description": "角色普通攻击距离",
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": 0,
+        "name": "攻击距离",
+        "sortOrder": 540,
+        "status": "ENABLED",
+        "updatedAt": "2026-08-30T16:27:55.678337Z",
+        "valueType": "DECIMAL"
+      },
+      {
+        "attributeKey": "ability_haste",
+        "createdAt": "2026-09-06T14:29:52.533949Z",
+        "description": "技能急速的固定数值，10 表示 10 点技能急速。资料：16.17.1 装备说明；不将其直接作为冷却缩减比例。",
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": null,
+        "name": "技能急速",
+        "sortOrder": 550,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T14:29:52.533949Z",
+        "valueType": "DECIMAL"
+      },
+      {
+        "attributeKey": "life_steal_percent",
+        "createdAt": "2026-09-06T14:36:43.823597Z",
+        "description": "生命偷取比例，1 表示 100%，0.07 表示 7%。资料：16.17.1 装备说明。具体伤害适用范围由效果规则维护。",
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": null,
+        "name": "生命偷取比例",
+        "sortOrder": 560,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T14:36:43.823597Z",
+        "valueType": "DECIMAL"
+      },
+      {
+        "attributeKey": "omnivamp_percent",
+        "createdAt": "2026-09-06T14:36:50.377635Z",
+        "description": "全能吸血比例，1 表示 100%，0.025 表示 2.5%。资料：16.17.1 装备说明。具体伤害适用范围和折减规则由效果规则维护。",
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": null,
+        "name": "全能吸血比例",
+        "sortOrder": 570,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T14:36:50.377635Z",
+        "valueType": "DECIMAL"
+      },
+      {
+        "attributeKey": "heal_shield_power_percent",
+        "createdAt": "2026-09-06T14:38:40.772253Z",
+        "description": "治疗和护盾强度的加成比例，1 表示 100%，0.08 表示 8%。资料：16.17.1 装备说明。具体适用目标和效果由规则维护。",
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": null,
+        "name": "治疗和护盾强度比例",
+        "sortOrder": 580,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T14:38:40.772253Z",
+        "valueType": "DECIMAL"
+      }
+    ],
+    "total": 27
+  },
+  "objects": [
+    {
+      "id": 1120,
+      "equipmentKey": "item_1120",
+      "equipment": {
+        "createdAt": "2026-09-06T16:37:49.470742Z",
+        "description": "来源：官方16.17.1装备1120。\n\n原始说明：150生命值\n8护甲\n8魔法抗性\n\n帮助之手\n攻击会对小兵造成5额外物理伤害。\n\n被动与主动效果尚待配置。",
+        "equipmentKey": "item_1120",
+        "gameId": "lol",
+        "name": "多兰之盔",
+        "updatedAt": "2026-09-06T16:37:49.470742Z"
+      },
+      "attributes": {
+        "attributeValues": {
+          "hp": 150,
+          "armor": 8,
+          "magic_resistance": 8
+        },
+        "equipmentKey": "item_1120"
+      },
+      "relations": {
+        "items": [],
+        "total": 0
+      },
+      "representativeImage": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_1120",
+          "name": "item_1120"
+        }
+      },
+      "decision": {
+        "status": "范围内直接属性已录；额外效果范围外",
+        "reason": "帮助之手只对小兵造成伤害，不作用于对手英雄。"
+      }
+    },
+    {
+      "id": 3009,
+      "equipmentKey": "item_3009",
+      "equipment": {
+        "createdAt": "2026-09-06T17:07:11.999268Z",
+        "description": "来源：官方16.17.1装备3009。 原始说明：55移动速度 迅捷步 将减速效果的效能降低25%。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3009",
+        "gameId": "lol",
+        "name": "轻灵之靴",
+        "updatedAt": "2026-09-06T17:07:11.999268Z"
+      },
+      "attributes": {
+        "attributeValues": {
+          "move_speed": 55
+        },
+        "equipmentKey": "item_3009"
+      },
+      "relations": {
+        "items": [],
+        "total": 0
+      },
+      "representativeImage": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_3009",
+          "name": "item_3009"
+        }
+      },
+      "decision": {
+        "status": "补录常驻直接属性",
+        "reason": "客户端根对象直接给出25%减速抗性；新建属性目录并在现有装备属性中补值，不另建技能或触发规则。"
+      }
+    },
+    {
+      "id": 3046,
+      "equipmentKey": "item_3046",
+      "equipment": {
+        "createdAt": "2026-09-06T17:12:59.983846Z",
+        "description": "来源：官方16.17.1装备3046。 原始说明：65%攻击速度 25%暴击几率 10%移动速度 幽影华尔兹变为幽灵状态。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3046",
+        "gameId": "lol",
+        "name": "幻影之舞",
+        "updatedAt": "2026-09-06T17:12:59.983846Z"
+      },
+      "attributes": {
+        "attributeValues": {
+          "move_speed_percent": 0.1,
+          "bonus_attack_speed_percent": 0.65,
+          "critical_strike_chance": 0.25
+        },
+        "equipmentKey": "item_3046"
+      },
+      "relations": {
+        "items": [],
+        "total": 0
+      },
+      "representativeImage": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_3046",
+          "name": "item_3046"
+        }
+      },
+      "decision": {
+        "status": "范围内直接属性已录；额外效果范围外",
+        "reason": "幽灵状态当前定义为无视其他单位碰撞体积，属于已排除的纯空间效果。官方简述旧护盾不属于当前绑定说明。"
+      }
+    },
+    {
+      "id": 3085,
+      "equipmentKey": "item_3085",
+      "equipment": {
+        "createdAt": "2026-09-06T17:35:10.390519Z",
+        "description": "来源：官方16.17.1装备3085。 原始说明：40%攻击速度 25%暴击几率 5%移动速度 风怒。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3085",
+        "gameId": "lol",
+        "name": "卢安娜的飓风",
+        "updatedAt": "2026-09-06T17:35:10.390519Z"
+      },
+      "attributes": {
+        "attributeValues": {
+          "move_speed_percent": 0.05,
+          "bonus_attack_speed_percent": 0.4,
+          "critical_strike_chance": 0.25
+        },
+        "equipmentKey": "item_3085"
+      },
+      "relations": {
+        "items": [],
+        "total": 0
+      },
+      "representativeImage": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_3085",
+          "name": "item_3085"
+        }
+      },
+      "decision": {
+        "status": "范围内直接属性已录；额外效果范围外",
+        "reason": "弩箭发向主目标之外的两个额外敌人，本次1V1不把其伤害重复添加到主目标。远程购买限制保留来源，不伪造战斗效果。"
+      }
+    },
+    {
+      "id": 3109,
+      "equipmentKey": "item_3109",
+      "equipment": {
+        "createdAt": "2026-09-06T18:10:46.919374Z",
+        "description": "来源：官方16.17.1装备3109。 原始说明：200生命值\n40护甲\n10技能急速\n100%基础生命回复\n\n牺牲\n当你的誓约者在附近时，将其所受的14%伤害转移到你身上，并为你提供相当于其对英雄的12%已造成伤害值的治疗效果。立誓(0秒)\n指定一名友方英雄作为你的誓约者。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3109",
+        "gameId": "lol",
+        "name": "骑士之誓",
+        "updatedAt": "2026-09-06T18:10:46.919374Z"
+      },
+      "attributes": {
+        "attributeValues": {
+          "hp": 200,
+          "base_hp_regen_percent": 1,
+          "armor": 40,
+          "ability_haste": 10
+        },
+        "equipmentKey": "item_3109"
+      },
+      "relations": {
+        "items": [],
+        "total": 0
+      },
+      "representativeImage": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_3109",
+          "name": "item_3109"
+        }
+      },
+      "decision": {
+        "status": "范围内直接属性已录；额外效果范围外",
+        "reason": "主动要求绑定另一名友方英雄；自身治疗读取该队友对英雄的伤害，伤害转移读取该队友所受伤害，均无独立的本体1V1触发。保留自身直接属性。"
+      }
+    }
+  ],
+  "passed": true
+}

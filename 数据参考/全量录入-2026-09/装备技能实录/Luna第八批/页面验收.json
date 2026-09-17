@@ -1,0 +1,470 @@
+{
+  "checkedAt": "2026-09-08T02:45:34.450Z",
+  "passed": true,
+  "page": "http://127.0.0.1:5173/#/skills",
+  "observations": [
+    "基克的聚合技能行显示代表图片；效果列表仅有冰晶燃烧终极技能急速，无旧风暴伤害。详情显示按来源对象、仅显式移除、施法者持续急速，关键引用列完整列出技能集合。",
+    "基克触发列表只有初始化冰晶燃烧终极技能急速，事件为来源对象初始化完成，零条件组、一个动作。",
+    "黑色切割者技能代表图片可见；效果按承受对象叠层、刷新全部时间、整体到期。结果为当前目标护甲减少，引用黑色切割者护甲削减乘区，每层分别贡献数值。"
+  ],
+  "experience": [
+    {
+      "topic": "大量指定技能的结果摘要",
+      "observed": "基克结果关键引用摘要完整列出170个技能名称。",
+      "suggestion": "后续将长集合默认显示数量与少量名称，允许展开核对，避免每次维护都阅读完整清单。",
+      "blocking": false
+    }
+  ],
+  "readbacks": [
+    {
+      "route": "/skills/item_3050_passive/effects/ultimate_haste",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:16:29.716596Z",
+        "description": "装备持有者的170个已核对终极技能获得15点技能急速；技能键来自当前根R的Trait_Ultimate标记和唯一角色挂载回读。",
+        "effectKey": "ultimate_haste",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": null,
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "冰晶燃烧终极技能急速",
+        "results": [
+          {
+            "description": "对核对的终极技能集合增加15点技能急速。",
+            "detail": {
+              "affectedSkillScope": {
+                "mode": "SKILLS",
+                "skillCategoryKeys": [],
+                "skillKeys": [
+                  "aatrox_r",
+                  "ahri_r",
+                  "akali_r",
+                  "akshan_r",
+                  "alistar_r",
+                  "ambessa_r",
+                  "amumu_r",
+                  "anivia_r",
+                  "annie_r",
+                  "ashe_r",
+                  "aurelionsol_r",
+                  "aurora_r",
+                  "azir_r",
+                  "bard_r",
+                  "belveth_r",
+                  "blitzcrank_r",
+                  "brand_r",
+                  "braum_r",
+                  "briar_r",
+                  "caitlyn_r",
+                  "camille_r",
+                  "cassiopeia_r",
+                  "chogath_r",
+                  "corki_r",
+                  "darius_r",
+                  "diana_r",
+                  "draven_r",
+                  "drmundo_r",
+                  "ekko_r",
+                  "elise_r",
+                  "evelynn_r",
+                  "ez_r",
+                  "fiddlesticks_r",
+                  "fiora_r",
+                  "fizz_r",
+                  "galio_r",
+                  "gangplank_r",
+                  "garen_r",
+                  "gnar_r",
+                  "gragas_r",
+                  "graves_r",
+                  "gwen_r",
+                  "hecarim_r",
+                  "heimerdinger_r",
+                  "hwei_r",
+                  "illaoi_r",
+                  "irelia_r",
+                  "ivern_r",
+                  "janna_r",
+                  "jarvaniv_r",
+                  "jax_r",
+                  "jayce_r",
+                  "jhin_r",
+                  "jinx_r",
+                  "kaisa_r",
+                  "kalista_r",
+                  "karma_r",
+                  "karthus_r",
+                  "kassadin_r",
+                  "katarina_r",
+                  "kayle_r",
+                  "kayn_r",
+                  "kennen_r",
+                  "khazix_r",
+                  "kindred_r",
+                  "kled_r",
+                  "kogmaw_r",
+                  "ksante_r",
+                  "leblanc_r",
+                  "leesin_r",
+                  "leona_r",
+                  "lillia_r",
+                  "lissandra_r",
+                  "locke_r",
+                  "lucian_r",
+                  "lulu_r",
+                  "lux_r",
+                  "malphite_r",
+                  "malzahar_r",
+                  "maokai_r",
+                  "masteryi_r",
+                  "mel_r",
+                  "milio_r",
+                  "missfortune_r",
+                  "monkeyking_r",
+                  "mordekaiser_r",
+                  "morgana_r",
+                  "naafiri_r",
+                  "nami_r",
+                  "nasus_r",
+                  "nautilus_r",
+                  "neeko_r",
+                  "nidalee_r",
+                  "nilah_r",
+                  "nocturne_r",
+                  "nunu_r",
+                  "olaf_r",
+                  "orianna_r",
+                  "ornn_r",
+                  "pantheon_r",
+                  "poppy_r",
+                  "pyke_r",
+                  "qiyana_r",
+                  "quinn_r",
+                  "rakan_r",
+                  "rammus_r",
+                  "reksai_r",
+                  "rell_r",
+                  "renata_r",
+                  "renekton_r",
+                  "rengar_r",
+                  "riven_r",
+                  "rumble_r",
+                  "ryze_r",
+                  "samira_r",
+                  "sejuani_r",
+                  "senna_r",
+                  "seraphine_r",
+                  "sett_r",
+                  "shaco_r",
+                  "shen_r",
+                  "shyvana_r",
+                  "singed_r",
+                  "sion_r",
+                  "sivir_r",
+                  "skarner_r",
+                  "smolder_r",
+                  "sona_r",
+                  "soraka_r",
+                  "swain_r",
+                  "syndra_r",
+                  "tahmkench_r",
+                  "taliyah_r",
+                  "talon_r",
+                  "taric_r",
+                  "teemo_r",
+                  "thresh_r",
+                  "tristana_r",
+                  "trundle_r",
+                  "tryndamere_r",
+                  "twistedfate_r",
+                  "twitch_r",
+                  "urgot_r",
+                  "varus_r",
+                  "vayne_r",
+                  "veigar_r",
+                  "velkoz_r",
+                  "vex_r",
+                  "vi_r",
+                  "viego_r",
+                  "viktor_r",
+                  "vladimir_r",
+                  "volibear_r",
+                  "warwick_r",
+                  "xayah_r",
+                  "xerath_r",
+                  "xinzhao_r",
+                  "yasuo_r",
+                  "yone_r",
+                  "yorick_r",
+                  "yunara_r",
+                  "yuumi_r",
+                  "zaahen_r",
+                  "zac_r",
+                  "zed_r",
+                  "zeri_r",
+                  "ziggs_r",
+                  "zilean_r",
+                  "zoe_r",
+                  "zyra_r"
+                ]
+              },
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "KEEP",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "终极技能急速提升",
+            "resultKey": "ultimate_haste",
+            "resultType": "SKILL_HASTE_MODIFIER",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "ultimate_haste"
+              }
+            }
+          }
+        ],
+        "skillKey": "item_3050_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T02:16:29.716596Z"
+      }
+    },
+    {
+      "route": "/skills/item_3050_passive/parameters/ultimate_haste",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:16:28.676849Z",
+        "description": "冻结客户端UltimateHaste=15，终极技能急速单位为急速点；作用于已核对的终极技能集合。",
+        "fixedValue": 15,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "冰晶燃烧终极技能急速",
+        "parameterKey": "ultimate_haste",
+        "skillKey": "item_3050_passive",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-08T02:16:28.676849Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/item_3050_passive/trigger-rules/initialize_ultimate_haste",
+      "status": 200,
+      "data": {
+        "actions": [
+          {
+            "actionKey": "execute_ultimate_haste",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "ultimate_haste"
+            },
+            "name": "执行终极技能急速",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "EVENT_SOURCE"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "装备持有者初始化时，对已核对的170个终极技能执行冰晶燃烧终极技能急速效果。",
+        "eventSource": {
+          "detail": {},
+          "eventType": "SOURCE_INITIALIZED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "初始化冰晶燃烧终极技能急速",
+        "perTargetCooldown": null,
+        "ruleKey": "initialize_ultimate_haste",
+        "sortOrder": 10
+      }
+    },
+    {
+      "route": "/skills/item_3050_passive/effects/storm_magic_damage",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_EFFECT_NOT_FOUND",
+          "details": {
+            "effectKey": "storm_magic_damage"
+          },
+          "message": "技能效果不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_3050_passive/parameters/storm_tick_interval_ms",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "storm_tick_interval_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_3071_passive/effects/armor_shred",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:47:43.436698Z",
+        "description": "对确证目标应用每层6%的护甲降低，持续6秒，最多5层；百分比减益使用目标属性百分比修改区。",
+        "effectKey": "armor_shred",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "armor_shred_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "TARGET",
+          "maxStacksValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "armor_shred_max_stacks"
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "INCREASE"
+        },
+        "name": "切割目标护甲削减",
+        "results": [
+          {
+            "description": "每层降低目标护甲6个百分点；第五层后第六次触发保持30%总削减。",
+            "detail": {
+              "attributeKey": "armor",
+              "modifierZoneKey": "item_3071_armor_reduction",
+              "operation": "DECREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": null,
+              "stackValueMode": "PER_STACK",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "目标护甲降低",
+            "resultKey": "armor_reduction",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "armor_shred_ratio_per_stack"
+              }
+            }
+          }
+        ],
+        "skillKey": "item_3071_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T02:16:34.584234Z"
+      }
+    },
+    {
+      "route": "/skills/item_8010_passive/effects/magic_resistance_shred",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:49:07.915806Z",
+        "description": "技能或被动对英雄造成魔法伤害时应用7.5%魔抗削减，持续6秒，最多4层；同一段技能施放对每个英雄至多增加一层，另有300毫秒限制。当前未挂触发规则，避免宽泛复用。",
+        "effectKey": "magic_resistance_shred",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "mr_shred_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "TARGET",
+          "maxStacksValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "mr_shred_max_stacks"
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "INCREASE"
+        },
+        "name": "恶劣衰朽目标魔抗削减",
+        "results": [
+          {
+            "description": "每层降低目标7.5%魔法抗性；同一段技能施放对每个英雄至多一层，另有300毫秒限制；达到第四层后不再增加层数。",
+            "detail": {
+              "attributeKey": "magic_resistance",
+              "modifierZoneKey": "item_8010_magic_resistance_reduction",
+              "operation": "DECREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": null,
+              "stackValueMode": "PER_STACK",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "目标魔法抗性降低",
+            "resultKey": "magic_resistance_reduction",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mr_shred_ratio_per_stack"
+              }
+            }
+          }
+        ],
+        "skillKey": "item_8010_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T02:16:40.132953Z"
+      }
+    },
+    {
+      "route": "/skills/item_3032_passive/trigger-rules",
+      "status": 200,
+      "data": []
+    }
+  ],
+  "boundary": "代表页面真实查看与随后独立GET；没有编辑保存或战斗执行，完整触发筛选及运行接线继续核对。"
+}

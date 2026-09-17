@@ -1,0 +1,894 @@
+{
+  "generatedAt": "2026-09-09T04:08:23.842Z",
+  "stage": "符文第四批独立只读审查；只读取规划冻结来源、候选、请求和写前主体核对，不调用业务接口，不修改候选",
+  "inputDirectory": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\API实录\\符文效果第四批",
+  "inputSha256": {
+    "frozen": "91f4d81e86bc07e1c294afc0ad5e300db4b476b2f3fd7728fa6eb1e7cfc5fb5b",
+    "candidate": "78f899001fd93c3b208bfbbb22d9408919c3ba8b6c17f53a1e5684924fddab73",
+    "requests": "f142aa7fdb7b58ee5648ad6d02e94d72aa648cc064abf998fd4da73816394305",
+    "summary": "12d5ca43e943919577c90335befdea86ce6b73db7bb9a51d7bbfb355b6c83d95",
+    "before": "46259fbfa90378b9b318200d4c6fd85a10a1f9c2c03501e11fd636e67e5daa19"
+  },
+  "source": {
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "rawSha256": "1427c70c4d1172198a1a9787362224c871a90cc4f66f3f769ef5830cbcd401b1",
+    "frozenFileSha256": "91f4d81e86bc07e1c294afc0ad5e300db4b476b2f3fd7728fa6eb1e7cfc5fb5b",
+    "entries": [
+      {
+        "id": 8112,
+        "name": "电刑",
+        "sourcePath": "Perks/Styles/Domination/Electrocute",
+        "tooltip": "在@WindowDuration@秒内用3个<b>独立的</b>攻击或技能命中一位英雄时，会造成<font color='#48C4B7'>@TotalDamage@</font>的额外<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_AdaptiveDmg'><font color='#48C4B7'>自适应伤害</font></lol-uikit-tooltipped-keyword>。<br>冷却时间：@Cooldown@秒<br><hr><br>已造成的伤害总和：<scaleAD>@f1@</scaleAD>",
+        "shortDescription": "在@WindowDuration@秒内用3个<b>独立的</b>攻击或技能命中一位英雄时，会造成额外的<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_AdaptiveDmg'>自适应伤害</lol-uikit-tooltipped-keyword>。",
+        "longDescription": "在@WindowDuration@秒内用3个<b>独立的</b>攻击或技能命中一位英雄时，会造成额外的<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_AdaptiveDmg'><font color='#48C4B7'>自适应伤害</font></lol-uikit-tooltipped-keyword>。<br><br>伤害值：@DamageBase@ - @DamageMax@ (+@BonusADRatio.-1@额外攻击力，+@APRatio.-1@法术强度)。<br>冷却时间：@Cooldown@秒<br><br><i>“我们曾称呼他们为“雷霆领主”，是因为他们的闪电招来了灾祸。”</i>"
+      },
+      {
+        "id": 8126,
+        "name": "恶意中伤",
+        "sourcePath": "Perks/Styles/Domination/CheapShot",
+        "tooltip": "对<b>移动或行动受损</b>的敌人造成<trueDamage>@DamageCalc@额外真实伤害</trueDamage>。<br>冷却时间：@Cooldown@秒<br><rules>会在移动受损之后触发伤害。</rules><br><br>已造成的额外伤害总和：@f1@",
+        "shortDescription": "对<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_ImpairAct'>移动或行动受损的</lol-uikit-tooltipped-keyword>敌方英雄造成额外真实伤害。",
+        "longDescription": "对<b>移动或行动受损</b>的敌人造成@DamageIncMin@~@DamageIncMax@额外真实伤害(基于等级)。<br><br>冷却时间：@Cooldown@秒<br><rules>会在移动受损之后触发伤害。</rules>"
+      },
+      {
+        "id": 8139,
+        "name": "血之滋味",
+        "sourcePath": "Perks/Styles/Domination/TasteOfBlood",
+        "tooltip": "在你伤害一名敌方英雄时治疗自身<healing>@HealCalc@生命值</healing>。<br>冷却时间：@Cooldown@秒<br><br>治疗效果总和：@f1@",
+        "shortDescription": "在你伤害一名敌方英雄时治疗自身。",
+        "longDescription": "在你伤害一名敌方英雄时为你提供治疗效果。<br>治疗效果：@HealAmount@-@HealAmountMax@ (+@ADRatio.-1@额外攻击力，+@APRatio.-1@法术强度)生命值(基于等级)<br><br>冷却时间：@Cooldown@秒"
+      },
+      {
+        "id": 8143,
+        "name": "猛然冲击",
+        "sourcePath": "Perks/Styles/Domination/SuddenImpact",
+        "tooltip": "在使用一次突进、跃击、闪烁、传送效果或离开潜行状态后，用普攻和技能对敌方英雄造成伤害时会造成额外的<trueDamage>@BaseDamage@真实伤害</trueDamage>。<br>必须在@ArmedDuration@秒内使用<br>冷却时间：@Cooldown@秒<br><br>已造成的伤害总和：<trueDamage>@f1@</trueDamage>",
+        "shortDescription": "在使用一次突进、跃击、闪烁、传送效果或离开潜行状态后，用普攻和技能对敌方英雄造成伤害时会造成额外真实伤害。",
+        "longDescription": "在使用一次突进、跃击、闪烁、传送效果或离开潜行状态后的@ArmedDuration@秒内，用普攻和技能对敌方英雄造成伤害时会基于等级造成额外的<trueDamage>@MinDamageTooltip@ - @MaxDamageTooltip@真实伤害</trueDamage>。<br><br>冷却时间：@Cooldown@秒"
+      },
+      {
+        "id": 9923,
+        "name": "丛刃",
+        "sourcePath": "Perks/Styles/Domination/HailOfBlades",
+        "tooltip": "在攻击敌方英雄时，对于至多@NumHits@次攻击，获得{{ Item_Melee_Ranged_Split }}%攻击速度并造成<font color='#48C4B7'>@BonusDamage@</font><trueDamage>额外真实伤害</trueDamage>。<br><br>冷却时间：@Cooldown@秒。<br><hr><br>丛刃的攻击次数：@f1@<br>已造成的伤害：@f2@<br>丛刃已打出攻击的占比：@f3@%<br><br><rules>被重置的普攻会使攻击次数上限提升+1，至多至@MaxBonusHits@。<br>允许你暂时溢出你的攻击速度上限。</rules>",
+        "shortDescription": "对一名敌方英雄发起的前@NumHits@次攻击获得大量攻击速度和<trueDamage>额外真实伤害</trueDamage>。",
+        "longDescription": "在攻击敌方英雄时，提供@ASBoost*100@%(远程英雄为@ASBoostRanged*100@%)攻击速度和<trueDamage>额外真实伤害</trueDamage>给至多@NumHits@次攻击。<br><br>每次攻击的间隔不能超过@Duration@秒，否则这个效果就会结束。<br><br>冷却时间：@Cooldown@秒。<br>攻击特效伤害：@BonusDamageMin@ - @BonusDamageMax@ (+@BonusADRatio.-1@额外攻击力，+@APRatio.-1@法术强度)伤害。<br><br><rules>被重置的攻击会使攻击次数上限提升1。<br>允许你暂时溢出你的攻击速度上限。</rules>"
+      },
+      {
+        "id": 8439,
+        "name": "余震",
+        "sourcePath": "Perks/Styles/Resolve/Aftershock",
+        "tooltip": "定身住一名敌方英雄后，获得<scaleArmor>@ArmorBuff@护甲</scaleArmor>与<scaleMR>@MagicResistBuff@魔抗</scaleMR>，持续@DelayBeforeBurst.1@秒。随后爆炸，对附近敌人造成<magicDamage>@DamageCalc@魔法伤害</magicDamage>。<br>冷却时间：@Cooldown@秒<br><rules><i>双抗收益的上限为@MaxResistCalc@</i></rules><br><br>已造成伤害的总和：<magicDamage>@f1@</magicDamage><br>已缓和的伤害总和：<scaleHealth>@f9@</scaleHealth>",
+        "shortDescription": "在你<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_Immobilize'>定身</lol-uikit-tooltipped-keyword>一个敌方英雄后提供防御属性，稍后会在你的周围造成爆发性的魔法伤害。",
+        "longDescription": "在定身住一名敌方英雄后，使你的护甲和魔法抗性提升，数额为@FlatResists@+你@PercentBonusResist*100@%的额外双抗，持续@DelayBeforeBurst.1@秒。随后会爆炸，对附近的敌人造成魔法伤害。<br><br>伤害值：@StartingBaseDamage@ - @MaxBaseDamage@ (+你@HealthRatio*100@%的额外生命值)<br>冷却时间：@Cooldown@秒<br><br>来自余震的双抗加成封顶值：@BonusResistMin@-@BonusResistMax@(基于等级)<br>"
+      },
+      {
+        "id": 9101,
+        "name": "吸收生命力",
+        "sourcePath": "Perks/Styles/Precision/AbsorbLife",
+        "tooltip": "击杀目标后治疗你@HealAmount@生命值。<br><br><b>治疗效果总和：<scaleAD>@f1@</scaleAD></b>",
+        "shortDescription": "击杀目标后治疗你。",
+        "longDescription": "击杀目标后回复你@HealAmount@生命值。"
+      },
+      {
+        "id": 8233,
+        "name": "绝对专注",
+        "sourcePath": "Perks/Styles/Sorcery/AbsoluteFocus",
+        "tooltip": "生命值高于@HealthPercent*100@%时，获得 <lol-uikit-tooltipped-keyword key='LinkTooltip_Description_Adaptive'><font color='#48C4B7'>@AdaptiveForceCalc@适应之力</font></lol-uikit-tooltipped-keyword>。<br><br>{{ adaptive_force_tip_bonus_@f2@ }}",
+        "shortDescription": "在高于@HealthPercent*100@%生命值时，获得额外的<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_AdaptiveDmg'>自适应伤害</lol-uikit-tooltipped-keyword>。",
+        "longDescription": "在高于@HealthPercent*100@%生命值时，获得{{ perk_subtext_AdaptiveForce_Max }}(基于等级)<br><br>在1级时提供@MinAdaptive.-1*0.6@攻击力或@MinAdaptive@法术强度。"
+      },
+      {
+        "id": 8214,
+        "name": "召唤：艾黎",
+        "sourcePath": "Perks/Styles/Sorcery/SummonAery",
+        "tooltip": "用攻击或技能对敌方英雄造成伤害时，会向其派出艾黎，造成<font color='#48C4B7'>@DamageCalc@</font>额外<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_AdaptiveDmg'><font color='#48C4B7'>适应性伤害</font></lol-uikit-tooltipped-keyword>。<br><br>在用技能强化或保护友方英雄时，会向其派出艾黎，为其提供<shield>@ShieldCalc@护盾值</shield>。<br><br>艾黎在回到你的位置前无法被再次派出。<br><br>艾黎已攻击了敌人<font color='#FFFFFF'>@f1@</font>次，共造成<font color='#FFFFFF'>@f3@</font>伤害值。<br>艾黎已帮助了友军<font color='#FFFFFF'>@f2@</font>次，共提供<font color='#FFFFFF'>@f4@</font>护盾值。",
+        "shortDescription": "你的攻击和技能会向目标派出艾黎，来对敌方英雄造成伤害或为友方英雄套上护盾。",
+        "longDescription": "用攻击或技能对敌方英雄造成伤害时，会向其派出艾黎，来造成@DamageBase@ - @DamageMax@(基于等级)(+<scaleAP>@DamageAPRatio.-1@法术强度</scaleAP>) (+<scaleAD>@DamageADRatio.-1@额外攻击力</scaleAD>)伤害。<br><br>在用技能强化或保护友方英雄时，会向其派出艾黎，为其提供护盾，护盾生命值为@ShieldBase@ - @ShieldMax@(基于等级)(+<scaleAP>@ShieldRatio.-1@法术强度</scaleAP>)(+<scaleAD>@ShieldRatioAD.-1@额外攻击力</scaleAD>)。<br><br>艾黎在回到你的位置前无法被再次派出。"
+      },
+      {
+        "id": 8229,
+        "name": "奥术彗星",
+        "sourcePath": "Perks/Styles/Sorcery/ArcaneComet",
+        "tooltip": "用一个技能对一名英雄造成伤害时，会在其位置处召唤一颗彗星，基于其远离的程度造成额外伤害。<br><br>伤害：@DamageCalc@<br>冷却时间：@CooldownCalc@秒<br><rules><br>伤害增幅最大值为@MaxDamageAmp*100@%，在@MaxRange@距离处达到。<br></rules><br>你已召唤的彗星有@f3@%的命中率，共对英雄造成了@f1@伤害。",
+        "shortDescription": "用一个技能对一名英雄造成伤害时，会在其位置处召唤一颗彗星。",
+        "longDescription": "用一个技能对一名英雄造成伤害时，会召唤一颗彗星落入其位置处，基于距离造成额外伤害。<br><br><lol-uikit-tooltipped-keyword key='LinkTooltip_Description_AdaptiveDmg'><font color='#48C4B7'>自适应伤害</font></lol-uikit-tooltipped-keyword>：@DamageBase@ - @DamageMax@基于等级 (<scaleAP>+@APRatio.-1@法术强度</scaleAP>和<scaleAD>+@ADRatio.-1@额外攻击力</scaleAD>)<br>冷却时间：@RechargeTime@ - @RechargeTimeMin@秒<br><rules><br>伤害增幅最大值为@MaxDamageAmp*100@%，在@MaxRange@距离处达成。<br></rules>"
+      },
+      {
+        "id": 8237,
+        "name": "焦灼",
+        "sourcePath": "Perks/Styles/Sorcery/Scorch",
+        "tooltip": "你的下一个伤害型技能在命中时会使敌方英雄燃烧，在@dotduration@秒后造成<magicDamage>@DamageCalc@额外魔法伤害</magicDamage>。<br>冷却时间：@BurnlockoutDuration@秒<br><br>已造成的伤害总和：@f1@",
+        "shortDescription": "你每@BurnlockoutDuration@秒内命中的第一个技能会灼烧英雄。",
+        "longDescription": "你的下一个伤害型技能在命中时会使敌方英雄燃烧，在@dotduration@秒后造成@damage@ - @damagemax@额外魔法伤害（基于等级）。<br><br>冷却时间：@BurnlockoutDuration@秒"
+      },
+      {
+        "id": 8232,
+        "name": "水上行走",
+        "sourcePath": "Perks/Styles/Sorcery/Waterwalking",
+        "tooltip": "在河道中时，获得<speed>@MovementSpeed@移动速度</speed>和<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_Adaptive'><font color='#48C4B7'>@AdaptiveForceCalc@适应之力</font></lol-uikit-tooltipped-keyword>。<br><br>{{ adaptive_force_tip_bonus_@f2@ }}",
+        "shortDescription": "在河道时提供<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_MS'>移动速度</lol-uikit-tooltipped-keyword>和法术强度或攻击力，<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_Adaptive'>自动适应</lol-uikit-tooltipped-keyword>。",
+        "longDescription": "在河道时，获得<speed>@MovementSpeed@移动速度</speed>并获得<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_Adaptive'><font color='#48C4B7'>@MinAdaptive@ - @MaxAdaptive@适应之力</font></lol-uikit-tooltipped-keyword>(基于等级)。<br><br><i>愿你如奔腾的河流一样迅捷，如受惊的峡谷迅捷蟹一样机敏。</i>"
+      }
+    ]
+  },
+  "candidate": {
+    "fileSha256": "78f899001fd93c3b208bfbbb22d9408919c3ba8b6c17f53a1e5684924fddab73",
+    "declaredSha256": "78f899001fd93c3b208bfbbb22d9408919c3ba8b6c17f53a1e5684924fddab73",
+    "counts": {
+      "skill": 12,
+      "parameter": 78,
+      "formula": 17,
+      "effect": 1,
+      "relation": 12,
+      "rule": 0,
+      "process": 0,
+      "internalState": 0
+    },
+    "requestCount": 120,
+    "businessWrites": 0
+  },
+  "checks": {
+    "count": 68,
+    "passed": 68,
+    "failed": 0,
+    "allPassed": true,
+    "details": [
+      {
+        "name": "8112身份与中文绑定",
+        "status": "通过"
+      },
+      {
+        "name": "8112来源数值与单位",
+        "status": "通过"
+      },
+      {
+        "name": "8112公式引用结构",
+        "status": "通过"
+      },
+      {
+        "name": "8126身份与中文绑定",
+        "status": "通过"
+      },
+      {
+        "name": "8126来源数值与单位",
+        "status": "通过"
+      },
+      {
+        "name": "8126公式引用结构",
+        "status": "通过"
+      },
+      {
+        "name": "8139身份与中文绑定",
+        "status": "通过"
+      },
+      {
+        "name": "8139来源数值与单位",
+        "status": "通过"
+      },
+      {
+        "name": "8139公式引用结构",
+        "status": "通过"
+      },
+      {
+        "name": "8143身份与中文绑定",
+        "status": "通过"
+      },
+      {
+        "name": "8143来源数值与单位",
+        "status": "通过"
+      },
+      {
+        "name": "8143公式引用结构",
+        "status": "通过"
+      },
+      {
+        "name": "9923身份与中文绑定",
+        "status": "通过"
+      },
+      {
+        "name": "9923来源数值与单位",
+        "status": "通过"
+      },
+      {
+        "name": "9923公式引用结构",
+        "status": "通过"
+      },
+      {
+        "name": "8439身份与中文绑定",
+        "status": "通过"
+      },
+      {
+        "name": "8439来源数值与单位",
+        "status": "通过"
+      },
+      {
+        "name": "8439公式引用结构",
+        "status": "通过"
+      },
+      {
+        "name": "9101身份与中文绑定",
+        "status": "通过"
+      },
+      {
+        "name": "9101来源数值与单位",
+        "status": "通过"
+      },
+      {
+        "name": "9101公式引用结构",
+        "status": "通过"
+      },
+      {
+        "name": "8233身份与中文绑定",
+        "status": "通过"
+      },
+      {
+        "name": "8233来源数值与单位",
+        "status": "通过"
+      },
+      {
+        "name": "8233公式引用结构",
+        "status": "通过"
+      },
+      {
+        "name": "8214身份与中文绑定",
+        "status": "通过"
+      },
+      {
+        "name": "8214来源数值与单位",
+        "status": "通过"
+      },
+      {
+        "name": "8214公式引用结构",
+        "status": "通过"
+      },
+      {
+        "name": "8229身份与中文绑定",
+        "status": "通过"
+      },
+      {
+        "name": "8229来源数值与单位",
+        "status": "通过"
+      },
+      {
+        "name": "8229公式引用结构",
+        "status": "通过"
+      },
+      {
+        "name": "8237身份与中文绑定",
+        "status": "通过"
+      },
+      {
+        "name": "8237来源数值与单位",
+        "status": "通过"
+      },
+      {
+        "name": "8237公式引用结构",
+        "status": "通过"
+      },
+      {
+        "name": "8232身份与中文绑定",
+        "status": "通过"
+      },
+      {
+        "name": "8232来源数值与单位",
+        "status": "通过"
+      },
+      {
+        "name": "8232公式引用结构",
+        "status": "通过"
+      },
+      {
+        "name": "候选与120条请求逐项一致",
+        "status": "通过"
+      },
+      {
+        "name": "AP与额外攻击力具名和默认字段旁证",
+        "status": "通过"
+      },
+      {
+        "name": "余震双抗、生命和MIN封顶",
+        "status": "通过"
+      },
+      {
+        "name": "彗星冷却钳制和距离非线性边界",
+        "status": "通过"
+      },
+      {
+        "name": "丛刃相邻间隔与重置次数语义",
+        "status": "通过"
+      },
+      {
+        "name": "绝对专注0.6和70%严格门槛",
+        "status": "通过"
+      },
+      {
+        "name": "吸收生命力保留断点缺口",
+        "status": "通过"
+      },
+      {
+        "name": "水上行走固定移速独立效果",
+        "status": "通过"
+      },
+      {
+        "name": "算例1 8112/damage_amount",
+        "status": "通过"
+      },
+      {
+        "name": "算例2 8126/damage_amount",
+        "status": "通过"
+      },
+      {
+        "name": "算例3 8139/heal_amount",
+        "status": "通过"
+      },
+      {
+        "name": "算例4 8143/damage_amount",
+        "status": "通过"
+      },
+      {
+        "name": "算例5 9923/damage_amount",
+        "status": "通过"
+      },
+      {
+        "name": "算例6 8439/armor_bonus_amount",
+        "status": "通过"
+      },
+      {
+        "name": "算例7 8439/armor_bonus_amount",
+        "status": "通过"
+      },
+      {
+        "name": "算例8 8439/magic_resistance_bonus_amount",
+        "status": "通过"
+      },
+      {
+        "name": "算例9 8439/damage_amount",
+        "status": "通过"
+      },
+      {
+        "name": "算例10 9101/heal_amount",
+        "status": "通过"
+      },
+      {
+        "name": "算例11 8233/health_threshold",
+        "status": "通过"
+      },
+      {
+        "name": "算例12 8233/attack_damage_amount",
+        "status": "通过"
+      },
+      {
+        "name": "算例13 8233/ability_power_amount",
+        "status": "通过"
+      },
+      {
+        "name": "算例14 8214/damage_amount",
+        "status": "通过"
+      },
+      {
+        "name": "算例15 8229/base_damage_amount",
+        "status": "通过"
+      },
+      {
+        "name": "算例16 8229/cooldown_ms",
+        "status": "通过"
+      },
+      {
+        "name": "算例17 8229/cooldown_ms",
+        "status": "通过"
+      },
+      {
+        "name": "算例18 8229/cooldown_ms",
+        "status": "通过"
+      },
+      {
+        "name": "算例19 8229/cooldown_ms",
+        "status": "通过"
+      },
+      {
+        "name": "算例20 8237/damage_amount",
+        "status": "通过"
+      },
+      {
+        "name": "算例21 8232/adaptive_force_amount",
+        "status": "通过"
+      },
+      {
+        "name": "绝对专注严格门槛1",
+        "status": "通过"
+      },
+      {
+        "name": "绝对专注严格门槛2",
+        "status": "通过"
+      },
+      {
+        "name": "绝对专注严格门槛3",
+        "status": "通过"
+      }
+    ]
+  },
+  "arithmetic": {
+    "formulaCaseCount": 21,
+    "passed": 21,
+    "failed": 0,
+    "cases": [
+      {
+        "index": 1,
+        "id": 8112,
+        "skillKey": "rune_8112_passive",
+        "formulaKey": "damage_amount",
+        "parameters": {
+          "confirmed_level_base_source_start": 70,
+          "confirmed_level_base_source_end": 240,
+          "ability_power_ratio": 0.05,
+          "bonus_attack_damage_ratio": 0.1,
+          "cooldown_ms": 20000,
+          "hit_window_ms": 3000,
+          "required_unique_hits": 3,
+          "confirmed_level_base": 70
+        },
+        "attributes": {
+          "SOURCE:ability_power:TOTAL": 100,
+          "SOURCE:attack_damage:BONUS": 50
+        },
+        "expected": 80,
+        "actual": 80,
+        "explanation": "电刑70+100×0.05+50×0.1"
+      },
+      {
+        "index": 2,
+        "id": 8126,
+        "skillKey": "rune_8126_passive",
+        "formulaKey": "damage_amount",
+        "parameters": {
+          "confirmed_level_base_source_start": 10,
+          "confirmed_level_base_source_end": 45,
+          "cooldown_ms": 4000,
+          "confirmed_level_base": 10
+        },
+        "attributes": {},
+        "expected": 10,
+        "actual": 10,
+        "explanation": "恶意中伤显式等级值10"
+      },
+      {
+        "index": 3,
+        "id": 8139,
+        "skillKey": "rune_8139_passive",
+        "formulaKey": "heal_amount",
+        "parameters": {
+          "confirmed_level_base_source_start": 16,
+          "confirmed_level_base_source_end": 40,
+          "ability_power_ratio": 0.05,
+          "bonus_attack_damage_ratio": 0.1,
+          "cooldown_ms": 20000,
+          "confirmed_level_base": 16
+        },
+        "attributes": {
+          "SOURCE:ability_power:TOTAL": 100,
+          "SOURCE:attack_damage:BONUS": 50
+        },
+        "expected": 26,
+        "actual": 26,
+        "explanation": "血之滋味16+100×0.05+50×0.1"
+      },
+      {
+        "index": 4,
+        "id": 8143,
+        "skillKey": "rune_8143_passive",
+        "formulaKey": "damage_amount",
+        "parameters": {
+          "confirmed_level_base_source_start": 20,
+          "confirmed_level_base_source_end": 80,
+          "armed_window_ms": 4000,
+          "cooldown_ms": 10000,
+          "confirmed_level_base": 20
+        },
+        "attributes": {},
+        "expected": 20,
+        "actual": 20,
+        "explanation": "猛然冲击显式等级值20"
+      },
+      {
+        "index": 5,
+        "id": 9923,
+        "skillKey": "rune_9923_passive",
+        "formulaKey": "damage_amount",
+        "parameters": {
+          "confirmed_level_base_source_start": 2,
+          "confirmed_level_base_source_end": 20,
+          "ability_power_ratio": 0.1,
+          "bonus_attack_damage_ratio": 0.12,
+          "base_attack_count": 3,
+          "max_attack_gap_ms": 3000,
+          "cooldown_ms": 10000,
+          "melee_attack_speed_ratio": 0.9,
+          "ranged_attack_speed_ratio": 0.6,
+          "max_bonus_reset_attacks": 2,
+          "additional_attack_per_reset": 1,
+          "confirmed_level_base": 2
+        },
+        "attributes": {
+          "SOURCE:ability_power:TOTAL": 100,
+          "SOURCE:attack_damage:BONUS": 50
+        },
+        "expected": 18,
+        "actual": 18,
+        "explanation": "丛刃2+100×0.1+50×0.12"
+      },
+      {
+        "index": 6,
+        "id": 8439,
+        "skillKey": "rune_8439_passive",
+        "formulaKey": "armor_bonus_amount",
+        "parameters": {
+          "confirmed_level_damage_source_start": 25,
+          "confirmed_level_damage_source_end": 120,
+          "confirmed_level_resist_cap_source_start": 80,
+          "confirmed_level_resist_cap_source_end": 150,
+          "flat_resistance": 45,
+          "bonus_resistance_ratio": 0.75,
+          "bonus_health_damage_ratio": 0.08,
+          "resistance_duration_ms": 2500,
+          "cooldown_ms": 20000,
+          "confirmed_level_resist_cap": 80
+        },
+        "attributes": {
+          "SOURCE:armor:BONUS": 100
+        },
+        "expected": 80,
+        "actual": 80,
+        "explanation": "余震护甲MIN(45+100×0.75,80)"
+      },
+      {
+        "index": 7,
+        "id": 8439,
+        "skillKey": "rune_8439_passive",
+        "formulaKey": "armor_bonus_amount",
+        "parameters": {
+          "confirmed_level_damage_source_start": 25,
+          "confirmed_level_damage_source_end": 120,
+          "confirmed_level_resist_cap_source_start": 80,
+          "confirmed_level_resist_cap_source_end": 150,
+          "flat_resistance": 45,
+          "bonus_resistance_ratio": 0.75,
+          "bonus_health_damage_ratio": 0.08,
+          "resistance_duration_ms": 2500,
+          "cooldown_ms": 20000,
+          "confirmed_level_resist_cap": 150
+        },
+        "attributes": {
+          "SOURCE:armor:BONUS": 100
+        },
+        "expected": 120,
+        "actual": 120,
+        "explanation": "余震护甲MIN(45+100×0.75,150)"
+      },
+      {
+        "index": 8,
+        "id": 8439,
+        "skillKey": "rune_8439_passive",
+        "formulaKey": "magic_resistance_bonus_amount",
+        "parameters": {
+          "confirmed_level_damage_source_start": 25,
+          "confirmed_level_damage_source_end": 120,
+          "confirmed_level_resist_cap_source_start": 80,
+          "confirmed_level_resist_cap_source_end": 150,
+          "flat_resistance": 45,
+          "bonus_resistance_ratio": 0.75,
+          "bonus_health_damage_ratio": 0.08,
+          "resistance_duration_ms": 2500,
+          "cooldown_ms": 20000,
+          "confirmed_level_resist_cap": 150
+        },
+        "attributes": {
+          "SOURCE:magic_resistance:BONUS": 200
+        },
+        "expected": 150,
+        "actual": 150,
+        "explanation": "余震魔抗MIN(45+200×0.75,150)"
+      },
+      {
+        "index": 9,
+        "id": 8439,
+        "skillKey": "rune_8439_passive",
+        "formulaKey": "damage_amount",
+        "parameters": {
+          "confirmed_level_damage_source_start": 25,
+          "confirmed_level_damage_source_end": 120,
+          "confirmed_level_resist_cap_source_start": 80,
+          "confirmed_level_resist_cap_source_end": 150,
+          "flat_resistance": 45,
+          "bonus_resistance_ratio": 0.75,
+          "bonus_health_damage_ratio": 0.08,
+          "resistance_duration_ms": 2500,
+          "cooldown_ms": 20000,
+          "confirmed_level_damage": 25
+        },
+        "attributes": {
+          "SOURCE:hp:BONUS": 2000
+        },
+        "expected": 185,
+        "actual": 185,
+        "explanation": "余震爆发25+2000×0.08"
+      },
+      {
+        "index": 10,
+        "id": 9101,
+        "skillKey": "rune_9101_passive",
+        "formulaKey": "heal_amount",
+        "parameters": {
+          "confirmed_level_heal": 23
+        },
+        "attributes": {},
+        "expected": 23,
+        "actual": 23,
+        "explanation": "吸收生命力显式等级输入23"
+      },
+      {
+        "index": 11,
+        "id": 8233,
+        "skillKey": "rune_8233_passive",
+        "formulaKey": "health_threshold",
+        "parameters": {
+          "confirmed_adaptive_force_source_start": 3,
+          "confirmed_adaptive_force_source_end": 30,
+          "health_threshold_ratio": 0.7,
+          "adaptive_to_attack_damage_ratio": 0.6
+        },
+        "attributes": {
+          "SOURCE:hp:TOTAL": 1000
+        },
+        "expected": 700,
+        "actual": 700,
+        "explanation": "绝对专注1000×0.7门槛值"
+      },
+      {
+        "index": 12,
+        "id": 8233,
+        "skillKey": "rune_8233_passive",
+        "formulaKey": "attack_damage_amount",
+        "parameters": {
+          "confirmed_adaptive_force_source_start": 3,
+          "confirmed_adaptive_force_source_end": 30,
+          "health_threshold_ratio": 0.7,
+          "adaptive_to_attack_damage_ratio": 0.6,
+          "confirmed_adaptive_force": 30
+        },
+        "attributes": {},
+        "expected": 18,
+        "actual": 18,
+        "explanation": "绝对专注30×0.6攻击力换算"
+      },
+      {
+        "index": 13,
+        "id": 8233,
+        "skillKey": "rune_8233_passive",
+        "formulaKey": "ability_power_amount",
+        "parameters": {
+          "confirmed_adaptive_force_source_start": 3,
+          "confirmed_adaptive_force_source_end": 30,
+          "health_threshold_ratio": 0.7,
+          "adaptive_to_attack_damage_ratio": 0.6,
+          "confirmed_adaptive_force": 30
+        },
+        "attributes": {},
+        "expected": 30,
+        "actual": 30,
+        "explanation": "绝对专注法强分支保留适应之力30"
+      },
+      {
+        "index": 14,
+        "id": 8214,
+        "skillKey": "rune_8214_passive",
+        "formulaKey": "damage_amount",
+        "parameters": {
+          "confirmed_level_base_source_start": 10,
+          "confirmed_level_base_source_end": 50,
+          "ability_power_ratio": 0.05,
+          "bonus_attack_damage_ratio": 0.1,
+          "confirmed_level_base": 10
+        },
+        "attributes": {
+          "SOURCE:ability_power:TOTAL": 100,
+          "SOURCE:attack_damage:BONUS": 50
+        },
+        "expected": 20,
+        "actual": 20,
+        "explanation": "艾黎10+100×0.05+50×0.1"
+      },
+      {
+        "index": 15,
+        "id": 8229,
+        "skillKey": "rune_8229_passive",
+        "formulaKey": "base_damage_amount",
+        "parameters": {
+          "confirmed_level_base_source_start": 15,
+          "confirmed_level_base_source_end": 100,
+          "ability_power_ratio": 0.05,
+          "bonus_attack_damage_ratio": 0.1,
+          "confirmed_level_cooldown_seconds_source_start": 20,
+          "confirmed_level_cooldown_seconds_source_end": 8,
+          "maximum_distance_damage_ratio": 1,
+          "maximum_amplification_distance": 750,
+          "cooldown_floor_seconds": 0.3,
+          "seconds_to_ms": 1000,
+          "confirmed_level_base": 15
+        },
+        "attributes": {
+          "SOURCE:ability_power:TOTAL": 100,
+          "SOURCE:attack_damage:BONUS": 50
+        },
+        "expected": 25,
+        "actual": 25,
+        "explanation": "彗星15+100×0.05+50×0.1"
+      },
+      {
+        "index": 16,
+        "id": 8229,
+        "skillKey": "rune_8229_passive",
+        "formulaKey": "cooldown_ms",
+        "parameters": {
+          "confirmed_level_base_source_start": 15,
+          "confirmed_level_base_source_end": 100,
+          "ability_power_ratio": 0.05,
+          "bonus_attack_damage_ratio": 0.1,
+          "confirmed_level_cooldown_seconds_source_start": 20,
+          "confirmed_level_cooldown_seconds_source_end": 8,
+          "maximum_distance_damage_ratio": 1,
+          "maximum_amplification_distance": 750,
+          "cooldown_floor_seconds": 0.3,
+          "seconds_to_ms": 1000,
+          "confirmed_level_cooldown_seconds": 0.3
+        },
+        "attributes": {},
+        "expected": 300,
+        "actual": 300,
+        "explanation": "彗星MIN(20,MAX(0.3,0.3))×1000"
+      },
+      {
+        "index": 17,
+        "id": 8229,
+        "skillKey": "rune_8229_passive",
+        "formulaKey": "cooldown_ms",
+        "parameters": {
+          "confirmed_level_base_source_start": 15,
+          "confirmed_level_base_source_end": 100,
+          "ability_power_ratio": 0.05,
+          "bonus_attack_damage_ratio": 0.1,
+          "confirmed_level_cooldown_seconds_source_start": 20,
+          "confirmed_level_cooldown_seconds_source_end": 8,
+          "maximum_distance_damage_ratio": 1,
+          "maximum_amplification_distance": 750,
+          "cooldown_floor_seconds": 0.3,
+          "seconds_to_ms": 1000,
+          "confirmed_level_cooldown_seconds": 20
+        },
+        "attributes": {},
+        "expected": 20000,
+        "actual": 20000,
+        "explanation": "彗星MIN(20,MAX(0.3,20))×1000"
+      },
+      {
+        "index": 18,
+        "id": 8229,
+        "skillKey": "rune_8229_passive",
+        "formulaKey": "cooldown_ms",
+        "parameters": {
+          "confirmed_level_base_source_start": 15,
+          "confirmed_level_base_source_end": 100,
+          "ability_power_ratio": 0.05,
+          "bonus_attack_damage_ratio": 0.1,
+          "confirmed_level_cooldown_seconds_source_start": 20,
+          "confirmed_level_cooldown_seconds_source_end": 8,
+          "maximum_distance_damage_ratio": 1,
+          "maximum_amplification_distance": 750,
+          "cooldown_floor_seconds": 0.3,
+          "seconds_to_ms": 1000,
+          "confirmed_level_cooldown_seconds": 0
+        },
+        "attributes": {},
+        "expected": 300,
+        "actual": 300,
+        "explanation": "彗星低于下限时钳制0.3秒并转300毫秒"
+      },
+      {
+        "index": 19,
+        "id": 8229,
+        "skillKey": "rune_8229_passive",
+        "formulaKey": "cooldown_ms",
+        "parameters": {
+          "confirmed_level_base_source_start": 15,
+          "confirmed_level_base_source_end": 100,
+          "ability_power_ratio": 0.05,
+          "bonus_attack_damage_ratio": 0.1,
+          "confirmed_level_cooldown_seconds_source_start": 20,
+          "confirmed_level_cooldown_seconds_source_end": 8,
+          "maximum_distance_damage_ratio": 1,
+          "maximum_amplification_distance": 750,
+          "cooldown_floor_seconds": 0.3,
+          "seconds_to_ms": 1000,
+          "confirmed_level_cooldown_seconds": 25
+        },
+        "attributes": {},
+        "expected": 20000,
+        "actual": 20000,
+        "explanation": "彗星高于上限时钳制20秒并转20000毫秒"
+      },
+      {
+        "index": 20,
+        "id": 8237,
+        "skillKey": "rune_8237_passive",
+        "formulaKey": "damage_amount",
+        "parameters": {
+          "confirmed_level_base_source_start": 20,
+          "confirmed_level_base_source_end": 40,
+          "cooldown_ms": 10000,
+          "damage_delay_ms": 1000,
+          "confirmed_level_base": 20
+        },
+        "attributes": {},
+        "expected": 20,
+        "actual": 20,
+        "explanation": "焦灼显式等级值20"
+      },
+      {
+        "index": 21,
+        "id": 8232,
+        "skillKey": "rune_8232_passive",
+        "formulaKey": "adaptive_force_amount",
+        "parameters": {
+          "confirmed_adaptive_force_source_start": 13,
+          "confirmed_adaptive_force_source_end": 30,
+          "river_flat_move_speed": 10,
+          "confirmed_adaptive_force": 13
+        },
+        "attributes": {},
+        "expected": 13,
+        "actual": 13,
+        "explanation": "水上行走显式适应之力13"
+      }
+    ],
+    "strictThresholdCases": [
+      {
+        "index": 1,
+        "maximumHealth": 1000,
+        "health": 700,
+        "threshold": 700,
+        "expected": false,
+        "actual": false,
+        "explanation": "等于70%不满足严格高于"
+      },
+      {
+        "index": 2,
+        "maximumHealth": 1000,
+        "health": 700.0001,
+        "threshold": 700,
+        "expected": true,
+        "actual": true,
+        "explanation": "高于70%满足"
+      },
+      {
+        "index": 3,
+        "maximumHealth": 1000,
+        "health": 699.9999,
+        "threshold": 700,
+        "expected": false,
+        "actual": false,
+        "explanation": "低于70%不满足"
+      }
+    ]
+  },
+  "conclusions": {
+    "apAndBonusAttackDamage": "8112、8139、8214、8229、9923均沿当前计算树的法强字段和mStat=2、mStatFormula=2额外攻击力字段读取SOURCE属性。",
+    "aftershock": "护甲、魔抗使用SOURCE BONUS并用等级封顶参数MIN限制；爆发伤害使用SOURCE hp BONUS。",
+    "comet": "冷却按MIN(20,MAX(0.3,明确等级秒数))×1000；750距离和100%增幅只保留端点，不生成距离线性函数。",
+    "hailOfBlades": "3次基础攻击、相邻攻击最大间隔3000毫秒、重置额外次数2和每次增加1分别保存，未把间隔当总持续，也未把2当基础3的总上限。",
+    "absoluteFocus": "0.6只依据绝对专注当前具名正文用于适应之力转攻击力；生命必须严格高于70%最大生命。",
+    "absorbLife": "HealAmount保留初值、初始斜率和6/11级断点来源，但候选使用运行时输入，不猜完整等级曲线。",
+    "waterwalking": "仅水上行走的10固定移速进入一个SOURCE属性效果；未命名字段1只保留排除证据。"
+  },
+  "blockers": []
+}

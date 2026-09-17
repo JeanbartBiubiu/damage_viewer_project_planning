@@ -1,0 +1,1 @@
+const H={Authorization:'Bearer local-entry',Accept:'application/json'};const B='http://127.0.0.1:8080/api/admin/games/lol';for(const k of ['ez','champion_ez','champion_mordekaiser']){for(const s of ['', '/attributes']){const r=await fetch(B+'/characters/'+k+s,{headers:H});const t=await r.text();console.log(k+s,r.status,t.slice(0,1000));}}
