@@ -303,6 +303,7 @@ public final class SkillObjectReferences {
                     formulas(detail, dp, "comparisonValue");
                 }
                 case "TARGET_CATEGORY_CHECK" -> { /* 固定类别不生成引用。 */ }
+                case "EXPLICIT_TARGET_IS_SOURCE" -> { /* 显式目标身份检查不生成引用。 */ }
                 case "EVENT_VALUE_COMPARE" -> formulas(detail, dp, "comparisonValue");
                 default -> throw shape(path, "未知触发条件类型");
             }

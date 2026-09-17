@@ -330,6 +330,32 @@ class GameConfigurationWriteGuardTest {
         verify(connection, never()).commit();
     }
 
+    @Test
+    void finalExplicitSelfTargetEventChangeRollsBackBeforeReferenceReplacement() throws Exception {
+        Connection connection = connection();
+        when(jdbc.queryForList(GameConfigurationWriteGuard.CATALOG_SQL, "lol")).thenReturn(List.of());
+        var rule = SkillExplicitTargetIsSourceConditionSemanticsTest.rule("SKILL_HIT", "{}");
+        when(jdbc.queryForList(GameConfigurationWriteGuard.AGGREGATES_SQL, "lol")).thenReturn(List.of(Map.of(
+            "source_type", "TRIGGER",
+            "skill_key", rule.skillKey(),
+            "source_key", rule.key(),
+            "data", rule.data().toString()
+        )));
+
+        ApiException error = assertThrows(ApiException.class, () -> transaction(connection).execute(status -> {
+            guard.begin("lol");
+            jdbc.update("UPDATE explicit self target event for test");
+            return null;
+        }));
+
+        assertEquals("400.INVALID_SKILL_TRIGGER_RULE_REFERENCE", error.getCode());
+        assertTrue(error.getDetails().toString().contains("EVENT_VALUE_NOT_AVAILABLE"));
+        verify(jdbc).update("UPDATE explicit self target event for test");
+        verify(jdbc, never()).update(DELETE_SQL, "lol");
+        verify(connection).rollback();
+        verify(connection, never()).commit();
+    }
+
     @ParameterizedTest
     @ValueSource(strings = {"CONDITION_EVENT", "BINDING_EVENT", "BINDING_DOMAIN"})
     void finalSkillHitShieldEventOrDomainChangeRollsBack(String change) throws Exception {
