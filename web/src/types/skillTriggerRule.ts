@@ -31,6 +31,7 @@ export type SkillTriggerConditionType =
   | 'STATUS_CHECK'
   | 'LIFECYCLE_CHECK'
   | 'TARGET_CATEGORY_CHECK'
+  | 'EXPLICIT_TARGET_IS_SOURCE'
   | 'INTERNAL_STATE_CHECK'
   | 'EVENT_VALUE_COMPARE';
 
@@ -469,6 +470,12 @@ export type SkillTriggerCondition =
       conditionType: 'TARGET_CATEGORY_CHECK';
       sortOrder: number;
       detail: SkillTriggerTargetCategoryCheckDetail;
+    }
+  | {
+      conditionKey: string;
+      conditionType: 'EXPLICIT_TARGET_IS_SOURCE';
+      sortOrder: number;
+      detail: SkillTriggerEmptyDetail;
     }
   | SkillTriggerInternalStateCheckCondition
   | SkillTriggerEventValueCompareCondition;

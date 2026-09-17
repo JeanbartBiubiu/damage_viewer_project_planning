@@ -587,6 +587,40 @@ describe('事件对方类别响应', () => {
   });
 });
 
+describe('显式目标为来源对象响应', () => {
+  const withExplicitSelfTarget = (conditionDetail: unknown, eventType = 'SKILL_USED') => ({
+    ...detail,
+    eventSource: eventType === 'SKILL_USED'
+      ? { eventType, detail: { sourceSkillKey: 'annie_e', useKind: 'ACTIVE' } }
+      : { eventType, detail: { sourceSkillKey: 'annie_e' } },
+    conditionGroups: [{
+      groupKey: 'self_target',
+      name: '显式自施',
+      sortOrder: 0,
+      conditions: [{
+        conditionKey: 'explicit_self',
+        conditionType: 'EXPLICIT_TARGET_IS_SOURCE',
+        sortOrder: 0,
+        detail: conditionDetail
+      }]
+    }]
+  });
+
+  it('精确读取空明细，不要求比较取值', () => {
+    expect(parseSkillTriggerRuleDetail(withExplicitSelfTarget({})).conditionGroups[0].conditions[0]).toMatchObject({
+      conditionType: 'EXPLICIT_TARGET_IS_SOURCE',
+      detail: {}
+    });
+  });
+
+  it.each([null, [], { source: true }, { comparisonValue: null }, { relation: 'SOURCE' }])(
+    '拒绝非空或错误形状明细 %j',
+    (conditionDetail) => {
+      expect(() => parseSkillTriggerRuleDetail(withExplicitSelfTarget(conditionDetail))).toThrow(SkillTriggerRuleProtocolError);
+    }
+  );
+});
+
 describe('技能命中法术护盾事件值响应', () => {
   const valueKey = 'SKILL_HIT_SPELL_SHIELD_BLOCKED';
   const conditionDetail = { eventValueKey: valueKey, comparator: 'EQ', comparisonValue: { kind: 'FIXED', value: 0.5 } };

@@ -30,7 +30,9 @@ const roots: Array<{ domain: Parameters<typeof assertNumericUses>[1]; root: Root
       { conditionType: 'ATTRIBUTE_COMPARE', detail: { comparisonValue: v() } },
       { conditionType: 'STATUS_CHECK', detail: { checkKind: 'STACKS_COMPARE', comparisonValue: v() } },
       { conditionType: 'INTERNAL_STATE_CHECK', detail: { valueKind: 'VALUE', comparisonValue: v() } },
-      { conditionType: 'EVENT_VALUE_COMPARE', detail: { comparisonValue: v() } }
+      { conditionType: 'EVENT_VALUE_COMPARE', detail: { comparisonValue: v() } },
+      { conditionType: 'TARGET_CATEGORY_CHECK', detail: { categories: ['CHAMPION'] } },
+      { conditionType: 'EXPLICIT_TARGET_IS_SOURCE', detail: {} }
     ] }], perTargetCooldown: { durationValue: v() }, maxTriggersPerProcess: { limitValue: v() }
   } }
 ];

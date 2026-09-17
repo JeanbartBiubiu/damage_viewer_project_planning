@@ -47,6 +47,7 @@ const CONDITION_TYPES = new Set([
   'STATUS_CHECK',
   'LIFECYCLE_CHECK',
   'TARGET_CATEGORY_CHECK',
+  'EXPLICIT_TARGET_IS_SOURCE',
   'INTERNAL_STATE_CHECK',
   'EVENT_VALUE_COMPARE'
 ]);
@@ -267,6 +268,9 @@ function assertCondition(value: unknown, path: string): SkillTriggerCondition {
   if (!isRecord(value.detail)) protocolError(`${path}.detail`);
   const detail = value.detail;
   switch (conditionType) {
+    case 'EXPLICIT_TARGET_IS_SOURCE':
+      if (Object.keys(detail).length !== 0) protocolError(`${path}.detail`);
+      break;
     case 'TARGET_CATEGORY_CHECK':
       if (Object.keys(detail).length !== 1 || !Array.isArray(detail.categories) || detail.categories.length === 0
         || new Set(detail.categories).size !== detail.categories.length

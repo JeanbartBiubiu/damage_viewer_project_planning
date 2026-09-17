@@ -727,12 +727,13 @@ describe('forbidden VALUE_REACHED, PERSISTENT event and RESULT_AVAILABLE vs life
 });
 
 describe('condition, action and runtime-source conversion with stale-field cleanup', () => {
-  it('uses exactly six conditions, three actions and five runtime sources', () => {
+  it('uses exactly seven conditions, three actions and five runtime sources', () => {
     expect([...SKILL_TRIGGER_CONDITION_TYPES]).toEqual([
       'ATTRIBUTE_COMPARE',
       'STATUS_CHECK',
       'LIFECYCLE_CHECK',
       'TARGET_CATEGORY_CHECK',
+      'EXPLICIT_TARGET_IS_SOURCE',
       'INTERNAL_STATE_CHECK',
       'EVENT_VALUE_COMPARE'
     ]);
@@ -1312,6 +1313,6 @@ describe('hit-link and attack-link events', () => {
     expect(draft.conditionGroups[0]?.conditions[0]?.conditionType).toBe('EVENT_VALUE_COMPARE');
     const cleaned = applyEventSwitchCleanup(draft, next);
     expect(cleaned.eventSource.eventType).toBe('HIT_LINK_APPLIED');
-    expect(cleaned.conditionGroups[0]?.conditions).toEqual([]);
+    expect(cleaned.conditionGroups).toEqual([]);
   });
 });

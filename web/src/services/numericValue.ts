@@ -61,7 +61,7 @@ export function assertNumericUses(root: unknown, domain: 'effect' | 'process' | 
     for (const [gi, group] of list(root.conditionGroups, 'conditionGroups').entries()) {
       for (const [ci, condition] of list(group.conditions, `conditionGroups[${gi}].conditions`).entries()) {
         const detail = record(condition.detail, `conditionGroups[${gi}].conditions[${ci}].detail`);
-        if (condition.conditionType === 'TARGET_CATEGORY_CHECK') continue;
+        if (condition.conditionType === 'TARGET_CATEGORY_CHECK' || condition.conditionType === 'EXPLICIT_TARGET_IS_SOURCE') continue;
         const nullable = (condition.conditionType === 'STATUS_CHECK' || condition.conditionType === 'LIFECYCLE_CHECK') && ['PRESENT', 'ABSENT'].includes(String(detail.checkKind))
           || condition.conditionType === 'INTERNAL_STATE_CHECK' && ['OPTION_SELECTED', 'ENABLED'].includes(String(detail.valueKind));
         slot(detail, 'comparisonValue', `conditionGroups[${gi}].conditions[${ci}].detail`, nullable);

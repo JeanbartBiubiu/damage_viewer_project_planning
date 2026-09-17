@@ -1,4 +1,5 @@
 import { changeLifecycleCheckKind, changeLifecycleEffect, lifecycleConditionEffects, lifecycleConditionError, lifecycleNeedsSubject, LIFECYCLE_CHECK_LABELS } from './lifecycleCondition';
+import { allowsExplicitTargetIsSource, explicitTargetIsSourceError, explicitTargetIsSourceHelp } from './explicitTargetCondition';
 import { allowsTargetCategoryCheck, targetCategoryConditionError, targetCategoryConditionHelp, TARGET_CATEGORY_LABELS } from './targetCategoryCondition';
 import { SKILL_TRIGGER_TARGET_CATEGORIES, type SkillTriggerTargetCategory } from '../../../../types/skillTriggerRule';
 import { numericValueError } from '../numericValueForm';
@@ -129,7 +130,8 @@ export function SkillTriggerConditionEditorModal({
   const subjectOptions = subjectOptionsForEvent(eventSource.eventType);
   const conditionTypes = SKILL_TRIGGER_CONDITION_TYPES.filter(
     (value) => value !== 'EVENT_VALUE_COMPARE' || allowedValues.length > 0
-  ).filter((value) => value !== 'TARGET_CATEGORY_CHECK' || allowsTargetCategoryCheck(eventSource.eventType) || originalConditionType === value);
+  ).filter((value) => value !== 'TARGET_CATEGORY_CHECK' || allowsTargetCategoryCheck(eventSource.eventType) || originalConditionType === value)
+    .filter((value) => value !== 'EXPLICIT_TARGET_IS_SOURCE' || allowsExplicitTargetIsSource(eventSource.eventType) || originalConditionType === value);
 
   useEffect(() => {
     if (!visible) return;
@@ -163,6 +165,10 @@ export function SkillTriggerConditionEditorModal({
       const error = targetCategoryConditionError(current.detail, eventSource.eventType);
       if (error) { setLocalError(error); return; }
     }
+    if (current.conditionType === 'EXPLICIT_TARGET_IS_SOURCE') {
+      const error = explicitTargetIsSourceError(eventSource.eventType);
+      if (error) { setLocalError(error); return; }
+    }
     if (current.conditionType === 'LIFECYCLE_CHECK') {
       if (effectsLoadState === 'error') { setLocalError('效果目录加载失败，请重试后选择生命周期。'); return; }
       const issue = lifecycleConditionError(current.detail, selectedLifecycle, subjectOptions, { parameters, formulas }, { parametersState: parametersLoadState }, skillKey);
@@ -172,7 +178,9 @@ export function SkillTriggerConditionEditorModal({
       setLocalError('当前事件没有可比较的事件值。');
       return;
     }
-    if (current.conditionType !== 'TARGET_CATEGORY_CHECK' && current.detail.comparator !== null) {
+    if (current.conditionType !== 'TARGET_CATEGORY_CHECK'
+      && current.conditionType !== 'EXPLICIT_TARGET_IS_SOURCE'
+      && current.detail.comparator !== null) {
       const error = numericValueError(current.detail.comparisonValue, { parameters, formulas }, { allowRuntimeInput: false, parametersState: parametersLoadState });
       if (error) { setLocalError(error); return; }
     }
@@ -265,6 +273,10 @@ export function SkillTriggerConditionEditorModal({
                 }}
               />
             </Form.Item>
+          ) : null}
+
+          {current.conditionType === 'EXPLICIT_TARGET_IS_SOURCE' ? (
+            <Alert type="info" content={explicitTargetIsSourceHelp(eventSource.eventType)} />
           ) : null}
 
           {current.conditionType === 'ATTRIBUTE_COMPARE' ? (
