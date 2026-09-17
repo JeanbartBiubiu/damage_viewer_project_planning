@@ -220,6 +220,8 @@
 
 默认配置在 `src/main/resources/application.yml`。本地使用环境变量或私有配置覆盖，不把真实数据库、Redis、JWT 凭据写回仓库。
 
+`mvn spring-boot:run` 已把 JDK 的 Unix 域套接字（本机进程通信路径）临时目录固定到模块 `target`。这是 Windows 下 Tomcat 与 Redis 客户端共用的选择器启动前置，避免用户临时目录能够绑定但无法连接时出现 `Unable to establish loopback connection`。该目录属于构建产物，不进入 Git；无需再手工添加 JVM 参数。
+
 | 环境变量 | 用途 |
 | --- | --- |
 | `SPRING_DATASOURCE_URL` | PostgreSQL 连接串 |
