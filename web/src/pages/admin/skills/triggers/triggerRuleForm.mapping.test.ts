@@ -459,7 +459,7 @@ describe('event-switch cleanup of event values, target contexts and process limi
       detail: { effectKey: 'focus_mark', moment: 'FULL_STACKS' as const }
     };
     const cleaned = applyEventSwitchCleanup(draft, next);
-    expect(cleaned.conditionGroups[0].conditions).toEqual([]);
+    expect(cleaned.conditionGroups).toEqual([]);
     expect(cleaned.actions[0].runtimeInputBindings).toEqual([]);
     expect(cleaned.maxTriggersPerProcessEnabled).toBe(false);
   });

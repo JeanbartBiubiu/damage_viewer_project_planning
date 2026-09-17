@@ -45,7 +45,7 @@ describe('技能命中法术护盾结果', () => {
     expect(analyzeEventSwitchImpact(draft, next).summary).toContain('技能命中被法术护盾阻挡');
     expect(validateSkillTriggerDraft({ ...draft, eventSource: next }, { includeRuleKey: true }).ok).toBe(false);
     const cleaned = applyEventSwitchCleanup(draft, next);
-    expect(cleaned.conditionGroups[0].conditions).toEqual([]);
+    expect(cleaned.conditionGroups).toEqual([]);
     expect(cleaned.actions[0].runtimeInputBindings).toEqual([]);
     expect(draft.conditionGroups[0].conditions).toHaveLength(1);
     expect(draft.actions[0].runtimeInputBindings).toEqual([binding]);

@@ -79,7 +79,7 @@ describe('事件对方类别条件', () => {
     const draft = makeDraft();
     expect(allowsTargetCategoryCheck(next.eventType)).toBe(false);
     expect(analyzeEventSwitchImpact(draft, next).summary).toContain('将清除事件对方类别条件');
-    expect(applyEventSwitchCleanup(draft, next).conditionGroups[0].conditions).toEqual([]);
+    expect(applyEventSwitchCleanup(draft, next).conditionGroups).toEqual([]);
     expect(draft.conditionGroups[0].conditions).toHaveLength(1);
     expect(validateSkillTriggerDraft({ ...draft, eventSource: next }, { includeRuleKey: true }).ok).toBe(false);
   });
