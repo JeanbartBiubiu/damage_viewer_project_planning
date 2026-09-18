@@ -1,0 +1,268 @@
+{
+  "at": "2026-09-18T21:49:51.094Z",
+  "status": "PASS",
+  "scope": "只验证现有公式算术与拟定互斥条件边界，不执行管理数据写入或战斗宿主",
+  "source": {
+    "worktree": "damage_web_dev",
+    "path": "数据参考/全量录入-2026-09/交叉试录/凯尔W自身治疗补录/00-三项治疗只读候选.json",
+    "sha256": "66284ed65c3bfd003f05680420eb3f24a88a380cdcbd7f63f37aae7ec6d5ca64"
+  },
+  "caseCount": 27,
+  "cases": [
+    {
+      "rank": 1,
+      "sourceTotalAbilityPower": 0,
+      "hpRatio": 0.39,
+      "matchedBranch": "self_low_health_heal",
+      "matchingBranches": 1,
+      "expected": 225,
+      "actual": 225
+    },
+    {
+      "rank": 1,
+      "sourceTotalAbilityPower": 0,
+      "hpRatio": 0.4,
+      "matchedBranch": "self_heal",
+      "matchingBranches": 1,
+      "expected": 150,
+      "actual": 150
+    },
+    {
+      "rank": 1,
+      "sourceTotalAbilityPower": 0,
+      "hpRatio": 0.41,
+      "matchedBranch": "self_heal",
+      "matchingBranches": 1,
+      "expected": 150,
+      "actual": 150
+    },
+    {
+      "rank": 1,
+      "sourceTotalAbilityPower": 100,
+      "hpRatio": 0.39,
+      "matchedBranch": "self_low_health_heal",
+      "matchingBranches": 1,
+      "expected": 300,
+      "actual": 300
+    },
+    {
+      "rank": 1,
+      "sourceTotalAbilityPower": 100,
+      "hpRatio": 0.4,
+      "matchedBranch": "self_heal",
+      "matchingBranches": 1,
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "rank": 1,
+      "sourceTotalAbilityPower": 100,
+      "hpRatio": 0.41,
+      "matchedBranch": "self_heal",
+      "matchingBranches": 1,
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "rank": 1,
+      "sourceTotalAbilityPower": 300,
+      "hpRatio": 0.39,
+      "matchedBranch": "self_low_health_heal",
+      "matchingBranches": 1,
+      "expected": 450,
+      "actual": 450
+    },
+    {
+      "rank": 1,
+      "sourceTotalAbilityPower": 300,
+      "hpRatio": 0.4,
+      "matchedBranch": "self_heal",
+      "matchingBranches": 1,
+      "expected": 300,
+      "actual": 300
+    },
+    {
+      "rank": 1,
+      "sourceTotalAbilityPower": 300,
+      "hpRatio": 0.41,
+      "matchedBranch": "self_heal",
+      "matchingBranches": 1,
+      "expected": 300,
+      "actual": 300
+    },
+    {
+      "rank": 2,
+      "sourceTotalAbilityPower": 0,
+      "hpRatio": 0.39,
+      "matchedBranch": "self_low_health_heal",
+      "matchingBranches": 1,
+      "expected": 375,
+      "actual": 375
+    },
+    {
+      "rank": 2,
+      "sourceTotalAbilityPower": 0,
+      "hpRatio": 0.4,
+      "matchedBranch": "self_heal",
+      "matchingBranches": 1,
+      "expected": 250,
+      "actual": 250
+    },
+    {
+      "rank": 2,
+      "sourceTotalAbilityPower": 0,
+      "hpRatio": 0.41,
+      "matchedBranch": "self_heal",
+      "matchingBranches": 1,
+      "expected": 250,
+      "actual": 250
+    },
+    {
+      "rank": 2,
+      "sourceTotalAbilityPower": 100,
+      "hpRatio": 0.39,
+      "matchedBranch": "self_low_health_heal",
+      "matchingBranches": 1,
+      "expected": 450,
+      "actual": 450
+    },
+    {
+      "rank": 2,
+      "sourceTotalAbilityPower": 100,
+      "hpRatio": 0.4,
+      "matchedBranch": "self_heal",
+      "matchingBranches": 1,
+      "expected": 300,
+      "actual": 300
+    },
+    {
+      "rank": 2,
+      "sourceTotalAbilityPower": 100,
+      "hpRatio": 0.41,
+      "matchedBranch": "self_heal",
+      "matchingBranches": 1,
+      "expected": 300,
+      "actual": 300
+    },
+    {
+      "rank": 2,
+      "sourceTotalAbilityPower": 300,
+      "hpRatio": 0.39,
+      "matchedBranch": "self_low_health_heal",
+      "matchingBranches": 1,
+      "expected": 600,
+      "actual": 600
+    },
+    {
+      "rank": 2,
+      "sourceTotalAbilityPower": 300,
+      "hpRatio": 0.4,
+      "matchedBranch": "self_heal",
+      "matchingBranches": 1,
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "rank": 2,
+      "sourceTotalAbilityPower": 300,
+      "hpRatio": 0.41,
+      "matchedBranch": "self_heal",
+      "matchingBranches": 1,
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "rank": 3,
+      "sourceTotalAbilityPower": 0,
+      "hpRatio": 0.39,
+      "matchedBranch": "self_low_health_heal",
+      "matchingBranches": 1,
+      "expected": 525,
+      "actual": 525
+    },
+    {
+      "rank": 3,
+      "sourceTotalAbilityPower": 0,
+      "hpRatio": 0.4,
+      "matchedBranch": "self_heal",
+      "matchingBranches": 1,
+      "expected": 350,
+      "actual": 350
+    },
+    {
+      "rank": 3,
+      "sourceTotalAbilityPower": 0,
+      "hpRatio": 0.41,
+      "matchedBranch": "self_heal",
+      "matchingBranches": 1,
+      "expected": 350,
+      "actual": 350
+    },
+    {
+      "rank": 3,
+      "sourceTotalAbilityPower": 100,
+      "hpRatio": 0.39,
+      "matchedBranch": "self_low_health_heal",
+      "matchingBranches": 1,
+      "expected": 600,
+      "actual": 600
+    },
+    {
+      "rank": 3,
+      "sourceTotalAbilityPower": 100,
+      "hpRatio": 0.4,
+      "matchedBranch": "self_heal",
+      "matchingBranches": 1,
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "rank": 3,
+      "sourceTotalAbilityPower": 100,
+      "hpRatio": 0.41,
+      "matchedBranch": "self_heal",
+      "matchingBranches": 1,
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "rank": 3,
+      "sourceTotalAbilityPower": 300,
+      "hpRatio": 0.39,
+      "matchedBranch": "self_low_health_heal",
+      "matchingBranches": 1,
+      "expected": 750,
+      "actual": 750
+    },
+    {
+      "rank": 3,
+      "sourceTotalAbilityPower": 300,
+      "hpRatio": 0.4,
+      "matchedBranch": "self_heal",
+      "matchingBranches": 1,
+      "expected": 500,
+      "actual": 500
+    },
+    {
+      "rank": 3,
+      "sourceTotalAbilityPower": 300,
+      "hpRatio": 0.41,
+      "matchedBranch": "self_heal",
+      "matchingBranches": 1,
+      "expected": 500,
+      "actual": 500
+    }
+  ],
+  "counterexample": {
+    "beforeHealth": 390,
+    "maxHealth": 1000,
+    "normalHeal": 150,
+    "lowHeal": 225,
+    "proposedOneMatchFinalHealth": 615,
+    "incorrectLowThenRecheckNormalFinalHealth": 765,
+    "explanation": "若先低血治疗再按变化后生命重新判断正常规则，同一次主动使用错误地治疗两次。"
+  },
+  "businessWrites": 0,
+  "newGETs": 0,
+  "runtimeValidation": "未执行"
+}

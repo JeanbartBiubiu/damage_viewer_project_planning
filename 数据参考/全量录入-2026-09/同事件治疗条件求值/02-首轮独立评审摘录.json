@@ -1,0 +1,45 @@
+{
+  "status": "REVISE",
+  "reviewerTask": "/root/same_event_condition_review",
+  "role": "solution_architect",
+  "recordedBy": "主负责人按独立代理返回保存关键结论与证据，非代理直接文件写入",
+  "reviewedPlanFile": "01a-评审前方案.json",
+  "reviewedPlanSha256": "cff5eb83ff7221cfecbdcf1810a1771e2ba37d0c00e469a306cd9683bb3f7252",
+  "conclusion": "先确定同一事件的匹配规则集合、再执行动作，足以解决索拉卡自身正常与低血治疗重复执行的问题。仅需明确保留现行触发保护的先后约束。",
+  "requiredCorrections": [
+    {
+      "id": "R1",
+      "issue": "必须保留每目标冷却及合法单次过程最大触发次数在条件和动作之前限制整条规则，不能把被保护挡住的规则纳入集合。",
+      "minimalChange": "候选规则先按现有事件筛选和第10节触发保护确定，再完成条件求值；本次不改变触发保护与循环检查。",
+      "evidence": "条件事件与动态输入供值管理详细设计.md:507、527"
+    }
+  ],
+  "confirmed": [
+    "SOURCE hp CURRENT_RATIO与同一个0.4参数构成LT/GTE互斥且完整的两个分支，恰好40%走正常分支。",
+    "self_low_health_heal已经是完整正常治疗的1.5倍，不再追加正常治疗。",
+    "固定匹配集合可防止治疗跨阈值后追加另一分支；不需新增属性快照字段或运行输入。",
+    "SOURCE结果目标、规则内动作顺序、前序结果和生命周期事件形成顺序可保持，不需规定跨技能或嵌套调度。",
+    "现有Web类型、后端条件模型和规则聚合足以保存配置，无须新增字段、表或管理代码。"
+  ],
+  "evidence": [
+    "规划共享契约：条件事件与动态输入供值管理详细设计.md:131、250、309-314、377、384、424-428、458-461、507、523、527",
+    "Web：web/src/types/skillTriggerRule.ts:337-342",
+    "Backend：server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerAttributeConditionDetail.java:14-20、42-47",
+    "Backend：server/data_manage/src/main/resources/mapper/skilltrigger/SkillTriggerRuleMapper.xml:632-635",
+    "Backend：server/data_manage/README.md:5"
+  ],
+  "independentChecks": {
+    "original38GETReportSha256": "66284ed65c3bfd003f05680420eb3f24a88a380cdcbd7f63f37aae7ec6d5ca64",
+    "fixedSourceHashes": "中英文与客户端压缩原文三项吻合",
+    "arithmeticCases": 27,
+    "arithmeticDifferences": 0,
+    "counterexample": "一级0法强，最大生命1000、当前390；增强治疗一次到615，错误追加正常治疗则到765。"
+  },
+  "executionBoundary": {
+    "businessWrites": 0,
+    "newGETs": 0,
+    "reviewerFileWrites": 0,
+    "browser": "未验证；首次新流程通过真实页面，连接恢复前不以API替代。",
+    "runtime": "未实现、未验证；配置算术不代表战斗运行。"
+  }
+}

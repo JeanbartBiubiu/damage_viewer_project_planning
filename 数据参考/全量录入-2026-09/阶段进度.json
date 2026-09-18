@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-18T21:44:10.331Z",
+  "generatedAt": "2026-09-18T21:55:43.546Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -9671,6 +9671,19 @@
         "sha256": "4fb0fc2d2f0d27ea3eec7233e912da8ee16dce224b8e41914a686de01b127765",
         "commit": "9860961f"
       }
+    },
+    "sameEventConditionMatching": {
+      "at": "2026-09-18T21:55:43.546Z",
+      "status": "管理语义已独立评审并收敛；索拉卡首次真实页面录入待连接恢复",
+      "rules": "同一来源对象同一技能一次事件先按现有保护确定候选，再求全部条件，最后执行固定匹配集合。",
+      "newFields": 0,
+      "newTables": 0,
+      "businessWrites": 0,
+      "configurationArithmeticCases": 27,
+      "browser": "NOT_RUN_BROWSER_UNAVAILABLE",
+      "runtimeValidation": "未实现、未验证",
+      "contract": "文档记录/详细设计/项目/条件事件与动态输入供值管理详细设计.md#61-组合规则",
+      "evidence": "数据参考/全量录入-2026-09/同事件治疗条件求值/README.md"
     }
   },
   "runtimeValidation": "未执行",
@@ -9900,6 +9913,11 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/凯尔W自身治疗补录/09-证据清单.json",
         "sha256": "4fb0fc2d2f0d27ea3eec7233e912da8ee16dce224b8e41914a686de01b127765",
         "commit": "9860961f"
+      },
+      "sameEventConditionMatching": {
+        "worktree": "damage_viewer_project_planning",
+        "relativePath": "数据参考/全量录入-2026-09/同事件治疗条件求值/02a-修订二独立确认.json",
+        "sha256": "23ea84aaf4522894050ae53dee86abf8004d434f211cec5aa7949f899c058352"
       }
     },
     "coverage": {
@@ -27535,7 +27553,7 @@
         "name": "索拉卡·祈愿",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "自身治疗与40%阈值来源已确认；待核定同事件规则条件求值与治疗顺序，避免先治疗改变阈值后两分支重复触发。尚未创建效果或入口。",
+        "reason": "自身治疗与40%阈值来源已确认，同事件先匹配条件再执行动作的管理语义已独立评审并明确；两个治疗效果和入口须经首次真实页面录入，当前连接不可用，尚无业务写入。",
         "pendingCounts": {
           "source": 0,
           "system": 0,
@@ -27547,12 +27565,13 @@
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
-          "selfHealCandidateLimits"
+          "selfHealCandidateLimits",
+          "sameEventConditionMatching"
         ],
         "remainingBranches": [
-          "同事件条件求值时点与治疗分支顺序",
-          "自身治疗效果和入口",
-          "使用消耗与普通冷却登记及代表页面"
+          "首次真实页面创建正常与低血自身治疗效果和互斥入口",
+          "使用消耗与普通冷却登记",
+          "保存后独立回读及代表页面验收"
         ]
       },
       {
