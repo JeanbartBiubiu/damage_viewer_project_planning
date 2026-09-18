@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-18T21:19:57.084Z",
+  "generatedAt": "2026-09-18T21:23:56.795Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -9607,6 +9607,41 @@
         "sha256": "38b17f9a8ca77aa5953b9d64ec1af10ce4c9526eaee3cb41807547c958e2c990",
         "commit": "6ab33923"
       }
+    },
+    "sonaECostCooldownBackfill": {
+      "at": "2026-09-18T21:23:56.795Z",
+      "status": "娑娜E单次主动使用消耗与普通冷却已正式保存并独立回读；其余组成及页面待续",
+      "skills": [
+        "sona_e"
+      ],
+      "created": {
+        "effects": 1,
+        "processes": 1,
+        "triggerRules": 1
+      },
+      "prepareGETs": 32,
+      "writerGETs": 38,
+      "writerPOSTs": 3,
+      "immediateReadbacks": 3,
+      "independentGETs": 32,
+      "unchangedResponsesIncludingTimestamps": 26,
+      "expectedChangedCollections": 3,
+      "arithmeticCases": 10,
+      "sourceDecision": "官方明确一次主动开始限时旋律，各级65法力与14秒普通冷却；客户端切换标记真实用途未确认，不据此编造再次施放、关停或零消耗。",
+      "browser": "NOT_RUN_BROWSER_UNAVAILABLE",
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/娑娜E使用消耗冷却补录/09-证据清单.json",
+        "sha256": "948d947245ab0c66aed382bb3cdfa86261aa5bc0d67ab18a66184fa2cd86454e",
+        "commit": "93696b80"
+      },
+      "remainingCandidateEvidence": {
+        "worktree": "damage_web_dev",
+        "path": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十三批/修订二/完整候选.json",
+        "sha256": "841a100c48f51a135dbb6d4457ec5523af2030611cbbac1f2212b388be5a8b4e",
+        "purpose": "原自身加速无伤延长、乐曲切换和减速触发待办；不重放旧请求。"
+      }
     }
   },
   "runtimeValidation": "未执行",
@@ -9819,6 +9854,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/七项技能消耗说明整理/09-证据清单.json",
         "sha256": "38b17f9a8ca77aa5953b9d64ec1af10ce4c9526eaee3cb41807547c958e2c990",
         "commit": "6ab33923"
+      },
+      "sonaECostCooldownBackfill": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/娑娜E使用消耗冷却补录/09-证据清单.json",
+        "sha256": "948d947245ab0c66aed382bb3cdfa86261aa5bc0d67ab18a66184fa2cd86454e",
+        "commit": "93696b80"
       }
     },
     "coverage": {
@@ -27269,19 +27310,41 @@
         "name": "娑娜·迅捷奏鸣曲",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
-        "pendingCounts": {
+        "reason": "明确的65法力和14秒普通冷却已接入主动使用并独立回读；自身加速无伤延长、乐曲切换和减速触发仍待准确表达及接线，页面待验，不计整技能完成。",
+        "batchKey": "heroThirtyThirdBatch",
+        "candidateSha256": "841a100c48f51a135dbb6d4457ec5523af2030611cbbac1f2212b388be5a8b4e",
+        "evidenceRefs": [
+          "skillFirstStageCurrentReadback",
+          "heroSourceInventory",
+          "sonaECostCooldownBackfill"
+        ],
+        "historicalPendingCounts": {
           "source": 0,
           "system": 1,
           "configuration": 0,
           "other": 0
         },
-        "batchKey": "heroThirtyThirdBatch",
-        "candidateSha256": "841a100c48f51a135dbb6d4457ec5523af2030611cbbac1f2212b388be5a8b4e",
-        "evidenceRefs": [
-          "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+        "authoredCostCooldown": {
+          "processKey": "use_cost_and_cooldown",
+          "ruleKey": "on_used_cost_and_cooldown",
+          "httpReadback": "PASS",
+          "browser": "待验",
+          "castDurationClaim": "未声明，立即步骤只登记使用"
+        },
+        "remainingBranches": [
+          "自身加速无伤延长、乐曲切换和能量和弦减速触发",
+          "基础技能公共间隔和完整施法时序",
+          "代表页面验收及旧法力参数说明整理"
+        ],
+        "remainingBranchesBoundary": "纯第三友方加速按原范围排除；此处仅新增成本登记，原有机制待办保留。",
+        "currentComponentCounts": {
+          "parameters": 12,
+          "formulas": 2,
+          "effects": 1,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 1
+        }
       },
       {
         "sourceChampionId": "Sona",
