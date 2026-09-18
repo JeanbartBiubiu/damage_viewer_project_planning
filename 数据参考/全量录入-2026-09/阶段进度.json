@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-18T16:17:14.899Z",
+  "generatedAt": "2026-09-18T16:54:58.104Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -9291,6 +9291,31 @@
         "护盾存续期间控制免疫",
         "法力消耗与普通冷却入口"
       ]
+    },
+    "descriptionCorrectionsFirst": {
+      "at": "2026-09-18T16:54:58.104Z",
+      "status": "六处过时说明完成受保护更新、84次独立GET及三类代表页面核对；全部数值和机制保持不变",
+      "skills": [
+        "nasus_p",
+        "tristana_q",
+        "janna_e",
+        "morgana_e",
+        "annie_e"
+      ],
+      "updatedDescriptions": 6,
+      "prepareGETs": 84,
+      "reviewGETs": 6,
+      "writerPUTs": 6,
+      "independentGETs": 84,
+      "unchangedResponsesIncludingTimestamps": 74,
+      "browser": "PASS",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/过时说明纠错第一批/09-证据清单.json",
+        "sha256": "0bebac3c0ac1f61aa6cbdfed0a1cd55f21996627ec4e24e69b0d42bdf7dae8d5",
+        "commit": "eac4834a"
+      },
+      "runtimeValidation": "未执行"
     }
   },
   "runtimeValidation": "未执行",
@@ -9455,6 +9480,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/莫甘娜E显式自施魔法护盾补录/09-证据清单.json",
         "sha256": "d83dc411104118b526b55e7ee07775a591e1d010058693f6937bd9bb48f1b178",
         "commit": "4781a8d76fb0dae08c8e254b3dd0adadf130bd48"
+      },
+      "descriptionCorrectionsFirst": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/过时说明纠错第一批/09-证据清单.json",
+        "sha256": "0bebac3c0ac1f61aa6cbdfed0a1cd55f21996627ec4e24e69b0d42bdf7dae8d5",
+        "commit": "eac4834a"
       }
     },
     "coverage": {
@@ -9474,14 +9505,17 @@
         "concludedItems": 865,
         "conclusions": {
           "资料待核": 384,
-          "系统暂缓": 454,
+          "系统暂缓": 453,
           "明确排除": 26,
-          "已录入": 1
+          "已录入": 2
         },
         "matchedInScopeItems": 855,
         "excludedChampionSlots": 10,
         "remainingInScopeItems": 0,
-        "status": "FULL_COVERAGE_WITH_OPEN_QUEUE"
+        "status": "FULL_COVERAGE_WITH_OPEN_QUEUE",
+        "openQueueItems": 837,
+        "managementCompleteItems": 2,
+        "countingBoundary": "sourceItems=865为来源槽位，matchedInScopeItems=855为范围内技能；remainingInScopeItems只指尚未分类项，openQueueItems才是资料或系统开放项，已录入仅指管理配置完成。"
       },
       "equipment": {
         "sourceItems": 868,
@@ -12779,7 +12813,8 @@
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
           "heroSourceInventory",
-          "annieExplicitSelfShieldBackfill"
+          "annieExplicitSelfShieldBackfill",
+          "descriptionCorrectionsFirst"
         ],
         "completedBranches": [
           "明确对自身主动施放时执行已核对的3秒自身护盾"
@@ -17501,7 +17536,8 @@
         "candidateSha256": "bf26b9374fc305af52e7298934a54244aec5bec0166017ae5a99a38a2019ddcc",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "descriptionCorrectionsFirst"
         ]
       },
       {
@@ -21879,7 +21915,8 @@
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
-          "morganaExplicitSelfShieldBackfill"
+          "morganaExplicitSelfShieldBackfill",
+          "descriptionCorrectionsFirst"
         ],
         "completedBranches": [
           "显式自施时的普通魔法护盾，100/155/210/265/320加0.7总法强，5000毫秒"
@@ -22165,7 +22202,8 @@
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
           "heroSourceInventory",
-          "nasusPassiveCompletionAudit"
+          "nasusPassiveCompletionAudit",
+          "descriptionCorrectionsFirst"
         ],
         "completedBranches": [
           "当前角色等级10%/15%/20%生命偷取",
@@ -22173,9 +22211,7 @@
           "来源初始化一次入口"
         ],
         "runtimeValidation": "未执行",
-        "followups": [
-          "纠正技能主体历史导入说明，不改变已有数值或组成"
-        ]
+        "followups": []
       },
       {
         "sourceChampionId": "Nasus",
@@ -27821,9 +27857,9 @@
         "slot": "Q",
         "skillKey": "tristana_q",
         "name": "崔丝塔娜·急速射击",
-        "conclusion": "系统暂缓",
-        "conclusionScope": "技能范围内数据与机制",
-        "reason": "当前证据只有已保存组成或批次级部分录入结论，没有整个技能范围内机制完成证据；按系统暂缓保留。",
+        "conclusion": "已录入",
+        "conclusionScope": "本轮管理配置，不含战斗运行",
+        "reason": "固定来源、完整等级图、自身7秒攻速、法力与普通冷却过程、唯一主动入口及引用均已核对；过时说明已纠正，保存、独立回读和代表页面通过。",
         "pendingCounts": {
           "source": 0,
           "system": 0,
@@ -27834,8 +27870,15 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "descriptionCorrectionsFirst"
+        ],
+        "completedBranches": [
+          "60/75/90/105/120%自身额外攻速持续7秒",
+          "过程开始扣除15/20/25/30/35法力并启动20/19/18/17/16秒冷却",
+          "主动使用只启动一次完整cast过程"
+        ],
+        "runtimeValidation": "未执行"
       },
       {
         "sourceChampionId": "Tristana",
