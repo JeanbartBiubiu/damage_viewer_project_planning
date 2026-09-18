@@ -1,0 +1,30 @@
+{
+  "at": "2026-09-18T16:54:58.104Z",
+  "status": "PASS",
+  "sourceVersion": "16.17/16.17.1",
+  "updatedDescriptions": 6,
+  "prepareGETs": 84,
+  "reviewGETs": 6,
+  "writerPUTs": 6,
+  "independentGETs": 84,
+  "unchangedResponsesIncludingTimestamps": 74,
+  "browser": "PASS",
+  "runtimeValidation": "未执行",
+  "files": {
+    "01-纠错计划.json": "73cf9a48df0ea646fcd7aa499b6a292804df548faf28dcc2dddf0ac6d2f9e84c",
+    "02-冻结请求.json": "4c60311c49c8993f7c262996ebac07c012a5230675b3894dc5e1724a15f0c989",
+    "03-来源摘要.json": "1928f6e206bc3a16775e3be6c029ed5f0b1115312c37ec55bf8a2d19f56c0e49",
+    "04-写入前现值.json": "02b0495766d63b8de449f8841728604aca60f6b49495456cba281ab21b446fa8",
+    "05-独立评审.json": "6b93a3a3305cfedc183c038751f8603f8fe96a8c64528f1307b60ec491ba4bf5",
+    "05b-Cursor运行审计.json": "b4fae958269efcd555627d641ad0fb9f1ec746dfce36ab2cb1e29bade056bc8f",
+    "06-写入与即时回读.json": "05f6398774c87dedaa0911cc8f59dd1022b80ecc21d5a3c902fade6d29c4c769",
+    "07-独立GET回读.json": "d6c15dbb2b4c570428bb76abaa8bd870b1187b2435bcf4917c52d1d21d1a9454",
+    "07b-回读审计恢复.json": "7ee2592194e687b402b213ae8d767d6fa81a8dfb2d04852ce7804736dcb99bc5",
+    "08-页面验收.json": "915743bd37d37c23f223fe9da9e995e3d441c3e6624df8fdc6e1e95634b36d5b",
+    "README.md": "44e37e5afb2d9c30b6f608e174a8f9145ea7a9b41565f22ab2977a878b9429fc"
+  },
+  "executor": {
+    "path": "tools/authoring/update-reviewed-descriptions.mjs",
+    "sha256": "eab116c1b4ac83239d16946ff275c51170154d0ea26229c9f03c1d71f0b2cfed"
+  }
+}

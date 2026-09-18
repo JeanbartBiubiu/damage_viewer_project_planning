@@ -1,0 +1,465 @@
+{
+  "VERDICT": "READY",
+  "REVIEWED_PLAN_REV": 1,
+  "status": "PASS",
+  "executor": "Cursor独立GET回读",
+  "startedAt": "2026-09-18T16:45:48.825Z",
+  "completedAt": "2026-09-18T16:45:51.733Z",
+  "GETs": 84,
+  "businessWrites": 0,
+  "fileWrites": 0,
+  "allSixComponentStableKeysUnique": true,
+  "descriptions": {
+    "/skills/nasus_p": "内瑟斯获得额外生命偷取：1～6级10%，7～12级15%，13～18级20%。",
+    "/skills/tristana_q": "崔丝塔娜急速射击，获得60/75/90/105/120%额外攻击速度，持续7秒。",
+    "/skills/tristana_q/parameters/mana_cost": "官方16.17.1 cost与客户端当前manaValues.values索引0～4一致：15/20/25/30/35点法力；旧mana字段不采用。",
+    "/skills/janna_e/effects/self_shield": "当前效果表达风暴之眼的自身护盾数值，持续4秒且不衰减；自施目标资格及触发入口仍待接线，攻击力增益独立处理。",
+    "/skills/morgana_e/effects/magic_shield": "自身魔法护盾持续5秒，仅吸收魔法伤害且不衰减；显式自施入口已连接。控制免疫仍单独待配，不等同一次性法术护盾。",
+    "/skills/annie_e/effects/molten_shield": "自身护盾持续3秒，结果目标与实例范围均为来源对象；显式自施入口已连接。反伤和移动速度独立处理。"
+  },
+  "unchanged": {
+    "expected": 74,
+    "paths": 74,
+    "pass": 74,
+    "fail": 0
+  },
+  "affected": {
+    "expected": 10,
+    "paths": 10,
+    "pass": 10,
+    "fail": 0
+  },
+  "details": {
+    "expected": 6,
+    "pass": 6,
+    "fail": 0
+  },
+  "affectedLists": {
+    "expected": 4,
+    "pass": 4,
+    "fail": 0
+  },
+  "mismatches": [],
+  "paths": [
+    {
+      "path": "/skills/nasus_p",
+      "status": "PASS",
+      "check": "DETAIL_VS_EXPECTED_IGNORING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/nasus_p/parameters",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/nasus_p/parameters/life_steal_ratio",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/nasus_p/formulas",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/nasus_p/effects",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/nasus_p/effects/soul_eater_lifesteal",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/nasus_p/processes",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/nasus_p/internal-states",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/nasus_p/trigger-rules",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/nasus_p/trigger-rules/initialize_lifesteal",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/tristana_q",
+      "status": "PASS",
+      "check": "DETAIL_VS_EXPECTED_IGNORING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/tristana_q/parameters",
+      "status": "PASS",
+      "check": "AFFECTED_LIST_STABLE_ROW_DESC_UPDATEDAT"
+    },
+    {
+      "path": "/skills/tristana_q/parameters/cooldown_ms",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/tristana_q/parameters/mana_cost",
+      "status": "PASS",
+      "check": "DETAIL_VS_EXPECTED_IGNORING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/tristana_q/parameters/bonus_attack_speed_ratio",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/tristana_q/parameters/buff_duration_ms",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/tristana_q/formulas",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/tristana_q/effects",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/tristana_q/effects/mana_cost",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/tristana_q/effects/rapid_fire",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/tristana_q/processes",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/tristana_q/processes/cast",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/tristana_q/internal-states",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/tristana_q/trigger-rules",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/tristana_q/trigger-rules/active",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/janna_e",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/janna_e/parameters",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/janna_e/parameters/cc_cooldown_refund_ratio",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/janna_e/parameters/empower_duration_ms",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/janna_e/parameters/decay_grace_period_ms",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/janna_e/parameters/base_shield",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/janna_e/parameters/shield_ap_ratio",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/janna_e/parameters/bonus_attack_damage",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/janna_e/parameters/attack_damage_ap_ratio",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/janna_e/parameters/shield_duration_ms",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/janna_e/parameters/cooldown_ms",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/janna_e/parameters/mana_cost",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/janna_e/formulas",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/janna_e/formulas/total_shield",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/janna_e/formulas/total_attack_damage_bonus",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/janna_e/effects",
+      "status": "PASS",
+      "check": "AFFECTED_LIST_STABLE_ROW_DESC_UPDATEDAT"
+    },
+    {
+      "path": "/skills/janna_e/effects/mana_cost",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/janna_e/effects/self_shield",
+      "status": "PASS",
+      "check": "DETAIL_VS_EXPECTED_IGNORING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/janna_e/processes",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/janna_e/internal-states",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/janna_e/trigger-rules",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/morgana_e",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/morgana_e/parameters",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/morgana_e/parameters/base_shield",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/morgana_e/parameters/shield_duration_ms",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/morgana_e/parameters/shield_ap_ratio",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/morgana_e/parameters/cooldown_ms",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/morgana_e/parameters/mana_cost",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/morgana_e/formulas",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/morgana_e/formulas/magic_shield_value",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/morgana_e/effects",
+      "status": "PASS",
+      "check": "AFFECTED_LIST_STABLE_ROW_DESC_UPDATEDAT"
+    },
+    {
+      "path": "/skills/morgana_e/effects/mana_cost",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/morgana_e/effects/magic_shield",
+      "status": "PASS",
+      "check": "DETAIL_VS_EXPECTED_IGNORING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/morgana_e/processes",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/morgana_e/internal-states",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/morgana_e/trigger-rules",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/morgana_e/trigger-rules/on_used_self_shield",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/annie_e",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/annie_e/parameters",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/annie_e/parameters/cooldown_ms",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/annie_e/parameters/mana_cost",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/annie_e/parameters/base_shield",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/annie_e/parameters/shield_duration_ms",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/annie_e/parameters/base_return_damage",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/annie_e/parameters/shield_ap_ratio",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/annie_e/parameters/return_ap_ratio",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/annie_e/parameters/move_speed_duration_ms",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/annie_e/parameters/move_speed_ratio",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/annie_e/formulas",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/annie_e/formulas/shield",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/annie_e/formulas/return_damage",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/annie_e/effects",
+      "status": "PASS",
+      "check": "AFFECTED_LIST_STABLE_ROW_DESC_UPDATEDAT"
+    },
+    {
+      "path": "/skills/annie_e/effects/mana_cost",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/annie_e/effects/molten_shield",
+      "status": "PASS",
+      "check": "DETAIL_VS_EXPECTED_IGNORING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/annie_e/effects/return_damage",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/annie_e/processes",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/annie_e/internal-states",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/annie_e/trigger-rules",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "path": "/skills/annie_e/trigger-rules/on_used_self_shield",
+      "status": "PASS",
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    }
+  ]
+}

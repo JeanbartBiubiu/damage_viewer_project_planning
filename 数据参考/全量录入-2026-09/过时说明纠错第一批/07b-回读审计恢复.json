@@ -1,0 +1,39 @@
+{
+  "resultStatus": "finished",
+  "resultEvidence": "SDK stdout RESULT_STATUS=finished及events.jsonl最后FINISHED状态；原summary停留在启动阶段，不冒用其默认审计值。",
+  "model": {
+    "id": "grok-4.6",
+    "effort": "high",
+    "fast": false
+  },
+  "modelEvidence": "SDK stdout RESULT_MODEL",
+  "runEvidence": ".agents/artifacts/cursor-task-2026-09-18T16-41-38-640Z",
+  "postAuditRecoveredAt": "2026-09-18T16:52:04.816Z",
+  "fileAudit": {
+    "method": "复用既有path_policy模块，以原始before签名与当前完整git状态重算",
+    "runDeltaCount": 0,
+    "signatureCount": 8,
+    "auditAvailable": true
+  },
+  "toolEvents": {
+    "calls": 14,
+    "allTerminalCallsCompleted": true,
+    "anyTruncated": false,
+    "parseable": true,
+    "mutationIndicators": 0
+  },
+  "failedAttempts": [
+    {
+      "kind": "本地JSON读取空数组时访问不存在项",
+      "businessWrites": 0,
+      "GETs": 0
+    },
+    {
+      "kind": "stdin使用顶层await，语法失败",
+      "businessWrites": 0,
+      "GETs": 0
+    }
+  ],
+  "recovery": "仅恢复该次完成运行的事后审计，没有再次启动代理或重放84GET/6PUT。",
+  "limitation": "执行器在SDK完成后、最终落盘前退出，确切退出原因未定；原summary和事件日志保留。"
+}
