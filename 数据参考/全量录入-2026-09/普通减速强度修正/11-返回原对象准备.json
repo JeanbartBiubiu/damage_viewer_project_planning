@@ -1,0 +1,101 @@
+{
+  "at": "2026-09-18T20:00:08.512Z",
+  "status": "只读返回准备；新的减速流程仍待首次真实页面录入",
+  "requestedModel": "gpt-5.6-luna",
+  "reasoningEffort": "max",
+  "agent": "/root/three_slow_return_candidates",
+  "GETsReported": 24,
+  "businessWrites": 0,
+  "rawSnapshotSaved": false,
+  "objects": [
+    {
+      "skillKey": "item_3116_passive",
+      "strength": {
+        "parameterKey": "slow_amount",
+        "value": 0.3,
+        "unit": "小数比例"
+      },
+      "duration": {
+        "parameterKey": "slow_duration_ms",
+        "value": 1000,
+        "unit": "毫秒"
+      },
+      "current": {
+        "effects": 0,
+        "processes": 0,
+        "triggerRules": 0
+      },
+      "remaining": "需要精确界定伤害型技能资格及排除规则；不能拿SKILL_HIT直接等同已造成符合条件的伤害。"
+    },
+    {
+      "skillKey": "item_3143_active",
+      "strength": {
+        "parameterKey": "slow_ratio",
+        "value": 0.7,
+        "unit": "小数比例"
+      },
+      "duration": {
+        "parameterKey": "slow_duration_ms",
+        "value": 2000,
+        "unit": "毫秒"
+      },
+      "cooldown": {
+        "parameterKey": "active_cooldown_ms",
+        "value": 90000,
+        "unit": "毫秒",
+        "sourceCompleteness": "旧候选仍标主动冷却及范围待补证，冻结前回固定原文核实"
+      },
+      "current": {
+        "effects": 0,
+        "processes": 0,
+        "triggerRules": 0
+      },
+      "eventMapping": "既有SKILL_HIT可接当前装备主动对某个范围内实际承受者的一次命中；每个实际承受者单独接收。不能把无目标SKILL_USED的来源回退当范围命中。",
+      "remaining": "补齐固定来源的作用范围、目标类别、冷却证据及法术护盾资格，再冻结配置。"
+    },
+    {
+      "skillKey": "urgot_q",
+      "strength": {
+        "parameterKey": "slow_percent_points",
+        "displayValues": [
+          45,
+          50,
+          55,
+          60,
+          65
+        ],
+        "unit": "百分数点，显示值近似；冻结时保留实际浮点源值",
+        "fixedMultiplier": 0.01
+      },
+      "duration": {
+        "parameterKey": "slow_duration_ms",
+        "value": 1250,
+        "unit": "毫秒"
+      },
+      "damageFormulaKey": "physical_damage",
+      "current": {
+        "effects": 0,
+        "processes": 0,
+        "triggerRules": 0
+      },
+      "eventMapping": "复用已有SKILL_HIT与sourceSkillKey=urgot_q表达当前实际命中对象，几何和事件生产留给运行层。",
+      "remaining": "创建所需效果与规则，并核对消耗、冷却及技能范围内其他组成；不要求本轮实现事件生产。"
+    }
+  ],
+  "sources": [
+    {
+      "worktree": "damage_web_dev",
+      "path": "数据参考/全量录入-2026-09/装备效果候选/装备效果候选.json"
+    },
+    {
+      "worktree": "damage_web_dev",
+      "path": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十九批/修订一/完整候选.json"
+    },
+    {
+      "worktree": "damage_viewer_project_planning",
+      "path": "文档记录/详细设计/项目/系统精简实施说明.md"
+    }
+  ],
+  "reviewCorrection": "首版将实际命中事件生产及几何枚举列为管理阻塞，定点复核规划真源后撤销；已有SKILL_HIT不禁止装备技能或无伤害命中。准确伤害资格、来源和配置缺项仍保留。",
+  "evidenceBoundary": "本报告为代理定点调查汇总，原始24GET快照未保存。不是新批次的完整冻结请求或写入批准；正式写入需实时保护预检。"
+}
