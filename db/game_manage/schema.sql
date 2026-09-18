@@ -380,6 +380,7 @@ COMMENT ON TABLE public.modifier_zones IS '属性、伤害与治疗修正乘区'
 CREATE TABLE public.statuses (
     game_id varchar(64) NOT NULL,
     status_key varchar(64) NOT NULL,
+    status_kind varchar(32) NOT NULL,
     name varchar(100) NOT NULL,
     description varchar(2000),
     status varchar(16) NOT NULL DEFAULT 'ENABLED',
@@ -390,6 +391,7 @@ CREATE TABLE public.statuses (
     CONSTRAINT fk_statuses_game FOREIGN KEY (game_id) REFERENCES public.games (game_id),
     CONSTRAINT ck_statuses_key CHECK (status_key ~ '^[a-z][a-z0-9_]{0,63}$'),
     CONSTRAINT ck_statuses_name CHECK (btrim(name) <> ''),
+    CONSTRAINT ck_statuses_kind CHECK (status_kind IN ('STUN', 'MOVEMENT_SLOW')),
     CONSTRAINT ck_statuses_status CHECK (status IN ('ENABLED', 'DISABLED')),
     CONSTRAINT ck_statuses_sort_order CHECK (sort_order >= 0)
 );
@@ -398,6 +400,7 @@ CREATE UNIQUE INDEX uq_statuses_name
     ON public.statuses (game_id, lower(btrim(name)));
 
 COMMENT ON TABLE public.statuses IS '状态';
+COMMENT ON COLUMN public.statuses.status_kind IS '状态行为身份：眩晕或普通移动减速；创建后不可改';
 
 CREATE TABLE public.skill_effects (
     results jsonb NOT NULL DEFAULT '[]'::jsonb,

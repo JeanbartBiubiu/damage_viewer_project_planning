@@ -176,20 +176,24 @@
 | `/characters`、`/equipment` | 角色和装备分别管理，保留各自完整属性配置 |
 | `/skill-categories`、`/damage-types` | 单层技能分类与伤害类型，均支持列表、详情、新建、全量修改和删除 |
 | `/modifier-zones` | 属性、伤害、治疗三个业务域的乘区管理 |
-| `/statuses` | 状态基本资料；稳定标识不可改，名称按去首尾空格、不区分大小写唯一，停用项仍参与唯一校验 |
+| `/statuses` | 状态基本资料；稳定标识与状态种类不可改，名称按去首尾空格、不区分大小写唯一，停用项仍参与唯一校验 |
 | `/runes`、`/rune-paths` | 符文身份及分组完整布局管理，按上文唯一契约保存；不提供启停 |
 | `/skills` | 技能基本资料；`skillKey` 在同游戏唯一且不可改，名称可重复，`maxLevel >= 1` |
 | `/skills/{skillKey}/parameters` | 参数四种取值方式：FIXED、SKILL_LEVEL、CHARACTER_LEVEL、RUNTIME_INPUT |
 | `/skills/{skillKey}/formulas` | 表达式节点 OPERATION、PARAMETER、ATTRIBUTE；深度最多 32、节点最多 256，不执行公式 |
 | `/skills/{skillKey}/effects` | 效果及完整结果、可选生命周期；已有结果的 `resultType` 不可改 |
 | `/skills/{skillKey}/internal-states` | 五种内部状态完整读写；既有种类和范围不可改 |
-| `/skills/{skillKey}/processes` | 完整过程读写；效果挂接和内部状态操作不能同时为空 |
+| `/skills/{skillKey}/processes` | 完整过程读写；普通冷却、效果挂接和内部状态操作至少具备一项 |
 | `/skills/{skillKey}/trigger-rules` | 完整事件、条件、动作和动态输入配置；`ruleKey` 创建后不可改 |
 | `/images` | 图片列表、详情、新建、全量修改和启停 |
 
 技能分类继续用 `skillCategoryKeys: string[]`，空数组表示未分类，关系保存在 `skill_category_relations`。只有冷却变化和技能急速修正结果可携带 `detail.affectedSkillScope`；模式为 `ALL / SKILLS / CATEGORIES`，多个分类按并集匹配。旧 `detail.affectedSkillKeys` 不接受。
 
-生命周期随效果保存和回读，摘要提供 `lifecycleEnabled`。前序结果输入仍为 `sourceActionKey / sourceResultKey / outputKind`，对应效果由服务端从更早的执行效果动作推导。过程的 `effectBindings` 与 `stateOperations` 同时为空时返回 `400.VALIDATION_FAILED`，两字段的问题码均为 `PROCESS_BEHAVIOR_REQUIRED`。
+生命周期随效果保存和回读，摘要提供 `lifecycleEnabled`。前序结果输入仍为 `sourceActionKey / sourceResultKey / outputKind`，对应效果由服务端从更早的执行效果动作推导。过程允许仅声明有效普通冷却；`cooldown` 为空且 `effectBindings` 与 `stateOperations` 都为空时返回 `400.VALIDATION_FAILED`，后两字段的问题码均为 `PROCESS_BEHAVIOR_REQUIRED`。步骤本身不满足该行为要求，冷却参数或公式仍须通过引用校验。
+
+状态身份及普通减速强度的共享定义见[系统精简实施说明第四单元](../../文档记录/详细设计/项目/系统精简实施说明.md#第四单元状态身份与普通减速强度)。状态种类通过请求、列表和详情完整回读；效果保存锁定状态目录后校验减速数值、期限和持续行为，触发动作不能在减速数值规则外再次修正强度。原有引用提取与动态输入检查继续覆盖顶层数值规则。这里只保存配置，未实现跨来源取强或战斗移动速度计算。
+
+当前建表脚本的状态种类列非空且无默认值。已核定原库使用[本次独立迁移脚本](../../db/game_manage/migrations/status_kinds_and_slow_strength.sql)：严格核对唯一眩晕及其引用，在单事务内回填且保留原正文与时间戳，现值不符或重复执行均拒绝。历史 `compatibility/status_basic_management_migration.sql` 保留原八列基线，不在新结构上重放，也不改写历史字节。此说明不代表迁移已经执行；真实数据库和接口验收须基于迁移后的最终服务另行完成。
 
 ### 技能挂载与代表图片
 

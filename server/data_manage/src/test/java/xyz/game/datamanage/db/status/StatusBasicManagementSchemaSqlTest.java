@@ -43,6 +43,9 @@ class StatusBasicManagementSchemaSqlTest {
         assertTrue(table.contains("constraint fk_statuses_game"));
         assertTrue(table.contains("foreign key (game_id) references public.games (game_id)"));
         assertTrue(table.contains("status_key varchar(64) not null"));
+        assertTrue(table.contains("status_kind varchar(32) not null"));
+        assertTrue(table.contains("status_kind in ('stun', 'movement_slow')"));
+        assertFalse(table.contains("status_kind varchar(32) not null default"));
         assertTrue(table.contains("name varchar(100) not null"));
         assertTrue(table.contains("description varchar(2000)"));
         assertTrue(table.contains("status varchar(16) not null default 'enabled'"));
@@ -202,6 +205,24 @@ class StatusBasicManagementSchemaSqlTest {
         }
         fail("unable to extract CREATE TABLE body for " + tableName);
         return "";
+    }
+
+    @Test
+    void kindMigrationChecksFrozenIdentityAndKeepsOriginalRowsUntouched() throws IOException {
+        String sql = normalize(stripLineComments(readRelative("db/game_manage/migrations/status_kinds_and_slow_strength.sql")));
+        assertTrue(sql.startsWith("begin;"));
+        assertTrue(sql.endsWith("commit;"));
+        assertTrue(sql.contains("current_database() <> 'test0221'"));
+        assertTrue(sql.contains("count(*) from public.statuses) <> 1"));
+        assertTrue(sql.contains("status_key = 'vertigo' and name = '眩晕'"));
+        assertTrue(sql.contains("source_key = 'event_horizon_stun'"));
+        assertTrue(sql.contains("e.results->0 = $result$"));
+        assertTrue(sql.contains("alter column status_kind drop default"));
+        assertTrue(sql.contains("to_jsonb(s) - 'status_kind'"));
+        assertTrue(sql.contains("slow_effects_before except"));
+        assertTrue(sql.contains("slow_references_before except"));
+        assertFalse(sql.contains("update public.statuses"));
+        assertFalse(sql.contains("delete from"));
     }
 
     private static String extractDoBlock(String sql) {

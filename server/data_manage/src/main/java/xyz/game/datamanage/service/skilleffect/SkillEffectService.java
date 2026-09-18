@@ -31,6 +31,8 @@ import xyz.game.datamanage.mapper.skilleffect.SkillEffectMapper;
 import xyz.game.datamanage.model.skilleffect.SkillEffectAffectedSkillScope;
 import xyz.game.datamanage.model.skilleffect.SkillEffectAttributeChangeDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCatalogLockRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectStatusLockRow;
+import xyz.game.datamanage.model.status.StatusKind;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeOperation;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCriticalMode;
@@ -422,6 +424,7 @@ public class SkillEffectService {
         validateLifecycle(lifecycle, issues);
         Set<String> seenKeys = new HashSet<>();
         CollectedRefs refs = new CollectedRefs();
+        refs.lifecycle = lifecycle;
         collectLifecycleFormulaRefs(lifecycle, refs);
         boolean hasPeriodic = false;
         boolean hasNaturalEnd = false;
@@ -1270,7 +1273,9 @@ public class SkillEffectService {
         CollectedRefs refs,
         List<Map<String, String>> issues
     ) {
-        forbidValueRule(result, index, issues);
+        if (result.valueRule() != null) {
+            requireValueRule(result, index, refs, issues);
+        }
         if (!(result.detail() instanceof SkillEffectStatusOperationDetail detail)) {
             issues.add(fieldIssue(resultPath(index, "detail"), "TYPE_MISMATCH", "状态操作结果明细形状不合法"));
             return;
@@ -1289,6 +1294,51 @@ public class SkillEffectService {
             isRetained(retained, result.resultKey(), CatalogKind.STATUS, statusKey)
         ));
         refs.statusKeys.add(statusKey);
+        refs.statusResults.put(index, result);
+    }
+
+    private void validateStatusKinds(CollectedRefs refs, Map<String, StatusKind> statusKinds) {
+        List<Map<String, String>> issues = new ArrayList<>();
+        refs.statusResults.forEach((index, result) -> {
+            SkillEffectStatusOperationDetail detail = (SkillEffectStatusOperationDetail) result.detail();
+            if (statusKinds.get(detail.statusKey()) != StatusKind.MOVEMENT_SLOW
+                || detail.operation() != SkillEffectStatusOperation.APPLY) {
+                forbidValueRule(result, index, issues);
+                return;
+            }
+            SkillEffectValueRuleRequest value = result.valueRule();
+            if (value == null) {
+                issues.add(fieldIssue(resultPath(index, "valueRule"), "REQUIRED", "普通减速施加必须提供强度数值规则"));
+            } else {
+                if (value.fixedMinValue() == null || value.fixedMinValue().compareTo(BigDecimal.ZERO) != 0) {
+                    issues.add(fieldIssue(resultPath(index, "valueRule.fixedMinValue"), "RANGE_INVALID", "减速比例下界必须为0"));
+                }
+                if (value.fixedMaxValue() == null || value.fixedMaxValue().compareTo(BigDecimal.ONE) != 0) {
+                    issues.add(fieldIssue(resultPath(index, "valueRule.fixedMaxValue"), "RANGE_INVALID", "减速比例上界必须为1"));
+                }
+            }
+            if (refs.lifecycle == null || refs.lifecycle.durationValue() == null) {
+                issues.add(fieldIssue("lifecycle.durationValue", "REQUIRED", "普通减速必须有期限生命周期"));
+            }
+            SkillEffectResultLifecycleBehaviorRequest behavior = result.lifecycleBehavior();
+            if (behavior == null) {
+                issues.add(fieldIssue(resultPath(index, "lifecycleBehavior"), "REQUIRED", "普通减速必须声明持续生效行为"));
+                return;
+            }
+            if (behavior.moment() != SkillEffectLifecycleMoment.PERSISTENT) {
+                issues.add(fieldIssue(resultPath(index, "lifecycleBehavior.moment"), "COMBINATION_INVALID", "普通减速必须持续生效"));
+            }
+            if (behavior.valueReadMode() != SkillEffectLifecycleValueReadMode.APPLICATION_SNAPSHOT) {
+                issues.add(fieldIssue(resultPath(index, "lifecycleBehavior.valueReadMode"), "COMBINATION_INVALID", "普通减速必须在施加时读取强度快照"));
+            }
+            if (behavior.stackValueMode() != SkillEffectLifecycleStackValueMode.SHARED) {
+                issues.add(fieldIssue(resultPath(index, "lifecycleBehavior.stackValueMode"), "COMBINATION_INVALID", "普通减速必须共享强度"));
+            }
+            if (behavior.reapplicationValueMode() != SkillEffectLifecycleReapplicationValueMode.REPLACE) {
+                issues.add(fieldIssue(resultPath(index, "lifecycleBehavior.reapplicationValueMode"), "COMBINATION_INVALID", "普通减速重施必须覆盖强度"));
+            }
+        });
+        throwIfInvalid(issues);
     }
 
     private void validateLifecycleOperation(
@@ -1595,7 +1645,7 @@ public class SkillEffectService {
             ));
             return;
         }
-        if (statusApply
+        if ((statusApply && result.valueRule() == null)
             || type == SkillEffectResultType.DAMAGE_IMMUNITY
             || type == SkillEffectResultType.SPELL_SHIELD) {
             if (behavior.stackValueMode() != null || behavior.reapplicationValueMode() != null) {
@@ -1768,8 +1818,10 @@ public class SkillEffectService {
         int index,
         List<Map<String, String>> issues
     ) {
-        if (result.resultType() == SkillEffectResultType.STATUS_OPERATION
-            || result.resultType() == SkillEffectResultType.DAMAGE_IMMUNITY
+        if (result.resultType() == SkillEffectResultType.STATUS_OPERATION) {
+            return; // 状态数值规则在锁定目录种类后校验。
+        }
+        if (result.resultType() == SkillEffectResultType.DAMAGE_IMMUNITY
             || result.resultType() == SkillEffectResultType.SPELL_SHIELD) {
             forbidValueRule(result, index, issues);
             return;
@@ -1859,7 +1911,14 @@ public class SkillEffectService {
             refs.skillCategoryKeys,
             keys -> mapper.lockSkillCategories(gameId, keys)
         );
-        Map<String, String> statuses = lockCatalog(refs.statusKeys, keys -> mapper.lockStatuses(gameId, keys));
+        Map<String, String> statuses = new HashMap<>();
+        Map<String, StatusKind> statusKinds = new HashMap<>();
+        if (!refs.statusKeys.isEmpty()) {
+            for (SkillEffectStatusLockRow row : mapper.lockStatuses(gameId, refs.statusKeys)) {
+                statuses.put(row.refKey(), row.status());
+                statusKinds.put(row.refKey(), row.statusKind());
+            }
+        }
         Map<String, SkillEffectModifierZoneLockRow> modifierZones = lockModifierZones(
             gameId,
             refs.modifierZoneKeys
@@ -1931,6 +1990,7 @@ public class SkillEffectService {
             );
         }
 
+        validateStatusKinds(refs, statusKinds);
         List<Map<String, String>> disabled = new ArrayList<>();
         addDisabled(disabled, refs.damageTypes, damageTypes, "DAMAGE_TYPE_DISABLED", "不能新增停用伤害类型引用");
         addDisabled(
@@ -2448,6 +2508,8 @@ public class SkillEffectService {
     }
 
     private static final class CollectedRefs {
+        private SkillEffectLifecycleRequest lifecycle;
+        private final Map<Integer, SkillEffectResultRequest> statusResults = new LinkedHashMap<>();
         private final List<CatalogRef> formulas = new ArrayList<>();
         private final List<CatalogRef> dynamicFormulas = new ArrayList<>();
         private final List<CatalogRef> interactionFormulas = new ArrayList<>();

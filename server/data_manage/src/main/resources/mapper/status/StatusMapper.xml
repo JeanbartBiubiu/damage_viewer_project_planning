@@ -10,6 +10,7 @@
             <arg column="status_key" javaType="java.lang.String"/>
             <arg column="name" javaType="java.lang.String"/>
             <arg column="description" javaType="java.lang.String"/>
+            <arg column="status_kind" javaType="xyz.game.datamanage.model.status.StatusKind"/>
             <arg column="status" javaType="xyz.game.datamanage.model.status.StatusRecordStatus"/>
             <arg column="sort_order" javaType="java.lang.Integer"/>
             <arg column="created_at" javaType="java.time.OffsetDateTime"/>
@@ -18,7 +19,7 @@
     </resultMap>
 
     <select id="list" resultMap="response">
-        SELECT game_id, status_key, name, description, status, sort_order, created_at, updated_at
+        SELECT game_id, status_key, name, description, status_kind, status, sort_order, created_at, updated_at
         FROM public.statuses
         WHERE game_id = #{gameId}
         <if test="keyword != null">
@@ -34,13 +35,13 @@
     </select>
 
     <select id="findById" resultMap="response">
-        SELECT game_id, status_key, name, description, status, sort_order, created_at, updated_at
+        SELECT game_id, status_key, name, description, status_kind, status, sort_order, created_at, updated_at
         FROM public.statuses
         WHERE game_id = #{gameId} AND status_key = #{statusKey}
     </select>
 
     <select id="findByIdForUpdate" resultMap="response">
-        SELECT game_id, status_key, name, description, status, sort_order, created_at, updated_at
+        SELECT game_id, status_key, name, description, status_kind, status, sort_order, created_at, updated_at
         FROM public.statuses
         WHERE game_id = #{gameId} AND status_key = #{statusKey}
         FOR UPDATE
@@ -63,9 +64,9 @@
 
     <insert id="insert">
         INSERT INTO public.statuses (
-            game_id, status_key, name, description, status, sort_order
+            game_id, status_key, name, description, status_kind, status, sort_order
         ) VALUES (
-            #{gameId}, #{statusKey}, #{name}, #{description}, #{status}, #{sortOrder}
+            #{gameId}, #{statusKey}, #{name}, #{description}, #{statusKind}, #{status}, #{sortOrder}
         )
     </insert>
 
