@@ -29,6 +29,27 @@ import xyz.game.datamanage.support.error.ApiException;
 
 class SkillObjectReferencesTest {
     @Test
+    void slowStrengthProtectsItsStatusAndEveryNumericDependency() {
+        for (String kind : List.of("PARAMETER", "FORMULA")) {
+            String field = kind.equals("PARAMETER") ? "parameterKey" : "formulaKey";
+            Aggregate slow = aggregate(SourceType.EFFECT, "s1", "slow", """
+                {"results":[{"resultKey":"strength","resultType":"STATUS_OPERATION",
+                  "valueRule":{"value":{"kind":"%s","%s":"strength"}},
+                  "detail":{"statusKey":"movement_slow","operation":"APPLY"}}]}
+                """.formatted(kind, field));
+            Target status = new Target(TargetType.STATUS, "", "movement_slow", "");
+            Target numeric = new Target(TargetType.valueOf(kind), "s1", "strength", "");
+            List<Reference> refs = SkillObjectReferences.extractAndValidate("lol", List.of(slow), Set.of(status, numeric));
+            assertEquals(2, refs.size());
+            assertReference(refs, SourceType.EFFECT, "slow", "results[0].detail.statusKey", TargetType.STATUS, "", "movement_slow", "");
+            assertReference(refs, SourceType.EFFECT, "slow", "results[0].valueRule.value." + field,
+                TargetType.valueOf(kind), "s1", "strength", "");
+            assertThrows(ApiException.class, () -> SkillObjectReferences.extractAndValidate("lol", List.of(slow), Set.of(status)));
+            assertThrows(ApiException.class, () -> SkillObjectReferences.extractAndValidate("lol", List.of(slow), Set.of(numeric)));
+        }
+    }
+
+    @Test
     void initializationKeepsEffectReferenceAndRejectsMissingEffect() {
         Aggregate trigger = aggregate(SourceType.TRIGGER, "s1", "initialize", """
             {"eventSource":{"eventType":"SOURCE_INITIALIZED","detail":{}},

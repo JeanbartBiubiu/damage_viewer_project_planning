@@ -1901,6 +1901,12 @@ public class SkillTriggerRuleService {
                         "UNKNOWN_RESULT",
                         "修正结果不存在或不属于目标效果"
                     ));
+                } else if (shape.resultType() == SkillEffectResultType.STATUS_OPERATION) {
+                    referenceIssues.add(fieldIssue(
+                        modifierPath(actionIndex, m, "resultKey"),
+                        "REFERENCE_TYPE_MISMATCH",
+                        "状态结果不能接受额外固定修正，减速强度须在效果数值规则中调整"
+                    ));
                 } else if (!shape.hasValueRule()) {
                     referenceIssues.add(fieldIssue(
                         modifierPath(actionIndex, m, "resultKey"),
@@ -2542,11 +2548,11 @@ public class SkillTriggerRuleService {
                 if (result == null || index == null) {
                     continue;
                 }
-                if (result.valueRule() == null) {
+                if (result.valueRule() == null || result.resultType() == SkillEffectResultType.STATUS_OPERATION) {
                     issues.add(fieldIssue(
                         resultPath(index, "valueRule"),
                         "TRIGGER_RULE_SHAPE_IN_USE",
-                        "结果不再具有数值规则"
+                        "结果不支持已有触发动作的额外固定修正"
                     ));
                 }
             }

@@ -27,6 +27,7 @@ import xyz.game.datamanage.mapper.status.StatusMapper;
 import xyz.game.datamanage.model.status.StatusCreateRequest;
 import xyz.game.datamanage.model.status.StatusListQuery;
 import xyz.game.datamanage.model.status.StatusRecordStatus;
+import xyz.game.datamanage.model.status.StatusKind;
 import xyz.game.datamanage.model.status.StatusResponse;
 import xyz.game.datamanage.model.status.StatusUpdateRequest;
 import xyz.game.datamanage.support.error.ApiException;
@@ -59,6 +60,7 @@ class StatusServiceTest {
 
         assertEquals(1, result.total());
         assertEquals(KEY, result.items().getFirst().statusKey());
+        assertEquals(StatusKind.STUN, result.items().getFirst().statusKind());
         assertEquals(StatusRecordStatus.ENABLED, result.items().getFirst().status());
     }
 
@@ -86,14 +88,14 @@ class StatusServiceTest {
     void createsAndUpdatesFullEditableFieldsIncludingDisable() {
         when(mapper.countByKey(GAME_ID, KEY)).thenReturn(0L);
         when(mapper.countByNormalizedName(GAME_ID, "中毒", null)).thenReturn(0L);
-        when(mapper.insert(GAME_ID, KEY, "中毒", null, "ENABLED", 10)).thenReturn(1);
+        when(mapper.insert(GAME_ID, KEY, "中毒", null, "STUN", "ENABLED", 10)).thenReturn(1);
         when(mapper.findById(GAME_ID, KEY)).thenReturn(status());
 
         assertEquals(
             status(),
             service.create(
                 GAME_ID,
-                new StatusCreateRequest(" poison ", " 中毒 ", " ", StatusRecordStatus.ENABLED, 10)
+                new StatusCreateRequest(" poison ", " 中毒 ", " ", StatusKind.STUN, StatusRecordStatus.ENABLED, 10)
             )
         );
 
@@ -107,7 +109,7 @@ class StatusServiceTest {
             service.update(
                 GAME_ID,
                 KEY,
-                new StatusUpdateRequest(null, "中毒改", null, StatusRecordStatus.DISABLED, 0)
+                new StatusUpdateRequest(null, "中毒改", null, StatusKind.STUN, StatusRecordStatus.DISABLED, 0)
             ).status()
         );
         assertEquals(0, disabledStatus().sortOrder());
@@ -120,7 +122,7 @@ class StatusServiceTest {
             () -> service.update(
                 GAME_ID,
                 KEY,
-                new StatusUpdateRequest(KEY, "中毒", null, StatusRecordStatus.ENABLED, 10)
+                new StatusUpdateRequest(KEY, "中毒", null, StatusKind.STUN, StatusRecordStatus.ENABLED, 10)
             )
         );
         verify(mapper, never()).findByIdForUpdate(GAME_ID, KEY);
@@ -134,7 +136,7 @@ class StatusServiceTest {
             "409.STATUS_KEY_EXISTS",
             () -> service.create(
                 GAME_ID,
-                new StatusCreateRequest(KEY, "中毒", null, StatusRecordStatus.ENABLED, 10)
+                new StatusCreateRequest(KEY, "中毒", null, StatusKind.STUN, StatusRecordStatus.ENABLED, 10)
             )
         );
 
@@ -144,7 +146,7 @@ class StatusServiceTest {
             "409.STATUS_NAME_EXISTS",
             () -> service.create(
                 GAME_ID,
-                new StatusCreateRequest("other", "中毒", null, StatusRecordStatus.ENABLED, 10)
+                new StatusCreateRequest("other", "中毒", null, StatusKind.STUN, StatusRecordStatus.ENABLED, 10)
             )
         );
 
@@ -157,7 +159,7 @@ class StatusServiceTest {
             () -> service.update(
                 GAME_ID,
                 "missing",
-                new StatusUpdateRequest(null, "中毒", null, StatusRecordStatus.ENABLED, 10)
+                new StatusUpdateRequest(null, "中毒", null, StatusKind.STUN, StatusRecordStatus.ENABLED, 10)
             )
         );
         assertCode("404.STATUS_NOT_FOUND", () -> service.delete(GAME_ID, "missing"));
@@ -167,7 +169,7 @@ class StatusServiceTest {
     void concurrentConstraintViolationsMapWithoutLeakingConstraintText() {
         when(mapper.countByKey(GAME_ID, KEY)).thenReturn(0L);
         when(mapper.countByNormalizedName(GAME_ID, "中毒", null)).thenReturn(0L);
-        when(mapper.insert(GAME_ID, KEY, "中毒", null, "ENABLED", 10))
+        when(mapper.insert(GAME_ID, KEY, "中毒", null, "STUN", "ENABLED", 10))
             .thenThrow(new DuplicateKeyException(
                 "duplicate key value violates unique constraint \"pk_statuses\""
             ))
@@ -178,7 +180,7 @@ class StatusServiceTest {
             ApiException.class,
             () -> service.create(
                 GAME_ID,
-                new StatusCreateRequest(KEY, "中毒", null, StatusRecordStatus.ENABLED, 10)
+                new StatusCreateRequest(KEY, "中毒", null, StatusKind.STUN, StatusRecordStatus.ENABLED, 10)
             )
         );
         assertEquals("409.STATUS_KEY_EXISTS", key.getCode());
@@ -188,7 +190,7 @@ class StatusServiceTest {
             ApiException.class,
             () -> service.create(
                 GAME_ID,
-                new StatusCreateRequest(KEY, "中毒", null, StatusRecordStatus.ENABLED, 10)
+                new StatusCreateRequest(KEY, "中毒", null, StatusKind.STUN, StatusRecordStatus.ENABLED, 10)
             )
         );
         assertEquals("409.STATUS_NAME_EXISTS", name.getCode());
@@ -245,7 +247,7 @@ class StatusServiceTest {
             "404.GAME_NOT_FOUND",
             () -> service.create(
                 "missing",
-                new StatusCreateRequest(KEY, "中毒", null, StatusRecordStatus.ENABLED, 10)
+                new StatusCreateRequest(KEY, "中毒", null, StatusKind.STUN, StatusRecordStatus.ENABLED, 10)
             )
         );
         assertCode(
@@ -253,7 +255,7 @@ class StatusServiceTest {
             () -> service.update(
                 "missing",
                 KEY,
-                new StatusUpdateRequest(null, "中毒", null, StatusRecordStatus.ENABLED, 10)
+                new StatusUpdateRequest(null, "中毒", null, StatusKind.STUN, StatusRecordStatus.ENABLED, 10)
             )
         );
         assertCode("404.GAME_NOT_FOUND", () -> service.delete("missing", KEY));
@@ -277,6 +279,34 @@ class StatusServiceTest {
         verifyNoInteractions(imageRelationMapper);
     }
 
+    @Test
+    void requiresKindAndRejectsChangingEitherKind() {
+        assertCode("400.VALIDATION_FAILED", () -> service.create(GAME_ID,
+            new StatusCreateRequest("control", "控制", null, null, StatusRecordStatus.ENABLED, 0)));
+        assertCode("400.VALIDATION_FAILED", () -> service.update(GAME_ID, KEY,
+            new StatusUpdateRequest(null, "控制", null, null, StatusRecordStatus.ENABLED, 0)));
+        for (StatusKind kind : StatusKind.values()) {
+            StatusResponse old = status();
+            when(mapper.findByIdForUpdate(GAME_ID, KEY)).thenReturn(new StatusResponse(
+                old.gameId(), old.statusKey(), old.name(), old.description(), kind,
+                old.status(), old.sortOrder(), old.createdAt(), old.updatedAt()));
+            StatusKind other = kind == StatusKind.STUN ? StatusKind.MOVEMENT_SLOW : StatusKind.STUN;
+            ApiException error = assertThrows(ApiException.class, () -> service.update(GAME_ID, KEY,
+                new StatusUpdateRequest(null, "控制", null, other, StatusRecordStatus.ENABLED, 0)));
+            assertEquals("400.VALIDATION_FAILED", error.getCode());
+            assertEquals("statusKind", ((Map<?, ?>) ((List<?>) error.getDetails().get("fieldIssues")).getFirst()).get("field"));
+        }
+    }
+
+    @Test
+    void createsMovementSlowWithExplicitKind() {
+        when(mapper.findById(GAME_ID, "control")).thenReturn(new StatusResponse(GAME_ID, "control", "减速", null,
+            StatusKind.MOVEMENT_SLOW, StatusRecordStatus.ENABLED, 0, status().createdAt(), status().updatedAt()));
+        assertEquals(StatusKind.MOVEMENT_SLOW, service.create(GAME_ID,
+            new StatusCreateRequest("control", "减速", null, StatusKind.MOVEMENT_SLOW, StatusRecordStatus.ENABLED, 0)).statusKind());
+        verify(mapper).insert(GAME_ID, "control", "减速", null, "MOVEMENT_SLOW", "ENABLED", 0);
+    }
+
     private static StatusResponse status() {
         OffsetDateTime timestamp = OffsetDateTime.parse("2026-08-27T00:00:00Z");
         return new StatusResponse(
@@ -284,6 +314,7 @@ class StatusServiceTest {
             KEY,
             "中毒",
             null,
+            StatusKind.STUN,
             StatusRecordStatus.ENABLED,
             10,
             timestamp,
@@ -298,6 +329,7 @@ class StatusServiceTest {
             source.statusKey(),
             "中毒改",
             null,
+            StatusKind.STUN,
             StatusRecordStatus.DISABLED,
             0,
             source.createdAt(),

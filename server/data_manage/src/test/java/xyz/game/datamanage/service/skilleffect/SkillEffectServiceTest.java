@@ -930,6 +930,7 @@ class SkillEffectServiceTest {
 
     @Test
     void rejectsInvalidValueRules() {
+        stubEnabledCatalogs();
         when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
 
         ApiException missing = assertThrows(
@@ -2585,7 +2586,11 @@ class SkillEffectServiceTest {
         when(mapper.lockAttributes(eq(GAME_ID), anyCollection())).thenAnswer(this::enabledLocks);
         when(mapper.lockSkills(eq(GAME_ID), anyCollection())).thenAnswer(this::enabledLocks);
         when(mapper.lockSkillCategories(eq(GAME_ID), anyCollection())).thenAnswer(this::enabledLocks);
-        when(mapper.lockStatuses(eq(GAME_ID), anyCollection())).thenAnswer(this::enabledLocks);
+        when(mapper.lockStatuses(eq(GAME_ID), anyCollection())).thenAnswer(invocation -> {
+            Collection<String> keys = invocation.getArgument(1);
+            return keys.stream().map(key -> new xyz.game.datamanage.model.skilleffect.SkillEffectStatusLockRow(
+                key, "ENABLED", xyz.game.datamanage.model.status.StatusKind.STUN)).toList();
+        });
         when(mapper.lockModifierZones(eq(GAME_ID), anyCollection())).thenAnswer(invocation -> {
             @SuppressWarnings("unchecked")
             Collection<String> keys = (Collection<String>) invocation.getArgument(1);

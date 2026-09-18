@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCatalogLockRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectStatusLockRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectModifierZoneLockRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectRow;
@@ -106,7 +107,7 @@ public interface SkillEffectMapper {
         @Param("keys") Collection<String> keys
     );
 
-    List<SkillEffectCatalogLockRow> lockStatuses(
+    List<SkillEffectStatusLockRow> lockStatuses(
         @Param("gameId") String gameId,
         @Param("keys") Collection<String> keys
     );

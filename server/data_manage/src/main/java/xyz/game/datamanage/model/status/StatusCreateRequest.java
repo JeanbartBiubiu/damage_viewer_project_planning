@@ -15,6 +15,8 @@ public record StatusCreateRequest(
     String name,
     @Size(max = 2000, message = "说明不能超过2000个字符")
     String description,
+    @NotNull(message = "状态种类不能为空")
+    StatusKind statusKind,
     @NotNull(message = "状态不能为空")
     StatusRecordStatus status,
     @NotNull(message = "排序不能为空")

@@ -30,6 +30,7 @@ import xyz.game.datamanage.model.status.StatusCreateRequest;
 import xyz.game.datamanage.model.status.StatusListQuery;
 import xyz.game.datamanage.model.status.StatusListResponse;
 import xyz.game.datamanage.model.status.StatusRecordStatus;
+import xyz.game.datamanage.model.status.StatusKind;
 import xyz.game.datamanage.model.status.StatusResponse;
 import xyz.game.datamanage.model.status.StatusUpdateRequest;
 import xyz.game.datamanage.service.status.StatusService;
@@ -83,7 +84,7 @@ class StatusAdminControllerTest {
         mockMvc.perform(post(BASE_PATH)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
-                    {"statusKey":"poison","name":"中毒","description":null,"status":"ENABLED","sortOrder":10}
+                    {"statusKey":"poison","name":"中毒","description":null,"statusKind":"STUN","status":"ENABLED","sortOrder":10}
                     """))
             .andExpect(status().isCreated())
             .andExpect(jsonPath("$.statusKey").value("poison"))
@@ -92,7 +93,7 @@ class StatusAdminControllerTest {
         mockMvc.perform(put(BASE_PATH + "/poison")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
-                    {"name":"中毒","description":null,"status":"ENABLED","sortOrder":10}
+                    {"name":"中毒","description":null,"statusKind":"STUN","status":"ENABLED","sortOrder":10}
                     """))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.status").value("ENABLED"));
@@ -124,7 +125,7 @@ class StatusAdminControllerTest {
         mockMvc.perform(put(BASE_PATH + "/poison")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
-                    {"statusKey":"poison","name":"中毒","status":"ENABLED","sortOrder":10}
+                    {"statusKey":"poison","name":"中毒","statusKind":"STUN","status":"ENABLED","sortOrder":10}
                     """))
             .andExpect(status().isBadRequest())
             .andExpect(jsonPath("$.error.code").value("400.VALIDATION_FAILED"))
@@ -134,10 +135,25 @@ class StatusAdminControllerTest {
         verify(logHelper, never()).log(any(), any(), any(), anyInt());
     }
 
+    @Test
+    void rejectsMissingOrUnknownStatusKindAtHttpBoundary() throws Exception {
+        mockMvc.perform(post(BASE_PATH).contentType(MediaType.APPLICATION_JSON).content("""
+            {"statusKey":"slow","name":"减速","status":"ENABLED","sortOrder":0}
+            """))
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.error.details.fieldIssues[0].field").value("statusKind"));
+        mockMvc.perform(post(BASE_PATH).contentType(MediaType.APPLICATION_JSON).content("""
+            {"statusKey":"slow","name":"减速","statusKind":"UNKNOWN","status":"ENABLED","sortOrder":0}
+            """))
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.error.code").value("400.INVALID_BODY"));
+        verify(service, never()).create(any(), any());
+    }
+
     private static StatusResponse response() {
         OffsetDateTime timestamp = OffsetDateTime.parse("2026-08-27T00:00:00Z");
         return new StatusResponse(
-            "lol", "poison", "中毒", null, StatusRecordStatus.ENABLED, 10, timestamp, timestamp
+            "lol", "poison", "中毒", null, StatusKind.STUN, StatusRecordStatus.ENABLED, 10, timestamp, timestamp
         );
     }
 }

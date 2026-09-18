@@ -272,6 +272,24 @@ class SkillNumericSemanticsTest {
         return new Aggregate(type, SKILL, key, AggregateJson.tree(json));
     }
 
+    @Test
+    void slowStrengthKeepsLevelParametersAndFormulaRuntimeInputProtection() {
+        Aggregate slow = object(SourceType.EFFECT, "effect", """
+            {"results":[{"resultKey":"strength","resultType":"STATUS_OPERATION",
+              "detail":{"statusKey":"slow","operation":"APPLY"},
+              "valueRule":{"value":{"kind":"PARAMETER","parameterKey":"percent"},"fixedMultiplier":0.01,"fixedMinValue":0,"fixedMaxValue":1},
+              "lifecycleBehavior":{"moment":"PERSISTENT","valueReadMode":"APPLICATION_SNAPSHOT"}}]}
+            """);
+        assertDoesNotThrow(() -> SkillNumericSemantics.validate(List.of(slow),
+            List.of(level("percent", "DECIMAL", "SKILL_LEVEL", "{\"1\":45,\"2\":50,\"3\":55,\"4\":60,\"5\":65}"))));
+        ((ObjectNode) slow.data().at("/results/0/valueRule")).set("value", AggregateJson.tree(formulaValue()));
+        List<Parameter> inputs = List.of(runtime("input", "DECIMAL"));
+        assertIssue("BINDING_MISSING", "actions[0].runtimeInputBindings",
+            List.of(formula("input"), slow, rule("EXECUTE_EFFECT", "effect", false, "RAW_DAMAGE")), inputs);
+        assertDoesNotThrow(() -> SkillNumericSemantics.validate(
+            List.of(formula("input"), slow, rule("EXECUTE_EFFECT", "effect", true, "RAW_DAMAGE")), inputs));
+    }
+
     private static Aggregate protectionCooldown(String value) {
         return object(SourceType.TRIGGER, "rule", "{\"limits\":{\"perTargetCooldown\":{\"durationValue\":" + value + "}}}");
     }
