@@ -1,0 +1,1968 @@
+{
+  "startedAt": "2026-09-18T23:30:23.944Z",
+  "status": "PASS",
+  "businessWritesAttempted": 10,
+  "operations": [
+    {
+      "route": "/skills/annie_w/effects/spell_hit",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T16:37:45.235264Z",
+          "description": "本轮1V1敌方英雄的普通直接魔法技能伤害组成；显式登记防御结算后伤害、效率为1的全能吸血资格。实际命中入口已配置，其他被动、控制或目标分支分别维护。",
+          "effectKey": "spell_hit",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "焚烧命中",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "damageTypeKey": "magic",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "vampRules": [
+                  {
+                    "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                    "efficiencyValue": {
+                      "kind": "FIXED",
+                      "value": 1
+                    },
+                    "vampType": "OMNIVAMP"
+                  }
+                ]
+              },
+              "lifecycleBehavior": null,
+              "name": "焚烧命中",
+              "resultKey": "damage",
+              "resultType": "DAMAGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": "RESULT",
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "damage",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "skillKey": "annie_w",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-18T23:30:23.994892Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-07T16:37:45.235264Z",
+        "description": "本轮1V1敌方英雄的普通直接魔法技能伤害组成；显式登记防御结算后伤害、效率为1的全能吸血资格。实际命中入口已配置，其他被动、控制或目标分支分别维护。",
+        "effectKey": "spell_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "焚烧命中",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "焚烧命中",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "annie_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-18T23:30:23.994892Z"
+      }
+    },
+    {
+      "route": "/skills/brand_w/effects/normal_pillar",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T16:38:09.3779Z",
+          "description": "本轮1V1敌方英雄的普通直接魔法技能伤害组成；显式登记防御结算后伤害、效率为1的全能吸血资格。炽热之焰状态对应的伤害分支另行配置，本批不连接条件命中入口。",
+          "effectKey": "normal_pillar",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "未灼烧烈焰之柱伤害",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "damageTypeKey": "magic",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "vampRules": [
+                  {
+                    "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                    "efficiencyValue": {
+                      "kind": "FIXED",
+                      "value": 1
+                    },
+                    "vampType": "OMNIVAMP"
+                  }
+                ]
+              },
+              "lifecycleBehavior": null,
+              "name": "未灼烧烈焰之柱伤害",
+              "resultKey": "damage",
+              "resultType": "DAMAGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": "RESULT",
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "damage",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "skillKey": "brand_w",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-18T23:30:25.965729Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-07T16:38:09.3779Z",
+        "description": "本轮1V1敌方英雄的普通直接魔法技能伤害组成；显式登记防御结算后伤害、效率为1的全能吸血资格。炽热之焰状态对应的伤害分支另行配置，本批不连接条件命中入口。",
+        "effectKey": "normal_pillar",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "未灼烧烈焰之柱伤害",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "未灼烧烈焰之柱伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "brand_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-18T23:30:25.965729Z"
+      }
+    },
+    {
+      "route": "/skills/brand_w/effects/empowered_pillar",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T16:38:09.785927Z",
+          "description": "本轮1V1敌方英雄的普通直接魔法技能伤害组成；显式登记防御结算后伤害、效率为1的全能吸血资格。炽热之焰状态对应的伤害分支另行配置，本批不连接条件命中入口。",
+          "effectKey": "empowered_pillar",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "已灼烧烈焰之柱伤害",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "damageTypeKey": "magic",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "vampRules": [
+                  {
+                    "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                    "efficiencyValue": {
+                      "kind": "FIXED",
+                      "value": 1
+                    },
+                    "vampType": "OMNIVAMP"
+                  }
+                ]
+              },
+              "lifecycleBehavior": null,
+              "name": "已灼烧烈焰之柱伤害",
+              "resultKey": "damage",
+              "resultType": "DAMAGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": "RESULT",
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "empowered_damage",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "skillKey": "brand_w",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-18T23:30:27.634255Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-07T16:38:09.785927Z",
+        "description": "本轮1V1敌方英雄的普通直接魔法技能伤害组成；显式登记防御结算后伤害、效率为1的全能吸血资格。炽热之焰状态对应的伤害分支另行配置，本批不连接条件命中入口。",
+        "effectKey": "empowered_pillar",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "已灼烧烈焰之柱伤害",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "已灼烧烈焰之柱伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "empowered_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "brand_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-18T23:30:27.634255Z"
+      }
+    },
+    {
+      "route": "/skills/brand_e/effects/conflagration_hit",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T16:38:12.568002Z",
+          "description": "本轮1V1敌方英雄的普通直接魔法技能伤害组成；显式登记防御结算后伤害、效率为1的全能吸血资格。实际命中入口已配置，其他被动、控制或目标分支分别维护。",
+          "effectKey": "conflagration_hit",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "烈火燃烧直接伤害",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "damageTypeKey": "magic",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "vampRules": [
+                  {
+                    "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                    "efficiencyValue": {
+                      "kind": "FIXED",
+                      "value": 1
+                    },
+                    "vampType": "OMNIVAMP"
+                  }
+                ]
+              },
+              "lifecycleBehavior": null,
+              "name": "烈火燃烧直接伤害",
+              "resultKey": "damage",
+              "resultType": "DAMAGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": "RESULT",
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "damage",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "skillKey": "brand_e",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-18T23:30:29.225526Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-07T16:38:12.568002Z",
+        "description": "本轮1V1敌方英雄的普通直接魔法技能伤害组成；显式登记防御结算后伤害、效率为1的全能吸血资格。实际命中入口已配置，其他被动、控制或目标分支分别维护。",
+        "effectKey": "conflagration_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "烈火燃烧直接伤害",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "烈火燃烧直接伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "brand_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-18T23:30:29.225526Z"
+      }
+    },
+    {
+      "route": "/skills/malphite_q/effects/shard_hit",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T16:37:00.512024Z",
+          "description": "本轮1V1敌方英雄的普通直接魔法技能伤害组成；显式登记防御结算后伤害、效率为1的全能吸血资格。实际命中入口已配置，其他被动、控制或目标分支分别维护。",
+          "effectKey": "shard_hit",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "碎片命中魔法伤害",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "damageTypeKey": "magic",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "vampRules": [
+                  {
+                    "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                    "efficiencyValue": {
+                      "kind": "FIXED",
+                      "value": 1
+                    },
+                    "vampType": "OMNIVAMP"
+                  }
+                ]
+              },
+              "lifecycleBehavior": null,
+              "name": "碎片命中魔法伤害",
+              "resultKey": "damage",
+              "resultType": "DAMAGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": "RESULT",
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "damage",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "skillKey": "malphite_q",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-18T23:30:30.94587Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-07T16:37:00.512024Z",
+        "description": "本轮1V1敌方英雄的普通直接魔法技能伤害组成；显式登记防御结算后伤害、效率为1的全能吸血资格。实际命中入口已配置，其他被动、控制或目标分支分别维护。",
+        "effectKey": "shard_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "碎片命中魔法伤害",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "碎片命中魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "malphite_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-18T23:30:30.94587Z"
+      }
+    },
+    {
+      "route": "/skills/malphite_e/effects/slam_hit",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T16:37:11.906964Z",
+          "description": "本轮1V1敌方英雄的普通直接魔法技能伤害组成；显式登记防御结算后伤害、效率为1的全能吸血资格。实际命中入口已配置，其他被动、控制或目标分支分别维护。",
+          "effectKey": "slam_hit",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "震地命中",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "damageTypeKey": "magic",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "vampRules": [
+                  {
+                    "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                    "efficiencyValue": {
+                      "kind": "FIXED",
+                      "value": 1
+                    },
+                    "vampType": "OMNIVAMP"
+                  }
+                ]
+              },
+              "lifecycleBehavior": null,
+              "name": "震地命中",
+              "resultKey": "damage",
+              "resultType": "DAMAGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": "RESULT",
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "damage",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "skillKey": "malphite_e",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-18T23:30:32.703995Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-07T16:37:11.906964Z",
+        "description": "本轮1V1敌方英雄的普通直接魔法技能伤害组成；显式登记防御结算后伤害、效率为1的全能吸血资格。实际命中入口已配置，其他被动、控制或目标分支分别维护。",
+        "effectKey": "slam_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "震地命中",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "震地命中",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "malphite_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-18T23:30:32.703995Z"
+      }
+    },
+    {
+      "route": "/skills/malphite_r/effects/impact_hit",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T16:37:15.600204Z",
+          "description": "本轮1V1敌方英雄的普通直接魔法技能伤害组成；显式登记防御结算后伤害、效率为1的全能吸血资格。实际命中入口已配置，其他被动、控制或目标分支分别维护。",
+          "effectKey": "impact_hit",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "冲撞命中魔法伤害",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "damageTypeKey": "magic",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "vampRules": [
+                  {
+                    "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                    "efficiencyValue": {
+                      "kind": "FIXED",
+                      "value": 1
+                    },
+                    "vampType": "OMNIVAMP"
+                  }
+                ]
+              },
+              "lifecycleBehavior": null,
+              "name": "冲撞命中魔法伤害",
+              "resultKey": "damage",
+              "resultType": "DAMAGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": "RESULT",
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "damage",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "skillKey": "malphite_r",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-18T23:30:34.599259Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-07T16:37:15.600204Z",
+        "description": "本轮1V1敌方英雄的普通直接魔法技能伤害组成；显式登记防御结算后伤害、效率为1的全能吸血资格。实际命中入口已配置，其他被动、控制或目标分支分别维护。",
+        "effectKey": "impact_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "冲撞命中魔法伤害",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "冲撞命中魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "malphite_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-18T23:30:34.599259Z"
+      }
+    },
+    {
+      "route": "/skills/diana_q/effects/moon_arc_hit",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:53:36.94221Z",
+          "description": "本轮1V1敌方英雄的普通直接魔法技能伤害组成；显式登记防御结算后伤害、效率为1的全能吸血资格。实际命中入口已配置，其他被动、控制或目标分支分别维护。",
+          "effectKey": "moon_arc_hit",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "月能圆弧命中",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "damageTypeKey": "magic",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "vampRules": [
+                  {
+                    "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                    "efficiencyValue": {
+                      "kind": "FIXED",
+                      "value": 1
+                    },
+                    "vampType": "OMNIVAMP"
+                  }
+                ]
+              },
+              "lifecycleBehavior": null,
+              "name": "月能圆弧命中",
+              "resultKey": "damage",
+              "resultType": "DAMAGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": "RESULT",
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "damage",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "skillKey": "diana_q",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-18T23:30:36.444017Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-07T18:53:36.94221Z",
+        "description": "本轮1V1敌方英雄的普通直接魔法技能伤害组成；显式登记防御结算后伤害、效率为1的全能吸血资格。实际命中入口已配置，其他被动、控制或目标分支分别维护。",
+        "effectKey": "moon_arc_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "月能圆弧命中",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "月能圆弧命中",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "diana_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-18T23:30:36.444017Z"
+      }
+    },
+    {
+      "route": "/skills/veigar_r/effects/minimum_burst",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:54:23.813661Z",
+          "description": "本轮1V1敌方英雄的普通直接魔法技能伤害组成；显式登记防御结算后伤害、效率为1的全能吸血资格。基础与最大伤害组成仍待完整生命比例关系和互斥入口，不同时执行两个组成。",
+          "effectKey": "minimum_burst",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "满生命基础魔法伤害组成",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "damageTypeKey": "magic",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "vampRules": [
+                  {
+                    "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                    "efficiencyValue": {
+                      "kind": "FIXED",
+                      "value": 1
+                    },
+                    "vampType": "OMNIVAMP"
+                  }
+                ]
+              },
+              "lifecycleBehavior": null,
+              "name": "满生命基础魔法伤害组成",
+              "resultKey": "damage",
+              "resultType": "DAMAGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": "RESULT",
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "damage",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "skillKey": "veigar_r",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-18T23:30:38.241673Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-07T18:54:23.813661Z",
+        "description": "本轮1V1敌方英雄的普通直接魔法技能伤害组成；显式登记防御结算后伤害、效率为1的全能吸血资格。基础与最大伤害组成仍待完整生命比例关系和互斥入口，不同时执行两个组成。",
+        "effectKey": "minimum_burst",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "满生命基础魔法伤害组成",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "满生命基础魔法伤害组成",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "veigar_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-18T23:30:38.241673Z"
+      }
+    },
+    {
+      "route": "/skills/veigar_r/effects/maximum_burst",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:54:24.44278Z",
+          "description": "本轮1V1敌方英雄的普通直接魔法技能伤害组成；显式登记防御结算后伤害、效率为1的全能吸血资格。基础与最大伤害组成仍待完整生命比例关系和互斥入口，不同时执行两个组成。",
+          "effectKey": "maximum_burst",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "低生命上限魔法伤害组成",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "damageTypeKey": "magic",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "vampRules": [
+                  {
+                    "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                    "efficiencyValue": {
+                      "kind": "FIXED",
+                      "value": 1
+                    },
+                    "vampType": "OMNIVAMP"
+                  }
+                ]
+              },
+              "lifecycleBehavior": null,
+              "name": "低生命上限魔法伤害组成",
+              "resultKey": "damage",
+              "resultType": "DAMAGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": "RESULT",
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "max_damage",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "skillKey": "veigar_r",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-18T23:30:39.892517Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-07T18:54:24.44278Z",
+        "description": "本轮1V1敌方英雄的普通直接魔法技能伤害组成；显式登记防御结算后伤害、效率为1的全能吸血资格。基础与最大伤害组成仍待完整生命比例关系和互斥入口，不同时执行两个组成。",
+        "effectKey": "maximum_burst",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "低生命上限魔法伤害组成",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "低生命上限魔法伤害组成",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "max_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "veigar_r",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-18T23:30:39.892517Z"
+      }
+    }
+  ],
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-damage-vamp.mjs": "181c182b32fbfc0b28ba91cab5aea9b4c86bdedf0d184d56e519a9db4b5c830a",
+    "01-纠错计划.json": "66854ac8f2b7afdb0d114bcf7a19270fb99c6449c3ba987ebf8b3d105277d4cb",
+    "02-冻结请求.json": "59d733eac9e9bfb008643fd1005a5515a9f7ea90574f5bd834495892bc7b7e0d",
+    "03-来源摘要.json": "6bec286e073fb36b94b2a352e2b2ef6dfccb4b8036fabb168084151884ecb879",
+    "04-写入前现值.json": "bfb9b6670771d29a921e9c21cf652fb3837016fabf818999f1a2a7743a773ff4"
+  },
+  "pendingRoute": null,
+  "finishedAt": "2026-09-18T23:30:41.503Z",
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/annie_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_w/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_w/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_w/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_w/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_w/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_w/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_w/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_w/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_w/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_w/effects/spell_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_w/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_w/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_w/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_w/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_w/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_w/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_w/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_w/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_w/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_w/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_w/parameters/empowered_multiplier",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_w/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_w/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_w/formulas/empowered_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_w/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_w/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_w/effects/normal_pillar",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_w/effects/empowered_pillar",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_w/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_w/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_w/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_w/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_w/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/effects/conflagration_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_q/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_q/parameters/slow_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_q/parameters/slow_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_q/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_q/effects/shard_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_q/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_q/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/parameters/armor_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/parameters/attack_speed_reduction_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/parameters/reduction_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/effects/slam_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/parameters/knockup_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/effects/impact_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/parameters/moonlight_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/effects/moon_arc_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/parameters/maximum_damage_multiplier",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/parameters/maximum_damage_health_threshold",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/formulas/max_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/effects/minimum_burst",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/effects/maximum_burst",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_w/effects/spell_hit",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/annie_w/effects/spell_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_w/effects/spell_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_w/effects/normal_pillar",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/brand_w/effects/normal_pillar",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_w/effects/normal_pillar",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_w/effects/empowered_pillar",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/brand_w/effects/empowered_pillar",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_w/effects/empowered_pillar",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/effects/conflagration_hit",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/brand_e/effects/conflagration_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/effects/conflagration_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_q/effects/shard_hit",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/malphite_q/effects/shard_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_q/effects/shard_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/effects/slam_hit",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/malphite_e/effects/slam_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/effects/slam_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/effects/impact_hit",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/malphite_r/effects/impact_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/effects/impact_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/effects/moon_arc_hit",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/diana_q/effects/moon_arc_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/effects/moon_arc_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/effects/minimum_burst",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/veigar_r/effects/minimum_burst",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/effects/minimum_burst",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/effects/maximum_burst",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/veigar_r/effects/maximum_burst",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/effects/maximum_burst",
+      "status": 200
+    }
+  ]
+}

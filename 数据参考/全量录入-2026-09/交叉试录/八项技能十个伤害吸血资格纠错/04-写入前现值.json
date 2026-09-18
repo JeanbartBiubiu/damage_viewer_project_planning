@@ -1,0 +1,4510 @@
+{
+  "at": "2026-09-18T23:23:34.694Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/skills/annie_w": {
+      "createdAt": "2026-09-06T18:16:26.474863Z",
+      "description": "安妮向锥形区域施放一道烈焰，对区域内的所有敌人造成伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "安妮·焚烧",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "annie_w",
+      "sortOrder": 2,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:16:26.474863Z"
+    },
+    "/skills/annie_w/parameters": [
+      {
+        "createdAt": "2026-09-07T16:37:42.595105Z",
+        "description": "官方16.17.1冷却与当前主技能 cooldownTime[1..等级上限]一致；仅基础冷却，不含急速和重置。",
+        "fixedValue": 7000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "annie_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:37:42.595105Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:42.945601Z",
+        "description": "官方16.17.1 cost与主技能mana索引0..等级上限-1一致。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 75,
+          "3": 80,
+          "4": 85,
+          "5": 90
+        },
+        "name": "法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "annie_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T16:37:42.945601Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:43.329163Z",
+        "description": "当前主技能 spellCastTime；仅施法延迟，不代替实际命中。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "annie_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T16:37:43.329163Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:43.699473Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 110,
+          "3": 150,
+          "4": 190,
+          "5": 230
+        },
+        "name": "基础伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "annie_w",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-07T16:37:43.699473Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:44.063598Z",
+        "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+        "fixedValue": 0.8,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法术强度倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "annie_w",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-07T16:37:44.063598Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    ],
+    "/skills/annie_w/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T16:37:42.595105Z",
+      "description": "官方16.17.1冷却与当前主技能 cooldownTime[1..等级上限]一致；仅基础冷却，不含急速和重置。",
+      "fixedValue": 7000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "annie_w",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T16:37:42.595105Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/annie_w/parameters/mana_cost": {
+      "createdAt": "2026-09-07T16:37:42.945601Z",
+      "description": "官方16.17.1 cost与主技能mana索引0..等级上限-1一致。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 70,
+        "2": 75,
+        "3": 80,
+        "4": 85,
+        "5": 90
+      },
+      "name": "法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "annie_w",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-07T16:37:42.945601Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/annie_w/parameters/cast_time_ms": {
+      "createdAt": "2026-09-07T16:37:43.329163Z",
+      "description": "当前主技能 spellCastTime；仅施法延迟，不代替实际命中。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "annie_w",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-07T16:37:43.329163Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/annie_w/parameters/base_damage": {
+      "createdAt": "2026-09-07T16:37:43.699473Z",
+      "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 70,
+        "2": 110,
+        "3": 150,
+        "4": 190,
+        "5": 230
+      },
+      "name": "基础伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "annie_w",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-07T16:37:43.699473Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/annie_w/parameters/ap_ratio": {
+      "createdAt": "2026-09-07T16:37:44.063598Z",
+      "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+      "fixedValue": 0.8,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法术强度倍率",
+      "parameterKey": "ap_ratio",
+      "skillKey": "annie_w",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-07T16:37:44.063598Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/annie_w/formulas": [
+      {
+        "createdAt": "2026-09-07T16:37:44.463454Z",
+        "description": "当前根技能 TotalDamage：基础伤害+来源总法术强度×倍率。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "焚烧伤害",
+        "skillKey": "annie_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:37:44.463454Z"
+      }
+    ],
+    "/skills/annie_w/formulas/damage": {
+      "createdAt": "2026-09-07T16:37:44.463454Z",
+      "description": "当前根技能 TotalDamage：基础伤害+来源总法术强度×倍率。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "焚烧伤害",
+      "skillKey": "annie_w",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T16:37:44.463454Z"
+    },
+    "/skills/annie_w/effects": [
+      {
+        "createdAt": "2026-09-07T16:37:44.81907Z",
+        "description": "仅施放法力消耗；具体过程单独绑定。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "annie_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:37:44.81907Z"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:45.235264Z",
+        "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+        "effectKey": "spell_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "焚烧命中",
+        "resultCount": 1,
+        "skillKey": "annie_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T16:37:45.235264Z"
+      }
+    ],
+    "/skills/annie_w/effects/mana_cost": {
+      "createdAt": "2026-09-07T16:37:44.81907Z",
+      "description": "仅施放法力消耗；具体过程单独绑定。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "annie_w",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T16:37:44.81907Z"
+    },
+    "/skills/annie_w/effects/spell_hit": {
+      "createdAt": "2026-09-07T16:37:45.235264Z",
+      "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+      "effectKey": "spell_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "焚烧命中",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": []
+          },
+          "lifecycleBehavior": null,
+          "name": "焚烧命中",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "RESULT",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "annie_w",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-07T16:37:45.235264Z"
+    },
+    "/skills/annie_w/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-07T16:37:45.631819Z",
+        "description": "只绑定法力、基础冷却及施法延迟；不在过程结束时自动造成伤害。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "施放焚烧",
+        "processKey": "cast",
+        "skillKey": "annie_w",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-07T16:37:45.631819Z"
+      }
+    ],
+    "/skills/annie_w/processes/cast": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-07T16:37:45.631819Z",
+      "description": "只绑定法力、基础冷却及施法延迟；不在过程结束时自动造成伤害。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "施放焚烧",
+      "processKey": "cast",
+      "skillKey": "annie_w",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "主技能已核对的施法时间。",
+          "detail": {
+            "delayValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cast_time_ms"
+            }
+          },
+          "name": "施法延迟",
+          "sortOrder": 10,
+          "stepKey": "cast_time",
+          "stepType": "DELAY"
+        }
+      ],
+      "updatedAt": "2026-09-07T16:37:45.631819Z"
+    },
+    "/skills/annie_w/internal-states": [],
+    "/skills/annie_w/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "焚烧实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:37:46.050718Z"
+      }
+    ],
+    "/skills/annie_w/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "damage",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "spell_hit"
+          },
+          "name": "执行命中伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "annie_w",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "焚烧实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    },
+    "/skills/brand_w": {
+      "createdAt": "2026-09-06T18:17:56.763213Z",
+      "description": "在短暂的延迟后，布兰德会在目标区域创造一根烈焰之柱，来对范围内的敌方单位造成魔法伤害。带有【烈焰焚身】效果的单位会额外受到25%伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "布兰德·烈焰之柱",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "brand_w",
+      "sortOrder": 2,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:17:56.763213Z"
+    },
+    "/skills/brand_w/parameters": [
+      {
+        "createdAt": "2026-09-07T16:38:05.620317Z",
+        "description": "官方16.17.1冷却与当前主技能 cooldownTime[1..等级上限]一致；仅基础冷却，不含急速和重置。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 10000,
+          "2": 9500,
+          "3": 9000,
+          "4": 8500,
+          "5": 8000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "brand_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:38:05.620317Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:38:05.957967Z",
+        "description": "官方16.17.1 cost与主技能mana索引0..等级上限-1一致。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 70,
+          "3": 80,
+          "4": 90,
+          "5": 100
+        },
+        "name": "法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "brand_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T16:38:05.957967Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:38:06.335866Z",
+        "description": "当前主技能 spellCastTime；仅施法延迟，不代替实际命中。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "brand_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T16:38:06.335866Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:38:06.753326Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 75,
+          "2": 120,
+          "3": 165,
+          "4": 210,
+          "5": 255
+        },
+        "name": "基础伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "brand_w",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-07T16:38:06.753326Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:38:07.095054Z",
+        "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+        "fixedValue": 0.7,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法术强度倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "brand_w",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-07T16:38:07.095054Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T16:38:07.493149Z",
+        "description": "当前EmpoweredDamage=TotalDamage×1.25，官方说明额外25%。",
+        "fixedValue": 1.25,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "已灼烧目标伤害倍率",
+        "parameterKey": "empowered_multiplier",
+        "skillKey": "brand_w",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-07T16:38:07.493149Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    ],
+    "/skills/brand_w/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T16:38:05.620317Z",
+      "description": "官方16.17.1冷却与当前主技能 cooldownTime[1..等级上限]一致；仅基础冷却，不含急速和重置。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 10000,
+        "2": 9500,
+        "3": 9000,
+        "4": 8500,
+        "5": 8000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "brand_w",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T16:38:05.620317Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/brand_w/parameters/mana_cost": {
+      "createdAt": "2026-09-07T16:38:05.957967Z",
+      "description": "官方16.17.1 cost与主技能mana索引0..等级上限-1一致。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 60,
+        "2": 70,
+        "3": 80,
+        "4": 90,
+        "5": 100
+      },
+      "name": "法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "brand_w",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-07T16:38:05.957967Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/brand_w/parameters/cast_time_ms": {
+      "createdAt": "2026-09-07T16:38:06.335866Z",
+      "description": "当前主技能 spellCastTime；仅施法延迟，不代替实际命中。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "brand_w",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-07T16:38:06.335866Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/brand_w/parameters/base_damage": {
+      "createdAt": "2026-09-07T16:38:06.753326Z",
+      "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 75,
+        "2": 120,
+        "3": 165,
+        "4": 210,
+        "5": 255
+      },
+      "name": "基础伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "brand_w",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-07T16:38:06.753326Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/brand_w/parameters/ap_ratio": {
+      "createdAt": "2026-09-07T16:38:07.095054Z",
+      "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+      "fixedValue": 0.7,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法术强度倍率",
+      "parameterKey": "ap_ratio",
+      "skillKey": "brand_w",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-07T16:38:07.095054Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/brand_w/parameters/empowered_multiplier": {
+      "createdAt": "2026-09-07T16:38:07.493149Z",
+      "description": "当前EmpoweredDamage=TotalDamage×1.25，官方说明额外25%。",
+      "fixedValue": 1.25,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "已灼烧目标伤害倍率",
+      "parameterKey": "empowered_multiplier",
+      "skillKey": "brand_w",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-07T16:38:07.493149Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/brand_w/formulas": [
+      {
+        "createdAt": "2026-09-07T16:38:07.852376Z",
+        "description": "当前根技能 TotalDamage：基础伤害+来源总法术强度×倍率。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "烈焰之柱伤害",
+        "skillKey": "brand_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:38:07.852376Z"
+      },
+      {
+        "createdAt": "2026-09-07T16:38:08.302384Z",
+        "description": "替换普通伤害，不是在普通伤害外再加整份强化伤害。",
+        "formulaKey": "empowered_damage",
+        "gameId": "lol",
+        "name": "已灼烧目标烈焰之柱伤害",
+        "skillKey": "brand_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T16:38:08.302384Z"
+      }
+    ],
+    "/skills/brand_w/formulas/damage": {
+      "createdAt": "2026-09-07T16:38:07.852376Z",
+      "description": "当前根技能 TotalDamage：基础伤害+来源总法术强度×倍率。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "烈焰之柱伤害",
+      "skillKey": "brand_w",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T16:38:07.852376Z"
+    },
+    "/skills/brand_w/formulas/empowered_damage": {
+      "createdAt": "2026-09-07T16:38:08.302384Z",
+      "description": "替换普通伤害，不是在普通伤害外再加整份强化伤害。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "attributeKey": "ability_power",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "empowered_multiplier"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "formulaKey": "empowered_damage",
+      "gameId": "lol",
+      "name": "已灼烧目标烈焰之柱伤害",
+      "skillKey": "brand_w",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-07T16:38:08.302384Z"
+    },
+    "/skills/brand_w/effects": [
+      {
+        "createdAt": "2026-09-07T16:38:08.93939Z",
+        "description": "仅施放法力消耗；具体过程单独绑定。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "brand_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:38:08.93939Z"
+      },
+      {
+        "createdAt": "2026-09-07T16:38:09.3779Z",
+        "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+        "effectKey": "normal_pillar",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "未灼烧烈焰之柱伤害",
+        "resultCount": 1,
+        "skillKey": "brand_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T16:38:09.3779Z"
+      },
+      {
+        "createdAt": "2026-09-07T16:38:09.785927Z",
+        "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+        "effectKey": "empowered_pillar",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "已灼烧烈焰之柱伤害",
+        "resultCount": 1,
+        "skillKey": "brand_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T16:38:09.785927Z"
+      }
+    ],
+    "/skills/brand_w/effects/mana_cost": {
+      "createdAt": "2026-09-07T16:38:08.93939Z",
+      "description": "仅施放法力消耗；具体过程单独绑定。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "brand_w",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T16:38:08.93939Z"
+    },
+    "/skills/brand_w/effects/normal_pillar": {
+      "createdAt": "2026-09-07T16:38:09.3779Z",
+      "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+      "effectKey": "normal_pillar",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "未灼烧烈焰之柱伤害",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": []
+          },
+          "lifecycleBehavior": null,
+          "name": "未灼烧烈焰之柱伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "RESULT",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "brand_w",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-07T16:38:09.3779Z"
+    },
+    "/skills/brand_w/effects/empowered_pillar": {
+      "createdAt": "2026-09-07T16:38:09.785927Z",
+      "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+      "effectKey": "empowered_pillar",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "已灼烧烈焰之柱伤害",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": []
+          },
+          "lifecycleBehavior": null,
+          "name": "已灼烧烈焰之柱伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "RESULT",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "empowered_damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "brand_w",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-07T16:38:09.785927Z"
+    },
+    "/skills/brand_w/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-07T16:38:10.195962Z",
+        "description": "只绑定法力、基础冷却及施法延迟；不在过程结束时自动造成伤害。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "施放烈焰之柱",
+        "processKey": "cast",
+        "skillKey": "brand_w",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-07T16:38:10.195962Z"
+      }
+    ],
+    "/skills/brand_w/processes/cast": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-07T16:38:10.195962Z",
+      "description": "只绑定法力、基础冷却及施法延迟；不在过程结束时自动造成伤害。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "施放烈焰之柱",
+      "processKey": "cast",
+      "skillKey": "brand_w",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "主技能已核对的施法时间。",
+          "detail": {
+            "delayValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cast_time_ms"
+            }
+          },
+          "name": "施法延迟",
+          "sortOrder": 10,
+          "stepKey": "cast_time",
+          "stepType": "DELAY"
+        }
+      ],
+      "updatedAt": "2026-09-07T16:38:10.195962Z"
+    },
+    "/skills/brand_w/internal-states": [],
+    "/skills/brand_w/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "接收brand_w主动使用并启动已有cast过程，只处理已保存的法力消耗、基础冷却和施法延迟；火柱生成、实际命中、灼烧条件与强化伤害继续暂缓。管理保存不证明宿主已生产该事件。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "主动使用启动烈焰之柱施法过程",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-13T12:19:30.420541Z"
+      }
+    ],
+    "/skills/brand_w/trigger-rules/on_used": {
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "actionType": "START_PROCESS",
+          "detail": {
+            "processKey": "cast"
+          },
+          "name": "启动烈焰之柱施法过程",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "接收brand_w主动使用并启动已有cast过程，只处理已保存的法力消耗、基础冷却和施法延迟；火柱生成、实际命中、灼烧条件与强化伤害继续暂缓。管理保存不证明宿主已生产该事件。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "brand_w",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "主动使用启动烈焰之柱施法过程",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used",
+      "sortOrder": 10
+    },
+    "/skills/brand_e": {
+      "createdAt": "2026-09-06T18:17:57.053751Z",
+      "description": "布兰德在目标身上引发一阵强力的爆裂至附近的敌人处，造成魔法伤害。如果目标带有【烈焰焚身】效果，那么【E烈火燃烧】的扩散距离翻倍。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "布兰德·烈火燃烧",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "brand_e",
+      "sortOrder": 3,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:17:57.053751Z"
+    },
+    "/skills/brand_e/parameters": [
+      {
+        "createdAt": "2026-09-07T16:38:10.657215Z",
+        "description": "官方16.17.1冷却与当前主技能 cooldownTime[1..等级上限]一致；仅基础冷却，不含急速和重置。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 13000,
+          "2": 12000,
+          "3": 11000,
+          "4": 10000,
+          "5": 9000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "brand_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:38:10.657215Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:38:10.998635Z",
+        "description": "当前主技能 spellCastTime；仅施法延迟，不代替实际命中。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "brand_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T16:38:10.998635Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-10T15:03:01.258897Z",
+        "description": "官方 DDragon 16.17.1 为全等级 90；Riot 26.13 官方补丁说明将旧值 70/75/80/85/90 调整为 90。客户端 16.17 的 70/75/80/85/90 仅作为旧版本来源差异记录。",
+        "fixedValue": 90,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "brand_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-10T15:03:01.258897Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:38:11.385058Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 55,
+          "2": 80,
+          "3": 105,
+          "4": 130,
+          "5": 155
+        },
+        "name": "基础伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "brand_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T16:38:11.385058Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:38:11.771345Z",
+        "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+        "fixedValue": 0.6,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法术强度倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "brand_e",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-07T16:38:11.771345Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    ],
+    "/skills/brand_e/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T16:38:10.657215Z",
+      "description": "官方16.17.1冷却与当前主技能 cooldownTime[1..等级上限]一致；仅基础冷却，不含急速和重置。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 13000,
+        "2": 12000,
+        "3": 11000,
+        "4": 10000,
+        "5": 9000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "brand_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T16:38:10.657215Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/brand_e/parameters/cast_time_ms": {
+      "createdAt": "2026-09-07T16:38:10.998635Z",
+      "description": "当前主技能 spellCastTime；仅施法延迟，不代替实际命中。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "brand_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-07T16:38:10.998635Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/brand_e/parameters/mana_cost": {
+      "createdAt": "2026-09-10T15:03:01.258897Z",
+      "description": "官方 DDragon 16.17.1 为全等级 90；Riot 26.13 官方补丁说明将旧值 70/75/80/85/90 调整为 90。客户端 16.17 的 70/75/80/85/90 仅作为旧版本来源差异记录。",
+      "fixedValue": 90,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "brand_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-10T15:03:01.258897Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/brand_e/parameters/base_damage": {
+      "createdAt": "2026-09-07T16:38:11.385058Z",
+      "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 55,
+        "2": 80,
+        "3": 105,
+        "4": 130,
+        "5": 155
+      },
+      "name": "基础伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "brand_e",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-07T16:38:11.385058Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/brand_e/parameters/ap_ratio": {
+      "createdAt": "2026-09-07T16:38:11.771345Z",
+      "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+      "fixedValue": 0.6,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法术强度倍率",
+      "parameterKey": "ap_ratio",
+      "skillKey": "brand_e",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-07T16:38:11.771345Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/brand_e/formulas": [
+      {
+        "createdAt": "2026-09-07T16:38:12.203978Z",
+        "description": "当前根技能 EDamageCalc：基础伤害+来源总法术强度×倍率。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "烈火燃烧伤害",
+        "skillKey": "brand_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:38:12.203978Z"
+      }
+    ],
+    "/skills/brand_e/formulas/damage": {
+      "createdAt": "2026-09-07T16:38:12.203978Z",
+      "description": "当前根技能 EDamageCalc：基础伤害+来源总法术强度×倍率。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "烈火燃烧伤害",
+      "skillKey": "brand_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T16:38:12.203978Z"
+    },
+    "/skills/brand_e/effects": [
+      {
+        "createdAt": "2026-09-07T16:38:12.568002Z",
+        "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+        "effectKey": "conflagration_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "烈火燃烧直接伤害",
+        "resultCount": 1,
+        "skillKey": "brand_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:38:12.568002Z"
+      }
+    ],
+    "/skills/brand_e/effects/conflagration_hit": {
+      "createdAt": "2026-09-07T16:38:12.568002Z",
+      "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+      "effectKey": "conflagration_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "烈火燃烧直接伤害",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": []
+          },
+          "lifecycleBehavior": null,
+          "name": "烈火燃烧直接伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "RESULT",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "brand_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T16:38:12.568002Z"
+    },
+    "/skills/brand_e/processes": [],
+    "/skills/brand_e/internal-states": [],
+    "/skills/brand_e/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "烈火燃烧实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:38:12.964143Z"
+      }
+    ],
+    "/skills/brand_e/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "damage",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "conflagration_hit"
+          },
+          "name": "执行命中伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "brand_e",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "烈火燃烧实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    },
+    "/skills/malphite_q": {
+      "createdAt": "2026-09-06T18:19:18.301954Z",
+      "description": "墨菲特发出一块大地碎片穿过他敌人处的地面，在碰撞时造成伤害并且偷取移动速度3秒。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "墨菲特·地震碎片",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "malphite_q",
+      "sortOrder": 1,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:19:18.301954Z"
+    },
+    "/skills/malphite_q/parameters": [
+      {
+        "createdAt": "2026-09-07T16:36:57.104834Z",
+        "description": "官方16.17.1冷却与当前主技能 cooldownTime[1..等级上限]一致；仅基础冷却，不含急速和重置。",
+        "fixedValue": 8000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "malphite_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:36:57.104834Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:36:57.472241Z",
+        "description": "官方16.17.1 cost与主技能mana索引0..等级上限-1一致。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 75,
+          "3": 80,
+          "4": 85,
+          "5": 90
+        },
+        "name": "法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "malphite_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T16:36:57.472241Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:36:57.882953Z",
+        "description": "当前主技能 spellCastTime；仅施法延迟，不代替实际命中。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "malphite_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T16:36:57.882953Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:36:58.258924Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 120,
+          "3": 170,
+          "4": 220,
+          "5": 270
+        },
+        "name": "基础伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "malphite_q",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-07T16:36:58.258924Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:36:58.617557Z",
+        "description": "客户端 QDamageCalc.mFormulaParts[1] 默认法术强度系数；按当前浮点设计值归一。",
+        "fixedValue": 0.6,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法术强度倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "malphite_q",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-07T16:36:58.617557Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T16:36:59.037504Z",
+        "description": "客户端当前根绑定 DataValues.SpeedSteal 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.2,
+          "2": 0.25,
+          "3": 0.3,
+          "4": 0.35,
+          "5": 0.4
+        },
+        "name": "移动速度窃取比例",
+        "parameterKey": "slow_ratio",
+        "skillKey": "malphite_q",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-07T16:36:59.037504Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T16:36:59.40449Z",
+        "description": "客户端当前根绑定 DataValues.SlowDuration 取索引1至5。",
+        "fixedValue": 3000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "移动速度窃取持续（毫秒）",
+        "parameterKey": "slow_duration_ms",
+        "skillKey": "malphite_q",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-07T16:36:59.40449Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/malphite_q/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T16:36:57.104834Z",
+      "description": "官方16.17.1冷却与当前主技能 cooldownTime[1..等级上限]一致；仅基础冷却，不含急速和重置。",
+      "fixedValue": 8000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "malphite_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T16:36:57.104834Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/malphite_q/parameters/mana_cost": {
+      "createdAt": "2026-09-07T16:36:57.472241Z",
+      "description": "官方16.17.1 cost与主技能mana索引0..等级上限-1一致。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 70,
+        "2": 75,
+        "3": 80,
+        "4": 85,
+        "5": 90
+      },
+      "name": "法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "malphite_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-07T16:36:57.472241Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/malphite_q/parameters/cast_time_ms": {
+      "createdAt": "2026-09-07T16:36:57.882953Z",
+      "description": "当前主技能 spellCastTime；仅施法延迟，不代替实际命中。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "malphite_q",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-07T16:36:57.882953Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/malphite_q/parameters/base_damage": {
+      "createdAt": "2026-09-07T16:36:58.258924Z",
+      "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 70,
+        "2": 120,
+        "3": 170,
+        "4": 220,
+        "5": 270
+      },
+      "name": "基础伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "malphite_q",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-07T16:36:58.258924Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/malphite_q/parameters/ap_ratio": {
+      "createdAt": "2026-09-07T16:36:58.617557Z",
+      "description": "客户端 QDamageCalc.mFormulaParts[1] 默认法术强度系数；按当前浮点设计值归一。",
+      "fixedValue": 0.6,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法术强度倍率",
+      "parameterKey": "ap_ratio",
+      "skillKey": "malphite_q",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-07T16:36:58.617557Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/malphite_q/parameters/slow_ratio": {
+      "createdAt": "2026-09-07T16:36:59.037504Z",
+      "description": "客户端当前根绑定 DataValues.SpeedSteal 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 0.2,
+        "2": 0.25,
+        "3": 0.3,
+        "4": 0.35,
+        "5": 0.4
+      },
+      "name": "移动速度窃取比例",
+      "parameterKey": "slow_ratio",
+      "skillKey": "malphite_q",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-07T16:36:59.037504Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "DECIMAL"
+    },
+    "/skills/malphite_q/parameters/slow_duration_ms": {
+      "createdAt": "2026-09-07T16:36:59.40449Z",
+      "description": "客户端当前根绑定 DataValues.SlowDuration 取索引1至5。",
+      "fixedValue": 3000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "移动速度窃取持续（毫秒）",
+      "parameterKey": "slow_duration_ms",
+      "skillKey": "malphite_q",
+      "sortOrder": 70,
+      "updatedAt": "2026-09-07T16:36:59.40449Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/malphite_q/formulas": [
+      {
+        "createdAt": "2026-09-07T16:36:59.770706Z",
+        "description": "当前根技能 QDamageCalc：基础伤害+来源总法术强度×倍率。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "地震碎片伤害",
+        "skillKey": "malphite_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:36:59.770706Z"
+      }
+    ],
+    "/skills/malphite_q/formulas/damage": {
+      "createdAt": "2026-09-07T16:36:59.770706Z",
+      "description": "当前根技能 QDamageCalc：基础伤害+来源总法术强度×倍率。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "地震碎片伤害",
+      "skillKey": "malphite_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T16:36:59.770706Z"
+    },
+    "/skills/malphite_q/effects": [
+      {
+        "createdAt": "2026-09-07T16:37:00.166994Z",
+        "description": "仅施放法力消耗；具体过程单独绑定。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "malphite_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:37:00.166994Z"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:00.512024Z",
+        "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+        "effectKey": "shard_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "碎片命中魔法伤害",
+        "resultCount": 1,
+        "skillKey": "malphite_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T16:37:00.512024Z"
+      }
+    ],
+    "/skills/malphite_q/effects/mana_cost": {
+      "createdAt": "2026-09-07T16:37:00.166994Z",
+      "description": "仅施放法力消耗；具体过程单独绑定。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "malphite_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T16:37:00.166994Z"
+    },
+    "/skills/malphite_q/effects/shard_hit": {
+      "createdAt": "2026-09-07T16:37:00.512024Z",
+      "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+      "effectKey": "shard_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "碎片命中魔法伤害",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": []
+          },
+          "lifecycleBehavior": null,
+          "name": "碎片命中魔法伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "RESULT",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "malphite_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-07T16:37:00.512024Z"
+    },
+    "/skills/malphite_q/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-07T16:37:00.948433Z",
+        "description": "只绑定法力、基础冷却及施法延迟；不在过程结束时自动造成伤害。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "施放地震碎片",
+        "processKey": "cast",
+        "skillKey": "malphite_q",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-07T16:37:00.948433Z"
+      }
+    ],
+    "/skills/malphite_q/processes/cast": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-07T16:37:00.948433Z",
+      "description": "只绑定法力、基础冷却及施法延迟；不在过程结束时自动造成伤害。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "施放地震碎片",
+      "processKey": "cast",
+      "skillKey": "malphite_q",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "主技能已核对的施法时间。",
+          "detail": {
+            "delayValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cast_time_ms"
+            }
+          },
+          "name": "施法延迟",
+          "sortOrder": 10,
+          "stepKey": "cast_time",
+          "stepType": "DELAY"
+        }
+      ],
+      "updatedAt": "2026-09-07T16:37:00.948433Z"
+    },
+    "/skills/malphite_q/internal-states": [],
+    "/skills/malphite_q/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "地震碎片实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:37:01.281375Z"
+      }
+    ],
+    "/skills/malphite_q/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "damage",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "shard_hit"
+          },
+          "name": "执行命中伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "malphite_q",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "地震碎片实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    },
+    "/skills/malphite_e": {
+      "createdAt": "2026-09-06T18:19:18.788954Z",
+      "description": "墨菲特锤击地面，放射出冲击波对目标造成基于他护甲值的魔法伤害，同时暂时降低目标攻击速度。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "墨菲特·大地震颤",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "malphite_e",
+      "sortOrder": 3,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:19:18.788954Z"
+    },
+    "/skills/malphite_e/parameters": [
+      {
+        "createdAt": "2026-09-07T16:37:08.111862Z",
+        "description": "官方16.17.1冷却与当前主技能 cooldownTime[1..等级上限]一致；仅基础冷却，不含急速和重置。",
+        "fixedValue": 7000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "malphite_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:37:08.111862Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:08.690047Z",
+        "description": "官方16.17.1 cost与主技能mana索引0..等级上限-1一致。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 50,
+          "2": 55,
+          "3": 60,
+          "4": 65,
+          "5": 70
+        },
+        "name": "法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "malphite_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T16:37:08.690047Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:09.200833Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 95,
+          "3": 130,
+          "4": 165,
+          "5": 200
+        },
+        "name": "基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "malphite_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T16:37:09.200833Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:09.557953Z",
+        "description": "客户端 EDamageCalc.mFormulaParts[2] 默认法术强度系数；按当前浮点设计值归一。",
+        "fixedValue": 0.6,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法术强度倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "malphite_e",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-07T16:37:09.557953Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:09.91552Z",
+        "description": "EDamageCalc mStat=1 总护甲系数0.4。",
+        "fixedValue": 0.4,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "总护甲倍率",
+        "parameterKey": "armor_ratio",
+        "skillKey": "malphite_e",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-07T16:37:09.91552Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:10.301176Z",
+        "description": "客户端当前根绑定 DataValues.ASReduction 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.3,
+          "2": 0.35,
+          "3": 0.4,
+          "4": 0.45,
+          "5": 0.5
+        },
+        "name": "攻击速度降低比例",
+        "parameterKey": "attack_speed_reduction_ratio",
+        "skillKey": "malphite_e",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-07T16:37:10.301176Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:10.70377Z",
+        "description": "客户端当前根绑定 DataValues.Duration 取索引1至5。",
+        "fixedValue": 3000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "攻速降低持续（毫秒）",
+        "parameterKey": "reduction_duration_ms",
+        "skillKey": "malphite_e",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-07T16:37:10.70377Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/malphite_e/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T16:37:08.111862Z",
+      "description": "官方16.17.1冷却与当前主技能 cooldownTime[1..等级上限]一致；仅基础冷却，不含急速和重置。",
+      "fixedValue": 7000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "malphite_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T16:37:08.111862Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/malphite_e/parameters/mana_cost": {
+      "createdAt": "2026-09-07T16:37:08.690047Z",
+      "description": "官方16.17.1 cost与主技能mana索引0..等级上限-1一致。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 50,
+        "2": 55,
+        "3": 60,
+        "4": 65,
+        "5": 70
+      },
+      "name": "法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "malphite_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-07T16:37:08.690047Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/malphite_e/parameters/base_damage": {
+      "createdAt": "2026-09-07T16:37:09.200833Z",
+      "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 60,
+        "2": 95,
+        "3": 130,
+        "4": 165,
+        "5": 200
+      },
+      "name": "基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "malphite_e",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-07T16:37:09.200833Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/malphite_e/parameters/ap_ratio": {
+      "createdAt": "2026-09-07T16:37:09.557953Z",
+      "description": "客户端 EDamageCalc.mFormulaParts[2] 默认法术强度系数；按当前浮点设计值归一。",
+      "fixedValue": 0.6,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法术强度倍率",
+      "parameterKey": "ap_ratio",
+      "skillKey": "malphite_e",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-07T16:37:09.557953Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/malphite_e/parameters/armor_ratio": {
+      "createdAt": "2026-09-07T16:37:09.91552Z",
+      "description": "EDamageCalc mStat=1 总护甲系数0.4。",
+      "fixedValue": 0.4,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "总护甲倍率",
+      "parameterKey": "armor_ratio",
+      "skillKey": "malphite_e",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-07T16:37:09.91552Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/malphite_e/parameters/attack_speed_reduction_ratio": {
+      "createdAt": "2026-09-07T16:37:10.301176Z",
+      "description": "客户端当前根绑定 DataValues.ASReduction 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 0.3,
+        "2": 0.35,
+        "3": 0.4,
+        "4": 0.45,
+        "5": 0.5
+      },
+      "name": "攻击速度降低比例",
+      "parameterKey": "attack_speed_reduction_ratio",
+      "skillKey": "malphite_e",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-07T16:37:10.301176Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "DECIMAL"
+    },
+    "/skills/malphite_e/parameters/reduction_duration_ms": {
+      "createdAt": "2026-09-07T16:37:10.70377Z",
+      "description": "客户端当前根绑定 DataValues.Duration 取索引1至5。",
+      "fixedValue": 3000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "攻速降低持续（毫秒）",
+      "parameterKey": "reduction_duration_ms",
+      "skillKey": "malphite_e",
+      "sortOrder": 70,
+      "updatedAt": "2026-09-07T16:37:10.70377Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/malphite_e/formulas": [
+      {
+        "createdAt": "2026-09-07T16:37:11.080824Z",
+        "description": "来源总护甲×0.4 +总法强×0.6 +基础。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "大地震颤魔法伤害",
+        "skillKey": "malphite_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:37:11.080824Z"
+      }
+    ],
+    "/skills/malphite_e/formulas/damage": {
+      "createdAt": "2026-09-07T16:37:11.080824Z",
+      "description": "来源总护甲×0.4 +总法强×0.6 +基础。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "attributeKey": "ability_power",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "armor_ratio"
+              },
+              {
+                "attributeKey": "armor",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "大地震颤魔法伤害",
+      "skillKey": "malphite_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T16:37:11.080824Z"
+    },
+    "/skills/malphite_e/effects": [
+      {
+        "createdAt": "2026-09-07T16:37:11.446128Z",
+        "description": "仅施放法力消耗；具体过程单独绑定。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "malphite_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:37:11.446128Z"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:11.906964Z",
+        "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+        "effectKey": "slam_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "震地命中",
+        "resultCount": 1,
+        "skillKey": "malphite_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T16:37:11.906964Z"
+      }
+    ],
+    "/skills/malphite_e/effects/mana_cost": {
+      "createdAt": "2026-09-07T16:37:11.446128Z",
+      "description": "仅施放法力消耗；具体过程单独绑定。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "malphite_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T16:37:11.446128Z"
+    },
+    "/skills/malphite_e/effects/slam_hit": {
+      "createdAt": "2026-09-07T16:37:11.906964Z",
+      "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+      "effectKey": "slam_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "震地命中",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": []
+          },
+          "lifecycleBehavior": null,
+          "name": "震地命中",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "RESULT",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "malphite_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-07T16:37:11.906964Z"
+    },
+    "/skills/malphite_e/processes": [],
+    "/skills/malphite_e/internal-states": [],
+    "/skills/malphite_e/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "大地震颤实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:37:12.315023Z"
+      }
+    ],
+    "/skills/malphite_e/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "damage",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "slam_hit"
+          },
+          "name": "执行命中伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "malphite_e",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "大地震颤实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    },
+    "/skills/malphite_r": {
+      "createdAt": "2026-09-06T18:19:19.075519Z",
+      "description": "墨菲特自身高速冲向一个区域，对区域内的敌人们造成伤害和击飞效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 3,
+      "name": "墨菲特·势不可挡",
+      "skillCategoryKeys": [],
+      "skillKey": "malphite_r",
+      "sortOrder": 4,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:19:19.075519Z"
+    },
+    "/skills/malphite_r/parameters": [
+      {
+        "createdAt": "2026-09-07T16:37:13.019433Z",
+        "description": "官方16.17.1冷却与当前主技能 cooldownTime[1..等级上限]一致；仅基础冷却，不含急速和重置。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 130000,
+          "2": 115000,
+          "3": 100000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "malphite_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:37:13.019433Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:13.361701Z",
+        "description": "官方16.17.1 cost与主技能mana索引0..等级上限-1一致。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "malphite_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T16:37:13.361701Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:13.720488Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至3。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 200,
+          "2": 300,
+          "3": 400
+        },
+        "name": "基础伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "malphite_r",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T16:37:13.720488Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:14.061814Z",
+        "description": "客户端 TotalDamage.mFormulaParts[1] 默认法术强度系数；按当前浮点设计值归一。",
+        "fixedValue": 0.9,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法术强度倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "malphite_r",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-07T16:37:14.061814Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:14.450092Z",
+        "description": "客户端当前根绑定 DataValues.KnockupDuration 取索引1至3。",
+        "fixedValue": 1500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "击飞持续（毫秒）",
+        "parameterKey": "knockup_duration_ms",
+        "skillKey": "malphite_r",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-07T16:37:14.450092Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/malphite_r/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T16:37:13.019433Z",
+      "description": "官方16.17.1冷却与当前主技能 cooldownTime[1..等级上限]一致；仅基础冷却，不含急速和重置。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 130000,
+        "2": 115000,
+        "3": 100000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "malphite_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T16:37:13.019433Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/malphite_r/parameters/mana_cost": {
+      "createdAt": "2026-09-07T16:37:13.361701Z",
+      "description": "官方16.17.1 cost与主技能mana索引0..等级上限-1一致。",
+      "fixedValue": 100,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "malphite_r",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-07T16:37:13.361701Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/malphite_r/parameters/base_damage": {
+      "createdAt": "2026-09-07T16:37:13.720488Z",
+      "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至3。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 200,
+        "2": 300,
+        "3": 400
+      },
+      "name": "基础伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "malphite_r",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-07T16:37:13.720488Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/malphite_r/parameters/ap_ratio": {
+      "createdAt": "2026-09-07T16:37:14.061814Z",
+      "description": "客户端 TotalDamage.mFormulaParts[1] 默认法术强度系数；按当前浮点设计值归一。",
+      "fixedValue": 0.9,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法术强度倍率",
+      "parameterKey": "ap_ratio",
+      "skillKey": "malphite_r",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-07T16:37:14.061814Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/malphite_r/parameters/knockup_duration_ms": {
+      "createdAt": "2026-09-07T16:37:14.450092Z",
+      "description": "客户端当前根绑定 DataValues.KnockupDuration 取索引1至3。",
+      "fixedValue": 1500,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "击飞持续（毫秒）",
+      "parameterKey": "knockup_duration_ms",
+      "skillKey": "malphite_r",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-07T16:37:14.450092Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/malphite_r/formulas": [
+      {
+        "createdAt": "2026-09-07T16:37:14.816752Z",
+        "description": "当前根技能 TotalDamage：基础伤害+来源总法术强度×倍率。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "势不可挡伤害",
+        "skillKey": "malphite_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:37:14.816752Z"
+      }
+    ],
+    "/skills/malphite_r/formulas/damage": {
+      "createdAt": "2026-09-07T16:37:14.816752Z",
+      "description": "当前根技能 TotalDamage：基础伤害+来源总法术强度×倍率。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "势不可挡伤害",
+      "skillKey": "malphite_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T16:37:14.816752Z"
+    },
+    "/skills/malphite_r/effects": [
+      {
+        "createdAt": "2026-09-07T16:37:15.205781Z",
+        "description": "仅施放法力消耗；具体过程单独绑定。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "malphite_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:37:15.205781Z"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:15.600204Z",
+        "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+        "effectKey": "impact_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "冲撞命中魔法伤害",
+        "resultCount": 1,
+        "skillKey": "malphite_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T16:37:15.600204Z"
+      }
+    ],
+    "/skills/malphite_r/effects/mana_cost": {
+      "createdAt": "2026-09-07T16:37:15.205781Z",
+      "description": "仅施放法力消耗；具体过程单独绑定。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "malphite_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T16:37:15.205781Z"
+    },
+    "/skills/malphite_r/effects/impact_hit": {
+      "createdAt": "2026-09-07T16:37:15.600204Z",
+      "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+      "effectKey": "impact_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "冲撞命中魔法伤害",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": []
+          },
+          "lifecycleBehavior": null,
+          "name": "冲撞命中魔法伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "RESULT",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "malphite_r",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-07T16:37:15.600204Z"
+    },
+    "/skills/malphite_r/processes": [],
+    "/skills/malphite_r/internal-states": [],
+    "/skills/malphite_r/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "势不可挡实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:37:15.965633Z"
+      }
+    ],
+    "/skills/malphite_r/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "damage",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "impact_hit"
+          },
+          "name": "执行命中伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "malphite_r",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "势不可挡实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    },
+    "/skills/diana_q": {
+      "createdAt": "2026-09-06T18:18:08.734441Z",
+      "description": "释放一道月能光束，对弧形范围内的敌人造成伤害。<br><br>会对命中的敌人施加月光效果，如果中了月光效果的敌人不在潜行状态下，就会暴露在己方视野中3秒。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "黛安娜·新月打击",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "diana_q",
+      "sortOrder": 1,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:18:08.734441Z"
+    },
+    "/skills/diana_q/parameters": [
+      {
+        "createdAt": "2026-09-07T18:53:33.398833Z",
+        "description": "当前spellCastTime与已有mCastTime一致；不代替命中。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "diana_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T18:53:33.398833Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:53:33.898105Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 105,
+          "3": 140,
+          "4": 175,
+          "5": 210
+        },
+        "name": "基础伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "diana_q",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-07T18:53:33.898105Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:53:34.558397Z",
+        "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+        "fixedValue": 0.7,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法强倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "diana_q",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-07T18:53:34.558397Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T18:53:35.25136Z",
+        "description": "客户端当前根绑定 DataValues.MoonlightDuration 取索引1至5。",
+        "fixedValue": 3000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "月光标记持续（毫秒）",
+        "parameterKey": "moonlight_duration_ms",
+        "skillKey": "diana_q",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-07T18:53:35.25136Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:00:18.357543Z",
+        "description": "DDragon16.17.1 Diana.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 8000,
+          "2": 7500,
+          "3": 7000,
+          "4": 6500,
+          "5": 6000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "diana_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T16:00:18.357543Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:00:18.624568Z",
+        "description": "DDragon16.17.1 Diana.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 50,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "diana_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T16:00:18.624568Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/diana_q/parameters/cast_time_ms": {
+      "createdAt": "2026-09-07T18:53:33.398833Z",
+      "description": "当前spellCastTime与已有mCastTime一致；不代替命中。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "diana_q",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-07T18:53:33.398833Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/diana_q/parameters/base_damage": {
+      "createdAt": "2026-09-07T18:53:33.898105Z",
+      "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 70,
+        "2": 105,
+        "3": 140,
+        "4": 175,
+        "5": 210
+      },
+      "name": "基础伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "diana_q",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-07T18:53:33.898105Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/diana_q/parameters/ap_ratio": {
+      "createdAt": "2026-09-07T18:53:34.558397Z",
+      "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+      "fixedValue": 0.7,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法强倍率",
+      "parameterKey": "ap_ratio",
+      "skillKey": "diana_q",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-07T18:53:34.558397Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/diana_q/parameters/moonlight_duration_ms": {
+      "createdAt": "2026-09-07T18:53:35.25136Z",
+      "description": "客户端当前根绑定 DataValues.MoonlightDuration 取索引1至5。",
+      "fixedValue": 3000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "月光标记持续（毫秒）",
+      "parameterKey": "moonlight_duration_ms",
+      "skillKey": "diana_q",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-07T18:53:35.25136Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/diana_q/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T16:00:18.357543Z",
+      "description": "DDragon16.17.1 Diana.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 8000,
+        "2": 7500,
+        "3": 7000,
+        "4": 6500,
+        "5": 6000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "diana_q",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T16:00:18.357543Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/diana_q/parameters/mana_cost": {
+      "createdAt": "2026-09-07T16:00:18.624568Z",
+      "description": "DDragon16.17.1 Diana.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 50,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "diana_q",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-07T16:00:18.624568Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/diana_q/formulas": [
+      {
+        "createdAt": "2026-09-07T18:53:35.815927Z",
+        "description": "当前根TotalDamage：基础伤害+法强倍率×总法强。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "新月打击基础伤害",
+        "skillKey": "diana_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:53:35.815927Z"
+      }
+    ],
+    "/skills/diana_q/formulas/damage": {
+      "createdAt": "2026-09-07T18:53:35.815927Z",
+      "description": "当前根TotalDamage：基础伤害+法强倍率×总法强。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "新月打击基础伤害",
+      "skillKey": "diana_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T18:53:35.815927Z"
+    },
+    "/skills/diana_q/effects": [
+      {
+        "createdAt": "2026-09-07T18:53:36.342966Z",
+        "description": "仅施放法力消耗；具体过程单独绑定。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "diana_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:53:36.342966Z"
+      },
+      {
+        "createdAt": "2026-09-07T18:53:36.94221Z",
+        "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+        "effectKey": "moon_arc_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "月能圆弧命中",
+        "resultCount": 1,
+        "skillKey": "diana_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T18:53:36.94221Z"
+      }
+    ],
+    "/skills/diana_q/effects/mana_cost": {
+      "createdAt": "2026-09-07T18:53:36.342966Z",
+      "description": "仅施放法力消耗；具体过程单独绑定。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "diana_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T18:53:36.342966Z"
+    },
+    "/skills/diana_q/effects/moon_arc_hit": {
+      "createdAt": "2026-09-07T18:53:36.94221Z",
+      "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+      "effectKey": "moon_arc_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "月能圆弧命中",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": []
+          },
+          "lifecycleBehavior": null,
+          "name": "月能圆弧命中",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "RESULT",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "diana_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-07T18:53:36.94221Z"
+    },
+    "/skills/diana_q/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-07T18:53:37.475665Z",
+        "description": "只绑定法力、基础冷却及施法延迟；不在过程结束时自动造成伤害。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "施放新月打击",
+        "processKey": "cast",
+        "skillKey": "diana_q",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-07T18:53:37.475665Z"
+      }
+    ],
+    "/skills/diana_q/processes/cast": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-07T18:53:37.475665Z",
+      "description": "只绑定法力、基础冷却及施法延迟；不在过程结束时自动造成伤害。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "施放新月打击",
+      "processKey": "cast",
+      "skillKey": "diana_q",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "主技能已核对的施法时间。",
+          "detail": {
+            "delayValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cast_time_ms"
+            }
+          },
+          "name": "施法延迟",
+          "sortOrder": 10,
+          "stepKey": "cast_time",
+          "stepType": "DELAY"
+        }
+      ],
+      "updatedAt": "2026-09-07T18:53:37.475665Z"
+    },
+    "/skills/diana_q/internal-states": [],
+    "/skills/diana_q/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "新月打击实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:53:38.050068Z"
+      }
+    ],
+    "/skills/diana_q/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "damage",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "moon_arc_hit"
+          },
+          "name": "执行命中伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "diana_q",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "新月打击实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    },
+    "/skills/veigar_r": {
+      "createdAt": "2026-09-06T18:20:55.654651Z",
+      "description": "引爆目标敌方英雄，造成大量魔法伤害，并基于目标已损失生命值提升伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 3,
+      "name": "维迦·能量爆裂",
+      "skillCategoryKeys": [],
+      "skillKey": "veigar_r",
+      "sortOrder": 4,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:20:55.654651Z"
+    },
+    "/skills/veigar_r/parameters": [
+      {
+        "createdAt": "2026-09-07T18:54:17.833231Z",
+        "description": "官方16.17.1与当前根对象cooldownTime索引1起一致。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 120000,
+          "2": 90000,
+          "3": 60000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "veigar_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:54:17.833231Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:54:18.459631Z",
+        "description": "官方cost与当前manaValues.values索引0起一致；明确0消耗保留。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "veigar_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T18:54:18.459631Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:54:19.069532Z",
+        "description": "当前spellCastTime与已有mCastTime一致；不代替命中。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "veigar_r",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T18:54:19.069532Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:54:19.691855Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至3。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 175,
+          "2": 250,
+          "3": 325
+        },
+        "name": "基础伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "veigar_r",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-07T18:54:19.691855Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:54:20.347409Z",
+        "description": "客户端当前根绑定 DataValues.APRatio 取索引1至3。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.65,
+          "2": 0.7,
+          "3": 0.75
+        },
+        "name": "法强倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "veigar_r",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-07T18:54:20.347409Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T18:54:20.894604Z",
+        "description": "客户端当前根绑定 DataValues.MaxExecuteMult 取索引1至3。",
+        "fixedValue": 2,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "低生命最大伤害倍率",
+        "parameterKey": "maximum_damage_multiplier",
+        "skillKey": "veigar_r",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-07T18:54:20.894604Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:54:21.516752Z",
+        "description": "当前官方/客户端文字为生命33%以下最大伤害，只记录说明阈值；未据此猜连续斜率或精确2/3断点。",
+        "fixedValue": 0.33,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "说明最大伤害当前生命比例",
+        "parameterKey": "maximum_damage_health_threshold",
+        "skillKey": "veigar_r",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-07T18:54:21.516752Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    ],
+    "/skills/veigar_r/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T18:54:17.833231Z",
+      "description": "官方16.17.1与当前根对象cooldownTime索引1起一致。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 120000,
+        "2": 90000,
+        "3": 60000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "veigar_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T18:54:17.833231Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/veigar_r/parameters/mana_cost": {
+      "createdAt": "2026-09-07T18:54:18.459631Z",
+      "description": "官方cost与当前manaValues.values索引0起一致；明确0消耗保留。",
+      "fixedValue": 100,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "veigar_r",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-07T18:54:18.459631Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/veigar_r/parameters/cast_time_ms": {
+      "createdAt": "2026-09-07T18:54:19.069532Z",
+      "description": "当前spellCastTime与已有mCastTime一致；不代替命中。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "veigar_r",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-07T18:54:19.069532Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/veigar_r/parameters/base_damage": {
+      "createdAt": "2026-09-07T18:54:19.691855Z",
+      "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至3。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 175,
+        "2": 250,
+        "3": 325
+      },
+      "name": "基础伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "veigar_r",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-07T18:54:19.691855Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/veigar_r/parameters/ap_ratio": {
+      "createdAt": "2026-09-07T18:54:20.347409Z",
+      "description": "客户端当前根绑定 DataValues.APRatio 取索引1至3。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 0.65,
+        "2": 0.7,
+        "3": 0.75
+      },
+      "name": "法强倍率",
+      "parameterKey": "ap_ratio",
+      "skillKey": "veigar_r",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-07T18:54:20.347409Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "DECIMAL"
+    },
+    "/skills/veigar_r/parameters/maximum_damage_multiplier": {
+      "createdAt": "2026-09-07T18:54:20.894604Z",
+      "description": "客户端当前根绑定 DataValues.MaxExecuteMult 取索引1至3。",
+      "fixedValue": 2,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "低生命最大伤害倍率",
+      "parameterKey": "maximum_damage_multiplier",
+      "skillKey": "veigar_r",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-07T18:54:20.894604Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/veigar_r/parameters/maximum_damage_health_threshold": {
+      "createdAt": "2026-09-07T18:54:21.516752Z",
+      "description": "当前官方/客户端文字为生命33%以下最大伤害，只记录说明阈值；未据此猜连续斜率或精确2/3断点。",
+      "fixedValue": 0.33,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "说明最大伤害当前生命比例",
+      "parameterKey": "maximum_damage_health_threshold",
+      "skillKey": "veigar_r",
+      "sortOrder": 70,
+      "updatedAt": "2026-09-07T18:54:21.516752Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/veigar_r/formulas": [
+      {
+        "createdAt": "2026-09-07T18:54:22.08032Z",
+        "description": "当前根MinDamage：基础伤害+法强倍率×总法强。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "能量爆裂基础伤害",
+        "skillKey": "veigar_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:54:22.08032Z"
+      },
+      {
+        "createdAt": "2026-09-07T18:54:22.621113Z",
+        "description": "MaxDamage完整修改树为MinDamage×2。",
+        "formulaKey": "max_damage",
+        "gameId": "lol",
+        "name": "能量爆裂最大伤害",
+        "skillKey": "veigar_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T18:54:22.621113Z"
+      }
+    ],
+    "/skills/veigar_r/formulas/damage": {
+      "createdAt": "2026-09-07T18:54:22.08032Z",
+      "description": "当前根MinDamage：基础伤害+法强倍率×总法强。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "能量爆裂基础伤害",
+      "skillKey": "veigar_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T18:54:22.08032Z"
+    },
+    "/skills/veigar_r/formulas/max_damage": {
+      "createdAt": "2026-09-07T18:54:22.621113Z",
+      "description": "MaxDamage完整修改树为MinDamage×2。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "attributeKey": "ability_power",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "maximum_damage_multiplier"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "formulaKey": "max_damage",
+      "gameId": "lol",
+      "name": "能量爆裂最大伤害",
+      "skillKey": "veigar_r",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-07T18:54:22.621113Z"
+    },
+    "/skills/veigar_r/effects": [
+      {
+        "createdAt": "2026-09-07T18:54:23.218385Z",
+        "description": "仅施放法力消耗；具体过程单独绑定。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "veigar_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:54:23.218385Z"
+      },
+      {
+        "createdAt": "2026-09-07T18:54:23.813661Z",
+        "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+        "effectKey": "minimum_burst",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "满生命基础魔法伤害组成",
+        "resultCount": 1,
+        "skillKey": "veigar_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T18:54:23.813661Z"
+      },
+      {
+        "createdAt": "2026-09-07T18:54:24.44278Z",
+        "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+        "effectKey": "maximum_burst",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "低生命上限魔法伤害组成",
+        "resultCount": 1,
+        "skillKey": "veigar_r",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T18:54:24.44278Z"
+      }
+    ],
+    "/skills/veigar_r/effects/mana_cost": {
+      "createdAt": "2026-09-07T18:54:23.218385Z",
+      "description": "仅施放法力消耗；具体过程单独绑定。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "veigar_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T18:54:23.218385Z"
+    },
+    "/skills/veigar_r/effects/minimum_burst": {
+      "createdAt": "2026-09-07T18:54:23.813661Z",
+      "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+      "effectKey": "minimum_burst",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "满生命基础魔法伤害组成",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": []
+          },
+          "lifecycleBehavior": null,
+          "name": "满生命基础魔法伤害组成",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "RESULT",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "veigar_r",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-07T18:54:23.813661Z"
+    },
+    "/skills/veigar_r/effects/maximum_burst": {
+      "createdAt": "2026-09-07T18:54:24.44278Z",
+      "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+      "effectKey": "maximum_burst",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "低生命上限魔法伤害组成",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": []
+          },
+          "lifecycleBehavior": null,
+          "name": "低生命上限魔法伤害组成",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "RESULT",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "max_damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "veigar_r",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-07T18:54:24.44278Z"
+    },
+    "/skills/veigar_r/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-07T18:54:25.062673Z",
+        "description": "只绑定法力、基础冷却及施法延迟；不在过程结束时自动造成伤害。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "施放能量爆裂",
+        "processKey": "cast",
+        "skillKey": "veigar_r",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-07T18:54:25.062673Z"
+      }
+    ],
+    "/skills/veigar_r/processes/cast": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-07T18:54:25.062673Z",
+      "description": "只绑定法力、基础冷却及施法延迟；不在过程结束时自动造成伤害。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "施放能量爆裂",
+      "processKey": "cast",
+      "skillKey": "veigar_r",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "主技能已核对的施法时间。",
+          "detail": {
+            "delayValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cast_time_ms"
+            }
+          },
+          "name": "施法延迟",
+          "sortOrder": 10,
+          "stepKey": "cast_time",
+          "stepType": "DELAY"
+        }
+      ],
+      "updatedAt": "2026-09-07T18:54:25.062673Z"
+    },
+    "/skills/veigar_r/internal-states": [],
+    "/skills/veigar_r/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "接收veigar_r主动使用并启动已有cast过程，只处理已保存的法力消耗、基础冷却和施法延迟；目标当前或已损生命、连续伤害倍率、实际命中与伤害继续暂缓。管理保存不证明宿主已生产该事件。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "主动使用启动能量爆裂施法过程",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-13T13:09:05.477627Z"
+      }
+    ],
+    "/skills/veigar_r/trigger-rules/on_used": {
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "actionType": "START_PROCESS",
+          "detail": {
+            "processKey": "cast"
+          },
+          "name": "启动能量爆裂施法过程",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "接收veigar_r主动使用并启动已有cast过程，只处理已保存的法力消耗、基础冷却和施法延迟；目标当前或已损生命、连续伤害倍率、实际命中与伤害继续暂缓。管理保存不证明宿主已生产该事件。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "veigar_r",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "主动使用启动能量爆裂施法过程",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used",
+      "sortOrder": 10
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/annie_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_w/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_w/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_w/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_w/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_w/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_w/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_w/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_w/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_w/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_w/effects/spell_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_w/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_w/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_w/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_w/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_w/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_w/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_w/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_w/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_w/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_w/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_w/parameters/empowered_multiplier",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_w/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_w/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_w/formulas/empowered_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_w/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_w/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_w/effects/normal_pillar",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_w/effects/empowered_pillar",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_w/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_w/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_w/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_w/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_w/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/effects/conflagration_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_q/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_q/parameters/slow_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_q/parameters/slow_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_q/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_q/effects/shard_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_q/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_q/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/parameters/armor_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/parameters/attack_speed_reduction_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/parameters/reduction_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/effects/slam_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/parameters/knockup_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/effects/impact_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/parameters/moonlight_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/effects/moon_arc_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/parameters/maximum_damage_multiplier",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/parameters/maximum_damage_health_threshold",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/formulas/max_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/effects/minimum_burst",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/effects/maximum_burst",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/trigger-rules/on_used",
+      "status": 200
+    }
+  ],
+  "businessWrites": 0
+}

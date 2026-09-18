@@ -1,0 +1,194 @@
+{
+  "status": "DRAFT_REQUIRES_INDEPENDENT_REVIEW",
+  "title": "八项技能十个已有伤害的空吸血资格纠错",
+  "at": "2026-09-18T23:23:21.093Z",
+  "versions": {
+    "client": "16.17",
+    "official": "16.17.1"
+  },
+  "sourceFiles": [
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/伤害吸血通用来源复核/来源与未决口径.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q完整补录/交互来源核定.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q完整补录/01-候选方案.json"
+    },
+    {
+      "root": "web",
+      "path": "web/src/types/skillEffect.ts"
+    },
+    {
+      "root": "planning",
+      "path": "文档记录/详细设计/项目/伤害与普通护盾交互基础详细设计.md"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/八项技能十个伤害吸血资格纠错/00-首轮只读候选.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/八项技能十个伤害吸血资格纠错/00a-效果范围复核.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/八项技能十个伤害吸血资格纠错/00b-候选请求审计.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二批/录入候选.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二批/独立回读证据.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第四批/录入候选.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第四批/最终独立回读证据.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Annie.json.gz"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Annie.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Annie.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Brand.json.gz"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Brand.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Brand.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Malphite.json.gz"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Malphite.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Malphite.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Diana.json.gz"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Diana.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Diana.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Veigar.json.gz"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Veigar.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Veigar.json"
+    }
+  ],
+  "changes": [
+    {
+      "skillKey": "annie_w",
+      "effectKey": "spell_hit",
+      "resultKey": "damage",
+      "route": "/skills/annie_w/effects/spell_hit",
+      "description": "本轮1V1敌方英雄的普通直接魔法技能伤害组成；显式登记防御结算后伤害、效率为1的全能吸血资格。实际命中入口已配置，其他被动、控制或目标分支分别维护。"
+    },
+    {
+      "skillKey": "brand_w",
+      "effectKey": "normal_pillar",
+      "resultKey": "damage",
+      "route": "/skills/brand_w/effects/normal_pillar",
+      "description": "本轮1V1敌方英雄的普通直接魔法技能伤害组成；显式登记防御结算后伤害、效率为1的全能吸血资格。炽热之焰状态对应的伤害分支另行配置，本批不连接条件命中入口。"
+    },
+    {
+      "skillKey": "brand_w",
+      "effectKey": "empowered_pillar",
+      "resultKey": "damage",
+      "route": "/skills/brand_w/effects/empowered_pillar",
+      "description": "本轮1V1敌方英雄的普通直接魔法技能伤害组成；显式登记防御结算后伤害、效率为1的全能吸血资格。炽热之焰状态对应的伤害分支另行配置，本批不连接条件命中入口。"
+    },
+    {
+      "skillKey": "brand_e",
+      "effectKey": "conflagration_hit",
+      "resultKey": "damage",
+      "route": "/skills/brand_e/effects/conflagration_hit",
+      "description": "本轮1V1敌方英雄的普通直接魔法技能伤害组成；显式登记防御结算后伤害、效率为1的全能吸血资格。实际命中入口已配置，其他被动、控制或目标分支分别维护。"
+    },
+    {
+      "skillKey": "malphite_q",
+      "effectKey": "shard_hit",
+      "resultKey": "damage",
+      "route": "/skills/malphite_q/effects/shard_hit",
+      "description": "本轮1V1敌方英雄的普通直接魔法技能伤害组成；显式登记防御结算后伤害、效率为1的全能吸血资格。实际命中入口已配置，其他被动、控制或目标分支分别维护。"
+    },
+    {
+      "skillKey": "malphite_e",
+      "effectKey": "slam_hit",
+      "resultKey": "damage",
+      "route": "/skills/malphite_e/effects/slam_hit",
+      "description": "本轮1V1敌方英雄的普通直接魔法技能伤害组成；显式登记防御结算后伤害、效率为1的全能吸血资格。实际命中入口已配置，其他被动、控制或目标分支分别维护。"
+    },
+    {
+      "skillKey": "malphite_r",
+      "effectKey": "impact_hit",
+      "resultKey": "damage",
+      "route": "/skills/malphite_r/effects/impact_hit",
+      "description": "本轮1V1敌方英雄的普通直接魔法技能伤害组成；显式登记防御结算后伤害、效率为1的全能吸血资格。实际命中入口已配置，其他被动、控制或目标分支分别维护。"
+    },
+    {
+      "skillKey": "diana_q",
+      "effectKey": "moon_arc_hit",
+      "resultKey": "damage",
+      "route": "/skills/diana_q/effects/moon_arc_hit",
+      "description": "本轮1V1敌方英雄的普通直接魔法技能伤害组成；显式登记防御结算后伤害、效率为1的全能吸血资格。实际命中入口已配置，其他被动、控制或目标分支分别维护。"
+    },
+    {
+      "skillKey": "veigar_r",
+      "effectKey": "minimum_burst",
+      "resultKey": "damage",
+      "route": "/skills/veigar_r/effects/minimum_burst",
+      "description": "本轮1V1敌方英雄的普通直接魔法技能伤害组成；显式登记防御结算后伤害、效率为1的全能吸血资格。基础与最大伤害组成仍待完整生命比例关系和互斥入口，不同时执行两个组成。"
+    },
+    {
+      "skillKey": "veigar_r",
+      "effectKey": "maximum_burst",
+      "resultKey": "damage",
+      "route": "/skills/veigar_r/effects/maximum_burst",
+      "description": "本轮1V1敌方英雄的普通直接魔法技能伤害组成；显式登记防御结算后伤害、效率为1的全能吸血资格。基础与最大伤害组成仍待完整生命比例关系和互斥入口，不同时执行两个组成。"
+    }
+  ],
+  "scope": "仅补每个现存单结果效果的明确全能吸血资格和父说明；保留伤害公式、数值、目标、暴击、原法术护盾粒度及所有规则。",
+  "sourceCorrection": "首轮误把工具单结果约束理解成技能级约束；复核按效果逐项检查，brand_w与veigar_r各两个独立单伤害效果可分别纠错，但不连接任何新入口或猜条件/倍率。",
+  "remaining": "各技能原未完成被动、控制、条件与时序分支继续保留；页面未验、未执行战斗运行。"
+}
