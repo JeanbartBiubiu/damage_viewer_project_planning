@@ -1,0 +1,56 @@
+{
+  "at": "2026-09-18T20:16:12.344Z",
+  "status": "七项通过，一项保留待核",
+  "corrections": [
+    {
+      "skillKey": "nami_q",
+      "initialStatus": "HOLD_FOR_REVIEW",
+      "resolution": "外层manaValues结构含values和类型元数据，读取真实数值数组后来源一致；不是业务数值缺失。",
+      "cooldownSource": "客户端根绑定索引1起与官方值一致"
+    },
+    {
+      "skillKey": "nami_r",
+      "initialStatus": "HOLD_FOR_REVIEW",
+      "resolution": "外层manaValues结构含values和类型元数据，读取真实数值数组后来源一致；不是业务数值缺失。",
+      "cooldownSource": "客户端根绑定索引1起与官方值一致"
+    },
+    {
+      "skillKey": "sona_q",
+      "initialStatus": "HOLD_FOR_REVIEW",
+      "resolution": "外层manaValues结构含values和类型元数据，读取真实数值数组后来源一致；不是业务数值缺失。",
+      "cooldownSource": "客户端根绑定索引1起与官方值一致"
+    },
+    {
+      "skillKey": "sona_w",
+      "initialStatus": "HOLD_FOR_REVIEW",
+      "resolution": "外层manaValues结构含values和类型元数据，读取真实数值数组后来源一致；不是业务数值缺失。",
+      "cooldownSource": "客户端未提供cooldownTime，采用DDragon16.17.1明确的10秒，不补零、不借用旧同名技能"
+    },
+    {
+      "skillKey": "orianna_w",
+      "initialStatus": "HOLD_FOR_REVIEW",
+      "resolution": "外层manaValues结构含values和类型元数据，读取真实数值数组后来源一致；不是业务数值缺失。",
+      "cooldownSource": "客户端根绑定索引1起与官方值一致"
+    },
+    {
+      "skillKey": "orianna_e",
+      "initialStatus": "HOLD_FOR_REVIEW",
+      "resolution": "外层manaValues结构含values和类型元数据，读取真实数值数组后来源一致；不是业务数值缺失。",
+      "cooldownSource": "客户端根绑定索引1起与官方值一致"
+    },
+    {
+      "skillKey": "zilean_e",
+      "initialStatus": "HOLD_FOR_REVIEW",
+      "resolution": "外层manaValues结构含values和类型元数据，读取真实数值数组后来源一致；不是业务数值缺失。",
+      "cooldownSource": "客户端根绑定索引1起与官方值一致"
+    }
+  ],
+  "excluded": [
+    {
+      "skillKey": "sona_e",
+      "status": "待核，未纳入本批",
+      "reason": "客户端根绑定bIsToggleSpell=true；先保留资料疑点，不直接把它解释成每次ACTIVE登记同一成本的单阶段技能。"
+    }
+  ],
+  "networkRequests": 0
+}

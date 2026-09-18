@@ -1,0 +1,1620 @@
+{
+  "schemaVersion": 1,
+  "status": "DRAFT_REQUIRES_INDEPENDENT_REVIEW",
+  "title": "七项技能的使用消耗与普通冷却补录",
+  "generatedAt": "2026-09-18T20:16:12.346Z",
+  "targets": [
+    {
+      "skillKey": "nami_q",
+      "ownerKey": "champion_nami"
+    },
+    {
+      "skillKey": "nami_r",
+      "ownerKey": "champion_nami"
+    },
+    {
+      "skillKey": "sona_q",
+      "ownerKey": "champion_sona"
+    },
+    {
+      "skillKey": "sona_w",
+      "ownerKey": "champion_sona"
+    },
+    {
+      "skillKey": "orianna_w",
+      "ownerKey": "champion_orianna"
+    },
+    {
+      "skillKey": "orianna_e",
+      "ownerKey": "champion_orianna"
+    },
+    {
+      "skillKey": "zilean_e",
+      "ownerKey": "champion_zilean"
+    }
+  ],
+  "scope": "新增三项来源法力消耗效果、七个使用登记过程和七条主动使用入口；不修改原对象。",
+  "sourceFiles": [
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/七项技能使用消耗冷却补录/00-八项只读候选原件.json",
+      "sha256": "b213ee54d9e80d71dfb9f23a495b1d44134de7420d283440527f820fd92d0119"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/技能来源索引.json",
+      "sha256": "509017d379d3676147a1b5a0732023dfd95baa2039f24966b3a1801a28842bf9"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Nami.json",
+      "sha256": "f9b01b18408d0c55d84dd371581f47242072e041c53e4cf4bcb3272df2528e12"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Nami.json.gz",
+      "sha256": "6a66b99523e0ce58a553a91afeb8124815dea490c0c76ccf3ce90409971a04df"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Sona.json",
+      "sha256": "ecdaf99377b60b32671ca9d30ebf79bdc91ea3689c50fd97d8d4bbda3f768311"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Sona.json.gz",
+      "sha256": "58c693dc5f9861064506c72c73953623d8c939f2667e3878d5541d597c16685b"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Orianna.json",
+      "sha256": "542d5145314f95bc92eaca73ee84f03ec8dd3c3ccfaf21dc420a639f8daf5e4d"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Orianna.json.gz",
+      "sha256": "f7e53438594ee55f72c53e51893b813f79c2ff7e34781e2f3664c48e3bdde0fe"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Zilean.json",
+      "sha256": "358afc4390e66600ad8d7f1ed35cdaed8456a1e2f25c85fe0962ded936c285b6"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Zilean.json.gz",
+      "sha256": "33de2eb35de066e983e53ea06d1aede5cc1a920699cbbf7f1b14236f785c5e2d"
+    },
+    {
+      "root": "planning",
+      "path": "文档记录/详细设计/项目/技能过程内部状态与效果录入详细设计.md",
+      "sha256": "fcf3c1eb426114cbcbbc89ca1ef3571e32fb97eeb5640f2f938ecc08726a60e8"
+    },
+    {
+      "root": "planning",
+      "path": "文档记录/详细设计/项目/条件事件与动态输入供值管理详细设计.md",
+      "sha256": "504f204df8110e3b63ae7eb1ece331b84198e7e34239070403c0c5c0a922f36e"
+    },
+    {
+      "root": "web",
+      "path": "web/src/types/skillProcess.ts",
+      "sha256": "6fa0232b4ab6c1bbf44488f0e0a2eb41b8dfd1b23ac9db99a935a74ada0fb85b"
+    },
+    {
+      "root": "web",
+      "path": "web/src/types/skillTriggerRule.ts",
+      "sha256": "db1021ad59bf8cfee862603c2e7dcde6c618da85d235f36de941c6a205852615"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/五项自施技能消耗冷却补录/01-候选方案.json",
+      "sha256": "f5be63631e5f7371d30ec2470f1d28ab1cee9c11ed3f777f2313af196199166e"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q完整补录/01-候选方案.json",
+      "sha256": "05245a8d21afa790d568ba0197f03c8b58ac847ab49b8357cfe10711c61e0dc9"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/七项技能使用消耗冷却补录/00a-来源形状与范围复核.json",
+      "sha256": "6a5afc8257e9b081ec57cf2ee22787ba9c7bc5332ec66f2e7702d64973f03782"
+    }
+  ],
+  "sourceEvidence": [
+    {
+      "skillKey": "nami_q",
+      "championId": "Nami",
+      "slot": "Q",
+      "clientPath": "Characters/Nami/Spells/NamiQAbility/NamiQ",
+      "officialPath": {
+        "id": "data.Nami.spells[0].id",
+        "name": "data.Nami.spells[0].name",
+        "maxRank": "data.Nami.spells[0].maxrank",
+        "cooldownSeconds": "data.Nami.spells[0].cooldown",
+        "manaCost": "data.Nami.spells[0].cost",
+        "resource": "data.Nami.spells[0].resource"
+      },
+      "cooldownSource": "客户端根绑定索引1起与官方值一致",
+      "manaSource": "客户端mSpell.mana及manaValues.values索引0起与官方cost一致；类型元数据不是法力数组。",
+      "cooldownSeconds": [
+        12,
+        11,
+        10,
+        9,
+        8
+      ],
+      "manaCost": [
+        60,
+        60,
+        60,
+        60,
+        60
+      ],
+      "needsNewManaEffect": false,
+      "castTimingUsed": false,
+      "scope": "只登记本次ACTIVE使用的成本和普通冷却，不接入其他效果、完整施法或未证机制。"
+    },
+    {
+      "skillKey": "nami_r",
+      "championId": "Nami",
+      "slot": "R",
+      "clientPath": "Characters/Nami/Spells/NamiRAbility/NamiR",
+      "officialPath": {
+        "id": "data.Nami.spells[3].id",
+        "name": "data.Nami.spells[3].name",
+        "maxRank": "data.Nami.spells[3].maxrank",
+        "cooldownSeconds": "data.Nami.spells[3].cooldown",
+        "manaCost": "data.Nami.spells[3].cost",
+        "resource": "data.Nami.spells[3].resource"
+      },
+      "cooldownSource": "客户端根绑定索引1起与官方值一致",
+      "manaSource": "客户端mSpell.mana及manaValues.values索引0起与官方cost一致；类型元数据不是法力数组。",
+      "cooldownSeconds": [
+        120,
+        110,
+        100
+      ],
+      "manaCost": [
+        100,
+        100,
+        100
+      ],
+      "needsNewManaEffect": false,
+      "castTimingUsed": false,
+      "scope": "只登记本次ACTIVE使用的成本和普通冷却，不接入其他效果、完整施法或未证机制。"
+    },
+    {
+      "skillKey": "sona_q",
+      "championId": "Sona",
+      "slot": "Q",
+      "clientPath": "Characters/Sona/Spells/SonaQAbility/SonaQ",
+      "officialPath": {
+        "id": "data.Sona.spells[0].id",
+        "name": "data.Sona.spells[0].name",
+        "maxRank": "data.Sona.spells[0].maxrank",
+        "cooldownSeconds": "data.Sona.spells[0].cooldown",
+        "manaCost": "data.Sona.spells[0].cost",
+        "resource": "data.Sona.spells[0].resource"
+      },
+      "cooldownSource": "客户端根绑定索引1起与官方值一致",
+      "manaSource": "客户端mSpell.mana及manaValues.values索引0起与官方cost一致；类型元数据不是法力数组。",
+      "cooldownSeconds": [
+        8,
+        8,
+        8,
+        8,
+        8
+      ],
+      "manaCost": [
+        50,
+        55,
+        60,
+        65,
+        70
+      ],
+      "needsNewManaEffect": true,
+      "castTimingUsed": false,
+      "scope": "只登记本次ACTIVE使用的成本和普通冷却，不接入其他效果、完整施法或未证机制。"
+    },
+    {
+      "skillKey": "sona_w",
+      "championId": "Sona",
+      "slot": "W",
+      "clientPath": "Characters/Sona/Spells/SonaWAbility/SonaW",
+      "officialPath": {
+        "id": "data.Sona.spells[1].id",
+        "name": "data.Sona.spells[1].name",
+        "maxRank": "data.Sona.spells[1].maxrank",
+        "cooldownSeconds": "data.Sona.spells[1].cooldown",
+        "manaCost": "data.Sona.spells[1].cost",
+        "resource": "data.Sona.spells[1].resource"
+      },
+      "cooldownSource": "客户端未提供cooldownTime，采用DDragon16.17.1明确的10秒，不补零、不借用旧同名技能",
+      "manaSource": "客户端mSpell.mana及manaValues.values索引0起与官方cost一致；类型元数据不是法力数组。",
+      "cooldownSeconds": [
+        10,
+        10,
+        10,
+        10,
+        10
+      ],
+      "manaCost": [
+        80,
+        85,
+        90,
+        95,
+        100
+      ],
+      "needsNewManaEffect": true,
+      "castTimingUsed": false,
+      "scope": "只登记本次ACTIVE使用的成本和普通冷却，不接入其他效果、完整施法或未证机制。"
+    },
+    {
+      "skillKey": "orianna_w",
+      "championId": "Orianna",
+      "slot": "W",
+      "clientPath": "Characters/Orianna/Spells/OrianaDissonanceCommandAbility/OrianaDissonanceCommand",
+      "officialPath": {
+        "id": "data.Orianna.spells[1].id",
+        "name": "data.Orianna.spells[1].name",
+        "maxRank": "data.Orianna.spells[1].maxrank",
+        "cooldownSeconds": "data.Orianna.spells[1].cooldown",
+        "manaCost": "data.Orianna.spells[1].cost",
+        "resource": "data.Orianna.spells[1].resource"
+      },
+      "cooldownSource": "客户端根绑定索引1起与官方值一致",
+      "manaSource": "客户端mSpell.mana及manaValues.values索引0起与官方cost一致；类型元数据不是法力数组。",
+      "cooldownSeconds": [
+        7,
+        7,
+        7,
+        7,
+        7
+      ],
+      "manaCost": [
+        60,
+        65,
+        70,
+        75,
+        80
+      ],
+      "needsNewManaEffect": false,
+      "castTimingUsed": false,
+      "scope": "只登记本次ACTIVE使用的成本和普通冷却，不接入其他效果、完整施法或未证机制。"
+    },
+    {
+      "skillKey": "orianna_e",
+      "championId": "Orianna",
+      "slot": "E",
+      "clientPath": "Characters/Orianna/Spells/OrianaRedactCommandAbility/OrianaRedactCommand",
+      "officialPath": {
+        "id": "data.Orianna.spells[2].id",
+        "name": "data.Orianna.spells[2].name",
+        "maxRank": "data.Orianna.spells[2].maxrank",
+        "cooldownSeconds": "data.Orianna.spells[2].cooldown",
+        "manaCost": "data.Orianna.spells[2].cost",
+        "resource": "data.Orianna.spells[2].resource"
+      },
+      "cooldownSource": "客户端根绑定索引1起与官方值一致",
+      "manaSource": "客户端mSpell.mana及manaValues.values索引0起与官方cost一致；类型元数据不是法力数组。",
+      "cooldownSeconds": [
+        9,
+        9,
+        9,
+        9,
+        9
+      ],
+      "manaCost": [
+        60,
+        60,
+        60,
+        60,
+        60
+      ],
+      "needsNewManaEffect": false,
+      "castTimingUsed": false,
+      "scope": "只登记本次ACTIVE使用的成本和普通冷却，不接入其他效果、完整施法或未证机制。"
+    },
+    {
+      "skillKey": "zilean_e",
+      "championId": "Zilean",
+      "slot": "E",
+      "clientPath": "Characters/Zilean/Spells/TimeWarpAbility/TimeWarp",
+      "officialPath": {
+        "id": "data.Zilean.spells[2].id",
+        "name": "data.Zilean.spells[2].name",
+        "maxRank": "data.Zilean.spells[2].maxrank",
+        "cooldownSeconds": "data.Zilean.spells[2].cooldown",
+        "manaCost": "data.Zilean.spells[2].cost",
+        "resource": "data.Zilean.spells[2].resource"
+      },
+      "cooldownSource": "客户端根绑定索引1起与官方值一致",
+      "manaSource": "客户端mSpell.mana及manaValues.values索引0起与官方cost一致；类型元数据不是法力数组。",
+      "cooldownSeconds": [
+        15,
+        15,
+        15,
+        15,
+        15
+      ],
+      "manaCost": [
+        50,
+        50,
+        50,
+        50,
+        50
+      ],
+      "needsNewManaEffect": true,
+      "castTimingUsed": false,
+      "scope": "只登记本次ACTIVE使用的成本和普通冷却，不接入其他效果、完整施法或未证机制。"
+    }
+  ],
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/nami_q/processes",
+      "detailRoute": "/skills/nami_q/processes/use_cost_and_cooldown",
+      "body": {
+        "processKey": "use_cost_and_cooldown",
+        "name": "使用消耗与普通冷却",
+        "activationType": "ACTIVE",
+        "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零。伤害、治疗、护盾、球及其他机制不在此过程执行。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "register_use",
+            "name": "登记本次使用",
+            "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+            "sortOrder": 10,
+            "stepType": "IMMEDIATE",
+            "detail": {}
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      },
+      "expectedReadback": {
+        "processKey": "use_cost_and_cooldown",
+        "name": "使用消耗与普通冷却",
+        "activationType": "ACTIVE",
+        "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零。伤害、治疗、护盾、球及其他机制不在此过程执行。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "register_use",
+            "name": "登记本次使用",
+            "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+            "sortOrder": 10,
+            "stepType": "IMMEDIATE",
+            "detail": {}
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/nami_q/trigger-rules",
+      "detailRoute": "/skills/nami_q/trigger-rules/on_used_cost_and_cooldown",
+      "body": {
+        "ruleKey": "on_used_cost_and_cooldown",
+        "name": "主动使用登记消耗与冷却",
+        "description": "每次本技能主动使用启动专门的消耗与冷却登记过程；不定义完整施法时长，不代替命中、治疗、护盾、球或其他未完成分支。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "nami_q",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "name": "启动消耗与冷却登记",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "use_cost_and_cooldown"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used_cost_and_cooldown",
+        "name": "主动使用登记消耗与冷却",
+        "description": "每次本技能主动使用启动专门的消耗与冷却登记过程；不定义完整施法时长，不代替命中、治疗、护盾、球或其他未完成分支。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "nami_q",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "name": "启动消耗与冷却登记",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "use_cost_and_cooldown"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/nami_r/processes",
+      "detailRoute": "/skills/nami_r/processes/use_cost_and_cooldown",
+      "body": {
+        "processKey": "use_cost_and_cooldown",
+        "name": "使用消耗与普通冷却",
+        "activationType": "ACTIVE",
+        "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零。伤害、治疗、护盾、球及其他机制不在此过程执行。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "register_use",
+            "name": "登记本次使用",
+            "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+            "sortOrder": 10,
+            "stepType": "IMMEDIATE",
+            "detail": {}
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      },
+      "expectedReadback": {
+        "processKey": "use_cost_and_cooldown",
+        "name": "使用消耗与普通冷却",
+        "activationType": "ACTIVE",
+        "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零。伤害、治疗、护盾、球及其他机制不在此过程执行。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "register_use",
+            "name": "登记本次使用",
+            "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+            "sortOrder": 10,
+            "stepType": "IMMEDIATE",
+            "detail": {}
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/nami_r/trigger-rules",
+      "detailRoute": "/skills/nami_r/trigger-rules/on_used_cost_and_cooldown",
+      "body": {
+        "ruleKey": "on_used_cost_and_cooldown",
+        "name": "主动使用登记消耗与冷却",
+        "description": "每次本技能主动使用启动专门的消耗与冷却登记过程；不定义完整施法时长，不代替命中、治疗、护盾、球或其他未完成分支。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "nami_r",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "name": "启动消耗与冷却登记",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "use_cost_and_cooldown"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used_cost_and_cooldown",
+        "name": "主动使用登记消耗与冷却",
+        "description": "每次本技能主动使用启动专门的消耗与冷却登记过程；不定义完整施法时长，不代替命中、治疗、护盾、球或其他未完成分支。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "nami_r",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "name": "启动消耗与冷却登记",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "use_cost_and_cooldown"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/sona_q/effects",
+      "detailRoute": "/skills/sona_q/effects/mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "施放时消耗对应技能等级的法力。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      },
+      "expectedReadback": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "施放时消耗对应技能等级的法力。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/sona_q/processes",
+      "detailRoute": "/skills/sona_q/processes/use_cost_and_cooldown",
+      "body": {
+        "processKey": "use_cost_and_cooldown",
+        "name": "使用消耗与普通冷却",
+        "activationType": "ACTIVE",
+        "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零。伤害、治疗、护盾、球及其他机制不在此过程执行。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "register_use",
+            "name": "登记本次使用",
+            "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+            "sortOrder": 10,
+            "stepType": "IMMEDIATE",
+            "detail": {}
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      },
+      "expectedReadback": {
+        "processKey": "use_cost_and_cooldown",
+        "name": "使用消耗与普通冷却",
+        "activationType": "ACTIVE",
+        "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零。伤害、治疗、护盾、球及其他机制不在此过程执行。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "register_use",
+            "name": "登记本次使用",
+            "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+            "sortOrder": 10,
+            "stepType": "IMMEDIATE",
+            "detail": {}
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/sona_q/trigger-rules",
+      "detailRoute": "/skills/sona_q/trigger-rules/on_used_cost_and_cooldown",
+      "body": {
+        "ruleKey": "on_used_cost_and_cooldown",
+        "name": "主动使用登记消耗与冷却",
+        "description": "每次本技能主动使用启动专门的消耗与冷却登记过程；不定义完整施法时长，不代替命中、治疗、护盾、球或其他未完成分支。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "sona_q",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "name": "启动消耗与冷却登记",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "use_cost_and_cooldown"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used_cost_and_cooldown",
+        "name": "主动使用登记消耗与冷却",
+        "description": "每次本技能主动使用启动专门的消耗与冷却登记过程；不定义完整施法时长，不代替命中、治疗、护盾、球或其他未完成分支。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "sona_q",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "name": "启动消耗与冷却登记",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "use_cost_and_cooldown"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/sona_w/effects",
+      "detailRoute": "/skills/sona_w/effects/mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "施放时消耗对应技能等级的法力。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      },
+      "expectedReadback": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "施放时消耗对应技能等级的法力。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/sona_w/processes",
+      "detailRoute": "/skills/sona_w/processes/use_cost_and_cooldown",
+      "body": {
+        "processKey": "use_cost_and_cooldown",
+        "name": "使用消耗与普通冷却",
+        "activationType": "ACTIVE",
+        "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零。伤害、治疗、护盾、球及其他机制不在此过程执行。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "register_use",
+            "name": "登记本次使用",
+            "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+            "sortOrder": 10,
+            "stepType": "IMMEDIATE",
+            "detail": {}
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      },
+      "expectedReadback": {
+        "processKey": "use_cost_and_cooldown",
+        "name": "使用消耗与普通冷却",
+        "activationType": "ACTIVE",
+        "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零。伤害、治疗、护盾、球及其他机制不在此过程执行。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "register_use",
+            "name": "登记本次使用",
+            "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+            "sortOrder": 10,
+            "stepType": "IMMEDIATE",
+            "detail": {}
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/sona_w/trigger-rules",
+      "detailRoute": "/skills/sona_w/trigger-rules/on_used_cost_and_cooldown",
+      "body": {
+        "ruleKey": "on_used_cost_and_cooldown",
+        "name": "主动使用登记消耗与冷却",
+        "description": "每次本技能主动使用启动专门的消耗与冷却登记过程；不定义完整施法时长，不代替命中、治疗、护盾、球或其他未完成分支。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "sona_w",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "name": "启动消耗与冷却登记",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "use_cost_and_cooldown"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used_cost_and_cooldown",
+        "name": "主动使用登记消耗与冷却",
+        "description": "每次本技能主动使用启动专门的消耗与冷却登记过程；不定义完整施法时长，不代替命中、治疗、护盾、球或其他未完成分支。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "sona_w",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "name": "启动消耗与冷却登记",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "use_cost_and_cooldown"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/orianna_w/processes",
+      "detailRoute": "/skills/orianna_w/processes/use_cost_and_cooldown",
+      "body": {
+        "processKey": "use_cost_and_cooldown",
+        "name": "使用消耗与普通冷却",
+        "activationType": "ACTIVE",
+        "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零。伤害、治疗、护盾、球及其他机制不在此过程执行。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "register_use",
+            "name": "登记本次使用",
+            "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+            "sortOrder": 10,
+            "stepType": "IMMEDIATE",
+            "detail": {}
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      },
+      "expectedReadback": {
+        "processKey": "use_cost_and_cooldown",
+        "name": "使用消耗与普通冷却",
+        "activationType": "ACTIVE",
+        "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零。伤害、治疗、护盾、球及其他机制不在此过程执行。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "register_use",
+            "name": "登记本次使用",
+            "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+            "sortOrder": 10,
+            "stepType": "IMMEDIATE",
+            "detail": {}
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/orianna_w/trigger-rules",
+      "detailRoute": "/skills/orianna_w/trigger-rules/on_used_cost_and_cooldown",
+      "body": {
+        "ruleKey": "on_used_cost_and_cooldown",
+        "name": "主动使用登记消耗与冷却",
+        "description": "每次本技能主动使用启动专门的消耗与冷却登记过程；不定义完整施法时长，不代替命中、治疗、护盾、球或其他未完成分支。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "orianna_w",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "name": "启动消耗与冷却登记",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "use_cost_and_cooldown"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used_cost_and_cooldown",
+        "name": "主动使用登记消耗与冷却",
+        "description": "每次本技能主动使用启动专门的消耗与冷却登记过程；不定义完整施法时长，不代替命中、治疗、护盾、球或其他未完成分支。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "orianna_w",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "name": "启动消耗与冷却登记",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "use_cost_and_cooldown"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/orianna_e/processes",
+      "detailRoute": "/skills/orianna_e/processes/use_cost_and_cooldown",
+      "body": {
+        "processKey": "use_cost_and_cooldown",
+        "name": "使用消耗与普通冷却",
+        "activationType": "ACTIVE",
+        "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零。伤害、治疗、护盾、球及其他机制不在此过程执行。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "register_use",
+            "name": "登记本次使用",
+            "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+            "sortOrder": 10,
+            "stepType": "IMMEDIATE",
+            "detail": {}
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      },
+      "expectedReadback": {
+        "processKey": "use_cost_and_cooldown",
+        "name": "使用消耗与普通冷却",
+        "activationType": "ACTIVE",
+        "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零。伤害、治疗、护盾、球及其他机制不在此过程执行。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "register_use",
+            "name": "登记本次使用",
+            "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+            "sortOrder": 10,
+            "stepType": "IMMEDIATE",
+            "detail": {}
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/orianna_e/trigger-rules",
+      "detailRoute": "/skills/orianna_e/trigger-rules/on_used_cost_and_cooldown",
+      "body": {
+        "ruleKey": "on_used_cost_and_cooldown",
+        "name": "主动使用登记消耗与冷却",
+        "description": "每次本技能主动使用启动专门的消耗与冷却登记过程；不定义完整施法时长，不代替命中、治疗、护盾、球或其他未完成分支。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "orianna_e",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "name": "启动消耗与冷却登记",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "use_cost_and_cooldown"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used_cost_and_cooldown",
+        "name": "主动使用登记消耗与冷却",
+        "description": "每次本技能主动使用启动专门的消耗与冷却登记过程；不定义完整施法时长，不代替命中、治疗、护盾、球或其他未完成分支。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "orianna_e",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "name": "启动消耗与冷却登记",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "use_cost_and_cooldown"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/zilean_e/effects",
+      "detailRoute": "/skills/zilean_e/effects/mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "施放时消耗对应技能等级的法力。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      },
+      "expectedReadback": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "施放时消耗对应技能等级的法力。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/zilean_e/processes",
+      "detailRoute": "/skills/zilean_e/processes/use_cost_and_cooldown",
+      "body": {
+        "processKey": "use_cost_and_cooldown",
+        "name": "使用消耗与普通冷却",
+        "activationType": "ACTIVE",
+        "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零。伤害、治疗、护盾、球及其他机制不在此过程执行。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "register_use",
+            "name": "登记本次使用",
+            "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+            "sortOrder": 10,
+            "stepType": "IMMEDIATE",
+            "detail": {}
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      },
+      "expectedReadback": {
+        "processKey": "use_cost_and_cooldown",
+        "name": "使用消耗与普通冷却",
+        "activationType": "ACTIVE",
+        "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零。伤害、治疗、护盾、球及其他机制不在此过程执行。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "register_use",
+            "name": "登记本次使用",
+            "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+            "sortOrder": 10,
+            "stepType": "IMMEDIATE",
+            "detail": {}
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/zilean_e/trigger-rules",
+      "detailRoute": "/skills/zilean_e/trigger-rules/on_used_cost_and_cooldown",
+      "body": {
+        "ruleKey": "on_used_cost_and_cooldown",
+        "name": "主动使用登记消耗与冷却",
+        "description": "每次本技能主动使用启动专门的消耗与冷却登记过程；不定义完整施法时长，不代替命中、治疗、护盾、球或其他未完成分支。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "zilean_e",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "name": "启动消耗与冷却登记",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "use_cost_and_cooldown"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used_cost_and_cooldown",
+        "name": "主动使用登记消耗与冷却",
+        "description": "每次本技能主动使用启动专门的消耗与冷却登记过程；不定义完整施法时长，不代替命中、治疗、护盾、球或其他未完成分支。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "zilean_e",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "name": "启动消耗与冷却登记",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "use_cost_and_cooldown"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "preserveExisting": "现有主体、参数、公式、效果、过程、状态、规则、关系、属性、图片与时间戳保持不变。",
+  "excluded": [
+    {
+      "skillKey": "sona_e",
+      "status": "待核，未纳入本批",
+      "reason": "客户端根绑定bIsToggleSpell=true；先保留资料疑点，不直接把它解释成每次ACTIVE登记同一成本的单阶段技能。"
+    }
+  ],
+  "contractBoundaries": [
+    "至少一个IMMEDIATE步骤只表示本次登记动作立即完成，不表示技能施法时长为零。",
+    "过程键使用use_cost_and_cooldown，不命名cast或声称完整施法过程。",
+    "普通冷却基值与使用法力从已核实参数读取；资源效果复用现有mana_cost，必须在独立评审中核对SOURCE/CONSUME和单位。",
+    "不因既有伤害或治疗组成尚未表达而伪造其动作。",
+    "娑娜W官方固定版本明确10秒；客户端该字段缺失不等于冷却为零。"
+  ],
+  "remaining": [
+    "各技能范围内其他组成继续开放",
+    "本批不声明实际施法时序",
+    "代表页面验收待连接恢复",
+    "既有成本说明中的进度文字另按需要整理，不影响数值保护"
+  ],
+  "runtimeBoundary": "本轮只保存管理配置；未实现宿主事件生产、消耗/冷却调度或Wasm战斗运行。"
+}
