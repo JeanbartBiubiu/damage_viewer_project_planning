@@ -1,0 +1,490 @@
+{
+  "schemaVersion": "damage.magic-hit-candidates.interaction-source-followup.v1",
+  "status": "SOURCE_DECISION_ACCEPTED_READY_2POST",
+  "generatedAt": "2026-09-18T22:46:06.810Z",
+  "purpose": "泽拉斯E普通实际命中魔法伤害三项交互字段的来源续核；不改01报告",
+  "target": {
+    "gameId": "lol",
+    "skillKey": "xerath_e",
+    "slot": "E",
+    "name": "泽拉斯·冲击法球",
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1"
+  },
+  "audit": {
+    "apiCalls": 0,
+    "businessWrites": 0,
+    "databaseAccess": false,
+    "browserOrRuntimeValidation": false,
+    "preservedReport": {
+      "path": "output/five-magic-hit-candidates/01-候选报告.json",
+      "sha256": "8ca88d6e3013f564e46fae883a4e1bff5911501ac564d2094c21a230fc274d3d"
+    }
+  },
+  "historicalStartingPoint": {
+    "path": "数据参考/全量录入-2026-09/伤害吸血通用来源复核/来源与未决口径.json",
+    "worktree": "planning",
+    "sha256": "b5ad7d6eb3d73f7db86e35744c6f39dfd67ad62c80806b80bb38ac4e08864f59",
+    "status": "PARTIAL_SOURCE_VERIFIED",
+    "relevantMeaning": "历史起点曾保留普通对英雄技能的吸血基准、护盾和过量伤害映射未决；本次以后续独立核定为准，不把历史未决重复当成当前阻塞。",
+    "originalUnresolved": [
+      "吸血基准采用 POST_DEFENSE_DAMAGE 还是 ACTUAL_HP_LOSS",
+      "普通敌方技能法术护盾阻挡粒度"
+    ]
+  },
+  "matureIndependentDecision": {
+    "interactionReview": {
+      "path": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q完整补录/交互来源核定.json",
+      "worktree": "web",
+      "sha256": "e3bb3619af36e0212d4eacc35e5ec4aa31c0e6882cf7f32df031ee30ef2ea501",
+      "status": "SOURCE_MAPPING_REVIEWED",
+      "decisions": {
+        "vampRules": [
+          {
+            "vampType": "OMNIVAMP",
+            "basisOutputKind": "POST_DEFENSE_DAMAGE",
+            "efficiencyValue": {
+              "kind": "FIXED",
+              "value": 1
+            }
+          }
+        ],
+        "spellShieldBlockScope": "SKILL"
+      },
+      "boundary": "这是普通英雄技能伤害的独立交互口径；护盾吸收、过量伤害和真实战斗运行仍未验证。"
+    },
+    "candidateContract": {
+      "path": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q完整补录/01-候选方案.json",
+      "worktree": "web",
+      "sha256": "05245a8d21afa790d568ba0197f03c8b58ac847ab49b8357cfe10711c61e0dc9",
+      "contractBoundaries": {
+        "skillHit": "请求明细只含 sourceSkillKey；GET规范化回读可显示 useKind:null，不能把它写回POST。",
+        "currentTarget": "SKILL_HIT 的 CURRENT_TARGET 是实际命中对象；1V1中为唯一敌方目标。",
+        "damageType": "官方文本明确 magicDamage，结果使用 damageTypeKey=magic。",
+        "spellShieldBlockScope": "普通敌方技能被整体技能法术护盾阻挡时使用 SKILL。",
+        "critical": "固定来源未提供技能自身暴击率或强制暴击分支时使用 DISALLOWED。",
+        "vampRules": "显式保存 OMNIVAMP、POST_DEFENSE_DAMAGE、效率1，不用空数组冒充自动继承。",
+        "deduplication": "perTargetCooldown 与 maxTriggersPerProcess 均为 null；管理规则不产生命中事件。"
+      },
+      "interactionDecisions": {
+        "vampRules": [
+          {
+            "vampType": "OMNIVAMP",
+            "basisOutputKind": "POST_DEFENSE_DAMAGE",
+            "efficiencyValue": {
+              "kind": "FIXED",
+              "value": 1
+            }
+          }
+        ],
+        "spellShieldBlockScope": "SKILL"
+      },
+      "readbackShape": "命中事件POST不提交useKind；GET规范化显示useKind:null，其他字段完整核对。"
+    }
+  },
+  "targetSource": {
+    "officialZh": {
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Xerath.json",
+      "sha256": "5f4eff400aa79a63693c99966caec56013f53e52d8ced05912b9157a3b396c6a",
+      "jsonPointer": "/data/Xerath/spells/2",
+      "version": "16.17.1",
+      "selectedFields": {
+        "id": "XerathMageSpear",
+        "name": "冲击法球",
+        "description": "对单个敌人造成魔法伤害和晕眩效果。",
+        "tooltip": "泽拉斯发射一颗原生魔法之球，基于飞行距离使命中第一个的敌人<status>晕眩</status>至多{{ maxstunduration }}秒，并造成<magicDamage>{{ tooltiptotaldamage }}魔法伤害</magicDamage>。 {{ spellmodifierdescriptionappend }}",
+        "maxrank": 5,
+        "damageEffectBurn": "70/100/130/160/190"
+      }
+    },
+    "officialEn": {
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Xerath.json",
+      "sha256": "6e690f8c2a6030d65f17a7fec27585ed15183a31f1d2a8f3aaa53e49878b46c0",
+      "jsonPointer": "/data/Xerath/spells/2",
+      "version": "16.17.1",
+      "selectedFields": {
+        "id": "XerathMageSpear",
+        "name": "Shocking Orb",
+        "description": "Deals magic damage to an enemy and stuns them.",
+        "tooltip": "Xerath fires an orb of raw magic, <status>Stunning</status> the first enemy hit for up to {{ maxstunduration }} seconds based on distance travelled, and dealing <magicDamage>{{ tooltiptotaldamage }} magic damage</magicDamage>. {{ spellmodifierdescriptionappend }}",
+        "maxrank": 5,
+        "damageEffectBurn": "70/100/130/160/190"
+      }
+    },
+    "client": {
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Xerath.json.gz",
+      "compressedSha256": "389b87b67a36643581979c26ed7ce27019ecf3daaf3097ad9021a45b3374a567",
+      "rawJsonSha256": "b2c5377ff3cd718b5b8db6b9c1c44e7862e89a6843e5b08a9347da18527a4b62",
+      "contentVersion": "16.17.8104348+branch.releases-16-17.content.release",
+      "jsonPointer": "/Characters~1Xerath~1Spells~1XerathMageSpearAbility~1XerathMageSpear/mSpell",
+      "selectedFields": {
+        "spellTags": [
+          "Trait_ImmobilizingCCSpell",
+          "Trait_DamageAbility",
+          "Trait_Ranged_StopsFirstHit",
+          "Trait_Low_Damage"
+        ],
+        "dataValues": {
+          "BaseDamage": [
+            40,
+            70,
+            100,
+            130,
+            160,
+            190,
+            220
+          ],
+          "Range": [
+            1125,
+            1125,
+            1125,
+            1125,
+            1125,
+            1125,
+            1125
+          ],
+          "MinStunDuration": [
+            0.75,
+            0.75,
+            0.75,
+            0.75,
+            0.75,
+            0.75,
+            0.75
+          ],
+          "MaxStunDuration": [
+            2.25,
+            2.25,
+            2.25,
+            2.25,
+            2.25,
+            2.25,
+            2.25
+          ]
+        },
+        "spellCalculation": {
+          "name": "TooltipTotalDamage",
+          "formulaParts": [
+            "BaseDamage",
+            "0.44999998807907104 × SOURCE ability power"
+          ]
+        }
+      }
+    },
+    "existingManagement": {
+      "stagePointer": "/inventoryConclusions/skills[793]",
+      "stageConclusion": "资料待核",
+      "directDamageFormulaAlreadyPresent": "base_damage + SOURCE 的总法术强度 × calculation_constant_1",
+      "formulaParameters": {
+        "base_damage": {
+          "1": 70,
+          "2": 100,
+          "3": 130,
+          "4": 160,
+          "5": 190
+        },
+        "calculation_constant_1": 0.45
+      },
+      "existingEffects": [
+        "mana_cost"
+      ],
+      "existingProcesses": [],
+      "existingInternalStates": [],
+      "existingTriggerRules": []
+    }
+  },
+  "genericShieldSources": {
+    "rationale": "以下固定16.17.1原文用于确认普通敌方技能法术护盾的整体技能粒度；不是把别的技能字段逐字复制到泽拉斯E。",
+    "nocturne_w": {
+      "officialZh": {
+        "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Nocturne.json",
+        "sha256": "870f40f74748180f55b831a9a4cba36edb53a69bab912b5a1adb106eac913df5",
+        "jsonPointer": "/data/Nocturne/spells/1",
+        "version": "16.17.1",
+        "id": "NocturneShroudofDarkness",
+        "description": "魔腾强化他的刀刃，被动地提升他的攻击速度。主动激活此技能，将使魔腾融入黑影中，同时产生一个能够抵挡掉敌方单个技能的魔法护盾。",
+        "tooltip": "<spellPassive>被动：</spellPassive>魔腾获得<attackSpeed>{{ activeas }}%攻击速度</attackSpeed>。<br /><br /><spellActive>主动：</spellActive>魔腾生成一个持续1.5秒的暗影屏障，来格挡下一个敌方技能。如果格挡掉一个技能，那么这个技能的被动效果提升至<attackSpeed>{{ activeas*2 }}%攻击速度</attackSpeed>，持续{{ doubleasduration }}秒。{{ spellmodifierdescriptionappend }}"
+      },
+      "officialEn": {
+        "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Nocturne.json",
+        "sha256": "def3fd2f6f97971b5c698d427a18f095a5b3f81dc4d1880fee8d56b819b762d9",
+        "jsonPointer": "/data/Nocturne/spells/1",
+        "version": "16.17.1",
+        "id": "NocturneShroudofDarkness",
+        "description": "Nocturne empowers his blades, passively gaining Attack Speed. Activating Shroud of Darkness allows Nocturne to fade into the shadows, creating a magical barrier which blocks a single enemy ability and doubles his passive Attack Speed if successful.",
+        "tooltip": "<spellPassive>Passive:</spellPassive> Nocturne gains <attackSpeed>{{ activeas }}% Attack Speed</attackSpeed>.<br /><br /><spellActive>Active:</spellActive> Nocturne creates a shadow barrier for 1.5 seconds that blocks the next enemy Ability. If an Ability is blocked, this Ability's passive effect is increased to <attackSpeed>{{ activeas*2 }}% Attack Speed</attackSpeed> for {{ doubleasduration }} seconds.{{ spellmodifierdescriptionappend }}"
+      },
+      "clientAnchor": {
+        "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Nocturne.json.gz",
+        "compressedSha256": "c3ac14c59e9250017a85f0b588fca29c66aaacf50c009f80e9d2b2a06804ac53",
+        "rawJsonSha256": "de77651d4f8a34d2947bf7a5f38ca02928ae65fb10cb9c684bfaf101001a5b30",
+        "jsonPointer": "/Characters~1Nocturne~1Spells~1NocturneShroudofDarknessAbility~1NocturneShroudofDarkness/mSpell"
+      }
+    },
+    "sivir_e": {
+      "officialZh": {
+        "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Sivir.json",
+        "sha256": "6b4a17775c92eb58504c1239066d0f1dc8ba1064567632eb6bd5bcc47bdf807d",
+        "jsonPointer": "/data/Sivir/spells/2",
+        "version": "16.17.1",
+        "id": "SivirE",
+        "description": "制造一层法术屏障，来格挡一次对着希维尔施放的敌方单体技能。如果希维尔成功格挡了一次技能，那么就会回复生命值并获得爆发性的移动速度加成。",
+        "tooltip": "希维尔制造一层持续{{ spellshieldduration }}秒的法术屏障，来格挡一次即将到来的敌方技能。如果希维尔成功格挡了一次技能，那么就会回复<healing>{{ totalheal }}生命值</healing>并触发【敏锐疾行】。{{ spellmodifierdescriptionappend }}"
+      },
+      "officialEn": {
+        "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Sivir.json",
+        "sha256": "0d958a138bfb8750ee6c7100e5e5f376e4d4ad7538919fbbce4f4e82e637afdc",
+        "jsonPointer": "/data/Sivir/spells/2",
+        "version": "16.17.1",
+        "id": "SivirE",
+        "description": "Creates a magical barrier that blocks a single enemy ability cast on Sivir. She receives health and a burst of movement speed if a spell is blocked.",
+        "tooltip": "Sivir creates a magical barrier for {{ spellshieldduration }} seconds that blocks the next incoming enemy Ability. If an ability is blocked, Sivir restores <healing>{{ totalheal }} health</healing> and triggers Fleet of Foot.{{ spellmodifierdescriptionappend }}"
+      },
+      "clientAnchor": {
+        "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Sivir.json.gz",
+        "compressedSha256": "f8048ba433c2931222180255fc86b1a202361539b69880e6d19e294ff4d8f445",
+        "rawJsonSha256": "907ed34214d296da277036ba3c96e73dfa1d4d7f9031aac76715073639a8bbee",
+        "jsonPointer": "/Characters~1Sivir~1Spells~1SivirEAbility~1SivirE/mSpell"
+      }
+    }
+  },
+  "interactionDecision": {
+    "decision": "可纳入同一普通直接魔法技能交互规则",
+    "ordinarySkillTest": {
+      "damageType": "官方中英文明确 magic damage；客户端为 Trait_DamageAbility，直接计算树只有 BaseDamage 与法强系数。",
+      "delivery": "一次远程投射物对第一个实际命中敌人结算；Trait_Ranged_StopsFirstHit，无周期、宠物、召唤物、普攻或持续伤害字段。",
+      "target": "当前目标是实际命中对象；不新增英雄类别条件，来源只限定敌人而未限定英雄类别。",
+      "critical": "固定16.17.1来源未出现技能自身暴击率或强制暴击分支；按已独立接受的普通直接技能口径 DISALLOWED。",
+      "vamp": "没有惩罚召唤师技能、宠物、小兵、持续伤害或范围小兵折减等例外；采用 OMNIVAMP、POST_DEFENSE_DAMAGE、固定效率1。",
+      "spellShield": "Nocturne W 与 Sivir E 原文均定义阻挡单个/下一个敌方技能；泽拉斯E是敌方技能且未出现法术护盾例外，使用 SKILL 整体粒度。"
+    },
+    "confirmedFields": {
+      "damageTypeKey": "magic",
+      "deliveryKind": "SKILL",
+      "originKind": "DIRECT",
+      "critical": {
+        "mode": "DISALLOWED",
+        "multiplierValue": null
+      },
+      "spellShieldBlockScope": "SKILL",
+      "vampRules": [
+        {
+          "vampType": "OMNIVAMP",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "efficiencyValue": {
+            "kind": "FIXED",
+            "value": 1
+          }
+        }
+      ]
+    },
+    "actualHitContract": {
+      "eventType": "SKILL_HIT",
+      "eventSourcePostDetail": {
+        "sourceSkillKey": "xerath_e"
+      },
+      "eventSourceExpectedReadbackDetail": {
+        "sourceSkillKey": "xerath_e",
+        "useKind": null
+      },
+      "actionType": "EXECUTE_EFFECT",
+      "targetContext": "CURRENT_TARGET",
+      "conditionGroups": [],
+      "runtimeInputBindings": [],
+      "resultModifiers": [],
+      "perTargetCooldown": null,
+      "maxTriggersPerProcess": null
+    },
+    "noExceptionFound": [
+      "没有技能自身暴击分支或暴击计算节点。",
+      "没有将该伤害标为物理、普攻、攻击附带或持续周期伤害的字段。",
+      "没有召唤物、宠物、小兵、范围小兵折减或特殊模式覆盖进入本次普通直接伤害。",
+      "法术护盾来源说明是按敌方技能整体阻挡，没有发现泽拉斯E可绕过该粒度的来源字段。"
+    ]
+  },
+  "candidate2Post": {
+    "order": [
+      "先创建直接伤害效果，再创建实际命中规则"
+    ],
+    "sourceBoundary": "这不是逐字照抄库奇Q/崔斯特Q；只复用已独立核定的普通技能交互口径，并由泽拉斯E自己的16.17.1文本与客户端字段确认 magic、DIRECT、单次实际命中和无例外。眩晕距离输入、时长夹限及控制结果不进入这两个请求。",
+    "effect": {
+      "method": "POST",
+      "route": "/api/admin/games/lol/skills/xerath_e/effects",
+      "body": {
+        "effectKey": "mage_spear_hit",
+        "name": "冲击法球实际命中魔法伤害",
+        "description": "仅表达第一个实际命中目标的一次直接魔法伤害；眩晕距离与时长另行处理。",
+        "sortOrder": 20,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "damage",
+            "name": "魔法伤害",
+            "resultType": "DAMAGE",
+            "target": "TARGET",
+            "description": "引用同技能 damage 公式；不包含眩晕距离或时长。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": "SKILL",
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "damage"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "vampRules": [
+                {
+                  "vampType": "OMNIVAMP",
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "expectedReadback": {
+        "effectKey": "mage_spear_hit",
+        "name": "冲击法球实际命中魔法伤害",
+        "description": "仅表达第一个实际命中目标的一次直接魔法伤害；眩晕距离与时长另行处理。",
+        "gameId": "lol",
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "damage",
+            "name": "魔法伤害",
+            "resultType": "DAMAGE",
+            "target": "TARGET",
+            "description": "引用同技能 damage 公式；不包含眩晕距离或时长。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": "SKILL",
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "damage"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "vampRules": [
+                {
+                  "vampType": "OMNIVAMP",
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        "skillKey": "xerath_e",
+        "sortOrder": 20
+      }
+    },
+    "hitRule": {
+      "method": "POST",
+      "route": "/api/admin/games/lol/skills/xerath_e/trigger-rules",
+      "body": {
+        "ruleKey": "actual_hit",
+        "name": "冲击法球实际命中",
+        "description": "仅接收该技能对当前目标的一次实际 SKILL_HIT 并执行直接伤害；规则本身不产生命中事件。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "xerath_e"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "damage",
+            "name": "执行命中伤害",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "mage_spear_hit"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "actions": [
+          {
+            "actionKey": "damage",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "mage_spear_hit"
+            },
+            "name": "执行命中伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "仅接收该技能对当前目标的一次实际 SKILL_HIT 并执行直接伤害；规则本身不产生命中事件。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "xerath_e",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "冲击法球实际命中",
+        "perTargetCooldown": null,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10
+      }
+    }
+  },
+  "runtimeAndMappingBoundary": {
+    "managementMapping": "DAMAGE结果的法术护盾阻挡粒度、POST_DEFENSE_DAMAGE吸血基准和效率1均是管理配置映射。",
+    "notProven": [
+      "实际命中事件生产",
+      "法术护盾运行阻挡",
+      "护盾吸收后的真实生命扣除",
+      "过量伤害",
+      "战斗运行或Wasm"
+    ],
+    "excludedFromCandidate": [
+      "距离到眩晕时长的完整算法",
+      "眩晕结果和持续时间",
+      "施法过程、消耗和普通冷却"
+    ]
+  },
+  "conclusion": "泽拉斯E没有真实交互例外，三项字段可纳入已独立核定的普通直接魔法技能口径；02提供完整两POST候选，尚未执行写入。"
+}

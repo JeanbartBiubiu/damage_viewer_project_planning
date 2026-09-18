@@ -1,0 +1,457 @@
+{
+  "schemaVersion": "damage.authoring.independent-review.v1",
+  "status": "APPROVED",
+  "title": "泽拉斯E伤害与使用流程补录独立评审",
+  "reviewedAt": "2026-09-18T23:14:33.740Z",
+  "scope": {
+    "worktree": "C:\\project\\damage_web_dev",
+    "directory": "数据参考/全量录入-2026-09/交叉试录/泽拉斯E伤害与使用流程补录",
+    "skillKey": "xerath_e",
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "requestCount": 4,
+    "apiCallsDuringReview": 0,
+    "businessWritesDuringReview": 0,
+    "excluded": [
+      "眩晕实际距离到时长的未知算法",
+      "眩晕结果接线",
+      "宿主/Wasm、战斗运行和浏览器验收"
+    ]
+  },
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v2.mjs": "dc7af7426c1f3fcaa53a8c03738f649fc2f8236ba10090981a091ff1acc1a378",
+    "01-候选方案.json": "f35fda31fa0adf2de7ce700c9163c104c7f2ad0b6708e53f4b1a2462947fb9b9",
+    "02-冻结请求.json": "81a006c1fa7e47ec0ecc0f2b19f9b8fe7aa9d34fc34895d87395ccebfbf095b1",
+    "03-来源摘要.json": "6e79fdee15a38d3a39c20f54d1ee5f0769d2b772816176489aac3577e2b4cf47",
+    "04-写入前现值.json": "aee2a24f045e5db3f52f06e66d8443cdfb6e3657216cf3361956d0529cc23c5e"
+  },
+  "toolBinding": {
+    "path": "tools/authoring/append-reviewed-skill-components-v2.mjs",
+    "sha256": "dc7af7426c1f3fcaa53a8c03738f649fc2f8236ba10090981a091ff1acc1a378",
+    "expectedSha256": "dc7af7426c1f3fcaa53a8c03738f649fc2f8236ba10090981a091ff1acc1a378",
+    "match": true,
+    "relevantContract": [
+      "只接受01候选中的POST请求",
+      "prepare阶段保存02/03/04并锁定哈希",
+      "写入前逐条确认详情404",
+      "每个POST后立即独立GET回读",
+      "readback阶段按05批准文件哈希和请求字节核对"
+    ]
+  },
+  "fileBinding": {
+    "files": {
+      "02-冻结请求.json": "81a006c1fa7e47ec0ecc0f2b19f9b8fe7aa9d34fc34895d87395ccebfbf095b1",
+      "03-来源摘要.json": "6e79fdee15a38d3a39c20f54d1ee5f0769d2b772816176489aac3577e2b4cf47",
+      "04-写入前现值.json": "aee2a24f045e5db3f52f06e66d8443cdfb6e3657216cf3361956d0529cc23c5e",
+      "01-候选方案.json": "f35fda31fa0adf2de7ce700c9163c104c7f2ad0b6708e53f4b1a2462947fb9b9"
+    },
+    "freezeLinks": {
+      "02.sourceSha256": "与03-来源摘要.json一致",
+      "02.baselineSha256": "与04-写入前现值.json一致",
+      "actualSourceSha256": "6e79fdee15a38d3a39c20f54d1ee5f0769d2b772816176489aac3577e2b4cf47",
+      "actualBaselineSha256": "aee2a24f045e5db3f52f06e66d8443cdfb6e3657216cf3361956d0529cc23c5e"
+    },
+    "sourceFiles": {
+      "count": 19,
+      "mismatchCount": 0,
+      "allMatch": true,
+      "rows": [
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/交叉试录/泽拉斯E伤害与使用流程补录/00-交互来源续核.json",
+          "expectedSha256": "1055360e2d5e76fef261331b569b87c43f5d5edd4bfa8e0ae57e99899efb5bf1",
+          "actualSha256": "1055360e2d5e76fef261331b569b87c43f5d5edd4bfa8e0ae57e99899efb5bf1",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/交叉试录/泽拉斯E伤害与使用流程补录/00a-五项只读原件.json",
+          "expectedSha256": "8ca88d6e3013f564e46fae883a4e1bff5911501ac564d2094c21a230fc274d3d",
+          "actualSha256": "8ca88d6e3013f564e46fae883a4e1bff5911501ac564d2094c21a230fc274d3d",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Xerath.json",
+          "expectedSha256": "5f4eff400aa79a63693c99966caec56013f53e52d8ced05912b9157a3b396c6a",
+          "actualSha256": "5f4eff400aa79a63693c99966caec56013f53e52d8ced05912b9157a3b396c6a",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Xerath.json",
+          "expectedSha256": "6e690f8c2a6030d65f17a7fec27585ed15183a31f1d2a8f3aaa53e49878b46c0",
+          "actualSha256": "6e690f8c2a6030d65f17a7fec27585ed15183a31f1d2a8f3aaa53e49878b46c0",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Xerath.json.gz",
+          "expectedSha256": "389b87b67a36643581979c26ed7ce27019ecf3daaf3097ad9021a45b3374a567",
+          "actualSha256": "389b87b67a36643581979c26ed7ce27019ecf3daaf3097ad9021a45b3374a567",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q完整补录/交互来源核定.json",
+          "expectedSha256": "e3bb3619af36e0212d4eacc35e5ec4aa31c0e6882cf7f32df031ee30ef2ea501",
+          "actualSha256": "e3bb3619af36e0212d4eacc35e5ec4aa31c0e6882cf7f32df031ee30ef2ea501",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q完整补录/01-候选方案.json",
+          "expectedSha256": "05245a8d21afa790d568ba0197f03c8b58ac847ab49b8357cfe10711c61e0dc9",
+          "actualSha256": "05245a8d21afa790d568ba0197f03c8b58ac847ab49b8357cfe10711c61e0dc9",
+          "match": true
+        },
+        {
+          "root": "planning",
+          "path": "数据参考/全量录入-2026-09/伤害吸血通用来源复核/来源与未决口径.json",
+          "expectedSha256": "b5ad7d6eb3d73f7db86e35744c6f39dfd67ad62c80806b80bb38ac4e08864f59",
+          "actualSha256": "b5ad7d6eb3d73f7db86e35744c6f39dfd67ad62c80806b80bb38ac4e08864f59",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Nocturne.json",
+          "expectedSha256": "870f40f74748180f55b831a9a4cba36edb53a69bab912b5a1adb106eac913df5",
+          "actualSha256": "870f40f74748180f55b831a9a4cba36edb53a69bab912b5a1adb106eac913df5",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Nocturne.json",
+          "expectedSha256": "def3fd2f6f97971b5c698d427a18f095a5b3f81dc4d1880fee8d56b819b762d9",
+          "actualSha256": "def3fd2f6f97971b5c698d427a18f095a5b3f81dc4d1880fee8d56b819b762d9",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Nocturne.json.gz",
+          "expectedSha256": "c3ac14c59e9250017a85f0b588fca29c66aaacf50c009f80e9d2b2a06804ac53",
+          "actualSha256": "c3ac14c59e9250017a85f0b588fca29c66aaacf50c009f80e9d2b2a06804ac53",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Sivir.json",
+          "expectedSha256": "6b4a17775c92eb58504c1239066d0f1dc8ba1064567632eb6bd5bcc47bdf807d",
+          "actualSha256": "6b4a17775c92eb58504c1239066d0f1dc8ba1064567632eb6bd5bcc47bdf807d",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Sivir.json",
+          "expectedSha256": "0d958a138bfb8750ee6c7100e5e5f376e4d4ad7538919fbbce4f4e82e637afdc",
+          "actualSha256": "0d958a138bfb8750ee6c7100e5e5f376e4d4ad7538919fbbce4f4e82e637afdc",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Sivir.json.gz",
+          "expectedSha256": "f8048ba433c2931222180255fc86b1a202361539b69880e6d19e294ff4d8f445",
+          "actualSha256": "f8048ba433c2931222180255fc86b1a202361539b69880e6d19e294ff4d8f445",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/交叉试录/五项法师技能使用登记补录/04-写入前现值.json",
+          "expectedSha256": "1c6aee3f27cac1da1cc8610f92b88f515298d181225fb29f8c7c7a8ff59d1d60",
+          "actualSha256": "1c6aee3f27cac1da1cc8610f92b88f515298d181225fb29f8c7c7a8ff59d1d60",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/交叉试录/五项法师技能使用登记补录/01-候选方案.json",
+          "expectedSha256": "afd5f1cc6f28da81f6e58a0ef6097864a39a7960a649773be3a0c97c04e1efa0",
+          "actualSha256": "afd5f1cc6f28da81f6e58a0ef6097864a39a7960a649773be3a0c97c04e1efa0",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "web/src/types/skillEffect.ts",
+          "expectedSha256": "6a71ae4038c4641558aee593fb24be077e67851f50322ae2ff1c0c5da668ac34",
+          "actualSha256": "6a71ae4038c4641558aee593fb24be077e67851f50322ae2ff1c0c5da668ac34",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "web/src/types/skillProcess.ts",
+          "expectedSha256": "6fa0232b4ab6c1bbf44488f0e0a2eb41b8dfd1b23ac9db99a935a74ada0fb85b",
+          "actualSha256": "6fa0232b4ab6c1bbf44488f0e0a2eb41b8dfd1b23ac9db99a935a74ada0fb85b",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "web/src/types/skillTriggerRule.ts",
+          "expectedSha256": "db1021ad59bf8cfee862603c2e7dcde6c618da85d235f36de941c6a205852615",
+          "actualSha256": "db1021ad59bf8cfee862603c2e7dcde6c618da85d235f36de941c6a205852615",
+          "match": true
+        }
+      ]
+    }
+  },
+  "reviewItems": [
+    {
+      "id": "R1",
+      "name": "工具与01至04文件绑定",
+      "result": "PASS",
+      "evidence": "工具、01、02、03、04实际SHA-256均记录在approvedFiles；工具哈希等于锁定值dc7af742..."
+    },
+    {
+      "id": "R2",
+      "name": "19项来源完整哈希",
+      "result": "PASS",
+      "evidence": "03-来源摘要列出19项，逐项重新计算actualSha256，19/19一致，无缺失或漂移。"
+    },
+    {
+      "id": "R3",
+      "name": "冻结请求散列关系",
+      "result": "PASS",
+      "evidence": "02.sourceSha256等于03文件哈希，02.baselineSha256等于04文件哈希；02哈希为锁定的81a006c1..."
+    },
+    {
+      "id": "R4",
+      "name": "四项请求边界与顺序",
+      "result": "PASS",
+      "evidence": {
+        "requestCount": 4,
+        "order": [
+          "POST effects/mage_spear_hit",
+          "POST processes/cast",
+          "POST trigger-rules/on_used",
+          "POST trigger-rules/actual_hit"
+        ],
+        "requestSummary": [
+          {
+            "method": "POST",
+            "route": "/skills/xerath_e/effects",
+            "detailRoute": "/skills/xerath_e/effects/mage_spear_hit",
+            "keyField": "effectKey",
+            "key": "mage_spear_hit",
+            "expectedKey": "mage_spear_hit"
+          },
+          {
+            "method": "POST",
+            "route": "/skills/xerath_e/processes",
+            "detailRoute": "/skills/xerath_e/processes/cast",
+            "keyField": "processKey",
+            "key": "cast",
+            "expectedKey": "cast"
+          },
+          {
+            "method": "POST",
+            "route": "/skills/xerath_e/trigger-rules",
+            "detailRoute": "/skills/xerath_e/trigger-rules/on_used",
+            "keyField": "ruleKey",
+            "key": "on_used",
+            "expectedKey": "on_used"
+          },
+          {
+            "method": "POST",
+            "route": "/skills/xerath_e/trigger-rules",
+            "detailRoute": "/skills/xerath_e/trigger-rules/actual_hit",
+            "keyField": "ruleKey",
+            "key": "actual_hit",
+            "expectedKey": "actual_hit"
+          }
+        ],
+        "duplicateDetailRoutes": false,
+        "formulaAndStunSeparation": "伤害引用damage；施法流程只绑定mana_cost、cooldown_ms和cast_time_ms；眩晕公式未进入新请求。"
+      }
+    },
+    {
+      "id": "R5",
+      "name": "直接伤害结果",
+      "result": "PASS",
+      "evidence": {
+        "resultType": "DAMAGE",
+        "target": "TARGET",
+        "damageTypeKey": "magic",
+        "deliveryKind": "SKILL",
+        "originKind": "DIRECT",
+        "spellShieldBlockScope": "SKILL",
+        "critical": "DISALLOWED",
+        "vampRules": "OMNIVAMP + POST_DEFENSE_DAMAGE + 固定效率1",
+        "valueRule": "FORMULA damage"
+      }
+    },
+    {
+      "id": "R6",
+      "name": "damage公式与等级数组",
+      "result": "PASS",
+      "evidence": {
+        "formula": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "calculation_constant_1"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "baseDamage": {
+          "1": 70,
+          "2": 100,
+          "3": 130,
+          "4": 160,
+          "5": 190
+        },
+        "calculationConstant": 0.45,
+        "sourceAbilityPower": "SOURCE TOTAL ability_power",
+        "note": "等级1至5为70/100/130/160/190；固定系数0.45；没有把confirmed_distance_stun_ms带入伤害。"
+      }
+    },
+    {
+      "id": "R7",
+      "name": "法力效果、冷却和施法时间",
+      "result": "PASS",
+      "evidence": {
+        "existingManaEffect": {
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "target": "SOURCE",
+          "valueKind": "PARAMETER",
+          "parameterKey": "mana_cost",
+          "attributeKey": "mana",
+          "operation": "CONSUME"
+        },
+        "processBinding": "cast过程PROCESS_START绑定既有mana_cost；普通冷却读取cooldown_ms；DELAY步骤读取cast_time_ms。",
+        "castTimeMs": 250,
+        "cooldownMs": {
+          "1": 13000,
+          "2": 12500,
+          "3": 12000,
+          "4": 11500,
+          "5": 11000
+        },
+        "manaCost": {
+          "1": 60,
+          "2": 65,
+          "3": 70,
+          "4": 75,
+          "5": 80
+        },
+        "clientAgreement": "根spellCastTime与mCastTime均为0.25秒；管理参数为250毫秒。"
+      }
+    },
+    {
+      "id": "R8",
+      "name": "事件入口与1V1范围条件",
+      "result": "PASS",
+      "evidence": {
+        "onUsed": "SKILL_USED，sourceSkillKey=xerath_e，useKind=ACTIVE，START_PROCESS cast；不执行伤害。",
+        "actualHit": "SKILL_HIT，POST只提交sourceSkillKey；GET窄规范化预期useKind=null；EXECUTE_EFFECT mage_spear_hit，CURRENT_TARGET。",
+        "championConditionBoundary": "actual_hit的TARGET_CATEGORY_CHECK=CHAMPION只表达本轮用户1V1范围过滤，不是泽拉斯E天然仅英雄目标；来源摘要明确记录此边界。",
+        "noEventCreation": "两个规则均只消费宿主提供的事件，不生产施法、投射物、命中或眩晕事件。"
+      }
+    },
+    {
+      "id": "R9",
+      "name": "写前现值、眩晕隔离与新对象缺失",
+      "result": "PASS",
+      "evidence": {
+        "auditCount": 31,
+        "statusCounts": [
+          {
+            "status": 200,
+            "count": 27
+          },
+          {
+            "status": 404,
+            "count": 4
+          }
+        ],
+        "businessWrites": 0,
+        "newObject404": [
+          {
+            "path": "/skills/xerath_e/effects/mage_spear_hit",
+            "status": 404
+          },
+          {
+            "path": "/skills/xerath_e/processes/cast",
+            "status": 404
+          },
+          {
+            "path": "/skills/xerath_e/trigger-rules/on_used",
+            "status": 404
+          },
+          {
+            "path": "/skills/xerath_e/trigger-rules/actual_hit",
+            "status": 404
+          }
+        ],
+        "preservedExisting": {
+          "processCount": 0,
+          "stateCount": 0,
+          "ruleCount": 0,
+          "confirmedDistanceInput": "仍为RUNTIME_INPUT且无默认值",
+          "boundedStunFormula": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "confirmed_distance_stun_ms"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "min_stun_ms"
+                  }
+                ],
+                "operation": "MAX"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "max_stun_ms"
+              }
+            ],
+            "operation": "MIN"
+          }
+        }
+      }
+    }
+  ],
+  "sourceAndCitationBoundary": {
+    "versions": {
+      "client": "16.17",
+      "official": "16.17.1"
+    },
+    "citedInPlan": [
+      "Xerath中文/英文原始资料 data.Xerath.spells[2]",
+      "Xerath客户端根绑定 Characters/Xerath/Spells/XerathMageSpearAbility/XerathMageSpear",
+      "库奇Q与崔斯特Q交互来源核定及01候选契约",
+      "固定16.17.1 Nocturne W、Sivir E原文",
+      "五项法师技能使用登记补录的既有使用登记边界",
+      "web/src/types/skillEffect.ts、skillProcess.ts、skillTriggerRule.ts"
+    ],
+    "decisionBoundary": "普通直接魔法伤害的交互字段已独立核定；不把复用通用口径写成运行时证明。",
+    "runtimeBoundary": "实际事件生产、法术护盾运行、护盾吸收后的生命扣除、过量伤害、吸血实际回收和Wasm均未验证。"
+  },
+  "remainingNoBlocker": [
+    "距离到实际眩晕时长仍是未知输入和独立控制范围，本评审不批准其默认值。",
+    "主负责人后续写入必须使用02的冻结哈希和DAMAGE_APPROVED_BATCH_SHA，并按工具执行逐条404预检、POST、即时回读和最终独立回读。"
+  ],
+  "conclusion": "APPROVED：本批四个POST请求的静态边界、来源和写前现值具备独立评审通过条件；未发现阻塞项。"
+}
+
