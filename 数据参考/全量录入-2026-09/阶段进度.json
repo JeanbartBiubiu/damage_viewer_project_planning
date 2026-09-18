@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-18T22:09:55.824Z",
+  "generatedAt": "2026-09-18T22:21:11.014Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -9713,6 +9713,65 @@
         "sha256": "9346fffc029cdcfeb8afdc3b8dcba05c6d25a1ab3dad5026fb7d2d231ba0f17a",
         "commit": "54b8450a"
       }
+    },
+    "fiveMageUseRegistrationBackfill": {
+      "at": "2026-09-18T22:21:11.014Z",
+      "status": "五项基础使用登记及莫甘娜Q缺失冷却参数已保存并独立回读；原有其他机制及页面待续",
+      "skills": [
+        "morgana_q",
+        "morgana_w",
+        "morgana_r",
+        "lux_q",
+        "lux_r"
+      ],
+      "created": {
+        "parameters": 1,
+        "processes": 3,
+        "triggerRules": 5
+      },
+      "candidateGETs": 42,
+      "prepareGETs": 119,
+      "writerGETs": 137,
+      "writerPOSTs": 9,
+      "immediateReadbacks": 9,
+      "independentGETs": 119,
+      "unchangedResponsesIncludingTimestamps": 101,
+      "expectedChangedCollections": 9,
+      "arithmeticCases": 44,
+      "existingRegistrationPreserved": [
+        "lux_w"
+      ],
+      "writer": "tools/authoring/append-reviewed-skill-components-v2.mjs",
+      "writerChange": "原保护工具只增补参数新增和列表投影；原第一版字节不变。",
+      "browser": "NOT_RUN_BROWSER_UNAVAILABLE",
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/五项法师技能使用登记补录/09-证据清单.json",
+        "sha256": "3fb75d904ba742b527fb8866874fc9ec04f108b5d3b091640bf23b6a6ac4514a",
+        "commit": "b0e3e7b8"
+      },
+      "remainingCandidateEvidence": [
+        {
+          "worktree": "damage_web_dev",
+          "skills": [
+            "morgana_q",
+            "morgana_w",
+            "morgana_r"
+          ],
+          "path": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十一批/修订三/完整候选.json",
+          "sha256": "bf26b9374fc305af52e7298934a54244aec5bec0166017ae5a99a38a2019ddcc"
+        },
+        {
+          "worktree": "damage_web_dev",
+          "skills": [
+            "lux_q",
+            "lux_r"
+          ],
+          "path": "数据参考/全量录入-2026-09/交叉试录/Cursor/拉克丝机制第一批/候选.json",
+          "sha256": "d12ce83ef0a000c8b854045d7065089cf43687818d617ddbb8968829f6baf9fd"
+        }
+      ]
     }
   },
   "runtimeValidation": "未执行",
@@ -9953,6 +10012,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/凯尔W自身加速与使用登记补录/09-证据清单.json",
         "sha256": "9346fffc029cdcfeb8afdc3b8dcba05c6d25a1ab3dad5026fb7d2d231ba0f17a",
         "commit": "54b8450a"
+      },
+      "fiveMageUseRegistrationBackfill": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/五项法师技能使用登记补录/09-证据清单.json",
+        "sha256": "3fb75d904ba742b527fb8866874fc9ec04f108b5d3b091640bf23b6a6ac4514a",
+        "commit": "b0e3e7b8"
       }
     },
     "coverage": {
@@ -19467,6 +19532,11 @@
           "durationMs": 2000,
           "httpReadback": "PASS",
           "browser": "待验"
+        },
+        "timingEvidence": {
+          "worktree": "damage_viewer_project_planning",
+          "relativePath": "数据参考/全量录入-2026-09/凯尔W时序来源续核.json",
+          "sha256": "a9c3bafd55f8d1c1954c5ed5c14ee034ab62474b88236004b1820267e381b7d3"
         }
       },
       {
@@ -21325,19 +21395,41 @@
         "name": "拉克丝·光之束缚",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有3个待处理分支，其中来源或资料缺口1个、系统缺口1个、配置缺口0个。",
-        "pendingCounts": {
+        "reason": "已补启动原cast过程的主动入口，原法力、延迟、冷却和实际命中规则完整保留；其他原候选相关组成及代表页面继续处理，不计整技能管理完成。",
+        "batchKey": "luxFirstBatch",
+        "candidateSha256": null,
+        "evidenceRefs": [
+          "skillThirdStageCurrentReadback",
+          "heroSourceInventory",
+          "fiveMageUseRegistrationBackfill"
+        ],
+        "historicalPendingCounts": {
           "source": 1,
           "system": 1,
           "configuration": 0,
           "other": 1
         },
-        "batchKey": "luxFirstBatch",
-        "candidateSha256": null,
-        "evidenceRefs": [
-          "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+        "remainingBranches": [
+          "束缚控制身份及合法命中",
+          "投射物宽度字段职责与原候选其他待核项",
+          "代表页面验收及相关过时说明整理"
+        ],
+        "remainingBranchesBoundary": "仅更新本次已录使用登记；原候选继续作为其他未完成分支依据，不重放旧请求。空间辅助参数按原范围判断，不自动扩大为1V1完成前置。",
+        "authoredCostCooldown": {
+          "processKey": "cast",
+          "ruleKey": "on_used",
+          "httpReadback": "PASS",
+          "browser": "待验",
+          "castDurationClaim": "只复用既有延迟与固定来源字段，不扩充未知取消时序"
+        },
+        "currentComponentCounts": {
+          "parameters": 8,
+          "formulas": 1,
+          "effects": 2,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 2
+        }
       },
       {
         "sourceChampionId": "Lux",
@@ -21396,19 +21488,41 @@
         "name": "拉克丝·终极闪光",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有5个待处理分支，其中来源或资料缺口4个、系统缺口0个、配置缺口0个。",
-        "pendingCounts": {
+        "reason": "已补启动原cast过程的主动入口，原法力、延迟、冷却和实际命中规则完整保留；其他原候选相关组成及代表页面继续处理，不计整技能管理完成。",
+        "batchKey": "luxFirstBatch",
+        "candidateSha256": null,
+        "evidenceRefs": [
+          "skillThirdStageCurrentReadback",
+          "heroSourceInventory",
+          "fiveMageUseRegistrationBackfill"
+        ],
+        "historicalPendingCounts": {
           "source": 4,
           "system": 0,
           "configuration": 0,
           "other": 1
         },
-        "batchKey": "luxFirstBatch",
-        "candidateSha256": null,
-        "evidenceRefs": [
-          "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+        "remainingBranches": [
+          "启明引爆与再次施加联动",
+          "核定未消费的旧冷却返还字段是否属于当前版本；不据字段存在添加机制",
+          "代表页面验收及相关过时说明整理"
+        ],
+        "remainingBranchesBoundary": "仅更新本次已录使用登记；原候选继续作为其他未完成分支依据，不重放旧请求。空间辅助参数按原范围判断，不自动扩大为1V1完成前置。",
+        "authoredCostCooldown": {
+          "processKey": "cast",
+          "ruleKey": "on_used",
+          "httpReadback": "PASS",
+          "browser": "待验",
+          "castDurationClaim": "只复用既有延迟与固定来源字段，不扩充未知取消时序"
+        },
+        "currentComponentCounts": {
+          "parameters": 8,
+          "formulas": 1,
+          "effects": 2,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 2
+        }
       },
       {
         "sourceChampionId": "Malphite",
@@ -22477,19 +22591,41 @@
         "name": "莫甘娜·暗之禁锢",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
-        "pendingCounts": {
+        "reason": "已补基础法力与普通冷却登记，莫甘娜Q缺失冷却采用同版明确10秒；其他原候选相关组成及代表页面继续处理，不计整技能管理完成。",
+        "batchKey": "heroThirtyFirstBatch",
+        "candidateSha256": "bf26b9374fc305af52e7298934a54244aec5bec0166017ae5a99a38a2019ddcc",
+        "evidenceRefs": [
+          "skillFirstStageCurrentReadback",
+          "heroSourceInventory",
+          "fiveMageUseRegistrationBackfill"
+        ],
+        "historicalPendingCounts": {
           "source": 0,
           "system": 1,
           "configuration": 0,
           "other": 0
         },
-        "batchKey": "heroThirtyFirstBatch",
-        "candidateSha256": "bf26b9374fc305af52e7298934a54244aec5bec0166017ae5a99a38a2019ddcc",
-        "evidenceRefs": [
-          "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+        "remainingBranches": [
+          "实际命中伤害效果和入口",
+          "禁锢控制身份、持续及命中接线",
+          "代表页面验收及相关过时说明整理"
+        ],
+        "remainingBranchesBoundary": "仅更新本次已录使用登记；原候选继续作为其他未完成分支依据，不重放旧请求。空间辅助参数按原范围判断，不自动扩大为1V1完成前置。",
+        "authoredCostCooldown": {
+          "processKey": "use_cost_and_cooldown",
+          "ruleKey": "on_used_cost_and_cooldown",
+          "httpReadback": "PASS",
+          "browser": "待验",
+          "castDurationClaim": "未声明，立即步骤只登记使用"
+        },
+        "currentComponentCounts": {
+          "parameters": 5,
+          "formulas": 1,
+          "effects": 1,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 1
+        }
       },
       {
         "sourceChampionId": "Morgana",
@@ -22500,19 +22636,42 @@
         "name": "莫甘娜·折磨之影",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有3个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
-        "pendingCounts": {
+        "reason": "已补基础法力与普通冷却登记，莫甘娜Q缺失冷却采用同版明确10秒；其他原候选相关组成及代表页面继续处理，不计整技能管理完成。",
+        "batchKey": "heroThirtyFirstBatch",
+        "candidateSha256": "bf26b9374fc305af52e7298934a54244aec5bec0166017ae5a99a38a2019ddcc",
+        "evidenceRefs": [
+          "skillFirstStageCurrentReadback",
+          "heroSourceInventory",
+          "fiveMageUseRegistrationBackfill"
+        ],
+        "historicalPendingCounts": {
           "source": 0,
           "system": 3,
           "configuration": 0,
           "other": 0
         },
-        "batchKey": "heroThirtyFirstBatch",
-        "candidateSha256": "bf26b9374fc305af52e7298934a54244aec5bec0166017ae5a99a38a2019ddcc",
-        "evidenceRefs": [
-          "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+        "remainingBranches": [
+          "目标缺失生命到伤害增幅的完整曲线",
+          "每跳伤害与周期时序",
+          "被动实际治疗到W冷却返还的条件与接线",
+          "代表页面验收及相关过时说明整理"
+        ],
+        "remainingBranchesBoundary": "仅更新本次已录使用登记；原候选继续作为其他未完成分支依据，不重放旧请求。空间辅助参数按原范围判断，不自动扩大为1V1完成前置。",
+        "authoredCostCooldown": {
+          "processKey": "use_cost_and_cooldown",
+          "ruleKey": "on_used_cost_and_cooldown",
+          "httpReadback": "PASS",
+          "browser": "待验",
+          "castDurationClaim": "未声明，立即步骤只登记使用"
+        },
+        "currentComponentCounts": {
+          "parameters": 9,
+          "formulas": 2,
+          "effects": 1,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 1
+        }
       },
       {
         "sourceChampionId": "Morgana",
@@ -22575,19 +22734,41 @@
         "name": "莫甘娜·灵魂镣铐",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
-        "pendingCounts": {
+        "reason": "已补基础法力与普通冷却登记，莫甘娜Q缺失冷却采用同版明确10秒；其他原候选相关组成及代表页面继续处理，不计整技能管理完成。",
+        "batchKey": "heroThirtyFirstBatch",
+        "candidateSha256": "bf26b9374fc305af52e7298934a54244aec5bec0166017ae5a99a38a2019ddcc",
+        "evidenceRefs": [
+          "skillFirstStageCurrentReadback",
+          "heroSourceInventory",
+          "fiveMageUseRegistrationBackfill"
+        ],
+        "historicalPendingCounts": {
           "source": 0,
           "system": 1,
           "configuration": 0,
           "other": 0
         },
-        "batchKey": "heroThirtyFirstBatch",
-        "candidateSha256": "bf26b9374fc305af52e7298934a54244aec5bec0166017ae5a99a38a2019ddcc",
-        "evidenceRefs": [
-          "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+        "remainingBranches": [
+          "同一目标第二段伤害、断链和控制",
+          "减速与眩晕的状态表达及合法时点",
+          "代表页面验收及相关过时说明整理"
+        ],
+        "remainingBranchesBoundary": "仅更新本次已录使用登记；原候选继续作为其他未完成分支依据，不重放旧请求。空间辅助参数按原范围判断，不自动扩大为1V1完成前置。",
+        "authoredCostCooldown": {
+          "processKey": "use_cost_and_cooldown",
+          "ruleKey": "on_used_cost_and_cooldown",
+          "httpReadback": "PASS",
+          "browser": "待验",
+          "castDurationClaim": "未声明，立即步骤只登记使用"
+        },
+        "currentComponentCounts": {
+          "parameters": 8,
+          "formulas": 1,
+          "effects": 1,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 1
+        }
       },
       {
         "sourceChampionId": "Naafiri",
