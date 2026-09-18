@@ -1,0 +1,47 @@
+{
+  "at": "2026-09-18T20:03:22.342Z",
+  "status": "PASS",
+  "skillKey": "item_3143_active",
+  "sourceVersion": "16.17",
+  "sourcePath": "Items/3143",
+  "rawSources": [
+    {
+      "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+      "compressedSha256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7",
+      "rawSha256": "b59ec9320d05acefa344ea8a5ef615cf7f32959078475cafff63833462dc358f"
+    },
+    {
+      "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+      "compressedSha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+      "rawSha256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031"
+    }
+  ],
+  "latestFrozenSource": "数据参考/全量录入-2026-09/装备技能实录/第十三批常规效果/冻结来源.json",
+  "latestCandidate": "数据参考/全量录入-2026-09/装备技能实录/第十三批常规效果/完整候选.json",
+  "rootObjectMatchesRaw": true,
+  "currentBoundActiveText": "%i:activeEffect% <active>谦卑</active> {{ Item_Cooldown }}<br>对附近敌人造成持续@SlowDuration@秒的@SlowAmount*100@%<keyword>减速</keyword>。",
+  "values": {
+    "PercentCritDamageReduction": 0.30000001192092896,
+    "SlowAmount": 0.699999988079071,
+    "SlowDuration": 2,
+    "Radius": 500,
+    "Cooldown": 90
+  },
+  "confirmed": {
+    "cooldownSeconds": 90,
+    "radius": 500,
+    "slowDurationMs": 2000,
+    "slowRatioOfficial": 0.7,
+    "target": "附近敌人"
+  },
+  "correction": "仅DDragon初版候选缺少冷却和范围；第十三批后续固定客户端原文已提供90秒和500半径，不再把这两项记作资料缺失。",
+  "managementMapping": "使用入口只负责冷却；已有SKILL_HIT表达范围内本次实际承受者。空间检测和多目标分发后置，不把无目标使用当命中。",
+  "remaining": [
+    "新普通减速状态与效果首次真实页面录入、保存重开",
+    "法术护盾资格须在实际写入方案中核定",
+    "相应过程和命中入口正式保存与独立回读"
+  ],
+  "businessWrites": 0,
+  "networkRequests": 0,
+  "runtime": "未开发或验证"
+}

@@ -43,7 +43,7 @@
         "parameterKey": "active_cooldown_ms",
         "value": 90000,
         "unit": "毫秒",
-        "sourceCompleteness": "旧候选仍标主动冷却及范围待补证，冻结前回固定原文核实"
+        "sourceCompleteness": "已由第十三批固定客户端当前绑定与原始文件散列核实90秒；初版DDragon候选的缺口已过时。"
       },
       "current": {
         "effects": 0,
@@ -51,7 +51,13 @@
         "triggerRules": 0
       },
       "eventMapping": "既有SKILL_HIT可接当前装备主动对某个范围内实际承受者的一次命中；每个实际承受者单独接收。不能把无目标SKILL_USED的来源回退当范围命中。",
-      "remaining": "补齐固定来源的作用范围、目标类别、冷却证据及法术护盾资格，再冻结配置。"
+      "remaining": "新的减速流程首次页面验收、法术护盾资格核定、过程和实际命中入口保存回读。",
+      "range": {
+        "radius": 500,
+        "source": "Items/3143/mDataValues[name=Radius]",
+        "boundary": "空间检测与多目标分发按既有范围后置，单对手接收实际命中事件。"
+      },
+      "latestSourceProof": "12-兰顿来源续证.json"
     },
     {
       "skillKey": "urgot_q",
@@ -94,8 +100,13 @@
     {
       "worktree": "damage_viewer_project_planning",
       "path": "文档记录/详细设计/项目/系统精简实施说明.md"
+    },
+    {
+      "worktree": "damage_web_dev",
+      "path": "数据参考/全量录入-2026-09/装备技能实录/第十三批常规效果/冻结来源.json"
     }
   ],
   "reviewCorrection": "首版将实际命中事件生产及几何枚举列为管理阻塞，定点复核规划真源后撤销；已有SKILL_HIT不禁止装备技能或无伤害命中。准确伤害资格、来源和配置缺项仍保留。",
-  "evidenceBoundary": "本报告为代理定点调查汇总，原始24GET快照未保存。不是新批次的完整冻结请求或写入批准；正式写入需实时保护预检。"
+  "evidenceBoundary": "本报告为代理定点调查汇总，原始24GET快照未保存。不是新批次的完整冻结请求或写入批准；正式写入需实时保护预检。",
+  "sourceCorrection": "不能复用初版候选的待补栏覆盖后续当前绑定补证；兰顿冷却和半径已经补齐，详见12。"
 }
