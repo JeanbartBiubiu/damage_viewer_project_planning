@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-18T21:55:43.546Z",
+  "generatedAt": "2026-09-18T22:09:55.824Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -9684,6 +9684,35 @@
       "runtimeValidation": "未实现、未验证",
       "contract": "文档记录/详细设计/项目/条件事件与动态输入供值管理详细设计.md#61-组合规则",
       "evidence": "数据参考/全量录入-2026-09/同事件治疗条件求值/README.md"
+    },
+    "kayleWMoveAndCostBackfill": {
+      "at": "2026-09-18T22:09:55.824Z",
+      "status": "凯尔W明确自身加速、法力消耗和普通冷却已保存；施法时间来源及页面待续",
+      "skills": [
+        "kayle_w"
+      ],
+      "created": {
+        "effects": 1,
+        "processes": 1,
+        "triggerRules": 2
+      },
+      "prepareGETs": 33,
+      "writerGETs": 41,
+      "writerPOSTs": 4,
+      "immediateReadbacks": 4,
+      "independentGETs": 33,
+      "unchangedResponsesIncludingTimestamps": 26,
+      "expectedChangedCollections": 3,
+      "arithmeticCases": 30,
+      "scopeExcluded": "纯其他友军收益及选人规则",
+      "browser": "NOT_RUN_BROWSER_UNAVAILABLE",
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/凯尔W自身加速与使用登记补录/09-证据清单.json",
+        "sha256": "9346fffc029cdcfeb8afdc3b8dcba05c6d25a1ab3dad5026fb7d2d231ba0f17a",
+        "commit": "54b8450a"
+      }
     }
   },
   "runtimeValidation": "未执行",
@@ -9918,6 +9947,12 @@
         "worktree": "damage_viewer_project_planning",
         "relativePath": "数据参考/全量录入-2026-09/同事件治疗条件求值/02a-修订二独立确认.json",
         "sha256": "23ea84aaf4522894050ae53dee86abf8004d434f211cec5aa7949f899c058352"
+      },
+      "kayleWMoveAndCostBackfill": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/凯尔W自身加速与使用登记补录/09-证据清单.json",
+        "sha256": "9346fffc029cdcfeb8afdc3b8dcba05c6d25a1ab3dad5026fb7d2d231ba0f17a",
+        "commit": "54b8450a"
       }
     },
     "coverage": {
@@ -9936,8 +9971,8 @@
         "sourceItems": 865,
         "concludedItems": 865,
         "conclusions": {
-          "资料待核": 384,
-          "系统暂缓": 453,
+          "资料待核": 385,
+          "系统暂缓": 452,
           "明确排除": 26,
           "已录入": 2
         },
@@ -19379,15 +19414,16 @@
         "slot": "W",
         "skillKey": "kayle_w",
         "name": "凯尔·星界恩典",
-        "conclusion": "系统暂缓",
+        "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "自身治疗效果和主动入口已保存并独立回读；自身加速、法力与普通冷却登记及页面验收待续。其他友军收益和目标选择按本轮范围排除，不阻挡明确自身收益。",
+        "reason": "明确的自身治疗、2秒加速、法力消耗及15秒普通冷却已接线并独立回读；客户端spellCastTime=0与mCastTime=0.25并存但职责未定，完整施法时间口径、旧说明整理及代表页面待续。",
         "batchKey": "heroThirtyEighthBatch",
         "candidateSha256": "2f03daad0fc690bb96164e1a92da5c62977a842dcb59c85cf45484e88d9587eb",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
-          "kayleSelfHealBackfill"
+          "kayleSelfHealBackfill",
+          "kayleWMoveAndCostBackfill"
         ],
         "historicalPendingCounts": {
           "source": 0,
@@ -19396,10 +19432,9 @@
           "other": 0
         },
         "remainingBranches": [
-          "自身移动速度效果和持续接线",
-          "法力消耗与普通冷却登记",
-          "实际施法时间口径和代表页面验收",
-          "旧参数及法力效果中进度说明整理"
+          "施法时间字段职责和当前完整时序来源",
+          "旧法力参数及效果结果中的进度说明整理",
+          "代表页面保存内容核对"
         ],
         "scopeExcluded": [
           "仅其他友军治疗与加速",
@@ -19414,10 +19449,24 @@
         "currentComponentCounts": {
           "parameters": 7,
           "formulas": 2,
-          "effects": 2,
-          "processes": 0,
+          "effects": 3,
+          "processes": 1,
           "internalStates": 0,
-          "triggerRules": 1
+          "triggerRules": 3
+        },
+        "authoredCostCooldown": {
+          "processKey": "use_cost_and_cooldown",
+          "ruleKey": "on_used_cost_and_cooldown",
+          "httpReadback": "PASS",
+          "browser": "待验",
+          "castDurationClaim": "未声明，立即步骤只登记使用"
+        },
+        "authoredSelfMoveSpeed": {
+          "effectKey": "self_move_speed",
+          "ruleKey": "on_used_self_move_speed",
+          "durationMs": 2000,
+          "httpReadback": "PASS",
+          "browser": "待验"
         }
       },
       {
