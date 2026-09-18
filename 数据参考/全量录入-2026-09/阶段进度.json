@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-18T21:36:53.869Z",
+  "generatedAt": "2026-09-18T21:44:10.331Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -9642,6 +9642,35 @@
         "sha256": "841a100c48f51a135dbb6d4457ec5523af2030611cbbac1f2212b388be5a8b4e",
         "purpose": "原自身加速无伤延长、乐曲切换和减速触发待办；不重放旧请求。"
       }
+    },
+    "kayleSelfHealBackfill": {
+      "at": "2026-09-18T21:44:10.331Z",
+      "status": "凯尔W自身治疗效果与主动入口已保存并独立回读；自身移速、成本登记及页面待续",
+      "skills": [
+        "kayle_w"
+      ],
+      "created": {
+        "effects": 1,
+        "triggerRules": 1
+      },
+      "sharedCandidateGETs": 38,
+      "prepareGETs": 27,
+      "writerGETs": 31,
+      "writerPOSTs": 2,
+      "immediateReadbacks": 2,
+      "independentGETs": 27,
+      "unchangedResponsesIncludingTimestamps": 23,
+      "expectedChangedCollections": 2,
+      "arithmeticCases": 15,
+      "semantics": "官方明确每次使用都治疗自己；可选其他友军目标不使自身收益依赖显式自施条件。",
+      "browser": "NOT_RUN_BROWSER_UNAVAILABLE",
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/凯尔W自身治疗补录/09-证据清单.json",
+        "sha256": "4fb0fc2d2f0d27ea3eec7233e912da8ee16dce224b8e41914a686de01b127765",
+        "commit": "9860961f"
+      }
     }
   },
   "runtimeValidation": "未执行",
@@ -9865,6 +9894,12 @@
         "worktree": "damage_viewer_project_planning",
         "relativePath": "数据参考/全量录入-2026-09/自身治疗候选限制复核/01-只读限制修正.json",
         "sha256": "a19b2dc0a8db21b0c6490d4cdc45e8bd0aec3b4538775bb5e6f9d3e2f760eeb4"
+      },
+      "kayleSelfHealBackfill": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/凯尔W自身治疗补录/09-证据清单.json",
+        "sha256": "4fb0fc2d2f0d27ea3eec7233e912da8ee16dce224b8e41914a686de01b127765",
+        "commit": "9860961f"
       }
     },
     "coverage": {
@@ -19328,19 +19363,44 @@
         "name": "凯尔·星界恩典",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
-        "pendingCounts": {
+        "reason": "自身治疗效果和主动入口已保存并独立回读；自身加速、法力与普通冷却登记及页面验收待续。其他友军收益和目标选择按本轮范围排除，不阻挡明确自身收益。",
+        "batchKey": "heroThirtyEighthBatch",
+        "candidateSha256": "2f03daad0fc690bb96164e1a92da5c62977a842dcb59c85cf45484e88d9587eb",
+        "evidenceRefs": [
+          "skillFirstStageCurrentReadback",
+          "heroSourceInventory",
+          "kayleSelfHealBackfill"
+        ],
+        "historicalPendingCounts": {
           "source": 0,
           "system": 1,
           "configuration": 0,
           "other": 0
         },
-        "batchKey": "heroThirtyEighthBatch",
-        "candidateSha256": "2f03daad0fc690bb96164e1a92da5c62977a842dcb59c85cf45484e88d9587eb",
-        "evidenceRefs": [
-          "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+        "remainingBranches": [
+          "自身移动速度效果和持续接线",
+          "法力消耗与普通冷却登记",
+          "实际施法时间口径和代表页面验收",
+          "旧参数及法力效果中进度说明整理"
+        ],
+        "scopeExcluded": [
+          "仅其他友军治疗与加速",
+          "其他友军选择规则"
+        ],
+        "authoredSelfHeal": {
+          "effectKey": "self_heal",
+          "ruleKey": "on_used_self_heal",
+          "httpReadback": "PASS",
+          "browser": "待验"
+        },
+        "currentComponentCounts": {
+          "parameters": 7,
+          "formulas": 2,
+          "effects": 2,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 1
+        }
       },
       {
         "sourceChampionId": "Kayle",
