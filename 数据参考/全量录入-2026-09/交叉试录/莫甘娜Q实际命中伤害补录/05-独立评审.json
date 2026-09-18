@@ -1,0 +1,113 @@
+{
+  "status": "APPROVED",
+  "at": "2026-09-19T06:34:00.7504669+08:00",
+  "reviewer": "/root/morgana_q_damage_candidate",
+  "actualTask": "/root/morgana_q_damage_candidate",
+  "requestedModel": "gpt-5.6-luna",
+  "reasoningEffort": "max",
+  "task": "静态独立评审莫甘娜Q实际命中伤害补录的00/01/02/03/04、配置算术与现值保护核对及v2追加工具；不调用业务API、不修改冻结文件和工具，仅以wx创建本文件。",
+  "mode": "静态冻结审查；不访问业务API、数据库、浏览器、Wasm或战斗运行。",
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v2.mjs": "dc7af7426c1f3fcaa53a8c03738f649fc2f8236ba10090981a091ff1acc1a378",
+    "01-候选方案.json": "7a3d78bd90b738317b825c4a1e007413ef94438b73ce9d27d4cfd8c855056e41",
+    "02-冻结请求.json": "93d48460e56611c8ec145861377fba8f2275e3fbbad2429db9d595cbc9a2896c",
+    "03-来源摘要.json": "5420fdf6b0c88bce163088dcc0d9f115cf396722cd5cb2f90e52c081a1bce578",
+    "04-写入前现值.json": "35a1b87724a50df556cd51126b2670686a5ae31fabe38639749dcc2dda886116"
+  },
+  "additionalReviewedFiles": {
+    "00-独立只读候选.json": "c186871690f11deb60f60b7ae486a349583fc3db1155fb05e37d7584fde88a00",
+    "配置算术与现值保护核对.json": "004c3d7c277ceec473d82562c29d09f4bd7f2b0613b7c0986da25a0696cb8793"
+  },
+  "checks": [
+    {
+      "name": "原始文件散列与来源锁定",
+      "status": "PASS",
+      "evidence": "工具、01、02、03、04和两个附加评审文件均已按原始字节重算。03共13项来源，声明sha256与actualSha256逐项一致；其中完整候选、官方中英文、客户端MorganaQ压缩包、技能来源索引和现行类型文件均未漂移。"
+    },
+    {
+      "name": "冻结请求、哈希绑定与回读差异",
+      "status": "PASS",
+      "evidence": "01与02的requests深度一致，共2条POST，明细路径唯一。效果请求与expectedReadback完整相同；规则请求与expectedReadback唯一差异是SKILL_HIT的eventSource.detail.useKind由请求省略、预期回读为null。02.sourceSha256等于03原文件散列，baselineSha256等于04原文件散列。"
+    },
+    {
+      "name": "实际命中魔法伤害交互契约",
+      "status": "PASS",
+      "evidence": "primary_hit结果为DAMAGE/TARGET，引用既有magic_damage公式；detail明确damageTypeKey=magic、deliveryKind=SKILL、originKind=DIRECT、spellShieldBlockScope=SKILL、critical=DISALLOWED，吸血规则为OMNIVAMP/POST_DEFENSE_DAMAGE/固定效率1。该组字段是现行管理契约的通用技能伤害映射，沿用库奇与崔斯特Q已通过的01/07结构；评审不把它写成已完成护盾、抗性、防御后伤害或吸血运行。"
+    },
+    {
+      "name": "命中事件、目标上下文与动态输入",
+      "status": "PASS",
+      "evidence": "规则eventSource为SKILL_HIT且sourceSkillKey=morgana_q；动作执行primary_hit并使用CURRENT_TARGET，结果目标为TARGET；runtimeInputBindings和resultModifiers均为空。CHAMPION类别条件只作为本轮1V1唯一敌方英雄范围过滤，未把官方first enemy文字改写成英雄专属，也未伪造投射物、碰撞或首个目标选择。"
+    },
+    {
+      "name": "现值保护与成本批衔接",
+      "status": "PASS",
+      "evidence": "04共27次GET，其中25次200、2次预期404，businessWrites为0；两个404精确对应primary_hit和resolve_on_q_hit。基线含刚落地的cooldown_ms=10000、use_cost_and_cooldown过程、on_used_cost_and_cooldown规则，也含原magic_damage公式、mana_cost效果、主体、参数、关系、图片和引用目录。新增请求不重复登记或修改这些对象。"
+    },
+    {
+      "name": "公式来源与15项配置算术",
+      "status": "PASS",
+      "evidence": "客户端Damage索引1至5为80/135/190/245/300，TotalDamage为Damage+0.9×SOURCE总法强；独立按04现值重算配置算术文件的15/15点，expected、actual和重算值全部一致。保存的0.9与客户端0.8999999761581421只存在浮点表示差异，不改已保存参数。"
+    },
+    {
+      "name": "通用吸血映射与莫甘娜被动边界",
+      "status": "PASS",
+      "evidence": "候选没有创建DIRECT_HEAL，也没有把莫甘娜被动的实际伤害治疗混进Q伤害结果。固定官方中英文Morgana资料的被动说明另指向英雄、大型小兵及中大型野怪的技能伤害治疗；本批只录Q对唯一敌方英雄的伤害。OMNIVAMP字段仅是现行伤害结果交互映射，不作为被动治疗已完成或已验证的证据。"
+    },
+    {
+      "name": "v2工具保护与写入边界",
+      "status": "PASS",
+      "evidence": "v2工具原始SHA为dc7af742...；工具要求仅执行计划中的完整POST正文，非prepare阶段重算来源和批准文件散列，严格比较冻结请求与写前基线，写前逐个确认新详情404，write要求批准批次SHA，逐POST即时详情回读，readback使用新进程状态并比较旧行、集合数量和新对象。工具文件通过wx创建冻结产物，本评审未执行工具。"
+    },
+    {
+      "name": "静态结构验证",
+      "status": "PASS",
+      "evidence": "00、01、02、03、04和配置算术与现值保护核对均可解析；13项来源哈希、2条请求正文、2个预期404、15个算术点、公式引用、类别条件、CURRENT_TARGET、TARGET及空动态输入绑定均通过独立静态检查。"
+    }
+  ],
+  "frozenLinkage": {
+    "target": "morgana_q/champion_morgana",
+    "plannedPOSTs": 2,
+    "effectPOSTs": 1,
+    "triggerRulePOSTs": 1,
+    "preflightGETs": 27,
+    "preflightExpectedStatus": {
+      "200": 25,
+      "404": 2
+    },
+    "requestDetailRoutes": [
+      "/skills/morgana_q/effects/primary_hit",
+      "/skills/morgana_q/trigger-rules/resolve_on_q_hit"
+    ],
+    "sourceSummarySha256": "5420fdf6b0c88bce163088dcc0d9f115cf396722cd5cb2f90e52c081a1bce578",
+    "baselineSha256": "35a1b87724a50df556cd51126b2670686a5ae31fabe38639749dcc2dda886116",
+    "candidateSha256": "7a3d78bd90b738317b825c4a1e007413ef94438b73ce9d27d4cfd8c855056e41",
+    "arithmeticFile": "配置算术与现值保护核对.json",
+    "arithmeticFileSha256": "004c3d7c277ceec473d82562c29d09f4bd7f2b0613b7c0986da25a0696cb8793",
+    "arithmeticCaseCount": 15,
+    "arithmeticFailedCount": 0,
+    "businessWritesDuringPreparation": 0
+  },
+  "protectedExisting": {
+    "parameters": [
+      "base_damage",
+      "ap_ratio",
+      "root_duration_ms",
+      "cooldown_ms",
+      "mana_cost"
+    ],
+    "formulas": ["magic_damage"],
+    "effects": ["mana_cost"],
+    "processes": ["use_cost_and_cooldown"],
+    "triggerRules": ["on_used_cost_and_cooldown"],
+    "boundary": "控制、莫甘娜被动实际治疗、命中事件生产和运行时结算仍按候选范围留待后续；不阻塞本批独立伤害配置。"
+  },
+  "blockingIssues": [],
+  "businessWritesDuringReview": 0,
+  "networkRequestsDuringReview": 0,
+  "fileWritesDuringReview": 1,
+  "reviewArtifactWrite": "仅以wx创建本05文件；未修改00/01/02/03/04、算术保护文件或v2工具。",
+  "browser": "未执行；静态冻结评审范围外。",
+  "runtime": "未执行；不作为本批伤害配置的阻塞条件。",
+  "conclusion": "APPROVED：允许主负责人按v2工具和本冻结请求进入下一阶段受保护写入；本评审本身不执行业务写入。"
+}

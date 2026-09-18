@@ -1,0 +1,395 @@
+{
+  "startedAt": "2026-09-18T22:35:01.621Z",
+  "status": "PASS",
+  "businessWritesAttempted": 2,
+  "operations": [
+    {
+      "method": "POST",
+      "route": "/skills/morgana_q/effects",
+      "response": {
+        "status": 201,
+        "data": {
+          "createdAt": "2026-09-18T22:35:01.570726Z",
+          "description": "1V1范围内当前唯一敌方英雄的一次实际命中魔法伤害；禁锢控制、投射物几何和其他目标类别分支不在本效果内。",
+          "effectKey": "primary_hit",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "对当前目标命中伤害",
+          "results": [
+            {
+              "description": "引用同技能 magic_damage 公式；结果只表示配置的直接技能伤害。",
+              "detail": {
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "damageTypeKey": "magic",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "vampRules": [
+                  {
+                    "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                    "efficiencyValue": {
+                      "kind": "FIXED",
+                      "value": 1
+                    },
+                    "vampType": "OMNIVAMP"
+                  }
+                ]
+              },
+              "lifecycleBehavior": null,
+              "name": "魔法伤害",
+              "resultKey": "magic_damage",
+              "resultType": "DAMAGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": "SKILL",
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "magic_damage",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "skillKey": "morgana_q",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-18T22:35:01.570726Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-18T22:35:01.570726Z",
+        "description": "1V1范围内当前唯一敌方英雄的一次实际命中魔法伤害；禁锢控制、投射物几何和其他目标类别分支不在本效果内。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "对当前目标命中伤害",
+        "results": [
+          {
+            "description": "引用同技能 magic_damage 公式；结果只表示配置的直接技能伤害。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "魔法伤害",
+            "resultKey": "magic_damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "SKILL",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "magic_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "morgana_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-18T22:35:01.570726Z"
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/morgana_q/trigger-rules",
+      "response": {
+        "status": 201,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_primary_hit",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "primary_hit"
+              },
+              "name": "执行暗之禁锢命中伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [
+            {
+              "conditions": [
+                {
+                  "conditionKey": "champion_target",
+                  "conditionType": "TARGET_CATEGORY_CHECK",
+                  "detail": {
+                    "categories": [
+                      "CHAMPION"
+                    ]
+                  },
+                  "sortOrder": 10
+                }
+              ],
+              "groupKey": "champion_target",
+              "name": "唯一敌方英雄",
+              "sortOrder": 10
+            }
+          ],
+          "description": "仅消费宿主确认的 morgana_q 实际 SKILL_HIT，在当前唯一敌方英雄上执行已有 primary_hit；规则本身不产生命中事件，也不创建禁锢控制。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "morgana_q",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "Q实际命中结算",
+          "perTargetCooldown": null,
+          "ruleKey": "resolve_on_q_hit",
+          "sortOrder": 20
+        }
+      },
+      "readback": {
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "name": "执行暗之禁锢命中伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              }
+            ],
+            "groupKey": "champion_target",
+            "name": "唯一敌方英雄",
+            "sortOrder": 10
+          }
+        ],
+        "description": "仅消费宿主确认的 morgana_q 实际 SKILL_HIT，在当前唯一敌方英雄上执行已有 primary_hit；规则本身不产生命中事件，也不创建禁锢控制。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "morgana_q",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "Q实际命中结算",
+        "perTargetCooldown": null,
+        "ruleKey": "resolve_on_q_hit",
+        "sortOrder": 20
+      }
+    }
+  ],
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v2.mjs": "dc7af7426c1f3fcaa53a8c03738f649fc2f8236ba10090981a091ff1acc1a378",
+    "01-候选方案.json": "7a3d78bd90b738317b825c4a1e007413ef94438b73ce9d27d4cfd8c855056e41",
+    "02-冻结请求.json": "93d48460e56611c8ec145861377fba8f2275e3fbbad2429db9d595cbc9a2896c",
+    "03-来源摘要.json": "5420fdf6b0c88bce163088dcc0d9f115cf396722cd5cb2f90e52c081a1bce578",
+    "04-写入前现值.json": "35a1b87724a50df556cd51126b2670686a5ae31fabe38639749dcc2dda886116"
+  },
+  "pendingRoute": null,
+  "finishedAt": "2026-09-18T22:35:05.792Z",
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/morgana_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_morgana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_morgana/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_morgana/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_q/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_morgana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=morgana_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_q/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_q/parameters/root_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_q/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_q/processes/use_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_q/trigger-rules/on_used_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/damage-types/magic",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/ability_power",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/mana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_q/effects/primary_hit",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_q/trigger-rules/resolve_on_q_hit",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_q/effects/primary_hit",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/morgana_q/effects",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_q/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_q/trigger-rules/resolve_on_q_hit",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/morgana_q/trigger-rules",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_q/trigger-rules/resolve_on_q_hit",
+      "status": 200
+    }
+  ]
+}

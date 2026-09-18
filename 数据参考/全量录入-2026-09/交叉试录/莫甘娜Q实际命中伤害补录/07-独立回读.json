@@ -1,0 +1,276 @@
+{
+  "status": "PASS",
+  "at": "2026-09-18T22:35:56.718Z",
+  "businessWrites": 0,
+  "GETs": 27,
+  "unchangedResponsesIncludingTimestamps": 23,
+  "expectedChangedCollections": 2,
+  "newObjects": {
+    "/skills/morgana_q/effects/primary_hit": {
+      "effectKey": "primary_hit",
+      "name": "对当前目标命中伤害",
+      "description": "1V1范围内当前唯一敌方英雄的一次实际命中魔法伤害；禁锢控制、投射物几何和其他目标类别分支不在本效果内。",
+      "sortOrder": 20,
+      "lifecycle": null,
+      "results": [
+        {
+          "resultKey": "magic_damage",
+          "name": "魔法伤害",
+          "resultType": "DAMAGE",
+          "target": "TARGET",
+          "description": "引用同技能 magic_damage 公式；结果只表示配置的直接技能伤害。",
+          "sortOrder": 10,
+          "lifecycleBehavior": null,
+          "spellShieldBlockScope": "SKILL",
+          "valueRule": {
+            "value": {
+              "kind": "FORMULA",
+              "formulaKey": "magic_damage"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "vampRules": [
+              {
+                "vampType": "OMNIVAMP",
+                "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                "efficiencyValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "createdAt": "2026-09-18T22:35:01.570726Z",
+      "updatedAt": "2026-09-18T22:35:01.570726Z",
+      "gameId": "lol",
+      "skillKey": "morgana_q"
+    },
+    "/skills/morgana_q/trigger-rules/resolve_on_q_hit": {
+      "ruleKey": "resolve_on_q_hit",
+      "name": "Q实际命中结算",
+      "description": "仅消费宿主确认的 morgana_q 实际 SKILL_HIT，在当前唯一敌方英雄上执行已有 primary_hit；规则本身不产生命中事件，也不创建禁锢控制。",
+      "sortOrder": 20,
+      "eventSource": {
+        "eventType": "SKILL_HIT",
+        "detail": {
+          "sourceSkillKey": "morgana_q",
+          "useKind": null
+        }
+      },
+      "conditionGroups": [
+        {
+          "groupKey": "champion_target",
+          "name": "唯一敌方英雄",
+          "sortOrder": 10,
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "sortOrder": 10,
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "actionKey": "execute_primary_hit",
+          "name": "执行暗之禁锢命中伤害",
+          "actionType": "EXECUTE_EFFECT",
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET",
+          "detail": {
+            "effectKey": "primary_hit"
+          },
+          "runtimeInputBindings": [],
+          "resultModifiers": []
+        }
+      ],
+      "perTargetCooldown": null,
+      "maxTriggersPerProcess": null
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/morgana_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_morgana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_morgana/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_morgana/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_q/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_morgana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=morgana_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_q/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_q/parameters/root_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_q/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_q/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_q/processes/use_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_q/trigger-rules/on_used_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_q/trigger-rules/resolve_on_q_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/damage-types/magic",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/ability_power",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/mana",
+      "status": 200
+    }
+  ],
+  "requestedModel": "gpt-5.6-luna",
+  "reasoningEffort": "max",
+  "reviewer": "/root/morgana_q_damage_candidate",
+  "actualTask": "/root/morgana_q_damage_candidate",
+  "actualTool": {
+    "command": "node tools/authoring/append-reviewed-skill-components-v2.mjs readback \"数据参考/全量录入-2026-09/交叉试录/莫甘娜Q实际命中伤害补录\"",
+    "mode": "readback",
+    "processExitCode": 0,
+    "businessMethods": [
+      "GET"
+    ],
+    "businessWrites": 0,
+    "GETs": 27,
+    "actualModelReported": null,
+    "actualReasoningReported": null,
+    "captureStatus": "PASS;完整工具JSON已在本地封装前返回，未再次访问接口。"
+  },
+  "finalByteSha256": {
+    "tools/authoring/append-reviewed-skill-components-v2.mjs": "dc7af7426c1f3fcaa53a8c03738f649fc2f8236ba10090981a091ff1acc1a378",
+    "00-独立只读候选.json": "c186871690f11deb60f60b7ae486a349583fc3db1155fb05e37d7584fde88a00",
+    "01-候选方案.json": "7a3d78bd90b738317b825c4a1e007413ef94438b73ce9d27d4cfd8c855056e41",
+    "02-冻结请求.json": "93d48460e56611c8ec145861377fba8f2275e3fbbad2429db9d595cbc9a2896c",
+    "03-来源摘要.json": "5420fdf6b0c88bce163088dcc0d9f115cf396722cd5cb2f90e52c081a1bce578",
+    "04-写入前现值.json": "35a1b87724a50df556cd51126b2670686a5ae31fabe38639749dcc2dda886116",
+    "配置算术与现值保护核对.json": "004c3d7c277ceec473d82562c29d09f4bd7f2b0613b7c0986da25a0696cb8793",
+    "05-独立评审.json": "3a613b1c59582b353cee6a7af941dafe64c4723eb5bc3155ebb4162b343c5fbd",
+    "06-写入与即时回读.json": "e53322e144065ea323a7882e66d9ae01bdfdb0a799fb1e283ab0e10dc1b9d791"
+  },
+  "hashNote": "以上仅报告列出文件的最终落盘字节SHA-256，不混用接口响应原始字节摘要；本文件自身不嵌入自引用摘要。",
+  "stdout": "{\"status\":\"PASS\",\"at\":\"2026-09-18T22:35:56.718Z\",\"businessWrites\":0,\"GETs\":27,\"unchangedResponsesIncludingTimestamps\":23,\"expectedChangedCollections\":2,\"newObjects\":{\"/skills/morgana_q/effects/primary_hit\":{\"effectKey\":\"primary_hit\",\"name\":\"对当前目标命中伤害\",\"description\":\"1V1范围内当前唯一敌方英雄的一次实际命中魔法伤害；禁锢控制、投射物几何和其他目标类别分支不在本效果内。\",\"sortOrder\":20,\"lifecycle\":null,\"results\":[{\"resultKey\":\"magic_damage\",\"name\":\"魔法伤害\",\"resultType\":\"DAMAGE\",\"target\":\"TARGET\",\"description\":\"引用同技能 magic_damage 公式；结果只表示配置的直接技能伤害。\",\"sortOrder\":10,\"lifecycleBehavior\":null,\"spellShieldBlockScope\":\"SKILL\",\"valueRule\":{\"value\":{\"kind\":\"FORMULA\",\"formulaKey\":\"magic_damage\"},\"fixedMultiplier\":1,\"fixedMinValue\":0,\"fixedMaxValue\":null},\"detail\":{\"damageTypeKey\":\"magic\",\"deliveryKind\":\"SKILL\",\"originKind\":\"DIRECT\",\"critical\":{\"mode\":\"DISALLOWED\",\"multiplierValue\":null},\"vampRules\":[{\"vampType\":\"OMNIVAMP\",\"basisOutputKind\":\"POST_DEFENSE_DAMAGE\",\"efficiencyValue\":{\"kind\":\"FIXED\",\"value\":1}}]}}],\"createdAt\":\"2026-09-18T22:35:01.570726Z\",\"updatedAt\":\"2026-09-18T22:35:01.570726Z\",\"gameId\":\"lol\",\"skillKey\":\"morgana_q\"},\"/skills/morgana_q/trigger-rules/resolve_on_q_hit\":{\"ruleKey\":\"resolve_on_q_hit\",\"name\":\"Q实际命中结算\",\"description\":\"仅消费宿主确认的 morgana_q 实际 SKILL_HIT，在当前唯一敌方英雄上执行已有 primary_hit；规则本身不产生命中事件，也不创建禁锢控制。\",\"sortOrder\":20,\"eventSource\":{\"eventType\":\"SKILL_HIT\",\"detail\":{\"sourceSkillKey\":\"morgana_q\",\"useKind\":null}},\"conditionGroups\":[{\"groupKey\":\"champion_target\",\"name\":\"唯一敌方英雄\",\"sortOrder\":10,\"conditions\":[{\"conditionKey\":\"champion_target\",\"conditionType\":\"TARGET_CATEGORY_CHECK\",\"sortOrder\":10,\"detail\":{\"categories\":[\"CHAMPION\"]}}]}],\"actions\":[{\"actionKey\":\"execute_primary_hit\",\"name\":\"执行暗之禁锢命中伤害\",\"actionType\":\"EXECUTE_EFFECT\",\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\",\"detail\":{\"effectKey\":\"primary_hit\"},\"runtimeInputBindings\":[],\"resultModifiers\":[]}],\"perTargetCooldown\":null,\"maxTriggersPerProcess\":null}},\"audit\":[{\"method\":\"GET\",\"path\":\"/skills/morgana_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_morgana\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_morgana/attributes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_morgana/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/morgana_q/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?characterKey=champion_morgana\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?skillKey=morgana_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/morgana_q/parameters\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/morgana_q/parameters/base_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/morgana_q/parameters/ap_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/morgana_q/parameters/root_duration_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/morgana_q/parameters/cooldown_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/morgana_q/parameters/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/morgana_q/formulas\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/morgana_q/formulas/magic_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/morgana_q/effects\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/morgana_q/effects/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/morgana_q/effects/primary_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/morgana_q/processes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/morgana_q/processes/use_cost_and_cooldown\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/morgana_q/internal-states\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/morgana_q/trigger-rules\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/morgana_q/trigger-rules/on_used_cost_and_cooldown\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/morgana_q/trigger-rules/resolve_on_q_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/damage-types/magic\",\"status\":200},{\"method\":\"GET\",\"path\":\"/attributes/ability_power\",\"status\":200},{\"method\":\"GET\",\"path\":\"/attributes/mana\",\"status\":200}]}"
+}
