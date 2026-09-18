@@ -1,0 +1,1142 @@
+{
+  "schemaVersion": 1,
+  "status": "DRAFT_REQUIRES_INDEPENDENT_REVIEW",
+  "title": "五项自施技能的使用消耗与普通冷却补录",
+  "generatedAt": "2026-09-18T19:41:16.139Z",
+  "targets": [
+    {
+      "skillKey": "annie_e",
+      "ownerKey": "champion_annie"
+    },
+    {
+      "skillKey": "morgana_e",
+      "ownerKey": "champion_morgana"
+    },
+    {
+      "skillKey": "janna_e",
+      "ownerKey": "champion_janna"
+    },
+    {
+      "skillKey": "lulu_w",
+      "ownerKey": "champion_lulu"
+    },
+    {
+      "skillKey": "lulu_r",
+      "ownerKey": "champion_lulu"
+    }
+  ],
+  "scope": "仅新建五个使用登记过程及五条使用入口规则，不修改任何已有对象。",
+  "sourceFiles": [
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/技能来源索引.json",
+      "sha256": "509017d379d3676147a1b5a0732023dfd95baa2039f24966b3a1801a28842bf9"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Annie.json.gz",
+      "sha256": "c6d06c60e39dd0cac0cabcc2f11dcbf9428471deb640eba172a4b4aef73d6f38"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Annie.json",
+      "sha256": "f85156d6973b65b85336f9789aed6fe7a2f106170e2130993e31c5b5ce546735"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Morgana.json.gz",
+      "sha256": "d02739dbfd5d27af4197da8449475948035a0f8c5d344a560085200ef79527a5"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Morgana.json",
+      "sha256": "0854dbf23fedd2878a255b0707e6c4f687386d55962dafadb9b17354414b0903"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Janna.json.gz",
+      "sha256": "0e391039ad77b2b0d39527efc10a702783073e2da50e42a57c927907652b4e10"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Janna.json",
+      "sha256": "8c316afb077627ac96c26f4b36cf401ce8a73d65a94e62c473f30419bd7f5f90"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Lulu.json.gz",
+      "sha256": "ba8e1fd3b20e8503f5d3447c1041c4aab339d7a7d10357205d38f7f85c5c93f7"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Lulu.json",
+      "sha256": "0abb079c4f6724a5dbb91ca76fecd712ceac6668dd76ea66ca6ee249a87f009a"
+    },
+    {
+      "root": "planning",
+      "path": "文档记录/详细设计/项目/技能过程内部状态与效果录入详细设计.md",
+      "sha256": "fcf3c1eb426114cbcbbc89ca1ef3571e32fb97eeb5640f2f938ecc08726a60e8"
+    },
+    {
+      "root": "planning",
+      "path": "文档记录/详细设计/项目/条件事件与动态输入供值管理详细设计.md",
+      "sha256": "504f204df8110e3b63ae7eb1ece331b84198e7e34239070403c0c5c0a922f36e"
+    },
+    {
+      "root": "planning",
+      "path": "文档记录/详细设计/项目/系统精简实施说明.md",
+      "sha256": "2133d46b393ac2a1e44f0a6a73438ea3aacd09f5e54e8a71d510b5181d54aa38"
+    },
+    {
+      "root": "web",
+      "path": "web/src/types/skillProcess.ts",
+      "sha256": "6fa0232b4ab6c1bbf44488f0e0a2eb41b8dfd1b23ac9db99a935a74ada0fb85b"
+    },
+    {
+      "root": "web",
+      "path": "web/src/types/skillTriggerRule.ts",
+      "sha256": "db1021ad59bf8cfee862603c2e7dcde6c618da85d235f36de941c6a205852615"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q完整补录/01-候选方案.json",
+      "sha256": "05245a8d21afa790d568ba0197f03c8b58ac847ab49b8357cfe10711c61e0dc9"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/安妮E显式自施护盾正式补录/09-证据清单.json",
+      "sha256": "89148d5ba0bc90d19ae999a832b44d53c28ec90abcc258469462754af0db89c0"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/莫甘娜E显式自施魔法护盾补录/09-证据清单.json",
+      "sha256": "d83dc411104118b526b55e7ee07775a591e1d010058693f6937bd9bb48f1b178"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/迦娜璐璐三项自施补录/09-证据清单.json",
+      "sha256": "52140ccb52488884ab605cb45196ebf58b95f9f9b1b9ec7024e932d92131aac4"
+    }
+  ],
+  "sourceEvidence": [
+    {
+      "skillKey": "annie_e",
+      "championId": "Annie",
+      "slot": "E",
+      "name": "熔岩护盾",
+      "sourceVersion": {
+        "client": "16.17",
+        "ddragon": "16.17.1"
+      },
+      "clientPath": "Characters/Annie/Spells/AnnieEAbility/AnnieE",
+      "rootResourceType": "法力",
+      "ordinaryCooldownSeconds": [
+        10,
+        10,
+        10,
+        10,
+        10
+      ],
+      "manaCost": [
+        60,
+        65,
+        70,
+        75,
+        80
+      ],
+      "clientCooldownRaw": null,
+      "clientManaRaw": [
+        60,
+        65,
+        70,
+        75,
+        80,
+        85
+      ],
+      "castTiming": {
+        "recordedClientCastTime": null,
+        "usedInThisBatch": false,
+        "reason": "不将缺失或旧施法动画字段推导为本次实际施法时长；本过程只登记消耗和普通冷却。"
+      },
+      "expectedExistingKeys": {
+        "manaEffect": "mana_cost",
+        "manaParameter": "mana_cost",
+        "cooldownParameter": "cooldown_ms"
+      },
+      "exceptions": "范围内没有再次施放/弹药恢复分支；保持现有自施条件与动作，不扩展其他未完成机制。"
+    },
+    {
+      "skillKey": "morgana_e",
+      "championId": "Morgana",
+      "slot": "E",
+      "name": "黑暗之盾",
+      "sourceVersion": {
+        "client": "16.17",
+        "ddragon": "16.17.1"
+      },
+      "clientPath": "Characters/Morgana/Spells/MorganaEAbility/MorganaE",
+      "rootResourceType": "法力",
+      "ordinaryCooldownSeconds": [
+        26,
+        23.5,
+        21,
+        18.5,
+        16
+      ],
+      "manaCost": [
+        80,
+        80,
+        80,
+        80,
+        80
+      ],
+      "clientCooldownRaw": [
+        26,
+        26,
+        23.5,
+        21,
+        18.5,
+        16,
+        16
+      ],
+      "clientManaRaw": [
+        80,
+        80,
+        80,
+        80,
+        80,
+        80
+      ],
+      "castTiming": {
+        "recordedClientCastTime": 0.515250027179718,
+        "usedInThisBatch": false,
+        "reason": "不将缺失或旧施法动画字段推导为本次实际施法时长；本过程只登记消耗和普通冷却。"
+      },
+      "expectedExistingKeys": {
+        "manaEffect": "mana_cost",
+        "manaParameter": "mana_cost",
+        "cooldownParameter": "cooldown_ms"
+      },
+      "exceptions": "范围内没有再次施放/弹药恢复分支；保持现有自施条件与动作，不扩展其他未完成机制。"
+    },
+    {
+      "skillKey": "janna_e",
+      "championId": "Janna",
+      "slot": "E",
+      "name": "风暴之眼",
+      "sourceVersion": {
+        "client": "16.17",
+        "ddragon": "16.17.1"
+      },
+      "clientPath": "Characters/Janna/Spells/EyeOfTheStormAbility/EyeOfTheStorm",
+      "rootResourceType": "法力",
+      "ordinaryCooldownSeconds": [
+        16,
+        15,
+        14,
+        13,
+        12
+      ],
+      "manaCost": [
+        70,
+        75,
+        80,
+        85,
+        90
+      ],
+      "clientCooldownRaw": [
+        16,
+        16,
+        15,
+        14,
+        13,
+        12,
+        12
+      ],
+      "clientManaRaw": [
+        70,
+        75,
+        80,
+        85,
+        90,
+        90
+      ],
+      "castTiming": {
+        "recordedClientCastTime": 0.25,
+        "usedInThisBatch": false,
+        "reason": "不将缺失或旧施法动画字段推导为本次实际施法时长；本过程只登记消耗和普通冷却。"
+      },
+      "expectedExistingKeys": {
+        "manaEffect": "mana_cost",
+        "manaParameter": "mana_cost",
+        "cooldownParameter": "cooldown_ms"
+      },
+      "exceptions": "范围内没有再次施放/弹药恢复分支；保持现有自施条件与动作，不扩展其他未完成机制。"
+    },
+    {
+      "skillKey": "lulu_w",
+      "championId": "Lulu",
+      "slot": "W",
+      "name": "奇思妙想",
+      "sourceVersion": {
+        "client": "16.17",
+        "ddragon": "16.17.1"
+      },
+      "clientPath": "Characters/Lulu/Spells/LuluWAbility/LuluW",
+      "rootResourceType": "法力",
+      "ordinaryCooldownSeconds": [
+        18,
+        18,
+        18,
+        18,
+        18
+      ],
+      "manaCost": [
+        65,
+        65,
+        65,
+        65,
+        65
+      ],
+      "clientCooldownRaw": [
+        18,
+        18,
+        18,
+        18,
+        18,
+        18,
+        18
+      ],
+      "clientManaRaw": [
+        65,
+        65,
+        65,
+        65,
+        65,
+        65
+      ],
+      "castTiming": {
+        "recordedClientCastTime": 0.17500001192092896,
+        "usedInThisBatch": false,
+        "reason": "不将缺失或旧施法动画字段推导为本次实际施法时长；本过程只登记消耗和普通冷却。"
+      },
+      "expectedExistingKeys": {
+        "manaEffect": "mana_cost",
+        "manaParameter": "mana_cost",
+        "cooldownParameter": "cooldown_ms"
+      },
+      "exceptions": "范围内没有再次施放/弹药恢复分支；保持现有自施条件与动作，不扩展其他未完成机制。"
+    },
+    {
+      "skillKey": "lulu_r",
+      "championId": "Lulu",
+      "slot": "R",
+      "name": "狂野生长",
+      "sourceVersion": {
+        "client": "16.17",
+        "ddragon": "16.17.1"
+      },
+      "clientPath": "Characters/Lulu/Spells/LuluRAbility/LuluR",
+      "rootResourceType": "法力",
+      "ordinaryCooldownSeconds": [
+        120,
+        100,
+        80
+      ],
+      "manaCost": [
+        100,
+        100,
+        100
+      ],
+      "clientCooldownRaw": [
+        130,
+        120,
+        100,
+        80,
+        60,
+        40,
+        20
+      ],
+      "clientManaRaw": [
+        100,
+        100,
+        100,
+        100,
+        100,
+        0
+      ],
+      "castTiming": {
+        "recordedClientCastTime": 0.25,
+        "usedInThisBatch": false,
+        "reason": "不将缺失或旧施法动画字段推导为本次实际施法时长；本过程只登记消耗和普通冷却。"
+      },
+      "expectedExistingKeys": {
+        "manaEffect": "mana_cost",
+        "manaParameter": "mana_cost",
+        "cooldownParameter": "cooldown_ms"
+      },
+      "exceptions": "范围内没有再次施放/弹药恢复分支；保持现有自施条件与动作，不扩展其他未完成机制。"
+    }
+  ],
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/annie_e/processes",
+      "detailRoute": "/skills/annie_e/processes/use_cost_and_cooldown",
+      "body": {
+        "processKey": "use_cost_and_cooldown",
+        "name": "使用消耗与普通冷却",
+        "activationType": "ACTIVE",
+        "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零，护盾或增益仍由既有自施规则执行。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "register_use",
+            "name": "登记本次使用",
+            "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+            "sortOrder": 10,
+            "stepType": "IMMEDIATE",
+            "detail": {}
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      },
+      "expectedReadback": {
+        "processKey": "use_cost_and_cooldown",
+        "name": "使用消耗与普通冷却",
+        "activationType": "ACTIVE",
+        "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零，护盾或增益仍由既有自施规则执行。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "register_use",
+            "name": "登记本次使用",
+            "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+            "sortOrder": 10,
+            "stepType": "IMMEDIATE",
+            "detail": {}
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/annie_e/trigger-rules",
+      "detailRoute": "/skills/annie_e/trigger-rules/on_used_cost_and_cooldown",
+      "body": {
+        "ruleKey": "on_used_cost_and_cooldown",
+        "name": "主动使用登记消耗与冷却",
+        "description": "每次本技能主动使用启动专门的消耗与冷却过程；无自施条件，既有自施规则独立保留。本条不定义实际施法时长或其他未完成分支。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "annie_e",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "name": "启动消耗与冷却登记",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "use_cost_and_cooldown"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used_cost_and_cooldown",
+        "name": "主动使用登记消耗与冷却",
+        "description": "每次本技能主动使用启动专门的消耗与冷却过程；无自施条件，既有自施规则独立保留。本条不定义实际施法时长或其他未完成分支。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "annie_e",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "name": "启动消耗与冷却登记",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "use_cost_and_cooldown"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/morgana_e/processes",
+      "detailRoute": "/skills/morgana_e/processes/use_cost_and_cooldown",
+      "body": {
+        "processKey": "use_cost_and_cooldown",
+        "name": "使用消耗与普通冷却",
+        "activationType": "ACTIVE",
+        "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零，护盾或增益仍由既有自施规则执行。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "register_use",
+            "name": "登记本次使用",
+            "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+            "sortOrder": 10,
+            "stepType": "IMMEDIATE",
+            "detail": {}
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      },
+      "expectedReadback": {
+        "processKey": "use_cost_and_cooldown",
+        "name": "使用消耗与普通冷却",
+        "activationType": "ACTIVE",
+        "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零，护盾或增益仍由既有自施规则执行。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "register_use",
+            "name": "登记本次使用",
+            "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+            "sortOrder": 10,
+            "stepType": "IMMEDIATE",
+            "detail": {}
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/morgana_e/trigger-rules",
+      "detailRoute": "/skills/morgana_e/trigger-rules/on_used_cost_and_cooldown",
+      "body": {
+        "ruleKey": "on_used_cost_and_cooldown",
+        "name": "主动使用登记消耗与冷却",
+        "description": "每次本技能主动使用启动专门的消耗与冷却过程；无自施条件，既有自施规则独立保留。本条不定义实际施法时长或其他未完成分支。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "morgana_e",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "name": "启动消耗与冷却登记",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "use_cost_and_cooldown"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used_cost_and_cooldown",
+        "name": "主动使用登记消耗与冷却",
+        "description": "每次本技能主动使用启动专门的消耗与冷却过程；无自施条件，既有自施规则独立保留。本条不定义实际施法时长或其他未完成分支。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "morgana_e",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "name": "启动消耗与冷却登记",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "use_cost_and_cooldown"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/janna_e/processes",
+      "detailRoute": "/skills/janna_e/processes/use_cost_and_cooldown",
+      "body": {
+        "processKey": "use_cost_and_cooldown",
+        "name": "使用消耗与普通冷却",
+        "activationType": "ACTIVE",
+        "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零，护盾或增益仍由既有自施规则执行。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "register_use",
+            "name": "登记本次使用",
+            "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+            "sortOrder": 10,
+            "stepType": "IMMEDIATE",
+            "detail": {}
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      },
+      "expectedReadback": {
+        "processKey": "use_cost_and_cooldown",
+        "name": "使用消耗与普通冷却",
+        "activationType": "ACTIVE",
+        "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零，护盾或增益仍由既有自施规则执行。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "register_use",
+            "name": "登记本次使用",
+            "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+            "sortOrder": 10,
+            "stepType": "IMMEDIATE",
+            "detail": {}
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/janna_e/trigger-rules",
+      "detailRoute": "/skills/janna_e/trigger-rules/on_used_cost_and_cooldown",
+      "body": {
+        "ruleKey": "on_used_cost_and_cooldown",
+        "name": "主动使用登记消耗与冷却",
+        "description": "每次本技能主动使用启动专门的消耗与冷却过程；无自施条件，既有自施规则独立保留。本条不定义实际施法时长或其他未完成分支。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "janna_e",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "name": "启动消耗与冷却登记",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "use_cost_and_cooldown"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used_cost_and_cooldown",
+        "name": "主动使用登记消耗与冷却",
+        "description": "每次本技能主动使用启动专门的消耗与冷却过程；无自施条件，既有自施规则独立保留。本条不定义实际施法时长或其他未完成分支。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "janna_e",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "name": "启动消耗与冷却登记",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "use_cost_and_cooldown"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/lulu_w/processes",
+      "detailRoute": "/skills/lulu_w/processes/use_cost_and_cooldown",
+      "body": {
+        "processKey": "use_cost_and_cooldown",
+        "name": "使用消耗与普通冷却",
+        "activationType": "ACTIVE",
+        "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零，护盾或增益仍由既有自施规则执行。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "register_use",
+            "name": "登记本次使用",
+            "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+            "sortOrder": 10,
+            "stepType": "IMMEDIATE",
+            "detail": {}
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      },
+      "expectedReadback": {
+        "processKey": "use_cost_and_cooldown",
+        "name": "使用消耗与普通冷却",
+        "activationType": "ACTIVE",
+        "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零，护盾或增益仍由既有自施规则执行。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "register_use",
+            "name": "登记本次使用",
+            "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+            "sortOrder": 10,
+            "stepType": "IMMEDIATE",
+            "detail": {}
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/lulu_w/trigger-rules",
+      "detailRoute": "/skills/lulu_w/trigger-rules/on_used_cost_and_cooldown",
+      "body": {
+        "ruleKey": "on_used_cost_and_cooldown",
+        "name": "主动使用登记消耗与冷却",
+        "description": "每次本技能主动使用启动专门的消耗与冷却过程；无自施条件，既有自施规则独立保留。本条不定义实际施法时长或其他未完成分支。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "lulu_w",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "name": "启动消耗与冷却登记",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "use_cost_and_cooldown"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used_cost_and_cooldown",
+        "name": "主动使用登记消耗与冷却",
+        "description": "每次本技能主动使用启动专门的消耗与冷却过程；无自施条件，既有自施规则独立保留。本条不定义实际施法时长或其他未完成分支。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "lulu_w",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "name": "启动消耗与冷却登记",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "use_cost_and_cooldown"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/lulu_r/processes",
+      "detailRoute": "/skills/lulu_r/processes/use_cost_and_cooldown",
+      "body": {
+        "processKey": "use_cost_and_cooldown",
+        "name": "使用消耗与普通冷却",
+        "activationType": "ACTIVE",
+        "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零，护盾或增益仍由既有自施规则执行。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "register_use",
+            "name": "登记本次使用",
+            "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+            "sortOrder": 10,
+            "stepType": "IMMEDIATE",
+            "detail": {}
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      },
+      "expectedReadback": {
+        "processKey": "use_cost_and_cooldown",
+        "name": "使用消耗与普通冷却",
+        "activationType": "ACTIVE",
+        "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零，护盾或增益仍由既有自施规则执行。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "register_use",
+            "name": "登记本次使用",
+            "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+            "sortOrder": 10,
+            "stepType": "IMMEDIATE",
+            "detail": {}
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/lulu_r/trigger-rules",
+      "detailRoute": "/skills/lulu_r/trigger-rules/on_used_cost_and_cooldown",
+      "body": {
+        "ruleKey": "on_used_cost_and_cooldown",
+        "name": "主动使用登记消耗与冷却",
+        "description": "每次本技能主动使用启动专门的消耗与冷却过程；无自施条件，既有自施规则独立保留。本条不定义实际施法时长或其他未完成分支。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "lulu_r",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "name": "启动消耗与冷却登记",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "use_cost_and_cooldown"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used_cost_and_cooldown",
+        "name": "主动使用登记消耗与冷却",
+        "description": "每次本技能主动使用启动专门的消耗与冷却过程；无自施条件，既有自施规则独立保留。本条不定义实际施法时长或其他未完成分支。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "lulu_r",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "name": "启动消耗与冷却登记",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "use_cost_and_cooldown"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "preserveExisting": "已有主体、参数、公式、效果、内部状态、规则、角色属性、关系、图片和时间戳完整保护。",
+  "contractBoundaries": [
+    "至少一个IMMEDIATE步骤只表示本次登记动作立即完成，不表示技能施法时长为零。",
+    "过程键使用use_cost_and_cooldown，不命名cast或声称完整施法过程。",
+    "普通冷却基值与使用法力从已核实参数读取；资源效果复用现有mana_cost，必须在独立评审中核对SOURCE/CONSUME和单位。",
+    "既有自施入口完整保留；新规则不把费用限制为自施，以免漏掉其他合法主动使用。",
+    "不读取或改接Janna控制返还、Annie移速/反伤、Morgana控制免疫、Lulu变形/生命/击飞/减速。"
+  ],
+  "remaining": [
+    "五技能其他范围内分支保持原待办",
+    "实际施法时序未在本批表达",
+    "代表页面验收待浏览器连接恢复"
+  ],
+  "reviewGates": [
+    "先核对规范过程支持IMMEDIATE以及PROCESS_START消耗/冷却，不接受steps=[]",
+    "核对固定来源成本和冷却与现值一致，排除弹药/再次施放混用",
+    "固定所有来源、完整请求、完整预期回读和即时基线后才批准写入"
+  ],
+  "runtimeBoundary": "本轮只保存管理配置；未实现宿主事件生产、消耗/冷却调度或Wasm战斗运行。"
+}

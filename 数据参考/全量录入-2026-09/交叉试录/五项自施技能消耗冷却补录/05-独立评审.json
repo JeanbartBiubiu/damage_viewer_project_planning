@@ -1,0 +1,29 @@
+{
+  "status": "APPROVED",
+  "at": "2026-09-18T19:48:44.757Z",
+  "reviewer": "/root/five_cost_frozen_review",
+  "model": "gpt-5.6-luna",
+  "reasoningEffort": "max",
+  "mode": "静态冻结审查；未访问API或DB、未写文件",
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components.mjs": "80a18af8cf0232cf78541c15b988f544140492f9d2c559184678f60bf1817a9a",
+    "01-候选方案.json": "f5be63631e5f7371d30ec2470f1d28ab1cee9c11ed3f777f2313af196199166e",
+    "02-冻结请求.json": "06ba5766671491b56de7e8ac653c619982968b55b387309932000e135fdb1637",
+    "03-来源摘要.json": "bd8bb7449edf1fce6d3ccae336f8ff337f7e0aaea1316d7f4c9c77bc14fd4b14",
+    "04-写入前现值.json": "060fd86e7f4cb4d5a825145cc57c42b91ae3888b7ff0c95ade9d583e6dfd55ef"
+  },
+  "checks": [
+    "10个新增对象与5技能范围准确",
+    "现有SOURCE/CONSUME法力效果与冷却参数、固定值及等级数组一致",
+    "无重复成本入口，既有自施规则完整保留",
+    "单一IMMEDIATE登记步骤合法，不代表完整施法时长为零",
+    "不存在弹药/重施/敌我分支混用",
+    "143GET基线含10项新目标404",
+    "完整预期回读与冻结散列一致"
+  ],
+  "boundaries": [
+    "五技能不记完整管理配置完成",
+    "代表页面待浏览器连接恢复",
+    "未实现或验证Wasm、宿主与战斗时序"
+  ]
+}
