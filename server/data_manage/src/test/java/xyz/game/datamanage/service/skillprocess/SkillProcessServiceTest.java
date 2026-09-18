@@ -135,6 +135,39 @@ class SkillProcessServiceTest {
     }
 
     @Test
+    void createsCooldownOnlyProcessWithoutInventingResourceOrHitEffects() {
+        SkillProcessCooldown cooldown = new SkillProcessCooldown(
+            SkillNumericValue.fixed(new java.math.BigDecimal("90000")),
+            new SkillProcessMoment(SkillProcessMomentType.PROCESS_START, null)
+        );
+        SkillProcessDetailResponse created = service.create(GAME_ID, SKILL_KEY,
+            new SkillProcessCreateRequest(PROCESS_KEY, "无消耗施放", SkillProcessActivationType.ACTIVE,
+                null, 0, cooldown, List.of(immediateStep()), List.of(), List.of()));
+
+        assertEquals(cooldown, created.cooldown());
+        assertEquals(1, created.steps().size());
+        assertTrue(created.effectBindings().isEmpty());
+        assertTrue(created.stateOperations().isEmpty());
+    }
+
+    @Test
+    void cooldownOnlyProcessStillRejectsMissingDurationReference() {
+        when(mapper.lockFormulas(eq(GAME_ID), eq(SKILL_KEY), anyCollection())).thenReturn(List.of());
+        SkillProcessCooldown cooldown = new SkillProcessCooldown(
+            SkillNumericValue.formula("missing_cooldown"),
+            new SkillProcessMoment(SkillProcessMomentType.PROCESS_START, null)
+        );
+        ApiException exception = assertThrows(ApiException.class,
+            () -> service.create(GAME_ID, SKILL_KEY,
+                new SkillProcessCreateRequest(PROCESS_KEY, "无消耗施放", SkillProcessActivationType.ACTIVE,
+                    null, 0, cooldown, List.of(immediateStep()), List.of(), List.of())));
+
+        assertEquals("400.INVALID_SKILL_PROCESS_REFERENCE", exception.getCode());
+        assertField(exception, "cooldown.durationValue", "UNKNOWN_FORMULA");
+        verify(mapper, never()).insertProcess(any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any());
+    }
+
+    @Test
     void createsEightStepKindsWithCooldownBindingAndOperation() {
         SkillProcessDetailResponse created = service.create(GAME_ID, SKILL_KEY, eightStepCreate());
         assertEquals(8, created.steps().size());
