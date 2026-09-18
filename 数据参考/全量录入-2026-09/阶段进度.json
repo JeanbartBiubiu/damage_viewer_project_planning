@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-18T21:23:56.795Z",
+  "generatedAt": "2026-09-18T21:36:53.869Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -9860,6 +9860,11 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/娑娜E使用消耗冷却补录/09-证据清单.json",
         "sha256": "948d947245ab0c66aed382bb3cdfa86261aa5bc0d67ab18a66184fa2cd86454e",
         "commit": "93696b80"
+      },
+      "selfHealCandidateLimits": {
+        "worktree": "damage_viewer_project_planning",
+        "relativePath": "数据参考/全量录入-2026-09/自身治疗候选限制复核/01-只读限制修正.json",
+        "sha256": "a19b2dc0a8db21b0c6490d4cdc45e8bd0aec3b4538775bb5e6f9d3e2f760eeb4"
       }
     },
     "coverage": {
@@ -27470,7 +27475,7 @@
         "name": "索拉卡·祈愿",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "自身治疗与40%阈值来源已确认；待核定同事件规则条件求值与治疗顺序，避免先治疗改变阈值后两分支重复触发。尚未创建效果或入口。",
         "pendingCounts": {
           "source": 0,
           "system": 0,
@@ -27481,7 +27486,13 @@
         "candidateSha256": "841a100c48f51a135dbb6d4457ec5523af2030611cbbac1f2212b388be5a8b4e",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "selfHealCandidateLimits"
+        ],
+        "remainingBranches": [
+          "同事件条件求值时点与治疗分支顺序",
+          "自身治疗效果和入口",
+          "使用消耗与普通冷却登记及代表页面"
         ]
       },
       {
@@ -28201,7 +28212,7 @@
         "name": "塔里克·星光之触",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有2个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "治疗公式依赖实际消耗充能数，当前没有合法动态绑定；自身资格及充能建立与消费继续处理，不能默认满层或把空绑定记为可接线。",
         "pendingCounts": {
           "source": 0,
           "system": 2,
@@ -28212,7 +28223,13 @@
         "candidateSha256": "0e07e0926380fa098ab3155a47fd3503e00aed7bc7088f4f6bb6c54133bbb383",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "selfHealCandidateLimits"
+        ],
+        "remainingBranches": [
+          "固定来源确认自身治疗资格",
+          "充能建立、消费和实际消耗层数绑定",
+          "治疗效果与入口及代表页面"
         ]
       },
       {

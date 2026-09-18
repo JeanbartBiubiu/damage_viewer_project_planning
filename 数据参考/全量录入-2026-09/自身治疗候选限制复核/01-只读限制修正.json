@@ -1,0 +1,72 @@
+{
+  "at": "2026-09-18T21:36:53.869Z",
+  "status": "两项候选暂不写入；修正前稿的表达就绪判断",
+  "originalEvidence": {
+    "worktree": "damage_web_dev",
+    "path": "数据参考/全量录入-2026-09/交叉试录/凯尔W自身治疗补录/00-三项治疗只读候选.json",
+    "sha256": "66284ed65c3bfd003f05680420eb3f24a88a380cdcbd7f63f37aae7ec6d5ca64",
+    "note": "原38GET报告完整保留，不能将其中索拉卡READY与塔里克只缺自身资格的判断当成批准方案。"
+  },
+  "sourceFacts": {
+    "sorakaSelfHealConfirmed": true,
+    "sorakaThreshold": 0.4,
+    "sorakaMultiplier": 1.5,
+    "taricRuntimeInput": {
+      "createdAt": "2026-09-09T19:30:57.644073Z",
+      "description": "主动施放时的实际充能层数由运行输入提供，范围0至当前MaxCharges；不默认满层。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "当前消耗充能层数",
+      "parameterKey": "current_consumed_charge_count",
+      "skillKey": "taric_q",
+      "sortOrder": 70,
+      "updatedAt": "2026-09-09T19:30:57.644073Z",
+      "valueMode": "RUNTIME_INPUT",
+      "valueType": "INTEGER"
+    }
+  },
+  "decisions": [
+    {
+      "skillKey": "soraka_r",
+      "originalProposal": [
+        {
+          "key": "on_used_self_heal",
+          "sortOrder": 10
+        },
+        {
+          "key": "on_used_self_low_health_heal",
+          "sortOrder": 20
+        }
+      ],
+      "decision": "先核定同一事件的规则条件求值时点和执行顺序，再冻结两条治疗分支。",
+      "reason": "当前共享契约明确动作顺序及列表排序，但未在定点复核条款中明确同事件全部规则先判条件，还是逐规则边判边执行。治疗会改变当前生命比例。原草案正常规则10、低血规则20在正常先执行且无中间伤害时可互斥，但列表排序不能直接作为运行顺序证明。",
+      "counterexample": "若低血规则先治疗并跨过40%，随后正常规则按新生命比例求值，会额外治疗一次。",
+      "boundary": "现有来源充分；不将未执行战斗验证当成问题，待补的是管理配置的准确解释契约，不编造属性快照。"
+    },
+    {
+      "skillKey": "taric_q",
+      "decision": "撤回表达完整、只差自身资格及空绑定可直接接线的判断。",
+      "reason": "实际治疗公式依赖RUNTIME_INPUT参数current_consumed_charge_count，当前内部状态和过程均为空；空runtimeInputBindings无法给出实际消耗层数。需要可追溯的充能建立、消耗与合法供值，不能用最大层数替代。",
+      "remaining": [
+        "自身治疗资格的固定来源证据",
+        "实际充能层数建立与消费时点",
+        "治疗公式实际消耗层数的合法动态绑定"
+      ]
+    }
+  ],
+  "contractEvidence": {
+    "path": "文档记录/详细设计/项目/条件事件与动态输入供值管理详细设计.md",
+    "sha256": "504f204df8110e3b63ae7eb1ece331b84198e7e34239070403c0c5c0a922f36e",
+    "reviewedSections": [
+      "1结论第4项动作排序",
+      "4.2列表排序",
+      "6.1条件组语义",
+      "8.1动作顺序",
+      "8.4绑定范围"
+    ]
+  },
+  "businessWrites": 0,
+  "newGETs": 0,
+  "reviewInterruption": "原候选代理续核遇模型服务高需求错误，检查未有02落盘后由主负责人接手静态核对；未重放GET或业务写入。"
+}
