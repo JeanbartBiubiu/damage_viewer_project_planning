@@ -9316,6 +9316,33 @@
         "commit": "eac4834a"
       },
       "runtimeValidation": "未执行"
+    },
+    "jannaLuluExplicitSelfBackfill": {
+      "at": "2026-09-18T17:57:35.776Z",
+      "status": "三项正式自施分支完成写入和独立回读；页面验收部分完成，整技能仍未完成",
+      "skills": [
+        "janna_e",
+        "lulu_w",
+        "lulu_r"
+      ],
+      "created": {
+        "triggerRules": 3
+      },
+      "updatedDescriptions": 2,
+      "prepareGETs": 82,
+      "writerPOSTs": 3,
+      "writerPUTs": 2,
+      "immediateReadbacks": 5,
+      "independentGETs": 82,
+      "unchangedResponsesIncludingTimestamps": 72,
+      "browser": "PARTIAL：迦娜E通过；璐璐W两动作已核对，重开受键盘输入干扰；璐璐R未验",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/迦娜璐璐三项自施补录/09-证据清单.json",
+        "sha256": "52140ccb52488884ab605cb45196ebf58b95f9f9b1b9ec7024e932d92131aac4",
+        "commit": "944b8f8c"
+      },
+      "runtimeValidation": "未执行"
     }
   },
   "runtimeValidation": "未执行",
@@ -9486,6 +9513,12 @@
         "relativePath": "数据参考/全量录入-2026-09/过时说明纠错第一批/09-证据清单.json",
         "sha256": "0bebac3c0ac1f61aa6cbdfed0a1cd55f21996627ec4e24e69b0d42bdf7dae8d5",
         "commit": "eac4834a"
+      },
+      "jannaLuluExplicitSelfBackfill": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/迦娜璐璐三项自施补录/09-证据清单.json",
+        "sha256": "52140ccb52488884ab605cb45196ebf58b95f9f9b1b9ec7024e932d92131aac4",
+        "commit": "944b8f8c"
       }
     },
     "coverage": {
@@ -17525,20 +17558,35 @@
         "name": "迦娜·风暴之眼",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有2个待处理分支，其中来源或资料缺口1个、系统缺口1个、配置缺口0个。",
-        "pendingCounts": {
-          "source": 1,
-          "system": 1,
-          "configuration": 0,
-          "other": 0
-        },
+        "reason": "显式自施来源及所选自身分支已经补齐，独立回读通过；剩余护盾期间攻击力增益及其存续资格、控制返还冷却、法力消耗与普通冷却入口，本次不计整技能完成。璐璐的剩余页面验收尚未完成。",
         "batchKey": "heroThirtyFirstBatch",
         "candidateSha256": "bf26b9374fc305af52e7298934a54244aec5bec0166017ae5a99a38a2019ddcc",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
-          "descriptionCorrectionsFirst"
-        ]
+          "descriptionCorrectionsFirst",
+          "jannaLuluExplicitSelfBackfill"
+        ],
+        "historicalPendingCounts": {
+          "source": 1,
+          "system": 1,
+          "configuration": 0,
+          "other": 0
+        },
+        "remainingBranches": [
+          "护盾期间攻击力增益及其存续资格",
+          "控制返还冷却",
+          "法力消耗与普通冷却入口"
+        ],
+        "remainingBranchesBoundary": "按当前已确认缺项列举；历史pendingCounts不能作为现行完整缺口数量，自施来源不再是阻塞。",
+        "currentComponentCounts": {
+          "parameters": 10,
+          "formulas": 2,
+          "effects": 2,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 1
+        }
       },
       {
         "sourceChampionId": "Janna",
@@ -20613,19 +20661,33 @@
         "name": "璐璐·奇思妙想",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有2个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
-        "pendingCounts": {
+        "reason": "显式自施来源及所选自身分支已经补齐，独立回读通过；剩余对敌变形及其减速、法力消耗与普通冷却入口，本次不计整技能完成。璐璐的剩余页面验收尚未完成。",
+        "batchKey": "heroThirtyFirstBatch",
+        "candidateSha256": "bf26b9374fc305af52e7298934a54244aec5bec0166017ae5a99a38a2019ddcc",
+        "evidenceRefs": [
+          "skillFirstStageCurrentReadback",
+          "heroSourceInventory",
+          "jannaLuluExplicitSelfBackfill"
+        ],
+        "historicalPendingCounts": {
           "source": 0,
           "system": 2,
           "configuration": 0,
           "other": 0
         },
-        "batchKey": "heroThirtyFirstBatch",
-        "candidateSha256": "bf26b9374fc305af52e7298934a54244aec5bec0166017ae5a99a38a2019ddcc",
-        "evidenceRefs": [
-          "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+        "remainingBranches": [
+          "对敌变形及其减速",
+          "法力消耗与普通冷却入口"
+        ],
+        "remainingBranchesBoundary": "按当前已确认缺项列举；历史pendingCounts不能作为现行完整缺口数量，自施来源不再是阻塞。",
+        "currentComponentCounts": {
+          "parameters": 8,
+          "formulas": 1,
+          "effects": 3,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 1
+        }
       },
       {
         "sourceChampionId": "Lulu",
@@ -20659,19 +20721,34 @@
         "name": "璐璐·狂野生长",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有2个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
-        "pendingCounts": {
+        "reason": "显式自施来源及所选自身分支已经补齐，独立回读通过；剩余当前血量与到期处理、击飞与减速、法力消耗与普通冷却入口，本次不计整技能完成。璐璐的剩余页面验收尚未完成。",
+        "batchKey": "heroThirtyFirstBatch",
+        "candidateSha256": "bf26b9374fc305af52e7298934a54244aec5bec0166017ae5a99a38a2019ddcc",
+        "evidenceRefs": [
+          "skillFirstStageCurrentReadback",
+          "heroSourceInventory",
+          "jannaLuluExplicitSelfBackfill"
+        ],
+        "historicalPendingCounts": {
           "source": 0,
           "system": 2,
           "configuration": 0,
           "other": 0
         },
-        "batchKey": "heroThirtyFirstBatch",
-        "candidateSha256": "bf26b9374fc305af52e7298934a54244aec5bec0166017ae5a99a38a2019ddcc",
-        "evidenceRefs": [
-          "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+        "remainingBranches": [
+          "当前血量与到期处理",
+          "击飞与减速",
+          "法力消耗与普通冷却入口"
+        ],
+        "remainingBranchesBoundary": "按当前已确认缺项列举；历史pendingCounts不能作为现行完整缺口数量，自施来源不再是阻塞。",
+        "currentComponentCounts": {
+          "parameters": 9,
+          "formulas": 1,
+          "effects": 2,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 1
+        }
       },
       {
         "sourceChampionId": "Lux",
