@@ -1,0 +1,556 @@
+{
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "writes": [
+    {
+      "method": "POST",
+      "route": "/skills/janna_e/trigger-rules",
+      "detailRoute": "/skills/janna_e/trigger-rules/on_used_self_shield",
+      "body": {
+        "ruleKey": "on_used_self_shield",
+        "name": "主动自施风暴之眼护盾",
+        "description": "主动使用风暴之眼且回退前显式目标为本人时执行自身护盾；无显式目标不匹配。攻击力增益、控制返还冷却、法力和冷却入口另行配置。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "janna_e",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "self_cast",
+            "name": "明确对自身施放",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "explicit_self",
+                "conditionType": "EXPLICIT_TARGET_IS_SOURCE",
+                "sortOrder": 10,
+                "detail": {}
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "apply_self_shield",
+            "name": "执行风暴之眼自身护盾",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "self_shield"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used_self_shield",
+        "name": "主动自施风暴之眼护盾",
+        "description": "主动使用风暴之眼且回退前显式目标为本人时执行自身护盾；无显式目标不匹配。攻击力增益、控制返还冷却、法力和冷却入口另行配置。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "janna_e",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "self_cast",
+            "name": "明确对自身施放",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "explicit_self",
+                "conditionType": "EXPLICIT_TARGET_IS_SOURCE",
+                "sortOrder": 10,
+                "detail": {}
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "apply_self_shield",
+            "name": "执行风暴之眼自身护盾",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "self_shield"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/lulu_w/trigger-rules",
+      "detailRoute": "/skills/lulu_w/trigger-rules/on_used_self_buffs",
+      "body": {
+        "ruleKey": "on_used_self_buffs",
+        "name": "主动自施奇思妙想增益",
+        "description": "主动使用奇思妙想且回退前显式目标为本人时，同时施加自身移速和攻速增益；无显式目标不匹配，对敌变形不得触发该分支。法力和冷却入口另行配置。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "lulu_w",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "self_cast",
+            "name": "明确对自身施放",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "explicit_self",
+                "conditionType": "EXPLICIT_TARGET_IS_SOURCE",
+                "sortOrder": 10,
+                "detail": {}
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "apply_self_move_speed",
+            "name": "执行奇思妙想自身移动速度增益",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "self_move_speed"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          },
+          {
+            "actionKey": "apply_self_attack_speed",
+            "name": "执行奇思妙想自身攻击速度增益",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 20,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "self_attack_speed"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used_self_buffs",
+        "name": "主动自施奇思妙想增益",
+        "description": "主动使用奇思妙想且回退前显式目标为本人时，同时施加自身移速和攻速增益；无显式目标不匹配，对敌变形不得触发该分支。法力和冷却入口另行配置。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "lulu_w",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "self_cast",
+            "name": "明确对自身施放",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "explicit_self",
+                "conditionType": "EXPLICIT_TARGET_IS_SOURCE",
+                "sortOrder": 10,
+                "detail": {}
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "apply_self_move_speed",
+            "name": "执行奇思妙想自身移动速度增益",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "self_move_speed"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          },
+          {
+            "actionKey": "apply_self_attack_speed",
+            "name": "执行奇思妙想自身攻击速度增益",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 20,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "self_attack_speed"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/lulu_r/trigger-rules",
+      "detailRoute": "/skills/lulu_r/trigger-rules/on_used_self_health",
+      "body": {
+        "ruleKey": "on_used_self_health",
+        "name": "主动自施狂野生长最大生命",
+        "description": "主动使用狂野生长且回退前显式目标为本人时，仅施加已有最大生命属性增益；无显式目标不匹配。当前血量和到期处理、击飞、减速、法力与冷却入口均另行配置。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "lulu_r",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "self_cast",
+            "name": "明确对自身施放",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "explicit_self",
+                "conditionType": "EXPLICIT_TARGET_IS_SOURCE",
+                "sortOrder": 10,
+                "detail": {}
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "apply_self_max_health",
+            "name": "执行狂野生长自身额外生命值",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "self_max_health"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used_self_health",
+        "name": "主动自施狂野生长最大生命",
+        "description": "主动使用狂野生长且回退前显式目标为本人时，仅施加已有最大生命属性增益；无显式目标不匹配。当前血量和到期处理、击飞、减速、法力与冷却入口均另行配置。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "lulu_r",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "self_cast",
+            "name": "明确对自身施放",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "explicit_self",
+                "conditionType": "EXPLICIT_TARGET_IS_SOURCE",
+                "sortOrder": 10,
+                "detail": {}
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "apply_self_max_health",
+            "name": "执行狂野生长自身额外生命值",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "self_max_health"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/janna_e/effects/self_shield",
+      "detailRoute": "/skills/janna_e/effects/self_shield",
+      "body": {
+        "name": "风暴之眼自身护盾",
+        "description": "风暴之眼的自身护盾，持续4秒且不衰减；攻击力增益作为独立组成处理。",
+        "sortOrder": 20,
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "shield_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "absorbedDamageTypeKey": null,
+              "decayMode": "NONE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "风暴之眼自身护盾",
+            "resultKey": "shield",
+            "resultType": "NORMAL_SHIELD",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "total_shield",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-09T17:43:02.179374Z",
+        "description": "风暴之眼的自身护盾，持续4秒且不衰减；攻击力增益作为独立组成处理。",
+        "effectKey": "self_shield",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "shield_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "风暴之眼自身护盾",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "absorbedDamageTypeKey": null,
+              "decayMode": "NONE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "风暴之眼自身护盾",
+            "resultKey": "shield",
+            "resultType": "NORMAL_SHIELD",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "total_shield",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "janna_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-18T16:40:14.573115Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/lulu_w/effects/self_move_speed",
+      "detailRoute": "/skills/lulu_w/effects/self_move_speed",
+      "body": {
+        "name": "奇思妙想自身移动速度增益",
+        "description": "奇思妙想自施时的移动速度比例增益，与自身攻击速度增益同时施加；不包含对敌变形分支。",
+        "sortOrder": 20,
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "ally_buff_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "move_speed_percent",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "奇思妙想自身移动速度增益",
+            "resultKey": "attribute",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "ally_move_speed_ratio",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-09T17:43:46.042371Z",
+        "description": "奇思妙想自施时的移动速度比例增益，与自身攻击速度增益同时施加；不包含对敌变形分支。",
+        "effectKey": "self_move_speed",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "ally_buff_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "奇思妙想自身移动速度增益",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "move_speed_percent",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "奇思妙想自身移动速度增益",
+            "resultKey": "attribute",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "ally_move_speed_ratio",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "lulu_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T17:43:46.042371Z"
+      }
+    }
+  ],
+  "sourceSha256": "443db548862b3906776f1feca29ae5357332ffe2365da39c725b9d14008e9d1c",
+  "baselineSha256": "9d80f4bfb4643fdb6bd34b32b336ad4d907c4842f0055f9419180d2d90d5ab7e"
+}

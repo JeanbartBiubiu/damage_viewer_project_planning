@@ -1,0 +1,572 @@
+{
+  "reviewIdentity": "Damage后端接口与数据模型分析代理",
+  "executionTime": "2026-09-18T17:27:25.724Z",
+  "commandExitCode": 0,
+  "report": {
+    "status": "PASS",
+    "at": "2026-09-18T17:27:25.724Z",
+    "businessWrites": 0,
+    "GETs": 82,
+    "unchangedResponsesIncludingTimestamps": 72,
+    "expectedChangedResponses": 7,
+    "baselineComparison": "PASS：保护现值完整匹配；仅三条新增规则及两条效果说明产生预期变化。",
+    "newRules": {
+      "/skills/janna_e/trigger-rules/on_used_self_shield": {
+        "actions": [
+          {
+            "actionKey": "apply_self_shield",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "self_shield"
+            },
+            "name": "执行风暴之眼自身护盾",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "explicit_self",
+                "conditionType": "EXPLICIT_TARGET_IS_SOURCE",
+                "detail": {},
+                "sortOrder": 10
+              }
+            ],
+            "groupKey": "self_cast",
+            "name": "明确对自身施放",
+            "sortOrder": 10
+          }
+        ],
+        "description": "主动使用风暴之眼且回退前显式目标为本人时执行自身护盾；无显式目标不匹配。攻击力增益、控制返还冷却、法力和冷却入口另行配置。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "janna_e",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "主动自施风暴之眼护盾",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used_self_shield",
+        "sortOrder": 10
+      },
+      "/skills/lulu_w/trigger-rules/on_used_self_buffs": {
+        "actions": [
+          {
+            "actionKey": "apply_self_move_speed",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "self_move_speed"
+            },
+            "name": "执行奇思妙想自身移动速度增益",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          },
+          {
+            "actionKey": "apply_self_attack_speed",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "self_attack_speed"
+            },
+            "name": "执行奇思妙想自身攻击速度增益",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 20,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "explicit_self",
+                "conditionType": "EXPLICIT_TARGET_IS_SOURCE",
+                "detail": {},
+                "sortOrder": 10
+              }
+            ],
+            "groupKey": "self_cast",
+            "name": "明确对自身施放",
+            "sortOrder": 10
+          }
+        ],
+        "description": "主动使用奇思妙想且回退前显式目标为本人时，同时施加自身移速和攻速增益；无显式目标不匹配，对敌变形不得触发该分支。法力和冷却入口另行配置。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "lulu_w",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "主动自施奇思妙想增益",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used_self_buffs",
+        "sortOrder": 10
+      },
+      "/skills/lulu_r/trigger-rules/on_used_self_health": {
+        "actions": [
+          {
+            "actionKey": "apply_self_max_health",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "self_max_health"
+            },
+            "name": "执行狂野生长自身额外生命值",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "explicit_self",
+                "conditionType": "EXPLICIT_TARGET_IS_SOURCE",
+                "detail": {},
+                "sortOrder": 10
+              }
+            ],
+            "groupKey": "self_cast",
+            "name": "明确对自身施放",
+            "sortOrder": 10
+          }
+        ],
+        "description": "主动使用狂野生长且回退前显式目标为本人时，仅施加已有最大生命属性增益；无显式目标不匹配。当前血量和到期处理、击飞、减速、法力与冷却入口均另行配置。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "lulu_r",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "主动自施狂野生长最大生命",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used_self_health",
+        "sortOrder": 10
+      }
+    },
+    "audit": [
+      {
+        "method": "GET",
+        "path": "/skills/janna_e",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_janna",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_janna/attributes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_janna/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/janna_e/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?characterKey=champion_janna",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?skillKey=janna_e",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/janna_e/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/janna_e/parameters/cc_cooldown_refund_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/janna_e/parameters/empower_duration_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/janna_e/parameters/decay_grace_period_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/janna_e/parameters/base_shield",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/janna_e/parameters/shield_ap_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/janna_e/parameters/bonus_attack_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/janna_e/parameters/attack_damage_ap_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/janna_e/parameters/shield_duration_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/janna_e/parameters/cooldown_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/janna_e/parameters/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/janna_e/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/janna_e/formulas/total_shield",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/janna_e/formulas/total_attack_damage_bonus",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/janna_e/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/janna_e/effects/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/janna_e/effects/self_shield",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/janna_e/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/janna_e/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/janna_e/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/janna_e/trigger-rules/on_used_self_shield",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lulu_w",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_lulu",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_lulu/attributes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_lulu/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lulu_w/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?characterKey=champion_lulu",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?skillKey=lulu_w",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lulu_w/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lulu_w/parameters/base_move_speed_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lulu_w/parameters/polymorph_duration_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lulu_w/parameters/polymorph_slow_amount",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lulu_w/parameters/ally_buff_duration_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lulu_w/parameters/attack_speed_bonus_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lulu_w/parameters/move_speed_ap_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lulu_w/parameters/cooldown_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lulu_w/parameters/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lulu_w/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lulu_w/formulas/ally_move_speed_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lulu_w/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lulu_w/effects/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lulu_w/effects/self_move_speed",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lulu_w/effects/self_attack_speed",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lulu_w/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lulu_w/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lulu_w/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lulu_w/trigger-rules/on_used_self_buffs",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lulu_r",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lulu_r/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?skillKey=lulu_r",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lulu_r/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lulu_r/parameters/bonus_health",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lulu_r/parameters/slow_percent_points",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lulu_r/parameters/buff_duration_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lulu_r/parameters/aoe_radius",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lulu_r/parameters/knockup_duration_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lulu_r/parameters/knockback_distance",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lulu_r/parameters/bonus_health_ap_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lulu_r/parameters/cooldown_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lulu_r/parameters/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lulu_r/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lulu_r/formulas/bonus_health_value",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lulu_r/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lulu_r/effects/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lulu_r/effects/self_max_health",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lulu_r/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lulu_r/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lulu_r/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lulu_r/trigger-rules/on_used_self_health",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/attributes/ability_power",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/attributes/mana",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/attributes/move_speed_percent",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/attributes/bonus_attack_speed_percent",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/attributes/hp",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/modifier-zones/attribute_flat_add",
+        "status": 200
+      }
+    ]
+  }
+}
