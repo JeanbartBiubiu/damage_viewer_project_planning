@@ -29,6 +29,8 @@ for (const w of plan.requests) {
   const match = /^\/skills\/([a-z0-9_]+)\/(effects|processes|trigger-rules)$/.exec(w.route);
   assert(match && targets.has(match[1]));
   assert(w.body && id(w.body[kinds[match[2]]]));
+  assert(w.expectedReadback && id(w.expectedReadback[kinds[match[2]]]));
+  assert.equal(w.expectedReadback[kinds[match[2]]], w.body[kinds[match[2]]]);
   assert.equal(w.detailRoute, w.route + '/' + w.body[kinds[match[2]]]);
   assert(!detailRoutes.has(w.detailRoute)); detailRoutes.add(w.detailRoute);
 }
@@ -115,7 +117,7 @@ if (mode === 'prepare') {
       changedCollections++;
     }
     const newObjects = {};
-    for (const w of plan.requests) { assert.deepEqual(bodyOf(values[w.detailRoute], w), w.body, w.detailRoute); newObjects[w.detailRoute] = values[w.detailRoute]; }
+    for (const w of plan.requests) { assert.deepEqual(bodyOf(values[w.detailRoute], w), w.expectedReadback, w.detailRoute); newObjects[w.detailRoute] = values[w.detailRoute]; }
     assert.equal(Object.keys(values).length, Object.keys(before.values).length + plan.requests.length);
     console.log(JSON.stringify({ status: 'PASS', at: new Date().toISOString(), businessWrites: 0, GETs: api.audit.length, unchangedResponsesIncludingTimestamps: unchanged, expectedChangedCollections: changedCollections, newObjects, audit: api.audit }));
   } else {
@@ -131,7 +133,7 @@ if (mode === 'prepare') {
         for (const w of plan.requests) {
           await api.get(w.detailRoute, 404); report.businessWritesAttempted++; report.pendingRoute = w.detailRoute; persist();
           const response = await api.request(w.route, w.method, w.body); report.operations.push({ method: w.method, route: w.route, response }); persist();
-          assert.equal(response.status, 201); const actual = await api.get(w.detailRoute); assert.deepEqual(bodyOf(actual, w), w.body);
+          assert.equal(response.status, 201); const actual = await api.get(w.detailRoute); assert.deepEqual(bodyOf(actual, w), w.expectedReadback);
           report.operations.at(-1).readback = actual; report.pendingRoute = null; persist();
         }
         report.status = 'PASS';
