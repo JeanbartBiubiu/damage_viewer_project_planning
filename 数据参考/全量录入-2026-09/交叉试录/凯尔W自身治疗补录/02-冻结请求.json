@@ -1,0 +1,135 @@
+{
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/kayle_w/effects",
+      "detailRoute": "/skills/kayle_w/effects/self_heal",
+      "body": {
+        "effectKey": "self_heal",
+        "name": "星界恩典自身治疗",
+        "description": "主动使用时为凯尔自身回复生命值；不包含最近友军治疗和移动速度。",
+        "sortOrder": 20,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "heal",
+            "name": "自身回复生命值",
+            "resultType": "DIRECT_HEAL",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "heal_value"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {}
+          }
+        ]
+      },
+      "expectedReadback": {
+        "effectKey": "self_heal",
+        "name": "星界恩典自身治疗",
+        "description": "主动使用时为凯尔自身回复生命值；不包含最近友军治疗和移动速度。",
+        "sortOrder": 20,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "heal",
+            "name": "自身回复生命值",
+            "resultType": "DIRECT_HEAL",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "heal_value"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {}
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/kayle_w/trigger-rules",
+      "detailRoute": "/skills/kayle_w/trigger-rules/on_used_self_heal",
+      "body": {
+        "ruleKey": "on_used_self_heal",
+        "name": "主动使用回复自身生命",
+        "description": "官方说明明确每次主动使用治疗自身；不依赖友军目标，不添加显式自施条件。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "kayle_w",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "heal_self",
+            "name": "执行自身治疗",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "self_heal"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used_self_heal",
+        "name": "主动使用回复自身生命",
+        "description": "官方说明明确每次主动使用治疗自身；不依赖友军目标，不添加显式自施条件。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "kayle_w",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "heal_self",
+            "name": "执行自身治疗",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "self_heal"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "sourceSha256": "bddbe8924694cdadae214c8a81f0bf56e90843361364e44b130a3d4a69b96bf2",
+  "baselineSha256": "42994168da89d53e0f01070b0e101dbe952eac250650a2989d08a4e6e2410b2d"
+}

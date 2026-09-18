@@ -1,0 +1,856 @@
+{
+  "at": "2026-09-18T21:34:47.116Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/skills/kayle_w": {
+      "createdAt": "2026-09-06T18:18:56.115473Z",
+      "description": "通过神圣的赐福，凯尔为自己和距她最近的友方英雄提供治疗和移动速度。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "凯尔·星界恩典",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "kayle_w",
+      "sortOrder": 2,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:18:56.115473Z"
+    },
+    "/characters/champion_kayle": {
+      "characterKey": "champion_kayle",
+      "createdAt": "2026-09-06T17:24:50.029151Z",
+      "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+      "gameId": "lol",
+      "name": "凯尔",
+      "updatedAt": "2026-09-06T17:24:50.029151Z"
+    },
+    "/characters/champion_kayle/attributes": {
+      "characterKey": "champion_kayle",
+      "levelValues": {
+        "1": {
+          "move_speed": 335,
+          "hp": 670,
+          "mana": 330,
+          "mana_regen": 8,
+          "armor": 26,
+          "magic_resistance": 22,
+          "attack_damage": 50,
+          "attack_speed": 0.625,
+          "attack_range": 175
+        },
+        "2": {
+          "move_speed": 335,
+          "hp": 736.24,
+          "mana": 366,
+          "mana_regen": 8.576,
+          "armor": 29.024,
+          "magic_resistance": 22.936,
+          "attack_damage": 51.8,
+          "attack_speed": 0.632204,
+          "attack_range": 175
+        },
+        "3": {
+          "move_speed": 335,
+          "hp": 805.7,
+          "mana": 403.75,
+          "mana_regen": 9.18,
+          "armor": 32.195,
+          "magic_resistance": 23.9175,
+          "attack_damage": 53.6875,
+          "attack_speed": 0.639757,
+          "attack_range": 175
+        },
+        "4": {
+          "move_speed": 335,
+          "hp": 878.38,
+          "mana": 443.25,
+          "mana_regen": 9.812,
+          "armor": 35.513,
+          "magic_resistance": 24.9445,
+          "attack_damage": 55.6625,
+          "attack_speed": 0.647661,
+          "attack_range": 175
+        },
+        "5": {
+          "move_speed": 335,
+          "hp": 954.28,
+          "mana": 484.5,
+          "mana_regen": 10.472,
+          "armor": 38.978,
+          "magic_resistance": 26.017,
+          "attack_damage": 57.725,
+          "attack_speed": 0.655915,
+          "attack_range": 175
+        },
+        "6": {
+          "move_speed": 335,
+          "hp": 1033.4,
+          "mana": 527.5,
+          "mana_regen": 11.16,
+          "armor": 42.59,
+          "magic_resistance": 27.135,
+          "attack_damage": 59.875,
+          "attack_speed": 0.66452,
+          "attack_range": 175
+        },
+        "7": {
+          "move_speed": 335,
+          "hp": 1115.74,
+          "mana": 572.25,
+          "mana_regen": 11.876,
+          "armor": 46.349,
+          "magic_resistance": 28.2985,
+          "attack_damage": 62.1125,
+          "attack_speed": 0.673474,
+          "attack_range": 175
+        },
+        "8": {
+          "move_speed": 335,
+          "hp": 1201.3,
+          "mana": 618.75,
+          "mana_regen": 12.62,
+          "armor": 50.255,
+          "magic_resistance": 29.5075,
+          "attack_damage": 64.4375,
+          "attack_speed": 0.682779,
+          "attack_range": 175
+        },
+        "9": {
+          "move_speed": 335,
+          "hp": 1290.08,
+          "mana": 667,
+          "mana_regen": 13.392,
+          "armor": 54.308,
+          "magic_resistance": 30.762,
+          "attack_damage": 66.85,
+          "attack_speed": 0.692434,
+          "attack_range": 175
+        },
+        "10": {
+          "move_speed": 335,
+          "hp": 1382.08,
+          "mana": 717,
+          "mana_regen": 14.192,
+          "armor": 58.508,
+          "magic_resistance": 32.062,
+          "attack_damage": 69.35,
+          "attack_speed": 0.702439,
+          "attack_range": 175
+        },
+        "11": {
+          "move_speed": 335,
+          "hp": 1477.3,
+          "mana": 768.75,
+          "mana_regen": 15.02,
+          "armor": 62.855,
+          "magic_resistance": 33.4075,
+          "attack_damage": 71.9375,
+          "attack_speed": 0.712794,
+          "attack_range": 175
+        },
+        "12": {
+          "move_speed": 335,
+          "hp": 1575.74,
+          "mana": 822.25,
+          "mana_regen": 15.876,
+          "armor": 67.349,
+          "magic_resistance": 34.7985,
+          "attack_damage": 74.6125,
+          "attack_speed": 0.723499,
+          "attack_range": 175
+        },
+        "13": {
+          "move_speed": 335,
+          "hp": 1677.4,
+          "mana": 877.5,
+          "mana_regen": 16.76,
+          "armor": 71.99,
+          "magic_resistance": 36.235,
+          "attack_damage": 77.375,
+          "attack_speed": 0.734555,
+          "attack_range": 175
+        },
+        "14": {
+          "move_speed": 335,
+          "hp": 1782.28,
+          "mana": 934.5,
+          "mana_regen": 17.672,
+          "armor": 76.778,
+          "magic_resistance": 37.717,
+          "attack_damage": 80.225,
+          "attack_speed": 0.74596,
+          "attack_range": 175
+        },
+        "15": {
+          "move_speed": 335,
+          "hp": 1890.38,
+          "mana": 993.25,
+          "mana_regen": 18.612,
+          "armor": 81.713,
+          "magic_resistance": 39.2445,
+          "attack_damage": 83.1625,
+          "attack_speed": 0.757716,
+          "attack_range": 175
+        },
+        "16": {
+          "move_speed": 335,
+          "hp": 2001.7,
+          "mana": 1053.75,
+          "mana_regen": 19.58,
+          "armor": 86.795,
+          "magic_resistance": 40.8175,
+          "attack_damage": 86.1875,
+          "attack_speed": 0.769822,
+          "attack_range": 175
+        },
+        "17": {
+          "move_speed": 335,
+          "hp": 2116.24,
+          "mana": 1116,
+          "mana_regen": 20.576,
+          "armor": 92.024,
+          "magic_resistance": 42.436,
+          "attack_damage": 89.3,
+          "attack_speed": 0.782279,
+          "attack_range": 175
+        },
+        "18": {
+          "move_speed": 335,
+          "hp": 2234,
+          "mana": 1180,
+          "mana_regen": 21.6,
+          "armor": 97.4,
+          "magic_resistance": 44.1,
+          "attack_damage": 92.5,
+          "attack_speed": 0.795085,
+          "attack_range": 175
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_kayle/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_champion_kayle",
+        "name": "champion_kayle"
+      }
+    },
+    "/skills/kayle_w/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_kayle_w",
+        "name": "kayle_w"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_kayle": {
+      "items": [
+        {
+          "characterKey": "champion_kayle",
+          "characterName": "凯尔",
+          "gameId": "lol",
+          "skillKey": "kayle_p",
+          "skillName": "凯尔·登神长阶",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_kayle",
+          "characterName": "凯尔",
+          "gameId": "lol",
+          "skillKey": "kayle_q",
+          "skillName": "凯尔·耀焰冲击",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_kayle",
+          "characterName": "凯尔",
+          "gameId": "lol",
+          "skillKey": "kayle_w",
+          "skillName": "凯尔·星界恩典",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_kayle",
+          "characterName": "凯尔",
+          "gameId": "lol",
+          "skillKey": "kayle_e",
+          "skillName": "凯尔·星火符刃",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_kayle",
+          "characterName": "凯尔",
+          "gameId": "lol",
+          "skillKey": "kayle_r",
+          "skillName": "凯尔·圣裁之刻",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=kayle_w": {
+      "items": [
+        {
+          "characterKey": "champion_kayle",
+          "characterName": "凯尔",
+          "gameId": "lol",
+          "skillKey": "kayle_w",
+          "skillName": "凯尔·星界恩典",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        }
+      ],
+      "total": 1
+    },
+    "/skills/kayle_w/parameters": [
+      {
+        "createdAt": "2026-09-09T20:35:40.38683Z",
+        "description": "客户端当前根绑定Heal取技能等级索引1至5为55/80/105/130/155。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 55,
+          "2": 80,
+          "3": 105,
+          "4": 130,
+          "5": 155
+        },
+        "name": "星界恩典基础治疗",
+        "parameterKey": "base_heal",
+        "skillKey": "kayle_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T20:35:40.38683Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T20:35:41.595124Z",
+        "description": "TotalHeal第二项无mStat，按同版窄证读取来源总法术强度。",
+        "fixedValue": 0.25,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "星界恩典法术强度治疗比例",
+        "parameterKey": "heal_ap_ratio",
+        "skillKey": "kayle_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T20:35:41.595124Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T20:35:42.807615Z",
+        "description": "当前正文直接接TotalHaste，计算树标记mDisplayAsPercent；保存技能等级1至5的0.24至0.40。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.23999999,
+          "2": 0.28,
+          "3": 0.31999999,
+          "4": 0.36000001,
+          "5": 0.40000001
+        },
+        "name": "星界恩典移动速度比例",
+        "parameterKey": "haste_ratio",
+        "skillKey": "kayle_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T20:35:42.807615Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T20:35:44.085012Z",
+        "description": "TotalHaste第二项为0.0008×来源总法术强度，结果按百分比显示。",
+        "fixedValue": 0.0008,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "星界恩典法术强度移动速度比例",
+        "parameterKey": "haste_ap_ratio",
+        "skillKey": "kayle_w",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T20:35:44.085012Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T20:35:45.305143Z",
+        "description": "当前HasteDuration=2秒，转换为2000毫秒。",
+        "fixedValue": 2000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "星界恩典移动速度持续（毫秒）",
+        "parameterKey": "haste_duration_ms",
+        "skillKey": "kayle_w",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T20:35:45.305143Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:00:10.781822Z",
+        "description": "DDragon16.17.1 Kayle.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 15000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "kayle_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:10.781822Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:00:11.1929Z",
+        "description": "DDragon16.17.1 Kayle.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 75,
+          "3": 80,
+          "4": 85,
+          "5": 90
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "kayle_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:11.1929Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/kayle_w/parameters/base_heal": {
+      "createdAt": "2026-09-09T20:35:40.38683Z",
+      "description": "客户端当前根绑定Heal取技能等级索引1至5为55/80/105/130/155。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 55,
+        "2": 80,
+        "3": 105,
+        "4": 130,
+        "5": 155
+      },
+      "name": "星界恩典基础治疗",
+      "parameterKey": "base_heal",
+      "skillKey": "kayle_w",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T20:35:40.38683Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/kayle_w/parameters/heal_ap_ratio": {
+      "createdAt": "2026-09-09T20:35:41.595124Z",
+      "description": "TotalHeal第二项无mStat，按同版窄证读取来源总法术强度。",
+      "fixedValue": 0.25,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "星界恩典法术强度治疗比例",
+      "parameterKey": "heal_ap_ratio",
+      "skillKey": "kayle_w",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T20:35:41.595124Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/kayle_w/parameters/haste_ratio": {
+      "createdAt": "2026-09-09T20:35:42.807615Z",
+      "description": "当前正文直接接TotalHaste，计算树标记mDisplayAsPercent；保存技能等级1至5的0.24至0.40。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 0.23999999,
+        "2": 0.28,
+        "3": 0.31999999,
+        "4": 0.36000001,
+        "5": 0.40000001
+      },
+      "name": "星界恩典移动速度比例",
+      "parameterKey": "haste_ratio",
+      "skillKey": "kayle_w",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T20:35:42.807615Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "DECIMAL"
+    },
+    "/skills/kayle_w/parameters/haste_ap_ratio": {
+      "createdAt": "2026-09-09T20:35:44.085012Z",
+      "description": "TotalHaste第二项为0.0008×来源总法术强度，结果按百分比显示。",
+      "fixedValue": 0.0008,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "星界恩典法术强度移动速度比例",
+      "parameterKey": "haste_ap_ratio",
+      "skillKey": "kayle_w",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T20:35:44.085012Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/kayle_w/parameters/haste_duration_ms": {
+      "createdAt": "2026-09-09T20:35:45.305143Z",
+      "description": "当前HasteDuration=2秒，转换为2000毫秒。",
+      "fixedValue": 2000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "星界恩典移动速度持续（毫秒）",
+      "parameterKey": "haste_duration_ms",
+      "skillKey": "kayle_w",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T20:35:45.305143Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/kayle_w/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T18:00:10.781822Z",
+      "description": "DDragon16.17.1 Kayle.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 15000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "kayle_w",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T18:00:10.781822Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/kayle_w/parameters/mana_cost": {
+      "createdAt": "2026-09-07T18:00:11.1929Z",
+      "description": "DDragon16.17.1 Kayle.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 70,
+        "2": 75,
+        "3": 80,
+        "4": 85,
+        "5": 90
+      },
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "kayle_w",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-07T18:00:11.1929Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/kayle_w/formulas": [
+      {
+        "createdAt": "2026-09-09T20:35:46.645727Z",
+        "description": "当前TotalHeal=Heal+0.25×来源总法术强度；自身和一名友军资格分开。",
+        "formulaKey": "heal_value",
+        "gameId": "lol",
+        "name": "星界恩典单次基础治疗值",
+        "skillKey": "kayle_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T20:35:46.645727Z"
+      },
+      {
+        "createdAt": "2026-09-09T20:35:47.986155Z",
+        "description": "当前TotalHaste=Haste+0.0008×来源总法术强度，并按百分比显示。",
+        "formulaKey": "haste_ratio",
+        "gameId": "lol",
+        "name": "星界恩典自身与友军移动速度比例",
+        "skillKey": "kayle_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T20:35:47.986155Z"
+      }
+    ],
+    "/skills/kayle_w/formulas/heal_value": {
+      "createdAt": "2026-09-09T20:35:46.645727Z",
+      "description": "当前TotalHeal=Heal+0.25×来源总法术强度；自身和一名友军资格分开。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_heal"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "heal_ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "heal_value",
+      "gameId": "lol",
+      "name": "星界恩典单次基础治疗值",
+      "skillKey": "kayle_w",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T20:35:46.645727Z"
+    },
+    "/skills/kayle_w/formulas/haste_ratio": {
+      "createdAt": "2026-09-09T20:35:47.986155Z",
+      "description": "当前TotalHaste=Haste+0.0008×来源总法术强度，并按百分比显示。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "haste_ratio"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "haste_ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "haste_ratio",
+      "gameId": "lol",
+      "name": "星界恩典自身与友军移动速度比例",
+      "skillKey": "kayle_w",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T20:35:47.986155Z"
+    },
+    "/skills/kayle_w/effects": [
+      {
+        "createdAt": "2026-09-09T20:35:49.461243Z",
+        "description": "沿用冻结公共参数mana_cost；不创建或覆盖公共参数。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "kayle_w",
+        "sortOrder": 900,
+        "updatedAt": "2026-09-09T20:35:49.461243Z"
+      }
+    ],
+    "/skills/kayle_w/effects/mana_cost": {
+      "createdAt": "2026-09-09T20:35:49.461243Z",
+      "description": "沿用冻结公共参数mana_cost；不创建或覆盖公共参数。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": "只记录当前基础资源消耗；实际扣除时点和施放资格由后续事件接线。",
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "施放法力消耗",
+          "resultKey": "consume_resource",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "kayle_w",
+      "sortOrder": 900,
+      "updatedAt": "2026-09-09T20:35:49.461243Z"
+    },
+    "/skills/kayle_w/processes": [],
+    "/skills/kayle_w/internal-states": [],
+    "/skills/kayle_w/trigger-rules": [],
+    "/attributes/ability_power": {
+      "attributeKey": "ability_power",
+      "createdAt": "2026-08-30T16:26:39.898635Z",
+      "description": "角色法术强度；基础值为 0，可由装备和效果增加",
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法术强度",
+      "sortOrder": 510,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-30T16:26:39.898635Z",
+      "valueType": "DECIMAL"
+    },
+    "/attributes/mana": {
+      "attributeKey": "mana",
+      "createdAt": "2026-08-22T15:27:36.139767Z",
+      "description": null,
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法力值",
+      "sortOrder": 310,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-22T15:27:36.139767Z",
+      "valueType": "DECIMAL"
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_kayle",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_kayle/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_kayle/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_kayle",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=kayle_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/parameters/base_heal",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/parameters/heal_ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/parameters/haste_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/parameters/haste_ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/parameters/haste_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/formulas/heal_value",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/formulas/haste_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/ability_power",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/mana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/effects/self_heal",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/trigger-rules/on_used_self_heal",
+      "status": 404
+    }
+  ],
+  "businessWrites": 0
+}

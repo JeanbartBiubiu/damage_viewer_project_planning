@@ -1,0 +1,2274 @@
+{
+  "meta": {
+    "generatedAt": "2026-09-18T21:22:57.605Z",
+    "task": "三项自身治疗候选只读核查",
+    "scope": "仅kayle_w、soraka_r、taric_q；不写业务接口，不执行浏览器/Wasm/战斗运行；版本固定16.17/16.17.1",
+    "gameId": "lol",
+    "apiBase": "http://127.0.0.1:8080/api/admin/games/lol",
+    "businessWrites": 0,
+    "tokenStored": false,
+    "tokenPolicy": "使用内存随机非空Bearer；报告不保存令牌；本审计只含GET。"
+  },
+  "requestPlan": {
+    "eachSkill": [
+      "GET /skills/{skillKey}",
+      "GET /parameters",
+      "GET /formulas",
+      "GET /effects",
+      "GET /processes",
+      "GET /internal-states",
+      "GET /trigger-rules"
+    ],
+    "detailRule": "只请求治疗公式、治疗相关参数；效果仅在列表出现可能的治疗效果时取详情；空的过程/触发/内部状态列表不取详情。",
+    "detailPaths": {
+      "kayle_w": [
+        "/parameters/base_heal",
+        "/parameters/heal_ap_ratio",
+        "/formulas/heal_value"
+      ],
+      "soraka_r": [
+        "/parameters/base_heal",
+        "/parameters/ability_power_ratio",
+        "/parameters/low_health_threshold_ratio",
+        "/parameters/low_health_multiplier",
+        "/formulas/self_heal",
+        "/formulas/self_low_health_heal"
+      ],
+      "taric_q": [
+        "/parameters/healing_per_charge_base",
+        "/parameters/healing_ap_ratio",
+        "/parameters/healing_hp_ratio",
+        "/parameters/max_charge_count",
+        "/parameters/current_consumed_charge_count",
+        "/formulas/healing_per_charge",
+        "/formulas/max_charge_healing",
+        "/formulas/consumed_charge_healing"
+      ]
+    }
+  },
+  "planningBaseline": {
+    "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/阶段进度.json",
+    "rawSha256": "6547d287293b0a8cfb90d7e42a60782316ad1d69db80e3b75933f6f11c39db73",
+    "sourceVersion": "16.17.1",
+    "skills": [
+      {
+        "skillKey": "kayle_w",
+        "progressPointer": "inventoryConclusions.skills.307",
+        "record": {
+          "sourceChampionId": "Kayle",
+          "sourceNumericId": "10",
+          "championName": "凯尔",
+          "slot": "W",
+          "skillKey": "kayle_w",
+          "name": "凯尔·星界恩典",
+          "conclusion": "系统暂缓",
+          "conclusionScope": "技能范围内数据与机制",
+          "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+          "pendingCounts": {
+            "source": 0,
+            "system": 1,
+            "configuration": 0,
+            "other": 0
+          },
+          "batchKey": "heroThirtyEighthBatch",
+          "candidateSha256": "2f03daad0fc690bb96164e1a92da5c62977a842dcb59c85cf45484e88d9587eb",
+          "evidenceRefs": [
+            "skillFirstStageCurrentReadback",
+            "heroSourceInventory"
+          ]
+        }
+      },
+      {
+        "skillKey": "soraka_r",
+        "progressPointer": "inventoryConclusions.skills.649",
+        "record": {
+          "sourceChampionId": "Soraka",
+          "sourceNumericId": "16",
+          "championName": "索拉卡",
+          "slot": "R",
+          "skillKey": "soraka_r",
+          "name": "索拉卡·祈愿",
+          "conclusion": "系统暂缓",
+          "conclusionScope": "技能范围内数据与机制",
+          "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+          "pendingCounts": {
+            "source": 0,
+            "system": 0,
+            "configuration": 0,
+            "other": 1
+          },
+          "batchKey": "heroThirtyThirdBatch",
+          "candidateSha256": "841a100c48f51a135dbb6d4457ec5523af2030611cbbac1f2212b388be5a8b4e",
+          "evidenceRefs": [
+            "skillFirstStageCurrentReadback",
+            "heroSourceInventory"
+          ]
+        }
+      },
+      {
+        "skillKey": "taric_q",
+        "progressPointer": "inventoryConclusions.skills.681",
+        "record": {
+          "sourceChampionId": "Taric",
+          "sourceNumericId": "44",
+          "championName": "塔里克",
+          "slot": "Q",
+          "skillKey": "taric_q",
+          "name": "塔里克·星光之触",
+          "conclusion": "系统暂缓",
+          "conclusionScope": "技能范围内数据与机制",
+          "reason": "已保存明确组成；仍有2个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+          "pendingCounts": {
+            "source": 0,
+            "system": 2,
+            "configuration": 0,
+            "other": 0
+          },
+          "batchKey": "heroThirtyFifthBatch",
+          "candidateSha256": "0e07e0926380fa098ab3155a47fd3503e00aed7bc7088f4f6bb6c54133bbb383",
+          "evidenceRefs": [
+            "skillFirstStageCurrentReadback",
+            "heroSourceInventory"
+          ]
+        }
+      }
+    ]
+  },
+  "matureReference": {
+    "candidatePath": "数据参考/全量录入-2026-09/交叉试录/娑娜W自身治疗补录/01-候选方案.json",
+    "candidateRawSha256": "ba5d9716365f1475705b075e7da3c3d836b2a58a7067653ab0eab4bef984c80e",
+    "readbackPath": "数据参考/全量录入-2026-09/交叉试录/娑娜W自身治疗补录/07-独立回读.json",
+    "readbackRawSha256": "4957e409717551662e29e308dd46d6263dcbbb8d9f0bdfc607f676036e28f5b7",
+    "evidencePath": "数据参考/全量录入-2026-09/交叉试录/娑娜W自身治疗补录/09-证据清单.json",
+    "evidenceRawSha256": "b1969e155e7ed89555c9dc08124ef46cd41236570f7f04fd519197844f7110d3",
+    "reusableShape": {
+      "effect": "DIRECT_HEAL,target=SOURCE,value=FORMULA",
+      "trigger": "eventType=SKILL_USED,useKind=ACTIVE,conditionGroups=[],action=EXECUTE_EFFECT,targetContext=CURRENT_TARGET",
+      "boundary": "不把运行/Wasm实证当作管理数据写入前提；不添加仅友军分支。"
+    }
+  },
+  "sourceEvidence": {
+    "kayle_w": {
+      "officialZh": {
+        "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Kayle.json",
+        "rawSha256": "5d4fa068b8f088e199e62fa9eed0c7b77476f4791e03d44993b9ecb876ed4b93",
+        "jsonPointer": "/data/Kayle/spells/1",
+        "name": "星界恩典",
+        "description": "通过神圣的赐福，凯尔为自己和距她最近的友方英雄提供治疗和移动速度。",
+        "tooltip": "凯尔为她自身和一名友方英雄灌注圣光，回复<healing>{{ totalheal }}生命值</healing>并提供持续{{ hasteduration }}秒的<speed>{{ totalhaste }}移动速度</speed>。{{ spellmodifierdescriptionappend }}"
+      },
+      "officialEn": {
+        "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Kayle.json",
+        "rawSha256": "a22f0a67f0092f2538e188d9a538cb69c5005d3e4a70f058d7a2e63d6a60dff7",
+        "jsonPointer": "/data/Kayle/spells/1",
+        "name": "Celestial Blessing",
+        "description": "Blessed by the divine, Kayle heals and grants Move Speed to herself and the nearest ally.",
+        "tooltip": "Kayle infuses herself and an allied champion with light, restoring <healing>{{ totalheal }} Health</healing> and granting <speed>{{ totalhaste }} Move Speed</speed> for {{ hasteduration }} seconds.{{ spellmodifierdescriptionappend }}"
+      },
+      "client": {
+        "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Kayle.json.gz",
+        "compressedSha256": "5966ef540c2e882ca33d3ba320c12e7a8de50909318a8cf3bd3bfd4c03023ce7",
+        "decompressedSha256": "3ca1991217dead4f03664a31d787c945e1f0e33c775db46e2eff27f4597bc084",
+        "jsonPointer": "Characters/Kayle/Spells/KayleWAbility/KayleW",
+        "rootPath": "Characters/Kayle/CharacterRecords/Root",
+        "spellPath": "Characters/Kayle/Spells/KayleWAbility/KayleW",
+        "clientBuild": "16.17.8104348+branch.releases-16-17.content.release",
+        "spellTags": null,
+        "dataValues": {
+          "Heal": [
+            30,
+            55,
+            80,
+            105,
+            130,
+            155,
+            180
+          ],
+          "Haste": [
+            0.20000000298023224,
+            0.23999999463558197,
+            0.2800000011920929,
+            0.3199999928474426,
+            0.36000001430511475,
+            0.4000000059604645,
+            0.4399999976158142
+          ],
+          "HasteDuration": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ]
+        },
+        "calculations": {
+          "TotalHeal": {
+            "mFormulaParts": [
+              {
+                "mDataValue": "Heal",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              {
+                "mCoefficient": 0.25,
+                "__type": "StatByCoefficientCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          }
+        },
+        "officialEvidence": {
+          "path": "data.Kayle.spells[1]",
+          "name": "Celestial Blessing",
+          "description": "Blessed by the divine, Kayle heals and grants Move Speed to herself and the nearest ally.",
+          "tooltip": "Kayle infuses herself and an allied champion with light, restoring <healing>{{ totalheal }} Health</healing> and granting <speed>{{ totalhaste }} Move Speed</speed> for {{ hasteduration }} seconds.{{ spellmodifierdescriptionappend }}"
+        },
+        "currentBoundText": {
+          "keyName": {
+            "sourceKey": "Spell_KayleW_Name",
+            "text": "星界恩典"
+          },
+          "keySummary": {
+            "sourceKey": "Spell_KayleW_Summary",
+            "text": "通过神圣的赐福，凯尔为自己和距她最近的友方英雄提供治疗和移动速度。"
+          },
+          "keyTooltip": {
+            "sourceKey": "Spell_KayleW_Tooltip",
+            "text": "凯尔为她自身和一名友方英雄灌注圣光，回复<healing>@TotalHeal@生命值</healing>并提供持续@HasteDuration@秒的<speed>@TotalHaste@移动速度</speed>。"
+          },
+          "keyTooltipExtendedBelowLine": {
+            "sourceKey": "Spell_KayleW_TooltipExtendedBelowLine",
+            "text": "<rules>如果进行无目标施放，那么这个技能将治愈距离内伤势最重的友方英雄。</rules>"
+          }
+        }
+      }
+    },
+    "soraka_r": {
+      "officialZh": {
+        "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Soraka.json",
+        "rawSha256": "a4893c5310ec7128592abd5e41c67d8bd82d0aa66ba9d200da7605a4913883f2",
+        "jsonPointer": "/data/Soraka/spells/3",
+        "name": "祈愿",
+        "description": "索拉卡让友军充满希望，立刻使她和所有友方英雄回复生命值。",
+        "tooltip": "索拉卡召唤神圣的能量，来为所有友方英雄回复<healing>{{ healingcalc }}生命值</healing>，无论相距多远。对生命值低于40%的友方英雄的回复效果提升至<healing>{{ ampedhealing }}</healing>。{{ spellmodifierdescriptionappend }}"
+      },
+      "officialEn": {
+        "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Soraka.json",
+        "rawSha256": "773697b7e891c168c599bccb5ff621f54e85da870194fa7cc8e61e4dd8c13c94",
+        "jsonPointer": "/data/Soraka/spells/3",
+        "name": "Wish",
+        "description": "Soraka fills her allies with hope, instantly restoring health to herself and all allied champions.",
+        "tooltip": "Soraka calls upon divine powers, restoring <healing>{{ healingcalc }} Health</healing> to all allied champions, regardless of distance. Healing is increased to <healing>{{ ampedhealing }}</healing> on targets below 40% Health.{{ spellmodifierdescriptionappend }}"
+      },
+      "client": {
+        "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Soraka.json.gz",
+        "compressedSha256": "d47a49a8a3760a64b0f7468a1eaa59b2b594998f8ff37907ca8c7f9bfd1b089a",
+        "decompressedSha256": "d361c763fb39ffec15e9c7d32a6bbf31c5ffd8100015f0d1c09e6ded3d5abcf7",
+        "jsonPointer": "Characters/Soraka/Spells/SorakaRAbility/SorakaR",
+        "rootPath": "Characters/Soraka/CharacterRecords/Root",
+        "spellPath": "Characters/Soraka/Spells/SorakaRAbility/SorakaR",
+        "clientBuild": "16.17.8104348+branch.releases-16-17.content.release",
+        "spellTags": null,
+        "dataValues": {
+          "BaseHeal": [
+            50,
+            150,
+            250,
+            350,
+            450,
+            550,
+            650
+          ],
+          "HealingAmpForLowHealthAllies": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ]
+        },
+        "calculations": {
+          "HealingCalc": {
+            "mFormulaParts": [
+              {
+                "mDataValue": "BaseHeal",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              {
+                "mCoefficient": 0.5,
+                "__type": "StatByCoefficientCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "AmpedHealing": {
+            "mMultiplier": {
+              "mSubparts": [
+                {
+                  "mNumber": 1,
+                  "__type": "NumberCalculationPart"
+                },
+                {
+                  "mDataValue": "HealingAmpForLowHealthAllies",
+                  "__type": "NamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "SumOfSubPartsCalculationPart"
+            },
+            "mModifiedGameCalculation": "HealingCalc",
+            "__type": "GameCalculationModified"
+          }
+        },
+        "officialEvidence": {
+          "path": "data.Soraka.spells[3]",
+          "name": "Wish",
+          "description": "Soraka fills her allies with hope, instantly restoring health to herself and all allied champions.",
+          "tooltip": "Soraka calls upon divine powers, restoring <healing>{{ healingcalc }} Health</healing> to all allied champions, regardless of distance. Healing is increased to <healing>{{ ampedhealing }}</healing> on targets below 40% Health.{{ spellmodifierdescriptionappend }}"
+        },
+        "currentBoundText": {
+          "keyName": {
+            "sourceKey": "Spell_SorakaR_Name",
+            "text": "祈愿"
+          },
+          "keySummary": {
+            "sourceKey": "Spell_SorakaR_Summary",
+            "text": "索拉卡让友军充满希望，立刻使她和所有友方英雄回复生命值。"
+          },
+          "keyTooltip": {
+            "sourceKey": "Spell_SorakaR_Tooltip",
+            "text": "索拉卡召唤神圣的能量，来为所有友方英雄回复<healing>@HealingCalc@生命值</healing>，无论相距多远。对生命值低于40%的友方英雄的回复效果提升至<healing>@AmpedHealing@</healing>。"
+          }
+        }
+      }
+    },
+    "taric_q": {
+      "officialZh": {
+        "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Taric.json",
+        "rawSha256": "895cc96d875393186a8687e18a5452de15a10661c46e218c32d912f4681e57f4",
+        "jsonPointer": "/data/Taric/spells/0",
+        "name": "星光之触",
+        "description": "基于已储存的充能来治疗附近的友方英雄。【正气凌人】的强化普攻会为这个技能提供一层充能。",
+        "tooltip": "<spellPassive>被动：</spellPassive>每{{ stackcooldown }}秒和打出一次<spellName>正气凌人</spellName>攻击时获得一层效果(最多{{ maxcharges }})。<br /><br /><spellActive>主动：</spellActive>消耗所有层数来为附近的友方英雄们回复<healing>{{ healingperstack }}x层数的生命值</healing>(在{{ maxcharges }}层时回复<healing>{{ maxstackhealing }}生命值</healing>)。{{ spellmodifierdescriptionappend }}"
+      },
+      "officialEn": {
+        "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Taric.json",
+        "rawSha256": "5f984d25b306077d1e4929823db2ab2407b0c797dbdfcb63de338bdbb6d1d5c0",
+        "jsonPointer": "/data/Taric/spells/0",
+        "name": "Starlight's Touch",
+        "description": "Heals nearby allied champions based on charges stored. Bravado-empowered attacks grant a charge of Starlight's Touch.",
+        "tooltip": "<spellPassive>Passive:</spellPassive> Gain a stack (max {{ maxcharges }}) every {{ stackcooldown }} seconds and when hitting a <spellName>Bravado</spellName> Attack.<br /><br /><spellActive>Active:</spellActive> Consume all stacks to restore <healing>{{ healingperstack }} Health</healing> per stack to nearby ally champions (<healing>{{ maxstackhealing }}</healing> at {{ maxcharges }} stacks).{{ spellmodifierdescriptionappend }}"
+      },
+      "client": {
+        "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Taric.json.gz",
+        "compressedSha256": "811c8e799cfed00e42cea96db160b145357aa9d6a2ba2d19baa8982da338ebe7",
+        "decompressedSha256": "42fa1edab8af2bcd8b520f3c9e45b74d92d2fa1b2606d26b152948995b4a7e0a",
+        "jsonPointer": "Characters/Taric/Spells/TaricQAbility/TaricQ",
+        "rootPath": "Characters/Taric/CharacterRecords/Root",
+        "spellPath": "Characters/Taric/Spells/TaricQAbility/TaricQ",
+        "clientBuild": "16.17.8104348+branch.releases-16-17.content.release",
+        "spellTags": null,
+        "dataValues": {
+          "Recharge": [
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15
+          ],
+          "HealingPerStackBase": [
+            25,
+            25,
+            25,
+            25,
+            25,
+            25,
+            25
+          ],
+          "HealingAPRatio": [
+            0.15000000596046448,
+            0.15000000596046448,
+            0.15000000596046448,
+            0.15000000596046448,
+            0.15000000596046448,
+            0.15000000596046448,
+            0.15000000596046448
+          ],
+          "HealingHPRatio": [
+            0.009999999776482582,
+            0.009999999776482582,
+            0.009999999776482582,
+            0.009999999776482582,
+            0.009999999776482582,
+            0.009999999776482582,
+            0.009999999776482582
+          ],
+          "BaseHealMax": [
+            25,
+            25,
+            50,
+            75,
+            100,
+            125,
+            125
+          ],
+          "MaxCharges": [
+            1,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        "calculations": {
+          "StackCooldown": {
+            "mExpandedTooltipCalculationDisplay": 5,
+            "mFormulaParts": [
+              {
+                "mDataValue": "Recharge",
+                "__type": "NamedDataValueCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "HealingPerStack": {
+            "mFormulaParts": [
+              {
+                "mDataValue": "HealingPerStackBase",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              {
+                "mDataValue": "HealingAPRatio",
+                "__type": "StatByNamedDataValueCalculationPart"
+              },
+              {
+                "mStat": 12,
+                "mDataValue": "HealingHPRatio",
+                "__type": "StatByNamedDataValueCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "MaxStackHealing": {
+            "mMultiplier": {
+              "mDataValue": "MaxCharges",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            "mFormulaParts": [
+              {
+                "mDataValue": "HealingPerStackBase",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              {
+                "mDataValue": "HealingAPRatio",
+                "__type": "StatByNamedDataValueCalculationPart"
+              },
+              {
+                "mStat": 12,
+                "mDataValue": "HealingHPRatio",
+                "__type": "StatByNamedDataValueCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          }
+        },
+        "officialEvidence": {
+          "path": "data.Taric.spells[0]",
+          "name": "Starlight's Touch",
+          "description": "Heals nearby allied champions based on charges stored. Bravado-empowered attacks grant a charge of Starlight's Touch.",
+          "tooltip": "<spellPassive>Passive:</spellPassive> Gain a stack (max {{ maxcharges }}) every {{ stackcooldown }} seconds and when hitting a <spellName>Bravado</spellName> Attack.<br /><br /><spellActive>Active:</spellActive> Consume all stacks to restore <healing>{{ healingperstack }} Health</healing> per stack to nearby ally champions (<healing>{{ maxstackhealing }}</healing> at {{ maxcharges }} stacks).{{ spellmodifierdescriptionappend }}"
+        },
+        "currentBoundText": {
+          "keyName": {
+            "sourceKey": "Spell_TaricQ_Name",
+            "text": "星光之触"
+          },
+          "keySummary": {
+            "sourceKey": "Spell_TaricQ_Summary",
+            "text": "基于已储存的充能来治疗附近的友方英雄。【正气凌人】的强化普攻会为这个技能提供一层充能。"
+          },
+          "keyTooltip": {
+            "sourceKey": "Spell_TaricQ_Tooltip",
+            "text": "<spellPassive>被动：</spellPassive>每@StackCooldown@秒和打出一次<spellName>正气凌人</spellName>攻击时获得一层效果(最多@MaxCharges@)。<br><br><spellActive>主动：</spellActive>消耗所有层数来为附近的友方英雄们回复<healing>@HealingPerStack@x层数的生命值</healing>(在@MaxCharges@层时回复<healing>@MaxStackHealing@生命值</healing>)。"
+          },
+          "keyCost": {
+            "sourceKey": "Spell_TaricQ_Cost",
+            "text": "@Cost@法力值，所有充能数"
+          }
+        }
+      }
+    }
+  },
+  "candidates": [
+    {
+      "skillKey": "kayle_w",
+      "championName": "凯尔",
+      "slot": "W",
+      "previousCandidate": {
+        "path": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十八批/完整候选.json",
+        "rawSha256": "2f03daad0fc690bb96164e1a92da5c62977a842dcb59c85cf45484e88d9587eb"
+      },
+      "currentStateRef": {
+        "subject": "/skills/kayle_w",
+        "parameters": "/skills/kayle_w/parameters",
+        "formulas": "/skills/kayle_w/formulas",
+        "effects": "/skills/kayle_w/effects",
+        "processes": "/skills/kayle_w/processes",
+        "internalStates": "/skills/kayle_w/internal-states",
+        "triggerRules": "/skills/kayle_w/trigger-rules"
+      },
+      "analysis": {
+        "decision": "READY",
+        "sourceFactStatus": "READY",
+        "expressionStatus": "READY",
+        "wiringStatus": "待新增",
+        "selfHealingConclusion": "官方中文“为自己和距她最近的友方英雄提供治疗”，英文“heals ... herself and the nearest ally”，自身治疗明确；heal_value已完整表达基础治疗加来源总法术强度。",
+        "numericDependencies": [
+          "技能等级1至5：base_heal=55/80/105/130/155",
+          "SOURCE ability_power(TOTAL)×0.25"
+        ],
+        "missingNumericDependencies": [],
+        "completedComposition": [
+          "base_heal",
+          "heal_ap_ratio",
+          "heal_value=base_heal+heal_ap_ratio×SOURCE ability_power(TOTAL)"
+        ],
+        "expressionGap": "无；可复用DIRECT_HEAL+SKILL_USED无条件入口，沿娑娜W做SOURCE结果。",
+        "currentWiring": "没有自身治疗效果和SKILL_USED规则；仅有mana_cost效果，过程、内部状态、触发规则为空。",
+        "proposedRequests": [
+          {
+            "method": "POST",
+            "path": "/skills/kayle_w/effects",
+            "body": {
+              "effectKey": "self_heal",
+              "name": "星界恩典自身治疗",
+              "description": "主动使用时为凯尔自身回复生命值；不包含最近友军治疗和移动速度。",
+              "sortOrder": 20,
+              "lifecycle": null,
+              "results": [
+                {
+                  "resultKey": "heal",
+                  "name": "自身回复生命值",
+                  "resultType": "DIRECT_HEAL",
+                  "target": "SOURCE",
+                  "description": null,
+                  "sortOrder": 10,
+                  "lifecycleBehavior": null,
+                  "spellShieldBlockScope": null,
+                  "valueRule": {
+                    "value": {
+                      "kind": "FORMULA",
+                      "formulaKey": "heal_value"
+                    },
+                    "fixedMultiplier": 1,
+                    "fixedMinValue": 0,
+                    "fixedMaxValue": null
+                  },
+                  "detail": {}
+                }
+              ]
+            }
+          },
+          {
+            "method": "POST",
+            "path": "/skills/kayle_w/trigger-rules",
+            "body": {
+              "ruleKey": "on_used_self_heal",
+              "name": "主动使用回复自身生命",
+              "description": "官方说明明确每次主动使用治疗自身；不依赖友军目标，不添加显式自施条件。",
+              "sortOrder": 10,
+              "eventSource": {
+                "eventType": "SKILL_USED",
+                "detail": {
+                  "sourceSkillKey": "kayle_w",
+                  "useKind": "ACTIVE"
+                }
+              },
+              "conditionGroups": [],
+              "actions": [
+                {
+                  "actionKey": "heal_self",
+                  "name": "执行自身治疗",
+                  "actionType": "EXECUTE_EFFECT",
+                  "sortOrder": 10,
+                  "targetContext": "CURRENT_TARGET",
+                  "detail": {
+                    "effectKey": "self_heal"
+                  },
+                  "runtimeInputBindings": [],
+                  "resultModifiers": []
+                }
+              ],
+              "perTargetCooldown": null,
+              "maxTriggersPerProcess": null
+            }
+          }
+        ],
+        "uncoveredBranches": [
+          "最近友军选择与友军治疗结果",
+          "移动速度效果接线",
+          "基础法力消耗/冷却过程入口",
+          "完整施法时序与运行/Wasm结算"
+        ]
+      }
+    },
+    {
+      "skillKey": "soraka_r",
+      "championName": "索拉卡",
+      "slot": "R",
+      "previousCandidate": {
+        "path": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十三批/修订二/完整候选.json",
+        "rawSha256": "841a100c48f51a135dbb6d4457ec5523af2030611cbbac1f2212b388be5a8b4e"
+      },
+      "currentStateRef": {
+        "subject": "/skills/soraka_r",
+        "parameters": "/skills/soraka_r/parameters",
+        "formulas": "/skills/soraka_r/formulas",
+        "effects": "/skills/soraka_r/effects",
+        "processes": "/skills/soraka_r/processes",
+        "internalStates": "/skills/soraka_r/internal-states",
+        "triggerRules": "/skills/soraka_r/trigger-rules"
+      },
+      "analysis": {
+        "decision": "READY",
+        "sourceFactStatus": "READY",
+        "expressionStatus": "READY",
+        "wiringStatus": "待新增",
+        "selfHealingConclusion": "官方中文“立刻使她和所有友方英雄回复生命值”，英文“restoring health to herself and all allied champions”，自身治疗明确；低于40%生命值时治疗提升至1.5倍也明确。",
+        "numericDependencies": [
+          "技能等级1至3：base_heal=150/250/350",
+          "SOURCE ability_power(TOTAL)×0.5",
+          "SOURCE hp CURRENT_RATIO<0.4时用1.5倍；40%边界正常分支"
+        ],
+        "missingNumericDependencies": [],
+        "completedComposition": [
+          "base_heal",
+          "ability_power_ratio",
+          "low_health_threshold_ratio",
+          "low_health_multiplier",
+          "self_heal",
+          "self_low_health_heal"
+        ],
+        "expressionGap": "无；两个DIRECT_HEAL效果、两个SKILL_USED规则用SOURCE hp CURRENT_RATIO的LT/GTE互斥分支表达。",
+        "currentWiring": "没有自身治疗效果和SKILL_USED规则；效果、过程、内部状态、触发规则均为空。",
+        "proposedRequests": [
+          {
+            "method": "POST",
+            "path": "/skills/soraka_r/effects",
+            "body": {
+              "effectKey": "self_heal",
+              "name": "祈愿自身正常治疗",
+              "description": "主动使用时为索拉卡自身回复正常生命值；低生命由互斥规则执行增强公式。",
+              "sortOrder": 20,
+              "lifecycle": null,
+              "results": [
+                {
+                  "resultKey": "heal",
+                  "name": "自身回复生命值",
+                  "resultType": "DIRECT_HEAL",
+                  "target": "SOURCE",
+                  "description": null,
+                  "sortOrder": 10,
+                  "lifecycleBehavior": null,
+                  "spellShieldBlockScope": null,
+                  "valueRule": {
+                    "value": {
+                      "kind": "FORMULA",
+                      "formulaKey": "self_heal"
+                    },
+                    "fixedMultiplier": 1,
+                    "fixedMinValue": 0,
+                    "fixedMaxValue": null
+                  },
+                  "detail": {}
+                }
+              ]
+            }
+          },
+          {
+            "method": "POST",
+            "path": "/skills/soraka_r/effects",
+            "body": {
+              "effectKey": "self_low_health_heal",
+              "name": "祈愿自身低生命治疗",
+              "description": "主动使用时索拉卡自身生命比例低于40%才执行；按完整治疗值1.5倍回复。",
+              "sortOrder": 30,
+              "lifecycle": null,
+              "results": [
+                {
+                  "resultKey": "heal",
+                  "name": "自身回复生命值",
+                  "resultType": "DIRECT_HEAL",
+                  "target": "SOURCE",
+                  "description": null,
+                  "sortOrder": 10,
+                  "lifecycleBehavior": null,
+                  "spellShieldBlockScope": null,
+                  "valueRule": {
+                    "value": {
+                      "kind": "FORMULA",
+                      "formulaKey": "self_low_health_heal"
+                    },
+                    "fixedMultiplier": 1,
+                    "fixedMinValue": 0,
+                    "fixedMaxValue": null
+                  },
+                  "detail": {}
+                }
+              ]
+            }
+          },
+          {
+            "method": "POST",
+            "path": "/skills/soraka_r/trigger-rules",
+            "body": {
+              "ruleKey": "on_used_self_heal",
+              "name": "主动使用回复自身生命",
+              "description": "主动使用祈愿且索拉卡自身生命比例不低于40%时执行正常自身治疗。",
+              "sortOrder": 10,
+              "eventSource": {
+                "eventType": "SKILL_USED",
+                "detail": {
+                  "sourceSkillKey": "soraka_r",
+                  "useKind": "ACTIVE"
+                }
+              },
+              "conditionGroups": [
+                {
+                  "groupKey": "source_not_low_health",
+                  "name": "来源对象不低于低生命阈值",
+                  "sortOrder": 10,
+                  "conditions": [
+                    {
+                      "conditionKey": "source_hp_at_or_above_threshold",
+                      "conditionType": "ATTRIBUTE_COMPARE",
+                      "sortOrder": 10,
+                      "detail": {
+                        "subject": "SOURCE",
+                        "attributeKey": "hp",
+                        "attributeValueKind": "CURRENT_RATIO",
+                        "comparator": "GTE",
+                        "comparisonValue": {
+                          "kind": "PARAMETER",
+                          "parameterKey": "low_health_threshold_ratio"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "actionKey": "heal_self",
+                  "name": "执行自身正常治疗",
+                  "actionType": "EXECUTE_EFFECT",
+                  "sortOrder": 10,
+                  "targetContext": "CURRENT_TARGET",
+                  "detail": {
+                    "effectKey": "self_heal"
+                  },
+                  "runtimeInputBindings": [],
+                  "resultModifiers": []
+                }
+              ],
+              "perTargetCooldown": null,
+              "maxTriggersPerProcess": null
+            }
+          },
+          {
+            "method": "POST",
+            "path": "/skills/soraka_r/trigger-rules",
+            "body": {
+              "ruleKey": "on_used_self_low_health_heal",
+              "name": "低生命时主动使用回复自身生命",
+              "description": "主动使用祈愿且索拉卡自身生命比例低于40%时执行增强自身治疗；不与正常分支叠加。",
+              "sortOrder": 20,
+              "eventSource": {
+                "eventType": "SKILL_USED",
+                "detail": {
+                  "sourceSkillKey": "soraka_r",
+                  "useKind": "ACTIVE"
+                }
+              },
+              "conditionGroups": [
+                {
+                  "groupKey": "source_low_health",
+                  "name": "来源对象低于低生命阈值",
+                  "sortOrder": 10,
+                  "conditions": [
+                    {
+                      "conditionKey": "source_hp_below_threshold",
+                      "conditionType": "ATTRIBUTE_COMPARE",
+                      "sortOrder": 10,
+                      "detail": {
+                        "subject": "SOURCE",
+                        "attributeKey": "hp",
+                        "attributeValueKind": "CURRENT_RATIO",
+                        "comparator": "LT",
+                        "comparisonValue": {
+                          "kind": "PARAMETER",
+                          "parameterKey": "low_health_threshold_ratio"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "actionKey": "heal_self",
+                  "name": "执行自身低生命治疗",
+                  "actionType": "EXECUTE_EFFECT",
+                  "sortOrder": 10,
+                  "targetContext": "CURRENT_TARGET",
+                  "detail": {
+                    "effectKey": "self_low_health_heal"
+                  },
+                  "runtimeInputBindings": [],
+                  "resultModifiers": []
+                }
+              ],
+              "perTargetCooldown": null,
+              "maxTriggersPerProcess": null
+            }
+          }
+        ],
+        "uncoveredBranches": [
+          "所有其他友方英雄治疗与目标分配",
+          "低生命运行时采样及主机/Wasm结算",
+          "基础法力消耗、冷却和施法时序接线"
+        ]
+      }
+    },
+    {
+      "skillKey": "taric_q",
+      "championName": "塔里克",
+      "slot": "Q",
+      "previousCandidate": {
+        "path": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十五批/修订一/完整候选.json",
+        "rawSha256": "0e07e0926380fa098ab3155a47fd3503e00aed7bc7088f4f6bb6c54133bbb383"
+      },
+      "currentStateRef": {
+        "subject": "/skills/taric_q",
+        "parameters": "/skills/taric_q/parameters",
+        "formulas": "/skills/taric_q/formulas",
+        "effects": "/skills/taric_q/effects",
+        "processes": "/skills/taric_q/processes",
+        "internalStates": "/skills/taric_q/internal-states",
+        "triggerRules": "/skills/taric_q/trigger-rules"
+      },
+      "analysis": {
+        "decision": "需补事实",
+        "sourceFactStatus": "需补事实",
+        "expressionStatus": "READY",
+        "wiringStatus": "待新增",
+        "selfHealingConclusion": "官方中文/英文只写“附近的友方英雄/nearby ally champions”，没有像凯尔W、索拉卡R那样明确写自身；不能凭友方泛词推断塔里克自身属于治疗目标。",
+        "numericDependencies": [
+          "每层=25+0.15×SOURCE ability_power(TOTAL)+0.01×SOURCE hp(TOTAL)",
+          "技能等级1至5最大充能层数1/2/3/4/5",
+          "current_consumed_charge_count为RUNTIME_INPUT，范围0至上限",
+          "充能来源每15秒及正气凌人强化攻击各一层"
+        ],
+        "missingNumericDependencies": [],
+        "completedComposition": [
+          "healing_per_charge_base",
+          "healing_ap_ratio",
+          "healing_hp_ratio",
+          "max_charge_count",
+          "current_consumed_charge_count",
+          "healing_per_charge",
+          "max_charge_healing",
+          "consumed_charge_healing"
+        ],
+        "expressionGap": "无；若独立来源确认自身属于附近友方目标，可直接复用DIRECT_HEAL+SKILL_USED；当前不应无条件新增。",
+        "currentWiring": "没有治疗效果和SKILL_USED规则；效果、过程、内部状态、触发规则均为空。",
+        "proposedRequests": [
+          {
+            "status": "条件草案，待自身资格事实确认后才可写入",
+            "method": "POST",
+            "path": "/skills/taric_q/effects",
+            "body": {
+              "effectKey": "self_heal",
+              "name": "星光之触自身治疗",
+              "description": "主动使用时按实际消耗充能为塔里克自身回复生命值；仅在独立来源确认自身属于附近友方治疗目标后启用。",
+              "sortOrder": 20,
+              "lifecycle": null,
+              "results": [
+                {
+                  "resultKey": "heal",
+                  "name": "自身回复生命值",
+                  "resultType": "DIRECT_HEAL",
+                  "target": "SOURCE",
+                  "description": null,
+                  "sortOrder": 10,
+                  "lifecycleBehavior": null,
+                  "spellShieldBlockScope": null,
+                  "valueRule": {
+                    "value": {
+                      "kind": "FORMULA",
+                      "formulaKey": "consumed_charge_healing"
+                    },
+                    "fixedMultiplier": 1,
+                    "fixedMinValue": 0,
+                    "fixedMaxValue": null
+                  },
+                  "detail": {}
+                }
+              ]
+            }
+          },
+          {
+            "status": "条件草案，待自身资格事实确认后才可写入",
+            "method": "POST",
+            "path": "/skills/taric_q/trigger-rules",
+            "body": {
+              "ruleKey": "on_used_self_heal",
+              "name": "主动使用回复自身生命",
+              "description": "仅在独立来源确认星光之触主动治疗包含塔里克自身后，按实际消耗充能执行自身治疗；不默认满层。",
+              "sortOrder": 10,
+              "eventSource": {
+                "eventType": "SKILL_USED",
+                "detail": {
+                  "sourceSkillKey": "taric_q",
+                  "useKind": "ACTIVE"
+                }
+              },
+              "conditionGroups": [],
+              "actions": [
+                {
+                  "actionKey": "heal_self",
+                  "name": "执行自身治疗",
+                  "actionType": "EXECUTE_EFFECT",
+                  "sortOrder": 10,
+                  "targetContext": "CURRENT_TARGET",
+                  "detail": {
+                    "effectKey": "self_heal"
+                  },
+                  "runtimeInputBindings": [],
+                  "resultModifiers": []
+                }
+              ],
+              "perTargetCooldown": null,
+              "maxTriggersPerProcess": null
+            }
+          }
+        ],
+        "uncoveredBranches": [
+          "自身是否属于附近友方治疗目标（当前唯一业务阻塞）",
+          "0层是否允许施放",
+          "每15秒/正气凌人强化攻击充能事件和内部层数状态",
+          "附近其他友方治疗分配",
+          "实际充能输入与完整运行结算"
+        ]
+      }
+    }
+  ],
+  "apiAudit": {
+    "requestCount": 38,
+    "getCount": 38,
+    "businessWrites": 0,
+    "responses": [
+      {
+        "method": "GET",
+        "path": "/skills/kayle_w",
+        "status": 200,
+        "contentType": "application/json",
+        "bodyBytes": 441,
+        "bodySha256": "f4fc9bec8f825d0a3fe8a3e0d1865a929607adb1df7215affff68cc1d9f25b29",
+        "body": {
+          "createdAt": "2026-09-06T18:18:56.115473Z",
+          "description": "通过神圣的赐福，凯尔为自己和距她最近的友方英雄提供治疗和移动速度。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "凯尔·星界恩典",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "kayle_w",
+          "sortOrder": 2,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:18:56.115473Z"
+        }
+      },
+      {
+        "method": "GET",
+        "path": "/skills/kayle_w/parameters",
+        "status": 200,
+        "contentType": "application/json",
+        "bodyBytes": 3147,
+        "bodySha256": "a0d721b25d5e0c8c5e92bae7981e6e25231dc739839370d1efaf8203bd625dd5",
+        "body": [
+          {
+            "createdAt": "2026-09-09T20:35:40.38683Z",
+            "description": "客户端当前根绑定Heal取技能等级索引1至5为55/80/105/130/155。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 55,
+              "2": 80,
+              "3": 105,
+              "4": 130,
+              "5": 155
+            },
+            "name": "星界恩典基础治疗",
+            "parameterKey": "base_heal",
+            "skillKey": "kayle_w",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-09T20:35:40.38683Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-09T20:35:41.595124Z",
+            "description": "TotalHeal第二项无mStat，按同版窄证读取来源总法术强度。",
+            "fixedValue": 0.25,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "星界恩典法术强度治疗比例",
+            "parameterKey": "heal_ap_ratio",
+            "skillKey": "kayle_w",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-09T20:35:41.595124Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          {
+            "createdAt": "2026-09-09T20:35:42.807615Z",
+            "description": "当前正文直接接TotalHaste，计算树标记mDisplayAsPercent；保存技能等级1至5的0.24至0.40。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 0.23999999,
+              "2": 0.28,
+              "3": 0.31999999,
+              "4": 0.36000001,
+              "5": 0.40000001
+            },
+            "name": "星界恩典移动速度比例",
+            "parameterKey": "haste_ratio",
+            "skillKey": "kayle_w",
+            "sortOrder": 30,
+            "updatedAt": "2026-09-09T20:35:42.807615Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "DECIMAL"
+          },
+          {
+            "createdAt": "2026-09-09T20:35:44.085012Z",
+            "description": "TotalHaste第二项为0.0008×来源总法术强度，结果按百分比显示。",
+            "fixedValue": 0.0008,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "星界恩典法术强度移动速度比例",
+            "parameterKey": "haste_ap_ratio",
+            "skillKey": "kayle_w",
+            "sortOrder": 40,
+            "updatedAt": "2026-09-09T20:35:44.085012Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          {
+            "createdAt": "2026-09-09T20:35:45.305143Z",
+            "description": "当前HasteDuration=2秒，转换为2000毫秒。",
+            "fixedValue": 2000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "星界恩典移动速度持续（毫秒）",
+            "parameterKey": "haste_duration_ms",
+            "skillKey": "kayle_w",
+            "sortOrder": 50,
+            "updatedAt": "2026-09-09T20:35:45.305143Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T18:00:10.781822Z",
+            "description": "DDragon16.17.1 Kayle.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 15000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "kayle_w",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T18:00:10.781822Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T18:00:11.1929Z",
+            "description": "DDragon16.17.1 Kayle.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 70,
+              "2": 75,
+              "3": 80,
+              "4": 85,
+              "5": 90
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "kayle_w",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-07T18:00:11.1929Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/skills/kayle_w/formulas",
+        "status": 200,
+        "contentType": "application/json",
+        "bodyBytes": 626,
+        "bodySha256": "f4f6d18cee9f8f43587280ed86aef6e7e47bccbda738cb74c71485829a308b74",
+        "body": [
+          {
+            "createdAt": "2026-09-09T20:35:46.645727Z",
+            "description": "当前TotalHeal=Heal+0.25×来源总法术强度；自身和一名友军资格分开。",
+            "formulaKey": "heal_value",
+            "gameId": "lol",
+            "name": "星界恩典单次基础治疗值",
+            "skillKey": "kayle_w",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-09T20:35:46.645727Z"
+          },
+          {
+            "createdAt": "2026-09-09T20:35:47.986155Z",
+            "description": "当前TotalHaste=Haste+0.0008×来源总法术强度，并按百分比显示。",
+            "formulaKey": "haste_ratio",
+            "gameId": "lol",
+            "name": "星界恩典自身与友军移动速度比例",
+            "skillKey": "kayle_w",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-09T20:35:47.986155Z"
+          }
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/skills/kayle_w/effects",
+        "status": 200,
+        "contentType": "application/json",
+        "bodyBytes": 318,
+        "bodySha256": "ccf850f9d5e86db1c8a8f9c51a25674e60ed7c775c19431bc1063c4b99a176ea",
+        "body": [
+          {
+            "createdAt": "2026-09-09T20:35:49.461243Z",
+            "description": "沿用冻结公共参数mana_cost；不创建或覆盖公共参数。",
+            "effectKey": "mana_cost",
+            "gameId": "lol",
+            "lifecycleEnabled": false,
+            "name": "施放法力消耗",
+            "resultCount": 1,
+            "skillKey": "kayle_w",
+            "sortOrder": 900,
+            "updatedAt": "2026-09-09T20:35:49.461243Z"
+          }
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/skills/kayle_w/processes",
+        "status": 200,
+        "contentType": "application/json",
+        "bodyBytes": 2,
+        "bodySha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "body": []
+      },
+      {
+        "method": "GET",
+        "path": "/skills/kayle_w/internal-states",
+        "status": 200,
+        "contentType": "application/json",
+        "bodyBytes": 2,
+        "bodySha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "body": []
+      },
+      {
+        "method": "GET",
+        "path": "/skills/kayle_w/trigger-rules",
+        "status": 200,
+        "contentType": "application/json",
+        "bodyBytes": 2,
+        "bodySha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "body": []
+      },
+      {
+        "method": "GET",
+        "path": "/skills/kayle_w/parameters/base_heal",
+        "status": 200,
+        "contentType": "application/json",
+        "bodyBytes": 409,
+        "bodySha256": "cd30f6807b593e33302a3c7438966523fca6ecb50e81deb220322e8f62eae46d",
+        "body": {
+          "createdAt": "2026-09-09T20:35:40.38683Z",
+          "description": "客户端当前根绑定Heal取技能等级索引1至5为55/80/105/130/155。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 55,
+            "2": 80,
+            "3": 105,
+            "4": 130,
+            "5": 155
+          },
+          "name": "星界恩典基础治疗",
+          "parameterKey": "base_heal",
+          "skillKey": "kayle_w",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T20:35:40.38683Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      },
+      {
+        "method": "GET",
+        "path": "/skills/kayle_w/parameters/heal_ap_ratio",
+        "status": 200,
+        "contentType": "application/json",
+        "bodyBytes": 383,
+        "bodySha256": "cfd66b00f1ab40b0682ffcea183e974a4d84c459e4e39fa93011b2e7b268da77",
+        "body": {
+          "createdAt": "2026-09-09T20:35:41.595124Z",
+          "description": "TotalHeal第二项无mStat，按同版窄证读取来源总法术强度。",
+          "fixedValue": 0.25,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "星界恩典法术强度治疗比例",
+          "parameterKey": "heal_ap_ratio",
+          "skillKey": "kayle_w",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T20:35:41.595124Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      },
+      {
+        "method": "GET",
+        "path": "/skills/kayle_w/formulas/heal_value",
+        "status": 200,
+        "contentType": "application/json",
+        "bodyBytes": 658,
+        "bodySha256": "a80b3b1199bb9d4807ba3dc68a97580c3e49d26a722b66c7eaf5e60a7622b69c",
+        "body": {
+          "createdAt": "2026-09-09T20:35:46.645727Z",
+          "description": "当前TotalHeal=Heal+0.25×来源总法术强度；自身和一名友军资格分开。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_heal"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "heal_ap_ratio"
+                  },
+                  {
+                    "attributeKey": "ability_power",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          "formulaKey": "heal_value",
+          "gameId": "lol",
+          "name": "星界恩典单次基础治疗值",
+          "skillKey": "kayle_w",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T20:35:46.645727Z"
+        }
+      },
+      {
+        "method": "GET",
+        "path": "/skills/soraka_r",
+        "status": 200,
+        "contentType": "application/json",
+        "bodyBytes": 416,
+        "bodySha256": "aa66ab1493859fcffa42f736157e4274b53bc445818f5bf23fb40bfd7952d17f",
+        "body": {
+          "createdAt": "2026-09-06T18:20:29.366202Z",
+          "description": "索拉卡让友军充满希望，立刻使她和所有友方英雄回复生命值。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 3,
+          "name": "索拉卡·祈愿",
+          "skillCategoryKeys": [],
+          "skillKey": "soraka_r",
+          "sortOrder": 4,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:20:29.366202Z"
+        }
+      },
+      {
+        "method": "GET",
+        "path": "/skills/soraka_r/parameters",
+        "status": 200,
+        "contentType": "application/json",
+        "bodyBytes": 2855,
+        "bodySha256": "db9ec6c3d0421604615287d57cbc0369f854cfffa56ec54ee748780c4ab27284",
+        "body": [
+          {
+            "createdAt": "2026-09-09T18:37:43.687273Z",
+            "description": "当前BaseHeal技能等级1至3。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 150,
+              "2": 250,
+              "3": 350
+            },
+            "name": "祈愿自身基础治疗值",
+            "parameterKey": "base_heal",
+            "skillKey": "soraka_r",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-09T18:37:43.687273Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-09T18:37:44.799484Z",
+            "description": "当前HealingCalc树AP比例为0.5。",
+            "fixedValue": 0.5,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "祈愿法强比例",
+            "parameterKey": "ability_power_ratio",
+            "skillKey": "soraka_r",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-09T18:37:44.799484Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          {
+            "createdAt": "2026-09-09T18:37:45.97064Z",
+            "description": "当前低于40%生命值分支。",
+            "fixedValue": 0.4,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "祈愿低生命阈值",
+            "parameterKey": "low_health_threshold_ratio",
+            "skillKey": "soraka_r",
+            "sortOrder": 30,
+            "updatedAt": "2026-09-09T18:37:45.97064Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          {
+            "createdAt": "2026-09-09T18:37:47.072411Z",
+            "description": "当前AmpedHealing为完整治疗的1.5倍。",
+            "fixedValue": 1.5,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "祈愿低生命治疗倍率",
+            "parameterKey": "low_health_multiplier",
+            "skillKey": "soraka_r",
+            "sortOrder": 40,
+            "updatedAt": "2026-09-09T18:37:47.072411Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          {
+            "createdAt": "2026-09-09T18:37:48.175152Z",
+            "description": "当前mCastTime=0.25秒，转换为250毫秒；spellCastTime未提供。",
+            "fixedValue": 250,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础施法时间",
+            "parameterKey": "cast_time_ms",
+            "skillKey": "soraka_r",
+            "sortOrder": 50,
+            "updatedAt": "2026-09-09T18:37:48.175152Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T01:03:39.185776Z",
+            "description": "DDragon16.17.1 Soraka.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 150000,
+              "2": 135000,
+              "3": 120000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "soraka_r",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T01:03:39.185776Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T01:03:39.612347Z",
+            "description": "DDragon16.17.1 Soraka.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 100,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "soraka_r",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T01:03:39.612347Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/skills/soraka_r/formulas",
+        "status": 200,
+        "contentType": "application/json",
+        "bodyBytes": 557,
+        "bodySha256": "1f7aa389feaae4c230d1faaed3fe8a9fce1b7939680a845ed09d04d92fcaadeb",
+        "body": [
+          {
+            "createdAt": "2026-09-09T18:37:49.277413Z",
+            "description": "自身目标的正常治疗式。",
+            "formulaKey": "self_heal",
+            "gameId": "lol",
+            "name": "祈愿自身治疗",
+            "skillKey": "soraka_r",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-09T18:37:49.277413Z"
+          },
+          {
+            "createdAt": "2026-09-09T18:37:50.426765Z",
+            "description": "目标低于40%生命时按完整治疗式乘1.5；不能把两个阶段同时叠加。",
+            "formulaKey": "self_low_health_heal",
+            "gameId": "lol",
+            "name": "祈愿自身低生命治疗",
+            "skillKey": "soraka_r",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-09T18:37:50.426765Z"
+          }
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/skills/soraka_r/effects",
+        "status": 200,
+        "contentType": "application/json",
+        "bodyBytes": 2,
+        "bodySha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "body": []
+      },
+      {
+        "method": "GET",
+        "path": "/skills/soraka_r/processes",
+        "status": 200,
+        "contentType": "application/json",
+        "bodyBytes": 2,
+        "bodySha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "body": []
+      },
+      {
+        "method": "GET",
+        "path": "/skills/soraka_r/internal-states",
+        "status": 200,
+        "contentType": "application/json",
+        "bodyBytes": 2,
+        "bodySha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "body": []
+      },
+      {
+        "method": "GET",
+        "path": "/skills/soraka_r/trigger-rules",
+        "status": 200,
+        "contentType": "application/json",
+        "bodyBytes": 2,
+        "bodySha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "body": []
+      },
+      {
+        "method": "GET",
+        "path": "/skills/soraka_r/parameters/base_heal",
+        "status": 200,
+        "contentType": "application/json",
+        "bodyBytes": 358,
+        "bodySha256": "669889d4baa5198e438562a26ff87ef8cdb7c74c5f3d7e3b77752c022a2ff898",
+        "body": {
+          "createdAt": "2026-09-09T18:37:43.687273Z",
+          "description": "当前BaseHeal技能等级1至3。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 150,
+            "2": 250,
+            "3": 350
+          },
+          "name": "祈愿自身基础治疗值",
+          "parameterKey": "base_heal",
+          "skillKey": "soraka_r",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T18:37:43.687273Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      },
+      {
+        "method": "GET",
+        "path": "/skills/soraka_r/parameters/ability_power_ratio",
+        "status": 200,
+        "contentType": "application/json",
+        "bodyBytes": 334,
+        "bodySha256": "9240737b33177cf3028f28630cf2f1682075ddeb3bc9eda5ec52e74b10d698ae",
+        "body": {
+          "createdAt": "2026-09-09T18:37:44.799484Z",
+          "description": "当前HealingCalc树AP比例为0.5。",
+          "fixedValue": 0.5,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "祈愿法强比例",
+          "parameterKey": "ability_power_ratio",
+          "skillKey": "soraka_r",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T18:37:44.799484Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      },
+      {
+        "method": "GET",
+        "path": "/skills/soraka_r/parameters/low_health_threshold_ratio",
+        "status": 200,
+        "contentType": "application/json",
+        "bodyBytes": 338,
+        "bodySha256": "acfd5563c2229e376761fc3fd0e9a3821ff0bd2f629cf55a0697da3fdc5199a3",
+        "body": {
+          "createdAt": "2026-09-09T18:37:45.97064Z",
+          "description": "当前低于40%生命值分支。",
+          "fixedValue": 0.4,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "祈愿低生命阈值",
+          "parameterKey": "low_health_threshold_ratio",
+          "skillKey": "soraka_r",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T18:37:45.97064Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      },
+      {
+        "method": "GET",
+        "path": "/skills/soraka_r/parameters/low_health_multiplier",
+        "status": 200,
+        "contentType": "application/json",
+        "bodyBytes": 353,
+        "bodySha256": "ccdd5e6e71237c0c097e92f78833db480360d14ae9f516af60500ad38552c3eb",
+        "body": {
+          "createdAt": "2026-09-09T18:37:47.072411Z",
+          "description": "当前AmpedHealing为完整治疗的1.5倍。",
+          "fixedValue": 1.5,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "祈愿低生命治疗倍率",
+          "parameterKey": "low_health_multiplier",
+          "skillKey": "soraka_r",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T18:37:47.072411Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      },
+      {
+        "method": "GET",
+        "path": "/skills/soraka_r/formulas/self_heal",
+        "status": 200,
+        "contentType": "application/json",
+        "bodyBytes": 595,
+        "bodySha256": "ca67a13ba3dddd160f969e2f46fd4f39a81bed0a06d66a8e2ef28b7ca5be2e12",
+        "body": {
+          "createdAt": "2026-09-09T18:37:49.277413Z",
+          "description": "自身目标的正常治疗式。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_heal"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ability_power_ratio"
+                  },
+                  {
+                    "attributeKey": "ability_power",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          "formulaKey": "self_heal",
+          "gameId": "lol",
+          "name": "祈愿自身治疗",
+          "skillKey": "soraka_r",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T18:37:49.277413Z"
+        }
+      },
+      {
+        "method": "GET",
+        "path": "/skills/soraka_r/formulas/self_low_health_heal",
+        "status": 200,
+        "contentType": "application/json",
+        "bodyBytes": 794,
+        "bodySha256": "aaf95f81f3fbf8da8de2bd792d88bd8e4436a433a2bab44199ea6af95f11388f",
+        "body": {
+          "createdAt": "2026-09-09T18:37:50.426765Z",
+          "description": "目标低于40%生命时按完整治疗式乘1.5；不能把两个阶段同时叠加。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "base_heal"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "ability_power_ratio"
+                      },
+                      {
+                        "attributeKey": "ability_power",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "TOTAL",
+                        "nodeType": "ATTRIBUTE"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "low_health_multiplier"
+              }
+            ],
+            "operation": "MULTIPLY"
+          },
+          "formulaKey": "self_low_health_heal",
+          "gameId": "lol",
+          "name": "祈愿自身低生命治疗",
+          "skillKey": "soraka_r",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T18:37:50.426765Z"
+        }
+      },
+      {
+        "method": "GET",
+        "path": "/skills/taric_q",
+        "status": 200,
+        "contentType": "application/json",
+        "bodyBytes": 474,
+        "bodySha256": "2fe409397927b354ce8b807b3bdaddddd8cce68bb2861ef76cd683aac8b17765",
+        "body": {
+          "createdAt": "2026-09-06T18:20:36.706477Z",
+          "description": "基于已储存的充能来治疗附近的友方英雄。【正气凌人】的强化普攻会为这个技能提供一层充能。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "塔里克·星光之触",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "taric_q",
+          "sortOrder": 1,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:20:36.706477Z"
+        }
+      },
+      {
+        "method": "GET",
+        "path": "/skills/taric_q/parameters",
+        "status": 200,
+        "contentType": "application/json",
+        "bodyBytes": 4013,
+        "bodySha256": "9afbcea5dd6f36d4eabe525bf53d82799ffeae4740544633086059b1bfe2c0a3",
+        "body": [
+          {
+            "createdAt": "2026-09-09T19:30:51.066688Z",
+            "description": "当前StackCooldown消费Recharge=15秒；转换为15000毫秒，区别于已有cast_interval_ms=3000。",
+            "fixedValue": 15000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "星光之触充能间隔（毫秒）",
+            "parameterKey": "charge_interval_ms",
+            "skillKey": "taric_q",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-09T19:30:51.066688Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-09T19:30:52.203685Z",
+            "description": "当前正文说明每次正气凌人攻击获得一层。",
+            "fixedValue": 1,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "每次正气凌人强化攻击获得充能层数",
+            "parameterKey": "charge_per_empowered_attack",
+            "skillKey": "taric_q",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-09T19:30:52.203685Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-09T19:30:53.304959Z",
+            "description": "当前HealingPerStackBase=25。",
+            "fixedValue": 25,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "每层治疗基础值",
+            "parameterKey": "healing_per_charge_base",
+            "skillKey": "taric_q",
+            "sortOrder": 30,
+            "updatedAt": "2026-09-09T19:30:53.304959Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-09T19:30:54.399287Z",
+            "description": "当前HealingPerStack使用0.15×来源总法强。",
+            "fixedValue": 0.15000001,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "每层治疗法强比例",
+            "parameterKey": "healing_ap_ratio",
+            "skillKey": "taric_q",
+            "sortOrder": 40,
+            "updatedAt": "2026-09-09T19:30:54.399287Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          {
+            "createdAt": "2026-09-09T19:30:55.405269Z",
+            "description": "当前HealingPerStack使用0.01×来源最大生命；不使用旧mEffectAmount中的0.75等值。",
+            "fixedValue": 0.01,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "每层治疗最大生命比例",
+            "parameterKey": "healing_hp_ratio",
+            "skillKey": "taric_q",
+            "sortOrder": 50,
+            "updatedAt": "2026-09-09T19:30:55.405269Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          {
+            "createdAt": "2026-09-09T19:30:56.486296Z",
+            "description": "当前MaxCharges取技能等级索引1至5的1/2/3/4/5。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 1,
+              "2": 2,
+              "3": 3,
+              "4": 4,
+              "5": 5
+            },
+            "name": "最大充能层数",
+            "parameterKey": "max_charge_count",
+            "skillKey": "taric_q",
+            "sortOrder": 60,
+            "updatedAt": "2026-09-09T19:30:56.486296Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-09T19:30:57.644073Z",
+            "description": "主动施放时的实际充能层数由运行输入提供，范围0至当前MaxCharges；不默认满层。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "当前消耗充能层数",
+            "parameterKey": "current_consumed_charge_count",
+            "skillKey": "taric_q",
+            "sortOrder": 70,
+            "updatedAt": "2026-09-09T19:30:57.644073Z",
+            "valueMode": "RUNTIME_INPUT",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T02:41:10.928968Z",
+            "description": "DDragon16.17.1 Taric.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒；仅施放间隔，不是层数恢复。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。每次施放60法力并消耗全部层数，3秒施放间隔与15秒层数恢复分别记录。",
+            "fixedValue": 3000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "施放间隔（毫秒）",
+            "parameterKey": "cast_interval_ms",
+            "skillKey": "taric_q",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:41:10.928968Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T02:41:11.495136Z",
+            "description": "DDragon16.17.1 Taric.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。每次施放60法力并消耗全部层数，3秒施放间隔与15秒层数恢复分别记录。",
+            "fixedValue": 60,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "taric_q",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T02:41:11.495136Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/skills/taric_q/formulas",
+        "status": 200,
+        "contentType": "application/json",
+        "bodyBytes": 954,
+        "bodySha256": "179f28b8eed9d53df03fbf59340fd2925cf36df802646bf9aa8898d9e3f723fc",
+        "body": [
+          {
+            "createdAt": "2026-09-09T19:30:58.729269Z",
+            "description": "当前HealingPerStack=25+0.15×来源总法强+0.01×来源最大生命。",
+            "formulaKey": "healing_per_charge",
+            "gameId": "lol",
+            "name": "星光之触每层治疗",
+            "skillKey": "taric_q",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-09T19:30:58.729269Z"
+          },
+          {
+            "createdAt": "2026-09-09T19:30:59.935862Z",
+            "description": "当前MaxStackHealing=HealingPerStack×MaxCharges；只作满层数值，不代表实际一定满层施放。",
+            "formulaKey": "max_charge_healing",
+            "gameId": "lol",
+            "name": "星光之触满层治疗",
+            "skillKey": "taric_q",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-09T19:30:59.935862Z"
+          },
+          {
+            "createdAt": "2026-09-09T19:31:01.424458Z",
+            "description": "实际总量=每层治疗×实际消耗充能；当前充能数由运行输入提供。",
+            "formulaKey": "consumed_charge_healing",
+            "gameId": "lol",
+            "name": "星光之触实际消耗层数治疗",
+            "skillKey": "taric_q",
+            "sortOrder": 30,
+            "updatedAt": "2026-09-09T19:31:01.424458Z"
+          }
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/skills/taric_q/effects",
+        "status": 200,
+        "contentType": "application/json",
+        "bodyBytes": 2,
+        "bodySha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "body": []
+      },
+      {
+        "method": "GET",
+        "path": "/skills/taric_q/processes",
+        "status": 200,
+        "contentType": "application/json",
+        "bodyBytes": 2,
+        "bodySha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "body": []
+      },
+      {
+        "method": "GET",
+        "path": "/skills/taric_q/internal-states",
+        "status": 200,
+        "contentType": "application/json",
+        "bodyBytes": 2,
+        "bodySha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "body": []
+      },
+      {
+        "method": "GET",
+        "path": "/skills/taric_q/trigger-rules",
+        "status": 200,
+        "contentType": "application/json",
+        "bodyBytes": 2,
+        "bodySha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "body": []
+      },
+      {
+        "method": "GET",
+        "path": "/skills/taric_q/parameters/healing_per_charge_base",
+        "status": 200,
+        "contentType": "application/json",
+        "bodyBytes": 333,
+        "bodySha256": "dc6de14f85c08d2544efbbb6651bf84f1a6451894db71c74d680927ab6ef15f9",
+        "body": {
+          "createdAt": "2026-09-09T19:30:53.304959Z",
+          "description": "当前HealingPerStackBase=25。",
+          "fixedValue": 25,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "每层治疗基础值",
+          "parameterKey": "healing_per_charge_base",
+          "skillKey": "taric_q",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T19:30:53.304959Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      },
+      {
+        "method": "GET",
+        "path": "/skills/taric_q/parameters/healing_ap_ratio",
+        "status": 200,
+        "contentType": "application/json",
+        "bodyBytes": 357,
+        "bodySha256": "32aaf7d8cad4bd06d62bc89f24f308a098b486714a8a7fd9535630413ca95c93",
+        "body": {
+          "createdAt": "2026-09-09T19:30:54.399287Z",
+          "description": "当前HealingPerStack使用0.15×来源总法强。",
+          "fixedValue": 0.15000001,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "每层治疗法强比例",
+          "parameterKey": "healing_ap_ratio",
+          "skillKey": "taric_q",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T19:30:54.399287Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      },
+      {
+        "method": "GET",
+        "path": "/skills/taric_q/parameters/healing_hp_ratio",
+        "status": 200,
+        "contentType": "application/json",
+        "bodyBytes": 404,
+        "bodySha256": "9345365bdb3ebf94789ca0fd66301b916435f2ab5723bbcfb3fbb8e40cd8d9e4",
+        "body": {
+          "createdAt": "2026-09-09T19:30:55.405269Z",
+          "description": "当前HealingPerStack使用0.01×来源最大生命；不使用旧mEffectAmount中的0.75等值。",
+          "fixedValue": 0.01,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "每层治疗最大生命比例",
+          "parameterKey": "healing_hp_ratio",
+          "skillKey": "taric_q",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T19:30:55.405269Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      },
+      {
+        "method": "GET",
+        "path": "/skills/taric_q/parameters/max_charge_count",
+        "status": 200,
+        "contentType": "application/json",
+        "bodyBytes": 384,
+        "bodySha256": "93da5f04d9888aab637d4f377dd6bbe6cf686ea6e671981af832226fbdf51367",
+        "body": {
+          "createdAt": "2026-09-09T19:30:56.486296Z",
+          "description": "当前MaxCharges取技能等级索引1至5的1/2/3/4/5。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 1,
+            "2": 2,
+            "3": 3,
+            "4": 4,
+            "5": 5
+          },
+          "name": "最大充能层数",
+          "parameterKey": "max_charge_count",
+          "skillKey": "taric_q",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T19:30:56.486296Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      },
+      {
+        "method": "GET",
+        "path": "/skills/taric_q/parameters/current_consumed_charge_count",
+        "status": 200,
+        "contentType": "application/json",
+        "bodyBytes": 428,
+        "bodySha256": "dde49985bf8a7ea12d662f4f33908698a6075fab75deca1920b5da12d2b03555",
+        "body": {
+          "createdAt": "2026-09-09T19:30:57.644073Z",
+          "description": "主动施放时的实际充能层数由运行输入提供，范围0至当前MaxCharges；不默认满层。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "当前消耗充能层数",
+          "parameterKey": "current_consumed_charge_count",
+          "skillKey": "taric_q",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T19:30:57.644073Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "INTEGER"
+        }
+      },
+      {
+        "method": "GET",
+        "path": "/skills/taric_q/formulas/healing_per_charge",
+        "status": 200,
+        "contentType": "application/json",
+        "bodyBytes": 937,
+        "bodySha256": "e73c86d774d1947e63237e4297d81bd341aabab1204cb2e9e6fbd577338d78f0",
+        "body": {
+          "createdAt": "2026-09-09T19:30:58.729269Z",
+          "description": "当前HealingPerStack=25+0.15×来源总法强+0.01×来源最大生命。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "healing_per_charge_base"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "healing_ap_ratio"
+                      },
+                      {
+                        "attributeKey": "ability_power",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "TOTAL",
+                        "nodeType": "ATTRIBUTE"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "healing_hp_ratio"
+                  },
+                  {
+                    "attributeKey": "hp",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          "formulaKey": "healing_per_charge",
+          "gameId": "lol",
+          "name": "星光之触每层治疗",
+          "skillKey": "taric_q",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T19:30:58.729269Z"
+        }
+      },
+      {
+        "method": "GET",
+        "path": "/skills/taric_q/formulas/max_charge_healing",
+        "status": 200,
+        "contentType": "application/json",
+        "bodyBytes": 1092,
+        "bodySha256": "6314f04201125f39d922d0cc137b3c49ca765a23331e54ee1184adce3635b0ac",
+        "body": {
+          "createdAt": "2026-09-09T19:30:59.935862Z",
+          "description": "当前MaxStackHealing=HealingPerStack×MaxCharges；只作满层数值，不代表实际一定满层施放。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "healing_per_charge_base"
+                      },
+                      {
+                        "nodeType": "OPERATION",
+                        "operands": [
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "healing_ap_ratio"
+                          },
+                          {
+                            "attributeKey": "ability_power",
+                            "attributeOwner": "SOURCE",
+                            "attributeValueKind": "TOTAL",
+                            "nodeType": "ATTRIBUTE"
+                          }
+                        ],
+                        "operation": "MULTIPLY"
+                      }
+                    ],
+                    "operation": "ADD"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "healing_hp_ratio"
+                      },
+                      {
+                        "attributeKey": "hp",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "TOTAL",
+                        "nodeType": "ATTRIBUTE"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "max_charge_count"
+              }
+            ],
+            "operation": "MULTIPLY"
+          },
+          "formulaKey": "max_charge_healing",
+          "gameId": "lol",
+          "name": "星光之触满层治疗",
+          "skillKey": "taric_q",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T19:30:59.935862Z"
+        }
+      },
+      {
+        "method": "GET",
+        "path": "/skills/taric_q/formulas/consumed_charge_healing",
+        "status": 200,
+        "contentType": "application/json",
+        "bodyBytes": 1100,
+        "bodySha256": "6acdb310a451d0fb7543aade4538a62e19f5daedab12dec3b5eaeceadb46ea5f",
+        "body": {
+          "createdAt": "2026-09-09T19:31:01.424458Z",
+          "description": "实际总量=每层治疗×实际消耗充能；当前充能数由运行输入提供。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "healing_per_charge_base"
+                      },
+                      {
+                        "nodeType": "OPERATION",
+                        "operands": [
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "healing_ap_ratio"
+                          },
+                          {
+                            "attributeKey": "ability_power",
+                            "attributeOwner": "SOURCE",
+                            "attributeValueKind": "TOTAL",
+                            "nodeType": "ATTRIBUTE"
+                          }
+                        ],
+                        "operation": "MULTIPLY"
+                      }
+                    ],
+                    "operation": "ADD"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "healing_hp_ratio"
+                      },
+                      {
+                        "attributeKey": "hp",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "TOTAL",
+                        "nodeType": "ATTRIBUTE"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "current_consumed_charge_count"
+              }
+            ],
+            "operation": "MULTIPLY"
+          },
+          "formulaKey": "consumed_charge_healing",
+          "gameId": "lol",
+          "name": "星光之触实际消耗层数治疗",
+          "skillKey": "taric_q",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T19:31:01.424458Z"
+        }
+      }
+    ]
+  },
+  "validationBoundary": {
+    "static": "已核对规划指针、固定本地中英文原始资料与客户端gz散列、候选旧文件散列。",
+    "api": "已对每技能主体及6个列表各GET一次，并按治疗范围取详情；响应已原样结构化保存。",
+    "browser": "未执行",
+    "wasm": "未执行",
+    "battleRuntime": "未执行",
+    "writes": "未执行"
+  }
+}

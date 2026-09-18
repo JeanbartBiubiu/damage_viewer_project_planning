@@ -1,0 +1,212 @@
+{
+  "schemaVersion": 1,
+  "status": "DRAFT_REQUIRES_INDEPENDENT_REVIEW",
+  "title": "凯尔W明确自身治疗分支补录",
+  "generatedAt": "2026-09-18T21:34:45.642Z",
+  "targets": [
+    {
+      "skillKey": "kayle_w",
+      "ownerKey": "champion_kayle"
+    }
+  ],
+  "sourceFiles": [
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/凯尔W自身治疗补录/00-三项治疗只读候选.json",
+      "sha256": "66284ed65c3bfd003f05680420eb3f24a88a380cdcbd7f63f37aae7ec6d5ca64"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Kayle.json",
+      "sha256": "5d4fa068b8f088e199e62fa9eed0c7b77476f4791e03d44993b9ecb876ed4b93"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Kayle.json",
+      "sha256": "a22f0a67f0092f2538e188d9a538cb69c5005d3e4a70f058d7a2e63d6a60dff7"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Kayle.json.gz",
+      "sha256": "5966ef540c2e882ca33d3ba320c12e7a8de50909318a8cf3bd3bfd4c03023ce7"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十八批/完整候选.json",
+      "sha256": "2f03daad0fc690bb96164e1a92da5c62977a842dcb59c85cf45484e88d9587eb"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十八批/独立来源评审.md",
+      "sha256": "217e111879bf20d136e58255e442cef070c94091fa7c935480cbd70e34240398"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/娑娜W自身治疗补录/01-候选方案.json",
+      "sha256": "ba5d9716365f1475705b075e7da3c3d836b2a58a7067653ab0eab4bef984c80e"
+    },
+    {
+      "root": "web",
+      "path": "web/src/types/skillEffect.ts",
+      "sha256": "6a71ae4038c4641558aee593fb24be077e67851f50322ae2ff1c0c5da668ac34"
+    },
+    {
+      "root": "web",
+      "path": "web/src/types/skillTriggerRule.ts",
+      "sha256": "db1021ad59bf8cfee862603c2e7dcde6c618da85d235f36de941c6a205852615"
+    },
+    {
+      "root": "planning",
+      "path": "文档记录/详细设计/项目/条件事件与动态输入供值管理详细设计.md",
+      "sha256": "504f204df8110e3b63ae7eb1ece331b84198e7e34239070403c0c5c0a922f36e"
+    }
+  ],
+  "scope": "只新增self_heal直接治疗效果和on_used_self_heal主动规则。",
+  "sourceEvidence": {
+    "versions": {
+      "client": "16.17",
+      "ddragon": "16.17.1"
+    },
+    "selfTarget": "中英文明确每次使用治疗自己和一名友军；是否选中其他友军不影响自身收益。不能加EXPLICIT_TARGET_IS_SOURCE条件。",
+    "formula": "现有heal_value=base_heal+0.25×来源总法强；基础55/80/105/130/155。",
+    "numericScope": "复用已核定参数和公式，不把治疗当持续回复，不添加友军结果。"
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/kayle_w/effects",
+      "detailRoute": "/skills/kayle_w/effects/self_heal",
+      "body": {
+        "effectKey": "self_heal",
+        "name": "星界恩典自身治疗",
+        "description": "主动使用时为凯尔自身回复生命值；不包含最近友军治疗和移动速度。",
+        "sortOrder": 20,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "heal",
+            "name": "自身回复生命值",
+            "resultType": "DIRECT_HEAL",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "heal_value"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {}
+          }
+        ]
+      },
+      "expectedReadback": {
+        "effectKey": "self_heal",
+        "name": "星界恩典自身治疗",
+        "description": "主动使用时为凯尔自身回复生命值；不包含最近友军治疗和移动速度。",
+        "sortOrder": 20,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "heal",
+            "name": "自身回复生命值",
+            "resultType": "DIRECT_HEAL",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "heal_value"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {}
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/kayle_w/trigger-rules",
+      "detailRoute": "/skills/kayle_w/trigger-rules/on_used_self_heal",
+      "body": {
+        "ruleKey": "on_used_self_heal",
+        "name": "主动使用回复自身生命",
+        "description": "官方说明明确每次主动使用治疗自身；不依赖友军目标，不添加显式自施条件。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "kayle_w",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "heal_self",
+            "name": "执行自身治疗",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "self_heal"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used_self_heal",
+        "name": "主动使用回复自身生命",
+        "description": "官方说明明确每次主动使用治疗自身；不依赖友军目标，不添加显式自施条件。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "kayle_w",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "heal_self",
+            "name": "执行自身治疗",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "self_heal"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "preserveExisting": "保护原有主体、参数、公式、法力效果、图片与关系；不修改任何旧对象。",
+  "remaining": [
+    "自身移动速度结果及持续接线",
+    "基础法力消耗和普通冷却登记",
+    "完整施法时序和代表页面验收"
+  ],
+  "scopeExcluded": "仅作用于其他友军的目标选择、治疗和加速分支在本轮范围外；不据此排除自身收益。",
+  "runtimeBoundary": "管理数据与事件入口；不执行实际治疗、事件生产或Wasm战斗。"
+}
