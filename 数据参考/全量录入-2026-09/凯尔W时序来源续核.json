@@ -1,0 +1,28 @@
+{
+  "skillKey": "kayle_w",
+  "status": "保留来源待核；没有据二手历史线索修改当前配置",
+  "currentFixedSource": {
+    "worktree": "damage_web_dev",
+    "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Kayle.json.gz",
+    "sha256": "5966ef540c2e882ca33d3ba320c12e7a8de50909318a8cf3bd3bfd4c03023ce7",
+    "pointer": "Characters/Kayle/Spells/KayleWAbility/KayleW.mSpell",
+    "spellCastTime": 0,
+    "mCastTime": 0.25,
+    "spellTotalTime": 0,
+    "interpretation": "字段并存不等于同一语义互相冲突；目前缺少确定各自职责和当前操作限制的来源，不能任选一个当完整施法时长。"
+  },
+  "historicalLead": {
+    "version": "9.6",
+    "searchOnlyLead": "历史转载提到W效果延迟和普攻限制曾调整；只能作为查找原始公告的线索，不能把施法时间、收益生效时点和普攻限制混为一项。",
+    "primaryPagesAttempted": [
+      { "url": "https://www.leagueoflegends.com/en-us/news/game-updates/patch-9-6-notes/", "result": "web工具Internal Error，未取得正文" },
+      { "url": "https://na.leagueoflegends.com/en/news/game-updates/patch/patch-96-notes/", "result": "web工具Internal Error，未取得正文" }
+    ],
+    "notAdopted": ["Wild Rift手游字段", "用户个人页面的改动建议", "当前非固定版本Wiki", "9.6二手转载作为16.17完整机制证明"]
+  },
+  "decision": "已有明确自身治疗、加速和基础成本登记保持；不新增250毫秒延迟或零施法时间断言，待可靠来源说明当前时间字段职责。",
+  "businessWrites": 0,
+  "newBusinessGETs": 0,
+  "browserValidation": "未执行",
+  "runtimeValidation": "未执行"
+}
