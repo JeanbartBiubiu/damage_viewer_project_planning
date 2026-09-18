@@ -1,0 +1,626 @@
+{
+  "at": "2026-09-18T16:27:27.541Z",
+  "status": "PASS",
+  "executor": "主负责人",
+  "GETs": 21,
+  "businessWrites": 0,
+  "requests": [
+    {
+      "method": "GET",
+      "path": "/skills/tristana_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_tristana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=tristana_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_q/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_q/parameters/bonus_attack_speed_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_q/parameters/buff_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_q/effects/rapid_fire",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_q/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_q/trigger-rules/active",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/mana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/bonus_attack_speed_percent",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/modifier-zones/attribute_flat_add",
+      "status": 200
+    }
+  ],
+  "responses": {
+    "/skills/tristana_q": {
+      "createdAt": "2026-09-06T18:20:40.726753Z",
+      "description": "崔丝塔娜急速射击，短时间内提升攻击速度。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "崔丝塔娜·急速射击",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "tristana_q",
+      "sortOrder": 1,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:20:40.726753Z"
+    },
+    "/characters/champion_tristana": {
+      "characterKey": "champion_tristana",
+      "createdAt": "2026-09-06T15:42:48.29848Z",
+      "description": "麦林炮手·崔丝塔娜。资料：官方静态资料16.17.1、同补丁客户端16.17.8104348。仅基础属性与1～18级自然成长；技能、被动叠层与图片尚待录入和核对。",
+      "gameId": "lol",
+      "name": "崔丝塔娜",
+      "updatedAt": "2026-09-06T15:42:48.29848Z"
+    },
+    "/character-skill-relations?skillKey=tristana_q": {
+      "items": [
+        {
+          "characterKey": "champion_tristana",
+          "characterName": "崔丝塔娜",
+          "gameId": "lol",
+          "skillKey": "tristana_q",
+          "skillName": "崔丝塔娜·急速射击",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        }
+      ],
+      "total": 1
+    },
+    "/skills/tristana_q/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_tristana_q",
+        "name": "tristana_q"
+      }
+    },
+    "/skills/tristana_q/parameters": [
+      {
+        "createdAt": "2026-09-07T17:59:32.819222Z",
+        "description": "官方16.17.1与当前根对象cooldownTime索引1起一致。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 20000,
+          "2": 19000,
+          "3": 18000,
+          "4": 17000,
+          "5": 16000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "tristana_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T17:59:32.819222Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T17:59:33.205948Z",
+        "description": "官方cost与当前manaValues.values索引0起一致；明确0消耗保留。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 15,
+          "2": 20,
+          "3": 25,
+          "4": 30,
+          "5": 35
+        },
+        "name": "法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "tristana_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T17:59:33.205948Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T17:59:33.642405Z",
+        "description": "客户端当前根绑定 DataValues.AttackSpeedMod 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.6,
+          "2": 0.75,
+          "3": 0.9,
+          "4": 1.05,
+          "5": 1.2
+        },
+        "name": "额外攻击速度比例",
+        "parameterKey": "bonus_attack_speed_ratio",
+        "skillKey": "tristana_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T17:59:33.642405Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T17:59:33.998047Z",
+        "description": "客户端当前根绑定 DataValues.BuffDuration 取索引1至5。",
+        "fixedValue": 7000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "急速射击持续（毫秒）",
+        "parameterKey": "buff_duration_ms",
+        "skillKey": "tristana_q",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-07T17:59:33.998047Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/tristana_q/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T17:59:32.819222Z",
+      "description": "官方16.17.1与当前根对象cooldownTime索引1起一致。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 20000,
+        "2": 19000,
+        "3": 18000,
+        "4": 17000,
+        "5": 16000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "tristana_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T17:59:32.819222Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/tristana_q/parameters/mana_cost": {
+      "createdAt": "2026-09-07T17:59:33.205948Z",
+      "description": "官方cost与当前manaValues.values索引0起一致；明确0消耗保留。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 15,
+        "2": 20,
+        "3": 25,
+        "4": 30,
+        "5": 35
+      },
+      "name": "法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "tristana_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-07T17:59:33.205948Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/tristana_q/parameters/bonus_attack_speed_ratio": {
+      "createdAt": "2026-09-07T17:59:33.642405Z",
+      "description": "客户端当前根绑定 DataValues.AttackSpeedMod 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 0.6,
+        "2": 0.75,
+        "3": 0.9,
+        "4": 1.05,
+        "5": 1.2
+      },
+      "name": "额外攻击速度比例",
+      "parameterKey": "bonus_attack_speed_ratio",
+      "skillKey": "tristana_q",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-07T17:59:33.642405Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "DECIMAL"
+    },
+    "/skills/tristana_q/parameters/buff_duration_ms": {
+      "createdAt": "2026-09-07T17:59:33.998047Z",
+      "description": "客户端当前根绑定 DataValues.BuffDuration 取索引1至5。",
+      "fixedValue": 7000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "急速射击持续（毫秒）",
+      "parameterKey": "buff_duration_ms",
+      "skillKey": "tristana_q",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-07T17:59:33.998047Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/tristana_q/formulas": [],
+    "/skills/tristana_q/effects": [
+      {
+        "createdAt": "2026-09-07T17:59:34.433325Z",
+        "description": "仅施放法力消耗；具体过程单独绑定。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "tristana_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T17:59:34.433325Z"
+      },
+      {
+        "createdAt": "2026-09-07T17:59:34.850208Z",
+        "description": "独立持续属性。比例属性按百分点加算，1表示100%；不是把面板最终属性乘此比例。",
+        "effectKey": "rapid_fire",
+        "gameId": "lol",
+        "lifecycleEnabled": true,
+        "name": "急速射击攻速",
+        "resultCount": 1,
+        "skillKey": "tristana_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T17:59:34.850208Z"
+      }
+    ],
+    "/skills/tristana_q/effects/mana_cost": {
+      "createdAt": "2026-09-07T17:59:34.433325Z",
+      "description": "仅施放法力消耗；具体过程单独绑定。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "tristana_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T17:59:34.433325Z"
+    },
+    "/skills/tristana_q/effects/rapid_fire": {
+      "createdAt": "2026-09-07T17:59:34.850208Z",
+      "description": "独立持续属性。比例属性按百分点加算，1表示100%；不是把面板最终属性乘此比例。",
+      "effectKey": "rapid_fire",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "buff_duration_ms"
+        },
+        "expiryMode": "ALL_AT_ONCE",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "急速射击攻速",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "bonus_attack_speed_percent",
+            "modifierZoneKey": "attribute_flat_add",
+            "operation": "INCREASE"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": "REPLACE",
+            "stackValueMode": "SHARED",
+            "valueReadMode": "APPLICATION_SNAPSHOT"
+          },
+          "name": "急速射击攻速",
+          "resultKey": "attribute",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "bonus_attack_speed_ratio"
+            }
+          }
+        }
+      ],
+      "skillKey": "tristana_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-07T17:59:34.850208Z"
+    },
+    "/skills/tristana_q/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-07T17:59:35.341695Z",
+        "description": "法力和冷却始于主动施放；效果只作用自身，不将过程结束当作敌人命中。",
+        "effectBindingCount": 2,
+        "gameId": "lol",
+        "name": "施放急速射击",
+        "processKey": "cast",
+        "skillKey": "tristana_q",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-07T17:59:35.341695Z"
+      }
+    ],
+    "/skills/tristana_q/processes/cast": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-07T17:59:35.341695Z",
+      "description": "法力和冷却始于主动施放；效果只作用自身，不将过程结束当作敌人命中。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        },
+        {
+          "bindingKey": "rapid_fire",
+          "effectKey": "rapid_fire",
+          "moment": {
+            "momentType": "STEP_EXECUTION",
+            "stepKey": "activate"
+          },
+          "sortOrder": 20
+        }
+      ],
+      "gameId": "lol",
+      "name": "施放急速射击",
+      "processKey": "cast",
+      "skillKey": "tristana_q",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": null,
+          "detail": {},
+          "name": "启用自身效果",
+          "sortOrder": 10,
+          "stepKey": "activate",
+          "stepType": "IMMEDIATE"
+        }
+      ],
+      "updatedAt": "2026-09-07T17:59:35.341695Z"
+    },
+    "/skills/tristana_q/internal-states": [],
+    "/skills/tristana_q/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "接收 tristana_q 主动使用，在 CURRENT_TARGET 上启动已有 cast 过程；过程已绑定法力、冷却和 rapid_fire，自身攻击速度增益由过程执行一次。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "急速射击主动使用",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "active",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-12T18:00:45.226439Z"
+      }
+    ],
+    "/skills/tristana_q/trigger-rules/active": {
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "actionType": "START_PROCESS",
+          "detail": {
+            "processKey": "cast"
+          },
+          "name": "启动急速射击施放过程",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "接收 tristana_q 主动使用，在 CURRENT_TARGET 上启动已有 cast 过程；过程已绑定法力、冷却和 rapid_fire，自身攻击速度增益由过程执行一次。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "tristana_q",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "急速射击主动使用",
+      "perTargetCooldown": null,
+      "ruleKey": "active",
+      "sortOrder": 10
+    },
+    "/attributes/mana": {
+      "attributeKey": "mana",
+      "createdAt": "2026-08-22T15:27:36.139767Z",
+      "description": null,
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法力值",
+      "sortOrder": 310,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-22T15:27:36.139767Z",
+      "valueType": "DECIMAL"
+    },
+    "/attributes/bonus_attack_speed_percent": {
+      "attributeKey": "bonus_attack_speed_percent",
+      "createdAt": "2026-08-30T16:27:55.439812Z",
+      "description": "以 1 表示 100%；用于记录等级成长和咒能高涨等效果",
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": null,
+      "name": "额外攻击速度比例",
+      "sortOrder": 521,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-30T16:27:55.439812Z",
+      "valueType": "DECIMAL"
+    },
+    "/modifier-zones/attribute_flat_add": {
+      "applicationStage": "ATTRIBUTE_FLAT",
+      "calculationMode": "FLAT_ADD",
+      "createdAt": "2026-09-06T16:50:52.756989Z",
+      "description": "持续属性的固定值增加或减少；同属性同乘区内按方向加算，先于属性比例修正。比例类属性自身以1表示100%，增加0.6表示增加60个百分点，跨来源韧性组合仍待游戏规则核对。",
+      "domain": "ATTRIBUTE",
+      "gameId": "lol",
+      "modifierZoneKey": "attribute_flat_add",
+      "name": "属性固定加算",
+      "sortOrder": 10,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T16:50:52.756989Z"
+    }
+  },
+  "source": {
+    "clientSha256": "c3122c601945305e0749b828b326315f0df50cea28f877142d64aab44d689831",
+    "compressedSha256": "83ac2a879e3c6ce2c08f4e3f81294acafa412fa59880cd9a8426df5474972494",
+    "officialSha256": "84fb0ff7f6b1a921e6b13d3dfab5ac4ad48f32f012b9fb912e3bade1ed168b5a",
+    "spellPath": "Characters/Tristana/Spells/TristanaQAbility/TristanaQ",
+    "cooldownSeconds": [
+      20,
+      19,
+      18,
+      17,
+      16
+    ],
+    "mana": [
+      15,
+      20,
+      25,
+      30,
+      35
+    ],
+    "attackSpeed": [
+      0.6000000238418579,
+      0.75,
+      0.8999999761581421,
+      1.0499999523162842,
+      1.2000000476837158
+    ],
+    "durationSeconds": [
+      7,
+      7,
+      7,
+      7,
+      7
+    ]
+  },
+  "conclusion": "本轮管理组成齐全：60/75/90/105/120%额外攻速持续7秒，主动过程开始扣除15/20/25/30/35法力并启动20/19/18/17/16秒冷却，主动规则仅启动一次完整过程。",
+  "followups": [
+    "mana_cost参数说明误写明确0消耗保留，实际所有等级均为非零，须纠正文案",
+    "技能主体保留初始导入的数值和机制待补证文字，须纠正文案"
+  ],
+  "boundary": "本次纯GET核对；全部参数、效果、过程与原已验收候选相同，规则与后续正式冻结请求相同，不代表宿主或战斗运行已验证。"
+}
