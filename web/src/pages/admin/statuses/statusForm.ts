@@ -1,4 +1,5 @@
 import { ApiRequestError } from '../../../services/apiClient';
+import { isStatusKind, type StatusKind } from '../../../types/status';
 import type {
   CreateStatusRequest,
   GameStatus,
@@ -7,6 +8,7 @@ import type {
 } from '../../../types/status';
 
 export type StatusDraft = {
+  statusKind: StatusKind | '';
   statusKey: string;
   name: string;
   description: string;
@@ -18,6 +20,7 @@ export type StatusDraftField = keyof StatusDraft;
 export type StatusDraftErrors = Partial<Record<StatusDraftField, string>>;
 
 export type NormalizedStatusForm = {
+  statusKind: StatusKind;
   statusKey: string;
   name: string;
   description: string | null;
@@ -36,6 +39,7 @@ export type MappedStatusFieldIssues = {
 export const STATUS_KEY_PATTERN = /^[a-z][a-z0-9_]{0,63}$/;
 
 const STATUS_DRAFT_FIELDS = new Set<StatusDraftField>([
+  'statusKind',
   'statusKey',
   'name',
   'description',
@@ -44,6 +48,7 @@ const STATUS_DRAFT_FIELDS = new Set<StatusDraftField>([
 
 export function createEmptyStatusDraft(): StatusDraft {
   return {
+    statusKind: '',
     statusKey: '',
     name: '',
     description: '',
@@ -53,6 +58,7 @@ export function createEmptyStatusDraft(): StatusDraft {
 
 export function statusToDraft(status: GameStatus): StatusDraft {
   return {
+    statusKind: status.statusKind,
     statusKey: status.statusKey,
     name: status.name,
     description: status.description ?? '',
@@ -68,6 +74,9 @@ export function validateStatusDraft(
   const statusKey = draft.statusKey.trim();
   const name = draft.name.trim();
   const description = draft.description.trim();
+  if (!isStatusKind(draft.statusKind)) {
+    fieldErrors.statusKind = '请选择状态种类';
+  }
 
   if (includeKey) {
     if (!statusKey) {
@@ -102,6 +111,7 @@ export function validateStatusDraft(
   return {
     ok: true,
     normalized: {
+      statusKind: draft.statusKind as StatusKind,
       statusKey,
       name,
       description: description || null,
@@ -114,6 +124,7 @@ export function buildCreateStatusRequest(
   normalized: NormalizedStatusForm
 ): CreateStatusRequest {
   return {
+    statusKind: normalized.statusKind,
     statusKey: normalized.statusKey,
     name: normalized.name,
     description: normalized.description,
@@ -127,6 +138,7 @@ export function buildUpdateStatusRequest(
   status: StatusRecordStatus
 ): UpdateStatusRequest {
   return {
+    statusKind: normalized.statusKind,
     name: normalized.name,
     description: normalized.description,
     status,

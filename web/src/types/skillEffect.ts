@@ -268,7 +268,7 @@ export type SkillEffectCooldownChangeResult =
 
 export type SkillEffectStatusOperationResult = SkillEffectResultBase & {
   resultType: 'STATUS_OPERATION';
-  valueRule: null;
+  valueRule: SkillEffectValueRule | null;
   detail: SkillEffectStatusOperationDetail;
 };
 

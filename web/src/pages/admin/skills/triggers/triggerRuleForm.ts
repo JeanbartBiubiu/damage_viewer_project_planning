@@ -2681,6 +2681,20 @@ export function hasNumericValueRule(result: SkillEffectResult): boolean {
   return result.valueRule !== null;
 }
 
+export function canModifyResultValue(result: SkillEffectResult): boolean {
+  return result.resultType !== 'STATUS_OPERATION' && hasNumericValueRule(result);
+}
+
+export function resultModifierTargetError(effect: SkillEffect | null, resultKey: string): string | null {
+  if (!effect) return '效果详情尚未加载或加载失败，请重试。';
+  const result = effect.results.find((item) => item.resultKey === resultKey);
+  if (!result) return '所选结果不存在，请重新选择。';
+  if (result.resultType === 'STATUS_OPERATION') {
+    return '状态操作不接受额外结果修正；普通移动减速请在效果内调整减速比例。';
+  }
+  return canModifyResultValue(result) ? null : '所选结果没有可修正的数值。';
+}
+
 export function isImmediateResult(result: SkillEffectResult, hasLifecycle?: boolean): boolean {
   const scoped = hasLifecycle ?? result.lifecycleBehavior !== null;
   if (!scoped) return true;
@@ -3293,6 +3307,12 @@ export function validateSkillTriggerDraft(
       const modifierKeys = new Set<string>();
       for (let modifierIndex = 0; modifierIndex < action.resultModifiers.length; modifierIndex += 1) {
         const modifier = action.resultModifiers[modifierIndex];
+        const targetResult = options.effectsByKey?.get(action.detail.effectKey)?.results
+          .find((result) => result.resultKey === modifier.resultKey);
+        if (targetResult?.resultType === 'STATUS_OPERATION') {
+          pushError(nestedErrors, `actions[${actionIndex}].resultModifiers[${modifierIndex}].resultKey`,
+            '状态操作不接受额外结果修正；普通移动减速请在效果内调整减速比例。');
+        }
         if (modifierKeys.has(modifier.resultKey)) {
           pushError(nestedErrors, `actions[${actionIndex}].resultModifiers[${modifierIndex}].resultKey`, '同一结果不能重复修正。');
         }

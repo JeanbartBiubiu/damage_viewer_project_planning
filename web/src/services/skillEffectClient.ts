@@ -231,9 +231,22 @@ function assertResult(value: unknown, path: string): SkillEffectResult {
   }
 
   if (resultType === 'STATUS_OPERATION') {
-    if (value.valueRule !== null) protocolError(`${path}.valueRule`);
+    assertExactDetailKeys(detail, ['statusKey', 'operation'], path);
     assertString(detail.statusKey, `${path}.detail.statusKey`);
     assertEnum(detail.operation, new Set(['APPLY', 'REMOVE']), `${path}.detail.operation`);
+    if (value.valueRule !== null) {
+      if (detail.operation !== 'APPLY') protocolError(`${path}.valueRule`);
+      assertValueRule(value.valueRule, `${path}.valueRule`);
+      const rule = value.valueRule as Record<string, unknown>;
+      if (rule.fixedMinValue !== 0) protocolError(`${path}.valueRule.fixedMinValue`);
+      if (rule.fixedMaxValue !== 1) protocolError(`${path}.valueRule.fixedMaxValue`);
+      const behavior = value.lifecycleBehavior;
+      if (!isRecord(behavior) || behavior.moment !== 'PERSISTENT'
+        || behavior.valueReadMode !== 'APPLICATION_SNAPSHOT' || behavior.stackValueMode !== 'SHARED'
+        || behavior.reapplicationValueMode !== 'REPLACE' || behavior.periodicExecutionMode !== null) {
+        protocolError(`${path}.lifecycleBehavior`);
+      }
+    }
     return value as SkillEffectResult;
   }
   if (resultType === 'DAMAGE_IMMUNITY') {
@@ -384,6 +397,10 @@ export function parseSkillEffect(value: unknown): SkillEffect {
   assertNullableString(value.description, 'effect.description');
   assertNumber(value.sortOrder, 'effect.sortOrder');
   if (value.lifecycle !== null && !isRecord(value.lifecycle)) protocolError('effect.lifecycle');
+  if (value.results.some((item) => isRecord(item) && item.resultType === 'STATUS_OPERATION' && item.valueRule !== null)
+    && (!isRecord(value.lifecycle) || !isNumericValue(value.lifecycle.durationValue))) {
+    protocolError('effect.lifecycle.durationValue');
+  }
   if (
     value.results.some((item) => (
       isRecord(item)

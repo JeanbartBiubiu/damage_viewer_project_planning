@@ -78,7 +78,7 @@ test('live: six tables show representative images in the first column and refres
   const fixtures = [
     { path: 'characters', key: keys.character, body: { characterKey: keys.character, name: names.character, description: DESCRIPTION } },
     { path: 'equipment', key: keys.equipment, body: { equipmentKey: keys.equipment, name: names.equipment, description: DESCRIPTION } },
-    { path: 'statuses', key: keys.status, body: { statusKey: keys.status, name: names.status, ...common } },
+    { path: 'statuses', key: keys.status, body: { statusKey: keys.status, statusKind: 'STUN', name: names.status, ...common } },
     { path: 'skills', key: keys.skill, body: { skillKey: keys.skill, name: names.skill, maxLevel: 1, skillCategoryKeys: [], ...common } },
     { path: `skills/${keys.skill}/effects`, key: keys.effect, body: { effectKey: keys.effect, name: names.effect,
       description: DESCRIPTION, sortOrder: 0, lifecycle: null, results: [{ resultKey: `${PREFIX}_result`, name: '表格验收状态移除',

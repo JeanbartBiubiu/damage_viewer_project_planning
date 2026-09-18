@@ -25,6 +25,8 @@ import { createSkillEffect, getSkillEffect, listSkillEffects, updateSkillEffect 
 import { listSkillFormulas } from '../../../../services/skillFormulaClient';
 import { listSkillCategories } from '../../../../services/skillCategoryClient';
 import { listSkills } from '../../../../services/skillClient';
+import { listStatuses } from '../../../../services/statusClient';
+import type { GameStatus } from '../../../../types/status';
 import type { Attribute } from '../../../../types/attribute';
 import type { Skill } from '../../../../types/skill';
 import type { SkillCategory } from '../../../../types/skillCategory';
@@ -191,7 +193,9 @@ function referenceSummary(
       return `${operation} · ${formula} · ${scope}`;
     }
     case 'STATUS_OPERATION':
-      return result.statusKey || '—';
+      return result.value !== null && result.statusOperation === 'APPLY'
+        ? `${result.statusKey} · 减速比例 ${formula} × ${result.fixedMultiplier}（0 至 1）`
+        : result.statusKey || '—';
     case 'LIFECYCLE_OPERATION':
       return result.targetEffectKey || '—';
     case 'DAMAGE_MODIFIER':
@@ -340,6 +344,10 @@ export function SkillEffectEditorModal({
   const [formulas, setFormulas] = useState<SkillFormulaSummary[]>([]);
   const { parameters, parametersLoadState } = useNumericParameters(apiBaseUrl, selectedGameId, skill.skillKey, adminToken, visible);
   const [formulasLoadState, setFormulasLoadState] = useState<'ready' | 'failed' | undefined>(undefined);
+  const [statuses, setStatuses] = useState<GameStatus[]>([]);
+  const [statusesLoadState, setStatusesLoadState] = useState<'ready' | 'failed' | undefined>();
+  const [statusesError, setStatusesError] = useState<string | null>(null);
+  const statusSerial = useRef(0);
   const [attributes, setAttributes] = useState<Attribute[]>([]);
   const [attributesLoadState, setAttributesLoadState] = useState<'ready' | 'failed' | undefined>(undefined);
   const [attributesError, setAttributesError] = useState<string | null>(null);
@@ -366,6 +374,10 @@ export function SkillEffectEditorModal({
   }, [onDirtyChange]);
 
   const resetLocalState = useCallback(() => {
+    statusSerial.current += 1;
+    setStatuses([]);
+    setStatusesLoadState(undefined);
+    setStatusesError(null);
     detailSerial.current += 1;
     formulaSerial.current += 1;
     attributeSerial.current += 1;
@@ -423,6 +435,26 @@ export function SkillEffectEditorModal({
       setFormulasError(getErrorMessage(error));
     }
   }, [adminToken, apiBaseUrl, onSkillMissing, selectedGameId, skill.skillKey, visible]);
+
+  const loadStatusesCatalog = useCallback(async () => {
+    const serial = ++statusSerial.current;
+    const token = adminToken.trim();
+    setStatuses([]);
+    setStatusesLoadState(undefined);
+    setStatusesError(null);
+    if (!visible || !token) return;
+    try {
+      const response = await listStatuses(apiBaseUrl, selectedGameId, token);
+      if (serial !== statusSerial.current) return;
+      setStatuses(response.data.items);
+      setStatusesLoadState('ready');
+      setStatusesError(null);
+    } catch (error) {
+      if (serial !== statusSerial.current) return;
+      setStatusesLoadState('failed');
+      setStatusesError(getErrorMessage(error));
+    }
+  }, [adminToken, apiBaseUrl, selectedGameId, visible]);
 
   const loadAttributesCatalog = useCallback(async () => {
     const serial = attributeSerial.current + 1;
@@ -594,11 +626,12 @@ export function SkillEffectEditorModal({
     setSaving(false);
     void loadDetail();
     void loadFormulas();
+    void loadStatusesCatalog();
     void loadAttributesCatalog();
     void loadSkillsCatalog();
     void loadSkillCategoriesCatalog();
     void loadEffectSummaries();
-  }, [loadAttributesCatalog, loadDetail, loadEffectSummaries, loadFormulas, loadSkillCategoriesCatalog, loadSkillsCatalog, onDirtyChange, resetLocalState, visible]);
+  }, [loadStatusesCatalog, loadAttributesCatalog, loadDetail, loadEffectSummaries, loadFormulas, loadSkillCategoriesCatalog, loadSkillsCatalog, onDirtyChange, resetLocalState, visible]);
 
   const patchField = <K extends keyof SkillEffectDraft>(field: K, value: SkillEffectDraft[K]) => {
     const next = clearHiddenLifecycleFields({ ...draft, [field]: value });
@@ -673,12 +706,13 @@ export function SkillEffectEditorModal({
         attributes,
         skills,
         skillCategories,
-        statuses: []
+        statuses
       },
       catalogLoadState: {
         formulas: formulasLoadState,
         effects: effectsLoadState,
-        attributes: attributesLoadState
+        attributes: attributesLoadState,
+        statuses: statusesLoadState
       }
     });
     if (!validation.ok) {
@@ -987,6 +1021,10 @@ export function SkillEffectEditorModal({
                 <Button size="mini" onClick={() => void loadEffectSummaries()}>重试</Button>
               }
             />
+          ) : null}
+          {statusesError && draft.results.some((item) => item.resultType === 'STATUS_OPERATION') ? (
+            <Alert type="error" content={statusesError}
+              action={<Button size="mini" onClick={() => void loadStatusesCatalog()}>重试状态目录</Button>} />
           ) : null}
           {attributesError ? (
             <Alert

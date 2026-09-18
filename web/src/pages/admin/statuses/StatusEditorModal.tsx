@@ -5,6 +5,7 @@ import {
   Input,
   InputNumber,
   Modal,
+  Select,
   Space,
   Typography
 } from '@arco-design/web-react';
@@ -12,6 +13,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { getErrorMessage } from '../../../services/apiClient';
 import { createStatus, updateStatus } from '../../../services/statusClient';
 import type { GameStatus } from '../../../types/status';
+import { STATUS_KIND_LABELS } from '../../../types/status';
 import {
   buildCreateStatusRequest,
   buildUpdateStatusRequest,
@@ -155,6 +157,13 @@ export function StatusEditorModal({
       <Space direction="vertical" size="medium" style={{ width: '100%' }}>
         {saveError ? <Alert type="error" content={saveError} /> : null}
         <Form layout="vertical">
+          <Form.Item label="状态种类" required
+            validateStatus={errors.statusKind ? 'error' : undefined} help={errors.statusKind}>
+            <Select aria-label="状态种类" value={draft.statusKind || undefined}
+              placeholder="请选择状态种类" disabled={mode !== 'create' || saving}
+              options={Object.entries(STATUS_KIND_LABELS).map(([value, label]) => ({ value, label }))}
+              onChange={(value) => patchDraft('statusKind', value)} />
+          </Form.Item>
           <Form.Item
             label="状态标识"
             required

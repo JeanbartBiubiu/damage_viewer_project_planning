@@ -113,7 +113,7 @@ test('stage 9 live: bidirectional mounts and all seven image sources', async ({ 
     { path: 'characters', key: keys.character, body: { characterKey: keys.character, name: names.character, description: common.description } },
     { path: 'equipment', key: keys.equipment, body: { equipmentKey: keys.equipment, name: names.equipment, description: common.description } },
     { path: 'attributes', key: keys.attribute, body: { attributeKey: keys.attribute, name: names.attribute, valueType: 'DECIMAL', minValue: null, maxValue: null, ...common } },
-    { path: 'statuses', key: keys.status, body: { statusKey: keys.status, name: names.status, ...common } },
+    { path: 'statuses', key: keys.status, body: { statusKey: keys.status, statusKind: 'STUN', name: names.status, ...common } },
     { path: 'skills', key: keys.skill, body: { skillKey: keys.skill, ...skillBody } },
     { path: `skills/${keys.skill}/effects`, key: keys.effect, body: { effectKey: keys.effect, name: names.effect, description: common.description, sortOrder: 0, lifecycle: null, results: [{
       resultKey: `${PREFIX}_result`, name: '阶段九实测状态移除', target: 'SOURCE', description: null, sortOrder: 0,
