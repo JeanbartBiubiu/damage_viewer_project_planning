@@ -1,0 +1,1036 @@
+{
+  "capturedAt": "2026-09-18T13:43:43.804Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/skills/annie_e": {
+      "createdAt": "2026-09-06T18:16:26.829762Z",
+      "description": "为安妮或一名友军提供一层护盾、一个爆发性的移动速度加成并且对任何用攻击或技能袭击她的敌人造成伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "安妮·熔岩护盾",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "annie_e",
+      "sortOrder": 3,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:16:26.829762Z"
+    },
+    "/characters/champion_annie": {
+      "characterKey": "champion_annie",
+      "createdAt": "2026-09-06T17:04:55.039645Z",
+      "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+      "gameId": "lol",
+      "name": "安妮",
+      "updatedAt": "2026-09-06T17:04:55.039645Z"
+    },
+    "/characters/champion_annie/attributes": {
+      "characterKey": "champion_annie",
+      "levelValues": {
+        "1": {
+          "move_speed": 335,
+          "hp": 560,
+          "hp_regen": 5.5,
+          "mana": 418,
+          "mana_regen": 8,
+          "armor": 23,
+          "magic_resistance": 30,
+          "attack_damage": 50,
+          "attack_speed": 0.61,
+          "attack_range": 625
+        },
+        "2": {
+          "move_speed": 335,
+          "hp": 629.12,
+          "hp_regen": 5.896,
+          "mana": 436,
+          "mana_regen": 8.576,
+          "armor": 25.88,
+          "magic_resistance": 30.936,
+          "attack_damage": 51.908,
+          "attack_speed": 0.61612,
+          "attack_range": 625
+        },
+        "3": {
+          "move_speed": 335,
+          "hp": 701.6,
+          "hp_regen": 6.31125,
+          "mana": 454.875,
+          "mana_regen": 9.18,
+          "armor": 28.9,
+          "magic_resistance": 31.9175,
+          "attack_damage": 53.90875,
+          "attack_speed": 0.622537,
+          "attack_range": 625
+        },
+        "4": {
+          "move_speed": 335,
+          "hp": 777.44,
+          "hp_regen": 6.74575,
+          "mana": 474.625,
+          "mana_regen": 9.812,
+          "armor": 32.06,
+          "magic_resistance": 32.9445,
+          "attack_damage": 56.00225,
+          "attack_speed": 0.629252,
+          "attack_range": 625
+        },
+        "5": {
+          "move_speed": 335,
+          "hp": 856.64,
+          "hp_regen": 7.1995,
+          "mana": 495.25,
+          "mana_regen": 10.472,
+          "armor": 35.36,
+          "magic_resistance": 34.017,
+          "attack_damage": 58.1885,
+          "attack_speed": 0.636265,
+          "attack_range": 625
+        },
+        "6": {
+          "move_speed": 335,
+          "hp": 939.2,
+          "hp_regen": 7.6725,
+          "mana": 516.75,
+          "mana_regen": 11.16,
+          "armor": 38.8,
+          "magic_resistance": 35.135,
+          "attack_damage": 60.4675,
+          "attack_speed": 0.643575,
+          "attack_range": 625
+        },
+        "7": {
+          "move_speed": 335,
+          "hp": 1025.12,
+          "hp_regen": 8.16475,
+          "mana": 539.125,
+          "mana_regen": 11.876,
+          "armor": 42.38,
+          "magic_resistance": 36.2985,
+          "attack_damage": 62.83925,
+          "attack_speed": 0.651182,
+          "attack_range": 625
+        },
+        "8": {
+          "move_speed": 335,
+          "hp": 1114.4,
+          "hp_regen": 8.67625,
+          "mana": 562.375,
+          "mana_regen": 12.62,
+          "armor": 46.1,
+          "magic_resistance": 37.5075,
+          "attack_damage": 65.30375,
+          "attack_speed": 0.659088,
+          "attack_range": 625
+        },
+        "9": {
+          "move_speed": 335,
+          "hp": 1207.04,
+          "hp_regen": 9.207,
+          "mana": 586.5,
+          "mana_regen": 13.392,
+          "armor": 49.96,
+          "magic_resistance": 38.762,
+          "attack_damage": 67.861,
+          "attack_speed": 0.66729,
+          "attack_range": 625
+        },
+        "10": {
+          "move_speed": 335,
+          "hp": 1303.04,
+          "hp_regen": 9.757,
+          "mana": 611.5,
+          "mana_regen": 14.192,
+          "armor": 53.96,
+          "magic_resistance": 40.062,
+          "attack_damage": 70.511,
+          "attack_speed": 0.67579,
+          "attack_range": 625
+        },
+        "11": {
+          "move_speed": 335,
+          "hp": 1402.4,
+          "hp_regen": 10.32625,
+          "mana": 637.375,
+          "mana_regen": 15.02,
+          "armor": 58.1,
+          "magic_resistance": 41.4075,
+          "attack_damage": 73.25375,
+          "attack_speed": 0.684588,
+          "attack_range": 625
+        },
+        "12": {
+          "move_speed": 335,
+          "hp": 1505.12,
+          "hp_regen": 10.91475,
+          "mana": 664.125,
+          "mana_regen": 15.876,
+          "armor": 62.38,
+          "magic_resistance": 42.7985,
+          "attack_damage": 76.08925,
+          "attack_speed": 0.693682,
+          "attack_range": 625
+        },
+        "13": {
+          "move_speed": 335,
+          "hp": 1611.2,
+          "hp_regen": 11.5225,
+          "mana": 691.75,
+          "mana_regen": 16.76,
+          "armor": 66.8,
+          "magic_resistance": 44.235,
+          "attack_damage": 79.0175,
+          "attack_speed": 0.703075,
+          "attack_range": 625
+        },
+        "14": {
+          "move_speed": 335,
+          "hp": 1720.64,
+          "hp_regen": 12.1495,
+          "mana": 720.25,
+          "mana_regen": 17.672,
+          "armor": 71.36,
+          "magic_resistance": 45.717,
+          "attack_damage": 82.0385,
+          "attack_speed": 0.712765,
+          "attack_range": 625
+        },
+        "15": {
+          "move_speed": 335,
+          "hp": 1833.44,
+          "hp_regen": 12.79575,
+          "mana": 749.625,
+          "mana_regen": 18.612,
+          "armor": 76.06,
+          "magic_resistance": 47.2445,
+          "attack_damage": 85.15225,
+          "attack_speed": 0.722753,
+          "attack_range": 625
+        },
+        "16": {
+          "move_speed": 335,
+          "hp": 1949.6,
+          "hp_regen": 13.46125,
+          "mana": 779.875,
+          "mana_regen": 19.58,
+          "armor": 80.9,
+          "magic_resistance": 48.8175,
+          "attack_damage": 88.35875,
+          "attack_speed": 0.733038,
+          "attack_range": 625
+        },
+        "17": {
+          "move_speed": 335,
+          "hp": 2069.12,
+          "hp_regen": 14.146,
+          "mana": 811,
+          "mana_regen": 20.576,
+          "armor": 85.88,
+          "magic_resistance": 50.436,
+          "attack_damage": 91.658,
+          "attack_speed": 0.74362,
+          "attack_range": 625
+        },
+        "18": {
+          "move_speed": 335,
+          "hp": 2192,
+          "hp_regen": 14.85,
+          "mana": 843,
+          "mana_regen": 21.6,
+          "armor": 91,
+          "magic_resistance": 52.1,
+          "attack_damage": 95.05,
+          "attack_speed": 0.7545,
+          "attack_range": 625
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/character-skill-relations?characterKey=champion_annie": {
+      "items": [
+        {
+          "characterKey": "champion_annie",
+          "characterName": "安妮",
+          "gameId": "lol",
+          "skillKey": "annie_p",
+          "skillName": "安妮·嗜火",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_annie",
+          "characterName": "安妮",
+          "gameId": "lol",
+          "skillKey": "annie_q",
+          "skillName": "安妮·碎裂之火",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_annie",
+          "characterName": "安妮",
+          "gameId": "lol",
+          "skillKey": "annie_w",
+          "skillName": "安妮·焚烧",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_annie",
+          "characterName": "安妮",
+          "gameId": "lol",
+          "skillKey": "annie_e",
+          "skillName": "安妮·熔岩护盾",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_annie",
+          "characterName": "安妮",
+          "gameId": "lol",
+          "skillKey": "annie_r",
+          "skillName": "安妮·提伯斯之怒",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=annie_e": {
+      "items": [
+        {
+          "characterKey": "champion_annie",
+          "characterName": "安妮",
+          "gameId": "lol",
+          "skillKey": "annie_e",
+          "skillName": "安妮·熔岩护盾",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        }
+      ],
+      "total": 1
+    },
+    "/characters/champion_annie/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_champion_annie",
+        "name": "champion_annie"
+      }
+    },
+    "/skills/annie_e/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_annie_e",
+        "name": "annie_e"
+      }
+    },
+    "/skills/annie_e/parameters": [
+      {
+        "createdAt": "2026-09-07T16:37:46.766019Z",
+        "description": "当前主技能无 cooldownTime，采用官方16.17.1基础冷却；不借用其他同名旧对象。",
+        "fixedValue": 10000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "annie_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:37:46.766019Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:47.142711Z",
+        "description": "官方16.17.1 cost与主技能mana索引0..等级上限-1一致。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 65,
+          "3": 70,
+          "4": 75,
+          "5": 80
+        },
+        "name": "法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "annie_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T16:37:47.142711Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:47.553236Z",
+        "description": "客户端当前根绑定 DataValues.ShieldAmount 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 95,
+          "3": 130,
+          "4": 165,
+          "5": 200
+        },
+        "name": "基础护盾",
+        "parameterKey": "base_shield",
+        "skillKey": "annie_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T16:37:47.553236Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:47.878548Z",
+        "description": "客户端当前根绑定 DataValues.ShieldDuration 取索引1至5。",
+        "fixedValue": 3000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "护盾持续（毫秒）",
+        "parameterKey": "shield_duration_ms",
+        "skillKey": "annie_e",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-07T16:37:47.878548Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:48.231093Z",
+        "description": "客户端当前根绑定 DataValues.DamageReflection 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 25,
+          "2": 35,
+          "3": 45,
+          "4": 55,
+          "5": 65
+        },
+        "name": "基础伤害回敬",
+        "parameterKey": "base_return_damage",
+        "skillKey": "annie_e",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-07T16:37:48.231093Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:48.584463Z",
+        "description": "客户端 ShieldBlockTotal.mFormulaParts[1] 默认法术强度系数；按当前浮点设计值归一。",
+        "fixedValue": 0.4,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "护盾法强倍率",
+        "parameterKey": "shield_ap_ratio",
+        "skillKey": "annie_e",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-07T16:37:48.584463Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:48.970514Z",
+        "description": "客户端 DamageReturn.mFormulaParts[1] 默认法术强度系数；按当前浮点设计值归一。",
+        "fixedValue": 0.4,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "回敬法强倍率",
+        "parameterKey": "return_ap_ratio",
+        "skillKey": "annie_e",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-07T16:37:48.970514Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:49.302155Z",
+        "description": "客户端当前根绑定 DataValues.MovementSpeedDuration 取索引1至5。",
+        "fixedValue": 1500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "移速衰减持续（毫秒）",
+        "parameterKey": "move_speed_duration_ms",
+        "skillKey": "annie_e",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-07T16:37:49.302155Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:49.670719Z",
+        "description": "当前等级熔岩护盾的初始移动速度增益比例，1表示100%。固定16.17原节点只给0.2/0.5端点，尚缺等级插值算法、起止等级及选项含义；不再默认1至18级线性。必须提供已确认实际比例，随后时间衰减另行处理；缺值不能默认为0。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "初始移动速度提升比例",
+        "parameterKey": "move_speed_ratio",
+        "skillKey": "annie_e",
+        "sortOrder": 90,
+        "updatedAt": "2026-09-09T06:05:15.449007Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    ],
+    "/skills/annie_e/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T16:37:46.766019Z",
+      "description": "当前主技能无 cooldownTime，采用官方16.17.1基础冷却；不借用其他同名旧对象。",
+      "fixedValue": 10000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "annie_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T16:37:46.766019Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/annie_e/parameters/mana_cost": {
+      "createdAt": "2026-09-07T16:37:47.142711Z",
+      "description": "官方16.17.1 cost与主技能mana索引0..等级上限-1一致。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 60,
+        "2": 65,
+        "3": 70,
+        "4": 75,
+        "5": 80
+      },
+      "name": "法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "annie_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-07T16:37:47.142711Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/annie_e/parameters/base_shield": {
+      "createdAt": "2026-09-07T16:37:47.553236Z",
+      "description": "客户端当前根绑定 DataValues.ShieldAmount 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 60,
+        "2": 95,
+        "3": 130,
+        "4": 165,
+        "5": 200
+      },
+      "name": "基础护盾",
+      "parameterKey": "base_shield",
+      "skillKey": "annie_e",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-07T16:37:47.553236Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/annie_e/parameters/shield_duration_ms": {
+      "createdAt": "2026-09-07T16:37:47.878548Z",
+      "description": "客户端当前根绑定 DataValues.ShieldDuration 取索引1至5。",
+      "fixedValue": 3000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "护盾持续（毫秒）",
+      "parameterKey": "shield_duration_ms",
+      "skillKey": "annie_e",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-07T16:37:47.878548Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/annie_e/parameters/base_return_damage": {
+      "createdAt": "2026-09-07T16:37:48.231093Z",
+      "description": "客户端当前根绑定 DataValues.DamageReflection 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 25,
+        "2": 35,
+        "3": 45,
+        "4": 55,
+        "5": 65
+      },
+      "name": "基础伤害回敬",
+      "parameterKey": "base_return_damage",
+      "skillKey": "annie_e",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-07T16:37:48.231093Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/annie_e/parameters/shield_ap_ratio": {
+      "createdAt": "2026-09-07T16:37:48.584463Z",
+      "description": "客户端 ShieldBlockTotal.mFormulaParts[1] 默认法术强度系数；按当前浮点设计值归一。",
+      "fixedValue": 0.4,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "护盾法强倍率",
+      "parameterKey": "shield_ap_ratio",
+      "skillKey": "annie_e",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-07T16:37:48.584463Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/annie_e/parameters/return_ap_ratio": {
+      "createdAt": "2026-09-07T16:37:48.970514Z",
+      "description": "客户端 DamageReturn.mFormulaParts[1] 默认法术强度系数；按当前浮点设计值归一。",
+      "fixedValue": 0.4,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "回敬法强倍率",
+      "parameterKey": "return_ap_ratio",
+      "skillKey": "annie_e",
+      "sortOrder": 70,
+      "updatedAt": "2026-09-07T16:37:48.970514Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/annie_e/parameters/move_speed_duration_ms": {
+      "createdAt": "2026-09-07T16:37:49.302155Z",
+      "description": "客户端当前根绑定 DataValues.MovementSpeedDuration 取索引1至5。",
+      "fixedValue": 1500,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "移速衰减持续（毫秒）",
+      "parameterKey": "move_speed_duration_ms",
+      "skillKey": "annie_e",
+      "sortOrder": 80,
+      "updatedAt": "2026-09-07T16:37:49.302155Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/annie_e/parameters/move_speed_ratio": {
+      "createdAt": "2026-09-07T16:37:49.670719Z",
+      "description": "当前等级熔岩护盾的初始移动速度增益比例，1表示100%。固定16.17原节点只给0.2/0.5端点，尚缺等级插值算法、起止等级及选项含义；不再默认1至18级线性。必须提供已确认实际比例，随后时间衰减另行处理；缺值不能默认为0。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "初始移动速度提升比例",
+      "parameterKey": "move_speed_ratio",
+      "skillKey": "annie_e",
+      "sortOrder": 90,
+      "updatedAt": "2026-09-09T06:05:15.449007Z",
+      "valueMode": "RUNTIME_INPUT",
+      "valueType": "DECIMAL"
+    },
+    "/skills/annie_e/formulas": [
+      {
+        "createdAt": "2026-09-07T16:37:50.104988Z",
+        "description": "ShieldBlockTotal：60/95/130/165/200+0.4总法强。",
+        "formulaKey": "shield",
+        "gameId": "lol",
+        "name": "熔岩自护盾",
+        "skillKey": "annie_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:37:50.104988Z"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:50.438518Z",
+        "description": "DamageReturn：25/35/45/55/65+0.4总法强。",
+        "formulaKey": "return_damage",
+        "gameId": "lol",
+        "name": "熔岩伤害回敬",
+        "skillKey": "annie_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T16:37:50.438518Z"
+      }
+    ],
+    "/skills/annie_e/formulas/shield": {
+      "createdAt": "2026-09-07T16:37:50.104988Z",
+      "description": "ShieldBlockTotal：60/95/130/165/200+0.4总法强。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_shield"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "shield_ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "shield",
+      "gameId": "lol",
+      "name": "熔岩自护盾",
+      "skillKey": "annie_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T16:37:50.104988Z"
+    },
+    "/skills/annie_e/formulas/return_damage": {
+      "createdAt": "2026-09-07T16:37:50.438518Z",
+      "description": "DamageReturn：25/35/45/55/65+0.4总法强。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_return_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "return_ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "return_damage",
+      "gameId": "lol",
+      "name": "熔岩伤害回敬",
+      "skillKey": "annie_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-07T16:37:50.438518Z"
+    },
+    "/skills/annie_e/effects": [
+      {
+        "createdAt": "2026-09-07T16:37:50.848527Z",
+        "description": "仅施放法力消耗；具体过程单独绑定。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "annie_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:37:50.848527Z"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:51.237187Z",
+        "description": "自身护盾：结果目标与实例范围均为来源对象。独立组成，施加及刷新条件另行接线。",
+        "effectKey": "molten_shield",
+        "gameId": "lol",
+        "lifecycleEnabled": true,
+        "name": "熔岩自护盾",
+        "resultCount": 1,
+        "skillKey": "annie_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T16:37:51.237187Z"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:51.636398Z",
+        "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+        "effectKey": "return_damage",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "护盾伤害回敬",
+        "resultCount": 1,
+        "skillKey": "annie_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T16:37:51.636398Z"
+      }
+    ],
+    "/skills/annie_e/effects/mana_cost": {
+      "createdAt": "2026-09-07T16:37:50.848527Z",
+      "description": "仅施放法力消耗；具体过程单独绑定。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "annie_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T16:37:50.848527Z"
+    },
+    "/skills/annie_e/effects/molten_shield": {
+      "createdAt": "2026-09-07T16:37:51.237187Z",
+      "description": "自身护盾：结果目标与实例范围均为来源对象。独立组成，施加及刷新条件另行接线。",
+      "effectKey": "molten_shield",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "shield_duration_ms"
+        },
+        "expiryMode": "ALL_AT_ONCE",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "熔岩自护盾",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "absorbedDamageTypeKey": null,
+            "decayMode": "NONE"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": "REPLACE",
+            "stackValueMode": "SHARED",
+            "valueReadMode": "APPLICATION_SNAPSHOT"
+          },
+          "name": "普通护盾",
+          "resultKey": "shield",
+          "resultType": "NORMAL_SHIELD",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "shield",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "annie_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-07T16:37:51.237187Z"
+    },
+    "/skills/annie_e/effects/return_damage": {
+      "createdAt": "2026-09-07T16:37:51.636398Z",
+      "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+      "effectKey": "return_damage",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "护盾伤害回敬",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "REFLECTED",
+            "vampRules": []
+          },
+          "lifecycleBehavior": null,
+          "name": "护盾伤害回敬",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "return_damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "annie_e",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-07T16:37:51.636398Z"
+    },
+    "/skills/annie_e/processes": [],
+    "/skills/annie_e/internal-states": [],
+    "/skills/annie_e/trigger-rules": []
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/annie_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_annie",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_annie/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_annie",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=annie_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_annie/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/parameters/base_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/parameters/shield_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/parameters/base_return_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/parameters/shield_ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/parameters/return_ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/parameters/move_speed_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/parameters/move_speed_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/formulas/shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/formulas/return_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/effects/molten_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/effects/return_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/trigger-rules/on_used_self_shield",
+      "status": 404
+    }
+  ],
+  "businessWrites": 0
+}

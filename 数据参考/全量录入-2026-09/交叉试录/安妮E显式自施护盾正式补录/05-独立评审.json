@@ -1,0 +1,102 @@
+{
+  "status": "APPROVED",
+  "reviewer": "/root/annie_frozen_review",
+  "reviewedAt": "2026-09-18T13:51:01.366Z",
+  "businessWrites": 0,
+  "fileWrites": 0,
+  "approvedFiles": {
+    "批次执行.mjs": "8c6c4979c3372b61eee85ebdfa168cafa0bb16103f726d0112d80f9866226aea",
+    "01-来源方案.md": "03c35b00540717c747c4d38a988c2915debe57b9484f0c19f166e25401a41f32",
+    "02-冻结请求.json": "99393630e647b2c371096eab477f02e09138e15d5ccf8bee5439dc0d6c25484c",
+    "03-来源快照.json": "09aebbcf82edf34a660a9e0966d35c8668128b1b814a9a9f61d8558d9e850e3b",
+    "04-写入前现值.json": "6656d0ba73e9eb613c9d56a4a43f9761e51fc8542ded9e321142be285e82c0e4"
+  },
+  "sourceFindings": [
+    {
+      "finding": "允许自施有独立来源依据",
+      "evidence": "亲自读取规划工作树冻结的中英文 Annie.json；两份版本均为16.17.1，AnnieE 中文说明含“为安妮或一名友军”，英文说明含“Annie or an ally”。完整技能对象分别与03-来源快照.json中的official对象结构相等。",
+      "sha256": {
+        "zh_CN/champion/Annie.json": "f85156d6973b65b85336f9789aed6fe7a2f106170e2130993e31c5b5ce546735",
+        "en_US/champion/Annie.json": "28803e672dcf429b1f10423c301f8c03831ad10987cb9b32cb6f7d8f117cd2f4"
+      }
+    },
+    {
+      "finding": "客户端16.17护盾数值、持续时间与现值一致",
+      "evidence": "亲自读取并解压冻结Annie.json.gz，核对Characters/Annie/Spells/AnnieEAbility/AnnieE完整对象与03一致。ShieldAmount索引1至5为60/95/130/165/200；ShieldBlockTotal为ShieldAmount加0.4000000059604645法强系数，现值归一为0.4；ShieldDuration为3秒，现值为3000毫秒。",
+      "compressedSha256": "c6d06c60e39dd0cac0cabcc2f11dcbf9428471deb640eba172a4b4aef73d6f38",
+      "decompressedSha256": "92318a3473f127db5b086cdf7a34743becb51ae95196df53911e83f0bd327961",
+      "sourceVersionEvidence": "来源冻结/annie-来源与哈希.json记录CommunityDragon 16.17客户端提取地址及同一解压摘要；不将其称为官方API或与16.17.1混为同一微版本。"
+    },
+    {
+      "finding": "另外两份冻结引用文件原始摘要一致",
+      "sha256": {
+        "交叉试录/Cursor/英雄机制第二批/录入候选.json": "dab2c80a74f4b7d8ad00d6dc933dd05fb553f47f241487d649b4e8809482a272",
+        "交叉试录/Cursor/英雄机制第二批/来源冻结/annie-来源与哈希.json": "4dd3fdaa33ece9aba2c907d7342c977f5a0ea9cdfdc28ddc59e14ae29718f824"
+      }
+    }
+  ],
+  "checks": [
+    {
+      "name": "五文件原始字节摘要与绑定",
+      "status": "PASS",
+      "evidence": "分别用Get-FileHash与Node crypto重新计算五文件SHA256；冻结请求符合指定摘要，sourceFileSha256和baselineFileSha256分别绑定03和04。最终复核摘要未变化。"
+    },
+    {
+      "name": "冻结请求与执行器结构一致",
+      "status": "PASS",
+      "evidence": "独立提取执行器requestBody，以assert.deepEqual验证与02中唯一请求完整一致。唯一写入为POST /skills/annie_e/trigger-rules，规则键on_used_self_shield；SKILL_USED、sourceSkillKey=annie_e、useKind=ACTIVE；唯一条件EXPLICIT_TARGET_IS_SOURCE且detail={}；唯一动作EXECUTE_EFFECT、CURRENT_TARGET、molten_shield。",
+      "references": [
+        "批次执行.mjs:24-34",
+        "02-冻结请求.json:4-53"
+      ]
+    },
+    {
+      "name": "实际护盾目标、公式与生命周期",
+      "status": "PASS",
+      "evidence": "当前GET确认molten_shield只有一个NORMAL_SHIELD结果，target=SOURCE，取值为shield公式；公式结构为base_shield + shield_ap_ratio * SOURCE的TOTAL ability_power。生命周期instanceScope=SOURCE、durationValue=shield_duration_ms、无周期，现值为3000毫秒。",
+      "references": [
+        "GET /skills/annie_e/effects/molten_shield",
+        "GET /skills/annie_e/formulas/shield",
+        "GET /skills/annie_e/parameters/base_shield",
+        "GET /skills/annie_e/parameters/shield_ap_ratio",
+        "GET /skills/annie_e/parameters/shield_duration_ms"
+      ]
+    },
+    {
+      "name": "独立纯GET现值核对",
+      "status": "PASS",
+      "checkedAt": "2026-09-18T13:50:21.520Z",
+      "GETs": 28,
+      "protectedObjectsEqual": 27,
+      "businessWrites": 0,
+      "evidence": "全部27个冻结响应与当前GET响应进行结构相等比较，均一致。保护范围包含安妮角色、属性、角色与技能挂载、角色及技能代表图、安妮E本体与六类组成列表及详情。六类列表稳定键均唯一。规则列表为空，目标详情返回404；技能代表图启用。"
+    },
+    {
+      "name": "固定路径、摘要门禁与防重放",
+      "status": "PASS",
+      "evidence": "固定本地base；只有write模式允许固定route的一次POST且强制完整请求体相等。preflight和write均先验证05批准状态、五文件摘要、原始来源、完整冻结请求与受保护现值，再检查目标404。write额外要求DAMAGE_APPROVED_BATCH_SHA匹配，并在首写前以wx独占创建06，先持久化尝试次数，再提交唯一POST；异常保留结果文件并标记先查现值，阻止直接重放。审查结束时06不存在。",
+      "references": [
+        "批次执行.mjs:13-16",
+        "批次执行.mjs:21",
+        "批次执行.mjs:58-70",
+        "批次执行.mjs:108-134"
+      ]
+    },
+    {
+      "name": "写后验证安排与范围",
+      "status": "PASS",
+      "evidence": "执行器要求POST返回201，立即GET详情并结构比较。01明确要求随后核对规则列表、全部保护对象及另一执行者独立GET；代表页面关闭重开属于后续验收。此次批准只覆盖唯一自施规则新增，旧目录请求与旧基线不参与执行。",
+      "references": [
+        "01-来源方案.md:7-11",
+        "批次执行.mjs:128-133"
+      ]
+    },
+    {
+      "name": "语法与凭据记录",
+      "status": "PASS",
+      "evidence": "node --check通过。03、04递归字段检查未发现凭据字段；执行器仅在内存生成临时非空令牌，审计只保存方法、路径和状态，不输出或保存请求头。"
+    }
+  ],
+  "issues": [],
+  "boundary": "本次证据为冻结文件审查与真实管理接口GET；未执行业务写入、数据库访问、浏览器验收或战斗运行验证，不证明宿主已提供显式目标快照。"
+}
