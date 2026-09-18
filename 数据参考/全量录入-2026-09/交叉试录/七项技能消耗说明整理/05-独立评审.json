@@ -1,0 +1,24 @@
+{
+  "status": "APPROVED",
+  "at": "2026-09-18T21:11:36.814Z",
+  "reviewer": "/root/seven_cost_frozen_review",
+  "requestedModel": "gpt-5.6-luna",
+  "reasoningEffort": "max",
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-descriptions.mjs": "eab116c1b4ac83239d16946ff275c51170154d0ea26229c9f03c1d71f0b2cfed",
+    "01-纠错计划.json": "d2ee28ae33a2bf1d4971cdc77584aa1ee8f847f9f38a252045957c2baa430498",
+    "02-冻结请求.json": "2cd876218802c324075d9fc419bdfe88cb8420fed27dc35efc3f79292bc10fca",
+    "03-来源摘要.json": "eaf6882bfd7184f1b21108bef67ad5dd14bf87beede103f9ea3a59e4c7545df1",
+    "04-写入前现值.json": "3e6b0b6dde47d707096ac65311a7e27be90514cbd57b734d24ca3541e8a7685d"
+  },
+  "findings": [
+    "12条PUT范围准确：7项mana_cost参数、4个既有mana_cost效果、SonaW cooldown_ms说明；无self_heal、规则或过程写入。",
+    "参数与效果PUT使用完整白名单，旧parameterKey/effectKey只保留在URL；12条请求体除description外均与04基线一致，预期回读仅替换description。",
+    "四个既有法力效果均保持SOURCE、RESOURCE_CHANGE、mana/CONSUME与mana_cost参数职责，未新增重复效果。",
+    "SonaW self_heal效果及on_used_self_heal规则在04中有完整详情、动作和SKILL_USED事件，且不在纠错范围。",
+    "04为146条唯一GET且全部200，businessWrites为0；来源01/06/07当前字节与03散列一致，06与07均通过。",
+    "执行器固定散列、来源散列、基线散列、范围校验、现值深比较、批准文件绑定与DAMAGE_APPROVED_BATCH_SHA防重放门禁均通过。"
+  ],
+  "networkRequestsDuringReview": 0,
+  "fileWritesDuringReview": 0
+}

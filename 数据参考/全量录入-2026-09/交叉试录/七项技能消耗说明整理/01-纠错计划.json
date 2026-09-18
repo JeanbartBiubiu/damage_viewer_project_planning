@@ -1,0 +1,95 @@
+{
+  "title": "七项技能消耗说明移除过时录入状态",
+  "generatedAt": "2026-09-18T21:04:53.093Z",
+  "reason": "七项使用登记已正式保存并独立回读。将说明中的未接线或候选进度改为稳定职责定义；保留固定资料版本、单位、技能等级和客户端缺字段事实。",
+  "changes": [
+    {
+      "kind": "parameter",
+      "skillKey": "nami_q",
+      "route": "/skills/nami_q/parameters/mana_cost",
+      "description": "DDragon16.17.1 Nami.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+    },
+    {
+      "kind": "effect",
+      "skillKey": "nami_q",
+      "route": "/skills/nami_q/effects/mana_cost",
+      "description": "施放本技能时消耗对应技能等级的法力；具体使用流程由引用本效果的过程定义。"
+    },
+    {
+      "kind": "parameter",
+      "skillKey": "nami_r",
+      "route": "/skills/nami_r/parameters/mana_cost",
+      "description": "DDragon16.17.1 Nami.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+    },
+    {
+      "kind": "effect",
+      "skillKey": "nami_r",
+      "route": "/skills/nami_r/effects/mana_cost",
+      "description": "施放本技能时消耗对应技能等级的法力；具体使用流程由引用本效果的过程定义。"
+    },
+    {
+      "kind": "parameter",
+      "skillKey": "sona_q",
+      "route": "/skills/sona_q/parameters/mana_cost",
+      "description": "DDragon16.17.1 Sona.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+    },
+    {
+      "kind": "parameter",
+      "skillKey": "sona_w",
+      "route": "/skills/sona_w/parameters/mana_cost",
+      "description": "DDragon16.17.1 Sona.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+    },
+    {
+      "kind": "parameter",
+      "skillKey": "orianna_w",
+      "route": "/skills/orianna_w/parameters/mana_cost",
+      "description": "DDragon16.17.1 Orianna.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+    },
+    {
+      "kind": "effect",
+      "skillKey": "orianna_w",
+      "route": "/skills/orianna_w/effects/mana_cost",
+      "description": "施放本技能时消耗对应技能等级的法力；具体使用流程由引用本效果的过程定义。"
+    },
+    {
+      "kind": "parameter",
+      "skillKey": "orianna_e",
+      "route": "/skills/orianna_e/parameters/mana_cost",
+      "description": "DDragon16.17.1 Orianna.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+    },
+    {
+      "kind": "effect",
+      "skillKey": "orianna_e",
+      "route": "/skills/orianna_e/effects/mana_cost",
+      "description": "施放本技能时消耗对应技能等级的法力；具体使用流程由引用本效果的过程定义。"
+    },
+    {
+      "kind": "parameter",
+      "skillKey": "zilean_e",
+      "route": "/skills/zilean_e/parameters/mana_cost",
+      "description": "DDragon16.17.1 Zilean.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+    },
+    {
+      "kind": "parameter",
+      "skillKey": "sona_w",
+      "route": "/skills/sona_w/parameters/cooldown_ms",
+      "description": "官方DDragon16.17.1 Sona.spells[1].cooldown明确为各级10秒，转换为10000毫秒；客户端当前绑定根未提供cooldownTime，未将缺值当成零。此值为普通基础冷却，未计急速或其他技能修正；具体开始时点由引用过程定义。"
+    }
+  ],
+  "sourceFiles": [
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/七项技能使用消耗冷却补录/01-候选方案.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/七项技能使用消耗冷却补录/06-写入与即时回读.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/七项技能使用消耗冷却补录/07-独立回读.json"
+    }
+  ],
+  "scope": "仅12处description；数值、名称、键、类型、排序、效果结果、过程、规则和关系保持不变。新增的娑娜W自身治疗同样受现值保护。",
+  "runtimeBoundary": "说明整理不代表实际法力扣除或冷却运行通过。"
+}
