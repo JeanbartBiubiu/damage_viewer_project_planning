@@ -1,0 +1,81 @@
+{
+  "at": "2026-09-18T20:23:44.397Z",
+  "skillKey": "sona_e",
+  "status": "保留为后续单独核对，不改变已冻结七项批次",
+  "sources": [
+    {
+      "worktree": "damage_web_dev",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Sona.json.gz",
+      "sha256": "58c693dc5f9861064506c72c73953623d8c939f2667e3878d5541d597c16685b"
+    },
+    {
+      "worktree": "damage_web_dev",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Sona.json",
+      "sha256": "ecdaf99377b60b32671ca9d30ebf79bdc91ea3689c50fd97d8d4bbda3f768311"
+    }
+  ],
+  "facts": {
+    "clientPath": "Characters/Sona/Spells/SonaEAbility/SonaE",
+    "toggleMarker": true,
+    "officialSpellId": "SonaE",
+    "officialTooltip": "<spellPassive>主动：</spellPassive>她开始一段新的<keywordMajor>旋律</keywordMajor>并为自身提供<speed>{{ totalselfmovementspeed }}移动速度</speed>，持续{{ selfmovementspeeddurationmin }}秒，如果她未受到伤害则延长至最多{{ selfmovementspeeddurationmax }}秒。<br /><br /><keywordMajor>旋律：</keywordMajor>娑娜获得一个持续{{ auraduration }}秒的光环，来为其中的友方英雄提供<speed>{{ totalallymovementspeed }}移动速度</speed>，持续{{ allymovementspeedduration }}秒。<br /><br /><keywordMajor>能量和弦—节奏：</keywordMajor>【能量和弦】还会对目标造成持续{{ tempoduration }}秒的{{ totaltempomovespeedslow }}的<status>减速</status>。{{ spellmodifierdescriptionappend }}",
+    "manaPerUse": [
+      65,
+      65,
+      65,
+      65,
+      65
+    ],
+    "cooldownSeconds": [
+      14,
+      14,
+      14,
+      14,
+      14
+    ],
+    "maxammo": "-1",
+    "childSpells": [
+      "Characters/Sona/Spells/SonaEAbility/SonaE",
+      "Characters/Sona/Spells/SonaEAbility/SonaEHaste",
+      "Characters/Sona/Spells/SonaEAbility/SonaESelfHaste"
+    ],
+    "ownBuffSeconds": [
+      {
+        "name": "SelfMovementSpeedDurationMin",
+        "values": [
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3
+        ]
+      },
+      {
+        "name": "SelfMovementSpeedDurationMax",
+        "values": [
+          7,
+          7,
+          7,
+          7,
+          7,
+          7,
+          7
+        ]
+      }
+    ],
+    "auraSeconds": [
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3
+    ]
+  },
+  "decision": "当前绑定说明明确主动开始一段限时旋律；底层bIsToggleSpell标记不能单独证明存在玩家开关两次使用。先保留两种证据，不伪造再次使用、不补零，后续收敛单次主动使用与底层标记的关系。",
+  "businessWrites": 0,
+  "networkRequests": 0
+}
