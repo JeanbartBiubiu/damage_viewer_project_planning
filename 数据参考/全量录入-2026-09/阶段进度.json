@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-18T23:33:42.163Z",
+  "generatedAt": "2026-09-18T23:43:24.995Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -9874,6 +9874,12 @@
         "relativePath": "数据参考/全量录入-2026-09/写入响应审计修正/02-主负责人独立代码评审.json",
         "sha256": "caba1b87bd3f14f7131fa2c14e6b0664ef4661e4ab582f279dbb1e0867cf611c",
         "commit": "14c476ab"
+      },
+      "descriptionToolFirstRealBatch": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/五项后续技能消耗说明整理/09-证据清单.json",
+        "sha256": "fc05c0d50c9f9b8f8dcff6e065faf09e2c3e774c427f6af6763c942b93e4bbaa",
+        "commit": "3b10c44e"
       }
     },
     "eightSkillsTenDamageVampCorrection": {
@@ -9906,6 +9912,36 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/八项技能十个伤害吸血资格纠错/09-证据清单.json",
         "sha256": "c96d31952fcf3650f6b1367218ec60e7a23b50913e24824687f4e2ddbe14fa57",
         "commit": "e26f7fa3"
+      }
+    },
+    "fiveRecentUseDescriptionCleanup": {
+      "at": "2026-09-18T23:43:24.995Z",
+      "status": "九处消耗说明已纠正并独立回读，页面待验",
+      "skills": [
+        "sona_e",
+        "morgana_q",
+        "morgana_w",
+        "morgana_r",
+        "xerath_e"
+      ],
+      "updatedDescriptions": 9,
+      "created": 0,
+      "candidateGETs": 115,
+      "prepareGETs": 104,
+      "writerGETs": 122,
+      "writerPUTs": 9,
+      "immediateReadbacks": 9,
+      "independentGETs": 104,
+      "unchangedResponsesIncludingTimestamps": 86,
+      "expectedChangedDetails": 9,
+      "expectedChangedCollections": 9,
+      "browser": "NOT_RUN_BROWSER_UNAVAILABLE",
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/五项后续技能消耗说明整理/09-证据清单.json",
+        "sha256": "fc05c0d50c9f9b8f8dcff6e065faf09e2c3e774c427f6af6763c942b93e4bbaa",
+        "commit": "3b10c44e"
       }
     }
   },
@@ -10177,6 +10213,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/八项技能十个伤害吸血资格纠错/09-证据清单.json",
         "sha256": "c96d31952fcf3650f6b1367218ec60e7a23b50913e24824687f4e2ddbe14fa57",
         "commit": "e26f7fa3"
+      },
+      "fiveRecentUseDescriptionCleanup": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/五项后续技能消耗说明整理/09-证据清单.json",
+        "sha256": "fc05c0d50c9f9b8f8dcff6e065faf09e2c3e774c427f6af6763c942b93e4bbaa",
+        "commit": "3b10c44e"
       }
     },
     "coverage": {
@@ -22917,7 +22959,8 @@
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
           "fiveMageUseRegistrationBackfill",
-          "morganaQActualDamageBackfill"
+          "morganaQActualDamageBackfill",
+          "fiveRecentUseDescriptionCleanup"
         ],
         "historicalPendingCounts": {
           "source": 0,
@@ -22956,6 +22999,12 @@
           ],
           "httpReadback": "PASS",
           "browser": "待验"
+        },
+        "useCostDescriptionCleanup": {
+          "status": "PASS",
+          "changedDescriptions": 2,
+          "numericAndProcessChanges": 0,
+          "browser": "待验"
         }
       },
       {
@@ -22973,7 +23022,8 @@
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
-          "fiveMageUseRegistrationBackfill"
+          "fiveMageUseRegistrationBackfill",
+          "fiveRecentUseDescriptionCleanup"
         ],
         "historicalPendingCounts": {
           "source": 0,
@@ -23002,6 +23052,12 @@
           "processes": 1,
           "internalStates": 0,
           "triggerRules": 1
+        },
+        "useCostDescriptionCleanup": {
+          "status": "PASS",
+          "changedDescriptions": 2,
+          "numericAndProcessChanges": 0,
+          "browser": "待验"
         }
       },
       {
@@ -23071,7 +23127,8 @@
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
-          "fiveMageUseRegistrationBackfill"
+          "fiveMageUseRegistrationBackfill",
+          "fiveRecentUseDescriptionCleanup"
         ],
         "historicalPendingCounts": {
           "source": 0,
@@ -23099,6 +23156,12 @@
           "processes": 1,
           "internalStates": 0,
           "triggerRules": 1
+        },
+        "useCostDescriptionCleanup": {
+          "status": "PASS",
+          "changedDescriptions": 2,
+          "numericAndProcessChanges": 0,
+          "browser": "待验"
         }
       },
       {
@@ -27960,7 +28023,8 @@
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
-          "sonaECostCooldownBackfill"
+          "sonaECostCooldownBackfill",
+          "fiveRecentUseDescriptionCleanup"
         ],
         "historicalPendingCounts": {
           "source": 0,
@@ -27988,6 +28052,12 @@
           "processes": 1,
           "internalStates": 0,
           "triggerRules": 1
+        },
+        "useCostDescriptionCleanup": {
+          "status": "PASS",
+          "changedDescriptions": 1,
+          "numericAndProcessChanges": 0,
+          "browser": "待验"
         }
       },
       {
@@ -31542,7 +31612,8 @@
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
           "heroSourceInventory",
-          "xerathEDamageAndUseBackfill"
+          "xerathEDamageAndUseBackfill",
+          "fiveRecentUseDescriptionCleanup"
         ],
         "previousPendingCounts": {
           "source": 3,
@@ -31569,6 +31640,12 @@
           "useRule": "on_used",
           "hitRule": "actual_hit",
           "httpReadback": "PASS",
+          "browser": "待验"
+        },
+        "useCostDescriptionCleanup": {
+          "status": "PASS",
+          "changedDescriptions": 2,
+          "numericAndProcessChanges": 0,
           "browser": "待验"
         }
       },
