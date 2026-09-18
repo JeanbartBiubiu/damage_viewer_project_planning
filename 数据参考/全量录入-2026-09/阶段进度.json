@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-18T19:35:39.478Z",
+  "generatedAt": "2026-09-18T19:53:54.131Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -9412,6 +9412,37 @@
         "relativePath": "数据参考/全量录入-2026-09/普通减速强度修正/10-证据清单.json",
         "sha256": "a2fc3ca252da92080743e8cf6d531c081b0efb765ec877ac289846e4dc737faa"
       }
+    },
+    "fiveSelfSkillCostCooldownBackfill": {
+      "at": "2026-09-18T19:53:54.130Z",
+      "status": "五项使用消耗与普通冷却登记入口正式补录，独立回读通过；代表页面待验，各技能其他组成仍开放",
+      "skills": [
+        "annie_e",
+        "morgana_e",
+        "janna_e",
+        "lulu_w",
+        "lulu_r"
+      ],
+      "created": {
+        "processes": 5,
+        "triggerRules": 5
+      },
+      "prepareGETs": 143,
+      "writerGETs": 163,
+      "writerPOSTs": 10,
+      "immediateReadbacks": 10,
+      "independentGETs": 143,
+      "unchangedResponsesIncludingTimestamps": 123,
+      "expectedChangedCollections": 10,
+      "sourceArithmeticCases": 46,
+      "browser": "NOT_RUN_BROWSER_UNAVAILABLE",
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/五项自施技能消耗冷却补录/09-证据清单.json",
+        "sha256": "6fa1fcb4d3bf6cd6e3c366e8cc3aea445b0704986e18fab1f47be50897349a91",
+        "commit": "8d8abee4"
+      }
     }
   },
   "runtimeValidation": "未执行",
@@ -9594,6 +9625,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q完整补录/09-证据清单.json",
         "sha256": "fff6955b3c244f0dd5a933f9c13950c1ee879beaa70ae6caacc29c4a493bcd00",
         "commit": "900d925e3f14028e388f5023e8bffddd6de03f05"
+      },
+      "fiveSelfSkillCostCooldownBackfill": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/五项自施技能消耗冷却补录/09-证据清单.json",
+        "sha256": "6fa1fcb4d3bf6cd6e3c366e8cc3aea445b0704986e18fab1f47be50897349a91",
+        "commit": "8d8abee4"
       }
     },
     "coverage": {
@@ -12909,20 +12946,15 @@
         "name": "安妮·熔岩护盾",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "自身护盾的显式自施入口已正式保存并独立回读、页面重开通过；反伤资格与去重、移速衰减及资源冷却入口尚未完成，仍为部分管理配置。",
-        "pendingCounts": {
-          "source": 0,
-          "system": 2,
-          "configuration": 1,
-          "other": 0
-        },
+        "reason": "既有自施分支保留，使用消耗与普通冷却登记已新增并独立回读；尚余反伤资格及每盾每来源一次、移速衰减、实际施法时序尚未表达、使用消耗与普通冷却登记的代表页面验收，不计整技能管理完成。",
         "batchKey": "heroSecondBatch",
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
           "heroSourceInventory",
           "annieExplicitSelfShieldBackfill",
-          "descriptionCorrectionsFirst"
+          "descriptionCorrectionsFirst",
+          "fiveSelfSkillCostCooldownBackfill"
         ],
         "completedBranches": [
           "明确对自身主动施放时执行已核对的3秒自身护盾"
@@ -12930,9 +12962,32 @@
         "remainingBranches": [
           "反伤资格及每盾每来源一次",
           "移速衰减",
-          "法力消耗与普通冷却入口"
+          "实际施法时序尚未表达",
+          "使用消耗与普通冷却登记的代表页面验收"
         ],
-        "runtimeValidation": "未执行"
+        "runtimeValidation": "未执行",
+        "historicalPendingCounts": {
+          "source": 0,
+          "system": 2,
+          "configuration": 1,
+          "other": 0
+        },
+        "authoredCostCooldown": {
+          "processKey": "use_cost_and_cooldown",
+          "ruleKey": "on_used_cost_and_cooldown",
+          "httpReadback": "PASS",
+          "browser": "待验",
+          "castDurationClaim": "未声明，立即步骤只用于使用登记"
+        },
+        "currentComponentCounts": {
+          "parameters": 9,
+          "formulas": 2,
+          "effects": 3,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 2
+        },
+        "remainingBranchesBoundary": "按当前已确认缺项列举；历史计数不再表示现行缺口。登记过程不代表完整施法时序，战斗运行另记。"
       },
       {
         "sourceChampionId": "Annie",
@@ -17653,14 +17708,15 @@
         "name": "迦娜·风暴之眼",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "显式自施来源及所选自身分支已经补齐，独立回读通过；剩余护盾期间攻击力增益及其存续资格、控制返还冷却、法力消耗与普通冷却入口，本次不计整技能完成。璐璐的剩余页面验收尚未完成。",
+        "reason": "既有自施分支保留，使用消耗与普通冷却登记已新增并独立回读；尚余护盾期间攻击力增益及其存续资格、控制返还冷却、实际施法时序尚未表达、使用消耗与普通冷却登记的代表页面验收，不计整技能管理完成。",
         "batchKey": "heroThirtyFirstBatch",
         "candidateSha256": "bf26b9374fc305af52e7298934a54244aec5bec0166017ae5a99a38a2019ddcc",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
           "descriptionCorrectionsFirst",
-          "jannaLuluExplicitSelfBackfill"
+          "jannaLuluExplicitSelfBackfill",
+          "fiveSelfSkillCostCooldownBackfill"
         ],
         "historicalPendingCounts": {
           "source": 1,
@@ -17671,16 +17727,24 @@
         "remainingBranches": [
           "护盾期间攻击力增益及其存续资格",
           "控制返还冷却",
-          "法力消耗与普通冷却入口"
+          "实际施法时序尚未表达",
+          "使用消耗与普通冷却登记的代表页面验收"
         ],
-        "remainingBranchesBoundary": "按当前已确认缺项列举；历史pendingCounts不能作为现行完整缺口数量，自施来源不再是阻塞。",
+        "remainingBranchesBoundary": "按当前已确认缺项列举；历史计数不再表示现行缺口。登记过程不代表完整施法时序，战斗运行另记。",
         "currentComponentCounts": {
           "parameters": 10,
           "formulas": 2,
           "effects": 2,
-          "processes": 0,
+          "processes": 1,
           "internalStates": 0,
-          "triggerRules": 1
+          "triggerRules": 2
+        },
+        "authoredCostCooldown": {
+          "processKey": "use_cost_and_cooldown",
+          "ruleKey": "on_used_cost_and_cooldown",
+          "httpReadback": "PASS",
+          "browser": "待验",
+          "castDurationClaim": "未声明，立即步骤只用于使用登记"
         }
       },
       {
@@ -20756,13 +20820,14 @@
         "name": "璐璐·奇思妙想",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "显式自施来源及所选自身分支已经补齐，独立回读通过；剩余对敌变形及其减速、法力消耗与普通冷却入口，本次不计整技能完成。璐璐的剩余页面验收尚未完成。",
+        "reason": "既有自施分支保留，使用消耗与普通冷却登记已新增并独立回读；尚余对敌变形及其减速、实际施法时序尚未表达、使用消耗与普通冷却登记的代表页面验收、既有自施规则的无干扰页面重开，不计整技能管理完成。",
         "batchKey": "heroThirtyFirstBatch",
         "candidateSha256": "bf26b9374fc305af52e7298934a54244aec5bec0166017ae5a99a38a2019ddcc",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
-          "jannaLuluExplicitSelfBackfill"
+          "jannaLuluExplicitSelfBackfill",
+          "fiveSelfSkillCostCooldownBackfill"
         ],
         "historicalPendingCounts": {
           "source": 0,
@@ -20772,16 +20837,25 @@
         },
         "remainingBranches": [
           "对敌变形及其减速",
-          "法力消耗与普通冷却入口"
+          "实际施法时序尚未表达",
+          "使用消耗与普通冷却登记的代表页面验收",
+          "既有自施规则的无干扰页面重开"
         ],
-        "remainingBranchesBoundary": "按当前已确认缺项列举；历史pendingCounts不能作为现行完整缺口数量，自施来源不再是阻塞。",
+        "remainingBranchesBoundary": "按当前已确认缺项列举；历史计数不再表示现行缺口。登记过程不代表完整施法时序，战斗运行另记。",
         "currentComponentCounts": {
           "parameters": 8,
           "formulas": 1,
           "effects": 3,
-          "processes": 0,
+          "processes": 1,
           "internalStates": 0,
-          "triggerRules": 1
+          "triggerRules": 2
+        },
+        "authoredCostCooldown": {
+          "processKey": "use_cost_and_cooldown",
+          "ruleKey": "on_used_cost_and_cooldown",
+          "httpReadback": "PASS",
+          "browser": "待验",
+          "castDurationClaim": "未声明，立即步骤只用于使用登记"
         }
       },
       {
@@ -20816,13 +20890,14 @@
         "name": "璐璐·狂野生长",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "显式自施来源及所选自身分支已经补齐，独立回读通过；剩余当前血量与到期处理、击飞与减速、法力消耗与普通冷却入口，本次不计整技能完成。璐璐的剩余页面验收尚未完成。",
+        "reason": "既有自施分支保留，使用消耗与普通冷却登记已新增并独立回读；尚余当前血量与到期处理、击飞与减速、实际施法时序尚未表达、使用消耗与普通冷却登记的代表页面验收、既有自施规则的无干扰页面重开，不计整技能管理完成。",
         "batchKey": "heroThirtyFirstBatch",
         "candidateSha256": "bf26b9374fc305af52e7298934a54244aec5bec0166017ae5a99a38a2019ddcc",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
-          "jannaLuluExplicitSelfBackfill"
+          "jannaLuluExplicitSelfBackfill",
+          "fiveSelfSkillCostCooldownBackfill"
         ],
         "historicalPendingCounts": {
           "source": 0,
@@ -20833,16 +20908,25 @@
         "remainingBranches": [
           "当前血量与到期处理",
           "击飞与减速",
-          "法力消耗与普通冷却入口"
+          "实际施法时序尚未表达",
+          "使用消耗与普通冷却登记的代表页面验收",
+          "既有自施规则的无干扰页面重开"
         ],
-        "remainingBranchesBoundary": "按当前已确认缺项列举；历史pendingCounts不能作为现行完整缺口数量，自施来源不再是阻塞。",
+        "remainingBranchesBoundary": "按当前已确认缺项列举；历史计数不再表示现行缺口。登记过程不代表完整施法时序，战斗运行另记。",
         "currentComponentCounts": {
           "parameters": 9,
           "formulas": 1,
           "effects": 2,
-          "processes": 0,
+          "processes": 1,
           "internalStates": 0,
-          "triggerRules": 1
+          "triggerRules": 2
+        },
+        "authoredCostCooldown": {
+          "processKey": "use_cost_and_cooldown",
+          "ruleKey": "on_used_cost_and_cooldown",
+          "httpReadback": "PASS",
+          "browser": "待验",
+          "castDurationClaim": "未声明，立即步骤只用于使用登记"
         }
       },
       {
@@ -22075,29 +22159,47 @@
         "name": "莫甘娜·黑暗之盾",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "同版官方自施来源已补证；明确对本人主动施放时，已有5秒魔法伤害吸收入口完成正式保存、独立回读和页面重开。控制免疫及资源冷却入口仍未完成。",
-        "pendingCounts": {
-          "source": 0,
-          "system": 1,
-          "configuration": 1,
-          "other": 0
-        },
+        "reason": "既有自施分支保留，使用消耗与普通冷却登记已新增并独立回读；尚余护盾存续期间控制免疫、实际施法时序尚未表达、使用消耗与普通冷却登记的代表页面验收，不计整技能管理完成。",
         "batchKey": "heroThirtyFirstBatch",
         "candidateSha256": "bf26b9374fc305af52e7298934a54244aec5bec0166017ae5a99a38a2019ddcc",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
           "morganaExplicitSelfShieldBackfill",
-          "descriptionCorrectionsFirst"
+          "descriptionCorrectionsFirst",
+          "fiveSelfSkillCostCooldownBackfill"
         ],
         "completedBranches": [
           "显式自施时的普通魔法护盾，100/155/210/265/320加0.7总法强，5000毫秒"
         ],
         "remainingBranches": [
           "护盾存续期间控制免疫",
-          "法力消耗与普通冷却入口"
+          "实际施法时序尚未表达",
+          "使用消耗与普通冷却登记的代表页面验收"
         ],
-        "runtimeValidation": "未执行"
+        "runtimeValidation": "未执行",
+        "historicalPendingCounts": {
+          "source": 0,
+          "system": 1,
+          "configuration": 1,
+          "other": 0
+        },
+        "authoredCostCooldown": {
+          "processKey": "use_cost_and_cooldown",
+          "ruleKey": "on_used_cost_and_cooldown",
+          "httpReadback": "PASS",
+          "browser": "待验",
+          "castDurationClaim": "未声明，立即步骤只用于使用登记"
+        },
+        "currentComponentCounts": {
+          "parameters": 5,
+          "formulas": 1,
+          "effects": 2,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 2
+        },
+        "remainingBranchesBoundary": "按当前已确认缺项列举；历史计数不再表示现行缺口。登记过程不代表完整施法时序，战斗运行另记。"
       },
       {
         "sourceChampionId": "Morgana",
