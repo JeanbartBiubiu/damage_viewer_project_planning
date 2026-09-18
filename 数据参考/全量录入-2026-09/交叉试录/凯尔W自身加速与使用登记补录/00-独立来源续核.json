@@ -1,0 +1,711 @@
+{
+  "schemaVersion": 1,
+  "status": "DRAFT_REQUIRES_INDEPENDENT_REVIEW",
+  "title": "凯尔W自身移动速度与使用消耗普通冷却续接候选",
+  "generatedAt": "2026-09-19T05:45:21.812+08:00",
+  "target": {
+    "gameId": "lol",
+    "skillKey": "kayle_w",
+    "ownerKey": "champion_kayle",
+    "name": "凯尔·星界恩典"
+  },
+  "fixedVersions": {
+    "client": "16.17",
+    "ddragon": "16.17.1",
+    "clientBuild": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "scope": {
+    "included": [
+      "复用已保存haste_ratio公式，登记凯尔自身移动速度属性变化及2000毫秒生命周期",
+      "复用已保存mana_cost效果，登记每次主动使用的法力消耗与普通冷却",
+      "单列客户端施法时序字段冲突和当前未知边界"
+    ],
+    "excluded": [
+      "最近友军选择、友军治疗和友军移动速度分支",
+      "已有自身治疗对象的重复研究或修改",
+      "宿主事件生产、实际扣法力、冷却调度、Wasm和战斗运行",
+      "浏览器页面验收"
+    ],
+    "businessWrites": 0,
+    "networkRequests": 0,
+    "apiPolicy": "本候选只读本地证据；不调用业务接口。"
+  },
+  "planningBaseline": {
+    "currentTruth": {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/阶段进度.json",
+      "rawSha256": "3aeaab6991906c09e4447e3623c57de24c3d370a4ff0984787c0f4aa375fc2db",
+      "jsonPointer": "/inventoryConclusions/skills/307",
+      "sourceVersion": "16.17.1",
+      "record": {
+        "skillKey": "kayle_w",
+        "batchKey": "heroThirtyEighthBatch",
+        "conclusion": "系统暂缓",
+        "candidateSha256": "2f03daad0fc690bb96164e1a92da5c62977a842dcb59c85cf45484e88d9587eb",
+        "remainingBranches": [
+          "自身移动速度效果和持续接线",
+          "法力消耗与普通冷却登记",
+          "实际施法时间口径和代表页面验收",
+          "旧参数及法力效果中进度说明整理"
+        ],
+        "scopeExcluded": [
+          "仅其他友军治疗与加速",
+          "其他友军选择规则"
+        ]
+      }
+    },
+    "snapshotEmbeddedIn00": {
+      "path": "数据参考/全量录入-2026-09/阶段进度.json",
+      "rawSha256": "6547d287293b0a8cfb90d7e42a60782316ad1d69db80e3b75933f6f11c39db73",
+      "jsonPointer": "inventoryConclusions.skills.307",
+      "note": "00文件保存的是较早阶段快照；本候选采用planning真源当前散列和同一307指针，未改写规划文件。"
+    }
+  },
+  "currentReadback": {
+    "file": {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/凯尔W自身治疗补录/04-写入前现值.json",
+      "rawSha256": "42994168da89d53e0f01070b0e101dbe952eac250650a2989d08a4e6e2410b2d",
+      "capturedAt": "2026-09-18T21:34:47+08:00",
+      "businessWrites": 0,
+      "audit": {
+        "GET": 27,
+        "GET200": 25,
+        "GET404ExpectedNewObjects": 2
+      }
+    },
+    "temporalBoundary": "04是自身治疗批次写入前的27GET冻结；规划真源当前记录已另列self_heal HTTP回读PASS。本报告只引用04作保护基线，不回读、不修改、不覆盖治疗批次。",
+    "readbackRoutesReviewed": [
+      "/skills/kayle_w",
+      "/characters/champion_kayle",
+      "/characters/champion_kayle/attributes",
+      "/characters/champion_kayle/representative-image",
+      "/skills/kayle_w/representative-image",
+      "/character-skill-relations?characterKey=champion_kayle",
+      "/character-skill-relations?skillKey=kayle_w",
+      "/skills/kayle_w/parameters",
+      "/skills/kayle_w/parameters/base_heal",
+      "/skills/kayle_w/parameters/heal_ap_ratio",
+      "/skills/kayle_w/parameters/haste_ratio",
+      "/skills/kayle_w/parameters/haste_ap_ratio",
+      "/skills/kayle_w/parameters/haste_duration_ms",
+      "/skills/kayle_w/parameters/cooldown_ms",
+      "/skills/kayle_w/parameters/mana_cost",
+      "/skills/kayle_w/formulas",
+      "/skills/kayle_w/formulas/heal_value",
+      "/skills/kayle_w/formulas/haste_ratio",
+      "/skills/kayle_w/effects",
+      "/skills/kayle_w/effects/mana_cost",
+      "/skills/kayle_w/processes",
+      "/skills/kayle_w/internal-states",
+      "/skills/kayle_w/trigger-rules",
+      "/attributes/ability_power",
+      "/attributes/mana",
+      "/skills/kayle_w/effects/self_heal",
+      "/skills/kayle_w/trigger-rules/on_used_self_heal"
+    ],
+    "skill": {
+      "maxLevel": 5,
+      "status": "ENABLED",
+      "existingEffectKeys": ["mana_cost"],
+      "existingProcessKeys": [],
+      "existingInternalStateKeys": [],
+      "existingTriggerRuleKeys": []
+    },
+    "parameters": {
+      "base_heal": {
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER",
+        "levelValues": {"1": 55, "2": 80, "3": 105, "4": 130, "5": 155},
+        "jsonPointer": "/values/~1skills~1kayle_w~1parameters~1base_heal"
+      },
+      "heal_ap_ratio": {
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL",
+        "fixedValue": 0.25,
+        "jsonPointer": "/values/~1skills~1kayle_w~1parameters~1heal_ap_ratio"
+      },
+      "haste_ratio": {
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL",
+        "savedLevelValuesExact": {"1": 0.23999999, "2": 0.28, "3": 0.31999999, "4": 0.36000001, "5": 0.40000001},
+        "preserveRule": "后续候选直接引用当前保存值，不按显示值或重新取源值改写。",
+        "jsonPointer": "/values/~1skills~1kayle_w~1parameters~1haste_ratio"
+      },
+      "haste_ap_ratio": {
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL",
+        "fixedValue": 0.0008,
+        "jsonPointer": "/values/~1skills~1kayle_w~1parameters~1haste_ap_ratio"
+      },
+      "haste_duration_ms": {
+        "valueMode": "FIXED",
+        "valueType": "INTEGER",
+        "fixedValue": 2000,
+        "jsonPointer": "/values/~1skills~1kayle_w~1parameters~1haste_duration_ms"
+      },
+      "cooldown_ms": {
+        "valueMode": "FIXED",
+        "valueType": "INTEGER",
+        "fixedValue": 15000,
+        "jsonPointer": "/values/~1skills~1kayle_w~1parameters~1cooldown_ms"
+      },
+      "mana_cost": {
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER",
+        "levelValues": {"1": 70, "2": 75, "3": 80, "4": 85, "5": 90},
+        "jsonPointer": "/values/~1skills~1kayle_w~1parameters~1mana_cost"
+      }
+    },
+    "formulas": {
+      "heal_value": {
+        "expressionShape": "base_heal + heal_ap_ratio × SOURCE ability_power(TOTAL)",
+        "jsonPointer": "/values/~1skills~1kayle_w~1formulas~1heal_value"
+      },
+      "haste_ratio": {
+        "expressionShape": "haste_ratio + haste_ap_ratio × SOURCE ability_power(TOTAL)",
+        "operations": ["ADD", "MULTIPLY"],
+        "jsonPointer": "/values/~1skills~1kayle_w~1formulas~1haste_ratio"
+      }
+    },
+    "existingManaCostEffect": {
+      "effectKey": "mana_cost",
+      "lifecycle": null,
+      "lifecycleEnabled": false,
+      "resultKey": "consume_resource",
+      "resultType": "RESOURCE_CHANGE",
+      "target": "SOURCE",
+      "value": {"kind": "PARAMETER", "parameterKey": "mana_cost"},
+      "detail": {"attributeKey": "mana", "operation": "CONSUME"},
+      "descriptionBoundary": "只记录当前基础资源消耗；实际扣除时点和施放资格由后续事件接线。",
+      "jsonPointer": "/values/~1skills~1kayle_w~1effects~1mana_cost"
+    },
+    "otherCurrentValues": {
+      "characterAttributes": {
+        "levelRange": [1, 18],
+        "move_speed": "335 at levels 1-18",
+        "mana": {"level1": 330, "level18": 1180},
+        "jsonPointer": "/values/~1characters~1champion_kayle~1attributes"
+      },
+      "relationAndImages": [
+        "/values/~1character-skill-relations?characterKey=champion_kayle",
+        "/values/~1character-skill-relations?skillKey=kayle_w",
+        "/values/~1characters~1champion_kayle~1representative-image",
+        "/values/~1skills~1kayle_w~1representative-image"
+      ],
+      "attributeDefinitions": [
+        "/values/~1attributes~1ability_power",
+        "/values/~1attributes~1mana"
+      ]
+    }
+  },
+  "sourceEvidence": {
+    "officialZh": {
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Kayle.json",
+      "rawSha256": "5d4fa068b8f088e199e62fa9eed0c7b77476f4791e03d44993b9ecb876ed4b93",
+      "jsonPointers": [
+        "/data/Kayle/spells/1",
+        "/data/Kayle/spells/1/maxrank",
+        "/data/Kayle/spells/1/cooldown",
+        "/data/Kayle/spells/1/cost",
+        "/data/Kayle/spells/1/description",
+        "/data/Kayle/spells/1/tooltip"
+      ],
+      "observed": {
+        "maxrank": 5,
+        "cooldownSecondsByRank": [15, 15, 15, 15, 15],
+        "costByRank": [70, 75, 80, 85, 90],
+        "selfText": "为自己和距她最近的友方英雄提供治疗和移动速度",
+        "tooltipText": "为她自身和一名友方英雄灌注圣光，回复生命值并提供持续2秒的移动速度"
+      }
+    },
+    "officialEn": {
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Kayle.json",
+      "rawSha256": "a22f0a67f0092f2538e188d9a538cb69c5005d3e4a70f058d7a2e63d6a60dff7",
+      "jsonPointers": [
+        "/data/Kayle/spells/1",
+        "/data/Kayle/spells/1/maxrank",
+        "/data/Kayle/spells/1/cooldown",
+        "/data/Kayle/spells/1/cost",
+        "/data/Kayle/spells/1/description",
+        "/data/Kayle/spells/1/tooltip"
+      ],
+      "observed": {
+        "maxrank": 5,
+        "cooldownSecondsByRank": [15, 15, 15, 15, 15],
+        "costByRank": [70, 75, 80, 85, 90],
+        "selfText": "heals and grants Move Speed to herself and the nearest ally",
+        "tooltipText": "infuses herself and an allied champion with light, restoring Health and granting Move Speed for 2 seconds"
+      }
+    },
+    "clientGzip": {
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Kayle.json.gz",
+      "compressedSha256": "5966ef540c2e882ca33d3ba320c12e7a8de50909318a8cf3bd3bfd4c03023ce7",
+      "decompressedSha256": "3ca1991217dead4f03664a31d787c945e1f0e33c775db46e2eff27f4597bc084",
+      "jsonPointer": "Characters/Kayle/Spells/KayleWAbility/KayleW",
+      "rootPath": "Characters/Kayle/CharacterRecords/Root",
+      "spellPath": "Characters/Kayle/Spells/KayleWAbility/KayleW",
+      "fields": {
+        "dataValues.Haste": [0.20000000298023224, 0.23999999463558197, 0.2800000011920929, 0.3199999928474426, 0.36000001430511475, 0.4000000059604645, 0.4399999976158142],
+        "dataValues.HasteDuration": [2, 2, 2, 2, 2, 2, 2],
+        "calculations.TotalHaste": {
+          "formulaParts": ["NamedDataValueCalculationPart(Haste)", "StatByCoefficientCalculationPart(coefficient=0.0007999999797903001)"],
+          "mDisplayAsPercent": true
+        },
+        "cooldownTime": [15, 15, 15, 15, 15, 15, 15],
+        "mana": [70, 75, 80, 85, 90, 90],
+        "manaValues.values": [70, 75, 80, 85, 90, 90],
+        "mDoesNotConsumeMana": true,
+        "mDoesNotConsumeCooldown": true,
+        "spellCastTime": 0,
+        "mCastTime": 0.25,
+        "spellTotalTime": 0,
+        "mChannelDuration": null
+      }
+    },
+    "oldThirtyEighthCandidate": {
+      "path": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十八批/完整候选.json",
+      "rawSha256": "2f03daad0fc690bb96164e1a92da5c62977a842dcb59c85cf45484e88d9587eb",
+      "jsonPointers": [
+        "/skills/kayle_w/source",
+        "/skills/kayle_w/source/raw/dataValues/Haste",
+        "/skills/kayle_w/source/raw/calculations/TotalHaste",
+        "/skills/kayle_w/source/raw/cooldownTime",
+        "/skills/kayle_w/source/raw/mana",
+        "/skills/kayle_w/source/raw/manaValues/values",
+        "/skills/kayle_w/source/raw/mDoesNotConsumeMana",
+        "/skills/kayle_w/source/raw/mDoesNotConsumeCooldown",
+        "/skills/kayle_w/write",
+        "/skills/kayle_w/pending"
+      ],
+      "currentBoundTextPointer": "输入包/来源绑定与当前文本.json -> Kayle/W/currentTexts",
+      "flagConclusion": "两个客户端标记只作为来源事实保留；它们与根冷却/法力数组和已保存公共参数并存，不能据字段名推断免费或零冷却，也不能不解释地删掉普通消耗和冷却。"
+    },
+    "selfHealCandidate00": {
+      "path": "数据参考/全量录入-2026-09/交叉试录/凯尔W自身治疗补录/00-三项治疗只读候选.json",
+      "rawSha256": "66284ed65c3bfd003f05680420eb3f24a88a380cdcbd7f63f37aae7ec6d5ca64",
+      "jsonPointers": [
+        "/planningBaseline/progressPointer",
+        "/sourceEvidence/kayle_w/officialZh",
+        "/sourceEvidence/kayle_w/officialEn",
+        "/sourceEvidence/kayle_w/client",
+        "/candidates/0/currentStateRef",
+        "/candidates/0/analysis/currentWiring",
+        "/candidates/0/analysis/uncoveredBranches"
+      ],
+      "pointerValues": {
+        "planningProgressPointer": "inventoryConclusions.skills.307",
+        "currentState": {
+          "subject": "/skills/kayle_w",
+          "parameters": "/skills/kayle_w/parameters",
+          "formulas": "/skills/kayle_w/formulas",
+          "effects": "/skills/kayle_w/effects",
+          "processes": "/skills/kayle_w/processes",
+          "internalStates": "/skills/kayle_w/internal-states",
+          "triggerRules": "/skills/kayle_w/trigger-rules"
+        },
+        "previousUncoveredBranches": [
+          "最近友军选择与友军治疗结果",
+          "移动速度效果接线",
+          "基础法力消耗/冷却过程入口",
+          "完整施法时序与运行/Wasm结算"
+        ]
+      }
+    },
+    "selfHealCandidate01": {
+      "path": "数据参考/全量录入-2026-09/交叉试录/凯尔W自身治疗补录/01-候选方案.json",
+      "rawSha256": "0fccf85da61a90d6d0b59fc640eb7e374cd24f20fe58c9349a723012957ab7d5",
+      "jsonPointers": [
+        "/sourceEvidence",
+        "/requests/0/body",
+        "/requests/1/body",
+        "/remaining",
+        "/scopeExcluded",
+        "/runtimeBoundary"
+      ],
+      "boundary": "本候选不重复研究其中的self_heal和on_used_self_heal，也不改写该批次。"
+    },
+    "matureLuluSelfMoveSpeed": {
+      "path": "数据参考/全量录入-2026-09/交叉试录/迦娜璐璐三项自施补录/06-写入与即时回读.json",
+      "rawSha256": "cb6c2454c0c1585df2ec33198053e52271236209f04c37490164591139b81208",
+      "jsonPointers": [
+        "/operations/4/response/data",
+        "/operations/4/readback"
+      ],
+      "reuseShape": {
+        "effectKey": "self_move_speed",
+        "resultType": "ATTRIBUTE_CHANGE",
+        "target": "SOURCE",
+        "detail": {"attributeKey": "move_speed_percent", "modifierZoneKey": "attribute_flat_add", "operation": "INCREASE"},
+        "lifecycleBehavior": {"moment": "PERSISTENT", "reapplicationValueMode": "REPLACE", "stackValueMode": "SHARED", "valueReadMode": "APPLICATION_SNAPSHOT"}
+      }
+    },
+    "matureCostCooldown": {
+      "path": "数据参考/全量录入-2026-09/交叉试录/娑娜E使用消耗冷却补录/01-候选方案.json",
+      "rawSha256": "ca07bff5034699177c84e7aa61d6c8302464e7fd2e3dade520dee79a5cdf46d5",
+      "jsonPointers": [
+        "/requests/1/body",
+        "/requests/2/body"
+      ],
+      "reuseShape": {
+        "processKey": "use_cost_and_cooldown",
+        "ruleKey": "on_used_cost_and_cooldown",
+        "event": "SKILL_USED + useKind=ACTIVE",
+        "cooldownStart": "PROCESS_START",
+        "manaEffectBindingMoment": "PROCESS_START",
+        "immediateStepBoundary": "立即登记不表示完整施法时长为零"
+      }
+    }
+  },
+  "decisions": {
+    "selfMoveSpeed": {
+      "status": "CAN_DRAFT",
+      "conclusion": "可录自身移动速度效果和主动入口",
+      "reason": "中英文都明确每次W使凯尔自身获得移动速度；客户端TotalHaste树和现有haste_ratio公式完整，现有haste_duration_ms为2000。最近友军选择待办只涉及第三人，不阻挡自身分支。",
+      "numericBinding": {
+        "formulaKey": "haste_ratio",
+        "formula": "haste_ratio + haste_ap_ratio × SOURCE ability_power(TOTAL)",
+        "savedHasteRatioByRankExact": [0.23999999, 0.28, 0.31999999, 0.36000001, 0.40000001],
+        "hasteApRatio": 0.0008,
+        "durationMs": 2000,
+        "preserveExistingFloat": true
+      },
+      "draftBoundary": "效果目标固定为SOURCE；规则无条件消费SKILL_USED/ACTIVE，不能因此声称友军选人、事件生产或战斗结算已经完成。"
+    },
+    "useCostAndCooldown": {
+      "status": "CAN_DRAFT",
+      "conclusion": "可按每次主动使用登记基础法力消耗和普通冷却",
+      "numericBinding": {
+        "manaCostByRank": [70, 75, 80, 85, 90],
+        "cooldownMsByRank": [15000, 15000, 15000, 15000, 15000],
+        "currentParameterRefs": ["mana_cost", "cooldown_ms"],
+        "existingEffectRef": "mana_cost"
+      },
+      "flagHandling": {
+        "mDoesNotConsumeMana": {
+          "observed": true,
+          "sourcePointer": "/skills/kayle_w/source/raw/mDoesNotConsumeMana",
+          "meaning": "保留客户端字段事实；无同版语义证据将其解为免费施放。"
+        },
+        "mDoesNotConsumeCooldown": {
+          "observed": true,
+          "sourcePointer": "/skills/kayle_w/source/raw/mDoesNotConsumeCooldown",
+          "meaning": "保留客户端字段事实；无同版语义证据将其解为零冷却。"
+        },
+        "normalCostAndCooldownBasis": [
+          "官方中英文cooldown均为15秒五级数组",
+          "官方中英文cost均为70/75/80/85/90五级数组",
+          "客户端cooldownTime/mana前五项与上述值一致",
+          "当前mana_cost效果已明确RESOURCE_CHANGE/CONSUME/SOURCE"
+        ],
+        "conclusion": "标记与根数组、当前参数及mana_cost效果并存，因此保留标记并解释其未知用途，同时登记普通成本；不能只凭字段名删改。"
+      },
+      "draftBoundary": "过程只登记管理层消耗和冷却引用；实际扣除时点、冷却调度和宿主事件仍未知。"
+    },
+    "castTiming": {
+      "status": "GAP_NEEDS_SEPARATE_MANAGEMENT_CONFIG",
+      "conclusion": "施法时序若要进入管理配置，必须另列字段或过程步骤；当前证据不允许把立即登记当作零施法，也不足以冻结唯一cast_time_ms。",
+      "sourceFields": {
+        "spellCastTime": 0,
+        "mCastTime": 0.25,
+        "spellTotalTime": 0,
+        "mChannelDuration": null,
+        "sourcePointer": "/skills/kayle_w/source/raw"
+      },
+      "knownBoundary": "mCastTime可换算为250毫秒的来源观察值，spellCastTime又为0；字段职责和真实事件边界未被当前静态资料证明。",
+      "currentDraftAction": "不新增cast_time_ms参数，不把PROCESS_START或IMMEDIATE步骤解释成完整施法完成；待确定字段权威和事件时点后另行配置。"
+    }
+  },
+  "requests": [
+    {
+      "item": "self_move_speed_effect",
+      "method": "POST",
+      "route": "/skills/kayle_w/effects",
+      "detailRoute": "/skills/kayle_w/effects/self_move_speed",
+      "body": {
+        "effectKey": "self_move_speed",
+        "name": "星界恩典自身移动速度增益",
+        "description": "主动使用时为凯尔自身增加移动速度；数值复用haste_ratio，持续2000毫秒；不包含最近友军分支。",
+        "sortOrder": 30,
+        "lifecycle": {
+          "applicationStacksValue": {"kind": "FIXED", "value": 1},
+          "durationValue": {"kind": "PARAMETER", "parameterKey": "haste_duration_ms"},
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {"kind": "FIXED", "value": 1},
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "results": [
+          {
+            "resultKey": "attribute",
+            "name": "星界恩典自身移动速度增益",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "description": "直接改变移动速度比例属性；不创建友军结果。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {"kind": "FORMULA", "formulaKey": "haste_ratio"},
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "move_speed_percent",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "INCREASE"
+            }
+          }
+        ]
+      },
+      "expectedReadbackContract": {
+        "effectKey": "self_move_speed",
+        "resultType": "ATTRIBUTE_CHANGE",
+        "target": "SOURCE",
+        "formulaKey": "haste_ratio",
+        "durationParameterKey": "haste_duration_ms"
+      }
+    },
+    {
+      "item": "self_move_speed_trigger",
+      "method": "POST",
+      "route": "/skills/kayle_w/trigger-rules",
+      "detailRoute": "/skills/kayle_w/trigger-rules/on_used_self_move_speed",
+      "body": {
+        "ruleKey": "on_used_self_move_speed",
+        "name": "主动使用获得自身移动速度",
+        "description": "官方说明明确每次主动使用为凯尔自身提供移动速度；不依赖最近友军目标选择。",
+        "sortOrder": 20,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {"sourceSkillKey": "kayle_w", "useKind": "ACTIVE"}
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "apply_self_move_speed",
+            "name": "执行星界恩典自身移动速度增益",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {"effectKey": "self_move_speed"},
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadbackContract": {
+        "ruleKey": "on_used_self_move_speed",
+        "eventType": "SKILL_USED",
+        "useKind": "ACTIVE",
+        "conditionGroups": [],
+        "effectKey": "self_move_speed"
+      }
+    },
+    {
+      "item": "use_cost_and_cooldown_process",
+      "method": "POST",
+      "route": "/skills/kayle_w/processes",
+      "detailRoute": "/skills/kayle_w/processes/use_cost_and_cooldown",
+      "body": {
+        "processKey": "use_cost_and_cooldown",
+        "name": "使用消耗与普通冷却",
+        "activationType": "ACTIVE",
+        "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零。治疗、移动速度和友军选择由各自效果或后续分支负责。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {"kind": "PARAMETER", "parameterKey": "cooldown_ms"},
+          "startMoment": {"momentType": "PROCESS_START", "stepKey": null}
+        },
+        "steps": [
+          {
+            "stepKey": "register_use",
+            "name": "登记本次使用",
+            "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+            "sortOrder": 10,
+            "stepType": "IMMEDIATE",
+            "detail": {}
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {"momentType": "PROCESS_START", "stepKey": null},
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      },
+      "expectedReadbackContract": {
+        "processKey": "use_cost_and_cooldown",
+        "activationType": "ACTIVE",
+        "cooldownParameterKey": "cooldown_ms",
+        "manaEffectKey": "mana_cost",
+        "manaBindingMoment": "PROCESS_START",
+        "castTimingClaim": "未声明"
+      }
+    },
+    {
+      "item": "use_cost_and_cooldown_trigger",
+      "method": "POST",
+      "route": "/skills/kayle_w/trigger-rules",
+      "detailRoute": "/skills/kayle_w/trigger-rules/on_used_cost_and_cooldown",
+      "body": {
+        "ruleKey": "on_used_cost_and_cooldown",
+        "name": "主动使用登记消耗与普通冷却",
+        "description": "每次凯尔W主动使用启动消耗与普通冷却登记过程；不定义完整施法时长，不代替治疗、移动速度或友军目标选择。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {"sourceSkillKey": "kayle_w", "useKind": "ACTIVE"}
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "name": "启动消耗与普通冷却登记",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {"processKey": "use_cost_and_cooldown"},
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadbackContract": {
+        "ruleKey": "on_used_cost_and_cooldown",
+        "eventType": "SKILL_USED",
+        "useKind": "ACTIVE",
+        "actionType": "START_PROCESS",
+        "processKey": "use_cost_and_cooldown"
+      }
+    }
+  ],
+  "reusedExisting": [
+    {
+      "route": "/skills/kayle_w/effects/mana_cost",
+      "action": "直接引用，不新增、不覆盖、不改写",
+      "parameterKey": "mana_cost",
+      "resultKey": "consume_resource",
+      "detail": {"attributeKey": "mana", "operation": "CONSUME"},
+      "sourcePointer": "/values/~1skills~1kayle_w~1effects~1mana_cost"
+    },
+    {
+      "route": "/skills/kayle_w/formulas/haste_ratio",
+      "action": "直接引用，不重新录入数值",
+      "parameterKeys": ["haste_ratio", "haste_ap_ratio"],
+      "attribute": {"attributeKey": "ability_power", "attributeOwner": "SOURCE", "attributeValueKind": "TOTAL"},
+      "sourcePointer": "/values/~1skills~1kayle_w~1formulas~1haste_ratio"
+    }
+  ],
+  "preserveExisting": [
+    "凯尔W主体、角色关系、图片、已有base_heal/heal_ap_ratio/haste_ratio/haste_ap_ratio/haste_duration_ms/cooldown_ms/mana_cost参数和heal_value/haste_ratio公式",
+    "当前mana_cost效果的effectKey、结果结构、SOURCE目标和CONSUME细节",
+    "客户端mDoesNotConsumeMana=true与mDoesNotConsumeCooldown=true的来源事实及其未知语义",
+    "正在执行的凯尔W自身治疗补录批次及其冻结请求、写入和回读证据"
+  ],
+  "remaining": [
+    {
+      "item": "完整施法时序",
+      "status": "未解决",
+      "reason": "spellCastTime=0与mCastTime=0.25同时存在，spellTotalTime=0且无频道时长；管理字段权威、实际事件时点和宿主生产仍未知。"
+    },
+    {
+      "item": "自身移动速度与成本冷却的实际运行",
+      "status": "未验证",
+      "reason": "本报告不调用接口、不做浏览器、宿主、Wasm或战斗运行验证。"
+    },
+    {
+      "item": "代表页面验收",
+      "status": "未执行",
+      "reason": "留给父任务在完成受保护写入后的独立回读和页面阶段。"
+    }
+  ],
+  "runtimeBoundary": {
+    "managementData": "本候选只表达管理层参数、效果、主动使用事件入口和消耗/冷却登记过程。",
+    "notProven": [
+      "SKILL_USED是否由宿主产生",
+      "法力实际扣除时点",
+      "普通冷却实际调度",
+      "属性生命周期在战斗中是否生效",
+      "Wasm或战斗结果"
+    ]
+  },
+  "sourceFiles": [
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/阶段进度.json",
+      "sha256": "3aeaab6991906c09e4447e3623c57de24c3d370a4ff0984787c0f4aa375fc2db",
+      "jsonPointer": "/inventoryConclusions/skills/307"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/凯尔W自身治疗补录/00-三项治疗只读候选.json",
+      "sha256": "66284ed65c3bfd003f05680420eb3f24a88a380cdcbd7f63f37aae7ec6d5ca64"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/凯尔W自身治疗补录/01-候选方案.json",
+      "sha256": "0fccf85da61a90d6d0b59fc640eb7e374cd24f20fe58c9349a723012957ab7d5"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/凯尔W自身治疗补录/04-写入前现值.json",
+      "sha256": "42994168da89d53e0f01070b0e101dbe952eac250650a2989d08a4e6e2410b2d"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十八批/完整候选.json",
+      "sha256": "2f03daad0fc690bb96164e1a92da5c62977a842dcb59c85cf45484e88d9587eb"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Kayle.json",
+      "sha256": "5d4fa068b8f088e199e62fa9eed0c7b77476f4791e03d44993b9ecb876ed4b93"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Kayle.json",
+      "sha256": "a22f0a67f0092f2538e188d9a538cb69c5005d3e4a70f058d7a2e63d6a60dff7"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Kayle.json.gz",
+      "sha256": "5966ef540c2e882ca33d3ba320c12e7a8de50909318a8cf3bd3bfd4c03023ce7"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/迦娜璐璐三项自施补录/06-写入与即时回读.json",
+      "sha256": "cb6c2454c0c1585df2ec33198053e52271236209f04c37490164591139b81208"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/娑娜E使用消耗冷却补录/01-候选方案.json",
+      "sha256": "ca07bff5034699177c84e7aa61d6c8302464e7fd2e3dade520dee79a5cdf46d5"
+    }
+  ],
+  "validationBoundary": {
+    "static": "已核对当前04完整现值、00/01来源指针、规划真源kayle_w记录、第三十八批候选及同版官方中英文/客户端压缩原文散列。",
+    "api": "本候选生成过程不调用API；04中的27次GET仅作为既有冻结证据。",
+    "writes": "0",
+    "browser": "未执行",
+    "wasm": "未执行",
+    "battleRuntime": "未执行"
+  }
+}

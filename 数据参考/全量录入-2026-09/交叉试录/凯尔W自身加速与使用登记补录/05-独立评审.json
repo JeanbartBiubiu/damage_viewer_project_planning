@@ -1,0 +1,126 @@
+{
+  "status": "APPROVED",
+  "at": "2026-09-19T05:56:04.582+08:00",
+  "reviewer": "/root/kayle_w_remaining_components",
+  "requestedModel": "gpt-5.6-luna",
+  "reasoningEffort": "max",
+  "mode": "静态冻结审查；未访问业务API或数据库；仅以wx创建本文件。",
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components.mjs": "80a18af8cf0232cf78541c15b988f544140492f9d2c559184678f60bf1817a9a",
+    "01-候选方案.json": "aa30a790819d4604f8a10bf9e00f389e8b24e28f658ed144d6e0c80207db7841",
+    "02-冻结请求.json": "ee4911f49bb599cc25f0a46b0dd21d4a757fcaf298add74aba86713e13f72764",
+    "03-来源摘要.json": "1213fa1c0ef226f8206233f2166be07e88b577bfcacd66e9441e6045ab12121c",
+    "04-写入前现值.json": "28a353767cbb479c7c56a78e824192b6103079fbfdf0b5e371ecdca014174ab8"
+  },
+  "additionalReviewedFiles": {
+    "00-独立来源续核.json": "87cebd5f220dc2274a8a2a5e7a2413e03f670459de0f4b4dcb41b4587d6709c2",
+    "配置算术与引用核对.json": "b11e9ede6735f09966eca7890fb8e68451fa1bb988383860ffd4deb1fc98d2be"
+  },
+  "checks": [
+    {
+      "name": "目标、版本和来源范围",
+      "status": "PASS",
+      "evidence": "00和01目标均为kayle_w/champion_kayle；固定版本为客户端16.17、官方16.17.1，客户端构建为16.17.8104348+branch.releases-16-17.content.release。00保留官方中英文、同版客户端、第三十八批候选及璐璐W/娑娜E成熟结构的来源指针；未扩大到其他技能业务分支。"
+    },
+    {
+      "name": "来源摘要和原始散列",
+      "status": "PASS",
+      "evidence": "01声明的12项sourceFiles逐项重算通过；03共12项，所有sha256与actualSha256一致。官方中文、官方英文、Kayle客户端gz、第三十八批候选和相关类型文件的路径与散列均和声明一致。"
+    },
+    {
+      "name": "四个POST冻结链",
+      "status": "PASS",
+      "evidence": "01和02均为4个POST，详情路径唯一且逐项深比较一致：self_move_speed效果、use_cost_and_cooldown过程、on_used_cost_and_cooldown入口、on_used_self_move_speed入口；每个body与expectedReadback逐项一致。02.sourceSha256等于03原文件散列，baselineSha256等于04原文件散列。"
+    },
+    {
+      "name": "自身移动速度效果与入口",
+      "status": "PASS",
+      "evidence": "效果引用既有haste_ratio公式，目标SOURCE，结果为ATTRIBUTE_CHANGE，属性move_speed_percent、乘区attribute_flat_add、方向INCREASE；生命周期为单层、2000毫秒、PERSISTENT、APPLICATION_SNAPSHOT、REFRESH_ALL。入口事件为SKILL_USED/ACTIVE，空条件组，仅执行self_move_speed。结构与00记录的璐璐W成熟自身移速模式一致。"
+    },
+    {
+      "name": "使用消耗与普通冷却过程",
+      "status": "PASS",
+      "evidence": "过程activationType=ACTIVE，普通冷却引用cooldown_ms并从PROCESS_START开始；只有一个IMMEDIATE登记步骤，正文明确不表示完整施法时长为零；过程在PROCESS_START引用既有mana_cost效果，stateOperations为空。成本入口只启动该过程，没有重复执行治疗或加速。"
+    },
+    {
+      "name": "旧法力效果、治疗效果和规则保护",
+      "status": "PASS",
+      "evidence": "04现值含既有self_heal和on_used_self_heal，以及旧mana_cost；本批4个请求不包含mana_cost、自身治疗效果或自身治疗规则的POST，不修改既有参数和公式。自疗的SOURCE/DIRECT_HEAL/heal_value结构和入口作为保护对象保留。"
+    },
+    {
+      "name": "33GET写前准备与重复检查",
+      "status": "PASS",
+      "evidence": "04共33次GET，其中29次200、4个新详情按预期404。四个404精确对应本批四个detailRoute；当前集合已有self_heal和mana_cost，但没有self_move_speed、use_cost_and_cooldown过程、两个新增入口，因此不存在重复目标。businessWrites=0。"
+    },
+    {
+      "name": "参数、公式和配置算术",
+      "status": "PASS",
+      "evidence": "04保存的haste_ratio为0.23999999/0.28/0.31999999/0.36000001/0.40000001，haste_ap_ratio=0.0008，haste_duration_ms=2000，mana_cost=70/75/80/85/90，cooldown_ms=15000；未要求重录。配置算术文件状态PASS，共30点；独立按当前参数重算30/30通过，浮点边界保持现值。"
+    },
+    {
+      "name": "客户端不消耗标记和施法时序边界",
+      "status": "PASS",
+      "evidence": "00保留mDoesNotConsumeMana=true与mDoesNotConsumeCooldown=true作为客户端事实，并以官方成本/冷却数组、客户端根数组和既有mana_cost效果说明不能据字段名推断免费或零冷却。sourceTimingObserved明确spellCastTime=0、mCastTime=0.25、spellTotalTime=0；时序未决不阻止本批四项管理登记，因为立即步骤没有宣称完整施法完成，但该未决仍阻止凯尔W整技能标记为complete。"
+    },
+    {
+      "name": "写入工具固定散列",
+      "status": "PASS",
+      "evidence": "tools/authoring/append-reviewed-skill-components.mjs当前原始字节SHA-256为80a18af8cf0232cf78541c15b988f544140492f9d2c559184678f60bf1817a9a，与既有批准值一致。"
+    },
+    {
+      "name": "静态结构验证",
+      "status": "PASS",
+      "evidence": "00、01、02、03、04和配置算术与引用核对均可解析；四个请求、四个详情路径、请求与期望回读、冻结散列和30个算术点均通过独立静态核对。"
+    }
+  ],
+  "frozenLinkage": {
+    "target": "kayle_w/champion_kayle",
+    "plannedPOSTs": 4,
+    "preflightGETs": 33,
+    "preflightExpectedStatus": {
+      "200": 29,
+      "404": 4
+    },
+    "requestDetailRoutes": [
+      "/skills/kayle_w/effects/self_move_speed",
+      "/skills/kayle_w/processes/use_cost_and_cooldown",
+      "/skills/kayle_w/trigger-rules/on_used_cost_and_cooldown",
+      "/skills/kayle_w/trigger-rules/on_used_self_move_speed"
+    ],
+    "sourceSummarySha256": "1213fa1c0ef226f8206233f2166be07e88b577bfcacd66e9441e6045ab12121c",
+    "baselineSha256": "28a353767cbb479c7c56a78e824192b6103079fbfdf0b5e371ecdca014174ab8",
+    "candidateSha256": "aa30a790819d4604f8a10bf9e00f389e8b24e28f658ed144d6e0c80207db7841",
+    "arithmeticCaseCount": 30,
+    "arithmeticFailedCount": 0
+  },
+  "protectedExisting": {
+    "effects": ["self_heal", "mana_cost"],
+    "triggerRules": ["on_used_self_heal"],
+    "parameters": [
+      "base_heal",
+      "heal_ap_ratio",
+      "haste_ratio",
+      "haste_ap_ratio",
+      "haste_duration_ms",
+      "cooldown_ms",
+      "mana_cost"
+    ],
+    "formulas": ["heal_value", "haste_ratio"],
+    "protectionEvidence": "04现值与01/02请求均未出现对旧治疗、旧法力效果、参数或公式的修改请求。"
+  },
+  "completionBoundary": {
+    "approvedScope": "仅批准这4项管理配置POST进入后续受保护写入；不表示写入已执行。",
+    "notComplete": [
+      "凯尔W完整技能仍不能标记complete。",
+      "spellCastTime/mCastTime字段职责和实际施法事件时点仍未决。",
+      "其他友军治疗、加速和目标选择仍按本批范围排除。",
+      "浏览器、宿主、Wasm和战斗运行未验证。"
+    ]
+  },
+  "businessWritesDuringReview": 0,
+  "networkRequestsDuringReview": 0,
+  "fileWritesDuringReview": 0,
+  "reviewArtifactWrite": "本文件由评审阶段以wx创建；不可变回读工具只把评审前的文件写入计为0。",
+  "browser": "未执行；静态冻结评审范围外",
+  "runtime": "未执行"
+}
