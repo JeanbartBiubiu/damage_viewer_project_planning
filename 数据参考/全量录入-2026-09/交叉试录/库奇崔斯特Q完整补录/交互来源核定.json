@@ -1,0 +1,32 @@
+{
+  "at": "2026-09-18T18:33:07.630Z",
+  "status": "SOURCE_MAPPING_REVIEWED",
+  "reviewer": "/root/damage_interaction_source",
+  "model": "gpt-5.6-luna",
+  "reasoning": "max",
+  "scope": [
+    "corki_q",
+    "twistedfate_q"
+  ],
+  "decisions": {
+    "vampRules": [
+      {
+        "vampType": "OMNIVAMP",
+        "basisOutputKind": "POST_DEFENSE_DAMAGE",
+        "efficiencyValue": {
+          "kind": "FIXED",
+          "value": 1
+        }
+      }
+    ],
+    "spellShieldBlockScope": "SKILL"
+  },
+  "evidence": [
+    "Riot26.1：普通对英雄伤害的全能吸血效率100%；33%小兵折减不混入本轮。",
+    "固定16.17.1中英文魔腾W和英文希维尔E：法术护盾阻挡单个敌方技能；SKILL与现行契约整体技能阻挡对应。",
+    "库奇Q、崔斯特Q固定资料为普通魔法技能伤害；不配置生命偷取或物理吸血。"
+  ],
+  "inferenceBoundary": "POST_DEFENSE_DAMAGE由防御结算后伤害这一资料定义映射；不是实际扣血ACTUAL_HP_LOSS。护盾与过量伤害尚未进行真实战斗验证，不把该映射写成运行已验。",
+  "generalRuleBoundary": "当前接口须显式保存吸血规则；未来游戏级统一吸血取代逐技能重复事实的方向仍需独立收敛，不把空数组解释为自动继承。",
+  "businessWrites": 0
+}

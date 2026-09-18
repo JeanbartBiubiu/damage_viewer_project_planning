@@ -1,0 +1,22 @@
+{
+  "at": "2026-09-18T18:28:59.045Z",
+  "status": "STATIC_REVIEW_PASS",
+  "reviewer": "/root/component_writer_review",
+  "model": "gpt-5.6-luna",
+  "reasoning": "max",
+  "file": "tools/authoring/append-reviewed-skill-components.mjs",
+  "sha256": "edaee11509aebf3bd2c739adedf4e0f6bce2d1ee98cbea7f00583ba3bf954bc6",
+  "checks": [
+    "POST效果/过程/规则范围固定",
+    "完整请求体白名单",
+    "执行器和01-04准确散列固定",
+    "纯GET预检及原始响应深比较",
+    "首写前wx报告防重放",
+    "即时回读与独立回读比较完整正文",
+    "旧对象含时间戳保护",
+    "三种列表摘要与当前DTO一致",
+    "node --check通过"
+  ],
+  "businessRequests": 0,
+  "boundary": "工具静态评审，不是具体批次来源/冻结正文批准，也不是已执行真实写入。"
+}

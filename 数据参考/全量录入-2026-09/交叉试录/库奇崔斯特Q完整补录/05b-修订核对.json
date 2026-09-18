@@ -1,0 +1,24 @@
+{
+  "status": "REJECTED",
+  "reviewer": "damage_interaction_source",
+  "reviewedAt": "2026-09-19",
+  "businessWrites": 0,
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components.mjs": "80a18af8cf0232cf78541c15b988f544140492f9d2c559184678f60bf1817a9a",
+    "01-候选方案.json": "6b2a256af00bffd5ed71945b4255612257bb0013ed0d8b24801824257182086e",
+    "02-冻结请求.json": "6e2151fc45a925018c7873bf51f5492ab386487dd18201b62570e6aac8e9e511",
+    "03-来源摘要.json": "0e7e3b1e4fe91b50e8e5266796b83a0eb4701b39126ff5d6c5c6026202c870b1",
+    "04-写入前现值.json": "306954dd2989dc4498c256c1a77d9e1f0aa7156343180eb2a14ffe20899495c6"
+  },
+  "checksPassed": [
+    "Cursor全量语义审查有效",
+    "9条POST正文冻结一致",
+    "仅两条SKILL_HIT预期回读补useKind:null",
+    "吸血及法术护盾字段正确",
+    "20来源和54GET基线未变",
+    "五项准确散列已核"
+  ],
+  "blockingIssues": [
+    "01.contractBoundaries.spellShieldBlockScope过时说明仍写RESULT，与最终SKILL正文冲突"
+  ]
+}
