@@ -1,0 +1,49 @@
+{
+  "checkedAt": "2026-09-19",
+  "scope": "客户端16.17与官方资料16.17.1之前的端游通用吸血规则；本次起点为库奇Q、崔斯特Q。",
+  "status": "PARTIAL_SOURCE_VERIFIED",
+  "businessWrites": 0,
+  "problem": "既有伤害契约中vampRules空数组表示没有吸血规则；新候选不能因复用旧示例的空数组而遗漏通用全能吸血资格。",
+  "sources": [
+    {
+      "url": "https://www.leagueoflegends.com/en-sg/news/game-updates/patch-26-1-notes/",
+      "type": "Riot官方版本说明",
+      "section": "Omnivamp",
+      "access": "网页正文直接打开成功",
+      "shortQuote": "Now applies at 100% value",
+      "meaning": "全能吸血默认按完整效率应用，宠物、持续伤害和范围技能对小兵的效率降至33%。本轮英雄对英雄的普通技能伤害不套用小兵折减。",
+      "supports": ["普通对英雄技能伤害的全能吸血效率为1"],
+      "doesNotProve": ["当前接口两种结算输出枚举在护盾和过量伤害下的精确映射"]
+    },
+    {
+      "url": "https://www.leagueoflegends.com/en-au/news/game-updates/league-of-legends-patch-26-4-notes/",
+      "type": "Riot官方版本说明",
+      "section": "Lee Sin W和Summoner Spells",
+      "access": "网页正文直接打开成功",
+      "shortQuote": "both do not trigger Omnivamp",
+      "meaning": "李青W由生命偷取及法术吸血改为全能吸血；惩戒和点燃明确不再触发全能吸血。库奇Q和崔斯特Q不是这两种召唤师技能。",
+      "supports": ["全能吸血例外须按伤害来源判定，不能默认所有伤害都适用"],
+      "doesNotProve": ["全量其他技能的例外已核对"]
+    },
+    {
+      "url": "https://www.mobafire.com/league-of-legends/wiki/general/omnivamp",
+      "type": "端游资料补充",
+      "section": "What does omnivamp do?",
+      "access": "网页正文直接打开成功",
+      "shortQuote": "post-mitigation physical damage, magic damage, and true damage",
+      "meaning": "说明吸血基于防御结算后的伤害；同页小兵20%效率已经过时，不采用其数值。",
+      "supports": ["不能使用未经过防御结算的技能原始数值作为吸血基准"],
+      "doesNotProve": ["页面没有单独说明护盾吸收与过量伤害"]
+    }
+  ],
+  "unresolved": [
+    "核定POST_DEFENSE_DAMAGE与ACTUAL_HP_LOSS中哪一个准确承载全能吸血，包括护盾吸收与过量伤害。",
+    "两项Q法术护盾结果级阻挡应以通用法术护盾定义和该技能伤害性质核定，不能仅抄伊泽瑞尔Q样本。"
+  ],
+  "rejectedEvidence": [
+    "wiki.leagueoflegends.com/en-us/Vamp正文获取受限，未绕过。旧Fandom正文返回402，未绕过。",
+    "1v9的2026说明对防御结算与护盾描述存在歧义，未用来批准结算枚举；没有采用搜索摘要替代精确基准证明。",
+    "手游、云顶之弈、斗魂竞技场及旧版本范围吸血折减不混入本轮普通1V1。"
+  ],
+  "nextAction": "先解决共用结算口径，再冻结两项完整候选；原有业务数据和数值尚未修改。"
+}
