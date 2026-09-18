@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-18T23:18:54.983Z",
+  "generatedAt": "2026-09-18T23:31:32.432Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -9855,6 +9855,25 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/泽拉斯E伤害与使用流程补录/09-证据清单.json",
         "sha256": "4d1efa99b646509cc5ed7f1269eb2f5638d4cb13ad17ed0e9eceeff9765768c8",
         "commit": "3f0a5a6c"
+      }
+    },
+    "authoringResponseAuditCorrection": {
+      "at": "2026-09-18T23:31:32.432Z",
+      "status": "新版本审计顺序和创建时间保护已修正，代码独立评审与4个离线场景通过",
+      "changedTools": [
+        "append-reviewed-skill-components-v3.mjs",
+        "update-reviewed-descriptions-v2.mjs"
+      ],
+      "oldToolBytesPreserved": true,
+      "offlineCases": 4,
+      "businessHTTP": 0,
+      "businessWrites": 0,
+      "scope": "工具自身保护；真实批次分别留存证据",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/写入响应审计修正/02-主负责人独立代码评审.json",
+        "sha256": "caba1b87bd3f14f7131fa2c14e6b0664ef4661e4ab582f279dbb1e0867cf611c",
+        "commit": "14c476ab"
       }
     }
   },
