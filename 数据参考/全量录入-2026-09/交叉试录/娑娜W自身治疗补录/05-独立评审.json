@@ -1,0 +1,25 @@
+{
+  "status": "APPROVED",
+  "at": "2026-09-18T20:57:04.709Z",
+  "reviewer": "/root/sona_self_heal_frozen_review",
+  "requestedModel": "gpt-5.6-luna",
+  "reasoningEffort": "max",
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components.mjs": "80a18af8cf0232cf78541c15b988f544140492f9d2c559184678f60bf1817a9a",
+    "01-候选方案.json": "ba5d9716365f1475705b075e7da3c3d836b2a58a7067653ab0eab4bef984c80e",
+    "02-冻结请求.json": "34e276071f679a225f2edd2c30576b2f25de26fc7cb53f2d74042f9a37e6705f",
+    "03-来源摘要.json": "5a08a5fa39c8641f09e6ba89c3307dd4e98b338617c5c75985ad54348a34ff7b",
+    "04-写入前现值.json": "af4ebbcdda462dfa4d73575dd7bf28c33618f652f9d9859d12c2510759319fd9"
+  },
+  "findings": [
+    "固定中英文说明明确主动治疗自身，不依赖附近友军存在",
+    "DIRECT_HEAL/SOURCE/无生命周期/空明细正确，复用现有公式和参数",
+    "无目标主动技能没有错误添加显式自施条件",
+    "不接仅针对another ally的奖励，不混入未核定自身光环护盾",
+    "无重复效果入口，已有使用成本与冷却登记全部保护",
+    "36GET基线与2项新详情404准确，完整预期回读一致"
+  ],
+  "networkRequestsDuringReview": 0,
+  "fileWritesDuringReview": 0,
+  "runtimeValidation": "未执行"
+}

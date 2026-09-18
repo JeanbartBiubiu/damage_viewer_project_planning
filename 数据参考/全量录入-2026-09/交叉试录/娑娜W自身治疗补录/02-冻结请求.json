@@ -1,0 +1,135 @@
+{
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/sona_w/effects",
+      "detailRoute": "/skills/sona_w/effects/self_heal",
+      "body": {
+        "effectKey": "self_heal",
+        "name": "坚毅咏叹调自身治疗",
+        "description": "主动使用时为娑娜自身回复生命值；不包含对其他友军的治疗、光环护盾、渐入佳音或能量和弦。",
+        "sortOrder": 20,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "heal",
+            "name": "自身回复生命值",
+            "resultType": "DIRECT_HEAL",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "self_heal"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {}
+          }
+        ]
+      },
+      "expectedReadback": {
+        "effectKey": "self_heal",
+        "name": "坚毅咏叹调自身治疗",
+        "description": "主动使用时为娑娜自身回复生命值；不包含对其他友军的治疗、光环护盾、渐入佳音或能量和弦。",
+        "sortOrder": 20,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "heal",
+            "name": "自身回复生命值",
+            "resultType": "DIRECT_HEAL",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "self_heal"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {}
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/sona_w/trigger-rules",
+      "detailRoute": "/skills/sona_w/trigger-rules/on_used_self_heal",
+      "body": {
+        "ruleKey": "on_used_self_heal",
+        "name": "主动使用回复自身生命",
+        "description": "当前固定官方说明明确每次主动使用治疗自身；无须显式选中自己，不借用友方光环护盾资格，也不触发仅针对其他友军的层数奖励。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "sona_w",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "heal_self",
+            "name": "执行自身治疗",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "self_heal"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used_self_heal",
+        "name": "主动使用回复自身生命",
+        "description": "当前固定官方说明明确每次主动使用治疗自身；无须显式选中自己，不借用友方光环护盾资格，也不触发仅针对其他友军的层数奖励。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "sona_w",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "heal_self",
+            "name": "执行自身治疗",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "self_heal"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "sourceSha256": "5a08a5fa39c8641f09e6ba89c3307dd4e98b338617c5c75985ad54348a34ff7b",
+  "baselineSha256": "af4ebbcdda462dfa4d73575dd7bf28c33618f652f9d9859d12c2510759319fd9"
+}

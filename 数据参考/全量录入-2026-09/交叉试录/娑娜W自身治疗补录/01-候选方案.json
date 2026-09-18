@@ -1,0 +1,257 @@
+{
+  "schemaVersion": 1,
+  "status": "DRAFT_REQUIRES_INDEPENDENT_REVIEW",
+  "title": "娑娜W明确自身治疗分支补录",
+  "generatedAt": "2026-09-18T20:49:45.645Z",
+  "targets": [
+    {
+      "skillKey": "sona_w",
+      "ownerKey": "champion_sona"
+    }
+  ],
+  "scope": "仅新增直接自身治疗效果与主动使用规则；已经录入的成本登记、所有参数公式及其他对象不变。",
+  "sourceFiles": [
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Sona.json",
+      "sha256": "ecdaf99377b60b32671ca9d30ebf79bdc91ea3689c50fd97d8d4bbda3f768311"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Sona.json",
+      "sha256": "d78dca0182dd1edf43adf92a7925245a84d95bb3c41f2dd5a9a0bae5efa34e70"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Sona.json.gz",
+      "sha256": "58c693dc5f9861064506c72c73953623d8c939f2667e3878d5541d597c16685b"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/七项技能使用消耗冷却补录/07-独立回读.json",
+      "sha256": "d0f481d0407f4995b82b5f9da403c3cfe6a0dce07e4f6f006ea472cd557db295"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十三批/修订二/完整候选.json",
+      "sha256": "841a100c48f51a135dbb6d4457ec5523af2030611cbbac1f2212b388be5a8b4e"
+    },
+    {
+      "root": "web",
+      "path": "web/src/types/skillEffect.ts",
+      "sha256": "6a71ae4038c4641558aee593fb24be077e67851f50322ae2ff1c0c5da668ac34"
+    },
+    {
+      "root": "web",
+      "path": "web/src/types/skillTriggerRule.ts",
+      "sha256": "db1021ad59bf8cfee862603c2e7dcde6c618da85d235f36de941c6a205852615"
+    },
+    {
+      "root": "planning",
+      "path": "文档记录/详细设计/项目/技能效果结构与基础结果管理详细设计.md",
+      "sha256": "67a2f48b5a00aa22a0e265a2d48c6c963933d3bf84bb0fca756c343f932b6fc3"
+    },
+    {
+      "root": "planning",
+      "path": "文档记录/详细设计/项目/条件事件与动态输入供值管理详细设计.md",
+      "sha256": "504f204df8110e3b63ae7eb1ece331b84198e7e34239070403c0c5c0a922f36e"
+    }
+  ],
+  "sourceEvidence": {
+    "version": {
+      "client": "16.17",
+      "ddragon": "16.17.1"
+    },
+    "officialPointer": "data.Sona.spells[1].tooltip",
+    "selfEvidence": "中英文当前说明明确治疗她自己和附近另一名友方英雄。",
+    "selfHealIndependentOfAura": true,
+    "otherAllyExcluded": true,
+    "accelerandoBoundary": "英文只对another injured ally及another ally的护盾保护奖励层数；本自身治疗不添加该奖励。",
+    "clientPath": "Characters/Sona/Spells/SonaWAbility/SonaW",
+    "rawBaseHeal": [
+      15,
+      30,
+      45,
+      60,
+      75,
+      90,
+      105
+    ],
+    "rawHealRatio": [
+      0.30000001192092896,
+      0.30000001192092896,
+      0.30000001192092896,
+      0.30000001192092896,
+      0.30000001192092896,
+      0.30000001192092896,
+      0.30000001192092896
+    ],
+    "rawTotalHeal": {
+      "mFormulaParts": [
+        {
+          "mDataValue": "BaseHeal",
+          "__type": "NamedDataValueCalculationPart"
+        },
+        {
+          "mDataValue": "HealRatio",
+          "__type": "StatByNamedDataValueCalculationPart"
+        }
+      ],
+      "__type": "GameCalculation"
+    },
+    "existingParameterMapping": {
+      "base_heal": [
+        30,
+        45,
+        60,
+        75,
+        90
+      ],
+      "heal_ap_ratio": 0.3
+    },
+    "existingFormulaKey": "self_heal"
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/sona_w/effects",
+      "detailRoute": "/skills/sona_w/effects/self_heal",
+      "body": {
+        "effectKey": "self_heal",
+        "name": "坚毅咏叹调自身治疗",
+        "description": "主动使用时为娑娜自身回复生命值；不包含对其他友军的治疗、光环护盾、渐入佳音或能量和弦。",
+        "sortOrder": 20,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "heal",
+            "name": "自身回复生命值",
+            "resultType": "DIRECT_HEAL",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "self_heal"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {}
+          }
+        ]
+      },
+      "expectedReadback": {
+        "effectKey": "self_heal",
+        "name": "坚毅咏叹调自身治疗",
+        "description": "主动使用时为娑娜自身回复生命值；不包含对其他友军的治疗、光环护盾、渐入佳音或能量和弦。",
+        "sortOrder": 20,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "heal",
+            "name": "自身回复生命值",
+            "resultType": "DIRECT_HEAL",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "self_heal"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {}
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/sona_w/trigger-rules",
+      "detailRoute": "/skills/sona_w/trigger-rules/on_used_self_heal",
+      "body": {
+        "ruleKey": "on_used_self_heal",
+        "name": "主动使用回复自身生命",
+        "description": "当前固定官方说明明确每次主动使用治疗自身；无须显式选中自己，不借用友方光环护盾资格，也不触发仅针对其他友军的层数奖励。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "sona_w",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "heal_self",
+            "name": "执行自身治疗",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "self_heal"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used_self_heal",
+        "name": "主动使用回复自身生命",
+        "description": "当前固定官方说明明确每次主动使用治疗自身；无须显式选中自己，不借用友方光环护盾资格，也不触发仅针对其他友军的层数奖励。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "sona_w",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "heal_self",
+            "name": "执行自身治疗",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "self_heal"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "preserveExisting": "所有旧对象含时间戳保护；不重复已有成本效果和登记过程，不修改其入口。",
+  "remaining": [
+    "光环护盾能否作用自身及其进入、离开、重复施加资格",
+    "能量和弦及基础技能公共间隔等跨技能机制",
+    "完整施法时序和代表页面验收"
+  ],
+  "reviewGates": [
+    "不能把无目标主动技能错误加上显式自施条件",
+    "实际治疗结果必须为SOURCE，动作上下文不改变技能拥有者",
+    "明确自身治疗不依赖另一个受伤友军",
+    "只引用现有已核定治疗公式，不改变原数值"
+  ],
+  "runtimeBoundary": "只是管理数据与事件接线，不执行实际治疗、事件生产或Wasm战斗运行。"
+}
