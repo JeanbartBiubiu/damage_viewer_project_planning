@@ -1,0 +1,120 @@
+{
+  "title": "五项后续技能消耗说明移除过时接线状态",
+  "at": "2026-09-18T23:26:09.201Z",
+  "reason": "五项技能的使用登记已正式保存并独立回读；只修正仍声称未接入的5处法力参数和4处效果说明。保留来源版本、数组索引、未运行与机制未完成边界。",
+  "changes": [
+    {
+      "skillKey": "sona_e",
+      "kind": "parameter",
+      "route": "/skills/sona_e/parameters/mana_cost",
+      "description": "DDragon16.17.1 Sona.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+    },
+    {
+      "skillKey": "morgana_q",
+      "kind": "parameter",
+      "route": "/skills/morgana_q/parameters/mana_cost",
+      "description": "DDragon16.17.1 Morgana.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+    },
+    {
+      "skillKey": "morgana_q",
+      "kind": "effect",
+      "route": "/skills/morgana_q/effects/mana_cost",
+      "description": "本技能主动使用时消耗对应技能等级的法力；具体使用流程由引用本效果的过程定义。"
+    },
+    {
+      "skillKey": "morgana_w",
+      "kind": "parameter",
+      "route": "/skills/morgana_w/parameters/mana_cost",
+      "description": "DDragon16.17.1 Morgana.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+    },
+    {
+      "skillKey": "morgana_w",
+      "kind": "effect",
+      "route": "/skills/morgana_w/effects/mana_cost",
+      "description": "本技能主动使用时消耗对应技能等级的法力；具体使用流程由引用本效果的过程定义。"
+    },
+    {
+      "skillKey": "morgana_r",
+      "kind": "parameter",
+      "route": "/skills/morgana_r/parameters/mana_cost",
+      "description": "DDragon16.17.1 Morgana.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+    },
+    {
+      "skillKey": "morgana_r",
+      "kind": "effect",
+      "route": "/skills/morgana_r/effects/mana_cost",
+      "description": "本技能主动使用时消耗对应技能等级的法力；具体使用流程由引用本效果的过程定义。"
+    },
+    {
+      "skillKey": "xerath_e",
+      "kind": "parameter",
+      "route": "/skills/xerath_e/parameters/mana_cost",
+      "description": "DDragon16.17.1 Xerath.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+    },
+    {
+      "skillKey": "xerath_e",
+      "kind": "effect",
+      "route": "/skills/xerath_e/effects/mana_cost",
+      "description": "本技能主动使用时消耗对应技能等级的法力；具体使用流程由引用本效果的过程定义。"
+    }
+  ],
+  "sourceFiles": [
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/娑娜E使用消耗冷却补录/README.md"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/娑娜E使用消耗冷却补录/01-候选方案.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/五项法师技能使用登记补录/README.md"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/五项法师技能使用登记补录/01-候选方案.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/五项法师技能使用登记补录/07-独立回读.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/泽拉斯E伤害与使用流程补录/README.md"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/泽拉斯E伤害与使用流程补录/01-候选方案.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/泽拉斯E伤害与使用流程补录/07-独立回读.json"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/使用消耗登记续核/娑娜E使用语义续核.json"
+    },
+    {
+      "root": "web",
+      "path": "web/src/types/skillParameter.ts"
+    },
+    {
+      "root": "web",
+      "path": "web/src/types/skillProcess.ts"
+    },
+    {
+      "root": "web",
+      "path": "web/src/types/skillTriggerRule.ts"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/五项后续技能消耗说明整理/00-只读候选.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/五项后续技能消耗说明整理/00a-候选GET原件.json"
+    }
+  ],
+  "excluded": "拉克丝Q/R及准确的现有过程、规则说明不做措辞统一；不改任何数值、公式、目标、生命周期或入口。"
+}

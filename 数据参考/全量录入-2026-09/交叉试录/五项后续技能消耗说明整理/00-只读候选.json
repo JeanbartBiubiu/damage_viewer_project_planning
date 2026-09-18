@@ -1,0 +1,594 @@
+{
+  "title": "七项已完成组成接线后的过时说明候选调查",
+  "generatedAt": "2026-09-18T23:18:33.019Z",
+  "status": "CANDIDATES_READY",
+  "scope": [
+    "sona_e",
+    "morgana_q",
+    "morgana_w",
+    "morgana_r",
+    "lux_q",
+    "lux_r",
+    "xerath_e"
+  ],
+  "sourceVersions": {
+    "client": "16.17",
+    "official": "16.17.1"
+  },
+  "audit": {
+    "path": "output/seven-recent-description-candidates/完整GET审计.json",
+    "GETs": 115,
+    "listRoutes": 28,
+    "detailRoutes": 87,
+    "businessWrites": 0,
+    "allStatuses200": true
+  },
+  "decision": "只纳入明确与当前已保存法力效果、使用过程和主动入口冲突的参数/效果说明；保留过程与触发规则中仍准确的未运行边界，不为统一措辞刷写。",
+  "candidates": [
+    {
+      "skillKey": "sona_e",
+      "historicalSources": [
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/交叉试录/娑娜E使用消耗冷却补录/README.md",
+          "sha256": "536cd8d3848959775da7b85e41f1a9a3a7ee6f790a6426406ef325eb9e183046"
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/交叉试录/娑娜E使用消耗冷却补录/01-候选方案.json",
+          "sha256": "ca07bff5034699177c84e7aa61d6c8302464e7fd2e3dade520dee79a5cdf46d5"
+        },
+        {
+          "root": "planning",
+          "path": "数据参考/全量录入-2026-09/使用消耗登记续核/娑娜E使用语义续核.json",
+          "sha256": "cad6930c79aebb9b426df56a39440b414945b399f11af19f583e7a855097c68e"
+        }
+      ],
+      "entryBasis": {
+        "effect": {
+          "path": "/skills/sona_e/effects/mana_cost",
+          "name": "施放法力消耗",
+          "resultType": "RESOURCE_CHANGE",
+          "target": "SOURCE",
+          "attributeKey": "mana",
+          "operation": "CONSUME",
+          "valueReference": {
+            "kind": "PARAMETER",
+            "parameterKey": "mana_cost"
+          }
+        },
+        "process": {
+          "path": "/skills/sona_e/processes/use_cost_and_cooldown",
+          "name": "使用消耗与普通冷却",
+          "activationType": "ACTIVE",
+          "cooldown": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cooldown_ms"
+            },
+            "startMoment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            }
+          },
+          "effectBindings": [
+            {
+              "effectKey": "mana_cost",
+              "moment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              }
+            }
+          ]
+        },
+        "trigger": {
+          "path": "/skills/sona_e/trigger-rules/on_used_cost_and_cooldown",
+          "name": "主动使用登记消耗与冷却",
+          "eventType": "SKILL_USED",
+          "sourceSkillKey": "sona_e",
+          "useKind": "ACTIVE",
+          "actions": [
+            {
+              "actionType": "START_PROCESS",
+              "detail": {
+                "processKey": "use_cost_and_cooldown"
+              },
+              "targetContext": "CURRENT_TARGET"
+            }
+          ]
+        }
+      },
+      "changes": [
+        {
+          "kind": "parameter",
+          "route": "/skills/sona_e/parameters/mana_cost",
+          "oldDescription": "DDragon16.17.1 Sona.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "proposedDescription": "DDragon16.17.1 Sona.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "changed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "morgana_q",
+      "historicalSources": [
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/交叉试录/五项法师技能使用登记补录/README.md",
+          "sha256": "858a5fbe5e717ca43210a488d88b0a37afa5bb436497f92bd5ae5467aa0b77a6"
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/交叉试录/五项法师技能使用登记补录/01-候选方案.json",
+          "sha256": "afd5f1cc6f28da81f6e58a0ef6097864a39a7960a649773be3a0c97c04e1efa0"
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/交叉试录/五项法师技能使用登记补录/07-独立回读.json",
+          "sha256": "00a498cd2b0e248da104fd8a8a3f9f733376eadc534d7485b88806571ace556a"
+        }
+      ],
+      "entryBasis": {
+        "effect": {
+          "path": "/skills/morgana_q/effects/mana_cost",
+          "name": "施放法力消耗",
+          "resultType": "RESOURCE_CHANGE",
+          "target": "SOURCE",
+          "attributeKey": "mana",
+          "operation": "CONSUME",
+          "valueReference": {
+            "kind": "PARAMETER",
+            "parameterKey": "mana_cost"
+          }
+        },
+        "process": {
+          "path": "/skills/morgana_q/processes/use_cost_and_cooldown",
+          "name": "使用消耗与普通冷却",
+          "activationType": "ACTIVE",
+          "cooldown": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cooldown_ms"
+            },
+            "startMoment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            }
+          },
+          "effectBindings": [
+            {
+              "effectKey": "mana_cost",
+              "moment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              }
+            }
+          ]
+        },
+        "trigger": {
+          "path": "/skills/morgana_q/trigger-rules/on_used_cost_and_cooldown",
+          "name": "主动使用登记消耗与冷却",
+          "eventType": "SKILL_USED",
+          "sourceSkillKey": "morgana_q",
+          "useKind": "ACTIVE",
+          "actions": [
+            {
+              "actionType": "START_PROCESS",
+              "detail": {
+                "processKey": "use_cost_and_cooldown"
+              },
+              "targetContext": "CURRENT_TARGET"
+            }
+          ]
+        }
+      },
+      "changes": [
+        {
+          "kind": "parameter",
+          "route": "/skills/morgana_q/parameters/mana_cost",
+          "oldDescription": "DDragon16.17.1 Morgana.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "proposedDescription": "DDragon16.17.1 Morgana.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "changed": true
+        },
+        {
+          "kind": "effect",
+          "route": "/skills/morgana_q/effects/mana_cost",
+          "oldDescription": "仅记录morgana_q的官方基础法力消耗；公共参数已在当前快照中存在，实际扣除时点与施放资格尚未接线。",
+          "proposedDescription": "本技能主动使用时消耗对应技能等级的法力；具体使用流程由引用本效果的过程定义。",
+          "changed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "morgana_w",
+      "historicalSources": [
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/交叉试录/五项法师技能使用登记补录/README.md",
+          "sha256": "858a5fbe5e717ca43210a488d88b0a37afa5bb436497f92bd5ae5467aa0b77a6"
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/交叉试录/五项法师技能使用登记补录/01-候选方案.json",
+          "sha256": "afd5f1cc6f28da81f6e58a0ef6097864a39a7960a649773be3a0c97c04e1efa0"
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/交叉试录/五项法师技能使用登记补录/07-独立回读.json",
+          "sha256": "00a498cd2b0e248da104fd8a8a3f9f733376eadc534d7485b88806571ace556a"
+        }
+      ],
+      "entryBasis": {
+        "effect": {
+          "path": "/skills/morgana_w/effects/mana_cost",
+          "name": "施放法力消耗",
+          "resultType": "RESOURCE_CHANGE",
+          "target": "SOURCE",
+          "attributeKey": "mana",
+          "operation": "CONSUME",
+          "valueReference": {
+            "kind": "PARAMETER",
+            "parameterKey": "mana_cost"
+          }
+        },
+        "process": {
+          "path": "/skills/morgana_w/processes/use_cost_and_cooldown",
+          "name": "使用消耗与普通冷却",
+          "activationType": "ACTIVE",
+          "cooldown": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cooldown_ms"
+            },
+            "startMoment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            }
+          },
+          "effectBindings": [
+            {
+              "effectKey": "mana_cost",
+              "moment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              }
+            }
+          ]
+        },
+        "trigger": {
+          "path": "/skills/morgana_w/trigger-rules/on_used_cost_and_cooldown",
+          "name": "主动使用登记消耗与冷却",
+          "eventType": "SKILL_USED",
+          "sourceSkillKey": "morgana_w",
+          "useKind": "ACTIVE",
+          "actions": [
+            {
+              "actionType": "START_PROCESS",
+              "detail": {
+                "processKey": "use_cost_and_cooldown"
+              },
+              "targetContext": "CURRENT_TARGET"
+            }
+          ]
+        }
+      },
+      "changes": [
+        {
+          "kind": "parameter",
+          "route": "/skills/morgana_w/parameters/mana_cost",
+          "oldDescription": "DDragon16.17.1 Morgana.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "proposedDescription": "DDragon16.17.1 Morgana.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "changed": true
+        },
+        {
+          "kind": "effect",
+          "route": "/skills/morgana_w/effects/mana_cost",
+          "oldDescription": "仅记录morgana_w的官方基础法力消耗；公共参数已在当前快照中存在，实际扣除时点与施放资格尚未接线。",
+          "proposedDescription": "本技能主动使用时消耗对应技能等级的法力；具体使用流程由引用本效果的过程定义。",
+          "changed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "morgana_r",
+      "historicalSources": [
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/交叉试录/五项法师技能使用登记补录/README.md",
+          "sha256": "858a5fbe5e717ca43210a488d88b0a37afa5bb436497f92bd5ae5467aa0b77a6"
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/交叉试录/五项法师技能使用登记补录/01-候选方案.json",
+          "sha256": "afd5f1cc6f28da81f6e58a0ef6097864a39a7960a649773be3a0c97c04e1efa0"
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/交叉试录/五项法师技能使用登记补录/07-独立回读.json",
+          "sha256": "00a498cd2b0e248da104fd8a8a3f9f733376eadc534d7485b88806571ace556a"
+        }
+      ],
+      "entryBasis": {
+        "effect": {
+          "path": "/skills/morgana_r/effects/mana_cost",
+          "name": "施放法力消耗",
+          "resultType": "RESOURCE_CHANGE",
+          "target": "SOURCE",
+          "attributeKey": "mana",
+          "operation": "CONSUME",
+          "valueReference": {
+            "kind": "PARAMETER",
+            "parameterKey": "mana_cost"
+          }
+        },
+        "process": {
+          "path": "/skills/morgana_r/processes/use_cost_and_cooldown",
+          "name": "使用消耗与普通冷却",
+          "activationType": "ACTIVE",
+          "cooldown": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cooldown_ms"
+            },
+            "startMoment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            }
+          },
+          "effectBindings": [
+            {
+              "effectKey": "mana_cost",
+              "moment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              }
+            }
+          ]
+        },
+        "trigger": {
+          "path": "/skills/morgana_r/trigger-rules/on_used_cost_and_cooldown",
+          "name": "主动使用登记消耗与冷却",
+          "eventType": "SKILL_USED",
+          "sourceSkillKey": "morgana_r",
+          "useKind": "ACTIVE",
+          "actions": [
+            {
+              "actionType": "START_PROCESS",
+              "detail": {
+                "processKey": "use_cost_and_cooldown"
+              },
+              "targetContext": "CURRENT_TARGET"
+            }
+          ]
+        }
+      },
+      "changes": [
+        {
+          "kind": "parameter",
+          "route": "/skills/morgana_r/parameters/mana_cost",
+          "oldDescription": "DDragon16.17.1 Morgana.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "proposedDescription": "DDragon16.17.1 Morgana.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "changed": true
+        },
+        {
+          "kind": "effect",
+          "route": "/skills/morgana_r/effects/mana_cost",
+          "oldDescription": "仅记录morgana_r的官方基础法力消耗；公共参数已在当前快照中存在，实际扣除时点与施放资格尚未接线。",
+          "proposedDescription": "本技能主动使用时消耗对应技能等级的法力；具体使用流程由引用本效果的过程定义。",
+          "changed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "xerath_e",
+      "historicalSources": [
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/交叉试录/泽拉斯E伤害与使用流程补录/README.md",
+          "sha256": "bcdfa68d3c9844489c24a451a947cc4c7ce525fbd17e839fa4a420dbd1a642aa"
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/交叉试录/泽拉斯E伤害与使用流程补录/01-候选方案.json",
+          "sha256": "f35fda31fa0adf2de7ce700c9163c104c7f2ad0b6708e53f4b1a2462947fb9b9"
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/交叉试录/泽拉斯E伤害与使用流程补录/07-独立回读.json",
+          "sha256": "28725d332c3641d08c9c57d6010c512f9daea8f6b37d15ca01d25180c20f4f37"
+        }
+      ],
+      "entryBasis": {
+        "effect": {
+          "path": "/skills/xerath_e/effects/mana_cost",
+          "name": "施放法力消耗",
+          "resultType": "RESOURCE_CHANGE",
+          "target": "SOURCE",
+          "attributeKey": "mana",
+          "operation": "CONSUME",
+          "valueReference": {
+            "kind": "PARAMETER",
+            "parameterKey": "mana_cost"
+          }
+        },
+        "process": {
+          "path": "/skills/xerath_e/processes/cast",
+          "name": "施放冲击法球",
+          "activationType": "ACTIVE",
+          "cooldown": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cooldown_ms"
+            },
+            "startMoment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            }
+          },
+          "effectBindings": [
+            {
+              "effectKey": "mana_cost",
+              "moment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              }
+            }
+          ]
+        },
+        "trigger": {
+          "path": "/skills/xerath_e/trigger-rules/on_used",
+          "name": "主动使用启动冲击法球过程",
+          "eventType": "SKILL_USED",
+          "sourceSkillKey": "xerath_e",
+          "useKind": "ACTIVE",
+          "actions": [
+            {
+              "actionType": "START_PROCESS",
+              "detail": {
+                "processKey": "cast"
+              },
+              "targetContext": "CURRENT_TARGET"
+            }
+          ]
+        }
+      },
+      "changes": [
+        {
+          "kind": "parameter",
+          "route": "/skills/xerath_e/parameters/mana_cost",
+          "oldDescription": "DDragon16.17.1 Xerath.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "proposedDescription": "DDragon16.17.1 Xerath.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "changed": true
+        },
+        {
+          "kind": "effect",
+          "route": "/skills/xerath_e/effects/mana_cost",
+          "oldDescription": "仅绑定官方基础法力消耗；额外持续法力或真实扣除时点单独记录。",
+          "proposedDescription": "本技能主动使用时消耗对应技能等级的法力；具体使用流程由引用本效果的过程定义。",
+          "changed": true
+        }
+      ]
+    }
+  ],
+  "skipped": [
+    {
+      "skillKey": "sona_e",
+      "routes": [
+        "/skills/sona_e/effects/mana_cost",
+        "/skills/sona_e/processes/use_cost_and_cooldown",
+        "/skills/sona_e/trigger-rules/on_used_cost_and_cooldown"
+      ],
+      "reason": "效果已说明由过程定义，过程已绑定mana_cost和cooldown_ms，主动入口已启动该过程；其余说明是准确的登记与运行边界。"
+    },
+    {
+      "skillKey": "morgana_q",
+      "routes": [
+        "/skills/morgana_q/processes/use_cost_and_cooldown",
+        "/skills/morgana_q/trigger-rules/on_used_cost_and_cooldown"
+      ],
+      "reason": "过程在PROCESS_START绑定mana_cost并引用cooldown_ms，SKILL_USED主动入口已保存；过程和规则的未运行边界仍准确。"
+    },
+    {
+      "skillKey": "morgana_w",
+      "routes": [
+        "/skills/morgana_w/processes/use_cost_and_cooldown",
+        "/skills/morgana_w/trigger-rules/on_used_cost_and_cooldown"
+      ],
+      "reason": "过程在PROCESS_START绑定mana_cost并引用cooldown_ms，SKILL_USED主动入口已保存；过程和规则的未运行边界仍准确。"
+    },
+    {
+      "skillKey": "morgana_r",
+      "routes": [
+        "/skills/morgana_r/processes/use_cost_and_cooldown",
+        "/skills/morgana_r/trigger-rules/on_used_cost_and_cooldown"
+      ],
+      "reason": "过程在PROCESS_START绑定mana_cost并引用cooldown_ms，SKILL_USED主动入口已保存；过程和规则的未运行边界仍准确。"
+    },
+    {
+      "skillKey": "lux_q",
+      "routes": "全部当前参数/效果/过程/触发说明",
+      "reason": "法力效果、cast过程的mana_cost挂接及on_used主动入口均已存在，现有说明没有声称这些组成未接线；未发现明确过时说明。"
+    },
+    {
+      "skillKey": "lux_r",
+      "routes": "全部当前参数/效果/过程/触发说明",
+      "reason": "法力效果、cast过程的mana_cost挂接及on_used主动入口均已存在；被动引爆/冷却返还等未完成边界仍明确，未发现明确过时说明。"
+    },
+    {
+      "skillKey": "xerath_e",
+      "routes": [
+        "/skills/xerath_e/processes/cast",
+        "/skills/xerath_e/trigger-rules/on_used",
+        "/skills/xerath_e/trigger-rules/actual_hit",
+        "/skills/xerath_e/effects/mage_spear_hit"
+      ],
+      "reason": "新近完成的cast、on_used、mage_spear_hit和actual_hit说明已明确法力/冷却/延迟及实际命中职责；仅mana_cost参数与效果说明保留了旧的未接线措辞。"
+    }
+  ],
+  "sourceFiles": [
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/娑娜E使用消耗冷却补录/README.md",
+      "sha256": "536cd8d3848959775da7b85e41f1a9a3a7ee6f790a6426406ef325eb9e183046"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/娑娜E使用消耗冷却补录/01-候选方案.json",
+      "sha256": "ca07bff5034699177c84e7aa61d6c8302464e7fd2e3dade520dee79a5cdf46d5"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/五项法师技能使用登记补录/README.md",
+      "sha256": "858a5fbe5e717ca43210a488d88b0a37afa5bb436497f92bd5ae5467aa0b77a6"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/五项法师技能使用登记补录/01-候选方案.json",
+      "sha256": "afd5f1cc6f28da81f6e58a0ef6097864a39a7960a649773be3a0c97c04e1efa0"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/五项法师技能使用登记补录/07-独立回读.json",
+      "sha256": "00a498cd2b0e248da104fd8a8a3f9f733376eadc534d7485b88806571ace556a"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/泽拉斯E伤害与使用流程补录/README.md",
+      "sha256": "bcdfa68d3c9844489c24a451a947cc4c7ce525fbd17e839fa4a420dbd1a642aa"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/泽拉斯E伤害与使用流程补录/01-候选方案.json",
+      "sha256": "f35fda31fa0adf2de7ce700c9163c104c7f2ad0b6708e53f4b1a2462947fb9b9"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/泽拉斯E伤害与使用流程补录/07-独立回读.json",
+      "sha256": "28725d332c3641d08c9c57d6010c512f9daea8f6b37d15ca01d25180c20f4f37"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/使用消耗登记续核/娑娜E使用语义续核.json",
+      "sha256": "cad6930c79aebb9b426df56a39440b414945b399f11af19f583e7a855097c68e"
+    },
+    {
+      "root": "web",
+      "path": "web/src/types/skillParameter.ts",
+      "sha256": "35de9ac58d29e440ac65ac03184f34ecd18507894bd146e801c807d63a5f3fa8"
+    },
+    {
+      "root": "web",
+      "path": "web/src/types/skillProcess.ts",
+      "sha256": "6fa0232b4ab6c1bbf44488f0e0a2eb41b8dfd1b23ac9db99a935a74ada0fb85b"
+    },
+    {
+      "root": "web",
+      "path": "web/src/types/skillTriggerRule.ts",
+      "sha256": "db1021ad59bf8cfee862603c2e7dcde6c618da85d235f36de941c6a205852615"
+    }
+  ],
+  "preserve": [
+    "不修改数值、参数键、效果键、过程、触发规则、公式、结果、排序、更新时间或未完成机制边界。"
+  ],
+  "runtimeBoundary": "本调查只证明管理接口当前保存的组成与说明，不证明资源实际扣除、冷却调度、宿主事件、Wasm或战斗运行。",
+  "formalBatch": "未创建；后续如需说明纠错，另由负责人决定正式批次和独立评审。"
+}

@@ -1,0 +1,166 @@
+{
+  "schemaVersion": "authoring.independent-review.v1",
+  "status": "APPROVED",
+  "title": "五项后续技能消耗说明整理独立评审",
+  "reviewedAt": "2026-09-19T07:33:55.9802014+08:00",
+  "reviewer": "/root/eight_direct_damage_audit",
+  "mode": "静态冻结审查；未访问业务API、数据库、浏览器、Wasm或战斗运行；只新建本文件",
+  "scope": {
+    "worktree": "C:\\project\\damage_web_dev",
+    "directory": "数据参考/全量录入-2026-09/交叉试录/五项后续技能消耗说明整理",
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "plannedPUTs": 9,
+    "baselineGETs": 104,
+    "baselineStatusCounts": {
+      "200": 104
+    },
+    "businessWritesDuringReview": 0,
+    "excluded": [
+      "真实PUT、写后独立回读、浏览器验收、宿主/Wasm和战斗运行",
+      "拉克丝Q/R说明整理"
+    ]
+  },
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-descriptions-v2.mjs": "f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517",
+    "01-纠错计划.json": "47000d78934a4ca5c9b6edbe32abd0e15b230eeb5e90599ad85c8ee5bea966dd",
+    "02-冻结请求.json": "ae9155e3210297baa2e624248d9d3ac7fa10651f422384e339ebf50241d290d5",
+    "03-来源摘要.json": "aa1df1db10ed1275031e5fcb76a9b685f0bf40f7c77633333f31116e6e619eb4",
+    "04-写入前现值.json": "9446fd1a8dadc5c0ef3a882008ff2fe662621d87ecc77885b4ffb95e866459a3"
+  },
+  "supportingFiles": {
+    "00-只读候选.json": "cd48590ab17ee91ba0a084b5dfd46a30be642cec3c5e96b25bc6d8cd8d0a9d5b",
+    "00a-候选GET原件.json": "13a36409943c4d3327ac98a71e906964b67df80d07ae60e4677cb9c52e32e337",
+    "写入响应审计修正/02-主负责人独立代码评审.json": "审查原件已保留；仅作为工具修正的既有静态验证依据"
+  },
+  "toolReview": {
+    "candidatePath": "tools/authoring/update-reviewed-descriptions-v2.mjs",
+    "candidateSha256": "f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517",
+    "expectedSha256": "f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517",
+    "match": true,
+    "v1Path": "tools/authoring/update-reviewed-descriptions.mjs",
+    "v1Sha256": "eab116c1b4ac83239d16946ff275c51170154d0ea26229c9f03c1d71f0b2cfed",
+    "boundedDifferences": [
+      "版本说明和执行器文件标识切换为v2，冻结链其余行为保持原结构。",
+      "请求先将method/path/status写入audit，再解析响应正文；坏JSON不会漏掉响应审计。",
+      "即时回读由忽略createdAt/updatedAt改为严格保留createdAt及全部业务字段，只允许updatedAt变化；旧版其余请求白名单和保护流程未改。"
+    ],
+    "priorValidation": {
+      "nodeSyntax": "PASS（依据写入响应审计修正既有检查记录；本评审不重跑）",
+      "offlineCases": 4,
+      "offlineCasesStatus": "PASS（依据写入响应审计修正既有检查记录；本评审不重跑）",
+      "realHTTP": 0
+    }
+  },
+  "sourceAndCandidateReview": {
+    "sourceVersions": {
+      "client": "16.17",
+      "official": "16.17.1"
+    },
+    "sourceFileCount": 14,
+    "sourceFilesAllMatch": true,
+    "sourceHashesCheckedAgainstCurrentBytes": true,
+    "candidateChangeCount": 9,
+    "candidateChangesMatchPlan": true,
+    "oldDescriptionsMatch04Baseline": true,
+    "entryBasis": {
+      "sona_e": "mana_cost结果为SOURCE/RESOURCE_CHANGE/CONSUME，use_cost_and_cooldown在PROCESS_START绑定mana_cost，SKILL_USED ACTIVE入口启动该过程。",
+      "morgana_q": "mana_cost结果为SOURCE/RESOURCE_CHANGE/CONSUME，use_cost_and_cooldown在PROCESS_START绑定mana_cost，SKILL_USED ACTIVE入口启动该过程。",
+      "morgana_w": "mana_cost结果为SOURCE/RESOURCE_CHANGE/CONSUME，use_cost_and_cooldown在PROCESS_START绑定mana_cost，SKILL_USED ACTIVE入口启动该过程。",
+      "morgana_r": "mana_cost结果为SOURCE/RESOURCE_CHANGE/CONSUME，use_cost_and_cooldown在PROCESS_START绑定mana_cost，SKILL_USED ACTIVE入口启动该过程。",
+      "xerath_e": "mana_cost结果为SOURCE/RESOURCE_CHANGE/CONSUME，cast在PROCESS_START绑定mana_cost，SKILL_USED ACTIVE入口启动cast。"
+    },
+    "entryBasisAllMatch00aGETOriginals": true,
+    "preservedBoundary": "只纠正参数/效果中已过时的未接入扣除时点措辞；未把管理配置写成资源实际扣除、冷却调度或完整技能机制运行证明。"
+  },
+  "frozenLinkage": {
+    "base": "http://127.0.0.1:8080/api/admin/games/lol",
+    "requestCount": 9,
+    "allMethodsPUT": true,
+    "distinctRoutes": true,
+    "routes": [
+      "/skills/sona_e/parameters/mana_cost",
+      "/skills/morgana_q/parameters/mana_cost",
+      "/skills/morgana_q/effects/mana_cost",
+      "/skills/morgana_w/parameters/mana_cost",
+      "/skills/morgana_w/effects/mana_cost",
+      "/skills/morgana_r/parameters/mana_cost",
+      "/skills/morgana_r/effects/mana_cost",
+      "/skills/xerath_e/parameters/mana_cost",
+      "/skills/xerath_e/effects/mana_cost"
+    ],
+    "scopeCounts": {
+      "sona_e": 1,
+      "morgana_q": 2,
+      "morgana_w": 2,
+      "morgana_r": 2,
+      "xerath_e": 2,
+      "lux_q": 0,
+      "lux_r": 0
+    },
+    "sourceSha256BoundTo03": true,
+    "baselineSha256BoundTo04": true,
+    "sourceSha256": "aa1df1db10ed1275031e5fcb76a9b685f0bf40f7c77633333f31116e6e619eb4",
+    "baselineSha256": "9446fd1a8dadc5c0ef3a882008ff2fe662621d87ecc77885b4ffb95e866459a3"
+  },
+  "requestProtection": {
+    "bodyFieldSets": {
+      "parameter": ["name", "description", "valueType", "valueMode", "fixedValue", "levelValues", "sortOrder"],
+      "effect": ["name", "description", "sortOrder", "lifecycle", "results"]
+    },
+    "allBodiesMatchCurrent04ExceptDescription": true,
+    "allExpectedReadbacksMatchCurrent04ExceptDescription": true,
+    "allNineDescriptionsMatch01Plan": true,
+    "allNineOldDescriptionsActuallyDiffer": true,
+    "parametersAndEffectsOnly": true,
+    "numericValuesFormulasResultsLifecycleAndSortOrderPreserved": true,
+    "luxQRExcluded": true,
+    "writeGatePresentInTool": true,
+    "approvedBatchHashGatePresentInTool": true,
+    "immediateReadbackPresentInTool": true,
+    "createdAtProtectedOnImmediateReadback": true
+  },
+  "checks": [
+    {
+      "name": "工具与01至04原始字节绑定",
+      "status": "PASS",
+      "evidence": "现场SHA-256与approvedFiles一致；02.sourceSha256等于03原文件摘要，02.baselineSha256等于04原文件摘要。"
+    },
+    {
+      "name": "14项来源散列",
+      "status": "PASS",
+      "evidence": "03-来源摘要列出14项；按web/planning根解析后14项均存在，当前原始字节SHA-256逐项与声明值一致。"
+    },
+    {
+      "name": "写前GET基线",
+      "status": "PASS",
+      "evidence": "04记录104个唯一GET路径，全部200，method全为GET，businessWrites=0；按技能计数为sona_e 24、morgana_q 18、morgana_w 21、morgana_r 19、xerath_e 22。"
+    },
+    {
+      "name": "冻结范围和顺序",
+      "status": "PASS",
+      "evidence": "01有9项变更，02有9条唯一PUT；SonaE 1项、Morgana Q/W/R各参数与效果2项、XerathE参数与效果2项；Lux Q/R均未出现。"
+    },
+    {
+      "name": "完整PUT仅改说明",
+      "status": "PASS",
+      "evidence": "逐条按工具fieldSets与04.values结构比较：9个body除description外与现值完全一致，9个expectedReadback除description外与现值完全一致；名称、数值模式、固定值/等级数组、结果、生命周期、排序及其他字段均保留。"
+    },
+    {
+      "name": "来源说明与入口依据",
+      "status": "PASS",
+      "evidence": "00候选的9个oldDescription与04基线一致、9个proposedDescription与01一致；00a候选GET原件逐项支持五技能的法力效果、PROCESS_START绑定及SKILL_USED ACTIVE启动入口。"
+    },
+    {
+      "name": "新工具有界差异",
+      "status": "PASS",
+      "evidence": "v2相对旧版只涉及版本/执行器标识、先记响应审计后解析、即时回读只允许updatedAt变化并保护createdAt；既有请求白名单、冻结哈希、全量现值保护、批准批次哈希和即时回读门槛仍在。"
+    },
+    {
+      "name": "运行边界",
+      "status": "PASS",
+      "evidence": "本评审没有调用业务HTTP或数据库；不把104次GET、既有入口配置或工具静态检查表述为真实写入、浏览器、宿主/Wasm或战斗运行完成。"
+    }
+  ],
+  "conclusion": "APPROVED：未发现阻塞项；主负责人可在保持上述五文件散列和全量现值不漂移的前提下，按v2工具进入下一阶段。"
+}
