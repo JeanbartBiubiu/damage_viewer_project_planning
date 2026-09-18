@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-18T13:49:33.396Z",
+  "generatedAt": "2026-09-18T14:00:11.392Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -9213,6 +9213,39 @@
         "commit": "5b1494ac3b29982aea85c9c98988bea4a107894f"
       },
       "runtimeValidation": "未执行"
+    },
+    "annieExplicitSelfShieldBackfill": {
+      "at": "2026-09-18T14:00:11.392Z",
+      "status": "正式显式自施护盾入口完成受保护写入、独立回读和页面重开；整技能仍为部分录入",
+      "skills": [
+        "annie_e"
+      ],
+      "created": {
+        "triggerRules": 1
+      },
+      "ruleKey": "on_used_self_shield",
+      "prepareGETs": 28,
+      "reviewGETs": 28,
+      "writerPOSTs": 1,
+      "independentReadbackGETs": 32,
+      "protectedObjectsUnchanged": 26,
+      "browser": "PASS",
+      "remaining": [
+        "护盾激活期间反伤资格与每盾每来源一次",
+        "移速衰减分支",
+        "法力消耗与普通冷却入口"
+      ],
+      "excluded": [
+        "仅队友分支",
+        "独立提伯斯分支"
+      ],
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/安妮E显式自施护盾正式补录/09-证据清单.json",
+        "sha256": "89148d5ba0bc90d19ae999a832b44d53c28ec90abcc258469462754af0db89c0",
+        "commit": "4ba1304a211963ae483c580e35eae40472fadcce"
+      },
+      "runtimeValidation": "未执行"
     }
   },
   "runtimeValidation": "未执行",
@@ -9359,6 +9392,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/振奋盔甲治疗增幅补录/10-证据清单.json",
         "sha256": "91553316c40c08b7641aad5a90f8d0a505ff9a2c58dcbc39ef59e9d89e1e4591",
         "commit": "5b1494ac3b29982aea85c9c98988bea4a107894f"
+      },
+      "annieExplicitSelfShieldBackfill": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/安妮E显式自施护盾正式补录/09-证据清单.json",
+        "sha256": "89148d5ba0bc90d19ae999a832b44d53c28ec90abcc258469462754af0db89c0",
+        "commit": "4ba1304a211963ae483c580e35eae40472fadcce"
       }
     },
     "coverage": {
@@ -12671,19 +12710,29 @@
         "name": "安妮·熔岩护盾",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有2个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "自身护盾的显式自施入口已正式保存并独立回读、页面重开通过；反伤资格与去重、移速衰减及资源冷却入口尚未完成，仍为部分管理配置。",
         "pendingCounts": {
           "source": 0,
-          "system": 0,
-          "configuration": 2,
+          "system": 2,
+          "configuration": 1,
           "other": 0
         },
         "batchKey": "heroSecondBatch",
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "annieExplicitSelfShieldBackfill"
+        ],
+        "completedBranches": [
+          "明确对自身主动施放时执行已核对的3秒自身护盾"
+        ],
+        "remainingBranches": [
+          "反伤资格及每盾每来源一次",
+          "移速衰减",
+          "法力消耗与普通冷却入口"
+        ],
+        "runtimeValidation": "未执行"
       },
       {
         "sourceChampionId": "Annie",
