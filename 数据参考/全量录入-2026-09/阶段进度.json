@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-18T19:53:54.131Z",
+  "generatedAt": "2026-09-18T20:08:35.519Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -9443,6 +9443,36 @@
         "sha256": "6fa1fcb4d3bf6cd6e3c366e8cc3aea445b0704986e18fab1f47be50897349a91",
         "commit": "8d8abee4"
       }
+    },
+    "fourSkillCostDescriptionCorrections": {
+      "at": "2026-09-18T20:08:35.519Z",
+      "status": "四项已接线技能的参数与效果说明已清理，8次PUT和独立86GET通过；页面待验",
+      "skills": [
+        "morgana_e",
+        "janna_e",
+        "lulu_w",
+        "lulu_r"
+      ],
+      "updated": {
+        "parameterDescriptions": 4,
+        "effectDescriptions": 4
+      },
+      "prepareGETs": 86,
+      "writerGETs": 102,
+      "writerPUTs": 8,
+      "immediateReadbacks": 8,
+      "independentGETs": 86,
+      "unchangedResponses": 70,
+      "expectedChangedDetails": 8,
+      "expectedChangedCollections": 8,
+      "browser": "NOT_RUN_BROWSER_UNAVAILABLE",
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/四项技能消耗说明整理/09-证据清单.json",
+        "sha256": "f8bef641edb15193b00dc41d6189b199192c9c7a863a34c706aa1732fde13456",
+        "commit": "cc27620c"
+      }
     }
   },
   "runtimeValidation": "未执行",
@@ -9631,6 +9661,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/五项自施技能消耗冷却补录/09-证据清单.json",
         "sha256": "6fa1fcb4d3bf6cd6e3c366e8cc3aea445b0704986e18fab1f47be50897349a91",
         "commit": "8d8abee4"
+      },
+      "fourSkillCostDescriptionCorrections": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/四项技能消耗说明整理/09-证据清单.json",
+        "sha256": "f8bef641edb15193b00dc41d6189b199192c9c7a863a34c706aa1732fde13456",
+        "commit": "cc27620c"
       }
     },
     "coverage": {
@@ -17716,7 +17752,8 @@
           "heroSourceInventory",
           "descriptionCorrectionsFirst",
           "jannaLuluExplicitSelfBackfill",
-          "fiveSelfSkillCostCooldownBackfill"
+          "fiveSelfSkillCostCooldownBackfill",
+          "fourSkillCostDescriptionCorrections"
         ],
         "historicalPendingCounts": {
           "source": 1,
@@ -20827,7 +20864,8 @@
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
           "jannaLuluExplicitSelfBackfill",
-          "fiveSelfSkillCostCooldownBackfill"
+          "fiveSelfSkillCostCooldownBackfill",
+          "fourSkillCostDescriptionCorrections"
         ],
         "historicalPendingCounts": {
           "source": 0,
@@ -20897,7 +20935,8 @@
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
           "jannaLuluExplicitSelfBackfill",
-          "fiveSelfSkillCostCooldownBackfill"
+          "fiveSelfSkillCostCooldownBackfill",
+          "fourSkillCostDescriptionCorrections"
         ],
         "historicalPendingCounts": {
           "source": 0,
@@ -22167,7 +22206,8 @@
           "heroSourceInventory",
           "morganaExplicitSelfShieldBackfill",
           "descriptionCorrectionsFirst",
-          "fiveSelfSkillCostCooldownBackfill"
+          "fiveSelfSkillCostCooldownBackfill",
+          "fourSkillCostDescriptionCorrections"
         ],
         "completedBranches": [
           "显式自施时的普通魔法护盾，100/155/210/265/320加0.7总法强，5000毫秒"

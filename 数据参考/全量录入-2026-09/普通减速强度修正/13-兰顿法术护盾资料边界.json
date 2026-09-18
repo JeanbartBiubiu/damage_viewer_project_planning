@@ -1,0 +1,35 @@
+{
+  "at": "2026-09-18T20:08:35.507Z",
+  "status": "SOURCE_NOT_FROZEN",
+  "skillKey": "item_3143_active",
+  "sources": [
+    {
+      "url": "https://www.leagueoflegends.com/en-us/news/game-updates/patch-14-10-notes/",
+      "publisher": "Riot Games",
+      "publishedAt": "2024-05-14",
+      "directOpen": true,
+      "supported": "历史改动把主动冷却提高到90秒、减速提高到70%，与固定16.17当前字段一致。",
+      "notSupported": "没有提供本次主动的法术护盾消费或阻挡语义。"
+    },
+    {
+      "url": "https://leagueoflegends.fandom.com/wiki/Randuin%27s_Omen",
+      "directOpen": false,
+      "observed": "搜索摘要说谦卑不会被法术护盾阻挡；正文打开返回Internal Error。",
+      "notSupported": "摘要不是16.17同版独立核定，也没有充分说明是否消费护盾。"
+    },
+    {
+      "url": "https://wiki.leagueoflegends.com/en-us/Randuin%27s_Omen",
+      "directOpen": false,
+      "observed": "直接打开返回Internal Error，没有正文证据。"
+    },
+    {
+      "url": "https://magicstark.cz/wiki/randuins-omen/",
+      "directOpen": true,
+      "observed": "二手页面声称会消费法术护盾但仍施加减速，并称其为错误行为。",
+      "notSupported": "未给出16.17固定版本的原始验证资料，不据此冻结管理语义。"
+    }
+  ],
+  "decision": "不把“是否阻挡减速”和“是否消费法术护盾”混成同一事实；本轮仍未核定完整交互，不据此选择RESULT或null，不新增消费但不阻挡的字段。",
+  "businessWrites": 0,
+  "runtimeValidation": "未执行"
+}
