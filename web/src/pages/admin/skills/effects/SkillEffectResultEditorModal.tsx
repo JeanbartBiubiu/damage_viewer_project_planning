@@ -129,6 +129,9 @@ import {
   usesAffectedSkillScope,
   validateSkillEffectDraft,
   valueFormulaLabelFor,
+  isMovementSlowApply,
+  applyStatusSelection,
+  resolveResultStatusKind,
   type CatalogRefOption,
   type EffectCatalogLoadState,
   type EffectFormCatalog,
@@ -366,7 +369,8 @@ export function SkillEffectResultEditorModal({
   const existingResult = draft.originalResultType !== null;
   const showValueRule = isValueRuleVisible(draft);
   const cooldownHint = cooldownChangeAmountHint(draft);
-  const valueFormulaLabel = valueFormulaLabelFor(draft.resultType);
+  const slowApply = isMovementSlowApply(draft);
+  const valueFormulaLabel = draft.resultType === 'STATUS_OPERATION' ? '减速比例' : valueFormulaLabelFor(draft.resultType);
 
   const resetCatalogs = useCallback(() => {
     damageTypeSerial.current += 1;
@@ -621,6 +625,11 @@ export function SkillEffectResultEditorModal({
     loadStatusesCatalog,
     visible
   ]);
+
+  useEffect(() => {
+    if (!visible || catalogLoadState.statuses !== 'ready') return;
+    setDraft((current) => resolveResultStatusKind(current, statuses));
+  }, [visible, resultDraft, draft.statusKey, draft.resultType, catalogLoadState.statuses, statuses]);
 
   const catalog = useMemo<EffectFormCatalog>(() => ({
     parentSkillKey: parentSkill.skillKey,
@@ -1161,8 +1170,11 @@ export function SkillEffectResultEditorModal({
           />
         ) : null}
         {unknownBlocking ? <Alert type="error" content={INCOMPLETE_CATALOG_MESSAGE} /> : null}
-        {isPersistentOnlyResultType(draft.resultType) && !parentDraft.lifecycleEnabled ? (
+        {(isPersistentOnlyResultType(draft.resultType) || slowApply) && !parentDraft.lifecycleEnabled ? (
           <Alert type="error" content="该结果需要先启用父效果生命周期。" />
+        ) : null}
+        {slowApply && parentDraft.lifecycleEnabled && !hasDuration ? (
+          <Alert type="error" content="普通移动减速需要父效果填写持续时间。请先在父效果中配置，再保存减速结果。" />
         ) : null}
         <Form layout="vertical">
           <Form.Item
@@ -1263,6 +1275,7 @@ export function SkillEffectResultEditorModal({
 
           {showValueRule ? (
             <>
+              {slowApply ? <Alert type="info" content="0.3 表示 30% 减速；百分数点参数使用固定倍率 0.01。上下界固定为 0 和 1。" /> : null}
               {draft.resultType === 'EXECUTE' ? (
                 <Alert type="info" content={EXECUTE_RESULT_HINT} />
               ) : null}
@@ -1309,7 +1322,7 @@ export function SkillEffectResultEditorModal({
                 <InputNumber
                   aria-label="固定最小值"
                   value={draft.fixedMinValue.trim() ? Number(draft.fixedMinValue) : undefined}
-                  disabled={readOnly}
+                  disabled={readOnly || slowApply}
                   style={{ width: '100%' }}
                   onChange={(value) => patchDraft({
                     ...draft,
@@ -1325,7 +1338,7 @@ export function SkillEffectResultEditorModal({
                 <InputNumber
                   aria-label="固定最大值"
                   value={draft.fixedMaxValue.trim() ? Number(draft.fixedMaxValue) : undefined}
-                  disabled={readOnly}
+                  disabled={readOnly || slowApply}
                   style={{ width: '100%' }}
                   onChange={(value) => patchDraft({
                     ...draft,
@@ -1957,7 +1970,12 @@ export function SkillEffectResultEditorModal({
                   disabled={readOnly}
                   options={toSelectOptions(statusOptions, statusNames)}
                   placeholder="请选择状态"
-                  onChange={(value) => patchDraft({ ...draft, statusKey: String(value ?? '') })}
+                  onChange={(value) => {
+                    const key = String(value ?? '');
+                    patchDraftWithSpellShieldCleanup(applyStatusSelection(
+                      draft, key, statuses.find((item) => item.statusKey === key)?.statusKind ?? null
+                    ));
+                  }}
                 />
               </Form.Item>
               <Form.Item
@@ -1970,10 +1988,9 @@ export function SkillEffectResultEditorModal({
                   aria-label="状态操作"
                   value={draft.statusOperation}
                   disabled={readOnly}
-                  onChange={(value) => patchDraftWithSpellShieldCleanup({
-                    ...draft,
-                    statusOperation: value as StatusOperation
-                  })}
+                  onChange={(value) => patchDraftWithSpellShieldCleanup(applyStatusSelection(
+                    draft, draft.statusKey, draft.statusKind, value as StatusOperation
+                  ))}
                 >
                   {Object.entries(STATUS_OPERATION_LABELS).map(([value, label]) => (
                     <Radio key={value} value={value}>{label}</Radio>
@@ -2020,7 +2037,7 @@ export function SkillEffectResultEditorModal({
                 <Select
                   aria-label="生命周期时点"
                   value={draft.lifecycleBehavior.moment || undefined}
-                  disabled={readOnly || isPersistentOnlyResultType(draft.resultType)}
+                  disabled={readOnly || slowApply || isPersistentOnlyResultType(draft.resultType)}
                   options={allowedMoments.map((value) => ({
                     value,
                     label: SKILL_EFFECT_LIFECYCLE_MOMENT_LABELS[value]
@@ -2070,7 +2087,7 @@ export function SkillEffectResultEditorModal({
                   <Radio.Group
                     aria-label="层数值方式"
                     value={draft.lifecycleBehavior.stackValueMode}
-                    disabled={readOnly || isSharedOnlyPersistentResult(draft) || isFixedPersistentSnapshotResult(draft)}
+                    disabled={readOnly || slowApply || isSharedOnlyPersistentResult(draft) || isFixedPersistentSnapshotResult(draft)}
                     onChange={(value) => patchDraft(
                       applyStackValueModeChange(draft, value as SkillEffectStackValueMode)
                     )}
@@ -2103,7 +2120,7 @@ export function SkillEffectResultEditorModal({
                   <Radio.Group
                     aria-label="重复值方式"
                     value={draft.lifecycleBehavior.reapplicationValueMode}
-                    disabled={readOnly || isFixedPersistentSnapshotResult(draft)}
+                    disabled={readOnly || slowApply || isFixedPersistentSnapshotResult(draft)}
                     onChange={(value) => patchDraft({
                       ...draft,
                       lifecycleBehavior: {
@@ -2116,6 +2133,7 @@ export function SkillEffectResultEditorModal({
                       .filter(([value]) => !(
                         (isSharedOnlyPersistentResult(draft) && value === 'ADD')
                         || (isFixedPersistentSnapshotResult(draft) && value !== 'KEEP')
+                        || (slowApply && value !== 'REPLACE')
                       ))
                       .map(([value, label]) => (
                         <Radio key={value} value={value}>{label}</Radio>

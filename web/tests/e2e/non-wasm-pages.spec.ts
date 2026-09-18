@@ -106,6 +106,7 @@ type ModifierZoneRow = {
 };
 
 type StatusRow = {
+  statusKind: 'STUN' | 'MOVEMENT_SLOW';
   gameId: string;
   statusKey: string;
   name: string;
@@ -1598,6 +1599,7 @@ class MockApi {
         }
         const row: StatusRow = {
           gameId: GAME_ID,
+          statusKind: body.statusKind as StatusRow['statusKind'],
           statusKey: String(body.statusKey),
           name: String(body.name),
           description: typeof body.description === 'string' ? body.description : null,
@@ -2749,6 +2751,7 @@ function seedSkillEffectCatalog(
   mock.statuses = [
     {
       gameId: GAME_ID,
+      statusKind: 'STUN',
       statusKey: 'poison',
       name: '中毒',
       description: null,
@@ -2759,6 +2762,7 @@ function seedSkillEffectCatalog(
     },
     {
       gameId: GAME_ID,
+      statusKind: 'STUN',
       statusKey: 'old_poison',
       name: '旧中毒',
       description: null,
@@ -3526,6 +3530,8 @@ test.describe('status management without Wasm', () => {
 
     await page.getByRole('button', { name: '新增状态', exact: true }).click();
     const createModal = visibleModal(page, '新增状态');
+    await createModal.getByLabel('状态种类', { exact: true }).click();
+    await page.getByRole('option', { name: '眩晕', exact: true }).click();
     await createModal.getByLabel('状态标识', { exact: true }).fill('stun');
     await createModal.getByLabel('状态名称', { exact: true }).fill('眩晕');
     await createModal.getByLabel('说明', { exact: true }).fill('控制类状态');
@@ -3570,6 +3576,8 @@ test.describe('status management without Wasm', () => {
     mock.statusWriteFailure = 'validation';
     await page.getByRole('button', { name: '新增状态', exact: true }).click();
     const failedModal = visibleModal(page, '新增状态');
+    await failedModal.getByLabel('状态种类', { exact: true }).click();
+    await page.getByRole('option', { name: '普通移动减速', exact: true }).click();
     await failedModal.getByLabel('状态标识', { exact: true }).fill('slow');
     await failedModal.getByLabel('状态名称', { exact: true }).fill('减速草稿');
     await failedModal.getByRole('button', { name: '保存', exact: true }).click();

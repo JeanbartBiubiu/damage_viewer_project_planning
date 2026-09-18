@@ -102,8 +102,8 @@ const CATALOG: EffectFormCatalog = {
     { skillCategoryKey: 'retired_category', status: 'DISABLED' }
   ],
   statuses: [
-    { statusKey: 'poison', status: 'ENABLED' },
-    { statusKey: 'old_poison', status: 'DISABLED' }
+    { statusKey: 'poison', status: 'ENABLED', statusKind: 'STUN' },
+    { statusKey: 'old_poison', status: 'DISABLED', statusKind: 'STUN' }
   ],
   modifierZones: [
     { modifierZoneKey: 'attribute_percent', domain: 'ATTRIBUTE', status: 'ENABLED' },
@@ -248,7 +248,9 @@ function withBehavior(
 }
 
 function expectValid(draft: SkillEffectDraft, includeEffectKey = true) {
-  const result = validateSkillEffectDraft(draft, { includeEffectKey, catalog: CATALOG });
+  const result = validateSkillEffectDraft(draft, {
+    includeEffectKey, catalog: CATALOG, catalogLoadState: { statuses: 'ready' }
+  });
   expect(result.ok).toBe(true);
   if (!result.ok) {
     throw new Error(`expected valid draft: ${JSON.stringify(result)}`);
@@ -1346,7 +1348,7 @@ describe('skill effect result conversion coverage', () => {
 
     const retained = validateSkillEffectDraft(
       validEffectDraft([drafts[2]!, drafts[5]!]),
-      { includeEffectKey: false, catalog: CATALOG }
+      { includeEffectKey: false, catalog: CATALOG, catalogLoadState: { statuses: 'ready' } }
     );
     expect(retained.ok).toBe(true);
   });

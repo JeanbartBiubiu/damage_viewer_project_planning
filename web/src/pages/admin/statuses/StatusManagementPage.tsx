@@ -28,6 +28,7 @@ import type {
   UpdateStatusRequest
 } from '../../../types/status';
 import { StatusEditorModal, type StatusEditorMode } from './StatusEditorModal';
+import { STATUS_KIND_LABELS } from '../../../types/status';
 
 export type StatusManagementPageProps = {
   apiBaseUrl: string;
@@ -49,6 +50,7 @@ function formatUpdatedAt(value: string): string {
 
 function statusRequest(statusRecord: GameStatus, status: StatusRecordStatus): UpdateStatusRequest {
   return {
+    statusKind: statusRecord.statusKind,
     name: statusRecord.name,
     description: statusRecord.description,
     status,
@@ -207,6 +209,8 @@ export function StatusManagementPage({
   const columns: TableColumnProps[] = [
     imageColumn,
     { title: '状态名称', dataIndex: 'name', width: 180 },
+    { title: '状态种类', dataIndex: 'statusKind', width: 150,
+      render: (kind: GameStatus['statusKind']) => STATUS_KIND_LABELS[kind] },
     { title: '状态标识', dataIndex: 'statusKey', width: 190 },
     {
       title: '说明',

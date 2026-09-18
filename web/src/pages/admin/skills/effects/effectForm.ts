@@ -60,7 +60,7 @@ import type {
   StatusOperation,
   UpdateSkillEffectRequest
 } from '../../../../types/skillEffect';
-import type { GameStatus } from '../../../../types/status';
+import { isStatusKind, type StatusKind, type GameStatus } from '../../../../types/status';
 
 export const SKILL_EFFECT_KEY_PATTERN = /^[a-z][a-z0-9_]{0,63}$/;
 
@@ -404,6 +404,7 @@ export type SkillEffectResultDraft = {
   cooldownOperation: CooldownChangeOperation | '';
   skillHasteOperation: SkillEffectModifierOperation | '';
   statusKey: string;
+  statusKind: StatusKind | null;
   statusOperation: StatusOperation | '';
   targetEffectKey: string;
   lifecycleOperation: SkillEffectLifecycleOperation | '';
@@ -549,7 +550,7 @@ export type EffectFormCatalog = {
   attributes: ReadonlyArray<Pick<Attribute, 'attributeKey' | 'status'>>;
   skills: ReadonlyArray<Pick<Skill, 'skillKey' | 'status'>>;
   skillCategories: ReadonlyArray<Pick<SkillCategory, 'skillCategoryKey' | 'status'>>;
-  statuses: ReadonlyArray<Pick<GameStatus, 'statusKey' | 'status'>>;
+  statuses: ReadonlyArray<Pick<GameStatus, 'statusKey' | 'status' | 'statusKind'>>;
   modifierZones?: ReadonlyArray<Pick<ModifierZone, 'modifierZoneKey' | 'domain' | 'status'>>;
 };
 
@@ -751,6 +752,7 @@ export function createEmptyResultDraft(
     cooldownOperation: defaultCooldownOperation(resultType),
     skillHasteOperation: defaultSkillHasteOperation(resultType),
     statusKey: '',
+    statusKind: null,
     statusOperation: resultType === 'STATUS_OPERATION' ? 'APPLY' : '',
     targetEffectKey: '',
     lifecycleOperation: defaultLifecycleOperation(resultType),
@@ -918,10 +920,12 @@ export function skillEffectResultToDraft(result: SkillEffectResult): SkillEffect
 export function requiresValueRule(
   resultType: SkillEffectResultType,
   cooldownOperation: CooldownChangeOperation | '' = '',
-  lifecycleOperation: SkillEffectLifecycleOperation | '' = ''
+  lifecycleOperation: SkillEffectLifecycleOperation | '' = '',
+  statusKind: StatusKind | null = null,
+  statusOperation: StatusOperation | '' = ''
 ): boolean {
   if (resultType === 'STATUS_OPERATION') {
-    return false;
+    return statusKind === 'MOVEMENT_SLOW' && statusOperation === 'APPLY';
   }
   if (resultType === 'DAMAGE_IMMUNITY') {
     return false;
@@ -955,7 +959,44 @@ export function requiresValueRule(
 }
 
 export function isValueRuleVisible(draft: SkillEffectResultDraft): boolean {
-  return requiresValueRule(draft.resultType, draft.cooldownOperation, draft.lifecycleOperation);
+  return draftRequiresValueRule(draft);
+}
+
+export function isMovementSlowApply(draft: SkillEffectResultDraft): boolean {
+  return draft.resultType === 'STATUS_OPERATION' && draft.statusKind === 'MOVEMENT_SLOW'
+    && draft.statusOperation === 'APPLY';
+}
+
+function draftRequiresValueRule(draft: SkillEffectResultDraft): boolean {
+  // 目录尚未确认种类时，保留响应里已读的数值，不猜测状态身份。
+  return requiresValueRule(draft.resultType, draft.cooldownOperation, draft.lifecycleOperation, draft.statusKind, draft.statusOperation)
+    || (draft.resultType === 'STATUS_OPERATION' && draft.statusOperation === 'APPLY'
+      && draft.statusKey.trim() !== '' && draft.statusKind === null && draft.value !== null);
+}
+
+export function applyStatusSelection(
+  draft: SkillEffectResultDraft, statusKey: string, statusKind: StatusKind | null,
+  operation: StatusOperation | '' = draft.statusOperation
+): SkillEffectResultDraft {
+  const next = { ...draft, statusKey, statusKind, statusOperation: operation };
+  if (isMovementSlowApply(next) && !isMovementSlowApply(draft)) {
+    next.fixedMultiplier ||= '1';
+    next.fixedMinValue = '0';
+    next.fixedMaxValue = '1';
+    next.spellShieldBlockScope = next.target === 'TARGET' && next.spellShieldBlockScope === 'RESULT' ? 'RESULT' : '';
+    next.lifecycleBehavior = { moment: 'PERSISTENT', valueReadMode: 'APPLICATION_SNAPSHOT',
+      stackValueMode: 'SHARED', reapplicationValueMode: 'REPLACE', periodicExecutionMode: '' };
+  }
+  return clearHiddenResultFields(next);
+}
+
+export function resolveResultStatusKind(
+  draft: SkillEffectResultDraft, statuses: EffectFormCatalog['statuses']
+): SkillEffectResultDraft {
+  if (draft.resultType !== 'STATUS_OPERATION') return draft;
+  const kind = statuses.find((item) => item.statusKey === draft.statusKey)?.statusKind;
+  const statusKind = isStatusKind(kind) ? kind : null;
+  return draft.statusKind === statusKind ? draft : { ...draft, statusKind };
 }
 
 export function cooldownChangeAmountHint(draft: SkillEffectResultDraft): string | null {
@@ -975,7 +1016,7 @@ export function applyResultTypeChange(
   const nextCooldown = defaultCooldownOperation(nextType);
   const nextLifecycleOperation = defaultLifecycleOperation(nextType);
   const nextNeeds = requiresValueRule(nextType, nextCooldown, nextLifecycleOperation);
-  const prevNeeds = requiresValueRule(draft.resultType, draft.cooldownOperation, draft.lifecycleOperation);
+  const prevNeeds = draftRequiresValueRule(draft);
   const persistentWithoutValueModes = nextType === 'DAMAGE_IMMUNITY' || nextType === 'SPELL_SHIELD';
   const lifecycleBehavior = isPersistentOnlyResultType(nextType)
     ? {
@@ -1021,6 +1062,7 @@ export function applyResultTypeChange(
     cooldownOperation: nextCooldown,
     skillHasteOperation: defaultSkillHasteOperation(nextType),
     statusKey: '',
+    statusKind: null,
     statusOperation: nextType === 'STATUS_OPERATION' ? 'APPLY' : '',
     targetEffectKey: '',
     lifecycleOperation: nextLifecycleOperation,
@@ -1058,7 +1100,7 @@ export function applyCooldownOperationChange(
   nextOperation: CooldownChangeOperation
 ): SkillEffectResultDraft {
   const nextNeeds = requiresValueRule('COOLDOWN_CHANGE', nextOperation);
-  const prevNeeds = requiresValueRule(draft.resultType, draft.cooldownOperation, draft.lifecycleOperation);
+  const prevNeeds = draftRequiresValueRule(draft);
   return clearHiddenResultFields({
     ...draft,
     resultType: 'COOLDOWN_CHANGE',
@@ -1075,7 +1117,7 @@ export function applyLifecycleOperationChange(
   nextOperation: SkillEffectLifecycleOperation
 ): SkillEffectResultDraft {
   const nextNeeds = requiresValueRule('LIFECYCLE_OPERATION', '', nextOperation);
-  const prevNeeds = requiresValueRule(draft.resultType, draft.cooldownOperation, draft.lifecycleOperation);
+  const prevNeeds = draftRequiresValueRule(draft);
   return clearHiddenResultFields({
     ...draft,
     resultType: 'LIFECYCLE_OPERATION',
@@ -1114,7 +1156,7 @@ export function applyStackValueModeChange(
 }
 
 export function clearHiddenResultFields(draft: SkillEffectResultDraft): SkillEffectResultDraft {
-  const needsValue = requiresValueRule(draft.resultType, draft.cooldownOperation, draft.lifecycleOperation);
+  const needsValue = draftRequiresValueRule(draft);
   return clearHiddenLifecycleBehaviorFields({
     ...draft,
     value: needsValue ? draft.value : null,
@@ -1183,6 +1225,7 @@ export function clearHiddenResultFields(draft: SkillEffectResultDraft): SkillEff
     skillHasteOperation:
       draft.resultType === 'SKILL_HASTE_MODIFIER' ? draft.skillHasteOperation || 'INCREASE' : '',
     statusKey: draft.resultType === 'STATUS_OPERATION' ? draft.statusKey : '',
+    statusKind: draft.resultType === 'STATUS_OPERATION' ? draft.statusKind : null,
     statusOperation: draft.resultType === 'STATUS_OPERATION' ? draft.statusOperation || 'APPLY' : '',
     targetEffectKey: draft.resultType === 'LIFECYCLE_OPERATION' ? draft.targetEffectKey : '',
     lifecycleOperation:
@@ -1198,7 +1241,12 @@ export function clearHiddenLifecycleBehaviorFields(
 ): SkillEffectResultDraft {
   const behavior = draft.lifecycleBehavior ?? createEmptyLifecycleBehaviorDraft();
   const moment = isPersistentOnlyResultType(draft.resultType) ? 'PERSISTENT' : behavior.moment;
-  const needsValue = requiresValueRule(draft.resultType, draft.cooldownOperation, draft.lifecycleOperation);
+  const needsValue = draftRequiresValueRule(draft);
+  // 保留已读行为交给校验，避免把未知状态或非法减速数据静默修复。
+  if (isMovementSlowApply(draft) || (draft.resultType === 'STATUS_OPERATION' && draft.statusKind === null && needsValue)) {
+    return { ...draft, modifierZoneKey: '',
+      spellShieldBlockScope: draft.target === 'TARGET' ? draft.spellShieldBlockScope : '' };
+  }
   const momentEvaluationAllowed = moment === 'PERSISTENT' && supportsMomentEvaluation(draft);
   const snapshotOnly = moment === 'APPLICATION' || (moment === 'PERSISTENT' && !momentEvaluationAllowed);
   const showValueRead = needsValue && moment !== '';
@@ -1400,7 +1448,8 @@ export function isPersistentMomentAllowed(draft: SkillEffectResultDraft): boolea
 }
 
 export function isPersistentNumericResult(draft: SkillEffectResultDraft): boolean {
-  return draft.resultType === 'NORMAL_SHIELD'
+  return (draft.resultType === 'STATUS_OPERATION' && draftRequiresValueRule(draft))
+    || draft.resultType === 'NORMAL_SHIELD'
     || draft.resultType === 'ATTRIBUTE_CHANGE'
     || draft.resultType === 'DAMAGE_MODIFIER'
     || draft.resultType === 'HEALING_MODIFIER'
@@ -1551,7 +1600,7 @@ export function listAllowedLifecycleMoments(
   draft: SkillEffectResultDraft,
   hasDuration: boolean
 ): SkillEffectLifecycleMoment[] {
-  if (isPersistentOnlyResultType(draft.resultType)) {
+  if (isPersistentOnlyResultType(draft.resultType) || isMovementSlowApply(draft)) {
     return ['PERSISTENT'];
   }
   const moments: SkillEffectLifecycleMoment[] = ['APPLICATION'];
@@ -1591,6 +1640,7 @@ export function normalizeEffectDraftForDirtyComparison(draft: SkillEffectDraft):
     ...draft,
     results: draft.results.map((result) => ({
       ...result,
+      statusKind: null,
       affectedSkillScope: usesAffectedSkillScope(result.resultType)
         ? {
             mode: result.affectedSkillScope.mode,
@@ -1773,7 +1823,10 @@ export function validateSkillEffectDraft(
 ): SkillEffectFormValidation {
   const prepared = clearHiddenLifecycleFields({
     ...draft,
-    results: draft.results.map((item) => clearHiddenResultFields(item))
+    results: draft.results.map((item) => clearHiddenResultFields(
+      options.catalogLoadState?.statuses === 'ready' && options.catalog
+        ? resolveResultStatusKind(item, options.catalog.statuses) : item
+    ))
   });
   const fieldErrors: SkillEffectDraftErrors = {};
   const resultErrors: SkillEffectResultIndexError[] = [];
@@ -2171,7 +2224,7 @@ function validateAndBuildResult(
   const sortOrder = parseNonNegativeInteger(draft.sortOrder, fieldErrors, 'sortOrder');
   const valueRule = validateValueRule(draft, fieldErrors);
   validateTypeSpecificFields(draft, options, fieldErrors, context);
-  const needsValueRule = requiresValueRule(draft.resultType, draft.cooldownOperation, draft.lifecycleOperation);
+  const needsValueRule = draftRequiresValueRule(draft);
   const lifecycleBehavior = validateAndBuildLifecycleBehavior(draft, fieldErrors, context, needsValueRule);
   if (needsValueRule && !fieldErrors.value) {
     const valueError = numericValueError(draft.value, { ...options.catalog, parameters: options.parameters }, {
@@ -2288,7 +2341,7 @@ function validateAndBuildResult(
       return {
         ...base,
         resultType: 'STATUS_OPERATION',
-        valueRule: null,
+        valueRule,
         detail: {
           statusKey: draft.statusKey.trim(),
           operation: draft.statusOperation as StatusOperation
@@ -2416,7 +2469,7 @@ function validateValueRule(
   draft: SkillEffectResultDraft,
   fieldErrors: SkillEffectResultDraftErrors
 ): SkillEffectValueRule | null {
-  const needed = requiresValueRule(draft.resultType, draft.cooldownOperation, draft.lifecycleOperation);
+  const needed = draftRequiresValueRule(draft);
   const value = draft.value;
   const multiplierRaw = draft.fixedMultiplier.trim();
   const minRaw = draft.fixedMinValue.trim();
@@ -2456,6 +2509,10 @@ function validateValueRule(
 
   const fixedMinValue = parseOptionalDecimal(minRaw, fieldErrors, 'fixedMinValue', '固定最小值');
   const fixedMaxValue = parseOptionalDecimal(maxRaw, fieldErrors, 'fixedMaxValue', '固定最大值');
+  if (isMovementSlowApply(draft)) {
+    if (fixedMinValue !== 0) fieldErrors.fixedMinValue = '减速比例的固定最小值必须为 0。';
+    if (fixedMaxValue !== 1) fieldErrors.fixedMaxValue = '减速比例的固定最大值必须为 1。';
+  }
   if (
     fixedMinValue !== null
     && fixedMaxValue !== null
@@ -2626,7 +2683,7 @@ function validateTypeSpecificFields(
       ) {
         fieldErrors.cooldownOperation = '请选择操作。';
       }
-      if (requiresValueRule(draft.resultType, draft.cooldownOperation, draft.lifecycleOperation)) {
+      if (draftRequiresValueRule(draft)) {
         validateCatalogRef(options, 'formulas', draft.value, draft.value, fieldErrors, 'value', { allowDisabled: true });
       }
       break;
@@ -2646,6 +2703,21 @@ function validateTypeSpecificFields(
         fieldErrors.statusOperation = '请选择操作。';
       }
       validateCatalogRef(options, 'statuses', draft.statusKey, draft.originalStatusKey, fieldErrors, 'statusKey');
+      if (!isStatusKind(draft.statusKind) || options.catalogLoadState?.statuses === 'failed') {
+        fieldErrors.statusKey ||= '状态种类尚未确认，请重新加载状态目录。';
+      }
+      if (isMovementSlowApply(draft)) {
+        if (!context.lifecycleEnabled || !context.hasDuration) {
+          fieldErrors.lifecycleBehavior = '普通移动减速需要启用有持续时间的父效果生命周期。';
+        }
+        const behavior = draft.lifecycleBehavior;
+        if (behavior.moment !== 'PERSISTENT') fieldErrors.moment = '普通移动减速只能持续生效。';
+        if (behavior.valueReadMode !== 'APPLICATION_SNAPSHOT') fieldErrors.valueReadMode = '普通移动减速必须使用施加时留存。';
+        if (behavior.stackValueMode !== 'SHARED') fieldErrors.stackValueMode = '普通移动减速必须整个实例共享数值。';
+        if (behavior.reapplicationValueMode !== 'REPLACE') fieldErrors.reapplicationValueMode = '普通移动减速的重复值必须覆盖。';
+        if (behavior.periodicExecutionMode) fieldErrors.periodicExecutionMode = '普通移动减速不能周期执行。';
+        validateCatalogRef(options, 'formulas', draft.value, draft.value, fieldErrors, 'value', { allowDisabled: true });
+      }
       break;
     case 'LIFECYCLE_OPERATION':
       requireNonEmpty(draft.targetEffectKey, fieldErrors, 'targetEffectKey', '请选择目标效果。');
@@ -2653,7 +2725,7 @@ function validateTypeSpecificFields(
         fieldErrors.lifecycleOperation = '请选择操作。';
       }
       validateLifecycleTarget(draft, options, fieldErrors, context.parentEffectKey);
-      if (requiresValueRule(draft.resultType, draft.cooldownOperation, draft.lifecycleOperation)) {
+      if (draftRequiresValueRule(draft)) {
         validateCatalogRef(options, 'formulas', draft.value, draft.value, fieldErrors, 'value', { allowDisabled: true });
       }
       break;
@@ -3245,6 +3317,11 @@ function validateCatalogRef(
   if (!trimmed) {
     return;
   }
+  if (kind === 'statuses' && options.catalogLoadState?.statuses !== 'ready') {
+    fieldErrors[field] = options.catalogLoadState?.statuses === 'failed'
+      ? INCOMPLETE_CATALOG_MESSAGE : '状态目录尚未加载完成，请等待或重试。';
+    return;
+  }
   if (options.catalogLoadState?.[kind] === 'failed') {
     fieldErrors[field] = INCOMPLETE_CATALOG_MESSAGE;
     return;
@@ -3500,7 +3577,8 @@ function cloneResultRequest(result: SkillEffectResultRequest): SkillEffectResult
         }
       };
     case 'STATUS_OPERATION':
-      return { ...result, lifecycleBehavior, valueRule: null, detail: { ...result.detail } };
+      return { ...result, lifecycleBehavior, valueRule: result.valueRule
+        ? { ...result.valueRule, value: { ...result.valueRule.value } } : null, detail: { ...result.detail } };
     case 'LIFECYCLE_OPERATION':
       if (result.valueRule === null) {
         return { ...result, lifecycleBehavior, valueRule: null, detail: { ...result.detail } };

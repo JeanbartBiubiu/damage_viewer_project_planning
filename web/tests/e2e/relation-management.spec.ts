@@ -32,7 +32,7 @@ function catalogs(gameId: string): Record<string, Row[]> {
       { ...enabled, skillKey: 'guard', name: `${prefix}守护技能`, maxLevel: 5, skillCategoryKeys: [] },
       { ...enabled, skillKey: 'disabled_skill', name: `${prefix}停用技能`, status: 'DISABLED', maxLevel: 5, skillCategoryKeys: [] }
     ],
-    statuses: [{ ...enabled, statusKey: 'stun', name: `${prefix}眩晕状态` }],
+    statuses: [{ ...enabled, statusKey: 'stun', statusKind: 'STUN', name: `${prefix}眩晕状态` }],
     'skill-categories': [],
     'damage-types': [],
     'modifier-zones': [],
