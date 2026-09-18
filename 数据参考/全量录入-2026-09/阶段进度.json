@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-18T22:21:11.014Z",
+  "generatedAt": "2026-09-18T22:42:22.593Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -9772,6 +9772,34 @@
           "sha256": "d12ce83ef0a000c8b854045d7065089cf43687818d617ddbb8968829f6baf9fd"
         }
       ]
+    },
+    "morganaQActualDamageBackfill": {
+      "at": "2026-09-18T22:42:22.593Z",
+      "status": "莫甘娜Q实际命中伤害已保存并独立回读；禁锢及代表页面待续",
+      "skills": [
+        "morgana_q"
+      ],
+      "created": {
+        "effects": 1,
+        "triggerRules": 1
+      },
+      "prepareGETs": 27,
+      "writerGETs": 31,
+      "writerPOSTs": 2,
+      "immediateReadbacks": 2,
+      "independentGETs": 27,
+      "unchangedResponsesIncludingTimestamps": 23,
+      "expectedChangedCollections": 2,
+      "arithmeticCases": 15,
+      "targetBoundary": "原技能可命中其他敌方单位；CHAMPION条件只筛本轮1V1唯一敌方英雄。",
+      "browser": "NOT_RUN_BROWSER_UNAVAILABLE",
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/莫甘娜Q实际命中伤害补录/09-证据清单.json",
+        "sha256": "ba6753c472c9db7ec8694a5d08c26c9af93d151bb354b3cd6bc27e4b2df9c50f",
+        "commit": "401bfc42"
+      }
     }
   },
   "runtimeValidation": "未执行",
@@ -10018,6 +10046,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/五项法师技能使用登记补录/09-证据清单.json",
         "sha256": "3fb75d904ba742b527fb8866874fc9ec04f108b5d3b091640bf23b6a6ac4514a",
         "commit": "b0e3e7b8"
+      },
+      "morganaQActualDamageBackfill": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/莫甘娜Q实际命中伤害补录/09-证据清单.json",
+        "sha256": "ba6753c472c9db7ec8694a5d08c26c9af93d151bb354b3cd6bc27e4b2df9c50f",
+        "commit": "401bfc42"
       }
     },
     "coverage": {
@@ -22591,13 +22625,14 @@
         "name": "莫甘娜·暗之禁锢",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已补基础法力与普通冷却登记，莫甘娜Q缺失冷却采用同版明确10秒；其他原候选相关组成及代表页面继续处理，不计整技能管理完成。",
+        "reason": "基础使用消耗、普通冷却及一次实际命中魔法伤害均已保存并独立回读；禁锢状态身份和持续接线、旧说明及代表页面待续，不计整技能管理完成。",
         "batchKey": "heroThirtyFirstBatch",
         "candidateSha256": "bf26b9374fc305af52e7298934a54244aec5bec0166017ae5a99a38a2019ddcc",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
-          "fiveMageUseRegistrationBackfill"
+          "fiveMageUseRegistrationBackfill",
+          "morganaQActualDamageBackfill"
         ],
         "historicalPendingCounts": {
           "source": 0,
@@ -22606,9 +22641,8 @@
           "other": 0
         },
         "remainingBranches": [
-          "实际命中伤害效果和入口",
-          "禁锢控制身份、持续及命中接线",
-          "代表页面验收及相关过时说明整理"
+          "禁锢控制身份、持续及合法命中接线",
+          "代表页面验收及过时说明整理"
         ],
         "remainingBranchesBoundary": "仅更新本次已录使用登记；原候选继续作为其他未完成分支依据，不重放旧请求。空间辅助参数按原范围判断，不自动扩大为1V1完成前置。",
         "authoredCostCooldown": {
@@ -22621,10 +22655,22 @@
         "currentComponentCounts": {
           "parameters": 5,
           "formulas": 1,
-          "effects": 1,
+          "effects": 2,
           "processes": 1,
           "internalStates": 0,
-          "triggerRules": 1
+          "triggerRules": 2
+        },
+        "separateRelatedBranch": "莫甘娜被动的实际伤害治疗在被动条目继续处理，本次没有用全能吸血配置冒充被动。",
+        "authoredActualDamage": {
+          "effectKey": "primary_hit",
+          "ruleKey": "resolve_on_q_hit",
+          "formulaKey": "magic_damage",
+          "eventType": "SKILL_HIT",
+          "targetCategories": [
+            "CHAMPION"
+          ],
+          "httpReadback": "PASS",
+          "browser": "待验"
         }
       },
       {
