@@ -1,0 +1,2233 @@
+{
+  "at": "2026-09-18T22:50:13.081Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/skills/veigar_q": {
+      "createdAt": "2026-09-06T18:20:54.808589Z",
+      "description": "维迦释放一束黑暗能量，对最先被命中的两个敌人造成魔法伤害。被这个能量束所击杀的单位，会永久地为维迦提供一些法术强度。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "维迦·黑暗祭祀",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "veigar_q",
+      "sortOrder": 1,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:20:54.808589Z"
+    },
+    "/skills/veigar_q/parameters": [
+      {
+        "createdAt": "2026-09-07T18:54:04.453073Z",
+        "description": "官方16.17.1与当前根对象cooldownTime索引1起一致。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 6000,
+          "2": 5500,
+          "3": 5000,
+          "4": 4500,
+          "5": 4000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "veigar_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:54:04.453073Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:54:05.822765Z",
+        "description": "官方cost与当前manaValues.values索引0起一致；明确0消耗保留。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 30,
+          "2": 35,
+          "3": 40,
+          "4": 45,
+          "5": 50
+        },
+        "name": "法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "veigar_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T18:54:05.822765Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:54:06.401901Z",
+        "description": "当前spellCastTime与已有mCastTime一致；不代替命中。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "veigar_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T18:54:06.401901Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:54:06.92917Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 80,
+          "2": 120,
+          "3": 160,
+          "4": 200,
+          "5": 240
+        },
+        "name": "基础伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "veigar_q",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-07T18:54:06.92917Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:54:07.489248Z",
+        "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.5,
+          "2": 0.55,
+          "3": 0.6,
+          "4": 0.65,
+          "5": 0.7
+        },
+        "name": "法强倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "veigar_q",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-07T18:54:07.489248Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      }
+    ],
+    "/skills/veigar_q/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T18:54:04.453073Z",
+      "description": "官方16.17.1与当前根对象cooldownTime索引1起一致。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 6000,
+        "2": 5500,
+        "3": 5000,
+        "4": 4500,
+        "5": 4000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "veigar_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T18:54:04.453073Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/veigar_q/parameters/mana_cost": {
+      "createdAt": "2026-09-07T18:54:05.822765Z",
+      "description": "官方cost与当前manaValues.values索引0起一致；明确0消耗保留。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 30,
+        "2": 35,
+        "3": 40,
+        "4": 45,
+        "5": 50
+      },
+      "name": "法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "veigar_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-07T18:54:05.822765Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/veigar_q/parameters/cast_time_ms": {
+      "createdAt": "2026-09-07T18:54:06.401901Z",
+      "description": "当前spellCastTime与已有mCastTime一致；不代替命中。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "veigar_q",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-07T18:54:06.401901Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/veigar_q/parameters/base_damage": {
+      "createdAt": "2026-09-07T18:54:06.92917Z",
+      "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 80,
+        "2": 120,
+        "3": 160,
+        "4": 200,
+        "5": 240
+      },
+      "name": "基础伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "veigar_q",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-07T18:54:06.92917Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/veigar_q/parameters/ap_ratio": {
+      "createdAt": "2026-09-07T18:54:07.489248Z",
+      "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 0.5,
+        "2": 0.55,
+        "3": 0.6,
+        "4": 0.65,
+        "5": 0.7
+      },
+      "name": "法强倍率",
+      "parameterKey": "ap_ratio",
+      "skillKey": "veigar_q",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-07T18:54:07.489248Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "DECIMAL"
+    },
+    "/skills/veigar_q/formulas": [
+      {
+        "createdAt": "2026-09-07T18:54:08.018604Z",
+        "description": "当前根TotalDamage：基础伤害+法强倍率×总法强。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "黑暗祭祀基础伤害",
+        "skillKey": "veigar_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:54:08.018604Z"
+      }
+    ],
+    "/skills/veigar_q/formulas/damage": {
+      "createdAt": "2026-09-07T18:54:08.018604Z",
+      "description": "当前根TotalDamage：基础伤害+法强倍率×总法强。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "黑暗祭祀基础伤害",
+      "skillKey": "veigar_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T18:54:08.018604Z"
+    },
+    "/skills/veigar_q/effects": [
+      {
+        "createdAt": "2026-09-07T18:54:08.509432Z",
+        "description": "仅施放法力消耗；具体过程单独绑定。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "veigar_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:54:08.509432Z"
+      },
+      {
+        "createdAt": "2026-09-07T18:54:09.212789Z",
+        "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+        "effectKey": "baleful_strike_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "黑暗能量命中",
+        "resultCount": 1,
+        "skillKey": "veigar_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T18:54:09.212789Z"
+      }
+    ],
+    "/skills/veigar_q/effects/mana_cost": {
+      "createdAt": "2026-09-07T18:54:08.509432Z",
+      "description": "仅施放法力消耗；具体过程单独绑定。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "veigar_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T18:54:08.509432Z"
+    },
+    "/skills/veigar_q/effects/baleful_strike_hit": {
+      "createdAt": "2026-09-07T18:54:09.212789Z",
+      "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+      "effectKey": "baleful_strike_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "黑暗能量命中",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": []
+          },
+          "lifecycleBehavior": null,
+          "name": "黑暗能量命中",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "RESULT",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "veigar_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-07T18:54:09.212789Z"
+    },
+    "/skills/veigar_q/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-07T18:54:09.776797Z",
+        "description": "只绑定法力、基础冷却及施法延迟；不在过程结束时自动造成伤害。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "施放黑暗祭祀",
+        "processKey": "cast",
+        "skillKey": "veigar_q",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-07T18:54:09.776797Z"
+      }
+    ],
+    "/skills/veigar_q/processes/cast": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-07T18:54:09.776797Z",
+      "description": "只绑定法力、基础冷却及施法延迟；不在过程结束时自动造成伤害。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "施放黑暗祭祀",
+      "processKey": "cast",
+      "skillKey": "veigar_q",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "主技能已核对的施法时间。",
+          "detail": {
+            "delayValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cast_time_ms"
+            }
+          },
+          "name": "施法延迟",
+          "sortOrder": 10,
+          "stepKey": "cast_time",
+          "stepType": "DELAY"
+        }
+      ],
+      "updatedAt": "2026-09-07T18:54:09.776797Z"
+    },
+    "/skills/veigar_q/internal-states": [],
+    "/skills/veigar_q/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "黑暗祭祀实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:54:10.357169Z"
+      }
+    ],
+    "/skills/veigar_q/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "damage",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "baleful_strike_hit"
+          },
+          "name": "执行命中伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "veigar_q",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "黑暗祭祀实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    },
+    "/skills/veigar_w": {
+      "createdAt": "2026-09-06T18:20:55.106128Z",
+      "description": "维迦召唤一大团黑暗物质轰击目标区域，落地造成魔法伤害。【超凡邪力】的层数会缩短这个技能的冷却时间。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "维迦·黑暗物质",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "veigar_w",
+      "sortOrder": 2,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:20:55.106128Z"
+    },
+    "/skills/veigar_w/parameters": [
+      {
+        "createdAt": "2026-09-07T18:54:11.263943Z",
+        "description": "官方cost与当前manaValues.values索引0起一致；明确0消耗保留。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 65,
+          "3": 70,
+          "4": 75,
+          "5": 80
+        },
+        "name": "法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "veigar_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:54:11.263943Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:54:11.836199Z",
+        "description": "当前spellCastTime与已有mCastTime一致；不代替命中。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "veigar_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T18:54:11.836199Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:54:12.476376Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 85,
+          "2": 140,
+          "3": 195,
+          "4": 250,
+          "5": 305
+        },
+        "name": "基础伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "veigar_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T18:54:12.476376Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:54:13.106763Z",
+        "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.7,
+          "2": 0.8,
+          "3": 0.9,
+          "4": 1,
+          "5": 1.1
+        },
+        "name": "法强倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "veigar_w",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-07T18:54:13.106763Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T18:54:13.654962Z",
+        "description": "客户端当前根绑定 DataValues.BaseCooldown 取索引1至5。",
+        "fixedValue": 8000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "零被动层数基础冷却（毫秒）",
+        "parameterKey": "base_cooldown_ms",
+        "skillKey": "veigar_w",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-07T18:54:13.654962Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:54:14.245145Z",
+        "description": "客户端当前根绑定 DataValues.ImpactDelay 取索引1至5。",
+        "fixedValue": 1200,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "黑暗物质落下延迟（毫秒）",
+        "parameterKey": "impact_delay_ms",
+        "skillKey": "veigar_w",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-07T18:54:14.245145Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/veigar_w/parameters/mana_cost": {
+      "createdAt": "2026-09-07T18:54:11.263943Z",
+      "description": "官方cost与当前manaValues.values索引0起一致；明确0消耗保留。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 60,
+        "2": 65,
+        "3": 70,
+        "4": 75,
+        "5": 80
+      },
+      "name": "法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "veigar_w",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T18:54:11.263943Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/veigar_w/parameters/cast_time_ms": {
+      "createdAt": "2026-09-07T18:54:11.836199Z",
+      "description": "当前spellCastTime与已有mCastTime一致；不代替命中。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "veigar_w",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-07T18:54:11.836199Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/veigar_w/parameters/base_damage": {
+      "createdAt": "2026-09-07T18:54:12.476376Z",
+      "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 85,
+        "2": 140,
+        "3": 195,
+        "4": 250,
+        "5": 305
+      },
+      "name": "基础伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "veigar_w",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-07T18:54:12.476376Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/veigar_w/parameters/ap_ratio": {
+      "createdAt": "2026-09-07T18:54:13.106763Z",
+      "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 0.7,
+        "2": 0.8,
+        "3": 0.9,
+        "4": 1,
+        "5": 1.1
+      },
+      "name": "法强倍率",
+      "parameterKey": "ap_ratio",
+      "skillKey": "veigar_w",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-07T18:54:13.106763Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "DECIMAL"
+    },
+    "/skills/veigar_w/parameters/base_cooldown_ms": {
+      "createdAt": "2026-09-07T18:54:13.654962Z",
+      "description": "客户端当前根绑定 DataValues.BaseCooldown 取索引1至5。",
+      "fixedValue": 8000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "零被动层数基础冷却（毫秒）",
+      "parameterKey": "base_cooldown_ms",
+      "skillKey": "veigar_w",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-07T18:54:13.654962Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/veigar_w/parameters/impact_delay_ms": {
+      "createdAt": "2026-09-07T18:54:14.245145Z",
+      "description": "客户端当前根绑定 DataValues.ImpactDelay 取索引1至5。",
+      "fixedValue": 1200,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "黑暗物质落下延迟（毫秒）",
+      "parameterKey": "impact_delay_ms",
+      "skillKey": "veigar_w",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-07T18:54:14.245145Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/veigar_w/formulas": [
+      {
+        "createdAt": "2026-09-07T18:54:14.854157Z",
+        "description": "当前根TotalDamage：基础伤害+法强倍率×总法强。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "黑暗物质基础伤害",
+        "skillKey": "veigar_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:54:14.854157Z"
+      }
+    ],
+    "/skills/veigar_w/formulas/damage": {
+      "createdAt": "2026-09-07T18:54:14.854157Z",
+      "description": "当前根TotalDamage：基础伤害+法强倍率×总法强。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "黑暗物质基础伤害",
+      "skillKey": "veigar_w",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T18:54:14.854157Z"
+    },
+    "/skills/veigar_w/effects": [
+      {
+        "createdAt": "2026-09-07T18:54:15.462719Z",
+        "description": "仅施放法力消耗；具体过程单独绑定。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "veigar_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:54:15.462719Z"
+      },
+      {
+        "createdAt": "2026-09-07T18:54:16.086803Z",
+        "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+        "effectKey": "dark_matter_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "黑暗物质实际命中",
+        "resultCount": 1,
+        "skillKey": "veigar_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T18:54:16.086803Z"
+      }
+    ],
+    "/skills/veigar_w/effects/mana_cost": {
+      "createdAt": "2026-09-07T18:54:15.462719Z",
+      "description": "仅施放法力消耗；具体过程单独绑定。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "veigar_w",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T18:54:15.462719Z"
+    },
+    "/skills/veigar_w/effects/dark_matter_hit": {
+      "createdAt": "2026-09-07T18:54:16.086803Z",
+      "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+      "effectKey": "dark_matter_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "黑暗物质实际命中",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": []
+          },
+          "lifecycleBehavior": null,
+          "name": "黑暗物质实际命中",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "RESULT",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "veigar_w",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-07T18:54:16.086803Z"
+    },
+    "/skills/veigar_w/processes": [],
+    "/skills/veigar_w/internal-states": [],
+    "/skills/veigar_w/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "黑暗物质实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:54:16.926509Z"
+      }
+    ],
+    "/skills/veigar_w/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "damage",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "dark_matter_hit"
+          },
+          "name": "执行命中伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "veigar_w",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "黑暗物质实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    },
+    "/skills/annie_q": {
+      "createdAt": "2026-09-06T18:16:26.185014Z",
+      "description": "安妮向目标投出注入了法力值的火球，对目标造成魔法伤害。如果目标死于碎裂之火，则碎裂之火消耗的法力值会返还给安妮，且碎裂之火的冷却时间减半。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "安妮·碎裂之火",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "annie_q",
+      "sortOrder": 1,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:16:26.185014Z"
+    },
+    "/skills/annie_q/parameters": [
+      {
+        "createdAt": "2026-09-07T16:37:37.370399Z",
+        "description": "官方16.17.1冷却与当前主技能 cooldownTime[1..等级上限]一致；仅基础冷却，不含急速和重置。",
+        "fixedValue": 4000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "annie_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:37:37.370399Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:37.697231Z",
+        "description": "官方16.17.1 cost与主技能mana索引0..等级上限-1一致。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 65,
+          "3": 70,
+          "4": 75,
+          "5": 80
+        },
+        "name": "法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "annie_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T16:37:37.697231Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:38.104236Z",
+        "description": "当前主技能 spellCastTime；仅施法延迟，不代替实际命中。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "annie_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T16:37:38.104236Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:38.711728Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 80,
+          "2": 125,
+          "3": 170,
+          "4": 215,
+          "5": 260
+        },
+        "name": "基础伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "annie_q",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-07T16:37:38.711728Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:39.175526Z",
+        "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+        "fixedValue": 0.8,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法术强度倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "annie_q",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-07T16:37:39.175526Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:39.570449Z",
+        "description": "官方Q说明目标阵亡返还法力并缩短50%冷却。",
+        "fixedValue": 0.5,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "击杀冷却缩短比例",
+        "parameterKey": "kill_cooldown_refund_ratio",
+        "skillKey": "annie_q",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-07T16:37:39.570449Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    ],
+    "/skills/annie_q/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T16:37:37.370399Z",
+      "description": "官方16.17.1冷却与当前主技能 cooldownTime[1..等级上限]一致；仅基础冷却，不含急速和重置。",
+      "fixedValue": 4000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "annie_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T16:37:37.370399Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/annie_q/parameters/mana_cost": {
+      "createdAt": "2026-09-07T16:37:37.697231Z",
+      "description": "官方16.17.1 cost与主技能mana索引0..等级上限-1一致。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 60,
+        "2": 65,
+        "3": 70,
+        "4": 75,
+        "5": 80
+      },
+      "name": "法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "annie_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-07T16:37:37.697231Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/annie_q/parameters/cast_time_ms": {
+      "createdAt": "2026-09-07T16:37:38.104236Z",
+      "description": "当前主技能 spellCastTime；仅施法延迟，不代替实际命中。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "annie_q",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-07T16:37:38.104236Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/annie_q/parameters/base_damage": {
+      "createdAt": "2026-09-07T16:37:38.711728Z",
+      "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 80,
+        "2": 125,
+        "3": 170,
+        "4": 215,
+        "5": 260
+      },
+      "name": "基础伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "annie_q",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-07T16:37:38.711728Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/annie_q/parameters/ap_ratio": {
+      "createdAt": "2026-09-07T16:37:39.175526Z",
+      "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+      "fixedValue": 0.8,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法术强度倍率",
+      "parameterKey": "ap_ratio",
+      "skillKey": "annie_q",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-07T16:37:39.175526Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/annie_q/parameters/kill_cooldown_refund_ratio": {
+      "createdAt": "2026-09-07T16:37:39.570449Z",
+      "description": "官方Q说明目标阵亡返还法力并缩短50%冷却。",
+      "fixedValue": 0.5,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "击杀冷却缩短比例",
+      "parameterKey": "kill_cooldown_refund_ratio",
+      "skillKey": "annie_q",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-07T16:37:39.570449Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/annie_q/formulas": [
+      {
+        "createdAt": "2026-09-07T16:37:39.983262Z",
+        "description": "当前根技能 TotalDamage：基础伤害+来源总法术强度×倍率。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "碎裂之火伤害",
+        "skillKey": "annie_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:37:39.983262Z"
+      }
+    ],
+    "/skills/annie_q/formulas/damage": {
+      "createdAt": "2026-09-07T16:37:39.983262Z",
+      "description": "当前根技能 TotalDamage：基础伤害+来源总法术强度×倍率。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "碎裂之火伤害",
+      "skillKey": "annie_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T16:37:39.983262Z"
+    },
+    "/skills/annie_q/effects": [
+      {
+        "createdAt": "2026-09-07T16:37:40.326971Z",
+        "description": "仅施放法力消耗；具体过程单独绑定。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "annie_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:37:40.326971Z"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:40.698135Z",
+        "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+        "effectKey": "spell_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "碎裂之火命中",
+        "resultCount": 1,
+        "skillKey": "annie_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T16:37:40.698135Z"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:41.030486Z",
+        "description": "仅Q导致目标阵亡时使用；未挂任意击杀事件。",
+        "effectKey": "kill_mana_refund",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "Q击杀返还法力",
+        "resultCount": 1,
+        "skillKey": "annie_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T16:37:41.030486Z"
+      }
+    ],
+    "/skills/annie_q/effects/mana_cost": {
+      "createdAt": "2026-09-07T16:37:40.326971Z",
+      "description": "仅施放法力消耗；具体过程单独绑定。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "annie_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T16:37:40.326971Z"
+    },
+    "/skills/annie_q/effects/spell_hit": {
+      "createdAt": "2026-09-07T16:37:40.698135Z",
+      "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+      "effectKey": "spell_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "碎裂之火命中",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": []
+          },
+          "lifecycleBehavior": null,
+          "name": "碎裂之火命中",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "RESULT",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "annie_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-07T16:37:40.698135Z"
+    },
+    "/skills/annie_q/effects/kill_mana_refund": {
+      "createdAt": "2026-09-07T16:37:41.030486Z",
+      "description": "仅Q导致目标阵亡时使用；未挂任意击杀事件。",
+      "effectKey": "kill_mana_refund",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "Q击杀返还法力",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "REFUND"
+          },
+          "lifecycleBehavior": null,
+          "name": "返还施放法力",
+          "resultKey": "refund_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "annie_q",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-07T16:37:41.030486Z"
+    },
+    "/skills/annie_q/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-07T16:37:41.475423Z",
+        "description": "只绑定法力、基础冷却及施法延迟；不在过程结束时自动造成伤害。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "施放碎裂之火",
+        "processKey": "cast",
+        "skillKey": "annie_q",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-07T16:37:41.475423Z"
+      }
+    ],
+    "/skills/annie_q/processes/cast": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-07T16:37:41.475423Z",
+      "description": "只绑定法力、基础冷却及施法延迟；不在过程结束时自动造成伤害。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "施放碎裂之火",
+      "processKey": "cast",
+      "skillKey": "annie_q",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "主技能已核对的施法时间。",
+          "detail": {
+            "delayValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cast_time_ms"
+            }
+          },
+          "name": "施法延迟",
+          "sortOrder": 10,
+          "stepKey": "cast_time",
+          "stepType": "DELAY"
+        }
+      ],
+      "updatedAt": "2026-09-07T16:37:41.475423Z"
+    },
+    "/skills/annie_q/internal-states": [],
+    "/skills/annie_q/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "碎裂之火实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:37:41.869179Z"
+      }
+    ],
+    "/skills/annie_q/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "damage",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "spell_hit"
+          },
+          "name": "执行命中伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "annie_q",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "碎裂之火实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    },
+    "/skills/brand_q": {
+      "createdAt": "2026-09-06T18:17:56.496373Z",
+      "description": "布兰德向前方放出一团可造成魔法伤害的火球。如果目标带有【烈焰焚身】效果，那么【Q火焰烙印】将使目标晕眩。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "布兰德·火焰烙印",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "brand_q",
+      "sortOrder": 1,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:17:56.496373Z"
+    },
+    "/skills/brand_q/parameters": [
+      {
+        "createdAt": "2026-09-07T16:38:00.951497Z",
+        "description": "官方16.17.1冷却与当前主技能 cooldownTime[1..等级上限]一致；仅基础冷却，不含急速和重置。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 8000,
+          "2": 7500,
+          "3": 7000,
+          "4": 6500,
+          "5": 6000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "brand_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:38:00.951497Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:38:01.287475Z",
+        "description": "官方16.17.1 cost与主技能mana索引0..等级上限-1一致。",
+        "fixedValue": 70,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "brand_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T16:38:01.287475Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:38:01.704457Z",
+        "description": "当前主技能 spellCastTime；仅施法延迟，不代替实际命中。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "brand_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T16:38:01.704457Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:38:02.098106Z",
+        "description": "客户端当前根绑定 DataValues.SpellBaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 100,
+          "3": 130,
+          "4": 160,
+          "5": 190
+        },
+        "name": "基础伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "brand_q",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-07T16:38:02.098106Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:38:02.502269Z",
+        "description": "客户端 TotalDamage.mFormulaParts[1] 默认法术强度系数；按当前浮点设计值归一。",
+        "fixedValue": 0.65,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法术强度倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "brand_q",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-07T16:38:02.502269Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T16:38:02.906742Z",
+        "description": "客户端当前根绑定 DataValues.StunDuration 取索引1至5。",
+        "fixedValue": 1750,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "已有灼烧时眩晕持续（毫秒）",
+        "parameterKey": "stun_duration_ms",
+        "skillKey": "brand_q",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-07T16:38:02.906742Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/brand_q/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T16:38:00.951497Z",
+      "description": "官方16.17.1冷却与当前主技能 cooldownTime[1..等级上限]一致；仅基础冷却，不含急速和重置。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 8000,
+        "2": 7500,
+        "3": 7000,
+        "4": 6500,
+        "5": 6000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "brand_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T16:38:00.951497Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/brand_q/parameters/mana_cost": {
+      "createdAt": "2026-09-07T16:38:01.287475Z",
+      "description": "官方16.17.1 cost与主技能mana索引0..等级上限-1一致。",
+      "fixedValue": 70,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "brand_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-07T16:38:01.287475Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/brand_q/parameters/cast_time_ms": {
+      "createdAt": "2026-09-07T16:38:01.704457Z",
+      "description": "当前主技能 spellCastTime；仅施法延迟，不代替实际命中。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "brand_q",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-07T16:38:01.704457Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/brand_q/parameters/base_damage": {
+      "createdAt": "2026-09-07T16:38:02.098106Z",
+      "description": "客户端当前根绑定 DataValues.SpellBaseDamage 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 70,
+        "2": 100,
+        "3": 130,
+        "4": 160,
+        "5": 190
+      },
+      "name": "基础伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "brand_q",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-07T16:38:02.098106Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/brand_q/parameters/ap_ratio": {
+      "createdAt": "2026-09-07T16:38:02.502269Z",
+      "description": "客户端 TotalDamage.mFormulaParts[1] 默认法术强度系数；按当前浮点设计值归一。",
+      "fixedValue": 0.65,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法术强度倍率",
+      "parameterKey": "ap_ratio",
+      "skillKey": "brand_q",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-07T16:38:02.502269Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/brand_q/parameters/stun_duration_ms": {
+      "createdAt": "2026-09-07T16:38:02.906742Z",
+      "description": "客户端当前根绑定 DataValues.StunDuration 取索引1至5。",
+      "fixedValue": 1750,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "已有灼烧时眩晕持续（毫秒）",
+      "parameterKey": "stun_duration_ms",
+      "skillKey": "brand_q",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-07T16:38:02.906742Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/brand_q/formulas": [
+      {
+        "createdAt": "2026-09-07T16:38:03.273065Z",
+        "description": "当前根技能 TotalDamage：基础伤害+来源总法术强度×倍率。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "火焰烙印伤害",
+        "skillKey": "brand_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:38:03.273065Z"
+      }
+    ],
+    "/skills/brand_q/formulas/damage": {
+      "createdAt": "2026-09-07T16:38:03.273065Z",
+      "description": "当前根技能 TotalDamage：基础伤害+来源总法术强度×倍率。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "火焰烙印伤害",
+      "skillKey": "brand_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T16:38:03.273065Z"
+    },
+    "/skills/brand_q/effects": [
+      {
+        "createdAt": "2026-09-07T16:38:03.753249Z",
+        "description": "仅施放法力消耗；具体过程单独绑定。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "brand_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:38:03.753249Z"
+      },
+      {
+        "createdAt": "2026-09-07T16:38:04.104338Z",
+        "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+        "effectKey": "fireball_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "火球命中魔法伤害",
+        "resultCount": 1,
+        "skillKey": "brand_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T16:38:04.104338Z"
+      }
+    ],
+    "/skills/brand_q/effects/mana_cost": {
+      "createdAt": "2026-09-07T16:38:03.753249Z",
+      "description": "仅施放法力消耗；具体过程单独绑定。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "brand_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T16:38:03.753249Z"
+    },
+    "/skills/brand_q/effects/fireball_hit": {
+      "createdAt": "2026-09-07T16:38:04.104338Z",
+      "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+      "effectKey": "fireball_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "火球命中魔法伤害",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": []
+          },
+          "lifecycleBehavior": null,
+          "name": "火球命中魔法伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "RESULT",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "brand_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-07T16:38:04.104338Z"
+    },
+    "/skills/brand_q/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-07T16:38:04.496806Z",
+        "description": "只绑定法力、基础冷却及施法延迟；不在过程结束时自动造成伤害。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "施放火焰烙印",
+        "processKey": "cast",
+        "skillKey": "brand_q",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-07T16:38:04.496806Z"
+      }
+    ],
+    "/skills/brand_q/processes/cast": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-07T16:38:04.496806Z",
+      "description": "只绑定法力、基础冷却及施法延迟；不在过程结束时自动造成伤害。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "施放火焰烙印",
+      "processKey": "cast",
+      "skillKey": "brand_q",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "主技能已核对的施法时间。",
+          "detail": {
+            "delayValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cast_time_ms"
+            }
+          },
+          "name": "施法延迟",
+          "sortOrder": 10,
+          "stepKey": "cast_time",
+          "stepType": "DELAY"
+        }
+      ],
+      "updatedAt": "2026-09-07T16:38:04.496806Z"
+    },
+    "/skills/brand_q/internal-states": [],
+    "/skills/brand_q/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "火焰烙印实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:38:04.872549Z"
+      }
+    ],
+    "/skills/brand_q/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "damage",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "fireball_hit"
+          },
+          "name": "执行命中伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "brand_q",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "火焰烙印实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/veigar_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_q/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_q/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_q/effects/baleful_strike_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_q/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_q/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_w/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_w/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_w/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_w/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_w/parameters/base_cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_w/parameters/impact_delay_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_w/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_w/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_w/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_w/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_w/effects/dark_matter_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_w/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_w/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_w/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_w/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_q/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_q/parameters/kill_cooldown_refund_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_q/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_q/effects/spell_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_q/effects/kill_mana_refund",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_q/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_q/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_q/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_q/parameters/stun_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_q/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_q/effects/fireball_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_q/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_q/trigger-rules/actual_hit",
+      "status": 200
+    }
+  ],
+  "businessWrites": 0
+}

@@ -1,0 +1,580 @@
+{
+  "generatedAt": "2026-09-18T23:12:22.795Z",
+  "status": "PASS",
+  "reviewer": "/root/four_damage_vamp_review",
+  "command": "node tools/authoring/update-reviewed-damage-vamp.mjs readback 数据参考/全量录入-2026-09/交叉试录/四项既有伤害吸血资格纠错",
+  "toolExitCode": 0,
+  "rawStdout": "{\"status\":\"PASS\",\"at\":\"2026-09-18T23:12:22.795Z\",\"businessWrites\":0,\"GETs\":71,\"unchangedResponsesIncludingTimestamps\":63,\"expectedChangedCollections\":4,\"changedDetails\":{\"/skills/veigar_q/effects/baleful_strike_hit\":{\"createdAt\":\"2026-09-07T18:54:09.212789Z\",\"description\":\"本轮1V1唯一敌方英雄的普通直接魔法技能伤害；实际命中入口已配置，并显式登记防御结算后伤害、效率为1的全能吸血资格。其他控制、被动和目标分支分别维护。\",\"effectKey\":\"baleful_strike_hit\",\"gameId\":\"lol\",\"lifecycle\":null,\"name\":\"黑暗能量命中\",\"results\":[{\"description\":null,\"detail\":{\"critical\":{\"mode\":\"DISALLOWED\",\"multiplierValue\":null},\"damageTypeKey\":\"magic\",\"deliveryKind\":\"SKILL\",\"originKind\":\"DIRECT\",\"vampRules\":[{\"basisOutputKind\":\"POST_DEFENSE_DAMAGE\",\"efficiencyValue\":{\"kind\":\"FIXED\",\"value\":1},\"vampType\":\"OMNIVAMP\"}]},\"lifecycleBehavior\":null,\"name\":\"黑暗能量命中\",\"resultKey\":\"damage\",\"resultType\":\"DAMAGE\",\"sortOrder\":10,\"spellShieldBlockScope\":\"RESULT\",\"target\":\"TARGET\",\"valueRule\":{\"fixedMaxValue\":null,\"fixedMinValue\":0,\"fixedMultiplier\":1,\"value\":{\"formulaKey\":\"damage\",\"kind\":\"FORMULA\"}}}],\"skillKey\":\"veigar_q\",\"sortOrder\":20,\"updatedAt\":\"2026-09-18T23:09:36.99377Z\"},\"/skills/veigar_w/effects/dark_matter_hit\":{\"createdAt\":\"2026-09-07T18:54:16.086803Z\",\"description\":\"本轮1V1唯一敌方英雄的普通直接魔法技能伤害；实际命中入口已配置，并显式登记防御结算后伤害、效率为1的全能吸血资格。其他控制、被动和目标分支分别维护。\",\"effectKey\":\"dark_matter_hit\",\"gameId\":\"lol\",\"lifecycle\":null,\"name\":\"黑暗物质实际命中\",\"results\":[{\"description\":null,\"detail\":{\"critical\":{\"mode\":\"DISALLOWED\",\"multiplierValue\":null},\"damageTypeKey\":\"magic\",\"deliveryKind\":\"SKILL\",\"originKind\":\"DIRECT\",\"vampRules\":[{\"basisOutputKind\":\"POST_DEFENSE_DAMAGE\",\"efficiencyValue\":{\"kind\":\"FIXED\",\"value\":1},\"vampType\":\"OMNIVAMP\"}]},\"lifecycleBehavior\":null,\"name\":\"黑暗物质实际命中\",\"resultKey\":\"damage\",\"resultType\":\"DAMAGE\",\"sortOrder\":10,\"spellShieldBlockScope\":\"RESULT\",\"target\":\"TARGET\",\"valueRule\":{\"fixedMaxValue\":null,\"fixedMinValue\":0,\"fixedMultiplier\":1,\"value\":{\"formulaKey\":\"damage\",\"kind\":\"FORMULA\"}}}],\"skillKey\":\"veigar_w\",\"sortOrder\":20,\"updatedAt\":\"2026-09-18T23:09:39.097568Z\"},\"/skills/annie_q/effects/spell_hit\":{\"createdAt\":\"2026-09-07T16:37:40.698135Z\",\"description\":\"本轮1V1唯一敌方英雄的普通直接魔法技能伤害；实际命中入口已配置，并显式登记防御结算后伤害、效率为1的全能吸血资格。其他控制、被动和目标分支分别维护。\",\"effectKey\":\"spell_hit\",\"gameId\":\"lol\",\"lifecycle\":null,\"name\":\"碎裂之火命中\",\"results\":[{\"description\":null,\"detail\":{\"critical\":{\"mode\":\"DISALLOWED\",\"multiplierValue\":null},\"damageTypeKey\":\"magic\",\"deliveryKind\":\"SKILL\",\"originKind\":\"DIRECT\",\"vampRules\":[{\"basisOutputKind\":\"POST_DEFENSE_DAMAGE\",\"efficiencyValue\":{\"kind\":\"FIXED\",\"value\":1},\"vampType\":\"OMNIVAMP\"}]},\"lifecycleBehavior\":null,\"name\":\"碎裂之火命中\",\"resultKey\":\"damage\",\"resultType\":\"DAMAGE\",\"sortOrder\":10,\"spellShieldBlockScope\":\"RESULT\",\"target\":\"TARGET\",\"valueRule\":{\"fixedMaxValue\":null,\"fixedMinValue\":0,\"fixedMultiplier\":1,\"value\":{\"formulaKey\":\"damage\",\"kind\":\"FORMULA\"}}}],\"skillKey\":\"annie_q\",\"sortOrder\":20,\"updatedAt\":\"2026-09-18T23:09:40.933832Z\"},\"/skills/brand_q/effects/fireball_hit\":{\"createdAt\":\"2026-09-07T16:38:04.104338Z\",\"description\":\"本轮1V1唯一敌方英雄的普通直接魔法技能伤害；实际命中入口已配置，并显式登记防御结算后伤害、效率为1的全能吸血资格。其他控制、被动和目标分支分别维护。\",\"effectKey\":\"fireball_hit\",\"gameId\":\"lol\",\"lifecycle\":null,\"name\":\"火球命中魔法伤害\",\"results\":[{\"description\":null,\"detail\":{\"critical\":{\"mode\":\"DISALLOWED\",\"multiplierValue\":null},\"damageTypeKey\":\"magic\",\"deliveryKind\":\"SKILL\",\"originKind\":\"DIRECT\",\"vampRules\":[{\"basisOutputKind\":\"POST_DEFENSE_DAMAGE\",\"efficiencyValue\":{\"kind\":\"FIXED\",\"value\":1},\"vampType\":\"OMNIVAMP\"}]},\"lifecycleBehavior\":null,\"name\":\"火球命中魔法伤害\",\"resultKey\":\"damage\",\"resultType\":\"DAMAGE\",\"sortOrder\":10,\"spellShieldBlockScope\":\"RESULT\",\"target\":\"TARGET\",\"valueRule\":{\"fixedMaxValue\":null,\"fixedMinValue\":0,\"fixedMultiplier\":1,\"value\":{\"formulaKey\":\"damage\",\"kind\":\"FORMULA\"}}}],\"skillKey\":\"brand_q\",\"sortOrder\":20,\"updatedAt\":\"2026-09-18T23:09:42.876496Z\"}},\"audit\":[{\"method\":\"GET\",\"path\":\"/skills/veigar_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/veigar_q/parameters\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/veigar_q/parameters/cooldown_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/veigar_q/parameters/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/veigar_q/parameters/cast_time_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/veigar_q/parameters/base_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/veigar_q/parameters/ap_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/veigar_q/formulas\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/veigar_q/formulas/damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/veigar_q/effects\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/veigar_q/effects/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/veigar_q/effects/baleful_strike_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/veigar_q/processes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/veigar_q/processes/cast\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/veigar_q/internal-states\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/veigar_q/trigger-rules\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/veigar_q/trigger-rules/actual_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/veigar_w\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/veigar_w/parameters\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/veigar_w/parameters/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/veigar_w/parameters/cast_time_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/veigar_w/parameters/base_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/veigar_w/parameters/ap_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/veigar_w/parameters/base_cooldown_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/veigar_w/parameters/impact_delay_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/veigar_w/formulas\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/veigar_w/formulas/damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/veigar_w/effects\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/veigar_w/effects/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/veigar_w/effects/dark_matter_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/veigar_w/processes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/veigar_w/internal-states\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/veigar_w/trigger-rules\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/veigar_w/trigger-rules/actual_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/annie_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/annie_q/parameters\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/annie_q/parameters/cooldown_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/annie_q/parameters/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/annie_q/parameters/cast_time_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/annie_q/parameters/base_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/annie_q/parameters/ap_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/annie_q/parameters/kill_cooldown_refund_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/annie_q/formulas\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/annie_q/formulas/damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/annie_q/effects\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/annie_q/effects/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/annie_q/effects/spell_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/annie_q/effects/kill_mana_refund\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/annie_q/processes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/annie_q/processes/cast\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/annie_q/internal-states\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/annie_q/trigger-rules\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/annie_q/trigger-rules/actual_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/brand_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/brand_q/parameters\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/brand_q/parameters/cooldown_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/brand_q/parameters/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/brand_q/parameters/cast_time_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/brand_q/parameters/base_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/brand_q/parameters/ap_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/brand_q/parameters/stun_duration_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/brand_q/formulas\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/brand_q/formulas/damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/brand_q/effects\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/brand_q/effects/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/brand_q/effects/fireball_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/brand_q/processes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/brand_q/processes/cast\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/brand_q/internal-states\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/brand_q/trigger-rules\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/brand_q/trigger-rules/actual_hit\",\"status\":200}]}\n",
+  "summary": {
+    "status": "PASS",
+    "at": "2026-09-18T23:12:22.795Z",
+    "businessWrites": 0,
+    "GETs": 71,
+    "unchangedResponsesIncludingTimestamps": 63,
+    "expectedChangedCollections": 4,
+    "changedDetails": {
+      "/skills/veigar_q/effects/baleful_strike_hit": {
+        "createdAt": "2026-09-07T18:54:09.212789Z",
+        "description": "本轮1V1唯一敌方英雄的普通直接魔法技能伤害；实际命中入口已配置，并显式登记防御结算后伤害、效率为1的全能吸血资格。其他控制、被动和目标分支分别维护。",
+        "effectKey": "baleful_strike_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "黑暗能量命中",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "黑暗能量命中",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "veigar_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-18T23:09:36.99377Z"
+      },
+      "/skills/veigar_w/effects/dark_matter_hit": {
+        "createdAt": "2026-09-07T18:54:16.086803Z",
+        "description": "本轮1V1唯一敌方英雄的普通直接魔法技能伤害；实际命中入口已配置，并显式登记防御结算后伤害、效率为1的全能吸血资格。其他控制、被动和目标分支分别维护。",
+        "effectKey": "dark_matter_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "黑暗物质实际命中",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "黑暗物质实际命中",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "veigar_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-18T23:09:39.097568Z"
+      },
+      "/skills/annie_q/effects/spell_hit": {
+        "createdAt": "2026-09-07T16:37:40.698135Z",
+        "description": "本轮1V1唯一敌方英雄的普通直接魔法技能伤害；实际命中入口已配置，并显式登记防御结算后伤害、效率为1的全能吸血资格。其他控制、被动和目标分支分别维护。",
+        "effectKey": "spell_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "碎裂之火命中",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "碎裂之火命中",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "annie_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-18T23:09:40.933832Z"
+      },
+      "/skills/brand_q/effects/fireball_hit": {
+        "createdAt": "2026-09-07T16:38:04.104338Z",
+        "description": "本轮1V1唯一敌方英雄的普通直接魔法技能伤害；实际命中入口已配置，并显式登记防御结算后伤害、效率为1的全能吸血资格。其他控制、被动和目标分支分别维护。",
+        "effectKey": "fireball_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "火球命中魔法伤害",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "火球命中魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "brand_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-18T23:09:42.876496Z"
+      }
+    },
+    "audit": [
+      {
+        "method": "GET",
+        "path": "/skills/veigar_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/veigar_q/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/veigar_q/parameters/cooldown_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/veigar_q/parameters/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/veigar_q/parameters/cast_time_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/veigar_q/parameters/base_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/veigar_q/parameters/ap_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/veigar_q/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/veigar_q/formulas/damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/veigar_q/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/veigar_q/effects/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/veigar_q/effects/baleful_strike_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/veigar_q/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/veigar_q/processes/cast",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/veigar_q/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/veigar_q/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/veigar_q/trigger-rules/actual_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/veigar_w",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/veigar_w/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/veigar_w/parameters/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/veigar_w/parameters/cast_time_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/veigar_w/parameters/base_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/veigar_w/parameters/ap_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/veigar_w/parameters/base_cooldown_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/veigar_w/parameters/impact_delay_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/veigar_w/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/veigar_w/formulas/damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/veigar_w/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/veigar_w/effects/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/veigar_w/effects/dark_matter_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/veigar_w/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/veigar_w/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/veigar_w/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/veigar_w/trigger-rules/actual_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/annie_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/annie_q/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/annie_q/parameters/cooldown_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/annie_q/parameters/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/annie_q/parameters/cast_time_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/annie_q/parameters/base_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/annie_q/parameters/ap_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/annie_q/parameters/kill_cooldown_refund_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/annie_q/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/annie_q/formulas/damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/annie_q/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/annie_q/effects/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/annie_q/effects/spell_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/annie_q/effects/kill_mana_refund",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/annie_q/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/annie_q/processes/cast",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/annie_q/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/annie_q/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/annie_q/trigger-rules/actual_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/brand_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/brand_q/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/brand_q/parameters/cooldown_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/brand_q/parameters/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/brand_q/parameters/cast_time_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/brand_q/parameters/base_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/brand_q/parameters/ap_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/brand_q/parameters/stun_duration_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/brand_q/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/brand_q/formulas/damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/brand_q/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/brand_q/effects/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/brand_q/effects/fireball_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/brand_q/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/brand_q/processes/cast",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/brand_q/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/brand_q/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/brand_q/trigger-rules/actual_hit",
+        "status": 200
+      }
+    ]
+  }
+}
+

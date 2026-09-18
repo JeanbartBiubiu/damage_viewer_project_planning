@@ -1,0 +1,411 @@
+{
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "requests": [
+    {
+      "method": "PUT",
+      "route": "/skills/veigar_q/effects/baleful_strike_hit",
+      "body": {
+        "name": "黑暗能量命中",
+        "description": "本轮1V1唯一敌方英雄的普通直接魔法技能伤害；实际命中入口已配置，并显式登记防御结算后伤害、效率为1的全能吸血资格。其他控制、被动和目标分支分别维护。",
+        "sortOrder": 20,
+        "lifecycle": null,
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "vampType": "OMNIVAMP",
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "黑暗能量命中",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-07T18:54:09.212789Z",
+        "description": "本轮1V1唯一敌方英雄的普通直接魔法技能伤害；实际命中入口已配置，并显式登记防御结算后伤害、效率为1的全能吸血资格。其他控制、被动和目标分支分别维护。",
+        "effectKey": "baleful_strike_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "黑暗能量命中",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "vampType": "OMNIVAMP",
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "黑暗能量命中",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "veigar_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T18:54:09.212789Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/veigar_w/effects/dark_matter_hit",
+      "body": {
+        "name": "黑暗物质实际命中",
+        "description": "本轮1V1唯一敌方英雄的普通直接魔法技能伤害；实际命中入口已配置，并显式登记防御结算后伤害、效率为1的全能吸血资格。其他控制、被动和目标分支分别维护。",
+        "sortOrder": 20,
+        "lifecycle": null,
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "vampType": "OMNIVAMP",
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "黑暗物质实际命中",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-07T18:54:16.086803Z",
+        "description": "本轮1V1唯一敌方英雄的普通直接魔法技能伤害；实际命中入口已配置，并显式登记防御结算后伤害、效率为1的全能吸血资格。其他控制、被动和目标分支分别维护。",
+        "effectKey": "dark_matter_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "黑暗物质实际命中",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "vampType": "OMNIVAMP",
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "黑暗物质实际命中",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "veigar_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T18:54:16.086803Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/annie_q/effects/spell_hit",
+      "body": {
+        "name": "碎裂之火命中",
+        "description": "本轮1V1唯一敌方英雄的普通直接魔法技能伤害；实际命中入口已配置，并显式登记防御结算后伤害、效率为1的全能吸血资格。其他控制、被动和目标分支分别维护。",
+        "sortOrder": 20,
+        "lifecycle": null,
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "vampType": "OMNIVAMP",
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "碎裂之火命中",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-07T16:37:40.698135Z",
+        "description": "本轮1V1唯一敌方英雄的普通直接魔法技能伤害；实际命中入口已配置，并显式登记防御结算后伤害、效率为1的全能吸血资格。其他控制、被动和目标分支分别维护。",
+        "effectKey": "spell_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "碎裂之火命中",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "vampType": "OMNIVAMP",
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "碎裂之火命中",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "annie_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T16:37:40.698135Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/brand_q/effects/fireball_hit",
+      "body": {
+        "name": "火球命中魔法伤害",
+        "description": "本轮1V1唯一敌方英雄的普通直接魔法技能伤害；实际命中入口已配置，并显式登记防御结算后伤害、效率为1的全能吸血资格。其他控制、被动和目标分支分别维护。",
+        "sortOrder": 20,
+        "lifecycle": null,
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "vampType": "OMNIVAMP",
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "火球命中魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-07T16:38:04.104338Z",
+        "description": "本轮1V1唯一敌方英雄的普通直接魔法技能伤害；实际命中入口已配置，并显式登记防御结算后伤害、效率为1的全能吸血资格。其他控制、被动和目标分支分别维护。",
+        "effectKey": "fireball_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "火球命中魔法伤害",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "vampType": "OMNIVAMP",
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "火球命中魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "brand_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T16:38:04.104338Z"
+      }
+    }
+  ],
+  "sourceSha256": "1fb08d448353ce0fed93938ab1180c107386ee3cd01d5c8aec38ac769ae47a55",
+  "baselineSha256": "8c0c55215439a687d66450a0d436fdf41f7a38d1569645a61fd29cc3d66fe844"
+}
