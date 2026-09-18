@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-18T22:42:22.593Z",
+  "generatedAt": "2026-09-18T23:14:37.728Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -9800,6 +9800,34 @@
         "sha256": "ba6753c472c9db7ec8694a5d08c26c9af93d151bb354b3cd6bc27e4b2df9c50f",
         "commit": "401bfc42"
       }
+    },
+    "fourExistingDamageVampCorrection": {
+      "at": "2026-09-18T23:14:37.728Z",
+      "status": "四项既有伤害空吸血资格已纠错并独立回读，页面待验",
+      "skills": [
+        "veigar_q",
+        "veigar_w",
+        "annie_q",
+        "brand_q"
+      ],
+      "updatedEffects": 4,
+      "created": 0,
+      "prepareGETs": 71,
+      "writerGETs": 79,
+      "writerPUTs": 4,
+      "immediateReadbacks": 4,
+      "independentGETs": 71,
+      "unchangedResponsesIncludingTimestamps": 63,
+      "expectedChangedCollections": 4,
+      "offlineGuardCases": 10,
+      "browser": "NOT_RUN_BROWSER_UNAVAILABLE",
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/四项既有伤害吸血资格纠错/09-证据清单.json",
+        "sha256": "d38b770895e5cc7de18f255a23183f320ca798d38ebbca3f3874c526c32a8e09",
+        "commit": "30eeae4d"
+      }
     }
   },
   "runtimeValidation": "未执行",
@@ -10052,6 +10080,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/莫甘娜Q实际命中伤害补录/09-证据清单.json",
         "sha256": "ba6753c472c9db7ec8694a5d08c26c9af93d151bb354b3cd6bc27e4b2df9c50f",
         "commit": "401bfc42"
+      },
+      "fourExistingDamageVampCorrection": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/四项既有伤害吸血资格纠错/09-证据清单.json",
+        "sha256": "d38b770895e5cc7de18f255a23183f320ca798d38ebbca3f3874c526c32a8e09",
+        "commit": "30eeae4d"
       }
     },
     "coverage": {
@@ -13321,7 +13355,7 @@
         "name": "安妮·碎裂之火",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有2个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "已保存明确组成；仍有2个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。 已纠正现存普通伤害的空吸血规则和过时说明；其他原待办保留，页面待验。",
         "pendingCounts": {
           "source": 0,
           "system": 0,
@@ -13332,8 +13366,25 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "fourExistingDamageVampCorrection"
+        ],
+        "currentComponentCounts": {
+          "parameters": 6,
+          "formulas": 1,
+          "effects": 3,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 1
+        },
+        "damageVampCorrection": {
+          "httpReadback": "PASS",
+          "vampType": "OMNIVAMP",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "efficiency": 1,
+          "retainedSpellShieldBlockScope": "RESULT",
+          "browser": "待验"
+        }
       },
       {
         "sourceChampionId": "Annie",
@@ -14380,7 +14431,7 @@
         "name": "布兰德·火焰烙印",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。 已纠正现存普通伤害的空吸血规则和过时说明；其他原待办保留，页面待验。",
         "pendingCounts": {
           "source": 0,
           "system": 0,
@@ -14391,8 +14442,25 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "fourExistingDamageVampCorrection"
+        ],
+        "currentComponentCounts": {
+          "parameters": 6,
+          "formulas": 1,
+          "effects": 2,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 1
+        },
+        "damageVampCorrection": {
+          "httpReadback": "PASS",
+          "vampType": "OMNIVAMP",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "efficiency": 1,
+          "retainedSpellShieldBlockScope": "RESULT",
+          "browser": "待验"
+        }
       },
       {
         "sourceChampionId": "Brand",
@@ -29988,7 +30056,7 @@
         "name": "维迦·黑暗祭祀",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。 已纠正现存普通伤害的空吸血规则和过时说明；其他原待办保留，页面待验。",
         "pendingCounts": {
           "source": 0,
           "system": 0,
@@ -29999,8 +30067,25 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "fourExistingDamageVampCorrection"
+        ],
+        "currentComponentCounts": {
+          "parameters": 5,
+          "formulas": 1,
+          "effects": 2,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 1
+        },
+        "damageVampCorrection": {
+          "httpReadback": "PASS",
+          "vampType": "OMNIVAMP",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "efficiency": 1,
+          "retainedSpellShieldBlockScope": "RESULT",
+          "browser": "待验"
+        }
       },
       {
         "sourceChampionId": "Veigar",
@@ -30011,7 +30096,7 @@
         "name": "维迦·黑暗物质",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。 已纠正现存普通伤害的空吸血规则和过时说明；其他原待办保留，页面待验。",
         "pendingCounts": {
           "source": 0,
           "system": 0,
@@ -30022,8 +30107,25 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "fourExistingDamageVampCorrection"
+        ],
+        "currentComponentCounts": {
+          "parameters": 6,
+          "formulas": 1,
+          "effects": 2,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 1
+        },
+        "damageVampCorrection": {
+          "httpReadback": "PASS",
+          "vampType": "OMNIVAMP",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "efficiency": 1,
+          "retainedSpellShieldBlockScope": "RESULT",
+          "browser": "待验"
+        }
       },
       {
         "sourceChampionId": "Veigar",
