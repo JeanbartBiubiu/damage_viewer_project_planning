@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-18T23:31:32.432Z",
+  "generatedAt": "2026-09-18T23:33:42.163Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -9875,6 +9875,38 @@
         "sha256": "caba1b87bd3f14f7131fa2c14e6b0664ef4661e4ab582f279dbb1e0867cf611c",
         "commit": "14c476ab"
       }
+    },
+    "eightSkillsTenDamageVampCorrection": {
+      "at": "2026-09-18T23:33:42.163Z",
+      "status": "八项技能十个已有伤害吸血资格已纠正并独立回读，页面待验",
+      "skills": [
+        "annie_w",
+        "brand_w",
+        "brand_e",
+        "malphite_q",
+        "malphite_e",
+        "malphite_r",
+        "diana_q",
+        "veigar_r"
+      ],
+      "updatedEffects": 10,
+      "created": 0,
+      "candidateGETs": 78,
+      "prepareGETs": 144,
+      "writerGETs": 164,
+      "writerPUTs": 10,
+      "immediateReadbacks": 10,
+      "independentGETs": 144,
+      "unchangedResponsesIncludingTimestamps": 126,
+      "expectedChangedCollections": 8,
+      "browser": "NOT_RUN_BROWSER_UNAVAILABLE",
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/八项技能十个伤害吸血资格纠错/09-证据清单.json",
+        "sha256": "c96d31952fcf3650f6b1367218ec60e7a23b50913e24824687f4e2ddbe14fa57",
+        "commit": "e26f7fa3"
+      }
     }
   },
   "runtimeValidation": "未执行",
@@ -10139,6 +10171,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/泽拉斯E伤害与使用流程补录/09-证据清单.json",
         "sha256": "4d1efa99b646509cc5ed7f1269eb2f5638d4cb13ad17ed0e9eceeff9765768c8",
         "commit": "3f0a5a6c"
+      },
+      "eightSkillsTenDamageVampCorrection": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/八项技能十个伤害吸血资格纠错/09-证据清单.json",
+        "sha256": "c96d31952fcf3650f6b1367218ec60e7a23b50913e24824687f4e2ddbe14fa57",
+        "commit": "e26f7fa3"
       }
     },
     "coverage": {
@@ -13448,7 +13486,7 @@
         "name": "安妮·焚烧",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。 既有普通伤害空吸血资格和过时说明已纠正；原条件、控制、被动或时序待办保留，页面待验。",
         "pendingCounts": {
           "source": 0,
           "system": 0,
@@ -13459,8 +13497,26 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "eightSkillsTenDamageVampCorrection"
+        ],
+        "currentComponentCounts": {
+          "parameters": 5,
+          "formulas": 1,
+          "effects": 2,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 1
+        },
+        "damageVampCorrection": {
+          "httpReadback": "PASS",
+          "effectCount": 1,
+          "vampType": "OMNIVAMP",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "efficiency": 1,
+          "retainedSpellShieldBlockScope": "RESULT",
+          "browser": "待验"
+        }
       },
       {
         "sourceChampionId": "Annie",
@@ -14524,7 +14580,7 @@
         "name": "布兰德·烈焰之柱",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已补录主动使用后启动cast施法过程，法力消耗、基础冷却和施法延迟已有入口；火柱生成、实际命中、灼烧条件与强化伤害仍未接，整技能保持系统暂缓。",
+        "reason": "已补录主动使用后启动cast施法过程，法力消耗、基础冷却和施法延迟已有入口；火柱生成、实际命中、灼烧条件与强化伤害仍未接，整技能保持系统暂缓。 既有普通伤害空吸血资格和过时说明已纠正；原条件、控制、被动或时序待办保留，页面待验。",
         "pendingCounts": {
           "source": 0,
           "system": 0,
@@ -14536,8 +14592,26 @@
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
           "heroSourceInventory",
-          "fourHeroCastProcessEntryBackfill"
-        ]
+          "fourHeroCastProcessEntryBackfill",
+          "eightSkillsTenDamageVampCorrection"
+        ],
+        "currentComponentCounts": {
+          "parameters": 6,
+          "formulas": 2,
+          "effects": 3,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 1
+        },
+        "damageVampCorrection": {
+          "httpReadback": "PASS",
+          "effectCount": 2,
+          "vampType": "OMNIVAMP",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "efficiency": 1,
+          "retainedSpellShieldBlockScope": "RESULT",
+          "browser": "待验"
+        }
       },
       {
         "sourceChampionId": "Brand",
@@ -14548,7 +14622,7 @@
         "name": "布兰德·烈火燃烧",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有2个待处理分支，其中来源或资料缺口1个、系统缺口0个、配置缺口1个。",
+        "reason": "已保存明确组成；仍有2个待处理分支，其中来源或资料缺口1个、系统缺口0个、配置缺口1个。 既有普通伤害空吸血资格和过时说明已纠正；原条件、控制、被动或时序待办保留，页面待验。",
         "pendingCounts": {
           "source": 1,
           "system": 0,
@@ -14559,8 +14633,26 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "eightSkillsTenDamageVampCorrection"
+        ],
+        "currentComponentCounts": {
+          "parameters": 5,
+          "formulas": 1,
+          "effects": 1,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 1
+        },
+        "damageVampCorrection": {
+          "httpReadback": "PASS",
+          "effectCount": 1,
+          "vampType": "OMNIVAMP",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "efficiency": 1,
+          "retainedSpellShieldBlockScope": "RESULT",
+          "browser": "待验"
+        }
       },
       {
         "sourceChampionId": "Brand",
@@ -15558,7 +15650,7 @@
         "name": "黛安娜·新月打击",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。 既有普通伤害空吸血资格和过时说明已纠正；原条件、控制、被动或时序待办保留，页面待验。",
         "pendingCounts": {
           "source": 0,
           "system": 0,
@@ -15569,8 +15661,26 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "eightSkillsTenDamageVampCorrection"
+        ],
+        "currentComponentCounts": {
+          "parameters": 6,
+          "formulas": 1,
+          "effects": 2,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 1
+        },
+        "damageVampCorrection": {
+          "httpReadback": "PASS",
+          "effectCount": 1,
+          "vampType": "OMNIVAMP",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "efficiency": 1,
+          "retainedSpellShieldBlockScope": "RESULT",
+          "browser": "待验"
+        }
       },
       {
         "sourceChampionId": "Diana",
@@ -21711,7 +21821,7 @@
         "name": "墨菲特·地震碎片",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。 既有普通伤害空吸血资格和过时说明已纠正；原条件、控制、被动或时序待办保留，页面待验。",
         "pendingCounts": {
           "source": 0,
           "system": 0,
@@ -21722,8 +21832,26 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "eightSkillsTenDamageVampCorrection"
+        ],
+        "currentComponentCounts": {
+          "parameters": 7,
+          "formulas": 1,
+          "effects": 2,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 1
+        },
+        "damageVampCorrection": {
+          "httpReadback": "PASS",
+          "effectCount": 1,
+          "vampType": "OMNIVAMP",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "efficiency": 1,
+          "retainedSpellShieldBlockScope": "RESULT",
+          "browser": "待验"
+        }
       },
       {
         "sourceChampionId": "Malphite",
@@ -21757,7 +21885,7 @@
         "name": "墨菲特·大地震颤",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。 既有普通伤害空吸血资格和过时说明已纠正；原条件、控制、被动或时序待办保留，页面待验。",
         "pendingCounts": {
           "source": 0,
           "system": 0,
@@ -21768,8 +21896,26 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "eightSkillsTenDamageVampCorrection"
+        ],
+        "currentComponentCounts": {
+          "parameters": 7,
+          "formulas": 1,
+          "effects": 2,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 1
+        },
+        "damageVampCorrection": {
+          "httpReadback": "PASS",
+          "effectCount": 1,
+          "vampType": "OMNIVAMP",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "efficiency": 1,
+          "retainedSpellShieldBlockScope": "RESULT",
+          "browser": "待验"
+        }
       },
       {
         "sourceChampionId": "Malphite",
@@ -21780,7 +21926,7 @@
         "name": "墨菲特·势不可挡",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。 既有普通伤害空吸血资格和过时说明已纠正；原条件、控制、被动或时序待办保留，页面待验。",
         "pendingCounts": {
           "source": 0,
           "system": 0,
@@ -21791,8 +21937,26 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "eightSkillsTenDamageVampCorrection"
+        ],
+        "currentComponentCounts": {
+          "parameters": 5,
+          "formulas": 1,
+          "effects": 2,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 1
+        },
+        "damageVampCorrection": {
+          "httpReadback": "PASS",
+          "effectCount": 1,
+          "vampType": "OMNIVAMP",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "efficiency": 1,
+          "retainedSpellShieldBlockScope": "RESULT",
+          "browser": "待验"
+        }
       },
       {
         "sourceChampionId": "Malzahar",
@@ -30213,7 +30377,7 @@
         "name": "维迦·能量爆裂",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已补录主动使用后启动cast施法过程，法力消耗、基础冷却和施法延迟已有入口；目标当前或已损生命、连续伤害倍率、实际命中与伤害仍未接，整技能保持系统暂缓。",
+        "reason": "已补录主动使用后启动cast施法过程，法力消耗、基础冷却和施法延迟已有入口；目标当前或已损生命、连续伤害倍率、实际命中与伤害仍未接，整技能保持系统暂缓。 既有普通伤害空吸血资格和过时说明已纠正；原条件、控制、被动或时序待办保留，页面待验。",
         "pendingCounts": {
           "source": 0,
           "system": 0,
@@ -30225,8 +30389,26 @@
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
           "heroSourceInventory",
-          "sixHeroCastProcessEntryBackfillThird"
-        ]
+          "sixHeroCastProcessEntryBackfillThird",
+          "eightSkillsTenDamageVampCorrection"
+        ],
+        "currentComponentCounts": {
+          "parameters": 7,
+          "formulas": 2,
+          "effects": 3,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 1
+        },
+        "damageVampCorrection": {
+          "httpReadback": "PASS",
+          "effectCount": 2,
+          "vampType": "OMNIVAMP",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "efficiency": 1,
+          "retainedSpellShieldBlockScope": "RESULT",
+          "browser": "待验"
+        }
       },
       {
         "sourceChampionId": "Velkoz",
