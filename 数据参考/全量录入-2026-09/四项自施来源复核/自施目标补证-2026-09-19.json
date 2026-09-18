@@ -1,0 +1,39 @@
+{
+  "purpose": "补足迦娜E、璐璐W和璐璐R的自施目标证据；仅使用目标语义，数值仍取固定客户端16.17及官方16.17.1。",
+  "retrievedOn": "2026-09-19",
+  "sourcePolicy": "直接读取端游指南正文；不采用手游资料、搜索摘要或方案讨论作为正式写入依据。正文版本不同于冻结客户端，因此来源层次分别标注。",
+  "entries": [
+    {
+      "skillKey": "janna_e",
+      "url": "https://www.mobafire.com/league-of-legends/build/fenrees-otp-janna-archive-w-i-p-614855",
+      "title": "Fenree's OTP Janna Archive",
+      "sourceType": "端游玩家指南，补充自施目标语义",
+      "section": "Malzahar对线说明",
+      "quote": "use your auto or W>E to remove his shield and shield yourself.",
+      "interpretation": "作者以迦娜为操作者，明确用E对自己施加护盾，与技能主体的友军护盾分支对应。它补足自施资格，不能提供当前护盾数值或当前版本衰减结论。",
+      "numericSource": "冻结EyeOfTheStorm主对象：ShieldDuration与DecayGracePeriod均4秒；护盾数值和0.55法强系数沿已有固定参数与公式。"
+    },
+    {
+      "skillKey": "lulu_w",
+      "url": "https://www.thespike.gg/league-of-legends/champions/lulu",
+      "title": "Everything You Need to Know About Lulu in League of Legends",
+      "articleUpdatedAt": "2025-06-22",
+      "sourceType": "端游编辑指南，补充自施目标语义",
+      "section": "W: Whimsy",
+      "quote": "can also cast Whimsy on herself or allies",
+      "interpretation": "正文明确允许对本人施放，并同时授予攻击速度和移动速度；自施入口必须同时接入已有两项自身增益，对敌变形分支不能执行它们。"
+    },
+    {
+      "skillKey": "lulu_r",
+      "url": "https://www.thespike.gg/league-of-legends/champions/lulu",
+      "title": "Everything You Need to Know About Lulu in League of Legends",
+      "articleUpdatedAt": "2025-06-22",
+      "sourceType": "端游编辑指南，补充自施目标语义",
+      "section": "R: Wild Growth",
+      "quote": "that you can cast on yourself or your allies",
+      "interpretation": "正文明确本人可作为目标。该页的法强比例与冻结16.17不同，不采用其数值；只接现有最大生命属性分支，当前血量调整、到期处理、击飞和减速另计。",
+      "crossReference": "https://dignitas.gg/articles/blogs/Unknown/7281/its-better-when-it-tastes-purple-picking-lulu-over-other-supports"
+    }
+  ],
+  "result": "三项均已有可复核正文补证，可结合冻结数值及实时现值生成独立分支请求，再审查准确请求后写入；本文件不表示已写入或完整技能已完成。"
+}
