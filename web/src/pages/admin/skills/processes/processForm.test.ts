@@ -425,7 +425,38 @@ describe('skill process steps, moments and behaviors', () => {
     expect(buildUpdateSkillProcessRequest(normalized)).not.toHaveProperty('processKey');
   });
 
-  it('marks both behavior arrays when they are empty and rejects empty or duplicate keys', () => {
+  it('saves a cooldown-only cast without inventing resource or hit effects', () => {
+    const normalized = expectValid(validProcessDraft({
+      cooldownEnabled: true,
+      cooldownDurationValue: formulaValue('cooldown_ms'),
+      cooldownMomentType: 'PROCESS_START',
+      effectBindings: [],
+      stateOperations: []
+    }));
+    const request = buildCreateSkillProcessRequest(normalized);
+    expect(request.cooldown).toEqual({
+      durationValue: formulaValue('cooldown_ms'),
+      startMoment: { momentType: 'PROCESS_START', stepKey: null }
+    });
+    expect(request.effectBindings).toEqual([]);
+    expect(request.stateOperations).toEqual([]);
+    expect(buildUpdateSkillProcessRequest(normalized).cooldown).toEqual(request.cooldown);
+  });
+
+  it('still rejects an unresolved cooldown when it is the only cast behavior', () => {
+    const result = validateSkillProcessDraft(validProcessDraft({
+      cooldownEnabled: true,
+      cooldownDurationValue: formulaValue('missing_cooldown'),
+      cooldownMomentType: 'PROCESS_START',
+      effectBindings: [],
+      stateOperations: []
+    }), { includeProcessKey: true, catalog: CATALOG });
+    expect(result.ok).toBe(false);
+    if (result.ok) throw new Error('expected invalid cooldown');
+    expect(result.fieldErrors.cooldownDurationValue).toBe(INCOMPLETE_CATALOG_MESSAGE);
+  });
+
+  it('marks both behavior arrays when all three behavior sources are empty and rejects empty or duplicate keys', () => {
     const emptyBehaviors = validateSkillProcessDraft(validProcessDraft({
       effectBindings: [],
       stateOperations: []
