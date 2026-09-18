@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-18T20:08:35.519Z",
+  "generatedAt": "2026-09-18T20:40:28.024Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -9473,6 +9473,41 @@
         "sha256": "f8bef641edb15193b00dc41d6189b199192c9c7a863a34c706aa1732fde13456",
         "commit": "cc27620c"
       }
+    },
+    "sevenSkillCostCooldownBackfill": {
+      "at": "2026-09-18T20:40:28.023Z",
+      "status": "七项使用登记正式补录与独立回读通过；娑娜E未纳入，其他组成与代表页面仍待续",
+      "skills": [
+        "nami_q",
+        "nami_r",
+        "sona_q",
+        "sona_w",
+        "orianna_w",
+        "orianna_e",
+        "zilean_e"
+      ],
+      "created": {
+        "effects": 3,
+        "processes": 7,
+        "triggerRules": 7
+      },
+      "candidateGETs": 44,
+      "prepareGETs": 176,
+      "writerGETs": 210,
+      "writerPOSTs": 17,
+      "immediateReadbacks": 17,
+      "independentGETs": 176,
+      "unchangedResponsesIncludingTimestamps": 142,
+      "expectedChangedCollections": 17,
+      "arithmeticCases": 66,
+      "browser": "NOT_RUN_BROWSER_UNAVAILABLE",
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/七项技能使用消耗冷却补录/09-证据清单.json",
+        "sha256": "40cab684fc401e702f5aec530b729d2775ee9e6b68c441f27b407fb4c568ddb2",
+        "commit": "e451e55c"
+      }
     }
   },
   "runtimeValidation": "未执行",
@@ -9667,6 +9702,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/四项技能消耗说明整理/09-证据清单.json",
         "sha256": "f8bef641edb15193b00dc41d6189b199192c9c7a863a34c706aa1732fde13456",
         "commit": "cc27620c"
+      },
+      "sevenSkillCostCooldownBackfill": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/七项技能使用消耗冷却补录/09-证据清单.json",
+        "sha256": "40cab684fc401e702f5aec530b729d2775ee9e6b68c441f27b407fb4c568ddb2",
+        "commit": "e451e55c"
       }
     },
     "coverage": {
@@ -22412,19 +22453,42 @@
         "name": "娜美·碧波之牢",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
-        "pendingCounts": {
+        "reason": "使用消耗与普通冷却登记已保存并独立回读；伤害、治疗、护盾、控制、目标资格或球/乐曲等原有相关组成及代表页面仍待处理，不计整技能管理完成。",
+        "batchKey": "heroThirtyFirstBatch",
+        "candidateSha256": "bf26b9374fc305af52e7298934a54244aec5bec0166017ae5a99a38a2019ddcc",
+        "evidenceRefs": [
+          "skillFirstStageCurrentReadback",
+          "heroSourceInventory",
+          "sevenSkillCostCooldownBackfill"
+        ],
+        "historicalPendingCounts": {
           "source": 0,
           "system": 1,
           "configuration": 0,
           "other": 0
         },
-        "batchKey": "heroThirtyFirstBatch",
-        "candidateSha256": "bf26b9374fc305af52e7298934a54244aec5bec0166017ae5a99a38a2019ddcc",
-        "evidenceRefs": [
-          "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+        "remainingBranches": [
+          "伤害与控制效果及实际命中入口",
+          "控制身份与目标资格",
+          "实际施法时序与其他尚未核对的原候选组成",
+          "使用登记代表页面验收及旧成本说明整理"
+        ],
+        "remainingBranchesBoundary": "这里只确认消耗与普通冷却登记；既有候选中的其他来源、资格和配置缺口继续保留，当前列举不是一次全技能完成审核。",
+        "authoredCostCooldown": {
+          "processKey": "use_cost_and_cooldown",
+          "ruleKey": "on_used_cost_and_cooldown",
+          "httpReadback": "PASS",
+          "browser": "待验",
+          "castDurationClaim": "未声明，立即步骤只登记使用"
+        },
+        "currentComponentCounts": {
+          "parameters": 5,
+          "formulas": 1,
+          "effects": 1,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 1
+        }
       },
       {
         "sourceChampionId": "Nami",
@@ -22481,19 +22545,43 @@
         "name": "娜美·怒涛之啸",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有2个待处理分支，其中来源或资料缺口1个、系统缺口1个、配置缺口0个。",
-        "pendingCounts": {
+        "reason": "使用消耗与普通冷却登记已保存并独立回读；伤害、治疗、护盾、控制、目标资格或球/乐曲等原有相关组成及代表页面仍待处理，不计整技能管理完成。",
+        "batchKey": "heroThirtyFirstBatch",
+        "candidateSha256": "bf26b9374fc305af52e7298934a54244aec5bec0166017ae5a99a38a2019ddcc",
+        "evidenceRefs": [
+          "skillFirstStageCurrentReadback",
+          "heroSourceInventory",
+          "sevenSkillCostCooldownBackfill"
+        ],
+        "historicalPendingCounts": {
           "source": 1,
           "system": 1,
           "configuration": 0,
           "other": 0
         },
-        "batchKey": "heroThirtyFirstBatch",
-        "candidateSha256": "bf26b9374fc305af52e7298934a54244aec5bec0166017ae5a99a38a2019ddcc",
-        "evidenceRefs": [
-          "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+        "remainingBranches": [
+          "伤害、控制与实际命中入口",
+          "距离到减速期限的完整取值口径",
+          "大招被动加速能否作用于自身的资格；纯其他友军分支范围外",
+          "实际施法时序与其他尚未核对的原候选组成",
+          "使用登记代表页面验收及旧成本说明整理"
+        ],
+        "remainingBranchesBoundary": "这里只确认消耗与普通冷却登记；既有候选中的其他来源、资格和配置缺口继续保留，当前列举不是一次全技能完成审核。",
+        "authoredCostCooldown": {
+          "processKey": "use_cost_and_cooldown",
+          "ruleKey": "on_used_cost_and_cooldown",
+          "httpReadback": "PASS",
+          "browser": "待验",
+          "castDurationClaim": "未声明，立即步骤只登记使用"
+        },
+        "currentComponentCounts": {
+          "parameters": 10,
+          "formulas": 1,
+          "effects": 1,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 1
+        }
       },
       {
         "sourceChampionId": "Nasus",
@@ -23483,19 +23571,42 @@
         "name": "奥莉安娜·指令：杂音",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有3个待处理分支，其中来源或资料缺口1个、系统缺口0个、配置缺口2个。",
-        "pendingCounts": {
+        "reason": "使用消耗与普通冷却登记已保存并独立回读；伤害、治疗、护盾、控制、目标资格或球/乐曲等原有相关组成及代表页面仍待处理，不计整技能管理完成。",
+        "batchKey": "heroFifteenthBatch",
+        "candidateSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory",
+          "sevenSkillCostCooldownBackfill"
+        ],
+        "historicalPendingCounts": {
           "source": 1,
           "system": 0,
           "configuration": 2,
           "other": 0
         },
-        "batchKey": "heroFifteenthBatch",
-        "candidateSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
-        "evidenceRefs": [
-          "skillSecondStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+        "remainingBranches": [
+          "伤害结果交互资格与实际命中入口",
+          "球场减速及自身加速的目标和持续资格",
+          "实际施法时序与其他尚未核对的原候选组成",
+          "使用登记代表页面验收及旧成本说明整理"
+        ],
+        "remainingBranchesBoundary": "这里只确认消耗与普通冷却登记；既有候选中的其他来源、资格和配置缺口继续保留，当前列举不是一次全技能完成审核。",
+        "authoredCostCooldown": {
+          "processKey": "use_cost_and_cooldown",
+          "ruleKey": "on_used_cost_and_cooldown",
+          "httpReadback": "PASS",
+          "browser": "待验",
+          "castDurationClaim": "未声明，立即步骤只登记使用"
+        },
+        "currentComponentCounts": {
+          "parameters": 9,
+          "formulas": 1,
+          "effects": 1,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 1
+        }
       },
       {
         "sourceChampionId": "Orianna",
@@ -23506,19 +23617,43 @@
         "name": "奥莉安娜·指令：防卫",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有3个待处理分支，其中来源或资料缺口1个、系统缺口0个、配置缺口2个。",
-        "pendingCounts": {
+        "reason": "使用消耗与普通冷却登记已保存并独立回读；伤害、治疗、护盾、控制、目标资格或球/乐曲等原有相关组成及代表页面仍待处理，不计整技能管理完成。",
+        "batchKey": "heroFifteenthBatch",
+        "candidateSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory",
+          "sevenSkillCostCooldownBackfill"
+        ],
+        "historicalPendingCounts": {
           "source": 1,
           "system": 0,
           "configuration": 2,
           "other": 0
         },
-        "batchKey": "heroFifteenthBatch",
-        "candidateSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
-        "evidenceRefs": [
-          "skillSecondStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+        "remainingBranches": [
+          "穿过伤害的交互资格、命中顺序与入口",
+          "球附着、护甲魔抗增益的受益对象",
+          "自身护盾资格与入口",
+          "实际施法时序与其他尚未核对的原候选组成",
+          "使用登记代表页面验收及旧成本说明整理"
+        ],
+        "remainingBranchesBoundary": "这里只确认消耗与普通冷却登记；既有候选中的其他来源、资格和配置缺口继续保留，当前列举不是一次全技能完成审核。",
+        "authoredCostCooldown": {
+          "processKey": "use_cost_and_cooldown",
+          "ruleKey": "on_used_cost_and_cooldown",
+          "httpReadback": "PASS",
+          "browser": "待验",
+          "castDurationClaim": "未声明，立即步骤只登记使用"
+        },
+        "currentComponentCounts": {
+          "parameters": 9,
+          "formulas": 2,
+          "effects": 1,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 1
+        }
       },
       {
         "sourceChampionId": "Orianna",
@@ -26913,19 +27048,42 @@
         "name": "娑娜·英勇赞美诗",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
-        "pendingCounts": {
+        "reason": "使用消耗与普通冷却登记已保存并独立回读；伤害、治疗、护盾、控制、目标资格或球/乐曲等原有相关组成及代表页面仍待处理，不计整技能管理完成。",
+        "batchKey": "heroThirtyThirdBatch",
+        "candidateSha256": "841a100c48f51a135dbb6d4457ec5523af2030611cbbac1f2212b388be5a8b4e",
+        "evidenceRefs": [
+          "skillFirstStageCurrentReadback",
+          "heroSourceInventory",
+          "sevenSkillCostCooldownBackfill"
+        ],
+        "historicalPendingCounts": {
           "source": 0,
           "system": 1,
           "configuration": 0,
           "other": 0
         },
-        "batchKey": "heroThirtyThirdBatch",
-        "candidateSha256": "841a100c48f51a135dbb6d4457ec5523af2030611cbbac1f2212b388be5a8b4e",
-        "evidenceRefs": [
-          "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+        "remainingBranches": [
+          "主动伤害与实际命中入口",
+          "乐曲强化普攻资格与能量和弦切换",
+          "实际施法时序与其他尚未核对的原候选组成",
+          "使用登记代表页面验收及旧成本说明整理"
+        ],
+        "remainingBranchesBoundary": "这里只确认消耗与普通冷却登记；既有候选中的其他来源、资格和配置缺口继续保留，当前列举不是一次全技能完成审核。",
+        "authoredCostCooldown": {
+          "processKey": "use_cost_and_cooldown",
+          "ruleKey": "on_used_cost_and_cooldown",
+          "httpReadback": "PASS",
+          "browser": "待验",
+          "castDurationClaim": "未声明，立即步骤只登记使用"
+        },
+        "currentComponentCounts": {
+          "parameters": 12,
+          "formulas": 3,
+          "effects": 1,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 1
+        }
       },
       {
         "sourceChampionId": "Sona",
@@ -26936,19 +27094,42 @@
         "name": "娑娜·坚毅咏叹调",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，其中来源或资料缺口1个、系统缺口0个、配置缺口0个。",
-        "pendingCounts": {
+        "reason": "使用消耗与普通冷却登记已保存并独立回读；伤害、治疗、护盾、控制、目标资格或球/乐曲等原有相关组成及代表页面仍待处理，不计整技能管理完成。",
+        "batchKey": "heroThirtyThirdBatch",
+        "candidateSha256": "841a100c48f51a135dbb6d4457ec5523af2030611cbbac1f2212b388be5a8b4e",
+        "evidenceRefs": [
+          "skillFirstStageCurrentReadback",
+          "heroSourceInventory",
+          "sevenSkillCostCooldownBackfill"
+        ],
+        "historicalPendingCounts": {
           "source": 1,
           "system": 0,
           "configuration": 0,
           "other": 0
         },
-        "batchKey": "heroThirtyThirdBatch",
-        "candidateSha256": "841a100c48f51a135dbb6d4457ec5523af2030611cbbac1f2212b388be5a8b4e",
-        "evidenceRefs": [
-          "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+        "remainingBranches": [
+          "自身治疗及施放入口",
+          "自身光环护盾资格及与能量和弦的关系",
+          "实际施法时序与其他尚未核对的原候选组成",
+          "使用登记代表页面验收及旧成本说明整理"
+        ],
+        "remainingBranchesBoundary": "这里只确认消耗与普通冷却登记；既有候选中的其他来源、资格和配置缺口继续保留，当前列举不是一次全技能完成审核。",
+        "authoredCostCooldown": {
+          "processKey": "use_cost_and_cooldown",
+          "ruleKey": "on_used_cost_and_cooldown",
+          "httpReadback": "PASS",
+          "browser": "待验",
+          "castDurationClaim": "未声明，立即步骤只登记使用"
+        },
+        "currentComponentCounts": {
+          "parameters": 13,
+          "formulas": 3,
+          "effects": 1,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 1
+        }
       },
       {
         "sourceChampionId": "Sona",
@@ -31831,19 +32012,42 @@
         "name": "基兰·时光发条",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有2个待处理分支，其中来源或资料缺口1个、系统缺口1个、配置缺口0个。",
-        "pendingCounts": {
+        "reason": "使用消耗与普通冷却登记已保存并独立回读；伤害、治疗、护盾、控制、目标资格或球/乐曲等原有相关组成及代表页面仍待处理，不计整技能管理完成。",
+        "batchKey": "heroThirtyFourthBatch",
+        "candidateSha256": "07cbc606f8138ec61cbd8600cd53ce9eaf392241960cb54ea72016a67b0c219b",
+        "evidenceRefs": [
+          "skillFirstStageCurrentReadback",
+          "heroSourceInventory",
+          "sevenSkillCostCooldownBackfill"
+        ],
+        "historicalPendingCounts": {
           "source": 1,
           "system": 1,
           "configuration": 0,
           "other": 0
         },
-        "batchKey": "heroThirtyFourthBatch",
-        "candidateSha256": "07cbc606f8138ec61cbd8600cd53ce9eaf392241960cb54ea72016a67b0c219b",
-        "evidenceRefs": [
-          "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+        "remainingBranches": [
+          "友方加速的自身目标资格",
+          "对敌减速和目标选择入口",
+          "实际施法时序与其他尚未核对的原候选组成",
+          "使用登记代表页面验收及旧成本说明整理"
+        ],
+        "remainingBranchesBoundary": "这里只确认消耗与普通冷却登记；既有候选中的其他来源、资格和配置缺口继续保留，当前列举不是一次全技能完成审核。",
+        "authoredCostCooldown": {
+          "processKey": "use_cost_and_cooldown",
+          "ruleKey": "on_used_cost_and_cooldown",
+          "httpReadback": "PASS",
+          "browser": "待验",
+          "castDurationClaim": "未声明，立即步骤只登记使用"
+        },
+        "currentComponentCounts": {
+          "parameters": 5,
+          "formulas": 0,
+          "effects": 1,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 1
+        }
       },
       {
         "sourceChampionId": "Zilean",
