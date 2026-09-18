@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-18T21:08:00.877Z",
+  "generatedAt": "2026-09-18T21:19:57.084Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -9577,6 +9577,36 @@
         "sha256": "b1969e155e7ed89555c9dc08124ef46cd41236570f7f04fd519197844f7110d3",
         "commit": "31938903"
       }
+    },
+    "sevenSkillCostDescriptionCorrections": {
+      "at": "2026-09-18T21:19:57.084Z",
+      "status": "12处过时说明已整理，独立回读通过；页面待续",
+      "skills": [
+        "nami_q",
+        "nami_r",
+        "sona_q",
+        "sona_w",
+        "orianna_w",
+        "orianna_e",
+        "zilean_e"
+      ],
+      "descriptionOnlyPUTs": 12,
+      "prepareGETs": 146,
+      "writerGETs": 170,
+      "immediateReadbacks": 12,
+      "independentGETs": 146,
+      "allowedDetailChanges": 12,
+      "allowedCollectionChanges": 11,
+      "unchangedResponsesIncludingTimestamps": 123,
+      "protected": "所有数值、结构、键、名称及创建时间不变；娑娜W自身治疗、七项过程和触发完整保留。",
+      "browser": "NOT_RUN_BROWSER_UNAVAILABLE",
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/七项技能消耗说明整理/09-证据清单.json",
+        "sha256": "38b17f9a8ca77aa5953b9d64ec1af10ce4c9526eaee3cb41807547c958e2c990",
+        "commit": "6ab33923"
+      }
     }
   },
   "runtimeValidation": "未执行",
@@ -9783,6 +9813,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/娑娜W自身治疗补录/09-证据清单.json",
         "sha256": "b1969e155e7ed89555c9dc08124ef46cd41236570f7f04fd519197844f7110d3",
         "commit": "31938903"
+      },
+      "sevenSkillCostDescriptionCorrections": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/七项技能消耗说明整理/09-证据清单.json",
+        "sha256": "38b17f9a8ca77aa5953b9d64ec1af10ce4c9526eaee3cb41807547c958e2c990",
+        "commit": "6ab33923"
       }
     },
     "coverage": {
@@ -22534,7 +22570,8 @@
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
-          "sevenSkillCostCooldownBackfill"
+          "sevenSkillCostCooldownBackfill",
+          "sevenSkillCostDescriptionCorrections"
         ],
         "historicalPendingCounts": {
           "source": 0,
@@ -22546,7 +22583,7 @@
           "伤害与控制效果及实际命中入口",
           "控制身份与目标资格",
           "实际施法时序与其他尚未核对的原候选组成",
-          "使用登记代表页面验收及旧成本说明整理"
+          "使用登记代表页面验收"
         ],
         "remainingBranchesBoundary": "这里只确认消耗与普通冷却登记；既有候选中的其他来源、资格和配置缺口继续保留，当前列举不是一次全技能完成审核。",
         "authoredCostCooldown": {
@@ -22563,7 +22600,8 @@
           "processes": 1,
           "internalStates": 0,
           "triggerRules": 1
-        }
+        },
+        "costDescriptions": "已改为稳定的数值来源与过程职责说明，去除过时未接线或候选状态"
       },
       {
         "sourceChampionId": "Nami",
@@ -22626,7 +22664,8 @@
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
-          "sevenSkillCostCooldownBackfill"
+          "sevenSkillCostCooldownBackfill",
+          "sevenSkillCostDescriptionCorrections"
         ],
         "historicalPendingCounts": {
           "source": 1,
@@ -22639,7 +22678,7 @@
           "距离到减速期限的完整取值口径",
           "大招被动加速能否作用于自身的资格；纯其他友军分支范围外",
           "实际施法时序与其他尚未核对的原候选组成",
-          "使用登记代表页面验收及旧成本说明整理"
+          "使用登记代表页面验收"
         ],
         "remainingBranchesBoundary": "这里只确认消耗与普通冷却登记；既有候选中的其他来源、资格和配置缺口继续保留，当前列举不是一次全技能完成审核。",
         "authoredCostCooldown": {
@@ -22656,7 +22695,8 @@
           "processes": 1,
           "internalStates": 0,
           "triggerRules": 1
-        }
+        },
+        "costDescriptions": "已改为稳定的数值来源与过程职责说明，去除过时未接线或候选状态"
       },
       {
         "sourceChampionId": "Nasus",
@@ -23652,7 +23692,8 @@
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
           "heroSourceInventory",
-          "sevenSkillCostCooldownBackfill"
+          "sevenSkillCostCooldownBackfill",
+          "sevenSkillCostDescriptionCorrections"
         ],
         "historicalPendingCounts": {
           "source": 1,
@@ -23664,7 +23705,7 @@
           "伤害结果交互资格与实际命中入口",
           "球场减速及自身加速的目标和持续资格",
           "实际施法时序与其他尚未核对的原候选组成",
-          "使用登记代表页面验收及旧成本说明整理"
+          "使用登记代表页面验收"
         ],
         "remainingBranchesBoundary": "这里只确认消耗与普通冷却登记；既有候选中的其他来源、资格和配置缺口继续保留，当前列举不是一次全技能完成审核。",
         "authoredCostCooldown": {
@@ -23681,7 +23722,8 @@
           "processes": 1,
           "internalStates": 0,
           "triggerRules": 1
-        }
+        },
+        "costDescriptions": "已改为稳定的数值来源与过程职责说明，去除过时未接线或候选状态"
       },
       {
         "sourceChampionId": "Orianna",
@@ -23698,7 +23740,8 @@
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
           "heroSourceInventory",
-          "sevenSkillCostCooldownBackfill"
+          "sevenSkillCostCooldownBackfill",
+          "sevenSkillCostDescriptionCorrections"
         ],
         "historicalPendingCounts": {
           "source": 1,
@@ -23711,7 +23754,7 @@
           "球附着、护甲魔抗增益的受益对象",
           "自身护盾资格与入口",
           "实际施法时序与其他尚未核对的原候选组成",
-          "使用登记代表页面验收及旧成本说明整理"
+          "使用登记代表页面验收"
         ],
         "remainingBranchesBoundary": "这里只确认消耗与普通冷却登记；既有候选中的其他来源、资格和配置缺口继续保留，当前列举不是一次全技能完成审核。",
         "authoredCostCooldown": {
@@ -23728,7 +23771,8 @@
           "processes": 1,
           "internalStates": 0,
           "triggerRules": 1
-        }
+        },
+        "costDescriptions": "已改为稳定的数值来源与过程职责说明，去除过时未接线或候选状态"
       },
       {
         "sourceChampionId": "Orianna",
@@ -27129,7 +27173,8 @@
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
-          "sevenSkillCostCooldownBackfill"
+          "sevenSkillCostCooldownBackfill",
+          "sevenSkillCostDescriptionCorrections"
         ],
         "historicalPendingCounts": {
           "source": 0,
@@ -27141,7 +27186,7 @@
           "主动伤害与实际命中入口",
           "乐曲强化普攻资格与能量和弦切换",
           "实际施法时序与其他尚未核对的原候选组成",
-          "使用登记代表页面验收及旧成本说明整理"
+          "使用登记代表页面验收"
         ],
         "remainingBranchesBoundary": "这里只确认消耗与普通冷却登记；既有候选中的其他来源、资格和配置缺口继续保留，当前列举不是一次全技能完成审核。",
         "authoredCostCooldown": {
@@ -27158,7 +27203,8 @@
           "processes": 1,
           "internalStates": 0,
           "triggerRules": 1
-        }
+        },
+        "costDescriptions": "已改为稳定的数值来源与过程职责说明，去除过时未接线或候选状态"
       },
       {
         "sourceChampionId": "Sona",
@@ -27176,7 +27222,8 @@
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
           "sevenSkillCostCooldownBackfill",
-          "sonaSelfHealBackfill"
+          "sonaSelfHealBackfill",
+          "sevenSkillCostDescriptionCorrections"
         ],
         "historicalPendingCounts": {
           "source": 1,
@@ -27187,7 +27234,7 @@
         "remainingBranches": [
           "自身光环护盾资格及与能量和弦的关系",
           "实际施法时序与其他尚未核对的原候选组成",
-          "使用登记代表页面验收及旧成本说明整理"
+          "使用登记代表页面验收"
         ],
         "remainingBranchesBoundary": "已补消耗、普通冷却与明确自身治疗；其余原候选组成仍需逐项处理，未作全技能完成判定。",
         "authoredCostCooldown": {
@@ -27210,7 +27257,8 @@
           "ruleKey": "on_used_self_heal",
           "httpReadback": "PASS",
           "browser": "待验"
-        }
+        },
+        "costDescriptions": "已改为稳定的数值来源与过程职责说明，去除过时未接线或候选状态"
       },
       {
         "sourceChampionId": "Sona",
@@ -32099,7 +32147,8 @@
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
-          "sevenSkillCostCooldownBackfill"
+          "sevenSkillCostCooldownBackfill",
+          "sevenSkillCostDescriptionCorrections"
         ],
         "historicalPendingCounts": {
           "source": 1,
@@ -32111,7 +32160,7 @@
           "友方加速的自身目标资格",
           "对敌减速和目标选择入口",
           "实际施法时序与其他尚未核对的原候选组成",
-          "使用登记代表页面验收及旧成本说明整理"
+          "使用登记代表页面验收"
         ],
         "remainingBranchesBoundary": "这里只确认消耗与普通冷却登记；既有候选中的其他来源、资格和配置缺口继续保留，当前列举不是一次全技能完成审核。",
         "authoredCostCooldown": {
@@ -32128,7 +32177,8 @@
           "processes": 1,
           "internalStates": 0,
           "triggerRules": 1
-        }
+        },
+        "costDescriptions": "已改为稳定的数值来源与过程职责说明，去除过时未接线或候选状态"
       },
       {
         "sourceChampionId": "Zilean",
