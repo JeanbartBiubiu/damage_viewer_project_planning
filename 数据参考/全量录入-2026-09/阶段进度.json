@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-18T23:43:24.995Z",
+  "generatedAt": "2026-09-18T23:50:36.984Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -9880,6 +9880,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/五项后续技能消耗说明整理/09-证据清单.json",
         "sha256": "fc05c0d50c9f9b8f8dcff6e065faf09e2c3e774c427f6af6763c942b93e4bbaa",
         "commit": "3b10c44e"
+      },
+      "appendToolFirstRealBatch": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/六项既有施法过程入口补录/09-证据清单.json",
+        "sha256": "7aba7aaa14463abf323a203c1d10afb967ca1f8eb8fddd653fce6932c822c50f",
+        "commit": "f0b6592c"
       }
     },
     "eightSkillsTenDamageVampCorrection": {
@@ -9942,6 +9948,37 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/五项后续技能消耗说明整理/09-证据清单.json",
         "sha256": "fc05c0d50c9f9b8f8dcff6e065faf09e2c3e774c427f6af6763c942b93e4bbaa",
         "commit": "3b10c44e"
+      }
+    },
+    "sixExistingCastUseEntryBackfill": {
+      "at": "2026-09-18T23:50:36.984Z",
+      "status": "六项既有施法过程的主动使用入口已保存并独立回读，页面待验",
+      "skills": [
+        "veigar_q",
+        "annie_q",
+        "brand_q",
+        "annie_w",
+        "malphite_q",
+        "diana_q"
+      ],
+      "created": {
+        "triggerRules": 6
+      },
+      "prepareGETs": 149,
+      "writerGETs": 161,
+      "writerPOSTs": 6,
+      "immediateReadbacks": 6,
+      "independentGETs": 149,
+      "unchangedResponsesIncludingTimestamps": 137,
+      "expectedChangedCollections": 6,
+      "arithmeticCases": 90,
+      "browser": "NOT_RUN_BROWSER_UNAVAILABLE",
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/六项既有施法过程入口补录/09-证据清单.json",
+        "sha256": "7aba7aaa14463abf323a203c1d10afb967ca1f8eb8fddd653fce6932c822c50f",
+        "commit": "f0b6592c"
       }
     }
   },
@@ -10219,6 +10256,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/五项后续技能消耗说明整理/09-证据清单.json",
         "sha256": "fc05c0d50c9f9b8f8dcff6e065faf09e2c3e774c427f6af6763c942b93e4bbaa",
         "commit": "3b10c44e"
+      },
+      "sixExistingCastUseEntryBackfill": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/六项既有施法过程入口补录/09-证据清单.json",
+        "sha256": "7aba7aaa14463abf323a203c1d10afb967ca1f8eb8fddd653fce6932c822c50f",
+        "commit": "f0b6592c"
       }
     },
     "coverage": {
@@ -13488,7 +13531,7 @@
         "name": "安妮·碎裂之火",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有2个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。 已纠正现存普通伤害的空吸血规则和过时说明；其他原待办保留，页面待验。",
+        "reason": "普通使用入口已启动既有施法过程，既有实际命中与纠正后的吸血资格保留并独立回读；击杀退款与被动层数及代表页面待续，不计整技能管理完成。",
         "pendingCounts": {
           "source": 0,
           "system": 0,
@@ -13500,7 +13543,8 @@
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
           "heroSourceInventory",
-          "fourExistingDamageVampCorrection"
+          "fourExistingDamageVampCorrection",
+          "sixExistingCastUseEntryBackfill"
         ],
         "currentComponentCounts": {
           "parameters": 6,
@@ -13508,7 +13552,7 @@
           "effects": 3,
           "processes": 1,
           "internalStates": 0,
-          "triggerRules": 1
+          "triggerRules": 2
         },
         "damageVampCorrection": {
           "httpReadback": "PASS",
@@ -13516,6 +13560,16 @@
           "basisOutputKind": "POST_DEFENSE_DAMAGE",
           "efficiency": 1,
           "retainedSpellShieldBlockScope": "RESULT",
+          "browser": "待验"
+        },
+        "remainingBranches": [
+          "击杀退款与被动层数",
+          "代表页面验收"
+        ],
+        "authoredUseEntry": {
+          "ruleKey": "on_used",
+          "processKey": "cast",
+          "httpReadback": "PASS",
           "browser": "待验"
         }
       },
@@ -13528,7 +13582,7 @@
         "name": "安妮·焚烧",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。 既有普通伤害空吸血资格和过时说明已纠正；原条件、控制、被动或时序待办保留，页面待验。",
+        "reason": "普通使用入口已启动既有施法过程，既有实际命中与纠正后的吸血资格保留并独立回读；被动层数及代表页面待续，不计整技能管理完成。",
         "pendingCounts": {
           "source": 0,
           "system": 0,
@@ -13540,7 +13594,8 @@
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
           "heroSourceInventory",
-          "eightSkillsTenDamageVampCorrection"
+          "eightSkillsTenDamageVampCorrection",
+          "sixExistingCastUseEntryBackfill"
         ],
         "currentComponentCounts": {
           "parameters": 5,
@@ -13548,7 +13603,7 @@
           "effects": 2,
           "processes": 1,
           "internalStates": 0,
-          "triggerRules": 1
+          "triggerRules": 2
         },
         "damageVampCorrection": {
           "httpReadback": "PASS",
@@ -13557,6 +13612,16 @@
           "basisOutputKind": "POST_DEFENSE_DAMAGE",
           "efficiency": 1,
           "retainedSpellShieldBlockScope": "RESULT",
+          "browser": "待验"
+        },
+        "remainingBranches": [
+          "被动层数",
+          "代表页面验收"
+        ],
+        "authoredUseEntry": {
+          "ruleKey": "on_used",
+          "processKey": "cast",
+          "httpReadback": "PASS",
           "browser": "待验"
         }
       },
@@ -14582,7 +14647,7 @@
         "name": "布兰德·火焰烙印",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。 已纠正现存普通伤害的空吸血规则和过时说明；其他原待办保留，页面待验。",
+        "reason": "普通使用入口已启动既有施法过程，既有实际命中与纠正后的吸血资格保留并独立回读；被动灼烧与晕眩条件及代表页面待续，不计整技能管理完成。",
         "pendingCounts": {
           "source": 0,
           "system": 0,
@@ -14594,7 +14659,8 @@
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
           "heroSourceInventory",
-          "fourExistingDamageVampCorrection"
+          "fourExistingDamageVampCorrection",
+          "sixExistingCastUseEntryBackfill"
         ],
         "currentComponentCounts": {
           "parameters": 6,
@@ -14602,7 +14668,7 @@
           "effects": 2,
           "processes": 1,
           "internalStates": 0,
-          "triggerRules": 1
+          "triggerRules": 2
         },
         "damageVampCorrection": {
           "httpReadback": "PASS",
@@ -14610,6 +14676,16 @@
           "basisOutputKind": "POST_DEFENSE_DAMAGE",
           "efficiency": 1,
           "retainedSpellShieldBlockScope": "RESULT",
+          "browser": "待验"
+        },
+        "remainingBranches": [
+          "被动灼烧与晕眩条件",
+          "代表页面验收"
+        ],
+        "authoredUseEntry": {
+          "ruleKey": "on_used",
+          "processKey": "cast",
+          "httpReadback": "PASS",
           "browser": "待验"
         }
       },
@@ -15692,7 +15768,7 @@
         "name": "黛安娜·新月打击",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。 既有普通伤害空吸血资格和过时说明已纠正；原条件、控制、被动或时序待办保留，页面待验。",
+        "reason": "普通使用入口已启动既有施法过程，既有实际命中与纠正后的吸血资格保留并独立回读；月光标记与E刷新联动及代表页面待续，不计整技能管理完成。",
         "pendingCounts": {
           "source": 0,
           "system": 0,
@@ -15704,7 +15780,8 @@
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
           "heroSourceInventory",
-          "eightSkillsTenDamageVampCorrection"
+          "eightSkillsTenDamageVampCorrection",
+          "sixExistingCastUseEntryBackfill"
         ],
         "currentComponentCounts": {
           "parameters": 6,
@@ -15712,7 +15789,7 @@
           "effects": 2,
           "processes": 1,
           "internalStates": 0,
-          "triggerRules": 1
+          "triggerRules": 2
         },
         "damageVampCorrection": {
           "httpReadback": "PASS",
@@ -15721,6 +15798,16 @@
           "basisOutputKind": "POST_DEFENSE_DAMAGE",
           "efficiency": 1,
           "retainedSpellShieldBlockScope": "RESULT",
+          "browser": "待验"
+        },
+        "remainingBranches": [
+          "月光标记与E刷新联动",
+          "代表页面验收"
+        ],
+        "authoredUseEntry": {
+          "ruleKey": "on_used",
+          "processKey": "cast",
+          "httpReadback": "PASS",
           "browser": "待验"
         }
       },
@@ -21863,7 +21950,7 @@
         "name": "墨菲特·地震碎片",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。 既有普通伤害空吸血资格和过时说明已纠正；原条件、控制、被动或时序待办保留，页面待验。",
+        "reason": "普通使用入口已启动既有施法过程，既有实际命中与纠正后的吸血资格保留并独立回读；移速偷取及相关命中资格及代表页面待续，不计整技能管理完成。",
         "pendingCounts": {
           "source": 0,
           "system": 0,
@@ -21875,7 +21962,8 @@
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
           "heroSourceInventory",
-          "eightSkillsTenDamageVampCorrection"
+          "eightSkillsTenDamageVampCorrection",
+          "sixExistingCastUseEntryBackfill"
         ],
         "currentComponentCounts": {
           "parameters": 7,
@@ -21883,7 +21971,7 @@
           "effects": 2,
           "processes": 1,
           "internalStates": 0,
-          "triggerRules": 1
+          "triggerRules": 2
         },
         "damageVampCorrection": {
           "httpReadback": "PASS",
@@ -21892,6 +21980,16 @@
           "basisOutputKind": "POST_DEFENSE_DAMAGE",
           "efficiency": 1,
           "retainedSpellShieldBlockScope": "RESULT",
+          "browser": "待验"
+        },
+        "remainingBranches": [
+          "移速偷取及相关命中资格",
+          "代表页面验收"
+        ],
+        "authoredUseEntry": {
+          "ruleKey": "on_used",
+          "processKey": "cast",
+          "httpReadback": "PASS",
           "browser": "待验"
         }
       },
@@ -30343,7 +30441,7 @@
         "name": "维迦·黑暗祭祀",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。 已纠正现存普通伤害的空吸血规则和过时说明；其他原待办保留，页面待验。",
+        "reason": "普通使用入口已启动既有施法过程，既有实际命中与纠正后的吸血资格保留并独立回读；Q击杀与被动层数及代表页面待续，不计整技能管理完成。",
         "pendingCounts": {
           "source": 0,
           "system": 0,
@@ -30355,7 +30453,8 @@
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
           "heroSourceInventory",
-          "fourExistingDamageVampCorrection"
+          "fourExistingDamageVampCorrection",
+          "sixExistingCastUseEntryBackfill"
         ],
         "currentComponentCounts": {
           "parameters": 5,
@@ -30363,7 +30462,7 @@
           "effects": 2,
           "processes": 1,
           "internalStates": 0,
-          "triggerRules": 1
+          "triggerRules": 2
         },
         "damageVampCorrection": {
           "httpReadback": "PASS",
@@ -30371,6 +30470,16 @@
           "basisOutputKind": "POST_DEFENSE_DAMAGE",
           "efficiency": 1,
           "retainedSpellShieldBlockScope": "RESULT",
+          "browser": "待验"
+        },
+        "remainingBranches": [
+          "Q击杀与被动层数",
+          "代表页面验收"
+        ],
+        "authoredUseEntry": {
+          "ruleKey": "on_used",
+          "processKey": "cast",
+          "httpReadback": "PASS",
           "browser": "待验"
         }
       },
