@@ -1,0 +1,954 @@
+{
+  "at": "2026-09-18T21:12:28.951Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/skills/sona_e": {
+      "createdAt": "2026-09-06T18:20:27.713657Z",
+      "description": "娑娜弹奏迅捷奏鸣曲，为她自己提供移动速度加成。娑娜会暂时获得一个光环，为进入区域的友方英雄提供移动速度加成。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "娑娜·迅捷奏鸣曲",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "sona_e",
+      "sortOrder": 3,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:20:27.713657Z"
+    },
+    "/characters/champion_sona": {
+      "characterKey": "champion_sona",
+      "createdAt": "2026-09-06T17:45:27.563246Z",
+      "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+      "gameId": "lol",
+      "name": "娑娜",
+      "updatedAt": "2026-09-06T17:45:27.563246Z"
+    },
+    "/characters/champion_sona/attributes": {
+      "characterKey": "champion_sona",
+      "levelValues": {
+        "1": {
+          "move_speed": 325,
+          "hp": 550,
+          "hp_regen": 5.5,
+          "mana": 340,
+          "mana_regen": 11.5,
+          "armor": 26,
+          "magic_resistance": 30,
+          "attack_damage": 49,
+          "attack_speed": 0.644,
+          "attack_range": 550
+        },
+        "2": {
+          "move_speed": 325,
+          "hp": 615.52,
+          "hp_regen": 5.896,
+          "mana": 372.4,
+          "mana_regen": 11.788,
+          "armor": 29.024,
+          "magic_resistance": 30.936,
+          "attack_damage": 51.16,
+          "attack_speed": 0.654665,
+          "attack_range": 550
+        },
+        "3": {
+          "move_speed": 325,
+          "hp": 684.225,
+          "hp_regen": 6.31125,
+          "mana": 406.375,
+          "mana_regen": 12.09,
+          "armor": 32.195,
+          "magic_resistance": 31.9175,
+          "attack_damage": 53.425,
+          "attack_speed": 0.665848,
+          "attack_range": 550
+        },
+        "4": {
+          "move_speed": 325,
+          "hp": 756.115,
+          "hp_regen": 6.74575,
+          "mana": 441.925,
+          "mana_regen": 12.406,
+          "armor": 35.513,
+          "magic_resistance": 32.9445,
+          "attack_damage": 55.795,
+          "attack_speed": 0.677549,
+          "attack_range": 550
+        },
+        "5": {
+          "move_speed": 325,
+          "hp": 831.19,
+          "hp_regen": 7.1995,
+          "mana": 479.05,
+          "mana_regen": 12.736,
+          "armor": 38.978,
+          "magic_resistance": 34.017,
+          "attack_damage": 58.27,
+          "attack_speed": 0.689769,
+          "attack_range": 550
+        },
+        "6": {
+          "move_speed": 325,
+          "hp": 909.45,
+          "hp_regen": 7.6725,
+          "mana": 517.75,
+          "mana_regen": 13.08,
+          "armor": 42.59,
+          "magic_resistance": 35.135,
+          "attack_damage": 60.85,
+          "attack_speed": 0.702507,
+          "attack_range": 550
+        },
+        "7": {
+          "move_speed": 325,
+          "hp": 990.895,
+          "hp_regen": 8.16475,
+          "mana": 558.025,
+          "mana_regen": 13.438,
+          "armor": 46.349,
+          "magic_resistance": 36.2985,
+          "attack_damage": 63.535,
+          "attack_speed": 0.715764,
+          "attack_range": 550
+        },
+        "8": {
+          "move_speed": 325,
+          "hp": 1075.525,
+          "hp_regen": 8.67625,
+          "mana": 599.875,
+          "mana_regen": 13.81,
+          "armor": 50.255,
+          "magic_resistance": 37.5075,
+          "attack_damage": 66.325,
+          "attack_speed": 0.729539,
+          "attack_range": 550
+        },
+        "9": {
+          "move_speed": 325,
+          "hp": 1163.34,
+          "hp_regen": 9.207,
+          "mana": 643.3,
+          "mana_regen": 14.196,
+          "armor": 54.308,
+          "magic_resistance": 38.762,
+          "attack_damage": 69.22,
+          "attack_speed": 0.743833,
+          "attack_range": 550
+        },
+        "10": {
+          "move_speed": 325,
+          "hp": 1254.34,
+          "hp_regen": 9.757,
+          "mana": 688.3,
+          "mana_regen": 14.596,
+          "armor": 58.508,
+          "magic_resistance": 40.062,
+          "attack_damage": 72.22,
+          "attack_speed": 0.758645,
+          "attack_range": 550
+        },
+        "11": {
+          "move_speed": 325,
+          "hp": 1348.525,
+          "hp_regen": 10.32625,
+          "mana": 734.875,
+          "mana_regen": 15.01,
+          "armor": 62.855,
+          "magic_resistance": 41.4075,
+          "attack_damage": 75.325,
+          "attack_speed": 0.773975,
+          "attack_range": 550
+        },
+        "12": {
+          "move_speed": 325,
+          "hp": 1445.895,
+          "hp_regen": 10.91475,
+          "mana": 783.025,
+          "mana_regen": 15.438,
+          "armor": 67.349,
+          "magic_resistance": 42.7985,
+          "attack_damage": 78.535,
+          "attack_speed": 0.789824,
+          "attack_range": 550
+        },
+        "13": {
+          "move_speed": 325,
+          "hp": 1546.45,
+          "hp_regen": 11.5225,
+          "mana": 832.75,
+          "mana_regen": 15.88,
+          "armor": 71.99,
+          "magic_resistance": 44.235,
+          "attack_damage": 81.85,
+          "attack_speed": 0.806191,
+          "attack_range": 550
+        },
+        "14": {
+          "move_speed": 325,
+          "hp": 1650.19,
+          "hp_regen": 12.1495,
+          "mana": 884.05,
+          "mana_regen": 16.336,
+          "armor": 76.778,
+          "magic_resistance": 45.717,
+          "attack_damage": 85.27,
+          "attack_speed": 0.823077,
+          "attack_range": 550
+        },
+        "15": {
+          "move_speed": 325,
+          "hp": 1757.115,
+          "hp_regen": 12.79575,
+          "mana": 936.925,
+          "mana_regen": 16.806,
+          "armor": 81.713,
+          "magic_resistance": 47.2445,
+          "attack_damage": 88.795,
+          "attack_speed": 0.840481,
+          "attack_range": 550
+        },
+        "16": {
+          "move_speed": 325,
+          "hp": 1867.225,
+          "hp_regen": 13.46125,
+          "mana": 991.375,
+          "mana_regen": 17.29,
+          "armor": 86.795,
+          "magic_resistance": 48.8175,
+          "attack_damage": 92.425,
+          "attack_speed": 0.858404,
+          "attack_range": 550
+        },
+        "17": {
+          "move_speed": 325,
+          "hp": 1980.52,
+          "hp_regen": 14.146,
+          "mana": 1047.4,
+          "mana_regen": 17.788,
+          "armor": 92.024,
+          "magic_resistance": 50.436,
+          "attack_damage": 96.16,
+          "attack_speed": 0.876845,
+          "attack_range": 550
+        },
+        "18": {
+          "move_speed": 325,
+          "hp": 2097,
+          "hp_regen": 14.85,
+          "mana": 1105,
+          "mana_regen": 18.3,
+          "armor": 97.4,
+          "magic_resistance": 52.1,
+          "attack_damage": 100,
+          "attack_speed": 0.895804,
+          "attack_range": 550
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_sona/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_champion_sona",
+        "name": "champion_sona"
+      }
+    },
+    "/skills/sona_e/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_sona_e",
+        "name": "sona_e"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_sona": {
+      "items": [
+        {
+          "characterKey": "champion_sona",
+          "characterName": "娑娜",
+          "gameId": "lol",
+          "skillKey": "sona_p",
+          "skillName": "娑娜·能量和弦",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_sona",
+          "characterName": "娑娜",
+          "gameId": "lol",
+          "skillKey": "sona_q",
+          "skillName": "娑娜·英勇赞美诗",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_sona",
+          "characterName": "娑娜",
+          "gameId": "lol",
+          "skillKey": "sona_w",
+          "skillName": "娑娜·坚毅咏叹调",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_sona",
+          "characterName": "娑娜",
+          "gameId": "lol",
+          "skillKey": "sona_e",
+          "skillName": "娑娜·迅捷奏鸣曲",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_sona",
+          "characterName": "娑娜",
+          "gameId": "lol",
+          "skillKey": "sona_r",
+          "skillName": "娑娜·狂舞终乐章",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=sona_e": {
+      "items": [
+        {
+          "characterKey": "champion_sona",
+          "characterName": "娑娜",
+          "gameId": "lol",
+          "skillKey": "sona_e",
+          "skillName": "娑娜·迅捷奏鸣曲",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        }
+      ],
+      "total": 1
+    },
+    "/skills/sona_e/parameters": [
+      {
+        "createdAt": "2026-09-09T18:37:03.8321Z",
+        "description": "当前SelfBaseMovementSpeed=0.2。",
+        "fixedValue": 0.2,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "自身移动速度比例",
+        "parameterKey": "self_move_speed_ratio",
+        "skillKey": "sona_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T18:37:03.8321Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T18:37:05.063018Z",
+        "description": "当前自身加速树法强系数为0.0002。",
+        "fixedValue": 0.0002,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "自身移动速度法强比例",
+        "parameterKey": "self_move_speed_ap_ratio",
+        "skillKey": "sona_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T18:37:05.063018Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T18:37:06.237692Z",
+        "description": "当前无受伤延长的最短3秒。",
+        "fixedValue": 3000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "自身加速最短时间",
+        "parameterKey": "self_move_speed_duration_min_ms",
+        "skillKey": "sona_e",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T18:37:06.237692Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T18:37:07.39074Z",
+        "description": "当前无受伤延长的最长7秒。",
+        "fixedValue": 7000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "自身加速最长时间",
+        "parameterKey": "self_move_speed_duration_max_ms",
+        "skillKey": "sona_e",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T18:37:07.39074Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T18:37:08.583693Z",
+        "description": "当前AuraDuration=3秒。",
+        "fixedValue": 3000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "迅捷奏鸣曲光环持续时间",
+        "parameterKey": "aura_duration_ms",
+        "skillKey": "sona_e",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-09T18:37:08.583693Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T18:37:09.821323Z",
+        "description": "当前BaseGlobalCD=0.5秒。",
+        "fixedValue": 500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础技能公共间隔",
+        "parameterKey": "melody_interval_ms",
+        "skillKey": "sona_e",
+        "sortOrder": 90,
+        "updatedAt": "2026-09-09T18:37:09.821323Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T01:03:35.333368Z",
+        "description": "DDragon16.17.1 Sona.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 14000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "sona_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T01:03:35.333368Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T18:37:11.013814Z",
+        "description": "当前TotalTempoMoveSpeedSlow以0.5比例显示为50%。",
+        "fixedValue": 0.5,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "节奏减速基础比例",
+        "parameterKey": "tempo_slow_base_ratio",
+        "skillKey": "sona_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-09T18:37:11.013814Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-08T01:03:35.790305Z",
+        "description": "DDragon16.17.1 Sona.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 65,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "sona_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T01:03:35.790305Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T18:37:12.198312Z",
+        "description": "当前TotalTempoMoveSpeedSlow法强系数为0.0004。",
+        "fixedValue": 0.0004,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "节奏减速法强比例",
+        "parameterKey": "tempo_slow_ap_ratio",
+        "skillKey": "sona_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-09T18:37:12.198312Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T18:37:13.309852Z",
+        "description": "当前TempoDuration=2秒。",
+        "fixedValue": 2000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "节奏减速持续时间",
+        "parameterKey": "tempo_duration_ms",
+        "skillKey": "sona_e",
+        "sortOrder": 120,
+        "updatedAt": "2026-09-09T18:37:13.309852Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T18:37:14.394778Z",
+        "description": "当前spellCastTime=0.25秒。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础施法时间",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "sona_e",
+        "sortOrder": 130,
+        "updatedAt": "2026-09-09T18:37:14.394778Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/sona_e/parameters/self_move_speed_ratio": {
+      "createdAt": "2026-09-09T18:37:03.8321Z",
+      "description": "当前SelfBaseMovementSpeed=0.2。",
+      "fixedValue": 0.2,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "自身移动速度比例",
+      "parameterKey": "self_move_speed_ratio",
+      "skillKey": "sona_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T18:37:03.8321Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/sona_e/parameters/self_move_speed_ap_ratio": {
+      "createdAt": "2026-09-09T18:37:05.063018Z",
+      "description": "当前自身加速树法强系数为0.0002。",
+      "fixedValue": 0.0002,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "自身移动速度法强比例",
+      "parameterKey": "self_move_speed_ap_ratio",
+      "skillKey": "sona_e",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T18:37:05.063018Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/sona_e/parameters/self_move_speed_duration_min_ms": {
+      "createdAt": "2026-09-09T18:37:06.237692Z",
+      "description": "当前无受伤延长的最短3秒。",
+      "fixedValue": 3000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "自身加速最短时间",
+      "parameterKey": "self_move_speed_duration_min_ms",
+      "skillKey": "sona_e",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T18:37:06.237692Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/sona_e/parameters/self_move_speed_duration_max_ms": {
+      "createdAt": "2026-09-09T18:37:07.39074Z",
+      "description": "当前无受伤延长的最长7秒。",
+      "fixedValue": 7000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "自身加速最长时间",
+      "parameterKey": "self_move_speed_duration_max_ms",
+      "skillKey": "sona_e",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-09T18:37:07.39074Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/sona_e/parameters/aura_duration_ms": {
+      "createdAt": "2026-09-09T18:37:08.583693Z",
+      "description": "当前AuraDuration=3秒。",
+      "fixedValue": 3000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "迅捷奏鸣曲光环持续时间",
+      "parameterKey": "aura_duration_ms",
+      "skillKey": "sona_e",
+      "sortOrder": 80,
+      "updatedAt": "2026-09-09T18:37:08.583693Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/sona_e/parameters/melody_interval_ms": {
+      "createdAt": "2026-09-09T18:37:09.821323Z",
+      "description": "当前BaseGlobalCD=0.5秒。",
+      "fixedValue": 500,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础技能公共间隔",
+      "parameterKey": "melody_interval_ms",
+      "skillKey": "sona_e",
+      "sortOrder": 90,
+      "updatedAt": "2026-09-09T18:37:09.821323Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/sona_e/parameters/cooldown_ms": {
+      "createdAt": "2026-09-08T01:03:35.333368Z",
+      "description": "DDragon16.17.1 Sona.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 14000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "sona_e",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-08T01:03:35.333368Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/sona_e/parameters/tempo_slow_base_ratio": {
+      "createdAt": "2026-09-09T18:37:11.013814Z",
+      "description": "当前TotalTempoMoveSpeedSlow以0.5比例显示为50%。",
+      "fixedValue": 0.5,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "节奏减速基础比例",
+      "parameterKey": "tempo_slow_base_ratio",
+      "skillKey": "sona_e",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-09T18:37:11.013814Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/sona_e/parameters/mana_cost": {
+      "createdAt": "2026-09-08T01:03:35.790305Z",
+      "description": "DDragon16.17.1 Sona.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 65,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "sona_e",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-08T01:03:35.790305Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/sona_e/parameters/tempo_slow_ap_ratio": {
+      "createdAt": "2026-09-09T18:37:12.198312Z",
+      "description": "当前TotalTempoMoveSpeedSlow法强系数为0.0004。",
+      "fixedValue": 0.0004,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "节奏减速法强比例",
+      "parameterKey": "tempo_slow_ap_ratio",
+      "skillKey": "sona_e",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-09T18:37:12.198312Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/sona_e/parameters/tempo_duration_ms": {
+      "createdAt": "2026-09-09T18:37:13.309852Z",
+      "description": "当前TempoDuration=2秒。",
+      "fixedValue": 2000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "节奏减速持续时间",
+      "parameterKey": "tempo_duration_ms",
+      "skillKey": "sona_e",
+      "sortOrder": 120,
+      "updatedAt": "2026-09-09T18:37:13.309852Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/sona_e/parameters/cast_time_ms": {
+      "createdAt": "2026-09-09T18:37:14.394778Z",
+      "description": "当前spellCastTime=0.25秒。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础施法时间",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "sona_e",
+      "sortOrder": 130,
+      "updatedAt": "2026-09-09T18:37:14.394778Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/sona_e/formulas": [
+      {
+        "createdAt": "2026-09-09T18:37:15.525456Z",
+        "description": "自身加速按比例保存，未映射为move_speed_percent属性效果。",
+        "formulaKey": "self_move_speed_ratio_value",
+        "gameId": "lol",
+        "name": "自身移动速度加成比例",
+        "skillKey": "sona_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T18:37:15.525456Z"
+      },
+      {
+        "createdAt": "2026-09-09T18:37:16.628155Z",
+        "description": "减速比例是数值组成，不自动创建减速事件。",
+        "formulaKey": "tempo_slow_ratio",
+        "gameId": "lol",
+        "name": "节奏减速比例",
+        "skillKey": "sona_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T18:37:16.628155Z"
+      }
+    ],
+    "/skills/sona_e/formulas/self_move_speed_ratio_value": {
+      "createdAt": "2026-09-09T18:37:15.525456Z",
+      "description": "自身加速按比例保存，未映射为move_speed_percent属性效果。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "self_move_speed_ratio"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "self_move_speed_ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "self_move_speed_ratio_value",
+      "gameId": "lol",
+      "name": "自身移动速度加成比例",
+      "skillKey": "sona_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T18:37:15.525456Z"
+    },
+    "/skills/sona_e/formulas/tempo_slow_ratio": {
+      "createdAt": "2026-09-09T18:37:16.628155Z",
+      "description": "减速比例是数值组成，不自动创建减速事件。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "tempo_slow_base_ratio"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "tempo_slow_ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "tempo_slow_ratio",
+      "gameId": "lol",
+      "name": "节奏减速比例",
+      "skillKey": "sona_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T18:37:16.628155Z"
+    },
+    "/skills/sona_e/effects": [],
+    "/skills/sona_e/processes": [],
+    "/skills/sona_e/internal-states": [],
+    "/skills/sona_e/trigger-rules": [],
+    "/attributes/mana": {
+      "attributeKey": "mana",
+      "createdAt": "2026-08-22T15:27:36.139767Z",
+      "description": null,
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法力值",
+      "sortOrder": 310,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-22T15:27:36.139767Z",
+      "valueType": "DECIMAL"
+    },
+    "/attributes/ability_power": {
+      "attributeKey": "ability_power",
+      "createdAt": "2026-08-30T16:26:39.898635Z",
+      "description": "角色法术强度；基础值为 0，可由装备和效果增加",
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法术强度",
+      "sortOrder": 510,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-30T16:26:39.898635Z",
+      "valueType": "DECIMAL"
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/sona_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_sona",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_sona/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_sona/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_e/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_sona",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=sona_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_e/parameters/self_move_speed_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_e/parameters/self_move_speed_ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_e/parameters/self_move_speed_duration_min_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_e/parameters/self_move_speed_duration_max_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_e/parameters/aura_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_e/parameters/melody_interval_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_e/parameters/tempo_slow_base_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_e/parameters/tempo_slow_ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_e/parameters/tempo_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_e/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_e/formulas/self_move_speed_ratio_value",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_e/formulas/tempo_slow_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/mana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/ability_power",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_e/effects/mana_cost",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_e/processes/use_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_e/trigger-rules/on_used_cost_and_cooldown",
+      "status": 404
+    }
+  ],
+  "businessWrites": 0
+}
