@@ -191,11 +191,12 @@ export function SkillTriggerRuleManagementModal({
   };
 
   const columns: TableColumnProps[] = [
-    { title: '名称', dataIndex: 'name' },
-    { title: '稳定标识', dataIndex: 'ruleKey' },
+    { title: '名称', dataIndex: 'name', width: 180 },
+    { title: '稳定标识', dataIndex: 'ruleKey', width: 220 },
     {
       title: '事件类型',
       dataIndex: 'eventType',
+      width: 190,
       render: (value: SkillTriggerRuleSummary['eventType']) => SKILL_TRIGGER_EVENT_TYPE_LABELS[value]
     },
     { title: '条件组', dataIndex: 'conditionGroupCount', width: 90 },
@@ -293,6 +294,7 @@ export function SkillTriggerRuleManagementModal({
           loading={loading}
           columns={columns}
           data={items}
+          scroll={{ x: 1400 }}
           pagination={false}
           rowKey={(record: SkillTriggerRuleSummary) => record.ruleKey}
           noDataElement={<Empty description={SKILL_TRIGGER_EMPTY_STATE} />}
