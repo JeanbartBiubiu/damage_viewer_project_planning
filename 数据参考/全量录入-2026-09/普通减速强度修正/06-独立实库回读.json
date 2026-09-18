@@ -1,0 +1,50 @@
+{
+  "status" : "PASS",
+  "target" : "192.168.5.6:5432/test0221",
+  "database" : "test0221",
+  "selectCount" : 9,
+  "checks" : [ {
+    "name" : "27逻辑表名单未变",
+    "status" : "PASS",
+    "detail" : "actual=27, before=27, immediate=27"
+  }, {
+    "name" : "status_kind非空且无默认值",
+    "status" : "PASS",
+    "detail" : "{\"column_name\":\"status_kind\",\"is_nullable\":\"NO\",\"column_default\":null}"
+  }, {
+    "name" : "status_kind枚举约束",
+    "status" : "PASS",
+    "detail" : "[{\"name\":\"ck_statuses_key\",\"definition\":\"CHECK (status_key::text ~ '^[a-z][a-z0-9_]{0,63}$'::text)\"},{\"name\":\"ck_statuses_kind\",\"definition\":\"CHECK (status_kind::text = ANY (ARRAY['STUN'::character varying, 'MOVEMENT_SLOW'::character varying]::text[]))\"},{\"name\":\"ck_statuses_name\",\"definition\":\"CHECK (btrim(name::text) <> ''::text)\"},{\"name\":\"ck_statuses_sort_order\",\"definition\":\"CHECK (sort_order >= 0)\"},{\"name\":\"ck_statuses_status\",\"definition\":\"CHECK (status::text = ANY (ARRAY['ENABLED'::character varying, 'DISABLED'::character varying]::text[]))\"}]"
+  }, {
+    "name" : "唯一lol/vertigo为STUN",
+    "status" : "PASS",
+    "detail" : "matching=1, totalStatuses=1"
+  }, {
+    "name" : "旧字段与时间戳完全不变",
+    "status" : "PASS",
+    "detail" : "currentWithoutKind=1, baseline=1"
+  }, {
+    "name" : "STATUS引用完整不变",
+    "status" : "PASS",
+    "detail" : "actual=1, baseline=1"
+  }, {
+    "name" : "skill_effects行数与排序JSON哈希不变",
+    "status" : "PASS",
+    "detail" : "rows=912, sha256=c7f57eb31db5004b45ca72a7cefebc427c8b4e2bbe9193a7dbad2c9bcb69b7cd"
+  }, {
+    "name" : "skill_object_references行数与排序JSON哈希不变",
+    "status" : "PASS",
+    "detail" : "rows=8875, sha256=77b99ee345f95ec80ba398bee2f89c752810c05abf5bd1850be84143f70065ba"
+  }, {
+    "name" : "只读事务",
+    "status" : "PASS",
+    "detail" : "[{value=on}]"
+  } ],
+  "sha256" : {
+    "skill_effects" : "c7f57eb31db5004b45ca72a7cefebc427c8b4e2bbe9193a7dbad2c9bcb69b7cd",
+    "skill_object_references" : "77b99ee345f95ec80ba398bee2f89c752810c05abf5bd1850be84143f70065ba"
+  },
+  "journalStages" : [ "STARTED", "READ_ONLY_BEFORE", "SQL_SUBMITTED", "COMMIT_RETURNED", "IMMEDIATE_READBACK_PASS" ],
+  "rolledBack" : true,
+  "reportPath" : "output\\status-kind-preflight\\independent-readback.json"
+}

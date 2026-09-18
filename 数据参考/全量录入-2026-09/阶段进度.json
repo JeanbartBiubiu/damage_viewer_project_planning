@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-18T16:54:58.104Z",
+  "generatedAt": "2026-09-18T19:35:39.478Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -9373,14 +9373,45 @@
     },
     "cooldownOnlyProcessValidation": {
       "at": "2026-09-18T19:13:24.484Z",
-      "status": "前后端已允许合法普通冷却独立构成过程行为；完整回归、真实接口和页面待验",
+      "status": "前后端允许合法普通冷却独立构成过程行为；完整单测已通过，返回原对象的真实接口和页面待验",
       "backendCommit": "9864d776",
       "webCommit": "55103824",
       "backendFocusedTests": 12,
       "webFocusedTests": 10,
       "businessWrites": 0,
       "runtimeValidation": "未执行",
-      "sourceCase": "兰顿等无资源消耗且命中独立结算的主动技能；历史录入-02问题"
+      "sourceCase": "兰顿等无资源消耗且命中独立结算的主动技能；历史录入-02问题",
+      "backendFullTests": 963,
+      "webFullTests": 654
+    },
+    "ordinaryMovementSlowAuthoring": {
+      "at": "2026-09-18T19:35:39.477Z",
+      "status": "状态种类与普通减速强度前后端已提交，原库迁移及独立回读通过；新流程页面与原对象补录未完成",
+      "backendCommit": "84995ae4",
+      "webCommit": "8bbe9687",
+      "backendTests": 963,
+      "webTests": 654,
+      "migrationExecutions": 1,
+      "migrationReplays": 0,
+      "independentDBSELECTs": 18,
+      "logicalTables": 27,
+      "existingEffectsUnchanged": 912,
+      "existingReferencesUnchanged": 8875,
+      "newSlowStatuses": 0,
+      "newSlowEffects": 0,
+      "finalServiceGETs": 4,
+      "browser": "NOT_RUN_BROWSER_UNAVAILABLE",
+      "pendingObjects": [
+        "item_3116_passive",
+        "item_3143_active",
+        "urgot_q"
+      ],
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "damage_viewer_project_planning",
+        "relativePath": "数据参考/全量录入-2026-09/普通减速强度修正/10-证据清单.json",
+        "sha256": "a2fc3ca252da92080743e8cf6d531c081b0efb765ec877ac289846e4dc737faa"
+      }
     }
   },
   "runtimeValidation": "未执行",

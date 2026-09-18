@@ -1,0 +1,29 @@
+{
+  "status": "PASS",
+  "backend": {
+    "reviewer": "/root/q_independent_readback",
+    "model": "gpt-5.6-luna",
+    "reasoningEffort": "max",
+    "commit": "84995ae4",
+    "checks": [
+      "状态种类必填和更新不可变",
+      "锁后读取种类",
+      "顶层数值参数和公式引用及动态输入保护",
+      "触发动作和效果反向修改均拒绝额外结果修正"
+    ],
+    "clarification": "初轮把当前三案例的来源与目标实例、单层和刷新配置误当成全局强制规则；定点对照共享契约后撤销该阻塞，改为三案例冻结请求核对项。"
+  },
+  "frontend": {
+    "reviewer": "/root/slow_frontend_review",
+    "model": "gpt-5.6-luna",
+    "reasoningEffort": "max",
+    "commit": "8bbe9687",
+    "resolved": [
+      "目录重读先清旧数组，非ready状态阻止依赖状态目录的父保存",
+      "效果详情未加载时保留动作草稿，显示准确错误并提供重试；恢复后合法伤害修正可确认",
+      "状态结果仍不接受外层额外修正"
+    ]
+  },
+  "databaseWrites": 0,
+  "browserActions": 0
+}

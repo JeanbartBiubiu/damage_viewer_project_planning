@@ -1,0 +1,18 @@
+{
+  "status": "APPROVED",
+  "reviewer": "/root/slow_backend_impl",
+  "independentFromExecutorAuthor": true,
+  "file": "C:/project/damage_backend_dev/tools/authoring/ApplyStatusKinds.java",
+  "sha256": "c33301c1edc2dc3bcf913504ae051d81bbaf367d559dd39a00ca1ce20194f465",
+  "checks": [
+    "固定唯一已审查SQL散列",
+    "目标主机、端口与数据库校验",
+    "连接前CREATE_NEW建立固定尝试日志",
+    "SQL拥有事务，无嵌套事务",
+    "仅输出异常类别及SQLState，无凭据或原始异常",
+    "异常标记需要独立恢复，无自动重试",
+    "遍历全部JDBC结果后记录提交回传"
+  ],
+  "compile": "javac通过",
+  "databaseWritesDuringReview": 0
+}

@@ -1,0 +1,51 @@
+{
+  "at": "2026-09-18T19:35:39.465Z",
+  "backend": {
+    "commit": "84995ae4",
+    "fullTests": 963,
+    "failed": 0,
+    "skipped": 0
+  },
+  "frontend": {
+    "commit": "8bbe9687",
+    "finalTestFiles": 59,
+    "fullTests": 654,
+    "failed": 0,
+    "lint": "PASS",
+    "typecheck": "PASS",
+    "build": "PASS",
+    "buildWarning": "现有主包压缩后大于500kB，构建成功"
+  },
+  "migration": {
+    "executions": 1,
+    "replays": 0,
+    "immediateReadback": "PASS",
+    "independentReadback": "PASS",
+    "independentSELECTs": 18,
+    "logicalTables": 27,
+    "effectsUnchanged": 912,
+    "referencesUnchanged": 8875,
+    "statusesBackfilled": 1
+  },
+  "finalService": {
+    "startedWith": "mvn spring-boot:run",
+    "pid": 35616,
+    "port": 8080,
+    "GETs": 4,
+    "status": "PASS",
+    "businessWrites": 0
+  },
+  "browser": {
+    "status": "NOT_RUN_BROWSER_UNAVAILABLE",
+    "error": "Codex auth token is unavailable",
+    "newSlowStatusCreated": false,
+    "originalObjectsAuthored": false
+  },
+  "pending": [
+    "浏览器状态种类新建、编辑只读和启停操作",
+    "普通减速效果的固定/参数取值、期限、错误恢复、保存重开",
+    "返回冰杖、兰顿和厄加特Q录入原减速分支，再独立回读",
+    "纯冷却过程返回原对象的真实接口与页面验证"
+  ],
+  "runtime": "NOT_RUN；未开发Wasm或战斗宿主"
+}

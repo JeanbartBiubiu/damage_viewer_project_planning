@@ -1,0 +1,24 @@
+{
+  "status": "APPROVED",
+  "reviewer": "/root/q_independent_readback",
+  "model": "gpt-5.6-luna",
+  "reasoningEffort": "max",
+  "mode": "只读静态审查，未访问或修改数据库",
+  "file": "C:/project/damage_backend_dev/db/game_manage/migrations/status_kinds_and_slow_strength.sql",
+  "sha256": "7484ecee03c8b3443c50a9a9c473619573f12174c3965babaa5b7a6efd0fb025",
+  "baseline": "01-状态与引用预检.json",
+  "contract": "02a-已审查第四单元.md",
+  "findings": [
+    "事务和锁按 games、statuses、skill_effects、skill_object_references 顺序建立，锁等待十秒。",
+    "仅接受 test0221；同名列已经存在则拒绝重放。",
+    "精确断言唯一 lol/vertigo 眩晕全部旧字段和时间戳、唯一 veigar_e 状态结果及唯一状态引用，任何未知状态中止。",
+    "仅新增 status_kind，以临时常量默认值回填 STUN 后删除默认值，添加两值枚举检查；没有新增持久表。",
+    "提交前对原状态字段含时间戳、所有效果和引用进行双向结构比较；无业务 UPDATE，异常回滚。"
+  ],
+  "limits": [
+    "SQL 限定数据库名，执行器仍需核对主机与端口。",
+    "27 张逻辑表由执行前后读取确认，SQL 没有写死该数量。",
+    "种类不可变是后端管理契约；该 SQL 只提供非空和枚举约束。",
+    "此记录不是执行或真实数据库回读证明。"
+  ]
+}
