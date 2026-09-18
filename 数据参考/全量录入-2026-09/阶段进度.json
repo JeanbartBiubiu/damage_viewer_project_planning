@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-18T23:14:37.728Z",
+  "generatedAt": "2026-09-18T23:18:54.983Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -9828,6 +9828,34 @@
         "sha256": "d38b770895e5cc7de18f255a23183f320ca798d38ebbca3f3874c526c32a8e09",
         "commit": "30eeae4d"
       }
+    },
+    "xerathEDamageAndUseBackfill": {
+      "at": "2026-09-18T23:18:54.983Z",
+      "status": "伤害及基础使用流程已保存并独立回读；眩晕和页面待续",
+      "skills": [
+        "xerath_e"
+      ],
+      "created": {
+        "effects": 1,
+        "processes": 1,
+        "triggerRules": 2
+      },
+      "prepareGETs": 31,
+      "writerGETs": 39,
+      "writerPOSTs": 4,
+      "immediateReadbacks": 4,
+      "independentGETs": 31,
+      "unchangedResponsesIncludingTimestamps": 24,
+      "expectedChangedCollections": 3,
+      "arithmeticCases": 30,
+      "browser": "NOT_RUN_BROWSER_UNAVAILABLE",
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/泽拉斯E伤害与使用流程补录/09-证据清单.json",
+        "sha256": "4d1efa99b646509cc5ed7f1269eb2f5638d4cb13ad17ed0e9eceeff9765768c8",
+        "commit": "3f0a5a6c"
+      }
     }
   },
   "runtimeValidation": "未执行",
@@ -10086,6 +10114,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/四项既有伤害吸血资格纠错/09-证据清单.json",
         "sha256": "d38b770895e5cc7de18f255a23183f320ca798d38ebbca3f3874c526c32a8e09",
         "commit": "30eeae4d"
+      },
+      "xerathEDamageAndUseBackfill": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/泽拉斯E伤害与使用流程补录/09-证据清单.json",
+        "sha256": "4d1efa99b646509cc5ed7f1269eb2f5638d4cb13ad17ed0e9eceeff9765768c8",
+        "commit": "3f0a5a6c"
       }
     },
     "coverage": {
@@ -31295,19 +31329,47 @@
         "name": "泽拉斯·冲击法球",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有5个待处理分支，其中来源或资料缺口3个、系统缺口0个、配置缺口2个。",
+        "reason": "一次实际命中魔法伤害、法力、普通冷却及250毫秒施法延迟已保存并独立回读。眩晕实际距离时长仍缺完整算法或合法已核输入，控制接线、代表页面及旧说明待续，仍属资料待核。",
         "pendingCounts": {
-          "source": 3,
+          "source": 1,
           "system": 0,
-          "configuration": 2,
-          "other": 0
+          "configuration": 1,
+          "other": 1
         },
         "batchKey": "heroFourteenthBatch",
         "candidateSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "xerathEDamageAndUseBackfill"
+        ],
+        "previousPendingCounts": {
+          "source": 3,
+          "system": 0,
+          "configuration": 2,
+          "other": 0
+        },
+        "currentComponentCounts": {
+          "parameters": 8,
+          "formulas": 2,
+          "effects": 2,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 2
+        },
+        "remainingBranches": [
+          "眩晕实际距离时长完整依据和合法计算时输入",
+          "眩晕结果及实际命中接线",
+          "代表页面验收及原有过时说明整理"
+        ],
+        "authoredComponents": {
+          "damageEffect": "mage_spear_hit",
+          "process": "cast",
+          "useRule": "on_used",
+          "hitRule": "actual_hit",
+          "httpReadback": "PASS",
+          "browser": "待验"
+        }
       },
       {
         "sourceChampionId": "Xerath",
