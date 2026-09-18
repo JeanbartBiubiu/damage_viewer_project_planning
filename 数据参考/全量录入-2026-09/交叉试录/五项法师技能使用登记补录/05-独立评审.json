@@ -1,0 +1,114 @@
+{
+  "status": "APPROVED",
+  "at": "2026-09-18T22:14:53.081Z",
+  "reviewer": "/root/six_mage_use_cost_candidates",
+  "requestedModel": "gpt-5.6-luna",
+  "reasoningEffort": "max",
+  "task": "静态独立评审五项法师技能使用登记补录的01/02/03/04、参数与过程来源核算及v2追加工具；不调用业务API、不修改冻结资料和工具。",
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v2.mjs": "dc7af7426c1f3fcaa53a8c03738f649fc2f8236ba10090981a091ff1acc1a378",
+    "01-候选方案.json": "afd5f1cc6f28da81f6e58a0ef6097864a39a7960a649773be3a0c97c04e1efa0",
+    "02-冻结请求.json": "d9434de35aa074d8eefac3de2da0f41330dfc65c3026dab32567260c74bcfade",
+    "03-来源摘要.json": "9cc5deb455b637ce90890068680f4bd529ca46866681025c8501dfeacf657308",
+    "04-写入前现值.json": "1c6aee3f27cac1da1cc8610f92b88f515298d181225fb29f8c7c7a8ff59d1d60"
+  },
+  "v1Reference": {
+    "path": "tools/authoring/append-reviewed-skill-components.mjs",
+    "rawSha256": "80a18af8cf0232cf78541c15b988f544140492f9d2c559184678f60bf1817a9a",
+    "unchanged": true
+  },
+  "toolReview": {
+    "candidatePath": "tools/authoring/append-reviewed-skill-components-v2.mjs",
+    "candidateRawSha256": "dc7af7426c1f3fcaa53a8c03738f649fc2f8236ba10090981a091ff1acc1a378",
+    "changedHunks": 4,
+    "boundedDifferences": [
+      "中文说明从仅新增效果、过程、触发规则改为支持新增参数。",
+      "executorKey切换为append-reviewed-skill-components-v2.mjs。",
+      "写入路由校验增加parameters，其余效果、过程、触发规则校验保持不变。",
+      "expectedSummary增加parameters列表摘要投影；参数详情仍由bodyOf去除服务端元数据后与expectedReadback严格比较。"
+    ],
+    "normalizedAgainstV1": true,
+    "noV1Mutation": true
+  },
+  "frozenScope": {
+    "base": "http://127.0.0.1:8080/api/admin/games/lol",
+    "totalPOSTs": 9,
+    "parameterPOSTs": 1,
+    "processPOSTs": 3,
+    "triggerRulePOSTs": 5,
+    "effectPOSTs": 0,
+    "targets": [
+      "morgana_q",
+      "morgana_w",
+      "morgana_r",
+      "lux_q",
+      "lux_r"
+    ],
+    "excluded": [
+      {
+        "skillKey": "lux_w",
+        "reason": "现有cast过程与on_used主动入口已完整登记成本和普通冷却，跳过重复创建。"
+      },
+      {
+        "skillKey": "lux_e",
+        "reason": "再次施放语义不在本批范围。"
+      }
+    ],
+    "morganaQParameter": {
+      "parameterKey": "cooldown_ms",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER",
+      "fixedValue": 10000,
+      "levelValues": null
+    },
+    "noAdaptiveSkip": true,
+    "driftAction": "若写前任何新对象已存在、现值或文件散列漂移，整批停止，不按草稿自适应跳过。"
+  },
+  "sourceAndBaseline": {
+    "sourceFileCount": 11,
+    "sourceFilesAllMatch": true,
+    "sourceCalculationStatus": "PASS",
+    "sourceCalculationCases": 44,
+    "allSourceCasesExpectedEqualsActual": true,
+    "sourceShaBoundTo03": true,
+    "baselineShaBoundTo04": true,
+    "baselineGETs": 119,
+    "baseline200": 110,
+    "plannedObject404": 9,
+    "baselineBusinessWrites": 0,
+    "parameterPOSTPrecondition404": true,
+    "processAndRulePrecondition404": true
+  },
+  "requestProtection": {
+    "allRequestsPOST": true,
+    "distinctWriteRoutes": true,
+    "distinctDetailRoutes": true,
+    "bodyKeyMatchesExpectedReadbackKey": true,
+    "parameterPostAllowedOnlyInWriteMode": true,
+    "parameterListProjectionChecked": true,
+    "parameterDetailBodyProjectionChecked": true,
+    "fullBaselineSnapshotComparedBeforeWrite": true,
+    "everyDetailChecked404ImmediatelyBeforeWrite": true,
+    "sourceHashesCheckedBeforeNonPrepareModes": true,
+    "frozenSourceAndBaselineHashesChecked": true,
+    "approvedBatchHashGatePresentForWrite": true,
+    "immediateDetailReadbackAfterEveryPOST": true,
+    "collectionCountAndUnchangedRowsCheckedOnReadback": true,
+    "runtimeOrHostNotUsedAsBlocker": true
+  },
+  "checks": [
+    "01与02请求正文深度一致，9条POST为1参数、3过程、5主动规则；无效果POST。",
+    "莫甘娜Q新增cooldown_ms=10000且过程引用同技能参数；Q/W/R过程均只挂mana_cost并在PROCESS_START启动普通冷却。",
+    "五条主动规则均为SKILL_USED/useKind=ACTIVE并只START_PROCESS；LuxQ/R指向已有cast，莫甘娜Q/W/R指向新过程。",
+    "LuxW在00只读候选中已有cast与on_used完整登记，本批不写；LuxE再次施放语义排除。",
+    "03的11个来源文件散列与当前文件一致；02的sourceSha256和baselineSha256分别绑定当前03与04。",
+    "44项参数与过程来源核算全部PASS且expected等于actual。",
+    "04基线119次GET、110个200与9个目标404、业务写入0；五项冻结新对象均未存在。",
+    "v2相对v1仅四处有界差异，v1原始SHA保持80a18af...；参数POST后的列表摘要、详情严格回读、集合数量与旧行结构相等均有保护。"
+  ],
+  "businessWritesDuringReview": 0,
+  "networkRequestsDuringReview": 0,
+  "browser": "未执行",
+  "runtime": "未执行",
+  "conclusion": "APPROVED：允许主负责人按v2工具和本冻结请求进入下一阶段；本评审本身不执行业务写入。"
+}
