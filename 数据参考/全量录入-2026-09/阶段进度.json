@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-18T14:00:11.392Z",
+  "generatedAt": "2026-09-18T15:59:13.899Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -9246,6 +9246,23 @@
         "commit": "4ba1304a211963ae483c580e35eae40472fadcce"
       },
       "runtimeValidation": "未执行"
+    },
+    "nasusPassiveCompletionAudit": {
+      "at": "2026-09-18T15:59:13.899Z",
+      "status": "补核独立来源、现值和页面，纠正被动已完成却被批次级状态覆盖的清单结论",
+      "skills": [
+        "nasus_p"
+      ],
+      "businessWrites": 0,
+      "currentGETs": 15,
+      "evidence": {
+        "relativePath": "数据参考/全量录入-2026-09/内瑟斯被动完成口径复核/01-当前核对.json",
+        "sha256": "5d4ddb54374086d3f4d479b9751147db3b2b48e27d28e38eaa3b197c8ad40267",
+        "getCount": 15,
+        "businessWrites": 0
+      },
+      "browser": "当前初始化规则与永久效果可见；复用原保存重开证据",
+      "runtimeValidation": "未执行"
     }
   },
   "runtimeValidation": "未执行",
@@ -9398,6 +9415,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/安妮E显式自施护盾正式补录/09-证据清单.json",
         "sha256": "89148d5ba0bc90d19ae999a832b44d53c28ec90abcc258469462754af0db89c0",
         "commit": "4ba1304a211963ae483c580e35eae40472fadcce"
+      },
+      "nasusPassiveCompletionAudit": {
+        "relativePath": "数据参考/全量录入-2026-09/内瑟斯被动完成口径复核/01-当前核对.json",
+        "sha256": "5d4ddb54374086d3f4d479b9751147db3b2b48e27d28e38eaa3b197c8ad40267",
+        "getCount": 15,
+        "businessWrites": 0
       }
     },
     "coverage": {
@@ -9416,10 +9439,10 @@
         "sourceItems": 865,
         "concludedItems": 865,
         "conclusions": {
-          "已录入": 0,
-          "明确排除": 26,
           "资料待核": 385,
-          "系统暂缓": 454
+          "系统暂缓": 453,
+          "明确排除": 26,
+          "已录入": 1
         },
         "matchedInScopeItems": 855,
         "excludedChampionSlots": 10,
@@ -22085,9 +22108,9 @@
         "slot": "P",
         "skillKey": "nasus_p",
         "name": "内瑟斯·吞噬灵魂",
-        "conclusion": "系统暂缓",
-        "conclusionScope": "技能范围内数据与机制",
-        "reason": "当前证据只有已保存组成或批次级部分录入结论，没有整个技能范围内机制完成证据；按系统暂缓保留。",
+        "conclusion": "已录入",
+        "conclusionScope": "本轮1至18级管理配置，不含战斗运行",
+        "reason": "当前1至18级管理配置完整：独立来源、完整等级图、无限期自身生命偷取效果、当前时点读值、初始化一次入口和全部挂载引用均已表达。",
         "pendingCounts": {
           "source": 0,
           "system": 0,
@@ -22098,7 +22121,17 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "nasusPassiveCompletionAudit"
+        ],
+        "completedBranches": [
+          "当前角色等级10%/15%/20%生命偷取",
+          "永久单层自身属性效果",
+          "来源初始化一次入口"
+        ],
+        "runtimeValidation": "未执行",
+        "followups": [
+          "纠正技能主体历史导入说明，不改变已有数值或组成"
         ]
       },
       {

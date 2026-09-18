@@ -1,0 +1,366 @@
+{
+  "at": "2026-09-18T15:59:13.899Z",
+  "status": "PASS",
+  "executor": "主负责人",
+  "businessWrites": 0,
+  "GETs": 15,
+  "requests": [
+    {
+      "method": "GET",
+      "path": "/skills/nasus_p",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_nasus",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=nasus_p",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nasus_p/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nasus_p/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nasus_p/parameters/life_steal_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nasus_p/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nasus_p/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nasus_p/effects/soul_eater_lifesteal",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nasus_p/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nasus_p/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nasus_p/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nasus_p/trigger-rules/initialize_lifesteal",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/life_steal_percent",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/modifier-zones/attribute_flat_add",
+      "status": 200
+    }
+  ],
+  "responses": {
+    "/skills/nasus_p": {
+      "createdAt": "2026-09-06T18:19:34.146368Z",
+      "description": "内瑟斯吸取敌人的生命能量，从而获得生命偷取加成。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+      "gameId": "lol",
+      "maxLevel": 1,
+      "name": "内瑟斯·吞噬灵魂",
+      "skillCategoryKeys": [
+        "passive"
+      ],
+      "skillKey": "nasus_p",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:19:34.146368Z"
+    },
+    "/characters/champion_nasus": {
+      "characterKey": "champion_nasus",
+      "createdAt": "2026-09-06T16:26:52.817968Z",
+      "description": "来源：官方 Data Dragon 16.17.1；攻击力成长与攻速来源补证自 CommunityDragon 提取的同补丁客户端 16.17.8104348（非 Riot 官方接口）。本轮仅录角色主体与 1～18 级基础自然成长，不含被动、技能、装备、符文、叠层或形态。技能、图片和机制待录，不能视为完整录入。",
+      "gameId": "lol",
+      "name": "内瑟斯",
+      "updatedAt": "2026-09-06T16:26:52.817968Z"
+    },
+    "/character-skill-relations?skillKey=nasus_p": {
+      "items": [
+        {
+          "characterKey": "champion_nasus",
+          "characterName": "内瑟斯",
+          "gameId": "lol",
+          "skillKey": "nasus_p",
+          "skillName": "内瑟斯·吞噬灵魂",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        }
+      ],
+      "total": 1
+    },
+    "/skills/nasus_p/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_nasus_p",
+        "name": "nasus_p"
+      }
+    },
+    "/skills/nasus_p/parameters": [
+      {
+        "createdAt": "2026-09-07T16:24:35.549089Z",
+        "description": "客户端 LifestealTooltip：1～6级10%，7～12级15%，13～18级20%；增加百分点。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.1,
+          "2": 0.1,
+          "3": 0.1,
+          "4": 0.1,
+          "5": 0.1,
+          "6": 0.1,
+          "7": 0.15,
+          "8": 0.15,
+          "9": 0.15,
+          "10": 0.15,
+          "11": 0.15,
+          "12": 0.15,
+          "13": 0.2,
+          "14": 0.2,
+          "15": 0.2,
+          "16": 0.2,
+          "17": 0.2,
+          "18": 0.2
+        },
+        "name": "生命偷取增加比例",
+        "parameterKey": "life_steal_ratio",
+        "skillKey": "nasus_p",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:24:35.549089Z",
+        "valueMode": "CHARACTER_LEVEL",
+        "valueType": "DECIMAL"
+      }
+    ],
+    "/skills/nasus_p/parameters/life_steal_ratio": {
+      "createdAt": "2026-09-07T16:24:35.549089Z",
+      "description": "客户端 LifestealTooltip：1～6级10%，7～12级15%，13～18级20%；增加百分点。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 0.1,
+        "2": 0.1,
+        "3": 0.1,
+        "4": 0.1,
+        "5": 0.1,
+        "6": 0.1,
+        "7": 0.15,
+        "8": 0.15,
+        "9": 0.15,
+        "10": 0.15,
+        "11": 0.15,
+        "12": 0.15,
+        "13": 0.2,
+        "14": 0.2,
+        "15": 0.2,
+        "16": 0.2,
+        "17": 0.2,
+        "18": 0.2
+      },
+      "name": "生命偷取增加比例",
+      "parameterKey": "life_steal_ratio",
+      "skillKey": "nasus_p",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T16:24:35.549089Z",
+      "valueMode": "CHARACTER_LEVEL",
+      "valueType": "DECIMAL"
+    },
+    "/skills/nasus_p/formulas": [],
+    "/skills/nasus_p/effects": [
+      {
+        "createdAt": "2026-09-07T16:24:35.93716Z",
+        "description": "无限期自身属性效果，按当前角色等级读取；initialize_lifesteal 初始化规则施加到自身。不是直接治疗，未执行战斗验证。",
+        "effectKey": "soul_eater_lifesteal",
+        "gameId": "lol",
+        "lifecycleEnabled": true,
+        "name": "吞噬灵魂生命偷取",
+        "resultCount": 1,
+        "skillKey": "nasus_p",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T17:03:57.44837Z"
+      }
+    ],
+    "/skills/nasus_p/effects/soul_eater_lifesteal": {
+      "createdAt": "2026-09-07T16:24:35.93716Z",
+      "description": "无限期自身属性效果，按当前角色等级读取；initialize_lifesteal 初始化规则施加到自身。不是直接治疗，未执行战斗验证。",
+      "effectKey": "soul_eater_lifesteal",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": null,
+        "expiryMode": "EXPLICIT_ONLY",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": null,
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "吞噬灵魂生命偷取",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "life_steal_percent",
+            "modifierZoneKey": "attribute_flat_add",
+            "operation": "INCREASE"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": null,
+            "stackValueMode": "SHARED",
+            "valueReadMode": "MOMENT_EVALUATION"
+          },
+          "name": "增加生命偷取百分点",
+          "resultKey": "lifesteal",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": null,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "life_steal_ratio"
+            }
+          }
+        }
+      ],
+      "skillKey": "nasus_p",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T17:03:57.44837Z"
+    },
+    "/skills/nasus_p/processes": [],
+    "/skills/nasus_p/internal-states": [],
+    "/skills/nasus_p/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "来源基础属性、挂载技能和初始状态准备完成后，对自身施加吞噬灵魂生命偷取；按当前角色等级读取，初始化仅触发一次。",
+        "eventType": "SOURCE_INITIALIZED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "初始化生命偷取",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "initialize_lifesteal",
+        "sortOrder": 0,
+        "updatedAt": "2026-09-07T17:00:54.133039Z"
+      }
+    ],
+    "/skills/nasus_p/trigger-rules/initialize_lifesteal": {
+      "actions": [
+        {
+          "actionKey": "action_1",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "soul_eater_lifesteal"
+          },
+          "name": "施加自身生命偷取",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "EVENT_SOURCE"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "来源基础属性、挂载技能和初始状态准备完成后，对自身施加吞噬灵魂生命偷取；按当前角色等级读取，初始化仅触发一次。",
+      "eventSource": {
+        "detail": {},
+        "eventType": "SOURCE_INITIALIZED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "初始化生命偷取",
+      "perTargetCooldown": null,
+      "ruleKey": "initialize_lifesteal",
+      "sortOrder": 0
+    },
+    "/attributes/life_steal_percent": {
+      "attributeKey": "life_steal_percent",
+      "createdAt": "2026-09-06T14:36:43.823597Z",
+      "description": "生命偷取比例，1 表示 100%，0.07 表示 7%。资料：16.17.1 装备说明。具体伤害适用范围由效果规则维护。",
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": null,
+      "name": "生命偷取比例",
+      "sortOrder": 560,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T14:36:43.823597Z",
+      "valueType": "DECIMAL"
+    },
+    "/modifier-zones/attribute_flat_add": {
+      "applicationStage": "ATTRIBUTE_FLAT",
+      "calculationMode": "FLAT_ADD",
+      "createdAt": "2026-09-06T16:50:52.756989Z",
+      "description": "持续属性的固定值增加或减少；同属性同乘区内按方向加算，先于属性比例修正。比例类属性自身以1表示100%，增加0.6表示增加60个百分点，跨来源韧性组合仍待游戏规则核对。",
+      "domain": "ATTRIBUTE",
+      "gameId": "lol",
+      "modifierZoneKey": "attribute_flat_add",
+      "name": "属性固定加算",
+      "sortOrder": 10,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T16:50:52.756989Z"
+    }
+  },
+  "source": {
+    "version": "客户端16.17/官方16.17.1",
+    "compressedSha256": "dad0b2fe3a52800faceaf75b9e70cced0ba8128acb3384712cea739ab4386051",
+    "decompressedSha256": "d9e3e055a3d3c5c76627badaa4f4bc57ec0bde0eb4eda1c2fad37e3c968dc5e7",
+    "passivePointer": "Characters/Nasus/Spells/NasusPassiveAbility/NasusPassive",
+    "curve": {
+      "mLevel1Value": 10,
+      "mBreakpoints": [
+        {
+          "mLevel": 7,
+          "mAdditionalBonusAtThisLevel": 5,
+          "__type": "Breakpoint"
+        },
+        {
+          "mLevel": 13,
+          "mAdditionalBonusAtThisLevel": 5,
+          "__type": "Breakpoint"
+        }
+      ],
+      "__type": "ByCharLevelBreakpointsCalculationPart"
+    },
+    "officialDescription": "内瑟斯吸取敌人的生命能量，从而获得生命偷取加成。"
+  },
+  "conclusion": "当前1至18级管理配置完整：独立来源、完整等级图、无限期自身生命偷取效果、当前时点读值、初始化一次入口和全部挂载引用均已表达。",
+  "staleDescription": "技能本体保留旧的数值和机制待补证说明，不是当前缺失组成；后续单独纠正文案，不据此重复录入。",
+  "boundary": "本次纯GET及来源验证；初始化规则和效果与既有独立回读逐字段一致；不证明宿主初始化事件或实际吸血结算。"
+}
