@@ -1,0 +1,226 @@
+{
+  "startedAt": "2026-09-18T16:04:35.955Z",
+  "status": "PASS",
+  "approvedFiles": {
+    "批次执行.mjs": "035a2b94124dddd0acf717ba1ce90451f5aeac65355d2ee2e4fe3fe8bd664c83",
+    "01-来源方案.md": "180b6250717651fd5c5896bae2e78934b8e1e102a6b5a6a4d66b8a54349b4aa1",
+    "02-冻结请求.json": "10bfa63450db87bac9d169af75d6e14d1751099af69f4c0e8650c68c6d6c6a1a",
+    "03-来源快照.json": "bd2c37eb8d1c193d8965ce6b7568552617dc905b7a520c335d8c552c7ae3f3f5",
+    "04-写入前现值.json": "1d6ce56a3e8ef64cd1d1d93ae93fb5419846363b7f869e26008f85d41fcab608"
+  },
+  "writesAttempted": 1,
+  "response": {
+    "status": 201,
+    "data": {
+      "actions": [
+        {
+          "actionKey": "apply_self_shield",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "magic_shield"
+          },
+          "name": "执行黑暗自护盾",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "explicit_self",
+              "conditionType": "EXPLICIT_TARGET_IS_SOURCE",
+              "detail": {},
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "self_cast",
+          "name": "明确对自身施放",
+          "sortOrder": 10
+        }
+      ],
+      "description": "莫甘娜E主动使用且回退前的显式目标为来源对象时，执行已有自身护盾。无显式目标不匹配；仅录魔法伤害吸收，控制免疫、队友、资源及冷却不在本条规则内。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "morgana_e",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "主动自施黑暗护盾",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used_self_shield",
+      "sortOrder": 10
+    }
+  },
+  "immediateReadback": {
+    "actions": [
+      {
+        "actionKey": "apply_self_shield",
+        "actionType": "EXECUTE_EFFECT",
+        "detail": {
+          "effectKey": "magic_shield"
+        },
+        "name": "执行黑暗自护盾",
+        "resultModifiers": [],
+        "runtimeInputBindings": [],
+        "sortOrder": 10,
+        "targetContext": "CURRENT_TARGET"
+      }
+    ],
+    "conditionGroups": [
+      {
+        "conditions": [
+          {
+            "conditionKey": "explicit_self",
+            "conditionType": "EXPLICIT_TARGET_IS_SOURCE",
+            "detail": {},
+            "sortOrder": 10
+          }
+        ],
+        "groupKey": "self_cast",
+        "name": "明确对自身施放",
+        "sortOrder": 10
+      }
+    ],
+    "description": "莫甘娜E主动使用且回退前的显式目标为来源对象时，执行已有自身护盾。无显式目标不匹配；仅录魔法伤害吸收，控制免疫、队友、资源及冷却不在本条规则内。",
+    "eventSource": {
+      "detail": {
+        "sourceSkillKey": "morgana_e",
+        "useKind": "ACTIVE"
+      },
+      "eventType": "SKILL_USED"
+    },
+    "maxTriggersPerProcess": null,
+    "name": "主动自施黑暗护盾",
+    "perTargetCooldown": null,
+    "ruleKey": "on_used_self_shield",
+    "sortOrder": 10
+  },
+  "finishedAt": "2026-09-18T16:04:37.975Z",
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_morgana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_morgana/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_morgana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=morgana_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_morgana/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/parameters/base_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/parameters/shield_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/parameters/shield_ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/formulas/magic_shield_value",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/effects/magic_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/trigger-rules/on_used_self_shield",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/morgana_e/trigger-rules",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/trigger-rules/on_used_self_shield",
+      "status": 200
+    }
+  ]
+}

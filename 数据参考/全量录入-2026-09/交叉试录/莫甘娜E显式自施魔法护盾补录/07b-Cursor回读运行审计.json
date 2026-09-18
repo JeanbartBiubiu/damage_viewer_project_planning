@@ -1,0 +1,37 @@
+{
+  "resultStatus": "finished",
+  "model": {
+    "id": "grok-4.6",
+    "params": [
+      {
+        "id": "effort",
+        "value": "high"
+      },
+      {
+        "id": "fast",
+        "value": "false"
+      }
+    ]
+  },
+  "writeAllowlistAudit": {
+    "kind": "audited-write-allowlist",
+    "osSandbox": false,
+    "auditAvailable": true,
+    "outsideScopeCount": 0,
+    "outsideScopePaths": [],
+    "runDeltaOutsideScopeCount": 0,
+    "runDeltaOutsideScopePaths": [],
+    "runDeltaCount": 0,
+    "failClosed": false
+  },
+  "toolEvents": {
+    "allTerminalCallsCompleted": true,
+    "anyTruncated": false,
+    "parseable": true,
+    "calls": 80
+  },
+  "runEvidence": ".agents/artifacts/cursor-task-2026-09-18T16-05-17-232Z",
+  "acceptedAt": "2026-09-18T16:17:14.366Z",
+  "provenance": "GET报告由Cursor独立运行产生，其executor内的主负责人字样是代理自报；实际主负责人另用CUA验收。",
+  "extraWork": "代理额外尝试浏览器核对，首轮因加载与关闭动画误报后重试，均无业务写入；该额外浏览器证据不替代主负责人页面验收。"
+}
