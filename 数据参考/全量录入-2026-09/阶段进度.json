@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-18T15:59:13.899Z",
+  "generatedAt": "2026-09-18T16:17:14.899Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -9263,6 +9263,34 @@
       },
       "browser": "当前初始化规则与永久效果可见；复用原保存重开证据",
       "runtimeValidation": "未执行"
+    },
+    "morganaExplicitSelfShieldBackfill": {
+      "at": "2026-09-18T16:17:14.899Z",
+      "status": "显式自施魔法伤害吸收入口已正式补录并完成独立回读和页面重开",
+      "skills": [
+        "morgana_e"
+      ],
+      "created": {
+        "triggerRules": 1
+      },
+      "ruleKey": "on_used_self_shield",
+      "prepareGETs": 22,
+      "reviewGETs": 22,
+      "writerPOSTs": 1,
+      "independentGETs": 22,
+      "protectedObjectsUnchanged": 20,
+      "browser": "PASS",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/莫甘娜E显式自施魔法护盾补录/09-证据清单.json",
+        "sha256": "d83dc411104118b526b55e7ee07775a591e1d010058693f6937bd9bb48f1b178",
+        "commit": "4781a8d76fb0dae08c8e254b3dd0adadf130bd48"
+      },
+      "runtimeValidation": "未执行",
+      "remaining": [
+        "护盾存续期间控制免疫",
+        "法力消耗与普通冷却入口"
+      ]
     }
   },
   "runtimeValidation": "未执行",
@@ -9421,6 +9449,12 @@
         "sha256": "5d4ddb54374086d3f4d479b9751147db3b2b48e27d28e38eaa3b197c8ad40267",
         "getCount": 15,
         "businessWrites": 0
+      },
+      "morganaExplicitSelfShieldBackfill": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/莫甘娜E显式自施魔法护盾补录/09-证据清单.json",
+        "sha256": "d83dc411104118b526b55e7ee07775a591e1d010058693f6937bd9bb48f1b178",
+        "commit": "4781a8d76fb0dae08c8e254b3dd0adadf130bd48"
       }
     },
     "coverage": {
@@ -9439,8 +9473,8 @@
         "sourceItems": 865,
         "concludedItems": 865,
         "conclusions": {
-          "资料待核": 385,
-          "系统暂缓": 453,
+          "资料待核": 384,
+          "系统暂缓": 454,
           "明确排除": 26,
           "已录入": 1
         },
@@ -21831,21 +21865,30 @@
         "slot": "E",
         "skillKey": "morgana_e",
         "name": "莫甘娜·黑暗之盾",
-        "conclusion": "资料待核",
+        "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有2个待处理分支，其中来源或资料缺口1个、系统缺口1个、配置缺口0个。",
+        "reason": "同版官方自施来源已补证；明确对本人主动施放时，已有5秒魔法伤害吸收入口完成正式保存、独立回读和页面重开。控制免疫及资源冷却入口仍未完成。",
         "pendingCounts": {
-          "source": 1,
+          "source": 0,
           "system": 1,
-          "configuration": 0,
+          "configuration": 1,
           "other": 0
         },
         "batchKey": "heroThirtyFirstBatch",
         "candidateSha256": "bf26b9374fc305af52e7298934a54244aec5bec0166017ae5a99a38a2019ddcc",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "morganaExplicitSelfShieldBackfill"
+        ],
+        "completedBranches": [
+          "显式自施时的普通魔法护盾，100/155/210/265/320加0.7总法强，5000毫秒"
+        ],
+        "remainingBranches": [
+          "护盾存续期间控制免疫",
+          "法力消耗与普通冷却入口"
+        ],
+        "runtimeValidation": "未执行"
       },
       {
         "sourceChampionId": "Morgana",
