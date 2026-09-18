@@ -9343,6 +9343,44 @@
         "commit": "944b8f8c"
       },
       "runtimeValidation": "未执行"
+    },
+    "corkiTwistedFateQCompositionBackfill": {
+      "at": "2026-09-18T19:13:24.484Z",
+      "status": "两项范围内组成已补齐；受保护写入与独立HTTP回读通过，代表页面待验",
+      "skills": [
+        "corki_q",
+        "twistedfate_q"
+      ],
+      "created": {
+        "effects": 3,
+        "processes": 2,
+        "triggerRules": 4
+      },
+      "prepareGETs": 54,
+      "writerPOSTs": 9,
+      "immediateReadbacks": 9,
+      "independentGETs": 54,
+      "unchangedResponsesIncludingTimestamps": 39,
+      "configurationArithmeticCases": 20,
+      "browser": "NOT_RUN_BROWSER_UNAVAILABLE",
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q完整补录/09-证据清单.json",
+        "sha256": "fff6955b3c244f0dd5a933f9c13950c1ee879beaa70ae6caacc29c4a493bcd00",
+        "commit": "900d925e3f14028e388f5023e8bffddd6de03f05"
+      }
+    },
+    "cooldownOnlyProcessValidation": {
+      "at": "2026-09-18T19:13:24.484Z",
+      "status": "前后端已允许合法普通冷却独立构成过程行为；完整回归、真实接口和页面待验",
+      "backendCommit": "9864d776",
+      "webCommit": "55103824",
+      "backendFocusedTests": 12,
+      "webFocusedTests": 10,
+      "businessWrites": 0,
+      "runtimeValidation": "未执行",
+      "sourceCase": "兰顿等无资源消耗且命中独立结算的主动技能；历史录入-02问题"
     }
   },
   "runtimeValidation": "未执行",
@@ -9519,6 +9557,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/迦娜璐璐三项自施补录/09-证据清单.json",
         "sha256": "52140ccb52488884ab605cb45196ebf58b95f9f9b1b9ec7024e932d92131aac4",
         "commit": "944b8f8c"
+      },
+      "corkiTwistedFateQCompositionBackfill": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q完整补录/09-证据清单.json",
+        "sha256": "fff6955b3c244f0dd5a933f9c13950c1ee879beaa70ae6caacc29c4a493bcd00",
+        "commit": "900d925e3f14028e388f5023e8bffddd6de03f05"
       }
     },
     "coverage": {
@@ -14635,19 +14679,39 @@
         "name": "库奇·磷光炸弹",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "候选已保存参数、公式或效果，但没有完整可执行入口；继续按系统接线缺口处理，不能把组成存在等同于技能完成。",
-        "pendingCounts": {
+        "reason": "本轮1V1范围内伤害、法力、施法时间、普通冷却及主动/命中入口已补齐；9次受保护POST和54次独立GET通过。浏览器控制认证不可用，代表页面待验；不再把缺少效果或过程作为当前阻塞，也不以战斗未运行否认管理数据。",
+        "batchKey": "heroThirtySecondBatch",
+        "candidateSha256": "57f2ca0fcc9b7f29fb8c9df4c93f3d4fe1b474254839a285f08f7f6a1a4e886d",
+        "evidenceRefs": [
+          "skillFirstStageCurrentReadback",
+          "heroSourceInventory",
+          "corkiTwistedFateQCompositionBackfill"
+        ],
+        "historicalPendingCounts": {
           "source": 0,
           "system": 0,
           "configuration": 0,
           "other": 0
         },
-        "batchKey": "heroThirtySecondBatch",
-        "candidateSha256": "57f2ca0fcc9b7f29fb8c9df4c93f3d4fe1b474254839a285f08f7f6a1a4e886d",
-        "evidenceRefs": [
-          "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+        "remainingBranches": [
+          "代表页面核对与关闭重开"
+        ],
+        "remainingBranchesBoundary": "仅当前验收未完成；历史pendingCounts不是现行配置缺口数。",
+        "currentComponentCounts": {
+          "parameters": 6,
+          "formulas": 1,
+          "effects": 2,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 2
+        },
+        "managementCheck": {
+          "components": "本轮范围已补齐",
+          "persistence": "PASS",
+          "browser": "NOT_RUN_BROWSER_UNAVAILABLE",
+          "runtime": "NOT_RUN",
+          "complete": false
+        }
       },
       {
         "sourceChampionId": "Corki",
@@ -28292,19 +28356,39 @@
         "name": "崔斯特·万能牌",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "候选已保存参数、公式或效果，但没有完整可执行入口；继续按系统接线缺口处理，不能把组成存在等同于技能完成。",
-        "pendingCounts": {
+        "reason": "本轮1V1范围内伤害、法力、施法时间、普通冷却及主动/命中入口已补齐；9次受保护POST和54次独立GET通过。浏览器控制认证不可用，代表页面待验；不再把缺少效果或过程作为当前阻塞，也不以战斗未运行否认管理数据。",
+        "batchKey": "heroFortiethBatch",
+        "candidateSha256": "84b2ca1c5cadd804a569482d71b1ba262b95335d71ee9f89b127523574367023",
+        "evidenceRefs": [
+          "skillFirstStageCurrentReadback",
+          "heroSourceInventory",
+          "corkiTwistedFateQCompositionBackfill"
+        ],
+        "historicalPendingCounts": {
           "source": 0,
           "system": 0,
           "configuration": 0,
           "other": 0
         },
-        "batchKey": "heroFortiethBatch",
-        "candidateSha256": "84b2ca1c5cadd804a569482d71b1ba262b95335d71ee9f89b127523574367023",
-        "evidenceRefs": [
-          "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+        "remainingBranches": [
+          "代表页面核对与关闭重开"
+        ],
+        "remainingBranchesBoundary": "仅当前验收未完成；历史pendingCounts不是现行配置缺口数。",
+        "currentComponentCounts": {
+          "parameters": 6,
+          "formulas": 1,
+          "effects": 2,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 2
+        },
+        "managementCheck": {
+          "components": "本轮范围已补齐",
+          "persistence": "PASS",
+          "browser": "NOT_RUN_BROWSER_UNAVAILABLE",
+          "runtime": "NOT_RUN",
+          "complete": false
+        }
       },
       {
         "sourceChampionId": "TwistedFate",
