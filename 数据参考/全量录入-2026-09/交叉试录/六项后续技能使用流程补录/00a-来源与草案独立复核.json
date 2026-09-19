@@ -1,0 +1,333 @@
+{
+  "status": "SOURCE_AND_DRAFT_APPROVED",
+  "at": "2026-09-19T02:04:34.163Z",
+  "reviewer": "/root/seven_hit_frozen_review",
+  "businessHTTP": 0,
+  "businessWrites": 0,
+  "approvedInputFiles": {
+    "output/seven-direct-hit-sources/03-use-source-review.json": "319b4516cadb75ea2bdd2f87ce2686a7d53348aff0fd3fe6abb77475ead8a91f",
+    "output/seven-direct-hit-sources/04-use-request-draft.json": "570db6622d4284d09ca08b4e900e4fa162ce8b99c7f4cae961b59546bcf9cee3",
+    "数据参考/全量录入-2026-09/交叉试录/七项普通魔法命中伤害补录/04-写入前现值.json": "11f381f2eba71a01b71a4e9ede4eacdee80dc7deedd184b920ff1a9beed4a9a5",
+    "数据参考/全量录入-2026-09/交叉试录/七项普通魔法命中伤害补录/07-独立回读.json": "d3091d1003d68c825b4ae7537e8804b1ca3d573dc6be81702edccda3273fef2d"
+  },
+  "checks": {
+    "sourceFiles": 8,
+    "uncompressedClientHashes": 4,
+    "rootBindings": 6,
+    "skills": 6,
+    "ranks": 28,
+    "arithmeticPoints": 84,
+    "costAndCooldownTolerance": 0,
+    "castTimeToleranceMs": 0.0001,
+    "maxCastTimeAbsoluteDifferenceMs": 0.000011920928955078125,
+    "processDrafts": 6,
+    "useRuleDrafts": 6,
+    "damageOrControlBindings": 0
+  },
+  "skills": [
+    {
+      "skillKey": "kennen_q",
+      "officialSpellId": "KennenShurikenHurlMissile1",
+      "rootBoundObject": "Characters/Kennen/Spells/KennenShurikenHurlMissile1Ability/KennenShurikenHurlMissile1",
+      "resourceAttribute": "energy",
+      "resourceEffect": "energy_cost",
+      "rankCount": 5,
+      "cases": [
+        {
+          "rank": 1,
+          "cost": 60,
+          "cooldownMs": 7000,
+          "castTimeMs": 175,
+          "rawClientCastMs": 175.00001192092896,
+          "castTimeAbsoluteDifference": 0.000011920928955078125
+        },
+        {
+          "rank": 2,
+          "cost": 55,
+          "cooldownMs": 6250,
+          "castTimeMs": 175,
+          "rawClientCastMs": 175.00001192092896,
+          "castTimeAbsoluteDifference": 0.000011920928955078125
+        },
+        {
+          "rank": 3,
+          "cost": 50,
+          "cooldownMs": 5500,
+          "castTimeMs": 175,
+          "rawClientCastMs": 175.00001192092896,
+          "castTimeAbsoluteDifference": 0.000011920928955078125
+        },
+        {
+          "rank": 4,
+          "cost": 45,
+          "cooldownMs": 4750,
+          "castTimeMs": 175,
+          "rawClientCastMs": 175.00001192092896,
+          "castTimeAbsoluteDifference": 0.000011920928955078125
+        },
+        {
+          "rank": 5,
+          "cost": 40,
+          "cooldownMs": 4000,
+          "castTimeMs": 175,
+          "rawClientCastMs": 175.00001192092896,
+          "castTimeAbsoluteDifference": 0.000011920928955078125
+        }
+      ],
+      "ordinaryUseEligible": true
+    },
+    {
+      "skillKey": "teemo_q",
+      "officialSpellId": "TeemoQ",
+      "rootBoundObject": "Characters/Teemo/Spells/TeemoQAbility/TeemoQ",
+      "resourceAttribute": "mana",
+      "resourceEffect": "mana_cost",
+      "rankCount": 5,
+      "cases": [
+        {
+          "rank": 1,
+          "cost": 70,
+          "cooldownMs": 7000,
+          "castTimeMs": 250,
+          "rawClientCastMs": 250,
+          "castTimeAbsoluteDifference": 0
+        },
+        {
+          "rank": 2,
+          "cost": 75,
+          "cooldownMs": 7000,
+          "castTimeMs": 250,
+          "rawClientCastMs": 250,
+          "castTimeAbsoluteDifference": 0
+        },
+        {
+          "rank": 3,
+          "cost": 80,
+          "cooldownMs": 7000,
+          "castTimeMs": 250,
+          "rawClientCastMs": 250,
+          "castTimeAbsoluteDifference": 0
+        },
+        {
+          "rank": 4,
+          "cost": 85,
+          "cooldownMs": 7000,
+          "castTimeMs": 250,
+          "rawClientCastMs": 250,
+          "castTimeAbsoluteDifference": 0
+        },
+        {
+          "rank": 5,
+          "cost": 90,
+          "cooldownMs": 7000,
+          "castTimeMs": 250,
+          "rawClientCastMs": 250,
+          "castTimeAbsoluteDifference": 0
+        }
+      ],
+      "ordinaryUseEligible": true
+    },
+    {
+      "skillKey": "gragas_e",
+      "officialSpellId": "GragasE",
+      "rootBoundObject": "Characters/Gragas/Spells/GragasEAbility/GragasE",
+      "resourceAttribute": "mana",
+      "resourceEffect": "mana_cost",
+      "rankCount": 5,
+      "cases": [
+        {
+          "rank": 1,
+          "cost": 50,
+          "cooldownMs": 14000,
+          "castTimeMs": 250,
+          "rawClientCastMs": 250,
+          "castTimeAbsoluteDifference": 0
+        },
+        {
+          "rank": 2,
+          "cost": 50,
+          "cooldownMs": 13500,
+          "castTimeMs": 250,
+          "rawClientCastMs": 250,
+          "castTimeAbsoluteDifference": 0
+        },
+        {
+          "rank": 3,
+          "cost": 50,
+          "cooldownMs": 13000,
+          "castTimeMs": 250,
+          "rawClientCastMs": 250,
+          "castTimeAbsoluteDifference": 0
+        },
+        {
+          "rank": 4,
+          "cost": 50,
+          "cooldownMs": 12500,
+          "castTimeMs": 250,
+          "rawClientCastMs": 250,
+          "castTimeAbsoluteDifference": 0
+        },
+        {
+          "rank": 5,
+          "cost": 50,
+          "cooldownMs": 12000,
+          "castTimeMs": 250,
+          "rawClientCastMs": 250,
+          "castTimeAbsoluteDifference": 0
+        }
+      ],
+      "ordinaryUseEligible": true
+    },
+    {
+      "skillKey": "gragas_r",
+      "officialSpellId": "GragasR",
+      "rootBoundObject": "Characters/Gragas/Spells/GragasRAbility/GragasR",
+      "resourceAttribute": "mana",
+      "resourceEffect": "mana_cost",
+      "rankCount": 3,
+      "cases": [
+        {
+          "rank": 1,
+          "cost": 100,
+          "cooldownMs": 100000,
+          "castTimeMs": 250,
+          "rawClientCastMs": 250,
+          "castTimeAbsoluteDifference": 0
+        },
+        {
+          "rank": 2,
+          "cost": 100,
+          "cooldownMs": 85000,
+          "castTimeMs": 250,
+          "rawClientCastMs": 250,
+          "castTimeAbsoluteDifference": 0
+        },
+        {
+          "rank": 3,
+          "cost": 100,
+          "cooldownMs": 70000,
+          "castTimeMs": 250,
+          "rawClientCastMs": 250,
+          "castTimeAbsoluteDifference": 0
+        }
+      ],
+      "ordinaryUseEligible": true
+    },
+    {
+      "skillKey": "lissandra_q",
+      "officialSpellId": "LissandraQ",
+      "rootBoundObject": "Characters/Lissandra/Spells/LissandraQAbility/LissandraQ",
+      "resourceAttribute": "mana",
+      "resourceEffect": "mana_cost",
+      "rankCount": 5,
+      "cases": [
+        {
+          "rank": 1,
+          "cost": 55,
+          "cooldownMs": 7000,
+          "castTimeMs": 250,
+          "rawClientCastMs": 250,
+          "castTimeAbsoluteDifference": 0
+        },
+        {
+          "rank": 2,
+          "cost": 60,
+          "cooldownMs": 6000,
+          "castTimeMs": 250,
+          "rawClientCastMs": 250,
+          "castTimeAbsoluteDifference": 0
+        },
+        {
+          "rank": 3,
+          "cost": 65,
+          "cooldownMs": 5000,
+          "castTimeMs": 250,
+          "rawClientCastMs": 250,
+          "castTimeAbsoluteDifference": 0
+        },
+        {
+          "rank": 4,
+          "cost": 70,
+          "cooldownMs": 4000,
+          "castTimeMs": 250,
+          "rawClientCastMs": 250,
+          "castTimeAbsoluteDifference": 0
+        },
+        {
+          "rank": 5,
+          "cost": 75,
+          "cooldownMs": 3000,
+          "castTimeMs": 250,
+          "rawClientCastMs": 250,
+          "castTimeAbsoluteDifference": 0
+        }
+      ],
+      "ordinaryUseEligible": true
+    },
+    {
+      "skillKey": "lissandra_w",
+      "officialSpellId": "LissandraW",
+      "rootBoundObject": "Characters/Lissandra/Spells/LissandraWAbility/LissandraW",
+      "resourceAttribute": "mana",
+      "resourceEffect": "mana_cost",
+      "rankCount": 5,
+      "cases": [
+        {
+          "rank": 1,
+          "cost": 40,
+          "cooldownMs": 10000,
+          "castTimeMs": 250,
+          "rawClientCastMs": 250,
+          "castTimeAbsoluteDifference": 0
+        },
+        {
+          "rank": 2,
+          "cost": 40,
+          "cooldownMs": 9500,
+          "castTimeMs": 250,
+          "rawClientCastMs": 250,
+          "castTimeAbsoluteDifference": 0
+        },
+        {
+          "rank": 3,
+          "cost": 40,
+          "cooldownMs": 9000,
+          "castTimeMs": 250,
+          "rawClientCastMs": 250,
+          "castTimeAbsoluteDifference": 0
+        },
+        {
+          "rank": 4,
+          "cost": 40,
+          "cooldownMs": 8500,
+          "castTimeMs": 250,
+          "rawClientCastMs": 250,
+          "castTimeAbsoluteDifference": 0
+        },
+        {
+          "rank": 5,
+          "cost": 40,
+          "cooldownMs": 8000,
+          "castTimeMs": 250,
+          "rawClientCastMs": 250,
+          "castTimeAbsoluteDifference": 0
+        }
+      ],
+      "ordinaryUseEligible": true
+    }
+  ],
+  "boundaries": {
+    "kennen_q": "官方资源类型为能量，引用既有SOURCE/energy/CONSUME效果；被动回能独立，不改变基础消耗。",
+    "gragas_e": "只登记普通初次使用的基础冷却；固定官方命中后冷却缩短和客户端CooldownRefund另列，未用初始冷却替代命中返还。",
+    "lissandra_w": "根绑定官方文字与标签支持普通使用，没有再次施放说明；TargetsToHit、FreeCastCD的字段名本身不能证明重施或免费使用。现有材料不足以核定这两个额外字段的运行语义，本批不据此制造阶段，也不宣称该额外机制已完成。",
+    "lissandra_e": "明确存在再次施放传送，已从使用流程批次排除，防止把每次主动使用均当作需收费的初次施放。",
+    "eventSeparation": "普通使用只启动过程并对来源扣资源、登记基础冷却与延迟；过程无primary_hit挂接，不把延迟结束当实际命中。",
+    "timeMapping": "延迟引用原有施法时间参数；凯南原始毫秒175.00001192092896与既有175差约1.1921e-5毫秒，其余为250毫秒。本报告是字段与管理映射检查，无宿主时间事件证明。"
+  },
+  "blockingFindings": [],
+  "unresolvedOutsideScope": [
+    "丽桑卓W的TargetsToHit和FreeCastCD缺少足以指定实际分支的来源证据；保持未表达。",
+    "额外控制、位移、印记、命中退款和真实事件生产均未由普通使用过程补齐。"
+  ],
+  "nextGate": "这是来源与候选请求评审，不是正式写入批准；须以最新GET基线冻结01至04并独立绑定后才可写入。"
+}

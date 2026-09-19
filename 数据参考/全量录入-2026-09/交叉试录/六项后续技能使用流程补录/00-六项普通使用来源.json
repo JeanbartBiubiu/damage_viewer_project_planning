@@ -1,0 +1,716 @@
+{
+  "at": "2026-09-19T01:58:03.358Z",
+  "status": "READY_FOR_INDEPENDENT_REVIEW",
+  "producer": "主负责人",
+  "businessHTTP": 0,
+  "businessWrites": 0,
+  "sourceFiles": [
+    {
+      "kind": "official_zh",
+      "version": "16.17.1",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Kennen.json",
+      "sha256": "fc58a3db4962211aa0586864ad3daa0966e960e481ab9e6a68bbdf014c3fb188"
+    },
+    {
+      "kind": "client_raw_gzip",
+      "version": "16.17",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Kennen.json.gz",
+      "compressedSha256": "1231fab06e36bab2deaae4656adf91be2ecc52c3be0a41f7dafdddb3fd5d784c",
+      "rawJsonSha256": "38dfb43f4777e89a950916bdce28a5404d2db27d8b50177fb2252c4562b8e802"
+    },
+    {
+      "kind": "official_zh",
+      "version": "16.17.1",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Teemo.json",
+      "sha256": "23a031a4c7ed02785986d4f8243913df34487c1b4c1057e28af0fb2cf6a2dd51"
+    },
+    {
+      "kind": "client_raw_gzip",
+      "version": "16.17",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Teemo.json.gz",
+      "compressedSha256": "279230eea2e755d24f55f1dce0f4f22a71df113696ae85df8c54ba23ea8a7abe",
+      "rawJsonSha256": "9c79f5c643d322a8bb5506274a6fff83c969cf315e96dba5b3055a95b53bbf9b"
+    },
+    {
+      "kind": "official_zh",
+      "version": "16.17.1",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Gragas.json",
+      "sha256": "3d9280c9048361e5c71942374542b3a5be37e994609d0c2eb32d693914ace472"
+    },
+    {
+      "kind": "client_raw_gzip",
+      "version": "16.17",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Gragas.json.gz",
+      "compressedSha256": "00ab98ea8c5af40d605ad574ccbf8a385ad25a81adda79540b554943388c071e",
+      "rawJsonSha256": "77dbdc69e266d50decc9d117692070f8513593ae44b1de4c3e6b726b2eab1c28"
+    },
+    {
+      "kind": "official_zh",
+      "version": "16.17.1",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Lissandra.json",
+      "sha256": "64f84b115e6b66a303885c16a2b0914240782b8c67c93818d68d514dff52de3d"
+    },
+    {
+      "kind": "client_raw_gzip",
+      "version": "16.17",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Lissandra.json.gz",
+      "compressedSha256": "c8d18d8780596dd39d86415a5e7e75590a0c2fdff46d3c48c15c36a0e15fc88b",
+      "rawJsonSha256": "17809cc6cefaaba007aaeec13843597d2428b8c3f15a32d0fda511214cf80958"
+    }
+  ],
+  "skills": [
+    {
+      "skillKey": "kennen_q",
+      "ownerKey": "champion_kennen",
+      "status": "READY_FOR_INDEPENDENT_REVIEW",
+      "costEffectKey": "energy_cost",
+      "resource": {
+        "attributeKey": "energy",
+        "operation": "CONSUME"
+      },
+      "official": {
+        "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Kennen.json",
+        "sha256": "fc58a3db4962211aa0586864ad3daa0966e960e481ab9e6a68bbdf014c3fb188",
+        "jsonPointer": "/data/Kennen/spells/0",
+        "description": "凯南向目标区域投掷手里剑，对第一个目标造成伤害并附加【忍法！雷缚印】。",
+        "tooltip": "凯南投掷一枚手里剑，对命中的第一个敌人造成<magicDamage>{{ totaldamage }}魔法伤害</magicDamage>。{{ spellmodifierdescriptionappend }}",
+        "cost": [
+          60,
+          55,
+          50,
+          45,
+          40
+        ],
+        "resource": "{{ cost }} {{ abilityresourcename }}",
+        "costType": " {{ abilityresourcename }}",
+        "cooldown": [
+          7,
+          6.25,
+          5.5,
+          4.75,
+          4
+        ]
+      },
+      "client": {
+        "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Kennen.json.gz",
+        "sha256": "1231fab06e36bab2deaae4656adf91be2ecc52c3be0a41f7dafdddb3fd5d784c",
+        "objectPath": "Characters/Kennen/Spells/KennenShurikenHurlMissile1Ability/KennenShurikenHurlMissile1",
+        "spellTags": [
+          "Trait_DamageAbility",
+          "Trait_SignatureSpell",
+          "Trait_Ranged_StopsFirstHit"
+        ],
+        "manaValues": [
+          60,
+          55,
+          50,
+          45,
+          40,
+          35
+        ],
+        "cooldownTime": [
+          9,
+          7,
+          6.25,
+          5.5,
+          4.75,
+          4,
+          4
+        ],
+        "spellCastTime": 0.17500001192092896
+      },
+      "mapping": "manaValues.values索引0起为等级1；cooldownTime索引1起，秒乘1000；根spellCastTime秒乘1000，保持已有规范化参数。",
+      "scope": "本轮只登记普通使用的基础资源消耗、普通冷却和已有施法延迟，不将过程结束变为命中。",
+      "separateBranches": [
+        {
+          "branch": "雷缚印附加",
+          "reason": "附加标记及后续控制不属于本次直接伤害；本次不表达。"
+        }
+      ],
+      "additionalNotes": [
+        "当前资源效果明确消耗来源能量；不改录法力，也不把后续被动回能当作本次消耗折减。"
+      ],
+      "checks": [
+        {
+          "rank": 1,
+          "cost": 60,
+          "cooldownMs": 7000,
+          "castTimeMs": 175,
+          "clientCastTimeSeconds": 0.17500001192092896
+        },
+        {
+          "rank": 2,
+          "cost": 55,
+          "cooldownMs": 6250,
+          "castTimeMs": 175,
+          "clientCastTimeSeconds": 0.17500001192092896
+        },
+        {
+          "rank": 3,
+          "cost": 50,
+          "cooldownMs": 5500,
+          "castTimeMs": 175,
+          "clientCastTimeSeconds": 0.17500001192092896
+        },
+        {
+          "rank": 4,
+          "cost": 45,
+          "cooldownMs": 4750,
+          "castTimeMs": 175,
+          "clientCastTimeSeconds": 0.17500001192092896
+        },
+        {
+          "rank": 5,
+          "cost": 40,
+          "cooldownMs": 4000,
+          "castTimeMs": 175,
+          "clientCastTimeSeconds": 0.17500001192092896
+        }
+      ]
+    },
+    {
+      "skillKey": "teemo_q",
+      "ownerKey": "champion_teemo",
+      "status": "READY_FOR_INDEPENDENT_REVIEW",
+      "costEffectKey": "mana_cost",
+      "resource": {
+        "attributeKey": "mana",
+        "operation": "CONSUME"
+      },
+      "official": {
+        "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Teemo.json",
+        "sha256": "23a031a4c7ed02785986d4f8243913df34487c1b4c1057e28af0fb2cf6a2dd51",
+        "jsonPointer": "/data/Teemo/spells/0",
+        "description": "用一团强力的毒液来侵蚀一名敌人的视野，对目标单位造成伤害并使目标致盲一段时间。",
+        "tooltip": "提莫发射一根吹箭，对目标造成{{ blindduration }}秒<status>致盲</status>和<magicDamage>{{ calculateddamage }}魔法伤害</magicDamage>。{{ spellmodifierdescriptionappend }}",
+        "cost": [
+          70,
+          75,
+          80,
+          85,
+          90
+        ],
+        "resource": "{{ cost }} {{ abilityresourcename }}",
+        "costType": " {{ abilityresourcename }}",
+        "cooldown": [
+          7,
+          7,
+          7,
+          7,
+          7
+        ]
+      },
+      "client": {
+        "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Teemo.json.gz",
+        "sha256": "279230eea2e755d24f55f1dce0f4f22a71df113696ae85df8c54ba23ea8a7abe",
+        "objectPath": "Characters/Teemo/Spells/TeemoQAbility/TeemoQ",
+        "spellTags": [
+          "Trait_DamageAbility",
+          "Trait_SignatureSpell"
+        ],
+        "manaValues": [
+          70,
+          75,
+          80,
+          85,
+          90,
+          95
+        ],
+        "cooldownTime": [
+          7,
+          7,
+          7,
+          7,
+          7,
+          7,
+          7
+        ],
+        "spellCastTime": 0.25
+      },
+      "mapping": "manaValues.values索引0起为等级1；cooldownTime索引1起，秒乘1000；根spellCastTime秒乘1000，保持已有规范化参数。",
+      "scope": "本轮只登记普通使用的基础资源消耗、普通冷却和已有施法延迟，不将过程结束变为命中。",
+      "separateBranches": [
+        {
+          "branch": "致盲",
+          "reason": "致盲时长及 MinionMonsterDurationMod 的小兵/野怪分支独立于本次英雄直接伤害；本次不表达。"
+        }
+      ],
+      "additionalNotes": [],
+      "checks": [
+        {
+          "rank": 1,
+          "cost": 70,
+          "cooldownMs": 7000,
+          "castTimeMs": 250,
+          "clientCastTimeSeconds": 0.25
+        },
+        {
+          "rank": 2,
+          "cost": 75,
+          "cooldownMs": 7000,
+          "castTimeMs": 250,
+          "clientCastTimeSeconds": 0.25
+        },
+        {
+          "rank": 3,
+          "cost": 80,
+          "cooldownMs": 7000,
+          "castTimeMs": 250,
+          "clientCastTimeSeconds": 0.25
+        },
+        {
+          "rank": 4,
+          "cost": 85,
+          "cooldownMs": 7000,
+          "castTimeMs": 250,
+          "clientCastTimeSeconds": 0.25
+        },
+        {
+          "rank": 5,
+          "cost": 90,
+          "cooldownMs": 7000,
+          "castTimeMs": 250,
+          "clientCastTimeSeconds": 0.25
+        }
+      ]
+    },
+    {
+      "skillKey": "gragas_e",
+      "ownerKey": "champion_gragas",
+      "status": "READY_FOR_INDEPENDENT_REVIEW",
+      "costEffectKey": "mana_cost",
+      "resource": {
+        "attributeKey": "mana",
+        "operation": "CONSUME"
+      },
+      "official": {
+        "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Gragas.json",
+        "sha256": "3d9280c9048361e5c71942374542b3a5be37e994609d0c2eb32d693914ace472",
+        "jsonPointer": "/data/Gragas/spells/2",
+        "description": "古拉加斯向目标区域冲锋，在撞上第一个敌人后，对附近的所有敌方单位造成伤害和晕眩效果。",
+        "tooltip": "古拉加斯向前冲锋，撞击命中的第一名敌人，使附近的敌人<status>击飞</status>{{ stunduration }}秒并对其造成<magicDamage>{{ totaldamage }}魔法伤害</magicDamage>。<br /><br />当古拉加斯撞到一个敌人时，这个技能的冷却时间会缩短{{ cooldownrefund*100 }}%。{{ spellmodifierdescriptionappend }}",
+        "cost": [
+          50,
+          50,
+          50,
+          50,
+          50
+        ],
+        "resource": "{{ cost }} {{ abilityresourcename }}",
+        "costType": " {{ abilityresourcename }}",
+        "cooldown": [
+          14,
+          13.5,
+          13,
+          12.5,
+          12
+        ]
+      },
+      "client": {
+        "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Gragas.json.gz",
+        "sha256": "00ab98ea8c5af40d605ad574ccbf8a385ad25a81adda79540b554943388c071e",
+        "objectPath": "Characters/Gragas/Spells/GragasEAbility/GragasE",
+        "spellTags": [
+          "PositiveEffect_MoveBlock",
+          "Trait_ImmobilizingCCSpell",
+          "Trait_PlayerSelectedDashDirection",
+          "Trait_DamageAbility",
+          "Trait_AoE"
+        ],
+        "manaValues": [
+          50,
+          50,
+          50,
+          50,
+          50,
+          50
+        ],
+        "cooldownTime": [
+          14,
+          14,
+          13.5,
+          13,
+          12.5,
+          12,
+          12
+        ],
+        "spellCastTime": 0.25
+      },
+      "mapping": "manaValues.values索引0起为等级1；cooldownTime索引1起，秒乘1000；根spellCastTime秒乘1000，保持已有规范化参数。",
+      "scope": "本轮只登记普通使用的基础资源消耗、普通冷却和已有施法延迟，不将过程结束变为命中。",
+      "separateBranches": [
+        {
+          "branch": "第一碰撞目标与附近目标的命中事件分流及去重",
+          "reason": "固定来源给出空间关系和同一总伤害公式，但没有给出运行时命中事件序列；不猜一个或多个事件如何合并。"
+        },
+        {
+          "branch": "击飞与命中后冷却缩短",
+          "reason": "控制和冷却返还独立于直接伤害；本次不表达。"
+        }
+      ],
+      "additionalNotes": [
+        "命中后的40%冷却返还是另一个结果与入口，不替代初次基础冷却登记。"
+      ],
+      "checks": [
+        {
+          "rank": 1,
+          "cost": 50,
+          "cooldownMs": 14000,
+          "castTimeMs": 250,
+          "clientCastTimeSeconds": 0.25
+        },
+        {
+          "rank": 2,
+          "cost": 50,
+          "cooldownMs": 13500,
+          "castTimeMs": 250,
+          "clientCastTimeSeconds": 0.25
+        },
+        {
+          "rank": 3,
+          "cost": 50,
+          "cooldownMs": 13000,
+          "castTimeMs": 250,
+          "clientCastTimeSeconds": 0.25
+        },
+        {
+          "rank": 4,
+          "cost": 50,
+          "cooldownMs": 12500,
+          "castTimeMs": 250,
+          "clientCastTimeSeconds": 0.25
+        },
+        {
+          "rank": 5,
+          "cost": 50,
+          "cooldownMs": 12000,
+          "castTimeMs": 250,
+          "clientCastTimeSeconds": 0.25
+        }
+      ]
+    },
+    {
+      "skillKey": "gragas_r",
+      "ownerKey": "champion_gragas",
+      "status": "READY_FOR_INDEPENDENT_REVIEW",
+      "costEffectKey": "mana_cost",
+      "resource": {
+        "attributeKey": "mana",
+        "operation": "CONSUME"
+      },
+      "official": {
+        "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Gragas.json",
+        "sha256": "3d9280c9048361e5c71942374542b3a5be37e994609d0c2eb32d693914ace472",
+        "jsonPointer": "/data/Gragas/spells/3",
+        "description": "古拉加斯向目标区域投掷他的酒桶，对爆炸范围内的所有敌人造成伤害和击退效果。",
+        "tooltip": "古拉加斯猛抛他的酒桶，造成<magicDamage>{{ damagedone }}魔法伤害</magicDamage>并将敌人们从爆炸中心<status>击退</status>。{{ spellmodifierdescriptionappend }}",
+        "cost": [
+          100,
+          100,
+          100
+        ],
+        "resource": "{{ cost }} {{ abilityresourcename }}",
+        "costType": " {{ abilityresourcename }}",
+        "cooldown": [
+          100,
+          85,
+          70
+        ]
+      },
+      "client": {
+        "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Gragas.json.gz",
+        "sha256": "00ab98ea8c5af40d605ad574ccbf8a385ad25a81adda79540b554943388c071e",
+        "objectPath": "Characters/Gragas/Spells/GragasRAbility/GragasR",
+        "spellTags": [
+          "Trait_Ultimate",
+          "Trait_ImmobilizingCCSpell",
+          "Trait_DamageAbility",
+          "Trait_KnockBack",
+          "Trait_AoE"
+        ],
+        "manaValues": [
+          100,
+          100,
+          100,
+          100,
+          100,
+          100
+        ],
+        "cooldownTime": [
+          100,
+          100,
+          85,
+          70,
+          70,
+          70,
+          70
+        ],
+        "spellCastTime": 0.25
+      },
+      "mapping": "manaValues.values索引0起为等级1；cooldownTime索引1起，秒乘1000；根spellCastTime秒乘1000，保持已有规范化参数。",
+      "scope": "本轮只登记普通使用的基础资源消耗、普通冷却和已有施法延迟，不将过程结束变为命中。",
+      "separateBranches": [
+        {
+          "branch": "击退",
+          "reason": "击退距离和目标位移独立于直接伤害；本次不表达。"
+        }
+      ],
+      "additionalNotes": [],
+      "checks": [
+        {
+          "rank": 1,
+          "cost": 100,
+          "cooldownMs": 100000,
+          "castTimeMs": 250,
+          "clientCastTimeSeconds": 0.25
+        },
+        {
+          "rank": 2,
+          "cost": 100,
+          "cooldownMs": 85000,
+          "castTimeMs": 250,
+          "clientCastTimeSeconds": 0.25
+        },
+        {
+          "rank": 3,
+          "cost": 100,
+          "cooldownMs": 70000,
+          "castTimeMs": 250,
+          "clientCastTimeSeconds": 0.25
+        }
+      ]
+    },
+    {
+      "skillKey": "lissandra_q",
+      "ownerKey": "champion_lissandra",
+      "status": "READY_FOR_INDEPENDENT_REVIEW",
+      "costEffectKey": "mana_cost",
+      "resource": {
+        "attributeKey": "mana",
+        "operation": "CONSUME"
+      },
+      "official": {
+        "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Lissandra.json",
+        "sha256": "64f84b115e6b66a303885c16a2b0914240782b8c67c93818d68d514dff52de3d",
+        "jsonPointer": "/data/Lissandra/spells/0",
+        "description": "掷出一杆冰矛，冰矛会在命中敌人时碎裂，造成魔法伤害和减速效果。碎裂会穿过目标，对被冰矛命中的其他敌人造成等量伤害。",
+        "tooltip": "丽桑卓扔出一杆冰矛，冰矛会在命中第一个敌人后碎裂，造成<magicDamage>{{ totaldamage }}魔法伤害</magicDamage>、持续{{ slowduration }}秒的{{ slowpercentage*-100 }}%<status>减速</status>，并且还会对该敌人身后的敌人们造成伤害和减速。{{ spellmodifierdescriptionappend }}",
+        "cost": [
+          55,
+          60,
+          65,
+          70,
+          75
+        ],
+        "resource": "{{ cost }} {{ abilityresourcename }}",
+        "costType": " {{ abilityresourcename }}",
+        "cooldown": [
+          7,
+          6,
+          5,
+          4,
+          3
+        ]
+      },
+      "client": {
+        "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Lissandra.json.gz",
+        "sha256": "c8d18d8780596dd39d86415a5e7e75590a0c2fdff46d3c48c15c36a0e15fc88b",
+        "objectPath": "Characters/Lissandra/Spells/LissandraQAbility/LissandraQ",
+        "spellTags": [
+          "Trait_DamageAbility",
+          "Trait_SignatureSpell",
+          "Trait_AoE"
+        ],
+        "manaValues": [
+          55,
+          60,
+          65,
+          70,
+          75,
+          80
+        ],
+        "cooldownTime": [
+          8,
+          7,
+          6,
+          5,
+          4,
+          3,
+          3
+        ],
+        "spellCastTime": 0.25
+      },
+      "mapping": "manaValues.values索引0起为等级1；cooldownTime索引1起，秒乘1000；根spellCastTime秒乘1000，保持已有规范化参数。",
+      "scope": "本轮只登记普通使用的基础资源消耗、普通冷却和已有施法延迟，不将过程结束变为命中。",
+      "separateBranches": [
+        {
+          "branch": "首个目标与后方碎片目标的命中阶段、逐目标去重",
+          "reason": "固定来源确认等量伤害，但没有给出应由一个还是多个 SKILL_HIT 事件消费；不把两类目标自行合并。"
+        },
+        {
+          "branch": "减速",
+          "reason": "减速独立于直接伤害；本次不表达。"
+        }
+      ],
+      "additionalNotes": [],
+      "checks": [
+        {
+          "rank": 1,
+          "cost": 55,
+          "cooldownMs": 7000,
+          "castTimeMs": 250,
+          "clientCastTimeSeconds": 0.25
+        },
+        {
+          "rank": 2,
+          "cost": 60,
+          "cooldownMs": 6000,
+          "castTimeMs": 250,
+          "clientCastTimeSeconds": 0.25
+        },
+        {
+          "rank": 3,
+          "cost": 65,
+          "cooldownMs": 5000,
+          "castTimeMs": 250,
+          "clientCastTimeSeconds": 0.25
+        },
+        {
+          "rank": 4,
+          "cost": 70,
+          "cooldownMs": 4000,
+          "castTimeMs": 250,
+          "clientCastTimeSeconds": 0.25
+        },
+        {
+          "rank": 5,
+          "cost": 75,
+          "cooldownMs": 3000,
+          "castTimeMs": 250,
+          "clientCastTimeSeconds": 0.25
+        }
+      ]
+    },
+    {
+      "skillKey": "lissandra_w",
+      "ownerKey": "champion_lissandra",
+      "status": "READY_FOR_INDEPENDENT_REVIEW",
+      "costEffectKey": "mana_cost",
+      "resource": {
+        "attributeKey": "mana",
+        "operation": "CONSUME"
+      },
+      "official": {
+        "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Lissandra.json",
+        "sha256": "64f84b115e6b66a303885c16a2b0914240782b8c67c93818d68d514dff52de3d",
+        "jsonPointer": "/data/Lissandra/spells/1",
+        "description": "将周围的敌人冻在原地，造成魔法伤害和束缚效果。",
+        "tooltip": "丽桑卓生成一个冰封领域，<status>禁锢</status>附近的敌人们{{ snareduration }}秒并造成<magicDamage>{{ totaldamage }}魔法伤害</magicDamage>。{{ spellmodifierdescriptionappend }}",
+        "cost": [
+          40,
+          40,
+          40,
+          40,
+          40
+        ],
+        "resource": "{{ cost }} {{ abilityresourcename }}",
+        "costType": " {{ abilityresourcename }}",
+        "cooldown": [
+          10,
+          9.5,
+          9,
+          8.5,
+          8
+        ]
+      },
+      "client": {
+        "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Lissandra.json.gz",
+        "sha256": "c8d18d8780596dd39d86415a5e7e75590a0c2fdff46d3c48c15c36a0e15fc88b",
+        "objectPath": "Characters/Lissandra/Spells/LissandraWAbility/LissandraW",
+        "spellTags": [
+          "Trait_ImmobilizingCCSpell",
+          "Trait_DamageAbility",
+          "Trait_Low_Damage",
+          "Trait_AoE"
+        ],
+        "manaValues": [
+          40,
+          40,
+          40,
+          40,
+          40,
+          40
+        ],
+        "cooldownTime": [
+          10,
+          10,
+          9.5,
+          9,
+          8.5,
+          8,
+          8
+        ],
+        "spellCastTime": 0.25
+      },
+      "mapping": "manaValues.values索引0起为等级1；cooldownTime索引1起，秒乘1000；根spellCastTime秒乘1000，保持已有规范化参数。",
+      "scope": "本轮只登记普通使用的基础资源消耗、普通冷却和已有施法延迟，不将过程结束变为命中。",
+      "separateBranches": [
+        {
+          "branch": "禁锢",
+          "reason": "禁锢独立于直接伤害；本次不表达。"
+        },
+        {
+          "branch": "TargetsToHit 等目标选择限制",
+          "reason": "客户端有相关参数，但固定来源未给出运行时目标筛选/去重语义；本次不猜。"
+        }
+      ],
+      "additionalNotes": [
+        "客户端TargetsToHit与FreeCastCD单凭字段名不能确定第二次或免费使用；当前官方绑定文字和标签未声明再次施放，不为未核定字段制造阶段入口。"
+      ],
+      "checks": [
+        {
+          "rank": 1,
+          "cost": 40,
+          "cooldownMs": 10000,
+          "castTimeMs": 250,
+          "clientCastTimeSeconds": 0.25
+        },
+        {
+          "rank": 2,
+          "cost": 40,
+          "cooldownMs": 9500,
+          "castTimeMs": 250,
+          "clientCastTimeSeconds": 0.25
+        },
+        {
+          "rank": 3,
+          "cost": 40,
+          "cooldownMs": 9000,
+          "castTimeMs": 250,
+          "clientCastTimeSeconds": 0.25
+        },
+        {
+          "rank": 4,
+          "cost": 40,
+          "cooldownMs": 8500,
+          "castTimeMs": 250,
+          "clientCastTimeSeconds": 0.25
+        },
+        {
+          "rank": 5,
+          "cost": 40,
+          "cooldownMs": 8000,
+          "castTimeMs": 250,
+          "clientCastTimeSeconds": 0.25
+        }
+      ]
+    }
+  ],
+  "excludedFromUseBatch": [
+    {
+      "skillKey": "lissandra_e",
+      "reason": "再次施放传送的消耗冷却阶段资格尚需独立处理；本批不接可能重复收费的使用入口。"
+    }
+  ],
+  "arithmeticPoints": 84
+}

@@ -1,0 +1,122 @@
+{
+  "status": "APPROVED",
+  "at": "2026-09-19T02:09:59.841Z",
+  "reviewer": "/root/seven_hit_frozen_review",
+  "decision": "批准冻结的六个普通使用过程与六条使用规则；以最新现值保护既有来源参数、资源效果和刚新增的实际命中伤害配置。",
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v3.mjs": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "01-候选方案.json": "5e8f04cfc3643cd469c8a0906f86da934e8498243aa38f86f27cf91eb774410f",
+    "02-冻结请求.json": "574411ddd09c8463c1f75a6e936bd9e571f917208edc65e0e316cdaa31a4f3ab",
+    "03-来源摘要.json": "f8e2416651d6319e1242d18c2663b180405bec8aca4dd1f88545fb31cd48adeb",
+    "04-写入前现值.json": "fcc53fb7583a7b7b230144711b266fd84791511c3f2a125ada58a3c44c21adb7"
+  },
+  "businessWrites": 0,
+  "reviewerHTTPRequests": 0,
+  "checks": {
+    "sourceHashes": 21,
+    "sourceAliasesPreservedBytes": 2,
+    "priorIndependentReportPreserved": true,
+    "frozenRequestEqualsReviewedDraft": true,
+    "currentBaselineResponses": 135,
+    "preparationGETs": 147,
+    "newDetail404s": 12,
+    "duplicateKeys": 0,
+    "priorUnchangedResponses": 111,
+    "priorChangedCollectionsVerified": 12,
+    "priorCreatedObjectsPreserved": 12,
+    "protectedOwnerRelations": 6,
+    "protectedRepresentativeImageResponses": 10,
+    "plannedProcessCreates": 6,
+    "plannedRuleCreates": 6
+  },
+  "perSkill": [
+    {
+      "skillKey": "kennen_q",
+      "ownerKey": "champion_kennen",
+      "resourceEffect": "energy_cost",
+      "protectedDamageEffect": "primary_hit",
+      "protectedHitRule": "actual_hit",
+      "addedProcess": "cast",
+      "addedUseRule": "on_used"
+    },
+    {
+      "skillKey": "teemo_q",
+      "ownerKey": "champion_teemo",
+      "resourceEffect": "mana_cost",
+      "protectedDamageEffect": "primary_hit",
+      "protectedHitRule": "actual_hit",
+      "addedProcess": "cast",
+      "addedUseRule": "on_used"
+    },
+    {
+      "skillKey": "gragas_e",
+      "ownerKey": "champion_gragas",
+      "resourceEffect": "mana_cost",
+      "protectedDamageEffect": "primary_hit",
+      "protectedHitRule": "actual_hit",
+      "addedProcess": "cast",
+      "addedUseRule": "on_used"
+    },
+    {
+      "skillKey": "gragas_r",
+      "ownerKey": "champion_gragas",
+      "resourceEffect": "mana_cost",
+      "protectedDamageEffect": "primary_hit",
+      "protectedHitRule": "actual_hit",
+      "addedProcess": "cast",
+      "addedUseRule": "on_used"
+    },
+    {
+      "skillKey": "lissandra_q",
+      "ownerKey": "champion_lissandra",
+      "resourceEffect": "mana_cost",
+      "protectedDamageEffect": "primary_hit",
+      "protectedHitRule": "actual_hit",
+      "addedProcess": "cast",
+      "addedUseRule": "on_used"
+    },
+    {
+      "skillKey": "lissandra_w",
+      "ownerKey": "champion_lissandra",
+      "resourceEffect": "mana_cost",
+      "protectedDamageEffect": "primary_hit",
+      "protectedHitRule": "actual_hit",
+      "addedProcess": "cast",
+      "addedUseRule": "on_used"
+    }
+  ],
+  "sourceReviewReuse": {
+    "file": "00a-来源与草案独立复核.json",
+    "sha256": "6e8f99f5c4ba9b3e51109fedc2170a091665e93d0df5f33c0de02e8cea855db9",
+    "rankCount": 28,
+    "arithmeticPoints": 84,
+    "note": "原审查报告及源/草案的原字节保持；本轮只复核冻结绑定、最新保护现值和请求未发生变化，不重复来源大审。"
+  },
+  "scopeBoundaries": {
+    "ordinaryUse": "本批只接SKILL_USED/ACTIVE到START_PROCESS，过程仅扣来源基础资源、登记基础冷却和施法延迟；无伤害、控制或命中事件生产挂接。",
+    "kennen_q": "消耗能量；不改变被动回能。",
+    "gragas_e": "基础冷却与命中退款独立；退款仍未接入。",
+    "lissandra_w": "TargetsToHit和FreeCastCD没有新增可核定来源，不因字段名称制造重施或免费阶段，也不宣称额外语义已完成。",
+    "lissandra_e": "排除有明确再次施放传送的E；本批不写它。其伤害批证据仍保留，本批实时保护覆盖六个实际目标的12个既有新增对象。",
+    "cycle": "仅新增使用入口，过程不会生产SKILL_USED，既有actual_hit消费SKILL_HIT；未引入使用/命中事件回环。"
+  },
+  "expectedIndependentReadback": {
+    "GETs": 147,
+    "unchangedResponsesIncludingTimestamps": 123,
+    "expectedChangedCollections": 12,
+    "newObjects": 12,
+    "businessWrites": 0
+  },
+  "executionConditions": [
+    "必须保持工具、01至04和21来源原字节；写前完整重核135现值及12个404。",
+    "06存在或写入结果不确定时不得重放；先查实际落地。",
+    "单次写入12项后执行独立只读回读。"
+  ],
+  "validationLimits": {
+    "liveHTTP": "本评审无HTTP，只审冻结GET证据；写前工具还将实时核对",
+    "database": "未直接访问数据库",
+    "browser": "认证不可用，代表页面待验",
+    "hostWasmBattle": "未执行"
+  },
+  "blockingFindings": []
+}
