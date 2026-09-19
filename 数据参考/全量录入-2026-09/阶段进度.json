@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-19T00:08:16.444Z",
+  "generatedAt": "2026-09-19T00:13:15.927Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -10010,6 +10010,34 @@
         "sha256": "9417cf2815eac1098907085ffed9f09d62c79776c515b39e9f907be8259d0b5a",
         "commit": "f71463f2"
       }
+    },
+    "fourFollowupHitDamageVampCorrection": {
+      "at": "2026-09-19T00:13:15.927Z",
+      "status": "四项后续命中伤害吸血资格已纠错并独立回读，页面待验",
+      "skills": [
+        "ivern_q",
+        "ahri_e",
+        "diana_e",
+        "ashe_r"
+      ],
+      "updatedEffects": 4,
+      "created": 0,
+      "candidateGETs": 49,
+      "prepareGETs": 80,
+      "writerGETs": 88,
+      "writerPUTs": 4,
+      "immediateReadbacks": 4,
+      "independentGETs": 80,
+      "unchangedResponsesIncludingTimestamps": 72,
+      "expectedChangedCollections": 4,
+      "browser": "NOT_RUN_BROWSER_UNAVAILABLE",
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/四项后续命中伤害吸血资格纠错/09-证据清单.json",
+        "sha256": "2582377ed1ed461d9f7b120c23572a09dff1ccd3adaa05accd9a0d896adc6bd7",
+        "commit": "4822bcf4"
+      }
     }
   },
   "runtimeValidation": "未执行",
@@ -10298,6 +10326,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/布兰德E与墨菲特ER使用流程补录/09-证据清单.json",
         "sha256": "9417cf2815eac1098907085ffed9f09d62c79776c515b39e9f907be8259d0b5a",
         "commit": "f71463f2"
+      },
+      "fourFollowupHitDamageVampCorrection": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/四项后续命中伤害吸血资格纠错/09-证据清单.json",
+        "sha256": "2582377ed1ed461d9f7b120c23572a09dff1ccd3adaa05accd9a0d896adc6bd7",
+        "commit": "4822bcf4"
       }
     },
     "coverage": {
@@ -12807,7 +12841,7 @@
         "name": "阿狸·魅惑妖术",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。 现存实际命中伤害的空吸血规则及父说明已纠正；旧数值与入口保持，原待办及页面继续保留。",
         "pendingCounts": {
           "source": 0,
           "system": 0,
@@ -12818,8 +12852,25 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "fourFollowupHitDamageVampCorrection"
+        ],
+        "currentComponentCounts": {
+          "parameters": 7,
+          "formulas": 1,
+          "effects": 2,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 1
+        },
+        "damageVampCorrection": {
+          "httpReadback": "PASS",
+          "vampType": "OMNIVAMP",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "efficiency": 1,
+          "retainedSpellShieldBlockScope": "RESULT",
+          "browser": "待验"
+        }
       },
       {
         "sourceChampionId": "Ahri",
@@ -13947,7 +13998,7 @@
         "name": "艾希·魔法水晶箭",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。 现存实际命中伤害的空吸血规则及父说明已纠正；旧数值与入口保持，原待办及页面继续保留。",
         "pendingCounts": {
           "source": 0,
           "system": 1,
@@ -13958,8 +14009,25 @@
         "candidateSha256": "0ce76bd47383a74900ed3c2b6e3a7a070c3608c741c30016595ecad0b56b5dba",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "fourFollowupHitDamageVampCorrection"
+        ],
+        "currentComponentCounts": {
+          "parameters": 7,
+          "formulas": 1,
+          "effects": 2,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 1
+        },
+        "damageVampCorrection": {
+          "httpReadback": "PASS",
+          "vampType": "OMNIVAMP",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "efficiency": 1,
+          "retainedSpellShieldBlockScope": "RESULT",
+          "browser": "待验"
+        }
       },
       {
         "sourceChampionId": "AurelionSol",
@@ -15890,7 +15958,7 @@
         "name": "黛安娜·月神冲刺",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。 现存实际命中伤害的空吸血规则及父说明已纠正；旧数值与入口保持，原待办及页面继续保留。",
         "pendingCounts": {
           "source": 0,
           "system": 0,
@@ -15901,8 +15969,25 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "fourFollowupHitDamageVampCorrection"
+        ],
+        "currentComponentCounts": {
+          "parameters": 6,
+          "formulas": 1,
+          "effects": 3,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 1
+        },
+        "damageVampCorrection": {
+          "httpReadback": "PASS",
+          "vampType": "OMNIVAMP",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "efficiency": 1,
+          "retainedSpellShieldBlockScope": "RESULT",
+          "browser": "待验"
+        }
       },
       {
         "sourceChampionId": "Diana",
@@ -18375,7 +18460,7 @@
         "name": "艾翁·根深敌固",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。 现存实际命中伤害的空吸血规则及父说明已纠正；旧数值与入口保持，原待办及页面继续保留。",
         "pendingCounts": {
           "source": 0,
           "system": 1,
@@ -18386,8 +18471,25 @@
         "candidateSha256": "d406a10109e52abfa58c3767551a612e0ec12ef405d7fdf808cab501d30f7268",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "fourFollowupHitDamageVampCorrection"
+        ],
+        "currentComponentCounts": {
+          "parameters": 12,
+          "formulas": 2,
+          "effects": 2,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 1
+        },
+        "damageVampCorrection": {
+          "httpReadback": "PASS",
+          "vampType": "OMNIVAMP",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "efficiency": 1,
+          "retainedSpellShieldBlockScope": "RESULT",
+          "browser": "待验"
+        }
       },
       {
         "sourceChampionId": "Ivern",
