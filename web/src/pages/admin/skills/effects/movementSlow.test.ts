@@ -15,7 +15,8 @@ const catalog: EffectFormCatalog = {
     { statusKey: 'arbitrary_control_key', statusKind: 'MOVEMENT_SLOW', status: 'ENABLED' },
     { statusKey: 'slow_named_stun', statusKind: 'STUN', status: 'ENABLED' },
     { statusKey: 'root_control', statusKind: 'ROOT', status: 'ENABLED' },
-    { statusKey: 'silence_control', statusKind: 'SILENCE', status: 'ENABLED' }
+    { statusKey: 'silence_control', statusKind: 'SILENCE', status: 'ENABLED' },
+    { statusKey: 'charm_control', statusKind: 'CHARM', status: 'ENABLED' }
   ]
 };
 const parameter: SkillParameter = {
@@ -115,6 +116,7 @@ describe('普通移动减速往返与状态目录', () => {
       applyStatusSelection(configured, 'slow_named_stun', 'STUN'),
       applyStatusSelection(configured, 'root_control', 'ROOT'),
       applyStatusSelection(configured, 'silence_control', 'SILENCE'),
+      applyStatusSelection(configured, 'charm_control', 'CHARM'),
       applyStatusSelection(configured, 'arbitrary_control_key', 'MOVEMENT_SLOW', 'REMOVE')
     ]) {
       expect(isValueRuleVisible(next)).toBe(false);
@@ -127,7 +129,7 @@ describe('普通移动减速往返与状态目录', () => {
       'arbitrary_control_key', 'MOVEMENT_SLOW').spellShieldBlockScope).toBe('');
   });
 
-  it.each([['ROOT', 'root_control'], ['SILENCE', 'silence_control']] as const)(
+  it.each([['ROOT', 'root_control'], ['SILENCE', 'silence_control'], ['CHARM', 'charm_control']] as const)(
     '%s复用无强度持续状态，保存和复制保留期限与当前结果法术护盾粒度', (kind, statusKey) => {
     const source = effect();
     source.results[0] = {
