@@ -13,6 +13,7 @@ public sealed interface SkillEffectResultDetail
         SkillEffectLifecycleOperationDetail,
         SkillEffectDamageModifierDetail,
         SkillEffectHealingModifierDetail,
+        SkillEffectShieldReceivedModifierDetail,
         SkillEffectDamageImmunityDetail,
         SkillEffectHealthFloorDetail,
         SkillEffectSpellShieldDetail,

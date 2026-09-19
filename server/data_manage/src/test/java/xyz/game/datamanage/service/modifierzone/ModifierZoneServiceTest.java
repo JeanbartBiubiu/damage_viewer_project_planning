@@ -43,6 +43,30 @@ class ModifierZoneServiceTest {
     }
 
     @Test
+    void shieldReferencesBlockDeletionAndStructuralChanges() {
+        when(mapper.findByIdForUpdate(GAME_ID, KEY)).thenReturn(zone());
+        when(mapper.countShieldReceivedReferences(GAME_ID, KEY)).thenReturn(1L);
+        assertCode("409.MODIFIER_ZONE_IN_USE", () -> service.delete(GAME_ID, KEY));
+        assertCode("409.MODIFIER_ZONE_IN_USE", () -> service.update(GAME_ID, KEY,
+            update(ModifierZoneDomain.SHIELD, ModifierZoneCalculationMode.RATIO_ADD,
+                ModifierZoneApplicationStage.SHIELD_RESULT, ModifierZoneStatus.ENABLED)));
+        verify(mapper, never()).delete(GAME_ID, KEY);
+    }
+
+    @Test
+    void shieldDomainRejectsHealingStageAndFlatMode() {
+        for (ModifierZoneCalculationMode mode : ModifierZoneCalculationMode.values()) {
+            assertCode("400.VALIDATION_FAILED", () -> service.create(GAME_ID,
+                new ModifierZoneCreateRequest(KEY, "错误护盾组合", ModifierZoneDomain.SHIELD,
+                    mode, ModifierZoneApplicationStage.HEALING_RESULT, null, ModifierZoneStatus.ENABLED, 0)));
+        }
+        assertCode("400.VALIDATION_FAILED", () -> service.create(GAME_ID,
+            new ModifierZoneCreateRequest(KEY, "错误护盾组合", ModifierZoneDomain.SHIELD,
+                ModifierZoneCalculationMode.FLAT_ADD, ModifierZoneApplicationStage.SHIELD_RESULT,
+                null, ModifierZoneStatus.ENABLED, 0)));
+    }
+
+    @Test
     void listsWithNormalizedDomainAndStatus() {
         when(mapper.list(GAME_ID, "伤害", "DAMAGE", "ENABLED")).thenReturn(List.of(zone()));
 

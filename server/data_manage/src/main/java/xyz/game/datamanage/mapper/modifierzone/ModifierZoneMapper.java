@@ -51,6 +51,11 @@ public interface ModifierZoneMapper {
         @Param("modifierZoneKey") String modifierZoneKey
     );
 
+    long countShieldReceivedReferences(
+        @Param("gameId") String gameId,
+        @Param("modifierZoneKey") String modifierZoneKey
+    );
+
     int insert(
         @Param("gameId") String gameId,
         @Param("modifierZoneKey") String modifierZoneKey,

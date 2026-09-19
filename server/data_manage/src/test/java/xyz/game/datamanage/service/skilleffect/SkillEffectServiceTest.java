@@ -168,6 +168,69 @@ class SkillEffectServiceTest {
     }
 
     @Test
+    void shieldReceivedModifierPersistsItsDistinctDetailAndLifecycle() {
+        stubParentAndNewKey();
+        stubEnabledCatalogs();
+        when(mapper.findEffect(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> savedEffect);
+        when(mapper.lockModifierZones(eq(GAME_ID), anyCollection())).thenReturn(List.of(
+            new SkillEffectModifierZoneLockRow("shield_ratio", ModifierZoneDomain.SHIELD, ModifierZoneStatus.ENABLED)
+        ));
+        SkillEffectResultRequest result = shieldReceivedModifierResult();
+        SkillEffectDetailResponse saved = service.create(GAME_ID, SKILL_KEY, new SkillEffectCreateRequest(
+            EFFECT_KEY, "收到护盾增幅", null, 10, timedLifecycle(), List.of(result)
+        ));
+        assertEquals(SkillEffectResultType.SHIELD_RECEIVED_MODIFIER, saved.results().getFirst().resultType());
+        var detail = assertInstanceOf(
+            xyz.game.datamanage.model.skilleffect.SkillEffectShieldReceivedModifierDetail.class,
+            saved.results().getFirst().detail()
+        );
+        assertEquals("shield_ratio", detail.modifierZoneKey());
+        assertEquals(SkillEffectModifierOperation.INCREASE, detail.operation());
+        assertEquals(AggregateJson.tree(AggregateJson.write(result.valueRule())),
+            AggregateJson.tree(AggregateJson.write(saved.results().getFirst().valueRule())));
+        assertEquals(AggregateJson.tree(AggregateJson.write(result.lifecycleBehavior())),
+            AggregateJson.tree(AggregateJson.write(saved.results().getFirst().lifecycleBehavior())));
+    }
+
+    @Test
+    void shieldReceivedModifierRejectsWrongDomainMissingValueAndDiscretePlacement() {
+        stubParentAndNewKey();
+        stubEnabledCatalogs();
+        SkillEffectResultRequest result = shieldReceivedModifierResult();
+        when(mapper.lockModifierZones(eq(GAME_ID), anyCollection())).thenReturn(List.of(
+            new SkillEffectModifierZoneLockRow("shield_ratio", ModifierZoneDomain.HEALING, ModifierZoneStatus.ENABLED)
+        ));
+        ApiException wrongDomain = assertThrows(ApiException.class, () -> service.create(GAME_ID, SKILL_KEY,
+            new SkillEffectCreateRequest(EFFECT_KEY, "护盾修正", null, 10, timedLifecycle(), List.of(result))));
+        assertField(wrongDomain, "results[0].detail.modifierZoneKey", "MODIFIER_ZONE_DOMAIN_MISMATCH");
+        when(mapper.lockModifierZones(eq(GAME_ID), anyCollection())).thenReturn(List.of(
+            new SkillEffectModifierZoneLockRow("shield_ratio", ModifierZoneDomain.SHIELD, ModifierZoneStatus.ENABLED)
+        ));
+        ApiException noLifecycle = assertThrows(ApiException.class, () -> service.create(GAME_ID, SKILL_KEY,
+            new SkillEffectCreateRequest(EFFECT_KEY, "护盾修正", null, 10, null, List.of(result))));
+        assertField(noLifecycle, "results[0].lifecycleBehavior", "SPECIAL_RESULT_REQUIRES_PERSISTENT");
+        SkillEffectResultRequest noValue = new SkillEffectResultRequest(result.resultKey(), result.name(),
+            result.resultType(), result.target(), result.description(), result.sortOrder(), null,
+            result.detail(), result.lifecycleBehavior());
+        assertThrows(ApiException.class, () -> service.create(GAME_ID, SKILL_KEY,
+            new SkillEffectCreateRequest(EFFECT_KEY, "护盾修正", null, 10, timedLifecycle(), List.of(noValue))));
+        SkillEffectResultRequest foreign = new SkillEffectResultRequest(result.resultKey(), result.name(),
+            result.resultType(), result.target(), result.description(), result.sortOrder(), result.valueRule(),
+            new xyz.game.datamanage.model.skilleffect.SkillEffectShieldReceivedModifierDetail(
+                "shield_ratio", SkillEffectModifierOperation.INCREASE, Set.of(), Set.of("direction")),
+            result.lifecycleBehavior());
+        assertThrows(ApiException.class, () -> service.create(GAME_ID, SKILL_KEY,
+            new SkillEffectCreateRequest(EFFECT_KEY, "护盾修正", null, 10, timedLifecycle(), List.of(foreign))));
+    }
+
+    private static SkillEffectResultRequest shieldReceivedModifierResult() {
+        return new SkillEffectResultRequest("shield_received", "收到护盾提高",
+            SkillEffectResultType.SHIELD_RECEIVED_MODIFIER, SkillEffectTarget.SOURCE, null, 1, valueRule(),
+            new xyz.game.datamanage.model.skilleffect.SkillEffectShieldReceivedModifierDetail(
+                "shield_ratio", SkillEffectModifierOperation.INCREASE), persistentShared());
+    }
+
+    @Test
     void listsRequiresParentAndReturnsSummaries() {
         when(skillMapper.findById(GAME_ID, SKILL_KEY)).thenReturn(skill());
         when(mapper.listSummaries(GAME_ID, SKILL_KEY)).thenReturn(List.of(summary()));
