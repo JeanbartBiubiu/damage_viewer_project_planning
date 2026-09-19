@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-19T03:10:19.826Z",
+  "generatedAt": "2026-09-19T03:19:04.779Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -10340,6 +10340,40 @@
         "sha256": "f208941011e124e65e87b6d00ae4fa68751691e28b8ea813292abb05ec0b47b7",
         "commit": "df9ea63c"
       }
+    },
+    "sevenMageBodyDirectHitBackfill": {
+      "at": "2026-09-19T03:19:04.779Z",
+      "status": "七项本体直接伤害14组成已保存并独立回读，页面和剩余分支待续",
+      "skills": [
+        "vex_q",
+        "vex_w",
+        "vex_e",
+        "bard_q",
+        "akali_q",
+        "katarina_q",
+        "syndra_q"
+      ],
+      "created": {
+        "effects": 7,
+        "triggerRules": 7
+      },
+      "candidateGETs": 62,
+      "prepareGETs": 168,
+      "writerGETs": 196,
+      "writerPOSTs": 14,
+      "immediateReadbacks": 14,
+      "independentGETs": 168,
+      "unchangedResponsesIncludingTimestamps": 140,
+      "expectedChangedCollections": 14,
+      "arithmeticCases": 105,
+      "browser": "NOT_RUN_BROWSER_UNAVAILABLE",
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/七项法术本体直接伤害补录/09-证据清单.json",
+        "sha256": "4f141ef7a113f1b89d6376e3f33947a3d899a0547bcff5b669ed663c0ad01a78",
+        "commit": "7ae51644"
+      }
     }
   },
   "runtimeValidation": "未执行",
@@ -10693,6 +10727,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/七项后续普通使用补录/09-证据清单.json",
         "sha256": "f208941011e124e65e87b6d00ae4fa68751691e28b8ea813292abb05ec0b47b7",
         "commit": "df9ea63c"
+      },
+      "sevenMageBodyDirectHitBackfill": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/七项法术本体直接伤害补录/09-证据清单.json",
+        "sha256": "4f141ef7a113f1b89d6376e3f33947a3d899a0547bcff5b669ed663c0ad01a78",
+        "commit": "7ae51644"
       }
     },
     "coverage": {
@@ -13306,7 +13346,7 @@
         "name": "阿卡丽·我流奥义！寒影",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有4个待处理分支，其中来源或资料缺口3个、系统缺口0个、配置缺口1个。",
+        "reason": "根技能本体直接伤害和实际英雄命中已保存并独立回读；能量使用流程、边缘减速及被动联动、代表页面验收、原批次其余来源未决项逐项核对继续处理，不计整技能管理完成。",
         "pendingCounts": {
           "source": 3,
           "system": 0,
@@ -13317,8 +13357,33 @@
         "candidateSha256": "247eeb25c0f1c0b5448fabd16512d9c7b2632660fc08f3cd67bac0d9335c5ff0",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "sevenMageBodyDirectHitBackfill"
+        ],
+        "currentComponentCounts": {
+          "parameters": 7,
+          "formulas": 1,
+          "effects": 2,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 1
+        },
+        "remainingBranches": [
+          "能量使用流程",
+          "边缘减速及被动联动",
+          "代表页面验收",
+          "原批次其余来源未决项逐项核对"
+        ],
+        "authoredDirectHit": {
+          "effectKey": "primary_hit",
+          "ruleKey": "actual_hit",
+          "httpReadback": "PASS",
+          "spellShieldBlockScope": "SKILL",
+          "vampType": "OMNIVAMP",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "efficiency": 1,
+          "browser": "待验"
+        }
       },
       {
         "sourceChampionId": "Akali",
@@ -14803,7 +14868,7 @@
         "name": "巴德·星界束缚",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "根技能本体直接伤害和实际英雄命中已保存并独立回读；第一与后续碰撞的减速眩晕资格、普通使用、代表页面验收继续处理，不计整技能管理完成。",
         "pendingCounts": {
           "source": 0,
           "system": 1,
@@ -14814,8 +14879,32 @@
         "candidateSha256": "d0e2ecf93dce78d41da7e01190a8092704120a198c255625086c9cb1513017a5",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "sevenMageBodyDirectHitBackfill"
+        ],
+        "currentComponentCounts": {
+          "parameters": 8,
+          "formulas": 1,
+          "effects": 2,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 1
+        },
+        "remainingBranches": [
+          "第一与后续碰撞的减速眩晕资格",
+          "普通使用",
+          "代表页面验收"
+        ],
+        "authoredDirectHit": {
+          "effectKey": "primary_hit",
+          "ruleKey": "actual_hit",
+          "httpReadback": "PASS",
+          "spellShieldBlockScope": "SKILL",
+          "vampType": "OMNIVAMP",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "efficiency": 1,
+          "browser": "待验"
+        }
       },
       {
         "sourceChampionId": "Bard",
@@ -20476,7 +20565,7 @@
         "name": "卡特琳娜·弹射之刃",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，其中来源或资料缺口1个、系统缺口0个、配置缺口0个。",
+        "reason": "根技能本体直接伤害和实际英雄命中已保存并独立回读；普通冷却使用流程、落地匕首与被动联动、代表页面验收、原批次其余来源未决项逐项核对继续处理，不计整技能管理完成。",
         "pendingCounts": {
           "source": 1,
           "system": 0,
@@ -20487,8 +20576,33 @@
         "candidateSha256": "07cbc606f8138ec61cbd8600cd53ce9eaf392241960cb54ea72016a67b0c219b",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "sevenMageBodyDirectHitBackfill"
+        ],
+        "currentComponentCounts": {
+          "parameters": 5,
+          "formulas": 1,
+          "effects": 1,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 1
+        },
+        "remainingBranches": [
+          "普通冷却使用流程",
+          "落地匕首与被动联动",
+          "代表页面验收",
+          "原批次其余来源未决项逐项核对"
+        ],
+        "authoredDirectHit": {
+          "effectKey": "primary_hit",
+          "ruleKey": "actual_hit",
+          "httpReadback": "PASS",
+          "spellShieldBlockScope": "SKILL",
+          "vampType": "OMNIVAMP",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "efficiency": 1,
+          "browser": "待验"
+        }
       },
       {
         "sourceChampionId": "Katarina",
@@ -29571,7 +29685,7 @@
         "name": "辛德拉·暗黑法球",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有5个待处理分支，其中来源或资料缺口3个、系统缺口0个、配置缺口2个。",
+        "reason": "根技能本体直接伤害和实际英雄命中已保存并独立回读；普通使用与升级充能、法球保存及跨技能联动、代表页面验收、原批次其余来源未决项逐项核对继续处理，不计整技能管理完成。",
         "pendingCounts": {
           "source": 3,
           "system": 0,
@@ -29582,8 +29696,33 @@
         "candidateSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "sevenMageBodyDirectHitBackfill"
+        ],
+        "currentComponentCounts": {
+          "parameters": 7,
+          "formulas": 1,
+          "effects": 2,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 1
+        },
+        "remainingBranches": [
+          "普通使用与升级充能",
+          "法球保存及跨技能联动",
+          "代表页面验收",
+          "原批次其余来源未决项逐项核对"
+        ],
+        "authoredDirectHit": {
+          "effectKey": "primary_hit",
+          "ruleKey": "actual_hit",
+          "httpReadback": "PASS",
+          "spellShieldBlockScope": "SKILL",
+          "vampType": "OMNIVAMP",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "efficiency": 1,
+          "browser": "待验"
+        }
       },
       {
         "sourceChampionId": "Syndra",
@@ -31816,7 +31955,7 @@
         "name": "薇古丝·寒心波云",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "根技能本体直接伤害和实际英雄命中已保存并独立回读；暮气及恐惧联动、普通使用和资源、减速等其余分支、代表页面验收继续处理，不计整技能管理完成。",
         "pendingCounts": {
           "source": 0,
           "system": 1,
@@ -31827,8 +31966,33 @@
         "candidateSha256": "07cbc606f8138ec61cbd8600cd53ce9eaf392241960cb54ea72016a67b0c219b",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "sevenMageBodyDirectHitBackfill"
+        ],
+        "currentComponentCounts": {
+          "parameters": 5,
+          "formulas": 1,
+          "effects": 1,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 1
+        },
+        "remainingBranches": [
+          "暮气及恐惧联动",
+          "普通使用和资源",
+          "减速等其余分支",
+          "代表页面验收"
+        ],
+        "authoredDirectHit": {
+          "effectKey": "primary_hit",
+          "ruleKey": "actual_hit",
+          "httpReadback": "PASS",
+          "spellShieldBlockScope": "SKILL",
+          "vampType": "OMNIVAMP",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "efficiency": 1,
+          "browser": "待验"
+        }
       },
       {
         "sourceChampionId": "Vex",
@@ -31839,7 +32003,7 @@
         "name": "薇古丝·生人勿近",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "根技能本体直接伤害和实际英雄命中已保存并独立回读；暮气及恐惧联动、普通使用和资源、减速等其余分支、代表页面验收继续处理，不计整技能管理完成。",
         "pendingCounts": {
           "source": 0,
           "system": 1,
@@ -31850,8 +32014,33 @@
         "candidateSha256": "07cbc606f8138ec61cbd8600cd53ce9eaf392241960cb54ea72016a67b0c219b",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "sevenMageBodyDirectHitBackfill"
+        ],
+        "currentComponentCounts": {
+          "parameters": 10,
+          "formulas": 2,
+          "effects": 2,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 2
+        },
+        "remainingBranches": [
+          "暮气及恐惧联动",
+          "普通使用和资源",
+          "减速等其余分支",
+          "代表页面验收"
+        ],
+        "authoredDirectHit": {
+          "effectKey": "primary_hit",
+          "ruleKey": "actual_hit",
+          "httpReadback": "PASS",
+          "spellShieldBlockScope": "SKILL",
+          "vampType": "OMNIVAMP",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "efficiency": 1,
+          "browser": "待验"
+        }
       },
       {
         "sourceChampionId": "Vex",
@@ -31862,7 +32051,7 @@
         "name": "薇古丝·溟濛渐染",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "根技能本体直接伤害和实际英雄命中已保存并独立回读；暮气及恐惧联动、普通使用和资源、减速等其余分支、代表页面验收继续处理，不计整技能管理完成。",
         "pendingCounts": {
           "source": 0,
           "system": 1,
@@ -31873,8 +32062,33 @@
         "candidateSha256": "07cbc606f8138ec61cbd8600cd53ce9eaf392241960cb54ea72016a67b0c219b",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "sevenMageBodyDirectHitBackfill"
+        ],
+        "currentComponentCounts": {
+          "parameters": 11,
+          "formulas": 1,
+          "effects": 1,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 1
+        },
+        "remainingBranches": [
+          "暮气及恐惧联动",
+          "普通使用和资源",
+          "减速等其余分支",
+          "代表页面验收"
+        ],
+        "authoredDirectHit": {
+          "effectKey": "primary_hit",
+          "ruleKey": "actual_hit",
+          "httpReadback": "PASS",
+          "spellShieldBlockScope": "SKILL",
+          "vampType": "OMNIVAMP",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "efficiency": 1,
+          "browser": "待验"
+        }
       },
       {
         "sourceChampionId": "Vex",
