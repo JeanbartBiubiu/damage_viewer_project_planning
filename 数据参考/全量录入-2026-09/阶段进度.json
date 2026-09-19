@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-19T09:08:11.864Z",
+  "generatedAt": "2026-09-19T11:02:31.190Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -9714,16 +9714,18 @@
     },
     "sameEventConditionMatching": {
       "at": "2026-09-18T21:55:43.546Z",
-      "status": "管理语义已独立评审并收敛；索拉卡首次真实页面录入待连接恢复",
+      "status": "管理语义与索拉卡R首次页面返回已闭环；运行实现仍未开展",
       "rules": "同一来源对象同一技能一次事件先按现有保护确定候选，再求全部条件，最后执行固定匹配集合。",
       "newFields": 0,
       "newTables": 0,
       "businessWrites": 0,
       "configurationArithmeticCases": 27,
-      "browser": "NOT_RUN_BROWSER_UNAVAILABLE",
+      "browser": "PASS",
       "runtimeValidation": "未实现、未验证",
       "contract": "文档记录/详细设计/项目/条件事件与动态输入供值管理详细设计.md#61-组合规则",
-      "evidence": "数据参考/全量录入-2026-09/同事件治疗条件求值/README.md"
+      "evidence": "数据参考/全量录入-2026-09/同事件治疗条件求值/README.md",
+      "returnEvidence": "sorakaRSelfHealingFirstUI",
+      "note": "原评审时零业务写入仍是历史事实；后续四次页面新增及独立28GET见返回批次。"
     },
     "kayleWMoveAndCostBackfill": {
       "at": "2026-09-18T22:09:55.824Z",
@@ -11006,7 +11008,7 @@
     },
     "katarinaQCooldownOnlyFirstUI": {
       "at": "2026-09-19T08:40:31.724Z",
-      "status": "无资源普通冷却过程及使用入口完成首次页面，瑟提同类返回及技能剩余分支继续",
+      "status": "无资源普通冷却首次页面通过，瑟提四项同类返回也已完成；技能其余分支继续",
       "created": {
         "processes": 1,
         "triggerRules": 1
@@ -11062,6 +11064,183 @@
         "relativePath": "数据参考/全量录入-2026-09/技能详情加载提示修复/09-证据清单.json",
         "commit": "225715b1",
         "sha256": "5f48313f92a4638b69a5c2a99e9590c6f4255f3b30847a0dcb92738ad1e268d4"
+      }
+    },
+    "settCooldownOnlyReturn": {
+      "at": "2026-09-19T11:02:31.190Z",
+      "status": "瑟提四技能普通冷却与使用登记返回补录完成；其余相关组成继续",
+      "sourceVersion": {
+        "client": "16.17",
+        "ddragon": "16.17.1"
+      },
+      "writes": 8,
+      "immediateReadbacks": 8,
+      "independentAgentGETs": 94,
+      "archiveGETs": 0,
+      "unchangedResponsesIncludingTimestamps": 78,
+      "expectedChangedCollections": 8,
+      "currentComponentCounts": {
+        "sett_q": {
+          "parameters": 8,
+          "formulas": 1,
+          "effects": 1,
+          "processes": 1,
+          "internal-states": 0,
+          "trigger-rules": 1
+        },
+        "sett_w": {
+          "parameters": 10,
+          "formulas": 3,
+          "effects": 2,
+          "processes": 1,
+          "internal-states": 0,
+          "trigger-rules": 1
+        },
+        "sett_e": {
+          "parameters": 6,
+          "formulas": 1,
+          "effects": 1,
+          "processes": 1,
+          "internal-states": 0,
+          "trigger-rules": 2
+        },
+        "sett_r": {
+          "parameters": 6,
+          "formulas": 1,
+          "effects": 1,
+          "processes": 1,
+          "internal-states": 0,
+          "trigger-rules": 1
+        }
+      },
+      "browser": "PASS",
+      "remaining": [
+        "Q重置普攻、两拳共享窗口和移动加速",
+        "W豪意积累衰减、消耗快照、护盾及中心边缘伤害",
+        "E拉拽与减速及其他未补组成",
+        "R擒抱压制位移、落地命中、减速与终极技能分类"
+      ],
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/瑟提四技能普通冷却返回补录/09-证据清单.json",
+        "commit": "b7d7211f",
+        "sha256": "ceada384a1d9e770751b8141a289121d2d3568aa9513e34f1e2367326cce99d6"
+      }
+    },
+    "sorakaRSelfHealingFirstUI": {
+      "at": "2026-09-19T11:02:31.190Z",
+      "status": "正常与低生命自身治疗首次页面完成",
+      "created": {
+        "effects": 2,
+        "triggerRules": 2
+      },
+      "prepareGETs": 28,
+      "preflightGETs": 28,
+      "browserWrites": 4,
+      "immediateReadbacks": 4,
+      "independentGETs": 28,
+      "independentExecutor": "/root/urgot_core_frozen_fallback",
+      "independentStdoutBytes": 6138,
+      "independentStdoutSha256": "d39bdf7f6fe8079ad35481092fbcf6907a8464a26f8a3974313dee35ec1fcb1e",
+      "unchangedResponsesIncludingTimestamps": 22,
+      "expectedChangedCollections": 2,
+      "configurationArithmeticCases": 27,
+      "browser": "PASS",
+      "runtimeValidation": "未实现、未验证",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/索拉卡R条件治疗首次页面/09-证据清单.json",
+        "commit": "5bd8e942",
+        "sha256": "eab34e50241afcdb911ec8278a3a68ba390b26a6a3d5f5f099d2627e6b5941f7"
+      }
+    },
+    "sorakaRCostCooldownReturn": {
+      "at": "2026-09-19T11:02:31.190Z",
+      "status": "基础施法、法力与冷却使用组成完成",
+      "sourceVersion": {
+        "client": "16.17",
+        "ddragon": "16.17.1"
+      },
+      "writes": 3,
+      "immediateReadbacks": 3,
+      "independentAgentGETs": 32,
+      "archiveGETs": 0,
+      "unchangedResponsesIncludingTimestamps": 26,
+      "expectedChangedCollections": 3,
+      "currentComponentCounts": {
+        "soraka_r": {
+          "parameters": 7,
+          "formulas": 2,
+          "effects": 3,
+          "processes": 1,
+          "internal-states": 0,
+          "trigger-rules": 3
+        }
+      },
+      "browser": "PASS",
+      "remaining": [
+        "根技能与法力参数旧说明",
+        "终极技能分类目录及关联"
+      ],
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/索拉卡R使用成本与施放补录/09-证据清单.json",
+        "commit": "304aa7d4",
+        "sha256": "292e69bbc88a54f7a86706dd5103a619b13540c7dd6609e61074d9271a47d850"
+      }
+    },
+    "ultimateCategorySorakaFirstUI": {
+      "status": "终极技能分类与索拉卡R关联首次页面完成",
+      "at": "2026-09-19T11:02:31.190Z",
+      "createdCategories": 1,
+      "updatedSkills": 1,
+      "browser": "PASS",
+      "prepareGETs": 3,
+      "immediateGETs": 4,
+      "independentGETs": 3,
+      "archiveGETs": 0,
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/终极技能分类与索拉卡R关联/09-证据清单.json",
+        "commit": "1b37a8de",
+        "sha256": "73f17f0d88b47d23fc9cf6643989e2a702a557e943541b5340cf868827e29784"
+      }
+    },
+    "sorakaRDescriptionCleanup": {
+      "at": "2026-09-19T11:02:31.190Z",
+      "status": "根技能与法力参数旧说明完成纠正",
+      "writes": 2,
+      "immediateReadbacks": 2,
+      "independentGETs": 23,
+      "archiveGETs": 0,
+      "unchangedResponsesIncludingTimestamps": 20,
+      "expectedChangedCollections": 1,
+      "browser": "PASS",
+      "managementComplete": true,
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/索拉卡R完整录入说明整理/09-证据清单.json",
+        "commit": "add44a85",
+        "sha256": "da8b8f83bba679ee34bf1728465ee63abe7b12a74757c8f8290835fa36d5978b"
+      }
+    },
+    "triggerLeafDraftSynchronization": {
+      "at": "2026-09-19T11:02:31.190Z",
+      "status": "条件与动作子弹窗旧草稿闪现已修复，归并体验-02",
+      "unitTests": 674,
+      "focusedMockBrowserCases": 6,
+      "liveBrowser": "PASS",
+      "liveGETs": 4,
+      "businessWrites": 0,
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/条件动作子弹窗草稿同步/09-证据清单.json",
+        "commit": "380d9881",
+        "sha256": "49531a72fc2ce98ffeb6aac2e30cead2203bf17c24c3d6db633c731ead3dfa77"
       }
     }
   },
@@ -11554,6 +11733,42 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/卡特琳娜Q无资源冷却首次页面/09-证据清单.json",
         "commit": "adb26e00",
         "sha256": "9abd99d1355c05c21c238c837c90fdf07326ffab93298f4f3a80d2b42eb6dea6"
+      },
+      "settCooldownOnlyReturn": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/瑟提四技能普通冷却返回补录/09-证据清单.json",
+        "commit": "b7d7211f",
+        "sha256": "ceada384a1d9e770751b8141a289121d2d3568aa9513e34f1e2367326cce99d6"
+      },
+      "sorakaRSelfHealingFirstUI": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/索拉卡R条件治疗首次页面/09-证据清单.json",
+        "commit": "5bd8e942",
+        "sha256": "eab34e50241afcdb911ec8278a3a68ba390b26a6a3d5f5f099d2627e6b5941f7"
+      },
+      "sorakaRCostCooldownReturn": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/索拉卡R使用成本与施放补录/09-证据清单.json",
+        "commit": "304aa7d4",
+        "sha256": "292e69bbc88a54f7a86706dd5103a619b13540c7dd6609e61074d9271a47d850"
+      },
+      "ultimateCategorySorakaFirstUI": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/终极技能分类与索拉卡R关联/09-证据清单.json",
+        "commit": "1b37a8de",
+        "sha256": "73f17f0d88b47d23fc9cf6643989e2a702a557e943541b5340cf868827e29784"
+      },
+      "sorakaRDescriptionCleanup": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/索拉卡R完整录入说明整理/09-证据清单.json",
+        "commit": "add44a85",
+        "sha256": "da8b8f83bba679ee34bf1728465ee63abe7b12a74757c8f8290835fa36d5978b"
+      },
+      "triggerLeafDraftSynchronization": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/条件动作子弹窗草稿同步/09-证据清单.json",
+        "commit": "380d9881",
+        "sha256": "49531a72fc2ce98ffeb6aac2e30cead2203bf17c24c3d6db633c731ead3dfa77"
       }
     },
     "coverage": {
@@ -11573,16 +11788,16 @@
         "concludedItems": 865,
         "conclusions": {
           "资料待核": 385,
-          "系统暂缓": 452,
+          "系统暂缓": 451,
           "明确排除": 26,
-          "已录入": 2
+          "已录入": 3
         },
         "matchedInScopeItems": 855,
         "excludedChampionSlots": 10,
         "remainingInScopeItems": 0,
         "status": "FULL_COVERAGE_WITH_OPEN_QUEUE",
-        "openQueueItems": 837,
-        "managementCompleteItems": 2,
+        "openQueueItems": 836,
+        "managementCompleteItems": 3,
         "countingBoundary": "sourceItems=865为来源槽位，matchedInScopeItems=855为范围内技能；remainingInScopeItems只指尚未分类项，openQueueItems才是资料或系统开放项，已录入仅指管理配置完成。"
       },
       "equipment": {
@@ -29255,19 +29470,30 @@
         "name": "瑟提·屈人之威",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有2个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
-        "pendingCounts": {
-          "source": 0,
-          "system": 0,
-          "configuration": 2,
-          "other": 0
-        },
+        "reason": "本轮已返回补齐普通冷却过程与主动使用入口；原组成保持，剩余分支逐项列出，不计整技能完成。",
         "batchKey": "heroFifthBatch",
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "settCooldownOnlyReturn"
+        ],
+        "completedBranches": [
+          "主动使用启动cast并在过程开始登记已核定普通冷却"
+        ],
+        "remainingBranches": [
+          "普攻重置与两拳共享窗口的攻击联动",
+          "朝向敌方英雄的移动加速"
+        ],
+        "currentComponentCounts": {
+          "parameters": 8,
+          "formulas": 1,
+          "effects": 1,
+          "processes": 1,
+          "internal-states": 0,
+          "trigger-rules": 1
+        },
+        "runtimeValidation": "未执行"
       },
       {
         "sourceChampionId": "Sett",
@@ -29278,19 +29504,31 @@
         "name": "瑟提·蓄意轰拳",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有3个待处理分支，其中来源或资料缺口1个、系统缺口0个、配置缺口2个。",
-        "pendingCounts": {
-          "source": 1,
-          "system": 0,
-          "configuration": 2,
-          "other": 0
-        },
+        "reason": "本轮已返回补齐普通冷却过程与主动使用入口；原组成保持，剩余分支逐项列出，不计整技能完成。",
         "batchKey": "heroFifthBatch",
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "settCooldownOnlyReturn"
+        ],
+        "completedBranches": [
+          "主动使用启动cast并在过程开始登记已核定普通冷却"
+        ],
+        "remainingBranches": [
+          "豪意积累衰减及已消费豪意快照",
+          "护盾衰减、中央真实伤害与边缘物理伤害分支",
+          "施法时间字段冲突与未给值的冷却返还字段不能按零处理"
+        ],
+        "currentComponentCounts": {
+          "parameters": 10,
+          "formulas": 3,
+          "effects": 2,
+          "processes": 1,
+          "internal-states": 0,
+          "trigger-rules": 1
+        },
+        "runtimeValidation": "未执行"
       },
       {
         "sourceChampionId": "Sett",
@@ -29301,19 +29539,30 @@
         "name": "瑟提·强手裂颅",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有2个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
-        "pendingCounts": {
-          "source": 0,
-          "system": 0,
-          "configuration": 2,
-          "other": 0
-        },
+        "reason": "本轮已返回补齐普通冷却过程与主动使用入口；原组成保持，剩余分支逐项列出，不计整技能完成。",
         "batchKey": "heroFifthBatch",
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "settCooldownOnlyReturn"
+        ],
+        "completedBranches": [
+          "主动使用启动cast并在过程开始登记已核定普通冷却"
+        ],
+        "remainingBranches": [
+          "拉拽与双侧擒住目标时的眩晕资格",
+          "普通减速及其合法实际命中接线"
+        ],
+        "currentComponentCounts": {
+          "parameters": 6,
+          "formulas": 1,
+          "effects": 1,
+          "processes": 1,
+          "internal-states": 0,
+          "trigger-rules": 2
+        },
+        "runtimeValidation": "未执行"
       },
       {
         "sourceChampionId": "Sett",
@@ -29324,19 +29573,31 @@
         "name": "瑟提·叹为观止",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有2个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
-        "pendingCounts": {
-          "source": 0,
-          "system": 0,
-          "configuration": 2,
-          "other": 0
-        },
+        "reason": "本轮已返回补齐普通冷却过程与主动使用入口；原组成保持，剩余分支逐项列出，不计整技能完成。",
         "batchKey": "heroFifthBatch",
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "settCooldownOnlyReturn"
+        ],
+        "completedBranches": [
+          "主动使用启动cast并在过程开始登记已核定普通冷却"
+        ],
+        "remainingBranches": [
+          "擒抱压制与位移、落地伤害和距离衰减接线",
+          "落地减速",
+          "终极技能分类仍未关联"
+        ],
+        "currentComponentCounts": {
+          "parameters": 6,
+          "formulas": 1,
+          "effects": 1,
+          "processes": 1,
+          "internal-states": 0,
+          "trigger-rules": 1
+        },
+        "runtimeValidation": "未执行"
       },
       {
         "sourceChampionId": "Shaco",
@@ -30583,14 +30844,14 @@
         "slot": "R",
         "skillKey": "soraka_r",
         "name": "索拉卡·祈愿",
-        "conclusion": "系统暂缓",
-        "conclusionScope": "技能范围内数据与机制",
-        "reason": "自身治疗与40%阈值来源已确认，同事件先匹配条件再执行动作的管理语义已独立评审并明确；两个治疗效果和入口须经首次真实页面录入，当前连接不可用，尚无业务写入。",
+        "conclusion": "已录入",
+        "conclusionScope": "本轮1V1自身治疗管理配置，不含其他友军和战斗运行",
+        "reason": "固定来源、7参数2公式、正常与低生命两治疗效果、100法力消耗、250毫秒基础施放与三级普通冷却、三条使用入口、终极技能分类、角色关系和代表图均已表达并核对；两次生命条件在同一事件动作前确定匹配集合。四批保存、独立回读和适当页面验收通过，旧说明已纠正。",
         "pendingCounts": {
           "source": 0,
           "system": 0,
           "configuration": 0,
-          "other": 1
+          "other": 0
         },
         "batchKey": "heroThirtyThirdBatch",
         "candidateSha256": "841a100c48f51a135dbb6d4457ec5523af2030611cbbac1f2212b388be5a8b4e",
@@ -30598,13 +30859,32 @@
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
           "selfHealCandidateLimits",
-          "sameEventConditionMatching"
+          "sameEventConditionMatching",
+          "sorakaRSelfHealingFirstUI",
+          "sorakaRCostCooldownReturn",
+          "ultimateCategorySorakaFirstUI",
+          "sorakaRDescriptionCleanup"
         ],
-        "remainingBranches": [
-          "首次真实页面创建正常与低血自身治疗效果和互斥入口",
-          "使用消耗与普通冷却登记",
-          "保存后独立回读及代表页面验收"
-        ]
+        "remainingBranches": [],
+        "completedBranches": [
+          "自身正常治疗150/250/350加50%总法术强度",
+          "施放前自身生命比例严格低于40%时完整治疗量乘1.5，等于40%使用正常分支",
+          "基础施法250毫秒，过程开始消耗100法力并登记150/135/120秒普通冷却",
+          "自身主动使用启动过程，另两条互斥治疗入口按固定匹配集合执行",
+          "终极技能分类、原角色关系与代表图"
+        ],
+        "excludedBranches": [
+          "仅作用于其他友方英雄的治疗"
+        ],
+        "currentComponentCounts": {
+          "parameters": 7,
+          "formulas": 2,
+          "effects": 3,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 3
+        },
+        "runtimeValidation": "事件生产、条件匹配集合执行、扣费冷却与治疗结算未实现或验证，独立于管理完整性"
       },
       {
         "sourceChampionId": "Swain",
