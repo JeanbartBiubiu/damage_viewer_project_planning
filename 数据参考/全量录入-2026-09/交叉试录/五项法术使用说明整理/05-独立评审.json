@@ -1,0 +1,54 @@
+{
+  "status": "APPROVED",
+  "at": "2026-09-19T03:36:48.931Z",
+  "reviewer": "/root/seven_hit_frozen_review",
+  "decision": "批准五处法力参数说明更新，只把过时的未接扣除时点改为由引用过程定义。",
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-descriptions-v2.mjs": "f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517",
+    "01-纠错计划.json": "50bc479ffd6de7a48f68024597ea17dccc0af9588a6f45e2dd5d1366f371d844",
+    "02-冻结请求.json": "bbfc7d5a255ec9bf731f26b7c2d3f729304c20334ea692649c9f7aa372194557",
+    "03-来源摘要.json": "dcb87ee28baf0748112e87dceeea261933a679d93df53106e073053525c11bac",
+    "04-写入前现值.json": "cb98c5feb268ce7af46af5a75ab39a11948ddd264eed6e344b190cd4d7f80510"
+  },
+  "approvedIndependentReader": {
+    "path": "tools/authoring/read-reviewed-description-updates.mjs",
+    "sha256": "3b9c5c9e391f63175fdaec238a88b482b05c7e76dc00f2acc0eb2cd6eebcb994"
+  },
+  "businessWrites": 0,
+  "reviewerHTTPRequests": 0,
+  "checks": {
+    "sourceHashes": 5,
+    "preparationGETs": 110,
+    "descriptionOnlyParameters": 5,
+    "createdAtPreserved": 5,
+    "priorOriginalResponsesUnchanged": 82,
+    "priorNewObjectsPreserved": 14,
+    "priorCollectionChangesVerified": 14
+  },
+  "changedRoutes": [
+    "/skills/vex_q/parameters/mana_cost",
+    "/skills/vex_w/parameters/mana_cost",
+    "/skills/vex_e/parameters/mana_cost",
+    "/skills/bard_q/parameters/mana_cost",
+    "/skills/leblanc_q/parameters/mana_cost"
+  ],
+  "semanticReview": "五项均有普通主动使用规则到cast到mana_cost的已保存链。VexW使用on_used_cast，旧on_used自盾仍在；VexE12000冷却、全部数值、嵌套、公式、伤害和规则均未修改。不宣称资源资格或战斗运行已完成。",
+  "expectedIndependentReadback": {
+    "GETs": 110,
+    "changedDetails": 5,
+    "expectedChangedCollections": 5,
+    "unchangedResponsesIncludingTimestamps": 100,
+    "businessWrites": 0
+  },
+  "executionConditions": [
+    "固定工具、01至04及五来源字节不变；写前重核110现值与逐目标。",
+    "只执行冻结5PUT；06存在或结果不明先查落地，不重放。",
+    "成功后使用固定G只读回读器并wx保存07。"
+  ],
+  "validationLimits": {
+    "HTTP": "本评审0HTTP",
+    "browser": "页面待验",
+    "runtime": "未执行宿主/Wasm/战斗"
+  },
+  "blockingFindings": []
+}

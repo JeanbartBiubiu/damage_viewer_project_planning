@@ -1,0 +1,46 @@
+{
+  "at": "2026-09-19T03:27:55.287Z",
+  "businessHTTP": 0,
+  "businessWrites": 0,
+  "source": "数据参考/全量录入-2026-09/交叉试录/六项法术普通使用补录",
+  "sourceCommit": "453ba00d",
+  "changes": [
+    {
+      "skillKey": "vex_q",
+      "kind": "parameter",
+      "route": "/skills/vex_q/parameters/mana_cost",
+      "description": "DDragon16.17.1 Vex.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "oldDescription": "DDragon16.17.1 Vex.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+    },
+    {
+      "skillKey": "vex_w",
+      "kind": "parameter",
+      "route": "/skills/vex_w/parameters/mana_cost",
+      "description": "DDragon16.17.1 Vex.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "oldDescription": "DDragon16.17.1 Vex.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+    },
+    {
+      "skillKey": "vex_e",
+      "kind": "parameter",
+      "route": "/skills/vex_e/parameters/mana_cost",
+      "description": "DDragon16.17.1 Vex.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "oldDescription": "DDragon16.17.1 Vex.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+    },
+    {
+      "skillKey": "bard_q",
+      "kind": "parameter",
+      "route": "/skills/bard_q/parameters/mana_cost",
+      "description": "DDragon16.17.1 Bard.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "oldDescription": "DDragon16.17.1 Bard.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+    },
+    {
+      "skillKey": "leblanc_q",
+      "kind": "parameter",
+      "route": "/skills/leblanc_q/parameters/mana_cost",
+      "description": "DDragon16.17.1 Leblanc.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "oldDescription": "DDragon16.17.1 Leblanc.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+    }
+  ],
+  "reason": "本批普通使用已保存并独立回读，只纠正五处法力参数中的未接时点说法。",
+  "preserved": "阿卡丽能量说明、各成本效果、薇古丝W原自盾规则、全部数值及创建时间保持。"
+}

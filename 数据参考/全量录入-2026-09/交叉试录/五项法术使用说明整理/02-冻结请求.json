@@ -1,0 +1,166 @@
+{
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "requests": [
+    {
+      "method": "PUT",
+      "route": "/skills/vex_q/parameters/mana_cost",
+      "body": {
+        "name": "基础法力消耗",
+        "description": "DDragon16.17.1 Vex.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 45,
+          "2": 50,
+          "3": 55,
+          "4": 60,
+          "5": 65
+        },
+        "sortOrder": 110
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-08T02:05:39.631983Z",
+        "description": "DDragon16.17.1 Vex.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 45,
+          "2": 50,
+          "3": 55,
+          "4": 60,
+          "5": 65
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "vex_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:05:39.631983Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/vex_w/parameters/mana_cost",
+      "body": {
+        "name": "基础法力消耗",
+        "description": "DDragon16.17.1 Vex.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 75,
+        "levelValues": null,
+        "sortOrder": 110
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-08T02:05:40.635938Z",
+        "description": "DDragon16.17.1 Vex.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 75,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "vex_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:05:40.635938Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/vex_e/parameters/mana_cost",
+      "body": {
+        "name": "基础法力消耗",
+        "description": "DDragon16.17.1 Vex.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 70,
+          "2": 80,
+          "3": 90,
+          "4": 100,
+          "5": 110
+        },
+        "sortOrder": 110
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-08T02:05:41.501996Z",
+        "description": "DDragon16.17.1 Vex.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 80,
+          "3": 90,
+          "4": 100,
+          "5": 110
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "vex_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:05:41.501996Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/bard_q/parameters/mana_cost",
+      "body": {
+        "name": "基础法力消耗",
+        "description": "DDragon16.17.1 Bard.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 60,
+        "levelValues": null,
+        "sortOrder": 110
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-07T18:36:02.066139Z",
+        "description": "DDragon16.17.1 Bard.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 60,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "bard_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:36:02.066139Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/leblanc_q/parameters/mana_cost",
+      "body": {
+        "name": "基础法力消耗",
+        "description": "DDragon16.17.1 Leblanc.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 50,
+        "levelValues": null,
+        "sortOrder": 110
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-07T18:36:42.217552Z",
+        "description": "DDragon16.17.1 Leblanc.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 50,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "leblanc_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:36:42.217552Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    }
+  ],
+  "sourceSha256": "dcb87ee28baf0748112e87dceeea261933a679d93df53106e073053525c11bac",
+  "baselineSha256": "cb98c5feb268ce7af46af5a75ab39a11948ddd264eed6e344b190cd4d7f80510"
+}

@@ -1,0 +1,3769 @@
+{
+  "at": "2026-09-19T03:27:59.446Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/skills/vex_q": {
+      "createdAt": "2026-09-06T18:20:57.529775Z",
+      "description": "发射一个可在飞行途中提速的伤害型飞弹。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "薇古丝·寒心波云",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "vex_q",
+      "sortOrder": 1,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:20:57.529775Z"
+    },
+    "/skills/vex_q/parameters": [
+      {
+        "createdAt": "2026-09-09T18:46:27.229003Z",
+        "description": "客户端BaseDamage取索引1至5；索引0的25不是等级1。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 115,
+          "3": 160,
+          "4": 205,
+          "5": 250
+        },
+        "name": "基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "vex_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T18:46:27.229003Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T18:46:28.334969Z",
+        "description": "QDamageCalc消费APRatio=0.7×来源总法强。",
+        "fixedValue": 0.7,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法强比例",
+        "parameterKey": "ap_ratio",
+        "skillKey": "vex_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T18:46:28.334969Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T18:46:29.498024Z",
+        "description": "当前根spellCastTime约0.15秒，按来源精度转换为150毫秒。",
+        "fixedValue": 150,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "vex_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T18:46:29.498024Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T02:05:39.238449Z",
+        "description": "DDragon16.17.1 Vex.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 8000,
+          "2": 7000,
+          "3": 6000,
+          "4": 5000,
+          "5": 4000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "vex_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:39.238449Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T02:05:39.631983Z",
+        "description": "DDragon16.17.1 Vex.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 45,
+          "2": 50,
+          "3": 55,
+          "4": 60,
+          "5": 65
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "vex_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:05:39.631983Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/vex_q/parameters/base_damage": {
+      "createdAt": "2026-09-09T18:46:27.229003Z",
+      "description": "客户端BaseDamage取索引1至5；索引0的25不是等级1。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 70,
+        "2": 115,
+        "3": 160,
+        "4": 205,
+        "5": 250
+      },
+      "name": "基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "vex_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T18:46:27.229003Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/vex_q/parameters/ap_ratio": {
+      "createdAt": "2026-09-09T18:46:28.334969Z",
+      "description": "QDamageCalc消费APRatio=0.7×来源总法强。",
+      "fixedValue": 0.7,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法强比例",
+      "parameterKey": "ap_ratio",
+      "skillKey": "vex_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T18:46:28.334969Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/vex_q/parameters/cast_time_ms": {
+      "createdAt": "2026-09-09T18:46:29.498024Z",
+      "description": "当前根spellCastTime约0.15秒，按来源精度转换为150毫秒。",
+      "fixedValue": 150,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "vex_q",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T18:46:29.498024Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/vex_q/parameters/cooldown_ms": {
+      "createdAt": "2026-09-08T02:05:39.238449Z",
+      "description": "DDragon16.17.1 Vex.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 8000,
+        "2": 7000,
+        "3": 6000,
+        "4": 5000,
+        "5": 4000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "vex_q",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-08T02:05:39.238449Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/vex_q/parameters/mana_cost": {
+      "createdAt": "2026-09-08T02:05:39.631983Z",
+      "description": "DDragon16.17.1 Vex.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 45,
+        "2": 50,
+        "3": 55,
+        "4": 60,
+        "5": 65
+      },
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "vex_q",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-08T02:05:39.631983Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/vex_q/formulas": [
+      {
+        "createdAt": "2026-09-09T18:46:30.580052Z",
+        "description": "QDamageCalc = BaseDamage + APRatio×来源总法强；命中后消费暮气由事件接线。",
+        "formulaKey": "magic_damage",
+        "gameId": "lol",
+        "name": "寒心波云魔法伤害",
+        "skillKey": "vex_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T18:46:30.580052Z"
+      }
+    ],
+    "/skills/vex_q/formulas/magic_damage": {
+      "createdAt": "2026-09-09T18:46:30.580052Z",
+      "description": "QDamageCalc = BaseDamage + APRatio×来源总法强；命中后消费暮气由事件接线。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "magic_damage",
+      "gameId": "lol",
+      "name": "寒心波云魔法伤害",
+      "skillKey": "vex_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T18:46:30.580052Z"
+    },
+    "/skills/vex_q/effects": [
+      {
+        "createdAt": "2026-09-19T03:24:20.772902Z",
+        "description": "本技能普通主动使用消耗既有mana_cost参数给出的法力；具体使用时点由引用本效果的过程定义。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "vex_q",
+        "sortOrder": 5,
+        "updatedAt": "2026-09-19T03:24:20.772902Z"
+      },
+      {
+        "createdAt": "2026-09-19T03:14:58.68013Z",
+        "description": "根技能本体实际命中本轮敌方英雄的直接魔法伤害；引用已有完整公式，其他被动、印记、控制或场上对象联动单列。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "薇古丝·寒心波云本体直接伤害",
+        "resultCount": 1,
+        "skillKey": "vex_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T03:14:58.68013Z"
+      }
+    ],
+    "/skills/vex_q/effects/mana_cost": {
+      "createdAt": "2026-09-19T03:24:20.772902Z",
+      "description": "本技能普通主动使用消耗既有mana_cost参数给出的法力；具体使用时点由引用本效果的过程定义。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "vex_q",
+      "sortOrder": 5,
+      "updatedAt": "2026-09-19T03:24:20.772902Z"
+    },
+    "/skills/vex_q/effects/primary_hit": {
+      "createdAt": "2026-09-19T03:14:58.68013Z",
+      "description": "根技能本体实际命中本轮敌方英雄的直接魔法伤害；引用已有完整公式，其他被动、印记、控制或场上对象联动单列。",
+      "effectKey": "primary_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "薇古丝·寒心波云本体直接伤害",
+      "results": [
+        {
+          "description": "引用同技能magic_damage，只取本体直接伤害。",
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": [
+              {
+                "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                "efficiencyValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "vampType": "OMNIVAMP"
+              }
+            ]
+          },
+          "lifecycleBehavior": null,
+          "name": "魔法伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "SKILL",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "magic_damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "vex_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-19T03:14:58.68013Z"
+    },
+    "/skills/vex_q/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-19T03:24:22.272295Z",
+        "description": "登记普通主动使用的基础法力、已有根施法时间和普通冷却；过程结束不产生命中，控制、印记和返还另行处理。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "薇古丝·寒心波云施法登记",
+        "processKey": "cast",
+        "skillKey": "vex_q",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-19T03:24:22.272295Z"
+      }
+    ],
+    "/skills/vex_q/processes/cast": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-19T03:24:22.272295Z",
+      "description": "登记普通主动使用的基础法力、已有根施法时间和普通冷却；过程结束不产生命中，控制、印记和返还另行处理。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "薇古丝·寒心波云施法登记",
+      "processKey": "cast",
+      "skillKey": "vex_q",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "读取当前技能既有施法时间参数；延迟结束不表示发生实际命中。",
+          "detail": {
+            "delayValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cast_time_ms"
+            }
+          },
+          "name": "施法延迟",
+          "sortOrder": 10,
+          "stepKey": "cast_time",
+          "stepType": "DELAY"
+        }
+      ],
+      "updatedAt": "2026-09-19T03:24:22.272295Z"
+    },
+    "/skills/vex_q/internal-states": [],
+    "/skills/vex_q/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "消费vex_q根技能本体的合法实际英雄命中，执行primary_hit；不从使用、飞行变化、弹跳、捡起匕首或后续法球操纵生成同一次本体命中。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "薇古丝·寒心波云本体实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T03:15:00.163995Z"
+      },
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "普通主动使用vex_q时启动cast，登记法力和普通冷却；引用已有根施法参数。实际命中、控制和其他联动由各自入口处理。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "薇古丝·寒心波云使用登记",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T03:24:23.671903Z"
+      }
+    ],
+    "/skills/vex_q/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "execute_primary_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "primary_hit"
+          },
+          "name": "执行薇古丝·寒心波云本体伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "description": "消费vex_q根技能本体的合法实际英雄命中，执行primary_hit；不从使用、飞行变化、弹跳、捡起匕首或后续法球操纵生成同一次本体命中。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "vex_q",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "薇古丝·寒心波云本体实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    },
+    "/skills/vex_q/trigger-rules/on_used": {
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "actionType": "START_PROCESS",
+          "detail": {
+            "processKey": "cast"
+          },
+          "name": "启动薇古丝·寒心波云使用登记",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "普通主动使用vex_q时启动cast，登记法力和普通冷却；引用已有根施法参数。实际命中、控制和其他联动由各自入口处理。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "vex_q",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "薇古丝·寒心波云使用登记",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used",
+      "sortOrder": 20
+    },
+    "/skills/vex_w": {
+      "createdAt": "2026-09-06T18:20:57.769366Z",
+      "description": "获得一个护盾并伤害附近的敌人们。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "薇古丝·生人勿近",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "vex_w",
+      "sortOrder": 2,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:20:57.769366Z"
+    },
+    "/skills/vex_w/parameters": [
+      {
+        "createdAt": "2026-09-09T18:46:31.671523Z",
+        "description": "客户端ShieldAmount取索引1至5；索引0的25不是等级1。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 50,
+          "2": 75,
+          "3": 100,
+          "4": 125,
+          "5": 150
+        },
+        "name": "基础护盾值",
+        "parameterKey": "base_shield",
+        "skillKey": "vex_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T18:46:31.671523Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T18:46:32.786607Z",
+        "description": "ShieldCalc树的StatByCoefficient=0.75×来源总法强。",
+        "fixedValue": 0.75,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "护盾法强比例",
+        "parameterKey": "shield_ap_ratio",
+        "skillKey": "vex_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T18:46:32.786607Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T18:46:33.900871Z",
+        "description": "客户端BaseDamage取索引1至5；索引0的40不是等级1。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 80,
+          "2": 120,
+          "3": 160,
+          "4": 200,
+          "5": 240
+        },
+        "name": "基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "vex_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T18:46:33.900871Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T18:46:35.063636Z",
+        "description": "WDamageCalc消费DamageAPRatio=0.3×来源总法强。",
+        "fixedValue": 0.3,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "伤害法强比例",
+        "parameterKey": "damage_ap_ratio",
+        "skillKey": "vex_w",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T18:46:35.063636Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T18:46:36.182024Z",
+        "description": "客户端ShieldDuration取索引1的2.5秒，转换为2500毫秒。",
+        "fixedValue": 2500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "护盾持续（毫秒）",
+        "parameterKey": "shield_duration_ms",
+        "skillKey": "vex_w",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T18:46:36.182024Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T18:46:37.515892Z",
+        "description": "客户端AOERadius取索引1。",
+        "fixedValue": 475,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "冲击波范围半径",
+        "parameterKey": "aoe_radius",
+        "skillKey": "vex_w",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T18:46:37.515892Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T18:46:38.692433Z",
+        "description": "客户端BonusAOERadiusVsDashes取索引1；条件事件待接。",
+        "fixedValue": 75,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "针对位移目标的额外范围",
+        "parameterKey": "bonus_aoe_radius_vs_dashes",
+        "skillKey": "vex_w",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-09T18:46:38.692433Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T18:46:39.819566Z",
+        "description": "当前根spellCastTime=0.25秒，转换为250毫秒。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "vex_w",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-09T18:46:39.819566Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T02:05:40.197699Z",
+        "description": "DDragon16.17.1 Vex.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 16000,
+          "2": 15000,
+          "3": 14000,
+          "4": 13000,
+          "5": 12000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "vex_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:40.197699Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T02:05:40.635938Z",
+        "description": "DDragon16.17.1 Vex.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 75,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "vex_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:05:40.635938Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/vex_w/parameters/base_shield": {
+      "createdAt": "2026-09-09T18:46:31.671523Z",
+      "description": "客户端ShieldAmount取索引1至5；索引0的25不是等级1。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 50,
+        "2": 75,
+        "3": 100,
+        "4": 125,
+        "5": 150
+      },
+      "name": "基础护盾值",
+      "parameterKey": "base_shield",
+      "skillKey": "vex_w",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T18:46:31.671523Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/vex_w/parameters/shield_ap_ratio": {
+      "createdAt": "2026-09-09T18:46:32.786607Z",
+      "description": "ShieldCalc树的StatByCoefficient=0.75×来源总法强。",
+      "fixedValue": 0.75,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "护盾法强比例",
+      "parameterKey": "shield_ap_ratio",
+      "skillKey": "vex_w",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T18:46:32.786607Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/vex_w/parameters/base_damage": {
+      "createdAt": "2026-09-09T18:46:33.900871Z",
+      "description": "客户端BaseDamage取索引1至5；索引0的40不是等级1。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 80,
+        "2": 120,
+        "3": 160,
+        "4": 200,
+        "5": 240
+      },
+      "name": "基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "vex_w",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T18:46:33.900871Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/vex_w/parameters/damage_ap_ratio": {
+      "createdAt": "2026-09-09T18:46:35.063636Z",
+      "description": "WDamageCalc消费DamageAPRatio=0.3×来源总法强。",
+      "fixedValue": 0.3,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "伤害法强比例",
+      "parameterKey": "damage_ap_ratio",
+      "skillKey": "vex_w",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T18:46:35.063636Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/vex_w/parameters/shield_duration_ms": {
+      "createdAt": "2026-09-09T18:46:36.182024Z",
+      "description": "客户端ShieldDuration取索引1的2.5秒，转换为2500毫秒。",
+      "fixedValue": 2500,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "护盾持续（毫秒）",
+      "parameterKey": "shield_duration_ms",
+      "skillKey": "vex_w",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T18:46:36.182024Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/vex_w/parameters/aoe_radius": {
+      "createdAt": "2026-09-09T18:46:37.515892Z",
+      "description": "客户端AOERadius取索引1。",
+      "fixedValue": 475,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "冲击波范围半径",
+      "parameterKey": "aoe_radius",
+      "skillKey": "vex_w",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-09T18:46:37.515892Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/vex_w/parameters/bonus_aoe_radius_vs_dashes": {
+      "createdAt": "2026-09-09T18:46:38.692433Z",
+      "description": "客户端BonusAOERadiusVsDashes取索引1；条件事件待接。",
+      "fixedValue": 75,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "针对位移目标的额外范围",
+      "parameterKey": "bonus_aoe_radius_vs_dashes",
+      "skillKey": "vex_w",
+      "sortOrder": 70,
+      "updatedAt": "2026-09-09T18:46:38.692433Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/vex_w/parameters/cast_time_ms": {
+      "createdAt": "2026-09-09T18:46:39.819566Z",
+      "description": "当前根spellCastTime=0.25秒，转换为250毫秒。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "vex_w",
+      "sortOrder": 80,
+      "updatedAt": "2026-09-09T18:46:39.819566Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/vex_w/parameters/cooldown_ms": {
+      "createdAt": "2026-09-08T02:05:40.197699Z",
+      "description": "DDragon16.17.1 Vex.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 16000,
+        "2": 15000,
+        "3": 14000,
+        "4": 13000,
+        "5": 12000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "vex_w",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-08T02:05:40.197699Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/vex_w/parameters/mana_cost": {
+      "createdAt": "2026-09-08T02:05:40.635938Z",
+      "description": "DDragon16.17.1 Vex.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 75,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "vex_w",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-08T02:05:40.635938Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/vex_w/formulas": [
+      {
+        "createdAt": "2026-09-09T18:46:40.937286Z",
+        "description": "ShieldCalc = ShieldAmount + 0.75×来源总法强。",
+        "formulaKey": "shield_value",
+        "gameId": "lol",
+        "name": "生人勿近自身护盾值",
+        "skillKey": "vex_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T18:46:40.937286Z"
+      },
+      {
+        "createdAt": "2026-09-09T18:46:42.087359Z",
+        "description": "WDamageCalc = BaseDamage + DamageAPRatio×来源总法强。",
+        "formulaKey": "magic_damage",
+        "gameId": "lol",
+        "name": "生人勿近唯一敌人魔法伤害",
+        "skillKey": "vex_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T18:46:42.087359Z"
+      }
+    ],
+    "/skills/vex_w/formulas/shield_value": {
+      "createdAt": "2026-09-09T18:46:40.937286Z",
+      "description": "ShieldCalc = ShieldAmount + 0.75×来源总法强。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_shield"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "shield_ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "shield_value",
+      "gameId": "lol",
+      "name": "生人勿近自身护盾值",
+      "skillKey": "vex_w",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T18:46:40.937286Z"
+    },
+    "/skills/vex_w/formulas/magic_damage": {
+      "createdAt": "2026-09-09T18:46:42.087359Z",
+      "description": "WDamageCalc = BaseDamage + DamageAPRatio×来源总法强。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "damage_ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "magic_damage",
+      "gameId": "lol",
+      "name": "生人勿近唯一敌人魔法伤害",
+      "skillKey": "vex_w",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T18:46:42.087359Z"
+    },
+    "/skills/vex_w/effects": [
+      {
+        "createdAt": "2026-09-19T03:24:25.449024Z",
+        "description": "本技能普通主动使用消耗既有mana_cost参数给出的法力；具体使用时点由引用本效果的过程定义。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "vex_w",
+        "sortOrder": 5,
+        "updatedAt": "2026-09-19T03:24:25.449024Z"
+      },
+      {
+        "createdAt": "2026-09-09T18:46:43.188434Z",
+        "description": "当前正文明确自身护盾，普通护盾吸收类型未限定；命中与暮气消费事件未接线。",
+        "effectKey": "self_shield",
+        "gameId": "lol",
+        "lifecycleEnabled": true,
+        "name": "生人勿近自身护盾",
+        "resultCount": 1,
+        "skillKey": "vex_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T18:46:43.188434Z"
+      },
+      {
+        "createdAt": "2026-09-19T03:15:02.547362Z",
+        "description": "根技能本体实际命中本轮敌方英雄的直接魔法伤害；引用已有完整公式，其他被动、印记、控制或场上对象联动单列。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "薇古丝·生人勿近本体直接伤害",
+        "resultCount": 1,
+        "skillKey": "vex_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T03:15:02.547362Z"
+      }
+    ],
+    "/skills/vex_w/effects/mana_cost": {
+      "createdAt": "2026-09-19T03:24:25.449024Z",
+      "description": "本技能普通主动使用消耗既有mana_cost参数给出的法力；具体使用时点由引用本效果的过程定义。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "vex_w",
+      "sortOrder": 5,
+      "updatedAt": "2026-09-19T03:24:25.449024Z"
+    },
+    "/skills/vex_w/effects/self_shield": {
+      "createdAt": "2026-09-09T18:46:43.188434Z",
+      "description": "当前正文明确自身护盾，普通护盾吸收类型未限定；命中与暮气消费事件未接线。",
+      "effectKey": "self_shield",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "shield_duration_ms"
+        },
+        "expiryMode": "ALL_AT_ONCE",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "生人勿近自身护盾",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "absorbedDamageTypeKey": null,
+            "decayMode": "NONE"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": "REPLACE",
+            "stackValueMode": "SHARED",
+            "valueReadMode": "APPLICATION_SNAPSHOT"
+          },
+          "name": "生人勿近自身护盾",
+          "resultKey": "shield",
+          "resultType": "NORMAL_SHIELD",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "shield_value",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "vex_w",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T18:46:43.188434Z"
+    },
+    "/skills/vex_w/effects/primary_hit": {
+      "createdAt": "2026-09-19T03:15:02.547362Z",
+      "description": "根技能本体实际命中本轮敌方英雄的直接魔法伤害；引用已有完整公式，其他被动、印记、控制或场上对象联动单列。",
+      "effectKey": "primary_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "薇古丝·生人勿近本体直接伤害",
+      "results": [
+        {
+          "description": "引用同技能magic_damage，只取本体直接伤害。",
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": [
+              {
+                "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                "efficiencyValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "vampType": "OMNIVAMP"
+              }
+            ]
+          },
+          "lifecycleBehavior": null,
+          "name": "魔法伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "SKILL",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "magic_damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "vex_w",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-19T03:15:02.547362Z"
+    },
+    "/skills/vex_w/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-19T03:24:26.759276Z",
+        "description": "登记普通主动使用的基础法力、已有根施法时间和普通冷却；过程结束不产生命中，控制、印记和返还另行处理。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "薇古丝·生人勿近施法登记",
+        "processKey": "cast",
+        "skillKey": "vex_w",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-19T03:24:26.759276Z"
+      }
+    ],
+    "/skills/vex_w/processes/cast": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-19T03:24:26.759276Z",
+      "description": "登记普通主动使用的基础法力、已有根施法时间和普通冷却；过程结束不产生命中，控制、印记和返还另行处理。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "薇古丝·生人勿近施法登记",
+      "processKey": "cast",
+      "skillKey": "vex_w",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "读取当前技能既有施法时间参数；延迟结束不表示发生实际命中。",
+          "detail": {
+            "delayValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cast_time_ms"
+            }
+          },
+          "name": "施法延迟",
+          "sortOrder": 10,
+          "stepKey": "cast_time",
+          "stepType": "DELAY"
+        }
+      ],
+      "updatedAt": "2026-09-19T03:24:26.759276Z"
+    },
+    "/skills/vex_w/internal-states": [],
+    "/skills/vex_w/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "消费vex_w根技能本体的合法实际英雄命中，执行primary_hit；不从使用、飞行变化、弹跳、捡起匕首或后续法球操纵生成同一次本体命中。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "薇古丝·生人勿近本体实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T03:15:03.816937Z"
+      },
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "接收 vex_w 主动使用；无条件在 CURRENT_TARGET 上执行已有 self_shield。self_shield 结果 target=SOURCE，只连接自身护盾，不表达范围伤害、暮气消费或资源消耗。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "生人勿近主动使用",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-12T16:39:51.860191Z"
+      },
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "普通主动使用vex_w时启动cast，登记法力和普通冷却；引用已有根施法参数。原on_used自盾入口独立保留。实际命中、控制和其他联动由各自入口处理。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "薇古丝·生人勿近使用登记",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used_cast",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T03:24:28.056199Z"
+      }
+    ],
+    "/skills/vex_w/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "execute_primary_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "primary_hit"
+          },
+          "name": "执行薇古丝·生人勿近本体伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "description": "消费vex_w根技能本体的合法实际英雄命中，执行primary_hit；不从使用、飞行变化、弹跳、捡起匕首或后续法球操纵生成同一次本体命中。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "vex_w",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "薇古丝·生人勿近本体实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    },
+    "/skills/vex_w/trigger-rules/on_used": {
+      "actions": [
+        {
+          "actionKey": "execute_self_shield",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "self_shield"
+          },
+          "name": "执行生人勿近自身护盾",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "接收 vex_w 主动使用；无条件在 CURRENT_TARGET 上执行已有 self_shield。self_shield 结果 target=SOURCE，只连接自身护盾，不表达范围伤害、暮气消费或资源消耗。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "vex_w",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "生人勿近主动使用",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used",
+      "sortOrder": 10
+    },
+    "/skills/vex_w/trigger-rules/on_used_cast": {
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "actionType": "START_PROCESS",
+          "detail": {
+            "processKey": "cast"
+          },
+          "name": "启动薇古丝·生人勿近使用登记",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "普通主动使用vex_w时启动cast，登记法力和普通冷却；引用已有根施法参数。原on_used自盾入口独立保留。实际命中、控制和其他联动由各自入口处理。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "vex_w",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "薇古丝·生人勿近使用登记",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used_cast",
+      "sortOrder": 20
+    },
+    "/skills/vex_e": {
+      "createdAt": "2026-09-06T18:20:58.007734Z",
+      "description": "召唤一个伤害性的减速地带，来对敌人们施加【暮气】效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "薇古丝·溟濛渐染",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "vex_e",
+      "sortOrder": 3,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:20:58.007734Z"
+    },
+    "/skills/vex_e/parameters": [
+      {
+        "createdAt": "2026-09-09T18:46:44.351Z",
+        "description": "客户端BaseDamage取索引1至5；索引0的30不是等级1。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 50,
+          "2": 70,
+          "3": 90,
+          "4": 110,
+          "5": 130
+        },
+        "name": "基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "vex_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T18:46:44.351Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T18:46:45.446675Z",
+        "description": "客户端APRatio取索引1至5，EDamageCalc按技能等级消费。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.4,
+          "2": 0.45,
+          "3": 0.5,
+          "4": 0.55,
+          "5": 0.6
+        },
+        "name": "法强比例",
+        "parameterKey": "ap_ratio",
+        "skillKey": "vex_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T18:46:45.446675Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T18:46:46.606962Z",
+        "description": "客户端SlowAmount取索引1至5的比例值；当前正文按SlowAmount×100显示百分数。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.3,
+          "2": 0.35,
+          "3": 0.4,
+          "4": 0.45,
+          "5": 0.5
+        },
+        "name": "减速比例",
+        "parameterKey": "slow_ratio",
+        "skillKey": "vex_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T18:46:46.606962Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T18:46:47.71606Z",
+        "description": "客户端SlowDuration取索引1的2秒，转换为2000毫秒。",
+        "fixedValue": 2000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "减速持续（毫秒）",
+        "parameterKey": "slow_duration_ms",
+        "skillKey": "vex_e",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T18:46:47.71606Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T18:46:48.901562Z",
+        "description": "客户端StartingRadius取索引1。",
+        "fixedValue": 200,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "初始范围半径",
+        "parameterKey": "starting_radius",
+        "skillKey": "vex_e",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T18:46:48.901562Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T18:46:50.090777Z",
+        "description": "客户端RadiusGrowthRate取索引1；增长时序待接。",
+        "fixedValue": 13,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "范围增长率",
+        "parameterKey": "radius_growth_rate",
+        "skillKey": "vex_e",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T18:46:50.090777Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T18:46:51.199763Z",
+        "description": "客户端MaxRadius取索引1。",
+        "fixedValue": 300,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "最大范围半径",
+        "parameterKey": "max_radius",
+        "skillKey": "vex_e",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-09T18:46:51.199763Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T18:46:52.345015Z",
+        "description": "当前正文扩展消费GloomCDChampTooltip=0.25；仅英雄击杀条件。",
+        "fixedValue": 0.25,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "击杀英雄后终焉冷却返还比例",
+        "parameterKey": "gloom_champion_cooldown_refund_ratio",
+        "skillKey": "vex_e",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-09T18:46:52.345015Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T18:46:53.476797Z",
+        "description": "当前根spellCastTime=0.25秒，转换为250毫秒。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "vex_e",
+        "sortOrder": 90,
+        "updatedAt": "2026-09-09T18:46:53.476797Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T02:05:41.120798Z",
+        "description": "DDragon16.17.1 Vex.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 12000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "vex_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:41.120798Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T02:05:41.501996Z",
+        "description": "DDragon16.17.1 Vex.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 80,
+          "3": 90,
+          "4": 100,
+          "5": 110
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "vex_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:05:41.501996Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/vex_e/parameters/base_damage": {
+      "createdAt": "2026-09-09T18:46:44.351Z",
+      "description": "客户端BaseDamage取索引1至5；索引0的30不是等级1。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 50,
+        "2": 70,
+        "3": 90,
+        "4": 110,
+        "5": 130
+      },
+      "name": "基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "vex_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T18:46:44.351Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/vex_e/parameters/ap_ratio": {
+      "createdAt": "2026-09-09T18:46:45.446675Z",
+      "description": "客户端APRatio取索引1至5，EDamageCalc按技能等级消费。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 0.4,
+        "2": 0.45,
+        "3": 0.5,
+        "4": 0.55,
+        "5": 0.6
+      },
+      "name": "法强比例",
+      "parameterKey": "ap_ratio",
+      "skillKey": "vex_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T18:46:45.446675Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "DECIMAL"
+    },
+    "/skills/vex_e/parameters/slow_ratio": {
+      "createdAt": "2026-09-09T18:46:46.606962Z",
+      "description": "客户端SlowAmount取索引1至5的比例值；当前正文按SlowAmount×100显示百分数。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 0.3,
+        "2": 0.35,
+        "3": 0.4,
+        "4": 0.45,
+        "5": 0.5
+      },
+      "name": "减速比例",
+      "parameterKey": "slow_ratio",
+      "skillKey": "vex_e",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T18:46:46.606962Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "DECIMAL"
+    },
+    "/skills/vex_e/parameters/slow_duration_ms": {
+      "createdAt": "2026-09-09T18:46:47.71606Z",
+      "description": "客户端SlowDuration取索引1的2秒，转换为2000毫秒。",
+      "fixedValue": 2000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "减速持续（毫秒）",
+      "parameterKey": "slow_duration_ms",
+      "skillKey": "vex_e",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T18:46:47.71606Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/vex_e/parameters/starting_radius": {
+      "createdAt": "2026-09-09T18:46:48.901562Z",
+      "description": "客户端StartingRadius取索引1。",
+      "fixedValue": 200,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "初始范围半径",
+      "parameterKey": "starting_radius",
+      "skillKey": "vex_e",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T18:46:48.901562Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/vex_e/parameters/radius_growth_rate": {
+      "createdAt": "2026-09-09T18:46:50.090777Z",
+      "description": "客户端RadiusGrowthRate取索引1；增长时序待接。",
+      "fixedValue": 13,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "范围增长率",
+      "parameterKey": "radius_growth_rate",
+      "skillKey": "vex_e",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-09T18:46:50.090777Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/vex_e/parameters/max_radius": {
+      "createdAt": "2026-09-09T18:46:51.199763Z",
+      "description": "客户端MaxRadius取索引1。",
+      "fixedValue": 300,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "最大范围半径",
+      "parameterKey": "max_radius",
+      "skillKey": "vex_e",
+      "sortOrder": 70,
+      "updatedAt": "2026-09-09T18:46:51.199763Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/vex_e/parameters/gloom_champion_cooldown_refund_ratio": {
+      "createdAt": "2026-09-09T18:46:52.345015Z",
+      "description": "当前正文扩展消费GloomCDChampTooltip=0.25；仅英雄击杀条件。",
+      "fixedValue": 0.25,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "击杀英雄后终焉冷却返还比例",
+      "parameterKey": "gloom_champion_cooldown_refund_ratio",
+      "skillKey": "vex_e",
+      "sortOrder": 80,
+      "updatedAt": "2026-09-09T18:46:52.345015Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/vex_e/parameters/cast_time_ms": {
+      "createdAt": "2026-09-09T18:46:53.476797Z",
+      "description": "当前根spellCastTime=0.25秒，转换为250毫秒。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "vex_e",
+      "sortOrder": 90,
+      "updatedAt": "2026-09-09T18:46:53.476797Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/vex_e/parameters/cooldown_ms": {
+      "createdAt": "2026-09-08T02:05:41.120798Z",
+      "description": "DDragon16.17.1 Vex.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 12000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "vex_e",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-08T02:05:41.120798Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/vex_e/parameters/mana_cost": {
+      "createdAt": "2026-09-08T02:05:41.501996Z",
+      "description": "DDragon16.17.1 Vex.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 70,
+        "2": 80,
+        "3": 90,
+        "4": 100,
+        "5": 110
+      },
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "vex_e",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-08T02:05:41.501996Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/vex_e/formulas": [
+      {
+        "createdAt": "2026-09-09T18:46:54.638269Z",
+        "description": "EDamageCalc = BaseDamage + APRatio×来源总法强。",
+        "formulaKey": "magic_damage",
+        "gameId": "lol",
+        "name": "溟濛渐染唯一敌人魔法伤害",
+        "skillKey": "vex_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T18:46:54.638269Z"
+      }
+    ],
+    "/skills/vex_e/formulas/magic_damage": {
+      "createdAt": "2026-09-09T18:46:54.638269Z",
+      "description": "EDamageCalc = BaseDamage + APRatio×来源总法强。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "magic_damage",
+      "gameId": "lol",
+      "name": "溟濛渐染唯一敌人魔法伤害",
+      "skillKey": "vex_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T18:46:54.638269Z"
+    },
+    "/skills/vex_e/effects": [
+      {
+        "createdAt": "2026-09-19T03:24:29.812964Z",
+        "description": "本技能普通主动使用消耗既有mana_cost参数给出的法力；具体使用时点由引用本效果的过程定义。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "vex_e",
+        "sortOrder": 5,
+        "updatedAt": "2026-09-19T03:24:29.812964Z"
+      },
+      {
+        "createdAt": "2026-09-19T03:15:05.577964Z",
+        "description": "根技能本体实际命中本轮敌方英雄的直接魔法伤害；引用已有完整公式，其他被动、印记、控制或场上对象联动单列。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "薇古丝·溟濛渐染本体直接伤害",
+        "resultCount": 1,
+        "skillKey": "vex_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T03:15:05.577964Z"
+      }
+    ],
+    "/skills/vex_e/effects/mana_cost": {
+      "createdAt": "2026-09-19T03:24:29.812964Z",
+      "description": "本技能普通主动使用消耗既有mana_cost参数给出的法力；具体使用时点由引用本效果的过程定义。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "vex_e",
+      "sortOrder": 5,
+      "updatedAt": "2026-09-19T03:24:29.812964Z"
+    },
+    "/skills/vex_e/effects/primary_hit": {
+      "createdAt": "2026-09-19T03:15:05.577964Z",
+      "description": "根技能本体实际命中本轮敌方英雄的直接魔法伤害；引用已有完整公式，其他被动、印记、控制或场上对象联动单列。",
+      "effectKey": "primary_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "薇古丝·溟濛渐染本体直接伤害",
+      "results": [
+        {
+          "description": "引用同技能magic_damage，只取本体直接伤害。",
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": [
+              {
+                "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                "efficiencyValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "vampType": "OMNIVAMP"
+              }
+            ]
+          },
+          "lifecycleBehavior": null,
+          "name": "魔法伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "SKILL",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "magic_damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "vex_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-19T03:15:05.577964Z"
+    },
+    "/skills/vex_e/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-19T03:24:31.094687Z",
+        "description": "登记普通主动使用的基础法力、已有根施法时间和普通冷却；过程结束不产生命中，控制、印记和返还另行处理。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "薇古丝·溟濛渐染施法登记",
+        "processKey": "cast",
+        "skillKey": "vex_e",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-19T03:24:31.094687Z"
+      }
+    ],
+    "/skills/vex_e/processes/cast": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-19T03:24:31.094687Z",
+      "description": "登记普通主动使用的基础法力、已有根施法时间和普通冷却；过程结束不产生命中，控制、印记和返还另行处理。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "薇古丝·溟濛渐染施法登记",
+      "processKey": "cast",
+      "skillKey": "vex_e",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "读取当前技能既有施法时间参数；延迟结束不表示发生实际命中。",
+          "detail": {
+            "delayValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cast_time_ms"
+            }
+          },
+          "name": "施法延迟",
+          "sortOrder": 10,
+          "stepKey": "cast_time",
+          "stepType": "DELAY"
+        }
+      ],
+      "updatedAt": "2026-09-19T03:24:31.094687Z"
+    },
+    "/skills/vex_e/internal-states": [],
+    "/skills/vex_e/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "消费vex_e根技能本体的合法实际英雄命中，执行primary_hit；不从使用、飞行变化、弹跳、捡起匕首或后续法球操纵生成同一次本体命中。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "薇古丝·溟濛渐染本体实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T03:15:06.905516Z"
+      },
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "普通主动使用vex_e时启动cast，登记法力和普通冷却；引用已有根施法参数。实际命中、控制和其他联动由各自入口处理。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "薇古丝·溟濛渐染使用登记",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T03:24:32.444661Z"
+      }
+    ],
+    "/skills/vex_e/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "execute_primary_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "primary_hit"
+          },
+          "name": "执行薇古丝·溟濛渐染本体伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "description": "消费vex_e根技能本体的合法实际英雄命中，执行primary_hit；不从使用、飞行变化、弹跳、捡起匕首或后续法球操纵生成同一次本体命中。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "vex_e",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "薇古丝·溟濛渐染本体实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    },
+    "/skills/vex_e/trigger-rules/on_used": {
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "actionType": "START_PROCESS",
+          "detail": {
+            "processKey": "cast"
+          },
+          "name": "启动薇古丝·溟濛渐染使用登记",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "普通主动使用vex_e时启动cast，登记法力和普通冷却；引用已有根施法参数。实际命中、控制和其他联动由各自入口处理。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "vex_e",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "薇古丝·溟濛渐染使用登记",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used",
+      "sortOrder": 20
+    },
+    "/skills/bard_q": {
+      "createdAt": "2026-09-06T18:16:33.18787Z",
+      "description": "巴德发射一束能量弹，减速命中的第一个敌人，并继续向前。如果能量弹命中墙体，它还会使首个目标晕眩；如果它命中了另一个敌人，那么它会让这两个敌人都晕眩。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "巴德·星界束缚",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "bard_q",
+      "sortOrder": 1,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:16:33.18787Z"
+    },
+    "/skills/bard_q/parameters": [
+      {
+        "createdAt": "2026-09-09T21:21:13.670482Z",
+        "description": "技能等级取DataValues索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 80,
+          "2": 120,
+          "3": 160,
+          "4": 200,
+          "5": 240
+        },
+        "name": "基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "bard_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T21:21:13.670482Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T21:21:15.991617Z",
+        "description": "TotalDamage树第二项按来源总法强。",
+        "fixedValue": 0.8000000119,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法强倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "bard_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T21:21:15.991617Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T21:21:18.389212Z",
+        "description": "当前正文显示60%。",
+        "fixedValue": 60,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "减速百分数点",
+        "parameterKey": "slow_percent",
+        "skillKey": "bard_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T21:21:18.389212Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T21:21:20.466075Z",
+        "description": "等级索引1至5，秒转毫秒。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 1000,
+          "2": 1200,
+          "3": 1400,
+          "4": 1600,
+          "5": 1800
+        },
+        "name": "减速持续（毫秒）",
+        "parameterKey": "slow_duration_ms",
+        "skillKey": "bard_q",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T21:21:20.466075Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T21:21:22.697357Z",
+        "description": "等级索引1至5，秒转毫秒。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 1000,
+          "2": 1200,
+          "3": 1400,
+          "4": 1600,
+          "5": 1800
+        },
+        "name": "晕眩持续（毫秒）",
+        "parameterKey": "stun_duration_ms",
+        "skillKey": "bard_q",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T21:21:22.697357Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:36:01.596165Z",
+        "description": "DDragon16.17.1 Bard.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 11000,
+          "2": 10000,
+          "3": 9000,
+          "4": 8000,
+          "5": 7000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "bard_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:36:01.596165Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:36:02.066139Z",
+        "description": "DDragon16.17.1 Bard.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 60,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "bard_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:36:02.066139Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T21:21:26.582168Z",
+        "description": "当前根字段时间转为毫秒；不表示命中时点。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "bard_q",
+        "sortOrder": 999,
+        "updatedAt": "2026-09-09T21:21:26.582168Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/bard_q/parameters/base_damage": {
+      "createdAt": "2026-09-09T21:21:13.670482Z",
+      "description": "技能等级取DataValues索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 80,
+        "2": 120,
+        "3": 160,
+        "4": 200,
+        "5": 240
+      },
+      "name": "基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "bard_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T21:21:13.670482Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/bard_q/parameters/ap_ratio": {
+      "createdAt": "2026-09-09T21:21:15.991617Z",
+      "description": "TotalDamage树第二项按来源总法强。",
+      "fixedValue": 0.8000000119,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法强倍率",
+      "parameterKey": "ap_ratio",
+      "skillKey": "bard_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T21:21:15.991617Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/bard_q/parameters/slow_percent": {
+      "createdAt": "2026-09-09T21:21:18.389212Z",
+      "description": "当前正文显示60%。",
+      "fixedValue": 60,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "减速百分数点",
+      "parameterKey": "slow_percent",
+      "skillKey": "bard_q",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T21:21:18.389212Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/bard_q/parameters/slow_duration_ms": {
+      "createdAt": "2026-09-09T21:21:20.466075Z",
+      "description": "等级索引1至5，秒转毫秒。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 1000,
+        "2": 1200,
+        "3": 1400,
+        "4": 1600,
+        "5": 1800
+      },
+      "name": "减速持续（毫秒）",
+      "parameterKey": "slow_duration_ms",
+      "skillKey": "bard_q",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T21:21:20.466075Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/bard_q/parameters/stun_duration_ms": {
+      "createdAt": "2026-09-09T21:21:22.697357Z",
+      "description": "等级索引1至5，秒转毫秒。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 1000,
+        "2": 1200,
+        "3": 1400,
+        "4": 1600,
+        "5": 1800
+      },
+      "name": "晕眩持续（毫秒）",
+      "parameterKey": "stun_duration_ms",
+      "skillKey": "bard_q",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T21:21:22.697357Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/bard_q/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T18:36:01.596165Z",
+      "description": "DDragon16.17.1 Bard.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 11000,
+        "2": 10000,
+        "3": 9000,
+        "4": 8000,
+        "5": 7000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "bard_q",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T18:36:01.596165Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/bard_q/parameters/mana_cost": {
+      "createdAt": "2026-09-07T18:36:02.066139Z",
+      "description": "DDragon16.17.1 Bard.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 60,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "bard_q",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-07T18:36:02.066139Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/bard_q/parameters/cast_time_ms": {
+      "createdAt": "2026-09-09T21:21:26.582168Z",
+      "description": "当前根字段时间转为毫秒；不表示命中时点。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "bard_q",
+      "sortOrder": 999,
+      "updatedAt": "2026-09-09T21:21:26.582168Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/bard_q/formulas": [
+      {
+        "createdAt": "2026-09-09T21:21:29.327851Z",
+        "description": "对应TotalDamage。",
+        "formulaKey": "total_damage",
+        "gameId": "lol",
+        "name": "星界束缚魔法伤害",
+        "skillKey": "bard_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T21:21:29.327851Z"
+      }
+    ],
+    "/skills/bard_q/formulas/total_damage": {
+      "createdAt": "2026-09-09T21:21:29.327851Z",
+      "description": "对应TotalDamage。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "total_damage",
+      "gameId": "lol",
+      "name": "星界束缚魔法伤害",
+      "skillKey": "bard_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T21:21:29.327851Z"
+    },
+    "/skills/bard_q/effects": [
+      {
+        "createdAt": "2026-09-19T03:15:08.67724Z",
+        "description": "根技能本体实际命中本轮敌方英雄的直接魔法伤害；引用已有完整公式，其他被动、印记、控制或场上对象联动单列。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "巴德·星界束缚本体直接伤害",
+        "resultCount": 1,
+        "skillKey": "bard_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T03:15:08.67724Z"
+      },
+      {
+        "createdAt": "2026-09-09T21:21:31.122551Z",
+        "description": "复用冻结公共法力参数；仅记录基础资源消耗，实际扣除时点由事件层接线。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "bard_q",
+        "sortOrder": 900,
+        "updatedAt": "2026-09-09T21:21:31.122551Z"
+      }
+    ],
+    "/skills/bard_q/effects/primary_hit": {
+      "createdAt": "2026-09-19T03:15:08.67724Z",
+      "description": "根技能本体实际命中本轮敌方英雄的直接魔法伤害；引用已有完整公式，其他被动、印记、控制或场上对象联动单列。",
+      "effectKey": "primary_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "巴德·星界束缚本体直接伤害",
+      "results": [
+        {
+          "description": "引用同技能total_damage，只取本体直接伤害。",
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": [
+              {
+                "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                "efficiencyValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "vampType": "OMNIVAMP"
+              }
+            ]
+          },
+          "lifecycleBehavior": null,
+          "name": "魔法伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "SKILL",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "total_damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "bard_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-19T03:15:08.67724Z"
+    },
+    "/skills/bard_q/effects/mana_cost": {
+      "createdAt": "2026-09-09T21:21:31.122551Z",
+      "description": "复用冻结公共法力参数；仅记录基础资源消耗，实际扣除时点由事件层接线。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": "不表示战斗事件已经接线。",
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "施放资源消耗",
+          "resultKey": "consume_resource",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "bard_q",
+      "sortOrder": 900,
+      "updatedAt": "2026-09-09T21:21:31.122551Z"
+    },
+    "/skills/bard_q/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-19T03:24:34.086493Z",
+        "description": "登记普通主动使用的基础法力、已有根施法时间和普通冷却；过程结束不产生命中，控制、印记和返还另行处理。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "巴德·星界束缚施法登记",
+        "processKey": "cast",
+        "skillKey": "bard_q",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-19T03:24:34.086493Z"
+      }
+    ],
+    "/skills/bard_q/processes/cast": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-19T03:24:34.086493Z",
+      "description": "登记普通主动使用的基础法力、已有根施法时间和普通冷却；过程结束不产生命中，控制、印记和返还另行处理。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "巴德·星界束缚施法登记",
+      "processKey": "cast",
+      "skillKey": "bard_q",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "读取当前技能既有施法时间参数；延迟结束不表示发生实际命中。",
+          "detail": {
+            "delayValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cast_time_ms"
+            }
+          },
+          "name": "施法延迟",
+          "sortOrder": 10,
+          "stepKey": "cast_time",
+          "stepType": "DELAY"
+        }
+      ],
+      "updatedAt": "2026-09-19T03:24:34.086493Z"
+    },
+    "/skills/bard_q/internal-states": [],
+    "/skills/bard_q/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "消费bard_q根技能本体的合法实际英雄命中，执行primary_hit；不从使用、飞行变化、弹跳、捡起匕首或后续法球操纵生成同一次本体命中。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "巴德·星界束缚本体实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T03:15:09.991713Z"
+      },
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "普通主动使用bard_q时启动cast，登记法力和普通冷却；引用已有根施法参数。实际命中、控制和其他联动由各自入口处理。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "巴德·星界束缚使用登记",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T03:24:35.573012Z"
+      }
+    ],
+    "/skills/bard_q/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "execute_primary_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "primary_hit"
+          },
+          "name": "执行巴德·星界束缚本体伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "description": "消费bard_q根技能本体的合法实际英雄命中，执行primary_hit；不从使用、飞行变化、弹跳、捡起匕首或后续法球操纵生成同一次本体命中。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "bard_q",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "巴德·星界束缚本体实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    },
+    "/skills/bard_q/trigger-rules/on_used": {
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "actionType": "START_PROCESS",
+          "detail": {
+            "processKey": "cast"
+          },
+          "name": "启动巴德·星界束缚使用登记",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "普通主动使用bard_q时启动cast，登记法力和普通冷却；引用已有根施法参数。实际命中、控制和其他联动由各自入口处理。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "bard_q",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "巴德·星界束缚使用登记",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used",
+      "sortOrder": 20
+    },
+    "/skills/leblanc_q": {
+      "createdAt": "2026-09-06T18:19:07.108271Z",
+      "description": "乐芙兰朝目标投射一个魔印，造成魔法伤害并标记目标3.5秒。用一个技能对被标记的目标造成伤害时，会引爆魔印，造成附加伤害。如果这两部分伤害中有任一部分击杀了目标，那么乐芙兰就会返还此技能的法力消耗和此技能的一部分剩余冷却时间。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "乐芙兰·恶意魔印",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "leblanc_q",
+      "sortOrder": 1,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:19:07.108271Z"
+    },
+    "/skills/leblanc_q/parameters": [
+      {
+        "createdAt": "2026-09-09T18:45:27.586851Z",
+        "description": "客户端BaseDamage取索引1至5；索引0的40不是等级1。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 65,
+          "2": 90,
+          "3": 115,
+          "4": 140,
+          "5": 165
+        },
+        "name": "初始基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "leblanc_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T18:45:27.586851Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T18:45:28.827754Z",
+        "description": "客户端BaseMarkDamage取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 65,
+          "2": 90,
+          "3": 115,
+          "4": 140,
+          "5": 165
+        },
+        "name": "魔印引爆基础魔法伤害",
+        "parameterKey": "mark_base_damage",
+        "skillKey": "leblanc_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T18:45:28.827754Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T18:45:30.010175Z",
+        "description": "客户端MarkDuration取索引1的3.5秒，转换为3500毫秒。",
+        "fixedValue": 3500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "魔印持续（毫秒）",
+        "parameterKey": "mark_duration_ms",
+        "skillKey": "leblanc_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T18:45:30.010175Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T18:45:31.200885Z",
+        "description": "客户端CooldownRefund=0.3；只保留击杀条件参数。",
+        "fixedValue": 0.3,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "击杀后剩余冷却返还比例",
+        "parameterKey": "cooldown_refund_ratio",
+        "skillKey": "leblanc_q",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T18:45:31.200885Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T18:45:32.439619Z",
+        "description": "客户端ManaRefund=1；只保留击杀条件参数。",
+        "fixedValue": 1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "击杀后法力返还比例",
+        "parameterKey": "mana_refund_ratio",
+        "skillKey": "leblanc_q",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T18:45:32.439619Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T18:45:33.665991Z",
+        "description": "Damage和MarkDamage树均消费APRatio×来源总法强。",
+        "fixedValue": 0.4,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法强比例",
+        "parameterKey": "ap_ratio",
+        "skillKey": "leblanc_q",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T18:45:33.665991Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T18:45:34.85346Z",
+        "description": "当前根spellCastTime=0.25秒，转换为250毫秒。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "leblanc_q",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-09T18:45:34.85346Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:36:41.758569Z",
+        "description": "DDragon16.17.1 Leblanc.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 6000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "leblanc_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:36:41.758569Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:36:42.217552Z",
+        "description": "DDragon16.17.1 Leblanc.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 50,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "leblanc_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:36:42.217552Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/leblanc_q/parameters/base_damage": {
+      "createdAt": "2026-09-09T18:45:27.586851Z",
+      "description": "客户端BaseDamage取索引1至5；索引0的40不是等级1。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 65,
+        "2": 90,
+        "3": 115,
+        "4": 140,
+        "5": 165
+      },
+      "name": "初始基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "leblanc_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T18:45:27.586851Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/leblanc_q/parameters/mark_base_damage": {
+      "createdAt": "2026-09-09T18:45:28.827754Z",
+      "description": "客户端BaseMarkDamage取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 65,
+        "2": 90,
+        "3": 115,
+        "4": 140,
+        "5": 165
+      },
+      "name": "魔印引爆基础魔法伤害",
+      "parameterKey": "mark_base_damage",
+      "skillKey": "leblanc_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T18:45:28.827754Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/leblanc_q/parameters/mark_duration_ms": {
+      "createdAt": "2026-09-09T18:45:30.010175Z",
+      "description": "客户端MarkDuration取索引1的3.5秒，转换为3500毫秒。",
+      "fixedValue": 3500,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "魔印持续（毫秒）",
+      "parameterKey": "mark_duration_ms",
+      "skillKey": "leblanc_q",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T18:45:30.010175Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/leblanc_q/parameters/cooldown_refund_ratio": {
+      "createdAt": "2026-09-09T18:45:31.200885Z",
+      "description": "客户端CooldownRefund=0.3；只保留击杀条件参数。",
+      "fixedValue": 0.3,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "击杀后剩余冷却返还比例",
+      "parameterKey": "cooldown_refund_ratio",
+      "skillKey": "leblanc_q",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T18:45:31.200885Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/leblanc_q/parameters/mana_refund_ratio": {
+      "createdAt": "2026-09-09T18:45:32.439619Z",
+      "description": "客户端ManaRefund=1；只保留击杀条件参数。",
+      "fixedValue": 1,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "击杀后法力返还比例",
+      "parameterKey": "mana_refund_ratio",
+      "skillKey": "leblanc_q",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T18:45:32.439619Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/leblanc_q/parameters/ap_ratio": {
+      "createdAt": "2026-09-09T18:45:33.665991Z",
+      "description": "Damage和MarkDamage树均消费APRatio×来源总法强。",
+      "fixedValue": 0.4,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法强比例",
+      "parameterKey": "ap_ratio",
+      "skillKey": "leblanc_q",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-09T18:45:33.665991Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/leblanc_q/parameters/cast_time_ms": {
+      "createdAt": "2026-09-09T18:45:34.85346Z",
+      "description": "当前根spellCastTime=0.25秒，转换为250毫秒。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "leblanc_q",
+      "sortOrder": 70,
+      "updatedAt": "2026-09-09T18:45:34.85346Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/leblanc_q/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T18:36:41.758569Z",
+      "description": "DDragon16.17.1 Leblanc.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 6000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "leblanc_q",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T18:36:41.758569Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/leblanc_q/parameters/mana_cost": {
+      "createdAt": "2026-09-07T18:36:42.217552Z",
+      "description": "DDragon16.17.1 Leblanc.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 50,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "leblanc_q",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-07T18:36:42.217552Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/leblanc_q/formulas": [
+      {
+        "createdAt": "2026-09-09T18:45:35.994916Z",
+        "description": "Damage = BaseDamage + APRatio×来源总法强。",
+        "formulaKey": "initial_magic_damage",
+        "gameId": "lol",
+        "name": "恶意魔印初始魔法伤害",
+        "skillKey": "leblanc_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T18:45:35.994916Z"
+      },
+      {
+        "createdAt": "2026-09-09T18:45:37.137371Z",
+        "description": "MarkDamage = BaseMarkDamage + APRatio×来源总法强。",
+        "formulaKey": "mark_magic_damage",
+        "gameId": "lol",
+        "name": "恶意魔印引爆魔法伤害",
+        "skillKey": "leblanc_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T18:45:37.137371Z"
+      }
+    ],
+    "/skills/leblanc_q/formulas/initial_magic_damage": {
+      "createdAt": "2026-09-09T18:45:35.994916Z",
+      "description": "Damage = BaseDamage + APRatio×来源总法强。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "initial_magic_damage",
+      "gameId": "lol",
+      "name": "恶意魔印初始魔法伤害",
+      "skillKey": "leblanc_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T18:45:35.994916Z"
+    },
+    "/skills/leblanc_q/formulas/mark_magic_damage": {
+      "createdAt": "2026-09-09T18:45:37.137371Z",
+      "description": "MarkDamage = BaseMarkDamage + APRatio×来源总法强。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "mark_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "mark_magic_damage",
+      "gameId": "lol",
+      "name": "恶意魔印引爆魔法伤害",
+      "skillKey": "leblanc_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T18:45:37.137371Z"
+    },
+    "/skills/leblanc_q/effects": [
+      {
+        "createdAt": "2026-09-19T03:24:40.428826Z",
+        "description": "本技能普通主动使用消耗既有mana_cost参数给出的法力；具体使用时点由引用本效果的过程定义。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "leblanc_q",
+        "sortOrder": 5,
+        "updatedAt": "2026-09-19T03:24:40.428826Z"
+      }
+    ],
+    "/skills/leblanc_q/effects/mana_cost": {
+      "createdAt": "2026-09-19T03:24:40.428826Z",
+      "description": "本技能普通主动使用消耗既有mana_cost参数给出的法力；具体使用时点由引用本效果的过程定义。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "leblanc_q",
+      "sortOrder": 5,
+      "updatedAt": "2026-09-19T03:24:40.428826Z"
+    },
+    "/skills/leblanc_q/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-19T03:24:41.768228Z",
+        "description": "登记普通主动使用的基础法力、已有根施法时间和普通冷却；过程结束不产生命中，控制、印记和返还另行处理。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "乐芙兰·恶意魔印施法登记",
+        "processKey": "cast",
+        "skillKey": "leblanc_q",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-19T03:24:41.768228Z"
+      }
+    ],
+    "/skills/leblanc_q/processes/cast": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-19T03:24:41.768228Z",
+      "description": "登记普通主动使用的基础法力、已有根施法时间和普通冷却；过程结束不产生命中，控制、印记和返还另行处理。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "乐芙兰·恶意魔印施法登记",
+      "processKey": "cast",
+      "skillKey": "leblanc_q",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "读取当前技能既有施法时间参数；延迟结束不表示发生实际命中。",
+          "detail": {
+            "delayValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cast_time_ms"
+            }
+          },
+          "name": "施法延迟",
+          "sortOrder": 10,
+          "stepKey": "cast_time",
+          "stepType": "DELAY"
+        }
+      ],
+      "updatedAt": "2026-09-19T03:24:41.768228Z"
+    },
+    "/skills/leblanc_q/internal-states": [],
+    "/skills/leblanc_q/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "普通主动使用leblanc_q时启动cast，登记法力和普通冷却；引用已有根施法参数。实际命中、控制和其他联动由各自入口处理。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "乐芙兰·恶意魔印使用登记",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T03:24:43.148751Z"
+      }
+    ],
+    "/skills/leblanc_q/trigger-rules/on_used": {
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "actionType": "START_PROCESS",
+          "detail": {
+            "processKey": "cast"
+          },
+          "name": "启动乐芙兰·恶意魔印使用登记",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "普通主动使用leblanc_q时启动cast，登记法力和普通冷却；引用已有根施法参数。实际命中、控制和其他联动由各自入口处理。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "leblanc_q",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "乐芙兰·恶意魔印使用登记",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used",
+      "sortOrder": 20
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/vex_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_q/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_q/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_q/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_q/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_q/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_q/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/parameters/base_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/parameters/shield_ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/parameters/damage_ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/parameters/shield_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/parameters/aoe_radius",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/parameters/bonus_aoe_radius_vs_dashes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/formulas/shield_value",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/effects/self_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/trigger-rules/on_used_cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/parameters/slow_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/parameters/slow_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/parameters/starting_radius",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/parameters/radius_growth_rate",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/parameters/max_radius",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/parameters/gloom_champion_cooldown_refund_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/parameters/slow_percent",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/parameters/slow_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/parameters/stun_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/formulas/total_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/leblanc_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/leblanc_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/leblanc_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/leblanc_q/parameters/mark_base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/leblanc_q/parameters/mark_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/leblanc_q/parameters/cooldown_refund_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/leblanc_q/parameters/mana_refund_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/leblanc_q/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/leblanc_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/leblanc_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/leblanc_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/leblanc_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/leblanc_q/formulas/initial_magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/leblanc_q/formulas/mark_magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/leblanc_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/leblanc_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/leblanc_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/leblanc_q/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/leblanc_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/leblanc_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/leblanc_q/trigger-rules/on_used",
+      "status": 200
+    }
+  ],
+  "businessWrites": 0
+}
