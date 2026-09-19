@@ -1,0 +1,11 @@
+{
+  "status":"PASS",
+  "at":"2026-09-19T10:50:07.101Z",
+  "routes":["http://127.0.0.1:5173/#/skill-categories","http://127.0.0.1:5173/#/skills"],
+  "businessWrites":2,
+  "checks":["分类页新增ultimate、终极技能、启用、排序0，保存一次后列表从3项变4项；重开详情字段一致。","技能页筛选soraka_r，编辑仅选择终极技能，最高等级3、启用、排序4、旧说明保持；保存一次后列表显示终极技能，查看详情一致。"],
+  "immediateGETs":4,
+  "independentGETs":3,
+  "note":"未捕获原保存HTTP响应，06保存的是即时GET结果，不冒认为写响应；旧说明另由下一独立批次整理。",
+  "runtimeValidation":"未执行"
+}
