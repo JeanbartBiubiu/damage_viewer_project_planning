@@ -855,30 +855,31 @@ export function SkillEffectResultEditorModal({
         || draft.resultType === 'NORMAL_SHIELD'
         || draft.resultType === 'DAMAGE_MODIFIER'
         || draft.resultType === 'DAMAGE_IMMUNITY')
-      && catalogLoading.damageTypes
+      && (catalogLoading.damageTypes || catalogLoadState.damageTypes === undefined)
     ) return true;
     if (
       (draft.resultType === 'ATTRIBUTE_CHANGE'
         || draft.resultType === 'RESOURCE_CHANGE'
         || draft.resultType === 'HEALTH_FLOOR'
         || draft.resultType === 'EXECUTE')
-      && catalogLoading.attributes
+      && (catalogLoading.attributes || catalogLoadState.attributes === undefined)
     ) {
       return true;
     }
-    if (isModifierZoneRequired(draft) && catalogLoading.modifierZones) return true;
-    if (usesAffectedSkillScope(draft.resultType) && catalogLoading.skills) return true;
+    if (isModifierZoneRequired(draft) && (catalogLoading.modifierZones || catalogLoadState.modifierZones === undefined)) return true;
+    if (usesAffectedSkillScope(draft.resultType) && (catalogLoading.skills || catalogLoadState.skills === undefined)) return true;
     if (
       usesAffectedSkillScope(draft.resultType)
       && draft.affectedSkillScope.mode === 'CATEGORIES'
-      && catalogLoading.skillCategories
+      && (catalogLoading.skillCategories || catalogLoadState.skillCategories === undefined)
     ) return true;
-    if (draft.resultType === 'STATUS_OPERATION' && catalogLoading.statuses) return true;
+    if (draft.resultType === 'STATUS_OPERATION' && (catalogLoading.statuses || catalogLoadState.statuses === undefined)) return true;
     if (draft.resultType === 'LIFECYCLE_OPERATION' && effectsLoadState !== 'ready' && effectsLoadState !== 'failed') {
       return effectsLoadState === undefined;
     }
     return false;
   }, [
+    catalogLoadState,
     catalogLoading.attributes,
     catalogLoading.damageTypes,
     catalogLoading.modifierZones,
@@ -1169,7 +1170,8 @@ export function SkillEffectResultEditorModal({
             }
           />
         ) : null}
-        {unknownBlocking ? <Alert type="error" content={INCOMPLETE_CATALOG_MESSAGE} /> : null}
+        {requiredCatalogLoading ? <Alert type="info" content="正在加载引用目录…" /> : null}
+        {unknownBlocking && !requiredCatalogLoading ? <Alert type="error" content={INCOMPLETE_CATALOG_MESSAGE} /> : null}
         {(isPersistentOnlyResultType(draft.resultType) || slowApply) && !parentDraft.lifecycleEnabled ? (
           <Alert type="error" content="该结果需要先启用父效果生命周期。" />
         ) : null}

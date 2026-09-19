@@ -4959,6 +4959,125 @@ test.describe('skill management without Wasm', () => {
     diagnostics.assertClean('illegal lifecycle combinations and retained field errors');
   });
 
+  for (const target of [
+    { kind: 'process', action: '查看', title: '查看过程', field: '过程名称', value: '主要施放过程', key: 'primary_cast' },
+    { kind: 'process', action: '编辑', title: '编辑过程', field: '过程名称', value: '主要施放过程', key: 'primary_cast' },
+    { kind: 'effect', action: '查看', title: '查看效果', field: '效果名称', value: '命中结果', key: 'on_hit_results' },
+    { kind: 'effect', action: '编辑', title: '编辑效果', field: '效果名称', value: '命中结果', key: 'on_hit_results' },
+    { kind: 'rule', action: '编辑', title: '编辑规则', field: '规则名称', value: '已有命中规则', key: 'existing_hit' }
+  ] as const) test(`详情加载状态：${target.title}不展示可被响应覆盖的默认表单`, async ({ page }) => {
+    const mock = new MockApi();
+    seedSkillTriggerCatalog(mock);
+    mock.skillTriggerRules = [{
+      gameId: GAME_ID, skillKey: 'varus_w', ruleKey: 'existing_hit', name: '已有命中规则',
+      description: null, sortOrder: 10,
+      eventSource: { eventType: 'SKILL_HIT', detail: { sourceSkillKey: 'varus_w' } },
+      conditionGroups: [], perTargetCooldown: null, maxTriggersPerProcess: null,
+      actions: [{ actionKey: 'apply_damage', name: '造成伤害', actionType: 'EXECUTE_EFFECT', sortOrder: 10,
+        targetContext: 'CURRENT_TARGET', detail: { effectKey: 'on_hit_results' }, runtimeInputBindings: [], resultModifiers: [] }],
+      createdAt: CREATED_AT, updatedAt: UPDATED_AT
+    }];
+    const diagnostics = await prepare(page, mock);
+    const hold = createDeferred();
+    const collection = target.kind === 'process' ? 'processes' : target.kind === 'effect' ? 'effects' : 'trigger-rules';
+    await page.route(`**/skills/varus_w/${collection}/${target.key}`, async (route) => {
+      await hold.promise;
+      await route.fallback();
+    });
+    await openSkills(page);
+    const shell = target.kind === 'process'
+      ? await openSkillProcesses(page, 'varus_w', '枯萎箭袋')
+      : target.kind === 'effect'
+        ? await openSkillEffects(page, 'varus_w', '枯萎箭袋')
+        : await openSkillTriggers(page, 'varus_w', '枯萎箭袋');
+    if (target.kind === 'rule') {
+      await shell.getByRole('button', { name: '新增规则', exact: true }).click();
+      const create = visibleModal(page, '新增规则');
+      await expect(create.getByLabel('规则名称', { exact: true })).toBeVisible();
+      await create.getByRole('button', { name: '取消', exact: true }).click();
+      await expect(create).toBeHidden();
+    }
+    await shell.locator('tr', { hasText: target.key }).getByRole('button', { name: target.action, exact: true }).click();
+    const editor = visibleModal(page, target.title);
+    const label = target.kind === 'process' ? '过程' : target.kind === 'effect' ? '效果' : '规则';
+    try {
+      await expect(editor.getByText(`正在加载${label}详情…`, { exact: true })).toBeVisible();
+      await expect(editor.getByLabel(target.field, { exact: true })).toHaveCount(0);
+      await expect(editor.getByText('1. action_1', { exact: true })).toHaveCount(0);
+      if (target.action === '编辑') await expect(editor.getByRole('button', { name: '保存', exact: true })).toBeDisabled();
+    } finally {
+      hold.resolve();
+    }
+    await expect(editor.getByLabel(target.field, { exact: true })).toHaveValue(target.value);
+    await expect(editor.getByText(`正在加载${label}详情…`, { exact: true })).toHaveCount(0);
+    expect(mock.writes).toHaveLength(0);
+    diagnostics.assertClean('detail loading hides uninitialized drafts');
+  });
+
+  test('详情加载状态：失败与重试期间保持默认正文隐藏', async ({ page }) => {
+    const mock = new MockApi();
+    seedSkillTriggerCatalog(mock);
+    await prepare(page, mock);
+    const retry = createDeferred();
+    let reads = 0;
+    await page.route('**/skills/varus_w/processes/primary_cast', async (route) => {
+      reads += 1;
+      if (reads === 1) {
+        await route.fulfill({ status: 503, contentType: 'application/json', body: JSON.stringify({ error: { code: '503.UNAVAILABLE', message: '详情暂时不可用' } }) });
+      } else {
+        await retry.promise;
+        await route.fallback();
+      }
+    });
+    await openSkills(page);
+    const shell = await openSkillProcesses(page, 'varus_w', '枯萎箭袋');
+    await shell.locator('tr', { hasText: 'primary_cast' }).getByRole('button', { name: '编辑', exact: true }).click();
+    const editor = visibleModal(page, '编辑过程');
+    await expect(editor.getByText(/详情暂时不可用/)).toBeVisible();
+    await expect(editor.getByLabel('过程名称', { exact: true })).toHaveCount(0);
+    await editor.getByRole('button', { name: '重试', exact: true }).click();
+    try {
+      await expect(editor.getByText('正在加载过程详情…', { exact: true })).toBeVisible();
+      await expect(editor.getByLabel('过程名称', { exact: true })).toHaveCount(0);
+      await expect(editor.getByRole('button', { name: '保存', exact: true })).toBeDisabled();
+    } finally {
+      retry.resolve();
+    }
+    await expect(editor.getByLabel('过程名称', { exact: true })).toHaveValue('主要施放过程');
+    expect(reads).toBe(2);
+    expect(mock.writes).toHaveLength(0);
+  });
+
+  test('详情加载状态：结果目录未返回时不误报未知引用', async ({ page }) => {
+    const mock = new MockApi();
+    seedSkillProcessCatalog(mock);
+    const diagnostics = await prepare(page, mock);
+    await openSkills(page);
+    const shell = await openSkillEffects(page, 'varus_w', '枯萎箭袋');
+    await shell.locator('tr', { hasText: 'mana_cost' }).getByRole('button', { name: '编辑', exact: true }).click();
+    const effect = visibleModal(page, '编辑效果');
+    await expect(effect.getByLabel('效果名称', { exact: true })).toHaveValue('法力消耗');
+    const hold = createDeferred();
+    await page.route(`**/api/admin/games/${GAME_ID}/attributes`, async (route) => {
+      await hold.promise;
+      await route.fallback();
+    });
+    await effect.getByRole('button', { name: '编辑', exact: true }).click();
+    const result = visibleModal(page, '编辑结果');
+    try {
+      await expect(result.getByText('正在加载引用目录…', { exact: true })).toBeVisible();
+      await expect(result.getByText('目录不完整，无法保存未知引用。', { exact: true })).toHaveCount(0);
+      await expect(result.getByRole('button', { name: '保存', exact: true })).toBeDisabled();
+    } finally {
+      hold.resolve();
+    }
+    await expect(result.getByText('正在加载引用目录…', { exact: true })).toHaveCount(0);
+    await expect(result.getByLabel('资源属性', { exact: true })).toContainText('法力值');
+    await expect(result.getByRole('button', { name: '保存', exact: true })).toBeEnabled();
+    expect(mock.writes).toHaveLength(0);
+    diagnostics.assertClean('pending result catalog is not an unknown reference');
+  });
+
   test('adds a process entry on the skills page without a new route', async ({ page }) => {
     const mock = new MockApi();
     seedSkillProcessCatalog(mock);
@@ -6997,6 +7116,8 @@ test('event counterpart category supports kill, damage directions, legal switche
   await chooseSelectOption(page, reopened, '事件类型', '普通攻击发起');
   await cleanup.getByRole('button', { name: '确定', exact: true }).click();
   await expect(card(reopened).getByText(/事件对方类别 \/ /)).toHaveCount(0);
+  await expect(card(reopened)).toHaveCount(0);
+  await reopened.getByRole('button', { name: '新增条件组', exact: true }).click();
   await card(reopened).getByRole('button', { name: '新增条件', exact: true }).click();
   const next = visibleModal(page, '新增条件');
   await next.getByLabel('条件种类', { exact: true }).click();
@@ -7073,6 +7194,8 @@ test('skill hit spell shield value saves condition and binding and confirms inva
   await chooseSelectOption(page, edit, '事件类型', '普通攻击命中');
   await cleanup.getByRole('button', { name: '确定', exact: true }).click();
   await expect(card(edit).getByText(/事件值比较 \/ 技能命中被法术护盾阻挡/)).toHaveCount(0);
+  await expect(card(edit)).toHaveCount(0);
+  await edit.getByRole('button', { name: '新增条件组', exact: true }).click();
   await card(edit).getByRole('button', { name: '新增条件', exact: true }).click();
   const nextCondition = visibleModal(page, '新增条件');
   await chooseSelectOption(page, nextCondition, '条件种类', '事件值比较');

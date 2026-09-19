@@ -340,7 +340,7 @@ export function SkillEffectEditorModal({
   const [formulasError, setFormulasError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [loadingDetail, setLoadingDetail] = useState(false);
-  const [detailReady, setDetailReady] = useState(mode === 'create');
+  const [detailReady, setDetailReady] = useState(false);
   const [formulas, setFormulas] = useState<SkillFormulaSummary[]>([]);
   const { parameters, parametersLoadState } = useNumericParameters(apiBaseUrl, selectedGameId, skill.skillKey, adminToken, visible);
   const [formulasLoadState, setFormulasLoadState] = useState<'ready' | 'failed' | undefined>(undefined);
@@ -394,7 +394,7 @@ export function SkillEffectEditorModal({
     setFormulasError(null);
     setSaving(false);
     setLoadingDetail(false);
-    setDetailReady(mode === 'create');
+    setDetailReady(false);
     setFormulas([]);
     setFormulasLoadState(undefined);
     setAttributes([]);
@@ -574,6 +574,7 @@ export function SkillEffectEditorModal({
       setLoadingDetail(false);
       return;
     }
+    setDetailReady(false);
     setLoadingDetail(true);
     setLoadError(null);
     try {
@@ -1037,6 +1038,8 @@ export function SkillEffectEditorModal({
               }
             />
           ) : null}
+          {mode === 'create' || (detailReady && !loadingDetail) ? (
+          <Space direction="vertical" size="medium" style={{ width: '100%' }}>
           <Form layout="vertical">
             <Form.Item
               label="效果标识"
@@ -1347,6 +1350,8 @@ export function SkillEffectEditorModal({
               noDataElement={<Empty description="暂无结果" />}
             />
           </div>
+          </Space>
+          ) : !loadError ? <Alert type="info" content="正在加载效果详情…" /> : null}
         </Space>
       </Modal>
 

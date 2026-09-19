@@ -1,0 +1,76 @@
+{
+  "at": "2026-09-19T09:07:05.355Z",
+  "status": "PASS",
+  "problem": "真实录入中，详情尚未返回时显示默认表单且可编辑，返回值会覆盖输入；引用目录尚未返回时误报引用缺失。归并体验-02。",
+  "change": [
+    "效果、过程和规则详情就绪前隐藏正文，加载失败保持错误与重试入口",
+    "统一详情初始及重置状态，阻止隐藏新增模式泄漏到编辑入口",
+    "结果所需目录未完成时显示加载提示，完成后再判引用缺失；原保存限制和失败重试保留"
+  ],
+  "checks": {
+    "lint": {
+      "status": "PASS",
+      "scannedProductionFiles": 141
+    },
+    "typecheck": "PASS",
+    "unitTests": {
+      "status": "PASS",
+      "files": 60,
+      "tests": 674
+    },
+    "build": {
+      "status": "PASS",
+      "modules": 1292,
+      "existingWarning": "单个产物大于500kB"
+    },
+    "focusedBrowser": {
+      "cases": 7,
+      "status": "PASS",
+      "notes": "首轮6通过1测试夹具错误；错误响应补齐error封装后失败重试用例通过，最终完整回归再次覆盖全部7项。"
+    },
+    "nonWasmBrowser": {
+      "status": "PASS_AFTER_FOCUSED_RECHECK",
+      "cases": 74,
+      "fullRunPassed": 72,
+      "fullRunFailed": 2,
+      "correctedExistingTests": 2,
+      "focusedRecheckPassed": 2,
+      "reason": "既有78ca6b7bc已清除空条件组；两条旧用例补充空组删除断言并新建条件组继续，生产清理语义未变。",
+      "mode": "独立4174生产预览，业务接口全部mock，非实库证据"
+    },
+    "independentReview": {
+      "reviewer": "/root/skill_detail_loading_review",
+      "status": "PASS",
+      "scope": "四个编辑器当前差异只读复核，无新增正确性问题；未重复执行测试"
+    }
+  },
+  "sourceFiles": [
+    {
+      "path": "web/src/pages/admin/skills/effects/SkillEffectEditorModal.tsx",
+      "normalizedLfSha256": "233d5d7ca59ec7f41caab5ae5b1b6b79709ec43b80eb5f139932a8b1e154a156"
+    },
+    {
+      "path": "web/src/pages/admin/skills/effects/SkillEffectResultEditorModal.tsx",
+      "normalizedLfSha256": "e2616aa738aa1f77ec53d4ae03390eea46dbd6b9481d8709beb6962f3d018f53"
+    },
+    {
+      "path": "web/src/pages/admin/skills/processes/SkillProcessEditorModal.tsx",
+      "normalizedLfSha256": "85fed9749f1b447e6784c1a3d82adb8acd722d7968b37c2aa421701f4ee37e35"
+    },
+    {
+      "path": "web/src/pages/admin/skills/triggers/SkillTriggerRuleEditorModal.tsx",
+      "normalizedLfSha256": "52674545f9e28e31d04e26105f5653f94fa2133b947d473e7b43265f89a1dbf5"
+    },
+    {
+      "path": "web/tests/e2e/non-wasm-pages.spec.ts",
+      "normalizedLfSha256": "d26b3dbec01d7da17b6b45de4e39604a1379d54a0735d465712ae1b38aa668a9"
+    },
+    {
+      "path": "web/README.md",
+      "normalizedLfSha256": "e60dd49f85a1c5b8173f0f50facd0fda9ab3cd097ece57f862b96a217648d3b5"
+    }
+  ],
+  "businessWrites": 0,
+  "runtimeValidation": "未执行",
+  "remaining": "参数、状态等其他页面和列表的加载显示继续按体验-02定点处理；本批未模拟真实服务的网络失败。"
+}

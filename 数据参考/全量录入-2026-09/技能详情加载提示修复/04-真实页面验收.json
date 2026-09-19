@@ -1,0 +1,35 @@
+{
+  "at": "2026-09-19T09:07:05.359Z",
+  "status": "PASS",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "codeReloaded": true,
+  "skillKey": "urgot_q",
+  "checks": [
+    {
+      "case": "编辑mana_cost效果",
+      "pending": "仅显示正在加载效果详情…及取消保存按钮",
+      "loaded": "显示原法力效果和consume_mana结果"
+    },
+    {
+      "case": "编辑consume_mana结果",
+      "pending": "显示正在加载引用目录…，无目录不完整错误",
+      "loaded": "资源属性回显法力值，参数仍mana_cost，取消退出"
+    },
+    {
+      "case": "查看cast过程",
+      "pending": "仅显示正在加载过程详情…与关闭按钮",
+      "loaded": "原cast_time_ms步骤、cooldown_ms过程开始和mana_cost挂接正确"
+    },
+    {
+      "case": "编辑actual_hit规则",
+      "pending": "仅显示正在加载规则详情…及取消保存按钮",
+      "loaded": "自身SKILL_HIT、英雄并且敌方同组，仅执行primary_hit；取消退出"
+    }
+  ],
+  "consoleErrors": [],
+  "GETsBefore": 8,
+  "GETsAfter": 8,
+  "unchangedResponsesIncludingTimestamps": 8,
+  "businessWrites": 0,
+  "runtimeValidation": "未执行"
+}

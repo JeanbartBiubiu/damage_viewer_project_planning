@@ -243,7 +243,7 @@ export function SkillTriggerRuleEditorModal({
   const [cycle, setCycle] = useState<MappedTriggerFieldIssues['cycle']>(null);
   const [saving, setSaving] = useState(false);
   const [loadingDetail, setLoadingDetail] = useState(false);
-  const [detailReady, setDetailReady] = useState(mode === 'create');
+  const [detailReady, setDetailReady] = useState(false);
   const [recordMissing, setRecordMissing] = useState(false);
   const [skills, setSkills] = useState<Skill[]>([]);
   const [attributes, setAttributes] = useState<Attribute[]>([]);
@@ -335,7 +335,7 @@ export function SkillTriggerRuleEditorModal({
     setCycle(null);
     setSaving(false);
     setLoadingDetail(false);
-    setDetailReady(mode === 'create');
+    setDetailReady(false);
     setRecordMissing(false);
     setSkills([]);
     setAttributes([]);
@@ -557,7 +557,7 @@ export function SkillTriggerRuleEditorModal({
     const token = adminToken.trim();
     if (!visible || mode !== 'edit' || !rule) {
       setLoadingDetail(false);
-      setDetailReady(mode === 'create');
+      setDetailReady(visible && mode === 'create');
       return;
     }
     if (!token) {
@@ -566,6 +566,7 @@ export function SkillTriggerRuleEditorModal({
       setDetailReady(false);
       return;
     }
+    setDetailReady(false);
     setLoadingDetail(true);
     setLoadError(null);
     try {
@@ -1204,6 +1205,8 @@ export function SkillTriggerRuleEditorModal({
             <Alert key={item.path} type="error" content={`${item.path}：${item.message}`} />
           ))}
 
+          {mode === 'create' || (detailReady && !loadingDetail) ? (
+          <Space direction="vertical" size="medium" style={{ width: '100%' }}>
           <Typography.Title heading={6}>基本信息</Typography.Title>
           <Form layout="vertical">
             <Form.Item
@@ -1581,6 +1584,8 @@ export function SkillTriggerRuleEditorModal({
               </>
             ) : null}
           </Form>
+          </Space>
+          ) : !loadError ? <Alert type="info" content="正在加载规则详情…" /> : null}
         </Space>
       </Modal>
 
