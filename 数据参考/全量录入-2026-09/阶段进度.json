@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-19T03:20:56.041Z",
+  "generatedAt": "2026-09-19T03:27:22.502Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -10405,6 +10405,39 @@
         "sha256": "f76d7cbbf2301eb709eb4a1546b9ef0c754b9dbd8605f0fe430a9a3db4c123c8",
         "commit": "279bc588"
       }
+    },
+    "sixMageOrdinaryUseBackfill": {
+      "at": "2026-09-19T03:27:22.502Z",
+      "status": "六项普通使用16组成已保存并独立回读，页面和剩余分支待续",
+      "skills": [
+        "vex_q",
+        "vex_w",
+        "vex_e",
+        "bard_q",
+        "akali_q",
+        "leblanc_q"
+      ],
+      "created": {
+        "effects": 4,
+        "processes": 6,
+        "triggerRules": 6
+      },
+      "prepareGETs": 163,
+      "writerGETs": 195,
+      "writerPOSTs": 16,
+      "immediateReadbacks": 16,
+      "independentGETs": 163,
+      "unchangedResponsesIncludingTimestamps": 131,
+      "expectedChangedCollections": 16,
+      "arithmeticCases": 85,
+      "browser": "NOT_RUN_BROWSER_UNAVAILABLE",
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/六项法术普通使用补录/09-证据清单.json",
+        "sha256": "3a6828ce6e6f989d4ea5fec49c98f3189506409249eaebdbf5d72a5465c4e3ab",
+        "commit": "453ba00d"
+      }
     }
   },
   "runtimeValidation": "未执行",
@@ -10770,6 +10803,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/七项后续使用说明整理/09-证据清单.json",
         "sha256": "f76d7cbbf2301eb709eb4a1546b9ef0c754b9dbd8605f0fe430a9a3db4c123c8",
         "commit": "279bc588"
+      },
+      "sixMageOrdinaryUseBackfill": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/六项法术普通使用补录/09-证据清单.json",
+        "sha256": "3a6828ce6e6f989d4ea5fec49c98f3189506409249eaebdbf5d72a5465c4e3ab",
+        "commit": "453ba00d"
       }
     },
     "coverage": {
@@ -13383,7 +13422,7 @@
         "name": "阿卡丽·我流奥义！寒影",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "根技能本体直接伤害和实际英雄命中已保存并独立回读；能量使用流程、边缘减速及被动联动、代表页面验收、原批次其余来源未决项逐项核对继续处理，不计整技能管理完成。",
+        "reason": "普通主动使用已登记能量与基础冷却，保留施法字段差异；边缘减速及被动联动、代表页面验收、原批次其余来源未决项逐项核对、施法时间字段实际语义继续处理，不计整技能管理完成。",
         "pendingCounts": {
           "source": 3,
           "system": 0,
@@ -13395,21 +13434,22 @@
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
-          "sevenMageBodyDirectHitBackfill"
+          "sevenMageBodyDirectHitBackfill",
+          "sixMageOrdinaryUseBackfill"
         ],
         "currentComponentCounts": {
           "parameters": 7,
           "formulas": 1,
           "effects": 2,
-          "processes": 0,
+          "processes": 1,
           "internalStates": 0,
-          "triggerRules": 1
+          "triggerRules": 2
         },
         "remainingBranches": [
-          "能量使用流程",
           "边缘减速及被动联动",
           "代表页面验收",
-          "原批次其余来源未决项逐项核对"
+          "原批次其余来源未决项逐项核对",
+          "施法时间字段实际语义"
         ],
         "authoredDirectHit": {
           "effectKey": "primary_hit",
@@ -13419,6 +13459,14 @@
           "vampType": "OMNIVAMP",
           "basisOutputKind": "POST_DEFENSE_DAMAGE",
           "efficiency": 1,
+          "browser": "待验"
+        },
+        "authoredUseEntry": {
+          "processKey": "use_cost_and_cooldown",
+          "ruleKey": "on_used_cost_and_cooldown",
+          "costEffectKey": "energy_cost",
+          "registrationOnly": true,
+          "httpReadback": "PASS",
           "browser": "待验"
         }
       },
@@ -14905,7 +14953,7 @@
         "name": "巴德·星界束缚",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "根技能本体直接伤害和实际英雄命中已保存并独立回读；第一与后续碰撞的减速眩晕资格、普通使用、代表页面验收继续处理，不计整技能管理完成。",
+        "reason": "普通主动使用已登记法力与基础冷却，复用已有根施法参数；第一与后续碰撞的减速眩晕资格、代表页面验收继续处理，不计整技能管理完成。",
         "pendingCounts": {
           "source": 0,
           "system": 1,
@@ -14917,19 +14965,19 @@
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
-          "sevenMageBodyDirectHitBackfill"
+          "sevenMageBodyDirectHitBackfill",
+          "sixMageOrdinaryUseBackfill"
         ],
         "currentComponentCounts": {
           "parameters": 8,
           "formulas": 1,
           "effects": 2,
-          "processes": 0,
+          "processes": 1,
           "internalStates": 0,
-          "triggerRules": 1
+          "triggerRules": 2
         },
         "remainingBranches": [
           "第一与后续碰撞的减速眩晕资格",
-          "普通使用",
           "代表页面验收"
         ],
         "authoredDirectHit": {
@@ -14940,6 +14988,14 @@
           "vampType": "OMNIVAMP",
           "basisOutputKind": "POST_DEFENSE_DAMAGE",
           "efficiency": 1,
+          "browser": "待验"
+        },
+        "authoredUseEntry": {
+          "processKey": "cast",
+          "ruleKey": "on_used",
+          "costEffectKey": "mana_cost",
+          "registrationOnly": false,
+          "httpReadback": "PASS",
           "browser": "待验"
         }
       },
@@ -20621,7 +20677,8 @@
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
-          "sevenMageBodyDirectHitBackfill"
+          "sevenMageBodyDirectHitBackfill",
+          "sixMageOrdinaryUseBackfill"
         ],
         "currentComponentCounts": {
           "parameters": 5,
@@ -20646,6 +20703,10 @@
           "basisOutputKind": "POST_DEFENSE_DAMAGE",
           "efficiency": 1,
           "browser": "待验"
+        },
+        "useRegistrationDeferred": {
+          "reason": "无资源的纯冷却过程修复仍待首次真实页面验收，当前不绕过页面门槛。",
+          "evidence": "sixMageOrdinaryUseBackfill"
         }
       },
       {
@@ -21746,7 +21807,7 @@
         "name": "乐芙兰·恶意魔印",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "普通主动使用已登记法力与基础冷却，复用已有根施法参数；初始命中与印记引爆入口、击杀返还、原批次其余来源未决项逐项核对、代表页面验收继续处理，不计整技能管理完成。",
         "pendingCounts": {
           "source": 0,
           "system": 1,
@@ -21757,8 +21818,31 @@
         "candidateSha256": "07cbc606f8138ec61cbd8600cd53ce9eaf392241960cb54ea72016a67b0c219b",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "sixMageOrdinaryUseBackfill"
+        ],
+        "currentComponentCounts": {
+          "parameters": 9,
+          "formulas": 2,
+          "effects": 1,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 1
+        },
+        "remainingBranches": [
+          "初始命中与印记引爆入口",
+          "击杀返还",
+          "原批次其余来源未决项逐项核对",
+          "代表页面验收"
+        ],
+        "authoredUseEntry": {
+          "processKey": "cast",
+          "ruleKey": "on_used",
+          "costEffectKey": "mana_cost",
+          "registrationOnly": false,
+          "httpReadback": "PASS",
+          "browser": "待验"
+        }
       },
       {
         "sourceChampionId": "Leblanc",
@@ -29762,7 +29846,8 @@
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
           "heroSourceInventory",
-          "sevenMageBodyDirectHitBackfill"
+          "sevenMageBodyDirectHitBackfill",
+          "sixMageOrdinaryUseBackfill"
         ],
         "currentComponentCounts": {
           "parameters": 7,
@@ -29787,6 +29872,10 @@
           "basisOutputKind": "POST_DEFENSE_DAMAGE",
           "efficiency": 1,
           "browser": "待验"
+        },
+        "useRegistrationDeferred": {
+          "reason": "被动升级后新增充能，普通冷却与充能阶段需单独核定，不接重复计费或计时入口。",
+          "evidence": "sixMageOrdinaryUseBackfill"
         }
       },
       {
@@ -32020,7 +32109,7 @@
         "name": "薇古丝·寒心波云",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "根技能本体直接伤害和实际英雄命中已保存并独立回读；暮气及恐惧联动、普通使用和资源、减速等其余分支、代表页面验收继续处理，不计整技能管理完成。",
+        "reason": "普通主动使用已登记法力与基础冷却，复用已有根施法参数；暮气及恐惧联动、减速等其余分支、代表页面验收继续处理，不计整技能管理完成。",
         "pendingCounts": {
           "source": 0,
           "system": 1,
@@ -32032,19 +32121,19 @@
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
-          "sevenMageBodyDirectHitBackfill"
+          "sevenMageBodyDirectHitBackfill",
+          "sixMageOrdinaryUseBackfill"
         ],
         "currentComponentCounts": {
           "parameters": 5,
           "formulas": 1,
-          "effects": 1,
-          "processes": 0,
+          "effects": 2,
+          "processes": 1,
           "internalStates": 0,
-          "triggerRules": 1
+          "triggerRules": 2
         },
         "remainingBranches": [
           "暮气及恐惧联动",
-          "普通使用和资源",
           "减速等其余分支",
           "代表页面验收"
         ],
@@ -32056,6 +32145,14 @@
           "vampType": "OMNIVAMP",
           "basisOutputKind": "POST_DEFENSE_DAMAGE",
           "efficiency": 1,
+          "browser": "待验"
+        },
+        "authoredUseEntry": {
+          "processKey": "cast",
+          "ruleKey": "on_used",
+          "costEffectKey": "mana_cost",
+          "registrationOnly": false,
+          "httpReadback": "PASS",
           "browser": "待验"
         }
       },
@@ -32068,7 +32165,7 @@
         "name": "薇古丝·生人勿近",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "根技能本体直接伤害和实际英雄命中已保存并独立回读；暮气及恐惧联动、普通使用和资源、减速等其余分支、代表页面验收继续处理，不计整技能管理完成。",
+        "reason": "普通主动使用已登记法力与基础冷却，复用已有根施法参数；暮气及恐惧联动、减速等其余分支、代表页面验收继续处理，不计整技能管理完成。",
         "pendingCounts": {
           "source": 0,
           "system": 1,
@@ -32080,19 +32177,19 @@
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
-          "sevenMageBodyDirectHitBackfill"
+          "sevenMageBodyDirectHitBackfill",
+          "sixMageOrdinaryUseBackfill"
         ],
         "currentComponentCounts": {
           "parameters": 10,
           "formulas": 2,
-          "effects": 2,
-          "processes": 0,
+          "effects": 3,
+          "processes": 1,
           "internalStates": 0,
-          "triggerRules": 2
+          "triggerRules": 3
         },
         "remainingBranches": [
           "暮气及恐惧联动",
-          "普通使用和资源",
           "减速等其余分支",
           "代表页面验收"
         ],
@@ -32104,6 +32201,14 @@
           "vampType": "OMNIVAMP",
           "basisOutputKind": "POST_DEFENSE_DAMAGE",
           "efficiency": 1,
+          "browser": "待验"
+        },
+        "authoredUseEntry": {
+          "processKey": "cast",
+          "ruleKey": "on_used_cast",
+          "costEffectKey": "mana_cost",
+          "registrationOnly": false,
+          "httpReadback": "PASS",
           "browser": "待验"
         }
       },
@@ -32116,7 +32221,7 @@
         "name": "薇古丝·溟濛渐染",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "根技能本体直接伤害和实际英雄命中已保存并独立回读；暮气及恐惧联动、普通使用和资源、减速等其余分支、代表页面验收继续处理，不计整技能管理完成。",
+        "reason": "普通主动使用已登记法力与基础冷却，复用已有根施法参数；暮气及恐惧联动、减速等其余分支、代表页面验收继续处理，不计整技能管理完成。",
         "pendingCounts": {
           "source": 0,
           "system": 1,
@@ -32128,19 +32233,19 @@
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
-          "sevenMageBodyDirectHitBackfill"
+          "sevenMageBodyDirectHitBackfill",
+          "sixMageOrdinaryUseBackfill"
         ],
         "currentComponentCounts": {
           "parameters": 11,
           "formulas": 1,
-          "effects": 1,
-          "processes": 0,
+          "effects": 2,
+          "processes": 1,
           "internalStates": 0,
-          "triggerRules": 1
+          "triggerRules": 2
         },
         "remainingBranches": [
           "暮气及恐惧联动",
-          "普通使用和资源",
           "减速等其余分支",
           "代表页面验收"
         ],
@@ -32153,6 +32258,21 @@
           "basisOutputKind": "POST_DEFENSE_DAMAGE",
           "efficiency": 1,
           "browser": "待验"
+        },
+        "authoredUseEntry": {
+          "processKey": "cast",
+          "ruleKey": "on_used",
+          "costEffectKey": "mana_cost",
+          "registrationOnly": false,
+          "httpReadback": "PASS",
+          "browser": "待验"
+        },
+        "cooldownSourceClarification": {
+          "valueMs": 12000,
+          "selectedClientField": "Cooldown.values",
+          "legacyClientField": "cooldownTime=13秒",
+          "decision": "固定官方与当前封装逐级一致，保持既有12000，未改数值。",
+          "evidence": "sixMageOrdinaryUseBackfill"
         }
       },
       {
