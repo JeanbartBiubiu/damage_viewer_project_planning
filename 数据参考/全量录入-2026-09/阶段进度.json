@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-19T17:17:30.076Z",
+  "generatedAt": "2026-09-19T17:34:37.924Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -11746,6 +11746,69 @@
         "commit": "5b54dd39",
         "sha256": "dd9b3d62e37e5791b62f0b6a5ee4cabeae1ff203fecc0e1106986af4a9f33bbb"
       }
+    },
+    "chogathWDirectDamageReturn": {
+      "at": "2026-09-19T17:33:09.249Z",
+      "status": "PASS",
+      "sourceVersion": {
+        "client": "16.17",
+        "ddragon": "16.17.1"
+      },
+      "skillKey": "chogath_w",
+      "created": {
+        "effects": 1,
+        "triggerRules": 1
+      },
+      "updated": {
+        "formulasDescription": 1,
+        "skillsDescription": 2
+      },
+      "businessWrites": 5,
+      "browserWrites": 1,
+      "protectedAPIWrites": 4,
+      "independentGETs": 95,
+      "independentBatches": [
+        {
+          "path": "伤害效果与入口/07-独立回读.json",
+          "GETs": 28
+        },
+        {
+          "path": "公式说明更正/06-独立回读.json",
+          "GETs": 28
+        },
+        {
+          "path": "两技能主体说明收敛/07-独立回读.json",
+          "GETs": 39
+        }
+      ],
+      "arithmeticCases": 15,
+      "browser": "伤害结果与入口、公式说明保存重开、刷新后两主体说明均PASS",
+      "consoleErrors": [],
+      "currentCounts": {
+        "parameters": 5,
+        "formulas": 1,
+        "effects": 3,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 2
+      },
+      "managementComplete": false,
+      "noCodeChange": true,
+      "noMigration": true,
+      "remaining": [
+        "沉默重施期限",
+        "未知施放时长不补零；继续独立核对普通使用登记",
+        "玛尔扎哈Q重施、刷新E及伤害结果子页"
+      ],
+      "newIssue": "API修改主体后，未刷新列表直接编辑仍显示旧说明；取消并刷新恢复，编辑前重新读取详情待检查",
+      "runtimeValidation": "未执行",
+      "goalComplete": false,
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/科加斯W伤害返回/04-证据清单.json",
+        "commit": "92dae320",
+        "sha256": "0474f0789440cd7f9419e78e267ac37f8d0897026c2757be9ffdac2b6b3c3c1e"
+      }
     }
   },
   "runtimeValidation": "未执行",
@@ -12321,6 +12384,12 @@
         "relativePath": "数据参考/全量录入-2026-09/沉默状态补齐/11-证据清单.json",
         "commit": "5b54dd39",
         "sha256": "dd9b3d62e37e5791b62f0b6a5ee4cabeae1ff203fecc0e1106986af4a9f33bbb"
+      },
+      "chogathWDirectDamageReturn": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/科加斯W伤害返回/04-证据清单.json",
+        "commit": "92dae320",
+        "sha256": "0474f0789440cd7f9419e78e267ac37f8d0897026c2757be9ffdac2b6b3c3c1e"
       }
     },
     "coverage": {
@@ -17769,11 +17838,11 @@
         "name": "科加斯·野性尖叫",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "无强度沉默目录及首次施加入口已返回，期限1600～2000毫秒。整技能仍有沉默重施、伤害结果入口、施放时长与使用登记及旧说明待处理。",
+        "reason": "实际敌方英雄命中伤害与首次沉默已录入并通过页面、独立回读和15组表达式核算；公式和主体说明已收敛。重施期限、完整施放时长与普通使用登记仍开放。",
         "pendingCounts": {
           "source": 2,
           "system": 0,
-          "configuration": 2,
+          "configuration": 1,
           "other": 0
         },
         "batchKey": "heroTwentiethBatch",
@@ -17781,7 +17850,8 @@
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
           "heroSourceInventory",
-          "silenceStatusAuthoring"
+          "silenceStatusAuthoring",
+          "chogathWDirectDamageReturn"
         ],
         "silenceAuthoring": {
           "status": "首次施加管理配置已验证",
@@ -17794,17 +17864,29 @@
         "currentComponentCounts": {
           "parameters": 5,
           "formulas": 1,
-          "effects": 2,
+          "effects": 3,
           "processes": 0,
           "internalStates": 0,
-          "triggerRules": 1
+          "triggerRules": 2
         },
         "remainingBranches": [
-          "首次施加以外的沉默重施期限",
-          "伤害效果和命中入口正在下个独立批次准备",
-          "施放时长来源及主动使用成本冷却入口",
-          "旧主体及公式说明待随后续组成收敛"
-        ]
+          "沉默重施期限",
+          "完整施放时长来源",
+          "普通主动使用的成本与冷却登记"
+        ],
+        "authoredDirectHit": {
+          "effectKey": "primary_hit",
+          "ruleKey": "actual_hit",
+          "formulaKey": "magic_damage",
+          "httpReadback": "PASS",
+          "browser": "PASS",
+          "enemyQualification": "CHAMPION并且SKILL_HIT_TARGET_IS_ENEMY",
+          "silenceAbsentRequired": false,
+          "spellShieldBlockScope": "SKILL",
+          "vampType": "OMNIVAMP",
+          "efficiency": 1
+        },
+        "descriptionCleanup": "主体及公式说明PASS"
       },
       {
         "sourceChampionId": "Chogath",
@@ -25299,12 +25381,12 @@
         "name": "玛尔扎哈·虚空召唤",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "伤害旧规则已补同组明确敌方；沉默首次施加、主动使用入口与过程页面通过。重施期限、Q刷新E关系与对应持续配置、旧说明及伤害子页继续处理，整技能保持开放。",
+        "reason": "伤害旧入口补明确敌方，首次沉默与普通使用过程页面通过，主体说明已收敛。重施、Q刷新E及旧伤害结果子页继续处理。",
         "pendingCounts": {
           "source": 1,
           "system": 1,
-          "configuration": 1,
-          "other": 0
+          "configuration": 0,
+          "other": 1
         },
         "batchKey": "heroSixteenthBatch",
         "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
@@ -25314,7 +25396,8 @@
           "eightNextDirectMagicHitBackfill",
           "sevenNextOrdinaryUseBackfill",
           "sevenNextUseDescriptionCleanup",
-          "silenceStatusAuthoring"
+          "silenceStatusAuthoring",
+          "chogathWDirectDamageReturn"
         ],
         "currentComponentCounts": {
           "parameters": 6,
@@ -25327,7 +25410,7 @@
         "remainingBranches": [
           "沉默重施期限",
           "Q刷新E的跨技能关系及E持续效果、入口",
-          "旧主体说明待收敛；旧伤害结果子页继续核对"
+          "旧伤害结果子页仍待验"
         ],
         "authoredDirectHit": {
           "effectKey": "primary_hit",
@@ -25361,7 +25444,8 @@
           "ruleKey": "apply_silence_on_unblocked_hit",
           "browser": "PASS",
           "runtime": "未执行"
-        }
+        },
+        "descriptionCleanup": "主体说明PASS"
       },
       {
         "sourceChampionId": "Malzahar",
