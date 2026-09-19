@@ -1,0 +1,529 @@
+{
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/sett_q/processes",
+      "detailRoute": "/skills/sett_q/processes/cast",
+      "body": {
+        "processKey": "cast",
+        "name": "屈人之威使用冷却登记",
+        "activationType": "ACTIVE",
+        "description": "仅登记已成立主动使用的普通冷却；立即步骤不表示零施法时间，也不产生命中。重置普攻、两拳共享窗口及移动加速另行处理。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "start",
+            "name": "登记本次使用",
+            "description": "只登记普通冷却，不代表完整施放时长或技能效果已执行。",
+            "sortOrder": 10,
+            "stepType": "IMMEDIATE",
+            "detail": {}
+          }
+        ],
+        "effectBindings": [],
+        "stateOperations": []
+      },
+      "expectedReadback": {
+        "processKey": "cast",
+        "name": "屈人之威使用冷却登记",
+        "activationType": "ACTIVE",
+        "description": "仅登记已成立主动使用的普通冷却；立即步骤不表示零施法时间，也不产生命中。重置普攻、两拳共享窗口及移动加速另行处理。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "start",
+            "name": "登记本次使用",
+            "description": "只登记普通冷却，不代表完整施放时长或技能效果已执行。",
+            "sortOrder": 10,
+            "stepType": "IMMEDIATE",
+            "detail": {}
+          }
+        ],
+        "effectBindings": [],
+        "stateOperations": []
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/sett_q/trigger-rules",
+      "detailRoute": "/skills/sett_q/trigger-rules/on_used",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "主动使用登记普通冷却",
+        "description": "仅登记已成立主动使用的普通冷却；立即步骤不表示零施法时间，也不产生命中。重置普攻、两拳共享窗口及移动加速另行处理。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "sett_q",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动使用登记过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used",
+        "name": "主动使用登记普通冷却",
+        "description": "仅登记已成立主动使用的普通冷却；立即步骤不表示零施法时间，也不产生命中。重置普攻、两拳共享窗口及移动加速另行处理。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "sett_q",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动使用登记过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/sett_w/processes",
+      "detailRoute": "/skills/sett_w/processes/cast",
+      "body": {
+        "processKey": "cast",
+        "name": "蓄意轰拳使用冷却登记",
+        "activationType": "ACTIVE",
+        "description": "仅登记已成立主动使用的普通冷却；释放全部豪意及其快照消费、护盾与伤害分支尚未接线，不表示完整施放或完全无成本。立即步骤不表示零施法时间。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "start",
+            "name": "登记本次使用",
+            "description": "只登记普通冷却，不代表完整施放时长或技能效果已执行。",
+            "sortOrder": 10,
+            "stepType": "IMMEDIATE",
+            "detail": {}
+          }
+        ],
+        "effectBindings": [],
+        "stateOperations": []
+      },
+      "expectedReadback": {
+        "processKey": "cast",
+        "name": "蓄意轰拳使用冷却登记",
+        "activationType": "ACTIVE",
+        "description": "仅登记已成立主动使用的普通冷却；释放全部豪意及其快照消费、护盾与伤害分支尚未接线，不表示完整施放或完全无成本。立即步骤不表示零施法时间。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "start",
+            "name": "登记本次使用",
+            "description": "只登记普通冷却，不代表完整施放时长或技能效果已执行。",
+            "sortOrder": 10,
+            "stepType": "IMMEDIATE",
+            "detail": {}
+          }
+        ],
+        "effectBindings": [],
+        "stateOperations": []
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/sett_w/trigger-rules",
+      "detailRoute": "/skills/sett_w/trigger-rules/on_used",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "主动使用登记普通冷却",
+        "description": "仅登记已成立主动使用的普通冷却；释放全部豪意及其快照消费、护盾与伤害分支尚未接线，不表示完整施放或完全无成本。立即步骤不表示零施法时间。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "sett_w",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动使用登记过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used",
+        "name": "主动使用登记普通冷却",
+        "description": "仅登记已成立主动使用的普通冷却；释放全部豪意及其快照消费、护盾与伤害分支尚未接线，不表示完整施放或完全无成本。立即步骤不表示零施法时间。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "sett_w",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动使用登记过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/sett_e/processes",
+      "detailRoute": "/skills/sett_e/processes/cast",
+      "body": {
+        "processKey": "cast",
+        "name": "强手裂颅基础施放与冷却",
+        "activationType": "ACTIVE",
+        "description": "仅登记已成立主动使用的250毫秒基础施法和普通冷却；拉拽、减速、伤害与实际命中由相应分支分别处理，不从延迟结束生成命中。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "cast_time",
+            "name": "基础施法时间",
+            "description": "读取已核定的250毫秒施法参数；不代替实际命中。",
+            "sortOrder": 10,
+            "stepType": "DELAY",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            }
+          }
+        ],
+        "effectBindings": [],
+        "stateOperations": []
+      },
+      "expectedReadback": {
+        "processKey": "cast",
+        "name": "强手裂颅基础施放与冷却",
+        "activationType": "ACTIVE",
+        "description": "仅登记已成立主动使用的250毫秒基础施法和普通冷却；拉拽、减速、伤害与实际命中由相应分支分别处理，不从延迟结束生成命中。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "cast_time",
+            "name": "基础施法时间",
+            "description": "读取已核定的250毫秒施法参数；不代替实际命中。",
+            "sortOrder": 10,
+            "stepType": "DELAY",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            }
+          }
+        ],
+        "effectBindings": [],
+        "stateOperations": []
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/sett_e/trigger-rules",
+      "detailRoute": "/skills/sett_e/trigger-rules/on_used",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "主动使用登记普通冷却",
+        "description": "仅登记已成立主动使用的250毫秒基础施法和普通冷却；拉拽、减速、伤害与实际命中由相应分支分别处理，不从延迟结束生成命中。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "sett_e",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动使用登记过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used",
+        "name": "主动使用登记普通冷却",
+        "description": "仅登记已成立主动使用的250毫秒基础施法和普通冷却；拉拽、减速、伤害与实际命中由相应分支分别处理，不从延迟结束生成命中。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "sett_e",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动使用登记过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/sett_r/processes",
+      "detailRoute": "/skills/sett_r/processes/cast",
+      "body": {
+        "processKey": "cast",
+        "name": "叹为观止使用冷却登记",
+        "activationType": "ACTIVE",
+        "description": "仅登记已成立主动使用的普通冷却；立即步骤不表示零施法时间。擒抱、压制、位移、落地命中及减速分别处理。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "start",
+            "name": "登记本次使用",
+            "description": "只登记普通冷却，不代表完整施放时长或技能效果已执行。",
+            "sortOrder": 10,
+            "stepType": "IMMEDIATE",
+            "detail": {}
+          }
+        ],
+        "effectBindings": [],
+        "stateOperations": []
+      },
+      "expectedReadback": {
+        "processKey": "cast",
+        "name": "叹为观止使用冷却登记",
+        "activationType": "ACTIVE",
+        "description": "仅登记已成立主动使用的普通冷却；立即步骤不表示零施法时间。擒抱、压制、位移、落地命中及减速分别处理。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "start",
+            "name": "登记本次使用",
+            "description": "只登记普通冷却，不代表完整施放时长或技能效果已执行。",
+            "sortOrder": 10,
+            "stepType": "IMMEDIATE",
+            "detail": {}
+          }
+        ],
+        "effectBindings": [],
+        "stateOperations": []
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/sett_r/trigger-rules",
+      "detailRoute": "/skills/sett_r/trigger-rules/on_used",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "主动使用登记普通冷却",
+        "description": "仅登记已成立主动使用的普通冷却；立即步骤不表示零施法时间。擒抱、压制、位移、落地命中及减速分别处理。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "sett_r",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动使用登记过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used",
+        "name": "主动使用登记普通冷却",
+        "description": "仅登记已成立主动使用的普通冷却；立即步骤不表示零施法时间。擒抱、压制、位移、落地命中及减速分别处理。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "sett_r",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动使用登记过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "sourceSha256": "8949cdf0cce5732ef96edd65d35c58167ed09b92a817319a0608a41a3fea9e28",
+  "baselineSha256": "511ca9d6530ae955f4007bff460040670097d8cf1f2f3d7c2163b56fe8f5b21f"
+}

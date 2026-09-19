@@ -1,0 +1,98 @@
+{
+  "at": "2026-09-19T10:45:30.896Z",
+  "status": "PASS",
+  "sourceVersion": {
+    "client": "16.17",
+    "ddragon": "16.17.1"
+  },
+  "writes": 8,
+  "immediateReadbacks": 8,
+  "independentAgentGETs": 94,
+  "archiveGETs": 0,
+  "unchangedResponsesIncludingTimestamps": 78,
+  "expectedChangedCollections": 8,
+  "currentComponentCounts": {
+    "sett_q": {
+      "parameters": 8,
+      "formulas": 1,
+      "effects": 1,
+      "processes": 1,
+      "internal-states": 0,
+      "trigger-rules": 1
+    },
+    "sett_w": {
+      "parameters": 10,
+      "formulas": 3,
+      "effects": 2,
+      "processes": 1,
+      "internal-states": 0,
+      "trigger-rules": 1
+    },
+    "sett_e": {
+      "parameters": 6,
+      "formulas": 1,
+      "effects": 1,
+      "processes": 1,
+      "internal-states": 0,
+      "trigger-rules": 2
+    },
+    "sett_r": {
+      "parameters": 6,
+      "formulas": 1,
+      "effects": 1,
+      "processes": 1,
+      "internal-states": 0,
+      "trigger-rules": 1
+    }
+  },
+  "browser": "PASS",
+  "remaining": [
+    "Q重置普攻、两拳共享窗口和移动加速",
+    "W豪意积累衰减、消耗快照、护盾及中心边缘伤害",
+    "E拉拽与减速及其他未补组成",
+    "R擒抱压制位移、落地命中、减速与终极技能分类"
+  ],
+  "runtimeValidation": "未执行",
+  "files": [
+    {
+      "name": "00-独立来源核对摘要.json",
+      "sha256": "8736b12331a1f71bca2bc27d05946ca2711ed6dca4f1e25da557ab13eb309918"
+    },
+    {
+      "name": "01-候选方案.json",
+      "sha256": "e80120c29ac26899f6ca9d3e016bdf5fe838bfd409ac402b6d89e7e629b8aa19"
+    },
+    {
+      "name": "02-冻结请求.json",
+      "sha256": "e4dada9a402faca12fe14dee468fcd0018ebeea9af8b805579253e5c6dfda5de"
+    },
+    {
+      "name": "03-来源摘要.json",
+      "sha256": "8949cdf0cce5732ef96edd65d35c58167ed09b92a817319a0608a41a3fea9e28"
+    },
+    {
+      "name": "04-写入前现值.json",
+      "sha256": "511ca9d6530ae955f4007bff460040670097d8cf1f2f3d7c2163b56fe8f5b21f"
+    },
+    {
+      "name": "05-独立评审.json",
+      "sha256": "14284584ef053dd28a7d7b7195b9e9592e0166d71b597adc161f1080fdbf95f1"
+    },
+    {
+      "name": "06-写入与即时回读.json",
+      "sha256": "b130da1b8bacb7addf04ab834fc0c0f74667bebbdbb2f7aaf6f3263a79f84335"
+    },
+    {
+      "name": "07-独立回读.json",
+      "sha256": "1ed9aec9dd63e76ccd706c0c5a725f008847bdaff495575fdd8ea70dec8b9167"
+    },
+    {
+      "name": "08-页面验收.json",
+      "sha256": "63720a138d360dd77eb76df6d6492ca2cdcd55e13620eba5eb6df1eca1ae91fd"
+    },
+    {
+      "name": "README.md",
+      "sha256": "d0b816233fef575c39c23d3f01fec2f398734be90aafc06aae1bb85b732e2a79"
+    }
+  ]
+}

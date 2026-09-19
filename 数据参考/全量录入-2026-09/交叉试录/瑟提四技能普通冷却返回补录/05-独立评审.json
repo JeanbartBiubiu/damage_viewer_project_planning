@@ -1,0 +1,24 @@
+{
+  "at": "2026-09-19T09:21:24.035Z",
+  "status": "APPROVED",
+  "reviewer": "/root/urgot_core_frozen_fallback",
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v3.mjs": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "01-候选方案.json": "e80120c29ac26899f6ca9d3e016bdf5fe838bfd409ac402b6d89e7e629b8aa19",
+    "02-冻结请求.json": "e4dada9a402faca12fe14dee468fcd0018ebeea9af8b805579253e5c6dfda5de",
+    "03-来源摘要.json": "8949cdf0cce5732ef96edd65d35c58167ed09b92a817319a0608a41a3fea9e28",
+    "04-写入前现值.json": "511ca9d6530ae955f4007bff460040670097d8cf1f2f3d7c2163b56fe8f5b21f"
+  },
+  "sourceHashesMatched": 7,
+  "checks": [
+    "四组cooldown_ms逐级匹配固定来源，E施法250毫秒两个字段一致",
+    "Q/W/R仅立即登记冷却，E参数延迟；不挂接任何既有效果，不生成命中",
+    "W明确豪意消费和快照、护盾伤害未接线",
+    "94次prepare中8目标均404；E原actual_hit保持，无重复使用入口",
+    "预期8新对象8集合变化78原响应含时间戳保持"
+  ],
+  "findings": [],
+  "businessHTTP": 0,
+  "fileWrites": 0,
+  "runtimeValidation": "未执行"
+}

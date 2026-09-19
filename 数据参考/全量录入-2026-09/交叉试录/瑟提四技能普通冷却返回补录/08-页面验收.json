@@ -1,0 +1,19 @@
+{
+  "at": "2026-09-19T10:45:30.894Z",
+  "status": "PASS",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "skillKeys": [
+    "sett_q",
+    "sett_w",
+    "sett_e",
+    "sett_r"
+  ],
+  "businessWrites": 0,
+  "checks": [
+    "四项技能的cast过程列表和详情均已打开；主动、普通冷却引用cooldown_ms并在过程开始登记。",
+    "Q/W/R立即start步骤仅登记本次使用；E延迟cast_time引用cast_time_ms。四过程效果挂接与内部状态操作均为空。",
+    "W on_used规则已重开核对：自身sett_w主动使用，无条件组，唯一启动cast动作，绑定与修正为空；取消未保存。",
+    "W说明明确豪意消费与快照、护盾和伤害仍待配置；Q两拳窗口与R抓取压制位移等不由本过程代表。"
+  ],
+  "runtimeValidation": "未执行"
+}
