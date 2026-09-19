@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-19T03:19:04.779Z",
+  "generatedAt": "2026-09-19T03:20:56.041Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -10374,6 +10374,37 @@
         "sha256": "4f141ef7a113f1b89d6376e3f33947a3d899a0547bcff5b669ed663c0ad01a78",
         "commit": "7ae51644"
       }
+    },
+    "sevenNextUseDescriptionCleanup": {
+      "at": "2026-09-19T03:20:56.041Z",
+      "status": "十处普通使用说明已纠正并独立回读，页面待验",
+      "skills": [
+        "braum_q",
+        "nautilus_q",
+        "ziggs_q",
+        "zyra_q",
+        "zyra_e",
+        "leona_r",
+        "malzahar_q"
+      ],
+      "updatedDescriptions": 10,
+      "created": 0,
+      "prepareGETs": 133,
+      "writerGETs": 153,
+      "writerPUTs": 10,
+      "immediateReadbacks": 10,
+      "independentGETs": 133,
+      "unchangedResponsesIncludingTimestamps": 113,
+      "expectedChangedDetails": 10,
+      "expectedChangedCollections": 10,
+      "browser": "NOT_RUN_BROWSER_UNAVAILABLE",
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/七项后续使用说明整理/09-证据清单.json",
+        "sha256": "f76d7cbbf2301eb709eb4a1546b9ef0c754b9dbd8605f0fe430a9a3db4c123c8",
+        "commit": "279bc588"
+      }
     }
   },
   "runtimeValidation": "未执行",
@@ -10733,6 +10764,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/七项法术本体直接伤害补录/09-证据清单.json",
         "sha256": "4f141ef7a113f1b89d6376e3f33947a3d899a0547bcff5b669ed663c0ad01a78",
         "commit": "7ae51644"
+      },
+      "sevenNextUseDescriptionCleanup": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/七项后续使用说明整理/09-证据清单.json",
+        "sha256": "f76d7cbbf2301eb709eb4a1546b9ef0c754b9dbd8605f0fe430a9a3db4c123c8",
+        "commit": "279bc588"
       }
     },
     "coverage": {
@@ -15441,7 +15478,8 @@
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
           "eightNextDirectMagicHitBackfill",
-          "sevenNextOrdinaryUseBackfill"
+          "sevenNextOrdinaryUseBackfill",
+          "sevenNextUseDescriptionCleanup"
         ],
         "currentComponentCounts": {
           "parameters": 7,
@@ -15474,6 +15512,12 @@
           "costEffectKey": "mana_cost",
           "registrationOnly": true,
           "httpReadback": "PASS",
+          "browser": "待验"
+        },
+        "useCostDescriptionCleanup": {
+          "status": "PASS",
+          "changedDescriptions": 1,
+          "numericAndProcessChanges": 0,
           "browser": "待验"
         }
       },
@@ -22014,7 +22058,8 @@
           "skillSecondStageCurrentReadback",
           "heroSourceInventory",
           "eightNextDirectMagicHitBackfill",
-          "sevenNextOrdinaryUseBackfill"
+          "sevenNextOrdinaryUseBackfill",
+          "sevenNextUseDescriptionCleanup"
         ],
         "currentComponentCounts": {
           "parameters": 7,
@@ -22044,6 +22089,12 @@
           "costEffectKey": "mana_cost",
           "registrationOnly": false,
           "httpReadback": "PASS",
+          "browser": "待验"
+        },
+        "useCostDescriptionCleanup": {
+          "status": "PASS",
+          "changedDescriptions": 2,
+          "numericAndProcessChanges": 0,
           "browser": "待验"
         }
       },
@@ -23196,7 +23247,8 @@
           "skillSecondStageCurrentReadback",
           "heroSourceInventory",
           "eightNextDirectMagicHitBackfill",
-          "sevenNextOrdinaryUseBackfill"
+          "sevenNextOrdinaryUseBackfill",
+          "sevenNextUseDescriptionCleanup"
         ],
         "currentComponentCounts": {
           "parameters": 6,
@@ -23226,6 +23278,12 @@
           "costEffectKey": "mana_cost",
           "registrationOnly": false,
           "httpReadback": "PASS",
+          "browser": "待验"
+        },
+        "useCostDescriptionCleanup": {
+          "status": "PASS",
+          "changedDescriptions": 2,
+          "numericAndProcessChanges": 0,
           "browser": "待验"
         }
       },
@@ -24807,7 +24865,8 @@
           "skillSecondStageCurrentReadback",
           "heroSourceInventory",
           "eightNextDirectMagicHitBackfill",
-          "sevenNextOrdinaryUseBackfill"
+          "sevenNextOrdinaryUseBackfill",
+          "sevenNextUseDescriptionCleanup"
         ],
         "currentComponentCounts": {
           "parameters": 7,
@@ -24838,6 +24897,12 @@
           "costEffectKey": "mana_cost",
           "registrationOnly": false,
           "httpReadback": "PASS",
+          "browser": "待验"
+        },
+        "useCostDescriptionCleanup": {
+          "status": "PASS",
+          "changedDescriptions": 2,
+          "numericAndProcessChanges": 0,
           "browser": "待验"
         }
       },
@@ -34273,7 +34338,8 @@
           "skillSecondStageCurrentReadback",
           "heroSourceInventory",
           "eightNextDirectMagicHitBackfill",
-          "sevenNextOrdinaryUseBackfill"
+          "sevenNextOrdinaryUseBackfill",
+          "sevenNextUseDescriptionCleanup"
         ],
         "currentComponentCounts": {
           "parameters": 4,
@@ -34304,6 +34370,12 @@
           "costEffectKey": "mana_cost",
           "registrationOnly": true,
           "httpReadback": "PASS",
+          "browser": "待验"
+        },
+        "useCostDescriptionCleanup": {
+          "status": "PASS",
+          "changedDescriptions": 1,
+          "numericAndProcessChanges": 0,
           "browser": "待验"
         }
       },
@@ -34676,7 +34748,8 @@
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
           "eightNextDirectMagicHitBackfill",
-          "sevenNextOrdinaryUseBackfill"
+          "sevenNextOrdinaryUseBackfill",
+          "sevenNextUseDescriptionCleanup"
         ],
         "currentComponentCounts": {
           "parameters": 5,
@@ -34706,6 +34779,12 @@
           "costEffectKey": "mana_cost",
           "registrationOnly": false,
           "httpReadback": "PASS",
+          "browser": "待验"
+        },
+        "useCostDescriptionCleanup": {
+          "status": "PASS",
+          "changedDescriptions": 1,
+          "numericAndProcessChanges": 0,
           "browser": "待验"
         }
       },
@@ -34754,7 +34833,8 @@
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
           "eightNextDirectMagicHitBackfill",
-          "sevenNextOrdinaryUseBackfill"
+          "sevenNextOrdinaryUseBackfill",
+          "sevenNextUseDescriptionCleanup"
         ],
         "currentComponentCounts": {
           "parameters": 6,
@@ -34785,6 +34865,12 @@
           "costEffectKey": "mana_cost",
           "registrationOnly": false,
           "httpReadback": "PASS",
+          "browser": "待验"
+        },
+        "useCostDescriptionCleanup": {
+          "status": "PASS",
+          "changedDescriptions": 1,
+          "numericAndProcessChanges": 0,
           "browser": "待验"
         }
       },
