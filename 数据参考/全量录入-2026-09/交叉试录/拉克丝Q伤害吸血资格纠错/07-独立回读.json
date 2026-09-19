@@ -1,0 +1,182 @@
+{
+  "toolExitCode": 0,
+  "stdout": "{\"status\":\"PASS\",\"at\":\"2026-09-19T06:03:25.681Z\",\"businessWrites\":0,\"GETs\":23,\"unchangedResponsesIncludingTimestamps\":21,\"expectedChangedCollections\":1,\"changedDetails\":{\"/skills/lux_q/effects/light_binding_hit\":{\"createdAt\":\"2026-09-07T14:45:14.699202Z\",\"description\":\"本轮敌方英雄的一次普通直接魔法技能伤害；实际命中入口已限定英雄类别与明确敌方，并显式登记防御结算后伤害、效率为1的全能吸血资格。禁锢由独立受限入口维护，前两目标选择和碰撞事件生产另行验证。\",\"effectKey\":\"light_binding_hit\",\"gameId\":\"lol\",\"lifecycle\":null,\"name\":\"光球命中\",\"results\":[{\"description\":null,\"detail\":{\"critical\":{\"mode\":\"DISALLOWED\",\"multiplierValue\":null},\"damageTypeKey\":\"magic\",\"deliveryKind\":\"SKILL\",\"originKind\":\"DIRECT\",\"vampRules\":[{\"basisOutputKind\":\"POST_DEFENSE_DAMAGE\",\"efficiencyValue\":{\"kind\":\"FIXED\",\"value\":1},\"vampType\":\"OMNIVAMP\"}]},\"lifecycleBehavior\":null,\"name\":\"魔法伤害\",\"resultKey\":\"magic_damage\",\"resultType\":\"DAMAGE\",\"sortOrder\":10,\"spellShieldBlockScope\":\"RESULT\",\"target\":\"TARGET\",\"valueRule\":{\"fixedMaxValue\":null,\"fixedMinValue\":0,\"fixedMultiplier\":1,\"value\":{\"formulaKey\":\"damage\",\"kind\":\"FORMULA\"}}}],\"skillKey\":\"lux_q\",\"sortOrder\":20,\"updatedAt\":\"2026-09-19T06:02:34.895766Z\"}},\"audit\":[{\"method\":\"GET\",\"path\":\"/skills/lux_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lux_q/parameters\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lux_q/parameters/base_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lux_q/parameters/ap_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lux_q/parameters/root_duration_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lux_q/parameters/cooldown_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lux_q/parameters/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lux_q/parameters/cast_time_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lux_q/parameters/target_range\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lux_q/parameters/projectile_speed\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lux_q/formulas\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lux_q/formulas/damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lux_q/effects\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lux_q/effects/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lux_q/effects/light_binding_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lux_q/effects/root_control\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lux_q/processes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lux_q/processes/cast\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lux_q/internal-states\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lux_q/trigger-rules\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lux_q/trigger-rules/resolve_on_q_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lux_q/trigger-rules/on_used\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lux_q/trigger-rules/apply_root_on_unblocked_hit\",\"status\":200}]}\n",
+  "summary": {
+    "status": "PASS",
+    "at": "2026-09-19T06:03:25.681Z",
+    "businessWrites": 0,
+    "GETs": 23,
+    "unchangedResponsesIncludingTimestamps": 21,
+    "expectedChangedCollections": 1,
+    "changedDetails": {
+      "/skills/lux_q/effects/light_binding_hit": {
+        "createdAt": "2026-09-07T14:45:14.699202Z",
+        "description": "本轮敌方英雄的一次普通直接魔法技能伤害；实际命中入口已限定英雄类别与明确敌方，并显式登记防御结算后伤害、效率为1的全能吸血资格。禁锢由独立受限入口维护，前两目标选择和碰撞事件生产另行验证。",
+        "effectKey": "light_binding_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "光球命中",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "魔法伤害",
+            "resultKey": "magic_damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "lux_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T06:02:34.895766Z"
+      }
+    },
+    "audit": [
+      {
+        "method": "GET",
+        "path": "/skills/lux_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/parameters/base_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/parameters/ap_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/parameters/root_duration_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/parameters/cooldown_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/parameters/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/parameters/cast_time_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/parameters/target_range",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/parameters/projectile_speed",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/formulas/damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/effects/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/effects/light_binding_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/effects/root_control",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/processes/cast",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/trigger-rules/resolve_on_q_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/trigger-rules/on_used",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/trigger-rules/apply_root_on_unblocked_hit",
+        "status": 200
+      }
+    ]
+  }
+}
