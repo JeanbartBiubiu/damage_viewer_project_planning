@@ -126,10 +126,11 @@ describe('status form normalization', () => {
 describe('status form validation', () => {
   it('新增必须显式选择种类，修改和启停请求保留原种类', () => {
     expect(validateStatusDraft(validDraft({ statusKind: '' }), true).ok).toBe(false);
-    for (const statusKind of ['STUN', 'MOVEMENT_SLOW'] as const) {
+    for (const statusKind of ['STUN', 'MOVEMENT_SLOW', 'ROOT'] as const) {
       const validation = validateStatusDraft(statusToDraft({ ...STATUS, statusKind }), false);
       if (!validation.ok) throw new Error('expected valid status');
       expect(buildUpdateStatusRequest(validation.normalized, 'DISABLED').statusKind).toBe(statusKind);
+      expect(buildCreateStatusRequest(validation.normalized).statusKind).toBe(statusKind);
     }
     expect(mapStatusFieldIssues({ fieldIssues: [{ field: 'statusKind', message: '状态种类不可更改' }] }))
       .toMatchObject({ fieldErrors: { statusKind: '状态种类不可更改' } });

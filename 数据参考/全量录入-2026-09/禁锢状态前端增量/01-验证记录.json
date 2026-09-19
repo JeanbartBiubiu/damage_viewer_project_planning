@@ -1,0 +1,60 @@
+{
+  "at": "2026-09-19T01:22:41.866Z",
+  "status": "静态与单测通过，独立代码检查与页面验收分别记录",
+  "files": [
+    {
+      "path": "web/src/types/status.ts",
+      "sha256": "c2280c528acfe1f8a9eab98432ce2e93763e0f4484fca10f08109825aa1e9314"
+    },
+    {
+      "path": "web/src/services/statusClient.test.ts",
+      "sha256": "7a80706c9e854bc4f286555f274cbd4bde345180c0eeb321c55737bf89610b3d"
+    },
+    {
+      "path": "web/src/pages/admin/statuses/statusForm.test.ts",
+      "sha256": "b6bf7542ad2cce2e2b061e054a6d0d43784e23873cf396f9217981204da7caf6"
+    },
+    {
+      "path": "web/src/pages/admin/skills/effects/movementSlow.test.ts",
+      "sha256": "8640bf19751c62e52409d876172738964242cd3688d955c80d7ef33224ad996e"
+    },
+    {
+      "path": "web/README.md",
+      "sha256": "310ecca72be8293f1c12b4cbc01bc8b7350d119998f6109653c92e1c02a0b83c"
+    }
+  ],
+  "productionScope": "仅状态种类、中文标签与种类识别新增ROOT；目录表单、接口解析、效果数值与生命周期逻辑复用现有实现。",
+  "targetedTests": {
+    "passed": 42,
+    "files": 3,
+    "exitCode": 0
+  },
+  "fullTests": {
+    "passed": 656,
+    "files": 59,
+    "exitCode": 0
+  },
+  "lint": {
+    "exitCode": 0
+  },
+  "typecheck": {
+    "exitCode": 0
+  },
+  "build": {
+    "exitCode": 0,
+    "existingWarning": "产物块超过500kB提醒，构建成功"
+  },
+  "initialTargetedFailure": {
+    "exitCode": 1,
+    "passed": 41,
+    "failed": 1,
+    "reason": "新增测试误以为非法SKILL护盾粒度必须导致表单错误；既有无数值持续状态表单会清除隐藏非法值。",
+    "resolution": "依照原effectForm.test.ts:681-688改为核对只提供RESULT选项、非法SKILL不会提交；未修改原生产清理行为。"
+  },
+  "browser": {
+    "status": "NOT_RUN_BROWSER_UNAVAILABLE",
+    "error": "Codex auth token is unavailable",
+    "businessWrites": 0
+  },
+  "runtimeValidation": "未执行"
+}

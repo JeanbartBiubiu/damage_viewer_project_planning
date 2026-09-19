@@ -13,7 +13,8 @@ const catalog: EffectFormCatalog = {
   parentSkillKey: 'ice_skill', formulas: [{ formulaKey: 'strength_formula' }], effects: [],
   attributes: [], damageTypes: [], skills: [], skillCategories: [], statuses: [
     { statusKey: 'arbitrary_control_key', statusKind: 'MOVEMENT_SLOW', status: 'ENABLED' },
-    { statusKey: 'slow_named_stun', statusKind: 'STUN', status: 'ENABLED' }
+    { statusKey: 'slow_named_stun', statusKind: 'STUN', status: 'ENABLED' },
+    { statusKey: 'root_control', statusKind: 'ROOT', status: 'ENABLED' }
   ]
 };
 const parameter: SkillParameter = {
@@ -103,7 +104,7 @@ describe('普通移动减速往返与状态目录', () => {
     expect(validateSkillEffectDraft(draft, options).ok).toBe(true);
   });
 
-  it('目录决定种类，切换减速施加初始化固定行为，切换眩晕或移除清空数值', () => {
+  it('目录决定种类，切换减速施加初始化固定行为，切换眩晕、禁锢或移除清空数值', () => {
     const slow = applyStatusSelection(createEmptyResultDraft('STATUS_OPERATION'), 'arbitrary_control_key', 'MOVEMENT_SLOW');
     expect(slow).toMatchObject({ fixedMinValue: '0', fixedMaxValue: '1', fixedMultiplier: '1',
       lifecycleBehavior: { moment: 'PERSISTENT', stackValueMode: 'SHARED', reapplicationValueMode: 'REPLACE' } });
@@ -111,6 +112,7 @@ describe('普通移动减速往返与状态目录', () => {
     const configured = { ...slow, value: fixedValue(0.7) };
     for (const next of [
       applyStatusSelection(configured, 'slow_named_stun', 'STUN'),
+      applyStatusSelection(configured, 'root_control', 'ROOT'),
       applyStatusSelection(configured, 'arbitrary_control_key', 'MOVEMENT_SLOW', 'REMOVE')
     ]) {
       expect(isValueRuleVisible(next)).toBe(false);
@@ -121,6 +123,35 @@ describe('普通移动减速往返与状态目录', () => {
       .spellShieldBlockScope).toBe('');
     expect(applyStatusSelection({ ...createEmptyResultDraft('STATUS_OPERATION'), spellShieldBlockScope: 'EFFECT' },
       'arbitrary_control_key', 'MOVEMENT_SLOW').spellShieldBlockScope).toBe('');
+  });
+
+  it('禁锢复用无强度持续状态，保存和复制保留期限与当前结果法术护盾粒度', () => {
+    const source = effect();
+    source.results[0] = {
+      ...source.results[0],
+      name: '禁锢', detail: { statusKey: 'root_control', operation: 'APPLY' }, valueRule: null,
+      lifecycleBehavior: { moment: 'PERSISTENT', valueReadMode: null, stackValueMode: null,
+        reapplicationValueMode: null, periodicExecutionMode: null }
+    };
+    const draft = skillEffectToDraft(source);
+    const resolved = resolveResultStatusKind(draft.results[0], catalog.statuses);
+    expect(resolved.statusKind).toBe('ROOT');
+    expect(isValueRuleVisible(resolved)).toBe(false);
+    const validation = validateSkillEffectDraft(draft, options);
+    if (!validation.ok) throw new Error(JSON.stringify(validation));
+    const saved = buildUpdateSkillEffectRequest(validation.normalized);
+    expect(saved.results).toEqual(source.results);
+    expect(saved.lifecycle).toEqual(source.lifecycle);
+    const copy = skillEffectToCopyDraft(source);
+    copy.effectKey = 'copy_root';
+    const copied = validateSkillEffectDraft(copy, { ...options, includeEffectKey: true });
+    if (!copied.ok) throw new Error(JSON.stringify(copied));
+    expect(buildCreateSkillEffectRequest(copied.normalized).results).toEqual(source.results);
+    expect(listSpellShieldBlockScopeOptions(resolved)).toEqual(['RESULT']);
+    draft.results[0].spellShieldBlockScope = 'SKILL';
+    const cleared = validateSkillEffectDraft(draft, options);
+    if (!cleared.ok) throw new Error(JSON.stringify(cleared));
+    expect(buildUpdateSkillEffectRequest(cleared.normalized).results[0].spellShieldBlockScope).toBeNull();
   });
 
   it('保留停用状态的合法旧引用，新复制不可引入停用状态', () => {
