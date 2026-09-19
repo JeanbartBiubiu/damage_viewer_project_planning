@@ -32,6 +32,7 @@ export type SkillTriggerConditionType =
   | 'LIFECYCLE_CHECK'
   | 'TARGET_CATEGORY_CHECK'
   | 'EXPLICIT_TARGET_IS_SOURCE'
+  | 'SKILL_HIT_TARGET_IS_ENEMY'
   | 'INTERNAL_STATE_CHECK'
   | 'EVENT_VALUE_COMPARE';
 
@@ -474,6 +475,12 @@ export type SkillTriggerCondition =
   | {
       conditionKey: string;
       conditionType: 'EXPLICIT_TARGET_IS_SOURCE';
+      sortOrder: number;
+      detail: SkillTriggerEmptyDetail;
+    }
+  | {
+      conditionKey: string;
+      conditionType: 'SKILL_HIT_TARGET_IS_ENEMY';
       sortOrder: number;
       detail: SkillTriggerEmptyDetail;
     }

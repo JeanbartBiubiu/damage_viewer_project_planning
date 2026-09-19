@@ -40,6 +40,7 @@
 
 2026-09-09 符文管理已用真实服务验收：页面保存强攻、适应之力、精密分组与属性碎片布局，直接上传符文和分组图片后列表左侧可见；同一适应之力身份放入两行，关闭重开布局一致。随后从符文页挂载“技能急速+8”被动并重开，正反向关系及组成另次5项GET一致。对应后端追加迁移已实际提交，当前为27张业务逻辑表。前端静态检查、类型检查、586项单测和构建通过；非Wasm检查首轮64通过、2项旧夹具失败已单独修正并定向通过，另2项符文隔离页面检查通过。这些证据不表示全量符文机制或战斗运行完成。
 - `src/services/skillRelationClient.ts`、`src/services/imageRelationClient.ts`：关系接口、严格响应校验和统一错误处理
+- “条件与触发”新增“技能命中敌方对象”选项，仅在技能命中事件下使用；定义见规划 `master` 的《条件事件与动态输入供值管理详细设计》第6.7节。娜美R真实页面保存、重开、切换事件清理并取消恢复及独立回读已通过。三个来源技能选择器支持中文名称和稳定标识搜索；热更新连接失败时须重载后验收，不能假定旧页面已应用代码。
 - `src/types/skillTriggerRule.ts`、`src/services/skillTriggerRuleClient.ts`：技能条件与触发规则 list/get/create/update/delete（`/api/admin/games/{gameId}/skills/{skillKey}/trigger-rules`）
 - `src/engine/genericEngineClient.ts`：通用 ABI compile / run / release
 - `src/engine/tinygoV2Bridge.ts`：低层 frame / loader

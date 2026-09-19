@@ -621,6 +621,37 @@ describe('显式目标为来源对象响应', () => {
   );
 });
 
+describe('技能命中敌方对象响应', () => {
+  const response = (conditionDetail: unknown, eventType = 'SKILL_HIT') => ({
+    ...detail,
+    eventSource: {
+      eventType,
+      detail: eventType === 'SKILL_USED'
+        ? { sourceSkillKey: 'nami_r', useKind: 'ACTIVE' }
+        : eventType === 'SKILL_HIT' ? { sourceSkillKey: 'nami_r' } : {}
+    },
+    conditionGroups: [{ groupKey: 'enemy', name: '敌方命中', sortOrder: 0, conditions: [{
+      conditionKey: 'enemy_target', conditionType: 'SKILL_HIT_TARGET_IS_ENEMY', sortOrder: 0, detail: conditionDetail
+    }] }]
+  });
+
+  it('精确读取空对象，不要求数值比较字段', () => {
+    expect(parseSkillTriggerRuleDetail(response({})).conditionGroups[0].conditions[0]).toMatchObject({
+      conditionType: 'SKILL_HIT_TARGET_IS_ENEMY', detail: {}
+    });
+  });
+
+  it.each([undefined, null, [], true, 0, 'enemy', { enemy: true }, { targetKey: null }, { comparisonValue: null }])(
+    '拒绝缺失、非对象和额外字段 %j', (value) => {
+      expect(() => parseSkillTriggerRuleDetail(response(value))).toThrow(SkillTriggerRuleProtocolError);
+    }
+  );
+
+  it.each(['SKILL_USED', 'BASIC_ATTACK_HIT', 'SOURCE_INITIALIZED'])('拒绝不合法事件组合 %s', (eventType) => {
+    expect(() => parseSkillTriggerRuleDetail(response({}, eventType))).toThrow(SkillTriggerRuleProtocolError);
+  });
+});
+
 describe('技能命中法术护盾事件值响应', () => {
   const valueKey = 'SKILL_HIT_SPELL_SHIELD_BLOCKED';
   const conditionDetail = { eventValueKey: valueKey, comparator: 'EQ', comparisonValue: { kind: 'FIXED', value: 0.5 } };
