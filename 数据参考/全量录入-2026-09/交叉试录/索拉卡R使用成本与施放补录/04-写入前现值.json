@@ -1,0 +1,1073 @@
+{
+  "at": "2026-09-19T10:06:12.859Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/skills/soraka_r": {
+      "createdAt": "2026-09-06T18:20:29.366202Z",
+      "description": "索拉卡让友军充满希望，立刻使她和所有友方英雄回复生命值。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 3,
+      "name": "索拉卡·祈愿",
+      "skillCategoryKeys": [],
+      "skillKey": "soraka_r",
+      "sortOrder": 4,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:20:29.366202Z"
+    },
+    "/characters/champion_soraka": {
+      "characterKey": "champion_soraka",
+      "createdAt": "2026-09-06T17:46:02.127947Z",
+      "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+      "gameId": "lol",
+      "name": "索拉卡",
+      "updatedAt": "2026-09-06T17:46:02.127947Z"
+    },
+    "/characters/champion_soraka/attributes": {
+      "characterKey": "champion_soraka",
+      "levelValues": {
+        "1": {
+          "move_speed": 325,
+          "hp": 605,
+          "hp_regen": 2.5,
+          "mana": 425,
+          "mana_regen": 11.5,
+          "armor": 32,
+          "magic_resistance": 30,
+          "attack_damage": 50,
+          "attack_speed": 0.625,
+          "attack_range": 550
+        },
+        "2": {
+          "move_speed": 325,
+          "hp": 668.36,
+          "hp_regen": 2.86,
+          "mana": 453.8,
+          "mana_regen": 11.788,
+          "armor": 35.6,
+          "magic_resistance": 30.936,
+          "attack_damage": 52.16,
+          "attack_speed": 0.63463,
+          "attack_range": 550
+        },
+        "3": {
+          "move_speed": 325,
+          "hp": 734.8,
+          "hp_regen": 3.2375,
+          "mana": 484,
+          "mana_regen": 12.09,
+          "armor": 39.375,
+          "magic_resistance": 31.9175,
+          "attack_damage": 54.425,
+          "attack_speed": 0.644728,
+          "attack_range": 550
+        },
+        "4": {
+          "move_speed": 325,
+          "hp": 804.32,
+          "hp_regen": 3.6325,
+          "mana": 515.6,
+          "mana_regen": 12.406,
+          "armor": 43.325,
+          "magic_resistance": 32.9445,
+          "attack_damage": 56.795,
+          "attack_speed": 0.655294,
+          "attack_range": 550
+        },
+        "5": {
+          "move_speed": 325,
+          "hp": 876.92,
+          "hp_regen": 4.045,
+          "mana": 548.6,
+          "mana_regen": 12.736,
+          "armor": 47.45,
+          "magic_resistance": 34.017,
+          "attack_damage": 59.27,
+          "attack_speed": 0.666329,
+          "attack_range": 550
+        },
+        "6": {
+          "move_speed": 325,
+          "hp": 952.6,
+          "hp_regen": 4.475,
+          "mana": 583,
+          "mana_regen": 13.08,
+          "armor": 51.75,
+          "magic_resistance": 35.135,
+          "attack_damage": 61.85,
+          "attack_speed": 0.677831,
+          "attack_range": 550
+        },
+        "7": {
+          "move_speed": 325,
+          "hp": 1031.36,
+          "hp_regen": 4.9225,
+          "mana": 618.8,
+          "mana_regen": 13.438,
+          "armor": 56.225,
+          "magic_resistance": 36.2985,
+          "attack_damage": 64.535,
+          "attack_speed": 0.689802,
+          "attack_range": 550
+        },
+        "8": {
+          "move_speed": 325,
+          "hp": 1113.2,
+          "hp_regen": 5.3875,
+          "mana": 656,
+          "mana_regen": 13.81,
+          "armor": 60.875,
+          "magic_resistance": 37.5075,
+          "attack_damage": 67.325,
+          "attack_speed": 0.702241,
+          "attack_range": 550
+        },
+        "9": {
+          "move_speed": 325,
+          "hp": 1198.12,
+          "hp_regen": 5.87,
+          "mana": 694.6,
+          "mana_regen": 14.196,
+          "armor": 65.7,
+          "magic_resistance": 38.762,
+          "attack_damage": 70.22,
+          "attack_speed": 0.715148,
+          "attack_range": 550
+        },
+        "10": {
+          "move_speed": 325,
+          "hp": 1286.12,
+          "hp_regen": 6.37,
+          "mana": 734.6,
+          "mana_regen": 14.596,
+          "armor": 70.7,
+          "magic_resistance": 40.062,
+          "attack_damage": 73.22,
+          "attack_speed": 0.728523,
+          "attack_range": 550
+        },
+        "11": {
+          "move_speed": 325,
+          "hp": 1377.2,
+          "hp_regen": 6.8875,
+          "mana": 776,
+          "mana_regen": 15.01,
+          "armor": 75.875,
+          "magic_resistance": 41.4075,
+          "attack_damage": 76.325,
+          "attack_speed": 0.742366,
+          "attack_range": 550
+        },
+        "12": {
+          "move_speed": 325,
+          "hp": 1471.36,
+          "hp_regen": 7.4225,
+          "mana": 818.8,
+          "mana_regen": 15.438,
+          "armor": 81.225,
+          "magic_resistance": 42.7985,
+          "attack_damage": 79.535,
+          "attack_speed": 0.756677,
+          "attack_range": 550
+        },
+        "13": {
+          "move_speed": 325,
+          "hp": 1568.6,
+          "hp_regen": 7.975,
+          "mana": 863,
+          "mana_regen": 15.88,
+          "armor": 86.75,
+          "magic_resistance": 44.235,
+          "attack_damage": 82.85,
+          "attack_speed": 0.771456,
+          "attack_range": 550
+        },
+        "14": {
+          "move_speed": 325,
+          "hp": 1668.92,
+          "hp_regen": 8.545,
+          "mana": 908.6,
+          "mana_regen": 16.336,
+          "armor": 92.45,
+          "magic_resistance": 45.717,
+          "attack_damage": 86.27,
+          "attack_speed": 0.786704,
+          "attack_range": 550
+        },
+        "15": {
+          "move_speed": 325,
+          "hp": 1772.32,
+          "hp_regen": 9.1325,
+          "mana": 955.6,
+          "mana_regen": 16.806,
+          "armor": 98.325,
+          "magic_resistance": 47.2445,
+          "attack_damage": 89.795,
+          "attack_speed": 0.802419,
+          "attack_range": 550
+        },
+        "16": {
+          "move_speed": 325,
+          "hp": 1878.8,
+          "hp_regen": 9.7375,
+          "mana": 1004,
+          "mana_regen": 17.29,
+          "armor": 104.375,
+          "magic_resistance": 48.8175,
+          "attack_damage": 93.425,
+          "attack_speed": 0.818603,
+          "attack_range": 550
+        },
+        "17": {
+          "move_speed": 325,
+          "hp": 1988.36,
+          "hp_regen": 10.36,
+          "mana": 1053.8,
+          "mana_regen": 17.788,
+          "armor": 110.6,
+          "magic_resistance": 50.436,
+          "attack_damage": 97.16,
+          "attack_speed": 0.835255,
+          "attack_range": 550
+        },
+        "18": {
+          "move_speed": 325,
+          "hp": 2101,
+          "hp_regen": 11,
+          "mana": 1105,
+          "mana_regen": 18.3,
+          "armor": 117,
+          "magic_resistance": 52.1,
+          "attack_damage": 101,
+          "attack_speed": 0.852375,
+          "attack_range": 550
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_soraka/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_champion_soraka",
+        "name": "champion_soraka"
+      }
+    },
+    "/skills/soraka_r/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_soraka_r",
+        "name": "soraka_r"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_soraka": {
+      "items": [
+        {
+          "characterKey": "champion_soraka",
+          "characterName": "索拉卡",
+          "gameId": "lol",
+          "skillKey": "soraka_p",
+          "skillName": "索拉卡·拯救",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_soraka",
+          "characterName": "索拉卡",
+          "gameId": "lol",
+          "skillKey": "soraka_q",
+          "skillName": "索拉卡·流星坠落",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_soraka",
+          "characterName": "索拉卡",
+          "gameId": "lol",
+          "skillKey": "soraka_w",
+          "skillName": "索拉卡·星之灌注",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_soraka",
+          "characterName": "索拉卡",
+          "gameId": "lol",
+          "skillKey": "soraka_e",
+          "skillName": "索拉卡·星体结界",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_soraka",
+          "characterName": "索拉卡",
+          "gameId": "lol",
+          "skillKey": "soraka_r",
+          "skillName": "索拉卡·祈愿",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=soraka_r": {
+      "items": [
+        {
+          "characterKey": "champion_soraka",
+          "characterName": "索拉卡",
+          "gameId": "lol",
+          "skillKey": "soraka_r",
+          "skillName": "索拉卡·祈愿",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 1
+    },
+    "/skills/soraka_r/parameters": [
+      {
+        "createdAt": "2026-09-09T18:37:43.687273Z",
+        "description": "当前BaseHeal技能等级1至3。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 150,
+          "2": 250,
+          "3": 350
+        },
+        "name": "祈愿自身基础治疗值",
+        "parameterKey": "base_heal",
+        "skillKey": "soraka_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T18:37:43.687273Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T18:37:44.799484Z",
+        "description": "当前HealingCalc树AP比例为0.5。",
+        "fixedValue": 0.5,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "祈愿法强比例",
+        "parameterKey": "ability_power_ratio",
+        "skillKey": "soraka_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T18:37:44.799484Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T18:37:45.97064Z",
+        "description": "当前低于40%生命值分支。",
+        "fixedValue": 0.4,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "祈愿低生命阈值",
+        "parameterKey": "low_health_threshold_ratio",
+        "skillKey": "soraka_r",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T18:37:45.97064Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T18:37:47.072411Z",
+        "description": "当前AmpedHealing为完整治疗的1.5倍。",
+        "fixedValue": 1.5,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "祈愿低生命治疗倍率",
+        "parameterKey": "low_health_multiplier",
+        "skillKey": "soraka_r",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T18:37:47.072411Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T18:37:48.175152Z",
+        "description": "当前mCastTime=0.25秒，转换为250毫秒；spellCastTime未提供。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础施法时间",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "soraka_r",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T18:37:48.175152Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T01:03:39.185776Z",
+        "description": "DDragon16.17.1 Soraka.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 150000,
+          "2": 135000,
+          "3": 120000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "soraka_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T01:03:39.185776Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T01:03:39.612347Z",
+        "description": "DDragon16.17.1 Soraka.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "soraka_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T01:03:39.612347Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/soraka_r/parameters/base_heal": {
+      "createdAt": "2026-09-09T18:37:43.687273Z",
+      "description": "当前BaseHeal技能等级1至3。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 150,
+        "2": 250,
+        "3": 350
+      },
+      "name": "祈愿自身基础治疗值",
+      "parameterKey": "base_heal",
+      "skillKey": "soraka_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T18:37:43.687273Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/soraka_r/parameters/ability_power_ratio": {
+      "createdAt": "2026-09-09T18:37:44.799484Z",
+      "description": "当前HealingCalc树AP比例为0.5。",
+      "fixedValue": 0.5,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "祈愿法强比例",
+      "parameterKey": "ability_power_ratio",
+      "skillKey": "soraka_r",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T18:37:44.799484Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/soraka_r/parameters/low_health_threshold_ratio": {
+      "createdAt": "2026-09-09T18:37:45.97064Z",
+      "description": "当前低于40%生命值分支。",
+      "fixedValue": 0.4,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "祈愿低生命阈值",
+      "parameterKey": "low_health_threshold_ratio",
+      "skillKey": "soraka_r",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T18:37:45.97064Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/soraka_r/parameters/low_health_multiplier": {
+      "createdAt": "2026-09-09T18:37:47.072411Z",
+      "description": "当前AmpedHealing为完整治疗的1.5倍。",
+      "fixedValue": 1.5,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "祈愿低生命治疗倍率",
+      "parameterKey": "low_health_multiplier",
+      "skillKey": "soraka_r",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T18:37:47.072411Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/soraka_r/parameters/cast_time_ms": {
+      "createdAt": "2026-09-09T18:37:48.175152Z",
+      "description": "当前mCastTime=0.25秒，转换为250毫秒；spellCastTime未提供。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础施法时间",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "soraka_r",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T18:37:48.175152Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/soraka_r/parameters/cooldown_ms": {
+      "createdAt": "2026-09-08T01:03:39.185776Z",
+      "description": "DDragon16.17.1 Soraka.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 150000,
+        "2": 135000,
+        "3": 120000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "soraka_r",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-08T01:03:39.185776Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/soraka_r/parameters/mana_cost": {
+      "createdAt": "2026-09-08T01:03:39.612347Z",
+      "description": "DDragon16.17.1 Soraka.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 100,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "soraka_r",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-08T01:03:39.612347Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/soraka_r/formulas": [
+      {
+        "createdAt": "2026-09-09T18:37:49.277413Z",
+        "description": "自身目标的正常治疗式。",
+        "formulaKey": "self_heal",
+        "gameId": "lol",
+        "name": "祈愿自身治疗",
+        "skillKey": "soraka_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T18:37:49.277413Z"
+      },
+      {
+        "createdAt": "2026-09-09T18:37:50.426765Z",
+        "description": "目标低于40%生命时按完整治疗式乘1.5；不能把两个阶段同时叠加。",
+        "formulaKey": "self_low_health_heal",
+        "gameId": "lol",
+        "name": "祈愿自身低生命治疗",
+        "skillKey": "soraka_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T18:37:50.426765Z"
+      }
+    ],
+    "/skills/soraka_r/formulas/self_heal": {
+      "createdAt": "2026-09-09T18:37:49.277413Z",
+      "description": "自身目标的正常治疗式。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_heal"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ability_power_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "self_heal",
+      "gameId": "lol",
+      "name": "祈愿自身治疗",
+      "skillKey": "soraka_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T18:37:49.277413Z"
+    },
+    "/skills/soraka_r/formulas/self_low_health_heal": {
+      "createdAt": "2026-09-09T18:37:50.426765Z",
+      "description": "目标低于40%生命时按完整治疗式乘1.5；不能把两个阶段同时叠加。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_heal"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ability_power_ratio"
+                  },
+                  {
+                    "attributeKey": "ability_power",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "low_health_multiplier"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "formulaKey": "self_low_health_heal",
+      "gameId": "lol",
+      "name": "祈愿自身低生命治疗",
+      "skillKey": "soraka_r",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T18:37:50.426765Z"
+    },
+    "/skills/soraka_r/effects": [
+      {
+        "createdAt": "2026-09-19T09:25:04.850271Z",
+        "description": "主动使用时为索拉卡自身回复正常生命值；低生命由互斥规则执行增强公式。",
+        "effectKey": "self_heal",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "祈愿自身正常治疗",
+        "resultCount": 1,
+        "skillKey": "soraka_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T09:25:04.850271Z"
+      },
+      {
+        "createdAt": "2026-09-19T09:30:17.674001Z",
+        "description": "主动使用时索拉卡自身生命比例低于40%才执行；按完整治疗值1.5倍回复。",
+        "effectKey": "self_low_health_heal",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "祈愿自身低生命治疗",
+        "resultCount": 1,
+        "skillKey": "soraka_r",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-19T09:30:17.674001Z"
+      }
+    ],
+    "/skills/soraka_r/effects/self_heal": {
+      "createdAt": "2026-09-19T09:25:04.850271Z",
+      "description": "主动使用时为索拉卡自身回复正常生命值；低生命由互斥规则执行增强公式。",
+      "effectKey": "self_heal",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "祈愿自身正常治疗",
+      "results": [
+        {
+          "description": null,
+          "detail": {},
+          "lifecycleBehavior": null,
+          "name": "自身回复生命值",
+          "resultKey": "heal",
+          "resultType": "DIRECT_HEAL",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "self_heal",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "soraka_r",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-19T09:25:04.850271Z"
+    },
+    "/skills/soraka_r/effects/self_low_health_heal": {
+      "createdAt": "2026-09-19T09:30:17.674001Z",
+      "description": "主动使用时索拉卡自身生命比例低于40%才执行；按完整治疗值1.5倍回复。",
+      "effectKey": "self_low_health_heal",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "祈愿自身低生命治疗",
+      "results": [
+        {
+          "description": null,
+          "detail": {},
+          "lifecycleBehavior": null,
+          "name": "自身回复生命值",
+          "resultKey": "heal",
+          "resultType": "DIRECT_HEAL",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "self_low_health_heal",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "soraka_r",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-19T09:30:17.674001Z"
+    },
+    "/skills/soraka_r/processes": [],
+    "/skills/soraka_r/internal-states": [],
+    "/skills/soraka_r/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "主动使用祈愿且索拉卡自身生命比例不低于40%时执行正常自身治疗。 同一次事件先完成全部条件求值再执行匹配动作，治疗后不追加另一分支。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "主动使用回复自身生命",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used_self_heal",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T09:38:39.215041Z"
+      },
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "主动使用祈愿且索拉卡自身生命比例低于40%时执行增强自身治疗；不与正常分支叠加。 同一次事件先完成全部条件求值再执行匹配动作，治疗后不追加另一分支。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "低生命时主动使用回复自身生命",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used_self_low_health_heal",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T09:46:19.864593Z"
+      }
+    ],
+    "/skills/soraka_r/trigger-rules/on_used_self_heal": {
+      "actions": [
+        {
+          "actionKey": "heal_self",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "self_heal"
+          },
+          "name": "执行自身正常治疗",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "source_hp_at_or_above_threshold",
+              "conditionType": "ATTRIBUTE_COMPARE",
+              "detail": {
+                "attributeKey": "hp",
+                "attributeValueKind": "CURRENT_RATIO",
+                "comparator": "GTE",
+                "comparisonValue": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "low_health_threshold_ratio"
+                },
+                "subject": "SOURCE"
+              },
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "source_not_low_health",
+          "name": "来源对象不低于低生命阈值",
+          "sortOrder": 10
+        }
+      ],
+      "description": "主动使用祈愿且索拉卡自身生命比例不低于40%时执行正常自身治疗。 同一次事件先完成全部条件求值再执行匹配动作，治疗后不追加另一分支。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "soraka_r",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "主动使用回复自身生命",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used_self_heal",
+      "sortOrder": 10
+    },
+    "/skills/soraka_r/trigger-rules/on_used_self_low_health_heal": {
+      "actions": [
+        {
+          "actionKey": "heal_self",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "self_low_health_heal"
+          },
+          "name": "执行自身低生命治疗",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "source_hp_below_threshold",
+              "conditionType": "ATTRIBUTE_COMPARE",
+              "detail": {
+                "attributeKey": "hp",
+                "attributeValueKind": "CURRENT_RATIO",
+                "comparator": "LT",
+                "comparisonValue": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "low_health_threshold_ratio"
+                },
+                "subject": "SOURCE"
+              },
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "source_low_health",
+          "name": "来源对象低于低生命阈值",
+          "sortOrder": 10
+        }
+      ],
+      "description": "主动使用祈愿且索拉卡自身生命比例低于40%时执行增强自身治疗；不与正常分支叠加。 同一次事件先完成全部条件求值再执行匹配动作，治疗后不追加另一分支。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "soraka_r",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "低生命时主动使用回复自身生命",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used_self_low_health_heal",
+      "sortOrder": 20
+    },
+    "/attributes/mana": {
+      "attributeKey": "mana",
+      "createdAt": "2026-08-22T15:27:36.139767Z",
+      "description": null,
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法力值",
+      "sortOrder": 310,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-22T15:27:36.139767Z",
+      "valueType": "DECIMAL"
+    },
+    "/attributes/ability_power": {
+      "attributeKey": "ability_power",
+      "createdAt": "2026-08-30T16:26:39.898635Z",
+      "description": "角色法术强度；基础值为 0，可由装备和效果增加",
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法术强度",
+      "sortOrder": 510,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-30T16:26:39.898635Z",
+      "valueType": "DECIMAL"
+    },
+    "/attributes/hp": {
+      "attributeKey": "hp",
+      "createdAt": "2026-08-22T15:27:36.051116Z",
+      "description": null,
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "生命值",
+      "sortOrder": 300,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-22T15:27:36.051116Z",
+      "valueType": "DECIMAL"
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_soraka",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_soraka/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_soraka/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_soraka",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=soraka_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/parameters/base_heal",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/parameters/ability_power_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/parameters/low_health_threshold_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/parameters/low_health_multiplier",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/formulas/self_heal",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/formulas/self_low_health_heal",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/effects/self_heal",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/effects/self_low_health_heal",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/trigger-rules/on_used_self_heal",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/trigger-rules/on_used_self_low_health_heal",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/mana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/ability_power",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/hp",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/effects/mana_cost",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/processes/cast",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/trigger-rules/on_used",
+      "status": 404
+    }
+  ],
+  "businessWrites": 0
+}

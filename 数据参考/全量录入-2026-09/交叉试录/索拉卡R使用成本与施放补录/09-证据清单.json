@@ -1,0 +1,68 @@
+{
+  "at": "2026-09-19T10:45:30.907Z",
+  "status": "PASS",
+  "sourceVersion": {
+    "client": "16.17",
+    "ddragon": "16.17.1"
+  },
+  "writes": 3,
+  "immediateReadbacks": 3,
+  "independentAgentGETs": 32,
+  "archiveGETs": 0,
+  "unchangedResponsesIncludingTimestamps": 26,
+  "expectedChangedCollections": 3,
+  "currentComponentCounts": {
+    "soraka_r": {
+      "parameters": 7,
+      "formulas": 2,
+      "effects": 3,
+      "processes": 1,
+      "internal-states": 0,
+      "trigger-rules": 3
+    }
+  },
+  "browser": "PASS",
+  "remaining": [
+    "根技能与法力参数旧说明",
+    "终极技能分类目录及关联"
+  ],
+  "runtimeValidation": "未执行",
+  "files": [
+    {
+      "name": "01-候选方案.json",
+      "sha256": "2bcdd64d9554b01355b817d3f9ff95f4157d45404aaf569289322868b693d5ea"
+    },
+    {
+      "name": "02-冻结请求.json",
+      "sha256": "cb95c32a511c8dd0c4ddfc1d267938725d8aade37679dc2d978e4f4bc37a55a6"
+    },
+    {
+      "name": "03-来源摘要.json",
+      "sha256": "ea2b4f1843e329ab992ebd799c76bf9c1d9b52beaab18b5da929792c3b8badb1"
+    },
+    {
+      "name": "04-写入前现值.json",
+      "sha256": "7dafecee9a916d471e74c0a1d4ef4154bd40750bb3fc480a6fa0b653fe58147e"
+    },
+    {
+      "name": "05-独立评审.json",
+      "sha256": "8d8cd722d597a7d21618497099c245e96f380c311cb73f76a229611abc801079"
+    },
+    {
+      "name": "06-写入与即时回读.json",
+      "sha256": "7305cfee5fa2a324ada2bbdf85720120976172bdfe190d4f7102c602219e1c7c"
+    },
+    {
+      "name": "07-独立回读.json",
+      "sha256": "a886fecd98f12294a58dc153dde873edf4ce8d13adec389e802deda80385c760"
+    },
+    {
+      "name": "08-页面验收.json",
+      "sha256": "7ddcfdfed55c71b807f7c488b95e46be5999c7b412615f11d2d07376203319b8"
+    },
+    {
+      "name": "README.md",
+      "sha256": "b8850f9a8a69741d9dcd90ba87fb4310f774f8aab334a771270ae1b6cdbb5bfb"
+    }
+  ]
+}
