@@ -303,7 +303,7 @@ class StatusServiceTest {
     }
 
     @ParameterizedTest
-    @CsvSource({"MOVEMENT_SLOW,减速", "ROOT,禁锢", "SILENCE,沉默"})
+    @CsvSource({"MOVEMENT_SLOW,减速", "ROOT,禁锢", "SILENCE,沉默", "CHARM,魅惑"})
     void createsAndReadsExplicitKind(StatusKind kind, String name) {
         StatusResponse stored = new StatusResponse(GAME_ID, "control", name, null,
             kind, StatusRecordStatus.ENABLED, 0, status().createdAt(), status().updatedAt());
