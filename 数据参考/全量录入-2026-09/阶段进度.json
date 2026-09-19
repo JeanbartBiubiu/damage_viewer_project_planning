@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-19T19:15:57.425Z",
+  "generatedAt": "2026-09-19T19:40:21.405Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -9369,7 +9369,8 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q完整补录/09-证据清单.json",
         "sha256": "fff6955b3c244f0dd5a933f9c13950c1ee879beaa70ae6caacc29c4a493bcd00",
         "commit": "900d925e3f14028e388f5023e8bffddd6de03f05"
-      }
+      },
+      "browserResultSupersededBy": "corkiTwistedFateQManagementReturn"
     },
     "cooldownOnlyProcessValidation": {
       "at": "2026-09-18T19:13:24.484Z",
@@ -12038,6 +12039,44 @@
         "commit": "314b639d",
         "sha256": "4170972ac76e4830501fa6fad718271baebd019b01b108b514983f9d191033bc"
       }
+    },
+    "corkiTwistedFateQManagementReturn": {
+      "at": "2026-09-19T19:40:21.405Z",
+      "status": "MANAGEMENT_COMPLETE_FOR_1V1",
+      "skills": [
+        "corki_q",
+        "twistedfate_q"
+      ],
+      "businessWrites": 4,
+      "browserWrites": 2,
+      "protectedAPIWrites": 2,
+      "independentGETs": 76,
+      "readOnlyBaselineGETs": 54,
+      "currentCountsPerSkill": {
+        "parameters": 6,
+        "formulas": 1,
+        "effects": 2,
+        "processes": 1,
+        "internalStates": 0,
+        "triggerRules": 2
+      },
+      "created": 0,
+      "updated": [
+        "两条命中规则的同组敌方英雄条件",
+        "两处主体说明"
+      ],
+      "unchangedPriorResponsesIncludingTimestamps": 48,
+      "reusedConfigurationArithmeticCases": 20,
+      "browser": "两技能图片、主动与实际命中入口、施放过程、伤害结果、最新主体说明全部PASS",
+      "managementComplete": true,
+      "runtimeValidation": "未执行",
+      "goalComplete": false,
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q管理返回/06-证据清单.json",
+        "commit": "448c592e",
+        "sha256": "26a257f7ba0eca54836be721de5dcb22cd92c3fb299789e5a14335acecac6e50"
+      }
     }
   },
   "runtimeValidation": "未执行",
@@ -12656,6 +12695,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/维迦R管理返回核对/04-证据清单.json",
         "commit": "314b639d",
         "sha256": "4170972ac76e4830501fa6fad718271baebd019b01b108b514983f9d191033bc"
+      },
+      "corkiTwistedFateQManagementReturn": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q管理返回/06-证据清单.json",
+        "commit": "448c592e",
+        "sha256": "26a257f7ba0eca54836be721de5dcb22cd92c3fb299789e5a14335acecac6e50"
       }
     },
     "coverage": {
@@ -12675,16 +12720,16 @@
         "concludedItems": 865,
         "conclusions": {
           "资料待核": 386,
-          "系统暂缓": 448,
+          "系统暂缓": 446,
           "明确排除": 26,
-          "已录入": 5
+          "已录入": 7
         },
         "matchedInScopeItems": 855,
         "excludedChampionSlots": 10,
         "remainingInScopeItems": 0,
         "status": "FULL_COVERAGE_WITH_OPEN_QUEUE",
-        "openQueueItems": 834,
-        "managementCompleteItems": 5,
+        "openQueueItems": 832,
+        "managementCompleteItems": 7,
         "countingBoundary": "sourceItems=865为来源槽位，matchedInScopeItems=855为范围内技能；remainingInScopeItems只指尚未分类项，openQueueItems才是资料或系统开放项，已录入仅指管理配置完成。"
       },
       "equipment": {
@@ -18264,15 +18309,16 @@
         "slot": "Q",
         "skillKey": "corki_q",
         "name": "库奇·磷光炸弹",
-        "conclusion": "系统暂缓",
-        "conclusionScope": "技能范围内数据与机制",
-        "reason": "本轮1V1范围内伤害、法力、施法时间、普通冷却及主动/命中入口已补齐；9次受保护POST和54次独立GET通过。浏览器控制认证不可用，代表页面待验；不再把缺少效果或过程作为当前阻塞，也不以战斗未运行否认管理数据。",
+        "conclusion": "已录入",
+        "conclusionScope": "本轮1V1管理配置完整；战斗运行未验证",
+        "reason": "固定来源与既有6参数1公式2效果1过程2规则、成本冷却、使用和实际命中均已核定；本次补明确敌方英雄条件并收敛主体说明，两技能合计4次保存、76次独立GET及代表页面通过。旧20个配置算例与未变参数公式对应，范围排除有据。",
         "batchKey": "heroThirtySecondBatch",
         "candidateSha256": "57f2ca0fcc9b7f29fb8c9df4c93f3d4fe1b474254839a285f08f7f6a1a4e886d",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
-          "corkiTwistedFateQCompositionBackfill"
+          "corkiTwistedFateQCompositionBackfill",
+          "corkiTwistedFateQManagementReturn"
         ],
         "historicalPendingCounts": {
           "source": 0,
@@ -18280,10 +18326,8 @@
           "configuration": 0,
           "other": 0
         },
-        "remainingBranches": [
-          "代表页面核对与关闭重开"
-        ],
-        "remainingBranchesBoundary": "仅当前验收未完成；历史pendingCounts不是现行配置缺口数。",
+        "remainingBranches": [],
+        "remainingBranchesBoundary": "当前本轮管理范围没有开放分支；战斗运行保持未执行。",
         "currentComponentCounts": {
           "parameters": 6,
           "formulas": 1,
@@ -18293,12 +18337,22 @@
           "triggerRules": 2
         },
         "managementCheck": {
-          "components": "本轮范围已补齐",
+          "components": "本轮范围完整",
           "persistence": "PASS",
-          "browser": "NOT_RUN_BROWSER_UNAVAILABLE",
+          "browser": "PASS",
           "runtime": "NOT_RUN",
-          "complete": false
-        }
+          "complete": true
+        },
+        "pendingCounts": {
+          "source": 0,
+          "system": 0,
+          "configuration": 0,
+          "other": 0
+        },
+        "scopeExclusions": [
+          "纯视野显形"
+        ],
+        "runtimeBoundary": "区域几何、实际命中、防御和吸血结算未运行。"
       },
       {
         "sourceChampionId": "Corki",
@@ -34041,15 +34095,16 @@
         "slot": "Q",
         "skillKey": "twistedfate_q",
         "name": "崔斯特·万能牌",
-        "conclusion": "系统暂缓",
-        "conclusionScope": "技能范围内数据与机制",
-        "reason": "本轮1V1范围内伤害、法力、施法时间、普通冷却及主动/命中入口已补齐；9次受保护POST和54次独立GET通过。浏览器控制认证不可用，代表页面待验；不再把缺少效果或过程作为当前阻塞，也不以战斗未运行否认管理数据。",
+        "conclusion": "已录入",
+        "conclusionScope": "本轮1V1管理配置完整；战斗运行未验证",
+        "reason": "固定来源与既有6参数1公式2效果1过程2规则、成本冷却、使用和实际命中均已核定；本次补明确敌方英雄条件并收敛主体说明，两技能合计4次保存、76次独立GET及代表页面通过。旧20个配置算例与未变参数公式对应，范围排除有据。",
         "batchKey": "heroFortiethBatch",
         "candidateSha256": "84b2ca1c5cadd804a569482d71b1ba262b95335d71ee9f89b127523574367023",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
-          "corkiTwistedFateQCompositionBackfill"
+          "corkiTwistedFateQCompositionBackfill",
+          "corkiTwistedFateQManagementReturn"
         ],
         "historicalPendingCounts": {
           "source": 0,
@@ -34057,10 +34112,8 @@
           "configuration": 0,
           "other": 0
         },
-        "remainingBranches": [
-          "代表页面核对与关闭重开"
-        ],
-        "remainingBranchesBoundary": "仅当前验收未完成；历史pendingCounts不是现行配置缺口数。",
+        "remainingBranches": [],
+        "remainingBranchesBoundary": "当前本轮管理范围没有开放分支；战斗运行保持未执行。",
         "currentComponentCounts": {
           "parameters": 6,
           "formulas": 1,
@@ -34070,12 +34123,22 @@
           "triggerRules": 2
         },
         "managementCheck": {
-          "components": "本轮范围已补齐",
+          "components": "本轮范围完整",
           "persistence": "PASS",
-          "browser": "NOT_RUN_BROWSER_UNAVAILABLE",
+          "browser": "PASS",
           "runtime": "NOT_RUN",
-          "complete": false
-        }
+          "complete": true
+        },
+        "pendingCounts": {
+          "source": 0,
+          "system": 0,
+          "configuration": 0,
+          "other": 0
+        },
+        "scopeExclusions": [
+          "竞技场覆盖参数"
+        ],
+        "runtimeBoundary": "三条弹道空间分配、实际命中、防御和吸血结算未运行；当前同目标至多一张牌，不乘三。"
       },
       {
         "sourceChampionId": "TwistedFate",
