@@ -1,0 +1,272 @@
+{
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/morgana_q/effects",
+      "detailRoute": "/skills/morgana_q/effects/dark_binding_root",
+      "body": {
+        "effectKey": "dark_binding_root",
+        "name": "暗之禁锢首次施加",
+        "description": "本来源当前目标无本禁锢实例时施加一次禁锢，期限引用已有五级参数；入口同时要求敌方英雄实际命中且同次命中明确未被法术护盾阻挡。已有实例时不执行，重复层数与刷新字段在本入口不可达，重施分支待补证。",
+        "sortOrder": 30,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "root_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE_TARGET",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "root",
+            "name": "暗之禁锢",
+            "resultType": "STATUS_OPERATION",
+            "target": "TARGET",
+            "description": "施加无强度禁锢并随父效果期限结束，只在本次施加时按当前结果参与法术护盾判断。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": null,
+              "stackValueMode": null,
+              "reapplicationValueMode": null,
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": "RESULT",
+            "valueRule": null,
+            "detail": {
+              "statusKey": "root",
+              "operation": "APPLY"
+            }
+          }
+        ]
+      },
+      "expectedReadback": {
+        "effectKey": "dark_binding_root",
+        "name": "暗之禁锢首次施加",
+        "description": "本来源当前目标无本禁锢实例时施加一次禁锢，期限引用已有五级参数；入口同时要求敌方英雄实际命中且同次命中明确未被法术护盾阻挡。已有实例时不执行，重复层数与刷新字段在本入口不可达，重施分支待补证。",
+        "sortOrder": 30,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "root_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE_TARGET",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "root",
+            "name": "暗之禁锢",
+            "resultType": "STATUS_OPERATION",
+            "target": "TARGET",
+            "description": "施加无强度禁锢并随父效果期限结束，只在本次施加时按当前结果参与法术护盾判断。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": null,
+              "stackValueMode": null,
+              "reapplicationValueMode": null,
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": "RESULT",
+            "valueRule": null,
+            "detail": {
+              "statusKey": "root",
+              "operation": "APPLY"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/morgana_q/trigger-rules",
+      "detailRoute": "/skills/morgana_q/trigger-rules/apply_root_on_unblocked_hit",
+      "body": {
+        "ruleKey": "apply_root_on_unblocked_hit",
+        "name": "未受阻挡且无本禁锢时施加",
+        "description": "只在同一次实际命中明确为敌方英雄、法术护盾阻挡值为0且当前目标无本来源禁锢实例时执行禁锢；缺少护盾值不得默认0。有实例的重复命中分支未录，原伤害与成本入口保持。",
+        "sortOrder": 30,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "morgana_q"
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "root_eligible",
+            "name": "本次禁锢可施加",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "sortOrder": 20,
+                "detail": {}
+              },
+              {
+                "conditionKey": "not_spell_shield_blocked",
+                "conditionType": "EVENT_VALUE_COMPARE",
+                "sortOrder": 30,
+                "detail": {
+                  "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED",
+                  "comparator": "EQ",
+                  "comparisonValue": {
+                    "kind": "FIXED",
+                    "value": 0
+                  }
+                }
+              },
+              {
+                "conditionKey": "own_root_absent",
+                "conditionType": "LIFECYCLE_CHECK",
+                "sortOrder": 40,
+                "detail": {
+                  "effectKey": "dark_binding_root",
+                  "subject": "CURRENT_TARGET",
+                  "checkKind": "ABSENT",
+                  "comparator": null,
+                  "comparisonValue": null
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "apply_root",
+            "name": "施加本次禁锢",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "dark_binding_root"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "apply_root_on_unblocked_hit",
+        "name": "未受阻挡且无本禁锢时施加",
+        "description": "只在同一次实际命中明确为敌方英雄、法术护盾阻挡值为0且当前目标无本来源禁锢实例时执行禁锢；缺少护盾值不得默认0。有实例的重复命中分支未录，原伤害与成本入口保持。",
+        "sortOrder": 30,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "morgana_q",
+            "useKind": null
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "root_eligible",
+            "name": "本次禁锢可施加",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "sortOrder": 20,
+                "detail": {}
+              },
+              {
+                "conditionKey": "not_spell_shield_blocked",
+                "conditionType": "EVENT_VALUE_COMPARE",
+                "sortOrder": 30,
+                "detail": {
+                  "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED",
+                  "comparator": "EQ",
+                  "comparisonValue": {
+                    "kind": "FIXED",
+                    "value": 0
+                  }
+                }
+              },
+              {
+                "conditionKey": "own_root_absent",
+                "conditionType": "LIFECYCLE_CHECK",
+                "sortOrder": 40,
+                "detail": {
+                  "effectKey": "dark_binding_root",
+                  "subject": "CURRENT_TARGET",
+                  "checkKind": "ABSENT",
+                  "comparator": null,
+                  "comparisonValue": null
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "apply_root",
+            "name": "施加本次禁锢",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "dark_binding_root"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "sourceSha256": "e1dd7d54ab136c7541e83891a60b1318e5c80104c457895dcfb526501482dbe2",
+  "baselineSha256": "06a7408831d902fc4f8feabecb301f7f2e78731996422e41740b81cd44b88e7a"
+}

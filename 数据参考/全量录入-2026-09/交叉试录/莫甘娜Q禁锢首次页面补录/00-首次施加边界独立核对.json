@@ -1,0 +1,312 @@
+{
+  "status": "PASS_FOR_GUARDED_FIRST_APPLICATION",
+  "at": "2026-09-19T05:07:44.465Z",
+  "reviewer": "独立评审代理",
+  "businessWrites": 0,
+  "additionalGETs": 1,
+  "parentReview": {
+    "path": "output/seven-hit-review/morgana-root-qualification.json",
+    "sha256": "6196b4624f0153c4f1bfe88dfc28f905b4f5d93dde45963dd4fed8a00e53f4a6",
+    "preserved": true
+  },
+  "conclusion": "可以按现行契约保存准确的部分配置：dark_binding_root 只经 apply_root_on_unblocked_hit 进入，规则在同一条件组明确要求该来源与当前目标的此禁锢生命周期不存在。KEEP/REFRESH_ALL 是当前必填字段在受限制配置中不可到达的重施分支取值，不构成莫甘娜真实重施行为的证据。",
+  "fullReapplicationSupportedBySource": false,
+  "blockingFindings": [],
+  "sourceFinding": {
+    "scope": "仅定点检查冻结官方 MorganaQ 和客户端 Q 根能力、根技能、Q Buff 元数据；未开展全库或外部来源重审。",
+    "available": [
+      "官方明确第一名实际命中的敌人及禁锢 RootDuration。",
+      "客户端 RootDuration 索引 1 至 5 为 2/2.25/2.5/2.75/3 秒。",
+      "客户端 Q 的 mBuff 只包含名称/提示绑定，本次匹配范围未发现重施、刷新或层数策略字段。"
+    ],
+    "notProved": [
+      "两次施加重叠时延长、刷新、取最长或保留剩余时间的实际游戏行为。",
+      "真实跨来源层数或刷新合并规则。"
+    ],
+    "inferenceLimit": "不能从基础冷却 10000 毫秒推断重叠永不可达；冷却修正、重置和其他上下文没有因此被证明排除。不得以维迦样例代替莫甘娜来源。"
+  },
+  "approvedPartialShape": {
+    "effectKey": "dark_binding_root",
+    "ruleKey": "apply_root_on_unblocked_hit",
+    "effectSortOrder": 30,
+    "ruleSortOrder": 30,
+    "guard": {
+      "conditionType": "LIFECYCLE_CHECK",
+      "detail": {
+        "effectKey": "dark_binding_root",
+        "subject": "CURRENT_TARGET",
+        "checkKind": "ABSENT",
+        "comparator": null,
+        "comparisonValue": null
+      }
+    },
+    "sameGroupOtherConditions": [
+      "TARGET_CATEGORY_CHECK categories=[CHAMPION]",
+      "SKILL_HIT_TARGET_IS_ENEMY detail={}",
+      "EVENT_VALUE_COMPARE SKILL_HIT_SPELL_SHIELD_BLOCKED EQ FIXED 0"
+    ],
+    "event": "SKILL_HIT sourceSkillKey=morgana_q；请求不提交 useKind。",
+    "action": "仅 EXECUTE_EFFECT dark_binding_root / CURRENT_TARGET，空运行输入绑定、空结果修正。",
+    "lifecycle": {
+      "durationValue": {
+        "kind": "PARAMETER",
+        "parameterKey": "root_duration_ms"
+      },
+      "maxStacksValue": {
+        "kind": "FIXED",
+        "value": 1
+      },
+      "applicationStacksValue": {
+        "kind": "FIXED",
+        "value": 1
+      },
+      "instanceScope": "SOURCE_TARGET",
+      "reapplicationStackMode": "KEEP",
+      "reapplicationDurationMode": "REFRESH_ALL",
+      "expiryMode": "ALL_AT_ONCE",
+      "periodicIntervalValue": null,
+      "firstPeriodicExecution": null
+    },
+    "lifecycleExplanation": "单次初次施加创建一个无强度禁锢贡献并按原参数自然结束；由于唯一入口预先排除已存在的同来源/当前目标实例，KEEP 与 REFRESH_ALL 在该可达分支不执行。它们仅满足现行生命周期完整结构，后续若解除 ABSENT 或增加其他入口，必须先补重施来源并重新评审。",
+    "namingRequirement": "说明清楚标明“本来源当前目标无该禁锢实例时的一次施加”；有实例的重复命中不执行本规则，该分支待补证，不能声称技能完整。"
+  },
+  "contractEvidence": [
+    {
+      "path": "C:/project/damage_viewer_project_planning/文档记录/详细设计/项目/系统精简实施说明.md",
+      "line": 64,
+      "claim": "LIFECYCLE_CHECK ABSENT 读取规则动作执行前的实例；存在检查不携带比较字段。"
+    },
+    {
+      "path": "C:/project/damage_viewer_project_planning/文档记录/详细设计/项目/系统精简实施说明.md",
+      "line": 66,
+      "claim": "SOURCE_TARGET 以当前技能拥有者和指定承受对象共同定位，不把其他来源的相同状态等同本效果实例。"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/support/authoring/SkillLifecycleConditionSemantics.java",
+      "line": 23,
+      "claim": "形状与最终聚合检查支持 ABSENT；SOURCE_TARGET 要求合法主体，引用对象须有生命周期。"
+    },
+    {
+      "path": "C:/project/damage_web_dev/web/src/pages/admin/skills/triggers/lifecycleCondition.ts",
+      "line": 39,
+      "claim": "前端支持存在/不存在空比较字段及 SOURCE_TARGET 当前目标。"
+    },
+    {
+      "path": "C:/project/damage_web_dev/web/src/types/skillEffect.ts",
+      "line": 99,
+      "claim": "当前生命周期必填字段为统一数值来源及范围/重施/到期策略。"
+    },
+    {
+      "path": "C:/project/damage_viewer_project_planning/文档记录/详细设计/项目/法术护盾闭环详细设计.md",
+      "line": 148,
+      "claim": "持续状态 APPLY 只在施加时处理 RESULT 护盾；被阻挡不创建或刷新该状态。"
+    },
+    {
+      "path": "C:/project/damage_viewer_project_planning/文档记录/详细设计/项目/系统精简实施说明.md",
+      "line": 92,
+      "claim": "同次技能命中的护盾判定事件值必须明确，缺失不默认未阻挡。"
+    }
+  ],
+  "parameterListSnapshot": {
+    "at": "2026-09-19T05:05:17.512Z",
+    "GETs": 1,
+    "businessWrites": 0,
+    "audit": [
+      {
+        "method": "GET",
+        "path": "/skills/morgana_q/parameters",
+        "status": 200
+      }
+    ],
+    "parameters": [
+      {
+        "createdAt": "2026-09-09T17:57:41.409972Z",
+        "description": "客户端DataValues.Damage取索引1至5；索引0为旧占位25。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 80,
+          "2": 135,
+          "3": 190,
+          "4": 245,
+          "5": 300
+        },
+        "name": "基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "morgana_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T17:57:41.409972Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T17:57:42.711376Z",
+        "description": "TotalDamage树的StatByCoefficient系数为0.9×来源总法强。",
+        "fixedValue": 0.9,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法强比例",
+        "parameterKey": "ap_ratio",
+        "skillKey": "morgana_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T17:57:42.711376Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T17:57:44.045248Z",
+        "description": "客户端RootDuration取索引1至5，单位秒转换为2000/2250/2500/2750/3000毫秒。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 2000,
+          "2": 2250,
+          "3": 2500,
+          "4": 2750,
+          "5": 3000
+        },
+        "name": "禁锢持续时间（毫秒）",
+        "parameterKey": "root_duration_ms",
+        "skillKey": "morgana_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T17:57:44.045248Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-18T22:16:32.900581Z",
+        "description": "DDragon16.17.1 Morgana.spells[0].cooldown，等级1起索引0；客户端主技能未提供cooldownTime，不能把缺失字段当作0。只登记基础普通冷却，不计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 10000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "morgana_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-18T22:16:32.900581Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:00:20.906959Z",
+        "description": "DDragon16.17.1 Morgana.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 50,
+          "2": 55,
+          "3": 60,
+          "4": 65,
+          "5": 70
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "morgana_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-18T23:36:24.04409Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    ],
+    "qObjectKeys": [
+      "Characters/Morgana/Spells/MorganaQAbility",
+      "Characters/Morgana/Spells/MorganaQAbility/MorganaQ"
+    ],
+    "hits": [
+      {
+        "path": "Q.Characters/Morgana/Spells/MorganaQAbility.mRootSpell",
+        "value": "Characters/Morgana/Spells/MorganaQAbility/MorganaQ"
+      },
+      {
+        "path": "Q.Characters/Morgana/Spells/MorganaQAbility.mChildSpells.0",
+        "value": "Characters/Morgana/Spells/MorganaQAbility/MorganaQ"
+      },
+      {
+        "path": "Q.Characters/Morgana/Spells/MorganaQAbility.mName",
+        "value": "MorganaQAbility"
+      },
+      {
+        "path": "Q.Characters/Morgana/Spells/MorganaQAbility/MorganaQ.ObjectName",
+        "value": "MorganaQ"
+      },
+      {
+        "path": "Q.Characters/Morgana/Spells/MorganaQAbility/MorganaQ.objectPath",
+        "value": "Characters/Morgana/Spells/MorganaQAbility/MorganaQ"
+      },
+      {
+        "path": "Q.Characters/Morgana/Spells/MorganaQAbility/MorganaQ.mScriptName",
+        "value": "MorganaQ"
+      },
+      {
+        "path": "Q.Characters/Morgana/Spells/MorganaQAbility/MorganaQ.mSpell.DataValues.1.name",
+        "value": "RootDuration"
+      },
+      {
+        "path": "Q.Characters/Morgana/Spells/MorganaQAbility/MorganaQ.mSpell.mClientData.mTooltipData.mObjectName",
+        "value": "MorganaQ"
+      },
+      {
+        "path": "Q.Characters/Morgana/Spells/MorganaQAbility/MorganaQ.mSpell.mClientData.mTooltipData.mLocKeys.keyName",
+        "value": "Spell_MorganaQ_Name"
+      },
+      {
+        "path": "Q.Characters/Morgana/Spells/MorganaQAbility/MorganaQ.mSpell.mClientData.mTooltipData.mLocKeys.keyTooltip",
+        "value": "Spell_MorganaQ_Tooltip"
+      },
+      {
+        "path": "Q.Characters/Morgana/Spells/MorganaQAbility/MorganaQ.mSpell.mClientData.mTooltipData.mLocKeys.keySummary",
+        "value": "Spell_MorganaQ_Summary"
+      },
+      {
+        "path": "Q.Characters/Morgana/Spells/MorganaQAbility/MorganaQ.mSpell.mClientData.mTooltipData.mLists.LevelUp.Elements.1.type",
+        "value": "RootDuration"
+      },
+      {
+        "path": "Q.Characters/Morgana/Spells/MorganaQAbility/MorganaQ.mSpell.mClientData.mTooltipData.mLists.LevelUp.Elements.1.nameOverride",
+        "value": "Spell_ListType_RootDuration"
+      },
+      {
+        "path": "Q.Characters/Morgana/Spells/MorganaQAbility/MorganaQ.mBuff",
+        "value": {
+          "mTooltipData": {
+            "mObjectName": "MorganaQ",
+            "mFormat": "{b34f999a}",
+            "mLocKeys": {
+              "keyName": "Buff_MorganaQ_Name",
+              "keyTooltip": "Buff_MorganaQ_Tooltip"
+            },
+            "__type": "TooltipInstanceBuff"
+          },
+          "__type": "BuffData"
+        }
+      },
+      {
+        "path": "Q.Characters/Morgana/Spells/MorganaQAbility/MorganaQ.mBuff.mTooltipData.mObjectName",
+        "value": "MorganaQ"
+      },
+      {
+        "path": "Q.Characters/Morgana/Spells/MorganaQAbility/MorganaQ.mBuff.mTooltipData.mLocKeys.keyName",
+        "value": "Buff_MorganaQ_Name"
+      },
+      {
+        "path": "Q.Characters/Morgana/Spells/MorganaQAbility/MorganaQ.mBuff.mTooltipData.mLocKeys.keyTooltip",
+        "value": "Buff_MorganaQ_Tooltip"
+      },
+      {
+        "path": "Q.Characters/Morgana/Spells/MorganaQAbility/MorganaQ.BotData.{ec17e271}.0.EffectCalculation.mFormulaParts.0.mDataValue",
+        "value": "RootDuration"
+      }
+    ]
+  },
+  "preservation": [
+    "当前参数列表有且只有 5 个参数，其中 root_duration_ms 已存在，完整形状在本报告 parameterListSnapshot.parameters 内；与前报告的参数详情逐字段一致。",
+    "原 primary_hit、resolve_on_q_hit、mana_cost、on_used_cost_and_cooldown、use_cost_and_cooldown 和全部参数保持。",
+    "正式两对象冻结需确认仅上述新规则执行 dark_binding_root；不得同时从过程、旧规则或其他新动作进入该效果绕过 ABSENT。",
+    "未来添加入口、重施支持、主动执行或改变实例范围时，需要重新核定来源与条件，不能沿用此次部分配置结论。"
+  ],
+  "limits": [
+    "管理契约能明确保存以上范围，不证明宿主已提供生命周期存在性、敌我关系或同次命中护盾结果，也不证明战斗运行。",
+    "尚有该来源禁锢时的新命中分支明确未录，既有伤害仍按原规则执行。",
+    "未新增或执行测试，未写任何业务对象。"
+  ]
+}

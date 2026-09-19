@@ -1,0 +1,298 @@
+{
+  "toolExitCode": 0,
+  "stdout": "{\"status\":\"PASS\",\"at\":\"2026-09-19T05:20:04.006Z\",\"businessWrites\":0,\"GETs\":30,\"unchangedResponsesIncludingTimestamps\":26,\"expectedChangedCollections\":2,\"newObjects\":{\"/skills/morgana_q/effects/dark_binding_root\":{\"createdAt\":\"2026-09-19T05:12:27.921748Z\",\"description\":\"本来源当前目标无本禁锢实例时施加一次禁锢，期限引用已有五级参数；入口同时要求敌方英雄实际命中且同次命中明确未被法术护盾阻挡。已有实例时不执行，重复层数与刷新字段在本入口不可达，重施分支待补证。\",\"effectKey\":\"dark_binding_root\",\"gameId\":\"lol\",\"lifecycle\":{\"applicationStacksValue\":{\"kind\":\"FIXED\",\"value\":1},\"durationValue\":{\"kind\":\"PARAMETER\",\"parameterKey\":\"root_duration_ms\"},\"expiryMode\":\"ALL_AT_ONCE\",\"firstPeriodicExecution\":null,\"instanceScope\":\"SOURCE_TARGET\",\"maxStacksValue\":{\"kind\":\"FIXED\",\"value\":1},\"periodicIntervalValue\":null,\"reapplicationDurationMode\":\"REFRESH_ALL\",\"reapplicationStackMode\":\"KEEP\"},\"name\":\"暗之禁锢首次施加\",\"results\":[{\"description\":\"施加无强度禁锢并随父效果期限结束，只在本次施加时按当前结果参与法术护盾判断。\",\"detail\":{\"operation\":\"APPLY\",\"statusKey\":\"root\"},\"lifecycleBehavior\":{\"moment\":\"PERSISTENT\",\"periodicExecutionMode\":null,\"reapplicationValueMode\":null,\"stackValueMode\":null,\"valueReadMode\":null},\"name\":\"暗之禁锢\",\"resultKey\":\"root\",\"resultType\":\"STATUS_OPERATION\",\"sortOrder\":10,\"spellShieldBlockScope\":\"RESULT\",\"target\":\"TARGET\",\"valueRule\":null}],\"skillKey\":\"morgana_q\",\"sortOrder\":30,\"updatedAt\":\"2026-09-19T05:12:27.921748Z\"},\"/skills/morgana_q/trigger-rules/apply_root_on_unblocked_hit\":{\"actions\":[{\"actionKey\":\"apply_root\",\"actionType\":\"EXECUTE_EFFECT\",\"detail\":{\"effectKey\":\"dark_binding_root\"},\"name\":\"施加本次禁锢\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[{\"conditions\":[{\"conditionKey\":\"champion_target\",\"conditionType\":\"TARGET_CATEGORY_CHECK\",\"detail\":{\"categories\":[\"CHAMPION\"]},\"sortOrder\":10},{\"conditionKey\":\"enemy_target\",\"conditionType\":\"SKILL_HIT_TARGET_IS_ENEMY\",\"detail\":{},\"sortOrder\":20},{\"conditionKey\":\"not_spell_shield_blocked\",\"conditionType\":\"EVENT_VALUE_COMPARE\",\"detail\":{\"comparator\":\"EQ\",\"comparisonValue\":{\"kind\":\"FIXED\",\"value\":0},\"eventValueKey\":\"SKILL_HIT_SPELL_SHIELD_BLOCKED\"},\"sortOrder\":30},{\"conditionKey\":\"own_root_absent\",\"conditionType\":\"LIFECYCLE_CHECK\",\"detail\":{\"checkKind\":\"ABSENT\",\"comparator\":null,\"comparisonValue\":null,\"effectKey\":\"dark_binding_root\",\"subject\":\"CURRENT_TARGET\"},\"sortOrder\":40}],\"groupKey\":\"root_eligible\",\"name\":\"本次禁锢可施加\",\"sortOrder\":10}],\"description\":\"只在同一次实际命中明确为敌方英雄、法术护盾阻挡值为0且当前目标无本来源禁锢实例时执行禁锢；缺少护盾值不得默认0。有实例的重复命中分支未录，原伤害与成本入口保持。\",\"eventSource\":{\"detail\":{\"sourceSkillKey\":\"morgana_q\",\"useKind\":null},\"eventType\":\"SKILL_HIT\"},\"maxTriggersPerProcess\":null,\"name\":\"未受阻挡且无本禁锢时施加\",\"perTargetCooldown\":null,\"ruleKey\":\"apply_root_on_unblocked_hit\",\"sortOrder\":30}},\"audit\":[{\"method\":\"GET\",\"path\":\"/skills/morgana_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_morgana\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_morgana/attributes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_morgana/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/morgana_q/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?characterKey=champion_morgana\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?skillKey=morgana_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/morgana_q/parameters\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/morgana_q/parameters/base_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/morgana_q/parameters/ap_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/morgana_q/parameters/root_duration_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/morgana_q/parameters/cooldown_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/morgana_q/parameters/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/morgana_q/formulas\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/morgana_q/formulas/magic_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/morgana_q/effects\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/morgana_q/effects/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/morgana_q/effects/primary_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/morgana_q/effects/dark_binding_root\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/morgana_q/processes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/morgana_q/processes/use_cost_and_cooldown\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/morgana_q/internal-states\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/morgana_q/trigger-rules\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/morgana_q/trigger-rules/on_used_cost_and_cooldown\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/morgana_q/trigger-rules/resolve_on_q_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/morgana_q/trigger-rules/apply_root_on_unblocked_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/statuses/root\",\"status\":200},{\"method\":\"GET\",\"path\":\"/attributes/ability_power\",\"status\":200},{\"method\":\"GET\",\"path\":\"/attributes/mana\",\"status\":200},{\"method\":\"GET\",\"path\":\"/damage-types/magic\",\"status\":200}]}\n",
+  "summary": {
+    "status": "PASS",
+    "at": "2026-09-19T05:20:04.006Z",
+    "businessWrites": 0,
+    "GETs": 30,
+    "unchangedResponsesIncludingTimestamps": 26,
+    "expectedChangedCollections": 2,
+    "newObjects": {
+      "/skills/morgana_q/effects/dark_binding_root": {
+        "createdAt": "2026-09-19T05:12:27.921748Z",
+        "description": "本来源当前目标无本禁锢实例时施加一次禁锢，期限引用已有五级参数；入口同时要求敌方英雄实际命中且同次命中明确未被法术护盾阻挡。已有实例时不执行，重复层数与刷新字段在本入口不可达，重施分支待补证。",
+        "effectKey": "dark_binding_root",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "root_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE_TARGET",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "暗之禁锢首次施加",
+        "results": [
+          {
+            "description": "施加无强度禁锢并随父效果期限结束，只在本次施加时按当前结果参与法术护盾判断。",
+            "detail": {
+              "operation": "APPLY",
+              "statusKey": "root"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": null,
+              "stackValueMode": null,
+              "valueReadMode": null
+            },
+            "name": "暗之禁锢",
+            "resultKey": "root",
+            "resultType": "STATUS_OPERATION",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": null
+          }
+        ],
+        "skillKey": "morgana_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-19T05:12:27.921748Z"
+      },
+      "/skills/morgana_q/trigger-rules/apply_root_on_unblocked_hit": {
+        "actions": [
+          {
+            "actionKey": "apply_root",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "dark_binding_root"
+            },
+            "name": "施加本次禁锢",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "detail": {},
+                "sortOrder": 20
+              },
+              {
+                "conditionKey": "not_spell_shield_blocked",
+                "conditionType": "EVENT_VALUE_COMPARE",
+                "detail": {
+                  "comparator": "EQ",
+                  "comparisonValue": {
+                    "kind": "FIXED",
+                    "value": 0
+                  },
+                  "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED"
+                },
+                "sortOrder": 30
+              },
+              {
+                "conditionKey": "own_root_absent",
+                "conditionType": "LIFECYCLE_CHECK",
+                "detail": {
+                  "checkKind": "ABSENT",
+                  "comparator": null,
+                  "comparisonValue": null,
+                  "effectKey": "dark_binding_root",
+                  "subject": "CURRENT_TARGET"
+                },
+                "sortOrder": 40
+              }
+            ],
+            "groupKey": "root_eligible",
+            "name": "本次禁锢可施加",
+            "sortOrder": 10
+          }
+        ],
+        "description": "只在同一次实际命中明确为敌方英雄、法术护盾阻挡值为0且当前目标无本来源禁锢实例时执行禁锢；缺少护盾值不得默认0。有实例的重复命中分支未录，原伤害与成本入口保持。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "morgana_q",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "未受阻挡且无本禁锢时施加",
+        "perTargetCooldown": null,
+        "ruleKey": "apply_root_on_unblocked_hit",
+        "sortOrder": 30
+      }
+    },
+    "audit": [
+      {
+        "method": "GET",
+        "path": "/skills/morgana_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_morgana",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_morgana/attributes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_morgana/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/morgana_q/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?characterKey=champion_morgana",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?skillKey=morgana_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/morgana_q/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/morgana_q/parameters/base_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/morgana_q/parameters/ap_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/morgana_q/parameters/root_duration_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/morgana_q/parameters/cooldown_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/morgana_q/parameters/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/morgana_q/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/morgana_q/formulas/magic_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/morgana_q/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/morgana_q/effects/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/morgana_q/effects/primary_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/morgana_q/effects/dark_binding_root",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/morgana_q/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/morgana_q/processes/use_cost_and_cooldown",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/morgana_q/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/morgana_q/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/morgana_q/trigger-rules/on_used_cost_and_cooldown",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/morgana_q/trigger-rules/resolve_on_q_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/morgana_q/trigger-rules/apply_root_on_unblocked_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/statuses/root",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/attributes/ability_power",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/attributes/mana",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/damage-types/magic",
+        "status": 200
+      }
+    ]
+  }
+}

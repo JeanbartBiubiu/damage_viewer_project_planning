@@ -1,0 +1,79 @@
+{
+  "status": "APPROVED",
+  "at": "2026-09-19T05:11:37.961Z",
+  "reviewer": "独立评审代理",
+  "executionMode": "BROWSER_UI_ONLY",
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v3.mjs": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "01-候选方案.json": "9753bdbf5026437df3facc6487903439c08fc1c70688e3799f8c5e7294d76c49",
+    "02-冻结请求.json": "970c0e9c66923fbc7e67bb01fd84860b5b08ed0412e850508b8291577ff4da33",
+    "03-来源摘要.json": "e1dd7d54ab136c7541e83891a60b1318e5c80104c457895dcfb526501482dbe2",
+    "04-写入前现值.json": "06a7408831d902fc4f8feabecb301f7f2e78731996422e41740b81cd44b88e7a"
+  },
+  "businessHTTP": 0,
+  "businessWrites": 0,
+  "sourceFilesVerified": 15,
+  "blockingFindings": [],
+  "checks": [
+    {
+      "name": "原字节与来源",
+      "result": "PASS",
+      "detail": "E 工具固定摘要、01 至 04、全部 15 来源及两份 00 与先前独立报告原字节一致；02 请求与 01 完整一致，摘要引用正确。ROOT 目录首次页面 08 PASS 及独立 07 均通过归档清单摘要验证。"
+    },
+    {
+      "name": "完整效果",
+      "result": "PASS",
+      "detail": "dark_binding_root 为独立 SOURCE_TARGET 生命周期，期限复用已有 root_duration_ms；单个 TARGET/STATUS_OPERATION/APPLY/PERSISTENT/RESULT，无强度、无周期、无额外结束移除。完整生命周期与已评审部分配置相同。"
+    },
+    {
+      "name": "四条件同组与唯一入口",
+      "result": "PASS",
+      "detail": "SKILL_HIT 仅筛 morgana_q，一组 AND 同时要求英雄、明确敌方、同次护盾值 EQ 0、本来源当前目标 dark_binding_root 实例 ABSENT；一个动作只执行新增禁锢效果。所有旧快照均无新效果/规则标识，本次两请求中也无第二执行入口。"
+    },
+    {
+      "name": "未证明重施分支不可达",
+      "result": "PASS",
+      "detail": "KEEP/REFRESH_ALL 仅满足必填结构；在唯一入口 ABSENT 与 SOURCE_TARGET 前置条件下不执行重施。名称和说明明确限制，有实例的新命中暂未录入；不据此认定真实刷新机制。"
+    },
+    {
+      "name": "旧现值保护",
+      "result": "PASS",
+      "detail": "28 个基线响应覆盖技能、拥有者、关系、图片、5 参数、公式、旧效果、过程、状态、规则和目录。与本代理先前 11 个完整目标响应及补查参数列表逐字段相同，含元数据与时间戳。旧伤害/成本/过程/规则和全部参数均无更新请求。"
+    },
+    {
+      "name": "缺失与回读",
+      "result": "PASS",
+      "detail": "30 条 prepare 审计均 GET，其中 28 个原响应 200、两个新增详情 404；各组成列表无重复。效果 expectedReadback 等于正文，规则仅规范化 useKind:null。"
+    }
+  ],
+  "expectedReadback": {
+    "GETs": 30,
+    "newObjects": 2,
+    "expectedChangedCollections": 2,
+    "unchangedResponsesIncludingTimestamps": 26
+  },
+  "browserProtocol": {
+    "approved": true,
+    "allowedSaves": 2,
+    "sequence": [
+      "先在真实页面单次保存 dark_binding_root 并即时 GET 完整核对。",
+      "再在真实页面单次保存 apply_root_on_unblocked_hit 并即时 GET 完整核对。"
+    ],
+    "eToolModesAllowed": [
+      "prepare",
+      "preflight",
+      "readback"
+    ],
+    "eToolWriteAllowed": false,
+    "requirements": [
+      "开始前 GET preflight 并以 wx 建立 06 STARTED；每次页面保存与即时 GET 如实追加记录。",
+      "未捕获 POST 响应必须明确记录，不伪造请求/响应证据。",
+      "保存结果不明先只读确认，不重复保存；两对象成功后独立 readback，再关闭重开核对完整形状。"
+    ]
+  },
+  "boundaries": [
+    "此批准只授权冻结两个对象的首次真实页面保存，不授权 E write 或其他 API 替代。",
+    "重施、被动治疗、韧性、控制免疫和解除分支保持开放；管理录入不证明宿主/Wasm/战斗执行。",
+    "以后增加第二入口、解除 ABSENT 或改变实例范围须重新核来源和方案。"
+  ]
+}
