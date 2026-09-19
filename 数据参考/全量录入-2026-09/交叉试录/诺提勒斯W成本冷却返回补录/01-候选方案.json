@@ -1,0 +1,201 @@
+{
+  "targets": [
+    {
+      "skillKey": "nautilus_w",
+      "ownerKey": "champion_nautilus"
+    }
+  ],
+  "sourceFiles": [
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Nautilus.json.gz",
+      "sha256": "9a9adac2cf61f5e228c3857697639972fa2c32ed172323a8c455ff572c196158"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Nautilus.json",
+      "sha256": "8e3f8406606349fdacc276de72124bd36afd90dd2aad4de3246f3c97ca29765f"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第二十二批/最终候选.json",
+      "sha256": "9ce3115402b975c25dc86ce779179e094fba433ff3273a3aac5d06952547e074"
+    }
+  ],
+  "sourceFacts": {
+    "spellPath": "Characters/Nautilus/Spells/NautilusPiercingGazeAbility/NautilusPiercingGaze",
+    "selfTarget": true,
+    "manaFiveLevels": [
+      60,
+      60,
+      60,
+      60,
+      60
+    ],
+    "cooldownSecondsFiveLevels": [
+      12,
+      12,
+      12,
+      12,
+      12
+    ],
+    "clientSpellCastTime": 0.25,
+    "attackResetTag": true
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/nautilus_w/processes",
+      "detailRoute": "/skills/nautilus_w/processes/cast",
+      "body": {
+        "processKey": "cast",
+        "name": "泰坦之怒使用成本与冷却登记",
+        "activationType": "ACTIVE",
+        "description": "仅登记已成立主动使用时60法力消耗与12秒普通冷却；原on_used规则继续施加自身护盾，不重复挂接。立即步骤只表示登记，不表示零施法时间或攻击重置已实现。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "start",
+            "name": "登记本次使用",
+            "description": "仅登记本次使用成本与普通冷却，不改变已有护盾入口时点。",
+            "sortOrder": 10,
+            "stepType": "IMMEDIATE",
+            "detail": {}
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      },
+      "expectedReadback": {
+        "processKey": "cast",
+        "name": "泰坦之怒使用成本与冷却登记",
+        "activationType": "ACTIVE",
+        "description": "仅登记已成立主动使用时60法力消耗与12秒普通冷却；原on_used规则继续施加自身护盾，不重复挂接。立即步骤只表示登记，不表示零施法时间或攻击重置已实现。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "start",
+            "name": "登记本次使用",
+            "description": "仅登记本次使用成本与普通冷却，不改变已有护盾入口时点。",
+            "sortOrder": 10,
+            "stepType": "IMMEDIATE",
+            "detail": {}
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/nautilus_w/trigger-rules",
+      "detailRoute": "/skills/nautilus_w/trigger-rules/on_used_cost_cooldown",
+      "body": {
+        "ruleKey": "on_used_cost_cooldown",
+        "name": "泰坦之怒使用成本冷却登记",
+        "description": "仅登记已成立主动使用时60法力消耗与12秒普通冷却；原on_used规则继续施加自身护盾，不重复挂接。立即步骤只表示登记，不表示零施法时间或攻击重置已实现。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "nautilus_w",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动使用登记过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used_cost_cooldown",
+        "name": "泰坦之怒使用成本冷却登记",
+        "description": "仅登记已成立主动使用时60法力消耗与12秒普通冷却；原on_used规则继续施加自身护盾，不重复挂接。立即步骤只表示登记，不表示零施法时间或攻击重置已实现。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "nautilus_w",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动使用登记过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "scope": "成熟成本与普通冷却登记；不修改原护盾入口、原效果与参数。",
+  "remaining": [
+    "护盾存在期间攻击附伤的实际资格、2秒总额节拍分配及重施",
+    "当前根Trait_AttackReset对应的攻击计时行为",
+    "完整战斗施放资格及运行验证另列，不称整技能管理完成"
+  ]
+}

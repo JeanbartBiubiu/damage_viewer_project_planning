@@ -1,0 +1,41 @@
+{
+  "startedAt": "2026-09-19T13:16:40.329Z",
+  "status": "PASS",
+  "executionMode": "BROWSER_UI_ONLY",
+  "businessWritesAttempted": 1,
+  "route": "/skills/nautilus_w/trigger-rules/on_used",
+  "method": "PUT",
+  "responseCaptured": false,
+  "pendingRoute": null,
+  "readback": {
+    "actions": [
+      {
+        "actionKey": "execute_shield",
+        "actionType": "EXECUTE_EFFECT",
+        "detail": {
+          "effectKey": "shield"
+        },
+        "name": "执行泰坦之怒自身护盾",
+        "resultModifiers": [],
+        "runtimeInputBindings": [],
+        "sortOrder": 10,
+        "targetContext": "CURRENT_TARGET"
+      }
+    ],
+    "conditionGroups": [],
+    "description": "接收nautilus_w主动使用，无条件执行已有shield自身护盾。成本与普通冷却由独立使用登记入口处理；护盾期间攻击附伤、攻击重置和完整施放行为继续核对，战斗运行未验证。",
+    "eventSource": {
+      "detail": {
+        "sourceSkillKey": "nautilus_w",
+        "useKind": "ACTIVE"
+      },
+      "eventType": "SKILL_USED"
+    },
+    "maxTriggersPerProcess": null,
+    "name": "泰坦之怒主动使用",
+    "perTargetCooldown": null,
+    "ruleKey": "on_used",
+    "sortOrder": 10
+  },
+  "finishedAt": "2026-09-19T13:17:07.987Z"
+}

@@ -1,0 +1,368 @@
+{
+  "startedAt": "2026-09-19T13:09:47.529Z",
+  "status": "PASS",
+  "businessWritesAttempted": 2,
+  "operations": [
+    {
+      "method": "POST",
+      "route": "/skills/nautilus_w/processes",
+      "response": {
+        "status": 201,
+        "data": {
+          "activationType": "ACTIVE",
+          "cooldown": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cooldown_ms"
+            },
+            "startMoment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            }
+          },
+          "createdAt": "2026-09-19T13:09:47.391948Z",
+          "description": "仅登记已成立主动使用时60法力消耗与12秒普通冷却；原on_used规则继续施加自身护盾，不重复挂接。立即步骤只表示登记，不表示零施法时间或攻击重置已实现。",
+          "effectBindings": [
+            {
+              "bindingKey": "mana_cost",
+              "effectKey": "mana_cost",
+              "moment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              },
+              "sortOrder": 10
+            }
+          ],
+          "gameId": "lol",
+          "name": "泰坦之怒使用成本与冷却登记",
+          "processKey": "cast",
+          "skillKey": "nautilus_w",
+          "sortOrder": 10,
+          "stateOperations": [],
+          "steps": [
+            {
+              "description": "仅登记本次使用成本与普通冷却，不改变已有护盾入口时点。",
+              "detail": {},
+              "name": "登记本次使用",
+              "sortOrder": 10,
+              "stepKey": "start",
+              "stepType": "IMMEDIATE"
+            }
+          ],
+          "updatedAt": "2026-09-19T13:09:47.391948Z"
+        }
+      },
+      "readback": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "createdAt": "2026-09-19T13:09:47.391948Z",
+        "description": "仅登记已成立主动使用时60法力消耗与12秒普通冷却；原on_used规则继续施加自身护盾，不重复挂接。立即步骤只表示登记，不表示零施法时间或攻击重置已实现。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "gameId": "lol",
+        "name": "泰坦之怒使用成本与冷却登记",
+        "processKey": "cast",
+        "skillKey": "nautilus_w",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "仅登记本次使用成本与普通冷却，不改变已有护盾入口时点。",
+            "detail": {},
+            "name": "登记本次使用",
+            "sortOrder": 10,
+            "stepKey": "start",
+            "stepType": "IMMEDIATE"
+          }
+        ],
+        "updatedAt": "2026-09-19T13:09:47.391948Z"
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/nautilus_w/trigger-rules",
+      "response": {
+        "status": 201,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "start_cast",
+              "actionType": "START_PROCESS",
+              "detail": {
+                "processKey": "cast"
+              },
+              "name": "启动使用登记过程",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "仅登记已成立主动使用时60法力消耗与12秒普通冷却；原on_used规则继续施加自身护盾，不重复挂接。立即步骤只表示登记，不表示零施法时间或攻击重置已实现。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "nautilus_w",
+              "useKind": "ACTIVE"
+            },
+            "eventType": "SKILL_USED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "泰坦之怒使用成本冷却登记",
+          "perTargetCooldown": null,
+          "ruleKey": "on_used_cost_cooldown",
+          "sortOrder": 5
+        }
+      },
+      "readback": {
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "cast"
+            },
+            "name": "启动使用登记过程",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "仅登记已成立主动使用时60法力消耗与12秒普通冷却；原on_used规则继续施加自身护盾，不重复挂接。立即步骤只表示登记，不表示零施法时间或攻击重置已实现。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "nautilus_w",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "泰坦之怒使用成本冷却登记",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used_cost_cooldown",
+        "sortOrder": 5
+      }
+    }
+  ],
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v3.mjs": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "01-候选方案.json": "6e9f4bc393a5de491814f4322c43f70637d732cea9a46a8dafb496a5545cbd72",
+    "02-冻结请求.json": "f39cb466ab51165745be010464b0d05370161d3173f198c8a7749e0debf65330",
+    "03-来源摘要.json": "8a2423c00e7d3281f934f4c355b80f10d157825bc24f52eedfebb8caf919ab12",
+    "04-写入前现值.json": "8e60c58b5232db1f9aa76e2b4126656a84b3fb94f960efd4c20511848c73caae"
+  },
+  "pendingRoute": null,
+  "finishedAt": "2026-09-19T13:09:51.155Z",
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/nautilus_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_nautilus",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_nautilus/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_nautilus/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nautilus_w/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_nautilus",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=nautilus_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nautilus_w/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nautilus_w/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nautilus_w/parameters/shield_base",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nautilus_w/parameters/shield_health_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nautilus_w/parameters/shield_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nautilus_w/parameters/dot_damage_base",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nautilus_w/parameters/dot_damage_ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nautilus_w/parameters/dot_total_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nautilus_w/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nautilus_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nautilus_w/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nautilus_w/formulas/shield_value",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nautilus_w/formulas/bonus_magic_damage_total",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nautilus_w/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nautilus_w/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nautilus_w/effects/shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nautilus_w/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nautilus_w/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nautilus_w/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nautilus_w/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/hp",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/ability_power",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/mana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nautilus_w/processes/cast",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nautilus_w/trigger-rules/on_used_cost_cooldown",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nautilus_w/processes/cast",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/nautilus_w/processes",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nautilus_w/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nautilus_w/trigger-rules/on_used_cost_cooldown",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/nautilus_w/trigger-rules",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nautilus_w/trigger-rules/on_used_cost_cooldown",
+      "status": 200
+    }
+  ]
+}

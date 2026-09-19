@@ -1,0 +1,324 @@
+{
+  "startedAt": "2026-09-19T13:14:44.915Z",
+  "status": "PASS",
+  "businessWritesAttempted": 3,
+  "operations": [
+    {
+      "route": "/skills/nautilus_w",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:19:35.990679Z",
+          "description": "固定客户端16.17及官方16.17.1确认自身6秒护盾，护盾期间攻击造成2秒总额的附加魔法伤害。当前已接自身护盾、60法力消耗与12秒普通冷却；攻击附伤的资格、节拍与重施、攻击重置及完整施放行为仍待核对。管理保存不代表战斗运行已执行。",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "诺提勒斯·泰坦之怒",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "nautilus_w",
+          "sortOrder": 2,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-19T13:14:44.785707Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-06T18:19:35.990679Z",
+        "description": "固定客户端16.17及官方16.17.1确认自身6秒护盾，护盾期间攻击造成2秒总额的附加魔法伤害。当前已接自身护盾、60法力消耗与12秒普通冷却；攻击附伤的资格、节拍与重施、攻击重置及完整施放行为仍待核对。管理保存不代表战斗运行已执行。",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "诺提勒斯·泰坦之怒",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "nautilus_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-19T13:14:44.785707Z"
+      }
+    },
+    {
+      "route": "/skills/nautilus_w/parameters/mana_cost",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T17:38:51.715818Z",
+          "description": "DDragon16.17.1与固定客户端当前绑定根均为五级60法力。当前由主动使用启动的cast过程在开始时执行mana_cost效果；实际使用资格及资源不足处理属于事件生产边界。",
+          "fixedValue": 60,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "nautilus_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-19T13:14:46.535256Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-07T17:38:51.715818Z",
+        "description": "DDragon16.17.1与固定客户端当前绑定根均为五级60法力。当前由主动使用启动的cast过程在开始时执行mana_cost效果；实际使用资格及资源不足处理属于事件生产边界。",
+        "fixedValue": 60,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "nautilus_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-19T13:14:46.535256Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/nautilus_w/effects/mana_cost",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-09T13:45:35.327561Z",
+          "description": "主动使用启动cast过程后，在过程开始时消耗来源对象60法力；不施加护盾或附加伤害。管理配置不代表实际使用资格及资源不足处理已经运行验证。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "施放法力消耗",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "attributeKey": "mana",
+                "operation": "CONSUME"
+              },
+              "lifecycleBehavior": null,
+              "name": "消耗法力",
+              "resultKey": "consume_mana",
+              "resultType": "RESOURCE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "mana_cost"
+                }
+              }
+            }
+          ],
+          "skillKey": "nautilus_w",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-19T13:14:47.954849Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-09T13:45:35.327561Z",
+        "description": "主动使用启动cast过程后，在过程开始时消耗来源对象60法力；不施加护盾或附加伤害。管理配置不代表实际使用资格及资源不足处理已经运行验证。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "施放法力消耗",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "nautilus_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T13:14:47.954849Z"
+      }
+    }
+  ],
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-descriptions-v2.mjs": "f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517",
+    "01-纠错计划.json": "1fc2b0a1ee0189ef02365f4c846cfb65f642f220ecdabeb48cb6c4e6002c6a7c",
+    "02-冻结请求.json": "0482ff3aa89309833bd42f7b6e4092d7df8d99b14050cfbc6949b1de85e4577d",
+    "03-来源摘要.json": "c4a1aa0d22733e78ba9bfb29462ccf3b74e28179e55251cc8e9717cfab5e8e5c",
+    "04-写入前现值.json": "be4ef866aaa7087bfe07ed54e8ffd9f96db428a8593f123bc70d28f6a7d70e0d"
+  },
+  "pendingRoute": null,
+  "finishedAt": "2026-09-19T13:14:49.887Z",
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/nautilus_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nautilus_w/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nautilus_w/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nautilus_w/parameters/shield_base",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nautilus_w/parameters/shield_health_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nautilus_w/parameters/shield_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nautilus_w/parameters/dot_damage_base",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nautilus_w/parameters/dot_damage_ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nautilus_w/parameters/dot_total_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nautilus_w/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nautilus_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nautilus_w/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nautilus_w/formulas/shield_value",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nautilus_w/formulas/bonus_magic_damage_total",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nautilus_w/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nautilus_w/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nautilus_w/effects/shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nautilus_w/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nautilus_w/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nautilus_w/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nautilus_w/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nautilus_w/trigger-rules/on_used_cost_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nautilus_w/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nautilus_w",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/nautilus_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nautilus_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nautilus_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/nautilus_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nautilus_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nautilus_w/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/nautilus_w/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nautilus_w/effects/mana_cost",
+      "status": 200
+    }
+  ]
+}
