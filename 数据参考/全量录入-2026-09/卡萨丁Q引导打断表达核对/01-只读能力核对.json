@@ -1,0 +1,74 @@
+{
+  "at": "2026-09-19T00:20:37.027Z",
+  "status": "CONFIRMED_AUTHORING_GAP",
+  "skillKey": "kassadin_q",
+  "scope": "本轮1V1内对敌方合法引导的打断",
+  "sources": [
+    {
+      "worktree": "damage_web_dev",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Kassadin.json",
+      "field": "data.Kassadin.spells[0].description",
+      "sha256": "9afd359ea6daacd81b2589692e7da653926ec55b0b63184a521d0e1b24edbd25"
+    },
+    {
+      "worktree": "damage_web_dev",
+      "path": "web/src/types/skillTriggerRule.ts",
+      "lines": [
+        601,
+        613
+      ],
+      "sha256": "db1021ad59bf8cfee862603c2e7dcde6c618da85d235f36de941c6a205852615"
+    },
+    {
+      "worktree": "damage_web_dev",
+      "path": "web/src/types/skillEffect.ts",
+      "lines": [
+        2,
+        20
+      ],
+      "sha256": "6a71ae4038c4641558aee593fb24be077e67851f50322ae2ff1c0c5da668ac34"
+    },
+    {
+      "worktree": "damage_web_dev",
+      "path": "web/src/types/status.ts",
+      "lines": [
+        1,
+        9
+      ],
+      "sha256": "e69e251ad465ad15db36bbfb9e3313bd596bad349b0635354083093f65d76d15"
+    },
+    {
+      "worktree": "damage_backend_dev",
+      "path": "server/data_manage/src/main/java/xyz/game/datamanage/service/skilltrigger/SkillTriggerRuleService.java",
+      "lines": [
+        1300,
+        1320
+      ],
+      "sha256": "194fbdab8ec0d1ef5c4e8e96a9110b4da3e7a6909cc1f9b6d640e012e06b3ec0"
+    },
+    {
+      "worktree": "damage_viewer_project_planning",
+      "path": "文档记录/详细设计/项目/条件事件与动态输入供值管理详细设计.md",
+      "lines": [
+        375,
+        406
+      ],
+      "sha256": "ec07ed1bb2daccb0217c189a84b16f15a701dccefb82b3258cc8ea6425238331"
+    }
+  ],
+  "findings": [
+    "固定官方资料确认技能具备打断引导的组成。",
+    "现有令过程失败动作必须给出当前技能的processKey，targetContext必须为null；共享契约明确作用于来源对象当前技能过程。",
+    "现有伤害等结果与状态目录没有独立的敌方引导打断表达；状态行为当前仅眩晕和普通移动减速。",
+    "不能把结束来源过程、眩晕或沉默近似当作目标引导打断。"
+  ],
+  "nextBoundary": "先收敛最小目标控制语义并独立评审，再按新流程完成首次真实页面录入；不在本轮新增战斗宿主或Wasm执行。",
+  "businessWritesDuringThisCheck": 0,
+  "HTTPRequestsDuringThisCheck": 0,
+  "staticOnly": true,
+  "sourceCommits": {
+    "damage_web_dev": "f1bcdd3b80db262f547251ca40ad24389497b31d",
+    "damage_backend_dev": "84995ae421c042f6923d6dc3f84a40d9f990f8cb",
+    "damage_viewer_project_planning": "7d7aecd8278b1ca5c715ce563b9e128539ecce7e"
+  }
+}
