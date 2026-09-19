@@ -1,0 +1,1738 @@
+{
+  "toolExitCode": 0,
+  "stdout": "{\"status\":\"PASS\",\"at\":\"2026-09-19T03:00:23.653Z\",\"businessWrites\":0,\"GETs\":186,\"unchangedResponsesIncludingTimestamps\":154,\"expectedChangedCollections\":16,\"newObjects\":{\"/skills/braum_q/effects/primary_hit\":{\"createdAt\":\"2026-09-19T02:58:55.716857Z\",\"description\":\"本轮1V1布隆Q实际命中敌方英雄的直接魔法伤害；基础值加来源最大生命值比例，减速和被动叠层另行处理。\",\"effectKey\":\"primary_hit\",\"gameId\":\"lol\",\"lifecycle\":null,\"name\":\"布隆·寒冬之咬命中伤害\",\"results\":[{\"description\":\"引用同技能 magic_damage 公式，保持现有基础值及属性加成口径。\",\"detail\":{\"critical\":{\"mode\":\"DISALLOWED\",\"multiplierValue\":null},\"damageTypeKey\":\"magic\",\"deliveryKind\":\"SKILL\",\"originKind\":\"DIRECT\",\"vampRules\":[{\"basisOutputKind\":\"POST_DEFENSE_DAMAGE\",\"efficiencyValue\":{\"kind\":\"FIXED\",\"value\":1},\"vampType\":\"OMNIVAMP\"}]},\"lifecycleBehavior\":null,\"name\":\"魔法伤害\",\"resultKey\":\"damage\",\"resultType\":\"DAMAGE\",\"sortOrder\":10,\"spellShieldBlockScope\":\"SKILL\",\"target\":\"TARGET\",\"valueRule\":{\"fixedMaxValue\":null,\"fixedMinValue\":0,\"fixedMultiplier\":1,\"value\":{\"formulaKey\":\"magic_damage\",\"kind\":\"FORMULA\"}}}],\"skillKey\":\"braum_q\",\"sortOrder\":20,\"updatedAt\":\"2026-09-19T02:58:55.716857Z\"},\"/skills/braum_q/trigger-rules/actual_hit\":{\"actions\":[{\"actionKey\":\"execute_primary_hit\",\"actionType\":\"EXECUTE_EFFECT\",\"detail\":{\"effectKey\":\"primary_hit\"},\"name\":\"执行布隆·寒冬之咬伤害\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[{\"conditions\":[{\"conditionKey\":\"champion_target\",\"conditionType\":\"TARGET_CATEGORY_CHECK\",\"detail\":{\"categories\":[\"CHAMPION\"]},\"sortOrder\":10}],\"groupKey\":\"champion_target\",\"name\":\"本轮英雄目标\",\"sortOrder\":10}],\"description\":\"只消费已确认的 braum_q 实际命中事件，对事件中的英雄目标执行primary_hit；不从使用、再次施放、弹跳步骤或过程结束生成命中。英雄类别仅限定本轮范围。\",\"eventSource\":{\"detail\":{\"sourceSkillKey\":\"braum_q\",\"useKind\":null},\"eventType\":\"SKILL_HIT\"},\"maxTriggersPerProcess\":null,\"name\":\"布隆·寒冬之咬实际命中\",\"perTargetCooldown\":null,\"ruleKey\":\"actual_hit\",\"sortOrder\":10},\"/skills/nautilus_q/effects/primary_hit\":{\"createdAt\":\"2026-09-19T02:58:59.444182Z\",\"description\":\"本轮1V1实际命中敌方英雄的一次普通直接魔法技能伤害；引用已有完整公式，控制、位移、返还或其他分支另行处理。\",\"effectKey\":\"primary_hit\",\"gameId\":\"lol\",\"lifecycle\":null,\"name\":\"诺提勒斯·疏通航道命中伤害\",\"results\":[{\"description\":\"引用同技能 magic_damage 公式，保持现有基础值及属性加成口径。\",\"detail\":{\"critical\":{\"mode\":\"DISALLOWED\",\"multiplierValue\":null},\"damageTypeKey\":\"magic\",\"deliveryKind\":\"SKILL\",\"originKind\":\"DIRECT\",\"vampRules\":[{\"basisOutputKind\":\"POST_DEFENSE_DAMAGE\",\"efficiencyValue\":{\"kind\":\"FIXED\",\"value\":1},\"vampType\":\"OMNIVAMP\"}]},\"lifecycleBehavior\":null,\"name\":\"魔法伤害\",\"resultKey\":\"damage\",\"resultType\":\"DAMAGE\",\"sortOrder\":10,\"spellShieldBlockScope\":\"SKILL\",\"target\":\"TARGET\",\"valueRule\":{\"fixedMaxValue\":null,\"fixedMinValue\":0,\"fixedMultiplier\":1,\"value\":{\"formulaKey\":\"magic_damage\",\"kind\":\"FORMULA\"}}}],\"skillKey\":\"nautilus_q\",\"sortOrder\":20,\"updatedAt\":\"2026-09-19T02:58:59.444182Z\"},\"/skills/nautilus_q/trigger-rules/actual_hit\":{\"actions\":[{\"actionKey\":\"execute_primary_hit\",\"actionType\":\"EXECUTE_EFFECT\",\"detail\":{\"effectKey\":\"primary_hit\"},\"name\":\"执行诺提勒斯·疏通航道伤害\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[{\"conditions\":[{\"conditionKey\":\"champion_target\",\"conditionType\":\"TARGET_CATEGORY_CHECK\",\"detail\":{\"categories\":[\"CHAMPION\"]},\"sortOrder\":10}],\"groupKey\":\"champion_target\",\"name\":\"本轮英雄目标\",\"sortOrder\":10}],\"description\":\"只消费已确认的 nautilus_q 实际命中事件，对事件中的英雄目标执行primary_hit；不从使用、再次施放、弹跳步骤或过程结束生成命中。英雄类别仅限定本轮范围。\",\"eventSource\":{\"detail\":{\"sourceSkillKey\":\"nautilus_q\",\"useKind\":null},\"eventType\":\"SKILL_HIT\"},\"maxTriggersPerProcess\":null,\"name\":\"诺提勒斯·疏通航道实际命中\",\"perTargetCooldown\":null,\"ruleKey\":\"actual_hit\",\"sortOrder\":10},\"/skills/velkoz_q/effects/primary_hit\":{\"createdAt\":\"2026-09-19T02:59:02.346609Z\",\"description\":\"本轮1V1实际命中敌方英雄的一次普通直接魔法技能伤害；引用已有完整公式，控制、位移、返还或其他分支另行处理。\",\"effectKey\":\"primary_hit\",\"gameId\":\"lol\",\"lifecycle\":null,\"name\":\"维克兹·等离子裂变命中伤害\",\"results\":[{\"description\":\"引用同技能 damage 公式，保持现有基础值及属性加成口径。\",\"detail\":{\"critical\":{\"mode\":\"DISALLOWED\",\"multiplierValue\":null},\"damageTypeKey\":\"magic\",\"deliveryKind\":\"SKILL\",\"originKind\":\"DIRECT\",\"vampRules\":[{\"basisOutputKind\":\"POST_DEFENSE_DAMAGE\",\"efficiencyValue\":{\"kind\":\"FIXED\",\"value\":1},\"vampType\":\"OMNIVAMP\"}]},\"lifecycleBehavior\":null,\"name\":\"魔法伤害\",\"resultKey\":\"damage\",\"resultType\":\"DAMAGE\",\"sortOrder\":10,\"spellShieldBlockScope\":\"SKILL\",\"target\":\"TARGET\",\"valueRule\":{\"fixedMaxValue\":null,\"fixedMinValue\":0,\"fixedMultiplier\":1,\"value\":{\"formulaKey\":\"damage\",\"kind\":\"FORMULA\"}}}],\"skillKey\":\"velkoz_q\",\"sortOrder\":20,\"updatedAt\":\"2026-09-19T02:59:02.346609Z\"},\"/skills/velkoz_q/trigger-rules/actual_hit\":{\"actions\":[{\"actionKey\":\"execute_primary_hit\",\"actionType\":\"EXECUTE_EFFECT\",\"detail\":{\"effectKey\":\"primary_hit\"},\"name\":\"执行维克兹·等离子裂变伤害\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[{\"conditions\":[{\"conditionKey\":\"champion_target\",\"conditionType\":\"TARGET_CATEGORY_CHECK\",\"detail\":{\"categories\":[\"CHAMPION\"]},\"sortOrder\":10}],\"groupKey\":\"champion_target\",\"name\":\"本轮英雄目标\",\"sortOrder\":10}],\"description\":\"只消费已确认的 velkoz_q 实际命中事件，对事件中的英雄目标执行primary_hit；不从使用、再次施放、弹跳步骤或过程结束生成命中。英雄类别仅限定本轮范围。\",\"eventSource\":{\"detail\":{\"sourceSkillKey\":\"velkoz_q\",\"useKind\":null},\"eventType\":\"SKILL_HIT\"},\"maxTriggersPerProcess\":null,\"name\":\"维克兹·等离子裂变实际命中\",\"perTargetCooldown\":null,\"ruleKey\":\"actual_hit\",\"sortOrder\":10},\"/skills/ziggs_q/effects/primary_hit\":{\"createdAt\":\"2026-09-19T02:59:05.239457Z\",\"description\":\"本轮1V1实际命中敌方英雄的一次普通直接魔法技能伤害；引用已有完整公式，控制、位移、返还或其他分支另行处理。\",\"effectKey\":\"primary_hit\",\"gameId\":\"lol\",\"lifecycle\":null,\"name\":\"吉格斯·弹跳炸弹命中伤害\",\"results\":[{\"description\":\"引用同技能 damage 公式，保持现有基础值及属性加成口径。\",\"detail\":{\"critical\":{\"mode\":\"DISALLOWED\",\"multiplierValue\":null},\"damageTypeKey\":\"magic\",\"deliveryKind\":\"SKILL\",\"originKind\":\"DIRECT\",\"vampRules\":[{\"basisOutputKind\":\"POST_DEFENSE_DAMAGE\",\"efficiencyValue\":{\"kind\":\"FIXED\",\"value\":1},\"vampType\":\"OMNIVAMP\"}]},\"lifecycleBehavior\":null,\"name\":\"魔法伤害\",\"resultKey\":\"damage\",\"resultType\":\"DAMAGE\",\"sortOrder\":10,\"spellShieldBlockScope\":\"SKILL\",\"target\":\"TARGET\",\"valueRule\":{\"fixedMaxValue\":null,\"fixedMinValue\":0,\"fixedMultiplier\":1,\"value\":{\"formulaKey\":\"damage\",\"kind\":\"FORMULA\"}}}],\"skillKey\":\"ziggs_q\",\"sortOrder\":20,\"updatedAt\":\"2026-09-19T02:59:05.239457Z\"},\"/skills/ziggs_q/trigger-rules/actual_hit\":{\"actions\":[{\"actionKey\":\"execute_primary_hit\",\"actionType\":\"EXECUTE_EFFECT\",\"detail\":{\"effectKey\":\"primary_hit\"},\"name\":\"执行吉格斯·弹跳炸弹伤害\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[{\"conditions\":[{\"conditionKey\":\"champion_target\",\"conditionType\":\"TARGET_CATEGORY_CHECK\",\"detail\":{\"categories\":[\"CHAMPION\"]},\"sortOrder\":10}],\"groupKey\":\"champion_target\",\"name\":\"本轮英雄目标\",\"sortOrder\":10}],\"description\":\"只消费已确认的 ziggs_q 实际命中事件，对事件中的英雄目标执行primary_hit；不从使用、再次施放、弹跳步骤或过程结束生成命中。英雄类别仅限定本轮范围。\",\"eventSource\":{\"detail\":{\"sourceSkillKey\":\"ziggs_q\",\"useKind\":null},\"eventType\":\"SKILL_HIT\"},\"maxTriggersPerProcess\":null,\"name\":\"吉格斯·弹跳炸弹实际命中\",\"perTargetCooldown\":null,\"ruleKey\":\"actual_hit\",\"sortOrder\":10},\"/skills/zyra_q/effects/primary_hit\":{\"createdAt\":\"2026-09-19T02:59:08.122529Z\",\"description\":\"本轮1V1根技能本体实际命中敌方英雄的直接魔法伤害；本效果不计算植物攻击，种子和植物沿既有范围结论另行处理。\",\"effectKey\":\"primary_hit\",\"gameId\":\"lol\",\"lifecycle\":null,\"name\":\"婕拉·致命棘刺命中伤害\",\"results\":[{\"description\":\"引用同技能 magic_damage 公式，保持现有基础值及属性加成口径。\",\"detail\":{\"critical\":{\"mode\":\"DISALLOWED\",\"multiplierValue\":null},\"damageTypeKey\":\"magic\",\"deliveryKind\":\"SKILL\",\"originKind\":\"DIRECT\",\"vampRules\":[{\"basisOutputKind\":\"POST_DEFENSE_DAMAGE\",\"efficiencyValue\":{\"kind\":\"FIXED\",\"value\":1},\"vampType\":\"OMNIVAMP\"}]},\"lifecycleBehavior\":null,\"name\":\"魔法伤害\",\"resultKey\":\"damage\",\"resultType\":\"DAMAGE\",\"sortOrder\":10,\"spellShieldBlockScope\":\"SKILL\",\"target\":\"TARGET\",\"valueRule\":{\"fixedMaxValue\":null,\"fixedMinValue\":0,\"fixedMultiplier\":1,\"value\":{\"formulaKey\":\"magic_damage\",\"kind\":\"FORMULA\"}}}],\"skillKey\":\"zyra_q\",\"sortOrder\":20,\"updatedAt\":\"2026-09-19T02:59:08.122529Z\"},\"/skills/zyra_q/trigger-rules/actual_hit\":{\"actions\":[{\"actionKey\":\"execute_primary_hit\",\"actionType\":\"EXECUTE_EFFECT\",\"detail\":{\"effectKey\":\"primary_hit\"},\"name\":\"执行婕拉·致命棘刺伤害\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[{\"conditions\":[{\"conditionKey\":\"champion_target\",\"conditionType\":\"TARGET_CATEGORY_CHECK\",\"detail\":{\"categories\":[\"CHAMPION\"]},\"sortOrder\":10}],\"groupKey\":\"champion_target\",\"name\":\"本轮英雄目标\",\"sortOrder\":10}],\"description\":\"只消费已确认的 zyra_q 实际命中事件，对事件中的英雄目标执行primary_hit；不从使用、再次施放、弹跳步骤或过程结束生成命中。英雄类别仅限定本轮范围。 只对根技能本体命中生效，不把植物攻击等同于本次根技能事件。\",\"eventSource\":{\"detail\":{\"sourceSkillKey\":\"zyra_q\",\"useKind\":null},\"eventType\":\"SKILL_HIT\"},\"maxTriggersPerProcess\":null,\"name\":\"婕拉·致命棘刺实际命中\",\"perTargetCooldown\":null,\"ruleKey\":\"actual_hit\",\"sortOrder\":10},\"/skills/zyra_e/effects/primary_hit\":{\"createdAt\":\"2026-09-19T02:59:11.191676Z\",\"description\":\"本轮1V1根技能本体实际命中敌方英雄的直接魔法伤害；本效果不计算植物攻击，种子和植物沿既有范围结论另行处理。\",\"effectKey\":\"primary_hit\",\"gameId\":\"lol\",\"lifecycle\":null,\"name\":\"婕拉·缠绕之根命中伤害\",\"results\":[{\"description\":\"引用同技能 magic_damage 公式，保持现有基础值及属性加成口径。\",\"detail\":{\"critical\":{\"mode\":\"DISALLOWED\",\"multiplierValue\":null},\"damageTypeKey\":\"magic\",\"deliveryKind\":\"SKILL\",\"originKind\":\"DIRECT\",\"vampRules\":[{\"basisOutputKind\":\"POST_DEFENSE_DAMAGE\",\"efficiencyValue\":{\"kind\":\"FIXED\",\"value\":1},\"vampType\":\"OMNIVAMP\"}]},\"lifecycleBehavior\":null,\"name\":\"魔法伤害\",\"resultKey\":\"damage\",\"resultType\":\"DAMAGE\",\"sortOrder\":10,\"spellShieldBlockScope\":\"SKILL\",\"target\":\"TARGET\",\"valueRule\":{\"fixedMaxValue\":null,\"fixedMinValue\":0,\"fixedMultiplier\":1,\"value\":{\"formulaKey\":\"magic_damage\",\"kind\":\"FORMULA\"}}}],\"skillKey\":\"zyra_e\",\"sortOrder\":20,\"updatedAt\":\"2026-09-19T02:59:11.191676Z\"},\"/skills/zyra_e/trigger-rules/actual_hit\":{\"actions\":[{\"actionKey\":\"execute_primary_hit\",\"actionType\":\"EXECUTE_EFFECT\",\"detail\":{\"effectKey\":\"primary_hit\"},\"name\":\"执行婕拉·缠绕之根伤害\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[{\"conditions\":[{\"conditionKey\":\"champion_target\",\"conditionType\":\"TARGET_CATEGORY_CHECK\",\"detail\":{\"categories\":[\"CHAMPION\"]},\"sortOrder\":10}],\"groupKey\":\"champion_target\",\"name\":\"本轮英雄目标\",\"sortOrder\":10}],\"description\":\"只消费已确认的 zyra_e 实际命中事件，对事件中的英雄目标执行primary_hit；不从使用、再次施放、弹跳步骤或过程结束生成命中。英雄类别仅限定本轮范围。 只对根技能本体命中生效，不把植物攻击等同于本次根技能事件。\",\"eventSource\":{\"detail\":{\"sourceSkillKey\":\"zyra_e\",\"useKind\":null},\"eventType\":\"SKILL_HIT\"},\"maxTriggersPerProcess\":null,\"name\":\"婕拉·缠绕之根实际命中\",\"perTargetCooldown\":null,\"ruleKey\":\"actual_hit\",\"sortOrder\":10},\"/skills/leona_r/effects/primary_hit\":{\"createdAt\":\"2026-09-19T02:59:14.21706Z\",\"description\":\"本轮1V1实际命中敌方英雄的一次普通直接魔法技能伤害；引用已有完整公式，控制、位移、返还或其他分支另行处理。\",\"effectKey\":\"primary_hit\",\"gameId\":\"lol\",\"lifecycle\":null,\"name\":\"蕾欧娜·日炎耀斑命中伤害\",\"results\":[{\"description\":\"引用同技能 magic_damage 公式，保持现有基础值及属性加成口径。\",\"detail\":{\"critical\":{\"mode\":\"DISALLOWED\",\"multiplierValue\":null},\"damageTypeKey\":\"magic\",\"deliveryKind\":\"SKILL\",\"originKind\":\"DIRECT\",\"vampRules\":[{\"basisOutputKind\":\"POST_DEFENSE_DAMAGE\",\"efficiencyValue\":{\"kind\":\"FIXED\",\"value\":1},\"vampType\":\"OMNIVAMP\"}]},\"lifecycleBehavior\":null,\"name\":\"魔法伤害\",\"resultKey\":\"damage\",\"resultType\":\"DAMAGE\",\"sortOrder\":10,\"spellShieldBlockScope\":\"SKILL\",\"target\":\"TARGET\",\"valueRule\":{\"fixedMaxValue\":null,\"fixedMinValue\":0,\"fixedMultiplier\":1,\"value\":{\"formulaKey\":\"magic_damage\",\"kind\":\"FORMULA\"}}}],\"skillKey\":\"leona_r\",\"sortOrder\":20,\"updatedAt\":\"2026-09-19T02:59:14.21706Z\"},\"/skills/leona_r/trigger-rules/actual_hit\":{\"actions\":[{\"actionKey\":\"execute_primary_hit\",\"actionType\":\"EXECUTE_EFFECT\",\"detail\":{\"effectKey\":\"primary_hit\"},\"name\":\"执行蕾欧娜·日炎耀斑伤害\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[{\"conditions\":[{\"conditionKey\":\"champion_target\",\"conditionType\":\"TARGET_CATEGORY_CHECK\",\"detail\":{\"categories\":[\"CHAMPION\"]},\"sortOrder\":10}],\"groupKey\":\"champion_target\",\"name\":\"本轮英雄目标\",\"sortOrder\":10}],\"description\":\"只消费已确认的 leona_r 实际命中事件，对事件中的英雄目标执行primary_hit；不从使用、再次施放、弹跳步骤或过程结束生成命中。英雄类别仅限定本轮范围。\",\"eventSource\":{\"detail\":{\"sourceSkillKey\":\"leona_r\",\"useKind\":null},\"eventType\":\"SKILL_HIT\"},\"maxTriggersPerProcess\":null,\"name\":\"蕾欧娜·日炎耀斑实际命中\",\"perTargetCooldown\":null,\"ruleKey\":\"actual_hit\",\"sortOrder\":10},\"/skills/malzahar_q/effects/primary_hit\":{\"createdAt\":\"2026-09-19T02:59:17.390934Z\",\"description\":\"本轮1V1实际命中敌方英雄的一次普通直接魔法技能伤害；引用已有完整公式，控制、位移、返还或其他分支另行处理。\",\"effectKey\":\"primary_hit\",\"gameId\":\"lol\",\"lifecycle\":null,\"name\":\"玛尔扎哈·虚空召唤命中伤害\",\"results\":[{\"description\":\"引用同技能 damage 公式，保持现有基础值及属性加成口径。\",\"detail\":{\"critical\":{\"mode\":\"DISALLOWED\",\"multiplierValue\":null},\"damageTypeKey\":\"magic\",\"deliveryKind\":\"SKILL\",\"originKind\":\"DIRECT\",\"vampRules\":[{\"basisOutputKind\":\"POST_DEFENSE_DAMAGE\",\"efficiencyValue\":{\"kind\":\"FIXED\",\"value\":1},\"vampType\":\"OMNIVAMP\"}]},\"lifecycleBehavior\":null,\"name\":\"魔法伤害\",\"resultKey\":\"damage\",\"resultType\":\"DAMAGE\",\"sortOrder\":10,\"spellShieldBlockScope\":\"SKILL\",\"target\":\"TARGET\",\"valueRule\":{\"fixedMaxValue\":null,\"fixedMinValue\":0,\"fixedMultiplier\":1,\"value\":{\"formulaKey\":\"damage\",\"kind\":\"FORMULA\"}}}],\"skillKey\":\"malzahar_q\",\"sortOrder\":20,\"updatedAt\":\"2026-09-19T02:59:17.390934Z\"},\"/skills/malzahar_q/trigger-rules/actual_hit\":{\"actions\":[{\"actionKey\":\"execute_primary_hit\",\"actionType\":\"EXECUTE_EFFECT\",\"detail\":{\"effectKey\":\"primary_hit\"},\"name\":\"执行玛尔扎哈·虚空召唤伤害\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[{\"conditions\":[{\"conditionKey\":\"champion_target\",\"conditionType\":\"TARGET_CATEGORY_CHECK\",\"detail\":{\"categories\":[\"CHAMPION\"]},\"sortOrder\":10}],\"groupKey\":\"champion_target\",\"name\":\"本轮英雄目标\",\"sortOrder\":10}],\"description\":\"只消费已确认的 malzahar_q 实际命中事件，对事件中的英雄目标执行primary_hit；不从使用、再次施放、弹跳步骤或过程结束生成命中。英雄类别仅限定本轮范围。\",\"eventSource\":{\"detail\":{\"sourceSkillKey\":\"malzahar_q\",\"useKind\":null},\"eventType\":\"SKILL_HIT\"},\"maxTriggersPerProcess\":null,\"name\":\"玛尔扎哈·虚空召唤实际命中\",\"perTargetCooldown\":null,\"ruleKey\":\"actual_hit\",\"sortOrder\":10}},\"audit\":[{\"method\":\"GET\",\"path\":\"/skills/braum_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_braum\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_braum/attributes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_braum/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/braum_q/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?characterKey=champion_braum\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?skillKey=braum_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/braum_q/parameters\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/braum_q/parameters/base_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/braum_q/parameters/source_max_hp_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/braum_q/parameters/initial_slow_percent_points\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/braum_q/parameters/minimum_slow_percent_points\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/braum_q/parameters/slow_duration_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/braum_q/parameters/cooldown_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/braum_q/parameters/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/braum_q/formulas\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/braum_q/formulas/magic_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/braum_q/effects\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/braum_q/effects/primary_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/braum_q/processes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/braum_q/internal-states\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/braum_q/trigger-rules\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/braum_q/trigger-rules/actual_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nautilus_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_nautilus\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_nautilus/attributes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_nautilus/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nautilus_q/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?characterKey=champion_nautilus\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?skillKey=nautilus_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nautilus_q/parameters\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nautilus_q/parameters/cast_time_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nautilus_q/parameters/base_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nautilus_q/parameters/ap_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nautilus_q/parameters/terrain_cooldown_reduction_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nautilus_q/parameters/terrain_mana_refund_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nautilus_q/parameters/cooldown_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nautilus_q/parameters/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nautilus_q/formulas\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nautilus_q/formulas/magic_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nautilus_q/effects\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nautilus_q/effects/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nautilus_q/effects/primary_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nautilus_q/processes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nautilus_q/internal-states\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nautilus_q/trigger-rules\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nautilus_q/trigger-rules/actual_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/velkoz_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_velkoz\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_velkoz/attributes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_velkoz/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/velkoz_q/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?characterKey=champion_velkoz\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?skillKey=velkoz_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/velkoz_q/parameters\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/velkoz_q/parameters/base_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/velkoz_q/parameters/passive_stacks\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/velkoz_q/parameters/initial_slow_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/velkoz_q/parameters/slow_duration_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/velkoz_q/parameters/kill_mana_restore\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/velkoz_q/parameters/calculation_constant_1\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/velkoz_q/parameters/cooldown_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/velkoz_q/parameters/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/velkoz_q/formulas\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/velkoz_q/formulas/damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/velkoz_q/effects\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/velkoz_q/effects/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/velkoz_q/effects/kill_mana_restore\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/velkoz_q/effects/primary_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/velkoz_q/processes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/velkoz_q/internal-states\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/velkoz_q/trigger-rules\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/velkoz_q/trigger-rules/actual_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/ziggs_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_ziggs\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_ziggs/attributes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_ziggs/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/ziggs_q/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?characterKey=champion_ziggs\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?skillKey=ziggs_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/ziggs_q/parameters\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/ziggs_q/parameters/base_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/ziggs_q/parameters/ap_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/ziggs_q/parameters/cooldown_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/ziggs_q/parameters/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/ziggs_q/formulas\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/ziggs_q/formulas/damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/ziggs_q/effects\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/ziggs_q/effects/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/ziggs_q/effects/primary_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/ziggs_q/processes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/ziggs_q/internal-states\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/ziggs_q/trigger-rules\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/ziggs_q/trigger-rules/actual_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_zyra\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_zyra/attributes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_zyra/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_q/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?characterKey=champion_zyra\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?skillKey=zyra_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_q/parameters\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_q/parameters/base_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_q/parameters/ap_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_q/parameters/cast_time_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_q/parameters/cooldown_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_q/parameters/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_q/formulas\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_q/formulas/magic_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_q/effects\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_q/effects/primary_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_q/effects/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_q/processes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_q/internal-states\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_q/trigger-rules\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_q/trigger-rules/actual_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_e\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_e/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?skillKey=zyra_e\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_e/parameters\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_e/parameters/base_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_e/parameters/ap_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_e/parameters/root_duration_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_e/parameters/cast_time_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_e/parameters/cooldown_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_e/parameters/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_e/formulas\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_e/formulas/magic_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_e/effects\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_e/effects/primary_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_e/effects/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_e/processes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_e/internal-states\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_e/trigger-rules\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_e/trigger-rules/actual_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leona_r\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_leona\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_leona/attributes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_leona/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leona_r/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?characterKey=champion_leona\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?skillKey=leona_r\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leona_r/parameters\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leona_r/parameters/cast_time_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leona_r/parameters/explosion_base_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leona_r/parameters/explosion_ap_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leona_r/parameters/slow_percent_points\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leona_r/parameters/cc_duration_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leona_r/parameters/cooldown_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leona_r/parameters/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leona_r/formulas\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leona_r/formulas/magic_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leona_r/effects\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leona_r/effects/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leona_r/effects/primary_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leona_r/processes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leona_r/internal-states\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leona_r/trigger-rules\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leona_r/trigger-rules/actual_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/malzahar_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_malzahar\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_malzahar/attributes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_malzahar/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/malzahar_q/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?characterKey=champion_malzahar\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?skillKey=malzahar_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/malzahar_q/parameters\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/malzahar_q/parameters/cast_time_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/malzahar_q/parameters/base_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/malzahar_q/parameters/silence_duration_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/malzahar_q/parameters/ap_ratio_constant\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/malzahar_q/parameters/cooldown_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/malzahar_q/parameters/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/malzahar_q/formulas\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/malzahar_q/formulas/damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/malzahar_q/effects\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/malzahar_q/effects/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/malzahar_q/effects/primary_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/malzahar_q/processes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/malzahar_q/internal-states\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/malzahar_q/trigger-rules\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/malzahar_q/trigger-rules/actual_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/damage-types/magic\",\"status\":200},{\"method\":\"GET\",\"path\":\"/attributes/hp\",\"status\":200},{\"method\":\"GET\",\"path\":\"/attributes/ability_power\",\"status\":200},{\"method\":\"GET\",\"path\":\"/attributes/mana\",\"status\":200}]}\n",
+  "summary": {
+    "status": "PASS",
+    "at": "2026-09-19T03:00:23.653Z",
+    "businessWrites": 0,
+    "GETs": 186,
+    "unchangedResponsesIncludingTimestamps": 154,
+    "expectedChangedCollections": 16,
+    "newObjects": {
+      "/skills/braum_q/effects/primary_hit": {
+        "createdAt": "2026-09-19T02:58:55.716857Z",
+        "description": "本轮1V1布隆Q实际命中敌方英雄的直接魔法伤害；基础值加来源最大生命值比例，减速和被动叠层另行处理。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "布隆·寒冬之咬命中伤害",
+        "results": [
+          {
+            "description": "引用同技能 magic_damage 公式，保持现有基础值及属性加成口径。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "SKILL",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "magic_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "braum_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T02:58:55.716857Z"
+      },
+      "/skills/braum_q/trigger-rules/actual_hit": {
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "name": "执行布隆·寒冬之咬伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              }
+            ],
+            "groupKey": "champion_target",
+            "name": "本轮英雄目标",
+            "sortOrder": 10
+          }
+        ],
+        "description": "只消费已确认的 braum_q 实际命中事件，对事件中的英雄目标执行primary_hit；不从使用、再次施放、弹跳步骤或过程结束生成命中。英雄类别仅限定本轮范围。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "braum_q",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "布隆·寒冬之咬实际命中",
+        "perTargetCooldown": null,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10
+      },
+      "/skills/nautilus_q/effects/primary_hit": {
+        "createdAt": "2026-09-19T02:58:59.444182Z",
+        "description": "本轮1V1实际命中敌方英雄的一次普通直接魔法技能伤害；引用已有完整公式，控制、位移、返还或其他分支另行处理。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "诺提勒斯·疏通航道命中伤害",
+        "results": [
+          {
+            "description": "引用同技能 magic_damage 公式，保持现有基础值及属性加成口径。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "SKILL",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "magic_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "nautilus_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T02:58:59.444182Z"
+      },
+      "/skills/nautilus_q/trigger-rules/actual_hit": {
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "name": "执行诺提勒斯·疏通航道伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              }
+            ],
+            "groupKey": "champion_target",
+            "name": "本轮英雄目标",
+            "sortOrder": 10
+          }
+        ],
+        "description": "只消费已确认的 nautilus_q 实际命中事件，对事件中的英雄目标执行primary_hit；不从使用、再次施放、弹跳步骤或过程结束生成命中。英雄类别仅限定本轮范围。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "nautilus_q",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "诺提勒斯·疏通航道实际命中",
+        "perTargetCooldown": null,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10
+      },
+      "/skills/velkoz_q/effects/primary_hit": {
+        "createdAt": "2026-09-19T02:59:02.346609Z",
+        "description": "本轮1V1实际命中敌方英雄的一次普通直接魔法技能伤害；引用已有完整公式，控制、位移、返还或其他分支另行处理。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "维克兹·等离子裂变命中伤害",
+        "results": [
+          {
+            "description": "引用同技能 damage 公式，保持现有基础值及属性加成口径。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "SKILL",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "velkoz_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T02:59:02.346609Z"
+      },
+      "/skills/velkoz_q/trigger-rules/actual_hit": {
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "name": "执行维克兹·等离子裂变伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              }
+            ],
+            "groupKey": "champion_target",
+            "name": "本轮英雄目标",
+            "sortOrder": 10
+          }
+        ],
+        "description": "只消费已确认的 velkoz_q 实际命中事件，对事件中的英雄目标执行primary_hit；不从使用、再次施放、弹跳步骤或过程结束生成命中。英雄类别仅限定本轮范围。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "velkoz_q",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "维克兹·等离子裂变实际命中",
+        "perTargetCooldown": null,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10
+      },
+      "/skills/ziggs_q/effects/primary_hit": {
+        "createdAt": "2026-09-19T02:59:05.239457Z",
+        "description": "本轮1V1实际命中敌方英雄的一次普通直接魔法技能伤害；引用已有完整公式，控制、位移、返还或其他分支另行处理。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "吉格斯·弹跳炸弹命中伤害",
+        "results": [
+          {
+            "description": "引用同技能 damage 公式，保持现有基础值及属性加成口径。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "SKILL",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "ziggs_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T02:59:05.239457Z"
+      },
+      "/skills/ziggs_q/trigger-rules/actual_hit": {
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "name": "执行吉格斯·弹跳炸弹伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              }
+            ],
+            "groupKey": "champion_target",
+            "name": "本轮英雄目标",
+            "sortOrder": 10
+          }
+        ],
+        "description": "只消费已确认的 ziggs_q 实际命中事件，对事件中的英雄目标执行primary_hit；不从使用、再次施放、弹跳步骤或过程结束生成命中。英雄类别仅限定本轮范围。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "ziggs_q",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "吉格斯·弹跳炸弹实际命中",
+        "perTargetCooldown": null,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10
+      },
+      "/skills/zyra_q/effects/primary_hit": {
+        "createdAt": "2026-09-19T02:59:08.122529Z",
+        "description": "本轮1V1根技能本体实际命中敌方英雄的直接魔法伤害；本效果不计算植物攻击，种子和植物沿既有范围结论另行处理。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "婕拉·致命棘刺命中伤害",
+        "results": [
+          {
+            "description": "引用同技能 magic_damage 公式，保持现有基础值及属性加成口径。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "SKILL",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "magic_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "zyra_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T02:59:08.122529Z"
+      },
+      "/skills/zyra_q/trigger-rules/actual_hit": {
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "name": "执行婕拉·致命棘刺伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              }
+            ],
+            "groupKey": "champion_target",
+            "name": "本轮英雄目标",
+            "sortOrder": 10
+          }
+        ],
+        "description": "只消费已确认的 zyra_q 实际命中事件，对事件中的英雄目标执行primary_hit；不从使用、再次施放、弹跳步骤或过程结束生成命中。英雄类别仅限定本轮范围。 只对根技能本体命中生效，不把植物攻击等同于本次根技能事件。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "zyra_q",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "婕拉·致命棘刺实际命中",
+        "perTargetCooldown": null,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10
+      },
+      "/skills/zyra_e/effects/primary_hit": {
+        "createdAt": "2026-09-19T02:59:11.191676Z",
+        "description": "本轮1V1根技能本体实际命中敌方英雄的直接魔法伤害；本效果不计算植物攻击，种子和植物沿既有范围结论另行处理。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "婕拉·缠绕之根命中伤害",
+        "results": [
+          {
+            "description": "引用同技能 magic_damage 公式，保持现有基础值及属性加成口径。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "SKILL",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "magic_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "zyra_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T02:59:11.191676Z"
+      },
+      "/skills/zyra_e/trigger-rules/actual_hit": {
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "name": "执行婕拉·缠绕之根伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              }
+            ],
+            "groupKey": "champion_target",
+            "name": "本轮英雄目标",
+            "sortOrder": 10
+          }
+        ],
+        "description": "只消费已确认的 zyra_e 实际命中事件，对事件中的英雄目标执行primary_hit；不从使用、再次施放、弹跳步骤或过程结束生成命中。英雄类别仅限定本轮范围。 只对根技能本体命中生效，不把植物攻击等同于本次根技能事件。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "zyra_e",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "婕拉·缠绕之根实际命中",
+        "perTargetCooldown": null,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10
+      },
+      "/skills/leona_r/effects/primary_hit": {
+        "createdAt": "2026-09-19T02:59:14.21706Z",
+        "description": "本轮1V1实际命中敌方英雄的一次普通直接魔法技能伤害；引用已有完整公式，控制、位移、返还或其他分支另行处理。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "蕾欧娜·日炎耀斑命中伤害",
+        "results": [
+          {
+            "description": "引用同技能 magic_damage 公式，保持现有基础值及属性加成口径。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "SKILL",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "magic_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "leona_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T02:59:14.21706Z"
+      },
+      "/skills/leona_r/trigger-rules/actual_hit": {
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "name": "执行蕾欧娜·日炎耀斑伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              }
+            ],
+            "groupKey": "champion_target",
+            "name": "本轮英雄目标",
+            "sortOrder": 10
+          }
+        ],
+        "description": "只消费已确认的 leona_r 实际命中事件，对事件中的英雄目标执行primary_hit；不从使用、再次施放、弹跳步骤或过程结束生成命中。英雄类别仅限定本轮范围。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "leona_r",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "蕾欧娜·日炎耀斑实际命中",
+        "perTargetCooldown": null,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10
+      },
+      "/skills/malzahar_q/effects/primary_hit": {
+        "createdAt": "2026-09-19T02:59:17.390934Z",
+        "description": "本轮1V1实际命中敌方英雄的一次普通直接魔法技能伤害；引用已有完整公式，控制、位移、返还或其他分支另行处理。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "玛尔扎哈·虚空召唤命中伤害",
+        "results": [
+          {
+            "description": "引用同技能 damage 公式，保持现有基础值及属性加成口径。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "SKILL",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "malzahar_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T02:59:17.390934Z"
+      },
+      "/skills/malzahar_q/trigger-rules/actual_hit": {
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "name": "执行玛尔扎哈·虚空召唤伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              }
+            ],
+            "groupKey": "champion_target",
+            "name": "本轮英雄目标",
+            "sortOrder": 10
+          }
+        ],
+        "description": "只消费已确认的 malzahar_q 实际命中事件，对事件中的英雄目标执行primary_hit；不从使用、再次施放、弹跳步骤或过程结束生成命中。英雄类别仅限定本轮范围。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "malzahar_q",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "玛尔扎哈·虚空召唤实际命中",
+        "perTargetCooldown": null,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10
+      }
+    },
+    "audit": [
+      {
+        "method": "GET",
+        "path": "/skills/braum_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_braum",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_braum/attributes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_braum/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/braum_q/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?characterKey=champion_braum",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?skillKey=braum_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/braum_q/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/braum_q/parameters/base_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/braum_q/parameters/source_max_hp_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/braum_q/parameters/initial_slow_percent_points",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/braum_q/parameters/minimum_slow_percent_points",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/braum_q/parameters/slow_duration_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/braum_q/parameters/cooldown_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/braum_q/parameters/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/braum_q/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/braum_q/formulas/magic_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/braum_q/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/braum_q/effects/primary_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/braum_q/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/braum_q/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/braum_q/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/braum_q/trigger-rules/actual_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nautilus_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_nautilus",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_nautilus/attributes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_nautilus/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nautilus_q/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?characterKey=champion_nautilus",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?skillKey=nautilus_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nautilus_q/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nautilus_q/parameters/cast_time_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nautilus_q/parameters/base_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nautilus_q/parameters/ap_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nautilus_q/parameters/terrain_cooldown_reduction_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nautilus_q/parameters/terrain_mana_refund_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nautilus_q/parameters/cooldown_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nautilus_q/parameters/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nautilus_q/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nautilus_q/formulas/magic_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nautilus_q/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nautilus_q/effects/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nautilus_q/effects/primary_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nautilus_q/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nautilus_q/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nautilus_q/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nautilus_q/trigger-rules/actual_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/velkoz_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_velkoz",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_velkoz/attributes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_velkoz/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/velkoz_q/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?characterKey=champion_velkoz",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?skillKey=velkoz_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/velkoz_q/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/velkoz_q/parameters/base_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/velkoz_q/parameters/passive_stacks",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/velkoz_q/parameters/initial_slow_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/velkoz_q/parameters/slow_duration_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/velkoz_q/parameters/kill_mana_restore",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/velkoz_q/parameters/calculation_constant_1",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/velkoz_q/parameters/cooldown_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/velkoz_q/parameters/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/velkoz_q/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/velkoz_q/formulas/damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/velkoz_q/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/velkoz_q/effects/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/velkoz_q/effects/kill_mana_restore",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/velkoz_q/effects/primary_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/velkoz_q/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/velkoz_q/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/velkoz_q/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/velkoz_q/trigger-rules/actual_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/ziggs_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_ziggs",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_ziggs/attributes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_ziggs/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/ziggs_q/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?characterKey=champion_ziggs",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?skillKey=ziggs_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/ziggs_q/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/ziggs_q/parameters/base_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/ziggs_q/parameters/ap_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/ziggs_q/parameters/cooldown_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/ziggs_q/parameters/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/ziggs_q/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/ziggs_q/formulas/damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/ziggs_q/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/ziggs_q/effects/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/ziggs_q/effects/primary_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/ziggs_q/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/ziggs_q/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/ziggs_q/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/ziggs_q/trigger-rules/actual_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_zyra",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_zyra/attributes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_zyra/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_q/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?characterKey=champion_zyra",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?skillKey=zyra_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_q/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_q/parameters/base_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_q/parameters/ap_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_q/parameters/cast_time_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_q/parameters/cooldown_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_q/parameters/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_q/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_q/formulas/magic_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_q/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_q/effects/primary_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_q/effects/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_q/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_q/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_q/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_q/trigger-rules/actual_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_e",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_e/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?skillKey=zyra_e",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_e/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_e/parameters/base_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_e/parameters/ap_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_e/parameters/root_duration_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_e/parameters/cast_time_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_e/parameters/cooldown_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_e/parameters/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_e/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_e/formulas/magic_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_e/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_e/effects/primary_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_e/effects/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_e/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_e/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_e/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_e/trigger-rules/actual_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leona_r",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_leona",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_leona/attributes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_leona/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leona_r/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?characterKey=champion_leona",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?skillKey=leona_r",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leona_r/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leona_r/parameters/cast_time_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leona_r/parameters/explosion_base_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leona_r/parameters/explosion_ap_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leona_r/parameters/slow_percent_points",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leona_r/parameters/cc_duration_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leona_r/parameters/cooldown_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leona_r/parameters/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leona_r/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leona_r/formulas/magic_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leona_r/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leona_r/effects/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leona_r/effects/primary_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leona_r/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leona_r/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leona_r/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leona_r/trigger-rules/actual_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/malzahar_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_malzahar",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_malzahar/attributes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_malzahar/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/malzahar_q/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?characterKey=champion_malzahar",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?skillKey=malzahar_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/malzahar_q/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/malzahar_q/parameters/cast_time_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/malzahar_q/parameters/base_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/malzahar_q/parameters/silence_duration_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/malzahar_q/parameters/ap_ratio_constant",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/malzahar_q/parameters/cooldown_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/malzahar_q/parameters/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/malzahar_q/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/malzahar_q/formulas/damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/malzahar_q/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/malzahar_q/effects/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/malzahar_q/effects/primary_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/malzahar_q/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/malzahar_q/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/malzahar_q/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/malzahar_q/trigger-rules/actual_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/damage-types/magic",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/attributes/hp",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/attributes/ability_power",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/attributes/mana",
+        "status": 200
+      }
+    ]
+  }
+}

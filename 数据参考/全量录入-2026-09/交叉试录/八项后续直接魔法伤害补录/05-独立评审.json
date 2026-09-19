@@ -1,0 +1,320 @@
+{
+  "status": "APPROVED",
+  "at": "2026-09-19T02:54:05.143Z",
+  "reviewer": "/root/seven_hit_frozen_review",
+  "decision": "批准八个直接魔法伤害效果与八条本技能实际命中规则；仅消费根技能的合法实际英雄命中，保留其他分支和事件生产待办。",
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v3.mjs": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "01-候选方案.json": "2059fd37a3294911dc3dd26875bc95e049a35809fa9f25f4b78db82f5094721f",
+    "02-冻结请求.json": "b951069a62a921bc04827fc8b356dcde45d32f4d5bc81e16708c5607f4e66071",
+    "03-来源摘要.json": "753562a0e93c88045c11145f64c0484f60d2276947d3a7187a7d662371302b9f",
+    "04-写入前现值.json": "6ec5ec367e2225500f98c28a92aef5a65992d6fed9f23200964b6688aa07d4ef"
+  },
+  "businessWrites": 0,
+  "reviewerHTTPRequests": 0,
+  "checks": {
+    "sourceHashes": 28,
+    "officialAndCompressedClientFiles": 14,
+    "uncompressedClientHashes": 7,
+    "characterSlotAndAbilityRootBindings": 8,
+    "officialTooltipCalculationBindings": 8,
+    "ranks": 38,
+    "mathCases": 114,
+    "tolerance": 0.0001,
+    "maxAbsoluteDifference": 0.000007152557373046875,
+    "existingFormulaChanges": 0,
+    "runtimeInputCount": 0,
+    "plannedEffectCreates": 8,
+    "plannedRuleCreates": 8,
+    "newDetail404s": 16,
+    "duplicateKeys": 0,
+    "preparationGETs": 186,
+    "protectedBaselineResponses": 170,
+    "ownerRelationsVerified": 8,
+    "protectedRepresentativeImageResponses": 15
+  },
+  "perSkill": [
+    {
+      "skillKey": "braum_q",
+      "ownerKey": "champion_braum",
+      "officialId": "BraumQ",
+      "rootSpell": "Characters/Braum/Spells/BraumQAbility/BraumQ",
+      "calculation": "TotalDamage",
+      "formulaKey": "magic_damage",
+      "rankCount": 5,
+      "sourceAttribute": {
+        "attributeKey": "hp",
+        "attributeOwner": "SOURCE",
+        "attributeValueKind": "TOTAL"
+      },
+      "baseValues": [
+        75,
+        120,
+        165,
+        210,
+        255
+      ],
+      "ratioValues": [
+        0.02500000037252903,
+        0.02500000037252903,
+        0.02500000037252903,
+        0.02500000037252903,
+        0.02500000037252903
+      ],
+      "tooltipOnly": false,
+      "existingEffectCount": 0,
+      "runtimeInputCount": 0
+    },
+    {
+      "skillKey": "nautilus_q",
+      "ownerKey": "champion_nautilus",
+      "officialId": "NautilusAnchorDrag",
+      "rootSpell": "Characters/Nautilus/Spells/NautilusAnchorDragAbility/NautilusAnchorDrag",
+      "calculation": "QDamageCalc",
+      "formulaKey": "magic_damage",
+      "rankCount": 5,
+      "sourceAttribute": {
+        "attributeKey": "ability_power",
+        "attributeOwner": "SOURCE",
+        "attributeValueKind": "TOTAL"
+      },
+      "baseValues": [
+        85,
+        130,
+        175,
+        220,
+        265
+      ],
+      "ratioValues": [
+        0.8999999761581421,
+        0.8999999761581421,
+        0.8999999761581421,
+        0.8999999761581421,
+        0.8999999761581421
+      ],
+      "tooltipOnly": false,
+      "existingEffectCount": 1,
+      "runtimeInputCount": 0
+    },
+    {
+      "skillKey": "velkoz_q",
+      "ownerKey": "champion_velkoz",
+      "officialId": "VelkozQ",
+      "rootSpell": "Characters/Velkoz/Spells/VelkozQAbility/VelkozQ",
+      "calculation": "TotalDamage",
+      "formulaKey": "damage",
+      "rankCount": 5,
+      "sourceAttribute": {
+        "attributeKey": "ability_power",
+        "attributeOwner": "SOURCE",
+        "attributeValueKind": "TOTAL"
+      },
+      "baseValues": [
+        80,
+        120,
+        160,
+        200,
+        240
+      ],
+      "ratioValues": [
+        0.8999999761581421,
+        0.8999999761581421,
+        0.8999999761581421,
+        0.8999999761581421,
+        0.8999999761581421
+      ],
+      "tooltipOnly": false,
+      "existingEffectCount": 2,
+      "runtimeInputCount": 0
+    },
+    {
+      "skillKey": "ziggs_q",
+      "ownerKey": "champion_ziggs",
+      "officialId": "ZiggsQ",
+      "rootSpell": "Characters/Ziggs/Spells/ZiggsQAbility/ZiggsQ",
+      "calculation": "TotalDamage",
+      "formulaKey": "damage",
+      "rankCount": 5,
+      "sourceAttribute": {
+        "attributeKey": "ability_power",
+        "attributeOwner": "SOURCE",
+        "attributeValueKind": "TOTAL"
+      },
+      "baseValues": [
+        80,
+        130,
+        180,
+        230,
+        280
+      ],
+      "ratioValues": [
+        0.6000000238418579,
+        0.6499999761581421,
+        0.699999988079071,
+        0.75,
+        0.800000011920929
+      ],
+      "tooltipOnly": false,
+      "existingEffectCount": 1,
+      "runtimeInputCount": 0
+    },
+    {
+      "skillKey": "zyra_q",
+      "ownerKey": "champion_zyra",
+      "officialId": "ZyraQ",
+      "rootSpell": "Characters/Zyra/Spells/ZyraQAbility/ZyraQ",
+      "calculation": "InitialDamage",
+      "formulaKey": "magic_damage",
+      "rankCount": 5,
+      "sourceAttribute": {
+        "attributeKey": "ability_power",
+        "attributeOwner": "SOURCE",
+        "attributeValueKind": "TOTAL"
+      },
+      "baseValues": [
+        60,
+        100,
+        140,
+        180,
+        220
+      ],
+      "ratioValues": [
+        0.6499999761581421,
+        0.6499999761581421,
+        0.6499999761581421,
+        0.6499999761581421,
+        0.6499999761581421
+      ],
+      "tooltipOnly": true,
+      "existingEffectCount": 1,
+      "runtimeInputCount": 0
+    },
+    {
+      "skillKey": "zyra_e",
+      "ownerKey": "champion_zyra",
+      "officialId": "ZyraE",
+      "rootSpell": "Characters/Zyra/Spells/ZyraEAbility/ZyraE",
+      "calculation": "TotalDamage",
+      "formulaKey": "magic_damage",
+      "rankCount": 5,
+      "sourceAttribute": {
+        "attributeKey": "ability_power",
+        "attributeOwner": "SOURCE",
+        "attributeValueKind": "TOTAL"
+      },
+      "baseValues": [
+        60,
+        95,
+        130,
+        165,
+        200
+      ],
+      "ratioValues": [
+        0.6000000238418579,
+        0.6000000238418579,
+        0.6000000238418579,
+        0.6000000238418579,
+        0.6000000238418579
+      ],
+      "tooltipOnly": false,
+      "existingEffectCount": 1,
+      "runtimeInputCount": 0
+    },
+    {
+      "skillKey": "leona_r",
+      "ownerKey": "champion_leona",
+      "officialId": "LeonaSolarFlare",
+      "rootSpell": "Characters/Leona/Spells/LeonaSolarFlareAbility/LeonaSolarFlare",
+      "calculation": "ExplosionCalculatedDamage",
+      "formulaKey": "magic_damage",
+      "rankCount": 3,
+      "sourceAttribute": {
+        "attributeKey": "ability_power",
+        "attributeOwner": "SOURCE",
+        "attributeValueKind": "TOTAL"
+      },
+      "baseValues": [
+        150,
+        225,
+        300
+      ],
+      "ratioValues": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929
+      ],
+      "tooltipOnly": false,
+      "existingEffectCount": 1,
+      "runtimeInputCount": 0
+    },
+    {
+      "skillKey": "malzahar_q",
+      "ownerKey": "champion_malzahar",
+      "officialId": "MalzaharQ",
+      "rootSpell": "Characters/Malzahar/Spells/MalzaharQAbility/MalzaharQ",
+      "calculation": "TotalDamageTooltip",
+      "formulaKey": "damage",
+      "rankCount": 5,
+      "sourceAttribute": {
+        "attributeKey": "ability_power",
+        "attributeOwner": "SOURCE",
+        "attributeValueKind": "TOTAL"
+      },
+      "baseValues": [
+        70,
+        105,
+        140,
+        175,
+        210
+      ],
+      "ratioValues": [
+        0.550000011920929,
+        0.550000011920929,
+        0.550000011920929,
+        0.550000011920929,
+        0.550000011920929
+      ],
+      "tooltipOnly": false,
+      "existingEffectCount": 1,
+      "runtimeInputCount": 0
+    }
+  ],
+  "specialReview": {
+    "braum_q": "当前根TotalDamage使用BaseDamage与mStat=12的MaxHPDamageValue；原公式SOURCE/hp/TOTAL与共享契约生命值TOTAL=最大生命一致，未误用TARGET、CURRENT或法强。0.025来源与既有规范化参数差异仅浮点尾数。",
+    "ziggs_q": "APRatio按技能等级分别为约0.6/0.65/0.7/0.75/0.8，既有参数为SKILL_LEVEL，114点中覆盖全部五级，未折为固定0.65。",
+    "zyra_q": "根角色Q槽、Ability.mRootSpell和官方正文initialdamage共同绑定InitialDamage。tooltipOnly标记被保留为来源事实，未据此推断宿主已执行；官方第二段plantdamage是独立植物攻击，未纳入本效果。",
+    "zyra_e": "根E的TotalDamage与正文对应；plantdamage、植物减速和召唤边界单列。根技能sourceSkillKey筛选不是把所有植物子对象事件重标为根E的授权。",
+    "leona_r": "正文只绑定ExplosionCalculatedDamage，既有公式正确引用ExplosionBaseDamage/ExplosionAPRatio；旧OnHitBaseDamage与OnHitAPRatio不参与。中心晕眩与外围减速差别不改变来源给出的统一爆炸伤害。",
+    "velkoz_q": "根TotalDamage覆盖等离子实际命中；再次施放只作为分裂操作保留。本批SKILL_HIT不消费SKILL_USED或过程结束，不因分裂生成额外事件或猜测同目标去重。",
+    "nautilus_q": "伤害仅对应命中敌方单位；地形拉动及资源/冷却返还未纳入。",
+    "malzahar_q": "官方正文totaldamagetooltip与根TotalDamageTooltip对应，延迟和沉默均未通过本伤害规则伪造。",
+    "janna_w": "排除，00c原字节保持；没有填0、改公式或制造动态输入来源。"
+  },
+  "payloadReview": {
+    "damage": "magic / SKILL / DIRECT；公式倍率1，无暴击；SKILL法术护盾；OMNIVAMP、POST_DEFENSE_DAMAGE、效率1复用已绑定交互来源。",
+    "trigger": "每技能唯一SKILL_HIT来源筛选，CHAMPION类别，EXECUTE_EFFECT/primary_hit/CURRENT_TARGET；无其他来源技能、运行输入、结果修正或次数假设。",
+    "normalization": "POST明细不发送useKind，预期规则回读仅补useKind:null；效果预期主体完全相同。",
+    "dataProtection": "原参数、公式、既有资源/返还效果、技能主体、角色属性、关系与图片及时间戳保护；16个集合各追加1项，其他响应保持。"
+  },
+  "expectedIndependentReadback": {
+    "GETs": 186,
+    "unchangedResponsesIncludingTimestamps": 154,
+    "expectedChangedCollections": 16,
+    "newObjects": 16,
+    "businessWrites": 0
+  },
+  "executionConditions": [
+    "只能执行已批准工具和冻结文件原字节，28来源不得漂移。",
+    "写前工具仍须重核170份现值及16个详情404。",
+    "06已存在或写入结果不明时先查落地，不重放。",
+    "16次单次写入及即时回读后由独立执行者运行只读回读。"
+  ],
+  "validationLimits": {
+    "sourceAndLocalMath": "已独立核对",
+    "HTTP": "评审不发HTTP，只核冻结GET证据，写前仍需工具实时检查",
+    "database": "未直接访问数据库",
+    "browser": "未执行页面验收",
+    "hostWasmBattle": "未生产命中事件、未执行Wasm或战斗；弹跳/分裂/逐目标去重及植物事件归属仍是后续事件生产边界"
+  },
+  "blockingFindings": []
+}
