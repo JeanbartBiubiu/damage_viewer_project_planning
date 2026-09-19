@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-19T17:34:37.924Z",
+  "generatedAt": "2026-09-19T18:11:19.032Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -11808,6 +11808,91 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/科加斯W伤害返回/04-证据清单.json",
         "commit": "92dae320",
         "sha256": "0474f0789440cd7f9419e78e267ac37f8d0897026c2757be9ffdac2b6b3c3c1e"
+      },
+      "newIssueResolution": {
+        "status": "PASS",
+        "evidenceRef": "skillSubjectFreshDetail"
+      }
+    },
+    "skillSubjectFreshDetail": {
+      "at": "2026-09-19T18:11:19.032Z",
+      "status": "PASS",
+      "issue": "外部API更新技能主体后，原编辑及启停完整请求可能带回旧列表字段",
+      "fix": "查看编辑先读最新详情，启停先读再只改状态；连接代次失效与迟到响应隔离",
+      "codeCommit": "6a197387",
+      "checks": {
+        "lint": 141,
+        "typecheck": "PASS",
+        "tests": 715,
+        "nonWasmBrowserTests": 79,
+        "build": "PASS",
+        "realBrowser": "旧列表01:29未刷新，查看/编辑均取得02:03新说明",
+        "realBrowserBusinessWrites": 0
+      },
+      "boundaries": [
+        "保存及启停的失败分支为隔离页面证据",
+        "不提供服务端并发版本冲突检测",
+        "没有后端或战斗运行改动"
+      ],
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/技能主体最新详情修正/06-证据清单.json",
+        "commit": "72bf7811",
+        "codeCommit": "6a197387",
+        "sha256": "876155dcf4be03122070745c8112cbf54be7eea8628919bf0616a41f0043a571"
+      }
+    },
+    "chogathWUseRegistration": {
+      "at": "2026-09-19T18:09:02.791Z",
+      "status": "PASS",
+      "sourceVersion": {
+        "client": "16.17",
+        "ddragon": "16.17.1"
+      },
+      "skillKey": "chogath_w",
+      "businessWrites": 4,
+      "browserWrites": 0,
+      "protectedAPIWrites": 4,
+      "created": {
+        "processes": 1,
+        "triggerRules": 1
+      },
+      "updatedDescriptions": 2,
+      "independentGETs": 50,
+      "independentBatches": [
+        {
+          "path": "登记过程与入口/07-独立回读.json",
+          "GETs": 30
+        },
+        {
+          "path": "使用说明收敛/07-独立回读.json",
+          "GETs": 20
+        }
+      ],
+      "currentCounts": {
+        "parameters": 5,
+        "formulas": 1,
+        "effects": 3,
+        "processes": 1,
+        "internalStates": 0,
+        "triggerRules": 3
+      },
+      "browser": "新过程和入口重开、旧列表上最新主体说明读取PASS",
+      "registrationOnly": true,
+      "scope": "普通主动使用的基础法力和普通冷却登记，立即步骤不表示零施放时长，不执行伤害或沉默",
+      "remaining": [
+        "沉默重施期限",
+        "完整施放时长来源"
+      ],
+      "managementComplete": false,
+      "runtimeValidation": "未执行",
+      "noMigration": true,
+      "goalComplete": false,
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/科加斯W使用登记返回/04-证据清单.json",
+        "commit": "72bf7811",
+        "sha256": "9a8b86e1a23438e2e8739b8a8f6ba43b83961fbd3e7eaf6072891d5035ab3ec9"
       }
     }
   },
@@ -12390,6 +12475,19 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/科加斯W伤害返回/04-证据清单.json",
         "commit": "92dae320",
         "sha256": "0474f0789440cd7f9419e78e267ac37f8d0897026c2757be9ffdac2b6b3c3c1e"
+      },
+      "skillSubjectFreshDetail": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/技能主体最新详情修正/06-证据清单.json",
+        "commit": "72bf7811",
+        "codeCommit": "6a197387",
+        "sha256": "876155dcf4be03122070745c8112cbf54be7eea8628919bf0616a41f0043a571"
+      },
+      "chogathWUseRegistration": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/科加斯W使用登记返回/04-证据清单.json",
+        "commit": "72bf7811",
+        "sha256": "9a8b86e1a23438e2e8739b8a8f6ba43b83961fbd3e7eaf6072891d5035ab3ec9"
       }
     },
     "coverage": {
@@ -17838,11 +17936,11 @@
         "name": "科加斯·野性尖叫",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "实际敌方英雄命中伤害与首次沉默已录入并通过页面、独立回读和15组表达式核算；公式和主体说明已收敛。重施期限、完整施放时长与普通使用登记仍开放。",
+        "reason": "实际敌方英雄命中伤害、首次沉默及普通主动使用成本冷却已完成管理录入和对应页面、独立回读；旧说明已收敛。完整施放时长与沉默重施期限仍待核，整技能保持开放。",
         "pendingCounts": {
           "source": 2,
           "system": 0,
-          "configuration": 1,
+          "configuration": 0,
           "other": 0
         },
         "batchKey": "heroTwentiethBatch",
@@ -17851,7 +17949,9 @@
           "skillSecondStageCurrentReadback",
           "heroSourceInventory",
           "silenceStatusAuthoring",
-          "chogathWDirectDamageReturn"
+          "chogathWDirectDamageReturn",
+          "chogathWUseRegistration",
+          "skillSubjectFreshDetail"
         ],
         "silenceAuthoring": {
           "status": "首次施加管理配置已验证",
@@ -17865,14 +17965,13 @@
           "parameters": 5,
           "formulas": 1,
           "effects": 3,
-          "processes": 0,
+          "processes": 1,
           "internalStates": 0,
-          "triggerRules": 2
+          "triggerRules": 3
         },
         "remainingBranches": [
           "沉默重施期限",
-          "完整施放时长来源",
-          "普通主动使用的成本与冷却登记"
+          "完整施放时长来源"
         ],
         "authoredDirectHit": {
           "effectKey": "primary_hit",
@@ -17886,7 +17985,16 @@
           "vampType": "OMNIVAMP",
           "efficiency": 1
         },
-        "descriptionCleanup": "主体及公式说明PASS"
+        "descriptionCleanup": "主体、公式与成本效果说明PASS",
+        "authoredUseEntry": {
+          "processKey": "use_cost_and_cooldown",
+          "ruleKey": "on_used_cost_and_cooldown",
+          "costEffectKey": "mana_cost",
+          "registrationOnly": true,
+          "castDurationClaim": "未声明；立即步骤仅登记普通成本冷却",
+          "httpReadback": "PASS",
+          "browser": "PASS"
+        }
       },
       {
         "sourceChampionId": "Chogath",
