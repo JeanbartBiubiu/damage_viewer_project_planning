@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-19T15:10:42.162Z",
+  "generatedAt": "2026-09-19T16:04:24.087Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -11558,6 +11558,69 @@
         "commit": "c2d223d5",
         "sha256": "d3797c6f9288bb2b5786c1a1f9e2d245175aa054a874e8f106dd2313bc662c72"
       }
+    },
+    "garenRManagementReturn": {
+      "at": "2026-09-19T16:02:49.599Z",
+      "status": "PASS",
+      "skillKey": "garen_r",
+      "sourceVersion": {
+        "client": "16.17",
+        "ddragon": "16.17.1"
+      },
+      "managementStatus": "本轮1V1管理配置完整",
+      "counts": {
+        "parameters": 6,
+        "formulas": 1,
+        "effects": 1,
+        "processes": 1,
+        "internalStates": 0,
+        "triggerRules": 2
+      },
+      "businessWrites": 7,
+      "writes": {
+        "newProcess": 1,
+        "newTriggerRule": 1,
+        "effectUpdate": 1,
+        "hitRuleUpdate": 1,
+        "descriptionUpdates": 3
+      },
+      "independentGETs": 70,
+      "independentBatches": [
+        {
+          "path": "施放冷却补录/07-独立回读.json",
+          "GETs": 26
+        },
+        {
+          "path": "伤害与敌方条件页面更正/06-独立回读.json",
+          "GETs": 26
+        },
+        {
+          "path": "说明收敛/07-独立回读.json",
+          "GETs": 18
+        }
+      ],
+      "arithmeticCases": 9,
+      "browser": "过程重开、吸血规则保存重开与效率值、原组英雄并且敌方、主体最终说明均通过",
+      "consoleErrors": [],
+      "noCodeChange": true,
+      "noMigration": true,
+      "excludedBranches": [
+        "1000毫秒纯视野效果按本轮范围排除，现存参数保留"
+      ],
+      "runtimeBoundary": "实际距离、施放目标资格、失败取消、冷却与伤害吸血结算未执行；管理保存和算术不是战斗证明。",
+      "issues": [
+        "旧说明错误标记图片待补；定点确认关系、终极分类与图片已存在，复用而未重录",
+        "旧伤害吸血空数组与旧说明不一致，按已核定全能吸血口径修正",
+        "原命中规则只有英雄类别，补同组明确敌方条件",
+        "一轮审查引用Web中的旧后端副本误认为普通冷却过程不能空挂接；以backend真正工作树和已通过的既有无资源流程纠正，无需改代码"
+      ],
+      "goalComplete": false,
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/盖伦R管理返回核对/09-证据清单.json",
+        "commit": "60820260",
+        "sha256": "8719282dc157124d1b4f8aa576fefb7d0b3cf1bb2b7dd2a6fbc979fe1ae980b3"
+      }
     }
   },
   "runtimeValidation": "未执行",
@@ -12121,6 +12184,12 @@
         "relativePath": "数据参考/全量录入-2026-09/普攻计时重置补齐/16-证据清单.json",
         "commit": "c2d223d5",
         "sha256": "d3797c6f9288bb2b5786c1a1f9e2d245175aa054a874e8f106dd2313bc662c72"
+      },
+      "garenRManagementReturn": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/盖伦R管理返回核对/09-证据清单.json",
+        "commit": "60820260",
+        "sha256": "8719282dc157124d1b4f8aa576fefb7d0b3cf1bb2b7dd2a6fbc979fe1ae980b3"
       }
     },
     "coverage": {
@@ -12140,16 +12209,16 @@
         "concludedItems": 865,
         "conclusions": {
           "资料待核": 385,
-          "系统暂缓": 450,
+          "系统暂缓": 449,
           "明确排除": 26,
-          "已录入": 4
+          "已录入": 5
         },
         "matchedInScopeItems": 855,
         "excludedChampionSlots": 10,
         "remainingInScopeItems": 0,
         "status": "FULL_COVERAGE_WITH_OPEN_QUEUE",
-        "openQueueItems": 835,
-        "managementCompleteItems": 4,
+        "openQueueItems": 834,
+        "managementCompleteItems": 5,
         "countingBoundary": "sourceItems=865为来源槽位，matchedInScopeItems=855为范围内技能；remainingInScopeItems只指尚未分类项，openQueueItems才是资料或系统开放项，已录入仅指管理配置完成。"
       },
       "equipment": {
@@ -19491,13 +19560,13 @@
         "slot": "R",
         "skillKey": "garen_r",
         "name": "盖伦·德玛西亚正义",
-        "conclusion": "系统暂缓",
-        "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "conclusion": "已录入",
+        "conclusionScope": "本轮1V1敌方英雄目标管理配置，不含纯视野与战斗运行",
+        "reason": "固定16.17与官方16.17.1数值、435毫秒基础施放、120/100/80秒普通冷却及无资源使用入口已表达；原实际命中入口补同组明确敌方，单次真实伤害及全能吸血规则完成。角色关系、终极分类及图片复用，说明收敛；7次保存、70次独立GET、9组实际公式核算及页面重开通过。",
         "pendingCounts": {
           "source": 0,
           "system": 0,
-          "configuration": 1,
+          "configuration": 0,
           "other": 0
         },
         "batchKey": "heroSixthBatch",
@@ -19505,11 +19574,29 @@
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
           "heroSourceInventory",
-          "remainingUltimateCategoryBackfill"
+          "remainingUltimateCategoryBackfill",
+          "garenRManagementReturn"
         ],
         "completedBranches": [
-          "固定来源主R终极技能分类关联"
-        ]
+          "125/200/275加25/30/35%目标已损失生命的单次真实技能伤害，命中时取值且不暴击",
+          "真实伤害结果参与当前结果法术护盾阻挡；全能吸血按防御后伤害效率1",
+          "原命中入口同组限定英雄和明确敌方，只有一次执行伤害动作",
+          "435毫秒施放延迟与120/100/80秒普通冷却，从已成立主动使用启动过程，无资源消耗",
+          "施法距离400参数、角色关系、终极技能分类及代表图"
+        ],
+        "excludedBranches": [
+          "1000毫秒纯视野效果按本轮范围排除，现存参数保持"
+        ],
+        "remainingBranches": [],
+        "currentComponentCounts": {
+          "parameters": 6,
+          "formulas": 1,
+          "effects": 1,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 2
+        },
+        "runtimeValidation": "实际距离、施放目标资格、失败取消、冷却与伤害吸血结算未执行；管理保存和算术不是战斗证明。"
       },
       {
         "sourceChampionId": "Gnar",
