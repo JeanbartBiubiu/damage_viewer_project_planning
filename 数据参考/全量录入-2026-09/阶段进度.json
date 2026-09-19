@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-19T18:16:43.939Z",
+  "generatedAt": "2026-09-19T18:52:17.417Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -11922,6 +11922,59 @@
         "commit": "e7be4a88",
         "sha256": "09a46a13e8ab722f2fdee8252460a4a6b098a52218907b54527801a9045978c9"
       }
+    },
+    "malzaharEUseAndRefreshAudit": {
+      "at": "2026-09-19T18:52:17.417Z",
+      "status": "PARTIAL_MANAGEMENT_RETURN_PASS",
+      "sourceVersion": {
+        "client": "16.17",
+        "ddragon": "16.17.1"
+      },
+      "skillKey": "malzahar_e",
+      "businessWrites": 4,
+      "browserWrites": 0,
+      "protectedAPIWrites": 4,
+      "created": {
+        "processes": 1,
+        "triggerRules": 1
+      },
+      "updatedDescriptions": 2,
+      "independentGETs": 42,
+      "independentBatches": [
+        {
+          "path": "普通使用补录/07-独立回读.json",
+          "GETs": 25
+        },
+        {
+          "path": "使用说明更新/07-独立回读.json",
+          "GETs": 17
+        }
+      ],
+      "currentCounts": {
+        "parameters": 6,
+        "formulas": 1,
+        "effects": 1,
+        "processes": 1,
+        "internalStates": 0,
+        "triggerRules": 1
+      },
+      "browser": "过程、使用规则、最新主体说明、成本效果与结果重开PASS",
+      "remaining": [
+        "持续伤害首次结算时点与法强读取口径",
+        "幻象施加及持续伤害效果和入口",
+        "Q/R造成伤害后的持续时间刷新及来源技能筛选",
+        "死亡传播及回蓝等范围内组成"
+      ],
+      "managementComplete": false,
+      "runtimeValidation": "未执行",
+      "noMigration": true,
+      "goalComplete": false,
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/玛尔扎哈E持续与刷新核对/07-证据清单.json",
+        "commit": "0f39d8c3",
+        "sha256": "b34d39a7200ccfaad9090c22c4b3a99cd54f43bd86acb71d7a69971eccfc1943"
+      }
     }
   },
   "runtimeValidation": "未执行",
@@ -12522,6 +12575,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/玛尔扎哈Q伤害页面返回/03-证据清单.json",
         "commit": "e7be4a88",
         "sha256": "09a46a13e8ab722f2fdee8252460a4a6b098a52218907b54527801a9045978c9"
+      },
+      "malzaharEUseAndRefreshAudit": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/玛尔扎哈E持续与刷新核对/07-证据清单.json",
+        "commit": "0f39d8c3",
+        "sha256": "b34d39a7200ccfaad9090c22c4b3a99cd54f43bd86acb71d7a69971eccfc1943"
       }
     },
     "coverage": {
@@ -25587,7 +25646,12 @@
           "browser": "PASS",
           "runtime": "未执行"
         },
-        "descriptionCleanup": "主体说明PASS"
+        "descriptionCleanup": "主体说明PASS",
+        "refreshEFollowup": {
+          "evidenceRef": "malzaharEUseAndRefreshAudit",
+          "existingCapability": "E本地生命周期刷新已可表达；缺少能指定Q来源的伤害已结算事件过滤，且E持续伤害本体及首跳尚未录定。",
+          "status": "开放"
+        }
       },
       {
         "sourceChampionId": "Malzahar",
@@ -25621,19 +25685,47 @@
         "name": "玛尔扎哈·煞星幻象",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "普通主动使用、既有250毫秒施放登记、法力消耗与普通冷却已接入并通过42次独立GET及页面；持续伤害首跳和读取时点待核，Q/R伤害刷新缺来源技能筛选，幻象施加、传播与回蓝仍待连接。",
         "pendingCounts": {
-          "source": 0,
+          "source": 1,
           "system": 1,
-          "configuration": 0,
+          "configuration": 2,
           "other": 0
         },
         "batchKey": "heroSixteenthBatch",
         "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "malzaharEUseAndRefreshAudit"
+        ],
+        "currentComponentCounts": {
+          "parameters": 6,
+          "formulas": 1,
+          "effects": 1,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 1
+        },
+        "completedBranches": [
+          "普通主动使用启动cast",
+          "过程开始引用原mana_cost并登记cooldown_ms",
+          "cast_time_ms为250毫秒的延迟登记",
+          "主体与成本说明准确反映当前录入范围"
+        ],
+        "remainingBranches": [
+          "持续伤害首次结算时点与法强读取口径",
+          "幻象施加及持续伤害效果和入口",
+          "Q/R造成伤害后的持续时间刷新及来源技能筛选",
+          "死亡传播及回蓝等范围内组成"
+        ],
+        "authoredUseEntry": {
+          "ruleKey": "on_used",
+          "processKey": "cast",
+          "httpReadback": "PASS",
+          "browser": "PASS"
+        },
+        "managementComplete": false
       },
       {
         "sourceChampionId": "Malzahar",
