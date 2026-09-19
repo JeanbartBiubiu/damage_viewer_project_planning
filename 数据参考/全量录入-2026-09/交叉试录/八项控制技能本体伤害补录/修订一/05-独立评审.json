@@ -1,0 +1,124 @@
+{
+  "status": "APPROVED",
+  "at": "2026-09-19T03:38:24.358Z",
+  "reviewer": "/root/seven_hit_frozen_review",
+  "decision": "批准修订一的八个独立伤害效果和五条无同类资格歧义的命中规则；娜美Q/R与奥莉安娜W只保存效果，不建立本轮实际命中伤害入口。",
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v3.mjs": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "01-候选方案.json": "26916f06bfe185eea14318c85a139009e102a3fa5827442bf220320a2a32f723",
+    "02-冻结请求.json": "4598dbc1abfb00da2e662744bba7727e964561b3dbdec98f0bcc41cb014cd617",
+    "03-来源摘要.json": "c8a306f5b6ac021d3c6ce5b13ae72e5c7307a9521ad49e70e8beab5854fac61f",
+    "04-写入前现值.json": "e97c1bf4233a46083165a9b339c576aeca31130a9560b99e07a84cc488f302b7"
+  },
+  "businessWrites": 0,
+  "reviewerHTTPRequests": 0,
+  "checks": {
+    "sourceHashes": 27,
+    "originalReviewPreserved": true,
+    "originalReviewedFilesUnchanged": true,
+    "removedRuleCount": 3,
+    "remainingRequestsExactlyEqualOriginal": 13,
+    "damageEffects": 8,
+    "actualHitRules": 5,
+    "currentBaselineEqualsOriginal": true,
+    "protectedResponses": 186,
+    "preparationGETs": 199,
+    "newDetail404s": 13,
+    "standaloneEffectsHaveNoExistingExecutionBinding": 3,
+    "arithmeticPointsReused": 108
+  },
+  "removedRuleRoutes": [
+    "/skills/nami_q/trigger-rules/actual_hit",
+    "/skills/nami_r/trigger-rules/actual_hit",
+    "/skills/orianna_w/trigger-rules/actual_hit"
+  ],
+  "retainedRequests": [
+    {
+      "method": "POST",
+      "detailRoute": "/skills/nami_q/effects/primary_hit"
+    },
+    {
+      "method": "POST",
+      "detailRoute": "/skills/nami_r/effects/primary_hit"
+    },
+    {
+      "method": "POST",
+      "detailRoute": "/skills/soraka_q/effects/primary_hit"
+    },
+    {
+      "method": "POST",
+      "detailRoute": "/skills/soraka_q/trigger-rules/actual_hit"
+    },
+    {
+      "method": "POST",
+      "detailRoute": "/skills/neeko_e/effects/primary_hit"
+    },
+    {
+      "method": "POST",
+      "detailRoute": "/skills/neeko_e/trigger-rules/actual_hit"
+    },
+    {
+      "method": "POST",
+      "detailRoute": "/skills/orianna_w/effects/primary_hit"
+    },
+    {
+      "method": "POST",
+      "detailRoute": "/skills/orianna_r/effects/primary_hit"
+    },
+    {
+      "method": "POST",
+      "detailRoute": "/skills/orianna_r/trigger-rules/actual_hit"
+    },
+    {
+      "method": "POST",
+      "detailRoute": "/skills/jinx_w/effects/primary_hit"
+    },
+    {
+      "method": "POST",
+      "detailRoute": "/skills/jinx_w/trigger-rules/actual_hit"
+    },
+    {
+      "method": "POST",
+      "detailRoute": "/skills/quinn_q/effects/primary_hit"
+    },
+    {
+      "method": "POST",
+      "detailRoute": "/skills/quinn_q/trigger-rules/actual_hit"
+    }
+  ],
+  "sourceReviewReuse": {
+    "path": "数据参考/全量录入-2026-09/交叉试录/八项控制技能本体伤害补录/05-独立评审.json",
+    "sha256": "530b211ded37e7fdbad2fc7df26b3f88c8bf90e7e8099c5563d70c252e76fff6",
+    "numericAndPayloadChecks": "原评审108点及完整载荷通过，原文件和21来源均未漂移；本轮仅核精确删项、增加的来源绑定和新实时基线。"
+  },
+  "remainingBoundaries": {
+    "nami_q": "友方命中资格未定，不把P有独立根当作Q原始友方命中被排除。",
+    "nami_r": "同根明确友方命中，需有效敌方限定；独立伤害效果不等于该分支入口已完成。",
+    "orianna_w": "同根敌我能量场与首次脉冲分阶段，关系条件只解决敌我，不承诺解决后续能量场接触是否构成伤害命中的阶段语义。",
+    "eligibleRules": [
+      "soraka_q",
+      "neeko_e",
+      "orianna_r",
+      "jinx_w",
+      "quinn_q"
+    ]
+  },
+  "expectedIndependentReadback": {
+    "GETs": 199,
+    "newObjects": 13,
+    "expectedChangedCollections": 13,
+    "unchangedResponsesIncludingTimestamps": 173,
+    "businessWrites": 0
+  },
+  "executionConditions": [
+    "固定工具、01至04及27来源原字节保持；写前重核186现值和13详情404。",
+    "只单次执行修订一13POST，不执行原目录16请求；原REVISE不修改。",
+    "写后独立只读回读并wx保存修订一07；在写入和回读完成前不改已绑定类型/契约来源。"
+  ],
+  "validationLimits": {
+    "HTTP": "本评审0HTTP",
+    "browser": "未验",
+    "runtime": "无宿主/Wasm/战斗证明"
+  },
+  "blockingFindings": []
+}

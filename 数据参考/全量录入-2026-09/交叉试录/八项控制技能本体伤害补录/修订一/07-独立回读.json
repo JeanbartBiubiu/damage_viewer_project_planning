@@ -1,0 +1,1659 @@
+{
+  "toolExitCode": 0,
+  "stdout": "{\"status\":\"PASS\",\"at\":\"2026-09-19T03:42:16.865Z\",\"businessWrites\":0,\"GETs\":199,\"unchangedResponsesIncludingTimestamps\":173,\"expectedChangedCollections\":13,\"newObjects\":{\"/skills/nami_q/effects/primary_hit\":{\"createdAt\":\"2026-09-19T03:40:12.192587Z\",\"description\":\"本轮1V1根技能本体实际命中敌方英雄的直接魔法伤害；引用已有公式，控制、回复、印记、球位置与其他联动另行处理。\",\"effectKey\":\"primary_hit\",\"gameId\":\"lol\",\"lifecycle\":null,\"name\":\"娜美·碧波之牢本体直接伤害\",\"results\":[{\"description\":\"引用同技能magic_damage，保留已有属性口径和等级系数。\",\"detail\":{\"critical\":{\"mode\":\"DISALLOWED\",\"multiplierValue\":null},\"damageTypeKey\":\"magic\",\"deliveryKind\":\"SKILL\",\"originKind\":\"DIRECT\",\"vampRules\":[{\"basisOutputKind\":\"POST_DEFENSE_DAMAGE\",\"efficiencyValue\":{\"kind\":\"FIXED\",\"value\":1},\"vampType\":\"OMNIVAMP\"}]},\"lifecycleBehavior\":null,\"name\":\"魔法伤害\",\"resultKey\":\"damage\",\"resultType\":\"DAMAGE\",\"sortOrder\":10,\"spellShieldBlockScope\":\"SKILL\",\"target\":\"TARGET\",\"valueRule\":{\"fixedMaxValue\":null,\"fixedMinValue\":0,\"fixedMultiplier\":1,\"value\":{\"formulaKey\":\"magic_damage\",\"kind\":\"FORMULA\"}}}],\"skillKey\":\"nami_q\",\"sortOrder\":20,\"updatedAt\":\"2026-09-19T03:40:12.192587Z\"},\"/skills/nami_r/effects/primary_hit\":{\"createdAt\":\"2026-09-19T03:40:13.616853Z\",\"description\":\"本轮1V1根技能本体实际命中敌方英雄的直接魔法伤害；引用已有公式，控制、回复、印记、球位置与其他联动另行处理。\",\"effectKey\":\"primary_hit\",\"gameId\":\"lol\",\"lifecycle\":null,\"name\":\"娜美·怒涛之啸本体直接伤害\",\"results\":[{\"description\":\"引用同技能magic_damage，保留已有属性口径和等级系数。\",\"detail\":{\"critical\":{\"mode\":\"DISALLOWED\",\"multiplierValue\":null},\"damageTypeKey\":\"magic\",\"deliveryKind\":\"SKILL\",\"originKind\":\"DIRECT\",\"vampRules\":[{\"basisOutputKind\":\"POST_DEFENSE_DAMAGE\",\"efficiencyValue\":{\"kind\":\"FIXED\",\"value\":1},\"vampType\":\"OMNIVAMP\"}]},\"lifecycleBehavior\":null,\"name\":\"魔法伤害\",\"resultKey\":\"damage\",\"resultType\":\"DAMAGE\",\"sortOrder\":10,\"spellShieldBlockScope\":\"SKILL\",\"target\":\"TARGET\",\"valueRule\":{\"fixedMaxValue\":null,\"fixedMinValue\":0,\"fixedMultiplier\":1,\"value\":{\"formulaKey\":\"magic_damage\",\"kind\":\"FORMULA\"}}}],\"skillKey\":\"nami_r\",\"sortOrder\":20,\"updatedAt\":\"2026-09-19T03:40:13.616853Z\"},\"/skills/soraka_q/effects/primary_hit\":{\"createdAt\":\"2026-09-19T03:40:14.996146Z\",\"description\":\"本轮1V1根技能本体实际命中敌方英雄的直接魔法伤害；引用已有公式，控制、回复、印记、球位置与其他联动另行处理。\",\"effectKey\":\"primary_hit\",\"gameId\":\"lol\",\"lifecycle\":null,\"name\":\"索拉卡·流星坠落本体直接伤害\",\"results\":[{\"description\":\"引用同技能magic_damage，保留已有属性口径和等级系数。\",\"detail\":{\"critical\":{\"mode\":\"DISALLOWED\",\"multiplierValue\":null},\"damageTypeKey\":\"magic\",\"deliveryKind\":\"SKILL\",\"originKind\":\"DIRECT\",\"vampRules\":[{\"basisOutputKind\":\"POST_DEFENSE_DAMAGE\",\"efficiencyValue\":{\"kind\":\"FIXED\",\"value\":1},\"vampType\":\"OMNIVAMP\"}]},\"lifecycleBehavior\":null,\"name\":\"魔法伤害\",\"resultKey\":\"damage\",\"resultType\":\"DAMAGE\",\"sortOrder\":10,\"spellShieldBlockScope\":\"SKILL\",\"target\":\"TARGET\",\"valueRule\":{\"fixedMaxValue\":null,\"fixedMinValue\":0,\"fixedMultiplier\":1,\"value\":{\"formulaKey\":\"magic_damage\",\"kind\":\"FORMULA\"}}}],\"skillKey\":\"soraka_q\",\"sortOrder\":20,\"updatedAt\":\"2026-09-19T03:40:14.996146Z\"},\"/skills/soraka_q/trigger-rules/actual_hit\":{\"actions\":[{\"actionKey\":\"execute_primary_hit\",\"actionType\":\"EXECUTE_EFFECT\",\"detail\":{\"effectKey\":\"primary_hit\"},\"name\":\"执行索拉卡·流星坠落直接伤害\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[{\"conditions\":[{\"conditionKey\":\"champion_target\",\"conditionType\":\"TARGET_CATEGORY_CHECK\",\"detail\":{\"categories\":[\"CHAMPION\"]},\"sortOrder\":10}],\"groupKey\":\"champion_target\",\"name\":\"本轮英雄目标\",\"sortOrder\":10}],\"description\":\"消费soraka_q根技能本体的合法实际英雄命中并执行primary_hit；不从使用、等待结束、位置变化或控制状态生成伤害命中。\",\"eventSource\":{\"detail\":{\"sourceSkillKey\":\"soraka_q\",\"useKind\":null},\"eventType\":\"SKILL_HIT\"},\"maxTriggersPerProcess\":null,\"name\":\"索拉卡·流星坠落本体实际命中\",\"perTargetCooldown\":null,\"ruleKey\":\"actual_hit\",\"sortOrder\":10},\"/skills/neeko_e/effects/primary_hit\":{\"createdAt\":\"2026-09-19T03:40:18.95223Z\",\"description\":\"本轮1V1根技能本体实际命中敌方英雄的直接魔法伤害；引用已有公式，控制、回复、印记、球位置与其他联动另行处理。\",\"effectKey\":\"primary_hit\",\"gameId\":\"lol\",\"lifecycle\":null,\"name\":\"妮蔻·缠结倒刺本体直接伤害\",\"results\":[{\"description\":\"引用同技能damage，保留已有属性口径和等级系数。\",\"detail\":{\"critical\":{\"mode\":\"DISALLOWED\",\"multiplierValue\":null},\"damageTypeKey\":\"magic\",\"deliveryKind\":\"SKILL\",\"originKind\":\"DIRECT\",\"vampRules\":[{\"basisOutputKind\":\"POST_DEFENSE_DAMAGE\",\"efficiencyValue\":{\"kind\":\"FIXED\",\"value\":1},\"vampType\":\"OMNIVAMP\"}]},\"lifecycleBehavior\":null,\"name\":\"魔法伤害\",\"resultKey\":\"damage\",\"resultType\":\"DAMAGE\",\"sortOrder\":10,\"spellShieldBlockScope\":\"SKILL\",\"target\":\"TARGET\",\"valueRule\":{\"fixedMaxValue\":null,\"fixedMinValue\":0,\"fixedMultiplier\":1,\"value\":{\"formulaKey\":\"damage\",\"kind\":\"FORMULA\"}}}],\"skillKey\":\"neeko_e\",\"sortOrder\":20,\"updatedAt\":\"2026-09-19T03:40:18.95223Z\"},\"/skills/neeko_e/trigger-rules/actual_hit\":{\"actions\":[{\"actionKey\":\"execute_primary_hit\",\"actionType\":\"EXECUTE_EFFECT\",\"detail\":{\"effectKey\":\"primary_hit\"},\"name\":\"执行妮蔻·缠结倒刺直接伤害\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[{\"conditions\":[{\"conditionKey\":\"champion_target\",\"conditionType\":\"TARGET_CATEGORY_CHECK\",\"detail\":{\"categories\":[\"CHAMPION\"]},\"sortOrder\":10}],\"groupKey\":\"champion_target\",\"name\":\"本轮英雄目标\",\"sortOrder\":10}],\"description\":\"消费neeko_e根技能本体的合法实际英雄命中并执行primary_hit；不从使用、等待结束、位置变化或控制状态生成伤害命中。\",\"eventSource\":{\"detail\":{\"sourceSkillKey\":\"neeko_e\",\"useKind\":null},\"eventType\":\"SKILL_HIT\"},\"maxTriggersPerProcess\":null,\"name\":\"妮蔻·缠结倒刺本体实际命中\",\"perTargetCooldown\":null,\"ruleKey\":\"actual_hit\",\"sortOrder\":10},\"/skills/orianna_w/effects/primary_hit\":{\"createdAt\":\"2026-09-19T03:40:22.227116Z\",\"description\":\"本轮1V1根技能本体实际命中敌方英雄的直接魔法伤害；引用已有公式，控制、回复、印记、球位置与其他联动另行处理。\",\"effectKey\":\"primary_hit\",\"gameId\":\"lol\",\"lifecycle\":null,\"name\":\"奥莉安娜·指令：杂音本体直接伤害\",\"results\":[{\"description\":\"引用同技能damage，保留已有属性口径和等级系数。\",\"detail\":{\"critical\":{\"mode\":\"DISALLOWED\",\"multiplierValue\":null},\"damageTypeKey\":\"magic\",\"deliveryKind\":\"SKILL\",\"originKind\":\"DIRECT\",\"vampRules\":[{\"basisOutputKind\":\"POST_DEFENSE_DAMAGE\",\"efficiencyValue\":{\"kind\":\"FIXED\",\"value\":1},\"vampType\":\"OMNIVAMP\"}]},\"lifecycleBehavior\":null,\"name\":\"魔法伤害\",\"resultKey\":\"damage\",\"resultType\":\"DAMAGE\",\"sortOrder\":10,\"spellShieldBlockScope\":\"SKILL\",\"target\":\"TARGET\",\"valueRule\":{\"fixedMaxValue\":null,\"fixedMinValue\":0,\"fixedMultiplier\":1,\"value\":{\"formulaKey\":\"damage\",\"kind\":\"FORMULA\"}}}],\"skillKey\":\"orianna_w\",\"sortOrder\":20,\"updatedAt\":\"2026-09-19T03:40:22.227116Z\"},\"/skills/orianna_r/effects/primary_hit\":{\"createdAt\":\"2026-09-19T03:40:23.704134Z\",\"description\":\"本轮1V1根技能本体实际命中敌方英雄的直接魔法伤害；引用已有公式，控制、回复、印记、球位置与其他联动另行处理。\",\"effectKey\":\"primary_hit\",\"gameId\":\"lol\",\"lifecycle\":null,\"name\":\"奥莉安娜·指令：冲击波本体直接伤害\",\"results\":[{\"description\":\"引用同技能damage，保留已有属性口径和等级系数。\",\"detail\":{\"critical\":{\"mode\":\"DISALLOWED\",\"multiplierValue\":null},\"damageTypeKey\":\"magic\",\"deliveryKind\":\"SKILL\",\"originKind\":\"DIRECT\",\"vampRules\":[{\"basisOutputKind\":\"POST_DEFENSE_DAMAGE\",\"efficiencyValue\":{\"kind\":\"FIXED\",\"value\":1},\"vampType\":\"OMNIVAMP\"}]},\"lifecycleBehavior\":null,\"name\":\"魔法伤害\",\"resultKey\":\"damage\",\"resultType\":\"DAMAGE\",\"sortOrder\":10,\"spellShieldBlockScope\":\"SKILL\",\"target\":\"TARGET\",\"valueRule\":{\"fixedMaxValue\":null,\"fixedMinValue\":0,\"fixedMultiplier\":1,\"value\":{\"formulaKey\":\"damage\",\"kind\":\"FORMULA\"}}}],\"skillKey\":\"orianna_r\",\"sortOrder\":20,\"updatedAt\":\"2026-09-19T03:40:23.704134Z\"},\"/skills/orianna_r/trigger-rules/actual_hit\":{\"actions\":[{\"actionKey\":\"execute_primary_hit\",\"actionType\":\"EXECUTE_EFFECT\",\"detail\":{\"effectKey\":\"primary_hit\"},\"name\":\"执行奥莉安娜·指令：冲击波直接伤害\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[{\"conditions\":[{\"conditionKey\":\"champion_target\",\"conditionType\":\"TARGET_CATEGORY_CHECK\",\"detail\":{\"categories\":[\"CHAMPION\"]},\"sortOrder\":10}],\"groupKey\":\"champion_target\",\"name\":\"本轮英雄目标\",\"sortOrder\":10}],\"description\":\"消费orianna_r根技能本体的合法实际英雄命中并执行primary_hit；不从使用、等待结束、位置变化或控制状态生成伤害命中。\",\"eventSource\":{\"detail\":{\"sourceSkillKey\":\"orianna_r\",\"useKind\":null},\"eventType\":\"SKILL_HIT\"},\"maxTriggersPerProcess\":null,\"name\":\"奥莉安娜·指令：冲击波本体实际命中\",\"perTargetCooldown\":null,\"ruleKey\":\"actual_hit\",\"sortOrder\":10},\"/skills/jinx_w/effects/primary_hit\":{\"createdAt\":\"2026-09-19T03:40:27.083781Z\",\"description\":\"本轮1V1根技能本体实际命中敌方英雄的直接物理伤害；引用已有公式，控制、回复、印记、球位置与其他联动另行处理。\",\"effectKey\":\"primary_hit\",\"gameId\":\"lol\",\"lifecycle\":null,\"name\":\"金克丝·震荡电磁波！本体直接伤害\",\"results\":[{\"description\":\"引用同技能damage，保留已有属性口径和等级系数。\",\"detail\":{\"critical\":{\"mode\":\"DISALLOWED\",\"multiplierValue\":null},\"damageTypeKey\":\"physics\",\"deliveryKind\":\"SKILL\",\"originKind\":\"DIRECT\",\"vampRules\":[{\"basisOutputKind\":\"POST_DEFENSE_DAMAGE\",\"efficiencyValue\":{\"kind\":\"FIXED\",\"value\":1},\"vampType\":\"OMNIVAMP\"}]},\"lifecycleBehavior\":null,\"name\":\"魔法伤害\",\"resultKey\":\"damage\",\"resultType\":\"DAMAGE\",\"sortOrder\":10,\"spellShieldBlockScope\":\"SKILL\",\"target\":\"TARGET\",\"valueRule\":{\"fixedMaxValue\":null,\"fixedMinValue\":0,\"fixedMultiplier\":1,\"value\":{\"formulaKey\":\"damage\",\"kind\":\"FORMULA\"}}}],\"skillKey\":\"jinx_w\",\"sortOrder\":20,\"updatedAt\":\"2026-09-19T03:40:27.083781Z\"},\"/skills/jinx_w/trigger-rules/actual_hit\":{\"actions\":[{\"actionKey\":\"execute_primary_hit\",\"actionType\":\"EXECUTE_EFFECT\",\"detail\":{\"effectKey\":\"primary_hit\"},\"name\":\"执行金克丝·震荡电磁波！直接伤害\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[{\"conditions\":[{\"conditionKey\":\"champion_target\",\"conditionType\":\"TARGET_CATEGORY_CHECK\",\"detail\":{\"categories\":[\"CHAMPION\"]},\"sortOrder\":10}],\"groupKey\":\"champion_target\",\"name\":\"本轮英雄目标\",\"sortOrder\":10}],\"description\":\"消费jinx_w根技能本体的合法实际英雄命中并执行primary_hit；不从使用、等待结束、位置变化或控制状态生成伤害命中。\",\"eventSource\":{\"detail\":{\"sourceSkillKey\":\"jinx_w\",\"useKind\":null},\"eventType\":\"SKILL_HIT\"},\"maxTriggersPerProcess\":null,\"name\":\"金克丝·震荡电磁波！本体实际命中\",\"perTargetCooldown\":null,\"ruleKey\":\"actual_hit\",\"sortOrder\":10},\"/skills/quinn_q/effects/primary_hit\":{\"createdAt\":\"2026-09-19T03:40:30.389354Z\",\"description\":\"本轮1V1根技能本体实际命中敌方英雄的直接物理伤害；引用已有公式，控制、回复、印记、球位置与其他联动另行处理。\",\"effectKey\":\"primary_hit\",\"gameId\":\"lol\",\"lifecycle\":null,\"name\":\"奎因·炫目攻势本体直接伤害\",\"results\":[{\"description\":\"引用同技能physical_damage，保留已有属性口径和等级系数。\",\"detail\":{\"critical\":{\"mode\":\"DISALLOWED\",\"multiplierValue\":null},\"damageTypeKey\":\"physics\",\"deliveryKind\":\"SKILL\",\"originKind\":\"DIRECT\",\"vampRules\":[{\"basisOutputKind\":\"POST_DEFENSE_DAMAGE\",\"efficiencyValue\":{\"kind\":\"FIXED\",\"value\":1},\"vampType\":\"OMNIVAMP\"}]},\"lifecycleBehavior\":null,\"name\":\"魔法伤害\",\"resultKey\":\"damage\",\"resultType\":\"DAMAGE\",\"sortOrder\":10,\"spellShieldBlockScope\":\"SKILL\",\"target\":\"TARGET\",\"valueRule\":{\"fixedMaxValue\":null,\"fixedMinValue\":0,\"fixedMultiplier\":1,\"value\":{\"formulaKey\":\"physical_damage\",\"kind\":\"FORMULA\"}}}],\"skillKey\":\"quinn_q\",\"sortOrder\":20,\"updatedAt\":\"2026-09-19T03:40:30.389354Z\"},\"/skills/quinn_q/trigger-rules/actual_hit\":{\"actions\":[{\"actionKey\":\"execute_primary_hit\",\"actionType\":\"EXECUTE_EFFECT\",\"detail\":{\"effectKey\":\"primary_hit\"},\"name\":\"执行奎因·炫目攻势直接伤害\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[{\"conditions\":[{\"conditionKey\":\"champion_target\",\"conditionType\":\"TARGET_CATEGORY_CHECK\",\"detail\":{\"categories\":[\"CHAMPION\"]},\"sortOrder\":10}],\"groupKey\":\"champion_target\",\"name\":\"本轮英雄目标\",\"sortOrder\":10}],\"description\":\"消费quinn_q根技能本体的合法实际英雄命中并执行primary_hit；不从使用、等待结束、位置变化或控制状态生成伤害命中。\",\"eventSource\":{\"detail\":{\"sourceSkillKey\":\"quinn_q\",\"useKind\":null},\"eventType\":\"SKILL_HIT\"},\"maxTriggersPerProcess\":null,\"name\":\"奎因·炫目攻势本体实际命中\",\"perTargetCooldown\":null,\"ruleKey\":\"actual_hit\",\"sortOrder\":10}},\"audit\":[{\"method\":\"GET\",\"path\":\"/skills/nami_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_nami\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_nami/attributes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_nami/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_q/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?characterKey=champion_nami\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?skillKey=nami_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_q/parameters\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_q/parameters/base_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_q/parameters/ap_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_q/parameters/stun_duration_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_q/parameters/cooldown_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_q/parameters/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_q/formulas\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_q/formulas/magic_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_q/effects\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_q/effects/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_q/effects/primary_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_q/processes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_q/processes/use_cost_and_cooldown\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_q/internal-states\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_q/trigger-rules\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_q/trigger-rules/on_used_cost_and_cooldown\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_r\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_r/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?skillKey=nami_r\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_r/parameters\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_r/parameters/base_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_r/parameters/ap_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_r/parameters/passive_update_area_length\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_r/parameters/knockup_duration_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_r/parameters/min_slow_duration_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_r/parameters/max_slow_duration_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_r/parameters/distance_to_slow_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_r/parameters/slow_percent_points\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_r/parameters/cooldown_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_r/parameters/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_r/formulas\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_r/formulas/magic_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_r/effects\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_r/effects/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_r/effects/primary_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_r/processes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_r/processes/use_cost_and_cooldown\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_r/internal-states\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_r/trigger-rules\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_r/trigger-rules/on_used_cost_and_cooldown\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/soraka_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_soraka\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_soraka/attributes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_soraka/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/soraka_q/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?characterKey=champion_soraka\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?skillKey=soraka_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/soraka_q/parameters\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/soraka_q/parameters/base_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/soraka_q/parameters/ability_power_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/soraka_q/parameters/slow_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/soraka_q/parameters/slow_duration_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/soraka_q/parameters/self_heal_base\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/soraka_q/parameters/self_heal_ap_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/soraka_q/parameters/self_heal_duration_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/soraka_q/parameters/self_move_speed_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/soraka_q/parameters/self_move_speed_duration_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/soraka_q/parameters/cooldown_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/soraka_q/parameters/cast_time_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/soraka_q/parameters/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/soraka_q/formulas\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/soraka_q/formulas/magic_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/soraka_q/formulas/self_heal_total\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/soraka_q/effects\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/soraka_q/effects/primary_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/soraka_q/processes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/soraka_q/internal-states\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/soraka_q/trigger-rules\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/soraka_q/trigger-rules/actual_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/neeko_e\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_neeko\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_neeko/attributes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_neeko/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/neeko_e/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?characterKey=champion_neeko\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?skillKey=neeko_e\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/neeko_e/parameters\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/neeko_e/parameters/damage_base\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/neeko_e/parameters/ap_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/neeko_e/parameters/min_root_duration_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/neeko_e/parameters/cast_time_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/neeko_e/parameters/cooldown_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/neeko_e/parameters/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/neeko_e/formulas\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/neeko_e/formulas/damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/neeko_e/formulas/first_target_root_duration\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/neeko_e/effects\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/neeko_e/effects/primary_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/neeko_e/effects/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/neeko_e/processes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/neeko_e/internal-states\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/neeko_e/trigger-rules\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/neeko_e/trigger-rules/actual_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/orianna_w\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_orianna\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_orianna/attributes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_orianna/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/orianna_w/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?characterKey=champion_orianna\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?skillKey=orianna_w\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/orianna_w/parameters\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/orianna_w/parameters/cast_time_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/orianna_w/parameters/base_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/orianna_w/parameters/ap_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/orianna_w/parameters/slow_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/orianna_w/parameters/self_haste_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/orianna_w/parameters/field_duration_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/orianna_w/parameters/slow_haste_duration_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/orianna_w/parameters/cooldown_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/orianna_w/parameters/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/orianna_w/formulas\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/orianna_w/formulas/damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/orianna_w/effects\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/orianna_w/effects/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/orianna_w/effects/primary_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/orianna_w/processes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/orianna_w/processes/use_cost_and_cooldown\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/orianna_w/internal-states\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/orianna_w/trigger-rules\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/orianna_w/trigger-rules/on_used_cost_and_cooldown\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/orianna_r\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/orianna_r/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?skillKey=orianna_r\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/orianna_r/parameters\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/orianna_r/parameters/base_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/orianna_r/parameters/control_duration_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/orianna_r/parameters/calculation_constant_1\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/orianna_r/parameters/cooldown_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/orianna_r/parameters/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/orianna_r/formulas\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/orianna_r/formulas/damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/orianna_r/effects\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/orianna_r/effects/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/orianna_r/effects/primary_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/orianna_r/processes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/orianna_r/internal-states\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/orianna_r/trigger-rules\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/orianna_r/trigger-rules/actual_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/jinx_w\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_jinx\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_jinx/attributes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_jinx/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/jinx_w/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?characterKey=champion_jinx\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?skillKey=jinx_w\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/jinx_w/parameters\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/jinx_w/parameters/base_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/jinx_w/parameters/total_ad_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/jinx_w/parameters/slow_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/jinx_w/parameters/slow_duration_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/jinx_w/parameters/cooldown_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/jinx_w/parameters/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/jinx_w/formulas\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/jinx_w/formulas/damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/jinx_w/effects\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/jinx_w/effects/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/jinx_w/effects/primary_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/jinx_w/processes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/jinx_w/internal-states\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/jinx_w/trigger-rules\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/jinx_w/trigger-rules/actual_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/quinn_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_quinn\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_quinn/attributes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_quinn/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/quinn_q/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?characterKey=champion_quinn\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?skillKey=quinn_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/quinn_q/parameters\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/quinn_q/parameters/damage_base\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/quinn_q/parameters/bonus_ad_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/quinn_q/parameters/ap_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/quinn_q/parameters/vision_reduction_duration_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/quinn_q/parameters/cast_range_source\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/quinn_q/parameters/display_range\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/quinn_q/parameters/missile_speed\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/quinn_q/parameters/m_cast_time_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/quinn_q/parameters/cooldown_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/quinn_q/parameters/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/quinn_q/formulas\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/quinn_q/formulas/physical_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/quinn_q/effects\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/quinn_q/effects/primary_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/quinn_q/processes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/quinn_q/internal-states\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/quinn_q/trigger-rules\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/quinn_q/trigger-rules/actual_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/damage-types/magic\",\"status\":200},{\"method\":\"GET\",\"path\":\"/damage-types/physics\",\"status\":200},{\"method\":\"GET\",\"path\":\"/attributes/ability_power\",\"status\":200},{\"method\":\"GET\",\"path\":\"/attributes/mana\",\"status\":200},{\"method\":\"GET\",\"path\":\"/attributes/attack_damage\",\"status\":200}]}\n",
+  "summary": {
+    "status": "PASS",
+    "at": "2026-09-19T03:42:16.865Z",
+    "businessWrites": 0,
+    "GETs": 199,
+    "unchangedResponsesIncludingTimestamps": 173,
+    "expectedChangedCollections": 13,
+    "newObjects": {
+      "/skills/nami_q/effects/primary_hit": {
+        "createdAt": "2026-09-19T03:40:12.192587Z",
+        "description": "本轮1V1根技能本体实际命中敌方英雄的直接魔法伤害；引用已有公式，控制、回复、印记、球位置与其他联动另行处理。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "娜美·碧波之牢本体直接伤害",
+        "results": [
+          {
+            "description": "引用同技能magic_damage，保留已有属性口径和等级系数。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "SKILL",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "magic_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "nami_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T03:40:12.192587Z"
+      },
+      "/skills/nami_r/effects/primary_hit": {
+        "createdAt": "2026-09-19T03:40:13.616853Z",
+        "description": "本轮1V1根技能本体实际命中敌方英雄的直接魔法伤害；引用已有公式，控制、回复、印记、球位置与其他联动另行处理。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "娜美·怒涛之啸本体直接伤害",
+        "results": [
+          {
+            "description": "引用同技能magic_damage，保留已有属性口径和等级系数。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "SKILL",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "magic_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "nami_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T03:40:13.616853Z"
+      },
+      "/skills/soraka_q/effects/primary_hit": {
+        "createdAt": "2026-09-19T03:40:14.996146Z",
+        "description": "本轮1V1根技能本体实际命中敌方英雄的直接魔法伤害；引用已有公式，控制、回复、印记、球位置与其他联动另行处理。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "索拉卡·流星坠落本体直接伤害",
+        "results": [
+          {
+            "description": "引用同技能magic_damage，保留已有属性口径和等级系数。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "SKILL",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "magic_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "soraka_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T03:40:14.996146Z"
+      },
+      "/skills/soraka_q/trigger-rules/actual_hit": {
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "name": "执行索拉卡·流星坠落直接伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              }
+            ],
+            "groupKey": "champion_target",
+            "name": "本轮英雄目标",
+            "sortOrder": 10
+          }
+        ],
+        "description": "消费soraka_q根技能本体的合法实际英雄命中并执行primary_hit；不从使用、等待结束、位置变化或控制状态生成伤害命中。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "soraka_q",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "索拉卡·流星坠落本体实际命中",
+        "perTargetCooldown": null,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10
+      },
+      "/skills/neeko_e/effects/primary_hit": {
+        "createdAt": "2026-09-19T03:40:18.95223Z",
+        "description": "本轮1V1根技能本体实际命中敌方英雄的直接魔法伤害；引用已有公式，控制、回复、印记、球位置与其他联动另行处理。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "妮蔻·缠结倒刺本体直接伤害",
+        "results": [
+          {
+            "description": "引用同技能damage，保留已有属性口径和等级系数。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "SKILL",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "neeko_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T03:40:18.95223Z"
+      },
+      "/skills/neeko_e/trigger-rules/actual_hit": {
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "name": "执行妮蔻·缠结倒刺直接伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              }
+            ],
+            "groupKey": "champion_target",
+            "name": "本轮英雄目标",
+            "sortOrder": 10
+          }
+        ],
+        "description": "消费neeko_e根技能本体的合法实际英雄命中并执行primary_hit；不从使用、等待结束、位置变化或控制状态生成伤害命中。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "neeko_e",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "妮蔻·缠结倒刺本体实际命中",
+        "perTargetCooldown": null,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10
+      },
+      "/skills/orianna_w/effects/primary_hit": {
+        "createdAt": "2026-09-19T03:40:22.227116Z",
+        "description": "本轮1V1根技能本体实际命中敌方英雄的直接魔法伤害；引用已有公式，控制、回复、印记、球位置与其他联动另行处理。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "奥莉安娜·指令：杂音本体直接伤害",
+        "results": [
+          {
+            "description": "引用同技能damage，保留已有属性口径和等级系数。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "SKILL",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "orianna_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T03:40:22.227116Z"
+      },
+      "/skills/orianna_r/effects/primary_hit": {
+        "createdAt": "2026-09-19T03:40:23.704134Z",
+        "description": "本轮1V1根技能本体实际命中敌方英雄的直接魔法伤害；引用已有公式，控制、回复、印记、球位置与其他联动另行处理。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "奥莉安娜·指令：冲击波本体直接伤害",
+        "results": [
+          {
+            "description": "引用同技能damage，保留已有属性口径和等级系数。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "SKILL",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "orianna_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T03:40:23.704134Z"
+      },
+      "/skills/orianna_r/trigger-rules/actual_hit": {
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "name": "执行奥莉安娜·指令：冲击波直接伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              }
+            ],
+            "groupKey": "champion_target",
+            "name": "本轮英雄目标",
+            "sortOrder": 10
+          }
+        ],
+        "description": "消费orianna_r根技能本体的合法实际英雄命中并执行primary_hit；不从使用、等待结束、位置变化或控制状态生成伤害命中。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "orianna_r",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "奥莉安娜·指令：冲击波本体实际命中",
+        "perTargetCooldown": null,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10
+      },
+      "/skills/jinx_w/effects/primary_hit": {
+        "createdAt": "2026-09-19T03:40:27.083781Z",
+        "description": "本轮1V1根技能本体实际命中敌方英雄的直接物理伤害；引用已有公式，控制、回复、印记、球位置与其他联动另行处理。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "金克丝·震荡电磁波！本体直接伤害",
+        "results": [
+          {
+            "description": "引用同技能damage，保留已有属性口径和等级系数。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "physics",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "SKILL",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "jinx_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T03:40:27.083781Z"
+      },
+      "/skills/jinx_w/trigger-rules/actual_hit": {
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "name": "执行金克丝·震荡电磁波！直接伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              }
+            ],
+            "groupKey": "champion_target",
+            "name": "本轮英雄目标",
+            "sortOrder": 10
+          }
+        ],
+        "description": "消费jinx_w根技能本体的合法实际英雄命中并执行primary_hit；不从使用、等待结束、位置变化或控制状态生成伤害命中。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "jinx_w",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "金克丝·震荡电磁波！本体实际命中",
+        "perTargetCooldown": null,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10
+      },
+      "/skills/quinn_q/effects/primary_hit": {
+        "createdAt": "2026-09-19T03:40:30.389354Z",
+        "description": "本轮1V1根技能本体实际命中敌方英雄的直接物理伤害；引用已有公式，控制、回复、印记、球位置与其他联动另行处理。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "奎因·炫目攻势本体直接伤害",
+        "results": [
+          {
+            "description": "引用同技能physical_damage，保留已有属性口径和等级系数。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "physics",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "SKILL",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "physical_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "quinn_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T03:40:30.389354Z"
+      },
+      "/skills/quinn_q/trigger-rules/actual_hit": {
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "name": "执行奎因·炫目攻势直接伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              }
+            ],
+            "groupKey": "champion_target",
+            "name": "本轮英雄目标",
+            "sortOrder": 10
+          }
+        ],
+        "description": "消费quinn_q根技能本体的合法实际英雄命中并执行primary_hit；不从使用、等待结束、位置变化或控制状态生成伤害命中。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "quinn_q",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "奎因·炫目攻势本体实际命中",
+        "perTargetCooldown": null,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10
+      }
+    },
+    "audit": [
+      {
+        "method": "GET",
+        "path": "/skills/nami_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_nami",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_nami/attributes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_nami/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_q/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?characterKey=champion_nami",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?skillKey=nami_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_q/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_q/parameters/base_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_q/parameters/ap_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_q/parameters/stun_duration_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_q/parameters/cooldown_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_q/parameters/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_q/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_q/formulas/magic_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_q/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_q/effects/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_q/effects/primary_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_q/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_q/processes/use_cost_and_cooldown",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_q/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_q/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_q/trigger-rules/on_used_cost_and_cooldown",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_r",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_r/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?skillKey=nami_r",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_r/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_r/parameters/base_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_r/parameters/ap_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_r/parameters/passive_update_area_length",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_r/parameters/knockup_duration_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_r/parameters/min_slow_duration_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_r/parameters/max_slow_duration_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_r/parameters/distance_to_slow_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_r/parameters/slow_percent_points",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_r/parameters/cooldown_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_r/parameters/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_r/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_r/formulas/magic_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_r/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_r/effects/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_r/effects/primary_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_r/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_r/processes/use_cost_and_cooldown",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_r/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_r/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_r/trigger-rules/on_used_cost_and_cooldown",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/soraka_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_soraka",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_soraka/attributes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_soraka/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/soraka_q/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?characterKey=champion_soraka",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?skillKey=soraka_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/soraka_q/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/soraka_q/parameters/base_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/soraka_q/parameters/ability_power_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/soraka_q/parameters/slow_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/soraka_q/parameters/slow_duration_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/soraka_q/parameters/self_heal_base",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/soraka_q/parameters/self_heal_ap_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/soraka_q/parameters/self_heal_duration_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/soraka_q/parameters/self_move_speed_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/soraka_q/parameters/self_move_speed_duration_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/soraka_q/parameters/cooldown_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/soraka_q/parameters/cast_time_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/soraka_q/parameters/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/soraka_q/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/soraka_q/formulas/magic_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/soraka_q/formulas/self_heal_total",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/soraka_q/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/soraka_q/effects/primary_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/soraka_q/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/soraka_q/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/soraka_q/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/soraka_q/trigger-rules/actual_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/neeko_e",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_neeko",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_neeko/attributes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_neeko/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/neeko_e/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?characterKey=champion_neeko",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?skillKey=neeko_e",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/neeko_e/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/neeko_e/parameters/damage_base",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/neeko_e/parameters/ap_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/neeko_e/parameters/min_root_duration_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/neeko_e/parameters/cast_time_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/neeko_e/parameters/cooldown_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/neeko_e/parameters/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/neeko_e/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/neeko_e/formulas/damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/neeko_e/formulas/first_target_root_duration",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/neeko_e/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/neeko_e/effects/primary_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/neeko_e/effects/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/neeko_e/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/neeko_e/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/neeko_e/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/neeko_e/trigger-rules/actual_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/orianna_w",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_orianna",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_orianna/attributes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_orianna/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/orianna_w/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?characterKey=champion_orianna",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?skillKey=orianna_w",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/orianna_w/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/orianna_w/parameters/cast_time_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/orianna_w/parameters/base_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/orianna_w/parameters/ap_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/orianna_w/parameters/slow_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/orianna_w/parameters/self_haste_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/orianna_w/parameters/field_duration_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/orianna_w/parameters/slow_haste_duration_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/orianna_w/parameters/cooldown_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/orianna_w/parameters/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/orianna_w/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/orianna_w/formulas/damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/orianna_w/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/orianna_w/effects/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/orianna_w/effects/primary_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/orianna_w/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/orianna_w/processes/use_cost_and_cooldown",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/orianna_w/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/orianna_w/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/orianna_w/trigger-rules/on_used_cost_and_cooldown",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/orianna_r",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/orianna_r/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?skillKey=orianna_r",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/orianna_r/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/orianna_r/parameters/base_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/orianna_r/parameters/control_duration_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/orianna_r/parameters/calculation_constant_1",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/orianna_r/parameters/cooldown_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/orianna_r/parameters/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/orianna_r/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/orianna_r/formulas/damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/orianna_r/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/orianna_r/effects/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/orianna_r/effects/primary_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/orianna_r/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/orianna_r/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/orianna_r/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/orianna_r/trigger-rules/actual_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/jinx_w",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_jinx",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_jinx/attributes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_jinx/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/jinx_w/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?characterKey=champion_jinx",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?skillKey=jinx_w",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/jinx_w/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/jinx_w/parameters/base_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/jinx_w/parameters/total_ad_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/jinx_w/parameters/slow_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/jinx_w/parameters/slow_duration_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/jinx_w/parameters/cooldown_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/jinx_w/parameters/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/jinx_w/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/jinx_w/formulas/damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/jinx_w/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/jinx_w/effects/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/jinx_w/effects/primary_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/jinx_w/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/jinx_w/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/jinx_w/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/jinx_w/trigger-rules/actual_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/quinn_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_quinn",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_quinn/attributes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_quinn/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/quinn_q/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?characterKey=champion_quinn",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?skillKey=quinn_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/quinn_q/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/quinn_q/parameters/damage_base",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/quinn_q/parameters/bonus_ad_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/quinn_q/parameters/ap_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/quinn_q/parameters/vision_reduction_duration_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/quinn_q/parameters/cast_range_source",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/quinn_q/parameters/display_range",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/quinn_q/parameters/missile_speed",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/quinn_q/parameters/m_cast_time_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/quinn_q/parameters/cooldown_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/quinn_q/parameters/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/quinn_q/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/quinn_q/formulas/physical_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/quinn_q/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/quinn_q/effects/primary_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/quinn_q/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/quinn_q/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/quinn_q/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/quinn_q/trigger-rules/actual_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/damage-types/magic",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/damage-types/physics",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/attributes/ability_power",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/attributes/mana",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/attributes/attack_damage",
+        "status": 200
+      }
+    ]
+  }
+}

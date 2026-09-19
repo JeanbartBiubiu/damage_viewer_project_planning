@@ -1,0 +1,6260 @@
+{
+  "at": "2026-09-19T03:35:50.918Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/skills/nami_q": {
+      "createdAt": "2026-09-06T18:19:33.107774Z",
+      "description": "朝着目标区域放出一个泡泡，对命中的所有敌人造成伤害和晕眩效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "娜美·碧波之牢",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "nami_q",
+      "sortOrder": 1,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:19:33.107774Z"
+    },
+    "/characters/champion_nami": {
+      "characterKey": "champion_nami",
+      "createdAt": "2026-09-06T16:26:21.368082Z",
+      "description": "来源：官方 Data Dragon 16.17.1；攻击力成长与攻速来源补证自 CommunityDragon 提取的同补丁客户端 16.17.8104348（非 Riot 官方接口）。本轮仅录角色主体与 1～18 级基础自然成长，不含被动、技能、装备、符文、叠层或形态。技能、图片和机制待录，不能视为完整录入。",
+      "gameId": "lol",
+      "name": "娜美",
+      "updatedAt": "2026-09-06T16:26:21.368082Z"
+    },
+    "/characters/champion_nami/attributes": {
+      "characterKey": "champion_nami",
+      "levelValues": {
+        "1": {
+          "move_speed": 335,
+          "hp": 560,
+          "hp_regen": 5.5,
+          "mana": 365,
+          "mana_regen": 11.5,
+          "armor": 29,
+          "magic_resistance": 30,
+          "attack_damage": 54,
+          "attack_speed": 0.644,
+          "attack_range": 550
+        },
+        "2": {
+          "move_speed": 335,
+          "hp": 623.36,
+          "hp_regen": 5.896,
+          "mana": 395.96,
+          "mana_regen": 11.788,
+          "armor": 32.744,
+          "magic_resistance": 30.936,
+          "attack_damage": 56.232,
+          "attack_speed": 0.656102,
+          "attack_range": 550
+        },
+        "3": {
+          "move_speed": 335,
+          "hp": 689.8,
+          "hp_regen": 6.31125,
+          "mana": 428.425,
+          "mana_regen": 12.09,
+          "armor": 36.67,
+          "magic_resistance": 31.9175,
+          "attack_damage": 58.5725,
+          "attack_speed": 0.668792,
+          "attack_range": 550
+        },
+        "4": {
+          "move_speed": 335,
+          "hp": 759.32,
+          "hp_regen": 6.74575,
+          "mana": 462.395,
+          "mana_regen": 12.406,
+          "armor": 40.778,
+          "magic_resistance": 32.9445,
+          "attack_damage": 61.0215,
+          "attack_speed": 0.682071,
+          "attack_range": 550
+        },
+        "5": {
+          "move_speed": 335,
+          "hp": 831.92,
+          "hp_regen": 7.1995,
+          "mana": 497.87,
+          "mana_regen": 12.736,
+          "armor": 45.068,
+          "magic_resistance": 34.017,
+          "attack_damage": 63.579,
+          "attack_speed": 0.695938,
+          "attack_range": 550
+        },
+        "6": {
+          "move_speed": 335,
+          "hp": 907.6,
+          "hp_regen": 7.6725,
+          "mana": 534.85,
+          "mana_regen": 13.08,
+          "armor": 49.54,
+          "magic_resistance": 35.135,
+          "attack_damage": 66.245,
+          "attack_speed": 0.710393,
+          "attack_range": 550
+        },
+        "7": {
+          "move_speed": 335,
+          "hp": 986.36,
+          "hp_regen": 8.16475,
+          "mana": 573.335,
+          "mana_regen": 13.438,
+          "armor": 54.194,
+          "magic_resistance": 36.2985,
+          "attack_damage": 69.0195,
+          "attack_speed": 0.725437,
+          "attack_range": 550
+        },
+        "8": {
+          "move_speed": 335,
+          "hp": 1068.2,
+          "hp_regen": 8.67625,
+          "mana": 613.325,
+          "mana_regen": 13.81,
+          "armor": 59.03,
+          "magic_resistance": 37.5075,
+          "attack_damage": 71.9025,
+          "attack_speed": 0.741069,
+          "attack_range": 550
+        },
+        "9": {
+          "move_speed": 335,
+          "hp": 1153.12,
+          "hp_regen": 9.207,
+          "mana": 654.82,
+          "mana_regen": 14.196,
+          "armor": 64.048,
+          "magic_resistance": 38.762,
+          "attack_damage": 74.894,
+          "attack_speed": 0.757289,
+          "attack_range": 550
+        },
+        "10": {
+          "move_speed": 335,
+          "hp": 1241.12,
+          "hp_regen": 9.757,
+          "mana": 697.82,
+          "mana_regen": 14.596,
+          "armor": 69.248,
+          "magic_resistance": 40.062,
+          "attack_damage": 77.994,
+          "attack_speed": 0.774097,
+          "attack_range": 550
+        },
+        "11": {
+          "move_speed": 335,
+          "hp": 1332.2,
+          "hp_regen": 10.32625,
+          "mana": 742.325,
+          "mana_regen": 15.01,
+          "armor": 74.63,
+          "magic_resistance": 41.4075,
+          "attack_damage": 81.2025,
+          "attack_speed": 0.791494,
+          "attack_range": 550
+        },
+        "12": {
+          "move_speed": 335,
+          "hp": 1426.36,
+          "hp_regen": 10.91475,
+          "mana": 788.335,
+          "mana_regen": 15.438,
+          "armor": 80.194,
+          "magic_resistance": 42.7985,
+          "attack_damage": 84.5195,
+          "attack_speed": 0.809479,
+          "attack_range": 550
+        },
+        "13": {
+          "move_speed": 335,
+          "hp": 1523.6,
+          "hp_regen": 11.5225,
+          "mana": 835.85,
+          "mana_regen": 15.88,
+          "armor": 85.94,
+          "magic_resistance": 44.235,
+          "attack_damage": 87.945,
+          "attack_speed": 0.828052,
+          "attack_range": 550
+        },
+        "14": {
+          "move_speed": 335,
+          "hp": 1623.92,
+          "hp_regen": 12.1495,
+          "mana": 884.87,
+          "mana_regen": 16.336,
+          "armor": 91.868,
+          "magic_resistance": 45.717,
+          "attack_damage": 91.479,
+          "attack_speed": 0.847214,
+          "attack_range": 550
+        },
+        "15": {
+          "move_speed": 335,
+          "hp": 1727.32,
+          "hp_regen": 12.79575,
+          "mana": 935.395,
+          "mana_regen": 16.806,
+          "armor": 97.978,
+          "magic_resistance": 47.2445,
+          "attack_damage": 95.1215,
+          "attack_speed": 0.866963,
+          "attack_range": 550
+        },
+        "16": {
+          "move_speed": 335,
+          "hp": 1833.8,
+          "hp_regen": 13.46125,
+          "mana": 987.425,
+          "mana_regen": 17.29,
+          "armor": 104.27,
+          "magic_resistance": 48.8175,
+          "attack_damage": 98.8725,
+          "attack_speed": 0.887302,
+          "attack_range": 550
+        },
+        "17": {
+          "move_speed": 335,
+          "hp": 1943.36,
+          "hp_regen": 14.146,
+          "mana": 1040.96,
+          "mana_regen": 17.788,
+          "armor": 110.744,
+          "magic_resistance": 50.436,
+          "attack_damage": 102.732,
+          "attack_speed": 0.908228,
+          "attack_range": 550
+        },
+        "18": {
+          "move_speed": 335,
+          "hp": 2056,
+          "hp_regen": 14.85,
+          "mana": 1096,
+          "mana_regen": 18.3,
+          "armor": 117.4,
+          "magic_resistance": 52.1,
+          "attack_damage": 106.7,
+          "attack_speed": 0.929743,
+          "attack_range": 550
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_nami/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_champion_nami",
+        "name": "champion_nami"
+      }
+    },
+    "/skills/nami_q/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_nami_q",
+        "name": "nami_q"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_nami": {
+      "items": [
+        {
+          "characterKey": "champion_nami",
+          "characterName": "娜美",
+          "gameId": "lol",
+          "skillKey": "nami_p",
+          "skillName": "娜美·踏浪之行",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_nami",
+          "characterName": "娜美",
+          "gameId": "lol",
+          "skillKey": "nami_q",
+          "skillName": "娜美·碧波之牢",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_nami",
+          "characterName": "娜美",
+          "gameId": "lol",
+          "skillKey": "nami_w",
+          "skillName": "娜美·冲击之潮",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_nami",
+          "characterName": "娜美",
+          "gameId": "lol",
+          "skillKey": "nami_e",
+          "skillName": "娜美·唤潮之佑",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_nami",
+          "characterName": "娜美",
+          "gameId": "lol",
+          "skillKey": "nami_r",
+          "skillName": "娜美·怒涛之啸",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=nami_q": {
+      "items": [
+        {
+          "characterKey": "champion_nami",
+          "characterName": "娜美",
+          "gameId": "lol",
+          "skillKey": "nami_q",
+          "skillName": "娜美·碧波之牢",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        }
+      ],
+      "total": 1
+    },
+    "/skills/nami_q/parameters": [
+      {
+        "createdAt": "2026-09-09T17:56:47.244048Z",
+        "description": "客户端DataValues.BaseDamage取索引1至5；索引0为旧占位35。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 90,
+          "2": 145,
+          "3": 200,
+          "4": 255,
+          "5": 310
+        },
+        "name": "基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "nami_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T17:56:47.244048Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T17:56:48.487402Z",
+        "description": "客户端TotalDamageTT树消费APRatio=0.5×来源总法强。",
+        "fixedValue": 0.5,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法强比例",
+        "parameterKey": "ap_ratio",
+        "skillKey": "nami_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T17:56:48.487402Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T17:56:49.757818Z",
+        "description": "客户端StunDuration为1.5秒，转换为1500毫秒；控制结果待事件接线。",
+        "fixedValue": 1500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "击飞控制持续时间（毫秒）",
+        "parameterKey": "stun_duration_ms",
+        "skillKey": "nami_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T17:56:49.757818Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:36:55.741757Z",
+        "description": "DDragon16.17.1 Nami.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 12000,
+          "2": 11000,
+          "3": 10000,
+          "4": 9000,
+          "5": 8000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "nami_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:36:55.741757Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:36:56.225344Z",
+        "description": "DDragon16.17.1 Nami.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 60,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "nami_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-18T21:12:58.212039Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/nami_q/parameters/base_damage": {
+      "createdAt": "2026-09-09T17:56:47.244048Z",
+      "description": "客户端DataValues.BaseDamage取索引1至5；索引0为旧占位35。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 90,
+        "2": 145,
+        "3": 200,
+        "4": 255,
+        "5": 310
+      },
+      "name": "基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "nami_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T17:56:47.244048Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/nami_q/parameters/ap_ratio": {
+      "createdAt": "2026-09-09T17:56:48.487402Z",
+      "description": "客户端TotalDamageTT树消费APRatio=0.5×来源总法强。",
+      "fixedValue": 0.5,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法强比例",
+      "parameterKey": "ap_ratio",
+      "skillKey": "nami_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T17:56:48.487402Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/nami_q/parameters/stun_duration_ms": {
+      "createdAt": "2026-09-09T17:56:49.757818Z",
+      "description": "客户端StunDuration为1.5秒，转换为1500毫秒；控制结果待事件接线。",
+      "fixedValue": 1500,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "击飞控制持续时间（毫秒）",
+      "parameterKey": "stun_duration_ms",
+      "skillKey": "nami_q",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T17:56:49.757818Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/nami_q/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T18:36:55.741757Z",
+      "description": "DDragon16.17.1 Nami.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 12000,
+        "2": 11000,
+        "3": 10000,
+        "4": 9000,
+        "5": 8000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "nami_q",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T18:36:55.741757Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/nami_q/parameters/mana_cost": {
+      "createdAt": "2026-09-07T18:36:56.225344Z",
+      "description": "DDragon16.17.1 Nami.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 60,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "nami_q",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-18T21:12:58.212039Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/nami_q/formulas": [
+      {
+        "createdAt": "2026-09-09T17:56:51.10453Z",
+        "description": "TotalDamageTT = BaseDamage + APRatio×来源总法强。",
+        "formulaKey": "magic_damage",
+        "gameId": "lol",
+        "name": "碧波之牢唯一敌人魔法伤害",
+        "skillKey": "nami_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T17:56:51.10453Z"
+      }
+    ],
+    "/skills/nami_q/formulas/magic_damage": {
+      "createdAt": "2026-09-09T17:56:51.10453Z",
+      "description": "TotalDamageTT = BaseDamage + APRatio×来源总法强。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "magic_damage",
+      "gameId": "lol",
+      "name": "碧波之牢唯一敌人魔法伤害",
+      "skillKey": "nami_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T17:56:51.10453Z"
+    },
+    "/skills/nami_q/effects": [
+      {
+        "createdAt": "2026-09-09T17:56:52.488003Z",
+        "description": "施放本技能时消耗对应技能等级的法力；具体使用流程由引用本效果的过程定义。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "nami_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-18T21:12:59.721373Z"
+      }
+    ],
+    "/skills/nami_q/effects/mana_cost": {
+      "createdAt": "2026-09-09T17:56:52.488003Z",
+      "description": "施放本技能时消耗对应技能等级的法力；具体使用流程由引用本效果的过程定义。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "施放法力消耗",
+          "resultKey": "resource",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "nami_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-18T21:12:59.721373Z"
+    },
+    "/skills/nami_q/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-18T20:25:50.951865Z",
+        "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零。伤害、治疗、护盾、球及其他机制不在此过程执行。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "使用消耗与普通冷却",
+        "processKey": "use_cost_and_cooldown",
+        "skillKey": "nami_q",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-18T20:25:50.951865Z"
+      }
+    ],
+    "/skills/nami_q/processes/use_cost_and_cooldown": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-18T20:25:50.951865Z",
+      "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零。伤害、治疗、护盾、球及其他机制不在此过程执行。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "使用消耗与普通冷却",
+      "processKey": "use_cost_and_cooldown",
+      "skillKey": "nami_q",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+          "detail": {},
+          "name": "登记本次使用",
+          "sortOrder": 10,
+          "stepKey": "register_use",
+          "stepType": "IMMEDIATE"
+        }
+      ],
+      "updatedAt": "2026-09-18T20:25:50.951865Z"
+    },
+    "/skills/nami_q/internal-states": [],
+    "/skills/nami_q/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "每次本技能主动使用启动专门的消耗与冷却登记过程；不定义完整施法时长，不代替命中、治疗、护盾、球或其他未完成分支。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "主动使用登记消耗与冷却",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used_cost_and_cooldown",
+        "sortOrder": 5,
+        "updatedAt": "2026-09-18T20:25:52.433458Z"
+      }
+    ],
+    "/skills/nami_q/trigger-rules/on_used_cost_and_cooldown": {
+      "actions": [
+        {
+          "actionKey": "start_use_cost",
+          "actionType": "START_PROCESS",
+          "detail": {
+            "processKey": "use_cost_and_cooldown"
+          },
+          "name": "启动消耗与冷却登记",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "每次本技能主动使用启动专门的消耗与冷却登记过程；不定义完整施法时长，不代替命中、治疗、护盾、球或其他未完成分支。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "nami_q",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "主动使用登记消耗与冷却",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used_cost_and_cooldown",
+      "sortOrder": 5
+    },
+    "/skills/nami_r": {
+      "createdAt": "2026-09-06T18:19:33.925496Z",
+      "description": "召唤一阵巨大的怒涛，击飞、减速并伤害沿途的所有敌人。被怒涛命中的友方英雄会获得【踏浪之行】的双倍加速效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 3,
+      "name": "娜美·怒涛之啸",
+      "skillCategoryKeys": [],
+      "skillKey": "nami_r",
+      "sortOrder": 4,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:19:33.925496Z"
+    },
+    "/skills/nami_r/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_nami_r",
+        "name": "nami_r"
+      }
+    },
+    "/character-skill-relations?skillKey=nami_r": {
+      "items": [
+        {
+          "characterKey": "champion_nami",
+          "characterName": "娜美",
+          "gameId": "lol",
+          "skillKey": "nami_r",
+          "skillName": "娜美·怒涛之啸",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 1
+    },
+    "/skills/nami_r/parameters": [
+      {
+        "createdAt": "2026-09-09T17:57:27.249254Z",
+        "description": "客户端DataValues.BaseDamage取索引1至3；索引0为旧占位50。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 150,
+          "2": 250,
+          "3": 350
+        },
+        "name": "基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "nami_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T17:57:27.249254Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T17:57:28.496318Z",
+        "description": "TotalDamage树的StatByCoefficient系数为0.6×来源总法强。",
+        "fixedValue": 0.6,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法强比例",
+        "parameterKey": "ap_ratio",
+        "skillKey": "nami_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T17:57:28.496318Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T17:57:29.790231Z",
+        "description": "客户端PassiveUpdateAreaLength为200；只作来源参数。",
+        "fixedValue": 200,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "被动更新范围长度",
+        "parameterKey": "passive_update_area_length",
+        "skillKey": "nami_r",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T17:57:29.790231Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T17:57:31.076299Z",
+        "description": "客户端KnockupDuration为0.5秒，转换为500毫秒。",
+        "fixedValue": 500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "击飞持续时间（毫秒）",
+        "parameterKey": "knockup_duration_ms",
+        "skillKey": "nami_r",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T17:57:31.076299Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T17:57:32.373667Z",
+        "description": "客户端MinSlowDuration为2秒，转换为2000毫秒。",
+        "fixedValue": 2000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "最短减速持续时间（毫秒）",
+        "parameterKey": "min_slow_duration_ms",
+        "skillKey": "nami_r",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T17:57:32.373667Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T17:57:33.733998Z",
+        "description": "客户端MaxSlowDuration为4秒，转换为4000毫秒。",
+        "fixedValue": 4000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "最长减速持续时间（毫秒）",
+        "parameterKey": "max_slow_duration_ms",
+        "skillKey": "nami_r",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T17:57:33.733998Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T17:57:35.005454Z",
+        "description": "客户端DistToSlowRatio为0.002；距离单位和实际曲线待接，不能自行取整。",
+        "fixedValue": 0.002,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "距离到减速持续时间比例",
+        "parameterKey": "distance_to_slow_ratio",
+        "skillKey": "nami_r",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-09T17:57:35.005454Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T17:57:36.228162Z",
+        "description": "客户端SlowAmount为70；只保留控制参数。",
+        "fixedValue": 70,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "减速百分数点",
+        "parameterKey": "slow_percent_points",
+        "skillKey": "nami_r",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-09T17:57:36.228162Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:36:58.248853Z",
+        "description": "DDragon16.17.1 Nami.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 120000,
+          "2": 110000,
+          "3": 100000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "nami_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:36:58.248853Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:36:58.704743Z",
+        "description": "DDragon16.17.1 Nami.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "nami_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-18T21:13:01.375429Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/nami_r/parameters/base_damage": {
+      "createdAt": "2026-09-09T17:57:27.249254Z",
+      "description": "客户端DataValues.BaseDamage取索引1至3；索引0为旧占位50。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 150,
+        "2": 250,
+        "3": 350
+      },
+      "name": "基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "nami_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T17:57:27.249254Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/nami_r/parameters/ap_ratio": {
+      "createdAt": "2026-09-09T17:57:28.496318Z",
+      "description": "TotalDamage树的StatByCoefficient系数为0.6×来源总法强。",
+      "fixedValue": 0.6,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法强比例",
+      "parameterKey": "ap_ratio",
+      "skillKey": "nami_r",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T17:57:28.496318Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/nami_r/parameters/passive_update_area_length": {
+      "createdAt": "2026-09-09T17:57:29.790231Z",
+      "description": "客户端PassiveUpdateAreaLength为200；只作来源参数。",
+      "fixedValue": 200,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "被动更新范围长度",
+      "parameterKey": "passive_update_area_length",
+      "skillKey": "nami_r",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T17:57:29.790231Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/nami_r/parameters/knockup_duration_ms": {
+      "createdAt": "2026-09-09T17:57:31.076299Z",
+      "description": "客户端KnockupDuration为0.5秒，转换为500毫秒。",
+      "fixedValue": 500,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "击飞持续时间（毫秒）",
+      "parameterKey": "knockup_duration_ms",
+      "skillKey": "nami_r",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T17:57:31.076299Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/nami_r/parameters/min_slow_duration_ms": {
+      "createdAt": "2026-09-09T17:57:32.373667Z",
+      "description": "客户端MinSlowDuration为2秒，转换为2000毫秒。",
+      "fixedValue": 2000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "最短减速持续时间（毫秒）",
+      "parameterKey": "min_slow_duration_ms",
+      "skillKey": "nami_r",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T17:57:32.373667Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/nami_r/parameters/max_slow_duration_ms": {
+      "createdAt": "2026-09-09T17:57:33.733998Z",
+      "description": "客户端MaxSlowDuration为4秒，转换为4000毫秒。",
+      "fixedValue": 4000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "最长减速持续时间（毫秒）",
+      "parameterKey": "max_slow_duration_ms",
+      "skillKey": "nami_r",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-09T17:57:33.733998Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/nami_r/parameters/distance_to_slow_ratio": {
+      "createdAt": "2026-09-09T17:57:35.005454Z",
+      "description": "客户端DistToSlowRatio为0.002；距离单位和实际曲线待接，不能自行取整。",
+      "fixedValue": 0.002,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "距离到减速持续时间比例",
+      "parameterKey": "distance_to_slow_ratio",
+      "skillKey": "nami_r",
+      "sortOrder": 70,
+      "updatedAt": "2026-09-09T17:57:35.005454Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/nami_r/parameters/slow_percent_points": {
+      "createdAt": "2026-09-09T17:57:36.228162Z",
+      "description": "客户端SlowAmount为70；只保留控制参数。",
+      "fixedValue": 70,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "减速百分数点",
+      "parameterKey": "slow_percent_points",
+      "skillKey": "nami_r",
+      "sortOrder": 80,
+      "updatedAt": "2026-09-09T17:57:36.228162Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/nami_r/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T18:36:58.248853Z",
+      "description": "DDragon16.17.1 Nami.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 120000,
+        "2": 110000,
+        "3": 100000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "nami_r",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T18:36:58.248853Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/nami_r/parameters/mana_cost": {
+      "createdAt": "2026-09-07T18:36:58.704743Z",
+      "description": "DDragon16.17.1 Nami.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 100,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "nami_r",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-18T21:13:01.375429Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/nami_r/formulas": [
+      {
+        "createdAt": "2026-09-09T17:57:37.479151Z",
+        "description": "TotalDamage = BaseDamage + 0.6×来源总法强。",
+        "formulaKey": "magic_damage",
+        "gameId": "lol",
+        "name": "怒涛之啸唯一敌人魔法伤害",
+        "skillKey": "nami_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T17:57:37.479151Z"
+      }
+    ],
+    "/skills/nami_r/formulas/magic_damage": {
+      "createdAt": "2026-09-09T17:57:37.479151Z",
+      "description": "TotalDamage = BaseDamage + 0.6×来源总法强。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "magic_damage",
+      "gameId": "lol",
+      "name": "怒涛之啸唯一敌人魔法伤害",
+      "skillKey": "nami_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T17:57:37.479151Z"
+    },
+    "/skills/nami_r/effects": [
+      {
+        "createdAt": "2026-09-09T17:57:38.771359Z",
+        "description": "施放本技能时消耗对应技能等级的法力；具体使用流程由引用本效果的过程定义。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "nami_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-18T21:13:02.728272Z"
+      }
+    ],
+    "/skills/nami_r/effects/mana_cost": {
+      "createdAt": "2026-09-09T17:57:38.771359Z",
+      "description": "施放本技能时消耗对应技能等级的法力；具体使用流程由引用本效果的过程定义。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "施放法力消耗",
+          "resultKey": "resource",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "nami_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-18T21:13:02.728272Z"
+    },
+    "/skills/nami_r/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-18T20:25:54.011108Z",
+        "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零。伤害、治疗、护盾、球及其他机制不在此过程执行。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "使用消耗与普通冷却",
+        "processKey": "use_cost_and_cooldown",
+        "skillKey": "nami_r",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-18T20:25:54.011108Z"
+      }
+    ],
+    "/skills/nami_r/processes/use_cost_and_cooldown": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-18T20:25:54.011108Z",
+      "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零。伤害、治疗、护盾、球及其他机制不在此过程执行。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "使用消耗与普通冷却",
+      "processKey": "use_cost_and_cooldown",
+      "skillKey": "nami_r",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+          "detail": {},
+          "name": "登记本次使用",
+          "sortOrder": 10,
+          "stepKey": "register_use",
+          "stepType": "IMMEDIATE"
+        }
+      ],
+      "updatedAt": "2026-09-18T20:25:54.011108Z"
+    },
+    "/skills/nami_r/internal-states": [],
+    "/skills/nami_r/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "每次本技能主动使用启动专门的消耗与冷却登记过程；不定义完整施法时长，不代替命中、治疗、护盾、球或其他未完成分支。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "主动使用登记消耗与冷却",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used_cost_and_cooldown",
+        "sortOrder": 5,
+        "updatedAt": "2026-09-18T20:25:55.252721Z"
+      }
+    ],
+    "/skills/nami_r/trigger-rules/on_used_cost_and_cooldown": {
+      "actions": [
+        {
+          "actionKey": "start_use_cost",
+          "actionType": "START_PROCESS",
+          "detail": {
+            "processKey": "use_cost_and_cooldown"
+          },
+          "name": "启动消耗与冷却登记",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "每次本技能主动使用启动专门的消耗与冷却登记过程；不定义完整施法时长，不代替命中、治疗、护盾、球或其他未完成分支。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "nami_r",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "主动使用登记消耗与冷却",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used_cost_and_cooldown",
+      "sortOrder": 5
+    },
+    "/skills/soraka_q": {
+      "createdAt": "2026-09-06T18:20:28.495962Z",
+      "description": "一颗流星从天而降，落在目标地点，造成魔法伤害，并对区域中心的敌人造成减速效果。如果一名敌人被此技能命中，那么索拉卡就会回复生命值。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "索拉卡·流星坠落",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "soraka_q",
+      "sortOrder": 1,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:20:28.495962Z"
+    },
+    "/characters/champion_soraka": {
+      "characterKey": "champion_soraka",
+      "createdAt": "2026-09-06T17:46:02.127947Z",
+      "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+      "gameId": "lol",
+      "name": "索拉卡",
+      "updatedAt": "2026-09-06T17:46:02.127947Z"
+    },
+    "/characters/champion_soraka/attributes": {
+      "characterKey": "champion_soraka",
+      "levelValues": {
+        "1": {
+          "move_speed": 325,
+          "hp": 605,
+          "hp_regen": 2.5,
+          "mana": 425,
+          "mana_regen": 11.5,
+          "armor": 32,
+          "magic_resistance": 30,
+          "attack_damage": 50,
+          "attack_speed": 0.625,
+          "attack_range": 550
+        },
+        "2": {
+          "move_speed": 325,
+          "hp": 668.36,
+          "hp_regen": 2.86,
+          "mana": 453.8,
+          "mana_regen": 11.788,
+          "armor": 35.6,
+          "magic_resistance": 30.936,
+          "attack_damage": 52.16,
+          "attack_speed": 0.63463,
+          "attack_range": 550
+        },
+        "3": {
+          "move_speed": 325,
+          "hp": 734.8,
+          "hp_regen": 3.2375,
+          "mana": 484,
+          "mana_regen": 12.09,
+          "armor": 39.375,
+          "magic_resistance": 31.9175,
+          "attack_damage": 54.425,
+          "attack_speed": 0.644728,
+          "attack_range": 550
+        },
+        "4": {
+          "move_speed": 325,
+          "hp": 804.32,
+          "hp_regen": 3.6325,
+          "mana": 515.6,
+          "mana_regen": 12.406,
+          "armor": 43.325,
+          "magic_resistance": 32.9445,
+          "attack_damage": 56.795,
+          "attack_speed": 0.655294,
+          "attack_range": 550
+        },
+        "5": {
+          "move_speed": 325,
+          "hp": 876.92,
+          "hp_regen": 4.045,
+          "mana": 548.6,
+          "mana_regen": 12.736,
+          "armor": 47.45,
+          "magic_resistance": 34.017,
+          "attack_damage": 59.27,
+          "attack_speed": 0.666329,
+          "attack_range": 550
+        },
+        "6": {
+          "move_speed": 325,
+          "hp": 952.6,
+          "hp_regen": 4.475,
+          "mana": 583,
+          "mana_regen": 13.08,
+          "armor": 51.75,
+          "magic_resistance": 35.135,
+          "attack_damage": 61.85,
+          "attack_speed": 0.677831,
+          "attack_range": 550
+        },
+        "7": {
+          "move_speed": 325,
+          "hp": 1031.36,
+          "hp_regen": 4.9225,
+          "mana": 618.8,
+          "mana_regen": 13.438,
+          "armor": 56.225,
+          "magic_resistance": 36.2985,
+          "attack_damage": 64.535,
+          "attack_speed": 0.689802,
+          "attack_range": 550
+        },
+        "8": {
+          "move_speed": 325,
+          "hp": 1113.2,
+          "hp_regen": 5.3875,
+          "mana": 656,
+          "mana_regen": 13.81,
+          "armor": 60.875,
+          "magic_resistance": 37.5075,
+          "attack_damage": 67.325,
+          "attack_speed": 0.702241,
+          "attack_range": 550
+        },
+        "9": {
+          "move_speed": 325,
+          "hp": 1198.12,
+          "hp_regen": 5.87,
+          "mana": 694.6,
+          "mana_regen": 14.196,
+          "armor": 65.7,
+          "magic_resistance": 38.762,
+          "attack_damage": 70.22,
+          "attack_speed": 0.715148,
+          "attack_range": 550
+        },
+        "10": {
+          "move_speed": 325,
+          "hp": 1286.12,
+          "hp_regen": 6.37,
+          "mana": 734.6,
+          "mana_regen": 14.596,
+          "armor": 70.7,
+          "magic_resistance": 40.062,
+          "attack_damage": 73.22,
+          "attack_speed": 0.728523,
+          "attack_range": 550
+        },
+        "11": {
+          "move_speed": 325,
+          "hp": 1377.2,
+          "hp_regen": 6.8875,
+          "mana": 776,
+          "mana_regen": 15.01,
+          "armor": 75.875,
+          "magic_resistance": 41.4075,
+          "attack_damage": 76.325,
+          "attack_speed": 0.742366,
+          "attack_range": 550
+        },
+        "12": {
+          "move_speed": 325,
+          "hp": 1471.36,
+          "hp_regen": 7.4225,
+          "mana": 818.8,
+          "mana_regen": 15.438,
+          "armor": 81.225,
+          "magic_resistance": 42.7985,
+          "attack_damage": 79.535,
+          "attack_speed": 0.756677,
+          "attack_range": 550
+        },
+        "13": {
+          "move_speed": 325,
+          "hp": 1568.6,
+          "hp_regen": 7.975,
+          "mana": 863,
+          "mana_regen": 15.88,
+          "armor": 86.75,
+          "magic_resistance": 44.235,
+          "attack_damage": 82.85,
+          "attack_speed": 0.771456,
+          "attack_range": 550
+        },
+        "14": {
+          "move_speed": 325,
+          "hp": 1668.92,
+          "hp_regen": 8.545,
+          "mana": 908.6,
+          "mana_regen": 16.336,
+          "armor": 92.45,
+          "magic_resistance": 45.717,
+          "attack_damage": 86.27,
+          "attack_speed": 0.786704,
+          "attack_range": 550
+        },
+        "15": {
+          "move_speed": 325,
+          "hp": 1772.32,
+          "hp_regen": 9.1325,
+          "mana": 955.6,
+          "mana_regen": 16.806,
+          "armor": 98.325,
+          "magic_resistance": 47.2445,
+          "attack_damage": 89.795,
+          "attack_speed": 0.802419,
+          "attack_range": 550
+        },
+        "16": {
+          "move_speed": 325,
+          "hp": 1878.8,
+          "hp_regen": 9.7375,
+          "mana": 1004,
+          "mana_regen": 17.29,
+          "armor": 104.375,
+          "magic_resistance": 48.8175,
+          "attack_damage": 93.425,
+          "attack_speed": 0.818603,
+          "attack_range": 550
+        },
+        "17": {
+          "move_speed": 325,
+          "hp": 1988.36,
+          "hp_regen": 10.36,
+          "mana": 1053.8,
+          "mana_regen": 17.788,
+          "armor": 110.6,
+          "magic_resistance": 50.436,
+          "attack_damage": 97.16,
+          "attack_speed": 0.835255,
+          "attack_range": 550
+        },
+        "18": {
+          "move_speed": 325,
+          "hp": 2101,
+          "hp_regen": 11,
+          "mana": 1105,
+          "mana_regen": 18.3,
+          "armor": 117,
+          "magic_resistance": 52.1,
+          "attack_damage": 101,
+          "attack_speed": 0.852375,
+          "attack_range": 550
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_soraka/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_champion_soraka",
+        "name": "champion_soraka"
+      }
+    },
+    "/skills/soraka_q/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_soraka_q",
+        "name": "soraka_q"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_soraka": {
+      "items": [
+        {
+          "characterKey": "champion_soraka",
+          "characterName": "索拉卡",
+          "gameId": "lol",
+          "skillKey": "soraka_p",
+          "skillName": "索拉卡·拯救",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_soraka",
+          "characterName": "索拉卡",
+          "gameId": "lol",
+          "skillKey": "soraka_q",
+          "skillName": "索拉卡·流星坠落",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_soraka",
+          "characterName": "索拉卡",
+          "gameId": "lol",
+          "skillKey": "soraka_w",
+          "skillName": "索拉卡·星之灌注",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_soraka",
+          "characterName": "索拉卡",
+          "gameId": "lol",
+          "skillKey": "soraka_e",
+          "skillName": "索拉卡·星体结界",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_soraka",
+          "characterName": "索拉卡",
+          "gameId": "lol",
+          "skillKey": "soraka_r",
+          "skillName": "索拉卡·祈愿",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=soraka_q": {
+      "items": [
+        {
+          "characterKey": "champion_soraka",
+          "characterName": "索拉卡",
+          "gameId": "lol",
+          "skillKey": "soraka_q",
+          "skillName": "索拉卡·流星坠落",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        }
+      ],
+      "total": 1
+    },
+    "/skills/soraka_q/parameters": [
+      {
+        "createdAt": "2026-09-09T18:37:23.358077Z",
+        "description": "当前BaseDamage技能等级1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 85,
+          "2": 120,
+          "3": 155,
+          "4": 190,
+          "5": 225
+        },
+        "name": "流星坠落基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "soraka_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T18:37:23.358077Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T18:37:24.468413Z",
+        "description": "当前TotalDamage树AP比例为0.35。",
+        "fixedValue": 0.35,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "流星坠落法强比例",
+        "parameterKey": "ability_power_ratio",
+        "skillKey": "soraka_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T18:37:24.468413Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T18:37:25.648457Z",
+        "description": "当前MoveSpeedSlow正文显示30%，保存为0.3比例。",
+        "fixedValue": 0.3,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "流星坠落减速比例",
+        "parameterKey": "slow_ratio",
+        "skillKey": "soraka_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T18:37:25.648457Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T18:37:26.724059Z",
+        "description": "当前SlowDuration=1.5秒。",
+        "fixedValue": 1500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "流星坠落减速持续时间",
+        "parameterKey": "slow_duration_ms",
+        "skillKey": "soraka_q",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T18:37:26.724059Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T18:37:27.84127Z",
+        "description": "当前BaseHoT技能等级1至5；是2.5秒总量。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 75,
+          "3": 90,
+          "4": 105,
+          "5": 120
+        },
+        "name": "流星坠落自身持续治疗基础值",
+        "parameterKey": "self_heal_base",
+        "skillKey": "soraka_q",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T18:37:27.84127Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T18:37:28.974267Z",
+        "description": "当前TotalHot树AP比例为0.3。",
+        "fixedValue": 0.3,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "流星坠落自身持续治疗法强比例",
+        "parameterKey": "self_heal_ap_ratio",
+        "skillKey": "soraka_q",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T18:37:28.974267Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T18:37:30.135851Z",
+        "description": "当前HotDuration=2.5秒；不按每次跳数拆分。",
+        "fixedValue": 2500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "流星坠落自身治疗持续时间",
+        "parameterKey": "self_heal_duration_ms",
+        "skillKey": "soraka_q",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-09T18:37:30.135851Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T18:37:31.264029Z",
+        "description": "当前MoveSpeedHaste技能等级1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.2,
+          "2": 0.225,
+          "3": 0.25,
+          "4": 0.275,
+          "5": 0.3
+        },
+        "name": "流星坠落自身移动速度比例",
+        "parameterKey": "self_move_speed_ratio",
+        "skillKey": "soraka_q",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-09T18:37:31.264029Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T18:37:32.34972Z",
+        "description": "当前MoveSpeedDuration=2.5秒。",
+        "fixedValue": 2500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "流星坠落自身加速持续时间",
+        "parameterKey": "self_move_speed_duration_ms",
+        "skillKey": "soraka_q",
+        "sortOrder": 90,
+        "updatedAt": "2026-09-09T18:37:32.34972Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T01:03:37.289178Z",
+        "description": "DDragon16.17.1 Soraka.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 8000,
+          "2": 7000,
+          "3": 6000,
+          "4": 5000,
+          "5": 4000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "soraka_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T01:03:37.289178Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T18:37:33.518977Z",
+        "description": "当前spellCastTime=0.25秒。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础施法时间",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "soraka_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-09T18:37:33.518977Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T01:03:37.739863Z",
+        "description": "DDragon16.17.1 Soraka.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 45,
+          "2": 50,
+          "3": 55,
+          "4": 60,
+          "5": 65
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "soraka_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T01:03:37.739863Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/soraka_q/parameters/base_damage": {
+      "createdAt": "2026-09-09T18:37:23.358077Z",
+      "description": "当前BaseDamage技能等级1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 85,
+        "2": 120,
+        "3": 155,
+        "4": 190,
+        "5": 225
+      },
+      "name": "流星坠落基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "soraka_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T18:37:23.358077Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/soraka_q/parameters/ability_power_ratio": {
+      "createdAt": "2026-09-09T18:37:24.468413Z",
+      "description": "当前TotalDamage树AP比例为0.35。",
+      "fixedValue": 0.35,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "流星坠落法强比例",
+      "parameterKey": "ability_power_ratio",
+      "skillKey": "soraka_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T18:37:24.468413Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/soraka_q/parameters/slow_ratio": {
+      "createdAt": "2026-09-09T18:37:25.648457Z",
+      "description": "当前MoveSpeedSlow正文显示30%，保存为0.3比例。",
+      "fixedValue": 0.3,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "流星坠落减速比例",
+      "parameterKey": "slow_ratio",
+      "skillKey": "soraka_q",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T18:37:25.648457Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/soraka_q/parameters/slow_duration_ms": {
+      "createdAt": "2026-09-09T18:37:26.724059Z",
+      "description": "当前SlowDuration=1.5秒。",
+      "fixedValue": 1500,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "流星坠落减速持续时间",
+      "parameterKey": "slow_duration_ms",
+      "skillKey": "soraka_q",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T18:37:26.724059Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/soraka_q/parameters/self_heal_base": {
+      "createdAt": "2026-09-09T18:37:27.84127Z",
+      "description": "当前BaseHoT技能等级1至5；是2.5秒总量。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 60,
+        "2": 75,
+        "3": 90,
+        "4": 105,
+        "5": 120
+      },
+      "name": "流星坠落自身持续治疗基础值",
+      "parameterKey": "self_heal_base",
+      "skillKey": "soraka_q",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T18:37:27.84127Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/soraka_q/parameters/self_heal_ap_ratio": {
+      "createdAt": "2026-09-09T18:37:28.974267Z",
+      "description": "当前TotalHot树AP比例为0.3。",
+      "fixedValue": 0.3,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "流星坠落自身持续治疗法强比例",
+      "parameterKey": "self_heal_ap_ratio",
+      "skillKey": "soraka_q",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-09T18:37:28.974267Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/soraka_q/parameters/self_heal_duration_ms": {
+      "createdAt": "2026-09-09T18:37:30.135851Z",
+      "description": "当前HotDuration=2.5秒；不按每次跳数拆分。",
+      "fixedValue": 2500,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "流星坠落自身治疗持续时间",
+      "parameterKey": "self_heal_duration_ms",
+      "skillKey": "soraka_q",
+      "sortOrder": 70,
+      "updatedAt": "2026-09-09T18:37:30.135851Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/soraka_q/parameters/self_move_speed_ratio": {
+      "createdAt": "2026-09-09T18:37:31.264029Z",
+      "description": "当前MoveSpeedHaste技能等级1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 0.2,
+        "2": 0.225,
+        "3": 0.25,
+        "4": 0.275,
+        "5": 0.3
+      },
+      "name": "流星坠落自身移动速度比例",
+      "parameterKey": "self_move_speed_ratio",
+      "skillKey": "soraka_q",
+      "sortOrder": 80,
+      "updatedAt": "2026-09-09T18:37:31.264029Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "DECIMAL"
+    },
+    "/skills/soraka_q/parameters/self_move_speed_duration_ms": {
+      "createdAt": "2026-09-09T18:37:32.34972Z",
+      "description": "当前MoveSpeedDuration=2.5秒。",
+      "fixedValue": 2500,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "流星坠落自身加速持续时间",
+      "parameterKey": "self_move_speed_duration_ms",
+      "skillKey": "soraka_q",
+      "sortOrder": 90,
+      "updatedAt": "2026-09-09T18:37:32.34972Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/soraka_q/parameters/cooldown_ms": {
+      "createdAt": "2026-09-08T01:03:37.289178Z",
+      "description": "DDragon16.17.1 Soraka.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 8000,
+        "2": 7000,
+        "3": 6000,
+        "4": 5000,
+        "5": 4000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "soraka_q",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-08T01:03:37.289178Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/soraka_q/parameters/cast_time_ms": {
+      "createdAt": "2026-09-09T18:37:33.518977Z",
+      "description": "当前spellCastTime=0.25秒。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础施法时间",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "soraka_q",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-09T18:37:33.518977Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/soraka_q/parameters/mana_cost": {
+      "createdAt": "2026-09-08T01:03:37.739863Z",
+      "description": "DDragon16.17.1 Soraka.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 45,
+        "2": 50,
+        "3": 55,
+        "4": 60,
+        "5": 65
+      },
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "soraka_q",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-08T01:03:37.739863Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/soraka_q/formulas": [
+      {
+        "createdAt": "2026-09-09T18:37:34.603394Z",
+        "description": "单一敌方命中，减速为独立数值参数。",
+        "formulaKey": "magic_damage",
+        "gameId": "lol",
+        "name": "流星坠落单一敌方魔法伤害",
+        "skillKey": "soraka_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T18:37:34.603394Z"
+      },
+      {
+        "createdAt": "2026-09-09T18:37:35.776625Z",
+        "description": "TotalHot是2.5秒期间总治疗量，不默认每次周期治疗。",
+        "formulaKey": "self_heal_total",
+        "gameId": "lol",
+        "name": "流星坠落自身持续治疗总量",
+        "skillKey": "soraka_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T18:37:35.776625Z"
+      }
+    ],
+    "/skills/soraka_q/formulas/magic_damage": {
+      "createdAt": "2026-09-09T18:37:34.603394Z",
+      "description": "单一敌方命中，减速为独立数值参数。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ability_power_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "magic_damage",
+      "gameId": "lol",
+      "name": "流星坠落单一敌方魔法伤害",
+      "skillKey": "soraka_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T18:37:34.603394Z"
+    },
+    "/skills/soraka_q/formulas/self_heal_total": {
+      "createdAt": "2026-09-09T18:37:35.776625Z",
+      "description": "TotalHot是2.5秒期间总治疗量，不默认每次周期治疗。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "self_heal_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "self_heal_ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "self_heal_total",
+      "gameId": "lol",
+      "name": "流星坠落自身持续治疗总量",
+      "skillKey": "soraka_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T18:37:35.776625Z"
+    },
+    "/skills/soraka_q/effects": [],
+    "/skills/soraka_q/processes": [],
+    "/skills/soraka_q/internal-states": [],
+    "/skills/soraka_q/trigger-rules": [],
+    "/skills/neeko_e": {
+      "createdAt": "2026-09-06T18:19:37.686699Z",
+      "description": "妮蔻投出一团倒刺，对它沿途的所有东西造成伤害和禁锢效果。如果倒刺击杀了一个敌人或穿过了一名英雄，就会变得更大、更快并且禁锢时间更长。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "妮蔻·缠结倒刺",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "neeko_e",
+      "sortOrder": 3,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:19:37.686699Z"
+    },
+    "/characters/champion_neeko": {
+      "characterKey": "champion_neeko",
+      "createdAt": "2026-09-06T17:16:24.11477Z",
+      "description": "官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与候选源明确的1～18级基础自然成长，技能、图片、被动与特殊机制待录。",
+      "gameId": "lol",
+      "name": "妮蔻",
+      "updatedAt": "2026-09-06T17:16:24.11477Z"
+    },
+    "/characters/champion_neeko/attributes": {
+      "characterKey": "champion_neeko",
+      "levelValues": {
+        "1": {
+          "move_speed": 340,
+          "hp": 610,
+          "hp_regen": 7.5,
+          "mana": 450,
+          "mana_regen": 7,
+          "armor": 21,
+          "magic_resistance": 30,
+          "attack_damage": 48,
+          "attack_speed": 0.625,
+          "attack_range": 550
+        },
+        "2": {
+          "move_speed": 340,
+          "hp": 684.88,
+          "hp_regen": 8.04,
+          "mana": 471.6,
+          "mana_regen": 7.504,
+          "armor": 24.744,
+          "magic_resistance": 30.936,
+          "attack_damage": 49.8,
+          "attack_speed": 0.641884,
+          "attack_range": 550
+        },
+        "3": {
+          "move_speed": 340,
+          "hp": 763.4,
+          "hp_regen": 8.60625,
+          "mana": 494.25,
+          "mana_regen": 8.0325,
+          "armor": 28.67,
+          "magic_resistance": 31.9175,
+          "attack_damage": 51.6875,
+          "attack_speed": 0.659589,
+          "attack_range": 550
+        },
+        "4": {
+          "move_speed": 340,
+          "hp": 845.56,
+          "hp_regen": 9.19875,
+          "mana": 517.95,
+          "mana_regen": 8.5855,
+          "armor": 32.778,
+          "magic_resistance": 32.9445,
+          "attack_damage": 53.6625,
+          "attack_speed": 0.678114,
+          "attack_range": 550
+        },
+        "5": {
+          "move_speed": 340,
+          "hp": 931.36,
+          "hp_regen": 9.8175,
+          "mana": 542.7,
+          "mana_regen": 9.163,
+          "armor": 37.068,
+          "magic_resistance": 34.017,
+          "attack_damage": 55.725,
+          "attack_speed": 0.697461,
+          "attack_range": 550
+        },
+        "6": {
+          "move_speed": 340,
+          "hp": 1020.8,
+          "hp_regen": 10.4625,
+          "mana": 568.5,
+          "mana_regen": 9.765,
+          "armor": 41.54,
+          "magic_resistance": 35.135,
+          "attack_damage": 57.875,
+          "attack_speed": 0.717627,
+          "attack_range": 550
+        },
+        "7": {
+          "move_speed": 340,
+          "hp": 1113.88,
+          "hp_regen": 11.13375,
+          "mana": 595.35,
+          "mana_regen": 10.3915,
+          "armor": 46.194,
+          "magic_resistance": 36.2985,
+          "attack_damage": 60.1125,
+          "attack_speed": 0.738615,
+          "attack_range": 550
+        },
+        "8": {
+          "move_speed": 340,
+          "hp": 1210.6,
+          "hp_regen": 11.83125,
+          "mana": 623.25,
+          "mana_regen": 11.0425,
+          "armor": 51.03,
+          "magic_resistance": 37.5075,
+          "attack_damage": 62.4375,
+          "attack_speed": 0.760424,
+          "attack_range": 550
+        },
+        "9": {
+          "move_speed": 340,
+          "hp": 1310.96,
+          "hp_regen": 12.555,
+          "mana": 652.2,
+          "mana_regen": 11.718,
+          "armor": 56.048,
+          "magic_resistance": 38.762,
+          "attack_damage": 64.85,
+          "attack_speed": 0.783053,
+          "attack_range": 550
+        },
+        "10": {
+          "move_speed": 340,
+          "hp": 1414.96,
+          "hp_regen": 13.305,
+          "mana": 682.2,
+          "mana_regen": 12.418,
+          "armor": 61.248,
+          "magic_resistance": 40.062,
+          "attack_damage": 67.35,
+          "attack_speed": 0.806503,
+          "attack_range": 550
+        },
+        "11": {
+          "move_speed": 340,
+          "hp": 1522.6,
+          "hp_regen": 14.08125,
+          "mana": 713.25,
+          "mana_regen": 13.1425,
+          "armor": 66.63,
+          "magic_resistance": 41.4075,
+          "attack_damage": 69.9375,
+          "attack_speed": 0.830774,
+          "attack_range": 550
+        },
+        "12": {
+          "move_speed": 340,
+          "hp": 1633.88,
+          "hp_regen": 14.88375,
+          "mana": 745.35,
+          "mana_regen": 13.8915,
+          "armor": 72.194,
+          "magic_resistance": 42.7985,
+          "attack_damage": 72.6125,
+          "attack_speed": 0.855865,
+          "attack_range": 550
+        },
+        "13": {
+          "move_speed": 340,
+          "hp": 1748.8,
+          "hp_regen": 15.7125,
+          "mana": 778.5,
+          "mana_regen": 14.665,
+          "armor": 77.94,
+          "magic_resistance": 44.235,
+          "attack_damage": 75.375,
+          "attack_speed": 0.881778,
+          "attack_range": 550
+        },
+        "14": {
+          "move_speed": 340,
+          "hp": 1867.36,
+          "hp_regen": 16.5675,
+          "mana": 812.7,
+          "mana_regen": 15.463,
+          "armor": 83.868,
+          "magic_resistance": 45.717,
+          "attack_damage": 78.225,
+          "attack_speed": 0.90851,
+          "attack_range": 550
+        },
+        "15": {
+          "move_speed": 340,
+          "hp": 1989.56,
+          "hp_regen": 17.44875,
+          "mana": 847.95,
+          "mana_regen": 16.2855,
+          "armor": 89.978,
+          "magic_resistance": 47.2445,
+          "attack_damage": 81.1625,
+          "attack_speed": 0.936064,
+          "attack_range": 550
+        },
+        "16": {
+          "move_speed": 340,
+          "hp": 2115.4,
+          "hp_regen": 18.35625,
+          "mana": 884.25,
+          "mana_regen": 17.1325,
+          "armor": 96.27,
+          "magic_resistance": 48.8175,
+          "attack_damage": 84.1875,
+          "attack_speed": 0.964439,
+          "attack_range": 550
+        },
+        "17": {
+          "move_speed": 340,
+          "hp": 2244.88,
+          "hp_regen": 19.29,
+          "mana": 921.6,
+          "mana_regen": 18.004,
+          "armor": 102.744,
+          "magic_resistance": 50.436,
+          "attack_damage": 87.3,
+          "attack_speed": 0.993634,
+          "attack_range": 550
+        },
+        "18": {
+          "move_speed": 340,
+          "hp": 2378,
+          "hp_regen": 20.25,
+          "mana": 960,
+          "mana_regen": 18.9,
+          "armor": 109.4,
+          "magic_resistance": 52.1,
+          "attack_damage": 90.5,
+          "attack_speed": 1.02365,
+          "attack_range": 550
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_neeko/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_champion_neeko",
+        "name": "champion_neeko"
+      }
+    },
+    "/skills/neeko_e/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_neeko_e",
+        "name": "neeko_e"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_neeko": {
+      "items": [
+        {
+          "characterKey": "champion_neeko",
+          "characterName": "妮蔻",
+          "gameId": "lol",
+          "skillKey": "neeko_p",
+          "skillName": "妮蔻·天生幻魅",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_neeko",
+          "characterName": "妮蔻",
+          "gameId": "lol",
+          "skillKey": "neeko_q",
+          "skillName": "妮蔻·盛开花种",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_neeko",
+          "characterName": "妮蔻",
+          "gameId": "lol",
+          "skillKey": "neeko_w",
+          "skillName": "妮蔻·两生花影",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_neeko",
+          "characterName": "妮蔻",
+          "gameId": "lol",
+          "skillKey": "neeko_e",
+          "skillName": "妮蔻·缠结倒刺",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_neeko",
+          "characterName": "妮蔻",
+          "gameId": "lol",
+          "skillKey": "neeko_r",
+          "skillName": "妮蔻·怒放",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=neeko_e": {
+      "items": [
+        {
+          "characterKey": "champion_neeko",
+          "characterName": "妮蔻",
+          "gameId": "lol",
+          "skillKey": "neeko_e",
+          "skillName": "妮蔻·缠结倒刺",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        }
+      ],
+      "total": 1
+    },
+    "/skills/neeko_e/parameters": [
+      {
+        "createdAt": "2026-09-10T02:04:49.362356Z",
+        "description": "来源70/105/140/175/210。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 105,
+          "3": 140,
+          "4": 175,
+          "5": 210
+        },
+        "name": "首个目标基础魔法伤害",
+        "parameterKey": "damage_base",
+        "skillKey": "neeko_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-10T02:04:49.362356Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-10T02:04:51.124215Z",
+        "description": "当前树系数0.65。",
+        "fixedValue": 0.6499999762,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法强倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "neeko_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-10T02:04:51.124215Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-10T02:04:52.746604Z",
+        "description": "当前正文首个目标为0.7/0.9/1.1/1.3/1.5秒，转为毫秒。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 700,
+          "2": 900,
+          "3": 1100,
+          "4": 1300,
+          "5": 1500
+        },
+        "name": "首个目标禁锢持续（毫秒）",
+        "parameterKey": "min_root_duration_ms",
+        "skillKey": "neeko_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-10T02:04:52.746604Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-10T02:04:54.397258Z",
+        "description": "根spellCastTime为0.25秒。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "根施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "neeko_e",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-10T02:04:54.397258Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T02:40:51.535042Z",
+        "description": "DDragon16.17.1 Neeko.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 12000,
+          "2": 11500,
+          "3": 11000,
+          "4": 10500,
+          "5": 10000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "neeko_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:40:51.535042Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T02:40:51.965249Z",
+        "description": "DDragon16.17.1 Neeko.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 65,
+          "3": 70,
+          "4": 75,
+          "5": 80
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "neeko_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:40:51.965249Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/neeko_e/parameters/damage_base": {
+      "createdAt": "2026-09-10T02:04:49.362356Z",
+      "description": "来源70/105/140/175/210。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 70,
+        "2": 105,
+        "3": 140,
+        "4": 175,
+        "5": 210
+      },
+      "name": "首个目标基础魔法伤害",
+      "parameterKey": "damage_base",
+      "skillKey": "neeko_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-10T02:04:49.362356Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/neeko_e/parameters/ap_ratio": {
+      "createdAt": "2026-09-10T02:04:51.124215Z",
+      "description": "当前树系数0.65。",
+      "fixedValue": 0.6499999762,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法强倍率",
+      "parameterKey": "ap_ratio",
+      "skillKey": "neeko_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-10T02:04:51.124215Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/neeko_e/parameters/min_root_duration_ms": {
+      "createdAt": "2026-09-10T02:04:52.746604Z",
+      "description": "当前正文首个目标为0.7/0.9/1.1/1.3/1.5秒，转为毫秒。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 700,
+        "2": 900,
+        "3": 1100,
+        "4": 1300,
+        "5": 1500
+      },
+      "name": "首个目标禁锢持续（毫秒）",
+      "parameterKey": "min_root_duration_ms",
+      "skillKey": "neeko_e",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-10T02:04:52.746604Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/neeko_e/parameters/cast_time_ms": {
+      "createdAt": "2026-09-10T02:04:54.397258Z",
+      "description": "根spellCastTime为0.25秒。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "根施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "neeko_e",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-10T02:04:54.397258Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/neeko_e/parameters/cooldown_ms": {
+      "createdAt": "2026-09-08T02:40:51.535042Z",
+      "description": "DDragon16.17.1 Neeko.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 12000,
+        "2": 11500,
+        "3": 11000,
+        "4": 10500,
+        "5": 10000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "neeko_e",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-08T02:40:51.535042Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/neeko_e/parameters/mana_cost": {
+      "createdAt": "2026-09-08T02:40:51.965249Z",
+      "description": "DDragon16.17.1 Neeko.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 60,
+        "2": 65,
+        "3": 70,
+        "4": 75,
+        "5": 80
+      },
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "neeko_e",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-08T02:40:51.965249Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/neeko_e/formulas": [
+      {
+        "createdAt": "2026-09-10T02:04:55.953888Z",
+        "description": "对应BaseDamage；本轮只保留首个目标。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "缠结倒刺本体魔法伤害",
+        "skillKey": "neeko_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-10T02:04:55.953888Z"
+      },
+      {
+        "createdAt": "2026-09-10T02:04:57.463316Z",
+        "description": "首个目标第一次命中使用最小禁锢；强化后续目标需要额外敌人，排除。",
+        "formulaKey": "first_target_root_duration",
+        "gameId": "lol",
+        "name": "缠结倒刺首个目标禁锢",
+        "skillKey": "neeko_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-10T02:04:57.463316Z"
+      }
+    ],
+    "/skills/neeko_e/formulas/damage": {
+      "createdAt": "2026-09-10T02:04:55.953888Z",
+      "description": "对应BaseDamage；本轮只保留首个目标。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "damage_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "缠结倒刺本体魔法伤害",
+      "skillKey": "neeko_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-10T02:04:55.953888Z"
+    },
+    "/skills/neeko_e/formulas/first_target_root_duration": {
+      "createdAt": "2026-09-10T02:04:57.463316Z",
+      "description": "首个目标第一次命中使用最小禁锢；强化后续目标需要额外敌人，排除。",
+      "expression": {
+        "nodeType": "PARAMETER",
+        "parameterKey": "min_root_duration_ms"
+      },
+      "formulaKey": "first_target_root_duration",
+      "gameId": "lol",
+      "name": "缠结倒刺首个目标禁锢",
+      "skillKey": "neeko_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-10T02:04:57.463316Z"
+    },
+    "/skills/neeko_e/effects": [
+      {
+        "createdAt": "2026-09-10T02:04:59.071785Z",
+        "description": "复用冻结公共法力参数；仅记录基础资源消耗，实际扣除时点由事件层接线。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "neeko_e",
+        "sortOrder": 900,
+        "updatedAt": "2026-09-10T02:04:59.071785Z"
+      }
+    ],
+    "/skills/neeko_e/effects/mana_cost": {
+      "createdAt": "2026-09-10T02:04:59.071785Z",
+      "description": "复用冻结公共法力参数；仅记录基础资源消耗，实际扣除时点由事件层接线。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": "不表示战斗事件已经接线。",
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "施放资源消耗",
+          "resultKey": "consume_resource",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "neeko_e",
+      "sortOrder": 900,
+      "updatedAt": "2026-09-10T02:04:59.071785Z"
+    },
+    "/skills/neeko_e/processes": [],
+    "/skills/neeko_e/internal-states": [],
+    "/skills/neeko_e/trigger-rules": [],
+    "/skills/orianna_w": {
+      "createdAt": "2026-09-06T18:19:45.571258Z",
+      "description": "奥莉安娜指挥她的魔偶，释放能量脉冲，造成魔法伤害，并产生一个加速友军、减速敌军的能量场。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "奥莉安娜·指令：杂音",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "orianna_w",
+      "sortOrder": 2,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:19:45.571258Z"
+    },
+    "/characters/champion_orianna": {
+      "characterKey": "champion_orianna",
+      "createdAt": "2026-09-06T16:29:31.963602Z",
+      "description": "来源：官方 Data Dragon 16.17.1；攻击力成长与攻速来源补证自 CommunityDragon 提取的同补丁客户端 16.17.8104348（非 Riot 官方接口）。本轮仅录角色主体与 1～18 级基础自然成长，不含被动、技能、装备、符文、叠层或形态。技能、图片和机制待录，不能视为完整录入。",
+      "gameId": "lol",
+      "name": "奥莉安娜",
+      "updatedAt": "2026-09-06T16:29:31.963602Z"
+    },
+    "/characters/champion_orianna/attributes": {
+      "characterKey": "champion_orianna",
+      "levelValues": {
+        "1": {
+          "move_speed": 325,
+          "hp": 565,
+          "hp_regen": 7,
+          "mana": 418,
+          "mana_regen": 8,
+          "armor": 20,
+          "magic_resistance": 26,
+          "attack_damage": 44,
+          "attack_speed": 0.658,
+          "attack_range": 525
+        },
+        "2": {
+          "move_speed": 325,
+          "hp": 644.2,
+          "hp_regen": 7.396,
+          "mana": 436,
+          "mana_regen": 8.576,
+          "armor": 23.024,
+          "magic_resistance": 26.936,
+          "attack_damage": 45.872,
+          "attack_speed": 0.674582,
+          "attack_range": 525
+        },
+        "3": {
+          "move_speed": 325,
+          "hp": 727.25,
+          "hp_regen": 7.81125,
+          "mana": 454.875,
+          "mana_regen": 9.18,
+          "armor": 26.195,
+          "magic_resistance": 27.9175,
+          "attack_damage": 47.835,
+          "attack_speed": 0.691969,
+          "attack_range": 525
+        },
+        "4": {
+          "move_speed": 325,
+          "hp": 814.15,
+          "hp_regen": 8.24575,
+          "mana": 474.625,
+          "mana_regen": 9.812,
+          "armor": 29.513,
+          "magic_resistance": 28.9445,
+          "attack_damage": 49.889,
+          "attack_speed": 0.710163,
+          "attack_range": 525
+        },
+        "5": {
+          "move_speed": 325,
+          "hp": 904.9,
+          "hp_regen": 8.6995,
+          "mana": 495.25,
+          "mana_regen": 10.472,
+          "armor": 32.978,
+          "magic_resistance": 30.017,
+          "attack_damage": 52.034,
+          "attack_speed": 0.729163,
+          "attack_range": 525
+        },
+        "6": {
+          "move_speed": 325,
+          "hp": 999.5,
+          "hp_regen": 9.1725,
+          "mana": 516.75,
+          "mana_regen": 11.16,
+          "armor": 36.59,
+          "magic_resistance": 31.135,
+          "attack_damage": 54.27,
+          "attack_speed": 0.748969,
+          "attack_range": 525
+        },
+        "7": {
+          "move_speed": 325,
+          "hp": 1097.95,
+          "hp_regen": 9.66475,
+          "mana": 539.125,
+          "mana_regen": 11.876,
+          "armor": 40.349,
+          "magic_resistance": 32.2985,
+          "attack_damage": 56.597,
+          "attack_speed": 0.76958,
+          "attack_range": 525
+        },
+        "8": {
+          "move_speed": 325,
+          "hp": 1200.25,
+          "hp_regen": 10.17625,
+          "mana": 562.375,
+          "mana_regen": 12.62,
+          "armor": 44.255,
+          "magic_resistance": 33.5075,
+          "attack_damage": 59.015,
+          "attack_speed": 0.790998,
+          "attack_range": 525
+        },
+        "9": {
+          "move_speed": 325,
+          "hp": 1306.4,
+          "hp_regen": 10.707,
+          "mana": 586.5,
+          "mana_regen": 13.392,
+          "armor": 48.308,
+          "magic_resistance": 34.762,
+          "attack_damage": 61.524,
+          "attack_speed": 0.813222,
+          "attack_range": 525
+        },
+        "10": {
+          "move_speed": 325,
+          "hp": 1416.4,
+          "hp_regen": 11.257,
+          "mana": 611.5,
+          "mana_regen": 14.192,
+          "armor": 52.508,
+          "magic_resistance": 36.062,
+          "attack_damage": 64.124,
+          "attack_speed": 0.836252,
+          "attack_range": 525
+        },
+        "11": {
+          "move_speed": 325,
+          "hp": 1530.25,
+          "hp_regen": 11.82625,
+          "mana": 637.375,
+          "mana_regen": 15.02,
+          "armor": 56.855,
+          "magic_resistance": 37.4075,
+          "attack_damage": 66.815,
+          "attack_speed": 0.860088,
+          "attack_range": 525
+        },
+        "12": {
+          "move_speed": 325,
+          "hp": 1647.95,
+          "hp_regen": 12.41475,
+          "mana": 664.125,
+          "mana_regen": 15.876,
+          "armor": 61.349,
+          "magic_resistance": 38.7985,
+          "attack_damage": 69.597,
+          "attack_speed": 0.88473,
+          "attack_range": 525
+        },
+        "13": {
+          "move_speed": 325,
+          "hp": 1769.5,
+          "hp_regen": 13.0225,
+          "mana": 691.75,
+          "mana_regen": 16.76,
+          "armor": 65.99,
+          "magic_resistance": 40.235,
+          "attack_damage": 72.47,
+          "attack_speed": 0.910179,
+          "attack_range": 525
+        },
+        "14": {
+          "move_speed": 325,
+          "hp": 1894.9,
+          "hp_regen": 13.6495,
+          "mana": 720.25,
+          "mana_regen": 17.672,
+          "armor": 70.778,
+          "magic_resistance": 41.717,
+          "attack_damage": 75.434,
+          "attack_speed": 0.936433,
+          "attack_range": 525
+        },
+        "15": {
+          "move_speed": 325,
+          "hp": 2024.15,
+          "hp_regen": 14.29575,
+          "mana": 749.625,
+          "mana_regen": 18.612,
+          "armor": 75.713,
+          "magic_resistance": 43.2445,
+          "attack_damage": 78.489,
+          "attack_speed": 0.963493,
+          "attack_range": 525
+        },
+        "16": {
+          "move_speed": 325,
+          "hp": 2157.25,
+          "hp_regen": 14.96125,
+          "mana": 779.875,
+          "mana_regen": 19.58,
+          "armor": 80.795,
+          "magic_resistance": 44.8175,
+          "attack_damage": 81.635,
+          "attack_speed": 0.991359,
+          "attack_range": 525
+        },
+        "17": {
+          "move_speed": 325,
+          "hp": 2294.2,
+          "hp_regen": 15.646,
+          "mana": 811,
+          "mana_regen": 20.576,
+          "armor": 86.024,
+          "magic_resistance": 46.436,
+          "attack_damage": 84.872,
+          "attack_speed": 1.020032,
+          "attack_range": 525
+        },
+        "18": {
+          "move_speed": 325,
+          "hp": 2435,
+          "hp_regen": 16.35,
+          "mana": 843,
+          "mana_regen": 21.6,
+          "armor": 91.4,
+          "magic_resistance": 48.1,
+          "attack_damage": 88.2,
+          "attack_speed": 1.04951,
+          "attack_range": 525
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_orianna/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_champion_orianna",
+        "name": "champion_orianna"
+      }
+    },
+    "/skills/orianna_w/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_orianna_w",
+        "name": "orianna_w"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_orianna": {
+      "items": [
+        {
+          "characterKey": "champion_orianna",
+          "characterName": "奥莉安娜",
+          "gameId": "lol",
+          "skillKey": "orianna_p",
+          "skillName": "奥莉安娜·发条协奏",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_orianna",
+          "characterName": "奥莉安娜",
+          "gameId": "lol",
+          "skillKey": "orianna_q",
+          "skillName": "奥莉安娜·指令：攻击",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_orianna",
+          "characterName": "奥莉安娜",
+          "gameId": "lol",
+          "skillKey": "orianna_w",
+          "skillName": "奥莉安娜·指令：杂音",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_orianna",
+          "characterName": "奥莉安娜",
+          "gameId": "lol",
+          "skillKey": "orianna_e",
+          "skillName": "奥莉安娜·指令：防卫",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_orianna",
+          "characterName": "奥莉安娜",
+          "gameId": "lol",
+          "skillKey": "orianna_r",
+          "skillName": "奥莉安娜·指令：冲击波",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=orianna_w": {
+      "items": [
+        {
+          "characterKey": "champion_orianna",
+          "characterName": "奥莉安娜",
+          "gameId": "lol",
+          "skillKey": "orianna_w",
+          "skillName": "奥莉安娜·指令：杂音",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        }
+      ],
+      "total": 1
+    },
+    "/skills/orianna_w/parameters": [
+      {
+        "createdAt": "2026-09-09T09:55:04.121197Z",
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "orianna_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T09:55:04.121197Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T09:55:05.146058Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 110,
+          "3": 150,
+          "4": 190,
+          "5": 230
+        },
+        "name": "指令：杂音基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "orianna_w",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T09:55:05.146058Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T09:55:06.288373Z",
+        "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+        "fixedValue": 0.8,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法强系数",
+        "parameterKey": "ap_ratio",
+        "skillKey": "orianna_w",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T09:55:06.288373Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T09:55:07.412304Z",
+        "description": "客户端当前根绑定 DataValues.SlowAmount 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.2,
+          "2": 0.25,
+          "3": 0.3,
+          "4": 0.35,
+          "5": 0.4
+        },
+        "name": "敌方减速比例",
+        "parameterKey": "slow_ratio",
+        "skillKey": "orianna_w",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T09:55:07.412304Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T09:55:08.561573Z",
+        "description": "客户端当前根绑定 DataValues.HasteAmount 取索引1至5；当前仅保存合资格友方英雄加速比例，自身目标资格未证，实际目标判定待补，不默认作用于自身。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.2,
+          "2": 0.25,
+          "3": 0.3,
+          "4": 0.35,
+          "5": 0.4
+        },
+        "name": "合资格友方英雄加速比例",
+        "parameterKey": "self_haste_ratio",
+        "skillKey": "orianna_w",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-09T09:55:08.561573Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T09:55:09.804444Z",
+        "description": "客户端当前根绑定 DataValues.FieldDuration 取索引1至5；单位毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "fixedValue": 3000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "场地持续时间（毫秒）",
+        "parameterKey": "field_duration_ms",
+        "skillKey": "orianna_w",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-09T09:55:09.804444Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T09:55:10.949943Z",
+        "description": "客户端当前根绑定 DataValues.SlowAndHasteDuration 取索引1至5；单位毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "fixedValue": 2000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "减速与加速持续时间（毫秒）",
+        "parameterKey": "slow_haste_duration_ms",
+        "skillKey": "orianna_w",
+        "sortOrder": 90,
+        "updatedAt": "2026-09-09T09:55:10.949943Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T17:38:54.406135Z",
+        "description": "DDragon16.17.1 Orianna.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 7000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "orianna_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T17:38:54.406135Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T17:38:54.781019Z",
+        "description": "DDragon16.17.1 Orianna.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 65,
+          "3": 70,
+          "4": 75,
+          "5": 80
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "orianna_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-18T21:13:07.083494Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/orianna_w/parameters/cast_time_ms": {
+      "createdAt": "2026-09-09T09:55:04.121197Z",
+      "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "orianna_w",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T09:55:04.121197Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/orianna_w/parameters/base_damage": {
+      "createdAt": "2026-09-09T09:55:05.146058Z",
+      "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 70,
+        "2": 110,
+        "3": 150,
+        "4": 190,
+        "5": 230
+      },
+      "name": "指令：杂音基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "orianna_w",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T09:55:05.146058Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/orianna_w/parameters/ap_ratio": {
+      "createdAt": "2026-09-09T09:55:06.288373Z",
+      "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+      "fixedValue": 0.8,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法强系数",
+      "parameterKey": "ap_ratio",
+      "skillKey": "orianna_w",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T09:55:06.288373Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/orianna_w/parameters/slow_ratio": {
+      "createdAt": "2026-09-09T09:55:07.412304Z",
+      "description": "客户端当前根绑定 DataValues.SlowAmount 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 0.2,
+        "2": 0.25,
+        "3": 0.3,
+        "4": 0.35,
+        "5": 0.4
+      },
+      "name": "敌方减速比例",
+      "parameterKey": "slow_ratio",
+      "skillKey": "orianna_w",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-09T09:55:07.412304Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "DECIMAL"
+    },
+    "/skills/orianna_w/parameters/self_haste_ratio": {
+      "createdAt": "2026-09-09T09:55:08.561573Z",
+      "description": "客户端当前根绑定 DataValues.HasteAmount 取索引1至5；当前仅保存合资格友方英雄加速比例，自身目标资格未证，实际目标判定待补，不默认作用于自身。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 0.2,
+        "2": 0.25,
+        "3": 0.3,
+        "4": 0.35,
+        "5": 0.4
+      },
+      "name": "合资格友方英雄加速比例",
+      "parameterKey": "self_haste_ratio",
+      "skillKey": "orianna_w",
+      "sortOrder": 70,
+      "updatedAt": "2026-09-09T09:55:08.561573Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "DECIMAL"
+    },
+    "/skills/orianna_w/parameters/field_duration_ms": {
+      "createdAt": "2026-09-09T09:55:09.804444Z",
+      "description": "客户端当前根绑定 DataValues.FieldDuration 取索引1至5；单位毫秒；按来源显示单位换算为系统比例/毫秒。",
+      "fixedValue": 3000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "场地持续时间（毫秒）",
+      "parameterKey": "field_duration_ms",
+      "skillKey": "orianna_w",
+      "sortOrder": 80,
+      "updatedAt": "2026-09-09T09:55:09.804444Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/orianna_w/parameters/slow_haste_duration_ms": {
+      "createdAt": "2026-09-09T09:55:10.949943Z",
+      "description": "客户端当前根绑定 DataValues.SlowAndHasteDuration 取索引1至5；单位毫秒；按来源显示单位换算为系统比例/毫秒。",
+      "fixedValue": 2000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "减速与加速持续时间（毫秒）",
+      "parameterKey": "slow_haste_duration_ms",
+      "skillKey": "orianna_w",
+      "sortOrder": 90,
+      "updatedAt": "2026-09-09T09:55:10.949943Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/orianna_w/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T17:38:54.406135Z",
+      "description": "DDragon16.17.1 Orianna.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 7000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "orianna_w",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T17:38:54.406135Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/orianna_w/parameters/mana_cost": {
+      "createdAt": "2026-09-07T17:38:54.781019Z",
+      "description": "DDragon16.17.1 Orianna.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 60,
+        "2": 65,
+        "3": 70,
+        "4": 75,
+        "5": 80
+      },
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "orianna_w",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-18T21:13:07.083494Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/orianna_w/formulas": [
+      {
+        "createdAt": "2026-09-09T09:55:11.956116Z",
+        "description": "当前球位置对唯一敌方目标的伤害。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "指令：杂音魔法伤害",
+        "skillKey": "orianna_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T09:55:11.956116Z"
+      }
+    ],
+    "/skills/orianna_w/formulas/damage": {
+      "createdAt": "2026-09-09T09:55:11.956116Z",
+      "description": "当前球位置对唯一敌方目标的伤害。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "指令：杂音魔法伤害",
+      "skillKey": "orianna_w",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T09:55:11.956116Z"
+    },
+    "/skills/orianna_w/effects": [
+      {
+        "createdAt": "2026-09-09T09:55:13.241413Z",
+        "description": "施放本技能时消耗对应技能等级的法力；具体使用流程由引用本效果的过程定义。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "orianna_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-18T21:13:08.421629Z"
+      }
+    ],
+    "/skills/orianna_w/effects/mana_cost": {
+      "createdAt": "2026-09-09T09:55:13.241413Z",
+      "description": "施放本技能时消耗对应技能等级的法力；具体使用流程由引用本效果的过程定义。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "orianna_w",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-18T21:13:08.421629Z"
+    },
+    "/skills/orianna_w/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-18T20:26:05.162212Z",
+        "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零。伤害、治疗、护盾、球及其他机制不在此过程执行。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "使用消耗与普通冷却",
+        "processKey": "use_cost_and_cooldown",
+        "skillKey": "orianna_w",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-18T20:26:05.162212Z"
+      }
+    ],
+    "/skills/orianna_w/processes/use_cost_and_cooldown": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-18T20:26:05.162212Z",
+      "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零。伤害、治疗、护盾、球及其他机制不在此过程执行。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "使用消耗与普通冷却",
+      "processKey": "use_cost_and_cooldown",
+      "skillKey": "orianna_w",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+          "detail": {},
+          "name": "登记本次使用",
+          "sortOrder": 10,
+          "stepKey": "register_use",
+          "stepType": "IMMEDIATE"
+        }
+      ],
+      "updatedAt": "2026-09-18T20:26:05.162212Z"
+    },
+    "/skills/orianna_w/internal-states": [],
+    "/skills/orianna_w/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "每次本技能主动使用启动专门的消耗与冷却登记过程；不定义完整施法时长，不代替命中、治疗、护盾、球或其他未完成分支。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "主动使用登记消耗与冷却",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used_cost_and_cooldown",
+        "sortOrder": 5,
+        "updatedAt": "2026-09-18T20:26:06.486356Z"
+      }
+    ],
+    "/skills/orianna_w/trigger-rules/on_used_cost_and_cooldown": {
+      "actions": [
+        {
+          "actionKey": "start_use_cost",
+          "actionType": "START_PROCESS",
+          "detail": {
+            "processKey": "use_cost_and_cooldown"
+          },
+          "name": "启动消耗与冷却登记",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "每次本技能主动使用启动专门的消耗与冷却登记过程；不定义完整施法时长，不代替命中、治疗、护盾、球或其他未完成分支。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "orianna_w",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "主动使用登记消耗与冷却",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used_cost_and_cooldown",
+      "sortOrder": 5
+    },
+    "/skills/orianna_r": {
+      "createdAt": "2026-09-06T18:19:46.089127Z",
+      "description": "奥莉安娜指挥她的魔偶，释放一股冲击波，对周围敌军造成魔法伤害并在短暂延迟后将他们拉向魔偶。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 3,
+      "name": "奥莉安娜·指令：冲击波",
+      "skillCategoryKeys": [],
+      "skillKey": "orianna_r",
+      "sortOrder": 4,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:19:46.089127Z"
+    },
+    "/skills/orianna_r/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_orianna_r",
+        "name": "orianna_r"
+      }
+    },
+    "/character-skill-relations?skillKey=orianna_r": {
+      "items": [
+        {
+          "characterKey": "champion_orianna",
+          "characterName": "奥莉安娜",
+          "gameId": "lol",
+          "skillKey": "orianna_r",
+          "skillName": "奥莉安娜·指令：冲击波",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 1
+    },
+    "/skills/orianna_r/parameters": [
+      {
+        "createdAt": "2026-09-09T09:55:25.42656Z",
+        "description": "客户端当前根绑定 DataValues.Damage 取索引1至3。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 225,
+          "2": 350,
+          "3": 475
+        },
+        "name": "冲击波基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "orianna_r",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T09:55:25.42656Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T09:55:26.552597Z",
+        "description": "客户端当前根绑定 DataValues.StunDuration 取索引1至3；单位毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "fixedValue": 750,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "拉拽击飞控制时长（毫秒）",
+        "parameterKey": "control_duration_ms",
+        "skillKey": "orianna_r",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T09:55:26.552597Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T09:55:27.70586Z",
+        "description": "当前原计算树显式常数；只用于此数学表达式。",
+        "fixedValue": 1.1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "指令：冲击波魔法伤害固定系数",
+        "parameterKey": "calculation_constant_1",
+        "skillKey": "orianna_r",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T09:55:27.70586Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T17:38:55.977514Z",
+        "description": "DDragon16.17.1 Orianna.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 110000,
+          "2": 95000,
+          "3": 80000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "orianna_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T17:38:55.977514Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T17:38:56.37636Z",
+        "description": "DDragon16.17.1 Orianna.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "orianna_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T17:38:56.37636Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/orianna_r/parameters/base_damage": {
+      "createdAt": "2026-09-09T09:55:25.42656Z",
+      "description": "客户端当前根绑定 DataValues.Damage 取索引1至3。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 225,
+        "2": 350,
+        "3": 475
+      },
+      "name": "冲击波基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "orianna_r",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T09:55:25.42656Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/orianna_r/parameters/control_duration_ms": {
+      "createdAt": "2026-09-09T09:55:26.552597Z",
+      "description": "客户端当前根绑定 DataValues.StunDuration 取索引1至3；单位毫秒；按来源显示单位换算为系统比例/毫秒。",
+      "fixedValue": 750,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "拉拽击飞控制时长（毫秒）",
+      "parameterKey": "control_duration_ms",
+      "skillKey": "orianna_r",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T09:55:26.552597Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/orianna_r/parameters/calculation_constant_1": {
+      "createdAt": "2026-09-09T09:55:27.70586Z",
+      "description": "当前原计算树显式常数；只用于此数学表达式。",
+      "fixedValue": 1.1,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "指令：冲击波魔法伤害固定系数",
+      "parameterKey": "calculation_constant_1",
+      "skillKey": "orianna_r",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T09:55:27.70586Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/orianna_r/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T17:38:55.977514Z",
+      "description": "DDragon16.17.1 Orianna.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 110000,
+        "2": 95000,
+        "3": 80000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "orianna_r",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T17:38:55.977514Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/orianna_r/parameters/mana_cost": {
+      "createdAt": "2026-09-07T17:38:56.37636Z",
+      "description": "DDragon16.17.1 Orianna.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 100,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "orianna_r",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-07T17:38:56.37636Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/orianna_r/formulas": [
+      {
+        "createdAt": "2026-09-09T09:55:29.0762Z",
+        "description": "范围命中当前唯一敌方目标的伤害。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "指令：冲击波魔法伤害",
+        "skillKey": "orianna_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T09:55:29.0762Z"
+      }
+    ],
+    "/skills/orianna_r/formulas/damage": {
+      "createdAt": "2026-09-09T09:55:29.0762Z",
+      "description": "范围命中当前唯一敌方目标的伤害。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "calculation_constant_1"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "指令：冲击波魔法伤害",
+      "skillKey": "orianna_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T09:55:29.0762Z"
+    },
+    "/skills/orianna_r/effects": [
+      {
+        "createdAt": "2026-09-09T09:55:30.581699Z",
+        "description": "仅绑定官方基础法力消耗；额外持续法力或真实扣除时点单独记录。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "orianna_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T09:55:30.581699Z"
+      }
+    ],
+    "/skills/orianna_r/effects/mana_cost": {
+      "createdAt": "2026-09-09T09:55:30.581699Z",
+      "description": "仅绑定官方基础法力消耗；额外持续法力或真实扣除时点单独记录。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "orianna_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T09:55:30.581699Z"
+    },
+    "/skills/orianna_r/processes": [],
+    "/skills/orianna_r/internal-states": [],
+    "/skills/orianna_r/trigger-rules": [],
+    "/skills/jinx_w": {
+      "createdAt": "2026-09-06T18:18:46.084855Z",
+      "description": "金克丝使用她的震荡手枪“电磁器”来发射震荡波，让被命中的第一个敌人暴露在己方视野中（可使隐形英雄现形），并对其造成伤害和减速效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "金克丝·震荡电磁波！",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "jinx_w",
+      "sortOrder": 2,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:18:46.084855Z"
+    },
+    "/characters/champion_jinx": {
+      "characterKey": "champion_jinx",
+      "createdAt": "2026-09-06T15:41:46.587469Z",
+      "description": "暴走萝莉·金克丝。资料：官方静态资料16.17.1、同补丁客户端16.17.8104348。仅基础属性与1～18级自然成长；技能、被动叠层与图片尚待录入和核对。",
+      "gameId": "lol",
+      "name": "金克丝",
+      "updatedAt": "2026-09-06T15:41:46.587469Z"
+    },
+    "/characters/champion_jinx/attributes": {
+      "characterKey": "champion_jinx",
+      "levelValues": {
+        "1": {
+          "move_speed": 325,
+          "hp": 630,
+          "hp_regen": 3.75,
+          "mana": 260,
+          "mana_regen": 6.7,
+          "armor": 26,
+          "magic_resistance": 33,
+          "attack_damage": 59,
+          "attack_speed": 0.625,
+          "attack_range": 525
+        },
+        "2": {
+          "move_speed": 325,
+          "hp": 705.6,
+          "hp_regen": 4.11,
+          "mana": 296,
+          "mana_regen": 7.42,
+          "armor": 29.024,
+          "magic_resistance": 33.792,
+          "attack_damage": 61.34,
+          "attack_speed": 0.6295,
+          "attack_range": 525
+        },
+        "3": {
+          "move_speed": 325,
+          "hp": 784.875,
+          "hp_regen": 4.4875,
+          "mana": 333.75,
+          "mana_regen": 8.175,
+          "armor": 32.195,
+          "magic_resistance": 34.6225,
+          "attack_damage": 63.79375,
+          "attack_speed": 0.634219,
+          "attack_range": 525
+        },
+        "4": {
+          "move_speed": 325,
+          "hp": 867.825,
+          "hp_regen": 4.8825,
+          "mana": 373.25,
+          "mana_regen": 8.965,
+          "armor": 35.513,
+          "magic_resistance": 35.4915,
+          "attack_damage": 66.36125,
+          "attack_speed": 0.639156,
+          "attack_range": 525
+        },
+        "5": {
+          "move_speed": 325,
+          "hp": 954.45,
+          "hp_regen": 5.295,
+          "mana": 414.5,
+          "mana_regen": 9.79,
+          "armor": 38.978,
+          "magic_resistance": 36.399,
+          "attack_damage": 69.0425,
+          "attack_speed": 0.644312,
+          "attack_range": 525
+        },
+        "6": {
+          "move_speed": 325,
+          "hp": 1044.75,
+          "hp_regen": 5.725,
+          "mana": 457.5,
+          "mana_regen": 10.65,
+          "armor": 42.59,
+          "magic_resistance": 37.345,
+          "attack_damage": 71.8375,
+          "attack_speed": 0.649687,
+          "attack_range": 525
+        },
+        "7": {
+          "move_speed": 325,
+          "hp": 1138.725,
+          "hp_regen": 6.1725,
+          "mana": 502.25,
+          "mana_regen": 11.545,
+          "armor": 46.349,
+          "magic_resistance": 38.3295,
+          "attack_damage": 74.74625,
+          "attack_speed": 0.655281,
+          "attack_range": 525
+        },
+        "8": {
+          "move_speed": 325,
+          "hp": 1236.375,
+          "hp_regen": 6.6375,
+          "mana": 548.75,
+          "mana_regen": 12.475,
+          "armor": 50.255,
+          "magic_resistance": 39.3525,
+          "attack_damage": 77.76875,
+          "attack_speed": 0.661094,
+          "attack_range": 525
+        },
+        "9": {
+          "move_speed": 325,
+          "hp": 1337.7,
+          "hp_regen": 7.12,
+          "mana": 597,
+          "mana_regen": 13.44,
+          "armor": 54.308,
+          "magic_resistance": 40.414,
+          "attack_damage": 80.905,
+          "attack_speed": 0.667125,
+          "attack_range": 525
+        },
+        "10": {
+          "move_speed": 325,
+          "hp": 1442.7,
+          "hp_regen": 7.62,
+          "mana": 647,
+          "mana_regen": 14.44,
+          "armor": 58.508,
+          "magic_resistance": 41.514,
+          "attack_damage": 84.155,
+          "attack_speed": 0.673375,
+          "attack_range": 525
+        },
+        "11": {
+          "move_speed": 325,
+          "hp": 1551.375,
+          "hp_regen": 8.1375,
+          "mana": 698.75,
+          "mana_regen": 15.475,
+          "armor": 62.855,
+          "magic_resistance": 42.6525,
+          "attack_damage": 87.51875,
+          "attack_speed": 0.679844,
+          "attack_range": 525
+        },
+        "12": {
+          "move_speed": 325,
+          "hp": 1663.725,
+          "hp_regen": 8.6725,
+          "mana": 752.25,
+          "mana_regen": 16.545,
+          "armor": 67.349,
+          "magic_resistance": 43.8295,
+          "attack_damage": 90.99625,
+          "attack_speed": 0.686531,
+          "attack_range": 525
+        },
+        "13": {
+          "move_speed": 325,
+          "hp": 1779.75,
+          "hp_regen": 9.225,
+          "mana": 807.5,
+          "mana_regen": 17.65,
+          "armor": 71.99,
+          "magic_resistance": 45.045,
+          "attack_damage": 94.5875,
+          "attack_speed": 0.693438,
+          "attack_range": 525
+        },
+        "14": {
+          "move_speed": 325,
+          "hp": 1899.45,
+          "hp_regen": 9.795,
+          "mana": 864.5,
+          "mana_regen": 18.79,
+          "armor": 76.778,
+          "magic_resistance": 46.299,
+          "attack_damage": 98.2925,
+          "attack_speed": 0.700562,
+          "attack_range": 525
+        },
+        "15": {
+          "move_speed": 325,
+          "hp": 2022.825,
+          "hp_regen": 10.3825,
+          "mana": 923.25,
+          "mana_regen": 19.965,
+          "armor": 81.713,
+          "magic_resistance": 47.5915,
+          "attack_damage": 102.11125,
+          "attack_speed": 0.707906,
+          "attack_range": 525
+        },
+        "16": {
+          "move_speed": 325,
+          "hp": 2149.875,
+          "hp_regen": 10.9875,
+          "mana": 983.75,
+          "mana_regen": 21.175,
+          "armor": 86.795,
+          "magic_resistance": 48.9225,
+          "attack_damage": 106.04375,
+          "attack_speed": 0.715469,
+          "attack_range": 525
+        },
+        "17": {
+          "move_speed": 325,
+          "hp": 2280.6,
+          "hp_regen": 11.61,
+          "mana": 1046,
+          "mana_regen": 22.42,
+          "armor": 92.024,
+          "magic_resistance": 50.292,
+          "attack_damage": 110.09,
+          "attack_speed": 0.72325,
+          "attack_range": 525
+        },
+        "18": {
+          "move_speed": 325,
+          "hp": 2415,
+          "hp_regen": 12.25,
+          "mana": 1110,
+          "mana_regen": 23.7,
+          "armor": 97.4,
+          "magic_resistance": 51.7,
+          "attack_damage": 114.25,
+          "attack_speed": 0.73125,
+          "attack_range": 525
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_jinx/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "image_49e9744a-e63e-4b29-a5a2-99dfe75c4453",
+        "name": "金克丝代表图片_49e9744a-e63e-4b29-a5a2-99dfe75c4453"
+      }
+    },
+    "/skills/jinx_w/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_jinx_w",
+        "name": "jinx_w"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_jinx": {
+      "items": [
+        {
+          "characterKey": "champion_jinx",
+          "characterName": "金克丝",
+          "gameId": "lol",
+          "skillKey": "jinx_p",
+          "skillName": "金克丝·罪恶快感",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_jinx",
+          "characterName": "金克丝",
+          "gameId": "lol",
+          "skillKey": "jinx_q",
+          "skillName": "金克丝·枪炮交响曲！",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_jinx",
+          "characterName": "金克丝",
+          "gameId": "lol",
+          "skillKey": "jinx_w",
+          "skillName": "金克丝·震荡电磁波！",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_jinx",
+          "characterName": "金克丝",
+          "gameId": "lol",
+          "skillKey": "jinx_e",
+          "skillName": "金克丝·嚼火者手雷！",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_jinx",
+          "characterName": "金克丝",
+          "gameId": "lol",
+          "skillKey": "jinx_r",
+          "skillName": "金克丝·超究极死神飞弹！",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=jinx_w": {
+      "items": [
+        {
+          "characterKey": "champion_jinx",
+          "characterName": "金克丝",
+          "gameId": "lol",
+          "skillKey": "jinx_w",
+          "skillName": "金克丝·震荡电磁波！",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        }
+      ],
+      "total": 1
+    },
+    "/skills/jinx_w/parameters": [
+      {
+        "createdAt": "2026-09-09T04:27:42.116154Z",
+        "description": "客户端当前根绑定 DataValues.Damage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 10,
+          "2": 60,
+          "3": 110,
+          "4": 160,
+          "5": 210
+        },
+        "name": "震荡波基础物理伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "jinx_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T04:27:42.116154Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T04:27:42.94216Z",
+        "description": "客户端当前根绑定 DataValues.ADRatio 取索引1至5。",
+        "fixedValue": 1.4,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "震荡波总攻击力系数",
+        "parameterKey": "total_ad_ratio",
+        "skillKey": "jinx_w",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T04:27:42.94216Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T04:27:43.762424Z",
+        "description": "客户端当前根绑定 DataValues.SlowPercent 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.4,
+          "2": 0.5,
+          "3": 0.6,
+          "4": 0.7,
+          "5": 0.8
+        },
+        "name": "震荡波减速比例",
+        "parameterKey": "slow_ratio",
+        "skillKey": "jinx_w",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T04:27:43.762424Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T04:27:44.691671Z",
+        "description": "客户端当前根绑定 DataValues.SlowDuration 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+        "fixedValue": 2000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "震荡波减速持续（毫秒）",
+        "parameterKey": "slow_duration_ms",
+        "skillKey": "jinx_w",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T04:27:44.691671Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:00:07.228519Z",
+        "description": "DDragon16.17.1 Jinx.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 8000,
+          "2": 7000,
+          "3": 6000,
+          "4": 5000,
+          "5": 4000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "jinx_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:07.228519Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:00:07.618767Z",
+        "description": "DDragon16.17.1 Jinx.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 40,
+          "2": 45,
+          "3": 50,
+          "4": 55,
+          "5": 60
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "jinx_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:07.618767Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/jinx_w/parameters/base_damage": {
+      "createdAt": "2026-09-09T04:27:42.116154Z",
+      "description": "客户端当前根绑定 DataValues.Damage 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 10,
+        "2": 60,
+        "3": 110,
+        "4": 160,
+        "5": 210
+      },
+      "name": "震荡波基础物理伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "jinx_w",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T04:27:42.116154Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/jinx_w/parameters/total_ad_ratio": {
+      "createdAt": "2026-09-09T04:27:42.94216Z",
+      "description": "客户端当前根绑定 DataValues.ADRatio 取索引1至5。",
+      "fixedValue": 1.4,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "震荡波总攻击力系数",
+      "parameterKey": "total_ad_ratio",
+      "skillKey": "jinx_w",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T04:27:42.94216Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/jinx_w/parameters/slow_ratio": {
+      "createdAt": "2026-09-09T04:27:43.762424Z",
+      "description": "客户端当前根绑定 DataValues.SlowPercent 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 0.4,
+        "2": 0.5,
+        "3": 0.6,
+        "4": 0.7,
+        "5": 0.8
+      },
+      "name": "震荡波减速比例",
+      "parameterKey": "slow_ratio",
+      "skillKey": "jinx_w",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T04:27:43.762424Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "DECIMAL"
+    },
+    "/skills/jinx_w/parameters/slow_duration_ms": {
+      "createdAt": "2026-09-09T04:27:44.691671Z",
+      "description": "客户端当前根绑定 DataValues.SlowDuration 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+      "fixedValue": 2000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "震荡波减速持续（毫秒）",
+      "parameterKey": "slow_duration_ms",
+      "skillKey": "jinx_w",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-09T04:27:44.691671Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/jinx_w/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T18:00:07.228519Z",
+      "description": "DDragon16.17.1 Jinx.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 8000,
+        "2": 7000,
+        "3": 6000,
+        "4": 5000,
+        "5": 4000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "jinx_w",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T18:00:07.228519Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/jinx_w/parameters/mana_cost": {
+      "createdAt": "2026-09-07T18:00:07.618767Z",
+      "description": "DDragon16.17.1 Jinx.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 40,
+        "2": 45,
+        "3": 50,
+        "4": 55,
+        "5": 60
+      },
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "jinx_w",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-07T18:00:07.618767Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/jinx_w/formulas": [
+      {
+        "createdAt": "2026-09-09T04:27:45.600416Z",
+        "description": "基础值加1.4总攻击力；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "震荡波物理伤害",
+        "skillKey": "jinx_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T04:27:45.600416Z"
+      }
+    ],
+    "/skills/jinx_w/formulas/damage": {
+      "createdAt": "2026-09-09T04:27:45.600416Z",
+      "description": "基础值加1.4总攻击力；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "attributeKey": "attack_damage",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "total_ad_ratio"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "震荡波物理伤害",
+      "skillKey": "jinx_w",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T04:27:45.600416Z"
+    },
+    "/skills/jinx_w/effects": [
+      {
+        "createdAt": "2026-09-09T04:27:46.607835Z",
+        "description": "仅绑定官方基础法力消耗；额外持续法力或真实扣除时点单独记录。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "jinx_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T04:27:46.607835Z"
+      }
+    ],
+    "/skills/jinx_w/effects/mana_cost": {
+      "createdAt": "2026-09-09T04:27:46.607835Z",
+      "description": "仅绑定官方基础法力消耗；额外持续法力或真实扣除时点单独记录。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "jinx_w",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T04:27:46.607835Z"
+    },
+    "/skills/jinx_w/processes": [],
+    "/skills/jinx_w/internal-states": [],
+    "/skills/jinx_w/trigger-rules": [],
+    "/skills/quinn_q": {
+      "createdAt": "2026-09-06T18:19:53.60801Z",
+      "description": "奎因唤出华洛，来标记一名敌人并遮蔽其视野，然后对目标附近区域内的所有敌人造成伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "奎因·炫目攻势",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "quinn_q",
+      "sortOrder": 1,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:19:53.60801Z"
+    },
+    "/characters/champion_quinn": {
+      "characterKey": "champion_quinn",
+      "createdAt": "2026-09-06T16:31:10.116068Z",
+      "description": "来源：官方 Data Dragon 16.17.1；攻击力成长与攻速来源补证自 CommunityDragon 提取的同补丁客户端 16.17.8104348（非 Riot 官方接口）。本轮仅录角色主体与 1～18 级基础自然成长，不含被动、技能、装备、符文、叠层或形态。技能、图片和机制待录，不能视为完整录入。",
+      "gameId": "lol",
+      "name": "奎因",
+      "updatedAt": "2026-09-06T16:31:10.116068Z"
+    },
+    "/characters/champion_quinn/attributes": {
+      "characterKey": "champion_quinn",
+      "levelValues": {
+        "1": {
+          "move_speed": 330,
+          "hp": 565,
+          "hp_regen": 5.5,
+          "mana": 269,
+          "mana_regen": 7,
+          "armor": 28,
+          "magic_resistance": 33,
+          "attack_damage": 59,
+          "attack_speed": 0.668,
+          "attack_range": 525
+        },
+        "2": {
+          "move_speed": 330,
+          "hp": 642.04,
+          "hp_regen": 5.896,
+          "mana": 294.2,
+          "mana_regen": 7.288,
+          "armor": 31.384,
+          "magic_resistance": 33.792,
+          "attack_damage": 61.304,
+          "attack_speed": 0.68291,
+          "attack_range": 525
+        },
+        "3": {
+          "move_speed": 330,
+          "hp": 722.825,
+          "hp_regen": 6.31125,
+          "mana": 320.625,
+          "mana_regen": 7.59,
+          "armor": 34.9325,
+          "magic_resistance": 34.6225,
+          "attack_damage": 63.72,
+          "attack_speed": 0.698544,
+          "attack_range": 525
+        },
+        "4": {
+          "move_speed": 330,
+          "hp": 807.355,
+          "hp_regen": 6.74575,
+          "mana": 348.275,
+          "mana_regen": 7.906,
+          "armor": 38.6455,
+          "magic_resistance": 35.4915,
+          "attack_damage": 66.248,
+          "attack_speed": 0.714904,
+          "attack_range": 525
+        },
+        "5": {
+          "move_speed": 330,
+          "hp": 895.63,
+          "hp_regen": 7.1995,
+          "mana": 377.15,
+          "mana_regen": 8.236,
+          "armor": 42.523,
+          "magic_resistance": 36.399,
+          "attack_damage": 68.888,
+          "attack_speed": 0.731988,
+          "attack_range": 525
+        },
+        "6": {
+          "move_speed": 330,
+          "hp": 987.65,
+          "hp_regen": 7.6725,
+          "mana": 407.25,
+          "mana_regen": 8.58,
+          "armor": 46.565,
+          "magic_resistance": 37.345,
+          "attack_damage": 71.64,
+          "attack_speed": 0.749797,
+          "attack_range": 525
+        },
+        "7": {
+          "move_speed": 330,
+          "hp": 1083.415,
+          "hp_regen": 8.16475,
+          "mana": 438.575,
+          "mana_regen": 8.938,
+          "armor": 50.7715,
+          "magic_resistance": 38.3295,
+          "attack_damage": 74.504,
+          "attack_speed": 0.76833,
+          "attack_range": 525
+        },
+        "8": {
+          "move_speed": 330,
+          "hp": 1182.925,
+          "hp_regen": 8.67625,
+          "mana": 471.125,
+          "mana_regen": 9.31,
+          "armor": 55.1425,
+          "magic_resistance": 39.3525,
+          "attack_damage": 77.48,
+          "attack_speed": 0.787589,
+          "attack_range": 525
+        },
+        "9": {
+          "move_speed": 330,
+          "hp": 1286.18,
+          "hp_regen": 9.207,
+          "mana": 504.9,
+          "mana_regen": 9.696,
+          "armor": 59.678,
+          "magic_resistance": 40.414,
+          "attack_damage": 80.568,
+          "attack_speed": 0.807572,
+          "attack_range": 525
+        },
+        "10": {
+          "move_speed": 330,
+          "hp": 1393.18,
+          "hp_regen": 9.757,
+          "mana": 539.9,
+          "mana_regen": 10.096,
+          "armor": 64.378,
+          "magic_resistance": 41.514,
+          "attack_damage": 83.768,
+          "attack_speed": 0.82828,
+          "attack_range": 525
+        },
+        "11": {
+          "move_speed": 330,
+          "hp": 1503.925,
+          "hp_regen": 10.32625,
+          "mana": 576.125,
+          "mana_regen": 10.51,
+          "armor": 69.2425,
+          "magic_resistance": 42.6525,
+          "attack_damage": 87.08,
+          "attack_speed": 0.849713,
+          "attack_range": 525
+        },
+        "12": {
+          "move_speed": 330,
+          "hp": 1618.415,
+          "hp_regen": 10.91475,
+          "mana": 613.575,
+          "mana_regen": 10.938,
+          "armor": 74.2715,
+          "magic_resistance": 43.8295,
+          "attack_damage": 90.504,
+          "attack_speed": 0.87187,
+          "attack_range": 525
+        },
+        "13": {
+          "move_speed": 330,
+          "hp": 1736.65,
+          "hp_regen": 11.5225,
+          "mana": 652.25,
+          "mana_regen": 11.38,
+          "armor": 79.465,
+          "magic_resistance": 45.045,
+          "attack_damage": 94.04,
+          "attack_speed": 0.894753,
+          "attack_range": 525
+        },
+        "14": {
+          "move_speed": 330,
+          "hp": 1858.63,
+          "hp_regen": 12.1495,
+          "mana": 692.15,
+          "mana_regen": 11.836,
+          "armor": 84.823,
+          "magic_resistance": 46.299,
+          "attack_damage": 97.688,
+          "attack_speed": 0.91836,
+          "attack_range": 525
+        },
+        "15": {
+          "move_speed": 330,
+          "hp": 1984.355,
+          "hp_regen": 12.79575,
+          "mana": 733.275,
+          "mana_regen": 12.306,
+          "armor": 90.3455,
+          "magic_resistance": 47.5915,
+          "attack_damage": 101.448,
+          "attack_speed": 0.942692,
+          "attack_range": 525
+        },
+        "16": {
+          "move_speed": 330,
+          "hp": 2113.825,
+          "hp_regen": 13.46125,
+          "mana": 775.625,
+          "mana_regen": 12.79,
+          "armor": 96.0325,
+          "magic_resistance": 48.9225,
+          "attack_damage": 105.32,
+          "attack_speed": 0.967748,
+          "attack_range": 525
+        },
+        "17": {
+          "move_speed": 330,
+          "hp": 2247.04,
+          "hp_regen": 14.146,
+          "mana": 819.2,
+          "mana_regen": 13.288,
+          "armor": 101.884,
+          "magic_resistance": 50.292,
+          "attack_damage": 109.304,
+          "attack_speed": 0.99353,
+          "attack_range": 525
+        },
+        "18": {
+          "move_speed": 330,
+          "hp": 2384,
+          "hp_regen": 14.85,
+          "mana": 864,
+          "mana_regen": 13.8,
+          "armor": 107.9,
+          "magic_resistance": 51.7,
+          "attack_damage": 113.4,
+          "attack_speed": 1.020036,
+          "attack_range": 525
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_quinn/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_champion_quinn",
+        "name": "champion_quinn"
+      }
+    },
+    "/skills/quinn_q/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_quinn_q",
+        "name": "quinn_q"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_quinn": {
+      "items": [
+        {
+          "characterKey": "champion_quinn",
+          "characterName": "奎因",
+          "gameId": "lol",
+          "skillKey": "quinn_p",
+          "skillName": "奎因·侵扰",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_quinn",
+          "characterName": "奎因",
+          "gameId": "lol",
+          "skillKey": "quinn_q",
+          "skillName": "奎因·炫目攻势",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_quinn",
+          "characterName": "奎因",
+          "gameId": "lol",
+          "skillKey": "quinn_w",
+          "skillName": "奎因·敏锐感知",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_quinn",
+          "characterName": "奎因",
+          "gameId": "lol",
+          "skillKey": "quinn_e",
+          "skillName": "奎因·旋翔掠杀",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_quinn",
+          "characterName": "奎因",
+          "gameId": "lol",
+          "skillKey": "quinn_r",
+          "skillName": "奎因·深入敌后",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=quinn_q": {
+      "items": [
+        {
+          "characterKey": "champion_quinn",
+          "characterName": "奎因",
+          "gameId": "lol",
+          "skillKey": "quinn_q",
+          "skillName": "奎因·炫目攻势",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        }
+      ],
+      "total": 1
+    },
+    "/skills/quinn_q/parameters": [
+      {
+        "createdAt": "2026-09-10T04:55:19.547179Z",
+        "description": "BaseDamage索引1至5为65/100/135/170/205。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 65,
+          "2": 100,
+          "3": 135,
+          "4": 170,
+          "5": 205
+        },
+        "name": "基础物理伤害",
+        "parameterKey": "damage_base",
+        "skillKey": "quinn_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-10T04:55:19.547179Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-10T04:55:21.186127Z",
+        "description": "ADRatio索引1至5为0.8/0.85/0.9/0.95/1.0。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.800000012,
+          "2": 0.850000024,
+          "3": 0.899999976,
+          "4": 0.949999988,
+          "5": 1
+        },
+        "name": "额外攻击力倍率",
+        "parameterKey": "bonus_ad_ratio",
+        "skillKey": "quinn_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-10T04:55:21.186127Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-10T04:55:22.86942Z",
+        "description": "APRatio=0.5。",
+        "fixedValue": 0.5,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法强倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "quinn_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-10T04:55:22.86942Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-10T04:55:24.512595Z",
+        "description": "源值1.75秒。",
+        "fixedValue": 1750,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "视野受限持续时间（毫秒）",
+        "parameterKey": "vision_reduction_duration_ms",
+        "skillKey": "quinn_q",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-10T04:55:24.512595Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-10T04:55:26.214666Z",
+        "description": "客户端原始范围1050。",
+        "fixedValue": 1050,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "客户端原始范围",
+        "parameterKey": "cast_range_source",
+        "skillKey": "quinn_q",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-10T04:55:26.214666Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-10T04:55:27.928443Z",
+        "description": "官方显示范围1025，与客户端原始范围分开。",
+        "fixedValue": 1025,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "官方显示范围",
+        "parameterKey": "display_range",
+        "skillKey": "quinn_q",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-10T04:55:27.928443Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-10T04:55:29.533928Z",
+        "description": "mSpell.missileSpeed=1550；mMissileSpec.movementComponent.mSpeed同为1550，不能当作射程。",
+        "fixedValue": 1550,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "客户端飞弹速度",
+        "parameterKey": "missile_speed",
+        "skillKey": "quinn_q",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-10T04:55:29.533928Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-10T04:55:31.225482Z",
+        "description": "客户端mCastTime=0.25秒。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "客户端mCastTime（毫秒）",
+        "parameterKey": "m_cast_time_ms",
+        "skillKey": "quinn_q",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-10T04:55:31.225482Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:00:35.862277Z",
+        "description": "DDragon16.17.1 Quinn.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 11000,
+          "2": 10500,
+          "3": 10000,
+          "4": 9500,
+          "5": 9000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "quinn_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:35.862277Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:00:36.223223Z",
+        "description": "DDragon16.17.1 Quinn.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 50,
+          "2": 55,
+          "3": 60,
+          "4": 65,
+          "5": 70
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "quinn_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:36.223223Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/quinn_q/parameters/damage_base": {
+      "createdAt": "2026-09-10T04:55:19.547179Z",
+      "description": "BaseDamage索引1至5为65/100/135/170/205。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 65,
+        "2": 100,
+        "3": 135,
+        "4": 170,
+        "5": 205
+      },
+      "name": "基础物理伤害",
+      "parameterKey": "damage_base",
+      "skillKey": "quinn_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-10T04:55:19.547179Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/quinn_q/parameters/bonus_ad_ratio": {
+      "createdAt": "2026-09-10T04:55:21.186127Z",
+      "description": "ADRatio索引1至5为0.8/0.85/0.9/0.95/1.0。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 0.800000012,
+        "2": 0.850000024,
+        "3": 0.899999976,
+        "4": 0.949999988,
+        "5": 1
+      },
+      "name": "额外攻击力倍率",
+      "parameterKey": "bonus_ad_ratio",
+      "skillKey": "quinn_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-10T04:55:21.186127Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "DECIMAL"
+    },
+    "/skills/quinn_q/parameters/ap_ratio": {
+      "createdAt": "2026-09-10T04:55:22.86942Z",
+      "description": "APRatio=0.5。",
+      "fixedValue": 0.5,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法强倍率",
+      "parameterKey": "ap_ratio",
+      "skillKey": "quinn_q",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-10T04:55:22.86942Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/quinn_q/parameters/vision_reduction_duration_ms": {
+      "createdAt": "2026-09-10T04:55:24.512595Z",
+      "description": "源值1.75秒。",
+      "fixedValue": 1750,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "视野受限持续时间（毫秒）",
+      "parameterKey": "vision_reduction_duration_ms",
+      "skillKey": "quinn_q",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-10T04:55:24.512595Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/quinn_q/parameters/cast_range_source": {
+      "createdAt": "2026-09-10T04:55:26.214666Z",
+      "description": "客户端原始范围1050。",
+      "fixedValue": 1050,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "客户端原始范围",
+      "parameterKey": "cast_range_source",
+      "skillKey": "quinn_q",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-10T04:55:26.214666Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/quinn_q/parameters/display_range": {
+      "createdAt": "2026-09-10T04:55:27.928443Z",
+      "description": "官方显示范围1025，与客户端原始范围分开。",
+      "fixedValue": 1025,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "官方显示范围",
+      "parameterKey": "display_range",
+      "skillKey": "quinn_q",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-10T04:55:27.928443Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/quinn_q/parameters/missile_speed": {
+      "createdAt": "2026-09-10T04:55:29.533928Z",
+      "description": "mSpell.missileSpeed=1550；mMissileSpec.movementComponent.mSpeed同为1550，不能当作射程。",
+      "fixedValue": 1550,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "客户端飞弹速度",
+      "parameterKey": "missile_speed",
+      "skillKey": "quinn_q",
+      "sortOrder": 70,
+      "updatedAt": "2026-09-10T04:55:29.533928Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/quinn_q/parameters/m_cast_time_ms": {
+      "createdAt": "2026-09-10T04:55:31.225482Z",
+      "description": "客户端mCastTime=0.25秒。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "客户端mCastTime（毫秒）",
+      "parameterKey": "m_cast_time_ms",
+      "skillKey": "quinn_q",
+      "sortOrder": 80,
+      "updatedAt": "2026-09-10T04:55:31.225482Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/quinn_q/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T18:00:35.862277Z",
+      "description": "DDragon16.17.1 Quinn.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 11000,
+        "2": 10500,
+        "3": 10000,
+        "4": 9500,
+        "5": 9000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "quinn_q",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T18:00:35.862277Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/quinn_q/parameters/mana_cost": {
+      "createdAt": "2026-09-07T18:00:36.223223Z",
+      "description": "DDragon16.17.1 Quinn.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 50,
+        "2": 55,
+        "3": 60,
+        "4": 65,
+        "5": 70
+      },
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "quinn_q",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-07T18:00:36.223223Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/quinn_q/formulas": [
+      {
+        "createdAt": "2026-09-10T04:55:32.769206Z",
+        "description": "伤害=65至205+0.8至1.0×额外攻击力+0.5×法强。",
+        "formulaKey": "physical_damage",
+        "gameId": "lol",
+        "name": "炫目攻势物理伤害",
+        "skillKey": "quinn_q",
+        "sortOrder": 90,
+        "updatedAt": "2026-09-10T04:55:32.769206Z"
+      }
+    ],
+    "/skills/quinn_q/formulas/physical_damage": {
+      "createdAt": "2026-09-10T04:55:32.769206Z",
+      "description": "伤害=65至205+0.8至1.0×额外攻击力+0.5×法强。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "damage_base"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_ad_ratio"
+                  },
+                  {
+                    "attributeKey": "attack_damage",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "BONUS",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "physical_damage",
+      "gameId": "lol",
+      "name": "炫目攻势物理伤害",
+      "skillKey": "quinn_q",
+      "sortOrder": 90,
+      "updatedAt": "2026-09-10T04:55:32.769206Z"
+    },
+    "/skills/quinn_q/effects": [],
+    "/skills/quinn_q/processes": [],
+    "/skills/quinn_q/internal-states": [],
+    "/skills/quinn_q/trigger-rules": [],
+    "/damage-types/magic": {
+      "createdAt": "2026-08-26T05:59:15.870937Z",
+      "damageTypeKey": "magic",
+      "description": null,
+      "gameId": "lol",
+      "name": "魔法伤害",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-26T05:59:15.870937Z"
+    },
+    "/damage-types/physics": {
+      "createdAt": "2026-08-26T05:59:09.635701Z",
+      "damageTypeKey": "physics",
+      "description": null,
+      "gameId": "lol",
+      "name": "物理伤害",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-26T05:59:09.635701Z"
+    },
+    "/attributes/ability_power": {
+      "attributeKey": "ability_power",
+      "createdAt": "2026-08-30T16:26:39.898635Z",
+      "description": "角色法术强度；基础值为 0，可由装备和效果增加",
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法术强度",
+      "sortOrder": 510,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-30T16:26:39.898635Z",
+      "valueType": "DECIMAL"
+    },
+    "/attributes/mana": {
+      "attributeKey": "mana",
+      "createdAt": "2026-08-22T15:27:36.139767Z",
+      "description": null,
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法力值",
+      "sortOrder": 310,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-22T15:27:36.139767Z",
+      "valueType": "DECIMAL"
+    },
+    "/attributes/attack_damage": {
+      "attributeKey": "attack_damage",
+      "createdAt": "2026-08-30T16:26:29.341938Z",
+      "description": "角色面板攻击力；伊泽瑞尔数据按官方 16.17.1 版本录入",
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "攻击力",
+      "sortOrder": 500,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-30T16:26:29.341938Z",
+      "valueType": "DECIMAL"
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/nami_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_nami",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_nami/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_nami/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_q/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_nami",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=nami_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_q/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_q/parameters/stun_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_q/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_q/processes/use_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_q/trigger-rules/on_used_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=nami_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/parameters/passive_update_area_length",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/parameters/knockup_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/parameters/min_slow_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/parameters/max_slow_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/parameters/distance_to_slow_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/parameters/slow_percent_points",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/processes/use_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/trigger-rules/on_used_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_soraka",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_soraka/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_soraka/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_q/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_soraka",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=soraka_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_q/parameters/ability_power_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_q/parameters/slow_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_q/parameters/slow_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_q/parameters/self_heal_base",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_q/parameters/self_heal_ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_q/parameters/self_heal_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_q/parameters/self_move_speed_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_q/parameters/self_move_speed_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_q/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_q/formulas/self_heal_total",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_neeko",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_neeko/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_neeko/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_neeko",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=neeko_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/parameters/damage_base",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/parameters/min_root_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/formulas/first_target_root_duration",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_orianna",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_orianna/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_orianna/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_orianna",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=orianna_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/parameters/slow_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/parameters/self_haste_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/parameters/field_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/parameters/slow_haste_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/processes/use_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/trigger-rules/on_used_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_r/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=orianna_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_r/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_r/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_r/parameters/control_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_r/parameters/calculation_constant_1",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_r/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_r/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_r/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_r/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_r/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_r/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_r/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jinx_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_jinx",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_jinx/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_jinx/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jinx_w/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_jinx",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=jinx_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jinx_w/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jinx_w/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jinx_w/parameters/total_ad_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jinx_w/parameters/slow_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jinx_w/parameters/slow_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jinx_w/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jinx_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jinx_w/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jinx_w/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jinx_w/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jinx_w/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jinx_w/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jinx_w/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jinx_w/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/quinn_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_quinn",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_quinn/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_quinn/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/quinn_q/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_quinn",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=quinn_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/quinn_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/quinn_q/parameters/damage_base",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/quinn_q/parameters/bonus_ad_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/quinn_q/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/quinn_q/parameters/vision_reduction_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/quinn_q/parameters/cast_range_source",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/quinn_q/parameters/display_range",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/quinn_q/parameters/missile_speed",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/quinn_q/parameters/m_cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/quinn_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/quinn_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/quinn_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/quinn_q/formulas/physical_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/quinn_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/quinn_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/quinn_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/quinn_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/damage-types/magic",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/damage-types/physics",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/ability_power",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/mana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/attack_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_q/effects/primary_hit",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/effects/primary_hit",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_q/effects/primary_hit",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_q/trigger-rules/actual_hit",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/effects/primary_hit",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/trigger-rules/actual_hit",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/effects/primary_hit",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_r/effects/primary_hit",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_r/trigger-rules/actual_hit",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jinx_w/effects/primary_hit",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jinx_w/trigger-rules/actual_hit",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/quinn_q/effects/primary_hit",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/quinn_q/trigger-rules/actual_hit",
+      "status": 404
+    }
+  ],
+  "businessWrites": 0
+}
