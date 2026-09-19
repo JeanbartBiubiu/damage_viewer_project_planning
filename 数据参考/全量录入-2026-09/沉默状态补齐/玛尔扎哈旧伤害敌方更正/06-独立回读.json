@@ -1,0 +1,653 @@
+{
+  "at": "2026-09-19T17:13:44.046Z",
+  "status": "PASS",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "businessWrites": 0,
+  "GETs": 53,
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_chogath",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_chogath/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_chogath/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_chogath",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=chogath_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/parameters/silence_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_malzahar",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_malzahar/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_malzahar/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_q/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_malzahar",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=malzahar_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_q/parameters/silence_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_q/parameters/ap_ratio_constant",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_q/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_q/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_q/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_q/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_q/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/statuses/silence",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/ability_power",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/mana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/damage-types/magic",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/effects/silence_first_application",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/trigger-rules/apply_silence_on_unblocked_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_q/effects/silence_first_application",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_q/trigger-rules/apply_silence_on_unblocked_hit",
+      "status": 200
+    }
+  ],
+  "changed": {
+    "targetRoute": "/skills/malzahar_q/trigger-rules/actual_hit",
+    "expectedReadback": {
+      "actions": [
+        {
+          "actionKey": "execute_primary_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "primary_hit"
+          },
+          "name": "执行玛尔扎哈·虚空召唤伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "detail": {},
+              "sortOrder": 20
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "description": "只消费已确认的 malzahar_q 实际命中事件，对事件中的英雄目标执行primary_hit；不从使用、再次施放、弹跳步骤或过程结束生成命中。英雄类别仅限定本轮范围。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "malzahar_q",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "玛尔扎哈·虚空召唤实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    },
+    "actualReadback": {
+      "actions": [
+        {
+          "actionKey": "execute_primary_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "primary_hit"
+          },
+          "name": "执行玛尔扎哈·虚空召唤伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "detail": {},
+              "sortOrder": 20
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "description": "只消费已确认的 malzahar_q 实际命中事件，对事件中的英雄目标执行primary_hit；不从使用、再次施放、弹跳步骤或过程结束生成命中。英雄类别仅限定本轮范围。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "malzahar_q",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "玛尔扎哈·虚空召唤实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    },
+    "ruleListRoute": "/skills/malzahar_q/trigger-rules",
+    "ruleListCountBefore": 3,
+    "ruleListCountAfter": 3,
+    "changedRows": [
+      {
+        "ruleKey": "actual_hit",
+        "changedFields": [
+          "updatedAt"
+        ],
+        "beforeUpdatedAt": "2026-09-19T02:59:20.223415Z",
+        "afterUpdatedAt": "2026-09-19T17:09:34.764518Z"
+      }
+    ],
+    "otherRuleRowsUnchanged": 2,
+    "actualHitOtherFieldsUnchanged": true
+  },
+  "unchanged": {
+    "responseCount": 51,
+    "responsePaths": [
+      "/skills/chogath_w",
+      "/characters/champion_chogath",
+      "/characters/champion_chogath/attributes",
+      "/characters/champion_chogath/representative-image",
+      "/skills/chogath_w/representative-image",
+      "/character-skill-relations?characterKey=champion_chogath",
+      "/character-skill-relations?skillKey=chogath_w",
+      "/skills/chogath_w/parameters",
+      "/skills/chogath_w/parameters/base_damage",
+      "/skills/chogath_w/parameters/ap_ratio",
+      "/skills/chogath_w/parameters/silence_duration_ms",
+      "/skills/chogath_w/parameters/cooldown_ms",
+      "/skills/chogath_w/parameters/mana_cost",
+      "/skills/chogath_w/formulas",
+      "/skills/chogath_w/formulas/magic_damage",
+      "/skills/chogath_w/effects",
+      "/skills/chogath_w/effects/mana_cost",
+      "/skills/chogath_w/processes",
+      "/skills/chogath_w/internal-states",
+      "/skills/chogath_w/trigger-rules",
+      "/skills/malzahar_q",
+      "/characters/champion_malzahar",
+      "/characters/champion_malzahar/attributes",
+      "/characters/champion_malzahar/representative-image",
+      "/skills/malzahar_q/representative-image",
+      "/character-skill-relations?characterKey=champion_malzahar",
+      "/character-skill-relations?skillKey=malzahar_q",
+      "/skills/malzahar_q/parameters",
+      "/skills/malzahar_q/parameters/cast_time_ms",
+      "/skills/malzahar_q/parameters/base_damage",
+      "/skills/malzahar_q/parameters/silence_duration_ms",
+      "/skills/malzahar_q/parameters/ap_ratio_constant",
+      "/skills/malzahar_q/parameters/cooldown_ms",
+      "/skills/malzahar_q/parameters/mana_cost",
+      "/skills/malzahar_q/formulas",
+      "/skills/malzahar_q/formulas/damage",
+      "/skills/malzahar_q/effects",
+      "/skills/malzahar_q/effects/mana_cost",
+      "/skills/malzahar_q/effects/primary_hit",
+      "/skills/malzahar_q/processes",
+      "/skills/malzahar_q/processes/cast",
+      "/skills/malzahar_q/internal-states",
+      "/skills/malzahar_q/trigger-rules/on_used",
+      "/statuses/silence",
+      "/attributes/ability_power",
+      "/attributes/mana",
+      "/damage-types/magic",
+      "/skills/chogath_w/effects/silence_first_application",
+      "/skills/chogath_w/trigger-rules/apply_silence_on_unblocked_hit",
+      "/skills/malzahar_q/effects/silence_first_application",
+      "/skills/malzahar_q/trigger-rules/apply_silence_on_unblocked_hit"
+    ],
+    "responseSha256": {
+      "/skills/chogath_w": "ae3181886a412bb3c4d3b44f6db4a5240fdc77b5781b8325fdfdaaff409840ff",
+      "/characters/champion_chogath": "9b9071af7ea48f86dfd1a726b85243029f1aa2600a62eeb100065a98d789a83b",
+      "/characters/champion_chogath/attributes": "6715aff29b6a6622a365c9f06cb017fb4d6a6ada45c26cc6d07586e01bd599be",
+      "/characters/champion_chogath/representative-image": "badfcec0e62cbe4db6607f6ebc5d07d5fa86982b42d81ceb8e9188b6225fb485",
+      "/skills/chogath_w/representative-image": "904a22f7f08759e2555dbb751f2f35c106eb5214e5d7eb44d8cd035ac817d539",
+      "/character-skill-relations?characterKey=champion_chogath": "016bced2ef00b0fbe2322fa89ac8c9240238a5b36fd37188042229afed2e65f4",
+      "/character-skill-relations?skillKey=chogath_w": "f4b217feace0ab5bb3598f763a6fc158564a1b8c4a53678fb71bda55b0f22c4f",
+      "/skills/chogath_w/parameters": "ecfe5569a39417d2c1c870730ef6c10273325a2b0246c78a26cdd8a15795f196",
+      "/skills/chogath_w/parameters/base_damage": "6f07e5de9e2ddc41ddfa885a465f467474740055727914b4de48c62cefe4415c",
+      "/skills/chogath_w/parameters/ap_ratio": "2633ed7c12ed9d8b4d2560268cfe4f27b277c8c35d08a0b0a1c2057f38fcc262",
+      "/skills/chogath_w/parameters/silence_duration_ms": "e2bed6c984c8ffd61d3b5422f8466521d8100d664bf09409f0e7ee2de98e5a2f",
+      "/skills/chogath_w/parameters/cooldown_ms": "1ab1ebbd9e9d66b6b2d5ee4b75ccc0e064eff0d0acb67c42d6b176a8fca3a25b",
+      "/skills/chogath_w/parameters/mana_cost": "146759e9b058dcb6939f094e12b798b4ee5bb596e1705f3b95655dabd63494f8",
+      "/skills/chogath_w/formulas": "e46537b184971d219efba2216f8bcbd9540a63f2fdd24a63750ebf811dd2fa5e",
+      "/skills/chogath_w/formulas/magic_damage": "d0dd623471a97271613cb59fa41ddaebdcbb345966d711f750b7cb0a248c988b",
+      "/skills/chogath_w/effects": "a7fb1d5389f1cca6d768e844e5e866e32be86fc4948782ee206fbee623beaf79",
+      "/skills/chogath_w/effects/mana_cost": "0dd7aa8ab08a273561a0020f2321c27db713cd1b81000dffc26e47285150b07c",
+      "/skills/chogath_w/processes": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "/skills/chogath_w/internal-states": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "/skills/chogath_w/trigger-rules": "16e0b7fa932ee2735574fb32ce69f86b2121e0a1c67f9ea5f033bd8e4cc67d36",
+      "/skills/malzahar_q": "9abc4a6267e5b9d452663b84f0995349b0931fa997ca61a36caeb6cacfd49940",
+      "/characters/champion_malzahar": "e88ee0abc70d0d3071bb57f46e2b631a4536b90c4fec4595e60a22cbdd081c2b",
+      "/characters/champion_malzahar/attributes": "834632e83f49b1837b6a3b1a5a2e57583f4f926b4b3293fa3205ae5450fc01c3",
+      "/characters/champion_malzahar/representative-image": "22fe05f276fad5ebcb08f621110ea3a4a38b90f3091dcd583427d2ffa59818e1",
+      "/skills/malzahar_q/representative-image": "fb56e101f848f52b072cdf96ef1e3f04f301777a68a88fb25a702842719294c3",
+      "/character-skill-relations?characterKey=champion_malzahar": "6cc3976c1cfa9a92b0ba6beafcecfe1be9101a27c31ef78fc78aaf889d32b5c2",
+      "/character-skill-relations?skillKey=malzahar_q": "2833fee58fc2b593332e96b5d5605eac34268404c30a2a8fee3a925d4192b533",
+      "/skills/malzahar_q/parameters": "b61a25ebbd961ed036775bb9d6ae8380f06ecc7ec77cbab3156e288f0285aeec",
+      "/skills/malzahar_q/parameters/cast_time_ms": "86409d6db870752c17a4ee3d33fbfd4d36f33bde7da171c5e7f316cc964b9c55",
+      "/skills/malzahar_q/parameters/base_damage": "21db1bee3000f4401f87c66efb681caaabd73d8bdb3932ac695590c466790ed6",
+      "/skills/malzahar_q/parameters/silence_duration_ms": "d66d773dbc7384a3a46df195a9fb9cac1f56b3db74310d5c3e3c6830a6c1804d",
+      "/skills/malzahar_q/parameters/ap_ratio_constant": "9765a247c2d636ecc3bd537745d6dc8149cf485e81b20ac87ca6430ba9e07f46",
+      "/skills/malzahar_q/parameters/cooldown_ms": "35f1ec2db4ee7972fc772316456c48202b18ff361142950d8e48556992ede60c",
+      "/skills/malzahar_q/parameters/mana_cost": "d4867c5906b8b8aa9d201d763ecd95554391f370c7e7d979ff48ad92845d8827",
+      "/skills/malzahar_q/formulas": "aea1e5aae38de6bab45194a0d56446a4668ac1c64d4f02096bc6170d08f78e87",
+      "/skills/malzahar_q/formulas/damage": "245e2abed95bbcbd6a3caafcb9ec3ab0dc232a4c8bd2f49a6d66294cbe10fa5c",
+      "/skills/malzahar_q/effects": "600b38378239fbc1dce33227917ec79f5cfa31a8fea0b992b8c635b9c290380e",
+      "/skills/malzahar_q/effects/mana_cost": "12be32788b95e86f9d598114981d87586e237c0054094e88d4dc13e5b6d51858",
+      "/skills/malzahar_q/effects/primary_hit": "796954dc1a6ca8e872497af4764e65d76fe3af56d99bfcd60cd4db2435e26a06",
+      "/skills/malzahar_q/processes": "3e7f40b16495ef94dd5260c373694269e857af11de7482895051c89cce181e12",
+      "/skills/malzahar_q/processes/cast": "b3ab93f86356bfb3c7b23244ba07c26a711f29530f6f62bad9ea4fd10396d314",
+      "/skills/malzahar_q/internal-states": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "/skills/malzahar_q/trigger-rules/on_used": "2e1200b6e7d5af87879c513be81f525466adef311927e390b28a75db70c44012",
+      "/statuses/silence": "10c5d85c6654d6015478eb1a6fb5500de8290eeeedb5dde0d4ef7eb3054acbc8",
+      "/attributes/ability_power": "cc9f82769fcfbe2174661b6586e6c642cb0b21efb16ddbce205fde42b6a5c563",
+      "/attributes/mana": "5d0550a4d7aa5a30a709b5d6f3b4d728c606bbbdb980ce60c1674c45b9d8d5ba",
+      "/damage-types/magic": "d16fd7ba55924d751972678b085706a2fcbf5ca98cbf657fa8ffa91c8baa1def",
+      "/skills/chogath_w/effects/silence_first_application": "0421923d39355bec8a14084777c789391af1ffb726020106f302454280270e0e",
+      "/skills/chogath_w/trigger-rules/apply_silence_on_unblocked_hit": "2e4a573b673c1ad27e67e86b645b3d19fb9ffb823ea9e0f0e77351f65845a685",
+      "/skills/malzahar_q/effects/silence_first_application": "ad7b8baa91818c36108a3ae54ff8aafb073bdd0df5cad40a639123ac435e86d5",
+      "/skills/malzahar_q/trigger-rules/apply_silence_on_unblocked_hit": "68e17721e25bc733f46e0618a7da42c5beee2b449b5b6e5d8e2aec91ce88e5bc"
+    },
+    "primaryHitRoute": "/skills/malzahar_q/effects/primary_hit",
+    "primaryHitSha256": "796954dc1a6ca8e872497af4764e65d76fe3af56d99bfcd60cd4db2435e26a06",
+    "silenceObjects": [
+      {
+        "path": "/skills/malzahar_q/effects/silence_first_application",
+        "sha256": "ad7b8baa91818c36108a3ae54ff8aafb073bdd0df5cad40a639123ac435e86d5",
+        "response": {
+          "createdAt": "2026-09-19T17:00:50.983405Z",
+          "description": "本来源当前目标无本沉默实例时施加一次沉默，期限引用已有五级参数；入口同时要求敌方英雄实际命中且同次命中明确未被法术护盾阻挡。已有实例时不执行，重复层数与刷新字段在本入口不可达，重施分支待补证。",
+          "effectKey": "silence_first_application",
+          "gameId": "lol",
+          "lifecycle": {
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "silence_duration_ms"
+            },
+            "expiryMode": "ALL_AT_ONCE",
+            "firstPeriodicExecution": null,
+            "instanceScope": "SOURCE_TARGET",
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "periodicIntervalValue": null,
+            "reapplicationDurationMode": "REFRESH_ALL",
+            "reapplicationStackMode": "KEEP"
+          },
+          "name": "虚空召唤首次沉默",
+          "results": [
+            {
+              "description": "施加无强度沉默并随父效果期限结束，只在本次施加时按当前结果参与法术护盾判断。",
+              "detail": {
+                "operation": "APPLY",
+                "statusKey": "silence"
+              },
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "periodicExecutionMode": null,
+                "reapplicationValueMode": null,
+                "stackValueMode": null,
+                "valueReadMode": null
+              },
+              "name": "虚空召唤沉默",
+              "resultKey": "silence",
+              "resultType": "STATUS_OPERATION",
+              "sortOrder": 10,
+              "spellShieldBlockScope": "RESULT",
+              "target": "TARGET",
+              "valueRule": null
+            }
+          ],
+          "skillKey": "malzahar_q",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-19T17:00:50.983405Z"
+        }
+      },
+      {
+        "path": "/skills/malzahar_q/trigger-rules/apply_silence_on_unblocked_hit",
+        "sha256": "68e17721e25bc733f46e0618a7da42c5beee2b449b5b6e5d8e2aec91ce88e5bc",
+        "response": {
+          "actions": [
+            {
+              "actionKey": "apply_silence",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "silence_first_application"
+              },
+              "name": "施加本次沉默",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [
+            {
+              "conditions": [
+                {
+                  "conditionKey": "champion_target",
+                  "conditionType": "TARGET_CATEGORY_CHECK",
+                  "detail": {
+                    "categories": [
+                      "CHAMPION"
+                    ]
+                  },
+                  "sortOrder": 10
+                },
+                {
+                  "conditionKey": "enemy_target",
+                  "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                  "detail": {},
+                  "sortOrder": 20
+                },
+                {
+                  "conditionKey": "not_spell_shield_blocked",
+                  "conditionType": "EVENT_VALUE_COMPARE",
+                  "detail": {
+                    "comparator": "EQ",
+                    "comparisonValue": {
+                      "kind": "FIXED",
+                      "value": 0
+                    },
+                    "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED"
+                  },
+                  "sortOrder": 30
+                },
+                {
+                  "conditionKey": "own_silence_absent",
+                  "conditionType": "LIFECYCLE_CHECK",
+                  "detail": {
+                    "checkKind": "ABSENT",
+                    "comparator": null,
+                    "comparisonValue": null,
+                    "effectKey": "silence_first_application",
+                    "subject": "CURRENT_TARGET"
+                  },
+                  "sortOrder": 40
+                }
+              ],
+              "groupKey": "silence_eligible",
+              "name": "本次沉默可施加",
+              "sortOrder": 10
+            }
+          ],
+          "description": "只在同一次实际命中明确为敌方英雄、法术护盾阻挡值为0且当前目标无本来源沉默实例时执行沉默；缺少护盾值不得默认0。有实例的重复命中分支未录，原伤害与成本入口保持。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "malzahar_q",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "无本沉默实例时施加",
+          "perTargetCooldown": null,
+          "ruleKey": "apply_silence_on_unblocked_hit",
+          "sortOrder": 30
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "at": "2026-09-19T17:12:53.609Z",
+  "status": "PASS",
+  "skillKey": "malzahar_q",
+  "businessWrites": 0,
+  "checks": [
+    "on_used主动使用本技能，无条件启动CURRENT_TARGET cast，绑定与修正均为0",
+    "cast过程重开显示主动、cooldown_ms参数普通冷却、过程开始登记",
+    "唯一延迟步骤引用cast_time_ms，说明明确已有250毫秒根施法延迟",
+    "唯一效果挂接为mana_cost且在过程开始，内部状态操作为空；不从延迟结束生成命中"
+  ],
+  "runtimeValidation": "未执行"
+}

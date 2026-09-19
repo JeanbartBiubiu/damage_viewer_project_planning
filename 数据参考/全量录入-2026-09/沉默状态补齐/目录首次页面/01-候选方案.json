@@ -1,0 +1,33 @@
+{
+  "executionMode": "BROWSER_UI_ONLY",
+  "body": {
+    "statusKey": "silence",
+    "statusKind": "SILENCE",
+    "name": "沉默",
+    "description": "沉默状态身份；具体持续时间由技能效果生命周期维护，本状态不另设强度数值。",
+    "status": "ENABLED",
+    "sortOrder": 30
+  },
+  "sourceFiles": [
+    {
+      "root": "backend",
+      "path": "server/data_manage/src/main/java/xyz/game/datamanage/model/status/StatusKind.java",
+      "sha256": "99416ac07cff091e8a91b258c3cddca03c590f4d853d2be03d1b94639fc390e2"
+    },
+    {
+      "root": "web",
+      "path": "web/src/types/status.ts",
+      "sha256": "eba0da35f1df2eb333f99a1810126200a8e06457c69b4490dca7b51d2e2b0ce0"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/沉默状态补齐/03-固定来源独立核对.json",
+      "sha256": "d49eca8adda74225062f8059a915ec9636f49a69b273df4b511c3b04e363b853"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/沉默状态补齐/06-独立代码及迁移批准.json",
+      "sha256": "cac35cec2718882114e3a2af409e064816ce90cf5808c79736fbeecc6b34189c"
+    }
+  ]
+}

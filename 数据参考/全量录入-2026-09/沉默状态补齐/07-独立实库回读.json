@@ -1,0 +1,99 @@
+{
+  "at": "2026-09-19T16:34:48.240621200Z",
+  "status": "PASS",
+  "purpose": "沉默状态约束迁移后的独立只读实库回读",
+  "target": {
+    "host": "192.168.5.6",
+    "database": "test0221",
+    "credentialsOutput": false,
+    "connectionReadOnly": true,
+    "managementHTTPs": 0,
+    "businessWrites": 0,
+    "apply": false,
+    "migration": false
+  },
+  "runner": {
+    "source": "C:/project/damage_backend_dev/output/silence-status-preflight/ReadSilenceBefore.java",
+    "sourceSha256": "A7B3286A6519CDAB306DFFAD2ADC41B20290B253F1BC9A157E4E65E69E74123F",
+    "classpath": "C:/project/damage_backend_dev/server/data_manage/target/codex-runtime-classpath.txt",
+    "classpathSha256": "35B9257811CA32130B2FB4E9DA17DBF7B2D79785B4C901AE9D1A25A74CE480F4",
+    "readOnlyProof": "源码固定Connection.setReadOnly(true)，仅执行SELECT查询；输出文件使用CREATE_NEW。",
+    "queries": 8
+  },
+  "snapshots": {
+    "before": {
+      "file": "C:/project/damage_backend_dev/output/silence-status-preflight/before.json",
+      "sha256": "EE16121F91860BD7ED6DD041926D258E3366BF6836D4490DCF8A16237920E487",
+      "at": "2026-09-19T16:12:04.049289700Z"
+    },
+    "after": {
+      "file": "C:/project/damage_backend_dev/output/silence-status-preflight/independent-after.json",
+      "sha256": "6A20D29120320CB329D05A2E46E9C31099D69396C6ED0D440A499F89551CB48F",
+      "at": "2026-09-19T16:34:48.240621200Z"
+    }
+  },
+  "actualCounts": {
+    "tables": 27,
+    "statuses": 3,
+    "statusReferences": 5,
+    "skillEffects": 970,
+    "skillObjectReferences": 9331
+  },
+  "unchangedComparison": {
+    "tables": {
+      "rows": 27,
+      "beforeSha256": "0fd7797bce6011d35d174fe5f8cba83d97ffa0b9b3c85cec47ba25f23884ae9d",
+      "afterSha256": "0fd7797bce6011d35d174fe5f8cba83d97ffa0b9b3c85cec47ba25f23884ae9d",
+      "unchanged": true
+    },
+    "statusesIncludingTimestamps": {
+      "rows": 3,
+      "statusKeys": ["movement_slow", "root", "vertigo"],
+      "statusKinds": ["MOVEMENT_SLOW", "ROOT", "STUN"],
+      "beforeSha256": "22b8a0aad1c2f1f269e2e291991cf8151861887b1d214d7aebc965379793879c",
+      "afterSha256": "22b8a0aad1c2f1f269e2e291991cf8151861887b1d214d7aebc965379793879c",
+      "createdAtAndUpdatedAtCompared": true,
+      "unchanged": true
+    },
+    "columns": {
+      "rows": 9,
+      "beforeSha256": "40c56eb36df1cf5cb7b6aa352d9fd9dd39262d73636ce4888c32375b3d2b01cd",
+      "afterSha256": "40c56eb36df1cf5cb7b6aa352d9fd9dd39262d73636ce4888c32375b3d2b01cd",
+      "unchanged": true
+    },
+    "statusReferences": {
+      "rows": 5,
+      "beforeSha256": "2907c56b9d56fa3cede4aaafb71af2cb0a46076b20d7e7de72504bd21b329ba5",
+      "afterSha256": "2907c56b9d56fa3cede4aaafb71af2cb0a46076b20d7e7de72504bd21b329ba5",
+      "unchanged": true
+    },
+    "skill_effects": {
+      "rows": 970,
+      "beforeSha256": "f459309d7c9e8b94610d40d5ed582a248ba40f478c5339f802ad477e5bb1ca61",
+      "afterSha256": "f459309d7c9e8b94610d40d5ed582a248ba40f478c5339f802ad477e5bb1ca61",
+      "unchanged": true
+    },
+    "skill_object_references": {
+      "rows": 9331,
+      "beforeSha256": "ce5a7f6c76c0f4eb9accbca73ebce4907739452dad349d6a7f5b45d4735978fc",
+      "afterSha256": "ce5a7f6c76c0f4eb9accbca73ebce4907739452dad349d6a7f5b45d4735978fc",
+      "unchanged": true
+    }
+  },
+  "kindConstraint": {
+    "constraint": "ck_statuses_kind",
+    "beforeValidated": "t",
+    "afterValidated": "t",
+    "beforeKinds": ["STUN", "MOVEMENT_SLOW", "ROOT"],
+    "afterKinds": ["STUN", "MOVEMENT_SLOW", "ROOT", "SILENCE"],
+    "strictlyAdded": "SILENCE",
+    "validated": true
+  },
+  "verification": {
+    "expectedTables": 27,
+    "expectedStatuses": 3,
+    "expectedSkillEffects": 970,
+    "expectedSkillObjectReferences": 9331,
+    "allChecksPassed": true
+  }
+}
