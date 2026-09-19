@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-19T06:31:31.916Z",
+  "generatedAt": "2026-09-19T06:51:27.816Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -9386,7 +9386,7 @@
     },
     "ordinaryMovementSlowAuthoring": {
       "at": "2026-09-18T19:35:39.477Z",
-      "status": "状态种类与普通减速强度前后端已提交，原库迁移及独立回读通过；新流程页面与原对象补录未完成",
+      "status": "能力与原库增量已完成，普通减速目录首次页面闭环通过；原对象效果与入口继续返回",
       "backendCommit": "84995ae4",
       "webCommit": "8bbe9687",
       "backendTests": 963,
@@ -9411,6 +9411,16 @@
         "worktree": "damage_viewer_project_planning",
         "relativePath": "数据参考/全量录入-2026-09/普通减速强度修正/10-证据清单.json",
         "sha256": "a2fc3ca252da92080743e8cf6d531c081b0efb765ec877ac289846e4dc737faa"
+      },
+      "followup": {
+        "at": "2026-09-19T06:51:27.816Z",
+        "status": "目录已建立并重开，启停与结果数值页面待续",
+        "evidence": {
+          "worktree": "damage_web_dev",
+          "relativePath": "数据参考/全量录入-2026-09/交叉试录/普通减速目录首次页面录入/09-证据清单.json",
+          "commit": "f1808644",
+          "sha256": "58eba1eee1a9a472d9cc75581c98a5f66c9eed5ba4122da7af5de170f8a05937"
+        }
       }
     },
     "fiveSelfSkillCostCooldownBackfill": {
@@ -10786,6 +10796,30 @@
         "commit": "007384ad",
         "sha256": "6c1b9f0ea2add47b3395d865dc72270fb0dc128a90c5297ca886a8d14ff2abb1"
       }
+    },
+    "movementSlowDirectoryFirstUI": {
+      "at": "2026-09-19T06:51:27.816Z",
+      "status": "普通移动减速目录首次页面保存、重开与独立回读通过",
+      "created": {
+        "statuses": 1
+      },
+      "statusKey": "movement_slow",
+      "statusKind": "MOVEMENT_SLOW",
+      "prepareGETs": 4,
+      "preflightGETs": 4,
+      "browserWrites": 1,
+      "immediateReadbacks": 1,
+      "independentGETs": 4,
+      "unchangedResponsesIncludingTimestamps": 2,
+      "expectedChangedCollections": 1,
+      "browser": "PASS",
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/普通减速目录首次页面录入/09-证据清单.json",
+        "commit": "f1808644",
+        "sha256": "58eba1eee1a9a472d9cc75581c98a5f66c9eed5ba4122da7af5de170f8a05937"
+      }
     }
   },
   "runtimeValidation": "未执行",
@@ -11235,6 +11269,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/拉克丝Q禁锢时长说明整理/09-证据清单.json",
         "commit": "007384ad",
         "sha256": "6c1b9f0ea2add47b3395d865dc72270fb0dc128a90c5297ca886a8d14ff2abb1"
+      },
+      "movementSlowDirectoryFirstUI": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/普通减速目录首次页面录入/09-证据清单.json",
+        "commit": "f1808644",
+        "sha256": "58eba1eee1a9a472d9cc75581c98a5f66c9eed5ba4122da7af5de170f8a05937"
       }
     },
     "coverage": {
