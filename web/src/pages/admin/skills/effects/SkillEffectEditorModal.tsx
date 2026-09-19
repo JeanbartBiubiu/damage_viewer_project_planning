@@ -911,10 +911,12 @@ export function SkillEffectEditorModal({
     },
     {
       title: '排序',
+      width: 80,
       render: (_value, row: { item: SkillEffectResultDraft }) => row.item.sortOrder
     },
     {
       title: '操作',
+      width: 180,
       render: (_value, row: { item: SkillEffectResultDraft; index: number }) => (
         <Space size="mini">
           <Button
@@ -1338,6 +1340,7 @@ export function SkillEffectEditorModal({
               columns={columns}
               data={displayedResults}
               pagination={false}
+              scroll={{ x: draft.lifecycleEnabled ? 1800 : 1320 }}
               rowKey={(row: { item: SkillEffectResultDraft; index: number }) => (
                 `${row.index}-${row.item.resultKey || 'new'}`
               )}

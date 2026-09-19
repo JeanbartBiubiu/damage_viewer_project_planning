@@ -1,0 +1,74 @@
+
+> damage-viewer-web@0.1.0 test
+> vitest run --config vitest.config.ts
+
+
+ RUN  v2.1.9 C:/project/damage_web_dev/web
+
+ ✓ src/pages/admin/skills/formulaExpression.test.ts (7 tests) 6ms
+ ✓ src/services/representativeImageUpload.test.ts (14 tests) 9ms
+ ✓ src/pages/admin/skills/processes/internalStateForm.test.ts (7 tests) 8ms
+ ✓ src/pages/admin/skills/processes/processForm.test.ts (10 tests) 9ms
+ ✓ src/services/skillEffectClient.test.ts (21 tests) 30ms
+ ✓ src/services/skillTriggerRuleClient.test.ts (88 tests) 50ms
+ ✓ src/pages/admin/skills/numericValueForm.test.ts (19 tests) 12ms
+ ✓ src/pages/admin/skills/triggers/triggerRuleForm.outputs.test.ts (9 tests) 12ms
+ ✓ src/pages/admin/skills/triggers/triggerRuleForm.bindings.test.ts (13 tests) 11ms
+ ✓ src/pages/admin/skills/triggers/triggerRuleForm.mapping.test.ts (23 tests) 17ms
+ ✓ src/pages/admin/skills/effects/movementSlow.test.ts (20 tests) 17ms
+ ✓ src/pages/admin/skills/triggers/triggerRuleForm.test.ts (27 tests) 27ms
+ ✓ src/pages/admin/skills/effects/effectForm.test.ts (50 tests) 42ms
+ ✓ src/pages/admin/skills/triggers/targetCategoryCondition.test.ts (23 tests) 18ms
+ ✓ src/pages/admin/skills/triggers/lifecycleCondition.test.ts (15 tests) 10ms
+ ✓ src/pages/admin/statuses/statusForm.test.ts (10 tests) 5ms
+ ✓ src/pages/admin/skills/skillForm.test.ts (12 tests) 7ms
+ ✓ src/pages/admin/characters/characterForm.test.ts (20 tests) 7ms
+ ✓ src/services/attributeClient.test.ts (8 tests) 20ms
+ ✓ src/services/skillRelationClient.test.ts (21 tests) 39ms
+ ✓ src/services/imageRelationClient.test.ts (31 tests) 36ms
+ ✓ src/pages/admin/skills/triggers/sourceCastResourceCost.test.ts (11 tests) 8ms
+ ✓ src/services/skillProcessClient.test.ts (2 tests) 22ms
+ ✓ src/services/skillInternalStateClient.test.ts (2 tests) 20ms
+ ✓ src/pages/admin/attributes/attributeForm.test.ts (10 tests) 4ms
+ ✓ src/pages/admin/skills/parameterForm.test.ts (7 tests) 4ms
+ ✓ src/services/skillParameterClient.test.ts (2 tests) 17ms
+ ✓ src/services/numericValue.test.ts (36 tests) 19ms
+ ✓ src/services/characterClient.test.ts (5 tests) 19ms
+ ✓ src/services/statusClient.test.ts (12 tests) 23ms
+ ✓ src/services/resourceImage.test.ts (6 tests) 8ms
+ ✓ src/pages/admin/skills/triggers/SkillTriggerRuntimeInputBindingEditorModal.test.ts (5 tests) 4ms
+ ✓ src/services/characterAuthoringCheckClient.test.ts (6 tests) 16ms
+ ✓ src/services/skillFormulaClient.test.ts (2 tests) 21ms
+ ✓ src/services/runeClient.test.ts (13 tests) 23ms
+ ✓ src/services/imageClient.test.ts (4 tests) 20ms
+ ✓ src/pages/admin/skills/triggers/skillHitSpellShieldValue.test.ts (11 tests) 13ms
+ ✓ src/pages/admin/skills/triggers/triggerRuleForm.summary.test.ts (9 tests) 7ms
+ ✓ src/pages/admin/relations/imageRelationForm.test.ts (5 tests) 3ms
+ ✓ src/engine/genericEngineClient.test.ts (4 tests) 5ms
+ ✓ src/services/skillClient.test.ts (3 tests) 18ms
+ ✓ src/pages/admin/skills/triggers/movementSlow.test.ts (3 tests) 5ms
+ ✓ src/pages/admin/skills/triggers/explicitTargetCondition.test.ts (5 tests) 14ms
+ ✓ src/pages/admin/relations/skillRelationForm.test.ts (13 tests) 5ms
+ ✓ src/pages/admin/skills/triggers/skillHitEnemyCondition.test.ts (5 tests) 7ms
+ ✓ src/pages/admin/skills/focusedSkill.test.ts (5 tests) 17ms
+ ✓ src/services/damageTypeClient.test.ts (3 tests) 17ms
+ ✓ src/pages/admin/equipment/equipmentForm.test.ts (3 tests) 3ms
+ ✓ src/services/imageCache.test.ts (6 tests) 3ms
+ ✓ src/config/navigation.test.ts (2 tests) 4ms
+ ✓ src/pages/admin/runes/runeForm.test.ts (4 tests) 4ms
+ ✓ src/services/equipmentClient.test.ts (3 tests) 17ms
+ ✓ src/services/modifierZoneClient.test.ts (2 tests) 16ms
+ ✓ src/pages/admin/images/imageForm.test.ts (3 tests) 3ms
+ ✓ src/services/skillCategoryClient.test.ts (3 tests) 17ms
+ ✓ src/services/apiClient.test.ts (2 tests) 16ms
+ ✓ src/pages/admin/modifier-zones/modifierZoneForm.test.ts (2 tests) 3ms
+ ✓ src/pages/admin/skill-categories/skillCategoryForm.test.ts (2 tests) 3ms
+ ✓ src/pages/admin/damage-types/damageTypeForm.test.ts (2 tests) 2ms
+ ✓ src/pages/admin/relations/representativeImageRequests.test.ts (3 tests) 2136ms
+   ✓ table representative image requests > loads 900 rows with at most six in flight, including after a failed request 2124ms
+
+ Test Files  60 passed (60)
+      Tests  674 passed (674)
+   Start at  13:23:10
+   Duration  5.06s (transform 8.47s, setup 0ms, collect 13.74s, tests 2.96s, environment 12ms, prepare 7.14s)
+
