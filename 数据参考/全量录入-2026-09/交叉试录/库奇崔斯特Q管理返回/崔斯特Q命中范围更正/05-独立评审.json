@@ -1,0 +1,95 @@
+{
+  "status": "APPROVED",
+  "reviewer": "/root/silence_sources",
+  "reviewedAt": "2026-09-19T19:22:45.627Z",
+  "executionMode": "BROWSER_UI_ONLY",
+  "approvedFiles": {
+    "tools/authoring/reviewed-hit-scope-ui.mjs": "b9dc44da5ac25728eeeaa13c8108dd6720f7ae70cd9ac4a8a9896f2715f2d287",
+    "01-候选方案.json": "034c9c1cbc4e0fb5c131dfe20f35f12cf419a0ab50b36da4e08b7385beaf72fa",
+    "02-冻结请求.json": "2f692683ce52cb059727f0bc4693afc41c74b78d5d72dbc07b3e654d5e67d002",
+    "03-来源摘要.json": "cec48f249f25755ea30be81d74dea370774efa406c86f583589106bcf950583d",
+    "04-写入前现值.json": "9899eadc3ebc73d20f4f945dfe5a5223f338891b51e237ad782f2d27386b4bfb"
+  },
+  "checks": [
+    {
+      "name": "工具静态安全边界",
+      "status": "PASS",
+      "evidence": "工具SHA与当前文件一致；页面模式强制为BROWSER_UI_ONLY；网络fetch只有GET；证据写入使用CREATE_NEW；允许模式为prepare、preflight、readback。冻结请求中的PUT只是待页面提交的正文，不是本次执行。"
+    },
+    {
+      "name": "候选与冻结请求一致",
+      "status": "PASS",
+      "evidence": "候选与冻结的同组条件完全一致：TARGET_CATEGORY_CHECK(categories=[CHAMPION])与SKILL_HIT_TARGET_IS_ENEMY；路由为/skills/twistedfate_q/trigger-rules/resolve_on_q_hit，动作仍只执行primary_hit，目标仍为CURRENT_TARGET。"
+    },
+    {
+      "name": "19路径写前基线",
+      "status": "PASS",
+      "evidence": "04写前现值保存19个目标路径，19条审计全部GET/200，businessWrites=0；命中详情原conditionGroups为空，事件为本技能SKILL_HIT，旧动作与其他字段均保留。"
+    },
+    {
+      "name": "固定来源散列",
+      "status": "PASS",
+      "evidence": "客户端16.17固定文件和官方16.17.1中文英雄文件均以03记录的SHA通过当前文件核对；未重做来源解释。"
+    },
+    {
+      "name": "请求预期回读",
+      "status": "PASS",
+      "evidence": "冻结正文省略请求eventSource.detail.useKind，预期回读保留useKind=null；除conditionGroups从空数组变为一个同组英雄范围外，其余字段保持。"
+    },
+    {
+      "name": "五文件散列",
+      "status": "PASS",
+      "evidence": "工具及01至04的实际SHA已写入approvedFiles并逐一核对。"
+    }
+  ],
+  "blockingIssues": [],
+  "businessWrites": 0,
+  "networkCalls": 0,
+  "residualGap": {
+    "currentRuleStillUncorrected": true,
+    "reason": "本文件只是独立静态批准；尚未执行页面PUT或独立回读，当前管理库仍以04所示空conditionGroups为准。"
+  },
+  "sourceFiles": [
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/TwistedFate.json.gz",
+      "sha256": "9173c046ffc63b7075cf64d2f725c658808685a88539416e4d68df1bc3d23e59"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/TwistedFate.json",
+      "sha256": "6163447fc01fa1a63c3d959b1a072aba58892f54fd3581b037f93b538f494429"
+    }
+  ],
+  "baseline": {
+    "path": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q管理返回/崔斯特Q命中范围更正/04-写入前现值.json",
+    "sha256": "9899eadc3ebc73d20f4f945dfe5a5223f338891b51e237ad782f2d27386b4bfb",
+    "GETs": 19,
+    "allStatus200": true,
+    "businessWrites": 0,
+    "oldConditionGroups": 0
+  },
+  "proposedChange": {
+    "route": "/skills/twistedfate_q/trigger-rules/resolve_on_q_hit",
+    "changedFields": [
+      "conditionGroups"
+    ],
+    "newConditionGroupCount": 1,
+    "conditionTypes": [
+      "TARGET_CATEGORY_CHECK",
+      "SKILL_HIT_TARGET_IS_ENEMY"
+    ],
+    "preserved": [
+      "eventType=SKILL_HIT",
+      "sourceSkillKey=twistedfate_q",
+      "EXECUTE_EFFECT primary_hit",
+      "targetContext=CURRENT_TARGET",
+      "其他规则字段"
+    ]
+  },
+  "limitations": [
+    "未访问管理HTTP，也未执行业务写入。",
+    "不证明浏览器页面、Wasm、实际SKILL_HIT、伤害结算、三条弹道几何或战斗运行。",
+    "本批准保留母快照中已记录的主体说明旧表述与现有命中条件缺口，待页面范围更正后另行回读。"
+  ]
+}

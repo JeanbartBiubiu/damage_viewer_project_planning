@@ -1,0 +1,306 @@
+{
+  "startedAt": "2026-09-19T19:33:33.781Z",
+  "status": "PASS",
+  "businessWritesAttempted": 2,
+  "operations": [
+    {
+      "route": "/skills/corki_q",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:18:05.999596Z",
+          "description": "库奇向目标区域发射磷光炸弹，造成魔法伤害。本轮1V1已录入敌方英雄实际命中伤害，五级基础值为60/105/150/195/240，加1.25倍来源额外攻击力与1倍来源总法强。主动使用已连接法力、250毫秒施放登记和基础冷却；过程结束不自动生成命中。纯显形按本轮范围排除，区域几何与实际命中另由运行层提供。固定来源：客户端16.17、官方静态资料16.17.1。",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "库奇·磷光炸弹",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "corki_q",
+          "sortOrder": 1,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-19T19:33:34.391035Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-06T18:18:05.999596Z",
+        "description": "库奇向目标区域发射磷光炸弹，造成魔法伤害。本轮1V1已录入敌方英雄实际命中伤害，五级基础值为60/105/150/195/240，加1.25倍来源额外攻击力与1倍来源总法强。主动使用已连接法力、250毫秒施放登记和基础冷却；过程结束不自动生成命中。纯显形按本轮范围排除，区域几何与实际命中另由运行层提供。固定来源：客户端16.17、官方静态资料16.17.1。",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "库奇·磷光炸弹",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "corki_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-19T19:33:34.391035Z"
+      }
+    },
+    {
+      "route": "/skills/twistedfate_q",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:20:44.805513Z",
+          "description": "崔斯特扔出三张卡牌，对沿途敌人造成魔法伤害；同一目标至多受到一张牌的伤害。本轮1V1已录入敌方英雄实际命中伤害，五级基础值为60/105/150/195/240，加0.5倍来源额外攻击力与0.85倍来源总法强。主动使用已连接法力、250毫秒施放登记和基础冷却；过程结束不自动生成命中，也不将伤害乘三。弹道几何与实际命中另由运行层提供。固定来源：客户端16.17、官方静态资料16.17.1。",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "崔斯特·万能牌",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "twistedfate_q",
+          "sortOrder": 1,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-19T19:33:35.913924Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-06T18:20:44.805513Z",
+        "description": "崔斯特扔出三张卡牌，对沿途敌人造成魔法伤害；同一目标至多受到一张牌的伤害。本轮1V1已录入敌方英雄实际命中伤害，五级基础值为60/105/150/195/240，加0.5倍来源额外攻击力与0.85倍来源总法强。主动使用已连接法力、250毫秒施放登记和基础冷却；过程结束不自动生成命中，也不将伤害乘三。弹道几何与实际命中另由运行层提供。固定来源：客户端16.17、官方静态资料16.17.1。",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "崔斯特·万能牌",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "twistedfate_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-19T19:33:35.913924Z"
+      }
+    }
+  ],
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-descriptions-v2.mjs": "f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517",
+    "01-纠错计划.json": "dbcb22784ea25088db72956110c550c15345e5addc3f8d36b79adf423eb776d4",
+    "02-冻结请求.json": "2e194baa7651f8523b61fd749f2c243c22b792ac368a62fcc648273084535cc6",
+    "03-来源摘要.json": "011b4ba46fe47ebf8d4b199deddbdcc7cecb0161ddda75e085d03f96fd730780",
+    "04-写入前现值.json": "49ea9b2efe9a377429ec4999096056a0920fa95ef7783488c295042c0eeb4293"
+  },
+  "pendingRoute": null,
+  "finishedAt": "2026-09-19T19:33:36.773Z",
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/corki_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/parameters/bonus_attack_damage_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/parameters/ability_power_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/trigger-rules/resolve_on_q_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/parameters/bonus_ad_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/formulas/enemy_magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/trigger-rules/resolve_on_q_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/corki_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/twistedfate_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q",
+      "status": 200
+    }
+  ]
+}
