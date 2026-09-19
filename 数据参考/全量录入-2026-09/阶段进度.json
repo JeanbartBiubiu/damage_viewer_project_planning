@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-19T16:04:24.087Z",
+  "generatedAt": "2026-09-19T17:17:30.076Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -11621,6 +11621,131 @@
         "commit": "60820260",
         "sha256": "8719282dc157124d1b4f8aa576fefb7d0b3cf1bb2b7dd2a6fbc979fe1ae980b3"
       }
+    },
+    "silenceStatusAuthoring": {
+      "at": "2026-09-19T17:15:30.957Z",
+      "status": "PASS",
+      "statusKind": "SILENCE",
+      "statusKey": "silence",
+      "commits": {
+        "backend": "d6119800",
+        "frontend": "0abfd691"
+      },
+      "sourceVersion": {
+        "client": "16.17",
+        "ddragon": "16.17.1"
+      },
+      "storage": {
+        "tables": 27,
+        "newTables": 0,
+        "newColumns": 0,
+        "constraintMigrationExecutions": 1,
+        "migrationPreserved": {
+          "statuses": 3,
+          "effects": 970,
+          "references": 9331
+        },
+        "independentDBSelects": 8
+      },
+      "businessWrites": 6,
+      "browserWrites": 2,
+      "protectedAPIWrites": 4,
+      "created": {
+        "statuses": 1,
+        "effects": 2,
+        "triggerRules": 2
+      },
+      "updated": {
+        "triggerRules": 1
+      },
+      "independentGETs": 111,
+      "independentBatches": [
+        {
+          "path": "目录首次页面/07-独立回读.json",
+          "GETs": 5
+        },
+        {
+          "path": "两技能首次施加返回/07-独立回读.json",
+          "GETs": 53
+        },
+        {
+          "path": "玛尔扎哈旧伤害敌方更正/06-独立回读.json",
+          "GETs": 53
+        }
+      ],
+      "checks": {
+        "backendTests": 1008,
+        "frontendTests": 715,
+        "frontendLint": true,
+        "typecheck": true,
+        "build": true,
+        "parameterRankComparisons": 10,
+        "browser": "PASS",
+        "consoleErrors": []
+      },
+      "currentCounts": {
+        "chogath_w": {
+          "parameters": 5,
+          "formulas": 1,
+          "effects": 2,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 1
+        },
+        "malzahar_q": {
+          "parameters": 6,
+          "formulas": 1,
+          "effects": 3,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 3
+        }
+      },
+      "issues": [
+        {
+          "object": "科加斯W、玛尔扎哈Q、费德提克E",
+          "operation": "选择控制状态",
+          "expected": "准确表示沉默身份、由父效果提供期限",
+          "before": "仅有眩晕、减速、禁锢",
+          "fix": "增加不可变沉默种类，沿用无数值状态与现有表",
+          "return": "目录首次页面、科加斯与玛尔扎哈首次施加和独立回读通过"
+        },
+        {
+          "object": "玛尔扎哈Q actual_hit",
+          "operation": "重开旧伤害入口",
+          "expected": "实际敌方英雄命中",
+          "before": "仅英雄类别，未明确敌方",
+          "fix": "同组追加enemy_target空明细",
+          "return": "单次页面保存重开和53次独立GET通过"
+        }
+      ],
+      "remaining": {
+        "chogath_w": [
+          "首次施加以外的沉默重施期限",
+          "伤害效果和命中入口正在下个独立批次准备",
+          "施放时长来源及主动使用成本冷却入口",
+          "旧主体及公式说明待随后续组成收敛"
+        ],
+        "malzahar_q": [
+          "沉默重施期限",
+          "Q刷新E的跨技能关系及E持续效果、入口",
+          "旧主体说明待收敛；旧伤害结果子页继续核对"
+        ],
+        "fiddlesticks_e": [
+          "中心命中资格、减速伤害及使用时序尚未完成"
+        ]
+      },
+      "managementCompleteDelta": 0,
+      "managementCompleteItems": 5,
+      "openSkillItems": 834,
+      "runtimeValidation": "未执行",
+      "goalComplete": false,
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/沉默状态补齐/11-证据清单.json",
+        "commit": "5b54dd39",
+        "sha256": "dd9b3d62e37e5791b62f0b6a5ee4cabeae1ff203fecc0e1106986af4a9f33bbb"
+      }
     }
   },
   "runtimeValidation": "未执行",
@@ -12190,6 +12315,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/盖伦R管理返回核对/09-证据清单.json",
         "commit": "60820260",
         "sha256": "8719282dc157124d1b4f8aa576fefb7d0b3cf1bb2b7dd2a6fbc979fe1ae980b3"
+      },
+      "silenceStatusAuthoring": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/沉默状态补齐/11-证据清单.json",
+        "commit": "5b54dd39",
+        "sha256": "dd9b3d62e37e5791b62f0b6a5ee4cabeae1ff203fecc0e1106986af4a9f33bbb"
       }
     },
     "coverage": {
@@ -17638,18 +17769,41 @@
         "name": "科加斯·野性尖叫",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，其中来源或资料缺口1个、系统缺口0个、配置缺口0个。",
+        "reason": "无强度沉默目录及首次施加入口已返回，期限1600～2000毫秒。整技能仍有沉默重施、伤害结果入口、施放时长与使用登记及旧说明待处理。",
         "pendingCounts": {
-          "source": 1,
+          "source": 2,
           "system": 0,
-          "configuration": 0,
+          "configuration": 2,
           "other": 0
         },
         "batchKey": "heroTwentiethBatch",
         "candidateSha256": "7fddee3b4b2fd121d3c053ba20388a69e38e2069a42ad7b80a054c56b70ce5c9",
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "silenceStatusAuthoring"
+        ],
+        "silenceAuthoring": {
+          "status": "首次施加管理配置已验证",
+          "statusKey": "silence",
+          "effectKey": "silence_first_application",
+          "ruleKey": "apply_silence_on_unblocked_hit",
+          "browser": "PASS",
+          "runtime": "未执行"
+        },
+        "currentComponentCounts": {
+          "parameters": 5,
+          "formulas": 1,
+          "effects": 2,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 1
+        },
+        "remainingBranches": [
+          "首次施加以外的沉默重施期限",
+          "伤害效果和命中入口正在下个独立批次准备",
+          "施放时长来源及主动使用成本冷却入口",
+          "旧主体及公式说明待随后续组成收敛"
         ]
       },
       {
@@ -18944,7 +19098,7 @@
         "name": "费德提克·夜割",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "沉默状态身份已支持，但夜割仅中心区域适用；中心命中资格、减速伤害和使用时序继续核对，未按全部命中写入。",
         "pendingCounts": {
           "source": 0,
           "system": 1,
@@ -18955,7 +19109,19 @@
         "candidateSha256": "9d278c07710b96dc7d29a91df2160ea34954daccb8cf576a0e72492295cf0313",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "silenceStatusAuthoring"
+        ],
+        "silenceAuthoring": {
+          "status": "中心资格仍待核，未写入",
+          "statusKey": "silence",
+          "effectKey": null,
+          "ruleKey": null,
+          "browser": "未执行",
+          "runtime": "未执行"
+        },
+        "remainingBranches": [
+          "中心命中资格、减速伤害及使用时序尚未完成"
         ]
       },
       {
@@ -25133,11 +25299,11 @@
         "name": "玛尔扎哈·虚空召唤",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "普通主动使用入口已登记基础法力与普通冷却，复用既有250毫秒根施法参数；沉默、代表页面验收继续处理，不计整技能管理完成。",
+        "reason": "伤害旧规则已补同组明确敌方；沉默首次施加、主动使用入口与过程页面通过。重施期限、Q刷新E关系与对应持续配置、旧说明及伤害子页继续处理，整技能保持开放。",
         "pendingCounts": {
-          "source": 0,
+          "source": 1,
           "system": 1,
-          "configuration": 0,
+          "configuration": 1,
           "other": 0
         },
         "batchKey": "heroSixteenthBatch",
@@ -25147,19 +25313,21 @@
           "heroSourceInventory",
           "eightNextDirectMagicHitBackfill",
           "sevenNextOrdinaryUseBackfill",
-          "sevenNextUseDescriptionCleanup"
+          "sevenNextUseDescriptionCleanup",
+          "silenceStatusAuthoring"
         ],
         "currentComponentCounts": {
           "parameters": 6,
           "formulas": 1,
-          "effects": 2,
+          "effects": 3,
           "processes": 1,
           "internalStates": 0,
-          "triggerRules": 2
+          "triggerRules": 3
         },
         "remainingBranches": [
-          "沉默",
-          "代表页面验收"
+          "沉默重施期限",
+          "Q刷新E的跨技能关系及E持续效果、入口",
+          "旧主体说明待收敛；旧伤害结果子页继续核对"
         ],
         "authoredDirectHit": {
           "effectKey": "primary_hit",
@@ -25169,7 +25337,8 @@
           "vampType": "OMNIVAMP",
           "basisOutputKind": "POST_DEFENSE_DAMAGE",
           "efficiency": 1,
-          "browser": "待验"
+          "browser": "实际命中入口PASS，伤害结果子页仍待验",
+          "enemyQualification": "同组SKILL_HIT_TARGET_IS_ENEMY已保存、重开和独立回读"
         },
         "authoredUseEntry": {
           "processKey": "cast",
@@ -25177,13 +25346,21 @@
           "costEffectKey": "mana_cost",
           "registrationOnly": false,
           "httpReadback": "PASS",
-          "browser": "待验"
+          "browser": "PASS"
         },
         "useCostDescriptionCleanup": {
           "status": "PASS",
           "changedDescriptions": 2,
           "numericAndProcessChanges": 0,
           "browser": "待验"
+        },
+        "silenceAuthoring": {
+          "status": "首次施加管理配置已验证",
+          "statusKey": "silence",
+          "effectKey": "silence_first_application",
+          "ruleKey": "apply_silence_on_unblocked_hit",
+          "browser": "PASS",
+          "runtime": "未执行"
         }
       },
       {
