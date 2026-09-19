@@ -1,0 +1,63 @@
+{
+  "at": "2026-09-19T08:25:10.838Z",
+  "status": "PASS",
+  "prepareGETs": 6,
+  "rejectedPOSTs": 1,
+  "errorRecoveryReadbackGETs": 6,
+  "successfulBrowserPUTs": 2,
+  "immediateReadbackGETs": 2,
+  "preWriteGETs": 2,
+  "independentProgramGETs": 6,
+  "unchangedResponsesIncludingTimestamps": 4,
+  "statusesCount": 3,
+  "newStatuses": 0,
+  "finalStatus": "ENABLED",
+  "browser": "PASS",
+  "runtimeValidation": "未执行",
+  "files": [
+    {
+      "name": "00-只读核对工具.mjs",
+      "sha256": "b1489504991a1b29cfb3c066409191f73c120455ba65b585a7ee0886976d7dfa"
+    },
+    {
+      "name": "00-重复标识负例请求.json",
+      "sha256": "3220a44fddf9d0c07530ffa2936d394c95167a4573616ff80b0436088a646631"
+    },
+    {
+      "name": "00-错误恢复与原值回读.json",
+      "sha256": "8f18f3247c7eaa3ea72bb841a6e64a1bf1a43a6b3c5f11c98ae4324983b2a0bd"
+    },
+    {
+      "name": "01-完整现值与请求.json",
+      "sha256": "0b84f99b53711c6436e8010cb035e643e287c07ce40970245f9ee41cbc7deec1"
+    },
+    {
+      "name": "02-停用前核对.json",
+      "sha256": "e6f68fc9a9ccacc4fed20f8f4dc6d1ff271d7e5a4066c5090cebccf202424c4b"
+    },
+    {
+      "name": "03-停用即时回读.json",
+      "sha256": "f0e7af3614a5dba3571ff92728331ad378737cf064a0a1f444902a326b17878b"
+    },
+    {
+      "name": "04-启用前核对.json",
+      "sha256": "3977efeb140e3e7a275c898a746cd4ecda00c2a2d0f2eea619acc4f4ff25f74b"
+    },
+    {
+      "name": "05-启用即时回读.json",
+      "sha256": "4d2b6dde49312625d787d633b67eb12fcdf897511f3ce490a20725a96897a92d"
+    },
+    {
+      "name": "06-另进程独立回读.json",
+      "sha256": "c73ab4f16a1f973fd1f07a5937f35a0fed72b2720ff42b74b2257d56c92132c2"
+    },
+    {
+      "name": "08-页面验收.json",
+      "sha256": "662123d75da5bcce17ace809d652cbc3c32e591660f046e57ca814b0b9020809"
+    },
+    {
+      "name": "README.md",
+      "sha256": "88ca088e488f33e13c15301205f09c71d7fde1380cf04c607876dd42a007f35f"
+    }
+  ]
+}
