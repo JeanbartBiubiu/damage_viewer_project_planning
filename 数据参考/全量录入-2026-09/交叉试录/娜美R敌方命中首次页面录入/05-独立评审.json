@@ -1,0 +1,60 @@
+{
+  "status": "APPROVED",
+  "at": "2026-09-19T04:04:20.326Z",
+  "reviewer": "/root/seven_hit_frozen_review",
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v3.mjs": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "01-候选方案.json": "bbc3b758e66b51a7405131f9e6b28ee44c1e0f3ea078661aa662582a2a970c29",
+    "02-冻结请求.json": "682f83d4d62110a53f3ff2ed28bfc8c8216800e520eb2b483421dc58986b84e1",
+    "03-来源摘要.json": "8394dd81cb44760d43a59dff525c5f489c03574c62c713dce45307030be842c1",
+    "04-写入前现值.json": "5366d19b6a3b0bd10bc20b384d2e26c05ee3a2fa1cdd5ad5bb51c5c45049d27f"
+  },
+  "executionMode": "BROWSER_UI_ONLY",
+  "allowedToolModes": [
+    "prepare",
+    "preflight",
+    "readback"
+  ],
+  "forbiddenToolModes": [
+    "write"
+  ],
+  "businessWrites": 0,
+  "reviewerHTTPRequests": 0,
+  "decision": "批准在真实浏览器页面保存这一个已冻结的娜美R规则；此批准不授权以API或E工具write模式替代首次页面录入。",
+  "checks": {
+    "sourceHashes": 14,
+    "finalReviewedCodeFilesStillMatch": 21,
+    "preparationGETs": 32,
+    "protectedResponses": 31,
+    "newRule404s": 1,
+    "existingPrimaryHitExactlyMatchesPriorReadback": true,
+    "sameGroupAndConditions": 2,
+    "existingCostRulePreserved": true,
+    "expectedReadbackAddsOnlyUseKindNull": true
+  },
+  "qualifiedBranch": "当前技能nami_r实际命中对象必须同时为CHAMPION和明确敌方；条件在同一组按AND成立。自身、友方和未知关系不匹配，来源技能、目标类别和关系三层约束均保留。",
+  "actionBoundary": "仅执行既有primary_hit/CURRENT_TARGET，无击飞、距离减速、被动加速、过程启动或其他新增效果。伤害数值与全部原配置不变。",
+  "browserEvidenceProtocol": {
+    "approvedProtocolFile": "00-首次页面与资格依据.json",
+    "sha256": "933d92bccd3287163bfb48b20cbfdfc59c69bd673edf2c45957f075ffaba7109",
+    "requiredMode": "BROWSER_UI_ONLY",
+    "beforeFinalSave": "执行受保护纯GET preflight确认31现值和actual_hit仍404；页面可编辑草稿，最终保存前以wx建立06 STARTED。最终页面载荷的标识、顺序、分组与冻结值必须一致。",
+    "afterSave": "06如实记录页面点击与可见保存反馈，并保存独立于页面的即时GET实际详情。未捕获POST时不得构造POST状态/响应。只有即时GET与冻结expectedReadback全等才记成功。",
+    "uncertainResult": "页面超时、中断或结果不确定时只读核对落地，不重复点击保存或用API补写。",
+    "independentReadback": "父任务确认页面保存和即时GET成功后，独立执行者运行E readback核新规则及30份不变响应，wx保存07。",
+    "reopen": "真实页面关闭并重开，核同组两个条件和唯一执行效果动作；不把界面回显当作敌我关系求值验证。"
+  },
+  "expectedIndependentReadback": {
+    "GETs": 32,
+    "newObjects": 1,
+    "expectedChangedCollections": 1,
+    "unchangedResponsesIncludingTimestamps": 30,
+    "businessWrites": 0
+  },
+  "validationLimits": {
+    "browser": "连接恢复由父任务确认；此评审未操作页面，实际保存与重开尚未执行",
+    "HTTP": "本评审0HTTP",
+    "runtime": "仅管理配置，未执行敌我关系、命中、吸血、护盾或Wasm战斗求值"
+  },
+  "blockingFindings": []
+}
