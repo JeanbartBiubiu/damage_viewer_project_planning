@@ -119,6 +119,8 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerActionRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerValueDomain;
 import xyz.game.datamanage.support.error.ApiException;
 import xyz.game.datamanage.support.authoring.SkillExplicitTargetIsSourceConditionSemantics;
+import xyz.game.datamanage.support.authoring.SkillHitTargetIsEnemyConditionSemantics;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerSkillHitTargetIsEnemyConditionDetail;
 import xyz.game.datamanage.support.authoring.SkillLifecycleConditionSemantics;
 import xyz.game.datamanage.support.authoring.SkillTargetCategoryConditionSemantics;
 
@@ -1227,6 +1229,13 @@ public class SkillTriggerRuleService {
                 }
                 issues.addAll(SkillExplicitTargetIsSourceConditionSemantics.shapeIssues(detail, prefix + ".detail"));
             }
+            case SKILL_HIT_TARGET_IS_ENEMY -> {
+                if (!(condition.detail() instanceof SkillTriggerSkillHitTargetIsEnemyConditionDetail detail)) {
+                    issues.add(fieldIssue(prefix + ".detail", "TYPE_MISMATCH", "技能命中敌方对象条件明细形状不合法"));
+                    return;
+                }
+                issues.addAll(SkillHitTargetIsEnemyConditionSemantics.shapeIssues(detail, prefix + ".detail"));
+            }
             case INTERNAL_STATE_CHECK -> {
                 if (!(condition.detail() instanceof SkillTriggerInternalStateConditionDetail detail)) {
                     issues.add(fieldIssue(prefix + ".detail", "TYPE_MISMATCH", "内部状态检查条件明细形状不合法"));
@@ -1742,6 +1751,11 @@ public class SkillTriggerRuleService {
         }
         if (condition.conditionType() == SkillTriggerConditionType.EXPLICIT_TARGET_IS_SOURCE) {
             issues.addAll(SkillExplicitTargetIsSourceConditionSemantics.eventIssues(
+                eventSource.eventType(), prefix + ".detail"
+            ));
+        }
+        if (condition.conditionType() == SkillTriggerConditionType.SKILL_HIT_TARGET_IS_ENEMY) {
+            issues.addAll(SkillHitTargetIsEnemyConditionSemantics.eventIssues(
                 eventSource.eventType(), prefix + ".detail"
             ));
         }
@@ -2331,6 +2345,7 @@ public class SkillTriggerRuleService {
             }
             case TARGET_CATEGORY_CHECK -> { /* 固定类别不引用技能目录或执行对象。 */ }
             case EXPLICIT_TARGET_IS_SOURCE -> { /* 显式目标身份检查不引用技能目录或执行对象。 */ }
+            case SKILL_HIT_TARGET_IS_ENEMY -> { /* 命中对象敌我关系检查不引用目录或执行对象。 */ }
             case INTERNAL_STATE_CHECK -> {
                 SkillTriggerInternalStateConditionDetail detail =
                     (SkillTriggerInternalStateConditionDetail) condition.detail();
