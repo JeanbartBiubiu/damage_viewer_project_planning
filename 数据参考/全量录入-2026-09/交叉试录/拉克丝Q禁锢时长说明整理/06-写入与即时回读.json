@@ -1,0 +1,182 @@
+{
+  "startedAt": "2026-09-19T06:26:50.201Z",
+  "status": "PASS",
+  "businessWritesAttempted": 1,
+  "operations": [
+    {
+      "route": "/skills/lux_q/parameters/root_duration_ms",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T14:45:43.010808Z",
+          "description": "客户端16.17根技能RootDuration各级均为2秒，以固定2000毫秒保存，作为本技能禁锢效果的基础期限；重施资格及韧性等运行修正另行处理。",
+          "fixedValue": 2000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "束缚持续时间（毫秒）",
+          "parameterKey": "root_duration_ms",
+          "skillKey": "lux_q",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-19T06:26:51.087961Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-07T14:45:43.010808Z",
+        "description": "客户端16.17根技能RootDuration各级均为2秒，以固定2000毫秒保存，作为本技能禁锢效果的基础期限；重施资格及韧性等运行修正另行处理。",
+        "fixedValue": 2000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "束缚持续时间（毫秒）",
+        "parameterKey": "root_duration_ms",
+        "skillKey": "lux_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-19T06:26:51.087961Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    }
+  ],
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-descriptions-v2.mjs": "f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517",
+    "01-纠错计划.json": "0f237cea1e2aa583f4cc25e068963beac3df6fa0a48b5c09fd745da39bd1a7a7",
+    "02-冻结请求.json": "caeeec2adca5b252a52efb0ef7bb88e3f26818057f4ea985559f0027634b7c7b",
+    "03-来源摘要.json": "cf4f617d8d5cad6be4e0c7c423179e634d35cb1323d0114a17ddeaff74c0cfc6",
+    "04-写入前现值.json": "e2ddefe8e82e528fab377c6cc5ca963d2b3a9dba2821b1a1d7550a3da1fcd394"
+  },
+  "pendingRoute": null,
+  "finishedAt": "2026-09-19T06:26:51.810Z",
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/lux_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/parameters/root_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/parameters/target_range",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/parameters/projectile_speed",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/effects/light_binding_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/effects/root_control",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/trigger-rules/resolve_on_q_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/trigger-rules/apply_root_on_unblocked_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/parameters/root_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/lux_q/parameters/root_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/parameters/root_duration_ms",
+      "status": 200
+    }
+  ]
+}

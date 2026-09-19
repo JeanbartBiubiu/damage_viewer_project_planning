@@ -1,0 +1,34 @@
+{
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "requests": [
+    {
+      "method": "PUT",
+      "route": "/skills/lux_q/parameters/root_duration_ms",
+      "body": {
+        "name": "束缚持续时间（毫秒）",
+        "description": "客户端16.17根技能RootDuration各级均为2秒，以固定2000毫秒保存，作为本技能禁锢效果的基础期限；重施资格及韧性等运行修正另行处理。",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "sortOrder": 30
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-07T14:45:43.010808Z",
+        "description": "客户端16.17根技能RootDuration各级均为2秒，以固定2000毫秒保存，作为本技能禁锢效果的基础期限；重施资格及韧性等运行修正另行处理。",
+        "fixedValue": 2000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "束缚持续时间（毫秒）",
+        "parameterKey": "root_duration_ms",
+        "skillKey": "lux_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T14:45:43.010808Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    }
+  ],
+  "sourceSha256": "cf4f617d8d5cad6be4e0c7c423179e634d35cb1323d0114a17ddeaff74c0cfc6",
+  "baselineSha256": "e2ddefe8e82e528fab377c6cc5ca963d2b3a9dba2821b1a1d7550a3da1fcd394"
+}
