@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-19T11:17:27.965Z",
+  "generatedAt": "2026-09-19T11:36:12.741Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -11270,6 +11270,43 @@
         "commit": "c14104e8",
         "sha256": "fa6b9fb64be44bfaf4348d13bdb60e2f9e8e26e614dcff287ac0f9a0f84bcb2c"
       }
+    },
+    "remainingUltimateCategoryBackfill": {
+      "at": "2026-09-19T11:35:08.218Z",
+      "status": "其余161项固定来源主R终极分类已补齐；本轮共169项，乌迪尔无标记保持，3槽沿用排除",
+      "sourceVersion": {
+        "client": "16.17",
+        "ddragon": "16.17.1"
+      },
+      "updatedSkills": 161,
+      "prepareGETs": 162,
+      "writerGETs": 484,
+      "writes": 161,
+      "immediateReadbacks": 161,
+      "independentGETs": 162,
+      "archiveGETs": 0,
+      "independentStdoutBytes": 98485,
+      "independentStdoutSha256": "84d98797f70bff4be2b82581a022c531db596b8b0bb3984f96d6c64ac155f1a0",
+      "unchangedResponsesIncludingTimestamps": 1,
+      "browser": "PASS",
+      "scopeTotal": {
+        "sourceRSlots": 173,
+        "previouslyUpdated": 8,
+        "updatedThisBatch": 161,
+        "excludedSlots": 3,
+        "remainingWithoutUltimateTag": [
+          "udyr_r"
+        ]
+      },
+      "runtimeValidation": "未执行",
+      "toolCommit": "788738f0",
+      "sourceCommit": "c3b8c922",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/其余主R终极技能分类补录/09-证据清单.json",
+        "commit": "6b00d7b4",
+        "sha256": "18321035f76c1e1f30cd8c69186bda139a6090286b21666a624ee274d181b3ef"
+      }
     }
   },
   "runtimeValidation": "未执行",
@@ -11803,6 +11840,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/七项终极技能分类补录/09-证据清单.json",
         "commit": "c14104e8",
         "sha256": "fa6b9fb64be44bfaf4348d13bdb60e2f9e8e26e614dcff287ac0f9a0f84bcb2c"
+      },
+      "remainingUltimateCategoryBackfill": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/其余主R终极技能分类补录/09-证据清单.json",
+        "commit": "6b00d7b4",
+        "sha256": "18321035f76c1e1f30cd8c69186bda139a6090286b21666a624ee274d181b3ef"
       }
     },
     "coverage": {
@@ -14229,7 +14272,11 @@
         "candidateSha256": "bb0306ca12eadabdad3d05aacb606b347bd393ffc7aa17205da345e3da08e97c",
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -14381,7 +14428,11 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -14530,7 +14581,11 @@
         "candidateSha256": "247eeb25c0f1c0b5448fabd16512d9c7b2632660fc08f3cd67bac0d9335c5ff0",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -14646,7 +14701,11 @@
         "candidateSha256": "a701138c64980aca63185467c43152196519c035365faea161f8ea0123b273b5",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -14761,7 +14820,11 @@
         "candidateSha256": "eaa8be12ac98bde580ed79d3dcf3001c7e99c002b2d0844fe2fb6ad16fa72230",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -14876,7 +14939,11 @@
         "candidateSha256": "a701138c64980aca63185467c43152196519c035365faea161f8ea0123b273b5",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -14991,7 +15058,11 @@
         "candidateSha256": "772528a5abd0ec24285f4db64f7cb03b5c6415a106aa83fbb7ffe40b651d3358",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -15106,7 +15177,11 @@
         "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -15539,7 +15614,8 @@
           "heroSourceInventory",
           "fourFollowupHitDamageVampCorrection",
           "ahriEDianaEAsheRUseBackfill",
-          "fiveConnectedUseDescriptionCleanup"
+          "fiveConnectedUseDescriptionCleanup",
+          "remainingUltimateCategoryBackfill"
         ],
         "currentComponentCounts": {
           "parameters": 7,
@@ -15572,7 +15648,10 @@
           "changedDescriptions": 3,
           "numericAndProcessChanges": 0,
           "browser": "待验"
-        }
+        },
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
+        ]
       },
       {
         "sourceChampionId": "AurelionSol",
@@ -15686,7 +15765,11 @@
         "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -15801,7 +15884,11 @@
         "candidateSha256": "a701138c64980aca63185467c43152196519c035365faea161f8ea0123b273b5",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -15916,7 +16003,11 @@
         "candidateSha256": "0ce76bd47383a74900ed3c2b6e3a7a070c3608c741c30016595ecad0b56b5dba",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -16070,7 +16161,11 @@
         "candidateSha256": "d0e2ecf93dce78d41da7e01190a8092704120a198c255625086c9cb1513017a5",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -16185,7 +16280,11 @@
         "candidateSha256": "a5852733badb218a4a25a85bea06480657682d80ca34d4bfcff5691611cd76de",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -16300,7 +16399,11 @@
         "candidateSha256": "eaa8be12ac98bde580ed79d3dcf3001c7e99c002b2d0844fe2fb6ad16fa72230",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -16491,7 +16594,11 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -16648,7 +16755,11 @@
         "candidateSha256": "0e07e0926380fa098ab3155a47fd3503e00aed7bc7088f4f6bb6c54133bbb383",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -16763,7 +16874,11 @@
         "candidateSha256": "a701138c64980aca63185467c43152196519c035365faea161f8ea0123b273b5",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -16878,7 +16993,11 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -16993,7 +17112,11 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -17108,7 +17231,11 @@
         "candidateSha256": "247eeb25c0f1c0b5448fabd16512d9c7b2632660fc08f3cd67bac0d9335c5ff0",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -17223,7 +17350,11 @@
         "candidateSha256": "7fddee3b4b2fd121d3c053ba20388a69e38e2069a42ad7b80a054c56b70ce5c9",
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -17358,7 +17489,11 @@
         "candidateSha256": "57f2ca0fcc9b7f29fb8c9df4c93f3d4fe1b474254839a285f08f7f6a1a4e886d",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -17474,7 +17609,11 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -17661,7 +17800,11 @@
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
           "heroSourceInventory",
-          "sixHeroCastProcessEntryBackfillSecond"
+          "sixHeroCastProcessEntryBackfillSecond",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -17776,7 +17919,11 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -17891,7 +18038,11 @@
         "candidateSha256": "85ce89e6cead0c7c6b243643ed75a829349d9c7260973643d089cfa6bbc28028",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -18006,7 +18157,11 @@
         "candidateSha256": "60e3eb6424e8040163ac4224120ecde569915b699fcf21b4e846909d393be899",
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -18121,7 +18276,11 @@
         "candidateSha256": "9970f08a9e2569f15604a4339c9b6a5b8c2200814db05835a68f79a6ffbf957c",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -18236,7 +18395,11 @@
         "candidateSha256": "9d278c07710b96dc7d29a91df2160ea34954daccb8cf576a0e72492295cf0313",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -18351,7 +18514,11 @@
         "candidateSha256": "0ce76bd47383a74900ed3c2b6e3a7a070c3608c741c30016595ecad0b56b5dba",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -18466,7 +18633,11 @@
         "candidateSha256": "9d278c07710b96dc7d29a91df2160ea34954daccb8cf576a0e72492295cf0313",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -18581,7 +18752,11 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -18696,7 +18871,11 @@
         "candidateSha256": "60e3eb6424e8040163ac4224120ecde569915b699fcf21b4e846909d393be899",
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -18811,7 +18990,11 @@
         "candidateSha256": "7fddee3b4b2fd121d3c053ba20388a69e38e2069a42ad7b80a054c56b70ce5c9",
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -18926,7 +19109,11 @@
         "candidateSha256": "236893b5c78b978396c454075554616b29060bbb8f9d2fe733846f0407faea51",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -19041,7 +19228,11 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -19156,7 +19347,11 @@
         "candidateSha256": "259e4ac0b29cd92c3b0dc2597c3ad794fbdc00ae74498971b53c2fa7d0d1c35c",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -19313,7 +19508,8 @@
           "heroSourceInventory",
           "sevenDirectMagicHitBackfill",
           "sixFollowupUseProcessBackfill",
-          "fiveOrdinaryUseDescriptionCleanup"
+          "fiveOrdinaryUseDescriptionCleanup",
+          "remainingUltimateCategoryBackfill"
         ],
         "currentComponentCounts": {
           "parameters": 6,
@@ -19349,7 +19545,10 @@
           "changedDescriptions": 2,
           "numericAndProcessChanges": 0,
           "browser": "待验"
-        }
+        },
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
+        ]
       },
       {
         "sourceChampionId": "Graves",
@@ -19463,7 +19662,11 @@
         "candidateSha256": "c08257b3fbd500d448b87d250e2a23c51d416a212e3d0398f29f9ce12b709cae",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -19578,7 +19781,11 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -19693,7 +19900,11 @@
         "candidateSha256": "046f2671121092a906008b6b07909156a90d4bc241e18ce646fc12480f3303cf",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -19808,7 +20019,11 @@
         "candidateSha256": "db51da6ae6ba0ab2e5008be49cf667642313e8d56e6499c42e4224bca0130ecb",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -19923,7 +20138,11 @@
         "candidateSha256": "a5852733badb218a4a25a85bea06480657682d80ca34d4bfcff5691611cd76de",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -20038,7 +20257,11 @@
         "candidateSha256": "0b029b59ead40cd28f3757265fdd7d557f00d347159f02b22d7753f264d7f91c",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -20153,7 +20376,11 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -20314,7 +20541,11 @@
         "candidateSha256": "d406a10109e52abfa58c3767551a612e0ec12ef405d7fdf808cab501d30f7268",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -20463,7 +20694,11 @@
         "candidateSha256": "bf26b9374fc305af52e7298934a54244aec5bec0166017ae5a99a38a2019ddcc",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -20579,7 +20814,11 @@
         "candidateSha256": "2f03daad0fc690bb96164e1a92da5c62977a842dcb59c85cf45484e88d9587eb",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -20696,7 +20935,11 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -20811,7 +21054,11 @@
         "candidateSha256": "9970f08a9e2569f15604a4339c9b6a5b8c2200814db05835a68f79a6ffbf957c",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -20926,7 +21173,11 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -21076,7 +21327,11 @@
         "candidateSha256": "c08257b3fbd500d448b87d250e2a23c51d416a212e3d0398f29f9ce12b709cae",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -21191,7 +21446,11 @@
         "candidateSha256": "57f2ca0fcc9b7f29fb8c9df4c93f3d4fe1b474254839a285f08f7f6a1a4e886d",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -21421,7 +21680,11 @@
         "candidateSha256": "841a100c48f51a135dbb6d4457ec5523af2030611cbbac1f2212b388be5a8b4e",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -21536,7 +21799,11 @@
         "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -21687,7 +21954,11 @@
         "candidateSha256": "247eeb25c0f1c0b5448fabd16512d9c7b2632660fc08f3cd67bac0d9335c5ff0",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -21837,7 +22108,11 @@
         "candidateSha256": "07cbc606f8138ec61cbd8600cd53ce9eaf392241960cb54ea72016a67b0c219b",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -21996,7 +22271,11 @@
         "candidateSha256": "2f03daad0fc690bb96164e1a92da5c62977a842dcb59c85cf45484e88d9587eb",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -22111,7 +22390,11 @@
         "candidateSha256": "d406a10109e52abfa58c3767551a612e0ec12ef405d7fdf808cab501d30f7268",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -22258,7 +22541,11 @@
         "candidateSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -22373,7 +22660,11 @@
         "candidateSha256": "bb0306ca12eadabdad3d05aacb606b347bd393ffc7aa17205da345e3da08e97c",
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -22488,7 +22779,11 @@
         "candidateSha256": "236893b5c78b978396c454075554616b29060bbb8f9d2fe733846f0407faea51",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -22603,7 +22898,11 @@
         "candidateSha256": "259e4ac0b29cd92c3b0dc2597c3ad794fbdc00ae74498971b53c2fa7d0d1c35c",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -22719,7 +23018,11 @@
         "candidateSha256": "c08257b3fbd500d448b87d250e2a23c51d416a212e3d0398f29f9ce12b709cae",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -22834,7 +23137,11 @@
         "candidateSha256": "71a75a0bc1f94fc7f85656db90fa4096eb1d7ad7b228179db0b7000c085fa989",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -22979,7 +23286,11 @@
         "candidateSha256": "07cbc606f8138ec61cbd8600cd53ce9eaf392241960cb54ea72016a67b0c219b",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -23094,7 +23405,11 @@
         "candidateSha256": "2f03daad0fc690bb96164e1a92da5c62977a842dcb59c85cf45484e88d9587eb",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -23212,7 +23527,8 @@
           "heroSourceInventory",
           "eightNextDirectMagicHitBackfill",
           "sevenNextOrdinaryUseBackfill",
-          "sevenNextUseDescriptionCleanup"
+          "sevenNextUseDescriptionCleanup",
+          "remainingUltimateCategoryBackfill"
         ],
         "currentComponentCounts": {
           "parameters": 7,
@@ -23249,7 +23565,10 @@
           "changedDescriptions": 2,
           "numericAndProcessChanges": 0,
           "browser": "待验"
-        }
+        },
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
+        ]
       },
       {
         "sourceChampionId": "Lillia",
@@ -23363,7 +23682,11 @@
         "candidateSha256": "9d278c07710b96dc7d29a91df2160ea34954daccb8cf576a0e72492295cf0313",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -23584,7 +23907,11 @@
         "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -23699,7 +24026,11 @@
         "candidateSha256": "a5852733badb218a4a25a85bea06480657682d80ca34d4bfcff5691611cd76de",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -23815,7 +24146,11 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -23952,7 +24287,8 @@
           "heroSourceInventory",
           "jannaLuluExplicitSelfBackfill",
           "fiveSelfSkillCostCooldownBackfill",
-          "fourSkillCostDescriptionCorrections"
+          "fourSkillCostDescriptionCorrections",
+          "remainingUltimateCategoryBackfill"
         ],
         "historicalPendingCounts": {
           "source": 0,
@@ -23982,7 +24318,10 @@
           "httpReadback": "PASS",
           "browser": "待验",
           "castDurationClaim": "未声明，立即步骤只用于使用登记"
-        }
+        },
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
+        ]
       },
       {
         "sourceChampionId": "Lux",
@@ -24365,7 +24704,8 @@
           "skillThirdStageCurrentReadback",
           "heroSourceInventory",
           "eightSkillsTenDamageVampCorrection",
-          "brandEMalphiteERUseBackfill"
+          "brandEMalphiteERUseBackfill",
+          "remainingUltimateCategoryBackfill"
         ],
         "currentComponentCounts": {
           "parameters": 5,
@@ -24393,7 +24733,10 @@
           "ruleKey": "on_used_cost_and_cooldown",
           "httpReadback": "PASS",
           "browser": "待验"
-        }
+        },
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
+        ]
       },
       {
         "sourceChampionId": "Malzahar",
@@ -24546,7 +24889,11 @@
         "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -24661,7 +25008,11 @@
         "candidateSha256": "a07d0fa895cfdd6babaeb6c711d5e5b86dbd5a05530933d6d571baeb70aa6c6d",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -24776,7 +25127,11 @@
         "candidateSha256": "d4856e5e8914e8a02c8d02a264c1e84acc84171d8733f434db345ef69b28bc0e",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -24891,7 +25246,11 @@
         "candidateSha256": "71a75a0bc1f94fc7f85656db90fa4096eb1d7ad7b228179db0b7000c085fa989",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -25006,7 +25365,11 @@
         "candidateSha256": "d0e2ecf93dce78d41da7e01190a8092704120a198c255625086c9cb1513017a5",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -25121,7 +25484,11 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -25236,7 +25603,11 @@
         "candidateSha256": "0b029b59ead40cd28f3757265fdd7d557f00d347159f02b22d7753f264d7f91c",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -25351,7 +25722,11 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -25735,7 +26110,11 @@
         "candidateSha256": "236893b5c78b978396c454075554616b29060bbb8f9d2fe733846f0407faea51",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -26070,7 +26449,11 @@
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
           "heroSourceInventory",
-          "threeHeroCastProcessEntryBackfillFifth"
+          "threeHeroCastProcessEntryBackfillFifth",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -26225,7 +26608,11 @@
         "candidateSha256": "9ce3115402b975c25dc86ce779179e094fba433ff3273a3aac5d06952547e074",
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -26364,7 +26751,11 @@
         "candidateSha256": "0b029b59ead40cd28f3757265fdd7d557f00d347159f02b22d7753f264d7f91c",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -26479,7 +26870,11 @@
         "candidateSha256": "9970f08a9e2569f15604a4339c9b6a5b8c2200814db05835a68f79a6ffbf957c",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -26594,7 +26989,11 @@
         "candidateSha256": "b79197a5ca3d1762bdbc5955871d4c17e6923274e318913cf8843481254122c8",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -26710,7 +27109,11 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -26825,7 +27228,11 @@
         "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -26941,7 +27348,11 @@
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
           "heroSourceInventory",
-          "threeSkillPersistentAttributeInitializationBackfill"
+          "threeSkillPersistentAttributeInitializationBackfill",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -27124,7 +27535,8 @@
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
           "heroSourceInventory",
-          "eightControlBodyDamageBackfill"
+          "eightControlBodyDamageBackfill",
+          "remainingUltimateCategoryBackfill"
         ],
         "currentComponentCounts": {
           "parameters": 5,
@@ -27150,7 +27562,10 @@
           "basisOutputKind": "POST_DEFENSE_DAMAGE",
           "efficiency": 1,
           "browser": "待验"
-        }
+        },
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
+        ]
       },
       {
         "sourceChampionId": "Ornn",
@@ -27264,7 +27679,11 @@
         "candidateSha256": "3837264e96ce61ca1cb420a0d37cdadb19d5d3082240f92cff29baff335875b1",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -27379,7 +27798,11 @@
         "candidateSha256": "d4856e5e8914e8a02c8d02a264c1e84acc84171d8733f434db345ef69b28bc0e",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -27494,7 +27917,11 @@
         "candidateSha256": "a07d0fa895cfdd6babaeb6c711d5e5b86dbd5a05530933d6d571baeb70aa6c6d",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -27609,7 +28036,11 @@
         "candidateSha256": "84b2ca1c5cadd804a569482d71b1ba262b95335d71ee9f89b127523574367023",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -27724,7 +28155,11 @@
         "candidateSha256": "71a75a0bc1f94fc7f85656db90fa4096eb1d7ad7b228179db0b7000c085fa989",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -27873,7 +28308,11 @@
         "candidateSha256": "259e4ac0b29cd92c3b0dc2597c3ad794fbdc00ae74498971b53c2fa7d0d1c35c",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -27989,7 +28428,11 @@
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
-          "fourHeroSelfBuffTriggerBackfill"
+          "fourHeroSelfBuffTriggerBackfill",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -28104,7 +28547,11 @@
         "candidateSha256": "7fddee3b4b2fd121d3c053ba20388a69e38e2069a42ad7b80a054c56b70ce5c9",
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -28219,7 +28666,11 @@
         "candidateSha256": "259e4ac0b29cd92c3b0dc2597c3ad794fbdc00ae74498971b53c2fa7d0d1c35c",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -28334,7 +28785,11 @@
         "candidateSha256": "0e07e0926380fa098ab3155a47fd3503e00aed7bc7088f4f6bb6c54133bbb383",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -28449,7 +28904,11 @@
         "candidateSha256": "d0e2ecf93dce78d41da7e01190a8092704120a198c255625086c9cb1513017a5",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -28564,7 +29023,11 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -28679,7 +29142,11 @@
         "candidateSha256": "bb0306ca12eadabdad3d05aacb606b347bd393ffc7aa17205da345e3da08e97c",
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -28794,7 +29261,11 @@
         "candidateSha256": "bb0306ca12eadabdad3d05aacb606b347bd393ffc7aa17205da345e3da08e97c",
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -28909,7 +29380,11 @@
         "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -29024,7 +29499,11 @@
         "candidateSha256": "247eeb25c0f1c0b5448fabd16512d9c7b2632660fc08f3cd67bac0d9335c5ff0",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -29139,7 +29618,11 @@
         "candidateSha256": "b79197a5ca3d1762bdbc5955871d4c17e6923274e318913cf8843481254122c8",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -29254,7 +29737,11 @@
         "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -29369,7 +29856,11 @@
         "candidateSha256": "84b2ca1c5cadd804a569482d71b1ba262b95335d71ee9f89b127523574367023",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -29485,7 +29976,11 @@
         "candidateSha256": "841a100c48f51a135dbb6d4457ec5523af2030611cbbac1f2212b388be5a8b4e",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -29762,7 +30257,11 @@
         "candidateSha256": "db51da6ae6ba0ab2e5008be49cf667642313e8d56e6499c42e4224bca0130ecb",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -29877,7 +30376,11 @@
         "candidateSha256": "3837264e96ce61ca1cb420a0d37cdadb19d5d3082240f92cff29baff335875b1",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -29992,7 +30495,11 @@
         "candidateSha256": "9970f08a9e2569f15604a4339c9b6a5b8c2200814db05835a68f79a6ffbf957c",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -30107,7 +30614,11 @@
         "candidateSha256": "9d278c07710b96dc7d29a91df2160ea34954daccb8cf576a0e72492295cf0313",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -30222,7 +30733,11 @@
         "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -30337,7 +30852,11 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -30453,7 +30972,11 @@
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
-          "fourHeroSelfBuffTriggerBackfillSecond"
+          "fourHeroSelfBuffTriggerBackfillSecond",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -30568,7 +31091,11 @@
         "candidateSha256": "b79197a5ca3d1762bdbc5955871d4c17e6923274e318913cf8843481254122c8",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -30768,7 +31295,11 @@
         "candidateSha256": "841a100c48f51a135dbb6d4457ec5523af2030611cbbac1f2212b388be5a8b4e",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -31049,7 +31580,11 @@
         "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -31304,7 +31839,11 @@
         "candidateSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -31419,7 +31958,11 @@
         "candidateSha256": "0e07e0926380fa098ab3155a47fd3503e00aed7bc7088f4f6bb6c54133bbb383",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -31534,7 +32077,11 @@
         "candidateSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -31649,7 +32196,11 @@
         "candidateSha256": "d4856e5e8914e8a02c8d02a264c1e84acc84171d8733f434db345ef69b28bc0e",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -31770,7 +32321,11 @@
         "candidateSha256": "0e07e0926380fa098ab3155a47fd3503e00aed7bc7088f4f6bb6c54133bbb383",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -31923,7 +32478,11 @@
         "candidateSha256": "db51da6ae6ba0ab2e5008be49cf667642313e8d56e6499c42e4224bca0130ecb",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -32038,7 +32597,11 @@
         "candidateSha256": "84b2ca1c5cadd804a569482d71b1ba262b95335d71ee9f89b127523574367023",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -32160,7 +32723,11 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -32279,7 +32846,11 @@
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
-          "sixHeroCastProcessEntryBackfillFourth"
+          "sixHeroCastProcessEntryBackfillFourth",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -32394,7 +32965,11 @@
         "candidateSha256": "85ce89e6cead0c7c6b243643ed75a829349d9c7260973643d089cfa6bbc28028",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -32530,7 +33105,11 @@
         "candidateSha256": "84b2ca1c5cadd804a569482d71b1ba262b95335d71ee9f89b127523574367023",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -32648,7 +33227,11 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -32764,7 +33347,8 @@
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
           "heroSourceInventory"
-        ]
+        ],
+        "categoryReview": "角色与能力根已核对，但没有明确终极标记；本轮保持原分类，未仅按R槽位补终极或普通技能分类。"
       },
       {
         "sourceChampionId": "Urgot",
@@ -33040,7 +33624,11 @@
         "candidateSha256": "c08257b3fbd500d448b87d250e2a23c51d416a212e3d0398f29f9ce12b709cae",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -33155,7 +33743,11 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -33485,7 +34077,11 @@
         "candidateSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -33727,7 +34323,11 @@
         "candidateSha256": "07cbc606f8138ec61cbd8600cd53ce9eaf392241960cb54ea72016a67b0c219b",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -33844,7 +34444,11 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -33959,7 +34563,11 @@
         "candidateSha256": "d406a10109e52abfa58c3767551a612e0ec12ef405d7fdf808cab501d30f7268",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -34074,7 +34682,11 @@
         "candidateSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -34189,7 +34801,11 @@
         "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -34305,7 +34921,11 @@
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
-          "fourHeroSelfBuffTriggerBackfill"
+          "fourHeroSelfBuffTriggerBackfill",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -34424,7 +35044,11 @@
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
           "heroSourceInventory",
-          "sixHeroCastProcessEntryBackfillFourth"
+          "sixHeroCastProcessEntryBackfillFourth",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -34539,7 +35163,11 @@
         "candidateSha256": "57f2ca0fcc9b7f29fb8c9df4c93f3d4fe1b474254839a285f08f7f6a1a4e886d",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -34689,7 +35317,11 @@
         "candidateSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -34806,7 +35438,11 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -34921,7 +35557,11 @@
         "candidateSha256": "2efb89e7a4698b77b12a438922b1f9c5353460eb711e299039ab613c3cea7e12",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -35036,7 +35676,11 @@
         "candidateSha256": "2efb89e7a4698b77b12a438922b1f9c5353460eb711e299039ab613c3cea7e12",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -35151,7 +35795,11 @@
         "candidateSha256": "d406a10109e52abfa58c3767551a612e0ec12ef405d7fdf808cab501d30f7268",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -35266,7 +35914,11 @@
         "candidateSha256": "71a75a0bc1f94fc7f85656db90fa4096eb1d7ad7b228179db0b7000c085fa989",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -35381,7 +36033,11 @@
         "candidateSha256": "0b029b59ead40cd28f3757265fdd7d557f00d347159f02b22d7753f264d7f91c",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -35497,7 +36153,11 @@
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
-          "threeSkillPersistentAttributeInitializationBackfill"
+          "threeSkillPersistentAttributeInitializationBackfill",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -35612,7 +36272,11 @@
         "candidateSha256": "772528a5abd0ec24285f4db64f7cb03b5c6415a106aa83fbb7ffe40b651d3358",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -35727,7 +36391,11 @@
         "candidateSha256": "236893b5c78b978396c454075554616b29060bbb8f9d2fe733846f0407faea51",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -35842,7 +36510,11 @@
         "candidateSha256": "57f2ca0fcc9b7f29fb8c9df4c93f3d4fe1b474254839a285f08f7f6a1a4e886d",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -35997,7 +36669,11 @@
         "candidateSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -36137,7 +36813,11 @@
         "candidateSha256": "07cbc606f8138ec61cbd8600cd53ce9eaf392241960cb54ea72016a67b0c219b",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -36252,7 +36932,11 @@
         "candidateSha256": "71e82f521f48fdb76e16d124f378cc7adc427b9be10c7e166068e079c98d6fc3",
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -36446,7 +37130,11 @@
         "candidateSha256": "db51da6ae6ba0ab2e5008be49cf667642313e8d56e6499c42e4224bca0130ecb",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       }
     ],
