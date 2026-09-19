@@ -20,7 +20,7 @@ describe('statusClient', () => {
     expect(() => parseStatus({ statusKey: 'slow', statusKind })).toThrow('状态种类');
   });
 
-  it.each(['STUN', 'MOVEMENT_SLOW', 'ROOT'])('列表和详情保留显式种类 %s', async (statusKind) => {
+  it.each(['STUN', 'MOVEMENT_SLOW', 'ROOT', 'SILENCE'])('列表和详情保留显式种类 %s', async (statusKind) => {
     const row = { statusKey: 'arbitrary_key', statusKind, status: 'DISABLED' };
     vi.stubGlobal('fetch', vi.fn(async (input: RequestInfo | URL) => jsonResponse(200,
       String(input).endsWith('/statuses') ? { items: [row], total: 1 } : row)));
