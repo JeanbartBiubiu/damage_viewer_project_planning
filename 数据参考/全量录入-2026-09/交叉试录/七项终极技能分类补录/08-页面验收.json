@@ -1,0 +1,21 @@
+{
+  "at": "2026-09-19T11:16:44.646Z",
+  "status": "PASS",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "skills": [
+    "sett_r",
+    "nami_r",
+    "urgot_r",
+    "morgana_r",
+    "lux_r",
+    "veigar_r",
+    "annie_r"
+  ],
+  "browserWrites": 7,
+  "checks": [
+    "7项逐个查询、编辑，仅从空分类选终极技能，保存各一次；逐项实时GET核对其他字段不变。",
+    "瑟提保存后列表确认终极技能；安妮和厄加特保存后重开详情确认分类、三级、启用、排序4和原说明。",
+    "控制台错误日志为空。"
+  ],
+  "runtimeValidation": "未执行"
+}
