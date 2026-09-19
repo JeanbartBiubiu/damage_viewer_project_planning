@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-19T12:58:16.164Z",
+  "generatedAt": "2026-09-19T13:09:00.037Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -11368,6 +11368,26 @@
         "commit": "37cd3902",
         "sha256": "1d614cef62d93c2bbc9ae6d63b75db46ecb3753622b60534317d40eda3a5a21d"
       }
+    },
+    "revitalizeAmplificationReturnAudit": {
+      "at": "2026-09-19T13:09:00.037Z",
+      "status": "同类返回确认5%基础无需重录，10%分支的剩余资料与即时资格缺口已具体化",
+      "runeKey": "rune_8453",
+      "currentGETs": 15,
+      "businessWrites": 0,
+      "independentReview": "本地固定来源与契约只读核对通过；没有额外HTTP",
+      "resolved": "收到普通护盾结果类型",
+      "remaining": [
+        "自施同时满足施放/获得时的次数及组合",
+        "严格低生命资格在本次接收数值前的采样契约，含40%等号与跨界"
+      ],
+      "runtimeValidation": "未执行，不作为本次资料或管理缺口的替代解释",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/复苏增幅返回核对/03-独立核对结论.json",
+        "commit": "3755f766",
+        "sha256": "487443ed4755d7a9d9fd363c1a6276c2e704f1d456e6424b6bcf54b82ce38c52"
+      }
     }
   },
   "runtimeValidation": "未执行",
@@ -11913,6 +11933,12 @@
         "relativePath": "数据参考/全量录入-2026-09/收到护盾修正补齐/10-证据清单.json",
         "commit": "37cd3902",
         "sha256": "1d614cef62d93c2bbc9ae6d63b75db46ecb3753622b60534317d40eda3a5a21d"
+      },
+      "revitalizeAmplificationReturnAudit": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/复苏增幅返回核对/03-独立核对结论.json",
+        "commit": "3755f766",
+        "sha256": "487443ed4755d7a9d9fd363c1a6276c2e704f1d456e6424b6bcf54b82ce38c52"
       }
     },
     "coverage": {
@@ -11967,8 +11993,8 @@
         "conclusions": {
           "已录入": 3,
           "明确排除": 9,
-          "资料待核": 34,
-          "系统暂缓": 23
+          "资料待核": 35,
+          "系统暂缓": 22
         },
         "mountedInScopeItems": 60,
         "explicitExclusions": 9,
@@ -38140,15 +38166,16 @@
         "runeKey": "rune_8453",
         "name": "复苏",
         "category": "MINOR",
-        "conclusion": "系统暂缓",
+        "conclusion": "资料待核",
         "conclusionScope": "符文范围内数据与机制",
-        "reason": "来源确定组成已保存或可表达；仍有1项事件、条件、状态、选择或作用范围缺口。",
-        "sourcePendingCount": 0,
+        "reason": "基础5%强度及初始化完整，收到护盾结果种类缺口已关闭；低生命额外10%的自施双方向次数/组合仍缺固定来源，且每次接收数值前的严格资格采样与跨事件时序仍需管理契约。不能用常驻增幅或连续公式近似。",
+        "sourcePendingCount": 1,
         "systemPendingCount": 1,
         "evidenceRefs": [
           "runeCurrentReadback",
           "runeMechanismInventory",
-          "runeFinalCoverage"
+          "runeFinalCoverage",
+          "revitalizeAmplificationReturnAudit"
         ]
       },
       {
