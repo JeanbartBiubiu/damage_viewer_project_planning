@@ -1,0 +1,205 @@
+{
+  "toolExitCode": 0,
+  "stdout": "{\"status\":\"PASS\",\"at\":\"2026-09-19T04:39:51.973Z\",\"businessWrites\":0,\"GETs\":27,\"unchangedResponsesIncludingTimestamps\":25,\"expectedChangedCollections\":1,\"newObjects\":{\"/skills/nami_q/trigger-rules/actual_hit\":{\"actions\":[{\"actionKey\":\"execute_primary_hit\",\"actionType\":\"EXECUTE_EFFECT\",\"detail\":{\"effectKey\":\"primary_hit\"},\"name\":\"执行娜美·碧波之牢直接伤害\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[{\"conditions\":[{\"conditionKey\":\"champion_target\",\"conditionType\":\"TARGET_CATEGORY_CHECK\",\"detail\":{\"categories\":[\"CHAMPION\"]},\"sortOrder\":10},{\"conditionKey\":\"enemy_target\",\"conditionType\":\"SKILL_HIT_TARGET_IS_ENEMY\",\"detail\":{},\"sortOrder\":20}],\"groupKey\":\"champion_target\",\"name\":\"本轮敌方英雄\",\"sortOrder\":10}],\"description\":\"娜美Q实际命中本轮敌方英雄时执行已有primary_hit；同组同时要求英雄类别与明确敌方关系，自身、友方或关系未知不匹配。悬浮控制与友方被动收益另行处理。\",\"eventSource\":{\"detail\":{\"sourceSkillKey\":\"nami_q\",\"useKind\":null},\"eventType\":\"SKILL_HIT\"},\"maxTriggersPerProcess\":null,\"name\":\"娜美·碧波之牢本体实际命中\",\"perTargetCooldown\":null,\"ruleKey\":\"actual_hit\",\"sortOrder\":10}},\"audit\":[{\"method\":\"GET\",\"path\":\"/skills/nami_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_nami\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_nami/attributes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_nami/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_q/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?characterKey=champion_nami\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?skillKey=nami_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_q/parameters\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_q/parameters/base_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_q/parameters/ap_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_q/parameters/stun_duration_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_q/parameters/cooldown_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_q/parameters/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_q/formulas\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_q/formulas/magic_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_q/effects\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_q/effects/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_q/effects/primary_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_q/processes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_q/processes/use_cost_and_cooldown\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_q/internal-states\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_q/trigger-rules\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_q/trigger-rules/on_used_cost_and_cooldown\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nami_q/trigger-rules/actual_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/attributes/ability_power\",\"status\":200},{\"method\":\"GET\",\"path\":\"/attributes/mana\",\"status\":200},{\"method\":\"GET\",\"path\":\"/damage-types/magic\",\"status\":200}]}\n",
+  "summary": {
+    "status": "PASS",
+    "at": "2026-09-19T04:39:51.973Z",
+    "businessWrites": 0,
+    "GETs": 27,
+    "unchangedResponsesIncludingTimestamps": 25,
+    "expectedChangedCollections": 1,
+    "newObjects": {
+      "/skills/nami_q/trigger-rules/actual_hit": {
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "name": "执行娜美·碧波之牢直接伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "detail": {},
+                "sortOrder": 20
+              }
+            ],
+            "groupKey": "champion_target",
+            "name": "本轮敌方英雄",
+            "sortOrder": 10
+          }
+        ],
+        "description": "娜美Q实际命中本轮敌方英雄时执行已有primary_hit；同组同时要求英雄类别与明确敌方关系，自身、友方或关系未知不匹配。悬浮控制与友方被动收益另行处理。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "nami_q",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "娜美·碧波之牢本体实际命中",
+        "perTargetCooldown": null,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10
+      }
+    },
+    "audit": [
+      {
+        "method": "GET",
+        "path": "/skills/nami_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_nami",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_nami/attributes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_nami/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_q/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?characterKey=champion_nami",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?skillKey=nami_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_q/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_q/parameters/base_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_q/parameters/ap_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_q/parameters/stun_duration_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_q/parameters/cooldown_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_q/parameters/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_q/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_q/formulas/magic_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_q/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_q/effects/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_q/effects/primary_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_q/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_q/processes/use_cost_and_cooldown",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_q/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_q/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_q/trigger-rules/on_used_cost_and_cooldown",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nami_q/trigger-rules/actual_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/attributes/ability_power",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/attributes/mana",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/damage-types/magic",
+        "status": 200
+      }
+    ]
+  }
+}

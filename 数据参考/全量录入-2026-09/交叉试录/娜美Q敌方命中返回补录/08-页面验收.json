@@ -1,0 +1,15 @@
+{
+  "at": "2026-09-19T04:46:25.168Z",
+  "status": "PASS",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "browserBusinessWrites": 0,
+  "mode": "成熟接口补录后真实页面核对",
+  "checks": [
+    "技能行稳定标识nami_q与碧波之牢匹配。",
+    "规则列表保留旧on_used_cost_and_cooldown，新增actual_hit为技能命中、1组1动作、排序10。",
+    "打开新规则，来源为nami_q，同组明确显示英雄类别并且技能命中敌方对象。",
+    "唯一动作对当前目标执行primary_hit，无动态输入或额外结果修正。",
+    "核对后取消关闭，未点击保存或改写任何数据。"
+  ],
+  "runtimeValidation": "未执行"
+}
