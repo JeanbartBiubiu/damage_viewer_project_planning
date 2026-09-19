@@ -10,6 +10,7 @@ export type SkillEffectResultType =
   | 'LIFECYCLE_OPERATION'
   | 'DAMAGE_MODIFIER'
   | 'HEALING_MODIFIER'
+  | 'SHIELD_RECEIVED_MODIFIER'
   | 'DAMAGE_IMMUNITY'
   | 'HEALTH_FLOOR'
   | 'SPELL_SHIELD'
@@ -144,6 +145,11 @@ export type SkillEffectHealingModifierDetail = {
   direction: SkillEffectHealingModifierDirection;
   operation: SkillEffectModifierOperation;
   healingKind: SkillEffectHealingKind;
+};
+
+export type SkillEffectShieldReceivedModifierDetail = {
+  modifierZoneKey: string;
+  operation: SkillEffectModifierOperation;
 };
 
 export type SkillEffectDamageImmunityDetail = {
@@ -299,6 +305,12 @@ export type SkillEffectHealingModifierResult = SkillEffectResultBase & {
   detail: SkillEffectHealingModifierDetail;
 };
 
+export type SkillEffectShieldReceivedModifierResult = SkillEffectResultBase & {
+  resultType: 'SHIELD_RECEIVED_MODIFIER';
+  valueRule: SkillEffectValueRule;
+  detail: SkillEffectShieldReceivedModifierDetail;
+};
+
 export type SkillEffectDamageImmunityResult = SkillEffectResultBase & {
   resultType: 'DAMAGE_IMMUNITY';
   valueRule: null;
@@ -352,6 +364,7 @@ export type SkillEffectResult =
   | SkillEffectLifecycleOperationResult
   | SkillEffectDamageModifierResult
   | SkillEffectHealingModifierResult
+  | SkillEffectShieldReceivedModifierResult
   | SkillEffectDamageImmunityResult
   | SkillEffectHealthFloorResult
   | SkillEffectSpellShieldResult

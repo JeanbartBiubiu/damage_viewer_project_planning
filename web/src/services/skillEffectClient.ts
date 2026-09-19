@@ -23,6 +23,7 @@ const RESULT_TYPES = new Set<SkillEffectResultType>([
   'LIFECYCLE_OPERATION',
   'DAMAGE_MODIFIER',
   'HEALING_MODIFIER',
+  'SHIELD_RECEIVED_MODIFIER',
   'DAMAGE_IMMUNITY',
   'HEALTH_FLOOR',
   'SPELL_SHIELD',
@@ -358,6 +359,23 @@ function assertResult(value: unknown, path: string): SkillEffectResult {
       assertEnum(detail.originKind, DAMAGE_FILTER_ORIGIN_KINDS, `${path}.detail.originKind`);
       assertEnum(detail.criticalFilter, CRITICAL_FILTERS, `${path}.detail.criticalFilter`);
       break;
+    case 'SHIELD_RECEIVED_MODIFIER': {
+      assertExactDetailKeys(detail, ['modifierZoneKey', 'operation'], path);
+      assertString(detail.modifierZoneKey, path + '.detail.modifierZoneKey');
+      assertEnum(detail.operation, MODIFIER_OPERATIONS, path + '.detail.operation');
+      if (!persistent) protocolError(path + '.lifecycleBehavior');
+      const behavior = value.lifecycleBehavior;
+      if (!isRecord(behavior)) protocolError(path + '.lifecycleBehavior');
+      assertEnum(behavior.valueReadMode, new Set(['APPLICATION_SNAPSHOT', 'MOMENT_EVALUATION']), `${path}.lifecycleBehavior.valueReadMode`);
+      assertEnum(behavior.stackValueMode, new Set(['SHARED', 'PER_STACK']), `${path}.lifecycleBehavior.stackValueMode`);
+      if (behavior.periodicExecutionMode !== null) protocolError(`${path}.lifecycleBehavior.periodicExecutionMode`);
+      if (behavior.valueReadMode === 'MOMENT_EVALUATION' || behavior.stackValueMode === 'PER_STACK') {
+        if (behavior.reapplicationValueMode !== null) protocolError(`${path}.lifecycleBehavior.reapplicationValueMode`);
+      } else {
+        assertEnum(behavior.reapplicationValueMode, new Set(['KEEP', 'REPLACE', 'ADD']), `${path}.lifecycleBehavior.reapplicationValueMode`);
+      }
+      break;
+    }
     case 'HEALING_MODIFIER':
       assertEnum(detail.direction, HEALING_MODIFIER_DIRECTIONS, `${path}.detail.direction`);
       assertEnum(detail.operation, MODIFIER_OPERATIONS, `${path}.detail.operation`);
@@ -404,7 +422,8 @@ export function parseSkillEffect(value: unknown): SkillEffect {
   if (
     value.results.some((item) => (
       isRecord(item)
-      && (item.resultType === 'SPELL_SHIELD' || item.resultType === 'SKILL_HASTE_MODIFIER')
+      && (item.resultType === 'SPELL_SHIELD' || item.resultType === 'SKILL_HASTE_MODIFIER'
+        || item.resultType === 'SHIELD_RECEIVED_MODIFIER')
     ))
     && value.lifecycle === null
   ) {

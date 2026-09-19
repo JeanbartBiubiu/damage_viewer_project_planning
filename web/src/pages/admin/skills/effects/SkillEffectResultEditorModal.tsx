@@ -1690,6 +1690,24 @@ export function SkillEffectResultEditorModal({
             </>
           ) : null}
 
+          {draft.resultType === 'SHIELD_RECEIVED_MODIFIER' ? (
+            <>
+              <Alert type="info" content="修正作用对象本次收到的普通护盾量；不创建护盾，不改变既有剩余量或法术护盾次数。" />
+              {renderModifierZoneField()}
+              <Form.Item label="修正方式" required
+                validateStatus={errors.modifierOperation ? 'error' : undefined}
+                help={errors.modifierOperation}>
+                <Radio.Group aria-label="收到护盾修正方式" value={draft.modifierOperation}
+                  disabled={readOnly}
+                  onChange={(value) => patchDraft({ ...draft, modifierOperation: value as SkillEffectModifierOperation })}>
+                  {Object.entries(SKILL_EFFECT_MODIFIER_OPERATION_LABELS).map(([value, label]) => (
+                    <Radio key={value} value={value}>{label}</Radio>
+                  ))}
+                </Radio.Group>
+              </Form.Item>
+            </>
+          ) : null}
+
           {draft.resultType === 'HEALING_MODIFIER' ? (
             <>
               {renderModifierZoneField()}
