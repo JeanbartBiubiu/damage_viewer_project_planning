@@ -1,0 +1,935 @@
+{
+  "actualValues": {
+    "/skills/fixture_skill": {
+      "createdAt": "2026-09-01T00:00:00.000Z",
+      "description": "新技能说明",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "测试技能",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "fixture_skill",
+      "sortOrder": 1,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-19T00:00:01.000Z"
+    },
+    "/skills/fixture_skill/parameters": [
+      {
+        "createdAt": "2026-09-02T00:00:00.000Z",
+        "description": "新法力说明",
+        "fixedValue": 60,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法力",
+        "parameterKey": "mana_cost",
+        "skillKey": "fixture_skill",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T00:00:02.000Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-02T00:00:00.000Z",
+        "description": "新施法时间说明",
+        "fixedValue": 500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "fixture_skill",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T00:00:03.000Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-02T00:00:00.000Z",
+        "description": "未目标参数说明",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "强度",
+        "parameterKey": "power",
+        "skillKey": "fixture_skill",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-18T00:00:00.000Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/fixture_skill/parameters/mana_cost": {
+      "createdAt": "2026-09-02T00:00:00.000Z",
+      "description": "新法力说明",
+      "fixedValue": 60,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法力",
+      "parameterKey": "mana_cost",
+      "skillKey": "fixture_skill",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-19T00:00:02.000Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/fixture_skill/parameters/cast_time_ms": {
+      "createdAt": "2026-09-02T00:00:00.000Z",
+      "description": "新施法时间说明",
+      "fixedValue": 500,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "fixture_skill",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-19T00:00:03.000Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/fixture_skill/parameters/power": {
+      "createdAt": "2026-09-02T00:00:00.000Z",
+      "description": "未目标参数说明",
+      "fixedValue": 100,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "强度",
+      "parameterKey": "power",
+      "skillKey": "fixture_skill",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-18T00:00:00.000Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/fixture_skill/effects": [
+      {
+        "createdAt": "2026-09-04T00:00:00.000Z",
+        "description": "新效果说明",
+        "effectKey": "resource",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "资源变化",
+        "resultCount": 1,
+        "skillKey": "fixture_skill",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T00:00:04.000Z"
+      },
+      {
+        "createdAt": "2026-09-05T00:00:00.000Z",
+        "description": "未目标效果说明",
+        "effectKey": "other",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "其他效果",
+        "resultCount": 1,
+        "skillKey": "fixture_skill",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-18T00:00:00.000Z"
+      }
+    ],
+    "/skills/fixture_skill/effects/resource": {
+      "createdAt": "2026-09-04T00:00:00.000Z",
+      "description": "新效果说明",
+      "effectKey": "resource",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "资源变化",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗资源",
+          "resultKey": "resource",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "fixture_skill",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-19T00:00:04.000Z"
+    },
+    "/skills/fixture_skill/effects/other": {
+      "createdAt": "2026-09-05T00:00:00.000Z",
+      "description": "未目标效果说明",
+      "effectKey": "other",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "其他效果",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "health",
+            "operation": "ADD"
+          },
+          "lifecycleBehavior": null,
+          "name": "增加生命",
+          "resultKey": "health",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "FIXED",
+              "value": 1
+            }
+          }
+        }
+      ],
+      "skillKey": "fixture_skill",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-18T00:00:00.000Z"
+    },
+    "/skills/fixture_skill/formulas": [
+      {
+        "createdAt": "2026-09-06T00:00:00.000Z",
+        "description": "公式列表说明",
+        "formulaKey": "formula_a",
+        "gameId": "lol",
+        "name": "测试公式",
+        "skillKey": "fixture_skill",
+        "sortOrder": 1,
+        "updatedAt": "2026-09-18T00:00:00.000Z"
+      }
+    ],
+    "/skills/fixture_skill/formulas/formula_a": {
+      "createdAt": "2026-09-06T00:00:00.000Z",
+      "description": "公式详情说明",
+      "formulaKey": "formula_a",
+      "gameId": "lol",
+      "name": "测试公式",
+      "expression": {
+        "kind": "FIXED",
+        "value": 1
+      },
+      "skillKey": "fixture_skill",
+      "sortOrder": 1,
+      "updatedAt": "2026-09-18T00:00:00.000Z"
+    },
+    "/skills/fixture_skill/processes": [
+      {
+        "createdAt": "2026-09-07T00:00:00.000Z",
+        "description": "过程列表说明",
+        "gameId": "lol",
+        "name": "测试过程",
+        "processKey": "process_a",
+        "skillKey": "fixture_skill",
+        "sortOrder": 1,
+        "updatedAt": "2026-09-18T00:00:00.000Z"
+      }
+    ],
+    "/skills/fixture_skill/processes/process_a": {
+      "createdAt": "2026-09-07T00:00:00.000Z",
+      "description": "过程详情说明",
+      "gameId": "lol",
+      "name": "测试过程",
+      "processKey": "process_a",
+      "steps": [
+        {
+          "kind": "CAST"
+        }
+      ],
+      "skillKey": "fixture_skill",
+      "sortOrder": 1,
+      "updatedAt": "2026-09-18T00:00:00.000Z"
+    },
+    "/skills/fixture_skill/trigger-rules": [
+      {
+        "createdAt": "2026-09-08T00:00:00.000Z",
+        "description": "触发列表说明",
+        "gameId": "lol",
+        "name": "测试触发",
+        "ruleKey": "rule_a",
+        "skillKey": "fixture_skill",
+        "sortOrder": 1,
+        "updatedAt": "2026-09-18T00:00:00.000Z"
+      }
+    ],
+    "/skills/fixture_skill/trigger-rules/rule_a": {
+      "createdAt": "2026-09-08T00:00:00.000Z",
+      "description": "触发详情说明",
+      "gameId": "lol",
+      "name": "测试触发",
+      "ruleKey": "rule_a",
+      "condition": {
+        "kind": "ALWAYS"
+      },
+      "skillKey": "fixture_skill",
+      "sortOrder": 1,
+      "updatedAt": "2026-09-18T00:00:00.000Z"
+    }
+  },
+  "report": {
+    "schemaVersion": "authoring.independent-readback.v2",
+    "generatedAt": "2026-09-19T00:56:14.734Z",
+    "status": "FAIL",
+    "endpoint": "http://127.0.0.1:8080/api/admin/games/lol",
+    "requestMethod": "GET",
+    "methodsUsed": [
+      "GET"
+    ],
+    "requestAuth": "temporary_non_empty_bearer",
+    "realHTTP0": true,
+    "businessWrites": 0,
+    "businessWrites0": true,
+    "GETs": 14,
+    "selfSHA": "3b9c5c9e391f63175fdaec238a88b482b05c7e76dc00f2acc0eb2cd6eebcb994",
+    "scriptSha256": "3b9c5c9e391f63175fdaec238a88b482b05c7e76dc00f2acc0eb2cd6eebcb994",
+    "preflight": {
+      "batchDir": "C:\\project\\damage_web_dev\\数据参考\\__offline-description-readback-helper__\\body-read-error",
+      "reviewStatus": "APPROVED",
+      "writerPath": "tools/authoring/update-reviewed-descriptions-v2.mjs",
+      "lockedWriterSha256": "f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517",
+      "approvedShaChecks": [
+        {
+          "path": "tools/authoring/update-reviewed-descriptions-v2.mjs",
+          "expectedSha256": "f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517",
+          "actualSha256": "f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517",
+          "matches": true
+        },
+        {
+          "path": "01-纠错计划.json",
+          "expectedSha256": "bd9e5f5e8ded2a1b5ee4e7bd834bcdad9dbb8b792bb5ba1030e8ed22a702ba04",
+          "actualSha256": "bd9e5f5e8ded2a1b5ee4e7bd834bcdad9dbb8b792bb5ba1030e8ed22a702ba04",
+          "matches": true
+        },
+        {
+          "path": "02-冻结请求.json",
+          "expectedSha256": "722c4c877c7528eb45eb4187b59eace19e97f8622e5f2b8244628ccbf051899c",
+          "actualSha256": "722c4c877c7528eb45eb4187b59eace19e97f8622e5f2b8244628ccbf051899c",
+          "matches": true
+        },
+        {
+          "path": "03-来源摘要.json",
+          "expectedSha256": "d854a1281fc1f8cffac279f13ca581e79c918edddd2a03e9a3f14e12ae917996",
+          "actualSha256": "d854a1281fc1f8cffac279f13ca581e79c918edddd2a03e9a3f14e12ae917996",
+          "matches": true
+        },
+        {
+          "path": "04-写入前现值.json",
+          "expectedSha256": "f5f9496fa187c4e18001fdaa17e68597398ac9a88d7df9b1243ff31065243d6b",
+          "actualSha256": "f5f9496fa187c4e18001fdaa17e68597398ac9a88d7df9b1243ff31065243d6b",
+          "matches": true
+        }
+      ],
+      "sourceShaChecks": [
+        {
+          "root": "web",
+          "path": "数据参考/__offline-description-readback-helper__/body-read-error-source.md",
+          "expectedSha256": "1fc7cee1ef36f235a3504b6567f1d5fa17fe8c0cddec88ee993dce9095ca902f",
+          "actualSha256": "1fc7cee1ef36f235a3504b6567f1d5fa17fe8c0cddec88ee993dce9095ca902f",
+          "matches": true
+        }
+      ],
+      "freezeSourceSha256Matches": true,
+      "freezeBaselineSha256Matches": true,
+      "baselineBase": "http://127.0.0.1:8080/api/admin/games/lol",
+      "baselinePathCount": 14,
+      "baselineAuditCount": 14,
+      "writeStatus": "PASS",
+      "writeBusinessWritesAttempted": 4,
+      "targetRoutes": [
+        "/skills/fixture_skill",
+        "/skills/fixture_skill/parameters/mana_cost",
+        "/skills/fixture_skill/parameters/cast_time_ms",
+        "/skills/fixture_skill/effects/resource"
+      ]
+    },
+    "counts": {
+      "requestedGETs": 14,
+      "completedGETs": 14,
+      "successfulJSONResponses": 13,
+      "statusCounts": {
+        "200": 14
+      },
+      "targetDetailPaths": 4,
+      "targetListPaths": 2,
+      "changedDetailPass": 3,
+      "changedListPass": 2,
+      "unchangedResponsesIncludingTimestamps": 8,
+      "unchangedPathsExpected": 8,
+      "unchangedPathsPass": 8,
+      "expectedChangedCollections": 2,
+      "failureCount": 1
+    },
+    "expectedChangedCollections": 2,
+    "unchangedResponsesIncludingTimestamps": 8,
+    "changedDetails": {
+      "/skills/fixture_skill/parameters/mana_cost": {
+        "createdAt": "2026-09-02T00:00:00.000Z",
+        "description": "新法力说明",
+        "fixedValue": 60,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法力",
+        "parameterKey": "mana_cost",
+        "skillKey": "fixture_skill",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T00:00:02.000Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "/skills/fixture_skill/parameters/cast_time_ms": {
+        "createdAt": "2026-09-02T00:00:00.000Z",
+        "description": "新施法时间说明",
+        "fixedValue": 500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "fixture_skill",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T00:00:03.000Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "/skills/fixture_skill/effects/resource": {
+        "createdAt": "2026-09-04T00:00:00.000Z",
+        "description": "新效果说明",
+        "effectKey": "resource",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "资源变化",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗资源",
+            "resultKey": "resource",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "fixture_skill",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T00:00:04.000Z"
+      }
+    },
+    "values": {
+      "/skills/fixture_skill/parameters": [
+        {
+          "createdAt": "2026-09-02T00:00:00.000Z",
+          "description": "新法力说明",
+          "fixedValue": 60,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "法力",
+          "parameterKey": "mana_cost",
+          "skillKey": "fixture_skill",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-19T00:00:02.000Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-02T00:00:00.000Z",
+          "description": "新施法时间说明",
+          "fixedValue": 500,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "施法时间",
+          "parameterKey": "cast_time_ms",
+          "skillKey": "fixture_skill",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-19T00:00:03.000Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-02T00:00:00.000Z",
+          "description": "未目标参数说明",
+          "fixedValue": 100,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "强度",
+          "parameterKey": "power",
+          "skillKey": "fixture_skill",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-18T00:00:00.000Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ],
+      "/skills/fixture_skill/parameters/mana_cost": {
+        "createdAt": "2026-09-02T00:00:00.000Z",
+        "description": "新法力说明",
+        "fixedValue": 60,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法力",
+        "parameterKey": "mana_cost",
+        "skillKey": "fixture_skill",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T00:00:02.000Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "/skills/fixture_skill/parameters/cast_time_ms": {
+        "createdAt": "2026-09-02T00:00:00.000Z",
+        "description": "新施法时间说明",
+        "fixedValue": 500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "fixture_skill",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T00:00:03.000Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "/skills/fixture_skill/parameters/power": {
+        "createdAt": "2026-09-02T00:00:00.000Z",
+        "description": "未目标参数说明",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "强度",
+        "parameterKey": "power",
+        "skillKey": "fixture_skill",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-18T00:00:00.000Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "/skills/fixture_skill/effects": [
+        {
+          "createdAt": "2026-09-04T00:00:00.000Z",
+          "description": "新效果说明",
+          "effectKey": "resource",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "资源变化",
+          "resultCount": 1,
+          "skillKey": "fixture_skill",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-19T00:00:04.000Z"
+        },
+        {
+          "createdAt": "2026-09-05T00:00:00.000Z",
+          "description": "未目标效果说明",
+          "effectKey": "other",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "其他效果",
+          "resultCount": 1,
+          "skillKey": "fixture_skill",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-18T00:00:00.000Z"
+        }
+      ],
+      "/skills/fixture_skill/effects/resource": {
+        "createdAt": "2026-09-04T00:00:00.000Z",
+        "description": "新效果说明",
+        "effectKey": "resource",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "资源变化",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗资源",
+            "resultKey": "resource",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "fixture_skill",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T00:00:04.000Z"
+      },
+      "/skills/fixture_skill/effects/other": {
+        "createdAt": "2026-09-05T00:00:00.000Z",
+        "description": "未目标效果说明",
+        "effectKey": "other",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "其他效果",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "health",
+              "operation": "ADD"
+            },
+            "lifecycleBehavior": null,
+            "name": "增加生命",
+            "resultKey": "health",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "FIXED",
+                "value": 1
+              }
+            }
+          }
+        ],
+        "skillKey": "fixture_skill",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-18T00:00:00.000Z"
+      },
+      "/skills/fixture_skill/formulas": [
+        {
+          "createdAt": "2026-09-06T00:00:00.000Z",
+          "description": "公式列表说明",
+          "formulaKey": "formula_a",
+          "gameId": "lol",
+          "name": "测试公式",
+          "skillKey": "fixture_skill",
+          "sortOrder": 1,
+          "updatedAt": "2026-09-18T00:00:00.000Z"
+        }
+      ],
+      "/skills/fixture_skill/formulas/formula_a": {
+        "createdAt": "2026-09-06T00:00:00.000Z",
+        "description": "公式详情说明",
+        "formulaKey": "formula_a",
+        "gameId": "lol",
+        "name": "测试公式",
+        "expression": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "skillKey": "fixture_skill",
+        "sortOrder": 1,
+        "updatedAt": "2026-09-18T00:00:00.000Z"
+      },
+      "/skills/fixture_skill/processes": [
+        {
+          "createdAt": "2026-09-07T00:00:00.000Z",
+          "description": "过程列表说明",
+          "gameId": "lol",
+          "name": "测试过程",
+          "processKey": "process_a",
+          "skillKey": "fixture_skill",
+          "sortOrder": 1,
+          "updatedAt": "2026-09-18T00:00:00.000Z"
+        }
+      ],
+      "/skills/fixture_skill/processes/process_a": {
+        "createdAt": "2026-09-07T00:00:00.000Z",
+        "description": "过程详情说明",
+        "gameId": "lol",
+        "name": "测试过程",
+        "processKey": "process_a",
+        "steps": [
+          {
+            "kind": "CAST"
+          }
+        ],
+        "skillKey": "fixture_skill",
+        "sortOrder": 1,
+        "updatedAt": "2026-09-18T00:00:00.000Z"
+      },
+      "/skills/fixture_skill/trigger-rules": [
+        {
+          "createdAt": "2026-09-08T00:00:00.000Z",
+          "description": "触发列表说明",
+          "gameId": "lol",
+          "name": "测试触发",
+          "ruleKey": "rule_a",
+          "skillKey": "fixture_skill",
+          "sortOrder": 1,
+          "updatedAt": "2026-09-18T00:00:00.000Z"
+        }
+      ],
+      "/skills/fixture_skill/trigger-rules/rule_a": {
+        "createdAt": "2026-09-08T00:00:00.000Z",
+        "description": "触发详情说明",
+        "gameId": "lol",
+        "name": "测试触发",
+        "ruleKey": "rule_a",
+        "condition": {
+          "kind": "ALWAYS"
+        },
+        "skillKey": "fixture_skill",
+        "sortOrder": 1,
+        "updatedAt": "2026-09-18T00:00:00.000Z"
+      }
+    },
+    "audit": [
+      {
+        "requestIndex": 1,
+        "method": "GET",
+        "path": "/skills/fixture_skill",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": false,
+        "rawBodyLength": 0,
+        "responseSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "error": "BODY_READ_FAILED"
+      },
+      {
+        "requestIndex": 2,
+        "method": "GET",
+        "path": "/skills/fixture_skill/parameters",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 887,
+        "responseSha256": "bd3dced7d41330932cf60a4fa2c2c9e7c98b014a13697740cf0980f106bdda09"
+      },
+      {
+        "requestIndex": 3,
+        "method": "GET",
+        "path": "/skills/fixture_skill/parameters/mana_cost",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 288,
+        "responseSha256": "f7111552059bd35e03b0905e8000f83e14a35310e786e6594de3a3e359317bc3"
+      },
+      {
+        "requestIndex": 4,
+        "method": "GET",
+        "path": "/skills/fixture_skill/parameters/cast_time_ms",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 304,
+        "responseSha256": "9b39845b3f0a6134d66b8fff569c4ef93c26e06a5efa3162597120d8a36b747b"
+      },
+      {
+        "requestIndex": 5,
+        "method": "GET",
+        "path": "/skills/fixture_skill/parameters/power",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 291,
+        "responseSha256": "c4c42739934d8b1c6f549452db715470ac0d3317eb6e19cd0c5531fd17555bb7"
+      },
+      {
+        "requestIndex": 6,
+        "method": "GET",
+        "path": "/skills/fixture_skill/effects",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 514,
+        "responseSha256": "430f415e79a10d8fa6099cfa427cfe9494220ef3b835410c3c3851950c941d5e"
+      },
+      {
+        "requestIndex": 7,
+        "method": "GET",
+        "path": "/skills/fixture_skill/effects/resource",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 610,
+        "responseSha256": "dab9e183bd7dc174767062274509eb2ed2042e3e744725d80957b20f34847d5f"
+      },
+      {
+        "requestIndex": 8,
+        "method": "GET",
+        "path": "/skills/fixture_skill/effects/other",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 588,
+        "responseSha256": "53266e60f2ab09cc98f2f1de7e25269e297dbbcf953ebe18603c29874269c325"
+      },
+      {
+        "requestIndex": 9,
+        "method": "GET",
+        "path": "/skills/fixture_skill/formulas",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 219,
+        "responseSha256": "1a3985f7f8ae07a1f08df37503084dc423baf49e3087f76f6595a3155bfe41bb"
+      },
+      {
+        "requestIndex": 10,
+        "method": "GET",
+        "path": "/skills/fixture_skill/formulas/formula_a",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 257,
+        "responseSha256": "ac3c8135a35d8ceba1ca9da8d330122d4557037947a09e69ad701ea47495d8bc"
+      },
+      {
+        "requestIndex": 11,
+        "method": "GET",
+        "path": "/skills/fixture_skill/processes",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 219,
+        "responseSha256": "04324d40d6f9955910ea41de2328c94b3dfcbe32fc85de077fd3f782e051b8f0"
+      },
+      {
+        "requestIndex": 12,
+        "method": "GET",
+        "path": "/skills/fixture_skill/processes/process_a",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 243,
+        "responseSha256": "e2fbed072e1ed4ccbe439fcd89614e7a9b85cce7aa84bb9d58bc97bc097fd3cd"
+      },
+      {
+        "requestIndex": 13,
+        "method": "GET",
+        "path": "/skills/fixture_skill/trigger-rules",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 213,
+        "responseSha256": "9b2fbb9b2aae0acff1cbbb90667063339c86e0c94059f399399b02259d490dd8"
+      },
+      {
+        "requestIndex": 14,
+        "method": "GET",
+        "path": "/skills/fixture_skill/trigger-rules/rule_a",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 241,
+        "responseSha256": "e43b89fce9046639f11a67b761653973f4b7c8c4860e2b5cb0c9594b94486bd5"
+      }
+    ],
+    "failures": [
+      {
+        "path": "/skills/fixture_skill",
+        "category": "BODY",
+        "reasons": [
+          "BODY_READ_FAILED"
+        ]
+      }
+    ],
+    "detailEvidence": [
+      {
+        "path": "/skills/fixture_skill/parameters/mana_cost",
+        "kind": "parameter",
+        "descriptionMatchesApproved": true,
+        "createdAtUnchanged": true,
+        "updatedAtValid": true,
+        "updatedAtChanged": true,
+        "updatedAtAfterBaseline": true,
+        "pass": true
+      },
+      {
+        "path": "/skills/fixture_skill/parameters/cast_time_ms",
+        "kind": "parameter",
+        "descriptionMatchesApproved": true,
+        "createdAtUnchanged": true,
+        "updatedAtValid": true,
+        "updatedAtChanged": true,
+        "updatedAtAfterBaseline": true,
+        "pass": true
+      },
+      {
+        "path": "/skills/fixture_skill/effects/resource",
+        "kind": "effect",
+        "descriptionMatchesApproved": true,
+        "createdAtUnchanged": true,
+        "updatedAtValid": true,
+        "updatedAtChanged": true,
+        "updatedAtAfterBaseline": true,
+        "pass": true
+      }
+    ],
+    "collectionEvidence": [
+      {
+        "path": "/skills/fixture_skill/parameters",
+        "targets": [
+          {
+            "stableKey": "mana_cost",
+            "detailPath": "/skills/fixture_skill/parameters/mana_cost",
+            "descriptionMatchesDetail": true,
+            "updatedAtMatchesDetail": true,
+            "pass": true
+          },
+          {
+            "stableKey": "cast_time_ms",
+            "detailPath": "/skills/fixture_skill/parameters/cast_time_ms",
+            "descriptionMatchesDetail": true,
+            "updatedAtMatchesDetail": true,
+            "pass": true
+          }
+        ],
+        "pass": true
+      },
+      {
+        "path": "/skills/fixture_skill/effects",
+        "targets": [
+          {
+            "stableKey": "resource",
+            "detailPath": "/skills/fixture_skill/effects/resource",
+            "descriptionMatchesDetail": true,
+            "updatedAtMatchesDetail": true,
+            "pass": true
+          }
+        ],
+        "pass": true
+      }
+    ],
+    "unchangedPaths": [
+      "/skills/fixture_skill/parameters/power",
+      "/skills/fixture_skill/effects/other",
+      "/skills/fixture_skill/formulas",
+      "/skills/fixture_skill/formulas/formula_a",
+      "/skills/fixture_skill/processes",
+      "/skills/fixture_skill/processes/process_a",
+      "/skills/fixture_skill/trigger-rules",
+      "/skills/fixture_skill/trigger-rules/rule_a"
+    ]
+  }
+}

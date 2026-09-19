@@ -1,0 +1,137 @@
+{
+  "schemaVersion": "description-readback-helper.offline.v1",
+  "status": "PASS",
+  "selfSHA": "3b9c5c9e391f63175fdaec238a88b482b05c7e76dc00f2acc0eb2cd6eebcb994",
+  "scriptSha256": "3b9c5c9e391f63175fdaec238a88b482b05c7e76dc00f2acc0eb2cd6eebcb994",
+  "realHTTP0": true,
+  "businessWrites": 0,
+  "businessWrites0": true,
+  "cases": [
+    {
+      "case": "success",
+      "status": "PASS",
+      "expectedStatus": "PASS",
+      "statusMatches": true,
+      "GETs": 14,
+      "fetchCalls": 14,
+      "expectedGETs": 14,
+      "allMethodsGET": true,
+      "auditStatusPreserved": true,
+      "realHTTP0": true,
+      "businessWrites": 0,
+      "failureCategories": []
+    },
+    {
+      "case": "createdAt-drift",
+      "status": "FAIL",
+      "expectedStatus": "FAIL",
+      "statusMatches": true,
+      "GETs": 14,
+      "fetchCalls": 14,
+      "expectedGETs": 14,
+      "allMethodsGET": true,
+      "auditStatusPreserved": true,
+      "realHTTP0": true,
+      "businessWrites": 0,
+      "failureCategories": [
+        "TARGET_DETAIL"
+      ]
+    },
+    {
+      "case": "nested-numeric-drift",
+      "status": "FAIL",
+      "expectedStatus": "FAIL",
+      "statusMatches": true,
+      "GETs": 14,
+      "fetchCalls": 14,
+      "expectedGETs": 14,
+      "allMethodsGET": true,
+      "auditStatusPreserved": true,
+      "realHTTP0": true,
+      "businessWrites": 0,
+      "failureCategories": [
+        "UNCHANGED"
+      ]
+    },
+    {
+      "case": "list-detail-mismatch",
+      "status": "FAIL",
+      "expectedStatus": "FAIL",
+      "statusMatches": true,
+      "GETs": 14,
+      "fetchCalls": 14,
+      "expectedGETs": 14,
+      "allMethodsGET": true,
+      "auditStatusPreserved": true,
+      "realHTTP0": true,
+      "businessWrites": 0,
+      "failureCategories": [
+        "TARGET_LIST"
+      ]
+    },
+    {
+      "case": "bad-approval",
+      "status": "FAIL",
+      "expectedStatus": "FAIL",
+      "statusMatches": true,
+      "GETs": 0,
+      "fetchCalls": 0,
+      "expectedGETs": 0,
+      "allMethodsGET": true,
+      "auditStatusPreserved": true,
+      "realHTTP0": true,
+      "businessWrites": 0,
+      "failureCategories": [
+        "PREFLIGHT"
+      ]
+    },
+    {
+      "case": "bad-source-hash",
+      "status": "FAIL",
+      "expectedStatus": "FAIL",
+      "statusMatches": true,
+      "GETs": 0,
+      "fetchCalls": 0,
+      "expectedGETs": 0,
+      "allMethodsGET": true,
+      "auditStatusPreserved": true,
+      "realHTTP0": true,
+      "businessWrites": 0,
+      "failureCategories": [
+        "PREFLIGHT"
+      ]
+    },
+    {
+      "case": "status-201",
+      "status": "FAIL",
+      "expectedStatus": "FAIL",
+      "statusMatches": true,
+      "GETs": 14,
+      "fetchCalls": 14,
+      "expectedGETs": 14,
+      "allMethodsGET": true,
+      "auditStatusPreserved": true,
+      "realHTTP0": true,
+      "businessWrites": 0,
+      "failureCategories": [
+        "HTTP"
+      ]
+    },
+    {
+      "case": "body-read-error",
+      "status": "FAIL",
+      "expectedStatus": "FAIL",
+      "statusMatches": true,
+      "GETs": 14,
+      "fetchCalls": 14,
+      "expectedGETs": 14,
+      "allMethodsGET": true,
+      "auditStatusPreserved": true,
+      "realHTTP0": true,
+      "businessWrites": 0,
+      "failureCategories": [
+        "BODY"
+      ]
+    }
+  ]
+}
