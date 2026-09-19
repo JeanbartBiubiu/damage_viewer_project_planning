@@ -298,7 +298,8 @@ class SkillObjectReferencesTest {
                 {"resultKey":"hit_link","resultType":"HIT_LINK_APPLICATION","detail":{}},
                 {"resultKey":"attack_link","resultType":"ATTACK_LINK_APPLICATION","detail":{}},
                 {"resultKey":"haste","resultType":"SKILL_HASTE_MODIFIER","detail":{"affectedSkillScope":{"mode":"CATEGORIES","skillCategoryKeys":["magic"]}}},
-                {"resultKey":"shield_received_modifier","resultType":"SHIELD_RECEIVED_MODIFIER","detail":{"modifierZoneKey":"zone"}}
+                {"resultKey":"shield_received_modifier","resultType":"SHIELD_RECEIVED_MODIFIER","detail":{"modifierZoneKey":"zone"}},
+                {"resultKey":"attack_timer_reset","resultType":"ATTACK_TIMER_RESET","valueRule":null,"detail":{}}
              ],"description":"example parameterKey missing is plain text","unrelatedKey":"missing"}
             """));
         result.add(aggregate(SourceType.STATE, "s1", "counter", "{\"stateType\":\"COUNTER\",\"detail\":{\"initialValue\":{\"kind\":\"FORMULA\",\"formulaKey\":\"f\"},\"maxValue\":{\"kind\":\"FORMULA\",\"formulaKey\":\"f\"}}}"));

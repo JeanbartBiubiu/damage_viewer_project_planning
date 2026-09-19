@@ -193,6 +193,96 @@ class SkillEffectServiceTest {
     }
 
     @Test
+    void attackTimerResetRoundTripsEmptyDetailAndBothSubjectsWithoutNumericOutput() {
+        stubParentAndNewKey();
+        stubEnabledCatalogs();
+        when(mapper.findEffect(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> savedEffect);
+        for (SkillEffectTarget target : SkillEffectTarget.values()) {
+            SkillEffectResultRequest reset = attackTimerResetResult(target, null);
+            var parsed = AggregateJson.read(AggregateJson.write(reset), SkillEffectResultRequest.class);
+            assertInstanceOf(xyz.game.datamanage.model.skilleffect.SkillEffectAttackTimerResetDetail.class, parsed.detail());
+            assertTrue(parsed.detail().unknownFields().isEmpty());
+            SkillEffectDetailResponse saved = service.create(GAME_ID, SKILL_KEY, new SkillEffectCreateRequest(
+                EFFECT_KEY, "普攻计时重置", null, 10, null, List.of(parsed)
+            ));
+            assertEquals(target, saved.results().getFirst().target());
+            assertNull(saved.results().getFirst().valueRule());
+            assertNull(saved.results().getFirst().lifecycleBehavior());
+            assertEquals(AggregateJson.tree("{}"), AggregateJson.tree(AggregateJson.write(saved.results().getFirst().detail())));
+            assertTrue(xyz.game.datamanage.model.skilltrigger.SkillTriggerPriorResultOutputs.available(
+                xyz.game.datamanage.model.skilltrigger.SkillTriggerPriorResultOutputs.Shape.from(parsed, false)).isEmpty());
+        }
+    }
+
+    @Test
+    void attackTimerResetPreservesLegalDiscreteLifecycleMoments() {
+        stubParentAndNewKey();
+        stubEnabledCatalogs();
+        when(mapper.findEffect(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> savedEffect);
+        for (SkillEffectLifecycleMoment moment : SkillEffectLifecycleMoment.values()) {
+            if (moment == SkillEffectLifecycleMoment.PERSISTENT) continue;
+            var behavior = new SkillEffectResultLifecycleBehaviorRequest(moment, null, null, null,
+                moment == SkillEffectLifecycleMoment.PERIODIC ? SkillEffectLifecyclePeriodicExecutionMode.ONCE_PER_INSTANCE : null);
+            var lifecycle = timedLifecycle();
+            if (moment == SkillEffectLifecycleMoment.PERIODIC) {
+                lifecycle = new SkillEffectLifecycleRequest(lifecycle.durationValue(), lifecycle.maxStacksValue(),
+                    lifecycle.applicationStacksValue(), lifecycle.instanceScope(), lifecycle.reapplicationStackMode(),
+                    lifecycle.reapplicationDurationMode(), lifecycle.expiryMode(), SkillNumericValue.fixed(new BigDecimal("100")),
+                    SkillEffectLifecycleFirstPeriodicExecution.AFTER_INTERVAL);
+            }
+            SkillEffectDetailResponse saved = service.create(GAME_ID, SKILL_KEY, new SkillEffectCreateRequest(
+                EFFECT_KEY, "普攻计时重置", null, 10, lifecycle,
+                List.of(attackTimerResetResult(SkillEffectTarget.SOURCE, behavior))
+            ));
+            assertEquals(moment, saved.results().getFirst().lifecycleBehavior().moment());
+            assertNull(saved.results().getFirst().lifecycleBehavior().valueReadMode());
+        }
+    }
+
+    @Test
+    void attackTimerResetRejectsExtraDetailNumericRulesAndInvalidBehaviorBeforeSaving() {
+        stubParentAndNewKey();
+        stubEnabledCatalogs();
+        SkillEffectResultRequest reset = attackTimerResetResult(SkillEffectTarget.SOURCE, null);
+        for (String field : List.of("operation", "modifierZoneKey", "affectedSkillScope", "ratio")) {
+            ObjectNode encoded = (ObjectNode) AggregateJson.tree(AggregateJson.write(reset));
+            ((ObjectNode) encoded.path("detail")).putNull(field);
+            SkillEffectResultRequest extra = AggregateJson.read(encoded.toString(), SkillEffectResultRequest.class);
+            ApiException error = assertThrows(ApiException.class, () -> service.create(GAME_ID, SKILL_KEY,
+                new SkillEffectCreateRequest(EFFECT_KEY, "重置", null, 10, null, List.of(extra))));
+            assertField(error, "results[0].detail." + field, "UNKNOWN_FIELD");
+        }
+        SkillEffectResultRequest numeric = new SkillEffectResultRequest(reset.resultKey(), reset.name(),
+            reset.resultType(), reset.target(), null, 10, valueRule(), reset.detail(), null);
+        assertThrows(ApiException.class, () -> service.create(GAME_ID, SKILL_KEY,
+            new SkillEffectCreateRequest(EFFECT_KEY, "重置", null, 10, null, List.of(numeric))));
+        SkillEffectResultRequest blocking = new SkillEffectResultRequest(reset.resultKey(), reset.name(),
+            reset.resultType(), SkillEffectTarget.TARGET, null, 10, null, reset.detail(), null, SkillEffectSpellShieldBlockScope.RESULT);
+        assertField(assertThrows(ApiException.class, () -> service.create(GAME_ID, SKILL_KEY,
+            new SkillEffectCreateRequest(EFFECT_KEY, "重置", null, 10, null, List.of(blocking)))),
+            "results[0].spellShieldBlockScope", "INVALID_SPELL_SHIELD_SCOPE");
+        for (var behavior : List.of(
+            new SkillEffectResultLifecycleBehaviorRequest(SkillEffectLifecycleMoment.PERSISTENT, null, null, null, null),
+            new SkillEffectResultLifecycleBehaviorRequest(SkillEffectLifecycleMoment.APPLICATION, SkillEffectLifecycleValueReadMode.APPLICATION_SNAPSHOT, null, null, null),
+            new SkillEffectResultLifecycleBehaviorRequest(SkillEffectLifecycleMoment.APPLICATION, null, SkillEffectLifecycleStackValueMode.SHARED, null, null),
+            new SkillEffectResultLifecycleBehaviorRequest(SkillEffectLifecycleMoment.APPLICATION, null, null, SkillEffectLifecycleReapplicationValueMode.KEEP, null),
+            new SkillEffectResultLifecycleBehaviorRequest(SkillEffectLifecycleMoment.APPLICATION, null, null, null, SkillEffectLifecyclePeriodicExecutionMode.ONCE_PER_INSTANCE)
+        )) {
+            assertThrows(ApiException.class, () -> service.create(GAME_ID, SKILL_KEY,
+                new SkillEffectCreateRequest(EFFECT_KEY, "重置", null, 10, timedLifecycle(),
+                    List.of(attackTimerResetResult(SkillEffectTarget.SOURCE, behavior)))));
+        }
+        verify(mapper, never()).insertEffect(any(), any(), any(), any(), any(), any(), any(), any());
+    }
+
+    private static SkillEffectResultRequest attackTimerResetResult(
+        SkillEffectTarget target, SkillEffectResultLifecycleBehaviorRequest behavior
+    ) {
+        return new SkillEffectResultRequest("attack_reset", "普攻计时重置", SkillEffectResultType.ATTACK_TIMER_RESET,
+            target, null, 10, null, new xyz.game.datamanage.model.skilleffect.SkillEffectAttackTimerResetDetail(), behavior);
+    }
+
+    @Test
     void shieldReceivedModifierRejectsWrongDomainMissingValueAndDiscretePlacement() {
         stubParentAndNewKey();
         stubEnabledCatalogs();

@@ -454,6 +454,18 @@ class SkillTriggerRuleCycleServiceTest {
                 List.of(group), List.of(executeAction("deal", EFFECT_KEY)), null, null)));
     }
 
+    @Test
+    void attackTimerResetStillRejectsAnUnguardedResultAvailableSelfCycle() {
+        stubSelfResultCycle("reset_loop");
+        when(mapper.listEffectShapes(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            new SkillTriggerEffectShapeRow(EFFECT_KEY, RESULT_KEY, SkillEffectResultType.ATTACK_TIMER_RESET,
+                SkillEffectTarget.SOURCE, false, null, null, null, null, null, null, null, null,
+                false, null, null, null, null, null)
+        ));
+        assertCode("400.TRIGGER_RULE_CYCLE_UNGUARDED", () -> service.create(GAME_ID, SKILL_KEY,
+            rule("reset_loop", resultAvailable(EFFECT_KEY, RESULT_KEY), List.of(executeAction("deal", EFFECT_KEY)))));
+    }
+
     private void stubSelfResultCycle(String ruleKey) {
         when(mapper.listRules(GAME_ID, SKILL_KEY)).thenReturn(List.of(
             ruleRow(ruleKey, ruleKey, SkillTriggerEventType.RESULT_AVAILABLE)
