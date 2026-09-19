@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-19T11:36:12.741Z",
+  "generatedAt": "2026-09-19T12:58:16.164Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -11307,6 +11307,67 @@
         "commit": "6b00d7b4",
         "sha256": "18321035f76c1e1f30cd8c69186bda139a6090286b21666a624ee274d181b3ef"
       }
+    },
+    "spiritVisageShieldReceivedBackfill": {
+      "at": "2026-09-19T12:58:16.164Z",
+      "status": "收到普通护盾修正最小能力完成并返回振奋盔甲；当前1V1管理配置完整",
+      "sourceVersion": {
+        "client": "16.17",
+        "ddragon": "16.17.1"
+      },
+      "equipmentKey": "item_3065",
+      "skillKey": "item_3065_passive",
+      "backendCommit": "0062ddaa",
+      "frontendCommit": "5466fea1",
+      "database": {
+        "scriptExecutions": 1,
+        "independentReadOnlyQueries": 5,
+        "publicLogicalTables": 27,
+        "originalRowsAndTimestampsUnchangedAtMigration": true
+      },
+      "writes": {
+        "newModifierZones": 1,
+        "newEffects": 1,
+        "newInitializationRules": 1,
+        "descriptionUpdates": 5,
+        "total": 8,
+        "firstBrowserCreates": 3,
+        "descriptionBrowserUpdates": 2,
+        "protectedAPIUpdates": 3,
+        "deletes": 0
+      },
+      "verification": {
+        "backendTests": 999,
+        "frontendTests": 689,
+        "frontendStaticTypeBuild": "PASS",
+        "firstIndependentGETs": 21,
+        "descriptionIndependentGETs": 12,
+        "finalUIDescriptionIndependentGETs": 8,
+        "totalIndependentGETs": 41,
+        "browser": "PASS",
+        "unchangedOldHealingMechanics": true
+      },
+      "conclusion": {
+        "managementComplete": true,
+        "checked": [
+          "4项装备属性",
+          "1条唯一双向技能挂载",
+          "装备与技能代表图片",
+          "被动分类",
+          "0.25参数",
+          "治疗和收到护盾各1持续效果",
+          "各1来源初始化入口",
+          "当前说明与配置一致"
+        ],
+        "runtime": "未实现或验证战斗护盾结算、宿主及Wasm，不以此否定本轮管理完成"
+      },
+      "systemConclusion": "复用现有效果数组、生命周期、乘区和引用明细，只扩充结果种类与三个乘区检查约束，无新增表或旧设计兼容层。",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/收到护盾修正补齐/10-证据清单.json",
+        "commit": "37cd3902",
+        "sha256": "1d614cef62d93c2bbc9ae6d63b75db46ecb3753622b60534317d40eda3a5a21d"
+      }
     }
   },
   "runtimeValidation": "未执行",
@@ -11846,6 +11907,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/其余主R终极技能分类补录/09-证据清单.json",
         "commit": "6b00d7b4",
         "sha256": "18321035f76c1e1f30cd8c69186bda139a6090286b21666a624ee274d181b3ef"
+      },
+      "spiritVisageShieldReceivedBackfill": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/收到护盾修正补齐/10-证据清单.json",
+        "commit": "37cd3902",
+        "sha256": "1d614cef62d93c2bbc9ae6d63b75db46ecb3753622b60534317d40eda3a5a21d"
       }
     },
     "coverage": {
@@ -11881,17 +11948,18 @@
         "sourceItems": 868,
         "concludedItems": 868,
         "conclusions": {
-          "已录入": 52,
+          "已录入": 53,
           "明确排除": 581,
           "资料待核": 208,
-          "系统暂缓": 27
+          "系统暂缓": 26
         },
         "currentSubjects": 198,
         "currentSkillRelations": 146,
         "explicitExclusions": 581,
         "remainingInScopeItems": 0,
-        "openQueueItems": 235,
-        "status": "FULL_COVERAGE_WITH_OPEN_QUEUE"
+        "openQueueItems": 234,
+        "status": "FULL_COVERAGE_WITH_OPEN_QUEUE",
+        "managementCompleteItems": 53
       },
       "runes": {
         "sourceItems": 69,
@@ -41107,16 +41175,17 @@
         "currentEquipmentKey": "item_3065",
         "name": "振奋盔甲",
         "scopeCategory": "可购买普通装备候选",
-        "conclusion": "系统暂缓",
+        "conclusion": "已录入",
         "conclusionScope": "装备当前1V1数据与机制",
-        "reason": "受到治疗提高25%分支已保存并通过定点回读与真实页面验收；收到护盾增幅缺少结果结构，治疗乘区Wasm组装、宿主初始化事件和真实战斗结算仍未验证。",
+        "reason": "当前1V1相关4项属性、25%受到治疗与收到普通护盾两个常驻效果及来源初始化入口、参数、图片和唯一挂载均完整；5处说明已纠正，真实页面及41次独立GET通过。战斗运行未验证，单列记录。",
         "sourcePendingCount": 0,
-        "systemPendingCount": 1,
+        "systemPendingCount": 0,
         "evidenceRefs": [
           "equipmentCurrentReadback",
           "equipmentSourceInventory",
           "equipmentEffectReview",
-          "spiritVisageReceivedHealingBackfill"
+          "spiritVisageReceivedHealingBackfill",
+          "spiritVisageShieldReceivedBackfill"
         ]
       },
       {
