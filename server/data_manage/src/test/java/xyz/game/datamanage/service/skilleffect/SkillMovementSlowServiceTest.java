@@ -119,7 +119,7 @@ class SkillMovementSlowServiceTest {
     }
 
     @ParameterizedTest
-    @CsvSource({"STUN,APPLY", "ROOT,APPLY", "STUN,REMOVE", "ROOT,REMOVE", "MOVEMENT_SLOW,REMOVE"})
+    @CsvSource({"STUN,APPLY", "ROOT,APPLY", "SILENCE,APPLY", "STUN,REMOVE", "ROOT,REMOVE", "SILENCE,REMOVE", "MOVEMENT_SLOW,REMOVE"})
     void keepsNonSlowApplicationAndAllRemovalValueless(StatusKind kind, String operation) {
         ObjectNode body = body();
         useKind(kind);
@@ -134,9 +134,10 @@ class SkillMovementSlowServiceTest {
         assertNull(create(body).results().getFirst().valueRule());
     }
 
-    @Test
-    void roundTripsRootWithDurationAndNoValueModes() {
-        useKind(StatusKind.ROOT);
+    @ParameterizedTest
+    @EnumSource(value = StatusKind.class, names = {"ROOT", "SILENCE"})
+    void roundTripsValuelessControlWithDurationAndNoValueModes(StatusKind kind) {
+        useKind(kind);
         ObjectNode body = valuelessBody();
         var created = create(body);
         var read = service.get("lol", "skill", "slow");
@@ -159,12 +160,14 @@ class SkillMovementSlowServiceTest {
     @ParameterizedTest
     @CsvSource({"valueReadMode,APPLICATION_SNAPSHOT", "stackValueMode,SHARED",
         "reapplicationValueMode,REPLACE", "periodicExecutionMode,ONCE_PER_INSTANCE"})
-    void rejectsRootValueModesWithoutStrength(String field, String value) {
-        useKind(StatusKind.ROOT);
-        ObjectNode body = valuelessBody();
-        ((ObjectNode) result(body).get("lifecycleBehavior")).put(field, value);
-        assertThrows(ApiException.class, () -> create(body));
-        verify(mapper, never()).insertEffect(any(), any(), any(), any(), any(), any(), any(), any());
+    void rejectsValuelessControlValueModes(String field, String value) {
+        for (StatusKind kind : List.of(StatusKind.ROOT, StatusKind.SILENCE)) {
+            useKind(kind);
+            ObjectNode body = valuelessBody();
+            ((ObjectNode) result(body).get("lifecycleBehavior")).put(field, value);
+            assertThrows(ApiException.class, () -> create(body));
+            verify(mapper, never()).insertEffect(any(), any(), any(), any(), any(), any(), any(), any());
+        }
     }
 
     @ParameterizedTest
