@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-19T18:52:17.417Z",
+  "generatedAt": "2026-09-19T19:15:57.425Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -11975,6 +11975,69 @@
         "commit": "0f39d8c3",
         "sha256": "b34d39a7200ccfaad9090c22c4b3a99cd54f43bd86acb71d7a69971eccfc1943"
       }
+    },
+    "annieWManagementReturn": {
+      "at": "2026-09-19T19:15:57.425Z",
+      "status": "PARTIAL_MANAGEMENT_RETURN_PASS",
+      "skillKey": "annie_w",
+      "businessWrites": 2,
+      "browserWrites": 1,
+      "protectedAPIWrites": 1,
+      "independentGETs": 36,
+      "readOnlyInvestigationGETs": 36,
+      "currentCounts": {
+        "parameters": 5,
+        "formulas": 1,
+        "effects": 2,
+        "processes": 1,
+        "internalStates": 0,
+        "triggerRules": 2
+      },
+      "updated": [
+        "实际命中同组敌方英雄条件",
+        "主体说明"
+      ],
+      "browser": "伤害结果、施放过程、使用入口、命中条件与最新主体说明PASS",
+      "remaining": [
+        "安妮P层数、满层消费与W晕眩的跨技能管理配置及必要资格语义"
+      ],
+      "managementComplete": false,
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/安妮W管理返回核对/07-证据清单.json",
+        "commit": "6f838155",
+        "sha256": "c7e7fa343cc63f60a03b70dc0f6fa31b160c8d0cb60125988e85b4199b8948e1"
+      }
+    },
+    "veigarRManagementReturnAudit": {
+      "at": "2026-09-19T19:15:57.425Z",
+      "status": "SOURCE_AUDIT_ONLY",
+      "skillKey": "veigar_r",
+      "businessWrites": 0,
+      "readOnlyGETs": 33,
+      "currentCounts": {
+        "parameters": 7,
+        "formulas": 2,
+        "effects": 3,
+        "processes": 1,
+        "internalStates": 0,
+        "triggerRules": 1
+      },
+      "remaining": [
+        "缺失生命值对应连续增伤曲线及上限边界的精确补充来源",
+        "生命值取样口径与时点",
+        "实际伤害效果及入口连接",
+        "代表页面核对"
+      ],
+      "managementComplete": false,
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/维迦R管理返回核对/04-证据清单.json",
+        "commit": "314b639d",
+        "sha256": "4170972ac76e4830501fa6fad718271baebd019b01b108b514983f9d191033bc"
+      }
     }
   },
   "runtimeValidation": "未执行",
@@ -12581,6 +12644,18 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/玛尔扎哈E持续与刷新核对/07-证据清单.json",
         "commit": "0f39d8c3",
         "sha256": "b34d39a7200ccfaad9090c22c4b3a99cd54f43bd86acb71d7a69971eccfc1943"
+      },
+      "annieWManagementReturn": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/安妮W管理返回核对/07-证据清单.json",
+        "commit": "6f838155",
+        "sha256": "c7e7fa343cc63f60a03b70dc0f6fa31b160c8d0cb60125988e85b4199b8948e1"
+      },
+      "veigarRManagementReturnAudit": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/维迦R管理返回核对/04-证据清单.json",
+        "commit": "314b639d",
+        "sha256": "4170972ac76e4830501fa6fad718271baebd019b01b108b514983f9d191033bc"
       }
     },
     "coverage": {
@@ -12599,8 +12674,8 @@
         "sourceItems": 865,
         "concludedItems": 865,
         "conclusions": {
-          "资料待核": 385,
-          "系统暂缓": 449,
+          "资料待核": 386,
+          "系统暂缓": 448,
           "明确排除": 26,
           "已录入": 5
         },
@@ -15940,8 +16015,18 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "annieWManagementReturn"
+        ],
+        "currentComponentCounts": {
+          "parameters": 2,
+          "formulas": 0,
+          "effects": 0,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0
+        },
+        "currentReadbackNote": "2026-09-20独立9GET确认当前只有max_stacks和stun_duration_ms；没有状态、效果、过程或规则，不由W无规则反推。"
       },
       {
         "sourceChampionId": "Annie",
@@ -16003,7 +16088,7 @@
         "name": "安妮·焚烧",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "普通使用入口已启动既有施法过程，既有实际命中与纠正后的吸血资格保留并独立回读；被动层数及代表页面待续，不计整技能管理完成。",
+        "reason": "原实际命中入口已补同组敌方英雄条件，主体说明更正；2次保存、36次独立GET及伤害结果、过程、使用入口、条件与主体页面通过。P当前仅2参数，层数、消费及W晕眩跨技能管理仍未配置。",
         "pendingCounts": {
           "source": 0,
           "system": 0,
@@ -16016,7 +16101,8 @@
           "skillThirdStageCurrentReadback",
           "heroSourceInventory",
           "eightSkillsTenDamageVampCorrection",
-          "sixExistingCastUseEntryBackfill"
+          "sixExistingCastUseEntryBackfill",
+          "annieWManagementReturn"
         ],
         "currentComponentCounts": {
           "parameters": 5,
@@ -16033,18 +16119,27 @@
           "basisOutputKind": "POST_DEFENSE_DAMAGE",
           "efficiency": 1,
           "retainedSpellShieldBlockScope": "RESULT",
-          "browser": "待验"
+          "browser": "PASS"
         },
         "remainingBranches": [
-          "被动层数",
-          "代表页面验收"
+          "安妮P层数、满层消费与W晕眩的跨技能管理配置及必要资格语义"
         ],
         "authoredUseEntry": {
           "ruleKey": "on_used",
           "processKey": "cast",
           "httpReadback": "PASS",
-          "browser": "待验"
-        }
+          "browser": "PASS"
+        },
+        "hitScopeCorrection": {
+          "ruleKey": "actual_hit",
+          "conditions": [
+            "CHAMPION",
+            "SKILL_HIT_TARGET_IS_ENEMY"
+          ],
+          "httpReadback": "PASS",
+          "browser": "PASS"
+        },
+        "descriptionCleanup": "主体说明PASS"
       },
       {
         "sourceChampionId": "Annie",
@@ -34839,13 +34934,13 @@
         "slot": "R",
         "skillKey": "veigar_r",
         "name": "维迦·能量爆裂",
-        "conclusion": "系统暂缓",
+        "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已补录主动使用后启动cast施法过程，法力消耗、基础冷却和施法延迟已有入口；目标当前或已损生命、连续伤害倍率、实际命中与伤害仍未接，整技能保持系统暂缓。 既有普通伤害空吸血资格和过时说明已纠正；原条件、控制、被动或时序待办保留，页面待验。",
+        "reason": "33GET确认既有最小/最大伤害效果与使用过程保持。固定来源证明两端数值，但连续已损生命增伤曲线、上限等号及读取时点未获精确补证；实际伤害入口与代表页面继续待办，不把模糊端点线性插值后接入。",
         "pendingCounts": {
-          "source": 0,
+          "source": 2,
           "system": 0,
-          "configuration": 1,
+          "configuration": 2,
           "other": 0
         },
         "batchKey": "heroFourthBatch",
@@ -34855,7 +34950,8 @@
           "heroSourceInventory",
           "sixHeroCastProcessEntryBackfillThird",
           "eightSkillsTenDamageVampCorrection",
-          "sevenUltimateCategoryBackfill"
+          "sevenUltimateCategoryBackfill",
+          "veigarRManagementReturnAudit"
         ],
         "currentComponentCounts": {
           "parameters": 7,
@@ -34876,6 +34972,12 @@
         },
         "completedBranches": [
           "固定来源主R终极技能分类关联"
+        ],
+        "remainingBranches": [
+          "缺失生命值对应连续增伤曲线及上限边界的精确补充来源",
+          "生命值取样口径与时点",
+          "实际伤害效果及入口连接",
+          "代表页面核对"
         ]
       },
       {
