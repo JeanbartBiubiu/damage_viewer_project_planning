@@ -208,7 +208,7 @@ function disabledName(name: string, key: string, disabled: boolean): string {
   return disabled ? `${label}（${DISABLED_CATALOG_LABEL}）` : label;
 }
 
-function matchesEventTypeSearch(inputValue: string, option: ReactElement): boolean {
+function matchesSelectOptionSearch(inputValue: string, option: ReactElement): boolean {
   const query = inputValue.trim().toLowerCase();
   if (!query) return true;
   const value = String(option.props.value ?? null).toLowerCase();
@@ -1269,7 +1269,7 @@ export function SkillTriggerRuleEditorModal({
               <Select
                 aria-label="事件类型"
                 showSearch
-                filterOption={matchesEventTypeSearch}
+                filterOption={matchesSelectOptionSearch}
                 value={draft.eventSource.eventType}
                 disabled={saving}
                 options={SKILL_TRIGGER_EVENT_TYPES.map((value) => ({
@@ -1708,6 +1708,8 @@ function renderEventSourceFields(props: EventSourceFieldProps) {
           <Form.Item label="来源技能">
             <Select
               aria-label="来源技能"
+              showSearch
+              filterOption={matchesSelectOptionSearch}
               value={eventSource.detail.sourceSkillKey ?? ''}
               disabled={disabled}
               options={props.skills(eventSource.detail.sourceSkillKey)}
@@ -1748,6 +1750,8 @@ function renderEventSourceFields(props: EventSourceFieldProps) {
         <Form.Item label="来源技能">
           <Select
             aria-label="命中来源技能"
+            showSearch
+            filterOption={matchesSelectOptionSearch}
             value={eventSource.detail.sourceSkillKey ?? ''}
             disabled={disabled}
             options={props.skills(eventSource.detail.sourceSkillKey)}
@@ -1767,6 +1771,8 @@ function renderEventSourceFields(props: EventSourceFieldProps) {
         <Form.Item label="来源技能" help={SKILL_TRIGGER_SOURCE_SKILL_FILTER_HINT}>
             <Select
               aria-label="联动来源技能"
+              showSearch
+              filterOption={matchesSelectOptionSearch}
               value={eventSource.detail.sourceSkillKey ?? ''}
               disabled={disabled}
               options={props.skills(eventSource.detail.sourceSkillKey)}
