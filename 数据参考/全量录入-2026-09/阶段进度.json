@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-19T00:13:15.927Z",
+  "generatedAt": "2026-09-19T00:24:19.249Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -10038,6 +10038,35 @@
         "sha256": "2582377ed1ed461d9f7b120c23572a09dff1ccd3adaa05accd9a0d896adc6bd7",
         "commit": "4822bcf4"
       }
+    },
+    "kassadinQDamageAndUseBackfill": {
+      "at": "2026-09-19T00:24:19.249Z",
+      "status": "卡萨丁Q伤害与基础使用流程已保存并独立回读，目标引导打断及页面待续",
+      "skills": [
+        "kassadin_q"
+      ],
+      "created": {
+        "effects": 1,
+        "processes": 1,
+        "triggerRules": 2
+      },
+      "additionalCandidateGETs": 13,
+      "prepareGETs": 33,
+      "writerGETs": 41,
+      "writerPOSTs": 4,
+      "immediateReadbacks": 4,
+      "independentGETs": 33,
+      "unchangedResponsesIncludingTimestamps": 26,
+      "expectedChangedCollections": 3,
+      "arithmeticCases": 30,
+      "browser": "NOT_RUN_BROWSER_UNAVAILABLE",
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/卡萨丁Q伤害与使用流程补录/09-证据清单.json",
+        "sha256": "ee27de67fe9932d66dfa972aad176da7907d31759efedda418ac722b5d2918f1",
+        "commit": "f1bcdd3b"
+      }
     }
   },
   "runtimeValidation": "未执行",
@@ -10332,6 +10361,18 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/四项后续命中伤害吸血资格纠错/09-证据清单.json",
         "sha256": "2582377ed1ed461d9f7b120c23572a09dff1ccd3adaa05accd9a0d896adc6bd7",
         "commit": "4822bcf4"
+      },
+      "kassadinQDamageAndUseBackfill": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/卡萨丁Q伤害与使用流程补录/09-证据清单.json",
+        "sha256": "ee27de67fe9932d66dfa972aad176da7907d31759efedda418ac722b5d2918f1",
+        "commit": "f1bcdd3b"
+      },
+      "kassadinQChannelInterruptGap": {
+        "worktree": "damage_viewer_project_planning",
+        "relativePath": "数据参考/全量录入-2026-09/卡萨丁Q引导打断表达核对/01-只读能力核对.json",
+        "sha256": "ca2fe2ce6f8e391de6619cd153cfcf1bf86a274757ca4c0bfd33a3a8f692d9d5",
+        "commit": "de5b4181"
       }
     },
     "coverage": {
@@ -10350,8 +10391,8 @@
         "sourceItems": 865,
         "concludedItems": 865,
         "conclusions": {
-          "资料待核": 385,
-          "系统暂缓": 452,
+          "资料待核": 384,
+          "系统暂缓": 453,
           "明确排除": 26,
           "已录入": 2
         },
@@ -19769,21 +19810,50 @@
         "slot": "Q",
         "skillKey": "kassadin_q",
         "name": "卡萨丁·虚无法球",
-        "conclusion": "资料待核",
+        "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有2个待处理分支，其中来源或资料缺口1个、系统缺口0个、配置缺口1个。",
+        "reason": "实际伤害资格已核定，伤害与基础使用过程补齐并独立回读，旧魔法护盾入口保持且不重复。现有失败动作无法作用于敌方引导，仍缺准确管理表达；代表页面与消耗旧说明待续，不计整技能完成。",
         "pendingCounts": {
-          "source": 1,
-          "system": 0,
-          "configuration": 1,
-          "other": 0
+          "source": 0,
+          "system": 1,
+          "configuration": 0,
+          "other": 1
         },
         "batchKey": "heroThirteenthBatch",
         "candidateSha256": "247eeb25c0f1c0b5448fabd16512d9c7b2632660fc08f3cd67bac0d9335c5ff0",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "kassadinQDamageAndUseBackfill",
+          "kassadinQChannelInterruptGap"
+        ],
+        "previousPendingCounts": {
+          "source": 1,
+          "system": 0,
+          "configuration": 1,
+          "other": 0
+        },
+        "currentComponentCounts": {
+          "parameters": 8,
+          "formulas": 2,
+          "effects": 3,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 3
+        },
+        "remainingBranches": [
+          "目标引导打断的准确管理表达与接线",
+          "代表页面验收及消耗过时说明整理"
+        ],
+        "authoredDamageAndUse": {
+          "damageEffect": "primary_hit",
+          "damageRule": "resolve_on_q_hit",
+          "process": "cast",
+          "useRule": "on_used_cast",
+          "preservedShieldRule": "on_used",
+          "httpReadback": "PASS",
+          "browser": "待验"
+        }
       },
       {
         "sourceChampionId": "Kassadin",
