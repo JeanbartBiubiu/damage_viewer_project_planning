@@ -1,0 +1,340 @@
+{
+  "at": "2026-09-19T12:39:48.099Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/skills/item_3065_passive": {
+      "createdAt": "2026-09-07T17:56:47.902983Z",
+      "description": "保存16.17客户端与官方说明共同确证的自身治疗和护盾效果提升25%。受到治疗分支现由来源初始化规则建立常驻25%增幅；收到护盾增幅仍缺对应结果结构。装备自身400生命值、50魔抗、10技能急速、100%基础生命回复不在技能中重复施加。管理保存不证明战斗运行已执行。",
+      "gameId": "lol",
+      "maxLevel": 1,
+      "name": "振奋盔甲·无拘活力",
+      "skillCategoryKeys": [
+        "passive"
+      ],
+      "skillKey": "item_3065_passive",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-16T17:07:26.037076Z"
+    },
+    "/skills/item_3065_passive/parameters": [
+      {
+        "createdAt": "2026-09-07T17:56:48.498679Z",
+        "description": "自身受到的治疗与护盾数量提升25%，小数0.25表示25%；受到治疗分支已保存，收到护盾增幅仍待结构补齐。",
+        "fixedValue": 0.25,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "无拘活力受到治疗护盾增幅",
+        "parameterKey": "heal_shield_power_bonus",
+        "skillKey": "item_3065_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-16T17:07:21.544815Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    ],
+    "/skills/item_3065_passive/parameters/heal_shield_power_bonus": {
+      "createdAt": "2026-09-07T17:56:48.498679Z",
+      "description": "自身受到的治疗与护盾数量提升25%，小数0.25表示25%；受到治疗分支已保存，收到护盾增幅仍待结构补齐。",
+      "fixedValue": 0.25,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "无拘活力受到治疗护盾增幅",
+      "parameterKey": "heal_shield_power_bonus",
+      "skillKey": "item_3065_passive",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-16T17:07:21.544815Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/item_3065_passive/formulas": [],
+    "/skills/item_3065_passive/effects": [
+      {
+        "createdAt": "2026-09-16T17:07:22.942975Z",
+        "description": "来源对象初始化时建立单层常驻25%受到治疗增幅；收到护盾增幅继续暂缓。",
+        "effectKey": "received_healing_increase",
+        "gameId": "lol",
+        "lifecycleEnabled": true,
+        "name": "无拘活力受到治疗增幅",
+        "resultCount": 1,
+        "skillKey": "item_3065_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-16T17:07:22.942975Z"
+      },
+      {
+        "createdAt": "2026-09-19T12:34:07.341519Z",
+        "description": "来源对象初始化时建立单层常驻25%收到普通护盾增幅；只修正本次进入的护盾量，不追溯剩余护盾或改变持续时间。",
+        "effectKey": "received_shield_increase",
+        "gameId": "lol",
+        "lifecycleEnabled": true,
+        "name": "无拘活力收到护盾增幅",
+        "resultCount": 1,
+        "skillKey": "item_3065_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T12:34:07.341519Z"
+      }
+    ],
+    "/skills/item_3065_passive/effects/received_healing_increase": {
+      "createdAt": "2026-09-16T17:07:22.942975Z",
+      "description": "来源对象初始化时建立单层常驻25%受到治疗增幅；收到护盾增幅继续暂缓。",
+      "effectKey": "received_healing_increase",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": null,
+        "expiryMode": "EXPLICIT_ONLY",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": null,
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "无拘活力受到治疗增幅",
+      "results": [
+        {
+          "description": "来源对象受到的全部治疗提高25%；本结果不表示护盾增幅已经表达。",
+          "detail": {
+            "direction": "RECEIVED",
+            "healingKind": "ANY",
+            "modifierZoneKey": "item_3065_received_healing_increase",
+            "operation": "INCREASE"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": "REPLACE",
+            "stackValueMode": "SHARED",
+            "valueReadMode": "APPLICATION_SNAPSHOT"
+          },
+          "name": "受到治疗增幅",
+          "resultKey": "healing_received",
+          "resultType": "HEALING_MODIFIER",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "heal_shield_power_bonus"
+            }
+          }
+        }
+      ],
+      "skillKey": "item_3065_passive",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-16T17:07:22.942975Z"
+    },
+    "/skills/item_3065_passive/effects/received_shield_increase": {
+      "createdAt": "2026-09-19T12:34:07.341519Z",
+      "description": "来源对象初始化时建立单层常驻25%收到普通护盾增幅；只修正本次进入的护盾量，不追溯剩余护盾或改变持续时间。",
+      "effectKey": "received_shield_increase",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": null,
+        "expiryMode": "EXPLICIT_ONLY",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": null,
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "无拘活力收到护盾增幅",
+      "results": [
+        {
+          "description": "来源对象本次收到的普通护盾量提高25%；不作用于法术护盾次数。",
+          "detail": {
+            "modifierZoneKey": "item_3065_received_shield_increase",
+            "operation": "INCREASE"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": "REPLACE",
+            "stackValueMode": "SHARED",
+            "valueReadMode": "APPLICATION_SNAPSHOT"
+          },
+          "name": "收到护盾增幅",
+          "resultKey": "shield_received",
+          "resultType": "SHIELD_RECEIVED_MODIFIER",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "heal_shield_power_bonus"
+            }
+          }
+        }
+      ],
+      "skillKey": "item_3065_passive",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-19T12:34:07.341519Z"
+    },
+    "/skills/item_3065_passive/processes": [],
+    "/skills/item_3065_passive/internal-states": [],
+    "/skills/item_3065_passive/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "来源对象初始化完成后建立25%受到治疗增幅；护盾增幅和战斗运行仍未验证。",
+        "eventType": "SOURCE_INITIALIZED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "初始化无拘活力受到治疗增幅",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "initialize_received_healing_increase",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-16T17:07:24.327136Z"
+      },
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "来源对象初始化完成后建立25%收到普通护盾增幅；管理配置不代表战斗运行已执行。",
+        "eventType": "SOURCE_INITIALIZED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "初始化无拘活力收到护盾增幅",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "initialize_received_shield_increase",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T12:37:50.102555Z"
+      }
+    ],
+    "/skills/item_3065_passive/trigger-rules/initialize_received_healing_increase": {
+      "actions": [
+        {
+          "actionKey": "execute_received_healing_increase",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "received_healing_increase"
+          },
+          "name": "执行无拘活力受到治疗增幅",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "EVENT_SOURCE"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "来源对象初始化完成后建立25%受到治疗增幅；护盾增幅和战斗运行仍未验证。",
+      "eventSource": {
+        "detail": {},
+        "eventType": "SOURCE_INITIALIZED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "初始化无拘活力受到治疗增幅",
+      "perTargetCooldown": null,
+      "ruleKey": "initialize_received_healing_increase",
+      "sortOrder": 10
+    },
+    "/skills/item_3065_passive/trigger-rules/initialize_received_shield_increase": {
+      "actions": [
+        {
+          "actionKey": "action_1",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "received_shield_increase"
+          },
+          "name": "执行无拘活力收到护盾增幅",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "EVENT_SOURCE"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "来源对象初始化完成后建立25%收到普通护盾增幅；管理配置不代表战斗运行已执行。",
+      "eventSource": {
+        "detail": {},
+        "eventType": "SOURCE_INITIALIZED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "初始化无拘活力收到护盾增幅",
+      "perTargetCooldown": null,
+      "ruleKey": "initialize_received_shield_increase",
+      "sortOrder": 20
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/item_3065_passive",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3065_passive/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3065_passive/parameters/heal_shield_power_bonus",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3065_passive/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3065_passive/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3065_passive/effects/received_healing_increase",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3065_passive/effects/received_shield_increase",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3065_passive/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3065_passive/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3065_passive/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3065_passive/trigger-rules/initialize_received_healing_increase",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3065_passive/trigger-rules/initialize_received_shield_increase",
+      "status": 200
+    }
+  ],
+  "businessWrites": 0
+}

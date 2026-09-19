@@ -1,0 +1,142 @@
+{
+  "executionMode": "BROWSER_UI_ONLY",
+  "owner": {
+    "kind": "EQUIPMENT",
+    "key": "item_3065"
+  },
+  "skillKey": "item_3065_passive",
+  "sourceFiles": [
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+      "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+      "sha256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7"
+    },
+    {
+      "root": "planning",
+      "path": "文档记录/详细设计/项目/系统精简实施说明.md",
+      "sha256": "6b7a7e6aac69294b25547260593648a9cef0c4e31f882a3884c5fd54142f3178"
+    }
+  ],
+  "sourceFacts": {
+    "clientVersion": "16.17",
+    "ddragonVersion": "16.17.1",
+    "root": "Items/3065",
+    "HealingIncrease": 0.25,
+    "ShieldIncrease": 0.25,
+    "ordinaryNumericShieldsOnly": true
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/modifier-zones",
+      "detailRoute": "/modifier-zones/item_3065_received_shield_increase",
+      "body": {
+        "modifierZoneKey": "item_3065_received_shield_increase",
+        "name": "振奋盔甲收到护盾增幅",
+        "description": "振奋盔甲对持有者本次收到的普通护盾量提高25%使用独立护盾结果比例乘区；不修正已有剩余量、期限或法术护盾次数。",
+        "domain": "SHIELD",
+        "calculationMode": "RATIO_ADD",
+        "applicationStage": "SHIELD_RESULT",
+        "status": "ENABLED",
+        "sortOrder": 250
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/item_3065_passive/effects",
+      "detailRoute": "/skills/item_3065_passive/effects/received_shield_increase",
+      "body": {
+        "effectKey": "received_shield_increase",
+        "name": "无拘活力收到护盾增幅",
+        "description": "来源对象初始化时建立单层常驻25%收到普通护盾增幅；只修正本次进入的护盾量，不追溯剩余护盾或改变持续时间。",
+        "sortOrder": 20,
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": null,
+          "reapplicationStackMode": "KEEP"
+        },
+        "results": [
+          {
+            "description": "来源对象本次收到的普通护盾量提高25%；不作用于法术护盾次数。",
+            "detail": {
+              "modifierZoneKey": "item_3065_received_shield_increase",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "收到护盾增幅",
+            "resultKey": "shield_received",
+            "resultType": "SHIELD_RECEIVED_MODIFIER",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "heal_shield_power_bonus"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/item_3065_passive/trigger-rules",
+      "detailRoute": "/skills/item_3065_passive/trigger-rules/initialize_received_shield_increase",
+      "body": {
+        "actions": [
+          {
+            "actionKey": "execute_received_shield_increase",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "received_shield_increase"
+            },
+            "name": "执行无拘活力收到护盾增幅",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "EVENT_SOURCE"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "来源对象初始化完成后建立25%收到普通护盾增幅；管理配置不代表战斗运行已执行。",
+        "eventSource": {
+          "detail": {},
+          "eventType": "SOURCE_INITIALIZED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "初始化无拘活力收到护盾增幅",
+        "perTargetCooldown": null,
+        "ruleKey": "initialize_received_shield_increase",
+        "sortOrder": 20
+      }
+    }
+  ],
+  "unchanged": "所有原对象正文及时间戳保持；只向乘区、效果和规则列表各新增一项。首次保存全部经真实页面，不使用批量写入工具。"
+}

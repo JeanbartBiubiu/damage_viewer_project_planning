@@ -1,0 +1,32 @@
+{
+  "sourceFiles": [
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/收到护盾修正补齐/首次页面/06-写入与即时回读.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/收到护盾修正补齐/首次页面/02-冻结请求.json"
+    }
+  ],
+  "changes": [
+    {
+      "kind": "skill",
+      "skillKey": "item_3065_passive",
+      "route": "/skills/item_3065_passive",
+      "description": "依据固定客户端16.17与官方16.17.1，持有者受到的治疗和普通护盾量提高25%。两个来源初始化规则分别建立永久单层治疗与收到护盾修正。400生命值、50魔抗、10技能急速、100%基础生命回复由装备属性保存，不在技能中重复施加。管理配置不代表战斗运行已执行。"
+    },
+    {
+      "kind": "parameter",
+      "skillKey": "item_3065_passive",
+      "route": "/skills/item_3065_passive/parameters/heal_shield_power_bonus",
+      "description": "固定客户端16.17的HealingIncrease与ShieldIncrease均为0.25，官方16.17.1明确提高持有者身上的治疗与护盾25%。本参数由受到治疗和收到普通护盾两个持续效果共用；不表示施放者治疗护盾强度属性。"
+    },
+    {
+      "kind": "effect",
+      "skillKey": "item_3065_passive",
+      "route": "/skills/item_3065_passive/effects/received_healing_increase",
+      "description": "来源对象初始化时建立单层常驻25%受到治疗增幅；收到普通护盾增幅由同技能的独立持续效果保存。管理配置不代表战斗运行已执行。"
+    }
+  ]
+}
