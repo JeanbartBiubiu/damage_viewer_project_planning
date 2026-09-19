@@ -1,0 +1,1144 @@
+{
+  "startedAt": "2026-09-19T02:21:14.520Z",
+  "status": "PASS",
+  "businessWritesAttempted": 9,
+  "operations": [
+    {
+      "route": "/skills/teemo_q/parameters/mana_cost",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-08T02:05:06.170466Z",
+          "description": "DDragon16.17.1 Teemo.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 70,
+            "2": 75,
+            "3": 80,
+            "4": 85,
+            "5": 90
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "teemo_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-19T02:21:14.918235Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-08T02:05:06.170466Z",
+        "description": "DDragon16.17.1 Teemo.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 75,
+          "3": 80,
+          "4": 85,
+          "5": 90
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "teemo_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-19T02:21:14.918235Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/gragas_e/parameters/mana_cost",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T17:38:40.474369Z",
+          "description": "DDragon16.17.1 Gragas.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 50,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "gragas_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-19T02:21:16.451851Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-07T17:38:40.474369Z",
+        "description": "DDragon16.17.1 Gragas.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 50,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "gragas_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-19T02:21:16.451851Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/gragas_e/effects/mana_cost",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-09T15:06:20.899652Z",
+          "description": "本技能普通主动使用时消耗对应技能等级的法力；具体使用时点由引用本效果的过程定义。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "施放法力消耗",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "attributeKey": "mana",
+                "operation": "CONSUME"
+              },
+              "lifecycleBehavior": null,
+              "name": "施放法力消耗",
+              "resultKey": "mana_cost",
+              "resultType": "RESOURCE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "mana_cost"
+                }
+              }
+            }
+          ],
+          "skillKey": "gragas_e",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-19T02:21:17.890762Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-09T15:06:20.899652Z",
+        "description": "本技能普通主动使用时消耗对应技能等级的法力；具体使用时点由引用本效果的过程定义。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "施放法力消耗",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "施放法力消耗",
+            "resultKey": "mana_cost",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "gragas_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T02:21:17.890762Z"
+      }
+    },
+    {
+      "route": "/skills/gragas_r/parameters/mana_cost",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T17:38:41.26052Z",
+          "description": "DDragon16.17.1 Gragas.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 100,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "gragas_r",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-19T02:21:19.538305Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-07T17:38:41.26052Z",
+        "description": "DDragon16.17.1 Gragas.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "gragas_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-19T02:21:19.538305Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/gragas_r/effects/mana_cost",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-09T15:06:27.494385Z",
+          "description": "本技能普通主动使用时消耗对应技能等级的法力；具体使用时点由引用本效果的过程定义。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "施放法力消耗",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "attributeKey": "mana",
+                "operation": "CONSUME"
+              },
+              "lifecycleBehavior": null,
+              "name": "施放法力消耗",
+              "resultKey": "mana_cost",
+              "resultType": "RESOURCE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "mana_cost"
+                }
+              }
+            }
+          ],
+          "skillKey": "gragas_r",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-19T02:21:20.867843Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-09T15:06:27.494385Z",
+        "description": "本技能普通主动使用时消耗对应技能等级的法力；具体使用时点由引用本效果的过程定义。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "施放法力消耗",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "施放法力消耗",
+            "resultKey": "mana_cost",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "gragas_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T02:21:20.867843Z"
+      }
+    },
+    {
+      "route": "/skills/lissandra_q/parameters/mana_cost",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T17:38:48.271351Z",
+          "description": "DDragon16.17.1 Lissandra.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 55,
+            "2": 60,
+            "3": 65,
+            "4": 70,
+            "5": 75
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "lissandra_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-19T02:21:22.551932Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-07T17:38:48.271351Z",
+        "description": "DDragon16.17.1 Lissandra.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 55,
+          "2": 60,
+          "3": 65,
+          "4": 70,
+          "5": 75
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "lissandra_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-19T02:21:22.551932Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/lissandra_q/effects/mana_cost",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-09T10:36:31.612447Z",
+          "description": "本技能普通主动使用时消耗对应技能等级的法力；具体使用时点由引用本效果的过程定义。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "施放法力消耗",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "attributeKey": "mana",
+                "operation": "CONSUME"
+              },
+              "lifecycleBehavior": null,
+              "name": "消耗法力",
+              "resultKey": "consume_mana",
+              "resultType": "RESOURCE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "mana_cost"
+                }
+              }
+            }
+          ],
+          "skillKey": "lissandra_q",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-19T02:21:23.84745Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-09T10:36:31.612447Z",
+        "description": "本技能普通主动使用时消耗对应技能等级的法力；具体使用时点由引用本效果的过程定义。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "施放法力消耗",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "lissandra_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T02:21:23.84745Z"
+      }
+    },
+    {
+      "route": "/skills/lissandra_w/parameters/mana_cost",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T17:38:48.964763Z",
+          "description": "DDragon16.17.1 Lissandra.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 40,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "lissandra_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-19T02:21:25.413748Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-07T17:38:48.964763Z",
+        "description": "DDragon16.17.1 Lissandra.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 40,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "lissandra_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-19T02:21:25.413748Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/lissandra_w/effects/mana_cost",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-09T10:36:38.399957Z",
+          "description": "本技能普通主动使用时消耗对应技能等级的法力；具体使用时点由引用本效果的过程定义。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "施放法力消耗",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "attributeKey": "mana",
+                "operation": "CONSUME"
+              },
+              "lifecycleBehavior": null,
+              "name": "消耗法力",
+              "resultKey": "consume_mana",
+              "resultType": "RESOURCE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "mana_cost"
+                }
+              }
+            }
+          ],
+          "skillKey": "lissandra_w",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-19T02:21:26.684445Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-09T10:36:38.399957Z",
+        "description": "本技能普通主动使用时消耗对应技能等级的法力；具体使用时点由引用本效果的过程定义。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "施放法力消耗",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "lissandra_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T02:21:26.684445Z"
+      }
+    }
+  ],
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-descriptions-v2.mjs": "f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517",
+    "01-纠错计划.json": "44561c5bec33dc6d4c3f31c3f44daf232200d6fdda2f3424ef823288d1b6c917",
+    "02-冻结请求.json": "9f0c4a2d7e72bdd7c1959cffb856a30055221f809872c366bf6de2a986a8a97c",
+    "03-来源摘要.json": "6a2be13c8d32711f68474f1838c9cea6a7a8cc0e1bcab073cdf088fa92614568",
+    "04-写入前现值.json": "314d6f7d2e9dc4e9aef46e857d0bf27d64c37419165d3b81fea870222c453f1a"
+  },
+  "pendingRoute": null,
+  "finishedAt": "2026-09-19T02:21:27.875Z",
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/parameters/blind_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/parameters/control_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/parameters/cooldown_refund_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/parameters/knockback_distance",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/parameters/slow_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/parameters/slow_percent",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/parameters/ap_ratio_constant",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/parameters/snare_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/parameters/ap_ratio_constant",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/teemo_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/gragas_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/gragas_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/gragas_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/gragas_r/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/lissandra_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/lissandra_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/lissandra_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/lissandra_w/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/effects/mana_cost",
+      "status": 200
+    }
+  ]
+}
