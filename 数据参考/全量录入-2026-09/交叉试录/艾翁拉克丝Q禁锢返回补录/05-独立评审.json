@@ -1,0 +1,66 @@
+{
+  "status": "APPROVED",
+  "at": "2026-09-19T05:35:23.123Z",
+  "reviewer": "独立评审代理",
+  "executionMode": "REVIEWED_MANAGEMENT_API",
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v3.mjs": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "01-候选方案.json": "1220e6f5340f9a3378ba05f560a971d821c2f9c14873c209dfe7ad5a9f539200",
+    "02-冻结请求.json": "ff071db801c8d74e55092ef0d20bd788c85d049b6cb56d26734c6c5c22667011",
+    "03-来源摘要.json": "38671f8470f141b5227f053c30fd8955f412e677bd366fd0696be1e6051d5880",
+    "04-写入前现值.json": "188fed82a95e5e4fd95e971b7da769759dbdb2b3ee1626953534ee9fc3a4a471"
+  },
+  "businessHTTP": 0,
+  "businessWrites": 0,
+  "sourceFilesVerified": 18,
+  "blockingFindings": [],
+  "checks": [
+    {
+      "name": "冻结及来源",
+      "result": "PASS",
+      "detail": "E 固定工具、01 至 04 和 18 来源原字节摘要均一致；00 与本代理来源报告一致。02 的完整请求与 01 相等，来源/现值摘要绑定正确。当前规划说明使用更新后的冻结字节。"
+    },
+    {
+      "name": "首次页面前提",
+      "result": "PASS",
+      "detail": "莫甘娜 Q 同结构先前独立 07 和真实页面 08 PASS 均绑定；08 包含效果、四条件同组和唯一动作单次保存及重开。允许本批成熟 E 单次 API 追加。"
+    },
+    {
+      "name": "完整形状",
+      "result": "PASS",
+      "detail": "两组对象去除名称说明并替换所属技能/效果键后，结构与已获准莫甘娜两对象逐字段相同；新效果为无强度 PERSISTENT STATUS_OPERATION/APPLY/RESULT，期限引用各自现成参数，四条件同组 AND，唯一动作只执行各自 root_control。"
+    },
+    {
+      "name": "数值与实际资格",
+      "result": "PASS",
+      "detail": "复用已独立核定 10 点：艾翁五级 1600/1700/1800/1900/2000 毫秒，拉克丝 FIXED 2000；最大尾差 0.0000476837 毫秒。艾翁重施突进和友军/野怪分支不进入，拉克丝两合法目标同一禁锢时长，规则不生产多目标事件。"
+    },
+    {
+      "name": "首次施加限制",
+      "result": "PASS",
+      "detail": "SOURCE_TARGET + CURRENT_TARGET 的 ABSENT 排除本来源尚存实例；同组还要求 CHAMPION、明确敌方和同次命中护盾值 EQ 0，缺失不默认 0。KEEP/REFRESH_ALL 在唯一入口不可达，不冒充真实重施来源。"
+    },
+    {
+      "name": "新对象及唯一入口",
+      "result": "PASS",
+      "detail": "4 详情在 04 审计中均 404；原全部响应无 root_control 或新规则标识，各旧列表无重复。4 请求只创建每技能一效果一规则，没有第二执行入口或重复伤害动作。"
+    },
+    {
+      "name": "原值保护",
+      "result": "PASS",
+      "detail": "61 原响应包括拥有者、关系、图片、所有组成及引用目录；此前独立 28 响应逐字段一致，20 参数列表与逐详情相同。无旧对象更新请求，原伤害、法力、公式、使用和命中入口保持，时间戳由回读完整保护。"
+    }
+  ],
+  "expectedReadback": {
+    "GETs": 65,
+    "newObjects": 4,
+    "expectedChangedCollections": 4,
+    "unchangedResponsesIncludingTimestamps": 57
+  },
+  "boundaries": [
+    "本次仅批准冻结 4 次追加；必须由主负责人单次执行 E write，随后独立回读；结果不明先查现值不得重放。",
+    "每技能只覆盖无本来源禁锢实例时的施加；后续放开重施或新增入口须另补来源和重新评审。",
+    "艾翁使用流程、突进、野怪返还，以及拉克丝旧吸血/旧入口范围/旧参数说明分别保留，不在本批改写。",
+    "管理保存、接口回读和代表页面不证明宿主命中、护盾值、敌我及生命周期运行输入已生产，亦不证明控制免疫、韧性或解除。"
+  ]
+}
