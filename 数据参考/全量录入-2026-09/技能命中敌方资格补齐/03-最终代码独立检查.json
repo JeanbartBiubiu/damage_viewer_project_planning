@@ -1,0 +1,276 @@
+{
+  "status": "PASS",
+  "codeReview": "APPROVED_WITH_LIVE_ACCEPTANCE_PENDING",
+  "at": "2026-09-19T03:56:36.613Z",
+  "reviewer": "/root/seven_hit_frozen_review",
+  "scope": "只读审查Web、Backend及Planning已列最终文件差异和新增测试；不执行测试、HTTP、服务重启或业务写入。",
+  "reviewedFiles": [
+    {
+      "worktree": "web",
+      "path": "C:/project/damage_web_dev/web/README.md",
+      "relativePath": "web/README.md",
+      "sha256": "eca13c5efe6156282bfac5fe80d072df1c542fbb923536bf72447adc05dbbe43"
+    },
+    {
+      "worktree": "web",
+      "path": "C:/project/damage_web_dev/web/src/pages/admin/skills/triggers/SkillTriggerConditionEditorModal.tsx",
+      "relativePath": "web/src/pages/admin/skills/triggers/SkillTriggerConditionEditorModal.tsx",
+      "sha256": "10dcd90d24e5c56900c9acac5f1aa0da4401e425b12543ed335e93adc18e03ac"
+    },
+    {
+      "worktree": "web",
+      "path": "C:/project/damage_web_dev/web/src/pages/admin/skills/triggers/triggerRuleForm.test.ts",
+      "relativePath": "web/src/pages/admin/skills/triggers/triggerRuleForm.test.ts",
+      "sha256": "b2e5dcbe7db798e63560c0ccdc142ce5f17a62e35fbee9624383e9aa25f058c2"
+    },
+    {
+      "worktree": "web",
+      "path": "C:/project/damage_web_dev/web/src/pages/admin/skills/triggers/triggerRuleForm.ts",
+      "relativePath": "web/src/pages/admin/skills/triggers/triggerRuleForm.ts",
+      "sha256": "91fbba576225bc476492eb6c0a9e2ad2c10b187660d8667616958918b0f79064"
+    },
+    {
+      "worktree": "web",
+      "path": "C:/project/damage_web_dev/web/src/pages/admin/skills/triggers/skillHitEnemyCondition.ts",
+      "relativePath": "web/src/pages/admin/skills/triggers/skillHitEnemyCondition.ts",
+      "sha256": "cb80e87441d692815ebecd3a71ef25577a67d9b347568ef2b8d28647b1fff7e8"
+    },
+    {
+      "worktree": "web",
+      "path": "C:/project/damage_web_dev/web/src/pages/admin/skills/triggers/skillHitEnemyCondition.test.ts",
+      "relativePath": "web/src/pages/admin/skills/triggers/skillHitEnemyCondition.test.ts",
+      "sha256": "867b9e245eed49a57b1343a91b6b1b1a8b7549c2569195cc64dba738c0705790"
+    },
+    {
+      "worktree": "web",
+      "path": "C:/project/damage_web_dev/web/src/services/numericValue.ts",
+      "relativePath": "web/src/services/numericValue.ts",
+      "sha256": "afd44782a8996649bf5fd2cbf24446b6afc3041b76110ff824fb6eeb4044a0e5"
+    },
+    {
+      "worktree": "web",
+      "path": "C:/project/damage_web_dev/web/src/services/skillTriggerRuleClient.test.ts",
+      "relativePath": "web/src/services/skillTriggerRuleClient.test.ts",
+      "sha256": "0c98d7f70fbec91da030fab171a0fbd2ece01e14d76a58cbbe0862cce1910aae"
+    },
+    {
+      "worktree": "web",
+      "path": "C:/project/damage_web_dev/web/src/services/skillTriggerRuleClient.ts",
+      "relativePath": "web/src/services/skillTriggerRuleClient.ts",
+      "sha256": "c9ca51f368ce9fa634265c534b7acd4479e211801e80f2e88b2959bb652e461f"
+    },
+    {
+      "worktree": "web",
+      "path": "C:/project/damage_web_dev/web/src/types/skillTriggerRule.ts",
+      "relativePath": "web/src/types/skillTriggerRule.ts",
+      "sha256": "b1af9f8d15671444be8e4c574dd20be8249dc3ad0c91e6ef5b005463a6bb283b"
+    },
+    {
+      "worktree": "backend",
+      "path": "C:/project/damage_backend_dev/server/data_manage/README.md",
+      "relativePath": "server/data_manage/README.md",
+      "sha256": "e83b0db4a81aef3dfcb5753c3c8d278a65f1210d3f01b0cde3301db4a24ec47d"
+    },
+    {
+      "worktree": "backend",
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerConditionDeserializer.java",
+      "relativePath": "server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerConditionDeserializer.java",
+      "sha256": "9c96c348f451115276efb50071d758d524bf5118399039badc6b3fddb8584f4f"
+    },
+    {
+      "worktree": "backend",
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerConditionType.java",
+      "relativePath": "server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerConditionType.java",
+      "sha256": "4d36e9d85de5b7a76d240fecfbf0d2c242026196ecc4180ceb0c42355aa0e828"
+    },
+    {
+      "worktree": "backend",
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerSkillHitTargetIsEnemyConditionDetail.java",
+      "relativePath": "server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerSkillHitTargetIsEnemyConditionDetail.java",
+      "sha256": "69df8b0e9338243ec2186611f59590f84f384e5333eb9043daf4519edc8a67f0"
+    },
+    {
+      "worktree": "backend",
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/service/skilltrigger/SkillTriggerRuleService.java",
+      "relativePath": "server/data_manage/src/main/java/xyz/game/datamanage/service/skilltrigger/SkillTriggerRuleService.java",
+      "sha256": "c318f4cea6babef6490668bf97eaccf396b2509cd4c21575a6a0947cb02b83d4"
+    },
+    {
+      "worktree": "backend",
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/support/authoring/GameConfigurationWriteGuard.java",
+      "relativePath": "server/data_manage/src/main/java/xyz/game/datamanage/support/authoring/GameConfigurationWriteGuard.java",
+      "sha256": "dd5aa2b762d47b1d017306edc3c258fe19405256c3d8a36b0604831bcd865687"
+    },
+    {
+      "worktree": "backend",
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/support/authoring/SkillObjectReferences.java",
+      "relativePath": "server/data_manage/src/main/java/xyz/game/datamanage/support/authoring/SkillObjectReferences.java",
+      "sha256": "3cd710763f91f3842580fed946bb399bbba724309c3ccb061ef37b80eba53f70"
+    },
+    {
+      "worktree": "backend",
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/support/authoring/SkillHitTargetIsEnemyConditionSemantics.java",
+      "relativePath": "server/data_manage/src/main/java/xyz/game/datamanage/support/authoring/SkillHitTargetIsEnemyConditionSemantics.java",
+      "sha256": "36933b08df5af98f60f21e74eb0c305ef2bfa1a94bd5352ce26e64db541a1134"
+    },
+    {
+      "worktree": "backend",
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/test/java/xyz/game/datamanage/service/skilltrigger/SkillTriggerSkillHitTargetIsEnemyConditionServiceTest.java",
+      "relativePath": "server/data_manage/src/test/java/xyz/game/datamanage/service/skilltrigger/SkillTriggerSkillHitTargetIsEnemyConditionServiceTest.java",
+      "sha256": "36e8f902a4e668e463583cb23f151a3fba2fb847ed081debf2470de37bf25bc3"
+    },
+    {
+      "worktree": "backend",
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/test/java/xyz/game/datamanage/support/authoring/SkillHitTargetIsEnemyConditionSemanticsTest.java",
+      "relativePath": "server/data_manage/src/test/java/xyz/game/datamanage/support/authoring/SkillHitTargetIsEnemyConditionSemanticsTest.java",
+      "sha256": "fba926ac87cbe59301244fcf9e2d6789eb01d93c8f7be4e9d7263bcd74b3a1b4"
+    },
+    {
+      "worktree": "planning",
+      "path": "C:/project/damage_viewer_project_planning/文档记录/详细设计/项目/条件事件与动态输入供值管理详细设计.md",
+      "relativePath": "文档记录/详细设计/项目/条件事件与动态输入供值管理详细设计.md",
+      "sha256": "ca2d715880e939f634e35e585bd3fc7ebcd6d42705f87f07c187201c1a8db4e7"
+    }
+  ],
+  "reviewedFilesCount": 21,
+  "unchangedExplicitTargetFiles": [
+    {
+      "path": "C:/project/damage_web_dev/web/src/pages/admin/skills/triggers/explicitTargetCondition.ts",
+      "sha256": "1d2573a76cd3c5f315a7f327893fe1be16ff2a630dcfe26fc28d4b557b6d7b98",
+      "gitDiffUnchanged": true
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/support/authoring/SkillExplicitTargetIsSourceConditionSemantics.java",
+      "sha256": "35dd3fd95899228d3c5943f1f5e0af30e5071160751d8b7444d69a9e5eaf8969",
+      "gitDiffUnchanged": true
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerExplicitTargetIsSourceConditionDetail.java",
+      "sha256": "d7127b43df00eedc3233539cae815a749f438228277120e6bd131272595623c9",
+      "gitDiffUnchanged": true
+    }
+  ],
+  "businessWrites": 0,
+  "reviewerHTTPRequests": 0,
+  "reviewerTestRuns": 0,
+  "blockingFindings": [],
+  "reviewFindings": [
+    {
+      "area": "后端严格空明细",
+      "result": "PASS",
+      "evidence": [
+        "SkillTriggerConditionDeserializer以新增枚举选择独立Detail类型，缺失/null保留为空交服务REQUIRED拒绝。",
+        "SkillTriggerSkillHitTargetIsEnemyConditionDetail的DELEGATING构造只接受JsonNode对象，所有键均捕获为unknownFields；保存校验拒绝任意额外键。",
+        "服务测试覆盖空对象完整保存/回读、缺失/null、数组/布尔/数值/字符串和额外字段。"
+      ]
+    },
+    {
+      "area": "后端事件与最终聚合",
+      "result": "PASS",
+      "evidence": [
+        "SkillTriggerRuleService保存阶段调用eventIssues；语义助手唯一合法事件为SKILL_HIT，其他均返回EVENT_VALUE_NOT_AVAILABLE。",
+        "GameConfigurationWriteGuard调用SkillHitTargetIsEnemyConditionSemantics.validate，位于最终引用写入之前；其他对象更新触发的作者快照同样检查条件形状和事件。",
+        "聚合测试覆盖合法无目录/数值/执行引用和错误事件、非法明细拒绝。"
+      ]
+    },
+    {
+      "area": "引用和数值扫描",
+      "result": "PASS",
+      "evidence": [
+        "SkillObjectReferences和SkillTriggerRuleService引用收集均增加无引用分支，不引入属性、公式或循环边。",
+        "前端numericValue及triggerRuleForm数值扫描跳过该空明细条件，避免虚构comparisonValue。"
+      ]
+    },
+    {
+      "area": "前端协议与表单",
+      "result": "PASS",
+      "evidence": [
+        "skillTriggerRuleClient先要求detail为对象，再要求键数为0，并检查条件只与SKILL_HIT事件组合；非法服务响应不会静默进入草稿。",
+        "条件编辑器仅合法事件提供新增选项；已有不合法组合可呈现错误解释并阻止保存。",
+        "草稿、请求和详情转换均保持{}；切换其他条件清除旧字段。",
+        "事件切换分析提示清理，实际清理移除该条件及因此变空的组，保留同组其他合法条件；现有确认流程被复用。",
+        "新增单测覆盖保存/回显、类型切换、事件切换和保留合法条件；协议测试覆盖非法明细与错误事件。"
+      ]
+    },
+    {
+      "area": "语义和范围",
+      "result": "PASS",
+      "evidence": [
+        "Planning6.7和中文帮助只在明确敌方关系下匹配，自身/友方/未知不匹配，不以英雄类别、不同对象或1V1推定关系。",
+        "本轮代码只保存与校验配置，没有敌我关系求值、宿主或Wasm实现；没有数据库表/字段/迁移。",
+        "旧EXPLICIT_TARGET_IS_SOURCE助手及后端Detail字节在Git差异中未改；新增分支未扩大其SKILL_USED事件范围。",
+        "OriannaW阶段资格仍单列，新条件不保证后续能量场接触就是首次伤害脉冲。"
+      ]
+    }
+  ],
+  "existingVerification": {
+    "executionOwner": "父任务",
+    "reviewerAction": "读取既有日志并绑定原字节，未重复运行",
+    "backendTargeted": {
+      "tests": 68,
+      "failures": 0,
+      "errors": 0
+    },
+    "backendFull": {
+      "tests": 994,
+      "failures": 0,
+      "errors": 0
+    },
+    "webFull": {
+      "files": 60,
+      "tests": 674,
+      "failed": 0
+    },
+    "webLint": "日志显示通过",
+    "webTypecheck": "日志为tsc -b无报错，退出成功由父任务报告",
+    "webBuild": "日志显示完成",
+    "logs": [
+      {
+        "label": "web-lint",
+        "path": "C:/project/damage_web_dev/output/enemy-hit-condition/lint.log",
+        "sha256": "35c1098fbb3c5b9f3a8dd97e96598bba5babeac3aaac2ca8d1af5b2c15e8289e"
+      },
+      {
+        "label": "web-typecheck",
+        "path": "C:/project/damage_web_dev/output/enemy-hit-condition/typecheck.log",
+        "sha256": "505ad0074d7218348c09544ca23577696d914a458cbb95dfab0d6ec58d3ecc8a"
+      },
+      {
+        "label": "web-full-tests",
+        "path": "C:/project/damage_web_dev/output/enemy-hit-condition/full-tests.log",
+        "sha256": "490aab85a994988add2b42f8fabdc8d14d202a5a1018619de419fba67385d622"
+      },
+      {
+        "label": "web-build",
+        "path": "C:/project/damage_web_dev/output/enemy-hit-condition/build.log",
+        "sha256": "c6926329c88245798ddf75896c0d764e2e422cde13db8afd2b8680b2d5d54342"
+      },
+      {
+        "label": "backend-targeted",
+        "path": "C:/project/damage_backend_dev/server/data_manage/output/enemy-hit-condition/targeted.log",
+        "sha256": "744a18c51ac38e03754b5cffa7f9144d4dbab364871454dcb98a10766f783b9a"
+      },
+      {
+        "label": "backend-full",
+        "path": "C:/project/damage_backend_dev/server/data_manage/output/enemy-hit-condition/full.log",
+        "sha256": "4af0800f8e6b40e0c355c63d3ac68549a796b80c12df3fd6e127365c165805b1"
+      }
+    ],
+    "nonBlockingExistingWarning": "构建仍有大于500kB的分块提示，与本条件正确性无关。"
+  },
+  "serviceBaseline": {
+    "path": "C:/project/damage_web_dev/output/enemy-hit-condition/service-before.json",
+    "sha256": "d230e553049a9222e3d32777adb2619aaebbeb20aa543ad576069a861aee91fa",
+    "GETs": 20,
+    "businessWrites": 0,
+    "newConditionWrites": 0,
+    "scope": "仅证明父任务取得重启前现值，未被当作新条件真实写入验收。"
+  },
+  "remainingAcceptance": [
+    "父任务正常重启服务后，应独立比较已冻结20项GET现值与原响应。",
+    "新条件首次真实页面保存、关闭重开和独立回读仍未执行；当前认证不可用，不能用API业务写入替代。",
+    "NamiQ/R带新条件补录仍待首次页面完成及来源/实时现值重核。",
+    "没有宿主敌我数据生产、条件运行或Wasm战斗证明。"
+  ],
+  "writeBoundary": "本人仅写本output报告；未修改源码、文档、业务数据、共享治理或既有.idea脏改。"
+}

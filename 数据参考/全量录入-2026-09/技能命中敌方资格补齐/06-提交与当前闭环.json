@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-19T04:33:29.405Z",
+  "status": "管理能力与娜美R首次页面闭环通过",
+  "backend": {
+    "worktree": "damage_backend_dev",
+    "relativePath": "数据参考/全量录入-2026-09/技能命中敌方条件后端增量/09-证据清单.json",
+    "commit": "8474176c",
+    "sha256": "054eb60c4a20a3b7eca9d77fcc7c49f76d12d90cdece93a38b8015e0779b6e43"
+  },
+  "web": {
+    "worktree": "damage_web_dev",
+    "relativePath": "数据参考/全量录入-2026-09/技能命中敌方条件前端增量/09-证据清单.json",
+    "commit": "d177d723",
+    "sha256": "e19e527b682fe841b0d4a69fdd945785588f8d05ba1dcd90f3ffcf72fa31a336"
+  },
+  "sourceSelectorCommit": "828572e8",
+  "firstBrowserData": {
+    "worktree": "damage_web_dev",
+    "relativePath": "数据参考/全量录入-2026-09/交叉试录/娜美R敌方命中首次页面录入/09-证据清单.json",
+    "sha256": "e921300fb477db7541c6c4b7f22dc44acd8c0239b569e4b01355eaa9426613c4",
+    "commit": "6127ea8e"
+  },
+  "oldResponseRestartComparison": {
+    "beforeGETs": 20,
+    "afterGETs": 20,
+    "unchanged": 20
+  },
+  "tests": {
+    "backend": 994,
+    "frontend": 674
+  },
+  "browser": "PASS",
+  "runtimeValidation": "未执行",
+  "remaining": [
+    "娜美Q返回补录",
+    "发条W脉冲与持续场阶段核定",
+    "各技能其余范围内组成"
+  ]
+}

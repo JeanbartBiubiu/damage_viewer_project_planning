@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-19T03:44:20.893Z",
+  "generatedAt": "2026-09-19T04:33:29.420Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -10509,6 +10509,52 @@
         "sha256": "07a3b13bb7d3a08c14642e25032b9a0ef831d7c0dabe65f73d8110b572b37cd7",
         "commit": "c072344e"
       }
+    },
+    "skillHitEnemyConditionManagement": {
+      "at": "2026-09-19T04:33:29.420Z",
+      "status": "敌方命中管理条件及娜美R首次页面闭环通过，娜美Q待返回补录",
+      "backend": {
+        "worktree": "damage_backend_dev",
+        "relativePath": "数据参考/全量录入-2026-09/技能命中敌方条件后端增量/09-证据清单.json",
+        "commit": "8474176c",
+        "sha256": "054eb60c4a20a3b7eca9d77fcc7c49f76d12d90cdece93a38b8015e0779b6e43"
+      },
+      "web": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/技能命中敌方条件前端增量/09-证据清单.json",
+        "commit": "d177d723",
+        "sha256": "e19e527b682fe841b0d4a69fdd945785588f8d05ba1dcd90f3ffcf72fa31a336"
+      },
+      "sourceSelectorCommit": "828572e8",
+      "sourceSelectorReview": "PASS",
+      "backendTests": 994,
+      "frontendTests": 674,
+      "backendTargetedTests": 68,
+      "frontendTargetedTests": 161,
+      "restartReadbackGETs": 40,
+      "created": {
+        "triggerRules": 1
+      },
+      "firstBrowserSkill": "nami_r",
+      "prepareGETs": 32,
+      "preflightGETs": 32,
+      "immediateGETs": 1,
+      "independentGETs": 32,
+      "unchangedResponsesIncludingTimestamps": 30,
+      "expectedChangedCollections": 1,
+      "browser": "PASS",
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "damage_viewer_project_planning",
+        "relativePath": "数据参考/全量录入-2026-09/技能命中敌方资格补齐/09-证据清单.json",
+        "sha256": "35379d84e6c92682651753f57e5ebfd80acc83659137e622847e5c8dd02b32ca"
+      },
+      "dataEvidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/娜美R敌方命中首次页面录入/09-证据清单.json",
+        "sha256": "e921300fb477db7541c6c4b7f22dc44acd8c0239b569e4b01355eaa9426613c4",
+        "commit": "6127ea8e"
+      }
     }
   },
   "runtimeValidation": "未执行",
@@ -10892,6 +10938,17 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/八项控制技能本体伤害补录/修订一/09-证据清单.json",
         "sha256": "07a3b13bb7d3a08c14642e25032b9a0ef831d7c0dabe65f73d8110b572b37cd7",
         "commit": "c072344e"
+      },
+      "skillHitEnemyConditionManagement": {
+        "worktree": "damage_viewer_project_planning",
+        "relativePath": "数据参考/全量录入-2026-09/技能命中敌方资格补齐/09-证据清单.json",
+        "sha256": "35379d84e6c92682651753f57e5ebfd80acc83659137e622847e5c8dd02b32ca"
+      },
+      "namiREnemyHitBrowser": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/娜美R敌方命中首次页面录入/09-证据清单.json",
+        "sha256": "e921300fb477db7541c6c4b7f22dc44acd8c0239b569e4b01355eaa9426613c4",
+        "commit": "6127ea8e"
       }
     },
     "coverage": {
@@ -24876,7 +24933,7 @@
         "name": "娜美·怒涛之啸",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "本体直接伤害效果独立保存，命中入口未接已独立回读；伤害、控制与实际命中入口、距离到减速期限的完整取值口径、大招被动加速能否作用于自身的资格；纯其他友军分支范围外、实际施法时序与其他尚未核对的原候选组成、使用登记代表页面验收、击飞与距离减速、被动加速范围和时序、代表页面验收、敌方命中入口资格继续处理，不计整技能管理完成。",
+        "reason": "本体伤害与敌方英雄实际命中入口已保存并通过真实页面重开、清理恢复和独立回读；伤害、控制与实际命中入口、距离到减速期限的完整取值口径、大招被动加速能否作用于自身的资格；纯其他友军分支范围外、实际施法时序与其他尚未核对的原候选组成、使用登记代表页面验收、击飞与距离减速、被动加速范围和时序、代表页面验收继续处理，不计整技能管理完成。",
         "batchKey": "heroThirtyFirstBatch",
         "candidateSha256": "bf26b9374fc305af52e7298934a54244aec5bec0166017ae5a99a38a2019ddcc",
         "evidenceRefs": [
@@ -24884,7 +24941,9 @@
           "heroSourceInventory",
           "sevenSkillCostCooldownBackfill",
           "sevenSkillCostDescriptionCorrections",
-          "eightControlBodyDamageBackfill"
+          "eightControlBodyDamageBackfill",
+          "skillHitEnemyConditionManagement",
+          "namiREnemyHitBrowser"
         ],
         "historicalPendingCounts": {
           "source": 1,
@@ -24900,8 +24959,7 @@
           "使用登记代表页面验收",
           "击飞与距离减速",
           "被动加速范围和时序",
-          "代表页面验收",
-          "敌方命中入口资格"
+          "代表页面验收"
         ],
         "remainingBranchesBoundary": "这里只确认消耗与普通冷却登记；既有候选中的其他来源、资格和配置缺口继续保留，当前列举不是一次全技能完成审核。",
         "authoredCostCooldown": {
@@ -24917,18 +24975,25 @@
           "effects": 2,
           "processes": 1,
           "internalStates": 0,
-          "triggerRules": 1
+          "triggerRules": 2
         },
         "costDescriptions": "已改为稳定的数值来源与过程职责说明，去除过时未接线或候选状态",
-        "authoredDamageOnly": {
+        "authoredDirectHit": {
           "effectKey": "primary_hit",
-          "ruleKey": null,
+          "ruleKey": "actual_hit",
           "httpReadback": "PASS",
           "spellShieldBlockScope": "SKILL",
           "vampType": "OMNIVAMP",
           "basisOutputKind": "POST_DEFENSE_DAMAGE",
           "efficiency": 1,
-          "browser": "待验"
+          "browser": "PASS",
+          "conditions": "同组英雄类别与明确敌方关系"
+        },
+        "enemyHitRuleAcceptance": {
+          "browser": "PASS",
+          "independentGETs": 32,
+          "unchangedResponsesIncludingTimestamps": 30,
+          "scope": "本次实际命中规则及保留数据"
         }
       },
       {

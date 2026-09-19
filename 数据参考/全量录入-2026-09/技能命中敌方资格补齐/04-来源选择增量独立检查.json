@@ -1,0 +1,109 @@
+{
+  "status": "PASS",
+  "at": "2026-09-19T04:11:07.187Z",
+  "reviewer": "/root/seven_hit_frozen_review",
+  "reviewedFile": {
+    "path": "C:/project/damage_web_dev/web/src/pages/admin/skills/triggers/SkillTriggerRuleEditorModal.tsx",
+    "sha256": "bea0bc63cb9b9816dac102a77e3f14bae2cc20f8eef7650a7912999254d075e3"
+  },
+  "decision": "批准当前选择器增量：三处来源技能选择显式启用搜索并复用原匹配函数；支持中文名称和稳定标识，不改变选择值与请求。",
+  "businessWrites": 0,
+  "reviewerHTTPRequests": 0,
+  "reviewerTestRuns": 0,
+  "checks": {
+    "sourceSelectors": 3,
+    "explicitFilters": 3,
+    "existingHelperBodyUnchanged": true,
+    "eventTypeSelectorBehaviorUnchanged": true,
+    "allOtherFileContentExactlyMatchesHEADAfterReversingAuthorizedChanges": true,
+    "sourceSkillValuesAndOnChangeUnchanged": true,
+    "optionLabelsIncludeNameAndStableKey": true,
+    "originalReviewFileNotModified": true,
+    "frozenBatchSourceSetNotExpanded": true
+  },
+  "localDependencyEvidence": {
+    "version": "2.66.12",
+    "files": [
+      {
+        "path": "C:/project/damage_web_dev/web/node_modules/@arco-design/web-react/package.json",
+        "sha256": "1cf726c32d6e70b599d9f8d4271ed1bd9ad69611895bad225bcd52d16d85c1eb"
+      },
+      {
+        "path": "C:/project/damage_web_dev/web/node_modules/@arco-design/web-react/es/Select/select.js",
+        "sha256": "6fdf7540f5c7ec5a57a31d81746738163057e04d54a849631bc57d4279b805c1"
+      },
+      {
+        "path": "C:/project/damage_web_dev/web/node_modules/@arco-design/web-react/es/Select/utils.js",
+        "sha256": "78eb246bbef571ac8ca6af00e42ec4f3686716d8c5a399822b493260141323a9"
+      }
+    ],
+    "defaultBehavior": "Select.defaultProps.filterOption=true，但utils.flatChildren默认按optionValue筛选，不是按label。",
+    "currentBehavior": "三个Select显式传matchesSelectOptionSearch，使用query.trim().toLowerCase()，匹配option.props.value或字符串/数字children；options中的字符串label由本地Arco转为Option children。"
+  },
+  "reproducibleSourcePointers": [
+    {
+      "file": "web/src/pages/admin/skills/triggers/SkillTriggerRuleEditorModal.tsx",
+      "line": 211,
+      "meaning": "原事件类型匹配函数仅重命名，函数体相同；同时匹配值和标签。"
+    },
+    {
+      "file": "web/src/pages/admin/skills/triggers/SkillTriggerRuleEditorModal.tsx",
+      "line": 783,
+      "meaning": "value为skillKey；label包含中文名称与括号中的skillKey，停用/缺失候选原规则保持。"
+    },
+    {
+      "file": "web/src/pages/admin/skills/triggers/SkillTriggerRuleEditorModal.tsx",
+      "line": 1710,
+      "meaning": "来源技能showSearch和显式filterOption。"
+    },
+    {
+      "file": "web/src/pages/admin/skills/triggers/SkillTriggerRuleEditorModal.tsx",
+      "line": 1752,
+      "meaning": "命中来源技能showSearch和显式filterOption。"
+    },
+    {
+      "file": "web/src/pages/admin/skills/triggers/SkillTriggerRuleEditorModal.tsx",
+      "line": 1773,
+      "meaning": "联动来源技能showSearch和显式filterOption。"
+    },
+    {
+      "file": "web/node_modules/@arco-design/web-react/es/Select/utils.js",
+      "line": 87,
+      "meaning": "本地库默认只按optionValue匹配，当前增量已明确覆盖。"
+    },
+    {
+      "file": "web/node_modules/@arco-design/web-react/es/Select/utils.js",
+      "line": 140,
+      "meaning": "options.label作为Option的children，供显式匹配函数读取。"
+    }
+  ],
+  "matchingCasesByCodeInspection": [
+    {
+      "input": "娜美",
+      "candidateLabel": "娜美·怒涛之啸（nami_r）",
+      "matches": true,
+      "basis": "标签包含中文名称"
+    },
+    {
+      "input": "nami_r",
+      "candidateValue": "nami_r",
+      "matches": true,
+      "basis": "稳定标识直接匹配"
+    },
+    {
+      "input": " NAMI_R ",
+      "candidateValue": "nami_r",
+      "matches": true,
+      "basis": "查询去空白并统一小写"
+    },
+    {
+      "input": "nami_r",
+      "candidateValue": "nami_q",
+      "candidateLabel": "娜美·碧波之牢（nami_q）",
+      "matches": false,
+      "basis": "没有同名稳定键"
+    }
+  ],
+  "validationBoundary": "本人只作本地源码/依赖/差异核对，未操作浏览器或运行测试。父任务仍须在重载后的真实页面分别搜索中文名称和稳定标识，并完成最终前端检查；首次娜美R保存继续受原BROWSER_UI_ONLY冻结批准约束。",
+  "blockingFindings": []
+}
