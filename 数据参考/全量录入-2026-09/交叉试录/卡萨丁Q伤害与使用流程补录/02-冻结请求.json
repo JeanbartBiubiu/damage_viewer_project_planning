@@ -1,0 +1,364 @@
+{
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/kassadin_q/effects",
+      "detailRoute": "/skills/kassadin_q/effects/primary_hit",
+      "body": {
+        "effectKey": "primary_hit",
+        "name": "虚无法球命中伤害",
+        "description": "1V1范围内当前唯一敌方英雄的一次实际命中魔法伤害；引导打断、护盾和其他控制分支不在本效果内。",
+        "sortOrder": 30,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "damage",
+            "name": "魔法伤害",
+            "resultType": "DAMAGE",
+            "target": "TARGET",
+            "description": "引用同技能 damage 公式；结果只表示直接技能伤害，不表达引导打断或护盾。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": "SKILL",
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "damage"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "vampRules": [
+                {
+                  "vampType": "OMNIVAMP",
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "expectedReadback": {
+        "effectKey": "primary_hit",
+        "name": "虚无法球命中伤害",
+        "description": "1V1范围内当前唯一敌方英雄的一次实际命中魔法伤害；引导打断、护盾和其他控制分支不在本效果内。",
+        "sortOrder": 30,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "damage",
+            "name": "魔法伤害",
+            "resultType": "DAMAGE",
+            "target": "TARGET",
+            "description": "引用同技能 damage 公式；结果只表示直接技能伤害，不表达引导打断或护盾。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": "SKILL",
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "damage"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "vampRules": [
+                {
+                  "vampType": "OMNIVAMP",
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/kassadin_q/processes",
+      "detailRoute": "/skills/kassadin_q/processes/cast",
+      "body": {
+        "processKey": "cast",
+        "name": "施放虚无法球",
+        "activationType": "ACTIVE",
+        "description": "负责主动使用的法力消耗、250毫秒施法延迟和普通冷却；命中伤害由独立SKILL_HIT规则处理，已有护盾入口保持独立。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "cast_time",
+            "name": "施法延迟",
+            "description": "读取当前技能250毫秒施法参数；不表示命中事件已自动产生。",
+            "sortOrder": 10,
+            "stepType": "DELAY",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            }
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      },
+      "expectedReadback": {
+        "processKey": "cast",
+        "name": "施放虚无法球",
+        "activationType": "ACTIVE",
+        "description": "负责主动使用的法力消耗、250毫秒施法延迟和普通冷却；命中伤害由独立SKILL_HIT规则处理，已有护盾入口保持独立。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "cast_time",
+            "name": "施法延迟",
+            "description": "读取当前技能250毫秒施法参数；不表示命中事件已自动产生。",
+            "sortOrder": 10,
+            "stepType": "DELAY",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            }
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/kassadin_q/trigger-rules",
+      "detailRoute": "/skills/kassadin_q/trigger-rules/resolve_on_q_hit",
+      "body": {
+        "ruleKey": "resolve_on_q_hit",
+        "name": "Q实际命中结算",
+        "description": "仅消费宿主确认的 kassadin_q 实际 SKILL_HIT，在当前唯一敌方英雄上执行新增 primary_hit；规则本身不产生命中事件，也不创建引导打断、护盾或其他控制。",
+        "sortOrder": 20,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "kassadin_q"
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "champion_target",
+            "name": "唯一敌方英雄",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "name": "执行虚无法球命中伤害",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "resolve_on_q_hit",
+        "name": "Q实际命中结算",
+        "description": "仅消费宿主确认的 kassadin_q 实际 SKILL_HIT，在当前唯一敌方英雄上执行新增 primary_hit；规则本身不产生命中事件，也不创建引导打断、护盾或其他控制。",
+        "sortOrder": 20,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "kassadin_q",
+            "useKind": null
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "champion_target",
+            "name": "唯一敌方英雄",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "name": "执行虚无法球命中伤害",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/kassadin_q/trigger-rules",
+      "detailRoute": "/skills/kassadin_q/trigger-rules/on_used_cast",
+      "body": {
+        "ruleKey": "on_used_cast",
+        "name": "主动使用启动虚无法球施放过程",
+        "description": "每次 kassadin_q 主动使用启动已有 cast 过程；只登记法力消耗、施法延迟和普通冷却，不重复执行护盾、不执行命中伤害，也不创建引导打断。",
+        "sortOrder": 20,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "kassadin_q",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动虚无法球施放过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used_cast",
+        "name": "主动使用启动虚无法球施放过程",
+        "description": "每次 kassadin_q 主动使用启动已有 cast 过程；只登记法力消耗、施法延迟和普通冷却，不重复执行护盾、不执行命中伤害，也不创建引导打断。",
+        "sortOrder": 20,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "kassadin_q",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动虚无法球施放过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "sourceSha256": "c435de053f0adaee2453f4f143bbc1303c548937462edef5315cbd2914bf4709",
+  "baselineSha256": "bffe2e578b7200ed982b4c7469e5d8ada661c428f53558118ff565f3861d1e60"
+}

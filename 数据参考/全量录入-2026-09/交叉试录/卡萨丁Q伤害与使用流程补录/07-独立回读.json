@@ -1,0 +1,359 @@
+{
+  "toolExitCode": 0,
+  "stdout": "{\"status\":\"PASS\",\"at\":\"2026-09-19T00:19:45.543Z\",\"businessWrites\":0,\"GETs\":33,\"unchangedResponsesIncludingTimestamps\":26,\"expectedChangedCollections\":3,\"newObjects\":{\"/skills/kassadin_q/effects/primary_hit\":{\"createdAt\":\"2026-09-19T00:18:52.380796Z\",\"description\":\"1V1范围内当前唯一敌方英雄的一次实际命中魔法伤害；引导打断、护盾和其他控制分支不在本效果内。\",\"effectKey\":\"primary_hit\",\"gameId\":\"lol\",\"lifecycle\":null,\"name\":\"虚无法球命中伤害\",\"results\":[{\"description\":\"引用同技能 damage 公式；结果只表示直接技能伤害，不表达引导打断或护盾。\",\"detail\":{\"critical\":{\"mode\":\"DISALLOWED\",\"multiplierValue\":null},\"damageTypeKey\":\"magic\",\"deliveryKind\":\"SKILL\",\"originKind\":\"DIRECT\",\"vampRules\":[{\"basisOutputKind\":\"POST_DEFENSE_DAMAGE\",\"efficiencyValue\":{\"kind\":\"FIXED\",\"value\":1},\"vampType\":\"OMNIVAMP\"}]},\"lifecycleBehavior\":null,\"name\":\"魔法伤害\",\"resultKey\":\"damage\",\"resultType\":\"DAMAGE\",\"sortOrder\":10,\"spellShieldBlockScope\":\"SKILL\",\"target\":\"TARGET\",\"valueRule\":{\"fixedMaxValue\":null,\"fixedMinValue\":0,\"fixedMultiplier\":1,\"value\":{\"formulaKey\":\"damage\",\"kind\":\"FORMULA\"}}}],\"skillKey\":\"kassadin_q\",\"sortOrder\":30,\"updatedAt\":\"2026-09-19T00:18:52.380796Z\"},\"/skills/kassadin_q/processes/cast\":{\"activationType\":\"ACTIVE\",\"cooldown\":{\"durationValue\":{\"kind\":\"PARAMETER\",\"parameterKey\":\"cooldown_ms\"},\"startMoment\":{\"momentType\":\"PROCESS_START\",\"stepKey\":null}},\"createdAt\":\"2026-09-19T00:18:53.738606Z\",\"description\":\"负责主动使用的法力消耗、250毫秒施法延迟和普通冷却；命中伤害由独立SKILL_HIT规则处理，已有护盾入口保持独立。\",\"effectBindings\":[{\"bindingKey\":\"mana_cost\",\"effectKey\":\"mana_cost\",\"moment\":{\"momentType\":\"PROCESS_START\",\"stepKey\":null},\"sortOrder\":10}],\"gameId\":\"lol\",\"name\":\"施放虚无法球\",\"processKey\":\"cast\",\"skillKey\":\"kassadin_q\",\"sortOrder\":10,\"stateOperations\":[],\"steps\":[{\"description\":\"读取当前技能250毫秒施法参数；不表示命中事件已自动产生。\",\"detail\":{\"delayValue\":{\"kind\":\"PARAMETER\",\"parameterKey\":\"cast_time_ms\"}},\"name\":\"施法延迟\",\"sortOrder\":10,\"stepKey\":\"cast_time\",\"stepType\":\"DELAY\"}],\"updatedAt\":\"2026-09-19T00:18:53.738606Z\"},\"/skills/kassadin_q/trigger-rules/resolve_on_q_hit\":{\"actions\":[{\"actionKey\":\"execute_primary_hit\",\"actionType\":\"EXECUTE_EFFECT\",\"detail\":{\"effectKey\":\"primary_hit\"},\"name\":\"执行虚无法球命中伤害\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[{\"conditions\":[{\"conditionKey\":\"champion_target\",\"conditionType\":\"TARGET_CATEGORY_CHECK\",\"detail\":{\"categories\":[\"CHAMPION\"]},\"sortOrder\":10}],\"groupKey\":\"champion_target\",\"name\":\"唯一敌方英雄\",\"sortOrder\":10}],\"description\":\"仅消费宿主确认的 kassadin_q 实际 SKILL_HIT，在当前唯一敌方英雄上执行新增 primary_hit；规则本身不产生命中事件，也不创建引导打断、护盾或其他控制。\",\"eventSource\":{\"detail\":{\"sourceSkillKey\":\"kassadin_q\",\"useKind\":null},\"eventType\":\"SKILL_HIT\"},\"maxTriggersPerProcess\":null,\"name\":\"Q实际命中结算\",\"perTargetCooldown\":null,\"ruleKey\":\"resolve_on_q_hit\",\"sortOrder\":20},\"/skills/kassadin_q/trigger-rules/on_used_cast\":{\"actions\":[{\"actionKey\":\"start_cast\",\"actionType\":\"START_PROCESS\",\"detail\":{\"processKey\":\"cast\"},\"name\":\"启动虚无法球施放过程\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[],\"description\":\"每次 kassadin_q 主动使用启动已有 cast 过程；只登记法力消耗、施法延迟和普通冷却，不重复执行护盾、不执行命中伤害，也不创建引导打断。\",\"eventSource\":{\"detail\":{\"sourceSkillKey\":\"kassadin_q\",\"useKind\":\"ACTIVE\"},\"eventType\":\"SKILL_USED\"},\"maxTriggersPerProcess\":null,\"name\":\"主动使用启动虚无法球施放过程\",\"perTargetCooldown\":null,\"ruleKey\":\"on_used_cast\",\"sortOrder\":20}},\"audit\":[{\"method\":\"GET\",\"path\":\"/skills/kassadin_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_kassadin\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_kassadin/attributes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_kassadin/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/kassadin_q/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?characterKey=champion_kassadin\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?skillKey=kassadin_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/kassadin_q/parameters\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/kassadin_q/parameters/cast_time_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/kassadin_q/parameters/base_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/kassadin_q/parameters/base_magic_shield\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/kassadin_q/parameters/shield_duration_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/kassadin_q/parameters/calculation_constant_1\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/kassadin_q/parameters/calculation_constant_2\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/kassadin_q/parameters/cooldown_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/kassadin_q/parameters/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/kassadin_q/formulas\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/kassadin_q/formulas/damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/kassadin_q/formulas/magic_shield_amount\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/kassadin_q/effects\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/kassadin_q/effects/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/kassadin_q/effects/magic_shield\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/kassadin_q/effects/primary_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/kassadin_q/processes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/kassadin_q/processes/cast\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/kassadin_q/internal-states\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/kassadin_q/trigger-rules\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/kassadin_q/trigger-rules/on_used\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/kassadin_q/trigger-rules/on_used_cast\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/kassadin_q/trigger-rules/resolve_on_q_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/damage-types/magic\",\"status\":200},{\"method\":\"GET\",\"path\":\"/attributes/ability_power\",\"status\":200},{\"method\":\"GET\",\"path\":\"/attributes/mana\",\"status\":200}]}\n",
+  "summary": {
+    "status": "PASS",
+    "at": "2026-09-19T00:19:45.543Z",
+    "businessWrites": 0,
+    "GETs": 33,
+    "unchangedResponsesIncludingTimestamps": 26,
+    "expectedChangedCollections": 3,
+    "newObjects": {
+      "/skills/kassadin_q/effects/primary_hit": {
+        "createdAt": "2026-09-19T00:18:52.380796Z",
+        "description": "1V1范围内当前唯一敌方英雄的一次实际命中魔法伤害；引导打断、护盾和其他控制分支不在本效果内。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "虚无法球命中伤害",
+        "results": [
+          {
+            "description": "引用同技能 damage 公式；结果只表示直接技能伤害，不表达引导打断或护盾。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "SKILL",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "kassadin_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-19T00:18:52.380796Z"
+      },
+      "/skills/kassadin_q/processes/cast": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "createdAt": "2026-09-19T00:18:53.738606Z",
+        "description": "负责主动使用的法力消耗、250毫秒施法延迟和普通冷却；命中伤害由独立SKILL_HIT规则处理，已有护盾入口保持独立。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "gameId": "lol",
+        "name": "施放虚无法球",
+        "processKey": "cast",
+        "skillKey": "kassadin_q",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "读取当前技能250毫秒施法参数；不表示命中事件已自动产生。",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            },
+            "name": "施法延迟",
+            "sortOrder": 10,
+            "stepKey": "cast_time",
+            "stepType": "DELAY"
+          }
+        ],
+        "updatedAt": "2026-09-19T00:18:53.738606Z"
+      },
+      "/skills/kassadin_q/trigger-rules/resolve_on_q_hit": {
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "name": "执行虚无法球命中伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              }
+            ],
+            "groupKey": "champion_target",
+            "name": "唯一敌方英雄",
+            "sortOrder": 10
+          }
+        ],
+        "description": "仅消费宿主确认的 kassadin_q 实际 SKILL_HIT，在当前唯一敌方英雄上执行新增 primary_hit；规则本身不产生命中事件，也不创建引导打断、护盾或其他控制。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "kassadin_q",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "Q实际命中结算",
+        "perTargetCooldown": null,
+        "ruleKey": "resolve_on_q_hit",
+        "sortOrder": 20
+      },
+      "/skills/kassadin_q/trigger-rules/on_used_cast": {
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "cast"
+            },
+            "name": "启动虚无法球施放过程",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "每次 kassadin_q 主动使用启动已有 cast 过程；只登记法力消耗、施法延迟和普通冷却，不重复执行护盾、不执行命中伤害，也不创建引导打断。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "kassadin_q",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "主动使用启动虚无法球施放过程",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used_cast",
+        "sortOrder": 20
+      }
+    },
+    "audit": [
+      {
+        "method": "GET",
+        "path": "/skills/kassadin_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_kassadin",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_kassadin/attributes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_kassadin/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/kassadin_q/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?characterKey=champion_kassadin",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?skillKey=kassadin_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/kassadin_q/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/kassadin_q/parameters/cast_time_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/kassadin_q/parameters/base_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/kassadin_q/parameters/base_magic_shield",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/kassadin_q/parameters/shield_duration_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/kassadin_q/parameters/calculation_constant_1",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/kassadin_q/parameters/calculation_constant_2",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/kassadin_q/parameters/cooldown_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/kassadin_q/parameters/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/kassadin_q/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/kassadin_q/formulas/damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/kassadin_q/formulas/magic_shield_amount",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/kassadin_q/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/kassadin_q/effects/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/kassadin_q/effects/magic_shield",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/kassadin_q/effects/primary_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/kassadin_q/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/kassadin_q/processes/cast",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/kassadin_q/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/kassadin_q/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/kassadin_q/trigger-rules/on_used",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/kassadin_q/trigger-rules/on_used_cast",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/kassadin_q/trigger-rules/resolve_on_q_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/damage-types/magic",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/attributes/ability_power",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/attributes/mana",
+        "status": 200
+      }
+    ]
+  }
+}
+

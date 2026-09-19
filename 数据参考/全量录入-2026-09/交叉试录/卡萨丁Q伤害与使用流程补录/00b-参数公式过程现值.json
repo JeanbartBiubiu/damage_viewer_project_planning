@@ -1,0 +1,379 @@
+{
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "skillKey": "kassadin_q",
+  "lists": {
+    "parameters": [
+      {
+        "createdAt": "2026-09-09T05:42:29.536793Z",
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "kassadin_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T05:42:29.536793Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T05:42:30.547107Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 65,
+          "2": 95,
+          "3": 125,
+          "4": 155,
+          "5": 185
+        },
+        "name": "基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "kassadin_q",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T05:42:30.547107Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T05:42:31.52971Z",
+        "description": "客户端当前根绑定 DataValues.ShieldAmount 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 80,
+          "2": 110,
+          "3": 140,
+          "4": 170,
+          "5": 200
+        },
+        "name": "基础魔法护盾",
+        "parameterKey": "base_magic_shield",
+        "skillKey": "kassadin_q",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T05:42:31.52971Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T05:42:32.43055Z",
+        "description": "客户端当前根绑定 DataValues.ShieldDuration 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+        "fixedValue": 1500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "魔法护盾持续（毫秒）",
+        "parameterKey": "shield_duration_ms",
+        "skillKey": "kassadin_q",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T05:42:32.43055Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T05:42:33.432615Z",
+        "description": "当前原计算树显式常数；只用于此数学表达式。",
+        "fixedValue": 0.7,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "虚无法球魔法伤害固定系数",
+        "parameterKey": "calculation_constant_1",
+        "skillKey": "kassadin_q",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-09T05:42:33.432615Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T05:42:34.36376Z",
+        "description": "当前原计算树显式常数；只用于此数学表达式。",
+        "fixedValue": 0.3,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "魔法护盾数值固定系数",
+        "parameterKey": "calculation_constant_2",
+        "skillKey": "kassadin_q",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-09T05:42:34.36376Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T17:38:43.655385Z",
+        "description": "DDragon16.17.1 Kassadin.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 9000,
+          "2": 8500,
+          "3": 8000,
+          "4": 7500,
+          "5": 7000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "kassadin_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T17:38:43.655385Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T17:38:44.030641Z",
+        "description": "DDragon16.17.1 Kassadin.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 65,
+          "3": 70,
+          "4": 75,
+          "5": 80
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "kassadin_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T17:38:44.030641Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    ],
+    "formulas": [
+      {
+        "createdAt": "2026-09-09T05:42:35.339286Z",
+        "description": "基础值加0.7法强；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "虚无法球魔法伤害",
+        "skillKey": "kassadin_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T05:42:35.339286Z"
+      },
+      {
+        "createdAt": "2026-09-09T05:42:36.261054Z",
+        "description": "基础值加0.3法强；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "formulaKey": "magic_shield_amount",
+        "gameId": "lol",
+        "name": "魔法护盾数值",
+        "skillKey": "kassadin_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T05:42:36.261054Z"
+      }
+    ],
+    "processes": []
+  },
+  "details": {
+    "parameters/cast_time_ms": {
+      "createdAt": "2026-09-09T05:42:29.536793Z",
+      "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "kassadin_q",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T05:42:29.536793Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "parameters/base_damage": {
+      "createdAt": "2026-09-09T05:42:30.547107Z",
+      "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 65,
+        "2": 95,
+        "3": 125,
+        "4": 155,
+        "5": 185
+      },
+      "name": "基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "kassadin_q",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T05:42:30.547107Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "parameters/base_magic_shield": {
+      "createdAt": "2026-09-09T05:42:31.52971Z",
+      "description": "客户端当前根绑定 DataValues.ShieldAmount 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 80,
+        "2": 110,
+        "3": 140,
+        "4": 170,
+        "5": 200
+      },
+      "name": "基础魔法护盾",
+      "parameterKey": "base_magic_shield",
+      "skillKey": "kassadin_q",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T05:42:31.52971Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "parameters/shield_duration_ms": {
+      "createdAt": "2026-09-09T05:42:32.43055Z",
+      "description": "客户端当前根绑定 DataValues.ShieldDuration 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+      "fixedValue": 1500,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "魔法护盾持续（毫秒）",
+      "parameterKey": "shield_duration_ms",
+      "skillKey": "kassadin_q",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-09T05:42:32.43055Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "parameters/calculation_constant_1": {
+      "createdAt": "2026-09-09T05:42:33.432615Z",
+      "description": "当前原计算树显式常数；只用于此数学表达式。",
+      "fixedValue": 0.7,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "虚无法球魔法伤害固定系数",
+      "parameterKey": "calculation_constant_1",
+      "skillKey": "kassadin_q",
+      "sortOrder": 70,
+      "updatedAt": "2026-09-09T05:42:33.432615Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "parameters/calculation_constant_2": {
+      "createdAt": "2026-09-09T05:42:34.36376Z",
+      "description": "当前原计算树显式常数；只用于此数学表达式。",
+      "fixedValue": 0.3,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "魔法护盾数值固定系数",
+      "parameterKey": "calculation_constant_2",
+      "skillKey": "kassadin_q",
+      "sortOrder": 80,
+      "updatedAt": "2026-09-09T05:42:34.36376Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T17:38:43.655385Z",
+      "description": "DDragon16.17.1 Kassadin.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 9000,
+        "2": 8500,
+        "3": 8000,
+        "4": 7500,
+        "5": 7000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "kassadin_q",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T17:38:43.655385Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "parameters/mana_cost": {
+      "createdAt": "2026-09-07T17:38:44.030641Z",
+      "description": "DDragon16.17.1 Kassadin.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 60,
+        "2": 65,
+        "3": 70,
+        "4": 75,
+        "5": 80
+      },
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "kassadin_q",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-07T17:38:44.030641Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "formulas/damage": {
+      "createdAt": "2026-09-09T05:42:35.339286Z",
+      "description": "基础值加0.7法强；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "calculation_constant_1"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "虚无法球魔法伤害",
+      "skillKey": "kassadin_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T05:42:35.339286Z"
+    },
+    "formulas/magic_shield_amount": {
+      "createdAt": "2026-09-09T05:42:36.261054Z",
+      "description": "基础值加0.3法强；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_magic_shield"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "calculation_constant_2"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "magic_shield_amount",
+      "gameId": "lol",
+      "name": "魔法护盾数值",
+      "skillKey": "kassadin_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T05:42:36.261054Z"
+    }
+  },
+  "businessWrites": 0,
+  "auditFile": "request-audit-kassadin.json"
+}

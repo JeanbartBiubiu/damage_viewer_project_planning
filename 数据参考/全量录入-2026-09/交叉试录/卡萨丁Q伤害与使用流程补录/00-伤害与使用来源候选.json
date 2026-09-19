@@ -1,0 +1,1122 @@
+{
+  "schemaVersion": "damage.kassadin-q-damage-gap-candidate.v1",
+  "status": "READY_FOR_PARENT_REVIEW",
+  "generatedAt": "2026-09-19T00:07:03.943Z",
+  "title": "卡萨丁Q现有伤害参数公式之最小效果与英雄命中入口候选",
+  "boundary": "只读候选；不发送业务写入，不修改现有护盾、法力消耗、主动使用入口或过程，不证明宿主/Wasm/浏览器/战斗运行。",
+  "gameId": "lol",
+  "clientVersion": "16.17",
+  "ddragonVersion": "16.17.1",
+  "skillKey": "kassadin_q",
+  "slot": "Q",
+  "conclusion": "当前参数与公式已齐全，无需先补参数、公式或过程；可新增一个直接魔法伤害效果，并由唯一敌方英雄SKILL_HIT规则执行。",
+  "getOnly": {
+    "businessWrites": 0,
+    "newGetCount": 13,
+    "auditFile": "request-audit-kassadin.json",
+    "getOriginalsDirectory": "gets-kassadin/",
+    "snapshotFile": "02-kassadin-GET-snapshot.json",
+    "allStatuses200": true,
+    "allMethodsGET": true
+  },
+  "lockedExecutor": {
+    "path": "tools/authoring/update-reviewed-damage-vamp.mjs",
+    "expectedSha256": "181c182b32fbfc0b28ba91cab5aea9b4c86bdedf0d184d56e519a9db4b5c830a",
+    "actualSha256": "181c182b32fbfc0b28ba91cab5aea9b4c86bdedf0d184d56e519a9db4b5c830a"
+  },
+  "sourceFiles": [
+    {
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Kassadin.json",
+      "sha256": "a77bbb111a0eed1ec55ff8a6017e8fde0fd0e183ad4aa347e962892325377b29"
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Kassadin.json",
+      "sha256": "9afd359ea6daacd81b2589692e7da653926ec55b0b63184a521d0e1b24edbd25"
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Kassadin.json.gz",
+      "sha256": "9b4519bdf354abd5d69c850a467efc11a6b2afa801bd70e4de5cd829981eb2d0"
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/技能来源索引.json",
+      "sha256": "509017d379d3676147a1b5a0732023dfd95baa2039f24966b3a1801a28842bf9"
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/阶段进度.json",
+      "sha256": "0aa6cd55018efad4de1590418d721fd7a76c575f213b7e460b90b1fce585ef7b"
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q完整补录/交互来源核定.json",
+      "sha256": "e3bb3619af36e0212d4eacc35e5ec4aa31c0e6882cf7f32df031ee30ef2ea501"
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q完整补录/01-候选方案.json",
+      "sha256": "05245a8d21afa790d568ba0197f03c8b58ac847ab49b8357cfe10711c61e0dc9"
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/交叉试录/莫甘娜Q实际命中伤害补录/01-候选方案.json",
+      "sha256": "7a3d78bd90b738317b825c4a1e007413ef94438b73ce9d27d4cfd8c855056e41"
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第十三批/完整候选.json",
+      "sha256": "247eeb25c0f1c0b5448fabd16512d9c7b2632660fc08f3cd67bac0d9335c5ff0"
+    },
+    {
+      "path": "tools/authoring/update-reviewed-damage-vamp.mjs",
+      "sha256": "181c182b32fbfc0b28ba91cab5aea9b4c86bdedf0d184d56e519a9db4b5c830a"
+    },
+    {
+      "path": "output/six-magic-damage-followup/01-候选报告.json",
+      "sha256": "2354b86ca08072f00c5131adb6e19858096ef6f660342ad72dc7412b945dd8ed"
+    },
+    {
+      "path": "output/six-magic-damage-followup/request-audit.json",
+      "sha256": "aadd72aece7f40a72d7ddc5a37ffe43b3aa5b275107acc88efd2cc04e31de9a4"
+    },
+    {
+      "path": "output/six-magic-damage-followup/request-audit-kassadin.json",
+      "sha256": "f634ccfd2b094b869129c69423b227770d04c45fb116883c3edcf10a068fed39"
+    }
+  ],
+  "sharedContract": {
+    "interactionSource": {
+      "path": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q完整补录/交互来源核定.json",
+      "sha256": "e3bb3619af36e0212d4eacc35e5ec4aa31c0e6882cf7f32df031ee30ef2ea501",
+      "vampRules": [
+        {
+          "vampType": "OMNIVAMP",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "efficiencyValue": {
+            "kind": "FIXED",
+            "value": 1
+          }
+        }
+      ]
+    },
+    "matureCandidate": {
+      "path": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q完整补录/01-候选方案.json",
+      "sha256": "05245a8d21afa790d568ba0197f03c8b58ac847ab49b8357cfe10711c61e0dc9",
+      "effectPattern": "DAMAGE/TARGET/magic/SKILL/DIRECT/SKILL/OMNIVAMP POST_DEFENSE_DAMAGE效率1"
+    },
+    "hitShapeReference": {
+      "path": "数据参考/全量录入-2026-09/交叉试录/莫甘娜Q实际命中伤害补录/01-候选方案.json",
+      "sha256": "7a3d78bd90b738317b825c4a1e007413ef94438b73ce9d27d4cfd8c855056e41",
+      "effectPointer": "requests[0].body",
+      "hitRulePointer": "requests[1].body",
+      "skillHitReadback": "SKILL_HIT请求省略useKind，回读useKind:null"
+    }
+  },
+  "sourceBinding": {
+    "currentBoundRoot": "Characters/Kassadin/CharacterRecords/Root",
+    "currentBoundClientSpell": "Characters/Kassadin/Spells/NullLanceAbility/NullLance",
+    "clientRawSha256": "5032507c744a7bdf98f2391f0a125176a5da203395544228146007ba26676785",
+    "clientCompressedSha256": "9b4519bdf354abd5d69c850a467efc11a6b2afa801bd70e4de5cd829981eb2d0",
+    "contentVersion": "16.17.8104348+branch.releases-16-17.content.release",
+    "sourceIndexPath": "数据参考/全量录入-2026-09/技能公共参数实录/技能来源索引.json",
+    "sourceIndexSha256": "509017d379d3676147a1b5a0732023dfd95baa2039f24966b3a1801a28842bf9",
+    "phaseProgressPath": "数据参考/全量录入-2026-09/阶段进度.json",
+    "phaseProgressSha256": "0aa6cd55018efad4de1590418d721fd7a76c575f213b7e460b90b1fce585ef7b",
+    "officialZh": {
+      "id": "NullLance",
+      "name": "虚无法球",
+      "description": "卡萨丁向目标发射虚空能量法球，造成伤害并打断目标的技能引导。满溢的能量会在他身边环绕，提供一个可吸收魔法伤害的临时护盾。",
+      "tooltip": "卡萨丁发射一颗虚无能量法球，造成<magicDamage>{{ totaldamage }}魔法伤害</magicDamage>并打断引导技能。卡萨丁还会获得<shield>{{ totalshield }}魔法护盾</shield>，持续1.5秒。{{ spellmodifierdescriptionappend }}",
+      "maxrank": 5,
+      "cooldown": [
+        9,
+        8.5,
+        8,
+        7.5,
+        7
+      ],
+      "cost": [
+        60,
+        65,
+        70,
+        75,
+        80
+      ],
+      "effectBurn": [
+        null,
+        "65/95/125/155/185",
+        "0",
+        "80/110/140/170/200",
+        "1.5",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0"
+      ]
+    },
+    "officialEn": {
+      "id": "NullLance",
+      "name": "Null Sphere",
+      "description": "Kassadin fires an orb of void energy at a target, dealing damage and interrupting channels. The excess energy forms around himself, granting a temporary shield that absorbs magic damage.",
+      "tooltip": "Kassadin fires an orb of void energy, dealing <magicDamage>{{ totaldamage }} magic damage</magicDamage> and interrupting channels. Kassadin also gains <shield>{{ totalshield }} Magic Shield</shield> for 1.5 seconds.{{ spellmodifierdescriptionappend }}",
+      "maxrank": 5,
+      "cooldown": [
+        9,
+        8.5,
+        8,
+        7.5,
+        7
+      ],
+      "cost": [
+        60,
+        65,
+        70,
+        75,
+        80
+      ],
+      "effectBurn": [
+        null,
+        "65/95/125/155/185",
+        "0",
+        "80/110/140/170/200",
+        "1.5",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0"
+      ]
+    },
+    "clientDataValues": [
+      {
+        "name": "BaseDamage",
+        "values": [
+          35,
+          65,
+          95,
+          125,
+          155,
+          185,
+          215
+        ],
+        "__type": "SpellDataValue"
+      },
+      {
+        "name": "ShieldAmount",
+        "values": [
+          50,
+          80,
+          110,
+          140,
+          170,
+          200,
+          230
+        ],
+        "__type": "SpellDataValue"
+      },
+      {
+        "name": "ShieldDuration",
+        "values": [
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5
+        ],
+        "__type": "SpellDataValue"
+      }
+    ],
+    "clientTotalDamageCalculation": {
+      "mFormulaParts": [
+        {
+          "mDataValue": "BaseDamage",
+          "__type": "NamedDataValueCalculationPart"
+        },
+        {
+          "mCoefficient": 0.699999988079071,
+          "__type": "StatByCoefficientCalculationPart"
+        }
+      ],
+      "__type": "GameCalculation"
+    },
+    "clientCalculationKeys": [
+      "TotalDamage",
+      "TotalShield"
+    ],
+    "sourceIndexEntry": {
+      "name": "虚无法球",
+      "officialMaxRank": 5,
+      "dataValueNames": [
+        "BaseDamage",
+        "ShieldAmount",
+        "ShieldDuration"
+      ],
+      "calculationNames": [
+        "TotalShield",
+        "TotalDamage"
+      ],
+      "officialCooldown": [
+        9,
+        8.5,
+        8,
+        7.5,
+        7
+      ],
+      "officialCost": [
+        60,
+        65,
+        70,
+        75,
+        80
+      ],
+      "clientCooldown": [
+        9,
+        9,
+        8.5,
+        8,
+        7.5,
+        7,
+        8
+      ],
+      "clientMana": [
+        60,
+        65,
+        70,
+        75,
+        80,
+        80
+      ],
+      "clientCastTime": 0.25,
+      "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+    }
+  },
+  "currentManagementGap": {
+    "subjectRoute": "/skills/kassadin_q",
+    "subjectSnapshot": {
+      "description": "卡萨丁向目标发射虚空能量法球，造成伤害并打断目标的技能引导。满溢的能量会在他身边环绕，提供一个可吸收魔法伤害的临时护盾。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "maxLevel": 5,
+      "name": "卡萨丁·虚无法球",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "sortOrder": 1,
+      "status": "ENABLED"
+    },
+    "existingEffects": [
+      {
+        "effectKey": "mana_cost",
+        "route": "/skills/kassadin_q/effects/mana_cost",
+        "responseSha256": "1a0d3de0cf6eff352a27a5255b707f0d90a0b4f34dc00253e293c0af35b2c295",
+        "description": "仅绑定官方基础法力消耗；额外持续法力或真实扣除时点单独记录。",
+        "resultKeys": [
+          "consume_mana"
+        ]
+      },
+      {
+        "effectKey": "magic_shield",
+        "route": "/skills/kassadin_q/effects/magic_shield",
+        "responseSha256": "b106fe10dfcbb9b1677789ee9bb1b78e740b57710798b4b4036564a4311c54ce",
+        "description": "当前正文明确自身1.5秒魔法护盾；施放与目标命中、护盾采样时点未自动连接。",
+        "resultKeys": [
+          "shield"
+        ]
+      }
+    ],
+    "existingTriggerRule": {
+      "route": "/skills/kassadin_q/trigger-rules/on_used",
+      "responseSha256": "5f1b77b387e98e239c84a9cb3eb2690eb5e19cb84b50e25e40276709346e50c6",
+      "eventType": "SKILL_USED",
+      "actionTypes": [
+        "EXECUTE_EFFECT"
+      ],
+      "effectKeys": [
+        "magic_shield"
+      ]
+    },
+    "existingProcesses": {
+      "route": "/skills/kassadin_q/processes",
+      "responseSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "value": []
+    },
+    "finding": "当前管理端只有mana_cost与magic_shield效果，没有已保存DAMAGE效果；当前参数8项、公式2项且damage公式已存在，过程列表为空。"
+  },
+  "formulaReadiness": {
+    "formulaKey": "damage",
+    "route": "/skills/kassadin_q/formulas/damage",
+    "responseSha256": "1d293493b6006447b265ed793214acc80c02cbeb7455f2acf266c097acd27324",
+    "currentValue": {
+      "description": "基础值加0.7法强；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "calculation_constant_1"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "name": "虚无法球魔法伤害",
+      "sortOrder": 10
+    },
+    "parameterKeys": [
+      "base_damage",
+      "calculation_constant_1"
+    ],
+    "parameterRoutes": {
+      "base_damage": {
+        "route": "/skills/kassadin_q/parameters/base_damage",
+        "responseSha256": "ca7982e161b46400f2e3077d76c3c707930cec2df96cc5e33a2b0ed741550a46",
+        "currentValue": {
+          "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 65,
+            "2": 95,
+            "3": 125,
+            "4": 155,
+            "5": 185
+          },
+          "name": "基础魔法伤害",
+          "parameterKey": "base_damage",
+          "sortOrder": 40,
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      },
+      "calculation_constant_1": {
+        "route": "/skills/kassadin_q/parameters/calculation_constant_1",
+        "responseSha256": "53774aa6216514dad96a8d8b14a1e359adee4c097a9707fe35e398978e589471",
+        "currentValue": {
+          "description": "当前原计算树显式常数；只用于此数学表达式。",
+          "fixedValue": 0.7,
+          "levelValues": null,
+          "name": "虚无法球魔法伤害固定系数",
+          "parameterKey": "calculation_constant_1",
+          "sortOrder": 70,
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      }
+    },
+    "expressionMeaning": "base_damage + SOURCE总法术强度 × calculation_constant_1",
+    "sourceChecks": {
+      "apiBaseDamage": [
+        65,
+        95,
+        125,
+        155,
+        185
+      ],
+      "clientBaseDamageIndex1To5": [
+        65,
+        95,
+        125,
+        155,
+        185
+      ],
+      "officialEffectBurn": "65/95/125/155/185",
+      "baseDamageMatches": true,
+      "apiCoefficient": 0.7,
+      "clientCoefficient": 0.699999988079071,
+      "coefficientMatchesWithin1eMinus6": true
+    },
+    "dynamicInputs": {
+      "required": false,
+      "runtimeInputBindings": [],
+      "reason": "公式只读取技能等级参数与SOURCE总法术强度；SKILL_HIT规则只提供命中目标，不伪造等级、几何或角色状态输入。"
+    }
+  },
+  "processReadiness": {
+    "route": "/skills/kassadin_q/processes",
+    "responseSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "currentValue": [],
+    "decision": "不新增过程用于伤害；本候选由实际SKILL_HIT规则执行伤害，现有主动使用规则继续保留并只执行magic_shield。"
+  },
+  "damageReady": {
+    "status": "READY_FOR_PARENT_REVIEW",
+    "conclusion": "伤害参数与公式齐全；仅需新增一个DAMAGE效果和一个限定CHAMPION的SKILL_HIT执行入口。",
+    "requests": [
+      {
+        "method": "POST",
+        "route": "/skills/kassadin_q/effects",
+        "detailRoute": "/skills/kassadin_q/effects/primary_hit",
+        "body": {
+          "effectKey": "primary_hit",
+          "name": "虚无法球命中伤害",
+          "description": "1V1范围内当前唯一敌方英雄的一次实际命中魔法伤害；引导打断、护盾和其他控制分支不在本效果内。",
+          "sortOrder": 30,
+          "lifecycle": null,
+          "results": [
+            {
+              "resultKey": "damage",
+              "name": "魔法伤害",
+              "resultType": "DAMAGE",
+              "target": "TARGET",
+              "description": "引用同技能 damage 公式；结果只表示直接技能伤害，不表达引导打断或护盾。",
+              "sortOrder": 10,
+              "lifecycleBehavior": null,
+              "spellShieldBlockScope": "SKILL",
+              "valueRule": {
+                "value": {
+                  "kind": "FORMULA",
+                  "formulaKey": "damage"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": 0,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "damageTypeKey": "magic",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "vampRules": [
+                  {
+                    "vampType": "OMNIVAMP",
+                    "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                    "efficiencyValue": {
+                      "kind": "FIXED",
+                      "value": 1
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "expectedReadback": {
+          "effectKey": "primary_hit",
+          "name": "虚无法球命中伤害",
+          "description": "1V1范围内当前唯一敌方英雄的一次实际命中魔法伤害；引导打断、护盾和其他控制分支不在本效果内。",
+          "sortOrder": 30,
+          "lifecycle": null,
+          "results": [
+            {
+              "resultKey": "damage",
+              "name": "魔法伤害",
+              "resultType": "DAMAGE",
+              "target": "TARGET",
+              "description": "引用同技能 damage 公式；结果只表示直接技能伤害，不表达引导打断或护盾。",
+              "sortOrder": 10,
+              "lifecycleBehavior": null,
+              "spellShieldBlockScope": "SKILL",
+              "valueRule": {
+                "value": {
+                  "kind": "FORMULA",
+                  "formulaKey": "damage"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": 0,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "damageTypeKey": "magic",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "vampRules": [
+                  {
+                    "vampType": "OMNIVAMP",
+                    "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                    "efficiencyValue": {
+                      "kind": "FIXED",
+                      "value": 1
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "method": "POST",
+        "route": "/skills/kassadin_q/trigger-rules",
+        "detailRoute": "/skills/kassadin_q/trigger-rules/resolve_on_q_hit",
+        "body": {
+          "ruleKey": "resolve_on_q_hit",
+          "name": "Q实际命中结算",
+          "description": "仅消费宿主确认的 kassadin_q 实际 SKILL_HIT，在当前唯一敌方英雄上执行新增 primary_hit；规则本身不产生命中事件，也不创建引导打断、护盾或其他控制。",
+          "sortOrder": 20,
+          "eventSource": {
+            "eventType": "SKILL_HIT",
+            "detail": {
+              "sourceSkillKey": "kassadin_q"
+            }
+          },
+          "conditionGroups": [
+            {
+              "groupKey": "champion_target",
+              "name": "唯一敌方英雄",
+              "sortOrder": 10,
+              "conditions": [
+                {
+                  "conditionKey": "champion_target",
+                  "conditionType": "TARGET_CATEGORY_CHECK",
+                  "sortOrder": 10,
+                  "detail": {
+                    "categories": [
+                      "CHAMPION"
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "actionKey": "execute_primary_hit",
+              "name": "执行虚无法球命中伤害",
+              "actionType": "EXECUTE_EFFECT",
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET",
+              "detail": {
+                "effectKey": "primary_hit"
+              },
+              "runtimeInputBindings": [],
+              "resultModifiers": []
+            }
+          ],
+          "perTargetCooldown": null,
+          "maxTriggersPerProcess": null
+        },
+        "expectedReadback": {
+          "ruleKey": "resolve_on_q_hit",
+          "name": "Q实际命中结算",
+          "description": "仅消费宿主确认的 kassadin_q 实际 SKILL_HIT，在当前唯一敌方英雄上执行新增 primary_hit；规则本身不产生命中事件，也不创建引导打断、护盾或其他控制。",
+          "sortOrder": 20,
+          "eventSource": {
+            "eventType": "SKILL_HIT",
+            "detail": {
+              "sourceSkillKey": "kassadin_q",
+              "useKind": null
+            }
+          },
+          "conditionGroups": [
+            {
+              "groupKey": "champion_target",
+              "name": "唯一敌方英雄",
+              "sortOrder": 10,
+              "conditions": [
+                {
+                  "conditionKey": "champion_target",
+                  "conditionType": "TARGET_CATEGORY_CHECK",
+                  "sortOrder": 10,
+                  "detail": {
+                    "categories": [
+                      "CHAMPION"
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "actionKey": "execute_primary_hit",
+              "name": "执行虚无法球命中伤害",
+              "actionType": "EXECUTE_EFFECT",
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET",
+              "detail": {
+                "effectKey": "primary_hit"
+              },
+              "runtimeInputBindings": [],
+              "resultModifiers": []
+            }
+          ],
+          "perTargetCooldown": null,
+          "maxTriggersPerProcess": null
+        }
+      }
+    ]
+  },
+  "useReady": {
+    "status": "READY_FOR_PARENT_REVIEW",
+    "conclusion": "法力效果已存在；mana/cooldown与250ms cast参数已存在；当前没有过程，现有SKILL_USED on_used只执行护盾，因此可独立新增cast过程和第二条SKILL_USED启动入口。",
+    "currentFacts": {
+      "manaEffect": {
+        "description": "仅绑定官方基础法力消耗；额外持续法力或真实扣除时点单独记录。",
+        "effectKey": "mana_cost",
+        "lifecycle": null,
+        "name": "施放法力消耗",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "sortOrder": 10
+      },
+      "parameters": {
+        "mana_cost": {
+          "route": "/skills/kassadin_q/parameters/mana_cost",
+          "responseSha256": "5b7ad07ef79c9072a64f30d0598f8fa244d44f64db95934f40d9c0d86f755d4b",
+          "currentValue": {
+            "description": "DDragon16.17.1 Kassadin.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 60,
+              "2": 65,
+              "3": 70,
+              "4": 75,
+              "5": 80
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "sortOrder": 110,
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        },
+        "cooldown_ms": {
+          "route": "/skills/kassadin_q/parameters/cooldown_ms",
+          "responseSha256": "ae1bf7e5ef0fa0119989f9898c257a42d1e17a8465f7c4e53729c359eef8e185",
+          "currentValue": {
+            "description": "DDragon16.17.1 Kassadin.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 9000,
+              "2": 8500,
+              "3": 8000,
+              "4": 7500,
+              "5": 7000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "sortOrder": 100,
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        },
+        "cast_time_ms": {
+          "route": "/skills/kassadin_q/parameters/cast_time_ms",
+          "responseSha256": "6cca8b6b3fb264345df4b11adb0a9f8c8283b1b789482e058bd75bb8064f3872",
+          "currentValue": {
+            "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+            "fixedValue": 250,
+            "levelValues": null,
+            "name": "施法时间（毫秒）",
+            "parameterKey": "cast_time_ms",
+            "sortOrder": 30,
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        }
+      },
+      "processList": {
+        "route": "/skills/kassadin_q/processes",
+        "responseSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "value": []
+      },
+      "existingSkillUsedRule": {
+        "route": "/skills/kassadin_q/trigger-rules/on_used",
+        "responseSha256": "5f1b77b387e98e239c84a9cb3eb2690eb5e19cb84b50e25e40276709346e50c6",
+        "currentValue": {
+          "actions": [
+            {
+              "actionKey": "execute_magic_shield",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "magic_shield"
+              },
+              "name": "执行虚无法球魔法护盾",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "接收 kassadin_q 主动使用；无条件在 CURRENT_TARGET 上执行已有 magic_shield。magic_shield 结果 target=SOURCE 且只吸收 magic 魔法伤害，不表达目标伤害、引导打断或资源消耗。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "kassadin_q",
+              "useKind": "ACTIVE"
+            },
+            "eventType": "SKILL_USED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "虚无法球主动使用",
+          "perTargetCooldown": null,
+          "ruleKey": "on_used",
+          "sortOrder": 10
+        }
+      }
+    },
+    "requests": [
+      {
+        "method": "POST",
+        "route": "/skills/kassadin_q/processes",
+        "detailRoute": "/skills/kassadin_q/processes/cast",
+        "body": {
+          "processKey": "cast",
+          "name": "施放虚无法球",
+          "activationType": "ACTIVE",
+          "description": "负责主动使用的法力消耗、250毫秒施法延迟和普通冷却；命中伤害由独立SKILL_HIT规则处理，已有护盾入口保持独立。",
+          "sortOrder": 10,
+          "cooldown": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cooldown_ms"
+            },
+            "startMoment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            }
+          },
+          "steps": [
+            {
+              "stepKey": "cast_time",
+              "name": "施法延迟",
+              "description": "读取当前技能250毫秒施法参数；不表示命中事件已自动产生。",
+              "sortOrder": 10,
+              "stepType": "DELAY",
+              "detail": {
+                "delayValue": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "cast_time_ms"
+                }
+              }
+            }
+          ],
+          "effectBindings": [
+            {
+              "bindingKey": "mana_cost",
+              "effectKey": "mana_cost",
+              "moment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              },
+              "sortOrder": 10
+            }
+          ],
+          "stateOperations": []
+        },
+        "expectedReadback": {
+          "processKey": "cast",
+          "name": "施放虚无法球",
+          "activationType": "ACTIVE",
+          "description": "负责主动使用的法力消耗、250毫秒施法延迟和普通冷却；命中伤害由独立SKILL_HIT规则处理，已有护盾入口保持独立。",
+          "sortOrder": 10,
+          "cooldown": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cooldown_ms"
+            },
+            "startMoment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            }
+          },
+          "steps": [
+            {
+              "stepKey": "cast_time",
+              "name": "施法延迟",
+              "description": "读取当前技能250毫秒施法参数；不表示命中事件已自动产生。",
+              "sortOrder": 10,
+              "stepType": "DELAY",
+              "detail": {
+                "delayValue": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "cast_time_ms"
+                }
+              }
+            }
+          ],
+          "effectBindings": [
+            {
+              "bindingKey": "mana_cost",
+              "effectKey": "mana_cost",
+              "moment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              },
+              "sortOrder": 10
+            }
+          ],
+          "stateOperations": []
+        }
+      },
+      {
+        "method": "POST",
+        "route": "/skills/kassadin_q/trigger-rules",
+        "detailRoute": "/skills/kassadin_q/trigger-rules/on_used_cast",
+        "body": {
+          "ruleKey": "on_used_cast",
+          "name": "主动使用启动虚无法球施放过程",
+          "description": "每次 kassadin_q 主动使用启动已有 cast 过程；只登记法力消耗、施法延迟和普通冷却，不重复执行护盾、不执行命中伤害，也不创建引导打断。",
+          "sortOrder": 20,
+          "eventSource": {
+            "eventType": "SKILL_USED",
+            "detail": {
+              "sourceSkillKey": "kassadin_q",
+              "useKind": "ACTIVE"
+            }
+          },
+          "conditionGroups": [],
+          "actions": [
+            {
+              "actionKey": "start_cast",
+              "name": "启动虚无法球施放过程",
+              "actionType": "START_PROCESS",
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET",
+              "detail": {
+                "processKey": "cast"
+              },
+              "runtimeInputBindings": [],
+              "resultModifiers": []
+            }
+          ],
+          "perTargetCooldown": null,
+          "maxTriggersPerProcess": null
+        },
+        "expectedReadback": {
+          "ruleKey": "on_used_cast",
+          "name": "主动使用启动虚无法球施放过程",
+          "description": "每次 kassadin_q 主动使用启动已有 cast 过程；只登记法力消耗、施法延迟和普通冷却，不重复执行护盾、不执行命中伤害，也不创建引导打断。",
+          "sortOrder": 20,
+          "eventSource": {
+            "eventType": "SKILL_USED",
+            "detail": {
+              "sourceSkillKey": "kassadin_q",
+              "useKind": "ACTIVE"
+            }
+          },
+          "conditionGroups": [],
+          "actions": [
+            {
+              "actionKey": "start_cast",
+              "name": "启动虚无法球施放过程",
+              "actionType": "START_PROCESS",
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET",
+              "detail": {
+                "processKey": "cast"
+              },
+              "runtimeInputBindings": [],
+              "resultModifiers": []
+            }
+          ],
+          "perTargetCooldown": null,
+          "maxTriggersPerProcess": null
+        }
+      }
+    ],
+    "preservation": "不修改现有mana_cost、magic_shield或on_used；新增入口只启动cast过程，不重复护盾、不执行命中伤害。"
+  },
+  "preservation": {
+    "existingEffects": [
+      {
+        "route": "/skills/kassadin_q/effects/mana_cost",
+        "responseSha256": "1a0d3de0cf6eff352a27a5255b707f0d90a0b4f34dc00253e293c0af35b2c295",
+        "currentValue": {
+          "description": "仅绑定官方基础法力消耗；额外持续法力或真实扣除时点单独记录。",
+          "effectKey": "mana_cost",
+          "lifecycle": null,
+          "name": "施放法力消耗",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "attributeKey": "mana",
+                "operation": "CONSUME"
+              },
+              "lifecycleBehavior": null,
+              "name": "消耗法力",
+              "resultKey": "consume_mana",
+              "resultType": "RESOURCE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "mana_cost"
+                }
+              }
+            }
+          ],
+          "sortOrder": 10
+        }
+      },
+      {
+        "route": "/skills/kassadin_q/effects/magic_shield",
+        "responseSha256": "b106fe10dfcbb9b1677789ee9bb1b78e740b57710798b4b4036564a4311c54ce",
+        "currentValue": {
+          "description": "当前正文明确自身1.5秒魔法护盾；施放与目标命中、护盾采样时点未自动连接。",
+          "effectKey": "magic_shield",
+          "lifecycle": {
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "shield_duration_ms"
+            },
+            "expiryMode": "ALL_AT_ONCE",
+            "firstPeriodicExecution": null,
+            "instanceScope": "SOURCE",
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "periodicIntervalValue": null,
+            "reapplicationDurationMode": "REFRESH_ALL",
+            "reapplicationStackMode": "KEEP"
+          },
+          "name": "虚无法球自身魔法护盾",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "absorbedDamageTypeKey": "magic",
+                "decayMode": "NONE"
+              },
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "periodicExecutionMode": null,
+                "reapplicationValueMode": "REPLACE",
+                "stackValueMode": "SHARED",
+                "valueReadMode": "APPLICATION_SNAPSHOT"
+              },
+              "name": "魔法护盾",
+              "resultKey": "shield",
+              "resultType": "NORMAL_SHIELD",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "magic_shield_amount",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "sortOrder": 20
+        }
+      }
+    ],
+    "existingTriggerRules": [
+      {
+        "route": "/skills/kassadin_q/trigger-rules/on_used",
+        "responseSha256": "5f1b77b387e98e239c84a9cb3eb2690eb5e19cb84b50e25e40276709346e50c6",
+        "currentValue": {
+          "actions": [
+            {
+              "actionKey": "execute_magic_shield",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "magic_shield"
+              },
+              "name": "执行虚无法球魔法护盾",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "接收 kassadin_q 主动使用；无条件在 CURRENT_TARGET 上执行已有 magic_shield。magic_shield 结果 target=SOURCE 且只吸收 magic 魔法伤害，不表达目标伤害、引导打断或资源消耗。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "kassadin_q",
+              "useKind": "ACTIVE"
+            },
+            "eventType": "SKILL_USED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "虚无法球主动使用",
+          "perTargetCooldown": null,
+          "ruleKey": "on_used",
+          "sortOrder": 10
+        }
+      }
+    ],
+    "existingProcesses": [],
+    "statement": "写入阶段必须保护现有mana_cost、magic_shield、on_used主动入口及其所有参数、公式、关系和图片；本候选不修改它们。"
+  },
+  "unfinishedBranches": [
+    {
+      "kind": "配置",
+      "component": "引导打断",
+      "reason": "官方文本证明打断引导，但本候选不新增打断、沉默或眩晕结果；只保留为独立控制分支。"
+    },
+    {
+      "kind": "运行时",
+      "component": "SKILL_HIT事件",
+      "reason": "伤害入口只消费宿主确认的实际SKILL_HIT，不生产投射物、碰撞或命中事件。"
+    },
+    {
+      "kind": "运行时",
+      "component": "护盾/抗性/防御后伤害/吸血",
+      "reason": "管理配置与GET候选不证明这些战斗运行已执行。"
+    }
+  ],
+  "scopeExclusions": [
+    "引导打断、沉默或其他控制结果",
+    "护盾效果与护盾采样时点",
+    "投射物几何、命中事件生产",
+    "法力消耗与普通冷却改动",
+    "宿主/Wasm/战斗运行"
+  ],
+  "runtimeBoundary": "只配置现行管理契约中的直接技能伤害、SKILL_HIT英雄入口以及独立普通使用过程候选；不宣称宿主事件、法术护盾、抗性、防御结算后伤害或吸血已运行验证。",
+  "inputPreservation": {
+    "sourceReport": "01-候选报告.json",
+    "sourceReportSha256": "2354b86ca08072f00c5131adb6e19858096ef6f660342ad72dc7412b945dd8ed",
+    "oldAudit": "request-audit.json",
+    "oldAuditSha256": "aadd72aece7f40a72d7ddc5a37ffe43b3aa5b275107acc88efd2cc04e31de9a4",
+    "businessWrites": 0
+  }
+}
