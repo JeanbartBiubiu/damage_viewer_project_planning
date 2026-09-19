@@ -1,0 +1,220 @@
+{
+  "at": "2026-09-19T05:46:49.607Z",
+  "status": "PASS",
+  "baseline": {
+    "path": "数据参考/全量录入-2026-09/交叉试录/莫甘娜Q禁锢首次页面补录/04-写入前现值.json",
+    "sha256": "06a7408831d902fc4f8feabecb301f7f2e78731996422e41740b81cd44b88e7a"
+  },
+  "browser": {
+    "status": "PASS",
+    "businessWrites": 0,
+    "checks": [
+      "原primary_hit编辑页核对无生命周期和魔法伤害结果，取消关闭。",
+      "原use_cost_and_cooldown过程详情显示主动启动、cooldown_ms于过程开始、register_use立即步骤及mana_cost于过程开始；说明明确不宣称施法时长为零。",
+      "原on_used_cost_and_cooldown规则为本技能主动使用，只启动该成本冷却过程。",
+      "原resolve_on_q_hit规则为本技能实际命中且英雄类别，只执行primary_hit；核对后取消，没有再次保存。"
+    ]
+  },
+  "http": {
+    "GETs": 4,
+    "unchangedResponsesIncludingTimestamps": 4,
+    "businessWrites": 0,
+    "values": {
+      "/skills/morgana_q/processes/use_cost_and_cooldown": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "createdAt": "2026-09-18T22:16:34.443467Z",
+        "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零。其他技能效果不在此过程执行。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "gameId": "lol",
+        "name": "使用消耗与普通冷却",
+        "processKey": "use_cost_and_cooldown",
+        "skillKey": "morgana_q",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+            "detail": {},
+            "name": "登记本次使用",
+            "sortOrder": 10,
+            "stepKey": "register_use",
+            "stepType": "IMMEDIATE"
+          }
+        ],
+        "updatedAt": "2026-09-18T22:16:34.443467Z"
+      },
+      "/skills/morgana_q/trigger-rules/on_used_cost_and_cooldown": {
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "use_cost_and_cooldown"
+            },
+            "name": "启动使用过程",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "每次本技能主动使用启动已有的使用过程；不定义完整施法时长，也不代替命中或其他未完成分支。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "morgana_q",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "主动使用登记消耗与冷却",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used_cost_and_cooldown",
+        "sortOrder": 5
+      },
+      "/skills/morgana_q/trigger-rules/resolve_on_q_hit": {
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "name": "执行暗之禁锢命中伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              }
+            ],
+            "groupKey": "champion_target",
+            "name": "唯一敌方英雄",
+            "sortOrder": 10
+          }
+        ],
+        "description": "仅消费宿主确认的 morgana_q 实际 SKILL_HIT，在当前唯一敌方英雄上执行已有 primary_hit；规则本身不产生命中事件，也不创建禁锢控制。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "morgana_q",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "Q实际命中结算",
+        "perTargetCooldown": null,
+        "ruleKey": "resolve_on_q_hit",
+        "sortOrder": 20
+      },
+      "/skills/morgana_q/effects/primary_hit": {
+        "createdAt": "2026-09-18T22:35:01.570726Z",
+        "description": "1V1范围内当前唯一敌方英雄的一次实际命中魔法伤害；禁锢控制、投射物几何和其他目标类别分支不在本效果内。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "对当前目标命中伤害",
+        "results": [
+          {
+            "description": "引用同技能 magic_damage 公式；结果只表示配置的直接技能伤害。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "魔法伤害",
+            "resultKey": "magic_damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "SKILL",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "magic_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "morgana_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-18T22:35:01.570726Z"
+      }
+    },
+    "audit": [
+      {
+        "method": "GET",
+        "path": "/skills/morgana_q/processes/use_cost_and_cooldown",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/morgana_q/trigger-rules/on_used_cost_and_cooldown",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/morgana_q/trigger-rules/resolve_on_q_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/morgana_q/effects/primary_hit",
+        "status": 200
+      }
+    ]
+  },
+  "runtimeValidation": "未执行"
+}
