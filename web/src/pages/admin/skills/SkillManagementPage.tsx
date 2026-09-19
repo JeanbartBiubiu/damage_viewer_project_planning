@@ -114,7 +114,19 @@ export function SkillManagementPage({
   const [triggerRuleTarget, setTriggerRuleTarget] = useState<TriggerRuleTarget | null>(null);
   const skillRequestSerial = useRef(0);
   const categoryRequestSerial = useRef(0);
+  const statusRequestSerial = useRef(0);
+  const [statusConnection, setStatusConnection] = useState({ apiBaseUrl, selectedGameId, adminToken });
   const [pageGameId, setPageGameId] = useState(selectedGameId);
+
+  if (statusConnection.apiBaseUrl !== apiBaseUrl
+    || statusConnection.selectedGameId !== selectedGameId
+    || statusConnection.adminToken !== adminToken) {
+    setStatusConnection({ apiBaseUrl, selectedGameId, adminToken });
+    statusRequestSerial.current += 1;
+    setStatusTarget(null);
+    setStatusError(null);
+    setStatusUpdatingKey(null);
+  }
 
   if (pageGameId !== selectedGameId) {
     setPageGameId(selectedGameId);
@@ -224,6 +236,7 @@ export function SkillManagementPage({
 
   useEffect(() => { void loadSkills(appliedQuery); }, [appliedQuery, loadSkills]);
   useEffect(() => { void loadCategories(); }, [loadCategories]);
+  useEffect(() => () => { statusRequestSerial.current += 1; }, []);
   useEffect(() => { setCurrentPage(1); }, [apiBaseUrl, selectedGameId, adminToken, focusedSkillKey]);
 
   const lastPage = Math.max(1, Math.ceil(items.length / pageSize));
@@ -277,24 +290,28 @@ export function SkillManagementPage({
       return;
     }
     const { skill, nextStatus } = statusTarget;
+    const serial = ++statusRequestSerial.current;
     const action = nextStatus === 'ENABLED' ? '启用' : '停用';
     setStatusUpdatingKey(skill.skillKey);
     setStatusError(null);
     try {
+      const current = await loadFocusedSkill(apiBaseUrl, selectedGameId, skill.skillKey, token);
+      if (statusRequestSerial.current !== serial) return;
       const result = await updateSkill(
         apiBaseUrl,
         selectedGameId,
         skill.skillKey,
         token,
-        statusRequest(skill, nextStatus)
+        statusRequest(current, nextStatus)
       );
+      if (statusRequestSerial.current !== serial) return;
       setStatusTarget(null);
       setNotice(`技能「${result.data.name}」已${action}。`);
       await loadSkills(appliedQuery);
     } catch (error) {
-      setStatusError(getErrorMessage(error));
+      if (statusRequestSerial.current === serial) setStatusError(getErrorMessage(error));
     } finally {
-      setStatusUpdatingKey(null);
+      if (statusRequestSerial.current === serial) setStatusUpdatingKey(null);
     }
   };
 

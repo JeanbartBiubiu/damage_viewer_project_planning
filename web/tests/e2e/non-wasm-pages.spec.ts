@@ -3687,6 +3687,178 @@ test.describe('skill management without Wasm', () => {
     diagnostics.assertClean('local skill pagination, editing and last-page deletion');
   });
 
+  for (const action of ['查看', '编辑'] as const) test(`技能主体最新详情：${action}不使用旧列表字段`, async ({ page }) => {
+    const mock = new MockApi();
+    mock.skills = [{
+      gameId: GAME_ID, skillKey: 'fresh_skill', name: '列表中的技能', description: '列表旧说明',
+      maxLevel: 1, status: 'ENABLED', sortOrder: 10, skillCategoryKeys: [],
+      createdAt: CREATED_AT, updatedAt: UPDATED_AT
+    }];
+    mock.skillCategories = [{
+      gameId: GAME_ID, skillCategoryKey: 'retained', name: '已保留分类', description: null,
+      status: 'DISABLED', sortOrder: 0, createdAt: CREATED_AT, updatedAt: UPDATED_AT
+    }];
+    const diagnostics = await prepare(page, mock);
+    const detail = createDeferred();
+    await page.route('**/skills/fresh_skill', async (route) => {
+      if (route.request().method() === 'GET') await detail.promise;
+      await route.fallback();
+    });
+    await openSkills(page);
+    await expect(skillRow(page, 'fresh_skill')).toContainText('列表中的技能');
+    mock.skills[0] = { ...mock.skills[0]!, name: '最新技能', description: '接口更正后的说明', maxLevel: 5, skillCategoryKeys: ['retained'] };
+    await skillRow(page, 'fresh_skill').getByRole('button', { name: action, exact: true }).click();
+    const editor = visibleModal(page, `${action}技能`);
+    try {
+      await expect(editor.getByText('正在加载技能详情…', { exact: true })).toBeVisible();
+      await expect(editor.getByLabel('说明', { exact: true })).toHaveCount(0);
+      if (action === '编辑') await expect(editor.getByRole('button', { name: '保存', exact: true })).toBeDisabled();
+    } finally {
+      detail.resolve();
+    }
+    await expect(editor.getByLabel('技能名称', { exact: true })).toHaveValue('最新技能');
+    await expect(editor.getByLabel('说明', { exact: true })).toHaveValue('接口更正后的说明');
+    await expect(editor.getByLabel('最高等级', { exact: true })).toHaveValue('5');
+    await expect(editor.getByLabel('技能分类', { exact: true })).toContainText('已保留分类（已停用）');
+    if (action === '编辑') {
+      await editor.getByLabel('最高等级', { exact: true }).fill('3');
+      await editor.getByRole('button', { name: '保存', exact: true }).click();
+      const confirmation = visibleModal(page, '确认缩小最高等级');
+      await expect(confirmation).toContainText('高于 Lv3 的技能等级参数值将被删除');
+      await confirmation.getByRole('button', { name: '取消', exact: true }).click();
+      await editor.getByLabel('最高等级', { exact: true }).fill('5');
+      await editor.getByLabel('排序', { exact: true }).fill('20');
+      await editor.getByRole('button', { name: '保存', exact: true }).click();
+      await expect(editor).toBeHidden();
+      expect(mock.skills[0]).toMatchObject({ description: '接口更正后的说明', name: '最新技能', maxLevel: 5, skillCategoryKeys: ['retained'], sortOrder: 20 });
+      expect(mock.writes).toHaveLength(1);
+    } else {
+      expect(mock.writes).toHaveLength(0);
+    }
+    diagnostics.assertClean('skill editor loads current detail');
+  });
+
+  test('技能主体最新详情：失败可重试且关闭后忽略迟到响应', async ({ page }) => {
+    const mock = new MockApi();
+    mock.skills = [{
+      gameId: GAME_ID, skillKey: 'retry_skill', name: '重试技能', description: '旧内容',
+      maxLevel: 5, status: 'ENABLED', sortOrder: 10, skillCategoryKeys: [],
+      createdAt: CREATED_AT, updatedAt: UPDATED_AT
+    }];
+    await prepare(page, mock);
+    const late = createDeferred();
+    const lateDelivered = createDeferred();
+    let detailPhase: 'failed' | 'late' | 'current' = 'failed';
+    let lateReads = 0;
+    await page.route('**/skills/retry_skill', async (route) => {
+      if (detailPhase === 'failed') {
+        await route.fulfill({ status: 503, contentType: 'application/json', body: JSON.stringify({ error: { code: '503.UNAVAILABLE', message: '技能详情暂时不可用' } }) });
+      } else if (detailPhase === 'late') {
+        lateReads += 1;
+        const oldBody = JSON.stringify(mock.skills[0]);
+        await late.promise;
+        await route.fulfill({ status: 200, contentType: 'application/json', body: oldBody });
+        lateDelivered.resolve();
+      } else {
+        await route.fallback();
+      }
+    });
+    await openSkills(page);
+    await skillRow(page, 'retry_skill').getByRole('button', { name: '编辑', exact: true }).click();
+    const editor = visibleModal(page, '编辑技能');
+    await expect(editor.getByText(/技能详情暂时不可用/)).toBeVisible();
+    await expect(editor.getByLabel('技能名称', { exact: true })).toHaveCount(0);
+    await expect(editor.getByRole('button', { name: '保存', exact: true })).toBeDisabled();
+    detailPhase = 'late';
+    await editor.getByRole('button', { name: '重试', exact: true }).click();
+    try {
+      await expect(editor.getByText('正在加载技能详情…', { exact: true })).toBeVisible();
+      await expect.poll(() => lateReads).toBe(1);
+      await editor.getByRole('button', { name: '取消', exact: true }).click();
+      await expect(editor).toBeHidden();
+      mock.skills[0] = { ...mock.skills[0]!, description: '重开后的最新内容' };
+      detailPhase = 'current';
+      await skillRow(page, 'retry_skill').getByRole('button', { name: '编辑', exact: true }).click();
+      await expect(editor.getByLabel('说明', { exact: true })).toHaveValue('重开后的最新内容');
+    } finally {
+      late.resolve();
+    }
+    await lateDelivered.promise;
+    await expect(editor.getByLabel('说明', { exact: true })).toHaveValue('重开后的最新内容');
+    await editor.getByLabel('说明', { exact: true }).fill('未保存草稿');
+    await expect(editor.getByLabel('说明', { exact: true })).toHaveValue('未保存草稿');
+    expect(lateReads).toBe(1);
+    expect(mock.writes).toHaveLength(0);
+  });
+
+  test('技能主体最新详情：启停保留列表加载后的字段更正', async ({ page }) => {
+    const mock = new MockApi();
+    mock.skills = [{
+      gameId: GAME_ID, skillKey: 'status_fresh', name: '状态技能', description: '旧说明',
+      maxLevel: 1, status: 'ENABLED', sortOrder: 10, skillCategoryKeys: [],
+      createdAt: CREATED_AT, updatedAt: UPDATED_AT
+    }];
+    const diagnostics = await prepare(page, mock);
+    await openSkills(page);
+    await expect(skillRow(page, 'status_fresh')).toBeVisible();
+    const fresh = { ...mock.skills[0]!, description: '外部更正', maxLevel: 5, sortOrder: 30 };
+    mock.skills[0] = fresh;
+    await skillRow(page, 'status_fresh').getByRole('button', { name: '停用', exact: true }).click();
+    const confirmation = visibleModal(page, '停用技能');
+    await confirmation.getByRole('button', { name: '停用', exact: true }).click();
+    await expect(confirmation).toBeHidden();
+    expect(mock.skills[0]).toMatchObject({ ...fresh, status: 'DISABLED', updatedAt: '2026-08-23T11:00:00Z' });
+    expect(mock.writes).toHaveLength(1);
+    expect(mock.writes[0]!.body).toEqual({ name: fresh.name, description: fresh.description, maxLevel: fresh.maxLevel,
+      status: 'DISABLED', sortOrder: fresh.sortOrder, skillCategoryKeys: fresh.skillCategoryKeys });
+    diagnostics.assertClean('status changes preserve current skill fields');
+  });
+
+  test('技能主体最新详情：切换连接后不提交旧启停请求', async ({ page }) => {
+    const mock = new MockApi();
+    mock.skills = [{
+      gameId: GAME_ID, skillKey: 'status_cancel', name: '取消旧请求', description: null,
+      maxLevel: 5, status: 'ENABLED', sortOrder: 10, skillCategoryKeys: [],
+      createdAt: CREATED_AT, updatedAt: UPDATED_AT
+    }];
+    const diagnostics = await prepare(page, mock);
+    const detail = createDeferred();
+    const delivered = createDeferred();
+    let waiting = false;
+    await page.route('**/skills/status_cancel', async (route) => {
+      if (route.request().method() === 'GET') {
+        waiting = true;
+        await detail.promise;
+        await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(mock.skills[0]) });
+        delivered.resolve();
+      } else {
+        await route.fallback();
+      }
+    });
+    await openSkills(page);
+    await skillRow(page, 'status_cancel').getByRole('button', { name: '停用', exact: true }).click();
+    const confirmation = visibleModal(page, '停用技能');
+    await confirmation.getByRole('button', { name: '停用', exact: true }).click();
+    try {
+      await expect.poll(() => waiting).toBe(true);
+      // 模拟外壳在详情读取期间切换连接，确认旧请求不会继续提交。
+      await page.getByPlaceholder('粘贴 Admin JWT', { exact: true }).evaluate((input) => {
+        Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!.call(input, 'changed-test-token');
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+      });
+      await expect.poll(() => page.evaluate((key) => window.localStorage.getItem(key), ADMIN_TOKEN_STORAGE_KEY)).toBe('changed-test-token');
+      diagnostics.assertClean('connection change before pending detail completes');
+      await expect(confirmation).toBeHidden();
+    } finally {
+      detail.resolve();
+    }
+    await delivered.promise;
+    await expect(skillRow(page, 'status_cancel').getByRole('button', { name: '停用', exact: true })).toBeEnabled();
+    expect(mock.writes).toHaveLength(0);
+    expect(mock.skills[0]!.status).toBe('ENABLED');
+    diagnostics.assertClean('obsolete status request cannot write');
+  });
+
   test('starts each skill editor session without the previous skill categories', async ({ page }) => {
     const mock = new MockApi();
     mock.skillCategories = [
