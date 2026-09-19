@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-19T04:33:29.420Z",
+  "generatedAt": "2026-09-19T04:47:33.205Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -10512,7 +10512,7 @@
     },
     "skillHitEnemyConditionManagement": {
       "at": "2026-09-19T04:33:29.420Z",
-      "status": "敌方命中管理条件及娜美R首次页面闭环通过，娜美Q待返回补录",
+      "status": "敌方命中管理能力及娜美R首次页面、娜美Q返回补录闭环通过；发条W阶段另核",
       "backend": {
         "worktree": "damage_backend_dev",
         "relativePath": "数据参考/全量录入-2026-09/技能命中敌方条件后端增量/09-证据清单.json",
@@ -10554,6 +10554,37 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/娜美R敌方命中首次页面录入/09-证据清单.json",
         "sha256": "e921300fb477db7541c6c4b7f22dc44acd8c0239b569e4b01355eaa9426613c4",
         "commit": "6127ea8e"
+      },
+      "followupEvidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/娜美Q敌方命中返回补录/09-证据清单.json",
+        "sha256": "eb31e527b9fd23ef7231b2c9510a319bf44af1d71e6392c955665f1465a4ad05",
+        "commit": "2982c971"
+      }
+    },
+    "namiQEnemyHitReturn": {
+      "at": "2026-09-19T04:47:33.205Z",
+      "status": "娜美Q敌方命中入口已返回补录并通过独立回读和页面核对",
+      "skills": [
+        "nami_q"
+      ],
+      "created": {
+        "triggerRules": 1
+      },
+      "prepareGETs": 27,
+      "writerGETs": 29,
+      "writerPOSTs": 1,
+      "immediateReadbacks": 1,
+      "independentGETs": 27,
+      "unchangedResponsesIncludingTimestamps": 25,
+      "expectedChangedCollections": 1,
+      "browser": "PASS",
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/娜美Q敌方命中返回补录/09-证据清单.json",
+        "sha256": "eb31e527b9fd23ef7231b2c9510a319bf44af1d71e6392c955665f1465a4ad05",
+        "commit": "2982c971"
       }
     }
   },
@@ -10949,6 +10980,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/娜美R敌方命中首次页面录入/09-证据清单.json",
         "sha256": "e921300fb477db7541c6c4b7f22dc44acd8c0239b569e4b01355eaa9426613c4",
         "commit": "6127ea8e"
+      },
+      "namiQEnemyHitReturn": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/娜美Q敌方命中返回补录/09-证据清单.json",
+        "sha256": "eb31e527b9fd23ef7231b2c9510a319bf44af1d71e6392c955665f1465a4ad05",
+        "commit": "2982c971"
       }
     },
     "coverage": {
@@ -24824,7 +24861,7 @@
         "name": "娜美·碧波之牢",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "本体直接伤害效果独立保存，命中入口未接已独立回读；伤害与控制效果及实际命中入口、控制身份与目标资格、实际施法时序与其他尚未核对的原候选组成、使用登记代表页面验收、悬浮控制的完整状态语义、施法时序、代表页面验收、敌方命中入口资格继续处理，不计整技能管理完成。",
+        "reason": "本体伤害与敌方英雄实际命中入口已保存并独立回读、真实页面核对；伤害与控制效果及实际命中入口、控制身份与目标资格、实际施法时序与其他尚未核对的原候选组成、使用登记代表页面验收、悬浮控制的完整状态语义、施法时序、代表页面验收继续处理，不计整技能管理完成。",
         "batchKey": "heroThirtyFirstBatch",
         "candidateSha256": "bf26b9374fc305af52e7298934a54244aec5bec0166017ae5a99a38a2019ddcc",
         "evidenceRefs": [
@@ -24832,7 +24869,8 @@
           "heroSourceInventory",
           "sevenSkillCostCooldownBackfill",
           "sevenSkillCostDescriptionCorrections",
-          "eightControlBodyDamageBackfill"
+          "eightControlBodyDamageBackfill",
+          "namiQEnemyHitReturn"
         ],
         "historicalPendingCounts": {
           "source": 0,
@@ -24847,8 +24885,7 @@
           "使用登记代表页面验收",
           "悬浮控制的完整状态语义",
           "施法时序",
-          "代表页面验收",
-          "敌方命中入口资格"
+          "代表页面验收"
         ],
         "remainingBranchesBoundary": "这里只确认消耗与普通冷却登记；既有候选中的其他来源、资格和配置缺口继续保留，当前列举不是一次全技能完成审核。",
         "authoredCostCooldown": {
@@ -24864,18 +24901,19 @@
           "effects": 2,
           "processes": 1,
           "internalStates": 0,
-          "triggerRules": 1
+          "triggerRules": 2
         },
         "costDescriptions": "已改为稳定的数值来源与过程职责说明，去除过时未接线或候选状态",
-        "authoredDamageOnly": {
+        "authoredDirectHit": {
           "effectKey": "primary_hit",
-          "ruleKey": null,
+          "ruleKey": "actual_hit",
           "httpReadback": "PASS",
           "spellShieldBlockScope": "SKILL",
           "vampType": "OMNIVAMP",
           "basisOutputKind": "POST_DEFENSE_DAMAGE",
           "efficiency": 1,
-          "browser": "待验"
+          "browser": "PASS",
+          "conditions": "同组英雄类别与明确敌方关系"
         }
       },
       {
