@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-19T13:09:00.037Z",
+  "generatedAt": "2026-09-19T13:22:43.174Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -11388,6 +11388,43 @@
         "commit": "3755f766",
         "sha256": "487443ed4755d7a9d9fd363c1a6276c2e704f1d456e6424b6bcf54b82ce38c52"
       }
+    },
+    "nautilusWCostCooldownReturn": {
+      "at": "2026-09-19T13:22:43.173Z",
+      "status": "普通使用成本与冷却已返回补录并验收，原护盾入口保持，整技能仍开放",
+      "skillKey": "nautilus_w",
+      "sourceVersion": {
+        "client": "16.17",
+        "ddragon": "16.17.1"
+      },
+      "newProcesses": 1,
+      "newTriggerRules": 1,
+      "descriptionUpdates": 4,
+      "businessWrites": 6,
+      "independentGETs": 60,
+      "archiveGETs": 0,
+      "browser": "PASS",
+      "currentComponentCounts": {
+        "parameters": 9,
+        "formulas": 2,
+        "effects": 2,
+        "processes": 1,
+        "internalStates": 0,
+        "triggerRules": 2
+      },
+      "remainingBranches": [
+        "护盾存在期间攻击附伤的实际资格、2秒总额节拍分配及重施",
+        "当前根Trait_AttackReset对应的攻击计时行为",
+        "完整战斗施放资格及运行验证另列，不称整技能管理完成"
+      ],
+      "systemConclusion": "复用已有主动使用事件、开始过程动作、普通冷却和法力效果，未新增代码或表；立即登记不证明零施放时间。",
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/诺提勒斯W成本冷却返回补录/09-证据清单.json",
+        "commit": "f904e5dc",
+        "sha256": "49956d457ec161726d4dfcc798f3fad8273300b8f8f2c24d1a79920bfe5619b6"
+      }
     }
   },
   "runtimeValidation": "未执行",
@@ -11939,6 +11976,12 @@
         "relativePath": "数据参考/全量录入-2026-09/复苏增幅返回核对/03-独立核对结论.json",
         "commit": "3755f766",
         "sha256": "487443ed4755d7a9d9fd363c1a6276c2e704f1d456e6424b6bcf54b82ce38c52"
+      },
+      "nautilusWCostCooldownReturn": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/诺提勒斯W成本冷却返回补录/09-证据清单.json",
+        "commit": "f904e5dc",
+        "sha256": "49956d457ec161726d4dfcc798f3fad8273300b8f8f2c24d1a79920bfe5619b6"
       }
     },
     "coverage": {
@@ -26645,7 +26688,7 @@
         "name": "诺提勒斯·泰坦之怒",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "原自身护盾入口保持，现已补齐60法力消耗与12秒普通冷却的使用登记；60次独立GET及真实页面通过。护盾期间攻击附伤的资格、节拍与重施、攻击重置及完整施放行为继续核对，整技能管理仍未完成。",
         "pendingCounts": {
           "source": 0,
           "system": 1,
@@ -26656,7 +26699,21 @@
         "candidateSha256": "9ce3115402b975c25dc86ce779179e094fba433ff3273a3aac5d06952547e074",
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "nautilusWCostCooldownReturn"
+        ],
+        "currentComponentCounts": {
+          "parameters": 9,
+          "formulas": 2,
+          "effects": 2,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 2
+        },
+        "remainingBranches": [
+          "护盾存在期间攻击附伤的实际资格、2秒总额节拍分配及重施",
+          "当前根Trait_AttackReset对应的攻击计时行为",
+          "完整战斗施放资格及运行验证另列，不称整技能管理完成"
         ]
       },
       {
