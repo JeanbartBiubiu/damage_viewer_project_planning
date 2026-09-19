@@ -119,7 +119,7 @@ class SkillMovementSlowServiceTest {
     }
 
     @ParameterizedTest
-    @CsvSource({"STUN,APPLY", "ROOT,APPLY", "SILENCE,APPLY", "STUN,REMOVE", "ROOT,REMOVE", "SILENCE,REMOVE", "MOVEMENT_SLOW,REMOVE"})
+    @CsvSource({"STUN,APPLY", "ROOT,APPLY", "SILENCE,APPLY", "CHARM,APPLY", "STUN,REMOVE", "ROOT,REMOVE", "SILENCE,REMOVE", "CHARM,REMOVE", "MOVEMENT_SLOW,REMOVE"})
     void keepsNonSlowApplicationAndAllRemovalValueless(StatusKind kind, String operation) {
         ObjectNode body = body();
         useKind(kind);
@@ -135,7 +135,7 @@ class SkillMovementSlowServiceTest {
     }
 
     @ParameterizedTest
-    @EnumSource(value = StatusKind.class, names = {"ROOT", "SILENCE"})
+    @EnumSource(value = StatusKind.class, names = {"ROOT", "SILENCE", "CHARM"})
     void roundTripsValuelessControlWithDurationAndNoValueModes(StatusKind kind) {
         useKind(kind);
         ObjectNode body = valuelessBody();
@@ -161,7 +161,7 @@ class SkillMovementSlowServiceTest {
     @CsvSource({"valueReadMode,APPLICATION_SNAPSHOT", "stackValueMode,SHARED",
         "reapplicationValueMode,REPLACE", "periodicExecutionMode,ONCE_PER_INSTANCE"})
     void rejectsValuelessControlValueModes(String field, String value) {
-        for (StatusKind kind : List.of(StatusKind.ROOT, StatusKind.SILENCE)) {
+        for (StatusKind kind : List.of(StatusKind.ROOT, StatusKind.SILENCE, StatusKind.CHARM)) {
             useKind(kind);
             ObjectNode body = valuelessBody();
             ((ObjectNode) result(body).get("lifecycleBehavior")).put(field, value);

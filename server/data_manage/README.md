@@ -279,3 +279,7 @@ mvn "-Dtest=LegacyCombatDataCleanupDbContractSqlTest,SkillParameterFormulaManage
 沉默状态增量：目录追加 `SILENCE`（沉默），创建后种类不可改；施加和移除均复用无强度状态操作，期限由技能效果生命周期维护，当前结果法术护盾粒度沿用既有规则。共享含义见规划真源《系统精简实施说明》的“沉默状态增量”，不实现施法限制、引导中断或解除结算。
 
 已核定的原库使用 [add_silence_status_kind.sql](../../db/game_manage/migrations/add_silence_status_kind.sql) 追加种类约束；[ApplySilenceStatusKind.java](../../tools/authoring/ApplySilenceStatusKind.java) 固定主机、数据库和已审查SQL摘要，并用新建流水拒绝重放。它仅修改约束与注释，核对原三条状态含时间戳、970个效果和9331条引用，再比较事务前后原数据。执行结果不明时先独立只读恢复，不能直接重试；旧迁移和旧执行工具保持原字节。首次新增沉默目录使用最终服务的真实页面。
+
+魅惑状态增量：目录增加 `CHARM`（魅惑），无强度状态操作、种类不可改和来源与承受对象实例关联沿用既有结构。具体移动速度、中止与重施分别依据来源；共享定义以规划真源《系统精简实施说明》的“魅惑状态增量”为准，本模块不执行魅惑行动控制。
+
+已有test0221库的魅惑种类约束使用 [本次追加SQL](../../db/game_manage/migrations/add_charm_status_kind.sql) 与 `tools/authoring/ApplyCharmStatusKind.java` 单次执行器。先按当前基线预检和独立批准摘要，执行日志为 `output/charm-status-preflight/migration-attempt.jsonl`，存在任何尝试记录都先查现状；不得重放旧状态迁移。写后另启只读连接确认四条原状态、效果、引用和27表保留，再通过页面建立魅惑目录。
