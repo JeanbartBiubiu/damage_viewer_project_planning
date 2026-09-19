@@ -1,0 +1,109 @@
+{
+  "createdAt": "2026-09-19T19:14:27.766Z",
+  "status": "PARTIAL_MANAGEMENT_RETURN_PASS",
+  "skillKey": "annie_w",
+  "sourceVersion": "client16.17 / DDragon16.17.1",
+  "currentCounts": {
+    "parameters": 5,
+    "formulas": 1,
+    "effects": 2,
+    "processes": 1,
+    "internalStates": 0,
+    "triggerRules": 2
+  },
+  "writes": {
+    "browser": 1,
+    "protectedAPI": 1,
+    "total": 2
+  },
+  "independentHTTP": {
+    "GETs": 36,
+    "hitScope": 18,
+    "description": 18,
+    "status": "PASS"
+  },
+  "investigation": {
+    "wGETs": 27,
+    "pGETs": 9,
+    "businessWrites": 0
+  },
+  "browser": {
+    "kind": "BROWSER_OBSERVATIONS",
+    "at": "2026-09-19T19:02:10.229Z",
+    "skillKey": "annie_w",
+    "businessWrites": 1,
+    "saveMessage": "规则「焚烧实际命中」已保存。",
+    "reopenedRule": {
+      "key": "actual_hit",
+      "sourceSkillKey": "annie_w",
+      "event": "技能命中",
+      "groupKey": "champion_target",
+      "name": "本轮敌方英雄",
+      "conditions": "事件对方类别 / 英雄 并且 技能命中敌方对象",
+      "action": "执行效果 / 当前目标 / spell_hit / 绑定 0 / 修正 0"
+    },
+    "status": "PASS",
+    "limits": "管理条件保存与重开，不表示战斗实际事件或P联动已完成。",
+    "existingUseRule": {
+      "key": "on_used",
+      "event": "技能被主动或消耗使用",
+      "sourceSkill": "安妮·焚烧（annie_w）",
+      "useKind": "主动",
+      "action": "启动过程 / 当前目标 / cast / 绑定 0 / 修正 0",
+      "status": "PASS"
+    },
+    "existingProcess": {
+      "key": "cast",
+      "name": "施放焚烧",
+      "activation": "主动",
+      "cooldown": {
+        "parameter": "cooldown_ms",
+        "moment": "过程开始"
+      },
+      "step": {
+        "key": "cast_time",
+        "type": "延迟",
+        "parameter": "cast_time_ms"
+      },
+      "effectBinding": {
+        "key": "mana_cost",
+        "effect": "施放法力消耗",
+        "moment": "过程开始"
+      },
+      "stateOperations": 0,
+      "status": "PASS"
+    },
+    "existingDamage": {
+      "effectKey": "spell_hit",
+      "resultKey": "damage",
+      "lifecycle": false,
+      "formula": "damage",
+      "target": "当前目标",
+      "type": "魔法伤害",
+      "delivery": "技能",
+      "origin": "直接伤害",
+      "critical": "不允许暴击",
+      "vamp": {
+        "kind": "全能吸血",
+        "basis": "防御后伤害",
+        "fixedEfficiency": 1
+      },
+      "spellShield": "当前结果",
+      "status": "PASS"
+    },
+    "subject": {
+      "description": "安妮向锥形区域施放烈焰，对敌人造成魔法伤害。当前本轮1V1配置已连接敌方英雄实际命中的普通伤害，以及主动使用时的法力消耗、250毫秒施放登记和7000毫秒基础冷却。五级伤害为70/110/150/190/230加0.8倍来源总法强，法力消耗为70/75/80/85/90。嗜火被动的层数、消费和晕眩跨技能分支尚未配置；过程结束不自动生成命中。固定来源：客户端16.17、官方静态资料16.17.1。",
+      "updatedAt": "2026-09-19T19:08:52.772122Z",
+      "status": "PASS"
+    },
+    "consoleErrors": 0,
+    "consoleWarnings": 0
+  },
+  "oldResponses": "命中范围批次16项原响应含时间戳保留；说明批次17项原响应含时间戳保留。原伤害、公式、过程和使用入口保持。",
+  "correctedAnalysis": "02原调查中把动作总时长与施放时长混为冲突、把运行缺证作为管理阻塞的表述，由04修正。仍需以本轮实际保存条件限定敌方英雄，不能只凭原规则说明认定范围已配置。",
+  "remaining": [
+    "安妮P层数、满层消费与W晕眩的跨技能管理配置及必要资格语义"
+  ],
+  "completion": "W保留系统暂缓，未将被动移出范围以增加管理完成数。",
+  "runtimeValidation": "NOT_RUN"
+}

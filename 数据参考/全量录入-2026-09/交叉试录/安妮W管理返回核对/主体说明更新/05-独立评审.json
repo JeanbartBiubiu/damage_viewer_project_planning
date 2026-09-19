@@ -1,0 +1,18 @@
+{
+  "at": "2026-09-19T19:07:51.6511150Z",
+  "status": "APPROVED",
+  "reviewer": "/root/root_status_source_review",
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-descriptions-v2.mjs": "f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517",
+    "01-纠错计划.json": "6a47fbad40d471fb0815492a79aba5229ee41b4f2504862c961b19aef4be1a7e",
+    "02-冻结请求.json": "8765238704d399f7cc3050a716723448aa3066877982649212274927235a0665",
+    "03-来源摘要.json": "e47339ec06c451b2cb8e0b39788e03ea6b783d9a98de89cca6de0d3e235afb69",
+    "04-写入前现值.json": "9e5286d8700ba7c1df15e2a7691b624e31f4d642ab29cd37bc1aba5b05e3973a"
+  },
+  "findings": [
+    "主体说明冻结请求只有1条PUT，目标为/skills/annie_w；按工具的技能字段集合比较写前现值，name、maxLevel、status、sortOrder、skillCategoryKeys均保持，唯一业务字段变化为description，createdAt、gameId、skillKey、updatedAt等服务字段不在PUT正文内；expectedReadback相对写前现值也仅替换description。",
+    "说明中的数值与固定来源一致：客户端Annie.json.gz的Characters/Annie/Spells/AnnieWAbility/AnnieW.mSpell.DataValues.BaseDamage索引1至5为70/110/150/190/230，APRatio为0.8，spellCastTime为0.25，cooldownTime为7秒，mana索引0至4为70/75/80/85/90；官方中英文静态资料的data.Annie.spells[1]同样给出冷却7秒和法力70/75/80/85/90。来源文件实际散列与03-来源摘要一致。",
+    "“已保存敌方英雄入口”可由04写前现值中的/skills/annie_w/trigger-rules/actual_hit条件组核对；03-P当前组成回读的/skills/annie_p/parameters仅2项，formulas、effects、processes、internal-states、trigger-rules均为空，故说明将嗜火层数、消费和晕眩跨技能分支标为尚未配置有依据；描述同时明确过程结束不自动生成命中，未把未配置分支写成完成。",
+    "04写前现值含18次GET且businessWrites为0；工具f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517仅按批准文件校验、冻结字段生成和读回，准备/预检/独立读回路径不含业务写入，写入路径仅执行已批准的PUT。"
+  ]
+}

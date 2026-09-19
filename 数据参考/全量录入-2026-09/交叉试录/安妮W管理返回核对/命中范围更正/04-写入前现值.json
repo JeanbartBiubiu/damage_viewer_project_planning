@@ -1,0 +1,591 @@
+{
+  "at": "2026-09-19T18:49:49.348Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/skills/annie_w": {
+      "createdAt": "2026-09-06T18:16:26.474863Z",
+      "description": "安妮向锥形区域施放一道烈焰，对区域内的所有敌人造成伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "安妮·焚烧",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "annie_w",
+      "sortOrder": 2,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:16:26.474863Z"
+    },
+    "/skills/annie_w/parameters": [
+      {
+        "createdAt": "2026-09-07T16:37:42.595105Z",
+        "description": "官方16.17.1冷却与当前主技能 cooldownTime[1..等级上限]一致；仅基础冷却，不含急速和重置。",
+        "fixedValue": 7000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "annie_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:37:42.595105Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:42.945601Z",
+        "description": "官方16.17.1 cost与主技能mana索引0..等级上限-1一致。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 75,
+          "3": 80,
+          "4": 85,
+          "5": 90
+        },
+        "name": "法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "annie_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T16:37:42.945601Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:43.329163Z",
+        "description": "当前主技能 spellCastTime；仅施法延迟，不代替实际命中。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "annie_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T16:37:43.329163Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:43.699473Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 110,
+          "3": 150,
+          "4": 190,
+          "5": 230
+        },
+        "name": "基础伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "annie_w",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-07T16:37:43.699473Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:44.063598Z",
+        "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+        "fixedValue": 0.8,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法术强度倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "annie_w",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-07T16:37:44.063598Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    ],
+    "/skills/annie_w/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T16:37:42.595105Z",
+      "description": "官方16.17.1冷却与当前主技能 cooldownTime[1..等级上限]一致；仅基础冷却，不含急速和重置。",
+      "fixedValue": 7000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "annie_w",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T16:37:42.595105Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/annie_w/parameters/mana_cost": {
+      "createdAt": "2026-09-07T16:37:42.945601Z",
+      "description": "官方16.17.1 cost与主技能mana索引0..等级上限-1一致。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 70,
+        "2": 75,
+        "3": 80,
+        "4": 85,
+        "5": 90
+      },
+      "name": "法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "annie_w",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-07T16:37:42.945601Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/annie_w/parameters/cast_time_ms": {
+      "createdAt": "2026-09-07T16:37:43.329163Z",
+      "description": "当前主技能 spellCastTime；仅施法延迟，不代替实际命中。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "annie_w",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-07T16:37:43.329163Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/annie_w/parameters/base_damage": {
+      "createdAt": "2026-09-07T16:37:43.699473Z",
+      "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 70,
+        "2": 110,
+        "3": 150,
+        "4": 190,
+        "5": 230
+      },
+      "name": "基础伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "annie_w",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-07T16:37:43.699473Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/annie_w/parameters/ap_ratio": {
+      "createdAt": "2026-09-07T16:37:44.063598Z",
+      "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+      "fixedValue": 0.8,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法术强度倍率",
+      "parameterKey": "ap_ratio",
+      "skillKey": "annie_w",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-07T16:37:44.063598Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/annie_w/formulas": [
+      {
+        "createdAt": "2026-09-07T16:37:44.463454Z",
+        "description": "当前根技能 TotalDamage：基础伤害+来源总法术强度×倍率。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "焚烧伤害",
+        "skillKey": "annie_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:37:44.463454Z"
+      }
+    ],
+    "/skills/annie_w/formulas/damage": {
+      "createdAt": "2026-09-07T16:37:44.463454Z",
+      "description": "当前根技能 TotalDamage：基础伤害+来源总法术强度×倍率。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "焚烧伤害",
+      "skillKey": "annie_w",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T16:37:44.463454Z"
+    },
+    "/skills/annie_w/effects": [
+      {
+        "createdAt": "2026-09-07T16:37:44.81907Z",
+        "description": "仅施放法力消耗；具体过程单独绑定。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "annie_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:37:44.81907Z"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:45.235264Z",
+        "description": "本轮1V1敌方英雄的普通直接魔法技能伤害组成；显式登记防御结算后伤害、效率为1的全能吸血资格。实际命中入口已配置，其他被动、控制或目标分支分别维护。",
+        "effectKey": "spell_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "焚烧命中",
+        "resultCount": 1,
+        "skillKey": "annie_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-18T23:30:23.994892Z"
+      }
+    ],
+    "/skills/annie_w/effects/mana_cost": {
+      "createdAt": "2026-09-07T16:37:44.81907Z",
+      "description": "仅施放法力消耗；具体过程单独绑定。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "annie_w",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T16:37:44.81907Z"
+    },
+    "/skills/annie_w/effects/spell_hit": {
+      "createdAt": "2026-09-07T16:37:45.235264Z",
+      "description": "本轮1V1敌方英雄的普通直接魔法技能伤害组成；显式登记防御结算后伤害、效率为1的全能吸血资格。实际命中入口已配置，其他被动、控制或目标分支分别维护。",
+      "effectKey": "spell_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "焚烧命中",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": [
+              {
+                "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                "efficiencyValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "vampType": "OMNIVAMP"
+              }
+            ]
+          },
+          "lifecycleBehavior": null,
+          "name": "焚烧命中",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "RESULT",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "annie_w",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-18T23:30:23.994892Z"
+    },
+    "/skills/annie_w/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-07T16:37:45.631819Z",
+        "description": "只绑定法力、基础冷却及施法延迟；不在过程结束时自动造成伤害。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "施放焚烧",
+        "processKey": "cast",
+        "skillKey": "annie_w",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-07T16:37:45.631819Z"
+      }
+    ],
+    "/skills/annie_w/processes/cast": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-07T16:37:45.631819Z",
+      "description": "只绑定法力、基础冷却及施法延迟；不在过程结束时自动造成伤害。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "施放焚烧",
+      "processKey": "cast",
+      "skillKey": "annie_w",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "主技能已核对的施法时间。",
+          "detail": {
+            "delayValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cast_time_ms"
+            }
+          },
+          "name": "施法延迟",
+          "sortOrder": 10,
+          "stepKey": "cast_time",
+          "stepType": "DELAY"
+        }
+      ],
+      "updatedAt": "2026-09-07T16:37:45.631819Z"
+    },
+    "/skills/annie_w/internal-states": [],
+    "/skills/annie_w/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "焚烧实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:37:46.050718Z"
+      },
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "主动使用时启动本技能施法过程；法力消耗、普通冷却及施法延迟沿用过程配置，实际命中由独立规则处理。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "主动使用启动焚烧施法过程",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-18T23:47:03.360224Z"
+      }
+    ],
+    "/skills/annie_w/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "damage",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "spell_hit"
+          },
+          "name": "执行命中伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "annie_w",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "焚烧实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    },
+    "/skills/annie_w/trigger-rules/on_used": {
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "actionType": "START_PROCESS",
+          "detail": {
+            "processKey": "cast"
+          },
+          "name": "启动焚烧施法过程",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "主动使用时启动本技能施法过程；法力消耗、普通冷却及施法延迟沿用过程配置，实际命中由独立规则处理。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "annie_w",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "主动使用启动焚烧施法过程",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used",
+      "sortOrder": 10
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/annie_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_w/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_w/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_w/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_w/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_w/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_w/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_w/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_w/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_w/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_w/effects/spell_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_w/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_w/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_w/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_w/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_w/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_w/trigger-rules/on_used",
+      "status": 200
+    }
+  ],
+  "businessWrites": 0
+}

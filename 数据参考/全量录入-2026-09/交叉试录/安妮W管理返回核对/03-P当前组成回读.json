@@ -1,0 +1,174 @@
+{
+  "at": "2026-09-19T18:54:26.912Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "requestMethod": "GET",
+  "businessWrites": 0,
+  "target": {
+    "skillKey": "annie_p"
+  },
+  "values": {
+    "/skills/annie_p": {
+      "createdAt": "2026-09-06T18:16:25.790608Z",
+      "description": "在施放4个技能后，安妮的下一次伤害类技能就会对目标造成短暂的晕眩效果。<br><br>安妮在游戏开始时和重生时，会带着满层的【嗜火】。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+      "gameId": "lol",
+      "maxLevel": 1,
+      "name": "安妮·嗜火",
+      "skillCategoryKeys": [
+        "passive"
+      ],
+      "skillKey": "annie_p",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:16:25.790608Z"
+    },
+    "/skills/annie_p/parameters": [
+      {
+        "createdAt": "2026-09-07T16:37:36.646218Z",
+        "description": "客户端当前根绑定 DataValues.MaxStacks 取索引1至1。",
+        "fixedValue": 4,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "满层嗜火层数",
+        "parameterKey": "max_stacks",
+        "skillKey": "annie_p",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:37:36.646218Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:36.988995Z",
+        "description": "当前计算式的角色等级断点，取1至18级；19级及以后不计本批已覆盖。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 1250,
+          "2": 1250,
+          "3": 1250,
+          "4": 1250,
+          "5": 1250,
+          "6": 1500,
+          "7": 1500,
+          "8": 1500,
+          "9": 1500,
+          "10": 1500,
+          "11": 1750,
+          "12": 1750,
+          "13": 1750,
+          "14": 1750,
+          "15": 1750,
+          "16": 1750,
+          "17": 1750,
+          "18": 1750
+        },
+        "name": "嗜火眩晕持续（毫秒）",
+        "parameterKey": "stun_duration_ms",
+        "skillKey": "annie_p",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T16:37:36.988995Z",
+        "valueMode": "CHARACTER_LEVEL",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/annie_p/parameters/max_stacks": {
+      "createdAt": "2026-09-07T16:37:36.646218Z",
+      "description": "客户端当前根绑定 DataValues.MaxStacks 取索引1至1。",
+      "fixedValue": 4,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "满层嗜火层数",
+      "parameterKey": "max_stacks",
+      "skillKey": "annie_p",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T16:37:36.646218Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/annie_p/parameters/stun_duration_ms": {
+      "createdAt": "2026-09-07T16:37:36.988995Z",
+      "description": "当前计算式的角色等级断点，取1至18级；19级及以后不计本批已覆盖。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 1250,
+        "2": 1250,
+        "3": 1250,
+        "4": 1250,
+        "5": 1250,
+        "6": 1500,
+        "7": 1500,
+        "8": 1500,
+        "9": 1500,
+        "10": 1500,
+        "11": 1750,
+        "12": 1750,
+        "13": 1750,
+        "14": 1750,
+        "15": 1750,
+        "16": 1750,
+        "17": 1750,
+        "18": 1750
+      },
+      "name": "嗜火眩晕持续（毫秒）",
+      "parameterKey": "stun_duration_ms",
+      "skillKey": "annie_p",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-07T16:37:36.988995Z",
+      "valueMode": "CHARACTER_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/annie_p/formulas": [],
+    "/skills/annie_p/effects": [],
+    "/skills/annie_p/processes": [],
+    "/skills/annie_p/internal-states": [],
+    "/skills/annie_p/trigger-rules": []
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/annie_p",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_p/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_p/parameters/max_stacks",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_p/parameters/stun_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_p/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_p/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_p/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_p/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_p/trigger-rules",
+      "status": 200
+    }
+  ],
+  "referencePaths": []
+}
