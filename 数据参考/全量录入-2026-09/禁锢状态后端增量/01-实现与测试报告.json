@@ -1,0 +1,107 @@
+{
+  "at": "2026-09-19T01:29:08.0864041Z",
+  "conclusion": "后端最小增量完成，定向和完整测试通过；最终脚本已由主负责人独立审查并单次迁移，独立只读回读通过。",
+  "worktree": "C:/project/damage_backend_dev",
+  "branch": "backend/dev",
+  "files": [
+    {
+      "sha256": "f7e20b017f67e8491accccc6744bfeb1a8cb0751265db5243bde447eebda1570",
+      "path": "server/data_manage/src/main/java/xyz/game/datamanage/model/status/StatusKind.java"
+    },
+    {
+      "sha256": "0b40b6cbfbf3b5ad85738c2926240f0bd7d654fcfee49b841dcfa642cd13f3be",
+      "path": "db/game_manage/schema.sql"
+    },
+    {
+      "sha256": "71ae384612e92e6da88b2c27a68af393814a32cfbfc1f2cd87bf3d697cfdc0cf",
+      "path": "db/game_manage/migrations/add_root_status_kind.sql"
+    },
+    {
+      "sha256": "e1538d15841837834850987210bd9ae40a7b296dbe4532eddce32c8cb6cecc3c",
+      "path": "server/data_manage/src/test/java/xyz/game/datamanage/service/status/StatusServiceTest.java"
+    },
+    {
+      "sha256": "c8138c0f6a0e530c224011205610bac72869a3ae1f83c846780507f27c0eea45",
+      "path": "server/data_manage/src/test/java/xyz/game/datamanage/service/skilleffect/SkillMovementSlowServiceTest.java"
+    },
+    {
+      "sha256": "cc085fa01c0057a6603e0b64eafcea828f5d0e5ab2d8fa0169ebaabb55694763",
+      "path": "server/data_manage/src/test/java/xyz/game/datamanage/db/status/StatusBasicManagementSchemaSqlTest.java"
+    },
+    {
+      "sha256": "881107ab8879242713b423bd45e16770f3158f41230f85e3accc94581fd63458",
+      "path": "server/data_manage/README.md"
+    }
+  ],
+  "preserved": [
+    {
+      "unchanged": true,
+      "path": "db/game_manage/migrations/status_kinds_and_slow_strength.sql",
+      "sha256": "7484ecee03c8b3443c50a9a9c473619573f12174c3965babaa5b7a6efd0fb025"
+    },
+    {
+      "unchanged": true,
+      "path": "tools/authoring/ApplyStatusKinds.java",
+      "sha256": "c33301c1edc2dc3bcf913504ae051d81bbaf367d559dd39a00ca1ce20194f465"
+    },
+    {
+      "unchanged": true,
+      "path": "server/data_manage/src/main/java/xyz/game/datamanage/service/skilleffect/SkillEffectService.java",
+      "sha256": "54df63a0a99adac0f686af69730b684ac35408053014a8a9613b239ca79f2450"
+    },
+    {
+      "unchanged": true,
+      "path": "server/data_manage/src/main/java/xyz/game/datamanage/service/status/StatusService.java",
+      "sha256": "aaabde9b2c5ab0f735136f4db781a7643758fc33d7048de911ab39cad1002e81"
+    }
+  ],
+  "changes": [
+    "生产Java仅StatusKind追加ROOT，状态保存、种类不可改、无数值持续状态与护盾校验完全复用现有服务。",
+    "当前建表检查及列注释增加禁锢；新迁移在固定目标、旧约束和基线行校验后仅重建约束并更新注释。",
+    "定向测试覆盖ROOT创建回读、三种种类六种变更方向拒绝、期限及无值持续模式往返、强度/值模式拒绝、三种状态RESULT允许及SKILL/DAMAGE_INSTANCE拒绝、全种类移除无数值和SQL契约。",
+    "README说明共享契约入口、增量脚本、旧迁移冻结及证据边界。"
+  ],
+  "validation": {
+    "full": {
+      "log": "output/root-status-backend/full-tests.log",
+      "errors": 0,
+      "skipped": 0,
+      "command": "mvn test",
+      "tests": 975,
+      "failures": 0
+    },
+    "executorReview": "output/root-status-preflight/executor-independent-review.json",
+    "liveReadback": "output/root-status-preflight/03-independent-comparison.json",
+    "webReview": "C:/project/damage_web_dev/output/root-status-web/independent-review.json",
+    "diffCheck": "本任务文件通过；根范围检查发现既有.idea/compiler.xml行尾空白，已保持原状。",
+    "targeted": {
+      "log": "output/root-status-backend/targeted-tests.log",
+      "errors": 0,
+      "skipped": 0,
+      "command": "mvn -Dtest=StatusServiceTest,SkillMovementSlowServiceTest,StatusBasicManagementSchemaSqlTest test",
+      "tests": 51,
+      "failures": 0
+    }
+  },
+  "sqlSha256": "71ae384612e92e6da88b2c27a68af393814a32cfbfc1f2cd87bf3d697cfdc0cf",
+  "database": {
+    "statuses": 1,
+    "logicalTables": 27,
+    "originalDataUnchanged": true,
+    "effects": 923,
+    "rootStatusRowsAdded": 0,
+    "target": "192.168.5.6:5432/test0221",
+    "selectsByThisAgent": 7,
+    "references": 9026,
+    "businessWritesByThisAgent": 0
+  },
+  "limits": [
+    "未运行真实HTTP或真实浏览器；ROOT目录首次建立及三个原对象补录仍待页面连接恢复。",
+    "未开发或验证Wasm/战斗运行、禁锢/韧性/解除/移动技能交互。",
+    "本代理未提交、未暂存、未启动停止服务、未执行迁移或其他实库写入。"
+  ],
+  "migrationAuthor": "本代理",
+  "migrationExecutor": "主负责人",
+  "executorAuthor": "主负责人",
+  "webAuthor": "主负责人"
+}

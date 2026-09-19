@@ -1,0 +1,138 @@
+{
+  "at": "2026-09-19T01:28:22.618Z",
+  "status": "PASS",
+  "GETs": 5,
+  "businessWrites": 0,
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/api/games",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/lol/statuses",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/lol/statuses/vertigo",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/lol/skills/veigar_e/effects/event_horizon_stun",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/lol/skills/morgana_q",
+      "status": 200
+    }
+  ],
+  "values": {
+    "/api/games": [
+      {
+        "gameId": "lol",
+        "gameName": "lol",
+        "representativeImageKey": null
+      }
+    ],
+    "/api/admin/games/lol/statuses": {
+      "items": [
+        {
+          "createdAt": "2026-08-28T14:55:06.53067Z",
+          "description": null,
+          "gameId": "lol",
+          "name": "眩晕",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "statusKey": "vertigo",
+          "statusKind": "STUN",
+          "updatedAt": "2026-08-28T14:55:06.53067Z"
+        }
+      ],
+      "total": 1
+    },
+    "/api/admin/games/lol/statuses/vertigo": {
+      "createdAt": "2026-08-28T14:55:06.53067Z",
+      "description": null,
+      "gameId": "lol",
+      "name": "眩晕",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "statusKey": "vertigo",
+      "statusKind": "STUN",
+      "updatedAt": "2026-08-28T14:55:06.53067Z"
+    },
+    "/api/admin/games/lol/skills/veigar_e/effects/event_horizon_stun": {
+      "createdAt": "2026-09-10T05:28:20.482357Z",
+      "description": "碰到牢笼边缘时向当前目标施加眩晕；本次状态随父效果期限结束，施加结果可被法术护盾阻挡。真实边缘接触事件的产生另行接线。",
+      "effectKey": "event_horizon_stun",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "stun_duration_ms"
+        },
+        "expiryMode": "ALL_AT_ONCE",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE_TARGET",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "碰到牢笼边缘眩晕",
+      "results": [
+        {
+          "description": "状态施加时按当前结果参与法术护盾判断；成功施加后随本次来源与目标实例到期结束。",
+          "detail": {
+            "operation": "APPLY",
+            "statusKey": "vertigo"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": null,
+            "stackValueMode": null,
+            "valueReadMode": null
+          },
+          "name": "事件视界眩晕",
+          "resultKey": "stun",
+          "resultType": "STATUS_OPERATION",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "RESULT",
+          "target": "TARGET",
+          "valueRule": null
+        }
+      ],
+      "skillKey": "veigar_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-10T05:37:19.998598Z"
+    },
+    "/api/admin/games/lol/skills/morgana_q": {
+      "createdAt": "2026-09-06T18:19:30.503855Z",
+      "description": "莫甘娜用黑暗魔法将一名敌人禁锢在原地，迫使其感受自己造成的痛苦并对其造成魔法伤害。 （来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "莫甘娜·暗之禁锢",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "morgana_q",
+      "sortOrder": 1,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:19:30.503855Z"
+    }
+  },
+  "newRootRecordCreated": false,
+  "boundary": "最终服务只读可用，既有眩晕完整回读；新ROOT真实创建与页面尚未验收。"
+}

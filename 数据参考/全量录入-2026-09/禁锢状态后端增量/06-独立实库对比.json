@@ -1,0 +1,47 @@
+{
+  "at": "2026-09-19T01:28:05.4561115Z",
+  "reviewer": "后端子代理，独立于迁移执行者",
+  "conclusion": "通过；仅状态种类检查约束允许集合扩展，原状态含时间戳、列定义、其他约束、表清单、效果和引用均未变化。",
+  "target": "192.168.5.6:5432/test0221",
+  "before": "output/root-status-preflight/01-live-before.json",
+  "after": "output/root-status-preflight/02-live-after.json",
+  "checks": {
+    "target": true,
+    "statusRows": true,
+    "statusColumns": true,
+    "logicalTables": true,
+    "skill_effects": true,
+    "skill_object_references": true,
+    "otherConstraints": true,
+    "rootConstraintExact": true,
+    "fixedCounts": true,
+    "readOnlyRolledBack": true
+  },
+  "tableCount": 27,
+  "statusCount": 1,
+  "effectCount": 923,
+  "referenceCount": 9026,
+  "rootStatusRowsAdded": 0,
+  "newConstraint": {
+    "conname": "ck_statuses_kind",
+    "contype": "c",
+    "convalidated": "t",
+    "definition": "CHECK (((status_kind)::text = ANY ((ARRAY['STUN'::character varying, 'MOVEMENT_SLOW'::character varying, 'ROOT'::character varying])::text[])))"
+  },
+  "effects": {
+    "rows": 923,
+    "sha256": "d15d65936d78302536d71af2a8bf84b56135959540ffc56a2ef9366e607dd063"
+  },
+  "references": {
+    "rows": 9026,
+    "sha256": "f81ab9413c9a4b7ab39c61850129b7515bf97a15cc4c15435165828b791098fd"
+  },
+  "scriptSHA256": "bcb7574daca246c033880a8e0673bec277e3d29dc705e968d764a8b6df83b035",
+  "selects": 7,
+  "businessWrites": 0,
+  "rolledBack": true,
+  "limits": [
+    "本记录仅证明结构增量及原业务数据保持；未写ROOT状态或原对象效果。",
+    "未验证最终HTTP服务、真实浏览器或战斗运行。"
+  ]
+}

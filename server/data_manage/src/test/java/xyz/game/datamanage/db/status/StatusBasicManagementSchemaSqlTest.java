@@ -44,7 +44,7 @@ class StatusBasicManagementSchemaSqlTest {
         assertTrue(table.contains("foreign key (game_id) references public.games (game_id)"));
         assertTrue(table.contains("status_key varchar(64) not null"));
         assertTrue(table.contains("status_kind varchar(32) not null"));
-        assertTrue(table.contains("status_kind in ('stun', 'movement_slow')"));
+        assertTrue(table.contains("status_kind in ('stun', 'movement_slow', 'root')"));
         assertFalse(table.contains("status_kind varchar(32) not null default"));
         assertTrue(table.contains("name varchar(100) not null"));
         assertTrue(table.contains("description varchar(2000)"));
@@ -223,6 +223,39 @@ class StatusBasicManagementSchemaSqlTest {
         assertTrue(sql.contains("slow_references_before except"));
         assertFalse(sql.contains("update public.statuses"));
         assertFalse(sql.contains("delete from"));
+    }
+
+    @Test
+    void rootMigrationOnlyExpandsReviewedConstraintAndPreservesEveryBusinessRow() throws IOException {
+        String sql = normalize(stripLineComments(readRelative("db/game_manage/migrations/add_root_status_kind.sql")));
+        assertTrue(sql.startsWith("begin;"));
+        assertTrue(sql.endsWith("commit;"));
+        assertTrue(sql.contains("current_database() <> 'test0221'"));
+        assertTrue(sql.contains("lock table public.games in share row exclusive mode"));
+        assertTrue(sql.contains("lock table public.statuses in access exclusive mode"));
+        assertTrue(sql.contains("lock table public.skill_effects, public.skill_object_references in share row exclusive mode"));
+        assertTrue(sql.contains("data_type = 'character varying' and character_maximum_length = 32"));
+        assertTrue(sql.contains("is_nullable = 'no' and column_default is null"));
+        assertTrue(sql.contains("contype = 'c' and convalidated"));
+        assertTrue(sql.contains("pg_get_constraintdef(oid) = $old$check (((status_kind)::text = any ((array['stun'::character varying, 'movement_slow'::character varying])::text[])))$old$"));
+        assertTrue(sql.contains("count(*) from public.statuses) <> 1"));
+        assertTrue(sql.contains("status_key = 'vertigo' and name = '眩晕' and status_kind = 'stun'"));
+        assertTrue(sql.contains("created_at = timestamptz '2026-08-28 22:55:06.53067+08'"));
+        assertTrue(sql.contains("updated_at = timestamptz '2026-08-28 22:55:06.53067+08'"));
+        assertTrue(sql.contains("count(*) from public.skill_effects) <> 923"));
+        assertTrue(sql.contains("count(*) from public.skill_object_references) <> 9026"));
+        assertTrue(sql.contains("drop constraint ck_statuses_kind"));
+        assertTrue(sql.contains("add constraint ck_statuses_kind check (status_kind in ('stun', 'movement_slow', 'root'))"));
+        assertTrue(sql.contains("pg_get_constraintdef(oid) = $new$check (((status_kind)::text = any ((array['stun'::character varying, 'movement_slow'::character varying, 'root'::character varying])::text[])))$new$"));
+        for (String table : List.of("root_status_before", "root_effects_before", "root_references_before")) {
+            assertTrue(sql.contains("select body from " + table + " except all select to_jsonb("));
+            assertTrue(sql.contains("except all select body from " + table));
+        }
+        assertFalse(Pattern.compile("\\b(insert\\s+into|update|delete\\s+from|truncate)\\s+public\\.").matcher(sql).find());
+        assertFalse(sql.contains("add column"));
+        assertFalse(sql.contains("drop table"));
+        assertFalse(sql.contains("cascade"));
+        assertFalse(sql.contains("status_kinds_and_slow_strength.sql"));
     }
 
     private static String extractDoBlock(String sql) {

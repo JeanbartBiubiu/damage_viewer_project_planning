@@ -1,0 +1,26 @@
+{
+  "at": "2026-09-19T01:25:56.2055621Z",
+  "reviewer": "后端子代理，独立于执行器作者",
+  "conclusion": "通过；未发现阻塞，允许主负责人按既有授权单次执行已冻结脚本。",
+  "approvedExecutor": {
+    "sha256": "f51b31b067899eec55cbcc1c78307e3f3362461c5554e8388edabe3a1a8c607a",
+    "path": "tools/authoring/ApplyRootStatusKind.java"
+  },
+  "approvedSql": {
+    "sha256": "71ae384612e92e6da88b2c27a68af393814a32cfbfc1f2cd87bf3d697cfdc0cf",
+    "path": "db/game_manage/migrations/add_root_status_kind.sql"
+  },
+  "checks": [
+    "显式仅接受--apply，先读取SQL字节并核对固定SHA，实际执行同一字节，错误时停止。",
+    "解析实际配置及环境覆盖，连接限定192.168.5.6:5432/test0221；未打印URL、账号或密码。",
+    "独占创建固定journal，已有任何尝试即失败；提交前先强制刷盘记录SQL_SUBMITTED，不提供自动重试。",
+    "写前仅SELECT，核对27表与9列，记录状态、列、约束及状态引用全文和效果/引用摘要。",
+    "SQL自带BEGIN/COMMIT，JDBC保持自动提交且仅执行一次完整SQL；逐个消费返回结果，SQL失败关闭连接，未提交事务回滚。",
+    "SQL事务内部严格检查旧结构与固定状态、持表锁、前后逐行比较；执行器提交后再次比较表清单、状态、列、引用及效果摘要，核对ROOT已出现。",
+    "提交前失败与提交后未知分别记录；异常只输出错误类型和SQLState，要求独立恢复而非重放。",
+    "最终实际迁移仍需独立连接只读回查；执行器通过不等于迁移已执行。"
+  ],
+  "executedApply": false,
+  "businessWrites": 0,
+  "approvedScope": "仅本SQL约束及注释增量，不录入ROOT状态或其他业务数据"
+}
