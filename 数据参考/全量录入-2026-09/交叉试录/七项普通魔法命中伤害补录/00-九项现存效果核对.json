@@ -1,0 +1,672 @@
+{
+  "at": "2026-09-19T01:40:33.401Z",
+  "status": "READ_ONLY",
+  "skills": [
+    "kennen_q",
+    "teemo_q",
+    "gragas_e",
+    "gragas_r",
+    "lissandra_q",
+    "lissandra_w",
+    "lissandra_e",
+    "anivia_q",
+    "anivia_e"
+  ],
+  "businessWrites": 0,
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q/effects/energy_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/anivia_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/anivia_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/anivia_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/anivia_e/effects/mana_cost",
+      "status": 200
+    }
+  ],
+  "values": {
+    "/skills/kennen_q/effects": [
+      {
+        "createdAt": "2026-09-09T06:39:21.253791Z",
+        "description": "只保存基础能量消耗。；仅独立效果，没有默认施放、命中或初始化触发。",
+        "effectKey": "energy_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放能量消耗",
+        "resultCount": 1,
+        "skillKey": "kennen_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T06:39:21.253791Z"
+      }
+    ],
+    "/skills/kennen_q/effects/energy_cost": {
+      "createdAt": "2026-09-09T06:39:21.253791Z",
+      "description": "只保存基础能量消耗。；仅独立效果，没有默认施放、命中或初始化触发。",
+      "effectKey": "energy_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放能量消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "energy",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "施放能量消耗",
+          "resultKey": "resource",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "energy_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "kennen_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T06:39:21.253791Z"
+    },
+    "/skills/teemo_q/effects": [
+      {
+        "createdAt": "2026-09-10T02:17:54.480004Z",
+        "description": "复用冻结公共法力参数；仅记录基础消耗。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "teemo_q",
+        "sortOrder": 900,
+        "updatedAt": "2026-09-10T02:17:54.480004Z"
+      }
+    ],
+    "/skills/teemo_q/effects/mana_cost": {
+      "createdAt": "2026-09-10T02:17:54.480004Z",
+      "description": "复用冻结公共法力参数；仅记录基础消耗。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": "不表示战斗事件已经接线。",
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "施放资源消耗",
+          "resultKey": "consume_resource",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "teemo_q",
+      "sortOrder": 900,
+      "updatedAt": "2026-09-10T02:17:54.480004Z"
+    },
+    "/skills/gragas_e/effects": [
+      {
+        "createdAt": "2026-09-09T15:06:20.899652Z",
+        "description": "来源明确的自身组成；施放资格、应用和取消事件尚未接线。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "gragas_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T15:06:20.899652Z"
+      }
+    ],
+    "/skills/gragas_e/effects/mana_cost": {
+      "createdAt": "2026-09-09T15:06:20.899652Z",
+      "description": "来源明确的自身组成；施放资格、应用和取消事件尚未接线。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "施放法力消耗",
+          "resultKey": "mana_cost",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "gragas_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T15:06:20.899652Z"
+    },
+    "/skills/gragas_r/effects": [
+      {
+        "createdAt": "2026-09-09T15:06:27.494385Z",
+        "description": "来源明确的自身组成；施放资格、应用和取消事件尚未接线。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "gragas_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T15:06:27.494385Z"
+      }
+    ],
+    "/skills/gragas_r/effects/mana_cost": {
+      "createdAt": "2026-09-09T15:06:27.494385Z",
+      "description": "来源明确的自身组成；施放资格、应用和取消事件尚未接线。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "施放法力消耗",
+          "resultKey": "mana_cost",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "gragas_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T15:06:27.494385Z"
+    },
+    "/skills/lissandra_q/effects": [
+      {
+        "createdAt": "2026-09-09T10:36:31.612447Z",
+        "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "lissandra_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T10:36:31.612447Z"
+      }
+    ],
+    "/skills/lissandra_q/effects/mana_cost": {
+      "createdAt": "2026-09-09T10:36:31.612447Z",
+      "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "lissandra_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T10:36:31.612447Z"
+    },
+    "/skills/lissandra_w/effects": [
+      {
+        "createdAt": "2026-09-09T10:36:38.399957Z",
+        "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "lissandra_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T10:36:38.399957Z"
+      }
+    ],
+    "/skills/lissandra_w/effects/mana_cost": {
+      "createdAt": "2026-09-09T10:36:38.399957Z",
+      "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "lissandra_w",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T10:36:38.399957Z"
+    },
+    "/skills/lissandra_e/effects": [
+      {
+        "createdAt": "2026-09-09T10:36:45.33906Z",
+        "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "lissandra_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T10:36:45.33906Z"
+      }
+    ],
+    "/skills/lissandra_e/effects/mana_cost": {
+      "createdAt": "2026-09-09T10:36:45.33906Z",
+      "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "lissandra_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T10:36:45.33906Z"
+    },
+    "/skills/anivia_q/effects": [
+      {
+        "createdAt": "2026-09-09T10:35:50.700439Z",
+        "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "anivia_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T10:35:50.700439Z"
+      }
+    ],
+    "/skills/anivia_q/effects/mana_cost": {
+      "createdAt": "2026-09-09T10:35:50.700439Z",
+      "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "anivia_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T10:35:50.700439Z"
+    },
+    "/skills/anivia_e/effects": [
+      {
+        "createdAt": "2026-09-09T10:36:05.389825Z",
+        "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "anivia_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T10:36:05.389825Z"
+      }
+    ],
+    "/skills/anivia_e/effects/mana_cost": {
+      "createdAt": "2026-09-09T10:36:05.389825Z",
+      "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "anivia_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T10:36:05.389825Z"
+    }
+  },
+  "eligible": [],
+  "deferred": [
+    {
+      "skillKey": "kennen_q",
+      "effectKey": "energy_cost",
+      "route": "/skills/kennen_q/effects/energy_cost",
+      "name": "施放能量消耗",
+      "description": "只保存基础能量消耗。；仅独立效果，没有默认施放、命中或初始化触发。",
+      "resultKey": "resource",
+      "lifecycle": null,
+      "resultTypes": [
+        "RESOURCE_CHANGE"
+      ]
+    },
+    {
+      "skillKey": "teemo_q",
+      "effectKey": "mana_cost",
+      "route": "/skills/teemo_q/effects/mana_cost",
+      "name": "施放法力消耗",
+      "description": "复用冻结公共法力参数；仅记录基础消耗。",
+      "resultKey": "consume_resource",
+      "lifecycle": null,
+      "resultTypes": [
+        "RESOURCE_CHANGE"
+      ]
+    },
+    {
+      "skillKey": "gragas_e",
+      "effectKey": "mana_cost",
+      "route": "/skills/gragas_e/effects/mana_cost",
+      "name": "施放法力消耗",
+      "description": "来源明确的自身组成；施放资格、应用和取消事件尚未接线。",
+      "resultKey": "mana_cost",
+      "lifecycle": null,
+      "resultTypes": [
+        "RESOURCE_CHANGE"
+      ]
+    },
+    {
+      "skillKey": "gragas_r",
+      "effectKey": "mana_cost",
+      "route": "/skills/gragas_r/effects/mana_cost",
+      "name": "施放法力消耗",
+      "description": "来源明确的自身组成；施放资格、应用和取消事件尚未接线。",
+      "resultKey": "mana_cost",
+      "lifecycle": null,
+      "resultTypes": [
+        "RESOURCE_CHANGE"
+      ]
+    },
+    {
+      "skillKey": "lissandra_q",
+      "effectKey": "mana_cost",
+      "route": "/skills/lissandra_q/effects/mana_cost",
+      "name": "施放法力消耗",
+      "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+      "resultKey": "consume_mana",
+      "lifecycle": null,
+      "resultTypes": [
+        "RESOURCE_CHANGE"
+      ]
+    },
+    {
+      "skillKey": "lissandra_w",
+      "effectKey": "mana_cost",
+      "route": "/skills/lissandra_w/effects/mana_cost",
+      "name": "施放法力消耗",
+      "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+      "resultKey": "consume_mana",
+      "lifecycle": null,
+      "resultTypes": [
+        "RESOURCE_CHANGE"
+      ]
+    },
+    {
+      "skillKey": "lissandra_e",
+      "effectKey": "mana_cost",
+      "route": "/skills/lissandra_e/effects/mana_cost",
+      "name": "施放法力消耗",
+      "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+      "resultKey": "consume_mana",
+      "lifecycle": null,
+      "resultTypes": [
+        "RESOURCE_CHANGE"
+      ]
+    },
+    {
+      "skillKey": "anivia_q",
+      "effectKey": "mana_cost",
+      "route": "/skills/anivia_q/effects/mana_cost",
+      "name": "施放法力消耗",
+      "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+      "resultKey": "consume_mana",
+      "lifecycle": null,
+      "resultTypes": [
+        "RESOURCE_CHANGE"
+      ]
+    },
+    {
+      "skillKey": "anivia_e",
+      "effectKey": "mana_cost",
+      "route": "/skills/anivia_e/effects/mana_cost",
+      "name": "施放法力消耗",
+      "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+      "resultKey": "consume_mana",
+      "lifecycle": null,
+      "resultTypes": [
+        "RESOURCE_CHANGE"
+      ]
+    }
+  ],
+  "GETs": 18
+}

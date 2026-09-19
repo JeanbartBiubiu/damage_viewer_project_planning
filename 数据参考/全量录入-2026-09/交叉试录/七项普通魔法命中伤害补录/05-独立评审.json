@@ -1,0 +1,228 @@
+{
+  "status": "APPROVED",
+  "at": "2026-09-19T01:59:38.952Z",
+  "reviewer": "/root/seven_hit_frozen_review",
+  "decision": "批准冻结的七个普通魔法伤害效果和七条实际命中规则；仅批准管理配置追加。",
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v3.mjs": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "01-候选方案.json": "405719c9a11539451df0922140d40b3bed27fc8cd24bb2890f9ed20491f3ab6d",
+    "02-冻结请求.json": "492f42f4eaabb94f018cd8db1db410a86a3bff60fcf34bdf407317c1f42f32cd",
+    "03-来源摘要.json": "5736b93a263dfec0099f189437272f0d145fcfb4b40e3560a722e34f82b7b8f7",
+    "04-写入前现值.json": "11f381f2eba71a01b71a4e9ede4eacdee80dc7deedd184b920ff1a9beed4a9a5"
+  },
+  "businessWrites": 0,
+  "reviewerHTTPRequests": 0,
+  "checks": {
+    "sourceHashes": 19,
+    "officialAndCompressedClientFiles": 8,
+    "clientUncompressedHashes": 4,
+    "rootSpellBindings": 7,
+    "officialRanksChecked": 33,
+    "mathCases": 99,
+    "tolerance": 0.0001,
+    "maxAbsoluteDifference": 0.000007152557373046875,
+    "formulaAndParameterChanges": 0,
+    "runtimeInputParameterCount": 0,
+    "requests": 14,
+    "effectCreates": 7,
+    "ruleCreates": 7,
+    "newDetail404s": 14,
+    "duplicateNewKeys": 0,
+    "preparationGETs": 153,
+    "protectedBaselineResponses": 139,
+    "ownerRelationsMatched": 7,
+    "protectedRepresentativeImageResponses": 11
+  },
+  "perSkill": [
+    {
+      "skillKey": "kennen_q",
+      "ownerKey": "champion_kennen",
+      "officialSpellId": "KennenShurikenHurlMissile1",
+      "clientRootBinding": "Characters/Kennen/Spells/KennenShurikenHurlMissile1Ability/KennenShurikenHurlMissile1",
+      "maxRank": 5,
+      "formulaKey": "damage",
+      "rankBaseValues": [
+        75,
+        125,
+        175,
+        225,
+        275
+      ],
+      "sourceApCoefficient": 0.75,
+      "sourceApStat": 0,
+      "sourceApStatFormula": 0,
+      "configuredAttribute": "SOURCE/TOTAL/ability_power",
+      "runtimeInputParameterCount": 0,
+      "protectedExistingEffects": 1
+    },
+    {
+      "skillKey": "teemo_q",
+      "ownerKey": "champion_teemo",
+      "officialSpellId": "TeemoQ",
+      "clientRootBinding": "Characters/Teemo/Spells/TeemoQAbility/TeemoQ",
+      "maxRank": 5,
+      "formulaKey": "magic_damage",
+      "rankBaseValues": [
+        80,
+        125,
+        170,
+        215,
+        260
+      ],
+      "sourceApCoefficient": 0.699999988079071,
+      "sourceApStat": 0,
+      "sourceApStatFormula": 0,
+      "configuredAttribute": "SOURCE/TOTAL/ability_power",
+      "runtimeInputParameterCount": 0,
+      "protectedExistingEffects": 1
+    },
+    {
+      "skillKey": "gragas_e",
+      "ownerKey": "champion_gragas",
+      "officialSpellId": "GragasE",
+      "clientRootBinding": "Characters/Gragas/Spells/GragasEAbility/GragasE",
+      "maxRank": 5,
+      "formulaKey": "magic_damage",
+      "rankBaseValues": [
+        80,
+        125,
+        170,
+        215,
+        260
+      ],
+      "sourceApCoefficient": 0.6000000238418579,
+      "sourceApStat": 0,
+      "sourceApStatFormula": 0,
+      "configuredAttribute": "SOURCE/TOTAL/ability_power",
+      "runtimeInputParameterCount": 0,
+      "protectedExistingEffects": 1
+    },
+    {
+      "skillKey": "gragas_r",
+      "ownerKey": "champion_gragas",
+      "officialSpellId": "GragasR",
+      "clientRootBinding": "Characters/Gragas/Spells/GragasRAbility/GragasR",
+      "maxRank": 3,
+      "formulaKey": "magic_damage",
+      "rankBaseValues": [
+        200,
+        300,
+        400
+      ],
+      "sourceApCoefficient": 0.800000011920929,
+      "sourceApStat": 0,
+      "sourceApStatFormula": 0,
+      "configuredAttribute": "SOURCE/TOTAL/ability_power",
+      "runtimeInputParameterCount": 0,
+      "protectedExistingEffects": 1
+    },
+    {
+      "skillKey": "lissandra_q",
+      "ownerKey": "champion_lissandra",
+      "officialSpellId": "LissandraQ",
+      "clientRootBinding": "Characters/Lissandra/Spells/LissandraQAbility/LissandraQ",
+      "maxRank": 5,
+      "formulaKey": "damage",
+      "rankBaseValues": [
+        80,
+        115,
+        150,
+        185,
+        220
+      ],
+      "sourceApCoefficient": 0.75,
+      "sourceApStat": 0,
+      "sourceApStatFormula": 0,
+      "configuredAttribute": "SOURCE/TOTAL/ability_power",
+      "runtimeInputParameterCount": 0,
+      "protectedExistingEffects": 1
+    },
+    {
+      "skillKey": "lissandra_w",
+      "ownerKey": "champion_lissandra",
+      "officialSpellId": "LissandraW",
+      "clientRootBinding": "Characters/Lissandra/Spells/LissandraWAbility/LissandraW",
+      "maxRank": 5,
+      "formulaKey": "damage",
+      "rankBaseValues": [
+        70,
+        105,
+        140,
+        175,
+        210
+      ],
+      "sourceApCoefficient": 0.699999988079071,
+      "sourceApStat": 0,
+      "sourceApStatFormula": 0,
+      "configuredAttribute": "SOURCE/TOTAL/ability_power",
+      "runtimeInputParameterCount": 0,
+      "protectedExistingEffects": 1
+    },
+    {
+      "skillKey": "lissandra_e",
+      "ownerKey": "champion_lissandra",
+      "officialSpellId": "LissandraE",
+      "clientRootBinding": "Characters/Lissandra/Spells/LissandraEAbility/LissandraE",
+      "maxRank": 5,
+      "formulaKey": "damage",
+      "rankBaseValues": [
+        70,
+        105,
+        140,
+        175,
+        210
+      ],
+      "sourceApCoefficient": 0.6000000238418579,
+      "sourceApStat": 0,
+      "sourceApStatFormula": 0,
+      "configuredAttribute": "SOURCE/TOTAL/ability_power",
+      "runtimeInputParameterCount": 0,
+      "protectedExistingEffects": 1
+    }
+  ],
+  "managementBoundary": {
+    "contract": {
+      "path": "文档记录/详细设计/项目/条件事件与动态输入供值管理详细设计.md",
+      "sha256": "ec07ed1bb2daccb0217c189a84b16f15a701dccefb82b3258cc8ea6425238331",
+      "lines": [
+        201,
+        235,
+        527
+      ],
+      "meaning": "技能命中事件的当前目标就是本次命中对象；执行效果不自行产生技能命中。"
+    },
+    "gragas_e": "官方说明对第一碰撞后的附近敌人造成同一 totaldamage，客户端仅有 BaseDamage + APRatio × 法强；没有本批英雄伤害的首目标/附近目标倍率差异。碰撞、范围筛选和逐目标去重仍是事件生产责任，当前规则不构造这些事件。",
+    "lissandra_q": "官方 description 明确后方敌人受到等量伤害，客户端仅有 Damage + 0.75 × 法强；直接伤害不需要按首目标/碎片目标另设倍率。减速及命中事件生产仍待后续。",
+    "lissandra_e": "官方将飞爪伤害与再次施放传送分开。此次只消费 lissandra_e 实际命中并执行伤害，既不监听使用/重施，也不监听过程结束；传送自身没有被本批定义为伤害命中。",
+    "remainingFour": "凯南Q第一实际碰撞、提莫Q目标吹箭、古拉加斯R爆炸目标、丽桑卓W范围目标均按来源定义实际命中；英雄类别只限定当前录入范围，不代替距离、碰撞或去重。",
+    "result": "未发现需要在本批普通实际命中规则中补充的英雄伤害资格或倍率差异；00b保留的路由备注不构成本批管理保存阻塞。",
+    "notProven": "来源与管理契约不证明实际事件生产器正确、每次施放只命中一次或战斗结算已实现。"
+  },
+  "payloadReview": {
+    "damage": "magic / SKILL / DIRECT，禁止暴击，公式倍率1；法术护盾粒度SKILL；全能吸血OMNIVAMP、防御后伤害POST_DEFENSE_DAMAGE、效率1，与已绑定通用来源一致。",
+    "rules": "SKILL_HIT + 当前来源技能 + CHAMPION，唯一动作EXECUTE_EFFECT/primary_hit/CURRENT_TARGET；无输入绑定、结果修正、次数或过程假设。",
+    "normalization": "请求事件明细不发送useKind，预期回读仅增加useKind:null；效果预期回读与请求主体完全相同。",
+    "preservation": "所有原主体、等级属性、参数、公式、资源效果、关系、代表图片及时间戳纳入保护；仅14个集合各追加1行和14个新详情。"
+  },
+  "expectedIndependentReadback": {
+    "GETs": 153,
+    "unchangedResponsesIncludingTimestamps": 125,
+    "expectedChangedCollections": 14,
+    "newObjects": 14,
+    "businessWrites": 0
+  },
+  "executionConditions": [
+    "只能使用已绑定工具及文件原字节；任何文件或来源漂移必须停止。",
+    "写前工具仍须完整重核139份现值及14个404；批准不代替该检查。",
+    "写入中断或06记录已存在时先查实际落地，不重放。",
+    "14次写入及即时回读后，须由独立执行者只读回读。"
+  ],
+  "validationLimits": {
+    "frozenSourceAndLocalMath": "已独立核对",
+    "liveHTTP": "本评审无HTTP；审查已冻结GET证据，写前仍由工具再次实时核对",
+    "database": "未直接访问数据库",
+    "browser": "认证不可用，代表页面待验",
+    "hostAndWasm": "未生产事件、未执行Wasm、无战斗运行证明"
+  },
+  "blockingFindings": []
+}
