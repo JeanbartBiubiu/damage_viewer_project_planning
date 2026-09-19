@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-19T05:02:03.562Z",
+  "generatedAt": "2026-09-19T05:30:29.728Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -10175,7 +10175,7 @@
       },
       "sourceEvidence": "数据参考/全量录入-2026-09/禁锢状态补齐/01-来源核对.json",
       "followup": {
-        "status": "目录首次页面闭环通过，三对象技能补录继续",
+        "status": "目录及莫甘娜Q首次施加闭环通过，艾翁Q和拉克丝Q继续返回",
         "evidence": {
           "worktree": "damage_web_dev",
           "relativePath": "数据参考/全量录入-2026-09/交叉试录/禁锢目录首次页面录入/09-证据清单.json",
@@ -10624,6 +10624,45 @@
         "commit": "f9d74a16",
         "toolCommit": "3c5bd0cf"
       }
+    },
+    "morganaQRootFirstApplication": {
+      "at": "2026-09-19T05:30:29.728Z",
+      "status": "无本来源实例时的禁锢施加分支已页面保存、重开并独立回读；重施资料待核",
+      "skills": [
+        "morgana_q"
+      ],
+      "created": {
+        "effects": 1,
+        "triggerRules": 1
+      },
+      "prepareGETs": 30,
+      "preflightGETs": 30,
+      "browserWrites": 2,
+      "immediateReadbacks": 2,
+      "independentGETs": 30,
+      "unchangedResponsesIncludingTimestamps": 26,
+      "expectedChangedCollections": 2,
+      "browser": "PASS",
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/莫甘娜Q禁锢首次页面补录/09-证据清单.json",
+        "sha256": "d7ce7ebfab3e483fcf289605c003ad2ab7826a53e992f00fed8bef5b3df47fe5",
+        "commit": "cb56da77"
+      }
+    },
+    "effectResultTableLayout": {
+      "at": "2026-09-19T05:30:29.728Z",
+      "status": "真实录入暴露结果表逐字折行，最小修复及两种表格页面验收通过",
+      "webTests": 674,
+      "browser": "PASS",
+      "businessWrites": 0,
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/效果结果表横向布局修复/09-证据清单.json",
+        "sha256": "1cc71ce0a74bc21e26d8697317853941c4fed52fef9dd1533f87b7750e24232d",
+        "commit": "cb667b0e"
+      }
     }
   },
   "runtimeValidation": "未执行",
@@ -11031,6 +11070,18 @@
         "sha256": "7efcd1a8150f0117f26757d277411494a6a13e76502c9eb6616906af879ad92c",
         "commit": "f9d74a16",
         "toolCommit": "3c5bd0cf"
+      },
+      "morganaQRootFirstApplication": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/莫甘娜Q禁锢首次页面补录/09-证据清单.json",
+        "sha256": "d7ce7ebfab3e483fcf289605c003ad2ab7826a53e992f00fed8bef5b3df47fe5",
+        "commit": "cb56da77"
+      },
+      "effectResultTableLayout": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/效果结果表横向布局修复/09-证据清单.json",
+        "sha256": "1cc71ce0a74bc21e26d8697317853941c4fed52fef9dd1533f87b7750e24232d",
+        "commit": "cb667b0e"
       }
     },
     "coverage": {
@@ -11049,8 +11100,8 @@
         "sourceItems": 865,
         "concludedItems": 865,
         "conclusions": {
-          "资料待核": 384,
-          "系统暂缓": 453,
+          "资料待核": 385,
+          "系统暂缓": 452,
           "明确排除": 26,
           "已录入": 2
         },
@@ -24541,9 +24592,9 @@
         "slot": "Q",
         "skillKey": "morgana_q",
         "name": "莫甘娜·暗之禁锢",
-        "conclusion": "系统暂缓",
+        "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "基础使用消耗、普通冷却、实际命中伤害及消耗说明已保存并独立回读；禁锢身份能力已补齐，目录首次页面创建与重开通过，持续效果与命中接线及技能代表页面待续，不计整技能管理完成。",
+        "reason": "禁锢首次施加分支已真实页面保存、重开并独立回读，复用五级时长；已有本来源禁锢时的重施语义及完整施法时序继续核源，原成本和伤害入口代表页面继续核对，不计整技能管理完成。",
         "batchKey": "heroThirtyFirstBatch",
         "candidateSha256": "bf26b9374fc305af52e7298934a54244aec5bec0166017ae5a99a38a2019ddcc",
         "evidenceRefs": [
@@ -24553,7 +24604,8 @@
           "morganaQActualDamageBackfill",
           "fiveRecentUseDescriptionCleanup",
           "rootStatusKindCorrection",
-          "rootStatusDirectoryFirstUI"
+          "rootStatusDirectoryFirstUI",
+          "morganaQRootFirstApplication"
         ],
         "historicalPendingCounts": {
           "source": 0,
@@ -24562,10 +24614,11 @@
           "other": 0
         },
         "remainingBranches": [
-          "禁锢持续效果及合法命中接线",
-          "代表页面验收"
+          "已有本来源禁锢时的重施来源与处理",
+          "完整施法时序（当前过程仅登记成本和冷却）",
+          "原成本过程与伤害入口的代表页面验收"
         ],
-        "remainingBranchesBoundary": "仅更新本次已录使用登记；原候选继续作为其他未完成分支依据，不重放旧请求。空间辅助参数按原范围判断，不自动扩大为1V1完成前置。",
+        "remainingBranchesBoundary": "管理端已能表达已核定的禁锢首次施加，未核定的重施由同组生命周期不存在条件显式排除；不把管理保存当作战斗运行，也不扩大原1V1范围。",
         "authoredCostCooldown": {
           "processKey": "use_cost_and_cooldown",
           "ruleKey": "on_used_cost_and_cooldown",
@@ -24576,10 +24629,10 @@
         "currentComponentCounts": {
           "parameters": 5,
           "formulas": 1,
-          "effects": 2,
+          "effects": 3,
           "processes": 1,
           "internalStates": 0,
-          "triggerRules": 2
+          "triggerRules": 3
         },
         "separateRelatedBranch": "莫甘娜被动的实际伤害治疗在被动条目继续处理，本次没有用全能吸血配置冒充被动。",
         "authoredActualDamage": {
@@ -24591,7 +24644,7 @@
             "CHAMPION"
           ],
           "httpReadback": "PASS",
-          "browser": "待验"
+          "browser": "效果编辑页面通过；原命中入口仍待代表核对"
         },
         "useCostDescriptionCleanup": {
           "status": "PASS",
@@ -24603,8 +24656,17 @@
           "statusKind": "ROOT",
           "managementCapability": "代码与数据库约束通过",
           "authoredStatusCount": 1,
-          "browser": "目录首次保存与重开通过；技能效果待续",
+          "browser": "目录及首次施加效果、入口页面闭环通过；重施待核",
           "statusKey": "root"
+        },
+        "authoredRootFirstApplication": {
+          "effectKey": "dark_binding_root",
+          "ruleKey": "apply_root_on_unblocked_hit",
+          "durationParameterKey": "root_duration_ms",
+          "conditions": "同组英雄、明确敌方、同次命中法术护盾阻挡值等于0、本来源当前目标实例不存在",
+          "httpReadback": "PASS",
+          "browser": "PASS",
+          "reapplication": "未录，需补来源后再开放"
         }
       },
       {
