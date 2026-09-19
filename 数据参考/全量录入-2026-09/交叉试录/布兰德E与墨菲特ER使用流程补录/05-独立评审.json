@@ -1,0 +1,429 @@
+{
+  "schemaVersion": "damage.authoring.independent-review.v1",
+  "status": "APPROVED",
+  "title": "布兰德E与墨菲特ER使用流程补录独立评审",
+  "reviewedAt": "2026-09-18T23:56:23.139Z",
+  "reviewer": "/root/three_use_frozen_review",
+  "scope": {
+    "worktree": "C:\\project\\damage_web_dev",
+    "directory": "数据参考/全量录入-2026-09/交叉试录/布兰德E与墨菲特ER使用流程补录",
+    "gameId": "lol",
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "targets": [
+      "brand_e",
+      "malphite_e",
+      "malphite_r"
+    ],
+    "preparedPOSTs": 7,
+    "apiCallsDuringReview": 0,
+    "networkRequestsDuringReview": 0,
+    "databaseAccess": false,
+    "businessWritesDuringReview": 0,
+    "runtimeBoundary": "本评审只核对冻结文件、固定来源与管理配置请求；不证明浏览器、宿主/Wasm、实际使用事件、命中事件或战斗运行。"
+  },
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v3.mjs": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "01-候选方案.json": "b7f1c8e992f04544e4e4348100c49bba10151e33540232cbf7b3ebc5474cfb75",
+    "02-冻结请求.json": "1e629e51140906c9d84ab057a830f29af3831bcad480ba80447a00ad58bb6ade",
+    "03-来源摘要.json": "3a0b5549a9745e0423d5fe74eaa472d5a95a7a9027eeca106a84086524516fc0",
+    "04-写入前现值.json": "7064a65a9ea82ff33b305b5bb408cf38bde6673f38bfa7ae97fbe0c496462719"
+  },
+  "toolBinding": {
+    "path": "tools/authoring/append-reviewed-skill-components-v3.mjs",
+    "sha256": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "expectedSha256": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "match": true,
+    "codeReviewBoundary": "工具字节散列与锁定值一致；本次只复核本批冻结请求和来源，不重复工具完整故障测试。"
+  },
+  "fileBinding": {
+    "fileHashes": {
+      "baseline": "7064a65a9ea82ff33b305b5bb408cf38bde6673f38bfa7ae97fbe0c496462719",
+      "plan": "b7f1c8e992f04544e4e4348100c49bba10151e33540232cbf7b3ebc5474cfb75",
+      "frozen": "1e629e51140906c9d84ab057a830f29af3831bcad480ba80447a00ad58bb6ade",
+      "source": "3a0b5549a9745e0423d5fe74eaa472d5a95a7a9027eeca106a84086524516fc0"
+    },
+    "freezeLinks": {
+      "sourceSha256Matches03": true,
+      "baselineSha256Matches04": true,
+      "expectedFrozenSha256": "1e629e51140906c9d84ab057a830f29af3831bcad480ba80447a00ad58bb6ade",
+      "frozenSha256": "1e629e51140906c9d84ab057a830f29af3831bcad480ba80447a00ad58bb6ade",
+      "candidateAndFrozenPOSTsStructurallyEqual": true
+    },
+    "sourceHashAudit": {
+      "count": 15,
+      "mismatchCount": 0,
+      "rows": [
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/交叉试录/布兰德E与墨菲特ER使用流程补录/00-三项使用来源复核.json",
+          "expectedSha256": "45fd2d86c598c3a92e5fcf413ce2b2bdca3884a3328ea1b6cc7366dba6de0f89",
+          "actualSha256": "45fd2d86c598c3a92e5fcf413ce2b2bdca3884a3328ea1b6cc7366dba6de0f89",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/技能来源索引.json",
+          "expectedSha256": "509017d379d3676147a1b5a0732023dfd95baa2039f24966b3a1801a28842bf9",
+          "actualSha256": "509017d379d3676147a1b5a0732023dfd95baa2039f24966b3a1801a28842bf9",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二批/录入候选.json",
+          "expectedSha256": "dab2c80a74f4b7d8ad00d6dc933dd05fb553f47f241487d649b4e8809482a272",
+          "actualSha256": "dab2c80a74f4b7d8ad00d6dc933dd05fb553f47f241487d649b4e8809482a272",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/交叉试录/八项技能十个伤害吸血资格纠错/04-写入前现值.json",
+          "expectedSha256": "bfb9b6670771d29a921e9c21cf652fb3837016fabf818999f1a2a7743a773ff4",
+          "actualSha256": "bfb9b6670771d29a921e9c21cf652fb3837016fabf818999f1a2a7743a773ff4",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/交叉试录/五项法师技能使用登记补录/01-候选方案.json",
+          "expectedSha256": "afd5f1cc6f28da81f6e58a0ef6097864a39a7960a649773be3a0c97c04e1efa0",
+          "actualSha256": "afd5f1cc6f28da81f6e58a0ef6097864a39a7960a649773be3a0c97c04e1efa0",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/交叉试录/娑娜E使用消耗冷却补录/01-候选方案.json",
+          "expectedSha256": "ca07bff5034699177c84e7aa61d6c8302464e7fd2e3dade520dee79a5cdf46d5",
+          "actualSha256": "ca07bff5034699177c84e7aa61d6c8302464e7fd2e3dade520dee79a5cdf46d5",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Brand.json",
+          "expectedSha256": "06a3fc920d516d6b709de1ad44b57fed6def7d238fd950e9d925d3a7b01a4a20",
+          "actualSha256": "06a3fc920d516d6b709de1ad44b57fed6def7d238fd950e9d925d3a7b01a4a20",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Brand.json",
+          "expectedSha256": "d1f7a34ee637918b864268464c39199eea9f53eb5a37101d403f544f5792a8dc",
+          "actualSha256": "d1f7a34ee637918b864268464c39199eea9f53eb5a37101d403f544f5792a8dc",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Brand.json.gz",
+          "expectedSha256": "0f205cb596ac4733d8588aec896f4a0121c71b66fa1ba1f6be924caaeac30dcd",
+          "actualSha256": "0f205cb596ac4733d8588aec896f4a0121c71b66fa1ba1f6be924caaeac30dcd",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Malphite.json",
+          "expectedSha256": "cda7b95df866a1e9ba4843dedb619ecf7618ef6d46390f3ffa8eec35f2ed44e7",
+          "actualSha256": "cda7b95df866a1e9ba4843dedb619ecf7618ef6d46390f3ffa8eec35f2ed44e7",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Malphite.json",
+          "expectedSha256": "717e46ec145f0ccbd25237d32401d224c96e1a4727b72dcdf435729b1c60c707",
+          "actualSha256": "717e46ec145f0ccbd25237d32401d224c96e1a4727b72dcdf435729b1c60c707",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Malphite.json.gz",
+          "expectedSha256": "65865f9dbcbba50a11852301d6f516a21eb7ea88623980bb35ed7a825e7f6fdd",
+          "actualSha256": "65865f9dbcbba50a11852301d6f516a21eb7ea88623980bb35ed7a825e7f6fdd",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "web/src/types/skillEffect.ts",
+          "expectedSha256": "6a71ae4038c4641558aee593fb24be077e67851f50322ae2ff1c0c5da668ac34",
+          "actualSha256": "6a71ae4038c4641558aee593fb24be077e67851f50322ae2ff1c0c5da668ac34",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "web/src/types/skillProcess.ts",
+          "expectedSha256": "6fa0232b4ab6c1bbf44488f0e0a2eb41b8dfd1b23ac9db99a935a74ada0fb85b",
+          "actualSha256": "6fa0232b4ab6c1bbf44488f0e0a2eb41b8dfd1b23ac9db99a935a74ada0fb85b",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "web/src/types/skillTriggerRule.ts",
+          "expectedSha256": "db1021ad59bf8cfee862603c2e7dcde6c618da85d235f36de941c6a205852615",
+          "actualSha256": "db1021ad59bf8cfee862603c2e7dcde6c618da85d235f36de941c6a205852615",
+          "match": true
+        }
+      ]
+    }
+  },
+  "reviewItems": [
+    {
+      "id": "R1",
+      "name": "锁定工具与01至04原始文件",
+      "result": "PASS",
+      "evidence": "工具实际SHA-256等于锁定443202555；approvedFiles已绑定01候选、02冻结、03来源和04现值的原始字节散列。"
+    },
+    {
+      "id": "R2",
+      "name": "15项来源完整散列",
+      "result": "PASS",
+      "evidence": "03-来源摘要声明15项来源，逐项重算后15/15一致，无漂移；01.sourceFiles与03逐项、顺序和散列一致。"
+    },
+    {
+      "id": "R3",
+      "name": "普通主动使用资格",
+      "result": "PASS",
+      "evidence": {
+        "brand_e": "主技能根路径，事件为SKILL_USED且useKind=ACTIVE；不依赖bIsToggleSpell。",
+        "malphite_e": "主技能根路径，事件为SKILL_USED且useKind=ACTIVE；bIsToggleSpell=true只作为客户端标记，不推导免费、关停或再次施放。",
+        "malphite_r": "主技能根路径，事件为SKILL_USED且useKind=ACTIVE；特殊施放标签不扩展为本批未冻结的运行机制。"
+      }
+    },
+    {
+      "id": "R4",
+      "name": "等级起点与来源数值",
+      "result": "PASS",
+      "evidence": {
+        "brand_e": "官方mana等级1至5为90/90/90/90/90；当前根manaValues.values索引0至4同为90，旧mana 70/75/80/85/90/95只作来源差异；官方冷却等级1至5为13000/12000/11000/10000/9000毫秒，根cooldownTime索引1至5为13/12/11/10/9秒，当前参数与之相同；spellCastTime=250毫秒。",
+        "malphite_e": "官方mana等级1至5为50/55/60/65/70，根manaValues.values索引0至4同值；cooldownTime索引1至5全为7秒，当前参数为7000毫秒；mCastTime约241.9与spellCastTime250仅保留为施法语义待核。",
+        "malphite_r": "maxLevel=3，官方mana等级1至3和根manaValues.values索引0至2均为100，尾部0排除；cooldownTime索引1至3为130/115/100秒，当前参数为130000/115000/100000毫秒；根对象无spellCastTime。"
+      }
+    },
+    {
+      "id": "R5",
+      "name": "7个POST请求完整引用",
+      "result": "PASS",
+      "evidence": {
+        "candidateFrozenEquality": "01.requests与02.requests结构化逐项相等，共7项；02.sourceSha256绑定03，baselineSha256绑定04。",
+        "requests": [
+          {
+            "method": "POST",
+            "route": "/skills/brand_e/effects",
+            "detailRoute": "/skills/brand_e/effects/mana_cost",
+            "assertions": ["effectKey=mana_cost", "唯一结果RESOURCE_CHANGE/SOURCE", "mana/CONSUME", "值引用参数mana_cost"]
+          },
+          {
+            "method": "POST",
+            "route": "/skills/brand_e/processes",
+            "detailRoute": "/skills/brand_e/processes/cast",
+            "assertions": ["processKey=cast", "activationType=ACTIVE", "cooldown引用cooldown_ms", "cooldown.startMoment=PROCESS_START", "唯一延迟引用cast_time_ms", "mana_cost效果在PROCESS_START绑定", "stateOperations为空"]
+          },
+          {
+            "method": "POST",
+            "route": "/skills/brand_e/trigger-rules",
+            "detailRoute": "/skills/brand_e/trigger-rules/on_used",
+            "assertions": ["ruleKey=on_used", "SKILL_USED/brand_e/ACTIVE", "唯一动作START_PROCESS到cast", "conditionGroups/runtimeInputBindings/resultModifiers为空", "perTargetCooldown和maxTriggersPerProcess为null"]
+          },
+          {
+            "method": "POST",
+            "route": "/skills/malphite_e/processes",
+            "detailRoute": "/skills/malphite_e/processes/use_cost_and_cooldown",
+            "assertions": ["processKey=use_cost_and_cooldown", "activationType=ACTIVE", "cooldown引用cooldown_ms且从PROCESS_START开始", "唯一固定0延迟只作登记", "已有mana_cost在PROCESS_START绑定", "stateOperations为空"]
+          },
+          {
+            "method": "POST",
+            "route": "/skills/malphite_e/trigger-rules",
+            "detailRoute": "/skills/malphite_e/trigger-rules/on_used_cost_and_cooldown",
+            "assertions": ["ruleKey=on_used_cost_and_cooldown", "SKILL_USED/malphite_e/ACTIVE", "唯一动作START_PROCESS到use_cost_and_cooldown", "无条件组、运行时输入、结果修饰和额外冷却"]
+          },
+          {
+            "method": "POST",
+            "route": "/skills/malphite_r/processes",
+            "detailRoute": "/skills/malphite_r/processes/use_cost_and_cooldown",
+            "assertions": ["processKey=use_cost_and_cooldown", "activationType=ACTIVE", "cooldown引用cooldown_ms且从PROCESS_START开始", "唯一固定0延迟只作登记，不声明突进、通道或命中时序", "已有mana_cost在PROCESS_START绑定", "stateOperations为空"]
+          },
+          {
+            "method": "POST",
+            "route": "/skills/malphite_r/trigger-rules",
+            "detailRoute": "/skills/malphite_r/trigger-rules/on_used_cost_and_cooldown",
+            "assertions": ["ruleKey=on_used_cost_and_cooldown", "SKILL_USED/malphite_r/ACTIVE", "唯一动作START_PROCESS到use_cost_and_cooldown", "不新增突进、通道、击飞或命中条件"]
+          }
+        ]
+      }
+    },
+    {
+      "id": "R6",
+      "name": "普通冷却与过程时序边界",
+      "result": "PASS",
+      "evidence": "三个过程均从PROCESS_START读取cooldown_ms；BrandE使用已核对的250毫秒cast_time_ms，MalphiteE/R的固定0步骤仅记录成本与冷却入口，不被解释为零施法时长。MalphiteE的mCastTime/spellCastTime差异和MalphiteR缺少spellCastTime均被保留为待核语义。"
+    },
+    {
+      "id": "R7",
+      "name": "已有实际命中、普通伤害与吸血资格保护",
+      "result": "PASS",
+      "evidence": {
+        "brand_e": "现有actual_hit接conflagration_hit，普通魔法伤害及近期纠正的全能吸血资格不在7个POST中改写。",
+        "malphite_e": "现有actual_hit接slam_hit，普通魔法伤害及近期纠正的全能吸血资格不在7个POST中改写。",
+        "malphite_r": "现有actual_hit接impact_hit，普通魔法伤害及近期纠正的全能吸血资格不在7个POST中改写。",
+        "newHitRequests": 0
+      }
+    },
+    {
+      "id": "R8",
+      "name": "写前基线与新详情缺失",
+      "result": "PASS",
+      "evidence": {
+        "auditCount": 74,
+        "statusCounts": {
+          "200": 67,
+          "404": 7
+        },
+        "businessWrites": 0,
+        "newDetail404": [
+          "/skills/brand_e/effects/mana_cost",
+          "/skills/brand_e/processes/cast",
+          "/skills/brand_e/trigger-rules/on_used",
+          "/skills/malphite_e/processes/use_cost_and_cooldown",
+          "/skills/malphite_e/trigger-rules/on_used_cost_and_cooldown",
+          "/skills/malphite_r/processes/use_cost_and_cooldown",
+          "/skills/malphite_r/trigger-rules/on_used_cost_and_cooldown"
+        ]
+      }
+    },
+    {
+      "id": "R9",
+      "name": "未知机制与数值克制",
+      "result": "PASS",
+      "evidence": "未把客户端不同字段值当作逻辑冲突；未虚构MalphiteE真实施法时序或MalphiteR spellCastTime；未接入开关关停、攻速削减、突进、通道、击飞、扩散、被动联动、宿主事件生产或战斗运行。"
+    },
+    {
+      "id": "R10",
+      "name": "执行边界",
+      "result": "PASS",
+      "evidence": "本次仅进行了本地文件散列、结构和来源静态核对，未访问业务API、数据库或浏览器；后续执行必须继续使用批准的工具和冻结SHA，先按BrandE效果前置顺序写入并回读，再完成批末独立回读。"
+    }
+  ],
+  "rankValueChecks": [
+    {
+      "skillKey": "brand_e",
+      "maxLevel": 5,
+      "mana": {
+        "officialRank1To5": [90, 90, 90, 90, 90],
+        "clientRootManaValuesIndex0To4": [90, 90, 90, 90, 90],
+        "excludedLegacyMana": [70, 75, 80, 85, 90, 95],
+        "currentParameter": {
+          "valueMode": "FIXED",
+          "fixedValue": 90
+        },
+        "selection": "采用当前根manaValues，不用旧mana数组。"
+      },
+      "cooldown": {
+        "officialRank1To5Ms": [13000, 12000, 11000, 10000, 9000],
+        "clientRootCooldownTimeIndex1To5Seconds": [13, 12, 11, 10, 9],
+        "currentParameter": {
+          "valueMode": "SKILL_LEVEL",
+          "levelValues": {
+            "1": 13000,
+            "2": 12000,
+            "3": 11000,
+            "4": 10000,
+            "5": 9000
+          }
+        }
+      },
+      "castTimeMs": 250
+    },
+    {
+      "skillKey": "malphite_e",
+      "maxLevel": 5,
+      "mana": {
+        "officialRank1To5": [50, 55, 60, 65, 70],
+        "clientRootManaValuesIndex0To4": [50, 55, 60, 65, 70],
+        "currentParameter": {
+          "valueMode": "SKILL_LEVEL",
+          "levelValues": {
+            "1": 50,
+            "2": 55,
+            "3": 60,
+            "4": 65,
+            "5": 70
+          }
+        }
+      },
+      "cooldown": {
+        "officialRank1To5Ms": [7000, 7000, 7000, 7000, 7000],
+        "clientRootCooldownTimeIndex1To5Seconds": [7, 7, 7, 7, 7],
+        "currentParameter": {
+          "valueMode": "FIXED",
+          "fixedValue": 7000
+        }
+      },
+      "castTimeBoundary": {
+        "mCastTimeMs": 241.9,
+        "spellCastTimeMs": 250,
+        "decision": "不用于本批成本登记过程，差异保留待核。"
+      }
+    },
+    {
+      "skillKey": "malphite_r",
+      "maxLevel": 3,
+      "mana": {
+        "officialRank1To3": [100, 100, 100],
+        "clientRootManaValuesIndex0To2": [100, 100, 100],
+        "excludedTail": [0, 0, 0],
+        "currentParameter": {
+          "valueMode": "FIXED",
+          "fixedValue": 100
+        }
+      },
+      "cooldown": {
+        "officialRank1To3Ms": [130000, 115000, 100000],
+        "clientRootCooldownTimeIndex1To3Seconds": [130, 115, 100],
+        "currentParameter": {
+          "valueMode": "SKILL_LEVEL",
+          "levelValues": {
+            "1": 130000,
+            "2": 115000,
+            "3": 100000
+          }
+        }
+      },
+      "castTimeBoundary": {
+        "spellCastTime": null,
+        "specialTags": [
+          "Trait_Ultimate",
+          "Trait_ChannelSpell",
+          "Trait_PlayerSelectedDashDirection",
+          "Trait_DamageAbility"
+        ],
+        "decision": "仅登记普通成本和冷却；突进、通道、击飞及完整施法时序待核。"
+      }
+    }
+  ],
+  "preflightBoundary": {
+    "expectedGETs": 74,
+    "expectedGETStatusCounts": {
+      "200": 67,
+      "404": 7
+    },
+    "expectedPOSTs": 7,
+    "order": [
+      "BrandE先新增mana_cost效果并即时回读",
+      "再创建BrandE cast过程与on_used入口",
+      "再创建MalphiteE/R的use_cost_and_cooldown过程与on_used_cost_and_cooldown入口",
+      "批末由独立执行者进行完整回读"
+    ]
+  },
+  "sourceAndRuntimeBoundary": {
+    "actualHit": "三项已有actual_hit规则保持不变；新增入口不等于宿主已生成SKILL_USED或SKILL_HIT。",
+    "ordinaryDamage": "三项已有普通直接魔法伤害及已纠正吸血资格不在本批重写。",
+    "brandE": "只新增缺失mana_cost效果、250毫秒cast过程和主动入口；P联动、扩散、被动灼烧及其他命中分支另行维护。",
+    "malphiteE": "固定0步骤只代表成本/冷却登记，不代表技能施法时长为零；bIsToggleSpell不代表免费。",
+    "malphiteR": "固定0步骤只代表成本/冷却登记；突进、通道、击飞和特殊标签语义不在本批虚构。",
+    "browserRuntime": "未执行",
+    "wasmRuntime": "未执行",
+    "battleRuntime": "未执行"
+  },
+  "businessWritesDuringReview": 0,
+  "networkRequestsDuringReview": 0,
+  "fileWritesDuringReview": [
+    "仅新建本文件"
+  ],
+  "conclusion": "APPROVED：三项技能的7个使用流程POST请求、15项来源散列、数值等级起点、普通主动资格、PROCESS_START冷却边界和已有命中/伤害保护均通过静态独立核对；未发现实质阻塞项。"
+}

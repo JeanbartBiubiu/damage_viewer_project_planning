@@ -1,0 +1,1082 @@
+{
+  "startedAt": "2026-09-19T00:01:59.823Z",
+  "status": "PASS",
+  "businessWritesAttempted": 7,
+  "operations": [
+    {
+      "method": "POST",
+      "route": "/skills/brand_e/effects",
+      "response": {
+        "status": 201,
+        "data": {
+          "createdAt": "2026-09-19T00:01:59.936941Z",
+          "description": "本技能主动使用时消耗对应技能等级的法力；具体使用流程由引用本效果的过程定义。当前官方16.17.1为全等级90。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "施放法力消耗",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "attributeKey": "mana",
+                "operation": "CONSUME"
+              },
+              "lifecycleBehavior": null,
+              "name": "消耗法力",
+              "resultKey": "consume_mana",
+              "resultType": "RESOURCE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "mana_cost"
+                }
+              }
+            }
+          ],
+          "skillKey": "brand_e",
+          "sortOrder": 5,
+          "updatedAt": "2026-09-19T00:01:59.936941Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-19T00:01:59.936941Z",
+        "description": "本技能主动使用时消耗对应技能等级的法力；具体使用流程由引用本效果的过程定义。当前官方16.17.1为全等级90。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "施放法力消耗",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "brand_e",
+        "sortOrder": 5,
+        "updatedAt": "2026-09-19T00:01:59.936941Z"
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/brand_e/processes",
+      "response": {
+        "status": 201,
+        "data": {
+          "activationType": "ACTIVE",
+          "cooldown": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cooldown_ms"
+            },
+            "startMoment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            }
+          },
+          "createdAt": "2026-09-19T00:02:01.334651Z",
+          "description": "绑定已核对的法力、普通冷却和250毫秒施法延迟；不在过程结束时自动造成伤害，实际命中由独立规则处理。",
+          "effectBindings": [
+            {
+              "bindingKey": "mana_cost",
+              "effectKey": "mana_cost",
+              "moment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              },
+              "sortOrder": 10
+            }
+          ],
+          "gameId": "lol",
+          "name": "施放烈火燃烧",
+          "processKey": "cast",
+          "skillKey": "brand_e",
+          "sortOrder": 10,
+          "stateOperations": [],
+          "steps": [
+            {
+              "description": "主技能spellCastTime已核对为250毫秒。",
+              "detail": {
+                "delayValue": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "cast_time_ms"
+                }
+              },
+              "name": "施法延迟",
+              "sortOrder": 10,
+              "stepKey": "cast_time",
+              "stepType": "DELAY"
+            }
+          ],
+          "updatedAt": "2026-09-19T00:02:01.334651Z"
+        }
+      },
+      "readback": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "createdAt": "2026-09-19T00:02:01.334651Z",
+        "description": "绑定已核对的法力、普通冷却和250毫秒施法延迟；不在过程结束时自动造成伤害，实际命中由独立规则处理。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "gameId": "lol",
+        "name": "施放烈火燃烧",
+        "processKey": "cast",
+        "skillKey": "brand_e",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "主技能spellCastTime已核对为250毫秒。",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            },
+            "name": "施法延迟",
+            "sortOrder": 10,
+            "stepKey": "cast_time",
+            "stepType": "DELAY"
+          }
+        ],
+        "updatedAt": "2026-09-19T00:02:01.334651Z"
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/brand_e/trigger-rules",
+      "response": {
+        "status": 201,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "start_cast",
+              "actionType": "START_PROCESS",
+              "detail": {
+                "processKey": "cast"
+              },
+              "name": "启动烈火燃烧施法过程",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "接收brand_e主动使用并启动已有cast过程，只处理已保存的法力消耗、普通冷却和250毫秒施法延迟；实际命中由独立规则处理，扩散与被动联动继续另行维护。管理保存不证明宿主已生产该事件。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "brand_e",
+              "useKind": "ACTIVE"
+            },
+            "eventType": "SKILL_USED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "主动使用启动烈火燃烧施法过程",
+          "perTargetCooldown": null,
+          "ruleKey": "on_used",
+          "sortOrder": 10
+        }
+      },
+      "readback": {
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "cast"
+            },
+            "name": "启动烈火燃烧施法过程",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "接收brand_e主动使用并启动已有cast过程，只处理已保存的法力消耗、普通冷却和250毫秒施法延迟；实际命中由独立规则处理，扩散与被动联动继续另行维护。管理保存不证明宿主已生产该事件。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "brand_e",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "主动使用启动烈火燃烧施法过程",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/malphite_e/processes",
+      "response": {
+        "status": 201,
+        "data": {
+          "activationType": "ACTIVE",
+          "cooldown": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cooldown_ms"
+            },
+            "startMoment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            }
+          },
+          "createdAt": "2026-09-19T00:02:04.254734Z",
+          "description": "只登记本次主动使用的法力消耗与普通冷却；固定0延迟步骤只作登记步骤，不表示技能施法时长为零；实际命中由独立规则处理。",
+          "effectBindings": [
+            {
+              "bindingKey": "mana_cost",
+              "effectKey": "mana_cost",
+              "moment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              },
+              "sortOrder": 10
+            }
+          ],
+          "gameId": "lol",
+          "name": "使用消耗与普通冷却",
+          "processKey": "use_cost_and_cooldown",
+          "skillKey": "malphite_e",
+          "sortOrder": 10,
+          "stateOperations": [],
+          "steps": [
+            {
+              "description": "固定0延迟仅表示本登记过程不建模技能施法时序。",
+              "detail": {
+                "delayValue": {
+                  "kind": "FIXED",
+                  "value": 0
+                }
+              },
+              "name": "登记本次使用",
+              "sortOrder": 10,
+              "stepKey": "register_use",
+              "stepType": "DELAY"
+            }
+          ],
+          "updatedAt": "2026-09-19T00:02:04.254734Z"
+        }
+      },
+      "readback": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "createdAt": "2026-09-19T00:02:04.254734Z",
+        "description": "只登记本次主动使用的法力消耗与普通冷却；固定0延迟步骤只作登记步骤，不表示技能施法时长为零；实际命中由独立规则处理。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "gameId": "lol",
+        "name": "使用消耗与普通冷却",
+        "processKey": "use_cost_and_cooldown",
+        "skillKey": "malphite_e",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "固定0延迟仅表示本登记过程不建模技能施法时序。",
+            "detail": {
+              "delayValue": {
+                "kind": "FIXED",
+                "value": 0
+              }
+            },
+            "name": "登记本次使用",
+            "sortOrder": 10,
+            "stepKey": "register_use",
+            "stepType": "DELAY"
+          }
+        ],
+        "updatedAt": "2026-09-19T00:02:04.254734Z"
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/malphite_e/trigger-rules",
+      "response": {
+        "status": 201,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "start_use_cost",
+              "actionType": "START_PROCESS",
+              "detail": {
+                "processKey": "use_cost_and_cooldown"
+              },
+              "name": "启动消耗与冷却登记",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "每次malphite_e主动使用启动专门的消耗与普通冷却登记过程；不定义真实施法时长，实际命中由独立规则处理，攻速削减另行维护。管理保存不证明宿主已生产该事件。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "malphite_e",
+              "useKind": "ACTIVE"
+            },
+            "eventType": "SKILL_USED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "主动使用登记消耗与冷却",
+          "perTargetCooldown": null,
+          "ruleKey": "on_used_cost_and_cooldown",
+          "sortOrder": 5
+        }
+      },
+      "readback": {
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "use_cost_and_cooldown"
+            },
+            "name": "启动消耗与冷却登记",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "每次malphite_e主动使用启动专门的消耗与普通冷却登记过程；不定义真实施法时长，实际命中由独立规则处理，攻速削减另行维护。管理保存不证明宿主已生产该事件。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "malphite_e",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "主动使用登记消耗与冷却",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used_cost_and_cooldown",
+        "sortOrder": 5
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/malphite_r/processes",
+      "response": {
+        "status": 201,
+        "data": {
+          "activationType": "ACTIVE",
+          "cooldown": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cooldown_ms"
+            },
+            "startMoment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            }
+          },
+          "createdAt": "2026-09-19T00:02:07.159819Z",
+          "description": "只登记本次主动使用的法力消耗与普通冷却；固定0延迟步骤只作登记步骤，不表示技能施法时长为零；实际命中由独立规则处理。",
+          "effectBindings": [
+            {
+              "bindingKey": "mana_cost",
+              "effectKey": "mana_cost",
+              "moment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              },
+              "sortOrder": 10
+            }
+          ],
+          "gameId": "lol",
+          "name": "使用消耗与普通冷却",
+          "processKey": "use_cost_and_cooldown",
+          "skillKey": "malphite_r",
+          "sortOrder": 10,
+          "stateOperations": [],
+          "steps": [
+            {
+              "description": "固定0延迟仅表示本登记过程不建模突进、通道或命中时序。",
+              "detail": {
+                "delayValue": {
+                  "kind": "FIXED",
+                  "value": 0
+                }
+              },
+              "name": "登记本次使用",
+              "sortOrder": 10,
+              "stepKey": "register_use",
+              "stepType": "DELAY"
+            }
+          ],
+          "updatedAt": "2026-09-19T00:02:07.159819Z"
+        }
+      },
+      "readback": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "createdAt": "2026-09-19T00:02:07.159819Z",
+        "description": "只登记本次主动使用的法力消耗与普通冷却；固定0延迟步骤只作登记步骤，不表示技能施法时长为零；实际命中由独立规则处理。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "gameId": "lol",
+        "name": "使用消耗与普通冷却",
+        "processKey": "use_cost_and_cooldown",
+        "skillKey": "malphite_r",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "固定0延迟仅表示本登记过程不建模突进、通道或命中时序。",
+            "detail": {
+              "delayValue": {
+                "kind": "FIXED",
+                "value": 0
+              }
+            },
+            "name": "登记本次使用",
+            "sortOrder": 10,
+            "stepKey": "register_use",
+            "stepType": "DELAY"
+          }
+        ],
+        "updatedAt": "2026-09-19T00:02:07.159819Z"
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/malphite_r/trigger-rules",
+      "response": {
+        "status": 201,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "start_use_cost",
+              "actionType": "START_PROCESS",
+              "detail": {
+                "processKey": "use_cost_and_cooldown"
+              },
+              "name": "启动消耗与冷却登记",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "每次malphite_r主动使用启动专门的消耗与普通冷却登记过程；不定义突进、通道、击飞或真实施法时长，实际命中由独立规则处理。管理保存不证明宿主已生产该事件。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "malphite_r",
+              "useKind": "ACTIVE"
+            },
+            "eventType": "SKILL_USED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "主动使用登记消耗与冷却",
+          "perTargetCooldown": null,
+          "ruleKey": "on_used_cost_and_cooldown",
+          "sortOrder": 5
+        }
+      },
+      "readback": {
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "use_cost_and_cooldown"
+            },
+            "name": "启动消耗与冷却登记",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "每次malphite_r主动使用启动专门的消耗与普通冷却登记过程；不定义突进、通道、击飞或真实施法时长，实际命中由独立规则处理。管理保存不证明宿主已生产该事件。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "malphite_r",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "主动使用登记消耗与冷却",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used_cost_and_cooldown",
+        "sortOrder": 5
+      }
+    }
+  ],
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v3.mjs": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "01-候选方案.json": "b7f1c8e992f04544e4e4348100c49bba10151e33540232cbf7b3ebc5474cfb75",
+    "02-冻结请求.json": "1e629e51140906c9d84ab057a830f29af3831bcad480ba80447a00ad58bb6ade",
+    "03-来源摘要.json": "3a0b5549a9745e0423d5fe74eaa472d5a95a7a9027eeca106a84086524516fc0",
+    "04-写入前现值.json": "7064a65a9ea82ff33b305b5bb408cf38bde6673f38bfa7ae97fbe0c496462719"
+  },
+  "pendingRoute": null,
+  "finishedAt": "2026-09-19T00:02:10.036Z",
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/brand_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_brand",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_brand/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_brand/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_brand",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=brand_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/effects/conflagration_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_malphite",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_malphite/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_malphite/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_malphite",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=malphite_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/parameters/armor_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/parameters/attack_speed_reduction_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/parameters/reduction_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/effects/slam_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=malphite_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/parameters/knockup_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/effects/impact_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/mana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/ability_power",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/damage-types/magic",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/armor",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/effects/mana_cost",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/processes/cast",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/trigger-rules/on_used",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/processes/use_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/trigger-rules/on_used_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/processes/use_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/trigger-rules/on_used_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/effects/mana_cost",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/brand_e/effects",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/processes/cast",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/brand_e/processes",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/trigger-rules/on_used",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/brand_e/trigger-rules",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/processes/use_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/malphite_e/processes",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/processes/use_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/trigger-rules/on_used_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/malphite_e/trigger-rules",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/trigger-rules/on_used_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/processes/use_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/malphite_r/processes",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/processes/use_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/trigger-rules/on_used_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/malphite_r/trigger-rules",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/trigger-rules/on_used_cost_and_cooldown",
+      "status": 200
+    }
+  ]
+}

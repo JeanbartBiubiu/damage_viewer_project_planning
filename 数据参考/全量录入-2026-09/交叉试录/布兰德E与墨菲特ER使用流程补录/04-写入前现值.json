@@ -1,0 +1,2260 @@
+{
+  "at": "2026-09-18T23:51:52.115Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/skills/brand_e": {
+      "createdAt": "2026-09-06T18:17:57.053751Z",
+      "description": "布兰德在目标身上引发一阵强力的爆裂至附近的敌人处，造成魔法伤害。如果目标带有【烈焰焚身】效果，那么【E烈火燃烧】的扩散距离翻倍。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "布兰德·烈火燃烧",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "brand_e",
+      "sortOrder": 3,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:17:57.053751Z"
+    },
+    "/characters/champion_brand": {
+      "characterKey": "champion_brand",
+      "createdAt": "2026-09-06T16:12:03.384177Z",
+      "description": "官方静态资料16.17.1；仅基础属性与1～18级自然成长，技能、图片和特殊机制待录。",
+      "gameId": "lol",
+      "name": "布兰德",
+      "updatedAt": "2026-09-06T16:12:03.384177Z"
+    },
+    "/characters/champion_brand/attributes": {
+      "characterKey": "champion_brand",
+      "levelValues": {
+        "1": {
+          "move_speed": 340,
+          "hp": 570,
+          "hp_regen": 5.5,
+          "mana": 469,
+          "mana_regen": 11,
+          "armor": 24,
+          "magic_resistance": 30,
+          "attack_damage": 57,
+          "attack_speed": 0.681,
+          "attack_range": 550
+        },
+        "2": {
+          "move_speed": 340,
+          "hp": 645.6,
+          "hp_regen": 5.896,
+          "mana": 484.12,
+          "mana_regen": 11.432,
+          "armor": 27.024,
+          "magic_resistance": 30.936,
+          "attack_damage": 59.16,
+          "attack_speed": 0.69,
+          "attack_range": 550
+        },
+        "3": {
+          "move_speed": 340,
+          "hp": 724.875,
+          "hp_regen": 6.31125,
+          "mana": 499.975,
+          "mana_regen": 11.885,
+          "armor": 30.195,
+          "magic_resistance": 31.9175,
+          "attack_damage": 61.425,
+          "attack_speed": 0.699438,
+          "attack_range": 550
+        },
+        "4": {
+          "move_speed": 340,
+          "hp": 807.825,
+          "hp_regen": 6.74575,
+          "mana": 516.565,
+          "mana_regen": 12.359,
+          "armor": 33.513,
+          "magic_resistance": 32.9445,
+          "attack_damage": 63.795,
+          "attack_speed": 0.709313,
+          "attack_range": 550
+        },
+        "5": {
+          "move_speed": 340,
+          "hp": 894.45,
+          "hp_regen": 7.1995,
+          "mana": 533.89,
+          "mana_regen": 12.854,
+          "armor": 36.978,
+          "magic_resistance": 34.017,
+          "attack_damage": 66.27,
+          "attack_speed": 0.719625,
+          "attack_range": 550
+        },
+        "6": {
+          "move_speed": 340,
+          "hp": 984.75,
+          "hp_regen": 7.6725,
+          "mana": 551.95,
+          "mana_regen": 13.37,
+          "armor": 40.59,
+          "magic_resistance": 35.135,
+          "attack_damage": 68.85,
+          "attack_speed": 0.730375,
+          "attack_range": 550
+        },
+        "7": {
+          "move_speed": 340,
+          "hp": 1078.725,
+          "hp_regen": 8.16475,
+          "mana": 570.745,
+          "mana_regen": 13.907,
+          "armor": 44.349,
+          "magic_resistance": 36.2985,
+          "attack_damage": 71.535,
+          "attack_speed": 0.741563,
+          "attack_range": 550
+        },
+        "8": {
+          "move_speed": 340,
+          "hp": 1176.375,
+          "hp_regen": 8.67625,
+          "mana": 590.275,
+          "mana_regen": 14.465,
+          "armor": 48.255,
+          "magic_resistance": 37.5075,
+          "attack_damage": 74.325,
+          "attack_speed": 0.753188,
+          "attack_range": 550
+        },
+        "9": {
+          "move_speed": 340,
+          "hp": 1277.7,
+          "hp_regen": 9.207,
+          "mana": 610.54,
+          "mana_regen": 15.044,
+          "armor": 52.308,
+          "magic_resistance": 38.762,
+          "attack_damage": 77.22,
+          "attack_speed": 0.76525,
+          "attack_range": 550
+        },
+        "10": {
+          "move_speed": 340,
+          "hp": 1382.7,
+          "hp_regen": 9.757,
+          "mana": 631.54,
+          "mana_regen": 15.644,
+          "armor": 56.508,
+          "magic_resistance": 40.062,
+          "attack_damage": 80.22,
+          "attack_speed": 0.77775,
+          "attack_range": 550
+        },
+        "11": {
+          "move_speed": 340,
+          "hp": 1491.375,
+          "hp_regen": 10.32625,
+          "mana": 653.275,
+          "mana_regen": 16.265,
+          "armor": 60.855,
+          "magic_resistance": 41.4075,
+          "attack_damage": 83.325,
+          "attack_speed": 0.790688,
+          "attack_range": 550
+        },
+        "12": {
+          "move_speed": 340,
+          "hp": 1603.725,
+          "hp_regen": 10.91475,
+          "mana": 675.745,
+          "mana_regen": 16.907,
+          "armor": 65.349,
+          "magic_resistance": 42.7985,
+          "attack_damage": 86.535,
+          "attack_speed": 0.804063,
+          "attack_range": 550
+        },
+        "13": {
+          "move_speed": 340,
+          "hp": 1719.75,
+          "hp_regen": 11.5225,
+          "mana": 698.95,
+          "mana_regen": 17.57,
+          "armor": 69.99,
+          "magic_resistance": 44.235,
+          "attack_damage": 89.85,
+          "attack_speed": 0.817875,
+          "attack_range": 550
+        },
+        "14": {
+          "move_speed": 340,
+          "hp": 1839.45,
+          "hp_regen": 12.1495,
+          "mana": 722.89,
+          "mana_regen": 18.254,
+          "armor": 74.778,
+          "magic_resistance": 45.717,
+          "attack_damage": 93.27,
+          "attack_speed": 0.832125,
+          "attack_range": 550
+        },
+        "15": {
+          "move_speed": 340,
+          "hp": 1962.825,
+          "hp_regen": 12.79575,
+          "mana": 747.565,
+          "mana_regen": 18.959,
+          "armor": 79.713,
+          "magic_resistance": 47.2445,
+          "attack_damage": 96.795,
+          "attack_speed": 0.846813,
+          "attack_range": 550
+        },
+        "16": {
+          "move_speed": 340,
+          "hp": 2089.875,
+          "hp_regen": 13.46125,
+          "mana": 772.975,
+          "mana_regen": 19.685,
+          "armor": 84.795,
+          "magic_resistance": 48.8175,
+          "attack_damage": 100.425,
+          "attack_speed": 0.861938,
+          "attack_range": 550
+        },
+        "17": {
+          "move_speed": 340,
+          "hp": 2220.6,
+          "hp_regen": 14.146,
+          "mana": 799.12,
+          "mana_regen": 20.432,
+          "armor": 90.024,
+          "magic_resistance": 50.436,
+          "attack_damage": 104.16,
+          "attack_speed": 0.8775,
+          "attack_range": 550
+        },
+        "18": {
+          "move_speed": 340,
+          "hp": 2355,
+          "hp_regen": 14.85,
+          "mana": 826,
+          "mana_regen": 21.2,
+          "armor": 95.4,
+          "magic_resistance": 52.1,
+          "attack_damage": 108,
+          "attack_speed": 0.8935,
+          "attack_range": 550
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_brand/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_champion_brand",
+        "name": "champion_brand"
+      }
+    },
+    "/skills/brand_e/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_brand_e",
+        "name": "brand_e"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_brand": {
+      "items": [
+        {
+          "characterKey": "champion_brand",
+          "characterName": "布兰德",
+          "gameId": "lol",
+          "skillKey": "brand_p",
+          "skillName": "布兰德·炽热之焰",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_brand",
+          "characterName": "布兰德",
+          "gameId": "lol",
+          "skillKey": "brand_q",
+          "skillName": "布兰德·火焰烙印",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_brand",
+          "characterName": "布兰德",
+          "gameId": "lol",
+          "skillKey": "brand_w",
+          "skillName": "布兰德·烈焰之柱",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_brand",
+          "characterName": "布兰德",
+          "gameId": "lol",
+          "skillKey": "brand_e",
+          "skillName": "布兰德·烈火燃烧",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_brand",
+          "characterName": "布兰德",
+          "gameId": "lol",
+          "skillKey": "brand_r",
+          "skillName": "布兰德·烈焰风暴",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=brand_e": {
+      "items": [
+        {
+          "characterKey": "champion_brand",
+          "characterName": "布兰德",
+          "gameId": "lol",
+          "skillKey": "brand_e",
+          "skillName": "布兰德·烈火燃烧",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        }
+      ],
+      "total": 1
+    },
+    "/skills/brand_e/parameters": [
+      {
+        "createdAt": "2026-09-07T16:38:10.657215Z",
+        "description": "官方16.17.1冷却与当前主技能 cooldownTime[1..等级上限]一致；仅基础冷却，不含急速和重置。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 13000,
+          "2": 12000,
+          "3": 11000,
+          "4": 10000,
+          "5": 9000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "brand_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:38:10.657215Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:38:10.998635Z",
+        "description": "当前主技能 spellCastTime；仅施法延迟，不代替实际命中。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "brand_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T16:38:10.998635Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-10T15:03:01.258897Z",
+        "description": "官方 DDragon 16.17.1 为全等级 90；Riot 26.13 官方补丁说明将旧值 70/75/80/85/90 调整为 90。客户端 16.17 的 70/75/80/85/90 仅作为旧版本来源差异记录。",
+        "fixedValue": 90,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "brand_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-10T15:03:01.258897Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:38:11.385058Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 55,
+          "2": 80,
+          "3": 105,
+          "4": 130,
+          "5": 155
+        },
+        "name": "基础伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "brand_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T16:38:11.385058Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:38:11.771345Z",
+        "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+        "fixedValue": 0.6,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法术强度倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "brand_e",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-07T16:38:11.771345Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    ],
+    "/skills/brand_e/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T16:38:10.657215Z",
+      "description": "官方16.17.1冷却与当前主技能 cooldownTime[1..等级上限]一致；仅基础冷却，不含急速和重置。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 13000,
+        "2": 12000,
+        "3": 11000,
+        "4": 10000,
+        "5": 9000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "brand_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T16:38:10.657215Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/brand_e/parameters/cast_time_ms": {
+      "createdAt": "2026-09-07T16:38:10.998635Z",
+      "description": "当前主技能 spellCastTime；仅施法延迟，不代替实际命中。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "brand_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-07T16:38:10.998635Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/brand_e/parameters/mana_cost": {
+      "createdAt": "2026-09-10T15:03:01.258897Z",
+      "description": "官方 DDragon 16.17.1 为全等级 90；Riot 26.13 官方补丁说明将旧值 70/75/80/85/90 调整为 90。客户端 16.17 的 70/75/80/85/90 仅作为旧版本来源差异记录。",
+      "fixedValue": 90,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "brand_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-10T15:03:01.258897Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/brand_e/parameters/base_damage": {
+      "createdAt": "2026-09-07T16:38:11.385058Z",
+      "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 55,
+        "2": 80,
+        "3": 105,
+        "4": 130,
+        "5": 155
+      },
+      "name": "基础伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "brand_e",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-07T16:38:11.385058Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/brand_e/parameters/ap_ratio": {
+      "createdAt": "2026-09-07T16:38:11.771345Z",
+      "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+      "fixedValue": 0.6,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法术强度倍率",
+      "parameterKey": "ap_ratio",
+      "skillKey": "brand_e",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-07T16:38:11.771345Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/brand_e/formulas": [
+      {
+        "createdAt": "2026-09-07T16:38:12.203978Z",
+        "description": "当前根技能 EDamageCalc：基础伤害+来源总法术强度×倍率。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "烈火燃烧伤害",
+        "skillKey": "brand_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:38:12.203978Z"
+      }
+    ],
+    "/skills/brand_e/formulas/damage": {
+      "createdAt": "2026-09-07T16:38:12.203978Z",
+      "description": "当前根技能 EDamageCalc：基础伤害+来源总法术强度×倍率。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "烈火燃烧伤害",
+      "skillKey": "brand_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T16:38:12.203978Z"
+    },
+    "/skills/brand_e/effects": [
+      {
+        "createdAt": "2026-09-07T16:38:12.568002Z",
+        "description": "本轮1V1敌方英雄的普通直接魔法技能伤害组成；显式登记防御结算后伤害、效率为1的全能吸血资格。实际命中入口已配置，其他被动、控制或目标分支分别维护。",
+        "effectKey": "conflagration_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "烈火燃烧直接伤害",
+        "resultCount": 1,
+        "skillKey": "brand_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-18T23:30:29.225526Z"
+      }
+    ],
+    "/skills/brand_e/effects/conflagration_hit": {
+      "createdAt": "2026-09-07T16:38:12.568002Z",
+      "description": "本轮1V1敌方英雄的普通直接魔法技能伤害组成；显式登记防御结算后伤害、效率为1的全能吸血资格。实际命中入口已配置，其他被动、控制或目标分支分别维护。",
+      "effectKey": "conflagration_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "烈火燃烧直接伤害",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": [
+              {
+                "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                "efficiencyValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "vampType": "OMNIVAMP"
+              }
+            ]
+          },
+          "lifecycleBehavior": null,
+          "name": "烈火燃烧直接伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "RESULT",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "brand_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-18T23:30:29.225526Z"
+    },
+    "/skills/brand_e/processes": [],
+    "/skills/brand_e/internal-states": [],
+    "/skills/brand_e/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "烈火燃烧实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:38:12.964143Z"
+      }
+    ],
+    "/skills/brand_e/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "damage",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "conflagration_hit"
+          },
+          "name": "执行命中伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "brand_e",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "烈火燃烧实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    },
+    "/skills/malphite_e": {
+      "createdAt": "2026-09-06T18:19:18.788954Z",
+      "description": "墨菲特锤击地面，放射出冲击波对目标造成基于他护甲值的魔法伤害，同时暂时降低目标攻击速度。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "墨菲特·大地震颤",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "malphite_e",
+      "sortOrder": 3,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:19:18.788954Z"
+    },
+    "/characters/champion_malphite": {
+      "characterKey": "champion_malphite",
+      "createdAt": "2026-09-06T15:48:23.202815Z",
+      "description": "来源：官方 Data Dragon 16.17.1；攻击力成长补充自同补丁客户端 16.17.8104348。本轮只录角色主体与 1～18 级基础自然成长属性，不含被动、技能、物品、符文、叠层或形态。技能和图片待录，不能视为完整录入。",
+      "gameId": "lol",
+      "name": "墨菲特",
+      "updatedAt": "2026-09-06T15:55:25.572671Z"
+    },
+    "/characters/champion_malphite/attributes": {
+      "characterKey": "champion_malphite",
+      "levelValues": {
+        "1": {
+          "move_speed": 335,
+          "hp": 665,
+          "hp_regen": 7,
+          "mana": 280,
+          "mana_regen": 7.3,
+          "armor": 40,
+          "magic_resistance": 28,
+          "attack_damage": 62,
+          "attack_speed": 0.736,
+          "attack_range": 125
+        },
+        "2": {
+          "move_speed": 335,
+          "hp": 739.88,
+          "hp_regen": 7.396,
+          "mana": 323.2,
+          "mana_regen": 7.696,
+          "armor": 43.564,
+          "magic_resistance": 29.476,
+          "attack_damage": 64.88,
+          "attack_speed": 0.751618,
+          "attack_range": 125
+        },
+        "3": {
+          "move_speed": 335,
+          "hp": 818.4,
+          "hp_regen": 7.81125,
+          "mana": 368.5,
+          "mana_regen": 8.11125,
+          "armor": 47.30125,
+          "magic_resistance": 31.02375,
+          "attack_damage": 67.9,
+          "attack_speed": 0.767996,
+          "attack_range": 125
+        },
+        "4": {
+          "move_speed": 335,
+          "hp": 900.56,
+          "hp_regen": 8.24575,
+          "mana": 415.9,
+          "mana_regen": 8.54575,
+          "armor": 51.21175,
+          "magic_resistance": 32.64325,
+          "attack_damage": 71.06,
+          "attack_speed": 0.785132,
+          "attack_range": 125
+        },
+        "5": {
+          "move_speed": 335,
+          "hp": 986.36,
+          "hp_regen": 8.6995,
+          "mana": 465.4,
+          "mana_regen": 8.9995,
+          "armor": 55.2955,
+          "magic_resistance": 34.3345,
+          "attack_damage": 74.36,
+          "attack_speed": 0.803028,
+          "attack_range": 125
+        },
+        "6": {
+          "move_speed": 335,
+          "hp": 1075.8,
+          "hp_regen": 9.1725,
+          "mana": 517,
+          "mana_regen": 9.4725,
+          "armor": 59.5525,
+          "magic_resistance": 36.0975,
+          "attack_damage": 77.8,
+          "attack_speed": 0.821683,
+          "attack_range": 125
+        },
+        "7": {
+          "move_speed": 335,
+          "hp": 1168.88,
+          "hp_regen": 9.66475,
+          "mana": 570.7,
+          "mana_regen": 9.96475,
+          "armor": 63.98275,
+          "magic_resistance": 37.93225,
+          "attack_damage": 81.38,
+          "attack_speed": 0.841098,
+          "attack_range": 125
+        },
+        "8": {
+          "move_speed": 335,
+          "hp": 1265.6,
+          "hp_regen": 10.17625,
+          "mana": 626.5,
+          "mana_regen": 10.47625,
+          "armor": 68.58625,
+          "magic_resistance": 39.83875,
+          "attack_damage": 85.1,
+          "attack_speed": 0.861271,
+          "attack_range": 125
+        },
+        "9": {
+          "move_speed": 335,
+          "hp": 1365.96,
+          "hp_regen": 10.707,
+          "mana": 684.4,
+          "mana_regen": 11.007,
+          "armor": 73.363,
+          "magic_resistance": 41.817,
+          "attack_damage": 88.96,
+          "attack_speed": 0.882204,
+          "attack_range": 125
+        },
+        "10": {
+          "move_speed": 335,
+          "hp": 1469.96,
+          "hp_regen": 11.257,
+          "mana": 744.4,
+          "mana_regen": 11.557,
+          "armor": 78.313,
+          "magic_resistance": 43.867,
+          "attack_damage": 92.96,
+          "attack_speed": 0.903896,
+          "attack_range": 125
+        },
+        "11": {
+          "move_speed": 335,
+          "hp": 1577.6,
+          "hp_regen": 11.82625,
+          "mana": 806.5,
+          "mana_regen": 12.12625,
+          "armor": 83.43625,
+          "magic_resistance": 45.98875,
+          "attack_damage": 97.1,
+          "attack_speed": 0.926347,
+          "attack_range": 125
+        },
+        "12": {
+          "move_speed": 335,
+          "hp": 1688.88,
+          "hp_regen": 12.41475,
+          "mana": 870.7,
+          "mana_regen": 12.71475,
+          "armor": 88.73275,
+          "magic_resistance": 48.18225,
+          "attack_damage": 101.38,
+          "attack_speed": 0.949558,
+          "attack_range": 125
+        },
+        "13": {
+          "move_speed": 335,
+          "hp": 1803.8,
+          "hp_regen": 13.0225,
+          "mana": 937,
+          "mana_regen": 13.3225,
+          "armor": 94.2025,
+          "magic_resistance": 50.4475,
+          "attack_damage": 105.8,
+          "attack_speed": 0.973527,
+          "attack_range": 125
+        },
+        "14": {
+          "move_speed": 335,
+          "hp": 1922.36,
+          "hp_regen": 13.6495,
+          "mana": 1005.4,
+          "mana_regen": 13.9495,
+          "armor": 99.8455,
+          "magic_resistance": 52.7845,
+          "attack_damage": 110.36,
+          "attack_speed": 0.998256,
+          "attack_range": 125
+        },
+        "15": {
+          "move_speed": 335,
+          "hp": 2044.56,
+          "hp_regen": 14.29575,
+          "mana": 1075.9,
+          "mana_regen": 14.59575,
+          "armor": 105.66175,
+          "magic_resistance": 55.19325,
+          "attack_damage": 115.06,
+          "attack_speed": 1.023744,
+          "attack_range": 125
+        },
+        "16": {
+          "move_speed": 335,
+          "hp": 2170.4,
+          "hp_regen": 14.96125,
+          "mana": 1148.5,
+          "mana_regen": 15.26125,
+          "armor": 111.65125,
+          "magic_resistance": 57.67375,
+          "attack_damage": 119.9,
+          "attack_speed": 1.049992,
+          "attack_range": 125
+        },
+        "17": {
+          "move_speed": 335,
+          "hp": 2299.88,
+          "hp_regen": 15.646,
+          "mana": 1223.2,
+          "mana_regen": 15.946,
+          "armor": 117.814,
+          "magic_resistance": 60.226,
+          "attack_damage": 124.88,
+          "attack_speed": 1.076998,
+          "attack_range": 125
+        },
+        "18": {
+          "move_speed": 335,
+          "hp": 2433,
+          "hp_regen": 16.35,
+          "mana": 1300,
+          "mana_regen": 16.65,
+          "armor": 124.15,
+          "magic_resistance": 62.85,
+          "attack_damage": 130,
+          "attack_speed": 1.104764,
+          "attack_range": 125
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_malphite/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "image_799b88cb-3cb8-4823-b445-66d37a204198",
+        "name": "墨菲特代表图片_799b88cb-3cb8-4823-b445-66d37a204198"
+      }
+    },
+    "/skills/malphite_e/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_malphite_e",
+        "name": "malphite_e"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_malphite": {
+      "items": [
+        {
+          "characterKey": "champion_malphite",
+          "characterName": "墨菲特",
+          "gameId": "lol",
+          "skillKey": "malphite_p",
+          "skillName": "墨菲特·花岗岩护盾",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_malphite",
+          "characterName": "墨菲特",
+          "gameId": "lol",
+          "skillKey": "malphite_q",
+          "skillName": "墨菲特·地震碎片",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_malphite",
+          "characterName": "墨菲特",
+          "gameId": "lol",
+          "skillKey": "malphite_w",
+          "skillName": "墨菲特·雷霆拍击",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_malphite",
+          "characterName": "墨菲特",
+          "gameId": "lol",
+          "skillKey": "malphite_e",
+          "skillName": "墨菲特·大地震颤",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_malphite",
+          "characterName": "墨菲特",
+          "gameId": "lol",
+          "skillKey": "malphite_r",
+          "skillName": "墨菲特·势不可挡",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=malphite_e": {
+      "items": [
+        {
+          "characterKey": "champion_malphite",
+          "characterName": "墨菲特",
+          "gameId": "lol",
+          "skillKey": "malphite_e",
+          "skillName": "墨菲特·大地震颤",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        }
+      ],
+      "total": 1
+    },
+    "/skills/malphite_e/parameters": [
+      {
+        "createdAt": "2026-09-07T16:37:08.111862Z",
+        "description": "官方16.17.1冷却与当前主技能 cooldownTime[1..等级上限]一致；仅基础冷却，不含急速和重置。",
+        "fixedValue": 7000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "malphite_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:37:08.111862Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:08.690047Z",
+        "description": "官方16.17.1 cost与主技能mana索引0..等级上限-1一致。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 50,
+          "2": 55,
+          "3": 60,
+          "4": 65,
+          "5": 70
+        },
+        "name": "法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "malphite_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T16:37:08.690047Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:09.200833Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 95,
+          "3": 130,
+          "4": 165,
+          "5": 200
+        },
+        "name": "基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "malphite_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T16:37:09.200833Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:09.557953Z",
+        "description": "客户端 EDamageCalc.mFormulaParts[2] 默认法术强度系数；按当前浮点设计值归一。",
+        "fixedValue": 0.6,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法术强度倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "malphite_e",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-07T16:37:09.557953Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:09.91552Z",
+        "description": "EDamageCalc mStat=1 总护甲系数0.4。",
+        "fixedValue": 0.4,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "总护甲倍率",
+        "parameterKey": "armor_ratio",
+        "skillKey": "malphite_e",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-07T16:37:09.91552Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:10.301176Z",
+        "description": "客户端当前根绑定 DataValues.ASReduction 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.3,
+          "2": 0.35,
+          "3": 0.4,
+          "4": 0.45,
+          "5": 0.5
+        },
+        "name": "攻击速度降低比例",
+        "parameterKey": "attack_speed_reduction_ratio",
+        "skillKey": "malphite_e",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-07T16:37:10.301176Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:10.70377Z",
+        "description": "客户端当前根绑定 DataValues.Duration 取索引1至5。",
+        "fixedValue": 3000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "攻速降低持续（毫秒）",
+        "parameterKey": "reduction_duration_ms",
+        "skillKey": "malphite_e",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-07T16:37:10.70377Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/malphite_e/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T16:37:08.111862Z",
+      "description": "官方16.17.1冷却与当前主技能 cooldownTime[1..等级上限]一致；仅基础冷却，不含急速和重置。",
+      "fixedValue": 7000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "malphite_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T16:37:08.111862Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/malphite_e/parameters/mana_cost": {
+      "createdAt": "2026-09-07T16:37:08.690047Z",
+      "description": "官方16.17.1 cost与主技能mana索引0..等级上限-1一致。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 50,
+        "2": 55,
+        "3": 60,
+        "4": 65,
+        "5": 70
+      },
+      "name": "法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "malphite_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-07T16:37:08.690047Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/malphite_e/parameters/base_damage": {
+      "createdAt": "2026-09-07T16:37:09.200833Z",
+      "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 60,
+        "2": 95,
+        "3": 130,
+        "4": 165,
+        "5": 200
+      },
+      "name": "基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "malphite_e",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-07T16:37:09.200833Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/malphite_e/parameters/ap_ratio": {
+      "createdAt": "2026-09-07T16:37:09.557953Z",
+      "description": "客户端 EDamageCalc.mFormulaParts[2] 默认法术强度系数；按当前浮点设计值归一。",
+      "fixedValue": 0.6,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法术强度倍率",
+      "parameterKey": "ap_ratio",
+      "skillKey": "malphite_e",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-07T16:37:09.557953Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/malphite_e/parameters/armor_ratio": {
+      "createdAt": "2026-09-07T16:37:09.91552Z",
+      "description": "EDamageCalc mStat=1 总护甲系数0.4。",
+      "fixedValue": 0.4,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "总护甲倍率",
+      "parameterKey": "armor_ratio",
+      "skillKey": "malphite_e",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-07T16:37:09.91552Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/malphite_e/parameters/attack_speed_reduction_ratio": {
+      "createdAt": "2026-09-07T16:37:10.301176Z",
+      "description": "客户端当前根绑定 DataValues.ASReduction 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 0.3,
+        "2": 0.35,
+        "3": 0.4,
+        "4": 0.45,
+        "5": 0.5
+      },
+      "name": "攻击速度降低比例",
+      "parameterKey": "attack_speed_reduction_ratio",
+      "skillKey": "malphite_e",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-07T16:37:10.301176Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "DECIMAL"
+    },
+    "/skills/malphite_e/parameters/reduction_duration_ms": {
+      "createdAt": "2026-09-07T16:37:10.70377Z",
+      "description": "客户端当前根绑定 DataValues.Duration 取索引1至5。",
+      "fixedValue": 3000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "攻速降低持续（毫秒）",
+      "parameterKey": "reduction_duration_ms",
+      "skillKey": "malphite_e",
+      "sortOrder": 70,
+      "updatedAt": "2026-09-07T16:37:10.70377Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/malphite_e/formulas": [
+      {
+        "createdAt": "2026-09-07T16:37:11.080824Z",
+        "description": "来源总护甲×0.4 +总法强×0.6 +基础。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "大地震颤魔法伤害",
+        "skillKey": "malphite_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:37:11.080824Z"
+      }
+    ],
+    "/skills/malphite_e/formulas/damage": {
+      "createdAt": "2026-09-07T16:37:11.080824Z",
+      "description": "来源总护甲×0.4 +总法强×0.6 +基础。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "attributeKey": "ability_power",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "armor_ratio"
+              },
+              {
+                "attributeKey": "armor",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "大地震颤魔法伤害",
+      "skillKey": "malphite_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T16:37:11.080824Z"
+    },
+    "/skills/malphite_e/effects": [
+      {
+        "createdAt": "2026-09-07T16:37:11.446128Z",
+        "description": "仅施放法力消耗；具体过程单独绑定。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "malphite_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:37:11.446128Z"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:11.906964Z",
+        "description": "本轮1V1敌方英雄的普通直接魔法技能伤害组成；显式登记防御结算后伤害、效率为1的全能吸血资格。实际命中入口已配置，其他被动、控制或目标分支分别维护。",
+        "effectKey": "slam_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "震地命中",
+        "resultCount": 1,
+        "skillKey": "malphite_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-18T23:30:32.703995Z"
+      }
+    ],
+    "/skills/malphite_e/effects/mana_cost": {
+      "createdAt": "2026-09-07T16:37:11.446128Z",
+      "description": "仅施放法力消耗；具体过程单独绑定。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "malphite_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T16:37:11.446128Z"
+    },
+    "/skills/malphite_e/effects/slam_hit": {
+      "createdAt": "2026-09-07T16:37:11.906964Z",
+      "description": "本轮1V1敌方英雄的普通直接魔法技能伤害组成；显式登记防御结算后伤害、效率为1的全能吸血资格。实际命中入口已配置，其他被动、控制或目标分支分别维护。",
+      "effectKey": "slam_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "震地命中",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": [
+              {
+                "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                "efficiencyValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "vampType": "OMNIVAMP"
+              }
+            ]
+          },
+          "lifecycleBehavior": null,
+          "name": "震地命中",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "RESULT",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "malphite_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-18T23:30:32.703995Z"
+    },
+    "/skills/malphite_e/processes": [],
+    "/skills/malphite_e/internal-states": [],
+    "/skills/malphite_e/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "大地震颤实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:37:12.315023Z"
+      }
+    ],
+    "/skills/malphite_e/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "damage",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "slam_hit"
+          },
+          "name": "执行命中伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "malphite_e",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "大地震颤实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    },
+    "/skills/malphite_r": {
+      "createdAt": "2026-09-06T18:19:19.075519Z",
+      "description": "墨菲特自身高速冲向一个区域，对区域内的敌人们造成伤害和击飞效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 3,
+      "name": "墨菲特·势不可挡",
+      "skillCategoryKeys": [],
+      "skillKey": "malphite_r",
+      "sortOrder": 4,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:19:19.075519Z"
+    },
+    "/skills/malphite_r/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_malphite_r",
+        "name": "malphite_r"
+      }
+    },
+    "/character-skill-relations?skillKey=malphite_r": {
+      "items": [
+        {
+          "characterKey": "champion_malphite",
+          "characterName": "墨菲特",
+          "gameId": "lol",
+          "skillKey": "malphite_r",
+          "skillName": "墨菲特·势不可挡",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 1
+    },
+    "/skills/malphite_r/parameters": [
+      {
+        "createdAt": "2026-09-07T16:37:13.019433Z",
+        "description": "官方16.17.1冷却与当前主技能 cooldownTime[1..等级上限]一致；仅基础冷却，不含急速和重置。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 130000,
+          "2": 115000,
+          "3": 100000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "malphite_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:37:13.019433Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:13.361701Z",
+        "description": "官方16.17.1 cost与主技能mana索引0..等级上限-1一致。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "malphite_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T16:37:13.361701Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:13.720488Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至3。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 200,
+          "2": 300,
+          "3": 400
+        },
+        "name": "基础伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "malphite_r",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T16:37:13.720488Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:14.061814Z",
+        "description": "客户端 TotalDamage.mFormulaParts[1] 默认法术强度系数；按当前浮点设计值归一。",
+        "fixedValue": 0.9,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法术强度倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "malphite_r",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-07T16:37:14.061814Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:14.450092Z",
+        "description": "客户端当前根绑定 DataValues.KnockupDuration 取索引1至3。",
+        "fixedValue": 1500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "击飞持续（毫秒）",
+        "parameterKey": "knockup_duration_ms",
+        "skillKey": "malphite_r",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-07T16:37:14.450092Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/malphite_r/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T16:37:13.019433Z",
+      "description": "官方16.17.1冷却与当前主技能 cooldownTime[1..等级上限]一致；仅基础冷却，不含急速和重置。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 130000,
+        "2": 115000,
+        "3": 100000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "malphite_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T16:37:13.019433Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/malphite_r/parameters/mana_cost": {
+      "createdAt": "2026-09-07T16:37:13.361701Z",
+      "description": "官方16.17.1 cost与主技能mana索引0..等级上限-1一致。",
+      "fixedValue": 100,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "malphite_r",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-07T16:37:13.361701Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/malphite_r/parameters/base_damage": {
+      "createdAt": "2026-09-07T16:37:13.720488Z",
+      "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至3。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 200,
+        "2": 300,
+        "3": 400
+      },
+      "name": "基础伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "malphite_r",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-07T16:37:13.720488Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/malphite_r/parameters/ap_ratio": {
+      "createdAt": "2026-09-07T16:37:14.061814Z",
+      "description": "客户端 TotalDamage.mFormulaParts[1] 默认法术强度系数；按当前浮点设计值归一。",
+      "fixedValue": 0.9,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法术强度倍率",
+      "parameterKey": "ap_ratio",
+      "skillKey": "malphite_r",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-07T16:37:14.061814Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/malphite_r/parameters/knockup_duration_ms": {
+      "createdAt": "2026-09-07T16:37:14.450092Z",
+      "description": "客户端当前根绑定 DataValues.KnockupDuration 取索引1至3。",
+      "fixedValue": 1500,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "击飞持续（毫秒）",
+      "parameterKey": "knockup_duration_ms",
+      "skillKey": "malphite_r",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-07T16:37:14.450092Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/malphite_r/formulas": [
+      {
+        "createdAt": "2026-09-07T16:37:14.816752Z",
+        "description": "当前根技能 TotalDamage：基础伤害+来源总法术强度×倍率。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "势不可挡伤害",
+        "skillKey": "malphite_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:37:14.816752Z"
+      }
+    ],
+    "/skills/malphite_r/formulas/damage": {
+      "createdAt": "2026-09-07T16:37:14.816752Z",
+      "description": "当前根技能 TotalDamage：基础伤害+来源总法术强度×倍率。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "势不可挡伤害",
+      "skillKey": "malphite_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T16:37:14.816752Z"
+    },
+    "/skills/malphite_r/effects": [
+      {
+        "createdAt": "2026-09-07T16:37:15.205781Z",
+        "description": "仅施放法力消耗；具体过程单独绑定。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "malphite_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:37:15.205781Z"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:15.600204Z",
+        "description": "本轮1V1敌方英雄的普通直接魔法技能伤害组成；显式登记防御结算后伤害、效率为1的全能吸血资格。实际命中入口已配置，其他被动、控制或目标分支分别维护。",
+        "effectKey": "impact_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "冲撞命中魔法伤害",
+        "resultCount": 1,
+        "skillKey": "malphite_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-18T23:30:34.599259Z"
+      }
+    ],
+    "/skills/malphite_r/effects/mana_cost": {
+      "createdAt": "2026-09-07T16:37:15.205781Z",
+      "description": "仅施放法力消耗；具体过程单独绑定。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "malphite_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T16:37:15.205781Z"
+    },
+    "/skills/malphite_r/effects/impact_hit": {
+      "createdAt": "2026-09-07T16:37:15.600204Z",
+      "description": "本轮1V1敌方英雄的普通直接魔法技能伤害组成；显式登记防御结算后伤害、效率为1的全能吸血资格。实际命中入口已配置，其他被动、控制或目标分支分别维护。",
+      "effectKey": "impact_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "冲撞命中魔法伤害",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": [
+              {
+                "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                "efficiencyValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "vampType": "OMNIVAMP"
+              }
+            ]
+          },
+          "lifecycleBehavior": null,
+          "name": "冲撞命中魔法伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "RESULT",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "malphite_r",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-18T23:30:34.599259Z"
+    },
+    "/skills/malphite_r/processes": [],
+    "/skills/malphite_r/internal-states": [],
+    "/skills/malphite_r/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "势不可挡实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:37:15.965633Z"
+      }
+    ],
+    "/skills/malphite_r/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "damage",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "impact_hit"
+          },
+          "name": "执行命中伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "malphite_r",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "势不可挡实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    },
+    "/attributes/mana": {
+      "attributeKey": "mana",
+      "createdAt": "2026-08-22T15:27:36.139767Z",
+      "description": null,
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法力值",
+      "sortOrder": 310,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-22T15:27:36.139767Z",
+      "valueType": "DECIMAL"
+    },
+    "/attributes/ability_power": {
+      "attributeKey": "ability_power",
+      "createdAt": "2026-08-30T16:26:39.898635Z",
+      "description": "角色法术强度；基础值为 0，可由装备和效果增加",
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法术强度",
+      "sortOrder": 510,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-30T16:26:39.898635Z",
+      "valueType": "DECIMAL"
+    },
+    "/damage-types/magic": {
+      "createdAt": "2026-08-26T05:59:15.870937Z",
+      "damageTypeKey": "magic",
+      "description": null,
+      "gameId": "lol",
+      "name": "魔法伤害",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-26T05:59:15.870937Z"
+    },
+    "/attributes/armor": {
+      "attributeKey": "armor",
+      "createdAt": "2026-08-30T16:27:55.143372Z",
+      "description": "角色面板护甲",
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": null,
+      "name": "护甲",
+      "sortOrder": 400,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-30T16:27:55.143372Z",
+      "valueType": "DECIMAL"
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/brand_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_brand",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_brand/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_brand/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_brand",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=brand_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/effects/conflagration_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_malphite",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_malphite/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_malphite/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_malphite",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=malphite_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/parameters/armor_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/parameters/attack_speed_reduction_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/parameters/reduction_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/effects/slam_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=malphite_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/parameters/knockup_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/effects/impact_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/mana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/ability_power",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/damage-types/magic",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/armor",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/effects/mana_cost",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/processes/cast",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/brand_e/trigger-rules/on_used",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/processes/use_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_e/trigger-rules/on_used_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/processes/use_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malphite_r/trigger-rules/on_used_cost_and_cooldown",
+      "status": 404
+    }
+  ],
+  "businessWrites": 0
+}
