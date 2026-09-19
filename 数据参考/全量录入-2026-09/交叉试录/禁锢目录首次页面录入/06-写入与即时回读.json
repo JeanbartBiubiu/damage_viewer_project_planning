@@ -1,0 +1,43 @@
+{
+  "startedAt": "2026-09-19T04:51:45.205Z",
+  "status": "PASS",
+  "executionMode": "BROWSER_UI_ONLY",
+  "businessWritesAttempted": 1,
+  "approvedFiles": {
+    "tools/authoring/reviewed-status-ui.mjs": "3b509e846436dc84aca6d68f15876de8e53884bb7f9ac376842b79a5231f3ada",
+    "01-候选方案.json": "2b0faccdc6a1b0fad9fe87c4fcc9b0f2fc9342e32cb61a4cff6572bc43aa365b",
+    "02-冻结请求.json": "c485153628144d59058974c3b1d8ab2b797f5ee1185e4612a6f1c578d6bfac6f",
+    "03-来源摘要.json": "2989f2be42a30abb373b471e613813abf8e77eff410e1dd05f2126fc8e83f4be",
+    "04-写入前现值.json": "1d98e7111ef737e5f7b45fd71df132465340137e148a5f0ef3f24d5fd5b047dd"
+  },
+  "pendingRoute": null,
+  "postResponseCaptured": false,
+  "operations": [
+    {
+      "method": "BROWSER_FORM_SAVE",
+      "route": "/statuses",
+      "detailRoute": "/statuses/root",
+      "postResponseCaptured": false,
+      "readback": {
+        "method": "GET",
+        "status": 200,
+        "at": "2026-09-19T04:57:33.391Z",
+        "body": {
+          "createdAt": "2026-09-19T04:52:01.232803Z",
+          "description": "禁锢状态身份；具体持续时间由技能效果生命周期维护，本状态不另设强度数值。",
+          "gameId": "lol",
+          "name": "禁锢",
+          "sortOrder": 20,
+          "status": "ENABLED",
+          "statusKey": "root",
+          "statusKind": "ROOT",
+          "updatedAt": "2026-09-19T04:52:01.232803Z"
+        }
+      },
+      "matchesFrozenFullBody": true
+    }
+  ],
+  "preflightGETs": 3,
+  "finishedAt": "2026-09-19T04:57:33.390Z",
+  "recoveryNote": "中断恢复先执行只读 GET，确认先前单次页面保存已落地；没有重复保存，也未捕获 POST 响应。"
+}

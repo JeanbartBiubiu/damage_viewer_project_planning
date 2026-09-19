@@ -1,0 +1,70 @@
+{
+  "status": "APPROVED",
+  "at": "2026-09-19T04:47:50.065Z",
+  "reviewer": "独立评审代理",
+  "executionMode": "BROWSER_UI_ONLY",
+  "approvedFiles": {
+    "tools/authoring/reviewed-status-ui.mjs": "3b509e846436dc84aca6d68f15876de8e53884bb7f9ac376842b79a5231f3ada",
+    "01-候选方案.json": "2b0faccdc6a1b0fad9fe87c4fcc9b0f2fc9342e32cb61a4cff6572bc43aa365b",
+    "02-冻结请求.json": "c485153628144d59058974c3b1d8ab2b797f5ee1185e4612a6f1c578d6bfac6f",
+    "03-来源摘要.json": "2989f2be42a30abb373b471e613813abf8e77eff410e1dd05f2126fc8e83f4be",
+    "04-写入前现值.json": "1d98e7111ef737e5f7b45fd71df132465340137e148a5f0ef3f24d5fd5b047dd"
+  },
+  "businessHTTP": 0,
+  "businessWrites": 0,
+  "sourceFilesVerified": 11,
+  "blockingFindings": [],
+  "scope": "仅批准通过真实页面首次新增 root 禁锢状态目录；工具只允许 prepare、preflight、readback。批准冻结请求字节不授权通过 API 替代首次页面保存。",
+  "checks": [
+    {
+      "name": "请求与现行契约",
+      "result": "PASS",
+      "detail": "完整六字段与前端创建请求结构一致：root、禁锢、ROOT、ENABLED、sortOrder=20 及冻结说明。ROOT 仅目录身份，无强度和持续时间字段；创建后种类不可变。"
+    },
+    {
+      "name": "来源及冻结绑定",
+      "result": "PASS",
+      "detail": "独立计算工具、01 至 04 与全部 11 个来源的原字节摘要；03 与 01 sourceFiles 全对应，02 sourceSha256/baselineSha256 正确。当前代码含 ROOT；历史分层报告记录约束增量已完成，本次不执行或重放迁移。"
+    },
+    {
+      "name": "写前目录与缺失确认",
+      "result": "PASS",
+      "detail": "04 恰含原状态列表与 vertigo 完整详情，两者逐字段含时间戳相同；总数 1，无重复。审计为列表 200、vertigo 200、root 404 共 3 GET，无写入。"
+    },
+    {
+      "name": "工具只读边界",
+      "result": "PASS",
+      "detail": "全部网络调用固定 GET，限制 /statuses 目录及合法标识详情，拒绝跳转；没有 HTTP 写入分支。证据生成以 wx 独占保存，来源及批准文件漂移会拒绝。"
+    },
+    {
+      "name": "完整回读保护",
+      "result": "PASS",
+      "detail": "读取全列表并逐项读取完整详情；列表总数、标识唯一性、gameId、每项列表/详情相等均检查。写后只允许新增 root，原列表项及相对顺序、旧详情含时间戳原样保持；新目录剔除合法元数据后的全部字段须与冻结正文严格相等。"
+    },
+    {
+      "name": "离线执行检查",
+      "result": "PASS",
+      "detail": "使用原工具源码与隔离的内存文件/HTTP 替身执行 12 场景，正常 prepare/preflight/readback 通过；旧时间戳漂移、列表详情不一致、额外新字段、错误种类、缺少新项、重复键、非页面/未完成写入声明及写前漂移均拒绝。真实 HTTP 为 0。"
+    }
+  ],
+  "offlineEvidence": {
+    "path": "output/seven-hit-review/root-status-ui-offline.json",
+    "sha256": "88619cad518eff2fdb4a8acaecbcfbaf8fac193db1823e648606cbd234c67056",
+    "cases": 12
+  },
+  "browserProtocol": {
+    "approved": true,
+    "detail": "先独立批准和 GET preflight，再 wx 建立 06 STARTED 后单次页面保存；即时 GET 对照完整正文和元数据，06 如实记录页面动作及是否捕获响应；保存结果未知时先读回，禁止重放。完成后独立只读回读、真实页面关闭重开核种类只读。"
+  },
+  "expectedReadback": {
+    "GETs": 3,
+    "newObjects": 1,
+    "expectedChangedCollections": 1,
+    "unchangedResponsesIncludingTimestamps": 1
+  },
+  "boundaries": [
+    "本次仅目录对象，技能效果、技能触发规则、原有引用和数据库结构不在写入范围。",
+    "状态效果与合法命中入口须另作冻结评审。",
+    "此次为本地静态与离线工具验证，真实页面、真实接口写后结果及战斗运行证据尚未产生。"
+  ]
+}

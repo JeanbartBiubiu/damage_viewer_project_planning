@@ -1,0 +1,159 @@
+{
+  "status": "PASS",
+  "at": "2026-09-19T04:47:12.296Z",
+  "realHTTP": 0,
+  "businessWrites": 0,
+  "method": "原工具源码在同一 JavaScript 引擎执行；仅替换文件读写、参数、输出及 fetch 为内存输入，未修改原文件。",
+  "sourceFilesVerified": 11,
+  "approvedFiles": {
+    "tools/authoring/reviewed-status-ui.mjs": "3b509e846436dc84aca6d68f15876de8e53884bb7f9ac376842b79a5231f3ada",
+    "01-候选方案.json": "2b0faccdc6a1b0fad9fe87c4fcc9b0f2fc9342e32cb61a4cff6572bc43aa365b",
+    "02-冻结请求.json": "c485153628144d59058974c3b1d8ab2b797f5ee1185e4612a6f1c578d6bfac6f",
+    "03-来源摘要.json": "2989f2be42a30abb373b471e613813abf8e77eff410e1dd05f2126fc8e83f4be",
+    "04-写入前现值.json": "1d98e7111ef737e5f7b45fd71df132465340137e148a5f0ef3f24d5fd5b047dd"
+  },
+  "cases": [
+    {
+      "name": "准备路径生成同一完整请求且只写独占证据",
+      "mode": "prepare",
+      "expectedPass": true,
+      "passed": true,
+      "mockedGETs": 3,
+      "result": {
+        "status": "READY_FOR_REVIEW",
+        "GETs": 3,
+        "plannedBrowserWrites": 1,
+        "batchFileSha256": "f260fdf5e3c952190d5f5bb12e4b337bcbcae528404d3038b98e4ec836092cec"
+      }
+    },
+    {
+      "name": "写前完整旧值与缺失新目录",
+      "mode": "preflight",
+      "expectedPass": true,
+      "passed": true,
+      "mockedGETs": 3,
+      "result": {
+        "status": "PASS",
+        "businessWrites": 0,
+        "GETs": 3
+      }
+    },
+    {
+      "name": "正常新目录与原眩晕保持",
+      "mode": "readback",
+      "expectedPass": true,
+      "passed": true,
+      "mockedGETs": 3,
+      "result": {
+        "status": "PASS",
+        "at": "2026-09-19T04:47:12.279Z",
+        "businessWrites": 0,
+        "GETs": 3,
+        "unchangedResponsesIncludingTimestamps": 1,
+        "expectedChangedCollections": 1,
+        "newObjects": {
+          "/statuses/root": {
+            "statusKey": "root",
+            "name": "禁锢",
+            "description": "禁锢状态身份；具体持续时间由技能效果生命周期维护，本状态不另设强度数值。",
+            "statusKind": "ROOT",
+            "status": "ENABLED",
+            "sortOrder": 20,
+            "gameId": "lol",
+            "createdAt": "2026-09-19T05:00:00Z",
+            "updatedAt": "2026-09-19T05:00:00Z"
+          }
+        },
+        "audit": [
+          {
+            "method": "GET",
+            "path": "/statuses",
+            "status": 200
+          },
+          {
+            "method": "GET",
+            "path": "/statuses/vertigo",
+            "status": 200
+          },
+          {
+            "method": "GET",
+            "path": "/statuses/root",
+            "status": 200
+          }
+        ]
+      }
+    },
+    {
+      "name": "旧详情时间戳变化且列表同步仍拒绝",
+      "mode": "readback",
+      "expectedPass": false,
+      "passed": true,
+      "mockedGETs": 3,
+      "result": "原列表项或顺序变化"
+    },
+    {
+      "name": "列表与详情不一致拒绝",
+      "mode": "readback",
+      "expectedPass": false,
+      "passed": true,
+      "mockedGETs": 3,
+      "result": "列表与详情不一致"
+    },
+    {
+      "name": "新详情多余业务字段拒绝",
+      "mode": "readback",
+      "expectedPass": false,
+      "passed": true,
+      "mockedGETs": 3,
+      "result": "新状态与完整冻结请求不一致"
+    },
+    {
+      "name": "新目录种类错误拒绝",
+      "mode": "readback",
+      "expectedPass": false,
+      "passed": true,
+      "mockedGETs": 3,
+      "result": "新状态与完整冻结请求不一致"
+    },
+    {
+      "name": "缺少新目录拒绝",
+      "mode": "readback",
+      "expectedPass": false,
+      "passed": true,
+      "mockedGETs": 2,
+      "result": "Expected values to be strictly equal:\n\n1 !== 2\n"
+    },
+    {
+      "name": "重复目录标识拒绝",
+      "mode": "readback",
+      "expectedPass": false,
+      "passed": true,
+      "mockedGETs": 1,
+      "result": "Expected values to be strictly equal:\n\n2 !== 3\n"
+    },
+    {
+      "name": "非页面写入声明拒绝",
+      "mode": "readback",
+      "expectedPass": false,
+      "passed": true,
+      "mockedGETs": 3,
+      "result": "Expected values to be strictly equal:\n+ actual - expected\n\n+ 'API'\n- 'BROWSER_UI_ONLY'"
+    },
+    {
+      "name": "非成功写入声明拒绝",
+      "mode": "readback",
+      "expectedPass": false,
+      "passed": true,
+      "mockedGETs": 3,
+      "result": "Expected values to be strictly equal:\n+ actual - expected\n\n+ 'STARTED'\n- 'PASS'"
+    },
+    {
+      "name": "写前旧目录漂移拒绝",
+      "mode": "preflight",
+      "expectedPass": false,
+      "passed": true,
+      "mockedGETs": 2,
+      "result": "原状态目录或详情漂移"
+    }
+  ]
+}

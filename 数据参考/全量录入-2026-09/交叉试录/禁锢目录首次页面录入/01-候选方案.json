@@ -1,0 +1,79 @@
+{
+  "title": "禁锢状态目录首次真实页面录入",
+  "at": "2026-09-19T04:44:30.396Z",
+  "executionMode": "BROWSER_UI_ONLY",
+  "body": {
+    "statusKey": "root",
+    "name": "禁锢",
+    "description": "禁锢状态身份；具体持续时间由技能效果生命周期维护，本状态不另设强度数值。",
+    "statusKind": "ROOT",
+    "status": "ENABLED",
+    "sortOrder": 20
+  },
+  "sourceFiles": [
+    {
+      "root": "web",
+      "path": "web/src/types/status.ts",
+      "sha256": "09731cb532692c283d6b322a99915e3e5a5c6336aad44d94eef72413a7dc9b02"
+    },
+    {
+      "root": "web",
+      "path": "web/src/services/statusClient.ts",
+      "sha256": "32b41970fe11ff1a1a1bcad558acbcf96bcb682db4552fd56169f4a1bd08ccbc"
+    },
+    {
+      "root": "web",
+      "path": "web/src/pages/admin/statuses/statusForm.ts",
+      "sha256": "2b0fd7941fc835563be629bf6e836215e1c6a27f26f6c4959645a0f39d8b0674"
+    },
+    {
+      "root": "web",
+      "path": "web/src/pages/admin/statuses/StatusEditorModal.tsx",
+      "sha256": "be54fd18037deb61cdbe547470a5daed6a54d43afa22cc6b69c17139a99c301e"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/禁锢状态前端增量/09-证据清单.json",
+      "sha256": "2391165a0dce661e1a86afdba92243bcd94b9e11190df89f062d710782d9f4a4"
+    },
+    {
+      "root": "backend",
+      "path": "server/data_manage/src/main/java/xyz/game/datamanage/model/status/StatusKind.java",
+      "sha256": "f7e20b017f67e8491accccc6744bfeb1a8cb0751265db5243bde447eebda1570"
+    },
+    {
+      "root": "backend",
+      "path": "数据参考/全量录入-2026-09/禁锢状态后端增量/09-证据清单.json",
+      "sha256": "c38d5e2b58647f5a00d2c581e266559bf9a5ba83dee7cbdf6008730b89d36d07"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/禁锢状态补齐/01-来源核对.json",
+      "sha256": "133a8197a924bf618e72eb65c33166b22e782ff86933e1bf0e54605f91a077a2"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/禁锢状态补齐/02-独立方案评审.json",
+      "sha256": "f4ef70dff8c3aed3e73efed486857e9d7816396047b122b757c7cbf1a9206a64"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/禁锢状态补齐/03-分层验收记录.json",
+      "sha256": "355e0ce65d1b98a30d9d81511d797412af5cfcd57d7f252b1f996d1e869186e3"
+    },
+    {
+      "root": "planning",
+      "path": "文档记录/详细设计/项目/系统精简实施说明.md",
+      "sha256": "26fbcdfcff78d43bbcd6d4da8e467aec5bda3ec55a819b79569ab7c2284ed821"
+    }
+  ],
+  "scope": "只新增root状态目录，不修改已有vertigo、技能组成、效果、引用或数据库结构。",
+  "firstUI": "页面创建时明确选择禁锢种类，保存后关闭重开确认种类只读；不得调用接口替代首次保存。",
+  "protocol": "独立05批准及纯GET preflight后，wx记录06 STARTED再点击一次页面保存；即时GET核完整body及元数据，未知结果先读回不重放。06如实记录UI动作，不伪造POST响应。另执行只读工具readback核新目录、旧目录与时间戳。",
+  "remaining": [
+    "莫甘娜Q原对象状态效果与合法命中入口",
+    "艾翁Q和拉克丝Q同类补录",
+    "运行边界仍单列"
+  ],
+  "runtimeValidation": "未执行"
+}
