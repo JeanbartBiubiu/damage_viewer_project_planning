@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-19T08:40:31.724Z",
+  "generatedAt": "2026-09-19T09:08:11.864Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -11035,6 +11035,33 @@
         "stdoutSha256": "e8bca6c2ec7bdc644f0b7d3155bf1275b43b51ccc05f047bcc48e2de7dc27177",
         "stdoutBytes": 3719,
         "rawStdoutArchived": false
+      }
+    },
+    "skillDetailLoadingRepair": {
+      "at": "2026-09-19T09:08:11.864Z",
+      "status": "效果、过程和触发详情加载期正文与结果目录误报已修正；其他页面仍按体验-02继续",
+      "webCommit": "225715b1",
+      "productionFiles": 4,
+      "unitTests": 674,
+      "focusedBrowserCases": 7,
+      "fullNonWasmPassed": 72,
+      "fullNonWasmOldTestFailures": 2,
+      "correctedOldTestsFocusedPassed": 2,
+      "liveBrowser": "PASS",
+      "liveGETs": 16,
+      "unchangedObjectsIncludingTimestamps": 8,
+      "businessWrites": 0,
+      "independentReview": "PASS",
+      "runtimeValidation": "未执行",
+      "remaining": [
+        "参数、状态等其他页面及列表的加载显示",
+        "普通减速目录加载失败后的真实重试与草稿恢复"
+      ],
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/技能详情加载提示修复/09-证据清单.json",
+        "commit": "225715b1",
+        "sha256": "5f48313f92a4638b69a5c2a99e9590c6f4255f3b30847a0dcb92738ad1e268d4"
       }
     }
   },
