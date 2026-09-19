@@ -20,7 +20,8 @@ public sealed interface SkillEffectResultDetail
         SkillEffectExecuteDetail,
         SkillEffectHitLinkApplicationDetail,
         SkillEffectAttackLinkApplicationDetail,
-        SkillEffectHasteModifierDetail {
+        SkillEffectHasteModifierDetail,
+        SkillEffectAttackTimerResetDetail {
 
     Set<String> foreignFields();
 

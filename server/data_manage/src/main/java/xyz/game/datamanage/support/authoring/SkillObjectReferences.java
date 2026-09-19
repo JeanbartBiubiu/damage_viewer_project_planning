@@ -168,7 +168,7 @@ public final class SkillObjectReferences {
                     }
                     case "HEALING_MODIFIER", "SHIELD_RECEIVED_MODIFIER" -> dictionary(detail, dp, "modifierZoneKey", TargetType.MODIFIER_ZONE);
                     case "DAMAGE_IMMUNITY" -> dictionary(detail, dp, "damageTypeKey", TargetType.DAMAGE_TYPE);
-                    case "DIRECT_HEAL", "SPELL_SHIELD", "HIT_LINK_APPLICATION", "ATTACK_LINK_APPLICATION" -> { }
+                    case "DIRECT_HEAL", "SPELL_SHIELD", "HIT_LINK_APPLICATION", "ATTACK_LINK_APPLICATION", "ATTACK_TIMER_RESET" -> { }
                     default -> throw shape(path, "未知效果结果类型");
                 }
             }

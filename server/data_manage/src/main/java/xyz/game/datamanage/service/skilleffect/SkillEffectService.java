@@ -514,6 +514,7 @@ public class SkillEffectService {
             case DAMAGE_MODIFIER -> validateDamageModifier(result, index, retained, refs, issues);
             case HEALING_MODIFIER -> validateHealingModifier(result, index, retained, refs, issues);
             case SHIELD_RECEIVED_MODIFIER -> validateShieldReceivedModifier(result, index, retained, refs, issues);
+            case ATTACK_TIMER_RESET -> validateAttackTimerReset(result, index, issues);
             case DAMAGE_IMMUNITY -> validateDamageImmunity(result, index, retained, refs, issues);
             case HEALTH_FLOOR -> validateHealthFloor(result, index, retained, refs, issues);
             case SPELL_SHIELD -> validateSpellShield(result, index, issues);
@@ -533,6 +534,17 @@ public class SkillEffectService {
         forbidValueRule(result, index, issues);
         if (!(result.detail() instanceof SkillEffectSpellShieldDetail)) {
             issues.add(fieldIssue(resultPath(index, "detail"), "TYPE_MISMATCH", "法术护盾结果明细形状不合法"));
+        }
+    }
+
+    private void validateAttackTimerReset(
+        SkillEffectResultRequest result,
+        int index,
+        List<Map<String, String>> issues
+    ) {
+        forbidValueRule(result, index, issues);
+        if (!(result.detail() instanceof xyz.game.datamanage.model.skilleffect.SkillEffectAttackTimerResetDetail)) {
+            issues.add(fieldIssue(resultPath(index, "detail"), "TYPE_MISMATCH", "普攻计时重置明细必须为空对象"));
         }
     }
 

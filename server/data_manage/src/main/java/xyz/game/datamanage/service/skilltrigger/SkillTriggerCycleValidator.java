@@ -482,7 +482,7 @@ public class SkillTriggerCycleValidator {
                 }
             }
             case RESOURCE_CHANGE, COOLDOWN_CHANGE, DAMAGE_MODIFIER, HEALING_MODIFIER, SHIELD_RECEIVED_MODIFIER,
-                DAMAGE_IMMUNITY, HEALTH_FLOOR, SPELL_SHIELD, SKILL_HASTE_MODIFIER -> {
+                DAMAGE_IMMUNITY, HEALTH_FLOOR, SPELL_SHIELD, SKILL_HASTE_MODIFIER, ATTACK_TIMER_RESET -> {
             }
             }
         }
