@@ -1,0 +1,18 @@
+{
+  "at": "2026-09-19T15:37:11.994Z",
+  "status": "APPROVED",
+  "reviewer": "/root/attack_reset_sources",
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v3.mjs": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "01-候选方案.json": "d71a87edb669d6ad20652aff603c0640d4a351034a7c68e4a71b6eba78f4e359",
+    "02-冻结请求.json": "66849101f839159426fdc771d1051993e432f50657948a9e12c9acf408e9f6a7",
+    "03-来源摘要.json": "1c1be5f677605a45313d7b661cd139c8b7fa880d19a929cb08841691c286800f",
+    "04-写入前现值.json": "c3aea47fd6b5119c067b73813f87c74512ed95bee748f9cc0d5d988e9a9c2a5f"
+  },
+  "findings": [
+    "固定根spellCastTime=.435，mCastTime不存在；spellTotalTime与castFrame不能替代基础施法时间",
+    "当前backend真正工作树允许有普通冷却且空挂接/状态的过程",
+    "2POST字段、来源与基线一致，目标404；原on_hit保持",
+    "旧代理引用Web工作树后端副本导致错误阻塞，按当前backend实际代码纠正"
+  ]
+}

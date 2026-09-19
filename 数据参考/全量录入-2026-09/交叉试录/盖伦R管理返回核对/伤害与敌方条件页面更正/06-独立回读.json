@@ -1,0 +1,574 @@
+{
+  "schemaVersion": "garen-r-ui-independent-readback.v1",
+  "at": "2026-09-19T15:55:41.070Z",
+  "status": "PASS",
+  "businessWrites": 0,
+  "GETs": 26,
+  "approvedHashes": {
+    "request": "1a911b361cec1fb966003ac3979968fca4e9da6217bdaded3069f7d10fce5ab7",
+    "baseline": "cfbb0577da959e1f12f3f928ee3ba8c8832f256574058f3a6629073a1f591c40",
+    "source": "04df8c4ced794465be8bc225effd501b7b0832860e33ea64de3d29f8be0def8d"
+  },
+  "baselinePathCount": 26,
+  "changedDetails": {
+    "/skills/garen_r/effects/justice_damage": {
+      "createdAt": "2026-09-06T16:05:27.00363Z",
+      "description": "敌方英雄实际命中时执行单次真实技能伤害，按命中时目标已损失生命取值，仍服从护盾、免疫和生命下限。全能吸血按防御后伤害效率1配置，不直接处决，也不从施放过程伪造命中。",
+      "effectKey": "justice_damage",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "德玛西亚正义命中伤害",
+      "results": [
+        {
+          "description": "对英雄的普通技能伤害适用全能吸血，按防御处理后伤害及效率1计算吸血机会；实际扣血、护盾吸收及战斗结算另证。",
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "real",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": [
+              {
+                "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                "efficiencyValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "vampType": "OMNIVAMP"
+              }
+            ]
+          },
+          "lifecycleBehavior": null,
+          "name": "真实伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 0,
+          "spellShieldBlockScope": "RESULT",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": null,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "garen_r",
+      "sortOrder": 0,
+      "updatedAt": "2026-09-19T15:46:13.036064Z"
+    },
+    "/skills/garen_r/trigger-rules/on_hit": {
+      "actions": [
+        {
+          "actionKey": "damage",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "justice_damage"
+          },
+          "name": "执行效果",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 0,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "category",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 0
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "detail": {},
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "allowed_target",
+          "name": "允许的命中目标",
+          "sortOrder": 0
+        }
+      ],
+      "description": "以实际 SKILL_HIT 为输入；施法与目标有效性由宿主确认，此规则本身不产生命中。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "garen_r",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "德玛西亚正义实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "on_hit",
+      "sortOrder": 0
+    }
+  },
+  "comparison": {
+    "justiceDamage": {
+      "expectedMatchExceptUpdatedAt": true,
+      "createdAtUnchanged": true,
+      "updatedAtValid": true,
+      "updatedAtAfterBaseline": true,
+      "actual": {
+        "createdAt": "2026-09-06T16:05:27.00363Z",
+        "description": "敌方英雄实际命中时执行单次真实技能伤害，按命中时目标已损失生命取值，仍服从护盾、免疫和生命下限。全能吸血按防御后伤害效率1配置，不直接处决，也不从施放过程伪造命中。",
+        "effectKey": "justice_damage",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "德玛西亚正义命中伤害",
+        "results": [
+          {
+            "description": "对英雄的普通技能伤害适用全能吸血，按防御处理后伤害及效率1计算吸血机会；实际扣血、护盾吸收及战斗结算另证。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "real",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "真实伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 0,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": null,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "garen_r",
+        "sortOrder": 0,
+        "updatedAt": "2026-09-19T15:46:13.036064Z"
+      }
+    },
+    "onHit": {
+      "exactExpectedReadback": true,
+      "actual": {
+        "actions": [
+          {
+            "actionKey": "damage",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "justice_damage"
+            },
+            "name": "执行效果",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 0,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "category",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 0
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "detail": {},
+                "sortOrder": 10
+              }
+            ],
+            "groupKey": "allowed_target",
+            "name": "允许的命中目标",
+            "sortOrder": 0
+          }
+        ],
+        "description": "以实际 SKILL_HIT 为输入；施法与目标有效性由宿主确认，此规则本身不产生命中。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "garen_r",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "德玛西亚正义实际命中",
+        "perTargetCooldown": null,
+        "ruleKey": "on_hit",
+        "sortOrder": 0
+      }
+    },
+    "effects": {
+      "lengthUnchanged": true,
+      "stableKeys": true,
+      "rows": [
+        {
+          "effectKey": "justice_damage",
+          "nonAllowedFieldsUnchanged": true,
+          "descriptionMatchesDetail": true,
+          "createdAtUnchanged": true,
+          "updatedAtMatchesDetail": true,
+          "updatedAtAfterBaseline": true
+        }
+      ],
+      "onlyJusticeDamageChanged": true
+    },
+    "triggerRules": {
+      "lengthUnchanged": true,
+      "stableKeys": true,
+      "rows": [
+        {
+          "ruleKey": "on_hit",
+          "nonUpdatedFieldsUnchanged": true,
+          "updatedAtAfterBaseline": true,
+          "conditionGroupCount": 1,
+          "actionCount": 1
+        },
+        {
+          "ruleKey": "on_used",
+          "exactUnchanged": true
+        }
+      ],
+      "onlyOnHitUpdated": true,
+      "onHitConditionGroupCount": 1
+    },
+    "unchangedPaths": [
+      {
+        "path": "/skills/garen_r",
+        "unchanged": true
+      },
+      {
+        "path": "/characters/champion_garen",
+        "unchanged": true
+      },
+      {
+        "path": "/characters/champion_garen/attributes",
+        "unchanged": true
+      },
+      {
+        "path": "/characters/champion_garen/representative-image",
+        "unchanged": true
+      },
+      {
+        "path": "/skills/garen_r/representative-image",
+        "unchanged": true
+      },
+      {
+        "path": "/character-skill-relations?characterKey=champion_garen",
+        "unchanged": true
+      },
+      {
+        "path": "/character-skill-relations?skillKey=garen_r",
+        "unchanged": true
+      },
+      {
+        "path": "/skills/garen_r/parameters",
+        "unchanged": true
+      },
+      {
+        "path": "/skills/garen_r/parameters/base_damage",
+        "unchanged": true
+      },
+      {
+        "path": "/skills/garen_r/parameters/missing_hp_ratio",
+        "unchanged": true
+      },
+      {
+        "path": "/skills/garen_r/parameters/cooldown_ms",
+        "unchanged": true
+      },
+      {
+        "path": "/skills/garen_r/parameters/cast_time_ms",
+        "unchanged": true
+      },
+      {
+        "path": "/skills/garen_r/parameters/reveal_duration_ms",
+        "unchanged": true
+      },
+      {
+        "path": "/skills/garen_r/parameters/cast_range",
+        "unchanged": true
+      },
+      {
+        "path": "/skills/garen_r/formulas",
+        "unchanged": true
+      },
+      {
+        "path": "/skills/garen_r/formulas/damage",
+        "unchanged": true
+      },
+      {
+        "path": "/skills/garen_r/processes",
+        "unchanged": true
+      },
+      {
+        "path": "/skills/garen_r/internal-states",
+        "unchanged": true
+      },
+      {
+        "path": "/attributes/hp",
+        "unchanged": true
+      },
+      {
+        "path": "/damage-types/real",
+        "unchanged": true
+      },
+      {
+        "path": "/skills/garen_r/processes/cast",
+        "unchanged": true
+      },
+      {
+        "path": "/skills/garen_r/trigger-rules/on_used",
+        "unchanged": true
+      }
+    ],
+    "unchangedCount": 22,
+    "unchangedAll": true,
+    "castUnchanged": true,
+    "onUsedUnchanged": true
+  },
+  "audit": [
+    {
+      "requestIndex": 1,
+      "method": "GET",
+      "path": "/skills/garen_r",
+      "status": 200,
+      "rawBodyLength": 496,
+      "responseSha256": "f27044c53bec6a0f838d277f95c943d72a249feebe28b67480e11c991fbfacbb"
+    },
+    {
+      "requestIndex": 2,
+      "method": "GET",
+      "path": "/characters/champion_garen",
+      "status": 200,
+      "rawBodyLength": 361,
+      "responseSha256": "7723f18b90bcbb7fa979962299e010d6105b98749f1acd463216d161b5514efb"
+    },
+    {
+      "requestIndex": 3,
+      "method": "GET",
+      "path": "/characters/champion_garen/attributes",
+      "status": 200,
+      "rawBodyLength": 2973,
+      "responseSha256": "502fcfcfea8fc81ed9c5a3193b3552b9ecfd0fc629f13ab5f7a85762f88111b8"
+    },
+    {
+      "requestIndex": 4,
+      "method": "GET",
+      "path": "/characters/champion_garen/representative-image",
+      "status": 200,
+      "rawBodyLength": 147,
+      "responseSha256": "9957b37b1254e917f54b9c6ad3abef232eabcfc157ef4f2f6822aee3c56740f9"
+    },
+    {
+      "requestIndex": 5,
+      "method": "GET",
+      "path": "/skills/garen_r/representative-image",
+      "status": 200,
+      "rawBodyLength": 167,
+      "responseSha256": "e2c878f99abcd607daf706e6db9008f2151f413fe68b7092102a38609dba7565"
+    },
+    {
+      "requestIndex": 6,
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_garen",
+      "status": 200,
+      "rawBodyLength": 849,
+      "responseSha256": "4aa46b624885af5cc2887a15453fa3007645111be98975ad248777185fe15775"
+    },
+    {
+      "requestIndex": 7,
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=garen_r",
+      "status": 200,
+      "rawBodyLength": 195,
+      "responseSha256": "3e3803526c1d26adbb8bfdc38f78fa45421efc4488867686dbf4fcc7397dacad"
+    },
+    {
+      "requestIndex": 8,
+      "method": "GET",
+      "path": "/skills/garen_r/parameters",
+      "status": 200,
+      "rawBodyLength": 2386,
+      "responseSha256": "d56d72b4e81c5c542d3128f8cc7aaae553f42147911f7e73f04e91333bfe7995"
+    },
+    {
+      "requestIndex": 9,
+      "method": "GET",
+      "path": "/skills/garen_r/parameters/base_damage",
+      "status": 200,
+      "rawBodyLength": 400,
+      "responseSha256": "8518800199b5a805af5cc0d0f4b875941fd9132b29d0da6d0f6afec6986caa36"
+    },
+    {
+      "requestIndex": 10,
+      "method": "GET",
+      "path": "/skills/garen_r/parameters/missing_hp_ratio",
+      "status": 200,
+      "rawBodyLength": 414,
+      "responseSha256": "d8f7b954f7c0d5567d2c8f10398db3ede13ed210f2d2f671150989d4a7d93ac7"
+    },
+    {
+      "requestIndex": 11,
+      "method": "GET",
+      "path": "/skills/garen_r/parameters/cooldown_ms",
+      "status": 200,
+      "rawBodyLength": 392,
+      "responseSha256": "6e3c4fd5768bc0a0937979ebbe8ecd5efe23695a5bdf4c99191cc84064cea884"
+    },
+    {
+      "requestIndex": 12,
+      "method": "GET",
+      "path": "/skills/garen_r/parameters/cast_time_ms",
+      "status": 200,
+      "rawBodyLength": 425,
+      "responseSha256": "268ede052a1693763704dc60c09eaa28ca221f64287943e37a19ca27056b1488"
+    },
+    {
+      "requestIndex": 13,
+      "method": "GET",
+      "path": "/skills/garen_r/parameters/reveal_duration_ms",
+      "status": 200,
+      "rawBodyLength": 399,
+      "responseSha256": "120e591dd1ced4a1c32b31de1a70ae2f408a673fa517cc0c184c8097e0646190"
+    },
+    {
+      "requestIndex": 14,
+      "method": "GET",
+      "path": "/skills/garen_r/parameters/cast_range",
+      "status": 200,
+      "rawBodyLength": 349,
+      "responseSha256": "53600a1f04bed799545350c6a159628ee6d54dd49413d98fc4e2eac4eed7a948"
+    },
+    {
+      "requestIndex": 15,
+      "method": "GET",
+      "path": "/skills/garen_r/formulas",
+      "status": 200,
+      "rawBodyLength": 323,
+      "responseSha256": "b6708985319c62c087147bab48f95a815d8eeac229823b8e6305cfbb8a25643c"
+    },
+    {
+      "requestIndex": 16,
+      "method": "GET",
+      "path": "/skills/garen_r/formulas/damage",
+      "status": 200,
+      "rawBodyLength": 666,
+      "responseSha256": "17872fdca4e673a722b744bd8f60cec37bc3ef347dcb600d3d7700b51b1f40f6"
+    },
+    {
+      "requestIndex": 17,
+      "method": "GET",
+      "path": "/skills/garen_r/effects",
+      "status": 200,
+      "rawBodyLength": 507,
+      "responseSha256": "9e2e3e7ea4607ad27c9797a61241aec51148bb04863618c8069f998725962adf"
+    },
+    {
+      "requestIndex": 18,
+      "method": "GET",
+      "path": "/skills/garen_r/effects/justice_damage",
+      "status": 200,
+      "rawBodyLength": 1207,
+      "responseSha256": "f54889949c99331eb872f67efd7aaf9ef9c8e662be9229a7d435f5508a0ebc17"
+    },
+    {
+      "requestIndex": 19,
+      "method": "GET",
+      "path": "/skills/garen_r/processes",
+      "status": 200,
+      "rawBodyLength": 527,
+      "responseSha256": "4f896bc962cab6b4abfb49d36aa7a5f3133e98f10d3c8a0350a1148008db1572"
+    },
+    {
+      "requestIndex": 20,
+      "method": "GET",
+      "path": "/skills/garen_r/internal-states",
+      "status": 200,
+      "rawBodyLength": 2,
+      "responseSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "requestIndex": 21,
+      "method": "GET",
+      "path": "/skills/garen_r/trigger-rules",
+      "status": 200,
+      "rawBodyLength": 819,
+      "responseSha256": "94e220ec910d64887e31d62f5388da667aedaa9fed52a716cf98d837830abd5d"
+    },
+    {
+      "requestIndex": 22,
+      "method": "GET",
+      "path": "/skills/garen_r/trigger-rules/on_hit",
+      "status": 200,
+      "rawBodyLength": 898,
+      "responseSha256": "2e080bf86dc59ad08d9bcab2178723aa867ba7091b19f19bea5ec621abc8cf2b"
+    },
+    {
+      "requestIndex": 23,
+      "method": "GET",
+      "path": "/attributes/hp",
+      "status": 200,
+      "rawBodyLength": 244,
+      "responseSha256": "46fe3c21dbf72d99cd0e1a1967d84758c53d53d7a721fa60b893b95535dfff0e"
+    },
+    {
+      "requestIndex": 24,
+      "method": "GET",
+      "path": "/damage-types/real",
+      "status": 200,
+      "rawBodyLength": 197,
+      "responseSha256": "83a693379b42ddee1dfa3138a32ff4d18ebc878c5ed0b51ae397a1d850cc9c06"
+    },
+    {
+      "requestIndex": 25,
+      "method": "GET",
+      "path": "/skills/garen_r/processes/cast",
+      "status": 200,
+      "rawBodyLength": 893,
+      "responseSha256": "4eb0974e0828fab93bea295d0f7b2c3f7e015dfc342961855a0c80a1c348ddf5"
+    },
+    {
+      "requestIndex": 26,
+      "method": "GET",
+      "path": "/skills/garen_r/trigger-rules/on_used",
+      "status": 200,
+      "rawBodyLength": 678,
+      "responseSha256": "543b78adfc536a4a379cce4f402ea28b316c0b63a6feacabf939677fc2ff63f6"
+    }
+  ]
+}

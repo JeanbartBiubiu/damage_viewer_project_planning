@@ -1,0 +1,17 @@
+{
+  "at": "2026-09-19T15:59:29.577Z",
+  "status": "APPROVED",
+  "reviewer": "/root/attack_reset_sources",
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-descriptions-v2.mjs": "f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517",
+    "01-纠错计划.json": "7b04e0e2765171d1e715448cf6787a9b6cd060b68aaeed8a20bdfe4a7e73b127",
+    "02-冻结请求.json": "538bec1cc76d9b155cb9def529cf5db8ffe438c65f5a21944106e138eed74b3b",
+    "03-来源摘要.json": "06a914f159e71a45d53d6efcaaa06b4f27b679f67664f9bf2f719bfe04952b18",
+    "04-写入前现值.json": "45fd4d8ad1e8ae42ee02148239c03632c7f7cec8ad33fcc8e9aa4e7b9eb492a5"
+  },
+  "findings": [
+    "3处仅顶层description，其他业务字段不变",
+    "18GET基线及5项来源hash匹配",
+    "组成与运行边界准确，参数起算点与固定当前来源一致"
+  ]
+}

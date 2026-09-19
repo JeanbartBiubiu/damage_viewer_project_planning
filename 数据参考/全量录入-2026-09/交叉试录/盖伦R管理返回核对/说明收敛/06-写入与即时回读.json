@@ -1,0 +1,263 @@
+{
+  "startedAt": "2026-09-19T15:59:30.789Z",
+  "status": "PASS",
+  "businessWritesAttempted": 3,
+  "operations": [
+    {
+      "route": "/skills/garen_r",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T15:35:07.212771Z",
+          "description": "固定客户端16.17与官方16.17.1：对敌方英雄实际命中时造成125/200/275加25/30/35%目标已损失生命值的单次真实伤害，不暴击，当前结果参与法术护盾阻挡；按防御后伤害配置全能吸血效率1。无资源消耗，435毫秒基础施放与120/100/80秒普通冷却已接入主动使用过程，施法距离参数400。角色关系、终极技能分类和代表图已具备；纯视野分支按本轮范围排除并保留原参数。上述管理配置已保存，实际施放资格、失败取消与战斗结算未验证。",
+          "gameId": "lol",
+          "maxLevel": 3,
+          "name": "盖伦·德玛西亚正义",
+          "skillCategoryKeys": [
+            "ultimate"
+          ],
+          "skillKey": "garen_r",
+          "sortOrder": 4,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-19T15:59:30.975216Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-06T15:35:07.212771Z",
+        "description": "固定客户端16.17与官方16.17.1：对敌方英雄实际命中时造成125/200/275加25/30/35%目标已损失生命值的单次真实伤害，不暴击，当前结果参与法术护盾阻挡；按防御后伤害配置全能吸血效率1。无资源消耗，435毫秒基础施放与120/100/80秒普通冷却已接入主动使用过程，施法距离参数400。角色关系、终极技能分类和代表图已具备；纯视野分支按本轮范围排除并保留原参数。上述管理配置已保存，实际施放资格、失败取消与战斗结算未验证。",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "盖伦·德玛西亚正义",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "garen_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-19T15:59:30.975216Z"
+      }
+    },
+    {
+      "route": "/skills/garen_r/parameters/cast_time_ms",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T15:40:28.614453Z",
+          "description": "固定16.17当前GarenR根spellCastTime为0.435秒，换算为435毫秒；不存在mCastTime冲突。已由基础施放延迟步骤直接引用，spellTotalTime和castFrame不替代此数值；过程不生成实际命中，失败取消和战斗运行另证。",
+          "fixedValue": 435,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "施法时间（毫秒）",
+          "parameterKey": "cast_time_ms",
+          "skillKey": "garen_r",
+          "sortOrder": 3,
+          "updatedAt": "2026-09-19T15:59:32.396168Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-06T15:40:28.614453Z",
+        "description": "固定16.17当前GarenR根spellCastTime为0.435秒，换算为435毫秒；不存在mCastTime冲突。已由基础施放延迟步骤直接引用，spellTotalTime和castFrame不替代此数值；过程不生成实际命中，失败取消和战斗运行另证。",
+        "fixedValue": 435,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "garen_r",
+        "sortOrder": 3,
+        "updatedAt": "2026-09-19T15:59:32.396168Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/garen_r/parameters/cooldown_ms",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T15:40:27.206893Z",
+          "description": "官方16.17.1与固定客户端当前R一致，等级1至3为120000/100000/80000毫秒。已用于主动使用过程的普通冷却，从过程开始登记；无资源成本，不以冷却登记替代实际命中或失败取消语义，战斗运行另证。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 120000,
+            "2": 100000,
+            "3": 80000
+          },
+          "name": "基础冷却（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "garen_r",
+          "sortOrder": 2,
+          "updatedAt": "2026-09-19T15:59:33.912359Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-06T15:40:27.206893Z",
+        "description": "官方16.17.1与固定客户端当前R一致，等级1至3为120000/100000/80000毫秒。已用于主动使用过程的普通冷却，从过程开始登记；无资源成本，不以冷却登记替代实际命中或失败取消语义，战斗运行另证。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 120000,
+          "2": 100000,
+          "3": 80000
+        },
+        "name": "基础冷却（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "garen_r",
+        "sortOrder": 2,
+        "updatedAt": "2026-09-19T15:59:33.912359Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    }
+  ],
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-descriptions-v2.mjs": "f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517",
+    "01-纠错计划.json": "7b04e0e2765171d1e715448cf6787a9b6cd060b68aaeed8a20bdfe4a7e73b127",
+    "02-冻结请求.json": "538bec1cc76d9b155cb9def529cf5db8ffe438c65f5a21944106e138eed74b3b",
+    "03-来源摘要.json": "06a914f159e71a45d53d6efcaaa06b4f27b679f67664f9bf2f719bfe04952b18",
+    "04-写入前现值.json": "45fd4d8ad1e8ae42ee02148239c03632c7f7cec8ad33fcc8e9aa4e7b9eb492a5"
+  },
+  "pendingRoute": null,
+  "finishedAt": "2026-09-19T15:59:35.131Z",
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/garen_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/garen_r/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/garen_r/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/garen_r/parameters/missing_hp_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/garen_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/garen_r/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/garen_r/parameters/reveal_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/garen_r/parameters/cast_range",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/garen_r/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/garen_r/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/garen_r/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/garen_r/effects/justice_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/garen_r/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/garen_r/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/garen_r/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/garen_r/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/garen_r/trigger-rules/on_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/garen_r/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/garen_r",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/garen_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/garen_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/garen_r/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/garen_r/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/garen_r/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/garen_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/garen_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/garen_r/parameters/cooldown_ms",
+      "status": 200
+    }
+  ]
+}

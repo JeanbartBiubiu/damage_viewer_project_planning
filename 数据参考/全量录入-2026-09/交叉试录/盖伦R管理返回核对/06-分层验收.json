@@ -1,0 +1,57 @@
+{
+  "at": "2026-09-19T16:02:49.599Z",
+  "status": "PASS",
+  "skillKey": "garen_r",
+  "sourceVersion": {
+    "client": "16.17",
+    "ddragon": "16.17.1"
+  },
+  "managementStatus": "本轮1V1管理配置完整",
+  "counts": {
+    "parameters": 6,
+    "formulas": 1,
+    "effects": 1,
+    "processes": 1,
+    "internalStates": 0,
+    "triggerRules": 2
+  },
+  "businessWrites": 7,
+  "writes": {
+    "newProcess": 1,
+    "newTriggerRule": 1,
+    "effectUpdate": 1,
+    "hitRuleUpdate": 1,
+    "descriptionUpdates": 3
+  },
+  "independentGETs": 70,
+  "independentBatches": [
+    {
+      "path": "施放冷却补录/07-独立回读.json",
+      "GETs": 26
+    },
+    {
+      "path": "伤害与敌方条件页面更正/06-独立回读.json",
+      "GETs": 26
+    },
+    {
+      "path": "说明收敛/07-独立回读.json",
+      "GETs": 18
+    }
+  ],
+  "arithmeticCases": 9,
+  "browser": "过程重开、吸血规则保存重开与效率值、原组英雄并且敌方、主体最终说明均通过",
+  "consoleErrors": [],
+  "noCodeChange": true,
+  "noMigration": true,
+  "excludedBranches": [
+    "1000毫秒纯视野效果按本轮范围排除，现存参数保留"
+  ],
+  "runtimeBoundary": "实际距离、施放目标资格、失败取消、冷却与伤害吸血结算未执行；管理保存和算术不是战斗证明。",
+  "issues": [
+    "旧说明错误标记图片待补；定点确认关系、终极分类与图片已存在，复用而未重录",
+    "旧伤害吸血空数组与旧说明不一致，按已核定全能吸血口径修正",
+    "原命中规则只有英雄类别，补同组明确敌方条件",
+    "一轮审查引用Web中的旧后端副本误认为普通冷却过程不能空挂接；以backend真正工作树和已通过的既有无资源流程纠正，无需改代码"
+  ],
+  "goalComplete": false
+}
