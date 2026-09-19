@@ -20,7 +20,8 @@ export type ModifierZoneDraftErrors = Partial<Record<keyof ModifierZoneDraft, st
 export const DOMAIN_LABELS: Record<ModifierZoneDomain, string> = {
   ATTRIBUTE: '属性',
   DAMAGE: '伤害',
-  HEALING: '治疗'
+  HEALING: '治疗',
+  SHIELD: '护盾'
 };
 
 export const CALCULATION_MODE_LABELS: Record<ModifierZoneCalculationMode, string> = {
@@ -33,7 +34,8 @@ export const APPLICATION_STAGE_LABELS: Record<ModifierZoneApplicationStage, stri
   ATTRIBUTE_PERCENT: '属性百分比',
   DAMAGE_PRE_DEFENSE: '防御计算前伤害',
   DAMAGE_POST_DEFENSE: '防御计算后伤害',
-  HEALING_RESULT: '治疗结果'
+  HEALING_RESULT: '治疗结果',
+  SHIELD_RESULT: '护盾结果'
 };
 
 export function allowedCalculationModes(domain: ModifierZoneDomain | ''): ModifierZoneCalculationMode[] {
@@ -50,6 +52,7 @@ export function allowedApplicationStages(
     return ['DAMAGE_PRE_DEFENSE', 'DAMAGE_POST_DEFENSE'];
   }
   if (domain === 'HEALING' && mode === 'RATIO_ADD') return ['HEALING_RESULT'];
+  if (domain === 'SHIELD' && mode === 'RATIO_ADD') return ['SHIELD_RESULT'];
   return [];
 }
 

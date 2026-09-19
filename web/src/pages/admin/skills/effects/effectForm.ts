@@ -75,6 +75,7 @@ export const SKILL_EFFECT_RESULT_TYPES = [
   'LIFECYCLE_OPERATION',
   'DAMAGE_MODIFIER',
   'HEALING_MODIFIER',
+  'SHIELD_RECEIVED_MODIFIER',
   'DAMAGE_IMMUNITY',
   'HEALTH_FLOOR',
   'SPELL_SHIELD',
@@ -95,6 +96,7 @@ export const SKILL_EFFECT_RESULT_TYPE_LABELS = {
   LIFECYCLE_OPERATION: '生命周期操作',
   DAMAGE_MODIFIER: '伤害修正',
   HEALING_MODIFIER: '治疗修正',
+  SHIELD_RECEIVED_MODIFIER: '收到护盾修正',
   DAMAGE_IMMUNITY: '伤害免疫',
   HEALTH_FLOOR: '生命下限',
   SPELL_SHIELD: '法术护盾',
@@ -105,7 +107,7 @@ export const SKILL_EFFECT_RESULT_TYPE_LABELS = {
 } as const satisfies { [K in SkillEffectResultType]: string };
 
 export function valueFormulaLabelFor(resultType: SkillEffectResultType): string {
-  if (resultType === 'DAMAGE_MODIFIER' || resultType === 'HEALING_MODIFIER') {
+  if (resultType === 'DAMAGE_MODIFIER' || resultType === 'HEALING_MODIFIER' || resultType === 'SHIELD_RECEIVED_MODIFIER') {
     return '修正比例公式';
   }
   if (resultType === 'HEALTH_FLOOR') return '生命下限公式';
@@ -733,7 +735,7 @@ export function createEmptyResultDraft(
     absorbedDamageTypeKey: '',
     shieldDecayMode: resultType === 'NORMAL_SHIELD' ? 'NONE' : '',
     modifierDirection: resultType === 'DAMAGE_MODIFIER' ? 'TAKEN' : '',
-    modifierOperation:
+    modifierOperation: resultType === 'SHIELD_RECEIVED_MODIFIER' ? 'INCREASE' :
       resultType === 'DAMAGE_MODIFIER' || resultType === 'HEALING_MODIFIER'
         ? 'DECREASE'
         : '',
@@ -883,6 +885,11 @@ export function skillEffectResultToDraft(result: SkillEffectResult): SkillEffect
       draft.originalDamageTypeKey = result.detail.damageTypeKey;
       draft.originalModifierZoneKey = result.detail.modifierZoneKey;
       break;
+    case 'SHIELD_RECEIVED_MODIFIER':
+      draft.modifierZoneKey = result.detail.modifierZoneKey;
+      draft.modifierOperation = result.detail.operation;
+      draft.originalModifierZoneKey = result.detail.modifierZoneKey;
+      break;
     case 'HEALING_MODIFIER':
       draft.modifierZoneKey = result.detail.modifierZoneKey;
       draft.healingModifierDirection = result.detail.direction;
@@ -950,6 +957,7 @@ export function requiresValueRule(
     || resultType === 'RESOURCE_CHANGE'
     || resultType === 'DAMAGE_MODIFIER'
     || resultType === 'HEALING_MODIFIER'
+    || resultType === 'SHIELD_RECEIVED_MODIFIER'
     || resultType === 'HEALTH_FLOOR'
     || resultType === 'EXECUTE'
     || resultType === 'HIT_LINK_APPLICATION'
@@ -1044,10 +1052,11 @@ export function applyResultTypeChange(
     absorbedDamageTypeKey: '',
     shieldDecayMode: nextType === 'NORMAL_SHIELD' ? 'NONE' : '',
     modifierDirection: nextType === 'DAMAGE_MODIFIER' ? 'TAKEN' : '',
-    modifierOperation:
+    modifierOperation: nextType === 'SHIELD_RECEIVED_MODIFIER' ? 'INCREASE' :
       nextType === 'DAMAGE_MODIFIER' || nextType === 'HEALING_MODIFIER'
         ? 'DECREASE'
         : '',
+    modifierZoneKey: '',
     damageFilterDeliveryKind:
       nextType === 'DAMAGE_MODIFIER' || nextType === 'DAMAGE_IMMUNITY' ? 'ANY' : '',
     damageFilterOriginKind:
@@ -1188,7 +1197,8 @@ export function clearHiddenResultFields(draft: SkillEffectResultDraft): SkillEff
       draft.resultType === 'NORMAL_SHIELD' ? draft.shieldDecayMode || 'NONE' : '',
     modifierDirection:
       draft.resultType === 'DAMAGE_MODIFIER' ? draft.modifierDirection || 'TAKEN' : '',
-    modifierOperation:
+    modifierOperation: draft.resultType === 'SHIELD_RECEIVED_MODIFIER'
+      ? draft.modifierOperation || 'INCREASE' :
       draft.resultType === 'DAMAGE_MODIFIER' || draft.resultType === 'HEALING_MODIFIER'
         ? draft.modifierOperation || 'DECREASE'
         : '',
@@ -1265,6 +1275,7 @@ export function clearHiddenLifecycleBehaviorFields(
     && valueReadMode !== 'MOMENT_EVALUATION';
   const keepModifierZone = draft.resultType === 'DAMAGE_MODIFIER'
     || draft.resultType === 'HEALING_MODIFIER'
+    || draft.resultType === 'SHIELD_RECEIVED_MODIFIER'
     || (
       draft.resultType === 'ATTRIBUTE_CHANGE'
       && moment === 'PERSISTENT'
@@ -1453,6 +1464,7 @@ export function isPersistentNumericResult(draft: SkillEffectResultDraft): boolea
     || draft.resultType === 'ATTRIBUTE_CHANGE'
     || draft.resultType === 'DAMAGE_MODIFIER'
     || draft.resultType === 'HEALING_MODIFIER'
+    || draft.resultType === 'SHIELD_RECEIVED_MODIFIER'
     || draft.resultType === 'HEALTH_FLOOR'
     || draft.resultType === 'SKILL_HASTE_MODIFIER';
 }
@@ -1460,6 +1472,7 @@ export function isPersistentNumericResult(draft: SkillEffectResultDraft): boolea
 export function isPersistentOnlyResultType(resultType: SkillEffectResultType): boolean {
   return resultType === 'DAMAGE_MODIFIER'
     || resultType === 'HEALING_MODIFIER'
+    || resultType === 'SHIELD_RECEIVED_MODIFIER'
     || resultType === 'DAMAGE_IMMUNITY'
     || resultType === 'HEALTH_FLOOR'
     || resultType === 'SPELL_SHIELD'
@@ -1563,6 +1576,7 @@ export function isReapplicationValueModeVisible(draft: SkillEffectResultDraft): 
 export function supportsMomentEvaluation(draft: SkillEffectResultDraft): boolean {
   return draft.resultType === 'DAMAGE_MODIFIER'
     || draft.resultType === 'HEALING_MODIFIER'
+    || draft.resultType === 'SHIELD_RECEIVED_MODIFIER'
     || (
       draft.resultType === 'ATTRIBUTE_CHANGE'
       && draft.attributeOperation !== ''
@@ -1573,6 +1587,7 @@ export function supportsMomentEvaluation(draft: SkillEffectResultDraft): boolean
 export function modifierZoneDomainForDraft(draft: SkillEffectResultDraft): ModifierZoneDomain | null {
   if (draft.resultType === 'DAMAGE_MODIFIER') return 'DAMAGE';
   if (draft.resultType === 'HEALING_MODIFIER') return 'HEALING';
+  if (draft.resultType === 'SHIELD_RECEIVED_MODIFIER') return 'SHIELD';
   if (
     draft.resultType === 'ATTRIBUTE_CHANGE'
     && draft.lifecycleBehavior.moment === 'PERSISTENT'
@@ -2386,6 +2401,16 @@ function validateAndBuildResult(
           criticalFilter: draft.criticalFilter as SkillEffectCriticalFilter
         }
       };
+    case 'SHIELD_RECEIVED_MODIFIER':
+      return {
+        ...base,
+        resultType: 'SHIELD_RECEIVED_MODIFIER',
+        valueRule: valueRule!,
+        detail: {
+          modifierZoneKey: draft.modifierZoneKey.trim(),
+          operation: draft.modifierOperation as SkillEffectModifierOperation
+        }
+      };
     case 'HEALING_MODIFIER':
       return {
         ...base,
@@ -2757,6 +2782,13 @@ function validateTypeSpecificFields(
         'value',
         { allowDisabled: true }
       );
+      break;
+    case 'SHIELD_RECEIVED_MODIFIER':
+      if (draft.modifierOperation !== 'INCREASE' && draft.modifierOperation !== 'DECREASE') {
+        fieldErrors.modifierOperation = '请选择修正方式。';
+      }
+      validateModifierZoneRef(draft, options, fieldErrors, 'SHIELD');
+      validateCatalogRef(options, 'formulas', draft.value, draft.value, fieldErrors, 'value', { allowDisabled: true });
       break;
     case 'HEALING_MODIFIER':
       if (
@@ -3505,6 +3537,13 @@ function cloneResultRequest(result: SkillEffectResultRequest): SkillEffectResult
         valueRule: { ...result.valueRule },
         detail: { ...result.detail }
       };
+    case 'SHIELD_RECEIVED_MODIFIER':
+      return {
+        ...result,
+        lifecycleBehavior,
+        valueRule: { ...result.valueRule },
+        detail: { ...result.detail }
+      };
     case 'HEALTH_FLOOR':
       return {
         ...result,
@@ -3641,7 +3680,7 @@ function mapResultIssueField(
     if (resultType === 'SKILL_HASTE_MODIFIER') return 'skillHasteOperation';
     if (resultType === 'STATUS_OPERATION') return 'statusOperation';
     if (resultType === 'LIFECYCLE_OPERATION') return 'lifecycleOperation';
-    if (resultType === 'DAMAGE_MODIFIER' || resultType === 'HEALING_MODIFIER') {
+    if (resultType === 'DAMAGE_MODIFIER' || resultType === 'HEALING_MODIFIER' || resultType === 'SHIELD_RECEIVED_MODIFIER') {
       return 'modifierOperation';
     }
     return 'detail';

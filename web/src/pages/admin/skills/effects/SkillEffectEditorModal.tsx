@@ -202,6 +202,7 @@ function referenceSummary(
     case 'DAMAGE_IMMUNITY':
       return result.damageTypeKey || '全部伤害';
     case 'HEALING_MODIFIER':
+    case 'SHIELD_RECEIVED_MODIFIER':
       return numericValueSummary(result.value, names?.formulas);
     case 'HEALTH_FLOOR':
       return result.attributeKey || '—';
@@ -259,6 +260,11 @@ function interactionSummary(result: SkillEffectResultDraft): string {
       ? SKILL_EFFECT_CRITICAL_FILTER_LABELS[result.criticalFilter]
       : '—';
     return `${direction} / ${operation} / ${delivery} / ${origin} / ${critical}`;
+  }
+  if (result.resultType === 'SHIELD_RECEIVED_MODIFIER') {
+    const operation = result.modifierOperation
+      ? SKILL_EFFECT_MODIFIER_OPERATION_LABELS[result.modifierOperation] : '—';
+    return `收到普通护盾 / ${operation}`;
   }
   if (result.resultType === 'HEALING_MODIFIER') {
     const direction = result.healingModifierDirection
