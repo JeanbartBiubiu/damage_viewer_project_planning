@@ -17,7 +17,7 @@ import {
   Space,
   Switch
 } from '@arco-design/web-react';
-import { useEffect, useMemo, useState } from 'react';
+import { useLayoutEffect, useMemo, useState } from 'react';
 import type { Attribute } from '../../../../types/attribute';
 import type { SkillEffect } from '../../../../types/skillEffect';
 import type { SkillFormulaSummary } from '../../../../types/skillFormula';
@@ -135,7 +135,7 @@ export function SkillTriggerConditionEditorModal({
     .filter((value) => value !== 'EXPLICIT_TARGET_IS_SOURCE' || allowsExplicitTargetIsSource(eventSource.eventType) || originalConditionType === value)
     .filter((value) => value !== 'SKILL_HIT_TARGET_IS_ENEMY' || allowsSkillHitEnemy(eventSource.eventType) || originalConditionType === value);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!visible) return;
     setCurrent(draft ?? createEmptyConditionDraft(existingKeys));
     setLocalError(null);

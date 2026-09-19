@@ -10,7 +10,7 @@ import {
   Table
 } from '@arco-design/web-react';
 import type { TableColumnProps } from '@arco-design/web-react';
-import { useEffect, useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 import type { Attribute } from '../../../../types/attribute';
 import type { SkillEffect, SkillEffectSummary } from '../../../../types/skillEffect';
 import type { SkillInternalState } from '../../../../types/skillInternalState';
@@ -128,7 +128,7 @@ export function SkillTriggerActionEditorModal({
     ? selectedEffect.results.filter(canModifyResultValue)
     : [];
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!visible) return;
     setCurrent(draft ?? createEmptyActionDraft(existingKeys));
     setBindingEditor(null);
