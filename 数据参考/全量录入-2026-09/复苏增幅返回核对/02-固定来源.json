@@ -1,0 +1,68 @@
+{
+  "at": "2026-09-19T12:59:59.797Z",
+  "sourceVersion": {
+    "client": "16.17",
+    "ddragon": "16.17.1"
+  },
+  "sourceFiles": [
+    {
+      "path": "数据参考/全量录入-2026-09/API实录/符文客户端数值补证/perks-16.17.cdtb.bin.json.gz",
+      "sha256": "141a289f8b83c543c108930675088ec1e5bd0f482799d2677a436f0ff9e65fac"
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/装备符文/客户端提取资料/perks-16.17-zh_CN.json",
+      "sha256": "be0bb4eedde39f3a8e1dc245f9b4382379d87674c2fdc62b2650b6af4d9f565b"
+    }
+  ],
+  "clientRootPath": "Perks/Styles/Resolve/Revitalize",
+  "clientRoot": {
+    "mPerkId": 8453,
+    "mPerkName": "Revitalize",
+    "mDisplayNameLocalizationKey": "perk_displayname_Revitalize",
+    "mTooltipNameLocalizationKey": "perk_tooltip_Revitalize",
+    "mShortDescLocalizationKey": "perk_short_desc_Revitalize",
+    "mLongDescLocalizationKey": "perk_long_desc_Revitalize",
+    "mEndOfGameStatDescriptions": [
+      "perk_eog_stat_desc_Revitalize1",
+      "perk_eog_stat_desc_Revitalize2"
+    ],
+    "mDisplayStatLocalizationKey": "perk_display_stat_veteran",
+    "mIconTextureName": "assets/perks/styles/resolve/revitalize/revitalize.tex",
+    "mScript": {
+      "mSpellScriptName": "ASSETS/Perks/Styles/Resolve/Revitalize/Revitalize.lua",
+      "mSpellScriptData": {
+        "mEffectAmount": {
+          "HealShieldPower": 0.05000000074505806,
+          "HealthCutOff": 40,
+          "ExtraAmp": 10
+        },
+        "__type": "PerkScriptData"
+      },
+      "__type": "PerkScript"
+    },
+    "__type": "Perk"
+  },
+  "localized": {
+    "id": 8453,
+    "name": "复苏",
+    "majorChangePatchVersion": "",
+    "tooltip": "获得5%治疗和护盾强度。<br><br>你对低于40%生命值的目标施放或获得的治疗效果和护盾效果会增强10%。<br><hr><br><scaleAD>额外治疗效果</scaleAD>：@f1@<br><scaleAD>额外护盾强度：</scaleAD>: @f2@<br><scaleAD>治疗效果和护盾强度总和</scaleAD>：@f4@%",
+    "shortDesc": "获得5%治疗和护盾强度。<br><br>你对低于40%生命值的目标施放或获得的治疗效果和护盾效果会增强10%。",
+    "longDesc": "获得5%治疗和护盾强度。<br><br>你对低于40%生命值的目标施放或获得的治疗效果和护盾效果会增强10%。",
+    "recommendationDescriptor": "",
+    "iconPath": "/lol-game-data/assets/v1/perk-images/Styles/Resolve/Revitalize/Revitalize.png",
+    "endOfGameStatDescs": [
+      "额外治疗效果：@eogvar1@",
+      "额外护盾：@eogvar2@"
+    ],
+    "recommendationDescriptorAttributes": {
+      "kHealing": 10
+    }
+  },
+  "known": {
+    "healShieldPower": 0.05,
+    "healthCutoffRatio": 0.4,
+    "extraAmplification": 0.1
+  },
+  "remaining": "核对低生命条件对象、采样时点、施放/获得两方向、自施是否双重应用，以及基础强度已有入口。新收到护盾结果不自动证明这些语义已解决。"
+}
