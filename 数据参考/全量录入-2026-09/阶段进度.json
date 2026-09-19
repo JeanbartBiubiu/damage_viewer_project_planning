@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-19T11:02:31.190Z",
+  "generatedAt": "2026-09-19T11:17:27.965Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -11242,6 +11242,34 @@
         "commit": "380d9881",
         "sha256": "49531a72fc2ce98ffeb6aac2e30cead2203bf17c24c3d6db633c731ead3dfa77"
       }
+    },
+    "sevenUltimateCategoryBackfill": {
+      "at": "2026-09-19T11:16:44.647Z",
+      "status": "7项主R终极分类补录完成，其他机制状态保持",
+      "skills": [
+        "sett_r",
+        "nami_r",
+        "urgot_r",
+        "morgana_r",
+        "lux_r",
+        "veigar_r",
+        "annie_r"
+      ],
+      "browserWrites": 7,
+      "prepareGETs": 8,
+      "preflightGETs": 7,
+      "immediateGETs": 7,
+      "independentGETs": 8,
+      "archiveGETs": 0,
+      "unchangedCategoryObjects": 1,
+      "browser": "PASS",
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/七项终极技能分类补录/09-证据清单.json",
+        "commit": "c14104e8",
+        "sha256": "fa6b9fb64be44bfaf4348d13bdb60e2f9e8e26e614dcff287ac0f9a0f84bcb2c"
+      }
     }
   },
   "runtimeValidation": "未执行",
@@ -11769,6 +11797,12 @@
         "relativePath": "数据参考/全量录入-2026-09/条件动作子弹窗草稿同步/09-证据清单.json",
         "commit": "380d9881",
         "sha256": "49531a72fc2ce98ffeb6aac2e30cead2203bf17c24c3d6db633c731ead3dfa77"
+      },
+      "sevenUltimateCategoryBackfill": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/七项终极技能分类补录/09-证据清单.json",
+        "commit": "c14104e8",
+        "sha256": "fa6b9fb64be44bfaf4348d13bdb60e2f9e8e26e614dcff287ac0f9a0f84bcb2c"
       }
     },
     "coverage": {
@@ -15273,7 +15307,11 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "sevenUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -24120,7 +24158,8 @@
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
           "heroSourceInventory",
-          "fiveMageUseRegistrationBackfill"
+          "fiveMageUseRegistrationBackfill",
+          "sevenUltimateCategoryBackfill"
         ],
         "historicalPendingCounts": {
           "source": 4,
@@ -24148,7 +24187,10 @@
           "processes": 1,
           "internalStates": 0,
           "triggerRules": 2
-        }
+        },
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
+        ]
       },
       {
         "sourceChampionId": "Malphite",
@@ -25540,7 +25582,8 @@
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
           "fiveMageUseRegistrationBackfill",
-          "fiveRecentUseDescriptionCleanup"
+          "fiveRecentUseDescriptionCleanup",
+          "sevenUltimateCategoryBackfill"
         ],
         "historicalPendingCounts": {
           "source": 0,
@@ -25574,7 +25617,10 @@
           "changedDescriptions": 2,
           "numericAndProcessChanges": 0,
           "browser": "待验"
-        }
+        },
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
+        ]
       },
       {
         "sourceChampionId": "Naafiri",
@@ -25844,7 +25890,8 @@
           "sevenSkillCostDescriptionCorrections",
           "eightControlBodyDamageBackfill",
           "skillHitEnemyConditionManagement",
-          "namiREnemyHitBrowser"
+          "namiREnemyHitBrowser",
+          "sevenUltimateCategoryBackfill"
         ],
         "historicalPendingCounts": {
           "source": 1,
@@ -25895,7 +25942,10 @@
           "independentGETs": 32,
           "unchangedResponsesIncludingTimestamps": 30,
           "scope": "本次实际命中规则及保留数据"
-        }
+        },
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
+        ]
       },
       {
         "sourceChampionId": "Nasus",
@@ -29579,15 +29629,16 @@
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
           "heroSourceInventory",
-          "settCooldownOnlyReturn"
+          "settCooldownOnlyReturn",
+          "sevenUltimateCategoryBackfill"
         ],
         "completedBranches": [
-          "主动使用启动cast并在过程开始登记已核定普通冷却"
+          "主动使用启动cast并在过程开始登记已核定普通冷却",
+          "固定来源主R终极技能分类关联"
         ],
         "remainingBranches": [
           "擒抱压制与位移、落地伤害和距离衰减接线",
-          "落地减速",
-          "终极技能分类仍未关联"
+          "落地减速"
         ],
         "currentComponentCounts": {
           "parameters": 6,
@@ -32870,7 +32921,11 @@
         "candidateSha256": "b79197a5ca3d1762bdbc5955871d4c17e6923274e318913cf8843481254122c8",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "sevenUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
         ]
       },
       {
@@ -33263,7 +33318,8 @@
           "skillThirdStageCurrentReadback",
           "heroSourceInventory",
           "sixHeroCastProcessEntryBackfillThird",
-          "eightSkillsTenDamageVampCorrection"
+          "eightSkillsTenDamageVampCorrection",
+          "sevenUltimateCategoryBackfill"
         ],
         "currentComponentCounts": {
           "parameters": 7,
@@ -33281,7 +33337,10 @@
           "efficiency": 1,
           "retainedSpellShieldBlockScope": "RESULT",
           "browser": "待验"
-        }
+        },
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
+        ]
       },
       {
         "sourceChampionId": "Velkoz",
