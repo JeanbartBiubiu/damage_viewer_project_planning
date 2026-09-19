@@ -1,0 +1,62 @@
+{
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "requests": [
+    {
+      "method": "PUT",
+      "route": "/skills/soraka_r",
+      "body": {
+        "name": "索拉卡·祈愿",
+        "description": "索拉卡施放祈愿，使自身及所有友方英雄回复生命值。正常治疗量为150/250/350加50%总法术强度；本次施放前生命比例低于40%的受疗者获得完整治疗量的1.5倍。本轮1V1管理配置仅接入自身治疗，正常与低生命分支互斥；基础施法时间250毫秒，开始时消耗100法力并进入150/135/120秒普通冷却。其他友方英雄治疗不在本轮范围，战斗运行尚未验证。（来源：官方中文静态资料16.17.1及客户端16.17。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:20:29.366202Z",
+        "description": "索拉卡施放祈愿，使自身及所有友方英雄回复生命值。正常治疗量为150/250/350加50%总法术强度；本次施放前生命比例低于40%的受疗者获得完整治疗量的1.5倍。本轮1V1管理配置仅接入自身治疗，正常与低生命分支互斥；基础施法时间250毫秒，开始时消耗100法力并进入150/135/120秒普通冷却。其他友方英雄治疗不在本轮范围，战斗运行尚未验证。（来源：官方中文静态资料16.17.1及客户端16.17。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "索拉卡·祈愿",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "soraka_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-19T10:48:49.861327Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/soraka_r/parameters/mana_cost",
+      "body": {
+        "name": "基础法力消耗",
+        "description": "各技能等级均消耗100法力，官方中文静态资料16.17.1与客户端16.17根技能数值一致。基础施放过程在开始时引用本参数扣除法力；本参数保存基础消耗，不含其他消耗修正。管理配置已接入，实际战斗执行尚未验证。",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 100,
+        "levelValues": null,
+        "sortOrder": 110
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-08T01:03:39.612347Z",
+        "description": "各技能等级均消耗100法力，官方中文静态资料16.17.1与客户端16.17根技能数值一致。基础施放过程在开始时引用本参数扣除法力；本参数保存基础消耗，不含其他消耗修正。管理配置已接入，实际战斗执行尚未验证。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "soraka_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T01:03:39.612347Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    }
+  ],
+  "sourceSha256": "80f60bd51c7a45b644b7d88f4c024e19c49d6f8ac49ff35d0eaaf436440cedcb",
+  "baselineSha256": "a323fb4c3ce713d0ee625b013c43738c2779b09067773d534e2eb3fc13b130e0"
+}
