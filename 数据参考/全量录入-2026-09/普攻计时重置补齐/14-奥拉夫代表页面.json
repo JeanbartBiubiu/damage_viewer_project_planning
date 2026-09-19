@@ -1,0 +1,20 @@
+{
+  "at": "2026-09-19T15:00:56.659Z",
+  "status": "PASS",
+  "skillKey": "olaf_w",
+  "businessWrites": 0,
+  "checks": [
+    "效果列表4条，原法力、护盾、攻速保留，新重置无生命周期排序40",
+    "新效果编辑重开，单结果普攻计时重置、施法者、无阻挡、结果排序10",
+    "规则列表原on_used排序10与新on_used_attack_reset排序20并存",
+    "新规则编辑重开，来源olaf_w、主动、无条件、一执行效果动作、CURRENT_TARGET、零绑定与修正"
+  ],
+  "consoleErrors": [],
+  "runtimeValidation": "未执行",
+  "finalDescriptionReopen": {
+    "at": "2026-09-19T15:06:28.241Z",
+    "status": "PASS",
+    "skillKey": "olaf_w",
+    "description": "技能详情实际显示50法力、五级冷却、攻速与护盾、普攻计时重置，管理完成与运行未验证明确"
+  }
+}

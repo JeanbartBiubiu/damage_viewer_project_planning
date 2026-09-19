@@ -1,0 +1,985 @@
+{
+  "at": "2026-09-19T14:45:01.274Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/skills/talon_q": {
+      "createdAt": "2026-09-06T18:20:35.316779Z",
+      "description": "泰隆戳刺目标单位。如果目标在近战距离之内，那么这次攻击会造成致命伤害。如果目标在近战距离之外，那么泰隆将会跃向他的目标然后戳刺目标。如果这个技能击杀了泰隆的目标，那么就会返还给泰隆一些生命值和冷却时间。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "泰隆·诺克萨斯式外交",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "talon_q",
+      "sortOrder": 1,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:20:35.316779Z"
+    },
+    "/characters/champion_talon": {
+      "characterKey": "champion_talon",
+      "createdAt": "2026-09-06T17:48:57.147449Z",
+      "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+      "gameId": "lol",
+      "name": "泰隆",
+      "updatedAt": "2026-09-06T17:48:57.147449Z"
+    },
+    "/characters/champion_talon/attributes": {
+      "characterKey": "champion_talon",
+      "levelValues": {
+        "1": {
+          "move_speed": 335,
+          "hp": 658,
+          "hp_regen": 8.5,
+          "mana": 400,
+          "mana_regen": 7.6,
+          "armor": 30,
+          "magic_resistance": 36,
+          "attack_damage": 68,
+          "attack_speed": 0.625,
+          "attack_range": 125
+        },
+        "2": {
+          "move_speed": 335,
+          "hp": 736.48,
+          "hp_regen": 9.04,
+          "mana": 426.64,
+          "mana_regen": 8.176,
+          "armor": 33.384,
+          "magic_resistance": 37.476,
+          "attack_damage": 70.232,
+          "attack_speed": 0.63805,
+          "attack_range": 125
+        },
+        "3": {
+          "move_speed": 335,
+          "hp": 818.775,
+          "hp_regen": 9.60625,
+          "mana": 454.575,
+          "mana_regen": 8.78,
+          "armor": 36.9325,
+          "magic_resistance": 39.02375,
+          "attack_damage": 72.5725,
+          "attack_speed": 0.651734,
+          "attack_range": 125
+        },
+        "4": {
+          "move_speed": 335,
+          "hp": 904.885,
+          "hp_regen": 10.19875,
+          "mana": 483.805,
+          "mana_regen": 9.412,
+          "armor": 40.6455,
+          "magic_resistance": 40.64325,
+          "attack_damage": 75.0215,
+          "attack_speed": 0.666053,
+          "attack_range": 125
+        },
+        "5": {
+          "move_speed": 335,
+          "hp": 994.81,
+          "hp_regen": 10.8175,
+          "mana": 514.33,
+          "mana_regen": 10.072,
+          "armor": 44.523,
+          "magic_resistance": 42.3345,
+          "attack_damage": 77.579,
+          "attack_speed": 0.681006,
+          "attack_range": 125
+        },
+        "6": {
+          "move_speed": 335,
+          "hp": 1088.55,
+          "hp_regen": 11.4625,
+          "mana": 546.15,
+          "mana_regen": 10.76,
+          "armor": 48.565,
+          "magic_resistance": 44.0975,
+          "attack_damage": 80.245,
+          "attack_speed": 0.696594,
+          "attack_range": 125
+        },
+        "7": {
+          "move_speed": 335,
+          "hp": 1186.105,
+          "hp_regen": 12.13375,
+          "mana": 579.265,
+          "mana_regen": 11.476,
+          "armor": 52.7715,
+          "magic_resistance": 45.93225,
+          "attack_damage": 83.0195,
+          "attack_speed": 0.712816,
+          "attack_range": 125
+        },
+        "8": {
+          "move_speed": 335,
+          "hp": 1287.475,
+          "hp_regen": 12.83125,
+          "mana": 613.675,
+          "mana_regen": 12.22,
+          "armor": 57.1425,
+          "magic_resistance": 47.83875,
+          "attack_damage": 85.9025,
+          "attack_speed": 0.729672,
+          "attack_range": 125
+        },
+        "9": {
+          "move_speed": 335,
+          "hp": 1392.66,
+          "hp_regen": 13.555,
+          "mana": 649.38,
+          "mana_regen": 12.992,
+          "armor": 61.678,
+          "magic_resistance": 49.817,
+          "attack_damage": 88.894,
+          "attack_speed": 0.747162,
+          "attack_range": 125
+        },
+        "10": {
+          "move_speed": 335,
+          "hp": 1501.66,
+          "hp_regen": 14.305,
+          "mana": 686.38,
+          "mana_regen": 13.792,
+          "armor": 66.378,
+          "magic_resistance": 51.867,
+          "attack_damage": 91.994,
+          "attack_speed": 0.765288,
+          "attack_range": 125
+        },
+        "11": {
+          "move_speed": 335,
+          "hp": 1614.475,
+          "hp_regen": 15.08125,
+          "mana": 724.675,
+          "mana_regen": 14.62,
+          "armor": 71.2425,
+          "magic_resistance": 53.98875,
+          "attack_damage": 95.2025,
+          "attack_speed": 0.784047,
+          "attack_range": 125
+        },
+        "12": {
+          "move_speed": 335,
+          "hp": 1731.105,
+          "hp_regen": 15.88375,
+          "mana": 764.265,
+          "mana_regen": 15.476,
+          "armor": 76.2715,
+          "magic_resistance": 56.18225,
+          "attack_damage": 98.5195,
+          "attack_speed": 0.803441,
+          "attack_range": 125
+        },
+        "13": {
+          "move_speed": 335,
+          "hp": 1851.55,
+          "hp_regen": 16.7125,
+          "mana": 805.15,
+          "mana_regen": 16.36,
+          "armor": 81.465,
+          "magic_resistance": 58.4475,
+          "attack_damage": 101.945,
+          "attack_speed": 0.823469,
+          "attack_range": 125
+        },
+        "14": {
+          "move_speed": 335,
+          "hp": 1975.81,
+          "hp_regen": 17.5675,
+          "mana": 847.33,
+          "mana_regen": 17.272,
+          "armor": 86.823,
+          "magic_resistance": 60.7845,
+          "attack_damage": 105.479,
+          "attack_speed": 0.844131,
+          "attack_range": 125
+        },
+        "15": {
+          "move_speed": 335,
+          "hp": 2103.885,
+          "hp_regen": 18.44875,
+          "mana": 890.805,
+          "mana_regen": 18.212,
+          "armor": 92.3455,
+          "magic_resistance": 63.19325,
+          "attack_damage": 109.1215,
+          "attack_speed": 0.865428,
+          "attack_range": 125
+        },
+        "16": {
+          "move_speed": 335,
+          "hp": 2235.775,
+          "hp_regen": 19.35625,
+          "mana": 935.575,
+          "mana_regen": 19.18,
+          "armor": 98.0325,
+          "magic_resistance": 65.67375,
+          "attack_damage": 112.8725,
+          "attack_speed": 0.887359,
+          "attack_range": 125
+        },
+        "17": {
+          "move_speed": 335,
+          "hp": 2371.48,
+          "hp_regen": 20.29,
+          "mana": 981.64,
+          "mana_regen": 20.176,
+          "armor": 103.884,
+          "magic_resistance": 68.226,
+          "attack_damage": 116.732,
+          "attack_speed": 0.909925,
+          "attack_range": 125
+        },
+        "18": {
+          "move_speed": 335,
+          "hp": 2511,
+          "hp_regen": 21.25,
+          "mana": 1029,
+          "mana_regen": 21.2,
+          "armor": 109.9,
+          "magic_resistance": 70.85,
+          "attack_damage": 120.7,
+          "attack_speed": 0.933125,
+          "attack_range": 125
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_talon/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_champion_talon",
+        "name": "champion_talon"
+      }
+    },
+    "/skills/talon_q/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_talon_q",
+        "name": "talon_q"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_talon": {
+      "items": [
+        {
+          "characterKey": "champion_talon",
+          "characterName": "泰隆",
+          "gameId": "lol",
+          "skillKey": "talon_p",
+          "skillName": "泰隆·刀锋之末",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_talon",
+          "characterName": "泰隆",
+          "gameId": "lol",
+          "skillKey": "talon_q",
+          "skillName": "泰隆·诺克萨斯式外交",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_talon",
+          "characterName": "泰隆",
+          "gameId": "lol",
+          "skillKey": "talon_w",
+          "skillName": "泰隆·斩草除根",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_talon",
+          "characterName": "泰隆",
+          "gameId": "lol",
+          "skillKey": "talon_e",
+          "skillName": "泰隆·刺客之道",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_talon",
+          "characterName": "泰隆",
+          "gameId": "lol",
+          "skillKey": "talon_r",
+          "skillName": "泰隆·暗影突袭",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=talon_q": {
+      "items": [
+        {
+          "characterKey": "champion_talon",
+          "characterName": "泰隆",
+          "gameId": "lol",
+          "skillKey": "talon_q",
+          "skillName": "泰隆·诺克萨斯式外交",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        }
+      ],
+      "total": 1
+    },
+    "/skills/talon_q/parameters": [
+      {
+        "createdAt": "2026-09-09T03:44:01.959947Z",
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "fixedValue": 522,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "talon_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T03:44:01.959947Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T03:44:03.134956Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 65,
+          "2": 85,
+          "3": 105,
+          "4": 125,
+          "5": 145
+        },
+        "name": "诺克萨斯式外交基础伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "talon_q",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T03:44:03.134956Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T03:44:04.374033Z",
+        "description": "客户端当前根绑定 DataValues.BonusADRatio 取索引1至5。",
+        "fixedValue": 1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "诺克萨斯式外交额外攻击力倍率",
+        "parameterKey": "bonus_ad_ratio",
+        "skillKey": "talon_q",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T03:44:04.374033Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T03:44:05.505924Z",
+        "description": "客户端当前根绑定 DataValues.EnhancedDamageMod 取索引1至5。",
+        "fixedValue": 1.5,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "近战暴击基础倍率",
+        "parameterKey": "enhanced_damage_multiplier",
+        "skillKey": "talon_q",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T03:44:05.505924Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T03:44:06.652895Z",
+        "description": "客户端当前根绑定 DataValues.CooldownRefund 取索引1至5。",
+        "fixedValue": 0.5,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "击杀后冷却返还比例",
+        "parameterKey": "cooldown_refund_ratio",
+        "skillKey": "talon_q",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-09T03:44:06.652895Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T03:44:07.854807Z",
+        "description": "CriticalDamage使用mStat=9/mStatFormula=2；根未提供其属性名称或枚举，不能猜作暴击率或暴击伤害。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "诺克萨斯式外交近战暴击属性值",
+        "parameterKey": "current_critical_stat_value",
+        "skillKey": "talon_q",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-09T03:44:07.854807Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T03:44:09.308825Z",
+        "description": "当前源仅给插值端点；起止等级、布尔选项和取整规则未证。实际等级值必须外供，不按1至18级线性展开，也不填默认值。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "击杀后角色等级治疗量（实际值外供）",
+        "parameterKey": "kill_heal_by_level",
+        "skillKey": "talon_q",
+        "sortOrder": 90,
+        "updatedAt": "2026-09-09T03:44:09.308825Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-08T01:03:49.215188Z",
+        "description": "DDragon16.17.1 Talon.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 8000,
+          "2": 7500,
+          "3": 7000,
+          "4": 6500,
+          "5": 6000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "talon_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T01:03:49.215188Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T01:03:49.7429Z",
+        "description": "DDragon16.17.1 Talon.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 40,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "talon_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T01:03:49.7429Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/talon_q/parameters/cast_time_ms": {
+      "createdAt": "2026-09-09T03:44:01.959947Z",
+      "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+      "fixedValue": 522,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "talon_q",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T03:44:01.959947Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/talon_q/parameters/base_damage": {
+      "createdAt": "2026-09-09T03:44:03.134956Z",
+      "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 65,
+        "2": 85,
+        "3": 105,
+        "4": 125,
+        "5": 145
+      },
+      "name": "诺克萨斯式外交基础伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "talon_q",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T03:44:03.134956Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/talon_q/parameters/bonus_ad_ratio": {
+      "createdAt": "2026-09-09T03:44:04.374033Z",
+      "description": "客户端当前根绑定 DataValues.BonusADRatio 取索引1至5。",
+      "fixedValue": 1,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "诺克萨斯式外交额外攻击力倍率",
+      "parameterKey": "bonus_ad_ratio",
+      "skillKey": "talon_q",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T03:44:04.374033Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/talon_q/parameters/enhanced_damage_multiplier": {
+      "createdAt": "2026-09-09T03:44:05.505924Z",
+      "description": "客户端当前根绑定 DataValues.EnhancedDamageMod 取索引1至5。",
+      "fixedValue": 1.5,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "近战暴击基础倍率",
+      "parameterKey": "enhanced_damage_multiplier",
+      "skillKey": "talon_q",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-09T03:44:05.505924Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/talon_q/parameters/cooldown_refund_ratio": {
+      "createdAt": "2026-09-09T03:44:06.652895Z",
+      "description": "客户端当前根绑定 DataValues.CooldownRefund 取索引1至5。",
+      "fixedValue": 0.5,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "击杀后冷却返还比例",
+      "parameterKey": "cooldown_refund_ratio",
+      "skillKey": "talon_q",
+      "sortOrder": 70,
+      "updatedAt": "2026-09-09T03:44:06.652895Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/talon_q/parameters/current_critical_stat_value": {
+      "createdAt": "2026-09-09T03:44:07.854807Z",
+      "description": "CriticalDamage使用mStat=9/mStatFormula=2；根未提供其属性名称或枚举，不能猜作暴击率或暴击伤害。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "诺克萨斯式外交近战暴击属性值",
+      "parameterKey": "current_critical_stat_value",
+      "skillKey": "talon_q",
+      "sortOrder": 80,
+      "updatedAt": "2026-09-09T03:44:07.854807Z",
+      "valueMode": "RUNTIME_INPUT",
+      "valueType": "DECIMAL"
+    },
+    "/skills/talon_q/parameters/kill_heal_by_level": {
+      "createdAt": "2026-09-09T03:44:09.308825Z",
+      "description": "当前源仅给插值端点；起止等级、布尔选项和取整规则未证。实际等级值必须外供，不按1至18级线性展开，也不填默认值。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "击杀后角色等级治疗量（实际值外供）",
+      "parameterKey": "kill_heal_by_level",
+      "skillKey": "talon_q",
+      "sortOrder": 90,
+      "updatedAt": "2026-09-09T03:44:09.308825Z",
+      "valueMode": "RUNTIME_INPUT",
+      "valueType": "DECIMAL"
+    },
+    "/skills/talon_q/parameters/cooldown_ms": {
+      "createdAt": "2026-09-08T01:03:49.215188Z",
+      "description": "DDragon16.17.1 Talon.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 8000,
+        "2": 7500,
+        "3": 7000,
+        "4": 6500,
+        "5": 6000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "talon_q",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-08T01:03:49.215188Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/talon_q/parameters/mana_cost": {
+      "createdAt": "2026-09-08T01:03:49.7429Z",
+      "description": "DDragon16.17.1 Talon.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 40,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "talon_q",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-08T01:03:49.7429Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/talon_q/formulas": [
+      {
+        "createdAt": "2026-09-09T03:44:10.550458Z",
+        "description": "LeapDamage=65/85/105/125/145+1.0×额外攻击力；数值按DataValues索引1至5展开，只表示远程目标分支。",
+        "formulaKey": "leap_damage",
+        "gameId": "lol",
+        "name": "诺克萨斯式外交跃击物理伤害",
+        "skillKey": "talon_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T03:44:10.550458Z"
+      },
+      {
+        "createdAt": "2026-09-09T03:44:11.79486Z",
+        "description": "CriticalDamage=(EnhancedDamageMod+mStat9)×LeapDamage；表达式内联跃击计算树，mStat9取运行时输入，不改写为默认暴击值。",
+        "formulaKey": "critical_damage",
+        "gameId": "lol",
+        "name": "诺克萨斯式外交近战暴击物理伤害",
+        "skillKey": "talon_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T03:44:11.79486Z"
+      }
+    ],
+    "/skills/talon_q/formulas/leap_damage": {
+      "createdAt": "2026-09-09T03:44:10.550458Z",
+      "description": "LeapDamage=65/85/105/125/145+1.0×额外攻击力；数值按DataValues索引1至5展开，只表示远程目标分支。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_ad_ratio"
+              },
+              {
+                "attributeKey": "attack_damage",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "BONUS",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "leap_damage",
+      "gameId": "lol",
+      "name": "诺克萨斯式外交跃击物理伤害",
+      "skillKey": "talon_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T03:44:10.550458Z"
+    },
+    "/skills/talon_q/formulas/critical_damage": {
+      "createdAt": "2026-09-09T03:44:11.79486Z",
+      "description": "CriticalDamage=(EnhancedDamageMod+mStat9)×LeapDamage；表达式内联跃击计算树，mStat9取运行时输入，不改写为默认暴击值。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "enhanced_damage_multiplier"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "current_critical_stat_value"
+              }
+            ],
+            "operation": "ADD"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_ad_ratio"
+                  },
+                  {
+                    "attributeKey": "attack_damage",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "BONUS",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "formulaKey": "critical_damage",
+      "gameId": "lol",
+      "name": "诺克萨斯式外交近战暴击物理伤害",
+      "skillKey": "talon_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T03:44:11.79486Z"
+    },
+    "/skills/talon_q/effects": [
+      {
+        "createdAt": "2026-09-09T03:44:13.002825Z",
+        "description": "仅绑定官方基础法力消耗；额外持续法力或真实扣除时点单独记录。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "talon_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T03:44:13.002825Z"
+      },
+      {
+        "createdAt": "2026-09-19T14:40:32.065227Z",
+        "description": "固定16.17当前Q绑定与官方13.24机制说明共同确证：本次Q主动使用时重置来源对象的普攻计时。该独立结果不发动攻击，不代替Q伤害、跃斩或击杀返还。",
+        "effectKey": "attack_timer_reset",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "诺克萨斯式外交普攻计时重置",
+        "resultCount": 1,
+        "skillKey": "talon_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T14:40:32.065227Z"
+      }
+    ],
+    "/skills/talon_q/effects/mana_cost": {
+      "createdAt": "2026-09-09T03:44:13.002825Z",
+      "description": "仅绑定官方基础法力消耗；额外持续法力或真实扣除时点单独记录。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "talon_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T03:44:13.002825Z"
+    },
+    "/skills/talon_q/effects/attack_timer_reset": {
+      "createdAt": "2026-09-19T14:40:32.065227Z",
+      "description": "固定16.17当前Q绑定与官方13.24机制说明共同确证：本次Q主动使用时重置来源对象的普攻计时。该独立结果不发动攻击，不代替Q伤害、跃斩或击杀返还。",
+      "effectKey": "attack_timer_reset",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "诺克萨斯式外交普攻计时重置",
+      "results": [
+        {
+          "description": "本次已成立主动使用时清零来源对象普通攻击间隔的剩余等待。",
+          "detail": {},
+          "lifecycleBehavior": null,
+          "name": "重置普攻计时",
+          "resultKey": "reset_attack_timer",
+          "resultType": "ATTACK_TIMER_RESET",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": null
+        }
+      ],
+      "skillKey": "talon_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-19T14:40:32.065227Z"
+    },
+    "/skills/talon_q/processes": [],
+    "/skills/talon_q/internal-states": [],
+    "/skills/talon_q/trigger-rules": [],
+    "/attributes/attack_damage": {
+      "attributeKey": "attack_damage",
+      "createdAt": "2026-08-30T16:26:29.341938Z",
+      "description": "角色面板攻击力；伊泽瑞尔数据按官方 16.17.1 版本录入",
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "攻击力",
+      "sortOrder": 500,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-30T16:26:29.341938Z",
+      "valueType": "DECIMAL"
+    },
+    "/attributes/mana": {
+      "attributeKey": "mana",
+      "createdAt": "2026-08-22T15:27:36.139767Z",
+      "description": null,
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法力值",
+      "sortOrder": 310,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-22T15:27:36.139767Z",
+      "valueType": "DECIMAL"
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/talon_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_talon",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_talon/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_talon/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/talon_q/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_talon",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=talon_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/talon_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/talon_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/talon_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/talon_q/parameters/bonus_ad_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/talon_q/parameters/enhanced_damage_multiplier",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/talon_q/parameters/cooldown_refund_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/talon_q/parameters/current_critical_stat_value",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/talon_q/parameters/kill_heal_by_level",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/talon_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/talon_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/talon_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/talon_q/formulas/leap_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/talon_q/formulas/critical_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/talon_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/talon_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/talon_q/effects/attack_timer_reset",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/talon_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/talon_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/talon_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/attack_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/mana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/talon_q/trigger-rules/on_used_attack_reset",
+      "status": 404
+    }
+  ],
+  "businessWrites": 0
+}

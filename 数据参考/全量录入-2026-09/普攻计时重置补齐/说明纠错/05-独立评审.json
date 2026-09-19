@@ -1,0 +1,17 @@
+{
+  "at": "2026-09-19T15:04:39.909Z",
+  "status": "APPROVED",
+  "reviewer": "/root/attack_reset_sources",
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-descriptions-v2.mjs": "f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517",
+    "01-纠错计划.json": "671e4dd0c0bb5b358710a6f326f40429370cb91372c751b0a2c2b136f4366255",
+    "02-冻结请求.json": "a5135540f834f2fac7287f63a82f8e78c36d460ccb0f816f24f7247278cadec8",
+    "03-来源摘要.json": "9c21e10683955f6bbc2fa875b2d68d7efe471874041d1d60312cd85c21d1d5b3",
+    "04-写入前现值.json": "10298fb78368c9c52d6dd06329dd41c659559d550ccd449f50e273ebd4a1b0d2"
+  },
+  "findings": [
+    "47GET全200基线",
+    "4条PUT仅顶层description改变，其他业务字段及预期回读保持",
+    "奥拉夫管理闭环与泰隆部分完成边界准确，来源散列一致"
+  ]
+}

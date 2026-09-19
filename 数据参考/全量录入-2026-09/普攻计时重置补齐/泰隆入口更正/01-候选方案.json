@@ -1,0 +1,105 @@
+{
+  "executionMode": "BROWSER_UI_ONLY",
+  "targets": [
+    {
+      "skillKey": "talon_q",
+      "ownerKey": "champion_talon"
+    }
+  ],
+  "sourceFiles": [
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Talon.json.gz",
+      "sha256": "28864c5fc0de38b3e61e1dab57781b26d13d5c3ef300f61b9e8426662f937ff4"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Talon.json",
+      "sha256": "1504dbe1b9d6bcb58be3eecf6eadfee61c9422573063295ffbdbfe3075c2c550"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/普攻计时重置补齐/02-泰隆官方历史补证.json",
+      "sha256": "132294361ca9e7ac004cf0fa41407320a57b4558421f6b6504e979e9812000ef"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/普攻计时重置补齐/06-泰隆固定来源独立结论.json",
+      "sha256": "ef3f479ae49b3af7bc5e5b458183747bf32f390435fdadc5b6c1e489543c03d1"
+    }
+  ],
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/talon_q/trigger-rules",
+      "detailRoute": "/skills/talon_q/trigger-rules/on_used_attack_reset",
+      "body": {
+        "ruleKey": "on_used_attack_reset",
+        "name": "主动使用重置普攻计时",
+        "description": "接收泰隆Q已成立的主动使用，执行独立普攻计时重置。近战与远程均适用；不以伤害命中或过程开始替代使用时点。",
+        "sortOrder": 20,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "talon_q",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "action_1",
+            "name": "执行普攻计时重置",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "attack_timer_reset"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used_attack_reset",
+        "name": "主动使用重置普攻计时",
+        "description": "接收泰隆Q已成立的主动使用，执行独立普攻计时重置。近战与远程均适用；不以伤害命中或过程开始替代使用时点。",
+        "sortOrder": 20,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "talon_q",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "action_1",
+            "name": "执行普攻计时重置",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "attack_timer_reset"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "sourceBoundary": "官方13.24只补证施放重置这一独立机制；当前数值及绑定以16.17固定源为准。其余伤害、冲刺、击杀治疗和冷却返还继续待核。",
+  "supersedes": {
+    "batch": "../泰隆首次页面",
+    "onlyUnattemptedRule": true,
+    "effectAlreadySaved": true,
+    "reason": "SKILL_USED不提供EVENT_SOURCE动作上下文；新批次仅改CURRENT_TARGET，效果SOURCE保持施法者"
+  }
+}
