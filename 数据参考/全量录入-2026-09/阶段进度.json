@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-19T03:03:35.603Z",
+  "generatedAt": "2026-09-19T03:10:19.826Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -10306,6 +10306,40 @@
         "sha256": "aa068cde82a2f403c7c5666017e7eec433d979c37d7e7924cf239cb9b0a0b8d4",
         "commit": "8e36121f"
       }
+    },
+    "sevenNextOrdinaryUseBackfill": {
+      "at": "2026-09-19T03:10:19.826Z",
+      "status": "七项普通使用15组成已保存并独立回读，页面及剩余分支待续",
+      "skills": [
+        "braum_q",
+        "nautilus_q",
+        "ziggs_q",
+        "zyra_q",
+        "zyra_e",
+        "leona_r",
+        "malzahar_q"
+      ],
+      "created": {
+        "effects": 1,
+        "processes": 7,
+        "triggerRules": 7
+      },
+      "prepareGETs": 175,
+      "writerGETs": 205,
+      "writerPOSTs": 15,
+      "immediateReadbacks": 15,
+      "independentGETs": 175,
+      "unchangedResponsesIncludingTimestamps": 145,
+      "expectedChangedCollections": 15,
+      "arithmeticCases": 89,
+      "browser": "NOT_RUN_BROWSER_UNAVAILABLE",
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/七项后续普通使用补录/09-证据清单.json",
+        "sha256": "f208941011e124e65e87b6d00ae4fa68751691e28b8ea813292abb05ec0b47b7",
+        "commit": "df9ea63c"
+      }
     }
   },
   "runtimeValidation": "未执行",
@@ -10653,6 +10687,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/八项后续直接魔法伤害补录/09-证据清单.json",
         "sha256": "aa068cde82a2f403c7c5666017e7eec433d979c37d7e7924cf239cb9b0a0b8d4",
         "commit": "8e36121f"
+      },
+      "sevenNextOrdinaryUseBackfill": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/七项后续普通使用补录/09-证据清单.json",
+        "sha256": "f208941011e124e65e87b6d00ae4fa68751691e28b8ea813292abb05ec0b47b7",
+        "commit": "df9ea63c"
       }
     },
     "coverage": {
@@ -15299,7 +15339,7 @@
         "name": "布隆·寒冬之咬",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "直接魔法伤害和实际英雄命中入口已保存并独立回读；衰减减速、震荡猛击叠层、基础资源效果与普通使用登记、代表页面验收、原批次其余来源未决项逐项核对继续处理，不计整技能管理完成。",
+        "reason": "普通主动使用入口已登记基础法力与普通冷却，两个施法字段差异未择一，只使用成本登记步骤；衰减减速、震荡猛击叠层、代表页面验收、原批次其余来源未决项逐项核对、施法时间字段实际语义继续处理，不计整技能管理完成。",
         "pendingCounts": {
           "source": 1,
           "system": 0,
@@ -15311,22 +15351,23 @@
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
-          "eightNextDirectMagicHitBackfill"
+          "eightNextDirectMagicHitBackfill",
+          "sevenNextOrdinaryUseBackfill"
         ],
         "currentComponentCounts": {
           "parameters": 7,
           "formulas": 1,
-          "effects": 1,
-          "processes": 0,
+          "effects": 2,
+          "processes": 1,
           "internalStates": 0,
-          "triggerRules": 1
+          "triggerRules": 2
         },
         "remainingBranches": [
           "衰减减速",
           "震荡猛击叠层",
-          "基础资源效果与普通使用登记",
           "代表页面验收",
-          "原批次其余来源未决项逐项核对"
+          "原批次其余来源未决项逐项核对",
+          "施法时间字段实际语义"
         ],
         "authoredDirectHit": {
           "effectKey": "primary_hit",
@@ -15336,6 +15377,14 @@
           "vampType": "OMNIVAMP",
           "basisOutputKind": "POST_DEFENSE_DAMAGE",
           "efficiency": 1,
+          "browser": "待验"
+        },
+        "authoredUseEntry": {
+          "processKey": "use_cost_and_cooldown",
+          "ruleKey": "on_used_cost_and_cooldown",
+          "costEffectKey": "mana_cost",
+          "registrationOnly": true,
+          "httpReadback": "PASS",
           "browser": "待验"
         }
       },
@@ -21838,7 +21887,7 @@
         "name": "蕾欧娜·日炎耀斑",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "直接魔法伤害和实际英雄命中入口已保存并独立回读；中心眩晕与边缘减速分支、普通使用登记、代表页面验收继续处理，不计整技能管理完成。",
+        "reason": "普通主动使用入口已登记基础法力与普通冷却，复用既有250毫秒根施法参数；中心眩晕与边缘减速分支、代表页面验收继续处理，不计整技能管理完成。",
         "pendingCounts": {
           "source": 0,
           "system": 1,
@@ -21850,19 +21899,19 @@
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
           "heroSourceInventory",
-          "eightNextDirectMagicHitBackfill"
+          "eightNextDirectMagicHitBackfill",
+          "sevenNextOrdinaryUseBackfill"
         ],
         "currentComponentCounts": {
           "parameters": 7,
           "formulas": 1,
           "effects": 2,
-          "processes": 0,
+          "processes": 1,
           "internalStates": 0,
-          "triggerRules": 1
+          "triggerRules": 2
         },
         "remainingBranches": [
           "中心眩晕与边缘减速分支",
-          "普通使用登记",
           "代表页面验收"
         ],
         "authoredDirectHit": {
@@ -21873,6 +21922,14 @@
           "vampType": "OMNIVAMP",
           "basisOutputKind": "POST_DEFENSE_DAMAGE",
           "efficiency": 1,
+          "browser": "待验"
+        },
+        "authoredUseEntry": {
+          "processKey": "cast",
+          "ruleKey": "on_used",
+          "costEffectKey": "mana_cost",
+          "registrationOnly": false,
+          "httpReadback": "PASS",
           "browser": "待验"
         }
       },
@@ -23012,7 +23069,7 @@
         "name": "玛尔扎哈·虚空召唤",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "直接魔法伤害和实际英雄命中入口已保存并独立回读；沉默、普通使用登记、代表页面验收继续处理，不计整技能管理完成。",
+        "reason": "普通主动使用入口已登记基础法力与普通冷却，复用既有250毫秒根施法参数；沉默、代表页面验收继续处理，不计整技能管理完成。",
         "pendingCounts": {
           "source": 0,
           "system": 1,
@@ -23024,19 +23081,19 @@
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
           "heroSourceInventory",
-          "eightNextDirectMagicHitBackfill"
+          "eightNextDirectMagicHitBackfill",
+          "sevenNextOrdinaryUseBackfill"
         ],
         "currentComponentCounts": {
           "parameters": 6,
           "formulas": 1,
           "effects": 2,
-          "processes": 0,
+          "processes": 1,
           "internalStates": 0,
-          "triggerRules": 1
+          "triggerRules": 2
         },
         "remainingBranches": [
           "沉默",
-          "普通使用登记",
           "代表页面验收"
         ],
         "authoredDirectHit": {
@@ -23047,6 +23104,14 @@
           "vampType": "OMNIVAMP",
           "basisOutputKind": "POST_DEFENSE_DAMAGE",
           "efficiency": 1,
+          "browser": "待验"
+        },
+        "authoredUseEntry": {
+          "processKey": "cast",
+          "ruleKey": "on_used",
+          "costEffectKey": "mana_cost",
+          "registrationOnly": false,
+          "httpReadback": "PASS",
           "browser": "待验"
         }
       },
@@ -24615,7 +24680,7 @@
         "name": "诺提勒斯·疏通航道",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "直接魔法伤害和实际英雄命中入口已保存并独立回读；拖拽与眩晕、地形碰撞及资源冷却返还、普通使用登记、代表页面验收继续处理，不计整技能管理完成。",
+        "reason": "普通主动使用入口已登记基础法力与普通冷却，复用既有250毫秒根施法参数；拖拽与眩晕、地形碰撞及资源冷却返还、代表页面验收继续处理，不计整技能管理完成。",
         "pendingCounts": {
           "source": 0,
           "system": 1,
@@ -24627,20 +24692,20 @@
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
           "heroSourceInventory",
-          "eightNextDirectMagicHitBackfill"
+          "eightNextDirectMagicHitBackfill",
+          "sevenNextOrdinaryUseBackfill"
         ],
         "currentComponentCounts": {
           "parameters": 7,
           "formulas": 1,
           "effects": 2,
-          "processes": 0,
+          "processes": 1,
           "internalStates": 0,
-          "triggerRules": 1
+          "triggerRules": 2
         },
         "remainingBranches": [
           "拖拽与眩晕",
           "地形碰撞及资源冷却返还",
-          "普通使用登记",
           "代表页面验收"
         ],
         "authoredDirectHit": {
@@ -24651,6 +24716,14 @@
           "vampType": "OMNIVAMP",
           "basisOutputKind": "POST_DEFENSE_DAMAGE",
           "efficiency": 1,
+          "browser": "待验"
+        },
+        "authoredUseEntry": {
+          "processKey": "cast",
+          "ruleKey": "on_used",
+          "costEffectKey": "mana_cost",
+          "registrationOnly": false,
+          "httpReadback": "PASS",
           "browser": "待验"
         }
       },
@@ -31609,7 +31682,8 @@
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
           "heroSourceInventory",
-          "eightNextDirectMagicHitBackfill"
+          "eightNextDirectMagicHitBackfill",
+          "sevenNextOrdinaryUseBackfill"
         ],
         "currentComponentCounts": {
           "parameters": 8,
@@ -31635,6 +31709,10 @@
           "basisOutputKind": "POST_DEFENSE_DAMAGE",
           "efficiency": 1,
           "browser": "待验"
+        },
+        "useRegistrationDeferred": {
+          "reason": "再次施放分裂需要独立核定使用阶段、成本及普通冷却资格，避免重复扣费。",
+          "evidence": "sevenNextOrdinaryUseBackfill"
         }
       },
       {
@@ -33968,7 +34046,7 @@
         "name": "吉格斯·弹跳炸弹",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "直接魔法伤害和实际英雄命中入口已保存并独立回读；普通使用登记及施法来源补证、代表页面验收、原批次其余来源未决项逐项核对继续处理，不计整技能管理完成。",
+        "reason": "普通主动使用入口已登记基础法力与普通冷却，两个施法字段差异未择一，只使用成本登记步骤；代表页面验收、原批次其余来源未决项逐项核对、施法时间字段实际语义继续处理，不计整技能管理完成。",
         "pendingCounts": {
           "source": 2,
           "system": 0,
@@ -33980,20 +34058,21 @@
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
           "heroSourceInventory",
-          "eightNextDirectMagicHitBackfill"
+          "eightNextDirectMagicHitBackfill",
+          "sevenNextOrdinaryUseBackfill"
         ],
         "currentComponentCounts": {
           "parameters": 4,
           "formulas": 1,
           "effects": 2,
-          "processes": 0,
+          "processes": 1,
           "internalStates": 0,
-          "triggerRules": 1
+          "triggerRules": 2
         },
         "remainingBranches": [
-          "普通使用登记及施法来源补证",
           "代表页面验收",
-          "原批次其余来源未决项逐项核对"
+          "原批次其余来源未决项逐项核对",
+          "施法时间字段实际语义"
         ],
         "authoredDirectHit": {
           "effectKey": "primary_hit",
@@ -34003,6 +34082,14 @@
           "vampType": "OMNIVAMP",
           "basisOutputKind": "POST_DEFENSE_DAMAGE",
           "efficiency": 1,
+          "browser": "待验"
+        },
+        "authoredUseEntry": {
+          "processKey": "use_cost_and_cooldown",
+          "ruleKey": "on_used_cost_and_cooldown",
+          "costEffectKey": "mana_cost",
+          "registrationOnly": true,
+          "httpReadback": "PASS",
           "browser": "待验"
         }
       },
@@ -34362,7 +34449,7 @@
         "name": "婕拉·致命棘刺",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "直接魔法伤害和实际英雄命中入口已保存并独立回读；种子和植物分支按原范围结论处理、普通使用登记、代表页面验收继续处理，不计整技能管理完成。",
+        "reason": "普通主动使用入口已登记基础法力与普通冷却，复用既有250毫秒根施法参数；种子和植物分支按原范围结论处理、代表页面验收继续处理，不计整技能管理完成。",
         "pendingCounts": {
           "source": 0,
           "system": 1,
@@ -34374,19 +34461,19 @@
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
-          "eightNextDirectMagicHitBackfill"
+          "eightNextDirectMagicHitBackfill",
+          "sevenNextOrdinaryUseBackfill"
         ],
         "currentComponentCounts": {
           "parameters": 5,
           "formulas": 1,
           "effects": 2,
-          "processes": 0,
+          "processes": 1,
           "internalStates": 0,
-          "triggerRules": 1
+          "triggerRules": 2
         },
         "remainingBranches": [
           "种子和植物分支按原范围结论处理",
-          "普通使用登记",
           "代表页面验收"
         ],
         "authoredDirectHit": {
@@ -34397,6 +34484,14 @@
           "vampType": "OMNIVAMP",
           "basisOutputKind": "POST_DEFENSE_DAMAGE",
           "efficiency": 1,
+          "browser": "待验"
+        },
+        "authoredUseEntry": {
+          "processKey": "cast",
+          "ruleKey": "on_used",
+          "costEffectKey": "mana_cost",
+          "registrationOnly": false,
+          "httpReadback": "PASS",
           "browser": "待验"
         }
       },
@@ -34432,7 +34527,7 @@
         "name": "婕拉·缠绕之根",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "直接魔法伤害和实际英雄命中入口已保存并独立回读；禁锢、种子和植物分支按原范围结论处理、普通使用登记、代表页面验收继续处理，不计整技能管理完成。",
+        "reason": "普通主动使用入口已登记基础法力与普通冷却，复用既有250毫秒根施法参数；禁锢、种子和植物分支按原范围结论处理、代表页面验收继续处理，不计整技能管理完成。",
         "pendingCounts": {
           "source": 0,
           "system": 1,
@@ -34444,20 +34539,20 @@
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
-          "eightNextDirectMagicHitBackfill"
+          "eightNextDirectMagicHitBackfill",
+          "sevenNextOrdinaryUseBackfill"
         ],
         "currentComponentCounts": {
           "parameters": 6,
           "formulas": 1,
           "effects": 2,
-          "processes": 0,
+          "processes": 1,
           "internalStates": 0,
-          "triggerRules": 1
+          "triggerRules": 2
         },
         "remainingBranches": [
           "禁锢",
           "种子和植物分支按原范围结论处理",
-          "普通使用登记",
           "代表页面验收"
         ],
         "authoredDirectHit": {
@@ -34468,6 +34563,14 @@
           "vampType": "OMNIVAMP",
           "basisOutputKind": "POST_DEFENSE_DAMAGE",
           "efficiency": 1,
+          "browser": "待验"
+        },
+        "authoredUseEntry": {
+          "processKey": "cast",
+          "ruleKey": "on_used",
+          "costEffectKey": "mana_cost",
+          "registrationOnly": false,
+          "httpReadback": "PASS",
           "browser": "待验"
         }
       },
