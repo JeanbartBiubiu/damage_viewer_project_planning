@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-19T03:27:22.502Z",
+  "generatedAt": "2026-09-19T03:40:55.234Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -10438,6 +10438,35 @@
         "sha256": "3a6828ce6e6f989d4ea5fec49c98f3189506409249eaebdbf5d72a5465c4e3ab",
         "commit": "453ba00d"
       }
+    },
+    "fiveMageUseParameterDescriptionCleanup": {
+      "at": "2026-09-19T03:40:55.234Z",
+      "status": "五处法力参数说明已纠正并独立回读，页面待验",
+      "skills": [
+        "vex_q",
+        "vex_w",
+        "vex_e",
+        "bard_q",
+        "leblanc_q"
+      ],
+      "updatedDescriptions": 5,
+      "created": 0,
+      "prepareGETs": 110,
+      "writerGETs": 120,
+      "writerPUTs": 5,
+      "immediateReadbacks": 5,
+      "independentGETs": 110,
+      "unchangedResponsesIncludingTimestamps": 100,
+      "expectedChangedDetails": 5,
+      "expectedChangedCollections": 5,
+      "browser": "NOT_RUN_BROWSER_UNAVAILABLE",
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/五项法术使用说明整理/09-证据清单.json",
+        "sha256": "9f9b97072ce2101094b715824e9ac2f4d85dea52b2048aab797895494ca2b5ab",
+        "commit": "dd7f0506"
+      }
     }
   },
   "runtimeValidation": "未执行",
@@ -10809,6 +10838,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/六项法术普通使用补录/09-证据清单.json",
         "sha256": "3a6828ce6e6f989d4ea5fec49c98f3189506409249eaebdbf5d72a5465c4e3ab",
         "commit": "453ba00d"
+      },
+      "fiveMageUseParameterDescriptionCleanup": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/五项法术使用说明整理/09-证据清单.json",
+        "sha256": "9f9b97072ce2101094b715824e9ac2f4d85dea52b2048aab797895494ca2b5ab",
+        "commit": "dd7f0506"
       }
     },
     "coverage": {
@@ -14966,7 +15001,8 @@
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
           "sevenMageBodyDirectHitBackfill",
-          "sixMageOrdinaryUseBackfill"
+          "sixMageOrdinaryUseBackfill",
+          "fiveMageUseParameterDescriptionCleanup"
         ],
         "currentComponentCounts": {
           "parameters": 8,
@@ -14996,6 +15032,12 @@
           "costEffectKey": "mana_cost",
           "registrationOnly": false,
           "httpReadback": "PASS",
+          "browser": "待验"
+        },
+        "useCostDescriptionCleanup": {
+          "status": "PASS",
+          "changedDescriptions": 1,
+          "numericAndProcessChanges": 0,
           "browser": "待验"
         }
       },
@@ -21819,7 +21861,8 @@
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
-          "sixMageOrdinaryUseBackfill"
+          "sixMageOrdinaryUseBackfill",
+          "fiveMageUseParameterDescriptionCleanup"
         ],
         "currentComponentCounts": {
           "parameters": 9,
@@ -21841,6 +21884,12 @@
           "costEffectKey": "mana_cost",
           "registrationOnly": false,
           "httpReadback": "PASS",
+          "browser": "待验"
+        },
+        "useCostDescriptionCleanup": {
+          "status": "PASS",
+          "changedDescriptions": 1,
+          "numericAndProcessChanges": 0,
           "browser": "待验"
         }
       },
@@ -32122,7 +32171,8 @@
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
           "sevenMageBodyDirectHitBackfill",
-          "sixMageOrdinaryUseBackfill"
+          "sixMageOrdinaryUseBackfill",
+          "fiveMageUseParameterDescriptionCleanup"
         ],
         "currentComponentCounts": {
           "parameters": 5,
@@ -32154,6 +32204,12 @@
           "registrationOnly": false,
           "httpReadback": "PASS",
           "browser": "待验"
+        },
+        "useCostDescriptionCleanup": {
+          "status": "PASS",
+          "changedDescriptions": 1,
+          "numericAndProcessChanges": 0,
+          "browser": "待验"
         }
       },
       {
@@ -32178,7 +32234,8 @@
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
           "sevenMageBodyDirectHitBackfill",
-          "sixMageOrdinaryUseBackfill"
+          "sixMageOrdinaryUseBackfill",
+          "fiveMageUseParameterDescriptionCleanup"
         ],
         "currentComponentCounts": {
           "parameters": 10,
@@ -32210,6 +32267,12 @@
           "registrationOnly": false,
           "httpReadback": "PASS",
           "browser": "待验"
+        },
+        "useCostDescriptionCleanup": {
+          "status": "PASS",
+          "changedDescriptions": 1,
+          "numericAndProcessChanges": 0,
+          "browser": "待验"
         }
       },
       {
@@ -32234,7 +32297,8 @@
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
           "sevenMageBodyDirectHitBackfill",
-          "sixMageOrdinaryUseBackfill"
+          "sixMageOrdinaryUseBackfill",
+          "fiveMageUseParameterDescriptionCleanup"
         ],
         "currentComponentCounts": {
           "parameters": 11,
@@ -32273,6 +32337,12 @@
           "legacyClientField": "cooldownTime=13秒",
           "decision": "固定官方与当前封装逐级一致，保持既有12000，未改数值。",
           "evidence": "sixMageOrdinaryUseBackfill"
+        },
+        "useCostDescriptionCleanup": {
+          "status": "PASS",
+          "changedDescriptions": 1,
+          "numericAndProcessChanges": 0,
+          "browser": "待验"
         }
       },
       {
