@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-19T00:24:19.249Z",
+  "generatedAt": "2026-09-19T00:52:23.526Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -10067,6 +10067,35 @@
         "sha256": "ee27de67fe9932d66dfa972aad176da7907d31759efedda418ac722b5d2918f1",
         "commit": "f1bcdd3b"
       }
+    },
+    "ahriEDianaEAsheRUseBackfill": {
+      "at": "2026-09-19T00:52:23.526Z",
+      "status": "三项普通使用过程与入口已保存并独立回读，页面与剩余机制待续",
+      "skills": [
+        "ahri_e",
+        "diana_e",
+        "ashe_r"
+      ],
+      "created": {
+        "processes": 1,
+        "triggerRules": 3
+      },
+      "prepareGETs": 81,
+      "writerGETs": 89,
+      "writerPOSTs": 4,
+      "immediateReadbacks": 4,
+      "independentGETs": 81,
+      "unchangedResponsesIncludingTimestamps": 73,
+      "expectedChangedCollections": 4,
+      "arithmeticCases": 39,
+      "browser": "NOT_RUN_BROWSER_UNAVAILABLE",
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/阿狸E黛安娜E艾希R使用入口补录/09-证据清单.json",
+        "sha256": "76784a02a976f0ddb37eb5ac8bfed01a5dfc32baad59130551a6096565d2f98d",
+        "commit": "d3aa8a64"
+      }
     }
   },
   "runtimeValidation": "未执行",
@@ -10373,6 +10402,12 @@
         "relativePath": "数据参考/全量录入-2026-09/卡萨丁Q引导打断表达核对/01-只读能力核对.json",
         "sha256": "ca2fe2ce6f8e391de6619cd153cfcf1bf86a274757ca4c0bfd33a3a8f692d9d5",
         "commit": "de5b4181"
+      },
+      "ahriEDianaEAsheRUseBackfill": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/阿狸E黛安娜E艾希R使用入口补录/09-证据清单.json",
+        "sha256": "76784a02a976f0ddb37eb5ac8bfed01a5dfc32baad59130551a6096565d2f98d",
+        "commit": "d3aa8a64"
       }
     },
     "coverage": {
@@ -12882,7 +12917,7 @@
         "name": "阿狸·魅惑妖术",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。 现存实际命中伤害的空吸血规则及父说明已纠正；旧数值与入口保持，原待办及页面继续保留。",
+        "reason": "普通使用入口已启动法力、基础冷却与当前根施法延迟过程，原伤害与实际命中保持并独立回读；魅惑与移动技能中止、代表页面及过时消耗说明继续待办，不计整技能管理完成。",
         "pendingCounts": {
           "source": 0,
           "system": 0,
@@ -12894,7 +12929,8 @@
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
           "heroSourceInventory",
-          "fourFollowupHitDamageVampCorrection"
+          "fourFollowupHitDamageVampCorrection",
+          "ahriEDianaEAsheRUseBackfill"
         ],
         "currentComponentCounts": {
           "parameters": 7,
@@ -12902,7 +12938,7 @@
           "effects": 2,
           "processes": 1,
           "internalStates": 0,
-          "triggerRules": 1
+          "triggerRules": 2
         },
         "damageVampCorrection": {
           "httpReadback": "PASS",
@@ -12910,6 +12946,16 @@
           "basisOutputKind": "POST_DEFENSE_DAMAGE",
           "efficiency": 1,
           "retainedSpellShieldBlockScope": "RESULT",
+          "browser": "待验"
+        },
+        "remainingBranches": [
+          "魅惑与移动技能中止",
+          "代表页面及过时消耗说明"
+        ],
+        "authoredUseEntry": {
+          "processKey": "cast",
+          "ruleKey": "on_used",
+          "httpReadback": "PASS",
           "browser": "待验"
         }
       },
@@ -14039,7 +14085,7 @@
         "name": "艾希·魔法水晶箭",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。 现存实际命中伤害的空吸血规则及父说明已纠正；旧数值与入口保持，原待办及页面继续保留。",
+        "reason": "普通使用入口已启动法力、基础冷却与当前根施法延迟过程，原伤害与实际命中保持并独立回读；距离与眩晕完整表达、代表页面及过时施放说明继续待办，不计整技能管理完成。",
         "pendingCounts": {
           "source": 0,
           "system": 1,
@@ -14051,15 +14097,16 @@
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
-          "fourFollowupHitDamageVampCorrection"
+          "fourFollowupHitDamageVampCorrection",
+          "ahriEDianaEAsheRUseBackfill"
         ],
         "currentComponentCounts": {
           "parameters": 7,
           "formulas": 1,
           "effects": 2,
-          "processes": 0,
+          "processes": 1,
           "internalStates": 0,
-          "triggerRules": 1
+          "triggerRules": 2
         },
         "damageVampCorrection": {
           "httpReadback": "PASS",
@@ -14067,6 +14114,16 @@
           "basisOutputKind": "POST_DEFENSE_DAMAGE",
           "efficiency": 1,
           "retainedSpellShieldBlockScope": "RESULT",
+          "browser": "待验"
+        },
+        "remainingBranches": [
+          "距离与眩晕完整表达",
+          "代表页面及过时施放说明"
+        ],
+        "authoredUseEntry": {
+          "processKey": "cast",
+          "ruleKey": "on_used",
+          "httpReadback": "PASS",
           "browser": "待验"
         }
       },
@@ -15999,7 +16056,7 @@
         "name": "黛安娜·月神冲刺",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。 现存实际命中伤害的空吸血规则及父说明已纠正；旧数值与入口保持，原待办及页面继续保留。",
+        "reason": "普通使用入口已启动法力、基础冷却与当前根施法延迟过程，原伤害与实际命中保持并独立回读；月光条件、重置及标记消费、代表页面及过时消耗说明继续待办，不计整技能管理完成。",
         "pendingCounts": {
           "source": 0,
           "system": 0,
@@ -16011,7 +16068,8 @@
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
           "heroSourceInventory",
-          "fourFollowupHitDamageVampCorrection"
+          "fourFollowupHitDamageVampCorrection",
+          "ahriEDianaEAsheRUseBackfill"
         ],
         "currentComponentCounts": {
           "parameters": 6,
@@ -16019,7 +16077,7 @@
           "effects": 3,
           "processes": 1,
           "internalStates": 0,
-          "triggerRules": 1
+          "triggerRules": 2
         },
         "damageVampCorrection": {
           "httpReadback": "PASS",
@@ -16027,6 +16085,16 @@
           "basisOutputKind": "POST_DEFENSE_DAMAGE",
           "efficiency": 1,
           "retainedSpellShieldBlockScope": "RESULT",
+          "browser": "待验"
+        },
+        "remainingBranches": [
+          "月光条件、重置及标记消费",
+          "代表页面及过时消耗说明"
+        ],
+        "authoredUseEntry": {
+          "processKey": "cast",
+          "ruleKey": "on_used",
+          "httpReadback": "PASS",
           "browser": "待验"
         }
       },
@@ -18513,7 +18581,8 @@
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
-          "fourFollowupHitDamageVampCorrection"
+          "fourFollowupHitDamageVampCorrection",
+          "ahriEDianaEAsheRUseBackfill"
         ],
         "currentComponentCounts": {
           "parameters": 12,
@@ -18530,6 +18599,10 @@
           "efficiency": 1,
           "retainedSpellShieldBlockScope": "RESULT",
           "browser": "待验"
+        },
+        "useRegistrationDeferred": {
+          "reason": "首次投射与再次冲刺的使用事件资格未核定，避免重复收费或重复登记整轮冷却。",
+          "evidence": "ahriEDianaEAsheRUseBackfill"
         }
       },
       {
