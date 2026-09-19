@@ -1,0 +1,76 @@
+{
+  "at": "2026-09-19T08:21:27.189Z",
+  "status": "PASS",
+  "sourceVersion": {
+    "client": "16.17",
+    "ddragon": "16.17.1"
+  },
+  "created": {
+    "effects": 2,
+    "processes": 1,
+    "triggerRules": 2
+  },
+  "prepareGETs": 32,
+  "writes": 5,
+  "immediateReadbacks": 5,
+  "independentAgentGETs": 32,
+  "archiveGETs": 32,
+  "unchangedResponsesIncludingTimestamps": 24,
+  "expectedChangedCollections": 3,
+  "browser": "PASS",
+  "cursor": {
+    "runId": "run-69f06d8d-5f43-450d-bad2-be6375f5a710",
+    "status": "cancelled",
+    "reason": "900000毫秒超时；两个只读工具未及时返回",
+    "adopted": false,
+    "fileAuditNote": "范围外变化0；允许目录内05/06由主负责人依据独立内置评审保存，不据此冒认Cursor只读评审有效"
+  },
+  "remaining": [
+    "Q向W的最后命中敌方英雄五秒标记",
+    "施放取消限制与净除暂停",
+    "弹道与爆炸时序"
+  ],
+  "runtimeValidation": "未执行",
+  "files": [
+    {
+      "name": "00-固定来源与范围.json",
+      "sha256": "af51f2206cd3f0e847c5515ec601b5c561df388927e5ebd376c4705372fdbfef"
+    },
+    {
+      "name": "01-候选方案.json",
+      "sha256": "f166d30633d9f57fb9c7fcafe63efa9fd3bba367021ac810c33b2cf7e50130c1"
+    },
+    {
+      "name": "02-冻结请求.json",
+      "sha256": "27a9923039f367910f35ed27bf494648eb6df4921651f3ce04fb7b58c535084f"
+    },
+    {
+      "name": "03-来源摘要.json",
+      "sha256": "d72e888d802ae3a05b894a171860026bd1dd71ae4424e4ca59e4ac6a127d169f"
+    },
+    {
+      "name": "04-写入前现值.json",
+      "sha256": "3e2fb44e3da9d320347018b08bcf7ccd19833ad2a30b4dd5f12c21ccf394168d"
+    },
+    {
+      "name": "05-独立评审.json",
+      "sha256": "06b9a3785b1eaddb14f40c0503aa9394c424b9f5ac428bddc51b2476bd781202"
+    },
+    {
+      "name": "06-写入与即时回读.json",
+      "sha256": "ea47ac79708c8a9e389acdfb97617305435daf307795ec7940d4ac4b1ecc9103"
+    },
+    {
+      "name": "07-独立回读.json",
+      "sha256": "41666c4a604ed57e632e49f7cafae65827db1fb22c75e1ec8b6e8d5a64508e70"
+    },
+    {
+      "name": "08-页面验收.json",
+      "sha256": "9e4b4819ba447831173d230fdebb59ff666522dde50c336a13ede62e8295f51e"
+    },
+    {
+      "name": "README.md",
+      "sha256": "c16bbc355fd52bd795d08c1f2b8888e737857293b8229fbbfbf960486b7bfaa7"
+    }
+  ]
+}

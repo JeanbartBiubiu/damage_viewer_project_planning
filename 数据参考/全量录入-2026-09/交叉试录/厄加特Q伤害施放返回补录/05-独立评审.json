@@ -1,0 +1,30 @@
+{
+  "at": "2026-09-19T08:13:15.354Z",
+  "status": "APPROVED",
+  "reviewer": "/root/urgot_core_frozen_fallback",
+  "mode": "只读本地固定资料与完整现值，无业务HTTP或实库访问，无文件修改",
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v3.mjs": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "01-候选方案.json": "f166d30633d9f57fb9c7fcafe63efa9fd3bba367021ac810c33b2cf7e50130c1",
+    "02-冻结请求.json": "27a9923039f367910f35ed27bf494648eb6df4921651f3ce04fb7b58c535084f",
+    "03-来源摘要.json": "d72e888d802ae3a05b894a171860026bd1dd71ae4424e4ca59e4ac6a127d169f",
+    "04-写入前现值.json": "3e2fb44e3da9d320347018b08bcf7ccd19833ad2a30b4dd5f12c21ccf394168d"
+  },
+  "sourceHashesMatched": 6,
+  "arithmeticCases": 15,
+  "findings": [],
+  "checks": [
+    "五级原始伤害与来源总攻击力公式一致",
+    "70法力、250毫秒及五级冷却一致",
+    "physics、OMNIVAMP、防御后效率1和SKILL护盾明确",
+    "自身ACTIVE使用与自身实际命中分离，英雄敌方同组",
+    "旧减速效果与规则含时间戳保持；预计新增5详情、3集合变化、24原响应不变"
+  ],
+  "remaining": [
+    "Q向W的最后命中敌方英雄五秒标记",
+    "施放取消限制与净除暂停",
+    "弹道与爆炸时序"
+  ],
+  "cursorReview": "未采用仍未完成的Cursor结果；独立内置评审已完成",
+  "runtimeValidation": "未执行"
+}

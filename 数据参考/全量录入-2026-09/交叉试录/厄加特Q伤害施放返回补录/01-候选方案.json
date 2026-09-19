@@ -1,0 +1,498 @@
+{
+  "title": "厄加特Q伤害与基础施放返回补录",
+  "planRevision": 1,
+  "at": "2026-09-19T07:58:26.147Z",
+  "targets": [
+    {
+      "skillKey": "urgot_q",
+      "ownerKey": "champion_urgot"
+    }
+  ],
+  "sourceFiles": [
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Urgot.json",
+      "sha256": "0a081a1286923173fe0eeb855ce32d2b8658fe6ec040d5167f5d01551507943a"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Urgot.json.gz",
+      "sha256": "e5bc358dfd88464470039ae479b3b921d161e6371e623c68ae3a545616b5d84c"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/厄加特Q伤害施放返回补录/00-固定来源与范围.json",
+      "sha256": "af51f2206cd3f0e847c5515ec601b5c561df388927e5ebd376c4705372fdbfef"
+    },
+    {
+      "root": "planning",
+      "path": "文档记录/详细设计/项目/角色技能数据录入标准流程.md",
+      "sha256": "2a734f19adfda3483cff633e480e76385f428828a1d13894c9330f9adcf1d839"
+    },
+    {
+      "root": "planning",
+      "path": "文档记录/详细设计/项目/条件事件与动态输入供值管理详细设计.md",
+      "sha256": "ca2d715880e939f634e35e585bd3fc7ebcd6d42705f87f07c187201c1a8db4e7"
+    },
+    {
+      "root": "planning",
+      "path": "文档记录/详细设计/项目/技能过程内部状态与效果录入详细设计.md",
+      "sha256": "fcf3c1eb426114cbcbbc89ca1ef3571e32fb97eeb5640f2f938ecc08726a60e8"
+    }
+  ],
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/urgot_q/effects",
+      "detailRoute": "/skills/urgot_q/effects/mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "本技能主动使用开始时消耗70法力，复用当前技能等级对应的既有法力参数。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      },
+      "expectedReadback": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "本技能主动使用开始时消耗70法力，复用当前技能等级对应的既有法力参数。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/urgot_q/effects",
+      "detailRoute": "/skills/urgot_q/effects/primary_hit",
+      "body": {
+        "effectKey": "primary_hit",
+        "name": "腐蚀电荷本体直接物理伤害",
+        "description": "本轮1V1腐蚀电荷爆炸实际命中敌方英雄的直接物理伤害；复用同技能既有公式。普通减速由已有入口独立处理，净除标记等联动继续核对。",
+        "sortOrder": 20,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "damage",
+            "name": "物理伤害",
+            "resultType": "DAMAGE",
+            "target": "TARGET",
+            "description": "引用同技能physical_damage，保留已有属性口径和等级系数。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": "SKILL",
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "physical_damage"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "damageTypeKey": "physics",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "vampRules": [
+                {
+                  "vampType": "OMNIVAMP",
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "expectedReadback": {
+        "effectKey": "primary_hit",
+        "name": "腐蚀电荷本体直接物理伤害",
+        "description": "本轮1V1腐蚀电荷爆炸实际命中敌方英雄的直接物理伤害；复用同技能既有公式。普通减速由已有入口独立处理，净除标记等联动继续核对。",
+        "sortOrder": 20,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "damage",
+            "name": "物理伤害",
+            "resultType": "DAMAGE",
+            "target": "TARGET",
+            "description": "引用同技能physical_damage，保留已有属性口径和等级系数。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": "SKILL",
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "physical_damage"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "damageTypeKey": "physics",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "vampRules": [
+                {
+                  "vampType": "OMNIVAMP",
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/urgot_q/processes",
+      "detailRoute": "/skills/urgot_q/processes/cast",
+      "body": {
+        "processKey": "cast",
+        "name": "腐蚀电荷基础施放",
+        "activationType": "ACTIVE",
+        "description": "仅登记基础250毫秒施法时间、开始时法力消耗与普通冷却；延迟结束不自动产生命中。前摇取消限制、弹道与爆炸时序、净除联动仍需分别处理。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "cast_delay",
+            "name": "基础施法时间",
+            "description": "固定来源spellCastTime为0.25秒，读取既有250毫秒参数；此步骤不代替实际命中。",
+            "sortOrder": 10,
+            "stepType": "DELAY",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            }
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      },
+      "expectedReadback": {
+        "processKey": "cast",
+        "name": "腐蚀电荷基础施放",
+        "activationType": "ACTIVE",
+        "description": "仅登记基础250毫秒施法时间、开始时法力消耗与普通冷却；延迟结束不自动产生命中。前摇取消限制、弹道与爆炸时序、净除联动仍需分别处理。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "cast_delay",
+            "name": "基础施法时间",
+            "description": "固定来源spellCastTime为0.25秒，读取既有250毫秒参数；此步骤不代替实际命中。",
+            "sortOrder": 10,
+            "stepType": "DELAY",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            }
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/urgot_q/trigger-rules",
+      "detailRoute": "/skills/urgot_q/trigger-rules/on_used",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "腐蚀电荷主动使用",
+        "description": "本技能已成立的主动使用仅启动基础施放过程；不以施放或延迟结束代替实际命中，不处理未核定的净除联动。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "urgot_q",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动基础施放",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used",
+        "name": "腐蚀电荷主动使用",
+        "description": "本技能已成立的主动使用仅启动基础施放过程；不以施放或延迟结束代替实际命中，不处理未核定的净除联动。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "urgot_q",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动基础施放",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/urgot_q/trigger-rules",
+      "detailRoute": "/skills/urgot_q/trigger-rules/actual_hit",
+      "body": {
+        "ruleKey": "actual_hit",
+        "name": "腐蚀电荷本体实际命中",
+        "description": "仅消费腐蚀电荷爆炸对本轮敌方英雄的一次合法实际命中并执行本体伤害；同次法术护盾按伤害结果粒度处理，既有减速入口保持独立。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "urgot_q"
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "champion_target",
+            "name": "本轮敌方英雄目标",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "sortOrder": 20,
+                "detail": {}
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "name": "执行腐蚀电荷物理伤害",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "actual_hit",
+        "name": "腐蚀电荷本体实际命中",
+        "description": "仅消费腐蚀电荷爆炸对本轮敌方英雄的一次合法实际命中并执行本体伤害；同次法术护盾按伤害结果粒度处理，既有减速入口保持独立。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "urgot_q",
+            "useKind": null
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "champion_target",
+            "name": "本轮敌方英雄目标",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "sortOrder": 20,
+                "detail": {}
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "name": "执行腐蚀电荷物理伤害",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "scope": "5项成熟管理组成；不改已有减速、参数、公式、主体、关系与图片；不实现宿主或Wasm。",
+  "remaining": [
+    {
+      "item": "净除标记",
+      "basis": "W固定说明确认其它技能将最后命中的敌方英雄标记5秒；该标记归W管理，尚未配置，不据本批宣告Q完整。"
+    },
+    {
+      "item": "施放取消限制与净除暂停",
+      "basis": "mCantCancelWhileWindingUp=true；WHalterDuration约0.3秒字段不足以证明具体事件、时点与取消规则。保留事实，不编造规则。"
+    },
+    {
+      "item": "弹道和爆炸时序",
+      "basis": "发射延迟约0.1秒、导弹后爆炸延迟约0.3秒与250毫秒施法时间分开；本批只消费已确认实际命中，不自动生成命中。"
+    }
+  ]
+}
