@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-19T01:37:46.525Z",
+  "generatedAt": "2026-09-19T02:04:51.703Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -10174,6 +10174,40 @@
         "sha256": "c38d5e2b58647f5a00d2c581e266559bf9a5ba83dee7cbdf6008730b89d36d07"
       },
       "sourceEvidence": "数据参考/全量录入-2026-09/禁锢状态补齐/01-来源核对.json"
+    },
+    "sevenDirectMagicHitBackfill": {
+      "at": "2026-09-19T02:04:51.703Z",
+      "status": "七项直接伤害14组成已保存并独立回读，页面与剩余机制待续",
+      "skills": [
+        "kennen_q",
+        "teemo_q",
+        "gragas_e",
+        "gragas_r",
+        "lissandra_q",
+        "lissandra_w",
+        "lissandra_e"
+      ],
+      "created": {
+        "effects": 7,
+        "triggerRules": 7
+      },
+      "candidateGETs": 60,
+      "prepareGETs": 153,
+      "writerGETs": 181,
+      "writerPOSTs": 14,
+      "immediateReadbacks": 14,
+      "independentGETs": 153,
+      "unchangedResponsesIncludingTimestamps": 125,
+      "expectedChangedCollections": 14,
+      "arithmeticCases": 99,
+      "browser": "NOT_RUN_BROWSER_UNAVAILABLE",
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/七项普通魔法命中伤害补录/09-证据清单.json",
+        "sha256": "6e57be427c10604ffaa44690263d1fc801979439018000af29d75b8cf679f1c1",
+        "commit": "23dac26f"
+      }
     }
   },
   "runtimeValidation": "未执行",
@@ -10497,6 +10531,12 @@
         "worktree": "damage_viewer_project_planning",
         "relativePath": "数据参考/全量录入-2026-09/禁锢状态补齐/03-分层验收记录.json",
         "sha256": "355e0ce65d1b98a30d9d81511d797412af5cfcd57d7f252b1f996d1e869186e3"
+      },
+      "sevenDirectMagicHitBackfill": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/七项普通魔法命中伤害补录/09-证据清单.json",
+        "sha256": "6e57be427c10604ffaa44690263d1fc801979439018000af29d75b8cf679f1c1",
+        "commit": "23dac26f"
       }
     },
     "coverage": {
@@ -17812,7 +17852,7 @@
         "name": "古拉加斯·肉弹冲击",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有2个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "已复用原公式补齐直接魔法伤害与实际命中入口，并独立回读；位移、击退及眩晕、命中冷却返还、法力消耗与普通冷却使用入口、代表页面验收继续处理，其他原来源未决项保留，不计整技能管理完成。",
         "pendingCounts": {
           "source": 0,
           "system": 1,
@@ -17823,8 +17863,33 @@
         "candidateSha256": "046f2671121092a906008b6b07909156a90d4bc241e18ce646fc12480f3303cf",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "sevenDirectMagicHitBackfill"
+        ],
+        "currentComponentCounts": {
+          "parameters": 7,
+          "formulas": 1,
+          "effects": 2,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 1
+        },
+        "remainingBranches": [
+          "位移、击退及眩晕",
+          "命中冷却返还",
+          "法力消耗与普通冷却使用入口",
+          "代表页面验收"
+        ],
+        "authoredDirectHit": {
+          "effectKey": "primary_hit",
+          "ruleKey": "actual_hit",
+          "httpReadback": "PASS",
+          "spellShieldBlockScope": "SKILL",
+          "vampType": "OMNIVAMP",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "efficiency": 1,
+          "browser": "待验"
+        }
       },
       {
         "sourceChampionId": "Gragas",
@@ -17835,7 +17900,7 @@
         "name": "古拉加斯·爆破酒桶",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有2个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "已复用原公式补齐直接魔法伤害与实际命中入口，并独立回读；击退、法力消耗与普通冷却使用入口、代表页面验收继续处理，其他原来源未决项保留，不计整技能管理完成。",
         "pendingCounts": {
           "source": 0,
           "system": 1,
@@ -17846,8 +17911,32 @@
         "candidateSha256": "046f2671121092a906008b6b07909156a90d4bc241e18ce646fc12480f3303cf",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "sevenDirectMagicHitBackfill"
+        ],
+        "currentComponentCounts": {
+          "parameters": 6,
+          "formulas": 1,
+          "effects": 2,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 1
+        },
+        "remainingBranches": [
+          "击退",
+          "法力消耗与普通冷却使用入口",
+          "代表页面验收"
+        ],
+        "authoredDirectHit": {
+          "effectKey": "primary_hit",
+          "ruleKey": "actual_hit",
+          "httpReadback": "PASS",
+          "spellShieldBlockScope": "SKILL",
+          "vampType": "OMNIVAMP",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "efficiency": 1,
+          "browser": "待验"
+        }
       },
       {
         "sourceChampionId": "Graves",
@@ -20549,7 +20638,7 @@
         "name": "凯南·奥义！千鸟",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有2个待处理分支，其中来源或资料缺口1个、系统缺口0个、配置缺口1个。",
+        "reason": "已复用原公式补齐直接魔法伤害与实际命中入口，并独立回读；被动印记、能量消耗与普通冷却使用入口、代表页面验收继续处理，其他原来源未决项保留，不计整技能管理完成。",
         "pendingCounts": {
           "source": 1,
           "system": 0,
@@ -20560,8 +20649,33 @@
         "candidateSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "sevenDirectMagicHitBackfill"
+        ],
+        "currentComponentCounts": {
+          "parameters": 5,
+          "formulas": 1,
+          "effects": 2,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 1
+        },
+        "remainingBranches": [
+          "被动印记",
+          "能量消耗与普通冷却使用入口",
+          "代表页面验收",
+          "原批次其余来源未决项逐项核对"
+        ],
+        "authoredDirectHit": {
+          "effectKey": "primary_hit",
+          "ruleKey": "actual_hit",
+          "httpReadback": "PASS",
+          "spellShieldBlockScope": "SKILL",
+          "vampType": "OMNIVAMP",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "efficiency": 1,
+          "browser": "待验"
+        }
       },
       {
         "sourceChampionId": "Kennen",
@@ -21700,7 +21814,7 @@
         "name": "丽桑卓·寒冰碎片",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "已复用原公式补齐直接魔法伤害与实际命中入口，并独立回读；减速、法力消耗与普通冷却使用入口、代表页面验收继续处理，其他原来源未决项保留，不计整技能管理完成。",
         "pendingCounts": {
           "source": 0,
           "system": 1,
@@ -21711,8 +21825,32 @@
         "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "sevenDirectMagicHitBackfill"
+        ],
+        "currentComponentCounts": {
+          "parameters": 7,
+          "formulas": 1,
+          "effects": 2,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 1
+        },
+        "remainingBranches": [
+          "减速",
+          "法力消耗与普通冷却使用入口",
+          "代表页面验收"
+        ],
+        "authoredDirectHit": {
+          "effectKey": "primary_hit",
+          "ruleKey": "actual_hit",
+          "httpReadback": "PASS",
+          "spellShieldBlockScope": "SKILL",
+          "vampType": "OMNIVAMP",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "efficiency": 1,
+          "browser": "待验"
+        }
       },
       {
         "sourceChampionId": "Lissandra",
@@ -21723,7 +21861,7 @@
         "name": "丽桑卓·冰霜之环",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "已复用原公式补齐直接魔法伤害与实际命中入口，并独立回读；禁锢、法力消耗与普通冷却使用入口、代表页面验收继续处理，其他原来源未决项保留，不计整技能管理完成。",
         "pendingCounts": {
           "source": 0,
           "system": 1,
@@ -21734,8 +21872,32 @@
         "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "sevenDirectMagicHitBackfill"
+        ],
+        "currentComponentCounts": {
+          "parameters": 6,
+          "formulas": 1,
+          "effects": 2,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 1
+        },
+        "remainingBranches": [
+          "禁锢",
+          "法力消耗与普通冷却使用入口",
+          "代表页面验收"
+        ],
+        "authoredDirectHit": {
+          "effectKey": "primary_hit",
+          "ruleKey": "actual_hit",
+          "httpReadback": "PASS",
+          "spellShieldBlockScope": "SKILL",
+          "vampType": "OMNIVAMP",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "efficiency": 1,
+          "browser": "待验"
+        }
       },
       {
         "sourceChampionId": "Lissandra",
@@ -21746,7 +21908,7 @@
         "name": "丽桑卓·冰川之径",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有2个待处理分支，其中来源或资料缺口1个、系统缺口1个、配置缺口0个。",
+        "reason": "已复用原公式补齐直接魔法伤害与实际命中入口，并独立回读；再次施放与传送阶段、法力消耗与冷却阶段资格、代表页面验收继续处理，其他原来源未决项保留，不计整技能管理完成。",
         "pendingCounts": {
           "source": 1,
           "system": 1,
@@ -21757,8 +21919,33 @@
         "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "sevenDirectMagicHitBackfill"
+        ],
+        "currentComponentCounts": {
+          "parameters": 5,
+          "formulas": 1,
+          "effects": 2,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 1
+        },
+        "remainingBranches": [
+          "再次施放与传送阶段",
+          "法力消耗与冷却阶段资格",
+          "代表页面验收",
+          "原批次其余来源未决项逐项核对"
+        ],
+        "authoredDirectHit": {
+          "effectKey": "primary_hit",
+          "ruleKey": "actual_hit",
+          "httpReadback": "PASS",
+          "spellShieldBlockScope": "SKILL",
+          "vampType": "OMNIVAMP",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "efficiency": 1,
+          "browser": "待验"
+        }
       },
       {
         "sourceChampionId": "Lissandra",
@@ -29601,7 +29788,7 @@
         "name": "提莫·致盲吹箭",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "已复用原公式补齐直接魔法伤害与实际命中入口，并独立回读；致盲、法力消耗与普通冷却使用入口、代表页面验收继续处理，其他原来源未决项保留，不计整技能管理完成。",
         "pendingCounts": {
           "source": 0,
           "system": 1,
@@ -29612,8 +29799,32 @@
         "candidateSha256": "db51da6ae6ba0ab2e5008be49cf667642313e8d56e6499c42e4224bca0130ecb",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "sevenDirectMagicHitBackfill"
+        ],
+        "currentComponentCounts": {
+          "parameters": 6,
+          "formulas": 1,
+          "effects": 2,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 1
+        },
+        "remainingBranches": [
+          "致盲",
+          "法力消耗与普通冷却使用入口",
+          "代表页面验收"
+        ],
+        "authoredDirectHit": {
+          "effectKey": "primary_hit",
+          "ruleKey": "actual_hit",
+          "httpReadback": "PASS",
+          "spellShieldBlockScope": "SKILL",
+          "vampType": "OMNIVAMP",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "efficiency": 1,
+          "browser": "待验"
+        }
       },
       {
         "sourceChampionId": "Teemo",
