@@ -1,0 +1,19 @@
+{
+  "at": "2026-09-19T17:34:37.933Z",
+  "status": "REGISTRATION_BRANCH_READY",
+  "reviewer": "/root/root_status_source_review",
+  "candidateSha256": "3e2828f6057c09785f7091fbbd9b173f7e5f84f2d1ed806d46157c013fb834df",
+  "findings": [
+    "根技能、角色槽位、技能名及能力集合共同指向FeralScream根",
+    "官方maxammo为-1且vars为空，根单技能结构未出现第二施放；足以不阻塞普通登记，不声明隐藏运行资格已排除",
+    "五级法力70/75/80/85/90与冷却11/10.5/10/9.5/9秒客户端和官方一致",
+    "已有mana_cost资源消耗效果可直接挂接",
+    "既有SOP允许IMMEDIATE（立即）步骤仅登记普通主动成本冷却，不表示零施法时长"
+  ],
+  "unknown": [
+    "castFrame19.25不可换算为施放毫秒",
+    "实际施放资格、失败取消退款及隐藏联动未核定"
+  ],
+  "noHTTP": true,
+  "businessWrites": 0
+}

@@ -1,0 +1,187 @@
+{
+  "executionMode": "PROTECTED_API",
+  "targets": [
+    {
+      "skillKey": "chogath_w",
+      "ownerKey": "champion_chogath"
+    }
+  ],
+  "sourceFiles": [
+    {
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Chogath.json.gz",
+      "sha256": "e098bd867debab64aa497e4ef7155677f7bdb6aeb881e41411b1515bd9736eac",
+      "root": "web"
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Chogath.json",
+      "sha256": "f4413f86c1c4c7074b433c703cf4e0cbb6c10a41b419e64f528dc2becfe96ff3",
+      "root": "web"
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Chogath.json",
+      "sha256": "a132ad9f7eba390af39efe75a61d2bce5d76ae03e33e047552d9612b482c6843",
+      "root": "web"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/科加斯W使用登记返回/01-普通使用来源候选.json",
+      "sha256": "3e2828f6057c09785f7091fbbd9b173f7e5f84f2d1ed806d46157c013fb834df"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/科加斯W使用登记返回/02-普通使用来源独立结论.json",
+      "sha256": "d26de1f939e2787bc96b12e269914c0512fc863f60d088f2c63927d1357cbe65"
+    }
+  ],
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/chogath_w/processes",
+      "detailRoute": "/skills/chogath_w/processes/use_cost_and_cooldown",
+      "body": {
+        "processKey": "use_cost_and_cooldown",
+        "name": "野性尖叫使用登记",
+        "activationType": "ACTIVE",
+        "description": "只登记本次普通主动使用的法力消耗与基础冷却；立即步骤不代表完整施放时长，伤害与沉默仍由实际命中入口处理。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "register_use",
+            "name": "登记本次使用",
+            "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+            "sortOrder": 10,
+            "stepType": "IMMEDIATE",
+            "detail": {}
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      },
+      "expectedReadback": {
+        "processKey": "use_cost_and_cooldown",
+        "name": "野性尖叫使用登记",
+        "activationType": "ACTIVE",
+        "description": "只登记本次普通主动使用的法力消耗与基础冷却；立即步骤不代表完整施放时长，伤害与沉默仍由实际命中入口处理。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "register_use",
+            "name": "登记本次使用",
+            "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+            "sortOrder": 10,
+            "stepType": "IMMEDIATE",
+            "detail": {}
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/chogath_w/trigger-rules",
+      "detailRoute": "/skills/chogath_w/trigger-rules/on_used_cost_and_cooldown",
+      "body": {
+        "ruleKey": "on_used_cost_and_cooldown",
+        "name": "野性尖叫普通主动使用",
+        "description": "本技能普通主动使用时启动成本冷却登记，不以实际命中或沉默首次施加为费用前置；施放时长和运行资格仍单列。",
+        "sortOrder": 20,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "chogath_w",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "name": "启动消耗与冷却登记",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "use_cost_and_cooldown"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used_cost_and_cooldown",
+        "name": "野性尖叫普通主动使用",
+        "description": "本技能普通主动使用时启动成本冷却登记，不以实际命中或沉默首次施加为费用前置；施放时长和运行资格仍单列。",
+        "sortOrder": 20,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "chogath_w",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "name": "启动消耗与冷却登记",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "use_cost_and_cooldown"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "scopeNote": "仅普通使用成本冷却登记，立即步骤不表示施放时长为0；不挂伤害沉默，不新增cast_time_ms，不把整技能记完成"
+}

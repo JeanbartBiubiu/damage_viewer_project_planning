@@ -1,0 +1,46 @@
+{
+  "at": "2026-09-19T18:09:02.595Z",
+  "status": "PASS",
+  "codeCommit": "6a197387",
+  "commands": [
+    "npm run lint",
+    "npm run typecheck",
+    "npm run test",
+    "npm run build",
+    "npm run test:e2e:non-wasm"
+  ],
+  "finalCommandSession": 59748,
+  "exitCode": 0,
+  "lintProductionFiles": 141,
+  "unitTestFiles": 62,
+  "unitTests": 715,
+  "buildModules": 1292,
+  "nonWasmBrowserTests": 79,
+  "nonWasmDurationMinutes": 10.1,
+  "newRegressionCases": 5,
+  "existingLargeChunkWarning": true,
+  "sourceBlobs": [
+    {
+      "path": "web/README.md",
+      "gitBlobSha256": "a51e2ee436d6da3c8e51a0d894b5f6239e0fc8bffa44eca4fd0ce511f3b8df0e"
+    },
+    {
+      "path": "web/src/pages/admin/skills/SkillEditorModal.tsx",
+      "gitBlobSha256": "11061f744c368e27d81bb078beb7577670050a1261075efa3aa58dc537f7688e"
+    },
+    {
+      "path": "web/src/pages/admin/skills/SkillManagementPage.tsx",
+      "gitBlobSha256": "8bae299c621b1b292ec4818b35a2e4edb41985a3181a8d8b60e0c9d4ca64ae06"
+    },
+    {
+      "path": "web/src/pages/admin/skills/focusedSkill.ts",
+      "gitBlobSha256": "d93b93419facaaa5f83a14a225ef40fb419e125232b00e8dcd9315f7243d7d6d"
+    },
+    {
+      "path": "web/tests/e2e/non-wasm-pages.spec.ts",
+      "gitBlobSha256": "629d5a73ceedc2305a46acf223e6749501896389c8fd81d1d7c3e2c813626cf6"
+    }
+  ],
+  "realBrowserEvidence": "04-真实页面返回.json",
+  "runtimeValidation": "未执行"
+}

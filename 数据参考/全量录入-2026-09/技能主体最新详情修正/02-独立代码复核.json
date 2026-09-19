@@ -1,0 +1,16 @@
+{
+  "at": "2026-09-19T17:56:46.828Z",
+  "reviewer": "/root/root_status_source_review",
+  "status": "APPROVED_FINAL",
+  "findings": [
+    "旧连接预读返回后继续PUT的阻塞已补代次保护",
+    "连接快照最终采用useState，渲染阶段清空启停状态并增代，详情/PUT后/catch/finally及卸载一致检查",
+    "新建不请求详情，分类旧值和最高等级基线来自最新详情",
+    "仅静态复核；页面结果以主负责人实际执行证据为准"
+  ],
+  "testCorrections": [
+    "失败重试夹具改按阶段控制，适配开发严格模式重复初次读取",
+    "迟到响应测试等待实际响应完成",
+    "连接切换回归发现ref快照状态重置不稳定，改useState后0PUT通过"
+  ]
+}
