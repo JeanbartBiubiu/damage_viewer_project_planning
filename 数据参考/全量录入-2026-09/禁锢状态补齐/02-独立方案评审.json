@@ -1,0 +1,56 @@
+{
+  "at": "2026-09-19T01:18:44.9706286Z",
+  "reviewer": "后端独立方案评审代理",
+  "conclusion": "通过；无阻塞。允许按本记录的最小范围实现，迁移和页面写入另由主负责人核定执行。",
+  "planSection": "第四单元：状态身份与普通减速强度 / 禁锢状态增量",
+  "evidence": [
+    {
+      "sha256": "22d1f9fc35c07cdc2bf0fab081cbde661518841a511ad3879516871b5c335608",
+      "path": "C:/project/damage_viewer_project_planning/文档记录/详细设计/项目/系统精简实施说明.md"
+    },
+    {
+      "sha256": "e870fabe30cd0559d8867b36d7b4e5ac2883caa2ba25713317aa3e4c301b0528",
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/status/StatusKind.java"
+    },
+    {
+      "sha256": "aaabde9b2c5ab0f735136f4db781a7643758fc33d7048de911ab39cad1002e81",
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/service/status/StatusService.java"
+    },
+    {
+      "sha256": "54df63a0a99adac0f686af69730b684ac35408053014a8a9613b239ca79f2450",
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/service/skilleffect/SkillEffectService.java"
+    },
+    {
+      "sha256": "231c05f0e2885548dee9b82c26b9161ee3050030b0bdcd61efffe7ac8b2320f9",
+      "path": "C:/project/damage_backend_dev/db/game_manage/schema.sql"
+    },
+    {
+      "sha256": "7484ecee03c8b3443c50a9a9c473619573f12174c3965babaa5b7a6efd0fb025",
+      "path": "C:/project/damage_backend_dev/db/game_manage/migrations/status_kinds_and_slow_strength.sql"
+    },
+    {
+      "sha256": "c33301c1edc2dc3bcf913504ae051d81bbaf367d559dd39a00ca1ce20194f465",
+      "path": "C:/project/damage_backend_dev/tools/authoring/ApplyStatusKinds.java"
+    }
+  ],
+  "findings": [
+    "ROOT只追加禁锢状态身份，不表示眩晕、移动减速或全面禁止攻击施法。",
+    "StatusService已按枚举保存和返回种类，并按现值拒绝任何种类变化。无需新增服务分支。",
+    "SkillEffectService仅对MOVEMENT_SLOW/APPLY要求强度；其他目录种类均禁止valueRule，通用持续无数值状态已经要求数值读取、层数值、重施值及周期模式为空。无需改效果服务。",
+    "持续目标状态施加的法术护盾只允许RESULT或null；ROOT沿用既有校验。",
+    "追加迁移精确核对test0221、旧已验证约束、非空无默认列和唯一vertigo/STUN；锁games/statuses/skill_effects/skill_object_references，仅替换约束与注释，前后逐行比较状态含时间戳、效果和引用。旧减速迁移及已执行工具保持原字节。",
+    "新状态目录只在首次真实页面恢复后建立；本轮不新增状态记录，不预先通过接口补录。"
+  ],
+  "tests": [
+    "ROOT创建与全种类两两不可变",
+    "ROOT有期限PERSISTENT无数值模式完整往返与强度拒绝",
+    "已有护盾粒度保持、原减速校验继续通过",
+    "现行建表和追加迁移SQL静态契约"
+  ],
+  "boundaries": [
+    "基线实库来自主负责人已完成的00只读报告，本代理未访问实库。",
+    "来源身份及时长采用01来源核对；此评审仅判断目录增量与现行管理契约匹配，不等于游戏完整机制或运行验证。",
+    "最终追加SQL、最终代码与迁移执行须由主负责人独立复核。"
+  ],
+  "businessWrites": 0
+}

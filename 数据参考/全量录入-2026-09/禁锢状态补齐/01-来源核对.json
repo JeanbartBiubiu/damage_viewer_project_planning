@@ -1,0 +1,202 @@
+{
+  "at": "2026-09-19T01:15:11.763Z",
+  "status": "三对象明确禁锢身份及持续时间，足以支持最小目录增量；不构成已批准写入方案",
+  "producer": "主负责人",
+  "delegationRecovery": "来源代理超过有界调查时间且无落地产物，检查后中断；主负责人仅定点读取六份固定来源接手，不重放任何写入。",
+  "businessHTTP": 0,
+  "businessWrites": 0,
+  "entries": [
+    {
+      "skillKey": "morgana_q",
+      "official": {
+        "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Morgana.json",
+        "sha256": "0854dbf23fedd2878a255b0707e6c4f687386d55962dafadb9b17354414b0903",
+        "version": "16.17.1",
+        "jsonPath": "data.Morgana.spells[0]",
+        "id": "MorganaQ",
+        "maxrank": 5,
+        "description": "莫甘娜用黑暗魔法将一名敌人禁锢在原地，迫使其感受自己造成的痛苦并对其造成魔法伤害。 ",
+        "tooltip": "莫甘娜掷出一团星火来<status>禁锢</status>命中的第一个敌人{{ rootduration }}秒，并造成<magicDamage>{{ totaldamage }}魔法伤害</magicDamage>。{{ spellmodifierdescriptionappend }}"
+      },
+      "client": {
+        "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Morgana.json.gz",
+        "sha256": "d02739dbfd5d27af4197da8449475948035a0f8c5d344a560085200ef79527a5",
+        "jsonPath": "Characters/Morgana/Spells/MorganaQAbility/MorganaQ.mSpell.DataValues[1]",
+        "name": "RootDuration",
+        "rawValues": [
+          1.75,
+          2,
+          2.25,
+          2.5,
+          2.75,
+          3,
+          3.25
+        ],
+        "rankIndices": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "milliseconds": [
+          2000,
+          2250,
+          2500,
+          2750,
+          3000
+        ],
+        "indexBasis": "沿用当前固定客户端SpellDataValue技能等级索引1起、官方maxrank=5；保留索引0和6原值，不把它们录为可用等级。毫秒仅清理客户端二进制浮点误差，偏差小于0.001毫秒。",
+        "spellTags": [
+          "Trait_ImmobilizingCCSpell",
+          "Trait_DamageAbility",
+          "Trait_SignatureSpell"
+        ]
+      },
+      "target": "第一个实际命中的敌人；当前1V1分支只消费实际英雄命中",
+      "retainedOpenBranches": [
+        "莫甘娜被动治疗单独核对"
+      ],
+      "notInferred": [
+        "法术护盾与控制免疫的完整交互",
+        "韧性、解除与移动技能交互",
+        "事件生产或战斗运行已实现"
+      ]
+    },
+    {
+      "skillKey": "ivern_q",
+      "official": {
+        "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Ivern.json",
+        "sha256": "944b848a16ce275abfe73bff480a001eafdf014df9f849b436cba47231a95be3",
+        "version": "16.17.1",
+        "jsonPath": "data.Ivern.spells[0]",
+        "id": "IvernQ",
+        "maxrank": 5,
+        "description": "艾翁召唤出一束荆棘，对命中的敌方单位造成伤害和禁锢效果。艾翁的友军可以突进到禁锢目标附近。",
+        "tooltip": "艾翁召唤一束荆棘，造成<magicDamage>{{ totaldamage }}魔法伤害</magicDamage>并<status>禁锢</status>命中的第一个敌人{{ rootduration }}秒。友军在攻击<status>禁锢</status>的敌人时会冲刺到攻击距离处。<br /><br /><recast>再次施放：</recast>艾翁直接冲刺到这个被<status>禁锢</status>的敌人身边。<br /><br /><rules>命中非史诗级野怪会使<spellName>根深敌固</spellName>的冷却时间缩减50%。</rules>{{ spellmodifierdescriptionappend }}"
+      },
+      "client": {
+        "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Ivern.json.gz",
+        "sha256": "3e21fdf20084ca37263d8bc86ea2eb040cabba152161021e8e89054548948196",
+        "jsonPath": "Characters/Ivern/Spells/IvernQAbility/IvernQ.mSpell.DataValues[2]",
+        "name": "RootDuration",
+        "rawValues": [
+          1.5,
+          1.600000023841858,
+          1.7000000476837158,
+          1.7999999523162842,
+          1.899999976158142,
+          2,
+          2.0999999046325684
+        ],
+        "rankIndices": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "milliseconds": [
+          1600,
+          1700,
+          1800,
+          1900,
+          2000
+        ],
+        "indexBasis": "沿用当前固定客户端SpellDataValue技能等级索引1起、官方maxrank=5；保留索引0和6原值，不把它们录为可用等级。毫秒仅清理客户端二进制浮点误差，偏差小于0.001毫秒。",
+        "spellTags": [
+          "Trait_ImmobilizingCCSpell",
+          "Trait_SignatureSpell",
+          "Trait_DamageAbility",
+          "Trait_SignatureSpell",
+          "Trait_Ranged_StopsFirstHit"
+        ]
+      },
+      "target": "第一个实际命中的敌人；当前1V1分支只消费实际英雄命中",
+      "retainedOpenBranches": [
+        "再次施放与自身突进资格",
+        "友军突进不纳入当前1V1分支",
+        "非史诗野怪冷却返还不纳入当前英雄目标分支"
+      ],
+      "notInferred": [
+        "法术护盾与控制免疫的完整交互",
+        "韧性、解除与移动技能交互",
+        "事件生产或战斗运行已实现"
+      ]
+    },
+    {
+      "skillKey": "lux_q",
+      "official": {
+        "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Lux.json",
+        "sha256": "61c06ce0893ff509453ed9a00903d9be172deff81559ec858a2297526561e46f",
+        "version": "16.17.1",
+        "jsonPath": "data.Lux.spells[0]",
+        "id": "LuxLightBinding",
+        "maxrank": 5,
+        "description": "拉克丝释放一个光球，束缚并伤害最多两个敌方单位。",
+        "tooltip": "拉克丝朝目标地点发射一团光球，<status>束缚</status>前2名敌人{{ rootduration }}秒并对每个敌人造<magicDamage>{{ totaldamagett }}魔法伤害</magicDamage>。{{ spellmodifierdescriptionappend }}"
+      },
+      "client": {
+        "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Lux.json.gz",
+        "sha256": "2a85df897c85fcf958ec45ed153fe292e65cb40d0a812fd9fae78b0e5c928c47",
+        "jsonPath": "Characters/Lux/Spells/LuxLightBindingAbility/LuxLightBinding.mSpell.DataValues[2]",
+        "name": "RootDuration",
+        "rawValues": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "rankIndices": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "milliseconds": [
+          2000,
+          2000,
+          2000,
+          2000,
+          2000
+        ],
+        "indexBasis": "沿用当前固定客户端SpellDataValue技能等级索引1起、官方maxrank=5；保留索引0和6原值，不把它们录为可用等级。毫秒仅清理客户端二进制浮点误差，偏差小于0.001毫秒。",
+        "spellTags": [
+          "Trait_ImmobilizingCCSpell",
+          "Trait_DamageAbility",
+          "Trait_Low_Damage",
+          "Trait_AoE"
+        ]
+      },
+      "target": "前两个实际命中的敌人；当前1V1分支只消费实际英雄命中",
+      "retainedOpenBranches": [
+        "多目标穿透资格与实际命中由事件上下文确认"
+      ],
+      "notInferred": [
+        "法术护盾与控制免疫的完整交互",
+        "韧性、解除与移动技能交互",
+        "事件生产或战斗运行已实现"
+      ]
+    }
+  ],
+  "managementMapping": {
+    "kind": "ROOT",
+    "label": "禁锢",
+    "resultType": "STATUS_OPERATION",
+    "valueRule": null,
+    "durationLocation": "父效果lifecycle.durationValue",
+    "persistentBehavior": {
+      "moment": "PERSISTENT",
+      "valueReadMode": null,
+      "stackValueMode": null,
+      "reapplicationValueMode": null,
+      "periodicExecutionMode": null
+    },
+    "reference": "现有眩晕的无数值持续状态结构；ROOT是明确控制身份，不把名称相近视为等同眩晕或减速。"
+  },
+  "limits": "本文件核定身份和期限来源。完整目标现值、护盾粒度、命中条件及页面首次录入须另行准备和验证。"
+}
