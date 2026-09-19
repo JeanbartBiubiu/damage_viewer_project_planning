@@ -1936,7 +1936,7 @@ describe('skill effect lifecycle drafts', () => {
 
 describe('execute, hit-link and attack-link results', () => {
   it('exposes eighteen result types and chinese labels', () => {
-    expect(SKILL_EFFECT_RESULT_TYPES).toHaveLength(18);
+    expect(SKILL_EFFECT_RESULT_TYPES).toHaveLength(19);
     expect(SKILL_EFFECT_RESULT_TYPE_LABELS.EXECUTE).toBe('斩杀');
     expect(SKILL_EFFECT_RESULT_TYPE_LABELS.HIT_LINK_APPLICATION).toBe('命中联动应用');
     expect(SKILL_EFFECT_RESULT_TYPE_LABELS.ATTACK_LINK_APPLICATION).toBe('攻击联动应用');

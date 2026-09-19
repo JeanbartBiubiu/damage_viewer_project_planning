@@ -76,6 +76,7 @@ export const SKILL_EFFECT_RESULT_TYPES = [
   'DAMAGE_MODIFIER',
   'HEALING_MODIFIER',
   'SHIELD_RECEIVED_MODIFIER',
+  'ATTACK_TIMER_RESET',
   'DAMAGE_IMMUNITY',
   'HEALTH_FLOOR',
   'SPELL_SHIELD',
@@ -97,6 +98,7 @@ export const SKILL_EFFECT_RESULT_TYPE_LABELS = {
   DAMAGE_MODIFIER: '伤害修正',
   HEALING_MODIFIER: '治疗修正',
   SHIELD_RECEIVED_MODIFIER: '收到护盾修正',
+  ATTACK_TIMER_RESET: '普攻计时重置',
   DAMAGE_IMMUNITY: '伤害免疫',
   HEALTH_FLOOR: '生命下限',
   SPELL_SHIELD: '法术护盾',
@@ -913,6 +915,7 @@ export function skillEffectResultToDraft(result: SkillEffectResult): SkillEffect
       break;
     case 'DIRECT_HEAL':
     case 'SPELL_SHIELD':
+    case 'ATTACK_TIMER_RESET':
     case 'HIT_LINK_APPLICATION':
     case 'ATTACK_LINK_APPLICATION':
       break;
@@ -2450,6 +2453,13 @@ function validateAndBuildResult(
         valueRule: null,
         detail: {}
       };
+    case 'ATTACK_TIMER_RESET':
+      return {
+        ...base,
+        resultType: 'ATTACK_TIMER_RESET',
+        valueRule: null,
+        detail: {}
+      };
     case 'EXECUTE':
       return {
         ...base,
@@ -2885,6 +2895,11 @@ function validateTypeSpecificFields(
       );
       if (draft.modifierZoneKey.trim()) {
         fieldErrors.modifierZoneKey = '该结果不能选择乘区。';
+      }
+      break;
+    case 'ATTACK_TIMER_RESET':
+      if (draft.modifierZoneKey.trim()) {
+        fieldErrors.modifierZoneKey = '普攻计时重置不能选择乘区。';
       }
       break;
     default: {
@@ -3569,6 +3584,7 @@ function cloneResultRequest(result: SkillEffectResultRequest): SkillEffectResult
         detail: { ...result.detail }
       };
     case 'SPELL_SHIELD':
+    case 'ATTACK_TIMER_RESET':
       return { ...result, lifecycleBehavior, valueRule: null, detail: {} };
     case 'ATTRIBUTE_CHANGE':
       return {

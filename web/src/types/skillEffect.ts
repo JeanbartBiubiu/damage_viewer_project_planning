@@ -11,6 +11,7 @@ export type SkillEffectResultType =
   | 'DAMAGE_MODIFIER'
   | 'HEALING_MODIFIER'
   | 'SHIELD_RECEIVED_MODIFIER'
+  | 'ATTACK_TIMER_RESET'
   | 'DAMAGE_IMMUNITY'
   | 'HEALTH_FLOOR'
   | 'SPELL_SHIELD'
@@ -329,6 +330,12 @@ export type SkillEffectSpellShieldResult = SkillEffectResultBase & {
   detail: SkillEffectEmptyDetail;
 };
 
+export type SkillEffectAttackTimerResetResult = SkillEffectResultBase & {
+  resultType: 'ATTACK_TIMER_RESET';
+  valueRule: null;
+  detail: SkillEffectEmptyDetail;
+};
+
 export type SkillEffectExecuteResult = SkillEffectResultBase & {
   resultType: 'EXECUTE';
   valueRule: SkillEffectValueRule;
@@ -368,6 +375,7 @@ export type SkillEffectResult =
   | SkillEffectDamageImmunityResult
   | SkillEffectHealthFloorResult
   | SkillEffectSpellShieldResult
+  | SkillEffectAttackTimerResetResult
   | SkillEffectExecuteResult
   | SkillEffectHitLinkApplicationResult
   | SkillEffectAttackLinkApplicationResult

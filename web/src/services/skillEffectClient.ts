@@ -24,6 +24,7 @@ const RESULT_TYPES = new Set<SkillEffectResultType>([
   'DAMAGE_MODIFIER',
   'HEALING_MODIFIER',
   'SHIELD_RECEIVED_MODIFIER',
+  'ATTACK_TIMER_RESET',
   'DAMAGE_IMMUNITY',
   'HEALTH_FLOOR',
   'SPELL_SHIELD',
@@ -224,6 +225,31 @@ function assertResult(value: unknown, path: string): SkillEffectResult {
     }
   }
 
+  if (resultType === 'ATTACK_TIMER_RESET') {
+    assertExactDetailKeys(detail, [], path);
+    if (value.valueRule !== null) protocolError(`${path}.valueRule`);
+    const behavior = value.lifecycleBehavior;
+    if (isRecord(behavior)) {
+      assertExactKeys(behavior, [
+        'moment', 'valueReadMode', 'stackValueMode', 'reapplicationValueMode', 'periodicExecutionMode'
+      ], `${path}.lifecycleBehavior`);
+      assertEnum(behavior.moment, new Set([
+        'APPLICATION', 'FULL_STACKS', 'PERIODIC', 'NATURAL_END', 'EARLY_REMOVE'
+      ]), `${path}.lifecycleBehavior.moment`);
+      if (behavior.valueReadMode !== null || behavior.stackValueMode !== null
+        || behavior.reapplicationValueMode !== null) {
+        protocolError(`${path}.lifecycleBehavior`);
+      }
+      if (behavior.moment === 'PERIODIC') {
+        assertEnum(behavior.periodicExecutionMode, new Set([
+          'ONCE_PER_INSTANCE', 'ONCE_PER_ACTIVE_STACK'
+        ]), `${path}.lifecycleBehavior.periodicExecutionMode`);
+      } else if (behavior.periodicExecutionMode !== null) {
+        protocolError(`${path}.lifecycleBehavior.periodicExecutionMode`);
+      }
+    }
+    return value as SkillEffectResult;
+  }
   if (resultType === 'SPELL_SHIELD') {
     if (value.valueRule !== null) protocolError(`${path}.valueRule`);
     if (Object.keys(detail).length !== 0) protocolError(`${path}.detail`);
@@ -415,6 +441,25 @@ export function parseSkillEffect(value: unknown): SkillEffect {
   assertNullableString(value.description, 'effect.description');
   assertNumber(value.sortOrder, 'effect.sortOrder');
   if (value.lifecycle !== null && !isRecord(value.lifecycle)) protocolError('effect.lifecycle');
+  value.results.forEach((item, index) => {
+    if (!isRecord(item) || item.resultType !== 'ATTACK_TIMER_RESET') return;
+    const behavior = item.lifecycleBehavior;
+    if ((value.lifecycle === null) !== (behavior === null)) {
+      protocolError(`effect.results[${index}].lifecycleBehavior`);
+    }
+    if (!isRecord(behavior) || !isRecord(value.lifecycle)) return;
+    if (behavior.moment === 'NATURAL_END' && !isNumericValue(value.lifecycle.durationValue)) {
+      protocolError('effect.lifecycle.durationValue');
+    }
+    if (behavior.moment === 'PERIODIC'
+      && (!isNumericValue(value.lifecycle.periodicIntervalValue) || value.lifecycle.firstPeriodicExecution == null)) {
+      protocolError('effect.lifecycle.periodicIntervalValue');
+    }
+    if (behavior.moment === 'PERIODIC') {
+      assertEnum(value.lifecycle.firstPeriodicExecution, new Set(['IMMEDIATE', 'AFTER_INTERVAL']),
+        'effect.lifecycle.firstPeriodicExecution');
+    }
+  });
   if (value.results.some((item) => isRecord(item) && item.resultType === 'STATUS_OPERATION' && item.valueRule !== null)
     && (!isRecord(value.lifecycle) || !isNumericValue(value.lifecycle.durationValue))) {
     protocolError('effect.lifecycle.durationValue');

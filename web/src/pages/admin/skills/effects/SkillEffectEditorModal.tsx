@@ -216,6 +216,8 @@ function referenceSummary(
       return numericValueSummary(result.value, names?.formulas);
     case 'SPELL_SHIELD':
       return '—';
+    case 'ATTACK_TIMER_RESET':
+      return '清零普通攻击间隔的剩余等待';
     default: {
       const unexpected: never = result.resultType;
       return unexpected;
