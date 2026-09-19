@@ -1,0 +1,148 @@
+{
+  "at": "2026-09-19T07:37:24.749Z",
+  "status": "PASS",
+  "executionMode": "BROWSER_UI_ONLY",
+  "hashes": {
+    "plan": "b91cc93b12c1d255d060a0a1ca8e31b0bfbc430e3ca22b90f99769987ceb9ed9",
+    "baseline": "b0031df4a44cabffcc291b224b41689ac9909b8f04ffdb2c6c5723637a5346af"
+  },
+  "businessWritesAttempted": 2,
+  "operations": [
+    {
+      "method": "BROWSER_FORM_SAVE",
+      "route": "/skills/jinx_w/effects/primary_hit",
+      "postResponseCaptured": false,
+      "readback": {
+        "createdAt": "2026-09-19T03:40:27.083781Z",
+        "description": "本轮1V1根技能本体实际命中敌方英雄的直接物理伤害；引用已有公式，控制、回复、印记、球位置与其他联动另行处理。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "金克丝·震荡电磁波！本体直接伤害",
+        "results": [
+          {
+            "description": "引用同技能damage，保留已有属性口径和等级系数。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "physics",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "物理伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "SKILL",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "jinx_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T07:37:45.729984Z"
+      }
+    },
+    {
+      "method": "BROWSER_FORM_SAVE",
+      "route": "/skills/quinn_q/effects/primary_hit",
+      "postResponseCaptured": false,
+      "readback": {
+        "createdAt": "2026-09-19T03:40:30.389354Z",
+        "description": "本轮1V1根技能本体实际命中敌方英雄的直接物理伤害；引用已有公式，控制、回复、印记、球位置与其他联动另行处理。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "奎因·炫目攻势本体直接伤害",
+        "results": [
+          {
+            "description": "引用同技能physical_damage，保留已有属性口径和等级系数。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "physics",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "物理伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "SKILL",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "physical_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "quinn_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T07:41:38.811284Z"
+      }
+    }
+  ],
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/jinx_w/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jinx_w/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/quinn_q/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/quinn_q/effects/primary_hit",
+      "status": 200
+    }
+  ],
+  "pendingRoute": null,
+  "finishedAt": "2026-09-19T07:42:02.257Z"
+}

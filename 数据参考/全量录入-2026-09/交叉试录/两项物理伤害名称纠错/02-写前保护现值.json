@@ -1,0 +1,314 @@
+{
+  "at": "2026-09-19T07:33:21.202Z",
+  "values": {
+    "/skills/jinx_w/effects/primary_hit": {
+      "createdAt": "2026-09-19T03:40:27.083781Z",
+      "description": "本轮1V1根技能本体实际命中敌方英雄的直接物理伤害；引用已有公式，控制、回复、印记、球位置与其他联动另行处理。",
+      "effectKey": "primary_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "金克丝·震荡电磁波！本体直接伤害",
+      "results": [
+        {
+          "description": "引用同技能damage，保留已有属性口径和等级系数。",
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "physics",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": [
+              {
+                "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                "efficiencyValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "vampType": "OMNIVAMP"
+              }
+            ]
+          },
+          "lifecycleBehavior": null,
+          "name": "魔法伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "SKILL",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "jinx_w",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-19T03:40:27.083781Z"
+    },
+    "/skills/jinx_w/effects": [
+      {
+        "createdAt": "2026-09-09T04:27:46.607835Z",
+        "description": "仅绑定官方基础法力消耗；额外持续法力或真实扣除时点单独记录。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "jinx_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T04:27:46.607835Z"
+      },
+      {
+        "createdAt": "2026-09-19T03:40:27.083781Z",
+        "description": "本轮1V1根技能本体实际命中敌方英雄的直接物理伤害；引用已有公式，控制、回复、印记、球位置与其他联动另行处理。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "金克丝·震荡电磁波！本体直接伤害",
+        "resultCount": 1,
+        "skillKey": "jinx_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T03:40:27.083781Z"
+      }
+    ],
+    "/skills/jinx_w/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "消费jinx_w根技能本体的合法实际英雄命中并执行primary_hit；不从使用、等待结束、位置变化或控制状态生成伤害命中。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "金克丝·震荡电磁波！本体实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T03:40:28.501152Z"
+      }
+    ],
+    "/skills/jinx_w/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "execute_primary_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "primary_hit"
+          },
+          "name": "执行金克丝·震荡电磁波！直接伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "description": "消费jinx_w根技能本体的合法实际英雄命中并执行primary_hit；不从使用、等待结束、位置变化或控制状态生成伤害命中。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "jinx_w",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "金克丝·震荡电磁波！本体实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    },
+    "/skills/quinn_q/effects/primary_hit": {
+      "createdAt": "2026-09-19T03:40:30.389354Z",
+      "description": "本轮1V1根技能本体实际命中敌方英雄的直接物理伤害；引用已有公式，控制、回复、印记、球位置与其他联动另行处理。",
+      "effectKey": "primary_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "奎因·炫目攻势本体直接伤害",
+      "results": [
+        {
+          "description": "引用同技能physical_damage，保留已有属性口径和等级系数。",
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "physics",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": [
+              {
+                "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                "efficiencyValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "vampType": "OMNIVAMP"
+              }
+            ]
+          },
+          "lifecycleBehavior": null,
+          "name": "魔法伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "SKILL",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "physical_damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "quinn_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-19T03:40:30.389354Z"
+    },
+    "/skills/quinn_q/effects": [
+      {
+        "createdAt": "2026-09-19T03:40:30.389354Z",
+        "description": "本轮1V1根技能本体实际命中敌方英雄的直接物理伤害；引用已有公式，控制、回复、印记、球位置与其他联动另行处理。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "奎因·炫目攻势本体直接伤害",
+        "resultCount": 1,
+        "skillKey": "quinn_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T03:40:30.389354Z"
+      }
+    ],
+    "/skills/quinn_q/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "消费quinn_q根技能本体的合法实际英雄命中并执行primary_hit；不从使用、等待结束、位置变化或控制状态生成伤害命中。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "奎因·炫目攻势本体实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T03:40:31.823938Z"
+      }
+    ],
+    "/skills/quinn_q/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "execute_primary_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "primary_hit"
+          },
+          "name": "执行奎因·炫目攻势直接伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "description": "消费quinn_q根技能本体的合法实际英雄命中并执行primary_hit；不从使用、等待结束、位置变化或控制状态生成伤害命中。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "quinn_q",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "奎因·炫目攻势本体实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/jinx_w/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jinx_w/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jinx_w/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jinx_w/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/quinn_q/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/quinn_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/quinn_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/quinn_q/trigger-rules/actual_hit",
+      "status": 200
+    }
+  ],
+  "businessWrites": 0
+}
