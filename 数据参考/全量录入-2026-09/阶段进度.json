@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-19T02:04:51.703Z",
+  "generatedAt": "2026-09-19T02:16:13.405Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -10208,6 +10208,38 @@
         "sha256": "6e57be427c10604ffaa44690263d1fc801979439018000af29d75b8cf679f1c1",
         "commit": "23dac26f"
       }
+    },
+    "sixFollowupUseProcessBackfill": {
+      "at": "2026-09-19T02:16:13.405Z",
+      "status": "六项普通使用12组成已保存并独立回读，页面与剩余机制待续",
+      "skills": [
+        "kennen_q",
+        "teemo_q",
+        "gragas_e",
+        "gragas_r",
+        "lissandra_q",
+        "lissandra_w"
+      ],
+      "created": {
+        "processes": 6,
+        "triggerRules": 6
+      },
+      "prepareGETs": 147,
+      "writerGETs": 171,
+      "writerPOSTs": 12,
+      "immediateReadbacks": 12,
+      "independentGETs": 147,
+      "unchangedResponsesIncludingTimestamps": 123,
+      "expectedChangedCollections": 12,
+      "arithmeticCases": 84,
+      "browser": "NOT_RUN_BROWSER_UNAVAILABLE",
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/六项后续技能使用流程补录/09-证据清单.json",
+        "sha256": "1511e8b0516176e4b489275b9192a6ea08e6df24506b7e53b36ace449c3ed581",
+        "commit": "778a61a9"
+      }
     }
   },
   "runtimeValidation": "未执行",
@@ -10537,6 +10569,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/七项普通魔法命中伤害补录/09-证据清单.json",
         "sha256": "6e57be427c10604ffaa44690263d1fc801979439018000af29d75b8cf679f1c1",
         "commit": "23dac26f"
+      },
+      "sixFollowupUseProcessBackfill": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/六项后续技能使用流程补录/09-证据清单.json",
+        "sha256": "1511e8b0516176e4b489275b9192a6ea08e6df24506b7e53b36ace449c3ed581",
+        "commit": "778a61a9"
       }
     },
     "coverage": {
@@ -17852,7 +17890,7 @@
         "name": "古拉加斯·肉弹冲击",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已复用原公式补齐直接魔法伤害与实际命中入口，并独立回读；位移、击退及眩晕、命中冷却返还、法力消耗与普通冷却使用入口、代表页面验收继续处理，其他原来源未决项保留，不计整技能管理完成。",
+        "reason": "普通使用过程和入口已接通基础资源、冷却及施法延迟，原直接伤害与实际命中完整保留并独立回读；位移、击退及眩晕、命中冷却返还、代表页面验收继续处理，不计整技能管理完成。",
         "pendingCounts": {
           "source": 0,
           "system": 1,
@@ -17864,20 +17902,20 @@
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
-          "sevenDirectMagicHitBackfill"
+          "sevenDirectMagicHitBackfill",
+          "sixFollowupUseProcessBackfill"
         ],
         "currentComponentCounts": {
           "parameters": 7,
           "formulas": 1,
           "effects": 2,
-          "processes": 0,
+          "processes": 1,
           "internalStates": 0,
-          "triggerRules": 1
+          "triggerRules": 2
         },
         "remainingBranches": [
           "位移、击退及眩晕",
           "命中冷却返还",
-          "法力消耗与普通冷却使用入口",
           "代表页面验收"
         ],
         "authoredDirectHit": {
@@ -17888,6 +17926,13 @@
           "vampType": "OMNIVAMP",
           "basisOutputKind": "POST_DEFENSE_DAMAGE",
           "efficiency": 1,
+          "browser": "待验"
+        },
+        "authoredUseEntry": {
+          "processKey": "cast",
+          "ruleKey": "on_used",
+          "costEffectKey": "mana_cost",
+          "httpReadback": "PASS",
           "browser": "待验"
         }
       },
@@ -17900,7 +17945,7 @@
         "name": "古拉加斯·爆破酒桶",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已复用原公式补齐直接魔法伤害与实际命中入口，并独立回读；击退、法力消耗与普通冷却使用入口、代表页面验收继续处理，其他原来源未决项保留，不计整技能管理完成。",
+        "reason": "普通使用过程和入口已接通基础资源、冷却及施法延迟，原直接伤害与实际命中完整保留并独立回读；击退、代表页面验收继续处理，不计整技能管理完成。",
         "pendingCounts": {
           "source": 0,
           "system": 1,
@@ -17912,19 +17957,19 @@
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
-          "sevenDirectMagicHitBackfill"
+          "sevenDirectMagicHitBackfill",
+          "sixFollowupUseProcessBackfill"
         ],
         "currentComponentCounts": {
           "parameters": 6,
           "formulas": 1,
           "effects": 2,
-          "processes": 0,
+          "processes": 1,
           "internalStates": 0,
-          "triggerRules": 1
+          "triggerRules": 2
         },
         "remainingBranches": [
           "击退",
-          "法力消耗与普通冷却使用入口",
           "代表页面验收"
         ],
         "authoredDirectHit": {
@@ -17935,6 +17980,13 @@
           "vampType": "OMNIVAMP",
           "basisOutputKind": "POST_DEFENSE_DAMAGE",
           "efficiency": 1,
+          "browser": "待验"
+        },
+        "authoredUseEntry": {
+          "processKey": "cast",
+          "ruleKey": "on_used",
+          "costEffectKey": "mana_cost",
+          "httpReadback": "PASS",
           "browser": "待验"
         }
       },
@@ -20638,7 +20690,7 @@
         "name": "凯南·奥义！千鸟",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已复用原公式补齐直接魔法伤害与实际命中入口，并独立回读；被动印记、能量消耗与普通冷却使用入口、代表页面验收继续处理，其他原来源未决项保留，不计整技能管理完成。",
+        "reason": "普通使用过程和入口已接通基础资源、冷却及施法延迟，原直接伤害与实际命中完整保留并独立回读；被动印记、代表页面验收、原批次其余来源未决项逐项核对继续处理，不计整技能管理完成。",
         "pendingCounts": {
           "source": 1,
           "system": 0,
@@ -20650,19 +20702,19 @@
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
           "heroSourceInventory",
-          "sevenDirectMagicHitBackfill"
+          "sevenDirectMagicHitBackfill",
+          "sixFollowupUseProcessBackfill"
         ],
         "currentComponentCounts": {
           "parameters": 5,
           "formulas": 1,
           "effects": 2,
-          "processes": 0,
+          "processes": 1,
           "internalStates": 0,
-          "triggerRules": 1
+          "triggerRules": 2
         },
         "remainingBranches": [
           "被动印记",
-          "能量消耗与普通冷却使用入口",
           "代表页面验收",
           "原批次其余来源未决项逐项核对"
         ],
@@ -20674,6 +20726,13 @@
           "vampType": "OMNIVAMP",
           "basisOutputKind": "POST_DEFENSE_DAMAGE",
           "efficiency": 1,
+          "browser": "待验"
+        },
+        "authoredUseEntry": {
+          "processKey": "cast",
+          "ruleKey": "on_used",
+          "costEffectKey": "energy_cost",
+          "httpReadback": "PASS",
           "browser": "待验"
         }
       },
@@ -21814,7 +21873,7 @@
         "name": "丽桑卓·寒冰碎片",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已复用原公式补齐直接魔法伤害与实际命中入口，并独立回读；减速、法力消耗与普通冷却使用入口、代表页面验收继续处理，其他原来源未决项保留，不计整技能管理完成。",
+        "reason": "普通使用过程和入口已接通基础资源、冷却及施法延迟，原直接伤害与实际命中完整保留并独立回读；减速、代表页面验收继续处理，不计整技能管理完成。",
         "pendingCounts": {
           "source": 0,
           "system": 1,
@@ -21826,19 +21885,19 @@
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
           "heroSourceInventory",
-          "sevenDirectMagicHitBackfill"
+          "sevenDirectMagicHitBackfill",
+          "sixFollowupUseProcessBackfill"
         ],
         "currentComponentCounts": {
           "parameters": 7,
           "formulas": 1,
           "effects": 2,
-          "processes": 0,
+          "processes": 1,
           "internalStates": 0,
-          "triggerRules": 1
+          "triggerRules": 2
         },
         "remainingBranches": [
           "减速",
-          "法力消耗与普通冷却使用入口",
           "代表页面验收"
         ],
         "authoredDirectHit": {
@@ -21849,6 +21908,13 @@
           "vampType": "OMNIVAMP",
           "basisOutputKind": "POST_DEFENSE_DAMAGE",
           "efficiency": 1,
+          "browser": "待验"
+        },
+        "authoredUseEntry": {
+          "processKey": "cast",
+          "ruleKey": "on_used",
+          "costEffectKey": "mana_cost",
+          "httpReadback": "PASS",
           "browser": "待验"
         }
       },
@@ -21861,7 +21927,7 @@
         "name": "丽桑卓·冰霜之环",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已复用原公式补齐直接魔法伤害与实际命中入口，并独立回读；禁锢、法力消耗与普通冷却使用入口、代表页面验收继续处理，其他原来源未决项保留，不计整技能管理完成。",
+        "reason": "普通使用过程和入口已接通基础资源、冷却及施法延迟，原直接伤害与实际命中完整保留并独立回读；禁锢、代表页面验收继续处理，不计整技能管理完成。",
         "pendingCounts": {
           "source": 0,
           "system": 1,
@@ -21873,19 +21939,19 @@
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
           "heroSourceInventory",
-          "sevenDirectMagicHitBackfill"
+          "sevenDirectMagicHitBackfill",
+          "sixFollowupUseProcessBackfill"
         ],
         "currentComponentCounts": {
           "parameters": 6,
           "formulas": 1,
           "effects": 2,
-          "processes": 0,
+          "processes": 1,
           "internalStates": 0,
-          "triggerRules": 1
+          "triggerRules": 2
         },
         "remainingBranches": [
           "禁锢",
-          "法力消耗与普通冷却使用入口",
           "代表页面验收"
         ],
         "authoredDirectHit": {
@@ -21896,6 +21962,13 @@
           "vampType": "OMNIVAMP",
           "basisOutputKind": "POST_DEFENSE_DAMAGE",
           "efficiency": 1,
+          "browser": "待验"
+        },
+        "authoredUseEntry": {
+          "processKey": "cast",
+          "ruleKey": "on_used",
+          "costEffectKey": "mana_cost",
+          "httpReadback": "PASS",
           "browser": "待验"
         }
       },
@@ -21920,7 +21993,8 @@
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
           "heroSourceInventory",
-          "sevenDirectMagicHitBackfill"
+          "sevenDirectMagicHitBackfill",
+          "sixFollowupUseProcessBackfill"
         ],
         "currentComponentCounts": {
           "parameters": 5,
@@ -21945,6 +22019,10 @@
           "basisOutputKind": "POST_DEFENSE_DAMAGE",
           "efficiency": 1,
           "browser": "待验"
+        },
+        "useRegistrationDeferred": {
+          "reason": "再次施放传送的资源和冷却阶段资格另核，避免重复收费；直接飞爪伤害已独立补录。",
+          "evidence": "sixFollowupUseProcessBackfill"
         }
       },
       {
@@ -29788,7 +29866,7 @@
         "name": "提莫·致盲吹箭",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已复用原公式补齐直接魔法伤害与实际命中入口，并独立回读；致盲、法力消耗与普通冷却使用入口、代表页面验收继续处理，其他原来源未决项保留，不计整技能管理完成。",
+        "reason": "普通使用过程和入口已接通基础资源、冷却及施法延迟，原直接伤害与实际命中完整保留并独立回读；致盲、代表页面验收继续处理，不计整技能管理完成。",
         "pendingCounts": {
           "source": 0,
           "system": 1,
@@ -29800,19 +29878,19 @@
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
-          "sevenDirectMagicHitBackfill"
+          "sevenDirectMagicHitBackfill",
+          "sixFollowupUseProcessBackfill"
         ],
         "currentComponentCounts": {
           "parameters": 6,
           "formulas": 1,
           "effects": 2,
-          "processes": 0,
+          "processes": 1,
           "internalStates": 0,
-          "triggerRules": 1
+          "triggerRules": 2
         },
         "remainingBranches": [
           "致盲",
-          "法力消耗与普通冷却使用入口",
           "代表页面验收"
         ],
         "authoredDirectHit": {
@@ -29823,6 +29901,13 @@
           "vampType": "OMNIVAMP",
           "basisOutputKind": "POST_DEFENSE_DAMAGE",
           "efficiency": 1,
+          "browser": "待验"
+        },
+        "authoredUseEntry": {
+          "processKey": "cast",
+          "ruleKey": "on_used",
+          "costEffectKey": "mana_cost",
+          "httpReadback": "PASS",
           "browser": "待验"
         }
       },
