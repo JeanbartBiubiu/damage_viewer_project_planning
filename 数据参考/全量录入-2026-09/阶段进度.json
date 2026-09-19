@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-19T01:06:17.243Z",
+  "generatedAt": "2026-09-19T01:37:46.525Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -10141,6 +10141,39 @@
         "sha256": "1b53138a25f0602c4c48c86f5b6171346a5bff2e9e425fa00bc8d424df2a8bfb",
         "commit": "24d710d3"
       }
+    },
+    "rootStatusKindCorrection": {
+      "at": "2026-09-19T01:37:46.525Z",
+      "status": "禁锢身份代码与原库约束增量完成，首次页面及三对象补录待续",
+      "skills": [
+        "morgana_q",
+        "ivern_q",
+        "lux_q"
+      ],
+      "createdBusinessObjects": 0,
+      "logicalTables": 27,
+      "effectsPreserved": 923,
+      "referencesPreserved": 9026,
+      "backendTests": 975,
+      "webTests": 656,
+      "migrationExecutions": 1,
+      "independentDBSelects": 7,
+      "finalServiceGETs": 5,
+      "browser": "NOT_RUN_BROWSER_UNAVAILABLE",
+      "runtimeValidation": "未执行",
+      "frontend": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/禁锢状态前端增量/09-证据清单.json",
+        "commit": "3d6e8a41",
+        "sha256": "2391165a0dce661e1a86afdba92243bcd94b9e11190df89f062d710782d9f4a4"
+      },
+      "backend": {
+        "worktree": "damage_backend_dev",
+        "relativePath": "数据参考/全量录入-2026-09/禁锢状态后端增量/09-证据清单.json",
+        "commit": "673db0ae",
+        "sha256": "c38d5e2b58647f5a00d2c581e266559bf9a5ba83dee7cbdf6008730b89d36d07"
+      },
+      "sourceEvidence": "数据参考/全量录入-2026-09/禁锢状态补齐/01-来源核对.json"
     }
   },
   "runtimeValidation": "未执行",
@@ -10459,6 +10492,11 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/五项已接施法流程说明整理/09-证据清单.json",
         "sha256": "3fac68342269ee517b33f8f53c91af47da33ab35b4df3043c1ca63d0100466ae",
         "commit": "581178a0"
+      },
+      "rootStatusKindCorrection": {
+        "worktree": "damage_viewer_project_planning",
+        "relativePath": "数据参考/全量录入-2026-09/禁锢状态补齐/03-分层验收记录.json",
+        "sha256": "355e0ce65d1b98a30d9d81511d797412af5cfcd57d7f252b1f996d1e869186e3"
       }
     },
     "coverage": {
@@ -18661,7 +18699,8 @@
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
           "fourFollowupHitDamageVampCorrection",
-          "ahriEDianaEAsheRUseBackfill"
+          "ahriEDianaEAsheRUseBackfill",
+          "rootStatusKindCorrection"
         ],
         "currentComponentCounts": {
           "parameters": 12,
@@ -18682,6 +18721,12 @@
         "useRegistrationDeferred": {
           "reason": "首次投射与再次冲刺的使用事件资格未核定，避免重复收费或重复登记整轮冷却。",
           "evidence": "ahriEDianaEAsheRUseBackfill"
+        },
+        "rootStatusProgress": {
+          "statusKind": "ROOT",
+          "managementCapability": "代码与数据库约束通过",
+          "authoredStatusCount": 0,
+          "browser": "待首次录入"
         }
       },
       {
@@ -22173,7 +22218,8 @@
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
           "heroSourceInventory",
-          "fiveMageUseRegistrationBackfill"
+          "fiveMageUseRegistrationBackfill",
+          "rootStatusKindCorrection"
         ],
         "historicalPendingCounts": {
           "source": 1,
@@ -22201,6 +22247,12 @@
           "processes": 1,
           "internalStates": 0,
           "triggerRules": 2
+        },
+        "rootStatusProgress": {
+          "statusKind": "ROOT",
+          "managementCapability": "代码与数据库约束通过",
+          "authoredStatusCount": 0,
+          "browser": "待首次录入"
         }
       },
       {
@@ -23451,7 +23503,7 @@
         "name": "莫甘娜·暗之禁锢",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "基础使用消耗、普通冷却及一次实际命中魔法伤害均已保存并独立回读；禁锢状态身份和持续接线、旧说明及代表页面待续，不计整技能管理完成。",
+        "reason": "基础使用消耗、普通冷却、实际命中伤害及消耗说明已保存并独立回读；禁锢身份能力已补齐，目录首次页面创建、持续效果与命中接线及代表页面待续，不计整技能管理完成。",
         "batchKey": "heroThirtyFirstBatch",
         "candidateSha256": "bf26b9374fc305af52e7298934a54244aec5bec0166017ae5a99a38a2019ddcc",
         "evidenceRefs": [
@@ -23459,7 +23511,8 @@
           "heroSourceInventory",
           "fiveMageUseRegistrationBackfill",
           "morganaQActualDamageBackfill",
-          "fiveRecentUseDescriptionCleanup"
+          "fiveRecentUseDescriptionCleanup",
+          "rootStatusKindCorrection"
         ],
         "historicalPendingCounts": {
           "source": 0,
@@ -23468,8 +23521,8 @@
           "other": 0
         },
         "remainingBranches": [
-          "禁锢控制身份、持续及合法命中接线",
-          "代表页面验收及过时说明整理"
+          "禁锢目录首次页面创建、持续效果及合法命中接线",
+          "代表页面验收"
         ],
         "remainingBranchesBoundary": "仅更新本次已录使用登记；原候选继续作为其他未完成分支依据，不重放旧请求。空间辅助参数按原范围判断，不自动扩大为1V1完成前置。",
         "authoredCostCooldown": {
@@ -23504,6 +23557,12 @@
           "changedDescriptions": 2,
           "numericAndProcessChanges": 0,
           "browser": "待验"
+        },
+        "rootStatusProgress": {
+          "statusKind": "ROOT",
+          "managementCapability": "代码与数据库约束通过",
+          "authoredStatusCount": 0,
+          "browser": "待首次录入"
         }
       },
       {
