@@ -1,0 +1,345 @@
+{
+  "title": "厄加特Q普通减速首次页面补录",
+  "planRevision": 1,
+  "at": "2026-09-19T06:53:26.159Z",
+  "executionMode": "BROWSER_UI_ONLY",
+  "targets": [
+    {
+      "skillKey": "urgot_q",
+      "ownerKey": "champion_urgot"
+    }
+  ],
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/urgot_q/effects",
+      "detailRoute": "/skills/urgot_q/effects/corrosive_charge_slow",
+      "body": {
+        "effectKey": "corrosive_charge_slow",
+        "name": "腐蚀电荷普通减速",
+        "description": "本技能实际命中本轮敌方英雄且同次命中明确未被法术护盾阻挡时施加普通移动减速；强度读取原百分数点参数并乘0.01，期限1250毫秒。重施及不同普通减速来源按当前统一契约处理。",
+        "sortOrder": 30,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "slow_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE_TARGET",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "slow",
+            "name": "腐蚀电荷减速",
+            "resultType": "STATUS_OPERATION",
+            "target": "TARGET",
+            "description": "施加时读取普通减速比例，固定上下界0至1；持续期间贡献该比例，期限随父效果结束。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": "RESULT",
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "slow_percent_points"
+              },
+              "fixedMultiplier": 0.01,
+              "fixedMinValue": 0,
+              "fixedMaxValue": 1
+            },
+            "detail": {
+              "statusKey": "movement_slow",
+              "operation": "APPLY"
+            }
+          }
+        ]
+      },
+      "expectedReadback": {
+        "effectKey": "corrosive_charge_slow",
+        "name": "腐蚀电荷普通减速",
+        "description": "本技能实际命中本轮敌方英雄且同次命中明确未被法术护盾阻挡时施加普通移动减速；强度读取原百分数点参数并乘0.01，期限1250毫秒。重施及不同普通减速来源按当前统一契约处理。",
+        "sortOrder": 30,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "slow_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE_TARGET",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "slow",
+            "name": "腐蚀电荷减速",
+            "resultType": "STATUS_OPERATION",
+            "target": "TARGET",
+            "description": "施加时读取普通减速比例，固定上下界0至1；持续期间贡献该比例，期限随父效果结束。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": "RESULT",
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "slow_percent_points"
+              },
+              "fixedMultiplier": 0.01,
+              "fixedMinValue": 0,
+              "fixedMaxValue": 1
+            },
+            "detail": {
+              "statusKey": "movement_slow",
+              "operation": "APPLY"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/urgot_q/trigger-rules",
+      "detailRoute": "/skills/urgot_q/trigger-rules/apply_slow_on_unblocked_hit",
+      "body": {
+        "ruleKey": "apply_slow_on_unblocked_hit",
+        "name": "实际命中未受阻挡时减速",
+        "description": "只在本技能实际命中明确敌方英雄且同次法术护盾阻挡值为0时执行普通减速。缺少判定不能默认0；本规则不生成爆炸命中、控制免疫或实际移动速度结算。",
+        "sortOrder": 30,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "urgot_q"
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "slow_eligible",
+            "name": "本次普通减速可施加",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "sortOrder": 20,
+                "detail": {}
+              },
+              {
+                "conditionKey": "not_spell_shield_blocked",
+                "conditionType": "EVENT_VALUE_COMPARE",
+                "sortOrder": 30,
+                "detail": {
+                  "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED",
+                  "comparator": "EQ",
+                  "comparisonValue": {
+                    "kind": "FIXED",
+                    "value": 0
+                  }
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "apply_slow",
+            "name": "施加本次普通减速",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "corrosive_charge_slow"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "apply_slow_on_unblocked_hit",
+        "name": "实际命中未受阻挡时减速",
+        "description": "只在本技能实际命中明确敌方英雄且同次法术护盾阻挡值为0时执行普通减速。缺少判定不能默认0；本规则不生成爆炸命中、控制免疫或实际移动速度结算。",
+        "sortOrder": 30,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "urgot_q",
+            "useKind": null
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "slow_eligible",
+            "name": "本次普通减速可施加",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "sortOrder": 20,
+                "detail": {}
+              },
+              {
+                "conditionKey": "not_spell_shield_blocked",
+                "conditionType": "EVENT_VALUE_COMPARE",
+                "sortOrder": 30,
+                "detail": {
+                  "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED",
+                  "comparator": "EQ",
+                  "comparisonValue": {
+                    "kind": "FIXED",
+                    "value": 0
+                  }
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "apply_slow",
+            "name": "施加本次普通减速",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "corrosive_charge_slow"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "sourceFiles": [
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/厄加特Q减速首次页面补录/00-固定来源核对.json",
+      "sha256": "625f4d29219f98f0349441c9c72d3b20b86a47a91f9dfe106888b2c53cb84617"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/厄加特Q减速首次页面补录/00-当前契约评审摘录.md",
+      "sha256": "c46dd2122fd78e2a4d61882c69ed9c4d5ab512f8a74643d446d35579a65850e5"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Urgot.json",
+      "sha256": "0a081a1286923173fe0eeb855ce32d2b8658fe6ec040d5167f5d01551507943a"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Urgot.json.gz",
+      "sha256": "e5bc358dfd88464470039ae479b3b921d161e6371e623c68ae3a545616b5d84c"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/普通减速目录首次页面录入/07-独立回读.json",
+      "sha256": "a70c104af600656aa234dc642614352df29e69aeb8561f81fd60b4813a1e6e94"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/普通减速目录首次页面录入/09-证据清单.json",
+      "sha256": "58eba1eee1a9a472d9cc75581c98a5f66c9eed5ba4122da7af5de170f8a05937"
+    },
+    {
+      "root": "web",
+      "path": "web/src/types/status.ts",
+      "sha256": "09731cb532692c283d6b322a99915e3e5a5c6336aad44d94eef72413a7dc9b02"
+    },
+    {
+      "root": "web",
+      "path": "web/src/types/skillEffect.ts",
+      "sha256": "0c1c6bec64b26f4b5d9a721eba0989d1fbee8deefc87105304e96fe92cfa2ed5"
+    },
+    {
+      "root": "web",
+      "path": "web/src/pages/admin/skills/effects/effectForm.ts",
+      "sha256": "ffff5aab07fc90d5886e0fa3dd37693e98405ff8b5abfdad15df084177ba2e14"
+    },
+    {
+      "root": "web",
+      "path": "web/src/types/skillTriggerRule.ts",
+      "sha256": "b1af9f8d15671444be8e4c574dd20be8249dc3ad0c91e6ef5b005463a6bb283b"
+    },
+    {
+      "root": "web",
+      "path": "web/src/pages/admin/skills/triggers/triggerRuleForm.ts",
+      "sha256": "91fbba576225bc476492eb6c0a9e2ad2c10b187660d8667616958918b0f79064"
+    },
+    {
+      "root": "planning",
+      "path": "文档记录/详细设计/项目/系统精简实施说明.md",
+      "sha256": "04b5e565cc8bfbfd7b1d46c21290ea04643229cfdc4651b7ce3e078188e4ad8a"
+    },
+    {
+      "root": "planning",
+      "path": "文档记录/详细设计/项目/条件事件与动态输入供值管理详细设计.md",
+      "sha256": "ca2d715880e939f634e35e585bd3fc7ebcd6d42705f87f07c187201c1a8db4e7"
+    }
+  ],
+  "scope": "只新增1普通减速效果与1实际命中入口；复用现有参数和已建立状态目录，其余组成完整保持。",
+  "remaining": [
+    "伤害、使用成本与过程返回补录",
+    "状态启停以及减速结果错误恢复等页面检查",
+    "同类兰顿、冰杖返回"
+  ],
+  "runtimeValidation": "未执行"
+}

@@ -1,0 +1,80 @@
+{
+  "status": "APPROVED",
+  "at": "2026-09-19T07:10:57.774Z",
+  "reviewer": "Cursor独立只读评审",
+  "executionMode": "BROWSER_UI_ONLY",
+  "planRevision": 1,
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v3.mjs": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "01-候选方案.json": "d488b10c90109820d1fff794f4f9f583cbd058c938f8014b276b9034d232f5f1",
+    "02-冻结请求.json": "62277009b0c68a457de1c84d361a363d142db35c945887866a3cd3fdd6ef352a",
+    "03-来源摘要.json": "1ce1d3b183bf67f90433c82ad3fc05a4b715609b2b70075f0ccfefbd74d40918",
+    "04-写入前现值.json": "851ba863e50ea1bfc26850c978e0b312162a684ebf256c6600ff5aac74003ab0"
+  },
+  "sourceFilesVerified": 13,
+  "businessHTTP": 0,
+  "businessWrites": 0,
+  "blockingFindings": [],
+  "cursor": {
+    "runtime": "sdk",
+    "runId": "run-4c0217f3-b88b-4ea3-98fe-1b58d1d4a743",
+    "requestId": "76d6cab2-4e2d-477e-853b-3bf66f9e3c19",
+    "resultStatus": "finished",
+    "model": {
+      "id": "grok-4.6",
+      "params": [
+        {
+          "id": "effort",
+          "value": "high"
+        },
+        {
+          "id": "fast",
+          "value": "false"
+        }
+      ]
+    },
+    "settingSources": [
+      "project"
+    ],
+    "audit": {
+      "kind": "audited-write-allowlist",
+      "osSandbox": false,
+      "auditAvailable": true,
+      "outsideScopeCount": 0,
+      "outsideScopePaths": [],
+      "runDeltaOutsideScopeCount": 0,
+      "runDeltaOutsideScopePaths": [],
+      "runDeltaCount": 0,
+      "failClosed": false
+    },
+    "eventAudit": {
+      "parseableEvents": 2032,
+      "completedTools": 90,
+      "truncatedTools": 0,
+      "shellCommandsReviewed": 6,
+      "shellWriteOrBusinessHTTPCommands": 0
+    },
+    "evidence": [
+      {
+        "path": ".agents/artifacts/urgot-slow-review-current/summary.json",
+        "sha256": "6b97dff216725b59a380c63ac5422c329bc7b8d320f5c459d5d8bf7ad0c8572e"
+      },
+      {
+        "path": ".agents/artifacts/urgot-slow-review-current/events.jsonl",
+        "sha256": "b278cfff179dae05f1228d989999a591b3b60fc2f36f6d498aa2bed721268cc8"
+      },
+      {
+        "path": ".agents/artifacts/urgot-slow-review-current/review.md",
+        "sha256": "5964c6cdf48e6330c91c580972fa325bd112a8018d8910149b366dc8e81b26c5"
+      }
+    ]
+  },
+  "reviewText": "**VERDICT: READY**  \n**REVIEWED_PLAN_REV: 1**  \n**阻塞项：无**\n\n本批冻结请求完整、来源有效，且与当前普通减速统一契约一致。只新增 `corrosive_charge_slow` 与 `apply_slow_on_unblocked_hit`；复用已有 `slow_percent_points`、`slow_duration_ms`、`movement_slow`。百分数点乘 `0.01` 可精确还原客户端 5 级比例，期限 1250 毫秒。未改任何文件，无业务 HTTP。\n\n## 非阻塞建议\n\n1. 真实页面选普通减速施加时，倍率草稿默认是 `1`。保存必须改成冻结正文的 `0.01`，否则强度会被钳到 1。  \n2. 写后另清 `slow_percent_points` 的历史说明「公式不再次乘或除100」；该旧文字不能推翻本结果的 `0.01`。  \n3. 保护工具仍含 `write`。本批执行模式是 `BROWSER_UI_ONLY`，只允许 `prepare` / `preflight` / `readback`，禁止 E write 及任何 POST/PUT/DELETE。\n\n## 关键事实与证据\n\n**对象与入口。** 01/02 各 2 条 POST，键分别为 `corrosive_charge_slow`、`apply_slow_on_unblocked_hit`；请求正文逐字段相同。事件是 `SKILL_HIT` 且 `sourceSkillKey=urgot_q`，不是施法、弹体生成或零伤害。一组 `slow_eligible` 同时要求 `TARGET_CATEGORY_CHECK`/`CHAMPION`、`SKILL_HIT_TARGET_IS_ENEMY`、`SKILL_HIT_SPELL_SHIELD_BLOCKED EQ FIXED 0`。唯一动作 `EXECUTE_EFFECT` 执行新减速，无结果修正、无无实例条件。规则 expectedReadback 仅多规范化 `useKind: null`，与已通过的莫甘娜 Q / 娜美 R 回读一致。\n\n**效果契约。** 父生命周期：`slow_duration_ms`、`SOURCE_TARGET`、单层 `KEEP`、`REFRESH_ALL`、`ALL_AT_ONCE`、无周期。结果：`STATUS_OPERATION`/`APPLY`/`movement_slow`，`PERSISTENT` / `APPLICATION_SNAPSHOT` / `SHARED` / `REPLACE`，上下界 0/1，`RESULT` 护盾。与 planning/master 第四单元及后端 `SkillEffectService.validateStatusKinds` 一致；重施语义已由该契约定义，因此不需要 `LIFECYCLE_CHECK ABSENT`。\n\n**来源与换算。** 官方 16.17.1 `UrgotQ` tooltip 为 `slowamount*100`。客户端 16.17 根绑定 `Characters/Urgot/Spells/UrgotQAbility/UrgotQ`；`SlowAmount`/`SlowDuration` 只出现在该根法术 `mSpell.DataValues`。等级 1–5 取索引 1–5（不用索引 0 的 0.40）。现值百分数点乘 0.01 与客户端比例 `Object.is` 全等；`SlowDuration=1.25` 对应已有整数参数 1250。\n\n**现值。** 04：7 参数、1 公式 `physical_damage`；效果/过程/内部状态/规则均为空；两新详情 404；`movement_slow` 为 `ENABLED`/`MOVEMENT_SLOW`，时间戳与目录独立回读一致。审计 25 次全部 GET，`businessWrites=0`。伤害、成本、过程不在本批；运行未执行不阻塞管理保存。\n\n**原字节。** 02 实际 SHA256 等于声明值。13 个来源现文件散列与 01/03 一致，含 planning/master 两份契约。工具散列与莫甘娜 Q 已批准工具相同，原字节未改。02 的 `sourceSha256`/`baselineSha256` 分别绑定 03/04。\n\n## 批准文件 SHA256\n\n| 文件 | SHA256 |\n| --- | --- |\n| `tools/authoring/append-reviewed-skill-components-v3.mjs` | `443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf` |\n| `01-候选方案.json` | `d488b10c90109820d1fff794f4f9f583cbd058c938f8014b276b9034d232f5f1` |\n| `02-冻结请求.json` | `62277009b0c68a457de1c84d361a363d142db35c945887866a3cd3fdd6ef352a` |\n| `03-来源摘要.json` | `1ce1d3b183bf67f90433c82ad3fc05a4b715609b2b70075f0ccfefbd74d40918` |\n| `04-写入前现值.json` | `851ba863e50ea1bfc26850c978e0b312162a684ebf256c6600ff5aac74003ab0` |\n\n主负责人可按上述散列保存 05。批准后按冻结顺序逐笔页面保存效果再规则，每次即时完整 GET、真实页面重开，再用本工具 `readback` 核对全部旧响应与两个新对象。",
+  "scope": "只通过真实页面按效果再规则各保存一次；E仅preflight/readback，不运行write。页面0.01倍率须明确填写。",
+  "expectedReadback": {
+    "GETs": 25,
+    "newObjects": 2,
+    "expectedChangedCollections": 2,
+    "unchangedResponsesIncludingTimestamps": 21
+  }
+}

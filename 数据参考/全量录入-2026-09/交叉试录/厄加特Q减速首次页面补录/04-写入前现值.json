@@ -1,0 +1,767 @@
+{
+  "at": "2026-09-19T06:53:43.440Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/skills/urgot_q": {
+      "createdAt": "2026-09-06T18:20:50.728097Z",
+      "description": "发射一个可爆炸的电荷至目标位置，对爆炸波及到的敌人造成物理伤害和减速效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "厄加特·腐蚀电荷",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "urgot_q",
+      "sortOrder": 1,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:20:50.728097Z"
+    },
+    "/characters/champion_urgot": {
+      "characterKey": "champion_urgot",
+      "createdAt": "2026-09-06T18:01:20.232535Z",
+      "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+      "gameId": "lol",
+      "name": "厄加特",
+      "updatedAt": "2026-09-06T18:01:20.232535Z"
+    },
+    "/characters/champion_urgot/attributes": {
+      "characterKey": "champion_urgot",
+      "levelValues": {
+        "1": {
+          "move_speed": 330,
+          "hp": 655,
+          "hp_regen": 7.5,
+          "mana": 340,
+          "mana_regen": 7.25,
+          "armor": 36,
+          "magic_resistance": 32,
+          "attack_damage": 63,
+          "attack_speed": 0.625,
+          "attack_range": 350
+        },
+        "2": {
+          "move_speed": 330,
+          "hp": 728.44,
+          "hp_regen": 8.004,
+          "mana": 372.4,
+          "mana_regen": 7.826,
+          "armor": 39.6,
+          "magic_resistance": 33.476,
+          "attack_damage": 65.88,
+          "attack_speed": 0.641875,
+          "attack_range": 350
+        },
+        "3": {
+          "move_speed": 330,
+          "hp": 805.45,
+          "hp_regen": 8.5325,
+          "mana": 406.375,
+          "mana_regen": 8.43,
+          "armor": 43.375,
+          "magic_resistance": 35.02375,
+          "attack_damage": 68.9,
+          "attack_speed": 0.65957,
+          "attack_range": 350
+        },
+        "4": {
+          "move_speed": 330,
+          "hp": 886.03,
+          "hp_regen": 9.0855,
+          "mana": 441.925,
+          "mana_regen": 9.062,
+          "armor": 47.325,
+          "magic_resistance": 36.64325,
+          "attack_damage": 72.06,
+          "attack_speed": 0.678086,
+          "attack_range": 350
+        },
+        "5": {
+          "move_speed": 330,
+          "hp": 970.18,
+          "hp_regen": 9.663,
+          "mana": 479.05,
+          "mana_regen": 9.722,
+          "armor": 51.45,
+          "magic_resistance": 38.3345,
+          "attack_damage": 75.36,
+          "attack_speed": 0.697422,
+          "attack_range": 350
+        },
+        "6": {
+          "move_speed": 330,
+          "hp": 1057.9,
+          "hp_regen": 10.265,
+          "mana": 517.75,
+          "mana_regen": 10.41,
+          "armor": 55.75,
+          "magic_resistance": 40.0975,
+          "attack_damage": 78.8,
+          "attack_speed": 0.717578,
+          "attack_range": 350
+        },
+        "7": {
+          "move_speed": 330,
+          "hp": 1149.19,
+          "hp_regen": 10.8915,
+          "mana": 558.025,
+          "mana_regen": 11.126,
+          "armor": 60.225,
+          "magic_resistance": 41.93225,
+          "attack_damage": 82.38,
+          "attack_speed": 0.738555,
+          "attack_range": 350
+        },
+        "8": {
+          "move_speed": 330,
+          "hp": 1244.05,
+          "hp_regen": 11.5425,
+          "mana": 599.875,
+          "mana_regen": 11.87,
+          "armor": 64.875,
+          "magic_resistance": 43.83875,
+          "attack_damage": 86.1,
+          "attack_speed": 0.760352,
+          "attack_range": 350
+        },
+        "9": {
+          "move_speed": 330,
+          "hp": 1342.48,
+          "hp_regen": 12.218,
+          "mana": 643.3,
+          "mana_regen": 12.642,
+          "armor": 69.7,
+          "magic_resistance": 45.817,
+          "attack_damage": 89.96,
+          "attack_speed": 0.782969,
+          "attack_range": 350
+        },
+        "10": {
+          "move_speed": 330,
+          "hp": 1444.48,
+          "hp_regen": 12.918,
+          "mana": 688.3,
+          "mana_regen": 13.442,
+          "armor": 74.7,
+          "magic_resistance": 47.867,
+          "attack_damage": 93.96,
+          "attack_speed": 0.806406,
+          "attack_range": 350
+        },
+        "11": {
+          "move_speed": 330,
+          "hp": 1550.05,
+          "hp_regen": 13.6425,
+          "mana": 734.875,
+          "mana_regen": 14.27,
+          "armor": 79.875,
+          "magic_resistance": 49.98875,
+          "attack_damage": 98.1,
+          "attack_speed": 0.830664,
+          "attack_range": 350
+        },
+        "12": {
+          "move_speed": 330,
+          "hp": 1659.19,
+          "hp_regen": 14.3915,
+          "mana": 783.025,
+          "mana_regen": 15.126,
+          "armor": 85.225,
+          "magic_resistance": 52.18225,
+          "attack_damage": 102.38,
+          "attack_speed": 0.855742,
+          "attack_range": 350
+        },
+        "13": {
+          "move_speed": 330,
+          "hp": 1771.9,
+          "hp_regen": 15.165,
+          "mana": 832.75,
+          "mana_regen": 16.01,
+          "armor": 90.75,
+          "magic_resistance": 54.4475,
+          "attack_damage": 106.8,
+          "attack_speed": 0.881641,
+          "attack_range": 350
+        },
+        "14": {
+          "move_speed": 330,
+          "hp": 1888.18,
+          "hp_regen": 15.963,
+          "mana": 884.05,
+          "mana_regen": 16.922,
+          "armor": 96.45,
+          "magic_resistance": 56.7845,
+          "attack_damage": 111.36,
+          "attack_speed": 0.908359,
+          "attack_range": 350
+        },
+        "15": {
+          "move_speed": 330,
+          "hp": 2008.03,
+          "hp_regen": 16.7855,
+          "mana": 936.925,
+          "mana_regen": 17.862,
+          "armor": 102.325,
+          "magic_resistance": 59.19325,
+          "attack_damage": 116.06,
+          "attack_speed": 0.935898,
+          "attack_range": 350
+        },
+        "16": {
+          "move_speed": 330,
+          "hp": 2131.45,
+          "hp_regen": 17.6325,
+          "mana": 991.375,
+          "mana_regen": 18.83,
+          "armor": 108.375,
+          "magic_resistance": 61.67375,
+          "attack_damage": 120.9,
+          "attack_speed": 0.964258,
+          "attack_range": 350
+        },
+        "17": {
+          "move_speed": 330,
+          "hp": 2258.44,
+          "hp_regen": 18.504,
+          "mana": 1047.4,
+          "mana_regen": 19.826,
+          "armor": 114.6,
+          "magic_resistance": 64.226,
+          "attack_damage": 125.88,
+          "attack_speed": 0.993437,
+          "attack_range": 350
+        },
+        "18": {
+          "move_speed": 330,
+          "hp": 2389,
+          "hp_regen": 19.4,
+          "mana": 1105,
+          "mana_regen": 20.85,
+          "armor": 121,
+          "magic_resistance": 66.85,
+          "attack_damage": 131,
+          "attack_speed": 1.023438,
+          "attack_range": 350
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_urgot/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_champion_urgot",
+        "name": "champion_urgot"
+      }
+    },
+    "/skills/urgot_q/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_urgot_q",
+        "name": "urgot_q"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_urgot": {
+      "items": [
+        {
+          "characterKey": "champion_urgot",
+          "characterName": "厄加特",
+          "gameId": "lol",
+          "skillKey": "urgot_p",
+          "skillName": "厄加特·回响烈焰",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_urgot",
+          "characterName": "厄加特",
+          "gameId": "lol",
+          "skillKey": "urgot_q",
+          "skillName": "厄加特·腐蚀电荷",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_urgot",
+          "characterName": "厄加特",
+          "gameId": "lol",
+          "skillKey": "urgot_w",
+          "skillName": "厄加特·净除",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_urgot",
+          "characterName": "厄加特",
+          "gameId": "lol",
+          "skillKey": "urgot_e",
+          "skillName": "厄加特·鄙弃",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_urgot",
+          "characterName": "厄加特",
+          "gameId": "lol",
+          "skillKey": "urgot_r",
+          "skillName": "厄加特·超越死亡的恐惧",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=urgot_q": {
+      "items": [
+        {
+          "characterKey": "champion_urgot",
+          "characterName": "厄加特",
+          "gameId": "lol",
+          "skillKey": "urgot_q",
+          "skillName": "厄加特·腐蚀电荷",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        }
+      ],
+      "total": 1
+    },
+    "/skills/urgot_q/parameters": [
+      {
+        "createdAt": "2026-09-09T21:00:55.3494Z",
+        "description": "BaseDamage取索引1至5；索引0=-20是占位，不作为1级。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 25,
+          "2": 70,
+          "3": 115,
+          "4": 160,
+          "5": 205
+        },
+        "name": "腐蚀电荷基础物理伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "urgot_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T21:00:55.3494Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T21:00:56.595702Z",
+        "description": "TotalDamage第二项mStat=2且未给mStatFormula，读取来源总攻击力；比例来自原树StatByCoefficient=0.7。",
+        "fixedValue": 0.699999988079071,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "腐蚀电荷总攻击力比例",
+        "parameterKey": "ad_ratio",
+        "skillKey": "urgot_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T21:00:56.595702Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T21:00:58.024935Z",
+        "description": "SlowDuration=1.25秒，转换为1250毫秒。",
+        "fixedValue": 1250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "腐蚀电荷减速持续（毫秒）",
+        "parameterKey": "slow_duration_ms",
+        "skillKey": "urgot_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T21:00:58.024935Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T21:00:59.246986Z",
+        "description": "SlowAmount技能等级1至5取索引1至5；原始比例乘100后保存为减速百分数点，公式不再次乘或除100。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 44.999998807907104,
+          "2": 50,
+          "3": 55.000001192092896,
+          "4": 60.00000238418579,
+          "5": 64.99999761581421
+        },
+        "name": "腐蚀电荷减速百分数点",
+        "parameterKey": "slow_percent_points",
+        "skillKey": "urgot_q",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T21:00:59.246986Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T21:01:00.512691Z",
+        "description": "仅存在spellCastTime=0.25秒且mCastTime为空，转换为250毫秒。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "urgot_q",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T21:01:00.512691Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T02:05:24.895289Z",
+        "description": "DDragon16.17.1 Urgot.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 10000,
+          "2": 9500,
+          "3": 9000,
+          "4": 8500,
+          "5": 8000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "urgot_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:24.895289Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T02:05:25.381803Z",
+        "description": "DDragon16.17.1 Urgot.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 70,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "urgot_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:05:25.381803Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/urgot_q/parameters/base_damage": {
+      "createdAt": "2026-09-09T21:00:55.3494Z",
+      "description": "BaseDamage取索引1至5；索引0=-20是占位，不作为1级。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 25,
+        "2": 70,
+        "3": 115,
+        "4": 160,
+        "5": 205
+      },
+      "name": "腐蚀电荷基础物理伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "urgot_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T21:00:55.3494Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/urgot_q/parameters/ad_ratio": {
+      "createdAt": "2026-09-09T21:00:56.595702Z",
+      "description": "TotalDamage第二项mStat=2且未给mStatFormula，读取来源总攻击力；比例来自原树StatByCoefficient=0.7。",
+      "fixedValue": 0.699999988079071,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "腐蚀电荷总攻击力比例",
+      "parameterKey": "ad_ratio",
+      "skillKey": "urgot_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T21:00:56.595702Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/urgot_q/parameters/slow_duration_ms": {
+      "createdAt": "2026-09-09T21:00:58.024935Z",
+      "description": "SlowDuration=1.25秒，转换为1250毫秒。",
+      "fixedValue": 1250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "腐蚀电荷减速持续（毫秒）",
+      "parameterKey": "slow_duration_ms",
+      "skillKey": "urgot_q",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T21:00:58.024935Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/urgot_q/parameters/slow_percent_points": {
+      "createdAt": "2026-09-09T21:00:59.246986Z",
+      "description": "SlowAmount技能等级1至5取索引1至5；原始比例乘100后保存为减速百分数点，公式不再次乘或除100。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 44.999998807907104,
+        "2": 50,
+        "3": 55.000001192092896,
+        "4": 60.00000238418579,
+        "5": 64.99999761581421
+      },
+      "name": "腐蚀电荷减速百分数点",
+      "parameterKey": "slow_percent_points",
+      "skillKey": "urgot_q",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T21:00:59.246986Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "DECIMAL"
+    },
+    "/skills/urgot_q/parameters/cast_time_ms": {
+      "createdAt": "2026-09-09T21:01:00.512691Z",
+      "description": "仅存在spellCastTime=0.25秒且mCastTime为空，转换为250毫秒。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "urgot_q",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T21:01:00.512691Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/urgot_q/parameters/cooldown_ms": {
+      "createdAt": "2026-09-08T02:05:24.895289Z",
+      "description": "DDragon16.17.1 Urgot.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 10000,
+        "2": 9500,
+        "3": 9000,
+        "4": 8500,
+        "5": 8000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "urgot_q",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-08T02:05:24.895289Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/urgot_q/parameters/mana_cost": {
+      "createdAt": "2026-09-08T02:05:25.381803Z",
+      "description": "DDragon16.17.1 Urgot.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 70,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "urgot_q",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-08T02:05:25.381803Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/urgot_q/formulas": [
+      {
+        "createdAt": "2026-09-09T21:01:01.758305Z",
+        "description": "TotalDamage=BaseDamage+0.7×来源总攻击力；当前一对一只计算主命中，不自动叠加额外爆炸目标。",
+        "formulaKey": "physical_damage",
+        "gameId": "lol",
+        "name": "腐蚀电荷单一敌人物理伤害",
+        "skillKey": "urgot_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T21:01:01.758305Z"
+      }
+    ],
+    "/skills/urgot_q/formulas/physical_damage": {
+      "createdAt": "2026-09-09T21:01:01.758305Z",
+      "description": "TotalDamage=BaseDamage+0.7×来源总攻击力；当前一对一只计算主命中，不自动叠加额外爆炸目标。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ad_ratio"
+              },
+              {
+                "attributeKey": "attack_damage",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "physical_damage",
+      "gameId": "lol",
+      "name": "腐蚀电荷单一敌人物理伤害",
+      "skillKey": "urgot_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T21:01:01.758305Z"
+    },
+    "/skills/urgot_q/effects": [],
+    "/skills/urgot_q/processes": [],
+    "/skills/urgot_q/internal-states": [],
+    "/skills/urgot_q/trigger-rules": [],
+    "/statuses/movement_slow": {
+      "createdAt": "2026-09-19T06:37:05.092208Z",
+      "description": "普通移动减速状态身份；具体减速比例与持续时间由技能效果维护。",
+      "gameId": "lol",
+      "name": "普通移动减速",
+      "sortOrder": 10,
+      "status": "ENABLED",
+      "statusKey": "movement_slow",
+      "statusKind": "MOVEMENT_SLOW",
+      "updatedAt": "2026-09-19T06:37:05.092208Z"
+    },
+    "/attributes/attack_damage": {
+      "attributeKey": "attack_damage",
+      "createdAt": "2026-08-30T16:26:29.341938Z",
+      "description": "角色面板攻击力；伊泽瑞尔数据按官方 16.17.1 版本录入",
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "攻击力",
+      "sortOrder": 500,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-30T16:26:29.341938Z",
+      "valueType": "DECIMAL"
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/urgot_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_urgot",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_urgot/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_urgot/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/urgot_q/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_urgot",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=urgot_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/urgot_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/urgot_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/urgot_q/parameters/ad_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/urgot_q/parameters/slow_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/urgot_q/parameters/slow_percent_points",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/urgot_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/urgot_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/urgot_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/urgot_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/urgot_q/formulas/physical_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/urgot_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/urgot_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/urgot_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/urgot_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/statuses/movement_slow",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/attack_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/urgot_q/effects/corrosive_charge_slow",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/urgot_q/trigger-rules/apply_slow_on_unblocked_hit",
+      "status": 404
+    }
+  ],
+  "businessWrites": 0
+}
