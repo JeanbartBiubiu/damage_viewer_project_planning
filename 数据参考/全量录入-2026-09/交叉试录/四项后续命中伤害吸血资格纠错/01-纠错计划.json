@@ -1,0 +1,151 @@
+{
+  "title": "四项后续命中伤害的空吸血资格纠错",
+  "at": "2026-09-18T23:58:39.731Z",
+  "changes": [
+    {
+      "skillKey": "ivern_q",
+      "effectKey": "damage",
+      "resultKey": "damage",
+      "route": "/skills/ivern_q/effects/damage",
+      "description": "本轮1V1敌方英雄的一次普通直接魔法技能伤害；实际命中入口已配置，并明确登记防御结算后伤害、效率为1的全能吸血资格。控制、施放和相关技能联动分别维护。"
+    },
+    {
+      "skillKey": "ahri_e",
+      "effectKey": "charm_hit",
+      "resultKey": "damage",
+      "route": "/skills/ahri_e/effects/charm_hit",
+      "description": "本轮1V1敌方英雄的一次普通直接魔法技能伤害；实际命中入口已配置，并明确登记防御结算后伤害、效率为1的全能吸血资格。控制、施放和相关技能联动分别维护。"
+    },
+    {
+      "skillKey": "diana_e",
+      "effectKey": "lunar_rush_hit",
+      "resultKey": "damage",
+      "route": "/skills/diana_e/effects/lunar_rush_hit",
+      "description": "本轮1V1敌方英雄的一次普通直接魔法技能伤害；实际命中入口已配置，并明确登记防御结算后伤害、效率为1的全能吸血资格。控制、施放和相关技能联动分别维护。"
+    },
+    {
+      "skillKey": "ashe_r",
+      "effectKey": "hit_damage",
+      "resultKey": "damage",
+      "route": "/skills/ashe_r/effects/hit_damage",
+      "description": "本轮1V1敌方英雄的一次普通直接魔法技能伤害；实际命中入口已配置，并明确登记防御结算后伤害、效率为1的全能吸血资格。控制、施放和相关技能联动分别维护。"
+    }
+  ],
+  "sourceFiles": [
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/伤害吸血通用来源复核/来源与未决口径.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q完整补录/交互来源核定.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q完整补录/01-候选方案.json"
+    },
+    {
+      "root": "web",
+      "path": "web/src/types/skillEffect.ts"
+    },
+    {
+      "root": "planning",
+      "path": "文档记录/详细设计/项目/伤害与普通护盾交互基础详细设计.md"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/四项后续命中伤害吸血资格纠错/00-六项只读候选.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/四项后续命中伤害吸血资格纠错/00a-候选请求审计.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/技能来源索引.json"
+    },
+    {
+      "root": "web",
+      "path": "tools/authoring/update-reviewed-damage-vamp.mjs"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Kassadin.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Kassadin.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Kassadin.json.gz"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Ivern.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Ivern.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Ivern.json.gz"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Ahri.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Ahri.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Ahri.json.gz"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Diana.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Diana.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Diana.json.gz"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Ashe.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Ashe.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Ashe.json.gz"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Veigar.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Veigar.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Veigar.json.gz"
+    }
+  ],
+  "sourceCorrections": [
+    "原候选的简单追加说明仍保留空列表不代表不能吸血的错误表述，本计划已统一改正。",
+    "原Web阶段文件只用于历史定位，不作为当前进度或游戏事实来源；本计划不冻结它，正式现值来自本次GET。"
+  ],
+  "selectionBoundary": "KassadinQ当前没有已保存DAMAGE可供此工具纠错，不代表原技能无伤害；该缺口独立补录。VeigarE本就没有伤害来源。本批跳过不改变这两个技能的整项范围结论。",
+  "preserve": "仅改四个父说明和空vampRules，原数值/公式/目标/RESULT法术护盾粒度/暴击/所有过程规则保持不变。",
+  "runtimeBoundary": "只完成管理接口纠错；页面与真实吸血/护盾/Wasm运行分别保留待验。"
+}
