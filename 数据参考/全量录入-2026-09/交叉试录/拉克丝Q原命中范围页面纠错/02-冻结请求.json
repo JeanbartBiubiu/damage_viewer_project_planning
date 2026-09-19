@@ -1,0 +1,116 @@
+{
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "executionMode": "BROWSER_UI_ONLY",
+  "request": {
+    "method": "PUT",
+    "route": "/skills/lux_q/trigger-rules/resolve_on_q_hit",
+    "body": {
+      "actions": [
+        {
+          "actionKey": "resolve_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "light_binding_hit"
+          },
+          "name": "结算命中伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "groupKey": "champion_target",
+          "name": "本轮敌方英雄",
+          "sortOrder": 10,
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "sortOrder": 10,
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              }
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "sortOrder": 20,
+              "detail": {}
+            }
+          ]
+        }
+      ],
+      "description": "监听 lux_q 实际命中后结算独立魔法伤害。不把命中事件写成束缚控制，也不表达第二目标筛选。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "lux_q"
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "光之束缚实际命中结算",
+      "perTargetCooldown": null,
+      "sortOrder": 10
+    },
+    "expectedReadback": {
+      "actions": [
+        {
+          "actionKey": "resolve_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "light_binding_hit"
+          },
+          "name": "结算命中伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "groupKey": "champion_target",
+          "name": "本轮敌方英雄",
+          "sortOrder": 10,
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "sortOrder": 10,
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              }
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "sortOrder": 20,
+              "detail": {}
+            }
+          ]
+        }
+      ],
+      "description": "监听 lux_q 实际命中后结算独立魔法伤害。不把命中事件写成束缚控制，也不表达第二目标筛选。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "lux_q",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "光之束缚实际命中结算",
+      "perTargetCooldown": null,
+      "ruleKey": "resolve_on_q_hit",
+      "sortOrder": 10
+    }
+  },
+  "sourceSha256": "ed035cca84e6561b25cfc7faf9149117a7af2fd40eb767e3a92457d99de2fda8",
+  "baselineSha256": "9fa380a7221e6e7752c7e8d8de3f2315f593ef79d1325630c67b99aaf191bc53"
+}

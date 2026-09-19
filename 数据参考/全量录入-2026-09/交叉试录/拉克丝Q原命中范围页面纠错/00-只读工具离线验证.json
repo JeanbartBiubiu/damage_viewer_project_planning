@@ -1,0 +1,350 @@
+{
+  "status": "PASS",
+  "at": "2026-09-19T05:53:56.573Z",
+  "realHTTP": 0,
+  "businessWrites": 0,
+  "method": "原工具源码在同一引擎执行，仅替换 fetch、参数、输出和证据文件读写为内存输入；原工具未修改。",
+  "sourceFilesVerified": 9,
+  "approvedFiles": {
+    "tools/authoring/reviewed-hit-scope-ui.mjs": "b9dc44da5ac25728eeeaa13c8108dd6720f7ae70cd9ac4a8a9896f2715f2d287",
+    "01-候选方案.json": "c79b2ebbcd986b21d55f33c59652bcfdb46265d980e811b5890074a83dab884e",
+    "02-冻结请求.json": "90cf046052e50992704723ccb5ce7b5bc72658045c69d73a6ca8cc8e0aa1e101",
+    "03-来源摘要.json": "ed035cca84e6561b25cfc7faf9149117a7af2fd40eb767e3a92457d99de2fda8",
+    "04-写入前现值.json": "9fa380a7221e6e7752c7e8d8de3f2315f593ef79d1325630c67b99aaf191bc53"
+  },
+  "cases": [
+    {
+      "name": "准备只推导同一完整请求",
+      "mode": "prepare",
+      "expectedPass": true,
+      "passed": true,
+      "mockedGETs": 23,
+      "result": {
+        "status": "READY_FOR_REVIEW",
+        "GETs": 23,
+        "plannedBrowserWrites": 1,
+        "batchFileSha256": "430aa6da40ef8214ceabe4f731bc60dcf9209a334dd0fe62cc80006120064dd1"
+      }
+    },
+    {
+      "name": "写前全部现值一致",
+      "mode": "preflight",
+      "expectedPass": true,
+      "passed": true,
+      "mockedGETs": 23,
+      "result": {
+        "status": "PASS",
+        "businessWrites": 0,
+        "GETs": 23
+      }
+    },
+    {
+      "name": "正常仅范围收窄回读",
+      "mode": "readback",
+      "expectedPass": true,
+      "passed": true,
+      "mockedGETs": 23,
+      "result": {
+        "status": "PASS",
+        "at": "2026-09-19T05:53:56.540Z",
+        "businessWrites": 0,
+        "GETs": 23,
+        "unchangedResponsesIncludingTimestamps": 21,
+        "expectedChangedCollections": 1,
+        "changedDetails": {
+          "/skills/lux_q/trigger-rules/resolve_on_q_hit": {
+            "actions": [
+              {
+                "actionKey": "resolve_hit",
+                "actionType": "EXECUTE_EFFECT",
+                "detail": {
+                  "effectKey": "light_binding_hit"
+                },
+                "name": "结算命中伤害",
+                "resultModifiers": [],
+                "runtimeInputBindings": [],
+                "sortOrder": 10,
+                "targetContext": "CURRENT_TARGET"
+              }
+            ],
+            "conditionGroups": [
+              {
+                "groupKey": "champion_target",
+                "name": "本轮敌方英雄",
+                "sortOrder": 10,
+                "conditions": [
+                  {
+                    "conditionKey": "champion_target",
+                    "conditionType": "TARGET_CATEGORY_CHECK",
+                    "sortOrder": 10,
+                    "detail": {
+                      "categories": [
+                        "CHAMPION"
+                      ]
+                    }
+                  },
+                  {
+                    "conditionKey": "enemy_target",
+                    "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                    "sortOrder": 20,
+                    "detail": {}
+                  }
+                ]
+              }
+            ],
+            "description": "监听 lux_q 实际命中后结算独立魔法伤害。不把命中事件写成束缚控制，也不表达第二目标筛选。",
+            "eventSource": {
+              "detail": {
+                "sourceSkillKey": "lux_q",
+                "useKind": null
+              },
+              "eventType": "SKILL_HIT"
+            },
+            "maxTriggersPerProcess": null,
+            "name": "光之束缚实际命中结算",
+            "perTargetCooldown": null,
+            "ruleKey": "resolve_on_q_hit",
+            "sortOrder": 10
+          }
+        },
+        "audit": [
+          {
+            "method": "GET",
+            "path": "/skills/lux_q",
+            "status": 200
+          },
+          {
+            "method": "GET",
+            "path": "/skills/lux_q/parameters",
+            "status": 200
+          },
+          {
+            "method": "GET",
+            "path": "/skills/lux_q/parameters/base_damage",
+            "status": 200
+          },
+          {
+            "method": "GET",
+            "path": "/skills/lux_q/parameters/ap_ratio",
+            "status": 200
+          },
+          {
+            "method": "GET",
+            "path": "/skills/lux_q/parameters/root_duration_ms",
+            "status": 200
+          },
+          {
+            "method": "GET",
+            "path": "/skills/lux_q/parameters/cooldown_ms",
+            "status": 200
+          },
+          {
+            "method": "GET",
+            "path": "/skills/lux_q/parameters/mana_cost",
+            "status": 200
+          },
+          {
+            "method": "GET",
+            "path": "/skills/lux_q/parameters/cast_time_ms",
+            "status": 200
+          },
+          {
+            "method": "GET",
+            "path": "/skills/lux_q/parameters/target_range",
+            "status": 200
+          },
+          {
+            "method": "GET",
+            "path": "/skills/lux_q/parameters/projectile_speed",
+            "status": 200
+          },
+          {
+            "method": "GET",
+            "path": "/skills/lux_q/formulas",
+            "status": 200
+          },
+          {
+            "method": "GET",
+            "path": "/skills/lux_q/formulas/damage",
+            "status": 200
+          },
+          {
+            "method": "GET",
+            "path": "/skills/lux_q/effects",
+            "status": 200
+          },
+          {
+            "method": "GET",
+            "path": "/skills/lux_q/effects/mana_cost",
+            "status": 200
+          },
+          {
+            "method": "GET",
+            "path": "/skills/lux_q/effects/light_binding_hit",
+            "status": 200
+          },
+          {
+            "method": "GET",
+            "path": "/skills/lux_q/effects/root_control",
+            "status": 200
+          },
+          {
+            "method": "GET",
+            "path": "/skills/lux_q/processes",
+            "status": 200
+          },
+          {
+            "method": "GET",
+            "path": "/skills/lux_q/processes/cast",
+            "status": 200
+          },
+          {
+            "method": "GET",
+            "path": "/skills/lux_q/internal-states",
+            "status": 200
+          },
+          {
+            "method": "GET",
+            "path": "/skills/lux_q/trigger-rules",
+            "status": 200
+          },
+          {
+            "method": "GET",
+            "path": "/skills/lux_q/trigger-rules/resolve_on_q_hit",
+            "status": 200
+          },
+          {
+            "method": "GET",
+            "path": "/skills/lux_q/trigger-rules/on_used",
+            "status": 200
+          },
+          {
+            "method": "GET",
+            "path": "/skills/lux_q/trigger-rules/apply_root_on_unblocked_hit",
+            "status": 200
+          }
+        ]
+      }
+    },
+    {
+      "name": "原组成时间戳漂移拒绝",
+      "mode": "readback",
+      "expectedPass": false,
+      "passed": true,
+      "mockedGETs": 23,
+      "result": "原组成含时间戳变化：/skills/lux_q/effects/light_binding_hit"
+    },
+    {
+      "name": "原动作改为法力消耗拒绝",
+      "mode": "readback",
+      "expectedPass": false,
+      "passed": true,
+      "mockedGETs": 23,
+      "result": "完整规则不符"
+    },
+    {
+      "name": "原事件变更拒绝",
+      "mode": "readback",
+      "expectedPass": false,
+      "passed": true,
+      "mockedGETs": 23,
+      "result": "完整规则不符"
+    },
+    {
+      "name": "新条件拆为或组拒绝",
+      "mode": "readback",
+      "expectedPass": false,
+      "passed": true,
+      "mockedGETs": 23,
+      "result": "完整规则不符"
+    },
+    {
+      "name": "目标列表与详情计数不一致拒绝",
+      "mode": "readback",
+      "expectedPass": false,
+      "passed": true,
+      "mockedGETs": 23,
+      "result": "Expected values to be strictly equal:\n\n2 !== 1\n"
+    },
+    {
+      "name": "规则列表其他项变化拒绝",
+      "mode": "readback",
+      "expectedPass": false,
+      "passed": true,
+      "mockedGETs": 23,
+      "result": "原规则列表其他字段或顺序变化"
+    },
+    {
+      "name": "目标更新时间倒退拒绝",
+      "mode": "readback",
+      "expectedPass": false,
+      "passed": true,
+      "mockedGETs": 23,
+      "result": "false == true"
+    },
+    {
+      "name": "写前动作漂移拒绝",
+      "mode": "preflight",
+      "expectedPass": false,
+      "passed": true,
+      "mockedGETs": 23,
+      "result": "写前原组成漂移"
+    },
+    {
+      "name": "未批准评审拒绝",
+      "mode": "preflight",
+      "expectedPass": false,
+      "passed": true,
+      "mockedGETs": 0,
+      "result": "Expected values to be strictly equal:\n+ actual - expected\n\n+ 'REVISE'\n- 'APPROVED'"
+    },
+    {
+      "name": "批准摘要不符拒绝",
+      "mode": "preflight",
+      "expectedPass": false,
+      "passed": true,
+      "mockedGETs": 0,
+      "result": "批准文件漂移：02-冻结请求.json"
+    },
+    {
+      "name": "不允许HTTP写模式",
+      "mode": "write",
+      "expectedPass": false,
+      "passed": true,
+      "mockedGETs": 0,
+      "result": "false == true"
+    },
+    {
+      "name": "尚未完成的页面写入拒绝",
+      "mode": "readback",
+      "expectedPass": false,
+      "passed": true,
+      "mockedGETs": 23,
+      "result": "Expected values to be strictly equal:\n+ actual - expected\n\n+ 'STARTED'\n- 'PASS'"
+    },
+    {
+      "name": "API替代首次页面声明拒绝",
+      "mode": "readback",
+      "expectedPass": false,
+      "passed": true,
+      "mockedGETs": 23,
+      "result": "Expected values to be strictly equal:\n+ actual - expected\n\n+ 'API'\n- 'BROWSER_UI_ONLY'"
+    },
+    {
+      "name": "多次写入声明拒绝",
+      "mode": "readback",
+      "expectedPass": false,
+      "passed": true,
+      "mockedGETs": 23,
+      "result": "Expected values to be strictly equal:\n\n2 !== 1\n"
+    },
+    {
+      "name": "写入所用批准摘要不符拒绝",
+      "mode": "readback",
+      "expectedPass": false,
+      "passed": true,
+      "mockedGETs": 23,
+      "result": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  {\n    '01-候选方案.json': 'c79b2ebbcd986b21d55f33c59652bcfdb46265d980e811b5890074a83dab884e',\n+   '02-冻结请求.json': '0000000000000000000000000000000000000000000000000000000000000000',\n-   '02-冻结请求.json': '90cf046052e50992704723ccb5ce7b5bc72658045c69d73a6ca8cc8e0aa1e101',\n    '03-来源摘要.json': 'ed035cca84e6561b25cfc7faf9149117a7af2fd40eb767e3a92457d99de2fda8',\n    '04-写入前现值.json': '9fa380a7221e6e7752c7e8d8de3f2315f593ef79d1325630c67b99aaf191bc53',\n    'tools/authoring/reviewed-hit-scope-ui.mjs': 'b9dc44da5ac25728eeeaa13c8108dd6720f7ae70cd9ac4a8a9896f2715f2d287'\n  }"
+    }
+  ]
+}

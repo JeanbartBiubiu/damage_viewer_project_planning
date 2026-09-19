@@ -1,0 +1,185 @@
+{
+  "toolExitCode": 0,
+  "stdout": "{\"status\":\"PASS\",\"at\":\"2026-09-19T05:57:24.240Z\",\"businessWrites\":0,\"GETs\":23,\"unchangedResponsesIncludingTimestamps\":21,\"expectedChangedCollections\":1,\"changedDetails\":{\"/skills/lux_q/trigger-rules/resolve_on_q_hit\":{\"actions\":[{\"actionKey\":\"resolve_hit\",\"actionType\":\"EXECUTE_EFFECT\",\"detail\":{\"effectKey\":\"light_binding_hit\"},\"name\":\"结算命中伤害\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[{\"conditions\":[{\"conditionKey\":\"champion_target\",\"conditionType\":\"TARGET_CATEGORY_CHECK\",\"detail\":{\"categories\":[\"CHAMPION\"]},\"sortOrder\":10},{\"conditionKey\":\"enemy_target\",\"conditionType\":\"SKILL_HIT_TARGET_IS_ENEMY\",\"detail\":{},\"sortOrder\":20}],\"groupKey\":\"champion_target\",\"name\":\"本轮敌方英雄\",\"sortOrder\":10}],\"description\":\"监听 lux_q 实际命中后结算独立魔法伤害。不把命中事件写成束缚控制，也不表达第二目标筛选。\",\"eventSource\":{\"detail\":{\"sourceSkillKey\":\"lux_q\",\"useKind\":null},\"eventType\":\"SKILL_HIT\"},\"maxTriggersPerProcess\":null,\"name\":\"光之束缚实际命中结算\",\"perTargetCooldown\":null,\"ruleKey\":\"resolve_on_q_hit\",\"sortOrder\":10}},\"audit\":[{\"method\":\"GET\",\"path\":\"/skills/lux_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lux_q/parameters\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lux_q/parameters/base_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lux_q/parameters/ap_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lux_q/parameters/root_duration_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lux_q/parameters/cooldown_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lux_q/parameters/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lux_q/parameters/cast_time_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lux_q/parameters/target_range\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lux_q/parameters/projectile_speed\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lux_q/formulas\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lux_q/formulas/damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lux_q/effects\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lux_q/effects/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lux_q/effects/light_binding_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lux_q/effects/root_control\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lux_q/processes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lux_q/processes/cast\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lux_q/internal-states\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lux_q/trigger-rules\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lux_q/trigger-rules/resolve_on_q_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lux_q/trigger-rules/on_used\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lux_q/trigger-rules/apply_root_on_unblocked_hit\",\"status\":200}]}\n",
+  "summary": {
+    "status": "PASS",
+    "at": "2026-09-19T05:57:24.240Z",
+    "businessWrites": 0,
+    "GETs": 23,
+    "unchangedResponsesIncludingTimestamps": 21,
+    "expectedChangedCollections": 1,
+    "changedDetails": {
+      "/skills/lux_q/trigger-rules/resolve_on_q_hit": {
+        "actions": [
+          {
+            "actionKey": "resolve_hit",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "light_binding_hit"
+            },
+            "name": "结算命中伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "detail": {},
+                "sortOrder": 20
+              }
+            ],
+            "groupKey": "champion_target",
+            "name": "本轮敌方英雄",
+            "sortOrder": 10
+          }
+        ],
+        "description": "监听 lux_q 实际命中后结算独立魔法伤害。不把命中事件写成束缚控制，也不表达第二目标筛选。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "lux_q",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "光之束缚实际命中结算",
+        "perTargetCooldown": null,
+        "ruleKey": "resolve_on_q_hit",
+        "sortOrder": 10
+      }
+    },
+    "audit": [
+      {
+        "method": "GET",
+        "path": "/skills/lux_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/parameters/base_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/parameters/ap_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/parameters/root_duration_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/parameters/cooldown_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/parameters/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/parameters/cast_time_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/parameters/target_range",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/parameters/projectile_speed",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/formulas/damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/effects/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/effects/light_binding_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/effects/root_control",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/processes/cast",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/trigger-rules/resolve_on_q_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/trigger-rules/on_used",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/trigger-rules/apply_root_on_unblocked_hit",
+        "status": 200
+      }
+    ]
+  }
+}
