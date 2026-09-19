@@ -1,0 +1,311 @@
+{
+  "startedAt": "2026-09-19T17:29:10.858Z",
+  "status": "PASS",
+  "businessWritesAttempted": 2,
+  "operations": [
+    {
+      "route": "/skills/chogath_w",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:18:04.921171Z",
+          "description": "科加斯向前方锥形区域发出声波，造成魔法伤害并沉默命中的敌人。已录入敌方英雄实际命中伤害及无本来源实例时的首次沉默；五级伤害为80/130/180/230/280加0.7倍来源总法强，沉默1600/1700/1800/1900/2000毫秒。施放时长、主动使用成本冷却入口及沉默重施仍待核。固定来源：客户端16.17、官方静态资料16.17.1。",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "科加斯·野性尖叫",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "chogath_w",
+          "sortOrder": 2,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-19T17:29:11.231425Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-06T18:18:04.921171Z",
+        "description": "科加斯向前方锥形区域发出声波，造成魔法伤害并沉默命中的敌人。已录入敌方英雄实际命中伤害及无本来源实例时的首次沉默；五级伤害为80/130/180/230/280加0.7倍来源总法强，沉默1600/1700/1800/1900/2000毫秒。施放时长、主动使用成本冷却入口及沉默重施仍待核。固定来源：客户端16.17、官方静态资料16.17.1。",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "科加斯·野性尖叫",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "chogath_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-19T17:29:11.231425Z"
+      }
+    },
+    {
+      "route": "/skills/malzahar_q",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:19:19.619328Z",
+          "description": "玛尔扎哈开启两扇虚空传送门，短暂延迟后对流的能量对敌方英雄造成魔法伤害并沉默。普通主动使用的法力、冷却和施法延迟、实际敌方英雄命中伤害，以及无本来源实例时的首次沉默已录入；五级沉默为1000/1250/1500/1750/2000毫秒。沉默重施与Q刷新E的跨技能关系仍待核，不计整技能管理完成。固定来源：客户端16.17、官方静态资料16.17.1。",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "玛尔扎哈·虚空召唤",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "malzahar_q",
+          "sortOrder": 1,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-19T17:29:12.675374Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-06T18:19:19.619328Z",
+        "description": "玛尔扎哈开启两扇虚空传送门，短暂延迟后对流的能量对敌方英雄造成魔法伤害并沉默。普通主动使用的法力、冷却和施法延迟、实际敌方英雄命中伤害，以及无本来源实例时的首次沉默已录入；五级沉默为1000/1250/1500/1750/2000毫秒。沉默重施与Q刷新E的跨技能关系仍待核，不计整技能管理完成。固定来源：客户端16.17、官方静态资料16.17.1。",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "玛尔扎哈·虚空召唤",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "malzahar_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-19T17:29:12.675374Z"
+      }
+    }
+  ],
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-descriptions-v2.mjs": "f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517",
+    "01-纠错计划.json": "52c12522ceeeadcbdde037cdda190c0342073a63548795539e918413075de397",
+    "02-冻结请求.json": "7480fe26386e864f253713fe59563a1dc5de0290293f94212f93bc432c652e4c",
+    "03-来源摘要.json": "766677c0717f2d26443b8d7528b76a0535779502fe3893074257591ceeab4611",
+    "04-写入前现值.json": "233c7d86786bd64970fffbc17e61a71f243b0955e72fa23838f52a0d97343f41"
+  },
+  "pendingRoute": null,
+  "finishedAt": "2026-09-19T17:29:13.847Z",
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/parameters/silence_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/effects/silence_first_application",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/trigger-rules/apply_silence_on_unblocked_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_q/parameters/silence_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_q/parameters/ap_ratio_constant",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_q/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_q/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_q/effects/silence_first_application",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_q/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_q/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_q/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_q/trigger-rules/apply_silence_on_unblocked_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/chogath_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_q",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/malzahar_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_q",
+      "status": 200
+    }
+  ]
+}

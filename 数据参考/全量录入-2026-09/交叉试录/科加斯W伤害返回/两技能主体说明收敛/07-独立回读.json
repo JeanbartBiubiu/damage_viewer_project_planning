@@ -1,0 +1,1916 @@
+{
+  "status": "PASS",
+  "command": [
+    "node",
+    "C:/project/damage_web_dev/tools/authoring/read-reviewed-description-updates.mjs",
+    "C:/project/damage_web_dev/数据参考/全量录入-2026-09/交叉试录/科加斯W伤害返回/两技能主体说明收敛"
+  ],
+  "exitCode": 0,
+  "stderr": "",
+  "rawStdout": "{\"schemaVersion\":\"authoring.independent-readback.v2\",\"generatedAt\":\"2026-09-19T17:30:06.591Z\",\"status\":\"PASS\",\"endpoint\":\"http://127.0.0.1:8080/api/admin/games/lol\",\"requestMethod\":\"GET\",\"methodsUsed\":[\"GET\"],\"requestAuth\":\"temporary_non_empty_bearer\",\"realHTTP0\":false,\"businessWrites\":0,\"businessWrites0\":true,\"GETs\":39,\"selfSHA\":\"3b9c5c9e391f63175fdaec238a88b482b05c7e76dc00f2acc0eb2cd6eebcb994\",\"scriptSha256\":\"3b9c5c9e391f63175fdaec238a88b482b05c7e76dc00f2acc0eb2cd6eebcb994\",\"preflight\":{\"batchDir\":\"C:\\\\project\\\\damage_web_dev\\\\数据参考\\\\全量录入-2026-09\\\\交叉试录\\\\科加斯W伤害返回\\\\两技能主体说明收敛\",\"reviewStatus\":\"APPROVED\",\"writerPath\":\"tools/authoring/update-reviewed-descriptions-v2.mjs\",\"lockedWriterSha256\":\"f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517\",\"approvedShaChecks\":[{\"path\":\"tools/authoring/update-reviewed-descriptions-v2.mjs\",\"expectedSha256\":\"f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517\",\"actualSha256\":\"f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517\",\"matches\":true},{\"path\":\"01-纠错计划.json\",\"expectedSha256\":\"52c12522ceeeadcbdde037cdda190c0342073a63548795539e918413075de397\",\"actualSha256\":\"52c12522ceeeadcbdde037cdda190c0342073a63548795539e918413075de397\",\"matches\":true},{\"path\":\"02-冻结请求.json\",\"expectedSha256\":\"7480fe26386e864f253713fe59563a1dc5de0290293f94212f93bc432c652e4c\",\"actualSha256\":\"7480fe26386e864f253713fe59563a1dc5de0290293f94212f93bc432c652e4c\",\"matches\":true},{\"path\":\"03-来源摘要.json\",\"expectedSha256\":\"766677c0717f2d26443b8d7528b76a0535779502fe3893074257591ceeab4611\",\"actualSha256\":\"766677c0717f2d26443b8d7528b76a0535779502fe3893074257591ceeab4611\",\"matches\":true},{\"path\":\"04-写入前现值.json\",\"expectedSha256\":\"233c7d86786bd64970fffbc17e61a71f243b0955e72fa23838f52a0d97343f41\",\"actualSha256\":\"233c7d86786bd64970fffbc17e61a71f243b0955e72fa23838f52a0d97343f41\",\"matches\":true}],\"sourceShaChecks\":[{\"root\":\"web\",\"path\":\"数据参考/全量录入-2026-09/交叉试录/科加斯W伤害返回/01-来源独立结论.json\",\"expectedSha256\":\"91a03e36bb563f11dde06c58411c0482aecd4121f66e3845caaae4890e08880d\",\"actualSha256\":\"91a03e36bb563f11dde06c58411c0482aecd4121f66e3845caaae4890e08880d\",\"matches\":true},{\"root\":\"web\",\"path\":\"数据参考/全量录入-2026-09/交叉试录/科加斯W伤害返回/伤害效果与入口/07-独立回读.json\",\"expectedSha256\":\"710ede6d14561ca2f6c617689afca157eb5a7eea495f0076ad2ff15d7e12b251\",\"actualSha256\":\"710ede6d14561ca2f6c617689afca157eb5a7eea495f0076ad2ff15d7e12b251\",\"matches\":true},{\"root\":\"web\",\"path\":\"数据参考/全量录入-2026-09/沉默状态补齐/10-管理返回结论.json\",\"expectedSha256\":\"129a2d02ca85266076f646fa13e0749391d8ac9185482f68b8afecc6749ed2bf\",\"actualSha256\":\"129a2d02ca85266076f646fa13e0749391d8ac9185482f68b8afecc6749ed2bf\",\"matches\":true},{\"root\":\"web\",\"path\":\"数据参考/全量录入-2026-09/沉默状态补齐/玛尔扎哈旧伤害敌方更正/06-独立回读.json\",\"expectedSha256\":\"c0cee2f5114eb9d76ae6fe237595cb2ad7440f8ec2c69c8aab4909411ac7f8b8\",\"actualSha256\":\"c0cee2f5114eb9d76ae6fe237595cb2ad7440f8ec2c69c8aab4909411ac7f8b8\",\"matches\":true}],\"freezeSourceSha256Matches\":true,\"freezeBaselineSha256Matches\":true,\"baselineBase\":\"http://127.0.0.1:8080/api/admin/games/lol\",\"baselinePathCount\":39,\"baselineAuditCount\":39,\"writeStatus\":\"PASS\",\"writeBusinessWritesAttempted\":2,\"targetRoutes\":[\"/skills/chogath_w\",\"/skills/malzahar_q\"]},\"counts\":{\"requestedGETs\":39,\"completedGETs\":39,\"successfulJSONResponses\":39,\"statusCounts\":{\"200\":39},\"targetDetailPaths\":2,\"targetListPaths\":0,\"changedDetailPass\":2,\"changedListPass\":0,\"unchangedResponsesIncludingTimestamps\":37,\"unchangedPathsExpected\":37,\"unchangedPathsPass\":37,\"expectedChangedCollections\":0,\"failureCount\":0},\"expectedChangedCollections\":0,\"unchangedResponsesIncludingTimestamps\":37,\"changedDetails\":{\"/skills/chogath_w\":{\"createdAt\":\"2026-09-06T18:18:04.921171Z\",\"description\":\"科加斯向前方锥形区域发出声波，造成魔法伤害并沉默命中的敌人。已录入敌方英雄实际命中伤害及无本来源实例时的首次沉默；五级伤害为80/130/180/230/280加0.7倍来源总法强，沉默1600/1700/1800/1900/2000毫秒。施放时长、主动使用成本冷却入口及沉默重施仍待核。固定来源：客户端16.17、官方静态资料16.17.1。\",\"gameId\":\"lol\",\"maxLevel\":5,\"name\":\"科加斯·野性尖叫\",\"skillCategoryKeys\":[\"common\"],\"skillKey\":\"chogath_w\",\"sortOrder\":2,\"status\":\"ENABLED\",\"updatedAt\":\"2026-09-19T17:29:11.231425Z\"},\"/skills/malzahar_q\":{\"createdAt\":\"2026-09-06T18:19:19.619328Z\",\"description\":\"玛尔扎哈开启两扇虚空传送门，短暂延迟后对流的能量对敌方英雄造成魔法伤害并沉默。普通主动使用的法力、冷却和施法延迟、实际敌方英雄命中伤害，以及无本来源实例时的首次沉默已录入；五级沉默为1000/1250/1500/1750/2000毫秒。沉默重施与Q刷新E的跨技能关系仍待核，不计整技能管理完成。固定来源：客户端16.17、官方静态资料16.17.1。\",\"gameId\":\"lol\",\"maxLevel\":5,\"name\":\"玛尔扎哈·虚空召唤\",\"skillCategoryKeys\":[\"common\"],\"skillKey\":\"malzahar_q\",\"sortOrder\":1,\"status\":\"ENABLED\",\"updatedAt\":\"2026-09-19T17:29:12.675374Z\"}},\"values\":{\"/skills/chogath_w\":{\"createdAt\":\"2026-09-06T18:18:04.921171Z\",\"description\":\"科加斯向前方锥形区域发出声波，造成魔法伤害并沉默命中的敌人。已录入敌方英雄实际命中伤害及无本来源实例时的首次沉默；五级伤害为80/130/180/230/280加0.7倍来源总法强，沉默1600/1700/1800/1900/2000毫秒。施放时长、主动使用成本冷却入口及沉默重施仍待核。固定来源：客户端16.17、官方静态资料16.17.1。\",\"gameId\":\"lol\",\"maxLevel\":5,\"name\":\"科加斯·野性尖叫\",\"skillCategoryKeys\":[\"common\"],\"skillKey\":\"chogath_w\",\"sortOrder\":2,\"status\":\"ENABLED\",\"updatedAt\":\"2026-09-19T17:29:11.231425Z\"},\"/skills/chogath_w/parameters\":[{\"createdAt\":\"2026-09-09T12:47:26.86309Z\",\"description\":\"客户端根mEffectAmount第一项索引1至5；保留技能等级值。\",\"fixedValue\":null,\"gameId\":\"lol\",\"levelValues\":{\"1\":80,\"2\":130,\"3\":180,\"4\":230,\"5\":280},\"name\":\"基础魔法伤害\",\"parameterKey\":\"base_damage\",\"skillKey\":\"chogath_w\",\"sortOrder\":20,\"updatedAt\":\"2026-09-09T12:47:26.86309Z\",\"valueMode\":\"SKILL_LEVEL\",\"valueType\":\"INTEGER\"},{\"createdAt\":\"2026-09-09T12:47:27.823508Z\",\"description\":\"TotalDamageTooltip的StatByCoefficientCalculationPart系数0.7，mStat省略按同版窄口径取来源总法强。\",\"fixedValue\":0.7,\"gameId\":\"lol\",\"levelValues\":null,\"name\":\"法术强度倍率\",\"parameterKey\":\"ap_ratio\",\"skillKey\":\"chogath_w\",\"sortOrder\":30,\"updatedAt\":\"2026-09-09T12:47:27.823508Z\",\"valueMode\":\"FIXED\",\"valueType\":\"DECIMAL\"},{\"createdAt\":\"2026-09-09T12:47:28.793743Z\",\"description\":\"客户端根mEffectAmount第二项为秒，转毫秒。\",\"fixedValue\":null,\"gameId\":\"lol\",\"levelValues\":{\"1\":1600,\"2\":1700,\"3\":1800,\"4\":1900,\"5\":2000},\"name\":\"沉默持续（毫秒）\",\"parameterKey\":\"silence_duration_ms\",\"skillKey\":\"chogath_w\",\"sortOrder\":40,\"updatedAt\":\"2026-09-09T12:47:28.793743Z\",\"valueMode\":\"SKILL_LEVEL\",\"valueType\":\"INTEGER\"},{\"createdAt\":\"2026-09-07T18:36:14.519164Z\",\"description\":\"DDragon16.17.1 Chogath.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。\",\"fixedValue\":null,\"gameId\":\"lol\",\"levelValues\":{\"1\":11000,\"2\":10500,\"3\":10000,\"4\":9500,\"5\":9000},\"name\":\"基础冷却时间（毫秒）\",\"parameterKey\":\"cooldown_ms\",\"skillKey\":\"chogath_w\",\"sortOrder\":100,\"updatedAt\":\"2026-09-07T18:36:14.519164Z\",\"valueMode\":\"SKILL_LEVEL\",\"valueType\":\"INTEGER\"},{\"createdAt\":\"2026-09-07T18:36:15.037827Z\",\"description\":\"DDragon16.17.1 Chogath.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。\",\"fixedValue\":null,\"gameId\":\"lol\",\"levelValues\":{\"1\":70,\"2\":75,\"3\":80,\"4\":85,\"5\":90},\"name\":\"基础法力消耗\",\"parameterKey\":\"mana_cost\",\"skillKey\":\"chogath_w\",\"sortOrder\":110,\"updatedAt\":\"2026-09-07T18:36:15.037827Z\",\"valueMode\":\"SKILL_LEVEL\",\"valueType\":\"INTEGER\"}],\"/skills/chogath_w/parameters/base_damage\":{\"createdAt\":\"2026-09-09T12:47:26.86309Z\",\"description\":\"客户端根mEffectAmount第一项索引1至5；保留技能等级值。\",\"fixedValue\":null,\"gameId\":\"lol\",\"levelValues\":{\"1\":80,\"2\":130,\"3\":180,\"4\":230,\"5\":280},\"name\":\"基础魔法伤害\",\"parameterKey\":\"base_damage\",\"skillKey\":\"chogath_w\",\"sortOrder\":20,\"updatedAt\":\"2026-09-09T12:47:26.86309Z\",\"valueMode\":\"SKILL_LEVEL\",\"valueType\":\"INTEGER\"},\"/skills/chogath_w/parameters/ap_ratio\":{\"createdAt\":\"2026-09-09T12:47:27.823508Z\",\"description\":\"TotalDamageTooltip的StatByCoefficientCalculationPart系数0.7，mStat省略按同版窄口径取来源总法强。\",\"fixedValue\":0.7,\"gameId\":\"lol\",\"levelValues\":null,\"name\":\"法术强度倍率\",\"parameterKey\":\"ap_ratio\",\"skillKey\":\"chogath_w\",\"sortOrder\":30,\"updatedAt\":\"2026-09-09T12:47:27.823508Z\",\"valueMode\":\"FIXED\",\"valueType\":\"DECIMAL\"},\"/skills/chogath_w/parameters/silence_duration_ms\":{\"createdAt\":\"2026-09-09T12:47:28.793743Z\",\"description\":\"客户端根mEffectAmount第二项为秒，转毫秒。\",\"fixedValue\":null,\"gameId\":\"lol\",\"levelValues\":{\"1\":1600,\"2\":1700,\"3\":1800,\"4\":1900,\"5\":2000},\"name\":\"沉默持续（毫秒）\",\"parameterKey\":\"silence_duration_ms\",\"skillKey\":\"chogath_w\",\"sortOrder\":40,\"updatedAt\":\"2026-09-09T12:47:28.793743Z\",\"valueMode\":\"SKILL_LEVEL\",\"valueType\":\"INTEGER\"},\"/skills/chogath_w/parameters/cooldown_ms\":{\"createdAt\":\"2026-09-07T18:36:14.519164Z\",\"description\":\"DDragon16.17.1 Chogath.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。\",\"fixedValue\":null,\"gameId\":\"lol\",\"levelValues\":{\"1\":11000,\"2\":10500,\"3\":10000,\"4\":9500,\"5\":9000},\"name\":\"基础冷却时间（毫秒）\",\"parameterKey\":\"cooldown_ms\",\"skillKey\":\"chogath_w\",\"sortOrder\":100,\"updatedAt\":\"2026-09-07T18:36:14.519164Z\",\"valueMode\":\"SKILL_LEVEL\",\"valueType\":\"INTEGER\"},\"/skills/chogath_w/parameters/mana_cost\":{\"createdAt\":\"2026-09-07T18:36:15.037827Z\",\"description\":\"DDragon16.17.1 Chogath.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。\",\"fixedValue\":null,\"gameId\":\"lol\",\"levelValues\":{\"1\":70,\"2\":75,\"3\":80,\"4\":85,\"5\":90},\"name\":\"基础法力消耗\",\"parameterKey\":\"mana_cost\",\"skillKey\":\"chogath_w\",\"sortOrder\":110,\"updatedAt\":\"2026-09-07T18:36:15.037827Z\",\"valueMode\":\"SKILL_LEVEL\",\"valueType\":\"INTEGER\"},\"/skills/chogath_w/formulas\":[{\"createdAt\":\"2026-09-09T12:47:29.842217Z\",\"description\":\"基础伤害加来源总法强的0.7倍；已有命中伤害效果引用本公式，五级基础值及属性取值口径保持。\",\"formulaKey\":\"magic_damage\",\"gameId\":\"lol\",\"name\":\"野性尖叫魔法伤害\",\"skillKey\":\"chogath_w\",\"sortOrder\":10,\"updatedAt\":\"2026-09-19T17:25:02.536765Z\"}],\"/skills/chogath_w/formulas/magic_damage\":{\"createdAt\":\"2026-09-09T12:47:29.842217Z\",\"description\":\"基础伤害加来源总法强的0.7倍；已有命中伤害效果引用本公式，五级基础值及属性取值口径保持。\",\"expression\":{\"nodeType\":\"OPERATION\",\"operands\":[{\"nodeType\":\"PARAMETER\",\"parameterKey\":\"base_damage\"},{\"nodeType\":\"OPERATION\",\"operands\":[{\"nodeType\":\"PARAMETER\",\"parameterKey\":\"ap_ratio\"},{\"attributeKey\":\"ability_power\",\"attributeOwner\":\"SOURCE\",\"attributeValueKind\":\"TOTAL\",\"nodeType\":\"ATTRIBUTE\"}],\"operation\":\"MULTIPLY\"}],\"operation\":\"ADD\"},\"formulaKey\":\"magic_damage\",\"gameId\":\"lol\",\"name\":\"野性尖叫魔法伤害\",\"skillKey\":\"chogath_w\",\"sortOrder\":10,\"updatedAt\":\"2026-09-19T17:25:02.536765Z\"},\"/skills/chogath_w/effects\":[{\"createdAt\":\"2026-09-09T12:47:30.868461Z\",\"description\":\"仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。\",\"effectKey\":\"mana_cost\",\"gameId\":\"lol\",\"lifecycleEnabled\":false,\"name\":\"施放法力消耗\",\"resultCount\":1,\"skillKey\":\"chogath_w\",\"sortOrder\":10,\"updatedAt\":\"2026-09-09T12:47:30.868461Z\"},{\"createdAt\":\"2026-09-19T17:18:46.507978Z\",\"description\":\"实际命中敌方英雄时执行一次直接魔法技能伤害，引用已有完整公式；不以目标没有沉默实例为伤害前置。沉默、主动使用及成本冷却分开维护。\",\"effectKey\":\"primary_hit\",\"gameId\":\"lol\",\"lifecycleEnabled\":false,\"name\":\"科加斯·野性尖叫命中伤害\",\"resultCount\":1,\"skillKey\":\"chogath_w\",\"sortOrder\":20,\"updatedAt\":\"2026-09-19T17:18:46.507978Z\"},{\"createdAt\":\"2026-09-19T17:00:47.249796Z\",\"description\":\"本来源当前目标无本沉默实例时施加一次沉默，期限引用已有五级参数；入口同时要求敌方英雄实际命中且同次命中明确未被法术护盾阻挡。已有实例时不执行，重复层数与刷新字段在本入口不可达，重施分支待补证。\",\"effectKey\":\"silence_first_application\",\"gameId\":\"lol\",\"lifecycleEnabled\":true,\"name\":\"野性尖叫首次沉默\",\"resultCount\":1,\"skillKey\":\"chogath_w\",\"sortOrder\":30,\"updatedAt\":\"2026-09-19T17:00:47.249796Z\"}],\"/skills/chogath_w/effects/mana_cost\":{\"createdAt\":\"2026-09-09T12:47:30.868461Z\",\"description\":\"仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。\",\"effectKey\":\"mana_cost\",\"gameId\":\"lol\",\"lifecycle\":null,\"name\":\"施放法力消耗\",\"results\":[{\"description\":null,\"detail\":{\"attributeKey\":\"mana\",\"operation\":\"CONSUME\"},\"lifecycleBehavior\":null,\"name\":\"消耗法力\",\"resultKey\":\"consume_mana\",\"resultType\":\"RESOURCE_CHANGE\",\"sortOrder\":10,\"spellShieldBlockScope\":null,\"target\":\"SOURCE\",\"valueRule\":{\"fixedMaxValue\":null,\"fixedMinValue\":0,\"fixedMultiplier\":1,\"value\":{\"kind\":\"PARAMETER\",\"parameterKey\":\"mana_cost\"}}}],\"skillKey\":\"chogath_w\",\"sortOrder\":10,\"updatedAt\":\"2026-09-09T12:47:30.868461Z\"},\"/skills/chogath_w/effects/primary_hit\":{\"createdAt\":\"2026-09-19T17:18:46.507978Z\",\"description\":\"实际命中敌方英雄时执行一次直接魔法技能伤害，引用已有完整公式；不以目标没有沉默实例为伤害前置。沉默、主动使用及成本冷却分开维护。\",\"effectKey\":\"primary_hit\",\"gameId\":\"lol\",\"lifecycle\":null,\"name\":\"科加斯·野性尖叫命中伤害\",\"results\":[{\"description\":\"引用同技能magic_damage公式：基础伤害加来源总法强的0.7倍。\",\"detail\":{\"critical\":{\"mode\":\"DISALLOWED\",\"multiplierValue\":null},\"damageTypeKey\":\"magic\",\"deliveryKind\":\"SKILL\",\"originKind\":\"DIRECT\",\"vampRules\":[{\"basisOutputKind\":\"POST_DEFENSE_DAMAGE\",\"efficiencyValue\":{\"kind\":\"FIXED\",\"value\":1},\"vampType\":\"OMNIVAMP\"}]},\"lifecycleBehavior\":null,\"name\":\"魔法伤害\",\"resultKey\":\"damage\",\"resultType\":\"DAMAGE\",\"sortOrder\":10,\"spellShieldBlockScope\":\"SKILL\",\"target\":\"TARGET\",\"valueRule\":{\"fixedMaxValue\":null,\"fixedMinValue\":0,\"fixedMultiplier\":1,\"value\":{\"formulaKey\":\"magic_damage\",\"kind\":\"FORMULA\"}}}],\"skillKey\":\"chogath_w\",\"sortOrder\":20,\"updatedAt\":\"2026-09-19T17:18:46.507978Z\"},\"/skills/chogath_w/effects/silence_first_application\":{\"createdAt\":\"2026-09-19T17:00:47.249796Z\",\"description\":\"本来源当前目标无本沉默实例时施加一次沉默，期限引用已有五级参数；入口同时要求敌方英雄实际命中且同次命中明确未被法术护盾阻挡。已有实例时不执行，重复层数与刷新字段在本入口不可达，重施分支待补证。\",\"effectKey\":\"silence_first_application\",\"gameId\":\"lol\",\"lifecycle\":{\"applicationStacksValue\":{\"kind\":\"FIXED\",\"value\":1},\"durationValue\":{\"kind\":\"PARAMETER\",\"parameterKey\":\"silence_duration_ms\"},\"expiryMode\":\"ALL_AT_ONCE\",\"firstPeriodicExecution\":null,\"instanceScope\":\"SOURCE_TARGET\",\"maxStacksValue\":{\"kind\":\"FIXED\",\"value\":1},\"periodicIntervalValue\":null,\"reapplicationDurationMode\":\"REFRESH_ALL\",\"reapplicationStackMode\":\"KEEP\"},\"name\":\"野性尖叫首次沉默\",\"results\":[{\"description\":\"施加无强度沉默并随父效果期限结束，只在本次施加时按当前结果参与法术护盾判断。\",\"detail\":{\"operation\":\"APPLY\",\"statusKey\":\"silence\"},\"lifecycleBehavior\":{\"moment\":\"PERSISTENT\",\"periodicExecutionMode\":null,\"reapplicationValueMode\":null,\"stackValueMode\":null,\"valueReadMode\":null},\"name\":\"野性尖叫沉默\",\"resultKey\":\"silence\",\"resultType\":\"STATUS_OPERATION\",\"sortOrder\":10,\"spellShieldBlockScope\":\"RESULT\",\"target\":\"TARGET\",\"valueRule\":null}],\"skillKey\":\"chogath_w\",\"sortOrder\":30,\"updatedAt\":\"2026-09-19T17:00:47.249796Z\"},\"/skills/chogath_w/processes\":[],\"/skills/chogath_w/internal-states\":[],\"/skills/chogath_w/trigger-rules\":[{\"actionCount\":1,\"conditionGroupCount\":1,\"description\":\"只消费本技能实际命中敌方英雄的事件，不从施放或延迟结束生成命中；目标已有沉默实例仍可受到本次伤害。\",\"eventType\":\"SKILL_HIT\",\"maxTriggersPerProcessEnabled\":false,\"name\":\"科加斯·野性尖叫实际命中\",\"perTargetCooldownEnabled\":false,\"ruleKey\":\"actual_hit\",\"sortOrder\":10,\"updatedAt\":\"2026-09-19T17:18:48.081895Z\"},{\"actionCount\":1,\"conditionGroupCount\":1,\"description\":\"只在同一次实际命中明确为敌方英雄、法术护盾阻挡值为0且当前目标无本来源沉默实例时执行沉默；缺少护盾值不得默认0。有实例的重复命中分支未录，原伤害与成本入口保持。\",\"eventType\":\"SKILL_HIT\",\"maxTriggersPerProcessEnabled\":false,\"name\":\"无本沉默实例时施加\",\"perTargetCooldownEnabled\":false,\"ruleKey\":\"apply_silence_on_unblocked_hit\",\"sortOrder\":30,\"updatedAt\":\"2026-09-19T17:00:49.023867Z\"}],\"/skills/chogath_w/trigger-rules/actual_hit\":{\"actions\":[{\"actionKey\":\"execute_primary_hit\",\"actionType\":\"EXECUTE_EFFECT\",\"detail\":{\"effectKey\":\"primary_hit\"},\"name\":\"执行野性尖叫伤害\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[{\"conditions\":[{\"conditionKey\":\"champion_target\",\"conditionType\":\"TARGET_CATEGORY_CHECK\",\"detail\":{\"categories\":[\"CHAMPION\"]},\"sortOrder\":10},{\"conditionKey\":\"enemy_target\",\"conditionType\":\"SKILL_HIT_TARGET_IS_ENEMY\",\"detail\":{},\"sortOrder\":20}],\"groupKey\":\"champion_target\",\"name\":\"本轮英雄目标\",\"sortOrder\":10}],\"description\":\"只消费本技能实际命中敌方英雄的事件，不从施放或延迟结束生成命中；目标已有沉默实例仍可受到本次伤害。\",\"eventSource\":{\"detail\":{\"sourceSkillKey\":\"chogath_w\",\"useKind\":null},\"eventType\":\"SKILL_HIT\"},\"maxTriggersPerProcess\":null,\"name\":\"科加斯·野性尖叫实际命中\",\"perTargetCooldown\":null,\"ruleKey\":\"actual_hit\",\"sortOrder\":10},\"/skills/chogath_w/trigger-rules/apply_silence_on_unblocked_hit\":{\"actions\":[{\"actionKey\":\"apply_silence\",\"actionType\":\"EXECUTE_EFFECT\",\"detail\":{\"effectKey\":\"silence_first_application\"},\"name\":\"施加本次沉默\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[{\"conditions\":[{\"conditionKey\":\"champion_target\",\"conditionType\":\"TARGET_CATEGORY_CHECK\",\"detail\":{\"categories\":[\"CHAMPION\"]},\"sortOrder\":10},{\"conditionKey\":\"enemy_target\",\"conditionType\":\"SKILL_HIT_TARGET_IS_ENEMY\",\"detail\":{},\"sortOrder\":20},{\"conditionKey\":\"not_spell_shield_blocked\",\"conditionType\":\"EVENT_VALUE_COMPARE\",\"detail\":{\"comparator\":\"EQ\",\"comparisonValue\":{\"kind\":\"FIXED\",\"value\":0},\"eventValueKey\":\"SKILL_HIT_SPELL_SHIELD_BLOCKED\"},\"sortOrder\":30},{\"conditionKey\":\"own_silence_absent\",\"conditionType\":\"LIFECYCLE_CHECK\",\"detail\":{\"checkKind\":\"ABSENT\",\"comparator\":null,\"comparisonValue\":null,\"effectKey\":\"silence_first_application\",\"subject\":\"CURRENT_TARGET\"},\"sortOrder\":40}],\"groupKey\":\"silence_eligible\",\"name\":\"本次沉默可施加\",\"sortOrder\":10}],\"description\":\"只在同一次实际命中明确为敌方英雄、法术护盾阻挡值为0且当前目标无本来源沉默实例时执行沉默；缺少护盾值不得默认0。有实例的重复命中分支未录，原伤害与成本入口保持。\",\"eventSource\":{\"detail\":{\"sourceSkillKey\":\"chogath_w\",\"useKind\":null},\"eventType\":\"SKILL_HIT\"},\"maxTriggersPerProcess\":null,\"name\":\"无本沉默实例时施加\",\"perTargetCooldown\":null,\"ruleKey\":\"apply_silence_on_unblocked_hit\",\"sortOrder\":30},\"/skills/malzahar_q\":{\"createdAt\":\"2026-09-06T18:19:19.619328Z\",\"description\":\"玛尔扎哈开启两扇虚空传送门，短暂延迟后对流的能量对敌方英雄造成魔法伤害并沉默。普通主动使用的法力、冷却和施法延迟、实际敌方英雄命中伤害，以及无本来源实例时的首次沉默已录入；五级沉默为1000/1250/1500/1750/2000毫秒。沉默重施与Q刷新E的跨技能关系仍待核，不计整技能管理完成。固定来源：客户端16.17、官方静态资料16.17.1。\",\"gameId\":\"lol\",\"maxLevel\":5,\"name\":\"玛尔扎哈·虚空召唤\",\"skillCategoryKeys\":[\"common\"],\"skillKey\":\"malzahar_q\",\"sortOrder\":1,\"status\":\"ENABLED\",\"updatedAt\":\"2026-09-19T17:29:12.675374Z\"},\"/skills/malzahar_q/parameters\":[{\"createdAt\":\"2026-09-09T10:35:07.708061Z\",\"description\":\"当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。\",\"fixedValue\":250,\"gameId\":\"lol\",\"levelValues\":null,\"name\":\"施法时间（毫秒）\",\"parameterKey\":\"cast_time_ms\",\"skillKey\":\"malzahar_q\",\"sortOrder\":30,\"updatedAt\":\"2026-09-09T10:35:07.708061Z\",\"valueMode\":\"FIXED\",\"valueType\":\"INTEGER\"},{\"createdAt\":\"2026-09-09T10:35:08.778054Z\",\"description\":\"客户端当前根绑定 DataValues.BaseDamage 取索引1至5。\",\"fixedValue\":null,\"gameId\":\"lol\",\"levelValues\":{\"1\":70,\"2\":105,\"3\":140,\"4\":175,\"5\":210},\"name\":\"基础魔法伤害\",\"parameterKey\":\"base_damage\",\"skillKey\":\"malzahar_q\",\"sortOrder\":40,\"updatedAt\":\"2026-09-09T10:35:08.778054Z\",\"valueMode\":\"SKILL_LEVEL\",\"valueType\":\"INTEGER\"},{\"createdAt\":\"2026-09-09T10:35:09.878718Z\",\"description\":\"客户端当前根绑定 DataValues.SilenceDuration 取索引1至5；单位秒转毫秒；按来源显示单位换算为系统比例/毫秒。\",\"fixedValue\":null,\"gameId\":\"lol\",\"levelValues\":{\"1\":1000,\"2\":1250,\"3\":1500,\"4\":1750,\"5\":2000},\"name\":\"沉默持续（毫秒）\",\"parameterKey\":\"silence_duration_ms\",\"skillKey\":\"malzahar_q\",\"sortOrder\":50,\"updatedAt\":\"2026-09-09T10:35:09.878718Z\",\"valueMode\":\"SKILL_LEVEL\",\"valueType\":\"INTEGER\"},{\"createdAt\":\"2026-09-09T10:35:10.913161Z\",\"description\":\"TotalDamageTooltip树直接给出0.55；固定系数进入公式。\",\"fixedValue\":0.55,\"gameId\":\"lol\",\"levelValues\":null,\"name\":\"法强倍率\",\"parameterKey\":\"ap_ratio_constant\",\"skillKey\":\"malzahar_q\",\"sortOrder\":60,\"updatedAt\":\"2026-09-09T10:35:10.913161Z\",\"valueMode\":\"FIXED\",\"valueType\":\"DECIMAL\"},{\"createdAt\":\"2026-09-07T17:38:36.42094Z\",\"description\":\"DDragon16.17.1 Malzahar.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。\",\"fixedValue\":6000,\"gameId\":\"lol\",\"levelValues\":null,\"name\":\"基础冷却时间（毫秒）\",\"parameterKey\":\"cooldown_ms\",\"skillKey\":\"malzahar_q\",\"sortOrder\":100,\"updatedAt\":\"2026-09-07T17:38:36.42094Z\",\"valueMode\":\"FIXED\",\"valueType\":\"INTEGER\"},{\"createdAt\":\"2026-09-07T17:38:36.825025Z\",\"description\":\"DDragon16.17.1 Malzahar.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。\",\"fixedValue\":null,\"gameId\":\"lol\",\"levelValues\":{\"1\":60,\"2\":65,\"3\":70,\"4\":75,\"5\":80},\"name\":\"基础法力消耗\",\"parameterKey\":\"mana_cost\",\"skillKey\":\"malzahar_q\",\"sortOrder\":110,\"updatedAt\":\"2026-09-19T03:18:02.819738Z\",\"valueMode\":\"SKILL_LEVEL\",\"valueType\":\"INTEGER\"}],\"/skills/malzahar_q/parameters/cast_time_ms\":{\"createdAt\":\"2026-09-09T10:35:07.708061Z\",\"description\":\"当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。\",\"fixedValue\":250,\"gameId\":\"lol\",\"levelValues\":null,\"name\":\"施法时间（毫秒）\",\"parameterKey\":\"cast_time_ms\",\"skillKey\":\"malzahar_q\",\"sortOrder\":30,\"updatedAt\":\"2026-09-09T10:35:07.708061Z\",\"valueMode\":\"FIXED\",\"valueType\":\"INTEGER\"},\"/skills/malzahar_q/parameters/base_damage\":{\"createdAt\":\"2026-09-09T10:35:08.778054Z\",\"description\":\"客户端当前根绑定 DataValues.BaseDamage 取索引1至5。\",\"fixedValue\":null,\"gameId\":\"lol\",\"levelValues\":{\"1\":70,\"2\":105,\"3\":140,\"4\":175,\"5\":210},\"name\":\"基础魔法伤害\",\"parameterKey\":\"base_damage\",\"skillKey\":\"malzahar_q\",\"sortOrder\":40,\"updatedAt\":\"2026-09-09T10:35:08.778054Z\",\"valueMode\":\"SKILL_LEVEL\",\"valueType\":\"INTEGER\"},\"/skills/malzahar_q/parameters/silence_duration_ms\":{\"createdAt\":\"2026-09-09T10:35:09.878718Z\",\"description\":\"客户端当前根绑定 DataValues.SilenceDuration 取索引1至5；单位秒转毫秒；按来源显示单位换算为系统比例/毫秒。\",\"fixedValue\":null,\"gameId\":\"lol\",\"levelValues\":{\"1\":1000,\"2\":1250,\"3\":1500,\"4\":1750,\"5\":2000},\"name\":\"沉默持续（毫秒）\",\"parameterKey\":\"silence_duration_ms\",\"skillKey\":\"malzahar_q\",\"sortOrder\":50,\"updatedAt\":\"2026-09-09T10:35:09.878718Z\",\"valueMode\":\"SKILL_LEVEL\",\"valueType\":\"INTEGER\"},\"/skills/malzahar_q/parameters/ap_ratio_constant\":{\"createdAt\":\"2026-09-09T10:35:10.913161Z\",\"description\":\"TotalDamageTooltip树直接给出0.55；固定系数进入公式。\",\"fixedValue\":0.55,\"gameId\":\"lol\",\"levelValues\":null,\"name\":\"法强倍率\",\"parameterKey\":\"ap_ratio_constant\",\"skillKey\":\"malzahar_q\",\"sortOrder\":60,\"updatedAt\":\"2026-09-09T10:35:10.913161Z\",\"valueMode\":\"FIXED\",\"valueType\":\"DECIMAL\"},\"/skills/malzahar_q/parameters/cooldown_ms\":{\"createdAt\":\"2026-09-07T17:38:36.42094Z\",\"description\":\"DDragon16.17.1 Malzahar.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。\",\"fixedValue\":6000,\"gameId\":\"lol\",\"levelValues\":null,\"name\":\"基础冷却时间（毫秒）\",\"parameterKey\":\"cooldown_ms\",\"skillKey\":\"malzahar_q\",\"sortOrder\":100,\"updatedAt\":\"2026-09-07T17:38:36.42094Z\",\"valueMode\":\"FIXED\",\"valueType\":\"INTEGER\"},\"/skills/malzahar_q/parameters/mana_cost\":{\"createdAt\":\"2026-09-07T17:38:36.825025Z\",\"description\":\"DDragon16.17.1 Malzahar.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。\",\"fixedValue\":null,\"gameId\":\"lol\",\"levelValues\":{\"1\":60,\"2\":65,\"3\":70,\"4\":75,\"5\":80},\"name\":\"基础法力消耗\",\"parameterKey\":\"mana_cost\",\"skillKey\":\"malzahar_q\",\"sortOrder\":110,\"updatedAt\":\"2026-09-19T03:18:02.819738Z\",\"valueMode\":\"SKILL_LEVEL\",\"valueType\":\"INTEGER\"},\"/skills/malzahar_q/formulas\":[{\"createdAt\":\"2026-09-09T10:35:12.046811Z\",\"description\":\"TotalDamageTooltip = BaseDamage + 0.55×法强；当前树的StatByCoefficient无独立运行输入。\",\"formulaKey\":\"damage\",\"gameId\":\"lol\",\"name\":\"虚空召唤魔法伤害\",\"skillKey\":\"malzahar_q\",\"sortOrder\":10,\"updatedAt\":\"2026-09-09T10:35:12.046811Z\"}],\"/skills/malzahar_q/formulas/damage\":{\"createdAt\":\"2026-09-09T10:35:12.046811Z\",\"description\":\"TotalDamageTooltip = BaseDamage + 0.55×法强；当前树的StatByCoefficient无独立运行输入。\",\"expression\":{\"nodeType\":\"OPERATION\",\"operands\":[{\"nodeType\":\"PARAMETER\",\"parameterKey\":\"base_damage\"},{\"nodeType\":\"OPERATION\",\"operands\":[{\"nodeType\":\"PARAMETER\",\"parameterKey\":\"ap_ratio_constant\"},{\"attributeKey\":\"ability_power\",\"attributeOwner\":\"SOURCE\",\"attributeValueKind\":\"TOTAL\",\"nodeType\":\"ATTRIBUTE\"}],\"operation\":\"MULTIPLY\"}],\"operation\":\"ADD\"},\"formulaKey\":\"damage\",\"gameId\":\"lol\",\"name\":\"虚空召唤魔法伤害\",\"skillKey\":\"malzahar_q\",\"sortOrder\":10,\"updatedAt\":\"2026-09-09T10:35:12.046811Z\"},\"/skills/malzahar_q/effects\":[{\"createdAt\":\"2026-09-09T10:35:13.114198Z\",\"description\":\"本技能普通主动使用时消耗既有参数给出的基础法力；具体使用时点由引用本效果的过程定义。\",\"effectKey\":\"mana_cost\",\"gameId\":\"lol\",\"lifecycleEnabled\":false,\"name\":\"施放法力消耗\",\"resultCount\":1,\"skillKey\":\"malzahar_q\",\"sortOrder\":10,\"updatedAt\":\"2026-09-19T03:18:04.259481Z\"},{\"createdAt\":\"2026-09-19T02:59:17.390934Z\",\"description\":\"本轮1V1实际命中敌方英雄的一次普通直接魔法技能伤害；引用已有完整公式，控制、位移、返还或其他分支另行处理。\",\"effectKey\":\"primary_hit\",\"gameId\":\"lol\",\"lifecycleEnabled\":false,\"name\":\"玛尔扎哈·虚空召唤命中伤害\",\"resultCount\":1,\"skillKey\":\"malzahar_q\",\"sortOrder\":20,\"updatedAt\":\"2026-09-19T02:59:17.390934Z\"},{\"createdAt\":\"2026-09-19T17:00:50.983405Z\",\"description\":\"本来源当前目标无本沉默实例时施加一次沉默，期限引用已有五级参数；入口同时要求敌方英雄实际命中且同次命中明确未被法术护盾阻挡。已有实例时不执行，重复层数与刷新字段在本入口不可达，重施分支待补证。\",\"effectKey\":\"silence_first_application\",\"gameId\":\"lol\",\"lifecycleEnabled\":true,\"name\":\"虚空召唤首次沉默\",\"resultCount\":1,\"skillKey\":\"malzahar_q\",\"sortOrder\":30,\"updatedAt\":\"2026-09-19T17:00:50.983405Z\"}],\"/skills/malzahar_q/effects/mana_cost\":{\"createdAt\":\"2026-09-09T10:35:13.114198Z\",\"description\":\"本技能普通主动使用时消耗既有参数给出的基础法力；具体使用时点由引用本效果的过程定义。\",\"effectKey\":\"mana_cost\",\"gameId\":\"lol\",\"lifecycle\":null,\"name\":\"施放法力消耗\",\"results\":[{\"description\":null,\"detail\":{\"attributeKey\":\"mana\",\"operation\":\"CONSUME\"},\"lifecycleBehavior\":null,\"name\":\"消耗法力\",\"resultKey\":\"consume_mana\",\"resultType\":\"RESOURCE_CHANGE\",\"sortOrder\":10,\"spellShieldBlockScope\":null,\"target\":\"SOURCE\",\"valueRule\":{\"fixedMaxValue\":null,\"fixedMinValue\":0,\"fixedMultiplier\":1,\"value\":{\"kind\":\"PARAMETER\",\"parameterKey\":\"mana_cost\"}}}],\"skillKey\":\"malzahar_q\",\"sortOrder\":10,\"updatedAt\":\"2026-09-19T03:18:04.259481Z\"},\"/skills/malzahar_q/effects/primary_hit\":{\"createdAt\":\"2026-09-19T02:59:17.390934Z\",\"description\":\"本轮1V1实际命中敌方英雄的一次普通直接魔法技能伤害；引用已有完整公式，控制、位移、返还或其他分支另行处理。\",\"effectKey\":\"primary_hit\",\"gameId\":\"lol\",\"lifecycle\":null,\"name\":\"玛尔扎哈·虚空召唤命中伤害\",\"results\":[{\"description\":\"引用同技能 damage 公式，保持现有基础值及属性加成口径。\",\"detail\":{\"critical\":{\"mode\":\"DISALLOWED\",\"multiplierValue\":null},\"damageTypeKey\":\"magic\",\"deliveryKind\":\"SKILL\",\"originKind\":\"DIRECT\",\"vampRules\":[{\"basisOutputKind\":\"POST_DEFENSE_DAMAGE\",\"efficiencyValue\":{\"kind\":\"FIXED\",\"value\":1},\"vampType\":\"OMNIVAMP\"}]},\"lifecycleBehavior\":null,\"name\":\"魔法伤害\",\"resultKey\":\"damage\",\"resultType\":\"DAMAGE\",\"sortOrder\":10,\"spellShieldBlockScope\":\"SKILL\",\"target\":\"TARGET\",\"valueRule\":{\"fixedMaxValue\":null,\"fixedMinValue\":0,\"fixedMultiplier\":1,\"value\":{\"formulaKey\":\"damage\",\"kind\":\"FORMULA\"}}}],\"skillKey\":\"malzahar_q\",\"sortOrder\":20,\"updatedAt\":\"2026-09-19T02:59:17.390934Z\"},\"/skills/malzahar_q/effects/silence_first_application\":{\"createdAt\":\"2026-09-19T17:00:50.983405Z\",\"description\":\"本来源当前目标无本沉默实例时施加一次沉默，期限引用已有五级参数；入口同时要求敌方英雄实际命中且同次命中明确未被法术护盾阻挡。已有实例时不执行，重复层数与刷新字段在本入口不可达，重施分支待补证。\",\"effectKey\":\"silence_first_application\",\"gameId\":\"lol\",\"lifecycle\":{\"applicationStacksValue\":{\"kind\":\"FIXED\",\"value\":1},\"durationValue\":{\"kind\":\"PARAMETER\",\"parameterKey\":\"silence_duration_ms\"},\"expiryMode\":\"ALL_AT_ONCE\",\"firstPeriodicExecution\":null,\"instanceScope\":\"SOURCE_TARGET\",\"maxStacksValue\":{\"kind\":\"FIXED\",\"value\":1},\"periodicIntervalValue\":null,\"reapplicationDurationMode\":\"REFRESH_ALL\",\"reapplicationStackMode\":\"KEEP\"},\"name\":\"虚空召唤首次沉默\",\"results\":[{\"description\":\"施加无强度沉默并随父效果期限结束，只在本次施加时按当前结果参与法术护盾判断。\",\"detail\":{\"operation\":\"APPLY\",\"statusKey\":\"silence\"},\"lifecycleBehavior\":{\"moment\":\"PERSISTENT\",\"periodicExecutionMode\":null,\"reapplicationValueMode\":null,\"stackValueMode\":null,\"valueReadMode\":null},\"name\":\"虚空召唤沉默\",\"resultKey\":\"silence\",\"resultType\":\"STATUS_OPERATION\",\"sortOrder\":10,\"spellShieldBlockScope\":\"RESULT\",\"target\":\"TARGET\",\"valueRule\":null}],\"skillKey\":\"malzahar_q\",\"sortOrder\":30,\"updatedAt\":\"2026-09-19T17:00:50.983405Z\"},\"/skills/malzahar_q/processes\":[{\"activationType\":\"ACTIVE\",\"createdAt\":\"2026-09-19T03:08:13.416314Z\",\"description\":\"登记普通主动使用的基础法力消耗、已有250毫秒根施法延迟与普通冷却；延迟结束不产生命中，控制与其他联动单列。\",\"effectBindingCount\":1,\"gameId\":\"lol\",\"name\":\"玛尔扎哈·虚空召唤施法登记\",\"processKey\":\"cast\",\"skillKey\":\"malzahar_q\",\"sortOrder\":10,\"stateOperationCount\":0,\"stepCount\":1,\"updatedAt\":\"2026-09-19T03:08:13.416314Z\"}],\"/skills/malzahar_q/processes/cast\":{\"activationType\":\"ACTIVE\",\"cooldown\":{\"durationValue\":{\"kind\":\"PARAMETER\",\"parameterKey\":\"cooldown_ms\"},\"startMoment\":{\"momentType\":\"PROCESS_START\",\"stepKey\":null}},\"createdAt\":\"2026-09-19T03:08:13.416314Z\",\"description\":\"登记普通主动使用的基础法力消耗、已有250毫秒根施法延迟与普通冷却；延迟结束不产生命中，控制与其他联动单列。\",\"effectBindings\":[{\"bindingKey\":\"mana_cost\",\"effectKey\":\"mana_cost\",\"moment\":{\"momentType\":\"PROCESS_START\",\"stepKey\":null},\"sortOrder\":10}],\"gameId\":\"lol\",\"name\":\"玛尔扎哈·虚空召唤施法登记\",\"processKey\":\"cast\",\"skillKey\":\"malzahar_q\",\"sortOrder\":10,\"stateOperations\":[],\"steps\":[{\"description\":\"读取当前技能既有施法时间参数；延迟结束不表示发生实际命中。\",\"detail\":{\"delayValue\":{\"kind\":\"PARAMETER\",\"parameterKey\":\"cast_time_ms\"}},\"name\":\"施法延迟\",\"sortOrder\":10,\"stepKey\":\"cast_time\",\"stepType\":\"DELAY\"}],\"updatedAt\":\"2026-09-19T03:08:13.416314Z\"},\"/skills/malzahar_q/internal-states\":[],\"/skills/malzahar_q/trigger-rules\":[{\"actionCount\":1,\"conditionGroupCount\":1,\"description\":\"只消费已确认的 malzahar_q 实际命中事件，对事件中的英雄目标执行primary_hit；不从使用、再次施放、弹跳步骤或过程结束生成命中。英雄类别仅限定本轮范围。\",\"eventType\":\"SKILL_HIT\",\"maxTriggersPerProcessEnabled\":false,\"name\":\"玛尔扎哈·虚空召唤实际命中\",\"perTargetCooldownEnabled\":false,\"ruleKey\":\"actual_hit\",\"sortOrder\":10,\"updatedAt\":\"2026-09-19T17:09:34.764518Z\"},{\"actionCount\":1,\"conditionGroupCount\":0,\"description\":\"普通主动使用malzahar_q时启动cast，登记基础法力和普通冷却；过程使用既有根施法参数。实际命中、返还、控制和联动由各自入口处理。\",\"eventType\":\"SKILL_USED\",\"maxTriggersPerProcessEnabled\":false,\"name\":\"玛尔扎哈·虚空召唤普通使用\",\"perTargetCooldownEnabled\":false,\"ruleKey\":\"on_used\",\"sortOrder\":20,\"updatedAt\":\"2026-09-19T03:08:14.740459Z\"},{\"actionCount\":1,\"conditionGroupCount\":1,\"description\":\"只在同一次实际命中明确为敌方英雄、法术护盾阻挡值为0且当前目标无本来源沉默实例时执行沉默；缺少护盾值不得默认0。有实例的重复命中分支未录，原伤害与成本入口保持。\",\"eventType\":\"SKILL_HIT\",\"maxTriggersPerProcessEnabled\":false,\"name\":\"无本沉默实例时施加\",\"perTargetCooldownEnabled\":false,\"ruleKey\":\"apply_silence_on_unblocked_hit\",\"sortOrder\":30,\"updatedAt\":\"2026-09-19T17:00:52.591208Z\"}],\"/skills/malzahar_q/trigger-rules/actual_hit\":{\"actions\":[{\"actionKey\":\"execute_primary_hit\",\"actionType\":\"EXECUTE_EFFECT\",\"detail\":{\"effectKey\":\"primary_hit\"},\"name\":\"执行玛尔扎哈·虚空召唤伤害\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[{\"conditions\":[{\"conditionKey\":\"champion_target\",\"conditionType\":\"TARGET_CATEGORY_CHECK\",\"detail\":{\"categories\":[\"CHAMPION\"]},\"sortOrder\":10},{\"conditionKey\":\"enemy_target\",\"conditionType\":\"SKILL_HIT_TARGET_IS_ENEMY\",\"detail\":{},\"sortOrder\":20}],\"groupKey\":\"champion_target\",\"name\":\"本轮英雄目标\",\"sortOrder\":10}],\"description\":\"只消费已确认的 malzahar_q 实际命中事件，对事件中的英雄目标执行primary_hit；不从使用、再次施放、弹跳步骤或过程结束生成命中。英雄类别仅限定本轮范围。\",\"eventSource\":{\"detail\":{\"sourceSkillKey\":\"malzahar_q\",\"useKind\":null},\"eventType\":\"SKILL_HIT\"},\"maxTriggersPerProcess\":null,\"name\":\"玛尔扎哈·虚空召唤实际命中\",\"perTargetCooldown\":null,\"ruleKey\":\"actual_hit\",\"sortOrder\":10},\"/skills/malzahar_q/trigger-rules/on_used\":{\"actions\":[{\"actionKey\":\"start_cast\",\"actionType\":\"START_PROCESS\",\"detail\":{\"processKey\":\"cast\"},\"name\":\"启动玛尔扎哈·虚空召唤使用登记\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[],\"description\":\"普通主动使用malzahar_q时启动cast，登记基础法力和普通冷却；过程使用既有根施法参数。实际命中、返还、控制和联动由各自入口处理。\",\"eventSource\":{\"detail\":{\"sourceSkillKey\":\"malzahar_q\",\"useKind\":\"ACTIVE\"},\"eventType\":\"SKILL_USED\"},\"maxTriggersPerProcess\":null,\"name\":\"玛尔扎哈·虚空召唤普通使用\",\"perTargetCooldown\":null,\"ruleKey\":\"on_used\",\"sortOrder\":20},\"/skills/malzahar_q/trigger-rules/apply_silence_on_unblocked_hit\":{\"actions\":[{\"actionKey\":\"apply_silence\",\"actionType\":\"EXECUTE_EFFECT\",\"detail\":{\"effectKey\":\"silence_first_application\"},\"name\":\"施加本次沉默\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[{\"conditions\":[{\"conditionKey\":\"champion_target\",\"conditionType\":\"TARGET_CATEGORY_CHECK\",\"detail\":{\"categories\":[\"CHAMPION\"]},\"sortOrder\":10},{\"conditionKey\":\"enemy_target\",\"conditionType\":\"SKILL_HIT_TARGET_IS_ENEMY\",\"detail\":{},\"sortOrder\":20},{\"conditionKey\":\"not_spell_shield_blocked\",\"conditionType\":\"EVENT_VALUE_COMPARE\",\"detail\":{\"comparator\":\"EQ\",\"comparisonValue\":{\"kind\":\"FIXED\",\"value\":0},\"eventValueKey\":\"SKILL_HIT_SPELL_SHIELD_BLOCKED\"},\"sortOrder\":30},{\"conditionKey\":\"own_silence_absent\",\"conditionType\":\"LIFECYCLE_CHECK\",\"detail\":{\"checkKind\":\"ABSENT\",\"comparator\":null,\"comparisonValue\":null,\"effectKey\":\"silence_first_application\",\"subject\":\"CURRENT_TARGET\"},\"sortOrder\":40}],\"groupKey\":\"silence_eligible\",\"name\":\"本次沉默可施加\",\"sortOrder\":10}],\"description\":\"只在同一次实际命中明确为敌方英雄、法术护盾阻挡值为0且当前目标无本来源沉默实例时执行沉默；缺少护盾值不得默认0。有实例的重复命中分支未录，原伤害与成本入口保持。\",\"eventSource\":{\"detail\":{\"sourceSkillKey\":\"malzahar_q\",\"useKind\":null},\"eventType\":\"SKILL_HIT\"},\"maxTriggersPerProcess\":null,\"name\":\"无本沉默实例时施加\",\"perTargetCooldown\":null,\"ruleKey\":\"apply_silence_on_unblocked_hit\",\"sortOrder\":30}},\"audit\":[{\"requestIndex\":1,\"method\":\"GET\",\"path\":\"/skills/chogath_w\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":652,\"responseSha256\":\"18929a1cd90374654ffe4a9a2566afdc2fc62b795f06b7db78b6a2fd7e31d519\"},{\"requestIndex\":2,\"method\":\"GET\",\"path\":\"/skills/chogath_w/parameters\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":2379,\"responseSha256\":\"ecfe5569a39417d2c1c870730ef6c10273325a2b0246c78a26cdd8a15795f196\"},{\"requestIndex\":3,\"method\":\"GET\",\"path\":\"/skills/chogath_w/parameters/base_damage\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":403,\"responseSha256\":\"6f07e5de9e2ddc41ddfa885a465f467474740055727914b4de48c62cefe4415c\"},{\"requestIndex\":4,\"method\":\"GET\",\"path\":\"/skills/chogath_w/parameters/ap_ratio\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":402,\"responseSha256\":\"2633ed7c12ed9d8b4d2560268cfe4f27b277c8c35d08a0b0a1c2057f38fcc262\"},{\"requestIndex\":5,\"method\":\"GET\",\"path\":\"/skills/chogath_w/parameters/silence_duration_ms\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":408,\"responseSha256\":\"e2bed6c984c8ffd61d3b5422f8466521d8100d664bf09409f0e7ee2de98e5a2f\"},{\"requestIndex\":6,\"method\":\"GET\",\"path\":\"/skills/chogath_w/parameters/cooldown_ms\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":585,\"responseSha256\":\"1ab1ebbd9e9d66b6b2d5ee4b75ccc0e064eff0d0acb67c42d6b176a8fca3a25b\"},{\"requestIndex\":7,\"method\":\"GET\",\"path\":\"/skills/chogath_w/parameters/mana_cost\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":575,\"responseSha256\":\"146759e9b058dcb6939f094e12b798b4ee5bb596e1705f3b95655dabd63494f8\"},{\"requestIndex\":8,\"method\":\"GET\",\"path\":\"/skills/chogath_w/formulas\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":348,\"responseSha256\":\"d1d8c7b25b6f37dd31509cba412e5f5554175b3a7e2c8d5a295fbe40932b7114\"},{\"requestIndex\":9,\"method\":\"GET\",\"path\":\"/skills/chogath_w/formulas/magic_damage\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":692,\"responseSha256\":\"5f30f2f85d7f47d21fe04dcbf124442e458ea6020d477f5d0dbe45141f54760f\"},{\"requestIndex\":10,\"method\":\"GET\",\"path\":\"/skills/chogath_w/effects\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":1352,\"responseSha256\":\"0a053c1a9271888cd1c927458fdefc5e45a87a5d36b3be0a47dd0f8a75080578\"},{\"requestIndex\":11,\"method\":\"GET\",\"path\":\"/skills/chogath_w/effects/mana_cost\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":692,\"responseSha256\":\"0dd7aa8ab08a273561a0020f2321c27db713cd1b81000dffc26e47285150b07c\"},{\"requestIndex\":12,\"method\":\"GET\",\"path\":\"/skills/chogath_w/effects/primary_hit\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":1086,\"responseSha256\":\"ed0c5502adbfd4126dbeb681ffbdd7a0a5a87a38d5115eeef0c998835aa296bb\"},{\"requestIndex\":13,\"method\":\"GET\",\"path\":\"/skills/chogath_w/effects/silence_first_application\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":1402,\"responseSha256\":\"0421923d39355bec8a14084777c789391af1ffb726020106f302454280270e0e\"},{\"requestIndex\":14,\"method\":\"GET\",\"path\":\"/skills/chogath_w/processes\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":2,\"responseSha256\":\"4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945\"},{\"requestIndex\":15,\"method\":\"GET\",\"path\":\"/skills/chogath_w/internal-states\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":2,\"responseSha256\":\"4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945\"},{\"requestIndex\":16,\"method\":\"GET\",\"path\":\"/skills/chogath_w/trigger-rules\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":952,\"responseSha256\":\"acb4459e807f2be254de4efa2d60f0bde720547c357d8bb538faaa110e8e6a33\"},{\"requestIndex\":17,\"method\":\"GET\",\"path\":\"/skills/chogath_w/trigger-rules/actual_hit\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":980,\"responseSha256\":\"dfcf3c14f9386b1941c75d9d62da42af8ad6ed3446e0d582b2af232b5b78f628\"},{\"requestIndex\":18,\"method\":\"GET\",\"path\":\"/skills/chogath_w/trigger-rules/apply_silence_on_unblocked_hit\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":1534,\"responseSha256\":\"2e4a573b673c1ad27e67e86b645b3d19fb9ffb823ea9e0f0e77351f65845a685\"},{\"requestIndex\":19,\"method\":\"GET\",\"path\":\"/skills/malzahar_q\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":703,\"responseSha256\":\"50c20ed1bac7e4b378fb8ce85b2a9b79e1a1fc3557e2e72c80aae38bed360a7b\"},{\"requestIndex\":20,\"method\":\"GET\",\"path\":\"/skills/malzahar_q/parameters\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":2766,\"responseSha256\":\"b61a25ebbd961ed036775bb9d6ae8380f06ecc7ec77cbab3156e288f0285aeec\"},{\"requestIndex\":21,\"method\":\"GET\",\"path\":\"/skills/malzahar_q/parameters/cast_time_ms\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":383,\"responseSha256\":\"86409d6db870752c17a4ee3d33fbfd4d36f33bde7da171c5e7f316cc964b9c55\"},{\"requestIndex\":22,\"method\":\"GET\",\"path\":\"/skills/malzahar_q/parameters/base_damage\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":398,\"responseSha256\":\"21db1bee3000f4401f87c66efb681caaabd73d8bdb3932ac695590c466790ed6\"},{\"requestIndex\":23,\"method\":\"GET\",\"path\":\"/skills/malzahar_q/parameters/silence_duration_ms\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":496,\"responseSha256\":\"d66d773dbc7384a3a46df195a9fb9cac1f56b3db74310d5c3e3c6830a6c1804d\"},{\"requestIndex\":24,\"method\":\"GET\",\"path\":\"/skills/malzahar_q/parameters/ap_ratio_constant\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":359,\"responseSha256\":\"9765a247c2d636ecc3bd537745d6dc8149cf485e81b20ac87ca6430ba9e07f46\"},{\"requestIndex\":25,\"method\":\"GET\",\"path\":\"/skills/malzahar_q/parameters/cooldown_ms\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":534,\"responseSha256\":\"35f1ec2db4ee7972fc772316456c48202b18ff361142950d8e48556992ede60c\"},{\"requestIndex\":26,\"method\":\"GET\",\"path\":\"/skills/malzahar_q/parameters/mana_cost\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":589,\"responseSha256\":\"d4867c5906b8b8aa9d201d763ecd95554391f370c7e7d979ff48ad92845d8827\"},{\"requestIndex\":27,\"method\":\"GET\",\"path\":\"/skills/malzahar_q/formulas\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":316,\"responseSha256\":\"aea1e5aae38de6bab45194a0d56446a4668ac1c64d4f02096bc6170d08f78e87\"},{\"requestIndex\":28,\"method\":\"GET\",\"path\":\"/skills/malzahar_q/formulas/damage\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":669,\"responseSha256\":\"245e2abed95bbcbd6a3caafcb9ec3ab0dc232a4c8bd2f49a6d66294cbe10fa5c\"},{\"requestIndex\":29,\"method\":\"GET\",\"path\":\"/skills/malzahar_q/effects\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":1364,\"responseSha256\":\"600b38378239fbc1dce33227917ec79f5cfa31a8fea0b992b8c635b9c290380e\"},{\"requestIndex\":30,\"method\":\"GET\",\"path\":\"/skills/malzahar_q/effects/mana_cost\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":735,\"responseSha256\":\"12be32788b95e86f9d598114981d87586e237c0054094e88d4dc13e5b6d51858\"},{\"requestIndex\":31,\"method\":\"GET\",\"path\":\"/skills/malzahar_q/effects/primary_hit\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":1047,\"responseSha256\":\"796954dc1a6ca8e872497af4764e65d76fe3af56d99bfcd60cd4db2435e26a06\"},{\"requestIndex\":32,\"method\":\"GET\",\"path\":\"/skills/malzahar_q/effects/silence_first_application\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":1403,\"responseSha256\":\"ad7b8baa91818c36108a3ae54ff8aafb073bdd0df5cad40a639123ac435e86d5\"},{\"requestIndex\":33,\"method\":\"GET\",\"path\":\"/skills/malzahar_q/processes\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":469,\"responseSha256\":\"3e7f40b16495ef94dd5260c373694269e857af11de7482895051c89cce181e12\"},{\"requestIndex\":34,\"method\":\"GET\",\"path\":\"/skills/malzahar_q/processes/cast\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":975,\"responseSha256\":\"b3ab93f86356bfb3c7b23244ba07c26a711f29530f6f62bad9ea4fd10396d314\"},{\"requestIndex\":35,\"method\":\"GET\",\"path\":\"/skills/malzahar_q/internal-states\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":2,\"responseSha256\":\"4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945\"},{\"requestIndex\":36,\"method\":\"GET\",\"path\":\"/skills/malzahar_q/trigger-rules\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":1475,\"responseSha256\":\"e27e55cc039b3d2d056a516cc66c33a9e3dbc4fa031e4604ef04715838ad5080\"},{\"requestIndex\":37,\"method\":\"GET\",\"path\":\"/skills/malzahar_q/trigger-rules/actual_hit\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":1060,\"responseSha256\":\"abdace456870ea5be76354af7d2485600c960b6ea191a867def6cb513ce12e96\"},{\"requestIndex\":38,\"method\":\"GET\",\"path\":\"/skills/malzahar_q/trigger-rules/on_used\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":704,\"responseSha256\":\"2e1200b6e7d5af87879c513be81f525466adef311927e390b28a75db70c44012\"},{\"requestIndex\":39,\"method\":\"GET\",\"path\":\"/skills/malzahar_q/trigger-rules/apply_silence_on_unblocked_hit\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":1535,\"responseSha256\":\"68e17721e25bc733f46e0618a7da42c5beee2b449b5b6e5d8e2aec91ce88e5bc\"}],\"failures\":[],\"detailEvidence\":[{\"path\":\"/skills/chogath_w\",\"kind\":\"skill\",\"descriptionMatchesApproved\":true,\"createdAtUnchanged\":true,\"updatedAtValid\":true,\"updatedAtChanged\":true,\"updatedAtAfterBaseline\":true,\"pass\":true},{\"path\":\"/skills/malzahar_q\",\"kind\":\"skill\",\"descriptionMatchesApproved\":true,\"createdAtUnchanged\":true,\"updatedAtValid\":true,\"updatedAtChanged\":true,\"updatedAtAfterBaseline\":true,\"pass\":true}],\"collectionEvidence\":[],\"unchangedPaths\":[\"/skills/chogath_w/parameters\",\"/skills/chogath_w/parameters/base_damage\",\"/skills/chogath_w/parameters/ap_ratio\",\"/skills/chogath_w/parameters/silence_duration_ms\",\"/skills/chogath_w/parameters/cooldown_ms\",\"/skills/chogath_w/parameters/mana_cost\",\"/skills/chogath_w/formulas\",\"/skills/chogath_w/formulas/magic_damage\",\"/skills/chogath_w/effects\",\"/skills/chogath_w/effects/mana_cost\",\"/skills/chogath_w/effects/primary_hit\",\"/skills/chogath_w/effects/silence_first_application\",\"/skills/chogath_w/processes\",\"/skills/chogath_w/internal-states\",\"/skills/chogath_w/trigger-rules\",\"/skills/chogath_w/trigger-rules/actual_hit\",\"/skills/chogath_w/trigger-rules/apply_silence_on_unblocked_hit\",\"/skills/malzahar_q/parameters\",\"/skills/malzahar_q/parameters/cast_time_ms\",\"/skills/malzahar_q/parameters/base_damage\",\"/skills/malzahar_q/parameters/silence_duration_ms\",\"/skills/malzahar_q/parameters/ap_ratio_constant\",\"/skills/malzahar_q/parameters/cooldown_ms\",\"/skills/malzahar_q/parameters/mana_cost\",\"/skills/malzahar_q/formulas\",\"/skills/malzahar_q/formulas/damage\",\"/skills/malzahar_q/effects\",\"/skills/malzahar_q/effects/mana_cost\",\"/skills/malzahar_q/effects/primary_hit\",\"/skills/malzahar_q/effects/silence_first_application\",\"/skills/malzahar_q/processes\",\"/skills/malzahar_q/processes/cast\",\"/skills/malzahar_q/internal-states\",\"/skills/malzahar_q/trigger-rules\",\"/skills/malzahar_q/trigger-rules/actual_hit\",\"/skills/malzahar_q/trigger-rules/on_used\",\"/skills/malzahar_q/trigger-rules/apply_silence_on_unblocked_hit\"]}\n",
+  "parsed": {
+    "schemaVersion": "authoring.independent-readback.v2",
+    "generatedAt": "2026-09-19T17:30:06.591Z",
+    "status": "PASS",
+    "endpoint": "http://127.0.0.1:8080/api/admin/games/lol",
+    "requestMethod": "GET",
+    "methodsUsed": [
+      "GET"
+    ],
+    "requestAuth": "temporary_non_empty_bearer",
+    "realHTTP0": false,
+    "businessWrites": 0,
+    "businessWrites0": true,
+    "GETs": 39,
+    "selfSHA": "3b9c5c9e391f63175fdaec238a88b482b05c7e76dc00f2acc0eb2cd6eebcb994",
+    "scriptSha256": "3b9c5c9e391f63175fdaec238a88b482b05c7e76dc00f2acc0eb2cd6eebcb994",
+    "preflight": {
+      "batchDir": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\科加斯W伤害返回\\两技能主体说明收敛",
+      "reviewStatus": "APPROVED",
+      "writerPath": "tools/authoring/update-reviewed-descriptions-v2.mjs",
+      "lockedWriterSha256": "f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517",
+      "approvedShaChecks": [
+        {
+          "path": "tools/authoring/update-reviewed-descriptions-v2.mjs",
+          "expectedSha256": "f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517",
+          "actualSha256": "f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517",
+          "matches": true
+        },
+        {
+          "path": "01-纠错计划.json",
+          "expectedSha256": "52c12522ceeeadcbdde037cdda190c0342073a63548795539e918413075de397",
+          "actualSha256": "52c12522ceeeadcbdde037cdda190c0342073a63548795539e918413075de397",
+          "matches": true
+        },
+        {
+          "path": "02-冻结请求.json",
+          "expectedSha256": "7480fe26386e864f253713fe59563a1dc5de0290293f94212f93bc432c652e4c",
+          "actualSha256": "7480fe26386e864f253713fe59563a1dc5de0290293f94212f93bc432c652e4c",
+          "matches": true
+        },
+        {
+          "path": "03-来源摘要.json",
+          "expectedSha256": "766677c0717f2d26443b8d7528b76a0535779502fe3893074257591ceeab4611",
+          "actualSha256": "766677c0717f2d26443b8d7528b76a0535779502fe3893074257591ceeab4611",
+          "matches": true
+        },
+        {
+          "path": "04-写入前现值.json",
+          "expectedSha256": "233c7d86786bd64970fffbc17e61a71f243b0955e72fa23838f52a0d97343f41",
+          "actualSha256": "233c7d86786bd64970fffbc17e61a71f243b0955e72fa23838f52a0d97343f41",
+          "matches": true
+        }
+      ],
+      "sourceShaChecks": [
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/交叉试录/科加斯W伤害返回/01-来源独立结论.json",
+          "expectedSha256": "91a03e36bb563f11dde06c58411c0482aecd4121f66e3845caaae4890e08880d",
+          "actualSha256": "91a03e36bb563f11dde06c58411c0482aecd4121f66e3845caaae4890e08880d",
+          "matches": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/交叉试录/科加斯W伤害返回/伤害效果与入口/07-独立回读.json",
+          "expectedSha256": "710ede6d14561ca2f6c617689afca157eb5a7eea495f0076ad2ff15d7e12b251",
+          "actualSha256": "710ede6d14561ca2f6c617689afca157eb5a7eea495f0076ad2ff15d7e12b251",
+          "matches": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/沉默状态补齐/10-管理返回结论.json",
+          "expectedSha256": "129a2d02ca85266076f646fa13e0749391d8ac9185482f68b8afecc6749ed2bf",
+          "actualSha256": "129a2d02ca85266076f646fa13e0749391d8ac9185482f68b8afecc6749ed2bf",
+          "matches": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/沉默状态补齐/玛尔扎哈旧伤害敌方更正/06-独立回读.json",
+          "expectedSha256": "c0cee2f5114eb9d76ae6fe237595cb2ad7440f8ec2c69c8aab4909411ac7f8b8",
+          "actualSha256": "c0cee2f5114eb9d76ae6fe237595cb2ad7440f8ec2c69c8aab4909411ac7f8b8",
+          "matches": true
+        }
+      ],
+      "freezeSourceSha256Matches": true,
+      "freezeBaselineSha256Matches": true,
+      "baselineBase": "http://127.0.0.1:8080/api/admin/games/lol",
+      "baselinePathCount": 39,
+      "baselineAuditCount": 39,
+      "writeStatus": "PASS",
+      "writeBusinessWritesAttempted": 2,
+      "targetRoutes": [
+        "/skills/chogath_w",
+        "/skills/malzahar_q"
+      ]
+    },
+    "counts": {
+      "requestedGETs": 39,
+      "completedGETs": 39,
+      "successfulJSONResponses": 39,
+      "statusCounts": {
+        "200": 39
+      },
+      "targetDetailPaths": 2,
+      "targetListPaths": 0,
+      "changedDetailPass": 2,
+      "changedListPass": 0,
+      "unchangedResponsesIncludingTimestamps": 37,
+      "unchangedPathsExpected": 37,
+      "unchangedPathsPass": 37,
+      "expectedChangedCollections": 0,
+      "failureCount": 0
+    },
+    "expectedChangedCollections": 0,
+    "unchangedResponsesIncludingTimestamps": 37,
+    "changedDetails": {
+      "/skills/chogath_w": {
+        "createdAt": "2026-09-06T18:18:04.921171Z",
+        "description": "科加斯向前方锥形区域发出声波，造成魔法伤害并沉默命中的敌人。已录入敌方英雄实际命中伤害及无本来源实例时的首次沉默；五级伤害为80/130/180/230/280加0.7倍来源总法强，沉默1600/1700/1800/1900/2000毫秒。施放时长、主动使用成本冷却入口及沉默重施仍待核。固定来源：客户端16.17、官方静态资料16.17.1。",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "科加斯·野性尖叫",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "chogath_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-19T17:29:11.231425Z"
+      },
+      "/skills/malzahar_q": {
+        "createdAt": "2026-09-06T18:19:19.619328Z",
+        "description": "玛尔扎哈开启两扇虚空传送门，短暂延迟后对流的能量对敌方英雄造成魔法伤害并沉默。普通主动使用的法力、冷却和施法延迟、实际敌方英雄命中伤害，以及无本来源实例时的首次沉默已录入；五级沉默为1000/1250/1500/1750/2000毫秒。沉默重施与Q刷新E的跨技能关系仍待核，不计整技能管理完成。固定来源：客户端16.17、官方静态资料16.17.1。",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "玛尔扎哈·虚空召唤",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "malzahar_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-19T17:29:12.675374Z"
+      }
+    },
+    "values": {
+      "/skills/chogath_w": {
+        "createdAt": "2026-09-06T18:18:04.921171Z",
+        "description": "科加斯向前方锥形区域发出声波，造成魔法伤害并沉默命中的敌人。已录入敌方英雄实际命中伤害及无本来源实例时的首次沉默；五级伤害为80/130/180/230/280加0.7倍来源总法强，沉默1600/1700/1800/1900/2000毫秒。施放时长、主动使用成本冷却入口及沉默重施仍待核。固定来源：客户端16.17、官方静态资料16.17.1。",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "科加斯·野性尖叫",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "chogath_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-19T17:29:11.231425Z"
+      },
+      "/skills/chogath_w/parameters": [
+        {
+          "createdAt": "2026-09-09T12:47:26.86309Z",
+          "description": "客户端根mEffectAmount第一项索引1至5；保留技能等级值。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 80,
+            "2": 130,
+            "3": 180,
+            "4": 230,
+            "5": 280
+          },
+          "name": "基础魔法伤害",
+          "parameterKey": "base_damage",
+          "skillKey": "chogath_w",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T12:47:26.86309Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:47:27.823508Z",
+          "description": "TotalDamageTooltip的StatByCoefficientCalculationPart系数0.7，mStat省略按同版窄口径取来源总法强。",
+          "fixedValue": 0.7,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "法术强度倍率",
+          "parameterKey": "ap_ratio",
+          "skillKey": "chogath_w",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T12:47:27.823508Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T12:47:28.793743Z",
+          "description": "客户端根mEffectAmount第二项为秒，转毫秒。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 1600,
+            "2": 1700,
+            "3": 1800,
+            "4": 1900,
+            "5": 2000
+          },
+          "name": "沉默持续（毫秒）",
+          "parameterKey": "silence_duration_ms",
+          "skillKey": "chogath_w",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T12:47:28.793743Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:36:14.519164Z",
+          "description": "DDragon16.17.1 Chogath.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 11000,
+            "2": 10500,
+            "3": 10000,
+            "4": 9500,
+            "5": 9000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "chogath_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:36:14.519164Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:36:15.037827Z",
+          "description": "DDragon16.17.1 Chogath.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 70,
+            "2": 75,
+            "3": 80,
+            "4": 85,
+            "5": 90
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "chogath_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T18:36:15.037827Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ],
+      "/skills/chogath_w/parameters/base_damage": {
+        "createdAt": "2026-09-09T12:47:26.86309Z",
+        "description": "客户端根mEffectAmount第一项索引1至5；保留技能等级值。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 80,
+          "2": 130,
+          "3": 180,
+          "4": 230,
+          "5": 280
+        },
+        "name": "基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "chogath_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T12:47:26.86309Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "/skills/chogath_w/parameters/ap_ratio": {
+        "createdAt": "2026-09-09T12:47:27.823508Z",
+        "description": "TotalDamageTooltip的StatByCoefficientCalculationPart系数0.7，mStat省略按同版窄口径取来源总法强。",
+        "fixedValue": 0.7,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法术强度倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "chogath_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T12:47:27.823508Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      "/skills/chogath_w/parameters/silence_duration_ms": {
+        "createdAt": "2026-09-09T12:47:28.793743Z",
+        "description": "客户端根mEffectAmount第二项为秒，转毫秒。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 1600,
+          "2": 1700,
+          "3": 1800,
+          "4": 1900,
+          "5": 2000
+        },
+        "name": "沉默持续（毫秒）",
+        "parameterKey": "silence_duration_ms",
+        "skillKey": "chogath_w",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T12:47:28.793743Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "/skills/chogath_w/parameters/cooldown_ms": {
+        "createdAt": "2026-09-07T18:36:14.519164Z",
+        "description": "DDragon16.17.1 Chogath.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 11000,
+          "2": 10500,
+          "3": 10000,
+          "4": 9500,
+          "5": 9000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "chogath_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:36:14.519164Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "/skills/chogath_w/parameters/mana_cost": {
+        "createdAt": "2026-09-07T18:36:15.037827Z",
+        "description": "DDragon16.17.1 Chogath.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 75,
+          "3": 80,
+          "4": 85,
+          "5": 90
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "chogath_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:36:15.037827Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "/skills/chogath_w/formulas": [
+        {
+          "createdAt": "2026-09-09T12:47:29.842217Z",
+          "description": "基础伤害加来源总法强的0.7倍；已有命中伤害效果引用本公式，五级基础值及属性取值口径保持。",
+          "formulaKey": "magic_damage",
+          "gameId": "lol",
+          "name": "野性尖叫魔法伤害",
+          "skillKey": "chogath_w",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-19T17:25:02.536765Z"
+        }
+      ],
+      "/skills/chogath_w/formulas/magic_damage": {
+        "createdAt": "2026-09-09T12:47:29.842217Z",
+        "description": "基础伤害加来源总法强的0.7倍；已有命中伤害效果引用本公式，五级基础值及属性取值口径保持。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "magic_damage",
+        "gameId": "lol",
+        "name": "野性尖叫魔法伤害",
+        "skillKey": "chogath_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T17:25:02.536765Z"
+      },
+      "/skills/chogath_w/effects": [
+        {
+          "createdAt": "2026-09-09T12:47:30.868461Z",
+          "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "施放法力消耗",
+          "resultCount": 1,
+          "skillKey": "chogath_w",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T12:47:30.868461Z"
+        },
+        {
+          "createdAt": "2026-09-19T17:18:46.507978Z",
+          "description": "实际命中敌方英雄时执行一次直接魔法技能伤害，引用已有完整公式；不以目标没有沉默实例为伤害前置。沉默、主动使用及成本冷却分开维护。",
+          "effectKey": "primary_hit",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "科加斯·野性尖叫命中伤害",
+          "resultCount": 1,
+          "skillKey": "chogath_w",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-19T17:18:46.507978Z"
+        },
+        {
+          "createdAt": "2026-09-19T17:00:47.249796Z",
+          "description": "本来源当前目标无本沉默实例时施加一次沉默，期限引用已有五级参数；入口同时要求敌方英雄实际命中且同次命中明确未被法术护盾阻挡。已有实例时不执行，重复层数与刷新字段在本入口不可达，重施分支待补证。",
+          "effectKey": "silence_first_application",
+          "gameId": "lol",
+          "lifecycleEnabled": true,
+          "name": "野性尖叫首次沉默",
+          "resultCount": 1,
+          "skillKey": "chogath_w",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-19T17:00:47.249796Z"
+        }
+      ],
+      "/skills/chogath_w/effects/mana_cost": {
+        "createdAt": "2026-09-09T12:47:30.868461Z",
+        "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "施放法力消耗",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "chogath_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T12:47:30.868461Z"
+      },
+      "/skills/chogath_w/effects/primary_hit": {
+        "createdAt": "2026-09-19T17:18:46.507978Z",
+        "description": "实际命中敌方英雄时执行一次直接魔法技能伤害，引用已有完整公式；不以目标没有沉默实例为伤害前置。沉默、主动使用及成本冷却分开维护。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "科加斯·野性尖叫命中伤害",
+        "results": [
+          {
+            "description": "引用同技能magic_damage公式：基础伤害加来源总法强的0.7倍。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "SKILL",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "magic_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "chogath_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T17:18:46.507978Z"
+      },
+      "/skills/chogath_w/effects/silence_first_application": {
+        "createdAt": "2026-09-19T17:00:47.249796Z",
+        "description": "本来源当前目标无本沉默实例时施加一次沉默，期限引用已有五级参数；入口同时要求敌方英雄实际命中且同次命中明确未被法术护盾阻挡。已有实例时不执行，重复层数与刷新字段在本入口不可达，重施分支待补证。",
+        "effectKey": "silence_first_application",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "silence_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE_TARGET",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "野性尖叫首次沉默",
+        "results": [
+          {
+            "description": "施加无强度沉默并随父效果期限结束，只在本次施加时按当前结果参与法术护盾判断。",
+            "detail": {
+              "operation": "APPLY",
+              "statusKey": "silence"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": null,
+              "stackValueMode": null,
+              "valueReadMode": null
+            },
+            "name": "野性尖叫沉默",
+            "resultKey": "silence",
+            "resultType": "STATUS_OPERATION",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": null
+          }
+        ],
+        "skillKey": "chogath_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-19T17:00:47.249796Z"
+      },
+      "/skills/chogath_w/processes": [],
+      "/skills/chogath_w/internal-states": [],
+      "/skills/chogath_w/trigger-rules": [
+        {
+          "actionCount": 1,
+          "conditionGroupCount": 1,
+          "description": "只消费本技能实际命中敌方英雄的事件，不从施放或延迟结束生成命中；目标已有沉默实例仍可受到本次伤害。",
+          "eventType": "SKILL_HIT",
+          "maxTriggersPerProcessEnabled": false,
+          "name": "科加斯·野性尖叫实际命中",
+          "perTargetCooldownEnabled": false,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-19T17:18:48.081895Z"
+        },
+        {
+          "actionCount": 1,
+          "conditionGroupCount": 1,
+          "description": "只在同一次实际命中明确为敌方英雄、法术护盾阻挡值为0且当前目标无本来源沉默实例时执行沉默；缺少护盾值不得默认0。有实例的重复命中分支未录，原伤害与成本入口保持。",
+          "eventType": "SKILL_HIT",
+          "maxTriggersPerProcessEnabled": false,
+          "name": "无本沉默实例时施加",
+          "perTargetCooldownEnabled": false,
+          "ruleKey": "apply_silence_on_unblocked_hit",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-19T17:00:49.023867Z"
+        }
+      ],
+      "/skills/chogath_w/trigger-rules/actual_hit": {
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "name": "执行野性尖叫伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "detail": {},
+                "sortOrder": 20
+              }
+            ],
+            "groupKey": "champion_target",
+            "name": "本轮英雄目标",
+            "sortOrder": 10
+          }
+        ],
+        "description": "只消费本技能实际命中敌方英雄的事件，不从施放或延迟结束生成命中；目标已有沉默实例仍可受到本次伤害。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "chogath_w",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "科加斯·野性尖叫实际命中",
+        "perTargetCooldown": null,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10
+      },
+      "/skills/chogath_w/trigger-rules/apply_silence_on_unblocked_hit": {
+        "actions": [
+          {
+            "actionKey": "apply_silence",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "silence_first_application"
+            },
+            "name": "施加本次沉默",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "detail": {},
+                "sortOrder": 20
+              },
+              {
+                "conditionKey": "not_spell_shield_blocked",
+                "conditionType": "EVENT_VALUE_COMPARE",
+                "detail": {
+                  "comparator": "EQ",
+                  "comparisonValue": {
+                    "kind": "FIXED",
+                    "value": 0
+                  },
+                  "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED"
+                },
+                "sortOrder": 30
+              },
+              {
+                "conditionKey": "own_silence_absent",
+                "conditionType": "LIFECYCLE_CHECK",
+                "detail": {
+                  "checkKind": "ABSENT",
+                  "comparator": null,
+                  "comparisonValue": null,
+                  "effectKey": "silence_first_application",
+                  "subject": "CURRENT_TARGET"
+                },
+                "sortOrder": 40
+              }
+            ],
+            "groupKey": "silence_eligible",
+            "name": "本次沉默可施加",
+            "sortOrder": 10
+          }
+        ],
+        "description": "只在同一次实际命中明确为敌方英雄、法术护盾阻挡值为0且当前目标无本来源沉默实例时执行沉默；缺少护盾值不得默认0。有实例的重复命中分支未录，原伤害与成本入口保持。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "chogath_w",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "无本沉默实例时施加",
+        "perTargetCooldown": null,
+        "ruleKey": "apply_silence_on_unblocked_hit",
+        "sortOrder": 30
+      },
+      "/skills/malzahar_q": {
+        "createdAt": "2026-09-06T18:19:19.619328Z",
+        "description": "玛尔扎哈开启两扇虚空传送门，短暂延迟后对流的能量对敌方英雄造成魔法伤害并沉默。普通主动使用的法力、冷却和施法延迟、实际敌方英雄命中伤害，以及无本来源实例时的首次沉默已录入；五级沉默为1000/1250/1500/1750/2000毫秒。沉默重施与Q刷新E的跨技能关系仍待核，不计整技能管理完成。固定来源：客户端16.17、官方静态资料16.17.1。",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "玛尔扎哈·虚空召唤",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "malzahar_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-19T17:29:12.675374Z"
+      },
+      "/skills/malzahar_q/parameters": [
+        {
+          "createdAt": "2026-09-09T10:35:07.708061Z",
+          "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+          "fixedValue": 250,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "施法时间（毫秒）",
+          "parameterKey": "cast_time_ms",
+          "skillKey": "malzahar_q",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T10:35:07.708061Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T10:35:08.778054Z",
+          "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 70,
+            "2": 105,
+            "3": 140,
+            "4": 175,
+            "5": 210
+          },
+          "name": "基础魔法伤害",
+          "parameterKey": "base_damage",
+          "skillKey": "malzahar_q",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T10:35:08.778054Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T10:35:09.878718Z",
+          "description": "客户端当前根绑定 DataValues.SilenceDuration 取索引1至5；单位秒转毫秒；按来源显示单位换算为系统比例/毫秒。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 1000,
+            "2": 1250,
+            "3": 1500,
+            "4": 1750,
+            "5": 2000
+          },
+          "name": "沉默持续（毫秒）",
+          "parameterKey": "silence_duration_ms",
+          "skillKey": "malzahar_q",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T10:35:09.878718Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T10:35:10.913161Z",
+          "description": "TotalDamageTooltip树直接给出0.55；固定系数进入公式。",
+          "fixedValue": 0.55,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "法强倍率",
+          "parameterKey": "ap_ratio_constant",
+          "skillKey": "malzahar_q",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T10:35:10.913161Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-07T17:38:36.42094Z",
+          "description": "DDragon16.17.1 Malzahar.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 6000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "malzahar_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T17:38:36.42094Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T17:38:36.825025Z",
+          "description": "DDragon16.17.1 Malzahar.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 60,
+            "2": 65,
+            "3": 70,
+            "4": 75,
+            "5": 80
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "malzahar_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-19T03:18:02.819738Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ],
+      "/skills/malzahar_q/parameters/cast_time_ms": {
+        "createdAt": "2026-09-09T10:35:07.708061Z",
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "malzahar_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T10:35:07.708061Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "/skills/malzahar_q/parameters/base_damage": {
+        "createdAt": "2026-09-09T10:35:08.778054Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 105,
+          "3": 140,
+          "4": 175,
+          "5": 210
+        },
+        "name": "基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "malzahar_q",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T10:35:08.778054Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "/skills/malzahar_q/parameters/silence_duration_ms": {
+        "createdAt": "2026-09-09T10:35:09.878718Z",
+        "description": "客户端当前根绑定 DataValues.SilenceDuration 取索引1至5；单位秒转毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 1000,
+          "2": 1250,
+          "3": 1500,
+          "4": 1750,
+          "5": 2000
+        },
+        "name": "沉默持续（毫秒）",
+        "parameterKey": "silence_duration_ms",
+        "skillKey": "malzahar_q",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T10:35:09.878718Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "/skills/malzahar_q/parameters/ap_ratio_constant": {
+        "createdAt": "2026-09-09T10:35:10.913161Z",
+        "description": "TotalDamageTooltip树直接给出0.55；固定系数进入公式。",
+        "fixedValue": 0.55,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法强倍率",
+        "parameterKey": "ap_ratio_constant",
+        "skillKey": "malzahar_q",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T10:35:10.913161Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      "/skills/malzahar_q/parameters/cooldown_ms": {
+        "createdAt": "2026-09-07T17:38:36.42094Z",
+        "description": "DDragon16.17.1 Malzahar.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 6000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "malzahar_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T17:38:36.42094Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "/skills/malzahar_q/parameters/mana_cost": {
+        "createdAt": "2026-09-07T17:38:36.825025Z",
+        "description": "DDragon16.17.1 Malzahar.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 65,
+          "3": 70,
+          "4": 75,
+          "5": 80
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "malzahar_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-19T03:18:02.819738Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "/skills/malzahar_q/formulas": [
+        {
+          "createdAt": "2026-09-09T10:35:12.046811Z",
+          "description": "TotalDamageTooltip = BaseDamage + 0.55×法强；当前树的StatByCoefficient无独立运行输入。",
+          "formulaKey": "damage",
+          "gameId": "lol",
+          "name": "虚空召唤魔法伤害",
+          "skillKey": "malzahar_q",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T10:35:12.046811Z"
+        }
+      ],
+      "/skills/malzahar_q/formulas/damage": {
+        "createdAt": "2026-09-09T10:35:12.046811Z",
+        "description": "TotalDamageTooltip = BaseDamage + 0.55×法强；当前树的StatByCoefficient无独立运行输入。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio_constant"
+                },
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "虚空召唤魔法伤害",
+        "skillKey": "malzahar_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T10:35:12.046811Z"
+      },
+      "/skills/malzahar_q/effects": [
+        {
+          "createdAt": "2026-09-09T10:35:13.114198Z",
+          "description": "本技能普通主动使用时消耗既有参数给出的基础法力；具体使用时点由引用本效果的过程定义。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "施放法力消耗",
+          "resultCount": 1,
+          "skillKey": "malzahar_q",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-19T03:18:04.259481Z"
+        },
+        {
+          "createdAt": "2026-09-19T02:59:17.390934Z",
+          "description": "本轮1V1实际命中敌方英雄的一次普通直接魔法技能伤害；引用已有完整公式，控制、位移、返还或其他分支另行处理。",
+          "effectKey": "primary_hit",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "玛尔扎哈·虚空召唤命中伤害",
+          "resultCount": 1,
+          "skillKey": "malzahar_q",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-19T02:59:17.390934Z"
+        },
+        {
+          "createdAt": "2026-09-19T17:00:50.983405Z",
+          "description": "本来源当前目标无本沉默实例时施加一次沉默，期限引用已有五级参数；入口同时要求敌方英雄实际命中且同次命中明确未被法术护盾阻挡。已有实例时不执行，重复层数与刷新字段在本入口不可达，重施分支待补证。",
+          "effectKey": "silence_first_application",
+          "gameId": "lol",
+          "lifecycleEnabled": true,
+          "name": "虚空召唤首次沉默",
+          "resultCount": 1,
+          "skillKey": "malzahar_q",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-19T17:00:50.983405Z"
+        }
+      ],
+      "/skills/malzahar_q/effects/mana_cost": {
+        "createdAt": "2026-09-09T10:35:13.114198Z",
+        "description": "本技能普通主动使用时消耗既有参数给出的基础法力；具体使用时点由引用本效果的过程定义。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "施放法力消耗",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "malzahar_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T03:18:04.259481Z"
+      },
+      "/skills/malzahar_q/effects/primary_hit": {
+        "createdAt": "2026-09-19T02:59:17.390934Z",
+        "description": "本轮1V1实际命中敌方英雄的一次普通直接魔法技能伤害；引用已有完整公式，控制、位移、返还或其他分支另行处理。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "玛尔扎哈·虚空召唤命中伤害",
+        "results": [
+          {
+            "description": "引用同技能 damage 公式，保持现有基础值及属性加成口径。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "SKILL",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "malzahar_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T02:59:17.390934Z"
+      },
+      "/skills/malzahar_q/effects/silence_first_application": {
+        "createdAt": "2026-09-19T17:00:50.983405Z",
+        "description": "本来源当前目标无本沉默实例时施加一次沉默，期限引用已有五级参数；入口同时要求敌方英雄实际命中且同次命中明确未被法术护盾阻挡。已有实例时不执行，重复层数与刷新字段在本入口不可达，重施分支待补证。",
+        "effectKey": "silence_first_application",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "silence_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE_TARGET",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "虚空召唤首次沉默",
+        "results": [
+          {
+            "description": "施加无强度沉默并随父效果期限结束，只在本次施加时按当前结果参与法术护盾判断。",
+            "detail": {
+              "operation": "APPLY",
+              "statusKey": "silence"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": null,
+              "stackValueMode": null,
+              "valueReadMode": null
+            },
+            "name": "虚空召唤沉默",
+            "resultKey": "silence",
+            "resultType": "STATUS_OPERATION",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": null
+          }
+        ],
+        "skillKey": "malzahar_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-19T17:00:50.983405Z"
+      },
+      "/skills/malzahar_q/processes": [
+        {
+          "activationType": "ACTIVE",
+          "createdAt": "2026-09-19T03:08:13.416314Z",
+          "description": "登记普通主动使用的基础法力消耗、已有250毫秒根施法延迟与普通冷却；延迟结束不产生命中，控制与其他联动单列。",
+          "effectBindingCount": 1,
+          "gameId": "lol",
+          "name": "玛尔扎哈·虚空召唤施法登记",
+          "processKey": "cast",
+          "skillKey": "malzahar_q",
+          "sortOrder": 10,
+          "stateOperationCount": 0,
+          "stepCount": 1,
+          "updatedAt": "2026-09-19T03:08:13.416314Z"
+        }
+      ],
+      "/skills/malzahar_q/processes/cast": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "createdAt": "2026-09-19T03:08:13.416314Z",
+        "description": "登记普通主动使用的基础法力消耗、已有250毫秒根施法延迟与普通冷却；延迟结束不产生命中，控制与其他联动单列。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "gameId": "lol",
+        "name": "玛尔扎哈·虚空召唤施法登记",
+        "processKey": "cast",
+        "skillKey": "malzahar_q",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "读取当前技能既有施法时间参数；延迟结束不表示发生实际命中。",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            },
+            "name": "施法延迟",
+            "sortOrder": 10,
+            "stepKey": "cast_time",
+            "stepType": "DELAY"
+          }
+        ],
+        "updatedAt": "2026-09-19T03:08:13.416314Z"
+      },
+      "/skills/malzahar_q/internal-states": [],
+      "/skills/malzahar_q/trigger-rules": [
+        {
+          "actionCount": 1,
+          "conditionGroupCount": 1,
+          "description": "只消费已确认的 malzahar_q 实际命中事件，对事件中的英雄目标执行primary_hit；不从使用、再次施放、弹跳步骤或过程结束生成命中。英雄类别仅限定本轮范围。",
+          "eventType": "SKILL_HIT",
+          "maxTriggersPerProcessEnabled": false,
+          "name": "玛尔扎哈·虚空召唤实际命中",
+          "perTargetCooldownEnabled": false,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-19T17:09:34.764518Z"
+        },
+        {
+          "actionCount": 1,
+          "conditionGroupCount": 0,
+          "description": "普通主动使用malzahar_q时启动cast，登记基础法力和普通冷却；过程使用既有根施法参数。实际命中、返还、控制和联动由各自入口处理。",
+          "eventType": "SKILL_USED",
+          "maxTriggersPerProcessEnabled": false,
+          "name": "玛尔扎哈·虚空召唤普通使用",
+          "perTargetCooldownEnabled": false,
+          "ruleKey": "on_used",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-19T03:08:14.740459Z"
+        },
+        {
+          "actionCount": 1,
+          "conditionGroupCount": 1,
+          "description": "只在同一次实际命中明确为敌方英雄、法术护盾阻挡值为0且当前目标无本来源沉默实例时执行沉默；缺少护盾值不得默认0。有实例的重复命中分支未录，原伤害与成本入口保持。",
+          "eventType": "SKILL_HIT",
+          "maxTriggersPerProcessEnabled": false,
+          "name": "无本沉默实例时施加",
+          "perTargetCooldownEnabled": false,
+          "ruleKey": "apply_silence_on_unblocked_hit",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-19T17:00:52.591208Z"
+        }
+      ],
+      "/skills/malzahar_q/trigger-rules/actual_hit": {
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "name": "执行玛尔扎哈·虚空召唤伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "detail": {},
+                "sortOrder": 20
+              }
+            ],
+            "groupKey": "champion_target",
+            "name": "本轮英雄目标",
+            "sortOrder": 10
+          }
+        ],
+        "description": "只消费已确认的 malzahar_q 实际命中事件，对事件中的英雄目标执行primary_hit；不从使用、再次施放、弹跳步骤或过程结束生成命中。英雄类别仅限定本轮范围。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "malzahar_q",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "玛尔扎哈·虚空召唤实际命中",
+        "perTargetCooldown": null,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10
+      },
+      "/skills/malzahar_q/trigger-rules/on_used": {
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "cast"
+            },
+            "name": "启动玛尔扎哈·虚空召唤使用登记",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "普通主动使用malzahar_q时启动cast，登记基础法力和普通冷却；过程使用既有根施法参数。实际命中、返还、控制和联动由各自入口处理。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "malzahar_q",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "玛尔扎哈·虚空召唤普通使用",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used",
+        "sortOrder": 20
+      },
+      "/skills/malzahar_q/trigger-rules/apply_silence_on_unblocked_hit": {
+        "actions": [
+          {
+            "actionKey": "apply_silence",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "silence_first_application"
+            },
+            "name": "施加本次沉默",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "detail": {},
+                "sortOrder": 20
+              },
+              {
+                "conditionKey": "not_spell_shield_blocked",
+                "conditionType": "EVENT_VALUE_COMPARE",
+                "detail": {
+                  "comparator": "EQ",
+                  "comparisonValue": {
+                    "kind": "FIXED",
+                    "value": 0
+                  },
+                  "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED"
+                },
+                "sortOrder": 30
+              },
+              {
+                "conditionKey": "own_silence_absent",
+                "conditionType": "LIFECYCLE_CHECK",
+                "detail": {
+                  "checkKind": "ABSENT",
+                  "comparator": null,
+                  "comparisonValue": null,
+                  "effectKey": "silence_first_application",
+                  "subject": "CURRENT_TARGET"
+                },
+                "sortOrder": 40
+              }
+            ],
+            "groupKey": "silence_eligible",
+            "name": "本次沉默可施加",
+            "sortOrder": 10
+          }
+        ],
+        "description": "只在同一次实际命中明确为敌方英雄、法术护盾阻挡值为0且当前目标无本来源沉默实例时执行沉默；缺少护盾值不得默认0。有实例的重复命中分支未录，原伤害与成本入口保持。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "malzahar_q",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "无本沉默实例时施加",
+        "perTargetCooldown": null,
+        "ruleKey": "apply_silence_on_unblocked_hit",
+        "sortOrder": 30
+      }
+    },
+    "audit": [
+      {
+        "requestIndex": 1,
+        "method": "GET",
+        "path": "/skills/chogath_w",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 652,
+        "responseSha256": "18929a1cd90374654ffe4a9a2566afdc2fc62b795f06b7db78b6a2fd7e31d519"
+      },
+      {
+        "requestIndex": 2,
+        "method": "GET",
+        "path": "/skills/chogath_w/parameters",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 2379,
+        "responseSha256": "ecfe5569a39417d2c1c870730ef6c10273325a2b0246c78a26cdd8a15795f196"
+      },
+      {
+        "requestIndex": 3,
+        "method": "GET",
+        "path": "/skills/chogath_w/parameters/base_damage",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 403,
+        "responseSha256": "6f07e5de9e2ddc41ddfa885a465f467474740055727914b4de48c62cefe4415c"
+      },
+      {
+        "requestIndex": 4,
+        "method": "GET",
+        "path": "/skills/chogath_w/parameters/ap_ratio",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 402,
+        "responseSha256": "2633ed7c12ed9d8b4d2560268cfe4f27b277c8c35d08a0b0a1c2057f38fcc262"
+      },
+      {
+        "requestIndex": 5,
+        "method": "GET",
+        "path": "/skills/chogath_w/parameters/silence_duration_ms",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 408,
+        "responseSha256": "e2bed6c984c8ffd61d3b5422f8466521d8100d664bf09409f0e7ee2de98e5a2f"
+      },
+      {
+        "requestIndex": 6,
+        "method": "GET",
+        "path": "/skills/chogath_w/parameters/cooldown_ms",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 585,
+        "responseSha256": "1ab1ebbd9e9d66b6b2d5ee4b75ccc0e064eff0d0acb67c42d6b176a8fca3a25b"
+      },
+      {
+        "requestIndex": 7,
+        "method": "GET",
+        "path": "/skills/chogath_w/parameters/mana_cost",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 575,
+        "responseSha256": "146759e9b058dcb6939f094e12b798b4ee5bb596e1705f3b95655dabd63494f8"
+      },
+      {
+        "requestIndex": 8,
+        "method": "GET",
+        "path": "/skills/chogath_w/formulas",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 348,
+        "responseSha256": "d1d8c7b25b6f37dd31509cba412e5f5554175b3a7e2c8d5a295fbe40932b7114"
+      },
+      {
+        "requestIndex": 9,
+        "method": "GET",
+        "path": "/skills/chogath_w/formulas/magic_damage",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 692,
+        "responseSha256": "5f30f2f85d7f47d21fe04dcbf124442e458ea6020d477f5d0dbe45141f54760f"
+      },
+      {
+        "requestIndex": 10,
+        "method": "GET",
+        "path": "/skills/chogath_w/effects",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 1352,
+        "responseSha256": "0a053c1a9271888cd1c927458fdefc5e45a87a5d36b3be0a47dd0f8a75080578"
+      },
+      {
+        "requestIndex": 11,
+        "method": "GET",
+        "path": "/skills/chogath_w/effects/mana_cost",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 692,
+        "responseSha256": "0dd7aa8ab08a273561a0020f2321c27db713cd1b81000dffc26e47285150b07c"
+      },
+      {
+        "requestIndex": 12,
+        "method": "GET",
+        "path": "/skills/chogath_w/effects/primary_hit",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 1086,
+        "responseSha256": "ed0c5502adbfd4126dbeb681ffbdd7a0a5a87a38d5115eeef0c998835aa296bb"
+      },
+      {
+        "requestIndex": 13,
+        "method": "GET",
+        "path": "/skills/chogath_w/effects/silence_first_application",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 1402,
+        "responseSha256": "0421923d39355bec8a14084777c789391af1ffb726020106f302454280270e0e"
+      },
+      {
+        "requestIndex": 14,
+        "method": "GET",
+        "path": "/skills/chogath_w/processes",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 2,
+        "responseSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      {
+        "requestIndex": 15,
+        "method": "GET",
+        "path": "/skills/chogath_w/internal-states",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 2,
+        "responseSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      {
+        "requestIndex": 16,
+        "method": "GET",
+        "path": "/skills/chogath_w/trigger-rules",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 952,
+        "responseSha256": "acb4459e807f2be254de4efa2d60f0bde720547c357d8bb538faaa110e8e6a33"
+      },
+      {
+        "requestIndex": 17,
+        "method": "GET",
+        "path": "/skills/chogath_w/trigger-rules/actual_hit",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 980,
+        "responseSha256": "dfcf3c14f9386b1941c75d9d62da42af8ad6ed3446e0d582b2af232b5b78f628"
+      },
+      {
+        "requestIndex": 18,
+        "method": "GET",
+        "path": "/skills/chogath_w/trigger-rules/apply_silence_on_unblocked_hit",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 1534,
+        "responseSha256": "2e4a573b673c1ad27e67e86b645b3d19fb9ffb823ea9e0f0e77351f65845a685"
+      },
+      {
+        "requestIndex": 19,
+        "method": "GET",
+        "path": "/skills/malzahar_q",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 703,
+        "responseSha256": "50c20ed1bac7e4b378fb8ce85b2a9b79e1a1fc3557e2e72c80aae38bed360a7b"
+      },
+      {
+        "requestIndex": 20,
+        "method": "GET",
+        "path": "/skills/malzahar_q/parameters",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 2766,
+        "responseSha256": "b61a25ebbd961ed036775bb9d6ae8380f06ecc7ec77cbab3156e288f0285aeec"
+      },
+      {
+        "requestIndex": 21,
+        "method": "GET",
+        "path": "/skills/malzahar_q/parameters/cast_time_ms",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 383,
+        "responseSha256": "86409d6db870752c17a4ee3d33fbfd4d36f33bde7da171c5e7f316cc964b9c55"
+      },
+      {
+        "requestIndex": 22,
+        "method": "GET",
+        "path": "/skills/malzahar_q/parameters/base_damage",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 398,
+        "responseSha256": "21db1bee3000f4401f87c66efb681caaabd73d8bdb3932ac695590c466790ed6"
+      },
+      {
+        "requestIndex": 23,
+        "method": "GET",
+        "path": "/skills/malzahar_q/parameters/silence_duration_ms",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 496,
+        "responseSha256": "d66d773dbc7384a3a46df195a9fb9cac1f56b3db74310d5c3e3c6830a6c1804d"
+      },
+      {
+        "requestIndex": 24,
+        "method": "GET",
+        "path": "/skills/malzahar_q/parameters/ap_ratio_constant",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 359,
+        "responseSha256": "9765a247c2d636ecc3bd537745d6dc8149cf485e81b20ac87ca6430ba9e07f46"
+      },
+      {
+        "requestIndex": 25,
+        "method": "GET",
+        "path": "/skills/malzahar_q/parameters/cooldown_ms",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 534,
+        "responseSha256": "35f1ec2db4ee7972fc772316456c48202b18ff361142950d8e48556992ede60c"
+      },
+      {
+        "requestIndex": 26,
+        "method": "GET",
+        "path": "/skills/malzahar_q/parameters/mana_cost",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 589,
+        "responseSha256": "d4867c5906b8b8aa9d201d763ecd95554391f370c7e7d979ff48ad92845d8827"
+      },
+      {
+        "requestIndex": 27,
+        "method": "GET",
+        "path": "/skills/malzahar_q/formulas",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 316,
+        "responseSha256": "aea1e5aae38de6bab45194a0d56446a4668ac1c64d4f02096bc6170d08f78e87"
+      },
+      {
+        "requestIndex": 28,
+        "method": "GET",
+        "path": "/skills/malzahar_q/formulas/damage",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 669,
+        "responseSha256": "245e2abed95bbcbd6a3caafcb9ec3ab0dc232a4c8bd2f49a6d66294cbe10fa5c"
+      },
+      {
+        "requestIndex": 29,
+        "method": "GET",
+        "path": "/skills/malzahar_q/effects",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 1364,
+        "responseSha256": "600b38378239fbc1dce33227917ec79f5cfa31a8fea0b992b8c635b9c290380e"
+      },
+      {
+        "requestIndex": 30,
+        "method": "GET",
+        "path": "/skills/malzahar_q/effects/mana_cost",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 735,
+        "responseSha256": "12be32788b95e86f9d598114981d87586e237c0054094e88d4dc13e5b6d51858"
+      },
+      {
+        "requestIndex": 31,
+        "method": "GET",
+        "path": "/skills/malzahar_q/effects/primary_hit",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 1047,
+        "responseSha256": "796954dc1a6ca8e872497af4764e65d76fe3af56d99bfcd60cd4db2435e26a06"
+      },
+      {
+        "requestIndex": 32,
+        "method": "GET",
+        "path": "/skills/malzahar_q/effects/silence_first_application",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 1403,
+        "responseSha256": "ad7b8baa91818c36108a3ae54ff8aafb073bdd0df5cad40a639123ac435e86d5"
+      },
+      {
+        "requestIndex": 33,
+        "method": "GET",
+        "path": "/skills/malzahar_q/processes",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 469,
+        "responseSha256": "3e7f40b16495ef94dd5260c373694269e857af11de7482895051c89cce181e12"
+      },
+      {
+        "requestIndex": 34,
+        "method": "GET",
+        "path": "/skills/malzahar_q/processes/cast",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 975,
+        "responseSha256": "b3ab93f86356bfb3c7b23244ba07c26a711f29530f6f62bad9ea4fd10396d314"
+      },
+      {
+        "requestIndex": 35,
+        "method": "GET",
+        "path": "/skills/malzahar_q/internal-states",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 2,
+        "responseSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      {
+        "requestIndex": 36,
+        "method": "GET",
+        "path": "/skills/malzahar_q/trigger-rules",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 1475,
+        "responseSha256": "e27e55cc039b3d2d056a516cc66c33a9e3dbc4fa031e4604ef04715838ad5080"
+      },
+      {
+        "requestIndex": 37,
+        "method": "GET",
+        "path": "/skills/malzahar_q/trigger-rules/actual_hit",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 1060,
+        "responseSha256": "abdace456870ea5be76354af7d2485600c960b6ea191a867def6cb513ce12e96"
+      },
+      {
+        "requestIndex": 38,
+        "method": "GET",
+        "path": "/skills/malzahar_q/trigger-rules/on_used",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 704,
+        "responseSha256": "2e1200b6e7d5af87879c513be81f525466adef311927e390b28a75db70c44012"
+      },
+      {
+        "requestIndex": 39,
+        "method": "GET",
+        "path": "/skills/malzahar_q/trigger-rules/apply_silence_on_unblocked_hit",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 1535,
+        "responseSha256": "68e17721e25bc733f46e0618a7da42c5beee2b449b5b6e5d8e2aec91ce88e5bc"
+      }
+    ],
+    "failures": [],
+    "detailEvidence": [
+      {
+        "path": "/skills/chogath_w",
+        "kind": "skill",
+        "descriptionMatchesApproved": true,
+        "createdAtUnchanged": true,
+        "updatedAtValid": true,
+        "updatedAtChanged": true,
+        "updatedAtAfterBaseline": true,
+        "pass": true
+      },
+      {
+        "path": "/skills/malzahar_q",
+        "kind": "skill",
+        "descriptionMatchesApproved": true,
+        "createdAtUnchanged": true,
+        "updatedAtValid": true,
+        "updatedAtChanged": true,
+        "updatedAtAfterBaseline": true,
+        "pass": true
+      }
+    ],
+    "collectionEvidence": [],
+    "unchangedPaths": [
+      "/skills/chogath_w/parameters",
+      "/skills/chogath_w/parameters/base_damage",
+      "/skills/chogath_w/parameters/ap_ratio",
+      "/skills/chogath_w/parameters/silence_duration_ms",
+      "/skills/chogath_w/parameters/cooldown_ms",
+      "/skills/chogath_w/parameters/mana_cost",
+      "/skills/chogath_w/formulas",
+      "/skills/chogath_w/formulas/magic_damage",
+      "/skills/chogath_w/effects",
+      "/skills/chogath_w/effects/mana_cost",
+      "/skills/chogath_w/effects/primary_hit",
+      "/skills/chogath_w/effects/silence_first_application",
+      "/skills/chogath_w/processes",
+      "/skills/chogath_w/internal-states",
+      "/skills/chogath_w/trigger-rules",
+      "/skills/chogath_w/trigger-rules/actual_hit",
+      "/skills/chogath_w/trigger-rules/apply_silence_on_unblocked_hit",
+      "/skills/malzahar_q/parameters",
+      "/skills/malzahar_q/parameters/cast_time_ms",
+      "/skills/malzahar_q/parameters/base_damage",
+      "/skills/malzahar_q/parameters/silence_duration_ms",
+      "/skills/malzahar_q/parameters/ap_ratio_constant",
+      "/skills/malzahar_q/parameters/cooldown_ms",
+      "/skills/malzahar_q/parameters/mana_cost",
+      "/skills/malzahar_q/formulas",
+      "/skills/malzahar_q/formulas/damage",
+      "/skills/malzahar_q/effects",
+      "/skills/malzahar_q/effects/mana_cost",
+      "/skills/malzahar_q/effects/primary_hit",
+      "/skills/malzahar_q/effects/silence_first_application",
+      "/skills/malzahar_q/processes",
+      "/skills/malzahar_q/processes/cast",
+      "/skills/malzahar_q/internal-states",
+      "/skills/malzahar_q/trigger-rules",
+      "/skills/malzahar_q/trigger-rules/actual_hit",
+      "/skills/malzahar_q/trigger-rules/on_used",
+      "/skills/malzahar_q/trigger-rules/apply_silence_on_unblocked_hit"
+    ]
+  }
+}
