@@ -1,0 +1,245 @@
+{
+  "startedAt": "2026-09-19T18:47:47.705Z",
+  "status": "PASS",
+  "businessWritesAttempted": 2,
+  "operations": [
+    {
+      "route": "/skills/malzahar_e",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:19:20.153696Z",
+          "description": "玛尔扎哈对目标施加煞星幻象，持续造成魔法伤害。已录入基础参数与总伤害公式，并连接普通主动使用的法力消耗、250毫秒施放登记与基础冷却。总伤害五级为80/115/150/185/220加0.8倍来源总法强，持续4000毫秒；固定客户端给出250毫秒周期，首次结算时点仍待核。施放登记结束不等于幻象已施加；持续伤害、Q或R伤害刷新、死亡传播与回蓝等相关组成尚未连接。固定来源：客户端16.17、官方静态资料16.17.1。",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "玛尔扎哈·煞星幻象",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "malzahar_e",
+          "sortOrder": 3,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-19T18:47:48.246006Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-06T18:19:20.153696Z",
+        "description": "玛尔扎哈对目标施加煞星幻象，持续造成魔法伤害。已录入基础参数与总伤害公式，并连接普通主动使用的法力消耗、250毫秒施放登记与基础冷却。总伤害五级为80/115/150/185/220加0.8倍来源总法强，持续4000毫秒；固定客户端给出250毫秒周期，首次结算时点仍待核。施放登记结束不等于幻象已施加；持续伤害、Q或R伤害刷新、死亡传播与回蓝等相关组成尚未连接。固定来源：客户端16.17、官方静态资料16.17.1。",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "玛尔扎哈·煞星幻象",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "malzahar_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-19T18:47:48.246006Z"
+      }
+    },
+    {
+      "route": "/skills/malzahar_e/effects/mana_cost",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-09T10:35:26.636696Z",
+          "description": "普通主动使用时的基础法力消耗，五级为60/70/80/90/100；施放登记过程在开始时引用本效果。实际施放资格与失败取消退款由对应分支另行处理。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "施放法力消耗",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "attributeKey": "mana",
+                "operation": "CONSUME"
+              },
+              "lifecycleBehavior": null,
+              "name": "消耗法力",
+              "resultKey": "consume_mana",
+              "resultType": "RESOURCE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "mana_cost"
+                }
+              }
+            }
+          ],
+          "skillKey": "malzahar_e",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-19T18:47:49.90473Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-09T10:35:26.636696Z",
+        "description": "普通主动使用时的基础法力消耗，五级为60/70/80/90/100；施放登记过程在开始时引用本效果。实际施放资格与失败取消退款由对应分支另行处理。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "施放法力消耗",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "malzahar_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T18:47:49.90473Z"
+      }
+    }
+  ],
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-descriptions-v2.mjs": "f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517",
+    "01-纠错计划.json": "bcb7fcb40712d53bab1f33e939ff8f97f9868c1a96ae4eea2633841feff8384c",
+    "02-冻结请求.json": "36e5a8d5492140ebfd6c953c1d9de9225a23cfc9b61771f98e528c57f6196149",
+    "03-来源摘要.json": "3ea69ef73f6aa96db148035bb6ac2ce8376a7ffa948038767fbf995cb08a099b",
+    "04-写入前现值.json": "68e0e998c78277d6a9237e40899cee15416a2b4b565a389a42bb21cfd06113ec"
+  },
+  "pendingRoute": null,
+  "finishedAt": "2026-09-19T18:47:51.122Z",
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e/parameters/duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e/parameters/ap_ratio_constant",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/malzahar_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/malzahar_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e/effects/mana_cost",
+      "status": 200
+    }
+  ]
+}

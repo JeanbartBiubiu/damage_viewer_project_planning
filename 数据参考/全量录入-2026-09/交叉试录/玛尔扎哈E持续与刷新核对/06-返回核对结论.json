@@ -1,0 +1,51 @@
+{
+  "createdAt": "2026-09-19T18:50:30.108Z",
+  "status": "PARTIAL_MANAGEMENT_RETURN_PASS",
+  "skillKey": "malzahar_e",
+  "sourceVersion": "client16.17 / DDragon16.17.1",
+  "counts": {
+    "parameters": 6,
+    "formulas": 1,
+    "effects": 1,
+    "processes": 1,
+    "internalStates": 0,
+    "triggerRules": 1
+  },
+  "writes": {
+    "POST": 2,
+    "PUT": 2,
+    "total": 4,
+    "browser": 0
+  },
+  "independentHTTP": {
+    "GETs": 42,
+    "appendReadback": 25,
+    "descriptionReadback": 17,
+    "status": "PASS"
+  },
+  "browser": {
+    "process": "PASS",
+    "useRule": "PASS",
+    "subject": "PASS",
+    "costEffectAndResult": "PASS",
+    "consoleErrors": 0,
+    "consoleWarnings": 0
+  },
+  "existingResponses": "追加批次21项原响应含时间戳保持，2个组成列表按预期新增；说明批次除2详情和1效果列表说明及更新时间外，其他14响应含时间戳保持。",
+  "sourceReadback": "固定来源文件散列在准备、写入及独立回读中一致；公开13.16补丁只旁证周期250毫秒，不用于首跳推断。",
+  "completed": [
+    "普通主动使用启动cast",
+    "过程开始引用原mana_cost并登记cooldown_ms",
+    "cast_time_ms为250毫秒的延迟登记",
+    "主体与成本说明准确反映当前录入范围"
+  ],
+  "remaining": [
+    "持续伤害首次结算时点与法强读取口径",
+    "幻象施加及持续伤害效果和入口",
+    "Q/R造成伤害后的持续时间刷新及来源技能筛选",
+    "死亡传播及回蓝等范围内组成"
+  ],
+  "completion": "仍为系统暂缓；不增加整技能管理完成数。",
+  "runtimeValidation": "NOT_RUN",
+  "rawAuditNote": "普通追加04原始audit为25次GET，独立评审文字曾将额外读取合并称26次；统计以04及07实际audit为准。01旧17GET调查只保留了分析摘要，未伪造为原始响应；当前正式追加25GET基线完整。"
+}

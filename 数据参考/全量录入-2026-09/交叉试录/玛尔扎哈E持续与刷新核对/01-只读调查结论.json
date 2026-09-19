@@ -1,0 +1,61 @@
+{
+  "at": "2026-09-19T18:29:11.445Z",
+  "reviewer": "/root/silence_sources",
+  "kind": "ANALYSIS_SUMMARY_NOT_RAW_GET",
+  "reportedBaselineGETs": 17,
+  "rawGetEvidenceAvailable": false,
+  "baselineReuse": "原始values/audit只输出到代理终端，未保存完整原件；不以摘要重建请求基线，正式补录将使用新受保护准备读取。",
+  "reportedCounts": {
+    "skillKey": "malzahar_e",
+    "parameters": 6,
+    "formulas": 1,
+    "effects": 1,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "existingEffect": "mana_cost且无生命周期",
+  "reuseConclusion": "现有LIFECYCLE_OPERATION REFRESH作用于本技能另一个有期限效果；规则可归E并将命中来源指向Q，不需要跨技能效果字段。尚不能据此批准实际刷新时点。",
+  "implementationPointers": [
+    {
+      "worktree": "damage_backend_dev",
+      "path": "server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectLifecycleOperation.java",
+      "line": 3
+    },
+    {
+      "worktree": "damage_backend_dev",
+      "path": "server/data_manage/src/main/java/xyz/game/datamanage/service/skilleffect/SkillEffectService.java",
+      "line": 1389
+    },
+    {
+      "worktree": "damage_backend_dev",
+      "path": "server/data_manage/src/main/java/xyz/game/datamanage/service/skilltrigger/SkillTriggerRuleService.java",
+      "line": 2228
+    }
+  ],
+  "historicalRuntimeBoundary": {
+    "path": "文档记录/详细设计/wasm/通用ABI-玛尔扎哈E恶咒降临MaleficVisions机制详细设计.md",
+    "rank": 5,
+    "firstTickMs": 250,
+    "lastTickMs": 4000,
+    "ticks": 16,
+    "notGameFidelityProof": true,
+    "explicitlyExcluded": [
+      "Q/R刷新",
+      "死亡传播",
+      "返蓝",
+      "小兵处决",
+      "1至4级",
+      "施放资格",
+      "期间法强变化"
+    ]
+  },
+  "openFacts": [
+    "E首跳相对施加的时点及自然到期边界",
+    "期间法强读取或留存语义",
+    "Q/R造成伤害后刷新所需准确事件和同目标关系",
+    "传播与返蓝的本轮1V1范围"
+  ],
+  "businessWrites": 0,
+  "runtimeValidation": "未执行"
+}

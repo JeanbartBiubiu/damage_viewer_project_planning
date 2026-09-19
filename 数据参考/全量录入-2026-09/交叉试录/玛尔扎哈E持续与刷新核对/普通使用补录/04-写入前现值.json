@@ -1,0 +1,790 @@
+{
+  "at": "2026-09-19T18:30:00.075Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/skills/malzahar_e": {
+      "createdAt": "2026-09-06T18:19:20.153696Z",
+      "description": "玛尔扎哈将目标的惨死幻象侵入目标的意识中，造成持续伤害。玛尔扎哈对目标使用其它技能时会刷新幻象的持续时间。<br><br>如果目标在感染幻象期间死亡，那么幻象会传到附近的一个敌人身上，并且玛尔扎哈会回复法力值。玛尔扎哈的虚灵会优先攻击感染了幻象的单位。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "玛尔扎哈·煞星幻象",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "malzahar_e",
+      "sortOrder": 3,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:19:20.153696Z"
+    },
+    "/characters/champion_malzahar": {
+      "characterKey": "champion_malzahar",
+      "createdAt": "2026-09-06T16:24:46.602257Z",
+      "description": "来源：官方 Data Dragon 16.17.1；攻击力成长与攻速来源补证自 CommunityDragon 提取的同补丁客户端 16.17.8104348（非 Riot 官方接口）。本轮仅录角色主体与 1～18 级基础自然成长，不含被动、技能、装备、符文、叠层或形态。技能、图片和机制待录，不能视为完整录入。",
+      "gameId": "lol",
+      "name": "玛尔扎哈",
+      "updatedAt": "2026-09-06T16:24:46.602257Z"
+    },
+    "/characters/champion_malzahar/attributes": {
+      "characterKey": "champion_malzahar",
+      "levelValues": {
+        "1": {
+          "move_speed": 335,
+          "hp": 580,
+          "hp_regen": 6,
+          "mana": 375,
+          "mana_regen": 8,
+          "armor": 18,
+          "magic_resistance": 30,
+          "attack_damage": 55,
+          "attack_speed": 0.625,
+          "attack_range": 500
+        },
+        "2": {
+          "move_speed": 335,
+          "hp": 652.72,
+          "hp_regen": 6.432,
+          "mana": 395.16,
+          "mana_regen": 8.576,
+          "armor": 21.384,
+          "magic_resistance": 30.936,
+          "attack_damage": 57.16,
+          "attack_speed": 0.63175,
+          "attack_range": 500
+        },
+        "3": {
+          "move_speed": 335,
+          "hp": 728.975,
+          "hp_regen": 6.885,
+          "mana": 416.3,
+          "mana_regen": 9.18,
+          "armor": 24.9325,
+          "magic_resistance": 31.9175,
+          "attack_damage": 59.425,
+          "attack_speed": 0.638828,
+          "attack_range": 500
+        },
+        "4": {
+          "move_speed": 335,
+          "hp": 808.765,
+          "hp_regen": 7.359,
+          "mana": 438.42,
+          "mana_regen": 9.812,
+          "armor": 28.6455,
+          "magic_resistance": 32.9445,
+          "attack_damage": 61.795,
+          "attack_speed": 0.646234,
+          "attack_range": 500
+        },
+        "5": {
+          "move_speed": 335,
+          "hp": 892.09,
+          "hp_regen": 7.854,
+          "mana": 461.52,
+          "mana_regen": 10.472,
+          "armor": 32.523,
+          "magic_resistance": 34.017,
+          "attack_damage": 64.27,
+          "attack_speed": 0.653969,
+          "attack_range": 500
+        },
+        "6": {
+          "move_speed": 335,
+          "hp": 978.95,
+          "hp_regen": 8.37,
+          "mana": 485.6,
+          "mana_regen": 11.16,
+          "armor": 36.565,
+          "magic_resistance": 35.135,
+          "attack_damage": 66.85,
+          "attack_speed": 0.662031,
+          "attack_range": 500
+        },
+        "7": {
+          "move_speed": 335,
+          "hp": 1069.345,
+          "hp_regen": 8.907,
+          "mana": 510.66,
+          "mana_regen": 11.876,
+          "armor": 40.7715,
+          "magic_resistance": 36.2985,
+          "attack_damage": 69.535,
+          "attack_speed": 0.670422,
+          "attack_range": 500
+        },
+        "8": {
+          "move_speed": 335,
+          "hp": 1163.275,
+          "hp_regen": 9.465,
+          "mana": 536.7,
+          "mana_regen": 12.62,
+          "armor": 45.1425,
+          "magic_resistance": 37.5075,
+          "attack_damage": 72.325,
+          "attack_speed": 0.679141,
+          "attack_range": 500
+        },
+        "9": {
+          "move_speed": 335,
+          "hp": 1260.74,
+          "hp_regen": 10.044,
+          "mana": 563.72,
+          "mana_regen": 13.392,
+          "armor": 49.678,
+          "magic_resistance": 38.762,
+          "attack_damage": 75.22,
+          "attack_speed": 0.688187,
+          "attack_range": 500
+        },
+        "10": {
+          "move_speed": 335,
+          "hp": 1361.74,
+          "hp_regen": 10.644,
+          "mana": 591.72,
+          "mana_regen": 14.192,
+          "armor": 54.378,
+          "magic_resistance": 40.062,
+          "attack_damage": 78.22,
+          "attack_speed": 0.697562,
+          "attack_range": 500
+        },
+        "11": {
+          "move_speed": 335,
+          "hp": 1466.275,
+          "hp_regen": 11.265,
+          "mana": 620.7,
+          "mana_regen": 15.02,
+          "armor": 59.2425,
+          "magic_resistance": 41.4075,
+          "attack_damage": 81.325,
+          "attack_speed": 0.707266,
+          "attack_range": 500
+        },
+        "12": {
+          "move_speed": 335,
+          "hp": 1574.345,
+          "hp_regen": 11.907,
+          "mana": 650.66,
+          "mana_regen": 15.876,
+          "armor": 64.2715,
+          "magic_resistance": 42.7985,
+          "attack_damage": 84.535,
+          "attack_speed": 0.717297,
+          "attack_range": 500
+        },
+        "13": {
+          "move_speed": 335,
+          "hp": 1685.95,
+          "hp_regen": 12.57,
+          "mana": 681.6,
+          "mana_regen": 16.76,
+          "armor": 69.465,
+          "magic_resistance": 44.235,
+          "attack_damage": 87.85,
+          "attack_speed": 0.727656,
+          "attack_range": 500
+        },
+        "14": {
+          "move_speed": 335,
+          "hp": 1801.09,
+          "hp_regen": 13.254,
+          "mana": 713.52,
+          "mana_regen": 17.672,
+          "armor": 74.823,
+          "magic_resistance": 45.717,
+          "attack_damage": 91.27,
+          "attack_speed": 0.738344,
+          "attack_range": 500
+        },
+        "15": {
+          "move_speed": 335,
+          "hp": 1919.765,
+          "hp_regen": 13.959,
+          "mana": 746.42,
+          "mana_regen": 18.612,
+          "armor": 80.3455,
+          "magic_resistance": 47.2445,
+          "attack_damage": 94.795,
+          "attack_speed": 0.749359,
+          "attack_range": 500
+        },
+        "16": {
+          "move_speed": 335,
+          "hp": 2041.975,
+          "hp_regen": 14.685,
+          "mana": 780.3,
+          "mana_regen": 19.58,
+          "armor": 86.0325,
+          "magic_resistance": 48.8175,
+          "attack_damage": 98.425,
+          "attack_speed": 0.760703,
+          "attack_range": 500
+        },
+        "17": {
+          "move_speed": 335,
+          "hp": 2167.72,
+          "hp_regen": 15.432,
+          "mana": 815.16,
+          "mana_regen": 20.576,
+          "armor": 91.884,
+          "magic_resistance": 50.436,
+          "attack_damage": 102.16,
+          "attack_speed": 0.772375,
+          "attack_range": 500
+        },
+        "18": {
+          "move_speed": 335,
+          "hp": 2297,
+          "hp_regen": 16.2,
+          "mana": 851,
+          "mana_regen": 21.6,
+          "armor": 97.9,
+          "magic_resistance": 52.1,
+          "attack_damage": 106,
+          "attack_speed": 0.784375,
+          "attack_range": 500
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_malzahar/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_champion_malzahar",
+        "name": "champion_malzahar"
+      }
+    },
+    "/skills/malzahar_e/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_malzahar_e",
+        "name": "malzahar_e"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_malzahar": {
+      "items": [
+        {
+          "characterKey": "champion_malzahar",
+          "characterName": "玛尔扎哈",
+          "gameId": "lol",
+          "skillKey": "malzahar_p",
+          "skillName": "玛尔扎哈·虚空穿越",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_malzahar",
+          "characterName": "玛尔扎哈",
+          "gameId": "lol",
+          "skillKey": "malzahar_q",
+          "skillName": "玛尔扎哈·虚空召唤",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_malzahar",
+          "characterName": "玛尔扎哈",
+          "gameId": "lol",
+          "skillKey": "malzahar_w",
+          "skillName": "玛尔扎哈·虚空虫群",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_malzahar",
+          "characterName": "玛尔扎哈",
+          "gameId": "lol",
+          "skillKey": "malzahar_e",
+          "skillName": "玛尔扎哈·煞星幻象",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_malzahar",
+          "characterName": "玛尔扎哈",
+          "gameId": "lol",
+          "skillKey": "malzahar_r",
+          "skillName": "玛尔扎哈·冥府之握",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=malzahar_e": {
+      "items": [
+        {
+          "characterKey": "champion_malzahar",
+          "characterName": "玛尔扎哈",
+          "gameId": "lol",
+          "skillKey": "malzahar_e",
+          "skillName": "玛尔扎哈·煞星幻象",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        }
+      ],
+      "total": 1
+    },
+    "/skills/malzahar_e/parameters": [
+      {
+        "createdAt": "2026-09-09T10:35:20.92441Z",
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "malzahar_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T10:35:20.92441Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T10:35:22.089279Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 80,
+          "2": 115,
+          "3": 150,
+          "4": 185,
+          "5": 220
+        },
+        "name": "基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "malzahar_e",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T10:35:22.089279Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T10:35:23.21219Z",
+        "description": "客户端当前根绑定 DataValues.Duration 取索引1至5；单位秒转毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "fixedValue": 4000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "感染持续（毫秒）",
+        "parameterKey": "duration_ms",
+        "skillKey": "malzahar_e",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T10:35:23.21219Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T10:35:24.322233Z",
+        "description": "TotalDamage树直接给出0.8；固定系数进入公式。",
+        "fixedValue": 0.8,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法强倍率",
+        "parameterKey": "ap_ratio_constant",
+        "skillKey": "malzahar_e",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T10:35:24.322233Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T17:38:37.254894Z",
+        "description": "DDragon16.17.1 Malzahar.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 11000,
+          "2": 10000,
+          "3": 9000,
+          "4": 8000,
+          "5": 7000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "malzahar_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T17:38:37.254894Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T17:38:37.6841Z",
+        "description": "DDragon16.17.1 Malzahar.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 70,
+          "3": 80,
+          "4": 90,
+          "5": 100
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "malzahar_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T17:38:37.6841Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/malzahar_e/parameters/cast_time_ms": {
+      "createdAt": "2026-09-09T10:35:20.92441Z",
+      "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "malzahar_e",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T10:35:20.92441Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/malzahar_e/parameters/base_damage": {
+      "createdAt": "2026-09-09T10:35:22.089279Z",
+      "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 80,
+        "2": 115,
+        "3": 150,
+        "4": 185,
+        "5": 220
+      },
+      "name": "基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "malzahar_e",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T10:35:22.089279Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/malzahar_e/parameters/duration_ms": {
+      "createdAt": "2026-09-09T10:35:23.21219Z",
+      "description": "客户端当前根绑定 DataValues.Duration 取索引1至5；单位秒转毫秒；按来源显示单位换算为系统比例/毫秒。",
+      "fixedValue": 4000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "感染持续（毫秒）",
+      "parameterKey": "duration_ms",
+      "skillKey": "malzahar_e",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T10:35:23.21219Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/malzahar_e/parameters/ap_ratio_constant": {
+      "createdAt": "2026-09-09T10:35:24.322233Z",
+      "description": "TotalDamage树直接给出0.8；固定系数进入公式。",
+      "fixedValue": 0.8,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法强倍率",
+      "parameterKey": "ap_ratio_constant",
+      "skillKey": "malzahar_e",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-09T10:35:24.322233Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/malzahar_e/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T17:38:37.254894Z",
+      "description": "DDragon16.17.1 Malzahar.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 11000,
+        "2": 10000,
+        "3": 9000,
+        "4": 8000,
+        "5": 7000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "malzahar_e",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T17:38:37.254894Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/malzahar_e/parameters/mana_cost": {
+      "createdAt": "2026-09-07T17:38:37.6841Z",
+      "description": "DDragon16.17.1 Malzahar.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 60,
+        "2": 70,
+        "3": 80,
+        "4": 90,
+        "5": 100
+      },
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "malzahar_e",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-07T17:38:37.6841Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/malzahar_e/formulas": [
+      {
+        "createdAt": "2026-09-09T10:35:25.479154Z",
+        "description": "TotalDamage = BaseDamage + 0.8×法强；当前候选保存总量关系，不创建瞬时或周期伤害。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "虚空先知持续总魔法伤害",
+        "skillKey": "malzahar_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T10:35:25.479154Z"
+      }
+    ],
+    "/skills/malzahar_e/formulas/damage": {
+      "createdAt": "2026-09-09T10:35:25.479154Z",
+      "description": "TotalDamage = BaseDamage + 0.8×法强；当前候选保存总量关系，不创建瞬时或周期伤害。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio_constant"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "虚空先知持续总魔法伤害",
+      "skillKey": "malzahar_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T10:35:25.479154Z"
+    },
+    "/skills/malzahar_e/effects": [
+      {
+        "createdAt": "2026-09-09T10:35:26.636696Z",
+        "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "malzahar_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T10:35:26.636696Z"
+      }
+    ],
+    "/skills/malzahar_e/effects/mana_cost": {
+      "createdAt": "2026-09-09T10:35:26.636696Z",
+      "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "malzahar_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T10:35:26.636696Z"
+    },
+    "/skills/malzahar_e/processes": [],
+    "/skills/malzahar_e/internal-states": [],
+    "/skills/malzahar_e/trigger-rules": [],
+    "/attributes/ability_power": {
+      "attributeKey": "ability_power",
+      "createdAt": "2026-08-30T16:26:39.898635Z",
+      "description": "角色法术强度；基础值为 0，可由装备和效果增加",
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法术强度",
+      "sortOrder": 510,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-30T16:26:39.898635Z",
+      "valueType": "DECIMAL"
+    },
+    "/attributes/mana": {
+      "attributeKey": "mana",
+      "createdAt": "2026-08-22T15:27:36.139767Z",
+      "description": null,
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法力值",
+      "sortOrder": 310,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-22T15:27:36.139767Z",
+      "valueType": "DECIMAL"
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_malzahar",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_malzahar/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_malzahar/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_malzahar",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=malzahar_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e/parameters/duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e/parameters/ap_ratio_constant",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/ability_power",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/mana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e/processes/cast",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e/trigger-rules/on_used",
+      "status": 404
+    }
+  ],
+  "businessWrites": 0
+}

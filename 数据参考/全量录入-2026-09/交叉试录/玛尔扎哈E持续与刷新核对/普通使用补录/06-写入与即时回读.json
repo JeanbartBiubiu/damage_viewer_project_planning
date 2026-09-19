@@ -1,0 +1,343 @@
+{
+  "startedAt": "2026-09-19T18:37:03.590Z",
+  "status": "PASS",
+  "businessWritesAttempted": 2,
+  "operations": [
+    {
+      "method": "POST",
+      "route": "/skills/malzahar_e/processes",
+      "response": {
+        "status": 201,
+        "data": {
+          "activationType": "ACTIVE",
+          "cooldown": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cooldown_ms"
+            },
+            "startMoment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            }
+          },
+          "createdAt": "2026-09-19T18:37:04.104317Z",
+          "description": "登记普通主动使用的基础法力消耗、既有250毫秒根施放延迟与普通冷却；延迟结束不表示持续伤害已施加，刷新和传播由各自分支处理。",
+          "effectBindings": [
+            {
+              "bindingKey": "mana_cost",
+              "effectKey": "mana_cost",
+              "moment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              },
+              "sortOrder": 10
+            }
+          ],
+          "gameId": "lol",
+          "name": "煞星幻象施放登记",
+          "processKey": "cast",
+          "skillKey": "malzahar_e",
+          "sortOrder": 10,
+          "stateOperations": [],
+          "steps": [
+            {
+              "description": "读取当前技能既有施法时间参数；延迟结束不表示发生实际命中。",
+              "detail": {
+                "delayValue": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "cast_time_ms"
+                }
+              },
+              "name": "施法延迟",
+              "sortOrder": 10,
+              "stepKey": "cast_time",
+              "stepType": "DELAY"
+            }
+          ],
+          "updatedAt": "2026-09-19T18:37:04.104317Z"
+        }
+      },
+      "readback": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "createdAt": "2026-09-19T18:37:04.104317Z",
+        "description": "登记普通主动使用的基础法力消耗、既有250毫秒根施放延迟与普通冷却；延迟结束不表示持续伤害已施加，刷新和传播由各自分支处理。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "gameId": "lol",
+        "name": "煞星幻象施放登记",
+        "processKey": "cast",
+        "skillKey": "malzahar_e",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "读取当前技能既有施法时间参数；延迟结束不表示发生实际命中。",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            },
+            "name": "施法延迟",
+            "sortOrder": 10,
+            "stepKey": "cast_time",
+            "stepType": "DELAY"
+          }
+        ],
+        "updatedAt": "2026-09-19T18:37:04.104317Z"
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/malzahar_e/trigger-rules",
+      "response": {
+        "status": 201,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "start_cast",
+              "actionType": "START_PROCESS",
+              "detail": {
+                "processKey": "cast"
+              },
+              "name": "启动煞星幻象施放登记",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "普通主动使用malzahar_e时启动cast，登记基础法力、普通冷却和既有根施放延迟；不从过程结束生成实际命中或持续伤害。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "malzahar_e",
+              "useKind": "ACTIVE"
+            },
+            "eventType": "SKILL_USED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "煞星幻象普通主动使用",
+          "perTargetCooldown": null,
+          "ruleKey": "on_used",
+          "sortOrder": 20
+        }
+      },
+      "readback": {
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "cast"
+            },
+            "name": "启动煞星幻象施放登记",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "普通主动使用malzahar_e时启动cast，登记基础法力、普通冷却和既有根施放延迟；不从过程结束生成实际命中或持续伤害。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "malzahar_e",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "煞星幻象普通主动使用",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used",
+        "sortOrder": 20
+      }
+    }
+  ],
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v3.mjs": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "01-候选方案.json": "e0fcaac634cb5d0d2d54eabf344dccaea5bfa4363e2cb412890a3b31ad1b1d42",
+    "02-冻结请求.json": "39fc1ee1f617c06dbacbb54a49a1363559e32dbc40e50a3e1e74fa3137214834",
+    "03-来源摘要.json": "22b19201d5f6df6aba43f0952cdb018b2d23254d0e294b45818af601ed8e245c",
+    "04-写入前现值.json": "735da2add8ea4102f9b431f26745b10deb954a9dea018c7db5dd5cf9770322d6"
+  },
+  "pendingRoute": null,
+  "finishedAt": "2026-09-19T18:37:06.765Z",
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_malzahar",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_malzahar/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_malzahar/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_malzahar",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=malzahar_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e/parameters/duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e/parameters/ap_ratio_constant",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/ability_power",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/mana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e/processes/cast",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e/trigger-rules/on_used",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e/processes/cast",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/malzahar_e/processes",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e/trigger-rules/on_used",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/malzahar_e/trigger-rules",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_e/trigger-rules/on_used",
+      "status": 200
+    }
+  ]
+}

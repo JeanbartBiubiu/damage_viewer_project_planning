@@ -1,0 +1,17 @@
+{
+  "at": "2026-09-19T18:47:00.968Z",
+  "status": "APPROVED",
+  "reviewer": "/root/root_status_source_review",
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-descriptions-v2.mjs": "f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517",
+    "01-纠错计划.json": "bcb7fcb40712d53bab1f33e939ff8f97f9868c1a96ae4eea2633841feff8384c",
+    "02-冻结请求.json": "36e5a8d5492140ebfd6c953c1d9de9225a23cfc9b61771f98e528c57f6196149",
+    "03-来源摘要.json": "3ea69ef73f6aa96db148035bb6ac2ce8376a7ffa948038767fbf995cb08a099b",
+    "04-写入前现值.json": "68e0e998c78277d6a9237e40899cee15416a2b4b565a389a42bb21cfd06113ec"
+  },
+  "findings": [
+    "两个完整PUT正文仅顶层description变化；技能主体与mana_cost效果的名称、等级、状态、排序、生命周期和结果均保持，更新时间按接口回读变化。",
+    "固定来源与说明一致：总伤害五级80/115/150/185/220加0.8倍来源总法强，持续4000毫秒，固定客户端周期250毫秒；普通使用成本、250毫秒登记和基础冷却已接入。首次结算时点、持续伤害、Q/R刷新、死亡传播、回蓝及施放资格仍明确待核。",
+    "说明基线17次GET全部只读且businessWrites=0；普通使用补录写前保护为25个唯一GET路径（26次读取中有一次cast详情404重复），两次POST均201并即时回读通过；三个来源摘要实际匹配。"
+  ]
+}
