@@ -1,0 +1,202 @@
+{
+  "at": "2026-09-19T10:04:11.130Z",
+  "status": "PASS",
+  "businessWrites": 0,
+  "unchangedObjectsIncludingTimestamps": 4,
+  "values": {
+    "/skills/soraka_r/effects/self_heal": {
+      "createdAt": "2026-09-19T09:25:04.850271Z",
+      "description": "主动使用时为索拉卡自身回复正常生命值；低生命由互斥规则执行增强公式。",
+      "effectKey": "self_heal",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "祈愿自身正常治疗",
+      "results": [
+        {
+          "description": null,
+          "detail": {},
+          "lifecycleBehavior": null,
+          "name": "自身回复生命值",
+          "resultKey": "heal",
+          "resultType": "DIRECT_HEAL",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "self_heal",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "soraka_r",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-19T09:25:04.850271Z"
+    },
+    "/skills/soraka_r/effects/self_low_health_heal": {
+      "createdAt": "2026-09-19T09:30:17.674001Z",
+      "description": "主动使用时索拉卡自身生命比例低于40%才执行；按完整治疗值1.5倍回复。",
+      "effectKey": "self_low_health_heal",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "祈愿自身低生命治疗",
+      "results": [
+        {
+          "description": null,
+          "detail": {},
+          "lifecycleBehavior": null,
+          "name": "自身回复生命值",
+          "resultKey": "heal",
+          "resultType": "DIRECT_HEAL",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "self_low_health_heal",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "soraka_r",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-19T09:30:17.674001Z"
+    },
+    "/skills/soraka_r/trigger-rules/on_used_self_heal": {
+      "actions": [
+        {
+          "actionKey": "heal_self",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "self_heal"
+          },
+          "name": "执行自身正常治疗",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "source_hp_at_or_above_threshold",
+              "conditionType": "ATTRIBUTE_COMPARE",
+              "detail": {
+                "attributeKey": "hp",
+                "attributeValueKind": "CURRENT_RATIO",
+                "comparator": "GTE",
+                "comparisonValue": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "low_health_threshold_ratio"
+                },
+                "subject": "SOURCE"
+              },
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "source_not_low_health",
+          "name": "来源对象不低于低生命阈值",
+          "sortOrder": 10
+        }
+      ],
+      "description": "主动使用祈愿且索拉卡自身生命比例不低于40%时执行正常自身治疗。 同一次事件先完成全部条件求值再执行匹配动作，治疗后不追加另一分支。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "soraka_r",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "主动使用回复自身生命",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used_self_heal",
+      "sortOrder": 10
+    },
+    "/skills/soraka_r/trigger-rules/on_used_self_low_health_heal": {
+      "actions": [
+        {
+          "actionKey": "heal_self",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "self_low_health_heal"
+          },
+          "name": "执行自身低生命治疗",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "source_hp_below_threshold",
+              "conditionType": "ATTRIBUTE_COMPARE",
+              "detail": {
+                "attributeKey": "hp",
+                "attributeValueKind": "CURRENT_RATIO",
+                "comparator": "LT",
+                "comparisonValue": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "low_health_threshold_ratio"
+                },
+                "subject": "SOURCE"
+              },
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "source_low_health",
+          "name": "来源对象低于低生命阈值",
+          "sortOrder": 10
+        }
+      ],
+      "description": "主动使用祈愿且索拉卡自身生命比例低于40%时执行增强自身治疗；不与正常分支叠加。 同一次事件先完成全部条件求值再执行匹配动作，治疗后不追加另一分支。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "soraka_r",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "低生命时主动使用回复自身生命",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used_self_low_health_heal",
+      "sortOrder": 20
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/effects/self_heal",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/effects/self_low_health_heal",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/trigger-rules/on_used_self_heal",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/trigger-rules/on_used_self_low_health_heal",
+      "status": 200
+    }
+  ]
+}
