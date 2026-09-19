@@ -1,0 +1,55 @@
+{
+  "at": "2026-09-19T09:55:21.573Z",
+  "reviewer": "/root/urgot_core_frozen_fallback",
+  "conclusion": "尚缺3个成熟使用组成、成本与主体旧说明纠正、终极技能分类目录及关联；完成并验收后可认定本轮1V1管理配置完整，不以运行层未实现阻塞。",
+  "components": [
+    "mana_cost SOURCE mana CONSUME参数100",
+    "cast ACTIVE DELAY250、开始扣费与150/135/120秒冷却",
+    "on_used ownACTIVE START_PROCESS cast，治疗不挂过程、维持原两互斥入口"
+  ],
+  "sourceRemaining": "历史第三十三批唯一R待核为施放前低血资格与阶段选择，已由同事件契约和本次配置闭环解决；未发现其他本轮必须补录分支。",
+  "excluded": "仅其他友军治疗",
+  "runtimeBoundary": "事件生产、匹配集合执行、扣蓝、冷却计时与治疗结算尚未开发/验证，独立列账",
+  "categoriesGET": {
+    "path": "/skill-categories",
+    "status": 200,
+    "body": {
+      "items": [
+        {
+          "createdAt": "2026-09-04T16:08:30.744289Z",
+          "description": null,
+          "gameId": "lol",
+          "name": "位移技能",
+          "skillCategoryKey": "move_skill",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-04T16:08:30.744289Z"
+        },
+        {
+          "createdAt": "2026-08-26T05:59:27.858757Z",
+          "description": null,
+          "gameId": "lol",
+          "name": "普通技能",
+          "skillCategoryKey": "common",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-08-26T05:59:27.858757Z"
+        },
+        {
+          "createdAt": "2026-08-26T05:59:36.038429Z",
+          "description": null,
+          "gameId": "lol",
+          "name": "被动技能",
+          "skillCategoryKey": "passive",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-08-26T05:59:36.038429Z"
+        }
+      ],
+      "total": 3
+    },
+    "bodyUtf8Bytes": 635,
+    "bodySha256": "90a4c5203870cc8dd6c534d3f9e13158e4267f61c957841f4d21c75ae16b2951"
+  },
+  "businessWrites": 0
+}

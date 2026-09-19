@@ -1,0 +1,26 @@
+{
+  "at": "2026-09-19T09:18:56.172Z",
+  "status": "APPROVED",
+  "reviewer": "/root/urgot_core_frozen_fallback",
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v3.mjs": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "01-候选方案.json": "50e2e8db6177e9446a88528f33099f885f8f0de655f29f527e7c939cf921d8cd",
+    "02-冻结请求.json": "7f913fca50ab69437b2ce283e3c4d6d09530ccb3ed06fb5705a37a5bda8228f1",
+    "03-来源摘要.json": "d079d5f1fdc342c8b1bc999398b51f4af36dcb1fd13a94a5ebd035cb92e85eba",
+    "04-写入前现值.json": "42cffcfe9120641bf1abd6f2c199cc96553f35519b1c0b0a45b62623381b46a9"
+  },
+  "firstAuthoringGate": "BROWSER_UI_ONLY",
+  "sourceHashesMatched": 6,
+  "arithmeticCases": 27,
+  "checks": [
+    "HealingCalc为150/250/350+0.5来源总AP，低血完整治疗乘1.5；未采用旧0.55系数",
+    "自身ACTIVE事件，SOURCE hp CURRENT_RATIO与0.4以GTE/LT互斥",
+    "SOURCE直接治疗，来源明确自疗，无须显式自施条件",
+    "共享同事件先匹配后执行沿用已通过修订二，不重开审查",
+    "预期4新增2集合22原响应含时间戳保持"
+  ],
+  "findings": [],
+  "businessHTTP": 0,
+  "fileWrites": 0,
+  "runtimeValidation": "未实现、未验证"
+}
