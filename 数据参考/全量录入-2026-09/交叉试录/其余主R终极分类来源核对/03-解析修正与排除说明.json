@@ -1,0 +1,13 @@
+{
+  "status":"SOURCE_REVIEWED_NOT_BUSINESS_WRITTEN",
+  "sourceSlots":173,
+  "alreadyProcessed":8,
+  "eligibleRemaining":161,
+  "unresolvedRemaining":[{"skillKey":"udyr_r","reason":"实际R根与能力引用一致，但仅含伤害、持续伤害、标志技能、远程区域和范围标记，没有Trait_Ultimate；保持原分类，不自动关联普通技能。"}],
+  "excluded":[{"sourceChampionId":"Aphelios","sourceNumericId":"523","skillKey":null,"reason":"按既定范围后置完整武器技能集合。"},{"sourceChampionId":"Kalista","sourceNumericId":"429","skillKey":"kalista_r","reason":"誓约者救援与抛投依赖第三名友军，按既定1V1范围排除。"},{"sourceChampionId":"Sylas","sourceNumericId":"517","skillKey":null,"reason":"按既定范围后置技能偷取机制。"}],
+  "reviewer":"/root/urgot_core_frozen_fallback",
+  "correction":"能力集合mAbilities不按Q/W/E/R排序；修订只重新读取初版75未通过来源，按实际根引用唯一匹配后74项通过。费德提克的角色根使用FiddleSticks大小写，仅唯一大小写路径匹配。原87项有效来源直接复用。",
+  "falsePositiveProtection":"根引用双方必须存在，不能把两个undefined相等当作成功。",
+  "HTTPRequests":0,
+  "businessWrites":0
+}
