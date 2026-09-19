@@ -1,0 +1,1182 @@
+{
+  "toolExitCode": 0,
+  "executor": "主负责人另启仅GET回读进程，非独立代理",
+  "stdout": "{\"schemaVersion\":\"authoring.independent-readback.v2\",\"generatedAt\":\"2026-09-19T08:24:14.852Z\",\"status\":\"PASS\",\"endpoint\":\"http://127.0.0.1:8080/api/admin/games/lol\",\"requestMethod\":\"GET\",\"methodsUsed\":[\"GET\"],\"requestAuth\":\"temporary_non_empty_bearer\",\"realHTTP0\":false,\"businessWrites\":0,\"businessWrites0\":true,\"GETs\":22,\"selfSHA\":\"3b9c5c9e391f63175fdaec238a88b482b05c7e76dc00f2acc0eb2cd6eebcb994\",\"scriptSha256\":\"3b9c5c9e391f63175fdaec238a88b482b05c7e76dc00f2acc0eb2cd6eebcb994\",\"preflight\":{\"batchDir\":\"C:\\\\project\\\\damage_web_dev\\\\数据参考\\\\全量录入-2026-09\\\\交叉试录\\\\厄加特Q旧说明整理\",\"reviewStatus\":\"APPROVED\",\"writerPath\":\"tools/authoring/update-reviewed-descriptions-v2.mjs\",\"lockedWriterSha256\":\"f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517\",\"approvedShaChecks\":[{\"path\":\"tools/authoring/update-reviewed-descriptions-v2.mjs\",\"expectedSha256\":\"f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517\",\"actualSha256\":\"f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517\",\"matches\":true},{\"path\":\"01-纠错计划.json\",\"expectedSha256\":\"82c394f5a58b86492a78c5a2cd4f726c2c8942a62be4dac51d29beed50edced4\",\"actualSha256\":\"82c394f5a58b86492a78c5a2cd4f726c2c8942a62be4dac51d29beed50edced4\",\"matches\":true},{\"path\":\"02-冻结请求.json\",\"expectedSha256\":\"a887d3721509f95dc35b475a3e62961ed5b45956c1c8e7d397f76eaa64e33e17\",\"actualSha256\":\"a887d3721509f95dc35b475a3e62961ed5b45956c1c8e7d397f76eaa64e33e17\",\"matches\":true},{\"path\":\"03-来源摘要.json\",\"expectedSha256\":\"d34cd38bb9b98d1ad0c3a80127b3ce55dbcd51a29d91b04c24c5e2cb4e0a33bf\",\"actualSha256\":\"d34cd38bb9b98d1ad0c3a80127b3ce55dbcd51a29d91b04c24c5e2cb4e0a33bf\",\"matches\":true},{\"path\":\"04-写入前现值.json\",\"expectedSha256\":\"e1adc5a33410f8535a279b4a194aa69fe26d1a3c982fb1cd12c57dd105e00e52\",\"actualSha256\":\"e1adc5a33410f8535a279b4a194aa69fe26d1a3c982fb1cd12c57dd105e00e52\",\"matches\":true}],\"sourceShaChecks\":[{\"root\":\"web\",\"path\":\"数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Urgot.json\",\"expectedSha256\":\"0a081a1286923173fe0eeb855ce32d2b8658fe6ec040d5167f5d01551507943a\",\"actualSha256\":\"0a081a1286923173fe0eeb855ce32d2b8658fe6ec040d5167f5d01551507943a\",\"matches\":true},{\"root\":\"web\",\"path\":\"数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Urgot.json.gz\",\"expectedSha256\":\"e5bc358dfd88464470039ae479b3b921d161e6371e623c68ae3a545616b5d84c\",\"actualSha256\":\"e5bc358dfd88464470039ae479b3b921d161e6371e623c68ae3a545616b5d84c\",\"matches\":true},{\"root\":\"web\",\"path\":\"数据参考/全量录入-2026-09/交叉试录/厄加特Q伤害施放返回补录/07-独立回读.json\",\"expectedSha256\":\"41666c4a604ed57e632e49f7cafae65827db1fb22c75e1ec8b6e8d5a64508e70\",\"actualSha256\":\"41666c4a604ed57e632e49f7cafae65827db1fb22c75e1ec8b6e8d5a64508e70\",\"matches\":true},{\"root\":\"web\",\"path\":\"数据参考/全量录入-2026-09/交叉试录/厄加特Q减速首次页面补录/07-独立回读.json\",\"expectedSha256\":\"ef0cdde0bd7a6d3e3b1c3a8ebed7b816fe12cfa99066cc1cf5b1161bb94741cd\",\"actualSha256\":\"ef0cdde0bd7a6d3e3b1c3a8ebed7b816fe12cfa99066cc1cf5b1161bb94741cd\",\"matches\":true}],\"freezeSourceSha256Matches\":true,\"freezeBaselineSha256Matches\":true,\"baselineBase\":\"http://127.0.0.1:8080/api/admin/games/lol\",\"baselinePathCount\":22,\"baselineAuditCount\":22,\"writeStatus\":\"PASS\",\"writeBusinessWritesAttempted\":2,\"targetRoutes\":[\"/skills/urgot_q/parameters/slow_percent_points\",\"/skills/urgot_q/parameters/mana_cost\"]},\"counts\":{\"requestedGETs\":22,\"completedGETs\":22,\"successfulJSONResponses\":22,\"statusCounts\":{\"200\":22},\"targetDetailPaths\":2,\"targetListPaths\":1,\"changedDetailPass\":2,\"changedListPass\":1,\"unchangedResponsesIncludingTimestamps\":19,\"unchangedPathsExpected\":19,\"unchangedPathsPass\":19,\"expectedChangedCollections\":1,\"failureCount\":0},\"expectedChangedCollections\":1,\"unchangedResponsesIncludingTimestamps\":19,\"changedDetails\":{\"/skills/urgot_q/parameters/slow_percent_points\":{\"createdAt\":\"2026-09-09T21:00:59.246986Z\",\"description\":\"客户端SlowAmount技能等级1至5取索引1至5；原始比例乘100后保存为百分数点。普通减速结果读取本参数时乘0.01还原为比例，再按0至1上下界处理；保留原浮点精度。\",\"fixedValue\":null,\"gameId\":\"lol\",\"levelValues\":{\"1\":44.999998807907104,\"2\":50,\"3\":55.000001192092896,\"4\":60.00000238418579,\"5\":64.99999761581421},\"name\":\"腐蚀电荷减速百分数点\",\"parameterKey\":\"slow_percent_points\",\"skillKey\":\"urgot_q\",\"sortOrder\":40,\"updatedAt\":\"2026-09-19T08:23:30.667503Z\",\"valueMode\":\"SKILL_LEVEL\",\"valueType\":\"DECIMAL\"},\"/skills/urgot_q/parameters/mana_cost\":{\"createdAt\":\"2026-09-08T02:05:25.381803Z\",\"description\":\"DDragon16.17.1各级消耗70法力，与客户端根技能数值一致。当前基础施放过程在开始时引用本参数扣除法力；其他过程资格与净除联动仍需另行核对，不代表战斗运行已验证。\",\"fixedValue\":70,\"gameId\":\"lol\",\"levelValues\":null,\"name\":\"基础法力消耗\",\"parameterKey\":\"mana_cost\",\"skillKey\":\"urgot_q\",\"sortOrder\":110,\"updatedAt\":\"2026-09-19T08:23:32.031954Z\",\"valueMode\":\"FIXED\",\"valueType\":\"INTEGER\"}},\"values\":{\"/skills/urgot_q\":{\"createdAt\":\"2026-09-06T18:20:50.728097Z\",\"description\":\"发射一个可爆炸的电荷至目标位置，对爆炸波及到的敌人造成物理伤害和减速效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）\",\"gameId\":\"lol\",\"maxLevel\":5,\"name\":\"厄加特·腐蚀电荷\",\"skillCategoryKeys\":[\"common\"],\"skillKey\":\"urgot_q\",\"sortOrder\":1,\"status\":\"ENABLED\",\"updatedAt\":\"2026-09-06T18:20:50.728097Z\"},\"/skills/urgot_q/parameters\":[{\"createdAt\":\"2026-09-09T21:00:55.3494Z\",\"description\":\"BaseDamage取索引1至5；索引0=-20是占位，不作为1级。\",\"fixedValue\":null,\"gameId\":\"lol\",\"levelValues\":{\"1\":25,\"2\":70,\"3\":115,\"4\":160,\"5\":205},\"name\":\"腐蚀电荷基础物理伤害\",\"parameterKey\":\"base_damage\",\"skillKey\":\"urgot_q\",\"sortOrder\":10,\"updatedAt\":\"2026-09-09T21:00:55.3494Z\",\"valueMode\":\"SKILL_LEVEL\",\"valueType\":\"INTEGER\"},{\"createdAt\":\"2026-09-09T21:00:56.595702Z\",\"description\":\"TotalDamage第二项mStat=2且未给mStatFormula，读取来源总攻击力；比例来自原树StatByCoefficient=0.7。\",\"fixedValue\":0.699999988079071,\"gameId\":\"lol\",\"levelValues\":null,\"name\":\"腐蚀电荷总攻击力比例\",\"parameterKey\":\"ad_ratio\",\"skillKey\":\"urgot_q\",\"sortOrder\":20,\"updatedAt\":\"2026-09-09T21:00:56.595702Z\",\"valueMode\":\"FIXED\",\"valueType\":\"DECIMAL\"},{\"createdAt\":\"2026-09-09T21:00:58.024935Z\",\"description\":\"SlowDuration=1.25秒，转换为1250毫秒。\",\"fixedValue\":1250,\"gameId\":\"lol\",\"levelValues\":null,\"name\":\"腐蚀电荷减速持续（毫秒）\",\"parameterKey\":\"slow_duration_ms\",\"skillKey\":\"urgot_q\",\"sortOrder\":30,\"updatedAt\":\"2026-09-09T21:00:58.024935Z\",\"valueMode\":\"FIXED\",\"valueType\":\"INTEGER\"},{\"createdAt\":\"2026-09-09T21:00:59.246986Z\",\"description\":\"客户端SlowAmount技能等级1至5取索引1至5；原始比例乘100后保存为百分数点。普通减速结果读取本参数时乘0.01还原为比例，再按0至1上下界处理；保留原浮点精度。\",\"fixedValue\":null,\"gameId\":\"lol\",\"levelValues\":{\"1\":44.999998807907104,\"2\":50,\"3\":55.000001192092896,\"4\":60.00000238418579,\"5\":64.99999761581421},\"name\":\"腐蚀电荷减速百分数点\",\"parameterKey\":\"slow_percent_points\",\"skillKey\":\"urgot_q\",\"sortOrder\":40,\"updatedAt\":\"2026-09-19T08:23:30.667503Z\",\"valueMode\":\"SKILL_LEVEL\",\"valueType\":\"DECIMAL\"},{\"createdAt\":\"2026-09-09T21:01:00.512691Z\",\"description\":\"仅存在spellCastTime=0.25秒且mCastTime为空，转换为250毫秒。\",\"fixedValue\":250,\"gameId\":\"lol\",\"levelValues\":null,\"name\":\"施法时间（毫秒）\",\"parameterKey\":\"cast_time_ms\",\"skillKey\":\"urgot_q\",\"sortOrder\":50,\"updatedAt\":\"2026-09-09T21:01:00.512691Z\",\"valueMode\":\"FIXED\",\"valueType\":\"INTEGER\"},{\"createdAt\":\"2026-09-08T02:05:24.895289Z\",\"description\":\"DDragon16.17.1 Urgot.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。\",\"fixedValue\":null,\"gameId\":\"lol\",\"levelValues\":{\"1\":10000,\"2\":9500,\"3\":9000,\"4\":8500,\"5\":8000},\"name\":\"基础冷却时间（毫秒）\",\"parameterKey\":\"cooldown_ms\",\"skillKey\":\"urgot_q\",\"sortOrder\":100,\"updatedAt\":\"2026-09-08T02:05:24.895289Z\",\"valueMode\":\"SKILL_LEVEL\",\"valueType\":\"INTEGER\"},{\"createdAt\":\"2026-09-08T02:05:25.381803Z\",\"description\":\"DDragon16.17.1各级消耗70法力，与客户端根技能数值一致。当前基础施放过程在开始时引用本参数扣除法力；其他过程资格与净除联动仍需另行核对，不代表战斗运行已验证。\",\"fixedValue\":70,\"gameId\":\"lol\",\"levelValues\":null,\"name\":\"基础法力消耗\",\"parameterKey\":\"mana_cost\",\"skillKey\":\"urgot_q\",\"sortOrder\":110,\"updatedAt\":\"2026-09-19T08:23:32.031954Z\",\"valueMode\":\"FIXED\",\"valueType\":\"INTEGER\"}],\"/skills/urgot_q/parameters/base_damage\":{\"createdAt\":\"2026-09-09T21:00:55.3494Z\",\"description\":\"BaseDamage取索引1至5；索引0=-20是占位，不作为1级。\",\"fixedValue\":null,\"gameId\":\"lol\",\"levelValues\":{\"1\":25,\"2\":70,\"3\":115,\"4\":160,\"5\":205},\"name\":\"腐蚀电荷基础物理伤害\",\"parameterKey\":\"base_damage\",\"skillKey\":\"urgot_q\",\"sortOrder\":10,\"updatedAt\":\"2026-09-09T21:00:55.3494Z\",\"valueMode\":\"SKILL_LEVEL\",\"valueType\":\"INTEGER\"},\"/skills/urgot_q/parameters/ad_ratio\":{\"createdAt\":\"2026-09-09T21:00:56.595702Z\",\"description\":\"TotalDamage第二项mStat=2且未给mStatFormula，读取来源总攻击力；比例来自原树StatByCoefficient=0.7。\",\"fixedValue\":0.699999988079071,\"gameId\":\"lol\",\"levelValues\":null,\"name\":\"腐蚀电荷总攻击力比例\",\"parameterKey\":\"ad_ratio\",\"skillKey\":\"urgot_q\",\"sortOrder\":20,\"updatedAt\":\"2026-09-09T21:00:56.595702Z\",\"valueMode\":\"FIXED\",\"valueType\":\"DECIMAL\"},\"/skills/urgot_q/parameters/slow_duration_ms\":{\"createdAt\":\"2026-09-09T21:00:58.024935Z\",\"description\":\"SlowDuration=1.25秒，转换为1250毫秒。\",\"fixedValue\":1250,\"gameId\":\"lol\",\"levelValues\":null,\"name\":\"腐蚀电荷减速持续（毫秒）\",\"parameterKey\":\"slow_duration_ms\",\"skillKey\":\"urgot_q\",\"sortOrder\":30,\"updatedAt\":\"2026-09-09T21:00:58.024935Z\",\"valueMode\":\"FIXED\",\"valueType\":\"INTEGER\"},\"/skills/urgot_q/parameters/slow_percent_points\":{\"createdAt\":\"2026-09-09T21:00:59.246986Z\",\"description\":\"客户端SlowAmount技能等级1至5取索引1至5；原始比例乘100后保存为百分数点。普通减速结果读取本参数时乘0.01还原为比例，再按0至1上下界处理；保留原浮点精度。\",\"fixedValue\":null,\"gameId\":\"lol\",\"levelValues\":{\"1\":44.999998807907104,\"2\":50,\"3\":55.000001192092896,\"4\":60.00000238418579,\"5\":64.99999761581421},\"name\":\"腐蚀电荷减速百分数点\",\"parameterKey\":\"slow_percent_points\",\"skillKey\":\"urgot_q\",\"sortOrder\":40,\"updatedAt\":\"2026-09-19T08:23:30.667503Z\",\"valueMode\":\"SKILL_LEVEL\",\"valueType\":\"DECIMAL\"},\"/skills/urgot_q/parameters/cast_time_ms\":{\"createdAt\":\"2026-09-09T21:01:00.512691Z\",\"description\":\"仅存在spellCastTime=0.25秒且mCastTime为空，转换为250毫秒。\",\"fixedValue\":250,\"gameId\":\"lol\",\"levelValues\":null,\"name\":\"施法时间（毫秒）\",\"parameterKey\":\"cast_time_ms\",\"skillKey\":\"urgot_q\",\"sortOrder\":50,\"updatedAt\":\"2026-09-09T21:01:00.512691Z\",\"valueMode\":\"FIXED\",\"valueType\":\"INTEGER\"},\"/skills/urgot_q/parameters/cooldown_ms\":{\"createdAt\":\"2026-09-08T02:05:24.895289Z\",\"description\":\"DDragon16.17.1 Urgot.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。\",\"fixedValue\":null,\"gameId\":\"lol\",\"levelValues\":{\"1\":10000,\"2\":9500,\"3\":9000,\"4\":8500,\"5\":8000},\"name\":\"基础冷却时间（毫秒）\",\"parameterKey\":\"cooldown_ms\",\"skillKey\":\"urgot_q\",\"sortOrder\":100,\"updatedAt\":\"2026-09-08T02:05:24.895289Z\",\"valueMode\":\"SKILL_LEVEL\",\"valueType\":\"INTEGER\"},\"/skills/urgot_q/parameters/mana_cost\":{\"createdAt\":\"2026-09-08T02:05:25.381803Z\",\"description\":\"DDragon16.17.1各级消耗70法力，与客户端根技能数值一致。当前基础施放过程在开始时引用本参数扣除法力；其他过程资格与净除联动仍需另行核对，不代表战斗运行已验证。\",\"fixedValue\":70,\"gameId\":\"lol\",\"levelValues\":null,\"name\":\"基础法力消耗\",\"parameterKey\":\"mana_cost\",\"skillKey\":\"urgot_q\",\"sortOrder\":110,\"updatedAt\":\"2026-09-19T08:23:32.031954Z\",\"valueMode\":\"FIXED\",\"valueType\":\"INTEGER\"},\"/skills/urgot_q/formulas\":[{\"createdAt\":\"2026-09-09T21:01:01.758305Z\",\"description\":\"TotalDamage=BaseDamage+0.7×来源总攻击力；当前一对一只计算主命中，不自动叠加额外爆炸目标。\",\"formulaKey\":\"physical_damage\",\"gameId\":\"lol\",\"name\":\"腐蚀电荷单一敌人物理伤害\",\"skillKey\":\"urgot_q\",\"sortOrder\":10,\"updatedAt\":\"2026-09-09T21:01:01.758305Z\"}],\"/skills/urgot_q/formulas/physical_damage\":{\"createdAt\":\"2026-09-09T21:01:01.758305Z\",\"description\":\"TotalDamage=BaseDamage+0.7×来源总攻击力；当前一对一只计算主命中，不自动叠加额外爆炸目标。\",\"expression\":{\"nodeType\":\"OPERATION\",\"operands\":[{\"nodeType\":\"PARAMETER\",\"parameterKey\":\"base_damage\"},{\"nodeType\":\"OPERATION\",\"operands\":[{\"nodeType\":\"PARAMETER\",\"parameterKey\":\"ad_ratio\"},{\"attributeKey\":\"attack_damage\",\"attributeOwner\":\"SOURCE\",\"attributeValueKind\":\"TOTAL\",\"nodeType\":\"ATTRIBUTE\"}],\"operation\":\"MULTIPLY\"}],\"operation\":\"ADD\"},\"formulaKey\":\"physical_damage\",\"gameId\":\"lol\",\"name\":\"腐蚀电荷单一敌人物理伤害\",\"skillKey\":\"urgot_q\",\"sortOrder\":10,\"updatedAt\":\"2026-09-09T21:01:01.758305Z\"},\"/skills/urgot_q/effects\":[{\"createdAt\":\"2026-09-19T08:13:15.925374Z\",\"description\":\"本技能主动使用开始时消耗70法力，复用当前技能等级对应的既有法力参数。\",\"effectKey\":\"mana_cost\",\"gameId\":\"lol\",\"lifecycleEnabled\":false,\"name\":\"施放法力消耗\",\"resultCount\":1,\"skillKey\":\"urgot_q\",\"sortOrder\":10,\"updatedAt\":\"2026-09-19T08:13:15.925374Z\"},{\"createdAt\":\"2026-09-19T08:13:17.497267Z\",\"description\":\"本轮1V1腐蚀电荷爆炸实际命中敌方英雄的直接物理伤害；复用同技能既有公式。普通减速由已有入口独立处理，净除标记等联动继续核对。\",\"effectKey\":\"primary_hit\",\"gameId\":\"lol\",\"lifecycleEnabled\":false,\"name\":\"腐蚀电荷本体直接物理伤害\",\"resultCount\":1,\"skillKey\":\"urgot_q\",\"sortOrder\":20,\"updatedAt\":\"2026-09-19T08:13:17.497267Z\"},{\"createdAt\":\"2026-09-19T07:12:18.84671Z\",\"description\":\"本技能实际命中本轮敌方英雄且同次命中明确未被法术护盾阻挡时施加普通移动减速；强度读取原百分数点参数并乘0.01，期限1250毫秒。重施及不同普通减速来源按当前统一契约处理。\",\"effectKey\":\"corrosive_charge_slow\",\"gameId\":\"lol\",\"lifecycleEnabled\":true,\"name\":\"腐蚀电荷普通减速\",\"resultCount\":1,\"skillKey\":\"urgot_q\",\"sortOrder\":30,\"updatedAt\":\"2026-09-19T07:12:18.84671Z\"}],\"/skills/urgot_q/effects/mana_cost\":{\"createdAt\":\"2026-09-19T08:13:15.925374Z\",\"description\":\"本技能主动使用开始时消耗70法力，复用当前技能等级对应的既有法力参数。\",\"effectKey\":\"mana_cost\",\"gameId\":\"lol\",\"lifecycle\":null,\"name\":\"施放法力消耗\",\"results\":[{\"description\":null,\"detail\":{\"attributeKey\":\"mana\",\"operation\":\"CONSUME\"},\"lifecycleBehavior\":null,\"name\":\"消耗法力\",\"resultKey\":\"consume_mana\",\"resultType\":\"RESOURCE_CHANGE\",\"sortOrder\":10,\"spellShieldBlockScope\":null,\"target\":\"SOURCE\",\"valueRule\":{\"fixedMaxValue\":null,\"fixedMinValue\":0,\"fixedMultiplier\":1,\"value\":{\"kind\":\"PARAMETER\",\"parameterKey\":\"mana_cost\"}}}],\"skillKey\":\"urgot_q\",\"sortOrder\":10,\"updatedAt\":\"2026-09-19T08:13:15.925374Z\"},\"/skills/urgot_q/effects/primary_hit\":{\"createdAt\":\"2026-09-19T08:13:17.497267Z\",\"description\":\"本轮1V1腐蚀电荷爆炸实际命中敌方英雄的直接物理伤害；复用同技能既有公式。普通减速由已有入口独立处理，净除标记等联动继续核对。\",\"effectKey\":\"primary_hit\",\"gameId\":\"lol\",\"lifecycle\":null,\"name\":\"腐蚀电荷本体直接物理伤害\",\"results\":[{\"description\":\"引用同技能physical_damage，保留已有属性口径和等级系数。\",\"detail\":{\"critical\":{\"mode\":\"DISALLOWED\",\"multiplierValue\":null},\"damageTypeKey\":\"physics\",\"deliveryKind\":\"SKILL\",\"originKind\":\"DIRECT\",\"vampRules\":[{\"basisOutputKind\":\"POST_DEFENSE_DAMAGE\",\"efficiencyValue\":{\"kind\":\"FIXED\",\"value\":1},\"vampType\":\"OMNIVAMP\"}]},\"lifecycleBehavior\":null,\"name\":\"物理伤害\",\"resultKey\":\"damage\",\"resultType\":\"DAMAGE\",\"sortOrder\":10,\"spellShieldBlockScope\":\"SKILL\",\"target\":\"TARGET\",\"valueRule\":{\"fixedMaxValue\":null,\"fixedMinValue\":0,\"fixedMultiplier\":1,\"value\":{\"formulaKey\":\"physical_damage\",\"kind\":\"FORMULA\"}}}],\"skillKey\":\"urgot_q\",\"sortOrder\":20,\"updatedAt\":\"2026-09-19T08:13:17.497267Z\"},\"/skills/urgot_q/effects/corrosive_charge_slow\":{\"createdAt\":\"2026-09-19T07:12:18.84671Z\",\"description\":\"本技能实际命中本轮敌方英雄且同次命中明确未被法术护盾阻挡时施加普通移动减速；强度读取原百分数点参数并乘0.01，期限1250毫秒。重施及不同普通减速来源按当前统一契约处理。\",\"effectKey\":\"corrosive_charge_slow\",\"gameId\":\"lol\",\"lifecycle\":{\"applicationStacksValue\":{\"kind\":\"FIXED\",\"value\":1},\"durationValue\":{\"kind\":\"PARAMETER\",\"parameterKey\":\"slow_duration_ms\"},\"expiryMode\":\"ALL_AT_ONCE\",\"firstPeriodicExecution\":null,\"instanceScope\":\"SOURCE_TARGET\",\"maxStacksValue\":{\"kind\":\"FIXED\",\"value\":1},\"periodicIntervalValue\":null,\"reapplicationDurationMode\":\"REFRESH_ALL\",\"reapplicationStackMode\":\"KEEP\"},\"name\":\"腐蚀电荷普通减速\",\"results\":[{\"description\":\"施加时读取普通减速比例，固定上下界0至1；持续期间贡献该比例，期限随父效果结束。\",\"detail\":{\"operation\":\"APPLY\",\"statusKey\":\"movement_slow\"},\"lifecycleBehavior\":{\"moment\":\"PERSISTENT\",\"periodicExecutionMode\":null,\"reapplicationValueMode\":\"REPLACE\",\"stackValueMode\":\"SHARED\",\"valueReadMode\":\"APPLICATION_SNAPSHOT\"},\"name\":\"腐蚀电荷减速\",\"resultKey\":\"slow\",\"resultType\":\"STATUS_OPERATION\",\"sortOrder\":10,\"spellShieldBlockScope\":\"RESULT\",\"target\":\"TARGET\",\"valueRule\":{\"fixedMaxValue\":1,\"fixedMinValue\":0,\"fixedMultiplier\":0.01,\"value\":{\"kind\":\"PARAMETER\",\"parameterKey\":\"slow_percent_points\"}}}],\"skillKey\":\"urgot_q\",\"sortOrder\":30,\"updatedAt\":\"2026-09-19T07:12:18.84671Z\"},\"/skills/urgot_q/processes\":[{\"activationType\":\"ACTIVE\",\"createdAt\":\"2026-09-19T08:13:19.115936Z\",\"description\":\"仅登记基础250毫秒施法时间、开始时法力消耗与普通冷却；延迟结束不自动产生命中。前摇取消限制、弹道与爆炸时序、净除联动仍需分别处理。\",\"effectBindingCount\":1,\"gameId\":\"lol\",\"name\":\"腐蚀电荷基础施放\",\"processKey\":\"cast\",\"skillKey\":\"urgot_q\",\"sortOrder\":10,\"stateOperationCount\":0,\"stepCount\":1,\"updatedAt\":\"2026-09-19T08:13:19.115936Z\"}],\"/skills/urgot_q/processes/cast\":{\"activationType\":\"ACTIVE\",\"cooldown\":{\"durationValue\":{\"kind\":\"PARAMETER\",\"parameterKey\":\"cooldown_ms\"},\"startMoment\":{\"momentType\":\"PROCESS_START\",\"stepKey\":null}},\"createdAt\":\"2026-09-19T08:13:19.115936Z\",\"description\":\"仅登记基础250毫秒施法时间、开始时法力消耗与普通冷却；延迟结束不自动产生命中。前摇取消限制、弹道与爆炸时序、净除联动仍需分别处理。\",\"effectBindings\":[{\"bindingKey\":\"mana_cost\",\"effectKey\":\"mana_cost\",\"moment\":{\"momentType\":\"PROCESS_START\",\"stepKey\":null},\"sortOrder\":10}],\"gameId\":\"lol\",\"name\":\"腐蚀电荷基础施放\",\"processKey\":\"cast\",\"skillKey\":\"urgot_q\",\"sortOrder\":10,\"stateOperations\":[],\"steps\":[{\"description\":\"固定来源spellCastTime为0.25秒，读取既有250毫秒参数；此步骤不代替实际命中。\",\"detail\":{\"delayValue\":{\"kind\":\"PARAMETER\",\"parameterKey\":\"cast_time_ms\"}},\"name\":\"基础施法时间\",\"sortOrder\":10,\"stepKey\":\"cast_delay\",\"stepType\":\"DELAY\"}],\"updatedAt\":\"2026-09-19T08:13:19.115936Z\"},\"/skills/urgot_q/internal-states\":[],\"/skills/urgot_q/trigger-rules\":[{\"actionCount\":1,\"conditionGroupCount\":0,\"description\":\"本技能已成立的主动使用仅启动基础施放过程；不以施放或延迟结束代替实际命中，不处理未核定的净除联动。\",\"eventType\":\"SKILL_USED\",\"maxTriggersPerProcessEnabled\":false,\"name\":\"腐蚀电荷主动使用\",\"perTargetCooldownEnabled\":false,\"ruleKey\":\"on_used\",\"sortOrder\":5,\"updatedAt\":\"2026-09-19T08:13:20.688047Z\"},{\"actionCount\":1,\"conditionGroupCount\":1,\"description\":\"仅消费腐蚀电荷爆炸对本轮敌方英雄的一次合法实际命中并执行本体伤害；同次法术护盾按伤害结果粒度处理，既有减速入口保持独立。\",\"eventType\":\"SKILL_HIT\",\"maxTriggersPerProcessEnabled\":false,\"name\":\"腐蚀电荷本体实际命中\",\"perTargetCooldownEnabled\":false,\"ruleKey\":\"actual_hit\",\"sortOrder\":10,\"updatedAt\":\"2026-09-19T08:13:22.456682Z\"},{\"actionCount\":1,\"conditionGroupCount\":1,\"description\":\"只在本技能实际命中明确敌方英雄且同次法术护盾阻挡值为0时执行普通减速。缺少判定不能默认0；本规则不生成爆炸命中、控制免疫或实际移动速度结算。\",\"eventType\":\"SKILL_HIT\",\"maxTriggersPerProcessEnabled\":false,\"name\":\"实际命中未受阻挡时减速\",\"perTargetCooldownEnabled\":false,\"ruleKey\":\"apply_slow_on_unblocked_hit\",\"sortOrder\":30,\"updatedAt\":\"2026-09-19T07:20:10.240213Z\"}],\"/skills/urgot_q/trigger-rules/on_used\":{\"actions\":[{\"actionKey\":\"start_cast\",\"actionType\":\"START_PROCESS\",\"detail\":{\"processKey\":\"cast\"},\"name\":\"启动基础施放\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[],\"description\":\"本技能已成立的主动使用仅启动基础施放过程；不以施放或延迟结束代替实际命中，不处理未核定的净除联动。\",\"eventSource\":{\"detail\":{\"sourceSkillKey\":\"urgot_q\",\"useKind\":\"ACTIVE\"},\"eventType\":\"SKILL_USED\"},\"maxTriggersPerProcess\":null,\"name\":\"腐蚀电荷主动使用\",\"perTargetCooldown\":null,\"ruleKey\":\"on_used\",\"sortOrder\":5},\"/skills/urgot_q/trigger-rules/actual_hit\":{\"actions\":[{\"actionKey\":\"execute_primary_hit\",\"actionType\":\"EXECUTE_EFFECT\",\"detail\":{\"effectKey\":\"primary_hit\"},\"name\":\"执行腐蚀电荷物理伤害\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[{\"conditions\":[{\"conditionKey\":\"champion_target\",\"conditionType\":\"TARGET_CATEGORY_CHECK\",\"detail\":{\"categories\":[\"CHAMPION\"]},\"sortOrder\":10},{\"conditionKey\":\"enemy_target\",\"conditionType\":\"SKILL_HIT_TARGET_IS_ENEMY\",\"detail\":{},\"sortOrder\":20}],\"groupKey\":\"champion_target\",\"name\":\"本轮敌方英雄目标\",\"sortOrder\":10}],\"description\":\"仅消费腐蚀电荷爆炸对本轮敌方英雄的一次合法实际命中并执行本体伤害；同次法术护盾按伤害结果粒度处理，既有减速入口保持独立。\",\"eventSource\":{\"detail\":{\"sourceSkillKey\":\"urgot_q\",\"useKind\":null},\"eventType\":\"SKILL_HIT\"},\"maxTriggersPerProcess\":null,\"name\":\"腐蚀电荷本体实际命中\",\"perTargetCooldown\":null,\"ruleKey\":\"actual_hit\",\"sortOrder\":10},\"/skills/urgot_q/trigger-rules/apply_slow_on_unblocked_hit\":{\"actions\":[{\"actionKey\":\"apply_slow\",\"actionType\":\"EXECUTE_EFFECT\",\"detail\":{\"effectKey\":\"corrosive_charge_slow\"},\"name\":\"施加本次普通减速\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[{\"conditions\":[{\"conditionKey\":\"champion_target\",\"conditionType\":\"TARGET_CATEGORY_CHECK\",\"detail\":{\"categories\":[\"CHAMPION\"]},\"sortOrder\":10},{\"conditionKey\":\"enemy_target\",\"conditionType\":\"SKILL_HIT_TARGET_IS_ENEMY\",\"detail\":{},\"sortOrder\":20},{\"conditionKey\":\"not_spell_shield_blocked\",\"conditionType\":\"EVENT_VALUE_COMPARE\",\"detail\":{\"comparator\":\"EQ\",\"comparisonValue\":{\"kind\":\"FIXED\",\"value\":0},\"eventValueKey\":\"SKILL_HIT_SPELL_SHIELD_BLOCKED\"},\"sortOrder\":30}],\"groupKey\":\"slow_eligible\",\"name\":\"本次普通减速可施加\",\"sortOrder\":10}],\"description\":\"只在本技能实际命中明确敌方英雄且同次法术护盾阻挡值为0时执行普通减速。缺少判定不能默认0；本规则不生成爆炸命中、控制免疫或实际移动速度结算。\",\"eventSource\":{\"detail\":{\"sourceSkillKey\":\"urgot_q\",\"useKind\":null},\"eventType\":\"SKILL_HIT\"},\"maxTriggersPerProcess\":null,\"name\":\"实际命中未受阻挡时减速\",\"perTargetCooldown\":null,\"ruleKey\":\"apply_slow_on_unblocked_hit\",\"sortOrder\":30}},\"audit\":[{\"requestIndex\":1,\"method\":\"GET\",\"path\":\"/skills/urgot_q\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":456,\"responseSha256\":\"9fc58651253d8d4e21c81fc0820e94051437a225c9b03acd7881b13c0859966b\"},{\"requestIndex\":2,\"method\":\"GET\",\"path\":\"/skills/urgot_q/parameters\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":3279,\"responseSha256\":\"306db3f92800804f88d35f9c0824f1d2b1dd0d6a65a3d5eea63e203048c57932\"},{\"requestIndex\":3,\"method\":\"GET\",\"path\":\"/skills/urgot_q/parameters/base_damage\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":404,\"responseSha256\":\"0b7c9bb49df0c91bf034d07c45184ab84ca2763eed230cc85c1b54fecd446f71\"},{\"requestIndex\":4,\"method\":\"GET\",\"path\":\"/skills/urgot_q/parameters/ad_ratio\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":431,\"responseSha256\":\"84595dfe9a56e699cdba980c4d404233ce164e009a9f8cc997609da1f00cebdb\"},{\"requestIndex\":5,\"method\":\"GET\",\"path\":\"/skills/urgot_q/parameters/slow_duration_ms\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":357,\"responseSha256\":\"d89b6778949521273148e438a4ea4b19d5d985cc259930599d50382916028c9b\"},{\"requestIndex\":6,\"method\":\"GET\",\"path\":\"/skills/urgot_q/parameters/slow_percent_points\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":621,\"responseSha256\":\"b187d2afe1c93a035cc0a24d496f9c291fe688cb2fa12bcb55fcddf42e838b33\"},{\"requestIndex\":7,\"method\":\"GET\",\"path\":\"/skills/urgot_q/parameters/cast_time_ms\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":367,\"responseSha256\":\"c80ebe9aa757514f5b5f5f7fb06ad541b53a36e36523eaea1db72018c0a32fb5\"},{\"requestIndex\":8,\"method\":\"GET\",\"path\":\"/skills/urgot_q/parameters/cooldown_ms\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":579,\"responseSha256\":\"d0613a0205f1250bbd32875d957a082577ef437f8c759e57a5bf3dbbfdbb377a\"},{\"requestIndex\":9,\"method\":\"GET\",\"path\":\"/skills/urgot_q/parameters/mana_cost\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":512,\"responseSha256\":\"8edac3d3b50e1067ddb0bfdf1c55ed6212cdb09ee5ab2f3dc9ea0e801218ceb3\"},{\"requestIndex\":10,\"method\":\"GET\",\"path\":\"/skills/urgot_q/formulas\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":353,\"responseSha256\":\"619cbad77d1704f931cc94d6c98d2783eb07c80460346f9497b70eee7b3a8551\"},{\"requestIndex\":11,\"method\":\"GET\",\"path\":\"/skills/urgot_q/formulas/physical_damage\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":697,\"responseSha256\":\"301c9b1a29415e59c7b4b4bb84b887a509215c793953ae7fb71c3dbc8ed559f5\"},{\"requestIndex\":12,\"method\":\"GET\",\"path\":\"/skills/urgot_q/effects\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":1303,\"responseSha256\":\"cce9cbb584d110cdf842f9b5d1b8940d6cd8fe79fbe650d69b8236a8de8549a3\"},{\"requestIndex\":13,\"method\":\"GET\",\"path\":\"/skills/urgot_q/effects/mana_cost\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":707,\"responseSha256\":\"625705b1f6a59c98766e4f0ef273b5c2eee2f88b2c8b4c9bdc5b7103a49336af\"},{\"requestIndex\":14,\"method\":\"GET\",\"path\":\"/skills/urgot_q/effects/primary_hit\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":1078,\"responseSha256\":\"f1e8bcd369c33f25102e0699ebbbd7b480d0c9d0bcce07c7e6a5269e0ba7980d\"},{\"requestIndex\":15,\"method\":\"GET\",\"path\":\"/skills/urgot_q/effects/corrosive_charge_slow\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":1499,\"responseSha256\":\"cbe1e629ee8dccf234d265e7e556e7af77c97c844001cf9bf5a4606897b6b9ba\"},{\"requestIndex\":16,\"method\":\"GET\",\"path\":\"/skills/urgot_q/processes\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":488,\"responseSha256\":\"f2260e44fbc70e4e3e04ec4d4c5721e119d13d2e215f9d2ab8dcf2058fdf0988\"},{\"requestIndex\":17,\"method\":\"GET\",\"path\":\"/skills/urgot_q/processes/cast\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":1015,\"responseSha256\":\"7481e4649153546422fcd09bde19ee9c6a5418bb8cd5fd196525106fc1ef6d01\"},{\"requestIndex\":18,\"method\":\"GET\",\"path\":\"/skills/urgot_q/internal-states\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":2,\"responseSha256\":\"4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945\"},{\"requestIndex\":19,\"method\":\"GET\",\"path\":\"/skills/urgot_q/trigger-rules\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":1364,\"responseSha256\":\"15f8ea5030be7ea769bd572bc2a2a54314ee272443bd0d84cb9c3263f2b1b4a7\"},{\"requestIndex\":20,\"method\":\"GET\",\"path\":\"/skills/urgot_q/trigger-rules/on_used\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":628,\"responseSha256\":\"d34b6d56fc80553089caa7db84325458bc83207d074a4b9c6fb18dc5b466ed2b\"},{\"requestIndex\":21,\"method\":\"GET\",\"path\":\"/skills/urgot_q/trigger-rules/actual_hit\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":1018,\"responseSha256\":\"2b85a0604b8274d7bbb22d8f24220ecabb53d7e9704d648686ff645ffe1207d6\"},{\"requestIndex\":22,\"method\":\"GET\",\"path\":\"/skills/urgot_q/trigger-rules/apply_slow_on_unblocked_hit\",\"status\":200,\"contentType\":\"application/json\",\"ok\":true,\"rawBodyLength\":1280,\"responseSha256\":\"6da24ca36f4e6d0f6043f00c2e71d2da23f5fd4262c3c3aa6f51c52636222b41\"}],\"failures\":[],\"detailEvidence\":[{\"path\":\"/skills/urgot_q/parameters/slow_percent_points\",\"kind\":\"parameter\",\"descriptionMatchesApproved\":true,\"createdAtUnchanged\":true,\"updatedAtValid\":true,\"updatedAtChanged\":true,\"updatedAtAfterBaseline\":true,\"pass\":true},{\"path\":\"/skills/urgot_q/parameters/mana_cost\",\"kind\":\"parameter\",\"descriptionMatchesApproved\":true,\"createdAtUnchanged\":true,\"updatedAtValid\":true,\"updatedAtChanged\":true,\"updatedAtAfterBaseline\":true,\"pass\":true}],\"collectionEvidence\":[{\"path\":\"/skills/urgot_q/parameters\",\"targets\":[{\"stableKey\":\"slow_percent_points\",\"detailPath\":\"/skills/urgot_q/parameters/slow_percent_points\",\"descriptionMatchesDetail\":true,\"updatedAtMatchesDetail\":true,\"pass\":true},{\"stableKey\":\"mana_cost\",\"detailPath\":\"/skills/urgot_q/parameters/mana_cost\",\"descriptionMatchesDetail\":true,\"updatedAtMatchesDetail\":true,\"pass\":true}],\"pass\":true}],\"unchangedPaths\":[\"/skills/urgot_q\",\"/skills/urgot_q/parameters/base_damage\",\"/skills/urgot_q/parameters/ad_ratio\",\"/skills/urgot_q/parameters/slow_duration_ms\",\"/skills/urgot_q/parameters/cast_time_ms\",\"/skills/urgot_q/parameters/cooldown_ms\",\"/skills/urgot_q/formulas\",\"/skills/urgot_q/formulas/physical_damage\",\"/skills/urgot_q/effects\",\"/skills/urgot_q/effects/mana_cost\",\"/skills/urgot_q/effects/primary_hit\",\"/skills/urgot_q/effects/corrosive_charge_slow\",\"/skills/urgot_q/processes\",\"/skills/urgot_q/processes/cast\",\"/skills/urgot_q/internal-states\",\"/skills/urgot_q/trigger-rules\",\"/skills/urgot_q/trigger-rules/on_used\",\"/skills/urgot_q/trigger-rules/actual_hit\",\"/skills/urgot_q/trigger-rules/apply_slow_on_unblocked_hit\"]}\n",
+  "summary": {
+    "schemaVersion": "authoring.independent-readback.v2",
+    "generatedAt": "2026-09-19T08:24:14.852Z",
+    "status": "PASS",
+    "endpoint": "http://127.0.0.1:8080/api/admin/games/lol",
+    "requestMethod": "GET",
+    "methodsUsed": [
+      "GET"
+    ],
+    "requestAuth": "temporary_non_empty_bearer",
+    "realHTTP0": false,
+    "businessWrites": 0,
+    "businessWrites0": true,
+    "GETs": 22,
+    "selfSHA": "3b9c5c9e391f63175fdaec238a88b482b05c7e76dc00f2acc0eb2cd6eebcb994",
+    "scriptSha256": "3b9c5c9e391f63175fdaec238a88b482b05c7e76dc00f2acc0eb2cd6eebcb994",
+    "preflight": {
+      "batchDir": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\厄加特Q旧说明整理",
+      "reviewStatus": "APPROVED",
+      "writerPath": "tools/authoring/update-reviewed-descriptions-v2.mjs",
+      "lockedWriterSha256": "f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517",
+      "approvedShaChecks": [
+        {
+          "path": "tools/authoring/update-reviewed-descriptions-v2.mjs",
+          "expectedSha256": "f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517",
+          "actualSha256": "f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517",
+          "matches": true
+        },
+        {
+          "path": "01-纠错计划.json",
+          "expectedSha256": "82c394f5a58b86492a78c5a2cd4f726c2c8942a62be4dac51d29beed50edced4",
+          "actualSha256": "82c394f5a58b86492a78c5a2cd4f726c2c8942a62be4dac51d29beed50edced4",
+          "matches": true
+        },
+        {
+          "path": "02-冻结请求.json",
+          "expectedSha256": "a887d3721509f95dc35b475a3e62961ed5b45956c1c8e7d397f76eaa64e33e17",
+          "actualSha256": "a887d3721509f95dc35b475a3e62961ed5b45956c1c8e7d397f76eaa64e33e17",
+          "matches": true
+        },
+        {
+          "path": "03-来源摘要.json",
+          "expectedSha256": "d34cd38bb9b98d1ad0c3a80127b3ce55dbcd51a29d91b04c24c5e2cb4e0a33bf",
+          "actualSha256": "d34cd38bb9b98d1ad0c3a80127b3ce55dbcd51a29d91b04c24c5e2cb4e0a33bf",
+          "matches": true
+        },
+        {
+          "path": "04-写入前现值.json",
+          "expectedSha256": "e1adc5a33410f8535a279b4a194aa69fe26d1a3c982fb1cd12c57dd105e00e52",
+          "actualSha256": "e1adc5a33410f8535a279b4a194aa69fe26d1a3c982fb1cd12c57dd105e00e52",
+          "matches": true
+        }
+      ],
+      "sourceShaChecks": [
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Urgot.json",
+          "expectedSha256": "0a081a1286923173fe0eeb855ce32d2b8658fe6ec040d5167f5d01551507943a",
+          "actualSha256": "0a081a1286923173fe0eeb855ce32d2b8658fe6ec040d5167f5d01551507943a",
+          "matches": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Urgot.json.gz",
+          "expectedSha256": "e5bc358dfd88464470039ae479b3b921d161e6371e623c68ae3a545616b5d84c",
+          "actualSha256": "e5bc358dfd88464470039ae479b3b921d161e6371e623c68ae3a545616b5d84c",
+          "matches": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/交叉试录/厄加特Q伤害施放返回补录/07-独立回读.json",
+          "expectedSha256": "41666c4a604ed57e632e49f7cafae65827db1fb22c75e1ec8b6e8d5a64508e70",
+          "actualSha256": "41666c4a604ed57e632e49f7cafae65827db1fb22c75e1ec8b6e8d5a64508e70",
+          "matches": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/交叉试录/厄加特Q减速首次页面补录/07-独立回读.json",
+          "expectedSha256": "ef0cdde0bd7a6d3e3b1c3a8ebed7b816fe12cfa99066cc1cf5b1161bb94741cd",
+          "actualSha256": "ef0cdde0bd7a6d3e3b1c3a8ebed7b816fe12cfa99066cc1cf5b1161bb94741cd",
+          "matches": true
+        }
+      ],
+      "freezeSourceSha256Matches": true,
+      "freezeBaselineSha256Matches": true,
+      "baselineBase": "http://127.0.0.1:8080/api/admin/games/lol",
+      "baselinePathCount": 22,
+      "baselineAuditCount": 22,
+      "writeStatus": "PASS",
+      "writeBusinessWritesAttempted": 2,
+      "targetRoutes": [
+        "/skills/urgot_q/parameters/slow_percent_points",
+        "/skills/urgot_q/parameters/mana_cost"
+      ]
+    },
+    "counts": {
+      "requestedGETs": 22,
+      "completedGETs": 22,
+      "successfulJSONResponses": 22,
+      "statusCounts": {
+        "200": 22
+      },
+      "targetDetailPaths": 2,
+      "targetListPaths": 1,
+      "changedDetailPass": 2,
+      "changedListPass": 1,
+      "unchangedResponsesIncludingTimestamps": 19,
+      "unchangedPathsExpected": 19,
+      "unchangedPathsPass": 19,
+      "expectedChangedCollections": 1,
+      "failureCount": 0
+    },
+    "expectedChangedCollections": 1,
+    "unchangedResponsesIncludingTimestamps": 19,
+    "changedDetails": {
+      "/skills/urgot_q/parameters/slow_percent_points": {
+        "createdAt": "2026-09-09T21:00:59.246986Z",
+        "description": "客户端SlowAmount技能等级1至5取索引1至5；原始比例乘100后保存为百分数点。普通减速结果读取本参数时乘0.01还原为比例，再按0至1上下界处理；保留原浮点精度。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 44.999998807907104,
+          "2": 50,
+          "3": 55.000001192092896,
+          "4": 60.00000238418579,
+          "5": 64.99999761581421
+        },
+        "name": "腐蚀电荷减速百分数点",
+        "parameterKey": "slow_percent_points",
+        "skillKey": "urgot_q",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-19T08:23:30.667503Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      "/skills/urgot_q/parameters/mana_cost": {
+        "createdAt": "2026-09-08T02:05:25.381803Z",
+        "description": "DDragon16.17.1各级消耗70法力，与客户端根技能数值一致。当前基础施放过程在开始时引用本参数扣除法力；其他过程资格与净除联动仍需另行核对，不代表战斗运行已验证。",
+        "fixedValue": 70,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "urgot_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-19T08:23:32.031954Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    "values": {
+      "/skills/urgot_q": {
+        "createdAt": "2026-09-06T18:20:50.728097Z",
+        "description": "发射一个可爆炸的电荷至目标位置，对爆炸波及到的敌人造成物理伤害和减速效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "厄加特·腐蚀电荷",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "urgot_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:50.728097Z"
+      },
+      "/skills/urgot_q/parameters": [
+        {
+          "createdAt": "2026-09-09T21:00:55.3494Z",
+          "description": "BaseDamage取索引1至5；索引0=-20是占位，不作为1级。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 25,
+            "2": 70,
+            "3": 115,
+            "4": 160,
+            "5": 205
+          },
+          "name": "腐蚀电荷基础物理伤害",
+          "parameterKey": "base_damage",
+          "skillKey": "urgot_q",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T21:00:55.3494Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T21:00:56.595702Z",
+          "description": "TotalDamage第二项mStat=2且未给mStatFormula，读取来源总攻击力；比例来自原树StatByCoefficient=0.7。",
+          "fixedValue": 0.699999988079071,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "腐蚀电荷总攻击力比例",
+          "parameterKey": "ad_ratio",
+          "skillKey": "urgot_q",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T21:00:56.595702Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T21:00:58.024935Z",
+          "description": "SlowDuration=1.25秒，转换为1250毫秒。",
+          "fixedValue": 1250,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "腐蚀电荷减速持续（毫秒）",
+          "parameterKey": "slow_duration_ms",
+          "skillKey": "urgot_q",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T21:00:58.024935Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T21:00:59.246986Z",
+          "description": "客户端SlowAmount技能等级1至5取索引1至5；原始比例乘100后保存为百分数点。普通减速结果读取本参数时乘0.01还原为比例，再按0至1上下界处理；保留原浮点精度。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 44.999998807907104,
+            "2": 50,
+            "3": 55.000001192092896,
+            "4": 60.00000238418579,
+            "5": 64.99999761581421
+          },
+          "name": "腐蚀电荷减速百分数点",
+          "parameterKey": "slow_percent_points",
+          "skillKey": "urgot_q",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-19T08:23:30.667503Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T21:01:00.512691Z",
+          "description": "仅存在spellCastTime=0.25秒且mCastTime为空，转换为250毫秒。",
+          "fixedValue": 250,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "施法时间（毫秒）",
+          "parameterKey": "cast_time_ms",
+          "skillKey": "urgot_q",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T21:01:00.512691Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:05:24.895289Z",
+          "description": "DDragon16.17.1 Urgot.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 10000,
+            "2": 9500,
+            "3": 9000,
+            "4": 8500,
+            "5": 8000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "urgot_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:05:24.895289Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:05:25.381803Z",
+          "description": "DDragon16.17.1各级消耗70法力，与客户端根技能数值一致。当前基础施放过程在开始时引用本参数扣除法力；其他过程资格与净除联动仍需另行核对，不代表战斗运行已验证。",
+          "fixedValue": 70,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "urgot_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-19T08:23:32.031954Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ],
+      "/skills/urgot_q/parameters/base_damage": {
+        "createdAt": "2026-09-09T21:00:55.3494Z",
+        "description": "BaseDamage取索引1至5；索引0=-20是占位，不作为1级。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 25,
+          "2": 70,
+          "3": 115,
+          "4": 160,
+          "5": 205
+        },
+        "name": "腐蚀电荷基础物理伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "urgot_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T21:00:55.3494Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "/skills/urgot_q/parameters/ad_ratio": {
+        "createdAt": "2026-09-09T21:00:56.595702Z",
+        "description": "TotalDamage第二项mStat=2且未给mStatFormula，读取来源总攻击力；比例来自原树StatByCoefficient=0.7。",
+        "fixedValue": 0.699999988079071,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "腐蚀电荷总攻击力比例",
+        "parameterKey": "ad_ratio",
+        "skillKey": "urgot_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T21:00:56.595702Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      "/skills/urgot_q/parameters/slow_duration_ms": {
+        "createdAt": "2026-09-09T21:00:58.024935Z",
+        "description": "SlowDuration=1.25秒，转换为1250毫秒。",
+        "fixedValue": 1250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "腐蚀电荷减速持续（毫秒）",
+        "parameterKey": "slow_duration_ms",
+        "skillKey": "urgot_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T21:00:58.024935Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "/skills/urgot_q/parameters/slow_percent_points": {
+        "createdAt": "2026-09-09T21:00:59.246986Z",
+        "description": "客户端SlowAmount技能等级1至5取索引1至5；原始比例乘100后保存为百分数点。普通减速结果读取本参数时乘0.01还原为比例，再按0至1上下界处理；保留原浮点精度。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 44.999998807907104,
+          "2": 50,
+          "3": 55.000001192092896,
+          "4": 60.00000238418579,
+          "5": 64.99999761581421
+        },
+        "name": "腐蚀电荷减速百分数点",
+        "parameterKey": "slow_percent_points",
+        "skillKey": "urgot_q",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-19T08:23:30.667503Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      "/skills/urgot_q/parameters/cast_time_ms": {
+        "createdAt": "2026-09-09T21:01:00.512691Z",
+        "description": "仅存在spellCastTime=0.25秒且mCastTime为空，转换为250毫秒。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "urgot_q",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T21:01:00.512691Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "/skills/urgot_q/parameters/cooldown_ms": {
+        "createdAt": "2026-09-08T02:05:24.895289Z",
+        "description": "DDragon16.17.1 Urgot.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 10000,
+          "2": 9500,
+          "3": 9000,
+          "4": 8500,
+          "5": 8000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "urgot_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:24.895289Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "/skills/urgot_q/parameters/mana_cost": {
+        "createdAt": "2026-09-08T02:05:25.381803Z",
+        "description": "DDragon16.17.1各级消耗70法力，与客户端根技能数值一致。当前基础施放过程在开始时引用本参数扣除法力；其他过程资格与净除联动仍需另行核对，不代表战斗运行已验证。",
+        "fixedValue": 70,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "urgot_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-19T08:23:32.031954Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "/skills/urgot_q/formulas": [
+        {
+          "createdAt": "2026-09-09T21:01:01.758305Z",
+          "description": "TotalDamage=BaseDamage+0.7×来源总攻击力；当前一对一只计算主命中，不自动叠加额外爆炸目标。",
+          "formulaKey": "physical_damage",
+          "gameId": "lol",
+          "name": "腐蚀电荷单一敌人物理伤害",
+          "skillKey": "urgot_q",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T21:01:01.758305Z"
+        }
+      ],
+      "/skills/urgot_q/formulas/physical_damage": {
+        "createdAt": "2026-09-09T21:01:01.758305Z",
+        "description": "TotalDamage=BaseDamage+0.7×来源总攻击力；当前一对一只计算主命中，不自动叠加额外爆炸目标。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ad_ratio"
+                },
+                {
+                  "attributeKey": "attack_damage",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "physical_damage",
+        "gameId": "lol",
+        "name": "腐蚀电荷单一敌人物理伤害",
+        "skillKey": "urgot_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T21:01:01.758305Z"
+      },
+      "/skills/urgot_q/effects": [
+        {
+          "createdAt": "2026-09-19T08:13:15.925374Z",
+          "description": "本技能主动使用开始时消耗70法力，复用当前技能等级对应的既有法力参数。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "施放法力消耗",
+          "resultCount": 1,
+          "skillKey": "urgot_q",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-19T08:13:15.925374Z"
+        },
+        {
+          "createdAt": "2026-09-19T08:13:17.497267Z",
+          "description": "本轮1V1腐蚀电荷爆炸实际命中敌方英雄的直接物理伤害；复用同技能既有公式。普通减速由已有入口独立处理，净除标记等联动继续核对。",
+          "effectKey": "primary_hit",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "腐蚀电荷本体直接物理伤害",
+          "resultCount": 1,
+          "skillKey": "urgot_q",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-19T08:13:17.497267Z"
+        },
+        {
+          "createdAt": "2026-09-19T07:12:18.84671Z",
+          "description": "本技能实际命中本轮敌方英雄且同次命中明确未被法术护盾阻挡时施加普通移动减速；强度读取原百分数点参数并乘0.01，期限1250毫秒。重施及不同普通减速来源按当前统一契约处理。",
+          "effectKey": "corrosive_charge_slow",
+          "gameId": "lol",
+          "lifecycleEnabled": true,
+          "name": "腐蚀电荷普通减速",
+          "resultCount": 1,
+          "skillKey": "urgot_q",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-19T07:12:18.84671Z"
+        }
+      ],
+      "/skills/urgot_q/effects/mana_cost": {
+        "createdAt": "2026-09-19T08:13:15.925374Z",
+        "description": "本技能主动使用开始时消耗70法力，复用当前技能等级对应的既有法力参数。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "施放法力消耗",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "urgot_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T08:13:15.925374Z"
+      },
+      "/skills/urgot_q/effects/primary_hit": {
+        "createdAt": "2026-09-19T08:13:17.497267Z",
+        "description": "本轮1V1腐蚀电荷爆炸实际命中敌方英雄的直接物理伤害；复用同技能既有公式。普通减速由已有入口独立处理，净除标记等联动继续核对。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "腐蚀电荷本体直接物理伤害",
+        "results": [
+          {
+            "description": "引用同技能physical_damage，保留已有属性口径和等级系数。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "physics",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "物理伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "SKILL",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "physical_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "urgot_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T08:13:17.497267Z"
+      },
+      "/skills/urgot_q/effects/corrosive_charge_slow": {
+        "createdAt": "2026-09-19T07:12:18.84671Z",
+        "description": "本技能实际命中本轮敌方英雄且同次命中明确未被法术护盾阻挡时施加普通移动减速；强度读取原百分数点参数并乘0.01，期限1250毫秒。重施及不同普通减速来源按当前统一契约处理。",
+        "effectKey": "corrosive_charge_slow",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "slow_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE_TARGET",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "腐蚀电荷普通减速",
+        "results": [
+          {
+            "description": "施加时读取普通减速比例，固定上下界0至1；持续期间贡献该比例，期限随父效果结束。",
+            "detail": {
+              "operation": "APPLY",
+              "statusKey": "movement_slow"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "腐蚀电荷减速",
+            "resultKey": "slow",
+            "resultType": "STATUS_OPERATION",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": 1,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 0.01,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "slow_percent_points"
+              }
+            }
+          }
+        ],
+        "skillKey": "urgot_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-19T07:12:18.84671Z"
+      },
+      "/skills/urgot_q/processes": [
+        {
+          "activationType": "ACTIVE",
+          "createdAt": "2026-09-19T08:13:19.115936Z",
+          "description": "仅登记基础250毫秒施法时间、开始时法力消耗与普通冷却；延迟结束不自动产生命中。前摇取消限制、弹道与爆炸时序、净除联动仍需分别处理。",
+          "effectBindingCount": 1,
+          "gameId": "lol",
+          "name": "腐蚀电荷基础施放",
+          "processKey": "cast",
+          "skillKey": "urgot_q",
+          "sortOrder": 10,
+          "stateOperationCount": 0,
+          "stepCount": 1,
+          "updatedAt": "2026-09-19T08:13:19.115936Z"
+        }
+      ],
+      "/skills/urgot_q/processes/cast": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "createdAt": "2026-09-19T08:13:19.115936Z",
+        "description": "仅登记基础250毫秒施法时间、开始时法力消耗与普通冷却；延迟结束不自动产生命中。前摇取消限制、弹道与爆炸时序、净除联动仍需分别处理。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "gameId": "lol",
+        "name": "腐蚀电荷基础施放",
+        "processKey": "cast",
+        "skillKey": "urgot_q",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "固定来源spellCastTime为0.25秒，读取既有250毫秒参数；此步骤不代替实际命中。",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            },
+            "name": "基础施法时间",
+            "sortOrder": 10,
+            "stepKey": "cast_delay",
+            "stepType": "DELAY"
+          }
+        ],
+        "updatedAt": "2026-09-19T08:13:19.115936Z"
+      },
+      "/skills/urgot_q/internal-states": [],
+      "/skills/urgot_q/trigger-rules": [
+        {
+          "actionCount": 1,
+          "conditionGroupCount": 0,
+          "description": "本技能已成立的主动使用仅启动基础施放过程；不以施放或延迟结束代替实际命中，不处理未核定的净除联动。",
+          "eventType": "SKILL_USED",
+          "maxTriggersPerProcessEnabled": false,
+          "name": "腐蚀电荷主动使用",
+          "perTargetCooldownEnabled": false,
+          "ruleKey": "on_used",
+          "sortOrder": 5,
+          "updatedAt": "2026-09-19T08:13:20.688047Z"
+        },
+        {
+          "actionCount": 1,
+          "conditionGroupCount": 1,
+          "description": "仅消费腐蚀电荷爆炸对本轮敌方英雄的一次合法实际命中并执行本体伤害；同次法术护盾按伤害结果粒度处理，既有减速入口保持独立。",
+          "eventType": "SKILL_HIT",
+          "maxTriggersPerProcessEnabled": false,
+          "name": "腐蚀电荷本体实际命中",
+          "perTargetCooldownEnabled": false,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-19T08:13:22.456682Z"
+        },
+        {
+          "actionCount": 1,
+          "conditionGroupCount": 1,
+          "description": "只在本技能实际命中明确敌方英雄且同次法术护盾阻挡值为0时执行普通减速。缺少判定不能默认0；本规则不生成爆炸命中、控制免疫或实际移动速度结算。",
+          "eventType": "SKILL_HIT",
+          "maxTriggersPerProcessEnabled": false,
+          "name": "实际命中未受阻挡时减速",
+          "perTargetCooldownEnabled": false,
+          "ruleKey": "apply_slow_on_unblocked_hit",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-19T07:20:10.240213Z"
+        }
+      ],
+      "/skills/urgot_q/trigger-rules/on_used": {
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "cast"
+            },
+            "name": "启动基础施放",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "本技能已成立的主动使用仅启动基础施放过程；不以施放或延迟结束代替实际命中，不处理未核定的净除联动。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "urgot_q",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "腐蚀电荷主动使用",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used",
+        "sortOrder": 5
+      },
+      "/skills/urgot_q/trigger-rules/actual_hit": {
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "name": "执行腐蚀电荷物理伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "detail": {},
+                "sortOrder": 20
+              }
+            ],
+            "groupKey": "champion_target",
+            "name": "本轮敌方英雄目标",
+            "sortOrder": 10
+          }
+        ],
+        "description": "仅消费腐蚀电荷爆炸对本轮敌方英雄的一次合法实际命中并执行本体伤害；同次法术护盾按伤害结果粒度处理，既有减速入口保持独立。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "urgot_q",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "腐蚀电荷本体实际命中",
+        "perTargetCooldown": null,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10
+      },
+      "/skills/urgot_q/trigger-rules/apply_slow_on_unblocked_hit": {
+        "actions": [
+          {
+            "actionKey": "apply_slow",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "corrosive_charge_slow"
+            },
+            "name": "施加本次普通减速",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "detail": {},
+                "sortOrder": 20
+              },
+              {
+                "conditionKey": "not_spell_shield_blocked",
+                "conditionType": "EVENT_VALUE_COMPARE",
+                "detail": {
+                  "comparator": "EQ",
+                  "comparisonValue": {
+                    "kind": "FIXED",
+                    "value": 0
+                  },
+                  "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED"
+                },
+                "sortOrder": 30
+              }
+            ],
+            "groupKey": "slow_eligible",
+            "name": "本次普通减速可施加",
+            "sortOrder": 10
+          }
+        ],
+        "description": "只在本技能实际命中明确敌方英雄且同次法术护盾阻挡值为0时执行普通减速。缺少判定不能默认0；本规则不生成爆炸命中、控制免疫或实际移动速度结算。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "urgot_q",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "实际命中未受阻挡时减速",
+        "perTargetCooldown": null,
+        "ruleKey": "apply_slow_on_unblocked_hit",
+        "sortOrder": 30
+      }
+    },
+    "audit": [
+      {
+        "requestIndex": 1,
+        "method": "GET",
+        "path": "/skills/urgot_q",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 456,
+        "responseSha256": "9fc58651253d8d4e21c81fc0820e94051437a225c9b03acd7881b13c0859966b"
+      },
+      {
+        "requestIndex": 2,
+        "method": "GET",
+        "path": "/skills/urgot_q/parameters",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 3279,
+        "responseSha256": "306db3f92800804f88d35f9c0824f1d2b1dd0d6a65a3d5eea63e203048c57932"
+      },
+      {
+        "requestIndex": 3,
+        "method": "GET",
+        "path": "/skills/urgot_q/parameters/base_damage",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 404,
+        "responseSha256": "0b7c9bb49df0c91bf034d07c45184ab84ca2763eed230cc85c1b54fecd446f71"
+      },
+      {
+        "requestIndex": 4,
+        "method": "GET",
+        "path": "/skills/urgot_q/parameters/ad_ratio",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 431,
+        "responseSha256": "84595dfe9a56e699cdba980c4d404233ce164e009a9f8cc997609da1f00cebdb"
+      },
+      {
+        "requestIndex": 5,
+        "method": "GET",
+        "path": "/skills/urgot_q/parameters/slow_duration_ms",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 357,
+        "responseSha256": "d89b6778949521273148e438a4ea4b19d5d985cc259930599d50382916028c9b"
+      },
+      {
+        "requestIndex": 6,
+        "method": "GET",
+        "path": "/skills/urgot_q/parameters/slow_percent_points",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 621,
+        "responseSha256": "b187d2afe1c93a035cc0a24d496f9c291fe688cb2fa12bcb55fcddf42e838b33"
+      },
+      {
+        "requestIndex": 7,
+        "method": "GET",
+        "path": "/skills/urgot_q/parameters/cast_time_ms",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 367,
+        "responseSha256": "c80ebe9aa757514f5b5f5f7fb06ad541b53a36e36523eaea1db72018c0a32fb5"
+      },
+      {
+        "requestIndex": 8,
+        "method": "GET",
+        "path": "/skills/urgot_q/parameters/cooldown_ms",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 579,
+        "responseSha256": "d0613a0205f1250bbd32875d957a082577ef437f8c759e57a5bf3dbbfdbb377a"
+      },
+      {
+        "requestIndex": 9,
+        "method": "GET",
+        "path": "/skills/urgot_q/parameters/mana_cost",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 512,
+        "responseSha256": "8edac3d3b50e1067ddb0bfdf1c55ed6212cdb09ee5ab2f3dc9ea0e801218ceb3"
+      },
+      {
+        "requestIndex": 10,
+        "method": "GET",
+        "path": "/skills/urgot_q/formulas",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 353,
+        "responseSha256": "619cbad77d1704f931cc94d6c98d2783eb07c80460346f9497b70eee7b3a8551"
+      },
+      {
+        "requestIndex": 11,
+        "method": "GET",
+        "path": "/skills/urgot_q/formulas/physical_damage",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 697,
+        "responseSha256": "301c9b1a29415e59c7b4b4bb84b887a509215c793953ae7fb71c3dbc8ed559f5"
+      },
+      {
+        "requestIndex": 12,
+        "method": "GET",
+        "path": "/skills/urgot_q/effects",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 1303,
+        "responseSha256": "cce9cbb584d110cdf842f9b5d1b8940d6cd8fe79fbe650d69b8236a8de8549a3"
+      },
+      {
+        "requestIndex": 13,
+        "method": "GET",
+        "path": "/skills/urgot_q/effects/mana_cost",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 707,
+        "responseSha256": "625705b1f6a59c98766e4f0ef273b5c2eee2f88b2c8b4c9bdc5b7103a49336af"
+      },
+      {
+        "requestIndex": 14,
+        "method": "GET",
+        "path": "/skills/urgot_q/effects/primary_hit",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 1078,
+        "responseSha256": "f1e8bcd369c33f25102e0699ebbbd7b480d0c9d0bcce07c7e6a5269e0ba7980d"
+      },
+      {
+        "requestIndex": 15,
+        "method": "GET",
+        "path": "/skills/urgot_q/effects/corrosive_charge_slow",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 1499,
+        "responseSha256": "cbe1e629ee8dccf234d265e7e556e7af77c97c844001cf9bf5a4606897b6b9ba"
+      },
+      {
+        "requestIndex": 16,
+        "method": "GET",
+        "path": "/skills/urgot_q/processes",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 488,
+        "responseSha256": "f2260e44fbc70e4e3e04ec4d4c5721e119d13d2e215f9d2ab8dcf2058fdf0988"
+      },
+      {
+        "requestIndex": 17,
+        "method": "GET",
+        "path": "/skills/urgot_q/processes/cast",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 1015,
+        "responseSha256": "7481e4649153546422fcd09bde19ee9c6a5418bb8cd5fd196525106fc1ef6d01"
+      },
+      {
+        "requestIndex": 18,
+        "method": "GET",
+        "path": "/skills/urgot_q/internal-states",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 2,
+        "responseSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      {
+        "requestIndex": 19,
+        "method": "GET",
+        "path": "/skills/urgot_q/trigger-rules",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 1364,
+        "responseSha256": "15f8ea5030be7ea769bd572bc2a2a54314ee272443bd0d84cb9c3263f2b1b4a7"
+      },
+      {
+        "requestIndex": 20,
+        "method": "GET",
+        "path": "/skills/urgot_q/trigger-rules/on_used",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 628,
+        "responseSha256": "d34b6d56fc80553089caa7db84325458bc83207d074a4b9c6fb18dc5b466ed2b"
+      },
+      {
+        "requestIndex": 21,
+        "method": "GET",
+        "path": "/skills/urgot_q/trigger-rules/actual_hit",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 1018,
+        "responseSha256": "2b85a0604b8274d7bbb22d8f24220ecabb53d7e9704d648686ff645ffe1207d6"
+      },
+      {
+        "requestIndex": 22,
+        "method": "GET",
+        "path": "/skills/urgot_q/trigger-rules/apply_slow_on_unblocked_hit",
+        "status": 200,
+        "contentType": "application/json",
+        "ok": true,
+        "rawBodyLength": 1280,
+        "responseSha256": "6da24ca36f4e6d0f6043f00c2e71d2da23f5fd4262c3c3aa6f51c52636222b41"
+      }
+    ],
+    "failures": [],
+    "detailEvidence": [
+      {
+        "path": "/skills/urgot_q/parameters/slow_percent_points",
+        "kind": "parameter",
+        "descriptionMatchesApproved": true,
+        "createdAtUnchanged": true,
+        "updatedAtValid": true,
+        "updatedAtChanged": true,
+        "updatedAtAfterBaseline": true,
+        "pass": true
+      },
+      {
+        "path": "/skills/urgot_q/parameters/mana_cost",
+        "kind": "parameter",
+        "descriptionMatchesApproved": true,
+        "createdAtUnchanged": true,
+        "updatedAtValid": true,
+        "updatedAtChanged": true,
+        "updatedAtAfterBaseline": true,
+        "pass": true
+      }
+    ],
+    "collectionEvidence": [
+      {
+        "path": "/skills/urgot_q/parameters",
+        "targets": [
+          {
+            "stableKey": "slow_percent_points",
+            "detailPath": "/skills/urgot_q/parameters/slow_percent_points",
+            "descriptionMatchesDetail": true,
+            "updatedAtMatchesDetail": true,
+            "pass": true
+          },
+          {
+            "stableKey": "mana_cost",
+            "detailPath": "/skills/urgot_q/parameters/mana_cost",
+            "descriptionMatchesDetail": true,
+            "updatedAtMatchesDetail": true,
+            "pass": true
+          }
+        ],
+        "pass": true
+      }
+    ],
+    "unchangedPaths": [
+      "/skills/urgot_q",
+      "/skills/urgot_q/parameters/base_damage",
+      "/skills/urgot_q/parameters/ad_ratio",
+      "/skills/urgot_q/parameters/slow_duration_ms",
+      "/skills/urgot_q/parameters/cast_time_ms",
+      "/skills/urgot_q/parameters/cooldown_ms",
+      "/skills/urgot_q/formulas",
+      "/skills/urgot_q/formulas/physical_damage",
+      "/skills/urgot_q/effects",
+      "/skills/urgot_q/effects/mana_cost",
+      "/skills/urgot_q/effects/primary_hit",
+      "/skills/urgot_q/effects/corrosive_charge_slow",
+      "/skills/urgot_q/processes",
+      "/skills/urgot_q/processes/cast",
+      "/skills/urgot_q/internal-states",
+      "/skills/urgot_q/trigger-rules",
+      "/skills/urgot_q/trigger-rules/on_used",
+      "/skills/urgot_q/trigger-rules/actual_hit",
+      "/skills/urgot_q/trigger-rules/apply_slow_on_unblocked_hit"
+    ]
+  }
+}

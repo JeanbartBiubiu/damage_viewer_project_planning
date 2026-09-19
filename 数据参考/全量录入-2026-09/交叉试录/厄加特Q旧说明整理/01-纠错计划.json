@@ -1,0 +1,38 @@
+{
+  "title": "厄加特Q减速与基础施放接线后的旧说明整理",
+  "at": "2026-09-19T08:18:25.826Z",
+  "sourceFiles": [
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Urgot.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Urgot.json.gz"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/厄加特Q伤害施放返回补录/07-独立回读.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/厄加特Q减速首次页面补录/07-独立回读.json"
+    }
+  ],
+  "changes": [
+    {
+      "skillKey": "urgot_q",
+      "kind": "parameter",
+      "route": "/skills/urgot_q/parameters/slow_percent_points",
+      "description": "客户端SlowAmount技能等级1至5取索引1至5；原始比例乘100后保存为百分数点。普通减速结果读取本参数时乘0.01还原为比例，再按0至1上下界处理；保留原浮点精度。"
+    },
+    {
+      "skillKey": "urgot_q",
+      "kind": "parameter",
+      "route": "/skills/urgot_q/parameters/mana_cost",
+      "description": "DDragon16.17.1各级消耗70法力，与客户端根技能数值一致。当前基础施放过程在开始时引用本参数扣除法力；其他过程资格与净除联动仍需另行核对，不代表战斗运行已验证。"
+    }
+  ],
+  "scope": "仅更正百分数点换算说明及已接入法力消耗时点的过时文字；原数值、公式、效果、过程、触发、名称、排序和创建时间保持。",
+  "runtimeValidation": "未执行"
+}

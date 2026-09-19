@@ -1,0 +1,73 @@
+{
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "requests": [
+    {
+      "method": "PUT",
+      "route": "/skills/urgot_q/parameters/slow_percent_points",
+      "body": {
+        "name": "腐蚀电荷减速百分数点",
+        "description": "客户端SlowAmount技能等级1至5取索引1至5；原始比例乘100后保存为百分数点。普通减速结果读取本参数时乘0.01还原为比例，再按0至1上下界处理；保留原浮点精度。",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 44.999998807907104,
+          "2": 50,
+          "3": 55.000001192092896,
+          "4": 60.00000238418579,
+          "5": 64.99999761581421
+        },
+        "sortOrder": 40
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-09T21:00:59.246986Z",
+        "description": "客户端SlowAmount技能等级1至5取索引1至5；原始比例乘100后保存为百分数点。普通减速结果读取本参数时乘0.01还原为比例，再按0至1上下界处理；保留原浮点精度。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 44.999998807907104,
+          "2": 50,
+          "3": 55.000001192092896,
+          "4": 60.00000238418579,
+          "5": 64.99999761581421
+        },
+        "name": "腐蚀电荷减速百分数点",
+        "parameterKey": "slow_percent_points",
+        "skillKey": "urgot_q",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T21:00:59.246986Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/urgot_q/parameters/mana_cost",
+      "body": {
+        "name": "基础法力消耗",
+        "description": "DDragon16.17.1各级消耗70法力，与客户端根技能数值一致。当前基础施放过程在开始时引用本参数扣除法力；其他过程资格与净除联动仍需另行核对，不代表战斗运行已验证。",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 70,
+        "levelValues": null,
+        "sortOrder": 110
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-08T02:05:25.381803Z",
+        "description": "DDragon16.17.1各级消耗70法力，与客户端根技能数值一致。当前基础施放过程在开始时引用本参数扣除法力；其他过程资格与净除联动仍需另行核对，不代表战斗运行已验证。",
+        "fixedValue": 70,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "urgot_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:05:25.381803Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    }
+  ],
+  "sourceSha256": "d34cd38bb9b98d1ad0c3a80127b3ce55dbcd51a29d91b04c24c5e2cb4e0a33bf",
+  "baselineSha256": "e1adc5a33410f8535a279b4a194aa69fe26d1a3c982fb1cd12c57dd105e00e52"
+}
