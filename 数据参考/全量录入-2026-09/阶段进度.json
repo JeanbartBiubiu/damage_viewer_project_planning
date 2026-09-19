@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-19T07:45:43.431Z",
+  "generatedAt": "2026-09-19T08:40:31.724Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -9373,7 +9373,7 @@
     },
     "cooldownOnlyProcessValidation": {
       "at": "2026-09-18T19:13:24.484Z",
-      "status": "前后端允许合法普通冷却独立构成过程行为；完整单测已通过，返回原对象的真实接口和页面待验",
+      "status": "纯冷却过程代码及首次真实页面已通过；卡特琳娜Q返回闭环，瑟提同类继续",
       "backendCommit": "9864d776",
       "webCommit": "55103824",
       "backendFocusedTests": 12,
@@ -9382,11 +9382,24 @@
       "runtimeValidation": "未执行",
       "sourceCase": "兰顿等无资源消耗且命中独立结算的主动技能；历史录入-02问题",
       "backendFullTests": 963,
-      "webFullTests": 654
+      "webFullTests": 654,
+      "followup": {
+        "at": "2026-09-19T08:40:31.724Z",
+        "browser": "PASS",
+        "evidence": {
+          "worktree": "damage_web_dev",
+          "relativePath": "数据参考/全量录入-2026-09/交叉试录/卡特琳娜Q无资源冷却首次页面/09-证据清单.json",
+          "commit": "adb26e00",
+          "sha256": "9abd99d1355c05c21c238c837c90fdf07326ffab93298f4f3a80d2b42eb6dea6"
+        },
+        "remaining": [
+          "瑟提Q/W/E/R同类返回需结合各自来源继续"
+        ]
+      }
     },
     "ordinaryMovementSlowAuthoring": {
       "at": "2026-09-18T19:35:39.477Z",
-      "status": "能力、目录和厄加特Q减速效果首次页面闭环通过；兰顿冰杖及其他验收继续返回",
+      "status": "能力、目录、启停及厄加特Q减速首次页面通过；兰顿冰杖与目录加载失败恢复继续",
       "backendCommit": "84995ae4",
       "webCommit": "8bbe9687",
       "backendTests": 963,
@@ -9413,8 +9426,8 @@
         "sha256": "a2fc3ca252da92080743e8cf6d531c081b0efb765ec877ac289846e4dc737faa"
       },
       "followup": {
-        "at": "2026-09-19T06:51:27.816Z",
-        "status": "目录已建立并重开，启停与结果数值页面待续",
+        "at": "2026-09-19T08:40:31.724Z",
+        "status": "目录与厄加特Q结果已首次页面闭环，目录启停和两类字段错误恢复通过",
         "evidence": {
           "worktree": "damage_web_dev",
           "relativePath": "数据参考/全量录入-2026-09/交叉试录/普通减速目录首次页面录入/09-证据清单.json",
@@ -9426,7 +9439,18 @@
           "relativePath": "数据参考/全量录入-2026-09/交叉试录/厄加特Q减速首次页面补录/09-证据清单.json",
           "commit": "6ddd170b",
           "sha256": "03c3f3048f9d78133ea92182ee32ee6c8dfed0ab1b2d1a6ac9a0cd8119fd8c2f"
-        }
+        },
+        "toggleAndRecoveryEvidence": {
+          "worktree": "damage_web_dev",
+          "relativePath": "数据参考/全量录入-2026-09/交叉试录/普通减速目录启停与错误恢复/09-证据清单.json",
+          "commit": "cb2a05c3",
+          "sha256": "f78960a9f7df2a0aef89396f1ff4dbd84b514ac9bef4c276b1212036475489cf"
+        },
+        "remaining": [
+          "兰顿减速的法术护盾阻挡与消费语义尚未冻结",
+          "冰杖伤害资格与减速入口返回",
+          "目录加载失败后的重试及草稿保留"
+        ]
       }
     },
     "fiveSelfSkillCostCooldownBackfill": {
@@ -10887,6 +10911,131 @@
         "commit": "2dbfb186",
         "sha256": "92bb7da9bf0fcc3abf5723b5dc991dd16326a7bee5a634c5bef44711f301f59c"
       }
+    },
+    "urgotQCoreReturn": {
+      "at": "2026-09-19T08:40:31.724Z",
+      "status": "厄加特Q伤害、法力、基础施放与入口保存并页面回读通过，跨技能联动及取消限制继续",
+      "sourceVersion": {
+        "client": "16.17",
+        "ddragon": "16.17.1"
+      },
+      "created": {
+        "effects": 2,
+        "processes": 1,
+        "triggerRules": 2
+      },
+      "prepareGETs": 32,
+      "writes": 5,
+      "immediateReadbacks": 5,
+      "independentAgentGETs": 32,
+      "archiveGETs": 32,
+      "unchangedResponsesIncludingTimestamps": 24,
+      "expectedChangedCollections": 3,
+      "browser": "PASS",
+      "cursor": {
+        "runId": "run-69f06d8d-5f43-450d-bad2-be6375f5a710",
+        "status": "cancelled",
+        "reason": "900000毫秒超时；两个只读工具未及时返回",
+        "adopted": false,
+        "fileAuditNote": "范围外变化0；允许目录内05/06由主负责人依据独立内置评审保存，不据此冒认Cursor只读评审有效"
+      },
+      "remaining": [
+        "Q向W的最后命中敌方英雄五秒标记",
+        "施放取消限制与净除暂停",
+        "弹道与爆炸时序"
+      ],
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/厄加特Q伤害施放返回补录/09-证据清单.json",
+        "commit": "d3a36a6c",
+        "sha256": "f48b63dcc4f383ede34af858de9daa1714e7bef5f8b766d76589b5cdb387965d"
+      }
+    },
+    "movementSlowStatusToggleRecovery": {
+      "at": "2026-09-19T08:40:31.724Z",
+      "status": "普通减速目录启停、必填及重复标识错误恢复通过，最终保持启用",
+      "prepareGETs": 6,
+      "rejectedPOSTs": 1,
+      "errorRecoveryReadbackGETs": 6,
+      "successfulBrowserPUTs": 2,
+      "immediateReadbackGETs": 2,
+      "preWriteGETs": 2,
+      "independentProgramGETs": 6,
+      "unchangedResponsesIncludingTimestamps": 4,
+      "statusesCount": 3,
+      "newStatuses": 0,
+      "finalStatus": "ENABLED",
+      "browser": "PASS",
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/普通减速目录启停与错误恢复/09-证据清单.json",
+        "commit": "cb2a05c3",
+        "sha256": "f78960a9f7df2a0aef89396f1ff4dbd84b514ac9bef4c276b1212036475489cf"
+      }
+    },
+    "urgotQDescriptionCleanup": {
+      "at": "2026-09-19T08:40:31.724Z",
+      "status": "两处过时参数说明已纠正并回读，原数值与组成保持",
+      "updatedParameterDescriptions": 2,
+      "prepareGETs": 22,
+      "writes": 2,
+      "immediateReadbacks": 2,
+      "independentProgramGETs": 22,
+      "independentAgentGETs": 22,
+      "unchangedResponsesIncludingTimestamps": 19,
+      "expectedChangedCollections": 1,
+      "browser": "PASS",
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/厄加特Q旧说明整理/09-证据清单.json",
+        "commit": "8e544d0e",
+        "sha256": "387edf57fca015c81fa7482035340838226d188476a6748c2126359759833549"
+      },
+      "independentAgentReadback": {
+        "reviewer": "/root/urgot_core_frozen_fallback",
+        "status": "PASS",
+        "toolExitCode": 0,
+        "at": "2026-09-19T08:34:59.354Z",
+        "stdoutSha256": "3a702d71fd590991b6367110fff499c2bd54919f39d34fb6660b8bc0ebf48d83",
+        "stdoutBytes": 31310,
+        "rawStdoutArchived": false
+      }
+    },
+    "katarinaQCooldownOnlyFirstUI": {
+      "at": "2026-09-19T08:40:31.724Z",
+      "status": "无资源普通冷却过程及使用入口完成首次页面，瑟提同类返回及技能剩余分支继续",
+      "created": {
+        "processes": 1,
+        "triggerRules": 1
+      },
+      "prepareGETs": 25,
+      "preflightGETs": 25,
+      "browserWrites": 2,
+      "immediateReadbacks": 2,
+      "independentProgramGETs": 25,
+      "independentAgentGETs": 25,
+      "unchangedResponsesIncludingTimestamps": 21,
+      "expectedChangedCollections": 2,
+      "browser": "PASS",
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/卡特琳娜Q无资源冷却首次页面/09-证据清单.json",
+        "commit": "adb26e00",
+        "sha256": "9abd99d1355c05c21c238c837c90fdf07326ffab93298f4f3a80d2b42eb6dea6"
+      },
+      "independentAgentReadback": {
+        "reviewer": "/root/urgot_core_frozen_fallback",
+        "status": "PASS",
+        "toolExitCode": 0,
+        "at": "2026-09-19T08:35:00.478Z",
+        "stdoutSha256": "e8bca6c2ec7bdc644f0b7d3155bf1275b43b51ccc05f047bcc48e2de7dc27177",
+        "stdoutBytes": 3719,
+        "rawStdoutArchived": false
+      }
     }
   },
   "runtimeValidation": "未执行",
@@ -11354,6 +11503,30 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/两项物理伤害名称纠错/09-证据清单.json",
         "commit": "2dbfb186",
         "sha256": "92bb7da9bf0fcc3abf5723b5dc991dd16326a7bee5a634c5bef44711f301f59c"
+      },
+      "urgotQCoreReturn": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/厄加特Q伤害施放返回补录/09-证据清单.json",
+        "commit": "d3a36a6c",
+        "sha256": "f48b63dcc4f383ede34af858de9daa1714e7bef5f8b766d76589b5cdb387965d"
+      },
+      "movementSlowStatusToggleRecovery": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/普通减速目录启停与错误恢复/09-证据清单.json",
+        "commit": "cb2a05c3",
+        "sha256": "f78960a9f7df2a0aef89396f1ff4dbd84b514ac9bef4c276b1212036475489cf"
+      },
+      "urgotQDescriptionCleanup": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/厄加特Q旧说明整理/09-证据清单.json",
+        "commit": "8e544d0e",
+        "sha256": "387edf57fca015c81fa7482035340838226d188476a6748c2126359759833549"
+      },
+      "katarinaQCooldownOnlyFirstUI": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/卡特琳娜Q无资源冷却首次页面/09-证据清单.json",
+        "commit": "adb26e00",
+        "sha256": "9abd99d1355c05c21c238c837c90fdf07326ffab93298f4f3a80d2b42eb6dea6"
       }
     },
     "coverage": {
@@ -21269,7 +21442,7 @@
         "name": "卡特琳娜·弹射之刃",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "根技能本体直接伤害和实际英雄命中已保存并独立回读；普通冷却使用流程、落地匕首与被动联动、代表页面验收、原批次其余来源未决项逐项核对继续处理，不计整技能管理完成。",
+        "reason": "根技能本体直接伤害及命中已保存；无资源普通冷却过程和主动使用入口已首次页面保存、重开并独立回读。落地匕首与被动联动、原伤害代表页面及原批次来源未决项继续，不计整技能完成。",
         "pendingCounts": {
           "source": 1,
           "system": 0,
@@ -21282,18 +21455,18 @@
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
           "sevenMageBodyDirectHitBackfill",
-          "sixMageOrdinaryUseBackfill"
+          "sixMageOrdinaryUseBackfill",
+          "katarinaQCooldownOnlyFirstUI"
         ],
         "currentComponentCounts": {
           "parameters": 5,
           "formulas": 1,
           "effects": 1,
-          "processes": 0,
+          "processes": 1,
           "internalStates": 0,
-          "triggerRules": 1
+          "triggerRules": 2
         },
         "remainingBranches": [
-          "普通冷却使用流程",
           "落地匕首与被动联动",
           "代表页面验收",
           "原批次其余来源未决项逐项核对"
@@ -21308,9 +21481,14 @@
           "efficiency": 1,
           "browser": "待验"
         },
-        "useRegistrationDeferred": {
-          "reason": "无资源的纯冷却过程修复仍待首次真实页面验收，当前不绕过页面门槛。",
-          "evidence": "sixMageOrdinaryUseBackfill"
+        "authoredCooldownOnly": {
+          "processKey": "cast",
+          "ruleKey": "on_used",
+          "effectBindings": 0,
+          "stateOperations": 0,
+          "browser": "PASS",
+          "httpReadback": "PASS",
+          "evidence": "katarinaQCooldownOnlyFirstUI"
         }
       },
       {
@@ -32262,13 +32440,15 @@
         "name": "厄加特·腐蚀电荷",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "普通减速效果及实际命中入口已真实页面保存、重开并通过独立程序回读；原物理伤害、成本与施法过程还需接线，说明及相关组成继续核对，不计整技能完成。",
+        "reason": "普通减速、物理伤害、法力消耗、250毫秒基础施放与使用及实际命中入口已录入并通过独立回读和页面；Q向W的五秒标记、取消限制与净除暂停、弹道爆炸时序仍需核定和完整表达，不计整技能完成。",
         "batchKey": "heroThirtyNinthBatch",
         "candidateSha256": "b79197a5ca3d1762bdbc5955871d4c17e6923274e318913cf8843481254122c8",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
-          "urgotQMovementSlowFirstUI"
+          "urgotQMovementSlowFirstUI",
+          "urgotQCoreReturn",
+          "urgotQDescriptionCleanup"
         ],
         "historicalPendingCounts": {
           "source": 0,
@@ -32279,10 +32459,10 @@
         "currentComponentCounts": {
           "parameters": 7,
           "formulas": 1,
-          "effects": 1,
-          "processes": 0,
+          "effects": 3,
+          "processes": 1,
           "internalStates": 0,
-          "triggerRules": 1
+          "triggerRules": 3
         },
         "authoredMovementSlow": {
           "effectKey": "corrosive_charge_slow",
@@ -32297,11 +32477,25 @@
           "browser": "PASS"
         },
         "remainingBranches": [
-          "原物理伤害与实际命中入口",
-          "法力、普通冷却和250毫秒施法过程与使用入口",
-          "原百分数点及法力成本说明整理",
-          "Q与W相关字段按原1V1范围核对"
-        ]
+          "Q向W的最后命中敌方英雄五秒标记",
+          "施放取消限制与净除暂停",
+          "弹道与爆炸时序"
+        ],
+        "authoredCore": {
+          "effectKeys": [
+            "mana_cost",
+            "primary_hit"
+          ],
+          "processKey": "cast",
+          "ruleKeys": [
+            "on_used",
+            "actual_hit"
+          ],
+          "browser": "PASS",
+          "httpReadback": "PASS",
+          "ordinarySlowPreserved": true
+        },
+        "parameterDescriptionCleanup": "PASS"
       },
       {
         "sourceChampionId": "Urgot",
