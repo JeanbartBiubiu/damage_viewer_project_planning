@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-18T23:50:36.984Z",
+  "generatedAt": "2026-09-19T00:08:16.444Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -9980,6 +9980,36 @@
         "sha256": "7aba7aaa14463abf323a203c1d10afb967ca1f8eb8fddd653fce6932c822c50f",
         "commit": "f0b6592c"
       }
+    },
+    "brandEMalphiteERUseBackfill": {
+      "at": "2026-09-19T00:08:16.444Z",
+      "status": "三项使用流程7个组成已保存并独立回读，页面及剩余机制待续",
+      "skills": [
+        "brand_e",
+        "malphite_e",
+        "malphite_r"
+      ],
+      "created": {
+        "effects": 1,
+        "processes": 3,
+        "triggerRules": 3
+      },
+      "prepareGETs": 74,
+      "writerGETs": 88,
+      "writerPOSTs": 7,
+      "immediateReadbacks": 7,
+      "independentGETs": 74,
+      "unchangedResponsesIncludingTimestamps": 60,
+      "expectedChangedCollections": 7,
+      "arithmeticCases": 31,
+      "browser": "NOT_RUN_BROWSER_UNAVAILABLE",
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/布兰德E与墨菲特ER使用流程补录/09-证据清单.json",
+        "sha256": "9417cf2815eac1098907085ffed9f09d62c79776c515b39e9f907be8259d0b5a",
+        "commit": "f71463f2"
+      }
     }
   },
   "runtimeValidation": "未执行",
@@ -10262,6 +10292,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/六项既有施法过程入口补录/09-证据清单.json",
         "sha256": "7aba7aaa14463abf323a203c1d10afb967ca1f8eb8fddd653fce6932c822c50f",
         "commit": "f0b6592c"
+      },
+      "brandEMalphiteERUseBackfill": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/布兰德E与墨菲特ER使用流程补录/09-证据清单.json",
+        "sha256": "9417cf2815eac1098907085ffed9f09d62c79776c515b39e9f907be8259d0b5a",
+        "commit": "f71463f2"
       }
     },
     "coverage": {
@@ -14740,7 +14776,7 @@
         "name": "布兰德·烈火燃烧",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有2个待处理分支，其中来源或资料缺口1个、系统缺口0个、配置缺口1个。 既有普通伤害空吸血资格和过时说明已纠正；原条件、控制、被动或时序待办保留，页面待验。",
+        "reason": "法力效果、250毫秒普通施法过程和使用入口已补齐并独立回读；被动应用与联动、代表页面验收继续待办，不计整技能管理完成。",
         "pendingCounts": {
           "source": 1,
           "system": 0,
@@ -14752,15 +14788,16 @@
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
           "heroSourceInventory",
-          "eightSkillsTenDamageVampCorrection"
+          "eightSkillsTenDamageVampCorrection",
+          "brandEMalphiteERUseBackfill"
         ],
         "currentComponentCounts": {
           "parameters": 5,
           "formulas": 1,
-          "effects": 1,
-          "processes": 0,
+          "effects": 2,
+          "processes": 1,
           "internalStates": 0,
-          "triggerRules": 1
+          "triggerRules": 2
         },
         "damageVampCorrection": {
           "httpReadback": "PASS",
@@ -14769,6 +14806,16 @@
           "basisOutputKind": "POST_DEFENSE_DAMAGE",
           "efficiency": 1,
           "retainedSpellShieldBlockScope": "RESULT",
+          "browser": "待验"
+        },
+        "remainingBranches": [
+          "被动应用与联动",
+          "代表页面验收"
+        ],
+        "authoredUseProcess": {
+          "processKey": "cast",
+          "ruleKey": "on_used",
+          "httpReadback": "PASS",
           "browser": "待验"
         }
       },
@@ -22025,7 +22072,7 @@
         "name": "墨菲特·大地震颤",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。 既有普通伤害空吸血资格和过时说明已纠正；原条件、控制、被动或时序待办保留，页面待验。",
+        "reason": "基础使用消耗与普通冷却登记过程和入口已补齐，实际施法时长未被设为零并独立回读；施法时间字段的实际语义、攻速削减、代表页面验收继续待办，不计整技能管理完成。",
         "pendingCounts": {
           "source": 0,
           "system": 0,
@@ -22037,15 +22084,16 @@
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
           "heroSourceInventory",
-          "eightSkillsTenDamageVampCorrection"
+          "eightSkillsTenDamageVampCorrection",
+          "brandEMalphiteERUseBackfill"
         ],
         "currentComponentCounts": {
           "parameters": 7,
           "formulas": 1,
           "effects": 2,
-          "processes": 0,
+          "processes": 1,
           "internalStates": 0,
-          "triggerRules": 1
+          "triggerRules": 2
         },
         "damageVampCorrection": {
           "httpReadback": "PASS",
@@ -22054,6 +22102,17 @@
           "basisOutputKind": "POST_DEFENSE_DAMAGE",
           "efficiency": 1,
           "retainedSpellShieldBlockScope": "RESULT",
+          "browser": "待验"
+        },
+        "remainingBranches": [
+          "施法时间字段的实际语义",
+          "攻速削减",
+          "代表页面验收"
+        ],
+        "authoredUseProcess": {
+          "processKey": "use_cost_and_cooldown",
+          "ruleKey": "on_used_cost_and_cooldown",
+          "httpReadback": "PASS",
           "browser": "待验"
         }
       },
@@ -22066,7 +22125,7 @@
         "name": "墨菲特·势不可挡",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。 既有普通伤害空吸血资格和过时说明已纠正；原条件、控制、被动或时序待办保留，页面待验。",
+        "reason": "基础使用消耗与普通冷却登记过程和入口已补齐，实际施法时长未被设为零并独立回读；击飞、不可阻挡及特殊施放语义、代表页面验收继续待办，不计整技能管理完成。",
         "pendingCounts": {
           "source": 0,
           "system": 0,
@@ -22078,15 +22137,16 @@
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
           "heroSourceInventory",
-          "eightSkillsTenDamageVampCorrection"
+          "eightSkillsTenDamageVampCorrection",
+          "brandEMalphiteERUseBackfill"
         ],
         "currentComponentCounts": {
           "parameters": 5,
           "formulas": 1,
           "effects": 2,
-          "processes": 0,
+          "processes": 1,
           "internalStates": 0,
-          "triggerRules": 1
+          "triggerRules": 2
         },
         "damageVampCorrection": {
           "httpReadback": "PASS",
@@ -22095,6 +22155,16 @@
           "basisOutputKind": "POST_DEFENSE_DAMAGE",
           "efficiency": 1,
           "retainedSpellShieldBlockScope": "RESULT",
+          "browser": "待验"
+        },
+        "remainingBranches": [
+          "击飞、不可阻挡及特殊施放语义",
+          "代表页面验收"
+        ],
+        "authoredUseProcess": {
+          "processKey": "use_cost_and_cooldown",
+          "ruleKey": "on_used_cost_and_cooldown",
+          "httpReadback": "PASS",
           "browser": "待验"
         }
       },
