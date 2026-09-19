@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-19T05:30:29.728Z",
+  "generatedAt": "2026-09-19T05:48:52.937Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -10175,13 +10175,19 @@
       },
       "sourceEvidence": "数据参考/全量录入-2026-09/禁锢状态补齐/01-来源核对.json",
       "followup": {
-        "status": "目录及莫甘娜Q首次施加闭环通过，艾翁Q和拉克丝Q继续返回",
+        "status": "禁锢目录及三原对象首次施加管理闭环通过；重复施加来源与其他分支仍单列",
         "evidence": {
           "worktree": "damage_web_dev",
           "relativePath": "数据参考/全量录入-2026-09/交叉试录/禁锢目录首次页面录入/09-证据清单.json",
           "sha256": "7efcd1a8150f0117f26757d277411494a6a13e76502c9eb6616906af879ad92c",
           "commit": "f9d74a16",
           "toolCommit": "3c5bd0cf"
+        },
+        "sameKindReturnEvidence": {
+          "worktree": "damage_web_dev",
+          "relativePath": "数据参考/全量录入-2026-09/交叉试录/艾翁拉克丝Q禁锢返回补录/09-证据清单.json",
+          "commit": "ad37a34b",
+          "sha256": "e58bc4e8c672df9f4698e8ce2ed5ee107142ef40bf3bca2d7ad02be335bd7aed"
         }
       }
     },
@@ -10663,6 +10669,52 @@
         "sha256": "1cc71ce0a74bc21e26d8697317853941c4fed52fef9dd1533f87b7750e24232d",
         "commit": "cb667b0e"
       }
+    },
+    "ivernLuxQRootFirstApplication": {
+      "at": "2026-09-19T05:48:52.937Z",
+      "status": "两Q首次禁锢施加分支已保存、独立回读及真实页面核对",
+      "skills": [
+        "ivern_q",
+        "lux_q"
+      ],
+      "created": {
+        "effects": 2,
+        "triggerRules": 2
+      },
+      "prepareGETs": 65,
+      "writerGETs": 73,
+      "writerPOSTs": 4,
+      "immediateReadbacks": 4,
+      "independentGETs": 65,
+      "unchangedResponsesIncludingTimestamps": 57,
+      "expectedChangedCollections": 4,
+      "arithmeticPoints": 10,
+      "browser": "PASS",
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/艾翁拉克丝Q禁锢返回补录/09-证据清单.json",
+        "commit": "ad37a34b",
+        "sha256": "e58bc4e8c672df9f4698e8ce2ed5ee107142ef40bf3bca2d7ad02be335bd7aed"
+      }
+    },
+    "morganaQExistingComponentBrowserReturn": {
+      "at": "2026-09-19T05:48:52.937Z",
+      "status": "原成本过程及两原入口页面返回核对通过",
+      "skills": [
+        "morgana_q"
+      ],
+      "businessWrites": 0,
+      "browser": "PASS",
+      "GETs": 4,
+      "unchangedResponsesIncludingTimestamps": 4,
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/莫甘娜Q原有组成页面返回核对/01-页面与只读核对.json",
+        "commit": "f90615a0",
+        "sha256": "1bbc339e57e80fd7ecd0ac768eb96d7960411c869b33bf96a18a33ea49960350"
+      }
     }
   },
   "runtimeValidation": "未执行",
@@ -11082,6 +11134,18 @@
         "relativePath": "数据参考/全量录入-2026-09/效果结果表横向布局修复/09-证据清单.json",
         "sha256": "1cc71ce0a74bc21e26d8697317853941c4fed52fef9dd1533f87b7750e24232d",
         "commit": "cb667b0e"
+      },
+      "ivernLuxQRootFirstApplication": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/艾翁拉克丝Q禁锢返回补录/09-证据清单.json",
+        "commit": "ad37a34b",
+        "sha256": "e58bc4e8c672df9f4698e8ce2ed5ee107142ef40bf3bca2d7ad02be335bd7aed"
+      },
+      "morganaQExistingComponentBrowserReturn": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/莫甘娜Q原有组成页面返回核对/01-页面与只读核对.json",
+        "commit": "f90615a0",
+        "sha256": "1bbc339e57e80fd7ecd0ac768eb96d7960411c869b33bf96a18a33ea49960350"
       }
     },
     "coverage": {
@@ -19463,13 +19527,7 @@
         "name": "艾翁·根深敌固",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。 现存实际命中伤害的空吸血规则及父说明已纠正；旧数值与入口保持，原待办及页面继续保留。",
-        "pendingCounts": {
-          "source": 0,
-          "system": 1,
-          "configuration": 0,
-          "other": 0
-        },
+        "reason": "实际命中伤害与首次禁锢施加已分别保存，禁锢效果与四条件入口通过独立回读和真实页面；首次投射与再次冲刺使用资格仍待处理，成本过程未接，重施来源继续核对，不计整技能完成。",
         "batchKey": "heroFortyEighthBatch",
         "candidateSha256": "d406a10109e52abfa58c3767551a612e0ec12ef405d7fdf808cab501d30f7268",
         "evidenceRefs": [
@@ -19478,15 +19536,16 @@
           "fourFollowupHitDamageVampCorrection",
           "ahriEDianaEAsheRUseBackfill",
           "rootStatusKindCorrection",
-          "rootStatusDirectoryFirstUI"
+          "rootStatusDirectoryFirstUI",
+          "ivernLuxQRootFirstApplication"
         ],
         "currentComponentCounts": {
           "parameters": 12,
           "formulas": 2,
-          "effects": 2,
+          "effects": 3,
           "processes": 0,
           "internalStates": 0,
-          "triggerRules": 1
+          "triggerRules": 2
         },
         "damageVampCorrection": {
           "httpReadback": "PASS",
@@ -19504,9 +19563,29 @@
           "statusKind": "ROOT",
           "managementCapability": "代码与数据库约束通过",
           "authoredStatusCount": 1,
-          "browser": "目录首次保存与重开通过；技能效果待续",
+          "browser": "目录及首次施加效果、规则页面闭环通过；重施待核",
           "statusKey": "root"
-        }
+        },
+        "authoredRootFirstApplication": {
+          "effectKey": "root_control",
+          "ruleKey": "apply_root_on_unblocked_hit",
+          "durationParameterKey": "root_duration_ms",
+          "httpReadback": "PASS",
+          "browser": "PASS",
+          "conditions": "英雄、明确敌方、同次命中未被法术护盾阻挡、当前目标无本来源禁锢实例",
+          "reapplication": "待补源，已有实例时本规则不执行"
+        },
+        "historicalPendingCounts": {
+          "source": 0,
+          "system": 1,
+          "configuration": 0,
+          "other": 0
+        },
+        "remainingBranches": [
+          "首次投射与再次冲刺的使用事件资格及成本冷却入口",
+          "已有本来源禁锢时重复施加的真实处理",
+          "自身突进相关组成"
+        ]
       },
       {
         "sourceChampionId": "Ivern",
@@ -23262,7 +23341,7 @@
         "name": "拉克丝·光之束缚",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已补启动原cast过程的主动入口，原法力、延迟、冷却和实际命中规则完整保留；其他原候选相关组成及代表页面继续处理，不计整技能管理完成。",
+        "reason": "首次禁锢效果与四条件入口已独立回读并通过页面核对；原使用过程保持，旧伤害入口范围与空吸血、参数说明及重施来源继续处理，不计整技能管理完成。",
         "batchKey": "luxFirstBatch",
         "candidateSha256": null,
         "evidenceRefs": [
@@ -23270,7 +23349,8 @@
           "heroSourceInventory",
           "fiveMageUseRegistrationBackfill",
           "rootStatusKindCorrection",
-          "rootStatusDirectoryFirstUI"
+          "rootStatusDirectoryFirstUI",
+          "ivernLuxQRootFirstApplication"
         ],
         "historicalPendingCounts": {
           "source": 1,
@@ -23279,9 +23359,10 @@
           "other": 1
         },
         "remainingBranches": [
-          "束缚控制身份及合法命中",
+          "本来源禁锢尚存时的重施来源",
+          "原伤害入口类别与敌方资格、空吸血规则",
           "投射物宽度字段职责与原候选其他待核项",
-          "代表页面验收及相关过时说明整理"
+          "原使用过程代表页面及相关过时说明整理"
         ],
         "remainingBranchesBoundary": "仅更新本次已录使用登记；原候选继续作为其他未完成分支依据，不重放旧请求。空间辅助参数按原范围判断，不自动扩大为1V1完成前置。",
         "authoredCostCooldown": {
@@ -23294,17 +23375,26 @@
         "currentComponentCounts": {
           "parameters": 8,
           "formulas": 1,
-          "effects": 2,
+          "effects": 3,
           "processes": 1,
           "internalStates": 0,
-          "triggerRules": 2
+          "triggerRules": 3
         },
         "rootStatusProgress": {
           "statusKind": "ROOT",
           "managementCapability": "代码与数据库约束通过",
           "authoredStatusCount": 1,
-          "browser": "目录首次保存与重开通过；技能效果待续",
+          "browser": "目录及首次施加效果、规则页面闭环通过；重施待核",
           "statusKey": "root"
+        },
+        "authoredRootFirstApplication": {
+          "effectKey": "root_control",
+          "ruleKey": "apply_root_on_unblocked_hit",
+          "durationParameterKey": "root_duration_ms",
+          "httpReadback": "PASS",
+          "browser": "PASS",
+          "conditions": "英雄、明确敌方、同次命中未被法术护盾阻挡、当前目标无本来源禁锢实例",
+          "reapplication": "待补源，已有实例时本规则不执行"
         }
       },
       {
@@ -24594,7 +24684,7 @@
         "name": "莫甘娜·暗之禁锢",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "禁锢首次施加分支已真实页面保存、重开并独立回读，复用五级时长；已有本来源禁锢时的重施语义及完整施法时序继续核源，原成本和伤害入口代表页面继续核对，不计整技能管理完成。",
+        "reason": "禁锢首次施加、原成本冷却过程与伤害入口均已真实页面核对，接口内容保持；已有本来源禁锢时的重施语义与完整施法时序继续核源，不计整技能管理完成。",
         "batchKey": "heroThirtyFirstBatch",
         "candidateSha256": "bf26b9374fc305af52e7298934a54244aec5bec0166017ae5a99a38a2019ddcc",
         "evidenceRefs": [
@@ -24605,7 +24695,8 @@
           "fiveRecentUseDescriptionCleanup",
           "rootStatusKindCorrection",
           "rootStatusDirectoryFirstUI",
-          "morganaQRootFirstApplication"
+          "morganaQRootFirstApplication",
+          "morganaQExistingComponentBrowserReturn"
         ],
         "historicalPendingCounts": {
           "source": 0,
@@ -24615,15 +24706,14 @@
         },
         "remainingBranches": [
           "已有本来源禁锢时的重施来源与处理",
-          "完整施法时序（当前过程仅登记成本和冷却）",
-          "原成本过程与伤害入口的代表页面验收"
+          "完整施法时序（当前过程仅登记成本和冷却）"
         ],
         "remainingBranchesBoundary": "管理端已能表达已核定的禁锢首次施加，未核定的重施由同组生命周期不存在条件显式排除；不把管理保存当作战斗运行，也不扩大原1V1范围。",
         "authoredCostCooldown": {
           "processKey": "use_cost_and_cooldown",
           "ruleKey": "on_used_cost_and_cooldown",
           "httpReadback": "PASS",
-          "browser": "待验",
+          "browser": "PASS",
           "castDurationClaim": "未声明，立即步骤只登记使用"
         },
         "currentComponentCounts": {
@@ -24644,7 +24734,7 @@
             "CHAMPION"
           ],
           "httpReadback": "PASS",
-          "browser": "效果编辑页面通过；原命中入口仍待代表核对"
+          "browser": "PASS"
         },
         "useCostDescriptionCleanup": {
           "status": "PASS",
