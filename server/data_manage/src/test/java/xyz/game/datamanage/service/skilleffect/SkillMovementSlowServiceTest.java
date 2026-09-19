@@ -13,6 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import xyz.game.datamanage.mapper.GamesMapper;
 import xyz.game.datamanage.mapper.imagerelation.ImageRelationMapper;
@@ -118,32 +119,79 @@ class SkillMovementSlowServiceTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"STUN", "REMOVE"})
-    void keepsStunAndRemovalValueless(String branch) {
+    @CsvSource({"STUN,APPLY", "ROOT,APPLY", "STUN,REMOVE", "ROOT,REMOVE", "MOVEMENT_SLOW,REMOVE"})
+    void keepsNonSlowApplicationAndAllRemovalValueless(StatusKind kind, String operation) {
         ObjectNode body = body();
-        if (branch.equals("STUN")) {
-            when(mapper.lockStatuses(eq("lol"), anyCollection())).thenReturn(List.of(
-                new SkillEffectStatusLockRow("control", "ENABLED", StatusKind.STUN)));
-        } else {
-            ((ObjectNode) result(body).get("detail")).put("operation", "REMOVE");
+        useKind(kind);
+        if (operation.equals("REMOVE")) {
+            ((ObjectNode) result(body).get("detail")).put("operation", operation);
             body.putNull("lifecycle");
             result(body).putNull("lifecycleBehavior");
         }
         rejects(body, "results[0].valueRule");
         result(body).putNull("valueRule");
-        if (branch.equals("STUN")) result(body).set("lifecycleBehavior", AggregateJson.tree("{\"moment\":\"PERSISTENT\"}"));
+        if (operation.equals("APPLY")) result(body).set("lifecycleBehavior", AggregateJson.tree("{\"moment\":\"PERSISTENT\"}"));
         assertNull(create(body).results().getFirst().valueRule());
     }
 
     @Test
-    void acceptsResultSpellShieldScopeAndRejectsWholeSkillScope() {
-        ObjectNode body = body();
+    void roundTripsRootWithDurationAndNoValueModes() {
+        useKind(StatusKind.ROOT);
+        ObjectNode body = valuelessBody();
+        var created = create(body);
+        var read = service.get("lol", "skill", "slow");
+        assertEquals(created, read);
+        assertEquals(AggregateJson.read("{\"kind\":\"FIXED\",\"value\":1000}",
+            xyz.game.datamanage.model.value.SkillNumericValue.class), read.lifecycle().durationValue());
+        assertEquals(SkillEffectLifecycleInstanceScope.SOURCE_TARGET, read.lifecycle().instanceScope());
+        assertEquals(SkillEffectLifecycleExpiryMode.ALL_AT_ONCE, read.lifecycle().expiryMode());
+        var result = read.results().getFirst();
+        assertNull(result.valueRule());
+        assertEquals(new SkillEffectStatusOperationDetail("control", SkillEffectStatusOperation.APPLY), result.detail());
+        assertEquals(SkillEffectLifecycleMoment.PERSISTENT, result.lifecycleBehavior().moment());
+        assertNull(result.lifecycleBehavior().valueReadMode());
+        assertNull(result.lifecycleBehavior().stackValueMode());
+        assertNull(result.lifecycleBehavior().reapplicationValueMode());
+        assertNull(result.lifecycleBehavior().periodicExecutionMode());
+        assertNull(result.spellShieldBlockScope());
+    }
+
+    @ParameterizedTest
+    @CsvSource({"valueReadMode,APPLICATION_SNAPSHOT", "stackValueMode,SHARED",
+        "reapplicationValueMode,REPLACE", "periodicExecutionMode,ONCE_PER_INSTANCE"})
+    void rejectsRootValueModesWithoutStrength(String field, String value) {
+        useKind(StatusKind.ROOT);
+        ObjectNode body = valuelessBody();
+        ((ObjectNode) result(body).get("lifecycleBehavior")).put(field, value);
+        assertThrows(ApiException.class, () -> create(body));
+        verify(mapper, never()).insertEffect(any(), any(), any(), any(), any(), any(), any(), any());
+    }
+
+    @ParameterizedTest
+    @EnumSource(StatusKind.class)
+    void acceptsResultSpellShieldScopeAndRejectsOtherPersistentScopes(StatusKind kind) {
+        useKind(kind);
+        ObjectNode body = kind == StatusKind.MOVEMENT_SLOW ? body() : valuelessBody();
         result(body).put("spellShieldBlockScope", "RESULT");
         assertEquals(SkillEffectSpellShieldBlockScope.RESULT, create(body).results().getFirst().spellShieldBlockScope());
-        body = body();
-        result(body).put("spellShieldBlockScope", "SKILL");
-        ObjectNode invalid = body;
-        assertThrows(ApiException.class, () -> create(invalid));
+        for (String scope : List.of("SKILL", "DAMAGE_INSTANCE")) {
+            ObjectNode invalid = body.deepCopy();
+            result(invalid).put("spellShieldBlockScope", scope);
+            ApiException error = assertThrows(ApiException.class, () -> create(invalid));
+            assertTrue(error.getDetails().toString().contains("spellShieldBlockScope"));
+        }
+    }
+
+    private void useKind(StatusKind kind) {
+        when(mapper.lockStatuses(eq("lol"), anyCollection())).thenReturn(List.of(
+            new SkillEffectStatusLockRow("control", "ENABLED", kind)));
+    }
+
+    private static ObjectNode valuelessBody() {
+        ObjectNode body = body();
+        result(body).putNull("valueRule");
+        result(body).set("lifecycleBehavior", AggregateJson.tree("{\"moment\":\"PERSISTENT\"}"));
+        return body;
     }
 
     private SkillEffectDetailResponse create(ObjectNode body) {

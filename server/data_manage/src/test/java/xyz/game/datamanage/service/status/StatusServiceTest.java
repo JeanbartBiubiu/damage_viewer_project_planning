@@ -17,6 +17,8 @@ import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -280,7 +282,7 @@ class StatusServiceTest {
     }
 
     @Test
-    void requiresKindAndRejectsChangingEitherKind() {
+    void requiresKindAndRejectsChangingAnyKind() {
         assertCode("400.VALIDATION_FAILED", () -> service.create(GAME_ID,
             new StatusCreateRequest("control", "控制", null, null, StatusRecordStatus.ENABLED, 0)));
         assertCode("400.VALIDATION_FAILED", () -> service.update(GAME_ID, KEY,
@@ -290,21 +292,26 @@ class StatusServiceTest {
             when(mapper.findByIdForUpdate(GAME_ID, KEY)).thenReturn(new StatusResponse(
                 old.gameId(), old.statusKey(), old.name(), old.description(), kind,
                 old.status(), old.sortOrder(), old.createdAt(), old.updatedAt()));
-            StatusKind other = kind == StatusKind.STUN ? StatusKind.MOVEMENT_SLOW : StatusKind.STUN;
-            ApiException error = assertThrows(ApiException.class, () -> service.update(GAME_ID, KEY,
-                new StatusUpdateRequest(null, "控制", null, other, StatusRecordStatus.ENABLED, 0)));
-            assertEquals("400.VALIDATION_FAILED", error.getCode());
-            assertEquals("statusKind", ((Map<?, ?>) ((List<?>) error.getDetails().get("fieldIssues")).getFirst()).get("field"));
+            for (StatusKind other : StatusKind.values()) {
+                if (other == kind) continue;
+                ApiException error = assertThrows(ApiException.class, () -> service.update(GAME_ID, KEY,
+                    new StatusUpdateRequest(null, "控制", null, other, StatusRecordStatus.ENABLED, 0)));
+                assertEquals("400.VALIDATION_FAILED", error.getCode());
+                assertEquals("statusKind", ((Map<?, ?>) ((List<?>) error.getDetails().get("fieldIssues")).getFirst()).get("field"));
+            }
         }
     }
 
-    @Test
-    void createsMovementSlowWithExplicitKind() {
-        when(mapper.findById(GAME_ID, "control")).thenReturn(new StatusResponse(GAME_ID, "control", "减速", null,
-            StatusKind.MOVEMENT_SLOW, StatusRecordStatus.ENABLED, 0, status().createdAt(), status().updatedAt()));
-        assertEquals(StatusKind.MOVEMENT_SLOW, service.create(GAME_ID,
-            new StatusCreateRequest("control", "减速", null, StatusKind.MOVEMENT_SLOW, StatusRecordStatus.ENABLED, 0)).statusKind());
-        verify(mapper).insert(GAME_ID, "control", "减速", null, "MOVEMENT_SLOW", "ENABLED", 0);
+    @ParameterizedTest
+    @CsvSource({"MOVEMENT_SLOW,减速", "ROOT,禁锢"})
+    void createsAndReadsExplicitKind(StatusKind kind, String name) {
+        StatusResponse stored = new StatusResponse(GAME_ID, "control", name, null,
+            kind, StatusRecordStatus.ENABLED, 0, status().createdAt(), status().updatedAt());
+        when(mapper.findById(GAME_ID, "control")).thenReturn(stored);
+        assertEquals(stored, service.create(GAME_ID,
+            new StatusCreateRequest("control", name, null, kind, StatusRecordStatus.ENABLED, 0)));
+        assertEquals(stored, service.get(GAME_ID, "control"));
+        verify(mapper).insert(GAME_ID, "control", name, null, kind.name(), "ENABLED", 0);
     }
 
     private static StatusResponse status() {
