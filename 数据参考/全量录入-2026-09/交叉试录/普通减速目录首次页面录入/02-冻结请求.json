@@ -1,0 +1,19 @@
+{
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "executionMode": "BROWSER_UI_ONLY",
+  "request": {
+    "method": "POST",
+    "route": "/statuses",
+    "detailRoute": "/statuses/movement_slow",
+    "body": {
+      "statusKey": "movement_slow",
+      "name": "普通移动减速",
+      "description": "普通移动减速状态身份；具体减速比例与持续时间由技能效果维护。",
+      "statusKind": "MOVEMENT_SLOW",
+      "status": "ENABLED",
+      "sortOrder": 10
+    }
+  },
+  "sourceSha256": "435f7181e92f692cc27aca4dfc1f6f6515eafc1f1a5eaa7e92811189dc31f11b",
+  "baselineSha256": "b17497d774ffbbbfb72ae95684d302df6d1e1d3ede7fa6e23205b8f068315350"
+}
