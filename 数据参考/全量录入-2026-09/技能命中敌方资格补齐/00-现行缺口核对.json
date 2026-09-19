@@ -1,0 +1,117 @@
+{
+  "status": "CONFIRMED",
+  "at": "2026-09-19T03:41:27.263Z",
+  "reviewer": "/root/seven_hit_frozen_review",
+  "businessHTTP": 0,
+  "businessWrites": 0,
+  "scope": "只核现行管理条件的敌我资格表达缺口，不修改共享契约、前后端代码或业务配置。",
+  "origin": {
+    "reviewPath": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/交叉试录/八项控制技能本体伤害补录/05-独立评审.json",
+    "sha256": "530b211ded37e7fdbad2fc7df26b3f88c8bf90e7e8099c5563d70c252e76fff6",
+    "status": "REVISE",
+    "originalBatchWrites": 0
+  },
+  "fixedSource": {
+    "path": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Nami.json",
+    "sha256": "f9b01b18408d0c55d84dd371581f47242072e041c53e4cf4bcb3272df2528e12",
+    "version": "16.17.1",
+    "pPointer": "/data/Nami/passive/description",
+    "pText": "每当娜美的技能命中友方英雄时，他们都会暂时获得移动速度加成。",
+    "rPointer": "/data/Nami/spells/3/tooltip",
+    "rFinding": "R正文明确被怒涛命中的友方英雄获得被动双倍效果，构成同一根技能、同为英雄但不应执行伤害的来源反例。"
+  },
+  "currentContract": {
+    "path": "C:/project/damage_viewer_project_planning/文档记录/详细设计/项目/条件事件与动态输入供值管理详细设计.md",
+    "sha256": "ec07ed1bb2daccb0217c189a84b16f15a701dccefb82b3258cc8ea6425238331",
+    "lines": [
+      201,
+      235,
+      360,
+      367
+    ],
+    "facts": [
+      "SKILL_HIT当前目标为本次技能命中对象，契约没有把它限定为敌方。",
+      "TARGET_CATEGORY_CHECK只区分对象类别，CHAMPION不是敌我关系。",
+      "EXPLICIT_TARGET_IS_SOURCE仅对SKILL_USED的显式自施目标有效。"
+    ]
+  },
+  "codeEvidence": [
+    {
+      "path": "C:/project/damage_web_dev/web/src/types/skillTriggerRule.ts",
+      "lines": [
+        28,
+        36
+      ],
+      "sha256": "db1021ad59bf8cfee862603c2e7dcde6c618da85d235f36de941c6a205852615"
+    },
+    {
+      "path": "C:/project/damage_web_dev/web/src/services/skillTriggerRuleClient.ts",
+      "lines": [
+        45,
+        52,
+        265,
+        276
+      ],
+      "sha256": "54f9d35a5d6a6afefdffabefb20ba5b973cd7a52a5d0914f63c34024db9b12f5"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerConditionType.java",
+      "lines": [
+        3,
+        11
+      ],
+      "sha256": "79d8b164707e8a7d9052efe82ddc102756dbe0350b32cef219c3fd620eae0885"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerConditionDeserializer.java",
+      "lines": [
+        16,
+        27
+      ],
+      "sha256": "c93e152d4d128351f5eae8200489db899a8e93ef844a8e06f2dfcf0b080fe243"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/support/authoring/SkillTargetCategoryConditionSemantics.java",
+      "lines": [
+        22,
+        34
+      ],
+      "sha256": "81547bcedf8b2276856f67093ebf92907dd841d0210b9a06973150a2bf7320a7"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/support/authoring/SkillExplicitTargetIsSourceConditionSemantics.java",
+      "lines": [
+        28,
+        34
+      ],
+      "sha256": "35dd3fd95899228d3c5943f1f5e0af30e5071160751d8b7444d69a9e5eaf8969"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/README.md",
+      "lines": [
+        84,
+        94
+      ],
+      "sha256": "881107ab8879242713b423bd45e16770f3158f41230f85e3accc94581fd63458"
+    }
+  ],
+  "conditionTypes": [
+    "ATTRIBUTE_COMPARE",
+    "STATUS_CHECK",
+    "INTERNAL_STATE_CHECK",
+    "LIFECYCLE_CHECK",
+    "TARGET_CATEGORY_CHECK",
+    "EXPLICIT_TARGET_IS_SOURCE",
+    "EVENT_VALUE_COMPARE"
+  ],
+  "frontendBackendConsistent": true,
+  "missingCapability": "缺少只在技能命中上下文中判断实际命中对象是否明确为当前来源对象敌方的条件。现有枚举、解析和事件适配均无这种判断。",
+  "separations": {
+    "nami_r": "同根友方实际命中有明确文字证据；关系资格缺口成立。",
+    "nami_q": "被动文字确认友方技能命中通道，但Q专属友方事件未独立实测；不能借P独立根推定Q全部命中皆敌方。应返回具体来源和合法上下文复核。",
+    "orianna_w": "W同一能力集合内包含Ally/Enemy子对象，友军加速和敌军伤害必须分开。新增敌方条件只解决关系；敌方能量场后续接触是否等同首次脉冲伤害仍须独立核定。",
+    "soraka_q": "命中敌人后的SOURCE回复是结果目标，不自动形成一次命中自身的事件；不因存在自身收益一律否定根命中规则。"
+  },
+  "existingStateProtection": "仅写本目录00与02。planning/master现有.idea/compiler.xml、task_rules及其他未跟踪工作、backend/dev的.idea/compiler.xml均未修改。",
+  "evidenceLimits": "全部为本地固定来源、共享契约和当前源码只读证据；没有新GET、数据库访问、运行求值或页面结果。"
+}

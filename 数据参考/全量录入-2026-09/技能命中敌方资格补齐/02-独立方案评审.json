@@ -1,0 +1,58 @@
+{
+  "status": "APPROVED",
+  "at": "2026-09-19T03:41:27.265Z",
+  "reviewer": "/root/seven_hit_frozen_review",
+  "approvedPlan": {
+    "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/技能命中敌方资格补齐/01-最小修正方案.md",
+    "sha256": "f409675de05e9fe006fbc27f04ef7adcd9039ce70b8ed091cc6162c67fee8ed3"
+  },
+  "gapEvidence": {
+    "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/技能命中敌方资格补齐/00-现行缺口核对.json",
+    "sha256": "5b1c62920e3892a51285973a995abdbbc0c726f3a089f3b7e7ec3a3bcc0c055f"
+  },
+  "businessHTTP": 0,
+  "businessWrites": 0,
+  "decision": "批准按现有严格空明细身份条件模式实现管理端“技能命中敌方对象”；不批准任何尚未通过首次页面验收的新条件业务录入。",
+  "approvedSemantics": {
+    "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+    "allowedEventType": "SKILL_HIT",
+    "detail": {},
+    "relationReference": "本次实际命中对象相对于当前来源技能拥有者；不是相对于另一个目标，也不是只判断对象标识不同。",
+    "truthTable": {
+      "explicitEnemy": true,
+      "self": false,
+      "ally": false,
+      "unknown": false
+    },
+    "noImplicitFallback": "缺失关系不得按英雄类别、非自身、默认对手或1V1标签推定敌方。"
+  },
+  "implementationReview": {
+    "storage": "复用既有触发规则存储，现有空对象条件结构足以承载，不需要新增表、字段、目录或迁移。",
+    "backend": "条件枚举、严格空对象反序列化、保存形状与事件校验、整体配置及引用扫描均在计划内；依照现有显式自施条件模式可最小实现。",
+    "frontend": "类型、严格回读、仅SKILL_HIT选项、中文说明、编辑与请求转换、事件切换确认清理和无数值扫描均在计划内。",
+    "semantics": "保留SKILL_HIT原义，新增条件只缩小可执行资格；不替代sourceSkillKey、CHAMPION或业务阶段条件。",
+    "runtime": "本轮不实现敌我数据生产或战斗判断，不把管理API支持当成运行支持。"
+  },
+  "verificationRequirements": [
+    "合法detail={}可保存并完整回读；缺失、null、数组、标量及任何额外键均按现有字段错误拒绝。",
+    "在SKILL_USED、BASIC_ATTACK_HIT及其他非SKILL_HIT事件下拒绝该条件；同组其他合法条件在事件切换后保留。",
+    "整体配置检查、引用扫描、循环检查和其他对象更新能识别这个无数值无引用条件；不要求comparisonValue。",
+    "旧EXPLICIT_TARGET_IS_SOURCE行为、其他条件和既有数据回读保持。",
+    "最终变更需要独立检查。首次真实页面保存、关闭重开与独立回读通过后，才允许新条件同类批量接口录入。"
+  ],
+  "nonBlockingBoundaries": [
+    "NamiQ/R返回原对象前重新核固定来源和实时现值，保留来源技能、英雄类别与明确敌方条件，不合并友方被动收益。",
+    "OriannaW仍有首次伤害脉冲与后续能量场接触阶段问题，敌方条件不解决此问题；该入口继续独立待核。",
+    "未知或未建模关系一律不满足条件；无须在此MVP修正中扩展任意关系选择器或推导中立语义。",
+    "当前13对象修订的冻结写入和独立回读应先完成，再修改它绑定的类型与契约文件，避免冻结来源漂移。"
+  ],
+  "approvalBoundary": {
+    "codeImplementation": true,
+    "sharedContractUpdate": true,
+    "modelAgentCodeWrites": false,
+    "businessWritesWithNewCondition": false,
+    "browserValidation": "仍受认证连接不可用影响，未通过，不可用API替代首次页面",
+    "hostWasmBattle": false
+  },
+  "blockingFindings": []
+}

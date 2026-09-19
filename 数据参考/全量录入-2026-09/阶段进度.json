@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-19T03:40:55.234Z",
+  "generatedAt": "2026-09-19T03:44:20.893Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -10467,6 +10467,48 @@
         "sha256": "9f9b97072ce2101094b715824e9ac2f4d85dea52b2048aab797895494ca2b5ab",
         "commit": "dd7f0506"
       }
+    },
+    "eightControlBodyDamageBackfill": {
+      "at": "2026-09-19T03:44:20.893Z",
+      "status": "八个本体伤害效果及五条无歧义入口已保存并独立回读，三入口和页面待续",
+      "skills": [
+        "nami_q",
+        "nami_r",
+        "soraka_q",
+        "neeko_e",
+        "orianna_w",
+        "orianna_r",
+        "jinx_w",
+        "quinn_q"
+      ],
+      "created": {
+        "effects": 8,
+        "triggerRules": 5
+      },
+      "candidateGETs": 64,
+      "originalPrepareGETs": 202,
+      "originalWrites": 0,
+      "prepareGETs": 199,
+      "writerGETs": 225,
+      "writerPOSTs": 13,
+      "immediateReadbacks": 13,
+      "independentGETs": 199,
+      "unchangedResponsesIncludingTimestamps": 173,
+      "expectedChangedCollections": 13,
+      "arithmeticCases": 108,
+      "withheldHitRules": [
+        "nami_q",
+        "nami_r",
+        "orianna_w"
+      ],
+      "browser": "NOT_RUN_BROWSER_UNAVAILABLE",
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/八项控制技能本体伤害补录/修订一/09-证据清单.json",
+        "sha256": "07a3b13bb7d3a08c14642e25032b9a0ef831d7c0dabe65f73d8110b572b37cd7",
+        "commit": "c072344e"
+      }
     }
   },
   "runtimeValidation": "未执行",
@@ -10844,6 +10886,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/五项法术使用说明整理/09-证据清单.json",
         "sha256": "9f9b97072ce2101094b715824e9ac2f4d85dea52b2048aab797895494ca2b5ab",
         "commit": "dd7f0506"
+      },
+      "eightControlBodyDamageBackfill": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/八项控制技能本体伤害补录/修订一/09-证据清单.json",
+        "sha256": "07a3b13bb7d3a08c14642e25032b9a0ef831d7c0dabe65f73d8110b572b37cd7",
+        "commit": "c072344e"
       }
     },
     "coverage": {
@@ -20004,7 +20052,7 @@
         "name": "金克丝·震荡电磁波！",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有4个待处理分支，其中来源或资料缺口3个、系统缺口1个、配置缺口0个。",
+        "reason": "本体直接伤害效果与实际命中入口已独立回读；减速、攻速影响施法时间、普通使用、代表页面验收、原批次其余来源未决项逐项核对继续处理，不计整技能管理完成。",
         "pendingCounts": {
           "source": 3,
           "system": 1,
@@ -20015,8 +20063,34 @@
         "candidateSha256": "c08257b3fbd500d448b87d250e2a23c51d416a212e3d0398f29f9ce12b709cae",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "eightControlBodyDamageBackfill"
+        ],
+        "currentComponentCounts": {
+          "parameters": 6,
+          "formulas": 1,
+          "effects": 2,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 1
+        },
+        "remainingBranches": [
+          "减速",
+          "攻速影响施法时间",
+          "普通使用",
+          "代表页面验收",
+          "原批次其余来源未决项逐项核对"
+        ],
+        "authoredDirectHit": {
+          "effectKey": "primary_hit",
+          "ruleKey": "actual_hit",
+          "httpReadback": "PASS",
+          "spellShieldBlockScope": "SKILL",
+          "vampType": "OMNIVAMP",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "efficiency": 1,
+          "browser": "待验"
+        }
       },
       {
         "sourceChampionId": "Jinx",
@@ -24693,14 +24767,15 @@
         "name": "娜美·碧波之牢",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "使用消耗与普通冷却登记已保存并独立回读；伤害、治疗、护盾、控制、目标资格或球/乐曲等原有相关组成及代表页面仍待处理，不计整技能管理完成。",
+        "reason": "本体直接伤害效果独立保存，命中入口未接已独立回读；伤害与控制效果及实际命中入口、控制身份与目标资格、实际施法时序与其他尚未核对的原候选组成、使用登记代表页面验收、悬浮控制的完整状态语义、施法时序、代表页面验收、敌方命中入口资格继续处理，不计整技能管理完成。",
         "batchKey": "heroThirtyFirstBatch",
         "candidateSha256": "bf26b9374fc305af52e7298934a54244aec5bec0166017ae5a99a38a2019ddcc",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
           "sevenSkillCostCooldownBackfill",
-          "sevenSkillCostDescriptionCorrections"
+          "sevenSkillCostDescriptionCorrections",
+          "eightControlBodyDamageBackfill"
         ],
         "historicalPendingCounts": {
           "source": 0,
@@ -24712,7 +24787,11 @@
           "伤害与控制效果及实际命中入口",
           "控制身份与目标资格",
           "实际施法时序与其他尚未核对的原候选组成",
-          "使用登记代表页面验收"
+          "使用登记代表页面验收",
+          "悬浮控制的完整状态语义",
+          "施法时序",
+          "代表页面验收",
+          "敌方命中入口资格"
         ],
         "remainingBranchesBoundary": "这里只确认消耗与普通冷却登记；既有候选中的其他来源、资格和配置缺口继续保留，当前列举不是一次全技能完成审核。",
         "authoredCostCooldown": {
@@ -24725,12 +24804,22 @@
         "currentComponentCounts": {
           "parameters": 5,
           "formulas": 1,
-          "effects": 1,
+          "effects": 2,
           "processes": 1,
           "internalStates": 0,
           "triggerRules": 1
         },
-        "costDescriptions": "已改为稳定的数值来源与过程职责说明，去除过时未接线或候选状态"
+        "costDescriptions": "已改为稳定的数值来源与过程职责说明，去除过时未接线或候选状态",
+        "authoredDamageOnly": {
+          "effectKey": "primary_hit",
+          "ruleKey": null,
+          "httpReadback": "PASS",
+          "spellShieldBlockScope": "SKILL",
+          "vampType": "OMNIVAMP",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "efficiency": 1,
+          "browser": "待验"
+        }
       },
       {
         "sourceChampionId": "Nami",
@@ -24787,14 +24876,15 @@
         "name": "娜美·怒涛之啸",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "使用消耗与普通冷却登记已保存并独立回读；伤害、治疗、护盾、控制、目标资格或球/乐曲等原有相关组成及代表页面仍待处理，不计整技能管理完成。",
+        "reason": "本体直接伤害效果独立保存，命中入口未接已独立回读；伤害、控制与实际命中入口、距离到减速期限的完整取值口径、大招被动加速能否作用于自身的资格；纯其他友军分支范围外、实际施法时序与其他尚未核对的原候选组成、使用登记代表页面验收、击飞与距离减速、被动加速范围和时序、代表页面验收、敌方命中入口资格继续处理，不计整技能管理完成。",
         "batchKey": "heroThirtyFirstBatch",
         "candidateSha256": "bf26b9374fc305af52e7298934a54244aec5bec0166017ae5a99a38a2019ddcc",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
           "sevenSkillCostCooldownBackfill",
-          "sevenSkillCostDescriptionCorrections"
+          "sevenSkillCostDescriptionCorrections",
+          "eightControlBodyDamageBackfill"
         ],
         "historicalPendingCounts": {
           "source": 1,
@@ -24807,7 +24897,11 @@
           "距离到减速期限的完整取值口径",
           "大招被动加速能否作用于自身的资格；纯其他友军分支范围外",
           "实际施法时序与其他尚未核对的原候选组成",
-          "使用登记代表页面验收"
+          "使用登记代表页面验收",
+          "击飞与距离减速",
+          "被动加速范围和时序",
+          "代表页面验收",
+          "敌方命中入口资格"
         ],
         "remainingBranchesBoundary": "这里只确认消耗与普通冷却登记；既有候选中的其他来源、资格和配置缺口继续保留，当前列举不是一次全技能完成审核。",
         "authoredCostCooldown": {
@@ -24820,12 +24914,22 @@
         "currentComponentCounts": {
           "parameters": 10,
           "formulas": 1,
-          "effects": 1,
+          "effects": 2,
           "processes": 1,
           "internalStates": 0,
           "triggerRules": 1
         },
-        "costDescriptions": "已改为稳定的数值来源与过程职责说明，去除过时未接线或候选状态"
+        "costDescriptions": "已改为稳定的数值来源与过程职责说明，去除过时未接线或候选状态",
+        "authoredDamageOnly": {
+          "effectKey": "primary_hit",
+          "ruleKey": null,
+          "httpReadback": "PASS",
+          "spellShieldBlockScope": "SKILL",
+          "vampType": "OMNIVAMP",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "efficiency": 1,
+          "browser": "待验"
+        }
       },
       {
         "sourceChampionId": "Nasus",
@@ -25186,7 +25290,7 @@
         "name": "妮蔻·缠结倒刺",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "本体直接伤害效果与实际命中入口已独立回读；首个与强化禁锢资格、普通使用、代表页面验收继续处理，不计整技能管理完成。",
         "pendingCounts": {
           "source": 0,
           "system": 1,
@@ -25197,8 +25301,32 @@
         "candidateSha256": "0b029b59ead40cd28f3757265fdd7d557f00d347159f02b22d7753f264d7f91c",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "eightControlBodyDamageBackfill"
+        ],
+        "currentComponentCounts": {
+          "parameters": 6,
+          "formulas": 2,
+          "effects": 2,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 1
+        },
+        "remainingBranches": [
+          "首个与强化禁锢资格",
+          "普通使用",
+          "代表页面验收"
+        ],
+        "authoredDirectHit": {
+          "effectKey": "primary_hit",
+          "ruleKey": "actual_hit",
+          "httpReadback": "PASS",
+          "spellShieldBlockScope": "SKILL",
+          "vampType": "OMNIVAMP",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "efficiency": 1,
+          "browser": "待验"
+        }
       },
       {
         "sourceChampionId": "Neeko",
@@ -25855,14 +25983,15 @@
         "name": "奥莉安娜·指令：杂音",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "使用消耗与普通冷却登记已保存并独立回读；伤害、治疗、护盾、控制、目标资格或球/乐曲等原有相关组成及代表页面仍待处理，不计整技能管理完成。",
+        "reason": "本体直接伤害效果独立保存，命中入口未接已独立回读；伤害结果交互资格与实际命中入口、球场减速及自身加速的目标和持续资格、实际施法时序与其他尚未核对的原候选组成、使用登记代表页面验收、球位置与范围资格、减速与自身加速、施法时序、代表页面验收、敌方与脉冲阶段命中入口资格继续处理，不计整技能管理完成。",
         "batchKey": "heroFifteenthBatch",
         "candidateSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
           "heroSourceInventory",
           "sevenSkillCostCooldownBackfill",
-          "sevenSkillCostDescriptionCorrections"
+          "sevenSkillCostDescriptionCorrections",
+          "eightControlBodyDamageBackfill"
         ],
         "historicalPendingCounts": {
           "source": 1,
@@ -25874,7 +26003,12 @@
           "伤害结果交互资格与实际命中入口",
           "球场减速及自身加速的目标和持续资格",
           "实际施法时序与其他尚未核对的原候选组成",
-          "使用登记代表页面验收"
+          "使用登记代表页面验收",
+          "球位置与范围资格",
+          "减速与自身加速",
+          "施法时序",
+          "代表页面验收",
+          "敌方与脉冲阶段命中入口资格"
         ],
         "remainingBranchesBoundary": "这里只确认消耗与普通冷却登记；既有候选中的其他来源、资格和配置缺口继续保留，当前列举不是一次全技能完成审核。",
         "authoredCostCooldown": {
@@ -25887,12 +26021,22 @@
         "currentComponentCounts": {
           "parameters": 9,
           "formulas": 1,
-          "effects": 1,
+          "effects": 2,
           "processes": 1,
           "internalStates": 0,
           "triggerRules": 1
         },
-        "costDescriptions": "已改为稳定的数值来源与过程职责说明，去除过时未接线或候选状态"
+        "costDescriptions": "已改为稳定的数值来源与过程职责说明，去除过时未接线或候选状态",
+        "authoredDamageOnly": {
+          "effectKey": "primary_hit",
+          "ruleKey": null,
+          "httpReadback": "PASS",
+          "spellShieldBlockScope": "SKILL",
+          "vampType": "OMNIVAMP",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "efficiency": 1,
+          "browser": "待验"
+        }
       },
       {
         "sourceChampionId": "Orianna",
@@ -25952,7 +26096,7 @@
         "name": "奥莉安娜·指令：冲击波",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有4个待处理分支，其中来源或资料缺口2个、系统缺口0个、配置缺口2个。",
+        "reason": "本体直接伤害效果与实际命中入口已独立回读；球位置与范围资格、击飞、普通使用、代表页面验收、原批次其余来源未决项逐项核对继续处理，不计整技能管理完成。",
         "pendingCounts": {
           "source": 2,
           "system": 0,
@@ -25963,8 +26107,34 @@
         "candidateSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "eightControlBodyDamageBackfill"
+        ],
+        "currentComponentCounts": {
+          "parameters": 5,
+          "formulas": 1,
+          "effects": 2,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 1
+        },
+        "remainingBranches": [
+          "球位置与范围资格",
+          "击飞",
+          "普通使用",
+          "代表页面验收",
+          "原批次其余来源未决项逐项核对"
+        ],
+        "authoredDirectHit": {
+          "effectKey": "primary_hit",
+          "ruleKey": "actual_hit",
+          "httpReadback": "PASS",
+          "spellShieldBlockScope": "SKILL",
+          "vampType": "OMNIVAMP",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "efficiency": 1,
+          "browser": "待验"
+        }
       },
       {
         "sourceChampionId": "Ornn",
@@ -26573,7 +26743,7 @@
         "name": "奎因·炫目攻势",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "本体直接伤害效果与实际命中入口已独立回读；侵扰标记、视野相关分支按原范围复核、普通使用、代表页面验收继续处理，不计整技能管理完成。",
         "pendingCounts": {
           "source": 0,
           "system": 1,
@@ -26584,8 +26754,33 @@
         "candidateSha256": "259e4ac0b29cd92c3b0dc2597c3ad794fbdc00ae74498971b53c2fa7d0d1c35c",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "eightControlBodyDamageBackfill"
+        ],
+        "currentComponentCounts": {
+          "parameters": 10,
+          "formulas": 1,
+          "effects": 1,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 1
+        },
+        "remainingBranches": [
+          "侵扰标记",
+          "视野相关分支按原范围复核",
+          "普通使用",
+          "代表页面验收"
+        ],
+        "authoredDirectHit": {
+          "effectKey": "primary_hit",
+          "ruleKey": "actual_hit",
+          "httpReadback": "PASS",
+          "spellShieldBlockScope": "SKILL",
+          "vampType": "OMNIVAMP",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "efficiency": 1,
+          "browser": "待验"
+        }
       },
       {
         "sourceChampionId": "Quinn",
@@ -29536,7 +29731,7 @@
         "name": "索拉卡·流星坠落",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "本体直接伤害效果与实际命中入口已独立回读；命中后的持续治疗节拍、减速及衰减加速、普通使用、代表页面验收继续处理，不计整技能管理完成。",
         "pendingCounts": {
           "source": 0,
           "system": 1,
@@ -29547,8 +29742,33 @@
         "candidateSha256": "841a100c48f51a135dbb6d4457ec5523af2030611cbbac1f2212b388be5a8b4e",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "eightControlBodyDamageBackfill"
+        ],
+        "currentComponentCounts": {
+          "parameters": 12,
+          "formulas": 2,
+          "effects": 1,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 1
+        },
+        "remainingBranches": [
+          "命中后的持续治疗节拍",
+          "减速及衰减加速",
+          "普通使用",
+          "代表页面验收"
+        ],
+        "authoredDirectHit": {
+          "effectKey": "primary_hit",
+          "ruleKey": "actual_hit",
+          "httpReadback": "PASS",
+          "spellShieldBlockScope": "SKILL",
+          "vampType": "OMNIVAMP",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "efficiency": 1,
+          "browser": "待验"
+        }
       },
       {
         "sourceChampionId": "Soraka",
