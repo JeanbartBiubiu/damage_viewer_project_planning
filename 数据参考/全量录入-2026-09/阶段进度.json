@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-19T02:28:34.008Z",
+  "generatedAt": "2026-09-19T03:03:35.603Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -10270,6 +10270,42 @@
         "sha256": "e83cd5fc86d4572cf14e8c36ce84f62da4a3bd8fe928e72f6ed0f02de1d8e668",
         "commit": "7be5927c"
       }
+    },
+    "eightNextDirectMagicHitBackfill": {
+      "at": "2026-09-19T03:03:35.603Z",
+      "status": "八项直接伤害16组成已保存并独立回读，页面和其余分支待续",
+      "skills": [
+        "braum_q",
+        "nautilus_q",
+        "velkoz_q",
+        "ziggs_q",
+        "zyra_q",
+        "zyra_e",
+        "leona_r",
+        "malzahar_q"
+      ],
+      "created": {
+        "effects": 8,
+        "triggerRules": 8
+      },
+      "candidateGETs": 75,
+      "additionalCatalogGETs": 2,
+      "prepareGETs": 186,
+      "writerGETs": 218,
+      "writerPOSTs": 16,
+      "immediateReadbacks": 16,
+      "independentGETs": 186,
+      "unchangedResponsesIncludingTimestamps": 154,
+      "expectedChangedCollections": 16,
+      "arithmeticCases": 114,
+      "browser": "NOT_RUN_BROWSER_UNAVAILABLE",
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/八项后续直接魔法伤害补录/09-证据清单.json",
+        "sha256": "aa068cde82a2f403c7c5666017e7eec433d979c37d7e7924cf239cb9b0a0b8d4",
+        "commit": "8e36121f"
+      }
     }
   },
   "runtimeValidation": "未执行",
@@ -10611,6 +10647,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/五项普通使用说明整理/09-证据清单.json",
         "sha256": "e83cd5fc86d4572cf14e8c36ce84f62da4a3bd8fe928e72f6ed0f02de1d8e668",
         "commit": "7be5927c"
+      },
+      "eightNextDirectMagicHitBackfill": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/八项后续直接魔法伤害补录/09-证据清单.json",
+        "sha256": "aa068cde82a2f403c7c5666017e7eec433d979c37d7e7924cf239cb9b0a0b8d4",
+        "commit": "8e36121f"
       }
     },
     "coverage": {
@@ -15257,7 +15299,7 @@
         "name": "布隆·寒冬之咬",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有2个待处理分支，其中来源或资料缺口1个、系统缺口0个、配置缺口0个。",
+        "reason": "直接魔法伤害和实际英雄命中入口已保存并独立回读；衰减减速、震荡猛击叠层、基础资源效果与普通使用登记、代表页面验收、原批次其余来源未决项逐项核对继续处理，不计整技能管理完成。",
         "pendingCounts": {
           "source": 1,
           "system": 0,
@@ -15268,8 +15310,34 @@
         "candidateSha256": "0e07e0926380fa098ab3155a47fd3503e00aed7bc7088f4f6bb6c54133bbb383",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "eightNextDirectMagicHitBackfill"
+        ],
+        "currentComponentCounts": {
+          "parameters": 7,
+          "formulas": 1,
+          "effects": 1,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 1
+        },
+        "remainingBranches": [
+          "衰减减速",
+          "震荡猛击叠层",
+          "基础资源效果与普通使用登记",
+          "代表页面验收",
+          "原批次其余来源未决项逐项核对"
+        ],
+        "authoredDirectHit": {
+          "effectKey": "primary_hit",
+          "ruleKey": "actual_hit",
+          "httpReadback": "PASS",
+          "spellShieldBlockScope": "SKILL",
+          "vampType": "OMNIVAMP",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "efficiency": 1,
+          "browser": "待验"
+        }
       },
       {
         "sourceChampionId": "Braum",
@@ -19055,8 +19123,16 @@
         "candidateSha256": "bf26b9374fc305af52e7298934a54244aec5bec0166017ae5a99a38a2019ddcc",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "eightNextDirectMagicHitBackfill"
+        ],
+        "bonusMoveSpeedClarification": {
+          "at": "2026-09-19T03:03:35.603Z",
+          "status": "只读核对，未改公式或写业务",
+          "existingCapability": "SOURCE/move_speed/BONUS为最终面板移动速度减基础值的点数，现有属性表达能力可用。",
+          "remaining": "固定游戏来源取值与当前契约及读取时点的等价尚待核定；保留actual_bonus_move_speed无默认运行输入，本批不加错误绑定。",
+          "evidence": "eightNextDirectMagicHitBackfill"
+        }
       },
       {
         "sourceChampionId": "Janna",
@@ -21762,7 +21838,7 @@
         "name": "蕾欧娜·日炎耀斑",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "直接魔法伤害和实际英雄命中入口已保存并独立回读；中心眩晕与边缘减速分支、普通使用登记、代表页面验收继续处理，不计整技能管理完成。",
         "pendingCounts": {
           "source": 0,
           "system": 1,
@@ -21773,8 +21849,32 @@
         "candidateSha256": "9ce3115402b975c25dc86ce779179e094fba433ff3273a3aac5d06952547e074",
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "eightNextDirectMagicHitBackfill"
+        ],
+        "currentComponentCounts": {
+          "parameters": 7,
+          "formulas": 1,
+          "effects": 2,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 1
+        },
+        "remainingBranches": [
+          "中心眩晕与边缘减速分支",
+          "普通使用登记",
+          "代表页面验收"
+        ],
+        "authoredDirectHit": {
+          "effectKey": "primary_hit",
+          "ruleKey": "actual_hit",
+          "httpReadback": "PASS",
+          "spellShieldBlockScope": "SKILL",
+          "vampType": "OMNIVAMP",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "efficiency": 1,
+          "browser": "待验"
+        }
       },
       {
         "sourceChampionId": "Lillia",
@@ -22912,7 +23012,7 @@
         "name": "玛尔扎哈·虚空召唤",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "直接魔法伤害和实际英雄命中入口已保存并独立回读；沉默、普通使用登记、代表页面验收继续处理，不计整技能管理完成。",
         "pendingCounts": {
           "source": 0,
           "system": 1,
@@ -22923,8 +23023,32 @@
         "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "eightNextDirectMagicHitBackfill"
+        ],
+        "currentComponentCounts": {
+          "parameters": 6,
+          "formulas": 1,
+          "effects": 2,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 1
+        },
+        "remainingBranches": [
+          "沉默",
+          "普通使用登记",
+          "代表页面验收"
+        ],
+        "authoredDirectHit": {
+          "effectKey": "primary_hit",
+          "ruleKey": "actual_hit",
+          "httpReadback": "PASS",
+          "spellShieldBlockScope": "SKILL",
+          "vampType": "OMNIVAMP",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "efficiency": 1,
+          "browser": "待验"
+        }
       },
       {
         "sourceChampionId": "Malzahar",
@@ -24491,7 +24615,7 @@
         "name": "诺提勒斯·疏通航道",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "直接魔法伤害和实际英雄命中入口已保存并独立回读；拖拽与眩晕、地形碰撞及资源冷却返还、普通使用登记、代表页面验收继续处理，不计整技能管理完成。",
         "pendingCounts": {
           "source": 0,
           "system": 1,
@@ -24502,8 +24626,33 @@
         "candidateSha256": "9ce3115402b975c25dc86ce779179e094fba433ff3273a3aac5d06952547e074",
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "eightNextDirectMagicHitBackfill"
+        ],
+        "currentComponentCounts": {
+          "parameters": 7,
+          "formulas": 1,
+          "effects": 2,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 1
+        },
+        "remainingBranches": [
+          "拖拽与眩晕",
+          "地形碰撞及资源冷却返还",
+          "普通使用登记",
+          "代表页面验收"
+        ],
+        "authoredDirectHit": {
+          "effectKey": "primary_hit",
+          "ruleKey": "actual_hit",
+          "httpReadback": "PASS",
+          "spellShieldBlockScope": "SKILL",
+          "vampType": "OMNIVAMP",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "efficiency": 1,
+          "browser": "待验"
+        }
       },
       {
         "sourceChampionId": "Nautilus",
@@ -31448,7 +31597,7 @@
         "name": "维克兹·等离子裂变",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有5个待处理分支，其中来源或资料缺口4个、系统缺口0个、配置缺口1个。",
+        "reason": "直接魔法伤害和实际英雄命中入口已保存并独立回读；衰减减速与被动叠层、击杀返还、首次与主动分裂使用阶段、代表页面验收、原批次其余来源未决项逐项核对继续处理，不计整技能管理完成。",
         "pendingCounts": {
           "source": 4,
           "system": 0,
@@ -31459,8 +31608,34 @@
         "candidateSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "eightNextDirectMagicHitBackfill"
+        ],
+        "currentComponentCounts": {
+          "parameters": 8,
+          "formulas": 1,
+          "effects": 3,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 1
+        },
+        "remainingBranches": [
+          "衰减减速与被动叠层",
+          "击杀返还",
+          "首次与主动分裂使用阶段",
+          "代表页面验收",
+          "原批次其余来源未决项逐项核对"
+        ],
+        "authoredDirectHit": {
+          "effectKey": "primary_hit",
+          "ruleKey": "actual_hit",
+          "httpReadback": "PASS",
+          "spellShieldBlockScope": "SKILL",
+          "vampType": "OMNIVAMP",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "efficiency": 1,
+          "browser": "待验"
+        }
       },
       {
         "sourceChampionId": "Velkoz",
@@ -33793,7 +33968,7 @@
         "name": "吉格斯·弹跳炸弹",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有3个待处理分支，其中来源或资料缺口2个、系统缺口0个、配置缺口1个。",
+        "reason": "直接魔法伤害和实际英雄命中入口已保存并独立回读；普通使用登记及施法来源补证、代表页面验收、原批次其余来源未决项逐项核对继续处理，不计整技能管理完成。",
         "pendingCounts": {
           "source": 2,
           "system": 0,
@@ -33804,8 +33979,32 @@
         "candidateSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "eightNextDirectMagicHitBackfill"
+        ],
+        "currentComponentCounts": {
+          "parameters": 4,
+          "formulas": 1,
+          "effects": 2,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 1
+        },
+        "remainingBranches": [
+          "普通使用登记及施法来源补证",
+          "代表页面验收",
+          "原批次其余来源未决项逐项核对"
+        ],
+        "authoredDirectHit": {
+          "effectKey": "primary_hit",
+          "ruleKey": "actual_hit",
+          "httpReadback": "PASS",
+          "spellShieldBlockScope": "SKILL",
+          "vampType": "OMNIVAMP",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "efficiency": 1,
+          "browser": "待验"
+        }
       },
       {
         "sourceChampionId": "Ziggs",
@@ -34163,7 +34362,7 @@
         "name": "婕拉·致命棘刺",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "直接魔法伤害和实际英雄命中入口已保存并独立回读；种子和植物分支按原范围结论处理、普通使用登记、代表页面验收继续处理，不计整技能管理完成。",
         "pendingCounts": {
           "source": 0,
           "system": 1,
@@ -34174,8 +34373,32 @@
         "candidateSha256": "db51da6ae6ba0ab2e5008be49cf667642313e8d56e6499c42e4224bca0130ecb",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "eightNextDirectMagicHitBackfill"
+        ],
+        "currentComponentCounts": {
+          "parameters": 5,
+          "formulas": 1,
+          "effects": 2,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 1
+        },
+        "remainingBranches": [
+          "种子和植物分支按原范围结论处理",
+          "普通使用登记",
+          "代表页面验收"
+        ],
+        "authoredDirectHit": {
+          "effectKey": "primary_hit",
+          "ruleKey": "actual_hit",
+          "httpReadback": "PASS",
+          "spellShieldBlockScope": "SKILL",
+          "vampType": "OMNIVAMP",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "efficiency": 1,
+          "browser": "待验"
+        }
       },
       {
         "sourceChampionId": "Zyra",
@@ -34209,7 +34432,7 @@
         "name": "婕拉·缠绕之根",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "直接魔法伤害和实际英雄命中入口已保存并独立回读；禁锢、种子和植物分支按原范围结论处理、普通使用登记、代表页面验收继续处理，不计整技能管理完成。",
         "pendingCounts": {
           "source": 0,
           "system": 1,
@@ -34220,8 +34443,33 @@
         "candidateSha256": "db51da6ae6ba0ab2e5008be49cf667642313e8d56e6499c42e4224bca0130ecb",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "eightNextDirectMagicHitBackfill"
+        ],
+        "currentComponentCounts": {
+          "parameters": 6,
+          "formulas": 1,
+          "effects": 2,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 1
+        },
+        "remainingBranches": [
+          "禁锢",
+          "种子和植物分支按原范围结论处理",
+          "普通使用登记",
+          "代表页面验收"
+        ],
+        "authoredDirectHit": {
+          "effectKey": "primary_hit",
+          "ruleKey": "actual_hit",
+          "httpReadback": "PASS",
+          "spellShieldBlockScope": "SKILL",
+          "vampType": "OMNIVAMP",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "efficiency": 1,
+          "browser": "待验"
+        }
       },
       {
         "sourceChampionId": "Zyra",
