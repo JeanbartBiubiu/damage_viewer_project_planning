@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-19T07:30:27.066Z",
+  "generatedAt": "2026-09-19T07:45:43.431Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -10863,6 +10863,30 @@
         "commit": "6ddd170b",
         "sha256": "03c3f3048f9d78133ea92182ee32ee6c8dfed0ab1b2d1a6ac9a0cd8119fd8c2f"
       }
+    },
+    "twoPhysicalHitLabelCorrection": {
+      "at": "2026-09-19T07:45:43.431Z",
+      "status": "两项物理伤害的误导性结果名称已页面修正，结算字段保持",
+      "skills": [
+        "jinx_w",
+        "quinn_q"
+      ],
+      "updatedEffectObjects": 2,
+      "changedResultLabels": 2,
+      "prepareGETs": 8,
+      "browserWrites": 2,
+      "immediateReadbacks": 2,
+      "independentProgramGETs": 8,
+      "unchangedRuleResponsesIncludingTimestamps": 4,
+      "expectedChangedCollections": 2,
+      "browser": "PASS",
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/两项物理伤害名称纠错/09-证据清单.json",
+        "commit": "2dbfb186",
+        "sha256": "92bb7da9bf0fcc3abf5723b5dc991dd16326a7bee5a634c5bef44711f301f59c"
+      }
     }
   },
   "runtimeValidation": "未执行",
@@ -11324,6 +11348,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/厄加特Q减速首次页面补录/09-证据清单.json",
         "commit": "6ddd170b",
         "sha256": "03c3f3048f9d78133ea92182ee32ee6c8dfed0ab1b2d1a6ac9a0cd8119fd8c2f"
+      },
+      "twoPhysicalHitLabelCorrection": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/两项物理伤害名称纠错/09-证据清单.json",
+        "commit": "2dbfb186",
+        "sha256": "92bb7da9bf0fcc3abf5723b5dc991dd16326a7bee5a634c5bef44711f301f59c"
       }
     },
     "coverage": {
@@ -20513,7 +20543,8 @@
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
-          "eightControlBodyDamageBackfill"
+          "eightControlBodyDamageBackfill",
+          "twoPhysicalHitLabelCorrection"
         ],
         "currentComponentCounts": {
           "parameters": 6,
@@ -20539,6 +20570,14 @@
           "basisOutputKind": "POST_DEFENSE_DAMAGE",
           "efficiency": 1,
           "browser": "待验"
+        },
+        "resultNameCorrection": {
+          "effectKey": "primary_hit",
+          "resultKey": "damage",
+          "name": "物理伤害",
+          "damageTypeKey": "physics",
+          "httpReadback": "PASS",
+          "browser": "PASS"
         }
       },
       {
@@ -27262,7 +27301,8 @@
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
-          "eightControlBodyDamageBackfill"
+          "eightControlBodyDamageBackfill",
+          "twoPhysicalHitLabelCorrection"
         ],
         "currentComponentCounts": {
           "parameters": 10,
@@ -27287,6 +27327,14 @@
           "basisOutputKind": "POST_DEFENSE_DAMAGE",
           "efficiency": 1,
           "browser": "待验"
+        },
+        "resultNameCorrection": {
+          "effectKey": "primary_hit",
+          "resultKey": "damage",
+          "name": "物理伤害",
+          "damageTypeKey": "physics",
+          "httpReadback": "PASS",
+          "browser": "PASS"
         }
       },
       {
