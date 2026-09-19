@@ -65,6 +65,17 @@
         WHERE j->>'resultType' = 'HEALING_MODIFIER'
     </sql>
 
+    <sql id="effectShieldReceivedModifierDetails">
+        SELECT r.game_id AS game_id,
+               r.skill_key AS skill_key,
+               r.effect_key AS effect_key,
+               j->>'resultKey' AS result_key,
+               j->'detail'->>'modifierZoneKey' AS modifier_zone_key,
+               j->'detail'->>'operation' AS operation
+        FROM public.skill_effects r CROSS JOIN LATERAL jsonb_array_elements(r.results) j
+        WHERE j->>'resultType' = 'SHIELD_RECEIVED_MODIFIER'
+    </sql>
+
     <sql id="effectLifecycleOperationDetails">
         SELECT r.game_id AS game_id,
                r.skill_key AS skill_key,

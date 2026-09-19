@@ -54,7 +54,7 @@ class SkillEffectAggregateStorageTest {
     }
 
     @Test
-    void migrationCoversEveryResultTypeAndAllFormerPartsWithoutDeletingTablesOrRoundingValues() throws Exception {
+    void historicalMigrationCoversItsOriginalResultTypesWithoutRequiringNewAggregateOnlyTypes() throws Exception {
         Path root = Path.of("").toAbsolutePath();
         while (!Files.exists(root.resolve("db/game_manage/schema.sql"))) {
             root = root.getParent();
@@ -62,6 +62,8 @@ class SkillEffectAggregateStorageTest {
         }
         String migration = Files.readString(root.resolve("db/game_manage/migrations/breaking/aggregate_parts/effects.sql"));
         for (SkillEffectResultType type : SkillEffectResultType.values()) {
+            // 新增类型直接写聚合JSON，历史拆表迁移没有该种明细，也不补兼容分支。
+            if (type == SkillEffectResultType.SHIELD_RECEIVED_MODIFIER) continue;
             assertTrue(migration.contains("WHEN '" + type.name() + "' THEN"), type.name());
         }
         Set<String> sources = java.util.regex.Pattern.compile("FROM public\\.(skill_effect\\w+)")

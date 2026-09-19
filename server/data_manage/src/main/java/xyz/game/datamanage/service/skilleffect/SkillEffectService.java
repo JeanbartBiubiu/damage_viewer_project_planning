@@ -45,6 +45,7 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectDamageModifierDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDetailResponse;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDirectHealDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectHealingModifierDetail;
+import xyz.game.datamanage.model.skilleffect.SkillEffectShieldReceivedModifierDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectHealthFloorDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectExecuteDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectHasteModifierDetail;
@@ -512,6 +513,7 @@ public class SkillEffectService {
             );
             case DAMAGE_MODIFIER -> validateDamageModifier(result, index, retained, refs, issues);
             case HEALING_MODIFIER -> validateHealingModifier(result, index, retained, refs, issues);
+            case SHIELD_RECEIVED_MODIFIER -> validateShieldReceivedModifier(result, index, retained, refs, issues);
             case DAMAGE_IMMUNITY -> validateDamageImmunity(result, index, retained, refs, issues);
             case HEALTH_FLOOR -> validateHealthFloor(result, index, retained, refs, issues);
             case SPELL_SHIELD -> validateSpellShield(result, index, issues);
@@ -644,6 +646,25 @@ public class SkillEffectService {
         if (detail.healingKind() == null) {
             issues.add(fieldIssue(resultPath(index, "detail.healingKind"), "REQUIRED", "治疗种类不能为空"));
         }
+    }
+
+    private void validateShieldReceivedModifier(
+        SkillEffectResultRequest result,
+        int index,
+        Map<String, RetainedCatalog> retained,
+        CollectedRefs refs,
+        List<Map<String, String>> issues
+    ) {
+        requireValueRule(result, index, refs, issues);
+        if (!(result.detail() instanceof SkillEffectShieldReceivedModifierDetail detail)) {
+            issues.add(fieldIssue(resultPath(index, "detail"), "TYPE_MISMATCH", "收到护盾修正明细形状不合法"));
+            return;
+        }
+        if (detail.operation() == null) {
+            issues.add(fieldIssue(resultPath(index, "detail.operation"), "REQUIRED", "修正方式不能为空"));
+        }
+        collectModifierZoneRef(result, index, detail.modifierZoneKey(), ModifierZoneDomain.SHIELD,
+            retained, refs, issues, true);
     }
 
     private void validateDamageImmunity(
@@ -1599,7 +1620,8 @@ public class SkillEffectService {
 
     private static boolean supportsMomentEvaluation(SkillEffectResultRequest result) {
         if (result.resultType() == SkillEffectResultType.DAMAGE_MODIFIER
-            || result.resultType() == SkillEffectResultType.HEALING_MODIFIER) {
+            || result.resultType() == SkillEffectResultType.HEALING_MODIFIER
+            || result.resultType() == SkillEffectResultType.SHIELD_RECEIVED_MODIFIER) {
             return true;
         }
         return result.resultType() == SkillEffectResultType.ATTRIBUTE_CHANGE
@@ -1632,6 +1654,7 @@ public class SkillEffectService {
             || type == SkillEffectResultType.ATTRIBUTE_CHANGE
             || type == SkillEffectResultType.DAMAGE_MODIFIER
             || type == SkillEffectResultType.HEALING_MODIFIER
+            || type == SkillEffectResultType.SHIELD_RECEIVED_MODIFIER
             || type == SkillEffectResultType.DAMAGE_IMMUNITY
             || type == SkillEffectResultType.HEALTH_FLOOR
             || type == SkillEffectResultType.SPELL_SHIELD
@@ -1739,6 +1762,7 @@ public class SkillEffectService {
         SkillEffectResultType type = result.resultType();
         boolean special = type == SkillEffectResultType.DAMAGE_MODIFIER
             || type == SkillEffectResultType.HEALING_MODIFIER
+            || type == SkillEffectResultType.SHIELD_RECEIVED_MODIFIER
             || type == SkillEffectResultType.DAMAGE_IMMUNITY
             || type == SkillEffectResultType.HEALTH_FLOOR
             || type == SkillEffectResultType.SPELL_SHIELD

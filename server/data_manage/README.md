@@ -181,7 +181,7 @@
 | `/attributes` | 列表、详情、新建、全量修改和启停；不提供 DELETE |
 | `/characters`、`/equipment` | 角色和装备分别管理，保留各自完整属性配置 |
 | `/skill-categories`、`/damage-types` | 单层技能分类与伤害类型，均支持列表、详情、新建、全量修改和删除 |
-| `/modifier-zones` | 属性、伤害、治疗三个业务域的乘区管理 |
+| `/modifier-zones` | 属性、伤害、治疗、护盾四个业务域的乘区管理 |
 | `/statuses` | 状态基本资料；稳定标识与状态种类不可改，名称按去首尾空格、不区分大小写唯一，停用项仍参与唯一校验 |
 | `/runes`、`/rune-paths` | 符文身份及分组完整布局管理，按上文唯一契约保存；不提供启停 |
 | `/skills` | 技能基本资料；`skillKey` 在同游戏唯一且不可改，名称可重复，`maxLevel >= 1` |
@@ -196,6 +196,10 @@
 技能分类继续用 `skillCategoryKeys: string[]`，空数组表示未分类，关系保存在 `skill_category_relations`。只有冷却变化和技能急速修正结果可携带 `detail.affectedSkillScope`；模式为 `ALL / SKILLS / CATEGORIES`，多个分类按并集匹配。旧 `detail.affectedSkillKeys` 不接受。
 
 生命周期随效果保存和回读，摘要提供 `lifecycleEnabled`。前序结果输入仍为 `sourceActionKey / sourceResultKey / outputKind`，对应效果由服务端从更早的执行效果动作推导。过程允许仅声明有效普通冷却；`cooldown` 为空且 `effectBindings` 与 `stateOperations` 都为空时返回 `400.VALIDATION_FAILED`，后两字段的问题码均为 `PROCESS_BEHAVIOR_REQUIRED`。步骤本身不满足该行为要求，冷却参数或公式仍须通过引用校验。
+
+收到护盾修正结果 `SHIELD_RECEIVED_MODIFIER` 使用现有效果数组，明细仅有乘区标识 `modifierZoneKey` 和提高/降低 `operation`。必填数值规则按小数比例解释；父生命周期必填，结果必须持续生效，沿用持续数值读取、层数与重施约束，法术护盾阻挡粒度为空。目标是护盾承受者；共享含义由 planning/master 的《系统精简实施说明》“收到普通护盾修正增量”维护。本次保存与读取不执行护盾结算。
+
+护盾范围 `SHIELD` 仅允许比例加算 `RATIO_ADD` 和护盾结果阶段 `SHIELD_RESULT`。新结果纳入乘区与数值引用保护、最终事务复核和聚合读取，无新增业务表。[护盾乘区追加迁移](../../db/game_manage/migrations/add_shield_modifier_zone.sql)已在核定原库单次执行，扩大三条检查约束，原乘区、效果、引用及时间戳保持；提交结果不明时先只读核对，不能重放。新库直接使用当前建表脚本。
 
 状态身份及普通减速强度的共享定义见[系统精简实施说明第四单元](../../文档记录/详细设计/项目/系统精简实施说明.md#第四单元状态身份与普通减速强度)。状态种类通过请求、列表和详情完整回读；效果保存锁定状态目录后校验减速数值、期限和持续行为，触发动作不能在减速数值规则外再次修正强度。原有引用提取与动态输入检查继续覆盖顶层数值规则。这里只保存配置，未实现跨来源取强或战斗移动速度计算。
 

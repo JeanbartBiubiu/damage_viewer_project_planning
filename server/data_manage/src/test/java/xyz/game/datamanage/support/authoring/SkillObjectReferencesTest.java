@@ -29,6 +29,23 @@ import xyz.game.datamanage.support.error.ApiException;
 
 class SkillObjectReferencesTest {
     @Test
+    void shieldReceptionProtectsItsZoneAndValueParameter() {
+        Aggregate effect = aggregate(SourceType.EFFECT, "s1", "shield", """
+            {"results":[{"resultKey":"received","resultType":"SHIELD_RECEIVED_MODIFIER",
+              "valueRule":{"value":{"kind":"PARAMETER","parameterKey":"p"}},
+              "detail":{"modifierZoneKey":"shield_ratio","operation":"INCREASE"}}]}
+            """);
+        Target zone = new Target(TargetType.MODIFIER_ZONE, "", "shield_ratio", "");
+        Target parameter = new Target(TargetType.PARAMETER, "s1", "p", "");
+        var refs = SkillObjectReferences.extractAndValidate("lol", List.of(effect), Set.of(zone, parameter));
+        assertEquals(2, refs.size());
+        assertReference(refs, SourceType.EFFECT, "shield", "results[0].detail.modifierZoneKey",
+            TargetType.MODIFIER_ZONE, "", "shield_ratio", "");
+        assertThrows(ApiException.class, () -> SkillObjectReferences.extractAndValidate("lol", List.of(effect), Set.of(parameter)));
+        assertThrows(ApiException.class, () -> SkillObjectReferences.extractAndValidate("lol", List.of(effect), Set.of(zone)));
+    }
+
+    @Test
     void slowStrengthProtectsItsStatusAndEveryNumericDependency() {
         for (String kind : List.of("PARAMETER", "FORMULA")) {
             String field = kind.equals("PARAMETER") ? "parameterKey" : "formulaKey";
@@ -94,6 +111,7 @@ class SkillObjectReferencesTest {
             results[7].detail.targetEffectKey results[8].detail.modifierZoneKey results[8].detail.damageTypeKey
             results[9].detail.modifierZoneKey results[10].detail.damageTypeKey results[11].detail.attributeKey
             results[13].detail.attributeKey results[16].detail.affectedSkillScope.skillCategoryKeys[0]
+            results[17].detail.modifierZoneKey
             """);
         assertPaths(refs, "process", """
             steps[1].detail.delayValue.formulaKey steps[2].detail.repeatCountValue.formulaKey steps[2].detail.intervalValue.formulaKey
@@ -279,7 +297,8 @@ class SkillObjectReferencesTest {
                 {"resultKey":"execute","resultType":"EXECUTE","detail":{"attributeKey":"hp"}},
                 {"resultKey":"hit_link","resultType":"HIT_LINK_APPLICATION","detail":{}},
                 {"resultKey":"attack_link","resultType":"ATTACK_LINK_APPLICATION","detail":{}},
-                {"resultKey":"haste","resultType":"SKILL_HASTE_MODIFIER","detail":{"affectedSkillScope":{"mode":"CATEGORIES","skillCategoryKeys":["magic"]}}}
+                {"resultKey":"haste","resultType":"SKILL_HASTE_MODIFIER","detail":{"affectedSkillScope":{"mode":"CATEGORIES","skillCategoryKeys":["magic"]}}},
+                {"resultKey":"shield_received_modifier","resultType":"SHIELD_RECEIVED_MODIFIER","detail":{"modifierZoneKey":"zone"}}
              ],"description":"example parameterKey missing is plain text","unrelatedKey":"missing"}
             """));
         result.add(aggregate(SourceType.STATE, "s1", "counter", "{\"stateType\":\"COUNTER\",\"detail\":{\"initialValue\":{\"kind\":\"FORMULA\",\"formulaKey\":\"f\"},\"maxValue\":{\"kind\":\"FORMULA\",\"formulaKey\":\"f\"}}}"));

@@ -347,13 +347,13 @@ CREATE TABLE public.modifier_zones (
     CONSTRAINT ck_modifier_zones_name
         CHECK (btrim(name) <> ''),
     CONSTRAINT ck_modifier_zones_domain
-        CHECK (domain IN ('ATTRIBUTE', 'DAMAGE', 'HEALING')),
+        CHECK (domain IN ('ATTRIBUTE', 'DAMAGE', 'HEALING', 'SHIELD')),
     CONSTRAINT ck_modifier_zones_calculation_mode
         CHECK (calculation_mode IN ('FLAT_ADD', 'RATIO_ADD')),
     CONSTRAINT ck_modifier_zones_application_stage
         CHECK (application_stage IN (
             'ATTRIBUTE_FLAT', 'ATTRIBUTE_PERCENT',
-            'DAMAGE_PRE_DEFENSE', 'DAMAGE_POST_DEFENSE', 'HEALING_RESULT'
+            'DAMAGE_PRE_DEFENSE', 'DAMAGE_POST_DEFENSE', 'HEALING_RESULT', 'SHIELD_RESULT'
         )),
     CONSTRAINT ck_modifier_zones_combination
         CHECK (
@@ -365,6 +365,8 @@ CREATE TABLE public.modifier_zones (
                 AND application_stage IN ('DAMAGE_PRE_DEFENSE', 'DAMAGE_POST_DEFENSE'))
             OR (domain = 'HEALING' AND calculation_mode = 'RATIO_ADD'
                 AND application_stage = 'HEALING_RESULT')
+            OR (domain = 'SHIELD' AND calculation_mode = 'RATIO_ADD'
+                AND application_stage = 'SHIELD_RESULT')
         ),
     CONSTRAINT ck_modifier_zones_status
         CHECK (status IN ('ENABLED', 'DISABLED')),
@@ -375,7 +377,7 @@ CREATE TABLE public.modifier_zones (
 CREATE UNIQUE INDEX uq_modifier_zones_name
     ON public.modifier_zones (game_id, lower(btrim(name)));
 
-COMMENT ON TABLE public.modifier_zones IS '属性、伤害与治疗修正乘区';
+COMMENT ON TABLE public.modifier_zones IS '属性、伤害、治疗与收到护盾修正乘区';
 
 CREATE TABLE public.statuses (
     game_id varchar(64) NOT NULL,

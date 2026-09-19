@@ -5,5 +5,6 @@ public enum ModifierZoneApplicationStage {
     ATTRIBUTE_PERCENT,
     DAMAGE_PRE_DEFENSE,
     DAMAGE_POST_DEFENSE,
-    HEALING_RESULT
+    HEALING_RESULT,
+    SHIELD_RESULT
 }

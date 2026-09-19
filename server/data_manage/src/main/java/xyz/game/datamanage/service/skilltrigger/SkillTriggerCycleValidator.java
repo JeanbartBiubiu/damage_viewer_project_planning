@@ -481,7 +481,7 @@ public class SkillTriggerCycleValidator {
                     produced.add(ProducedEvent.lifecycle(row.effectKey(), SkillTriggerLifecycleEventMoment.EARLY_REMOVE));
                 }
             }
-            case RESOURCE_CHANGE, COOLDOWN_CHANGE, DAMAGE_MODIFIER, HEALING_MODIFIER,
+            case RESOURCE_CHANGE, COOLDOWN_CHANGE, DAMAGE_MODIFIER, HEALING_MODIFIER, SHIELD_RECEIVED_MODIFIER,
                 DAMAGE_IMMUNITY, HEALTH_FLOOR, SPELL_SHIELD, SKILL_HASTE_MODIFIER -> {
             }
             }

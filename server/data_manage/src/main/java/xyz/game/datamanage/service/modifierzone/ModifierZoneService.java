@@ -61,7 +61,7 @@ public class ModifierZoneService {
             normalized.domain(),
             ModifierZoneDomain.class,
             "domain",
-            "作用域只允许 ATTRIBUTE、DAMAGE 或 HEALING",
+            "作用域只允许 ATTRIBUTE、DAMAGE、HEALING 或 SHIELD",
             issues
         );
         String status = normalizeEnum(
@@ -176,7 +176,8 @@ public class ModifierZoneService {
     private long referenceCount(String gameId, String modifierZoneKey) {
         return mapper.countAttributeReferences(gameId, modifierZoneKey)
             + mapper.countDamageReferences(gameId, modifierZoneKey)
-            + mapper.countHealingReferences(gameId, modifierZoneKey);
+            + mapper.countHealingReferences(gameId, modifierZoneKey)
+            + mapper.countShieldReceivedReferences(gameId, modifierZoneKey);
     }
 
     private static boolean structuralFieldsChanged(
@@ -316,7 +317,10 @@ public class ModifierZoneService {
                     || stage == ModifierZoneApplicationStage.DAMAGE_POST_DEFENSE))
             || (domain == ModifierZoneDomain.HEALING
                 && mode == ModifierZoneCalculationMode.RATIO_ADD
-                && stage == ModifierZoneApplicationStage.HEALING_RESULT);
+                && stage == ModifierZoneApplicationStage.HEALING_RESULT)
+            || (domain == ModifierZoneDomain.SHIELD
+                && mode == ModifierZoneCalculationMode.RATIO_ADD
+                && stage == ModifierZoneApplicationStage.SHIELD_RESULT);
     }
 
     private static <E extends Enum<E>> String normalizeEnum(
