@@ -1,0 +1,13 @@
+{
+  "at": "2026-09-19T08:38:27.708Z",
+  "status": "PASS",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "checks": [
+    "真实页面创建cast基础施放过程，既有cast_time_ms250毫秒和cooldown_ms11000至7000毫秒",
+    "效果挂接与内部状态操作均为空，仍可保存普通冷却；没有新增零消耗效果",
+    "保存后查看过程确认普通冷却在过程开始，延迟仅引用施法参数，不执行伤害",
+    "新增on_used仅筛选本技能ACTIVE使用，唯一动作START_PROCESS cast；保存后取消重开核对，未再次保存"
+  ],
+  "consoleErrors": [],
+  "runtimeValidation": "未执行"
+}
