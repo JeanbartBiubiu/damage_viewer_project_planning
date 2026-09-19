@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-19T18:11:19.032Z",
+  "generatedAt": "2026-09-19T18:16:43.939Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -11894,6 +11894,34 @@
         "commit": "72bf7811",
         "sha256": "9a8b86e1a23438e2e8739b8a8f6ba43b83961fbd3e7eaf6072891d5035ab3ec9"
       }
+    },
+    "malzaharQExistingDamagePageReturn": {
+      "at": "2026-09-19T18:16:17.904Z",
+      "status": "PASS",
+      "skillKey": "malzahar_q",
+      "effectKey": "primary_hit",
+      "businessWrites": 0,
+      "currentGETs": 2,
+      "priorEffectUnchanged": true,
+      "browserChecks": [
+        "父效果无生命周期，当前目标直接魔法技能伤害，不允许暴击",
+        "子结果引用同技能damage公式，固定倍率1，伤害类型magic",
+        "全能吸血按防御后伤害，固定效率1",
+        "法术护盾粒度为整个技能；与当前API详情一致",
+        "只取消退出，不更改字段或重复保存"
+      ],
+      "consoleErrors": [],
+      "remaining": [
+        "沉默重施期限",
+        "Q刷新E的关系及E持续效果、入口"
+      ],
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/玛尔扎哈Q伤害页面返回/03-证据清单.json",
+        "commit": "e7be4a88",
+        "sha256": "09a46a13e8ab722f2fdee8252460a4a6b098a52218907b54527801a9045978c9"
+      }
     }
   },
   "runtimeValidation": "未执行",
@@ -12488,6 +12516,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/科加斯W使用登记返回/04-证据清单.json",
         "commit": "72bf7811",
         "sha256": "9a8b86e1a23438e2e8739b8a8f6ba43b83961fbd3e7eaf6072891d5035ab3ec9"
+      },
+      "malzaharQExistingDamagePageReturn": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/玛尔扎哈Q伤害页面返回/03-证据清单.json",
+        "commit": "e7be4a88",
+        "sha256": "09a46a13e8ab722f2fdee8252460a4a6b098a52218907b54527801a9045978c9"
       }
     },
     "coverage": {
@@ -25489,12 +25523,12 @@
         "name": "玛尔扎哈·虚空召唤",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "伤害旧入口补明确敌方，首次沉默与普通使用过程页面通过，主体说明已收敛。重施、Q刷新E及旧伤害结果子页继续处理。",
+        "reason": "实际敌方英雄伤害入口、伤害结果子页、首次沉默、普通使用过程及主体说明均已通过管理回读和相应页面验收。沉默重施与Q刷新E关系继续处理，整技能保持开放。",
         "pendingCounts": {
           "source": 1,
           "system": 1,
           "configuration": 0,
-          "other": 1
+          "other": 0
         },
         "batchKey": "heroSixteenthBatch",
         "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
@@ -25505,7 +25539,8 @@
           "sevenNextOrdinaryUseBackfill",
           "sevenNextUseDescriptionCleanup",
           "silenceStatusAuthoring",
-          "chogathWDirectDamageReturn"
+          "chogathWDirectDamageReturn",
+          "malzaharQExistingDamagePageReturn"
         ],
         "currentComponentCounts": {
           "parameters": 6,
@@ -25517,8 +25552,7 @@
         },
         "remainingBranches": [
           "沉默重施期限",
-          "Q刷新E的跨技能关系及E持续效果、入口",
-          "旧伤害结果子页仍待验"
+          "Q刷新E的关系及E持续效果、入口"
         ],
         "authoredDirectHit": {
           "effectKey": "primary_hit",
@@ -25528,7 +25562,7 @@
           "vampType": "OMNIVAMP",
           "basisOutputKind": "POST_DEFENSE_DAMAGE",
           "efficiency": 1,
-          "browser": "实际命中入口PASS，伤害结果子页仍待验",
+          "browser": "PASS",
           "enemyQualification": "同组SKILL_HIT_TARGET_IS_ENEMY已保存、重开和独立回读"
         },
         "authoredUseEntry": {
