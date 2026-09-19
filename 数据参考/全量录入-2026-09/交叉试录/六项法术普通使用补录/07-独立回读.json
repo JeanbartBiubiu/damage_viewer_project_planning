@@ -1,0 +1,1443 @@
+{
+  "toolExitCode": 0,
+  "stdout": "{\"status\":\"PASS\",\"at\":\"2026-09-19T03:25:47.517Z\",\"businessWrites\":0,\"GETs\":163,\"unchangedResponsesIncludingTimestamps\":131,\"expectedChangedCollections\":16,\"newObjects\":{\"/skills/vex_q/effects/mana_cost\":{\"createdAt\":\"2026-09-19T03:24:20.772902Z\",\"description\":\"本技能普通主动使用消耗既有mana_cost参数给出的法力；具体使用时点由引用本效果的过程定义。\",\"effectKey\":\"mana_cost\",\"gameId\":\"lol\",\"lifecycle\":null,\"name\":\"施放法力消耗\",\"results\":[{\"description\":null,\"detail\":{\"attributeKey\":\"mana\",\"operation\":\"CONSUME\"},\"lifecycleBehavior\":null,\"name\":\"消耗法力\",\"resultKey\":\"consume_mana\",\"resultType\":\"RESOURCE_CHANGE\",\"sortOrder\":10,\"spellShieldBlockScope\":null,\"target\":\"SOURCE\",\"valueRule\":{\"fixedMaxValue\":null,\"fixedMinValue\":0,\"fixedMultiplier\":1,\"value\":{\"kind\":\"PARAMETER\",\"parameterKey\":\"mana_cost\"}}}],\"skillKey\":\"vex_q\",\"sortOrder\":5,\"updatedAt\":\"2026-09-19T03:24:20.772902Z\"},\"/skills/vex_q/processes/cast\":{\"activationType\":\"ACTIVE\",\"cooldown\":{\"durationValue\":{\"kind\":\"PARAMETER\",\"parameterKey\":\"cooldown_ms\"},\"startMoment\":{\"momentType\":\"PROCESS_START\",\"stepKey\":null}},\"createdAt\":\"2026-09-19T03:24:22.272295Z\",\"description\":\"登记普通主动使用的基础法力、已有根施法时间和普通冷却；过程结束不产生命中，控制、印记和返还另行处理。\",\"effectBindings\":[{\"bindingKey\":\"mana_cost\",\"effectKey\":\"mana_cost\",\"moment\":{\"momentType\":\"PROCESS_START\",\"stepKey\":null},\"sortOrder\":10}],\"gameId\":\"lol\",\"name\":\"薇古丝·寒心波云施法登记\",\"processKey\":\"cast\",\"skillKey\":\"vex_q\",\"sortOrder\":10,\"stateOperations\":[],\"steps\":[{\"description\":\"读取当前技能既有施法时间参数；延迟结束不表示发生实际命中。\",\"detail\":{\"delayValue\":{\"kind\":\"PARAMETER\",\"parameterKey\":\"cast_time_ms\"}},\"name\":\"施法延迟\",\"sortOrder\":10,\"stepKey\":\"cast_time\",\"stepType\":\"DELAY\"}],\"updatedAt\":\"2026-09-19T03:24:22.272295Z\"},\"/skills/vex_q/trigger-rules/on_used\":{\"actions\":[{\"actionKey\":\"start_cast\",\"actionType\":\"START_PROCESS\",\"detail\":{\"processKey\":\"cast\"},\"name\":\"启动薇古丝·寒心波云使用登记\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[],\"description\":\"普通主动使用vex_q时启动cast，登记法力和普通冷却；引用已有根施法参数。实际命中、控制和其他联动由各自入口处理。\",\"eventSource\":{\"detail\":{\"sourceSkillKey\":\"vex_q\",\"useKind\":\"ACTIVE\"},\"eventType\":\"SKILL_USED\"},\"maxTriggersPerProcess\":null,\"name\":\"薇古丝·寒心波云使用登记\",\"perTargetCooldown\":null,\"ruleKey\":\"on_used\",\"sortOrder\":20},\"/skills/vex_w/effects/mana_cost\":{\"createdAt\":\"2026-09-19T03:24:25.449024Z\",\"description\":\"本技能普通主动使用消耗既有mana_cost参数给出的法力；具体使用时点由引用本效果的过程定义。\",\"effectKey\":\"mana_cost\",\"gameId\":\"lol\",\"lifecycle\":null,\"name\":\"施放法力消耗\",\"results\":[{\"description\":null,\"detail\":{\"attributeKey\":\"mana\",\"operation\":\"CONSUME\"},\"lifecycleBehavior\":null,\"name\":\"消耗法力\",\"resultKey\":\"consume_mana\",\"resultType\":\"RESOURCE_CHANGE\",\"sortOrder\":10,\"spellShieldBlockScope\":null,\"target\":\"SOURCE\",\"valueRule\":{\"fixedMaxValue\":null,\"fixedMinValue\":0,\"fixedMultiplier\":1,\"value\":{\"kind\":\"PARAMETER\",\"parameterKey\":\"mana_cost\"}}}],\"skillKey\":\"vex_w\",\"sortOrder\":5,\"updatedAt\":\"2026-09-19T03:24:25.449024Z\"},\"/skills/vex_w/processes/cast\":{\"activationType\":\"ACTIVE\",\"cooldown\":{\"durationValue\":{\"kind\":\"PARAMETER\",\"parameterKey\":\"cooldown_ms\"},\"startMoment\":{\"momentType\":\"PROCESS_START\",\"stepKey\":null}},\"createdAt\":\"2026-09-19T03:24:26.759276Z\",\"description\":\"登记普通主动使用的基础法力、已有根施法时间和普通冷却；过程结束不产生命中，控制、印记和返还另行处理。\",\"effectBindings\":[{\"bindingKey\":\"mana_cost\",\"effectKey\":\"mana_cost\",\"moment\":{\"momentType\":\"PROCESS_START\",\"stepKey\":null},\"sortOrder\":10}],\"gameId\":\"lol\",\"name\":\"薇古丝·生人勿近施法登记\",\"processKey\":\"cast\",\"skillKey\":\"vex_w\",\"sortOrder\":10,\"stateOperations\":[],\"steps\":[{\"description\":\"读取当前技能既有施法时间参数；延迟结束不表示发生实际命中。\",\"detail\":{\"delayValue\":{\"kind\":\"PARAMETER\",\"parameterKey\":\"cast_time_ms\"}},\"name\":\"施法延迟\",\"sortOrder\":10,\"stepKey\":\"cast_time\",\"stepType\":\"DELAY\"}],\"updatedAt\":\"2026-09-19T03:24:26.759276Z\"},\"/skills/vex_w/trigger-rules/on_used_cast\":{\"actions\":[{\"actionKey\":\"start_cast\",\"actionType\":\"START_PROCESS\",\"detail\":{\"processKey\":\"cast\"},\"name\":\"启动薇古丝·生人勿近使用登记\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[],\"description\":\"普通主动使用vex_w时启动cast，登记法力和普通冷却；引用已有根施法参数。原on_used自盾入口独立保留。实际命中、控制和其他联动由各自入口处理。\",\"eventSource\":{\"detail\":{\"sourceSkillKey\":\"vex_w\",\"useKind\":\"ACTIVE\"},\"eventType\":\"SKILL_USED\"},\"maxTriggersPerProcess\":null,\"name\":\"薇古丝·生人勿近使用登记\",\"perTargetCooldown\":null,\"ruleKey\":\"on_used_cast\",\"sortOrder\":20},\"/skills/vex_e/effects/mana_cost\":{\"createdAt\":\"2026-09-19T03:24:29.812964Z\",\"description\":\"本技能普通主动使用消耗既有mana_cost参数给出的法力；具体使用时点由引用本效果的过程定义。\",\"effectKey\":\"mana_cost\",\"gameId\":\"lol\",\"lifecycle\":null,\"name\":\"施放法力消耗\",\"results\":[{\"description\":null,\"detail\":{\"attributeKey\":\"mana\",\"operation\":\"CONSUME\"},\"lifecycleBehavior\":null,\"name\":\"消耗法力\",\"resultKey\":\"consume_mana\",\"resultType\":\"RESOURCE_CHANGE\",\"sortOrder\":10,\"spellShieldBlockScope\":null,\"target\":\"SOURCE\",\"valueRule\":{\"fixedMaxValue\":null,\"fixedMinValue\":0,\"fixedMultiplier\":1,\"value\":{\"kind\":\"PARAMETER\",\"parameterKey\":\"mana_cost\"}}}],\"skillKey\":\"vex_e\",\"sortOrder\":5,\"updatedAt\":\"2026-09-19T03:24:29.812964Z\"},\"/skills/vex_e/processes/cast\":{\"activationType\":\"ACTIVE\",\"cooldown\":{\"durationValue\":{\"kind\":\"PARAMETER\",\"parameterKey\":\"cooldown_ms\"},\"startMoment\":{\"momentType\":\"PROCESS_START\",\"stepKey\":null}},\"createdAt\":\"2026-09-19T03:24:31.094687Z\",\"description\":\"登记普通主动使用的基础法力、已有根施法时间和普通冷却；过程结束不产生命中，控制、印记和返还另行处理。\",\"effectBindings\":[{\"bindingKey\":\"mana_cost\",\"effectKey\":\"mana_cost\",\"moment\":{\"momentType\":\"PROCESS_START\",\"stepKey\":null},\"sortOrder\":10}],\"gameId\":\"lol\",\"name\":\"薇古丝·溟濛渐染施法登记\",\"processKey\":\"cast\",\"skillKey\":\"vex_e\",\"sortOrder\":10,\"stateOperations\":[],\"steps\":[{\"description\":\"读取当前技能既有施法时间参数；延迟结束不表示发生实际命中。\",\"detail\":{\"delayValue\":{\"kind\":\"PARAMETER\",\"parameterKey\":\"cast_time_ms\"}},\"name\":\"施法延迟\",\"sortOrder\":10,\"stepKey\":\"cast_time\",\"stepType\":\"DELAY\"}],\"updatedAt\":\"2026-09-19T03:24:31.094687Z\"},\"/skills/vex_e/trigger-rules/on_used\":{\"actions\":[{\"actionKey\":\"start_cast\",\"actionType\":\"START_PROCESS\",\"detail\":{\"processKey\":\"cast\"},\"name\":\"启动薇古丝·溟濛渐染使用登记\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[],\"description\":\"普通主动使用vex_e时启动cast，登记法力和普通冷却；引用已有根施法参数。实际命中、控制和其他联动由各自入口处理。\",\"eventSource\":{\"detail\":{\"sourceSkillKey\":\"vex_e\",\"useKind\":\"ACTIVE\"},\"eventType\":\"SKILL_USED\"},\"maxTriggersPerProcess\":null,\"name\":\"薇古丝·溟濛渐染使用登记\",\"perTargetCooldown\":null,\"ruleKey\":\"on_used\",\"sortOrder\":20},\"/skills/bard_q/processes/cast\":{\"activationType\":\"ACTIVE\",\"cooldown\":{\"durationValue\":{\"kind\":\"PARAMETER\",\"parameterKey\":\"cooldown_ms\"},\"startMoment\":{\"momentType\":\"PROCESS_START\",\"stepKey\":null}},\"createdAt\":\"2026-09-19T03:24:34.086493Z\",\"description\":\"登记普通主动使用的基础法力、已有根施法时间和普通冷却；过程结束不产生命中，控制、印记和返还另行处理。\",\"effectBindings\":[{\"bindingKey\":\"mana_cost\",\"effectKey\":\"mana_cost\",\"moment\":{\"momentType\":\"PROCESS_START\",\"stepKey\":null},\"sortOrder\":10}],\"gameId\":\"lol\",\"name\":\"巴德·星界束缚施法登记\",\"processKey\":\"cast\",\"skillKey\":\"bard_q\",\"sortOrder\":10,\"stateOperations\":[],\"steps\":[{\"description\":\"读取当前技能既有施法时间参数；延迟结束不表示发生实际命中。\",\"detail\":{\"delayValue\":{\"kind\":\"PARAMETER\",\"parameterKey\":\"cast_time_ms\"}},\"name\":\"施法延迟\",\"sortOrder\":10,\"stepKey\":\"cast_time\",\"stepType\":\"DELAY\"}],\"updatedAt\":\"2026-09-19T03:24:34.086493Z\"},\"/skills/bard_q/trigger-rules/on_used\":{\"actions\":[{\"actionKey\":\"start_cast\",\"actionType\":\"START_PROCESS\",\"detail\":{\"processKey\":\"cast\"},\"name\":\"启动巴德·星界束缚使用登记\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[],\"description\":\"普通主动使用bard_q时启动cast，登记法力和普通冷却；引用已有根施法参数。实际命中、控制和其他联动由各自入口处理。\",\"eventSource\":{\"detail\":{\"sourceSkillKey\":\"bard_q\",\"useKind\":\"ACTIVE\"},\"eventType\":\"SKILL_USED\"},\"maxTriggersPerProcess\":null,\"name\":\"巴德·星界束缚使用登记\",\"perTargetCooldown\":null,\"ruleKey\":\"on_used\",\"sortOrder\":20},\"/skills/akali_q/processes/use_cost_and_cooldown\":{\"activationType\":\"ACTIVE\",\"cooldown\":{\"durationValue\":{\"kind\":\"PARAMETER\",\"parameterKey\":\"cooldown_ms\"},\"startMoment\":{\"momentType\":\"PROCESS_START\",\"stepKey\":null}},\"createdAt\":\"2026-09-19T03:24:37.280215Z\",\"description\":\"仅登记普通主动使用的基础能量与普通冷却；两个施法字段0与0.25秒未择一，固定0只属于本登记步骤，不定义技能真实施法时长。\",\"effectBindings\":[{\"bindingKey\":\"energy_cost\",\"effectKey\":\"energy_cost\",\"moment\":{\"momentType\":\"PROCESS_START\",\"stepKey\":null},\"sortOrder\":10}],\"gameId\":\"lol\",\"name\":\"阿卡丽·我流奥义！寒影能量与冷却登记\",\"processKey\":\"use_cost_and_cooldown\",\"skillKey\":\"akali_q\",\"sortOrder\":10,\"stateOperations\":[],\"steps\":[{\"description\":\"固定0延迟仅表示本登记过程不建模技能施法时序。\",\"detail\":{\"delayValue\":{\"kind\":\"FIXED\",\"value\":0}},\"name\":\"登记本次使用\",\"sortOrder\":10,\"stepKey\":\"register_use\",\"stepType\":\"DELAY\"}],\"updatedAt\":\"2026-09-19T03:24:37.280215Z\"},\"/skills/akali_q/trigger-rules/on_used_cost_and_cooldown\":{\"actions\":[{\"actionKey\":\"start_use_cost\",\"actionType\":\"START_PROCESS\",\"detail\":{\"processKey\":\"use_cost_and_cooldown\"},\"name\":\"启动阿卡丽·我流奥义！寒影使用登记\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[],\"description\":\"普通主动使用akali_q时启动use_cost_and_cooldown，登记能量和普通冷却；不定义真实施法时长。实际命中、控制和其他联动由各自入口处理。\",\"eventSource\":{\"detail\":{\"sourceSkillKey\":\"akali_q\",\"useKind\":\"ACTIVE\"},\"eventType\":\"SKILL_USED\"},\"maxTriggersPerProcess\":null,\"name\":\"阿卡丽·我流奥义！寒影使用登记\",\"perTargetCooldown\":null,\"ruleKey\":\"on_used_cost_and_cooldown\",\"sortOrder\":5},\"/skills/leblanc_q/effects/mana_cost\":{\"createdAt\":\"2026-09-19T03:24:40.428826Z\",\"description\":\"本技能普通主动使用消耗既有mana_cost参数给出的法力；具体使用时点由引用本效果的过程定义。\",\"effectKey\":\"mana_cost\",\"gameId\":\"lol\",\"lifecycle\":null,\"name\":\"施放法力消耗\",\"results\":[{\"description\":null,\"detail\":{\"attributeKey\":\"mana\",\"operation\":\"CONSUME\"},\"lifecycleBehavior\":null,\"name\":\"消耗法力\",\"resultKey\":\"consume_mana\",\"resultType\":\"RESOURCE_CHANGE\",\"sortOrder\":10,\"spellShieldBlockScope\":null,\"target\":\"SOURCE\",\"valueRule\":{\"fixedMaxValue\":null,\"fixedMinValue\":0,\"fixedMultiplier\":1,\"value\":{\"kind\":\"PARAMETER\",\"parameterKey\":\"mana_cost\"}}}],\"skillKey\":\"leblanc_q\",\"sortOrder\":5,\"updatedAt\":\"2026-09-19T03:24:40.428826Z\"},\"/skills/leblanc_q/processes/cast\":{\"activationType\":\"ACTIVE\",\"cooldown\":{\"durationValue\":{\"kind\":\"PARAMETER\",\"parameterKey\":\"cooldown_ms\"},\"startMoment\":{\"momentType\":\"PROCESS_START\",\"stepKey\":null}},\"createdAt\":\"2026-09-19T03:24:41.768228Z\",\"description\":\"登记普通主动使用的基础法力、已有根施法时间和普通冷却；过程结束不产生命中，控制、印记和返还另行处理。\",\"effectBindings\":[{\"bindingKey\":\"mana_cost\",\"effectKey\":\"mana_cost\",\"moment\":{\"momentType\":\"PROCESS_START\",\"stepKey\":null},\"sortOrder\":10}],\"gameId\":\"lol\",\"name\":\"乐芙兰·恶意魔印施法登记\",\"processKey\":\"cast\",\"skillKey\":\"leblanc_q\",\"sortOrder\":10,\"stateOperations\":[],\"steps\":[{\"description\":\"读取当前技能既有施法时间参数；延迟结束不表示发生实际命中。\",\"detail\":{\"delayValue\":{\"kind\":\"PARAMETER\",\"parameterKey\":\"cast_time_ms\"}},\"name\":\"施法延迟\",\"sortOrder\":10,\"stepKey\":\"cast_time\",\"stepType\":\"DELAY\"}],\"updatedAt\":\"2026-09-19T03:24:41.768228Z\"},\"/skills/leblanc_q/trigger-rules/on_used\":{\"actions\":[{\"actionKey\":\"start_cast\",\"actionType\":\"START_PROCESS\",\"detail\":{\"processKey\":\"cast\"},\"name\":\"启动乐芙兰·恶意魔印使用登记\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[],\"description\":\"普通主动使用leblanc_q时启动cast，登记法力和普通冷却；引用已有根施法参数。实际命中、控制和其他联动由各自入口处理。\",\"eventSource\":{\"detail\":{\"sourceSkillKey\":\"leblanc_q\",\"useKind\":\"ACTIVE\"},\"eventType\":\"SKILL_USED\"},\"maxTriggersPerProcess\":null,\"name\":\"乐芙兰·恶意魔印使用登记\",\"perTargetCooldown\":null,\"ruleKey\":\"on_used\",\"sortOrder\":20}},\"audit\":[{\"method\":\"GET\",\"path\":\"/skills/vex_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_vex\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_vex/attributes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_vex/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_q/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?characterKey=champion_vex\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?skillKey=vex_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_q/parameters\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_q/parameters/base_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_q/parameters/ap_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_q/parameters/cast_time_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_q/parameters/cooldown_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_q/parameters/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_q/formulas\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_q/formulas/magic_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_q/effects\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_q/effects/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_q/effects/primary_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_q/processes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_q/processes/cast\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_q/internal-states\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_q/trigger-rules\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_q/trigger-rules/actual_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_q/trigger-rules/on_used\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_w\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_w/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?skillKey=vex_w\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_w/parameters\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_w/parameters/base_shield\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_w/parameters/shield_ap_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_w/parameters/base_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_w/parameters/damage_ap_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_w/parameters/shield_duration_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_w/parameters/aoe_radius\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_w/parameters/bonus_aoe_radius_vs_dashes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_w/parameters/cast_time_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_w/parameters/cooldown_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_w/parameters/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_w/formulas\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_w/formulas/shield_value\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_w/formulas/magic_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_w/effects\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_w/effects/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_w/effects/self_shield\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_w/effects/primary_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_w/processes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_w/processes/cast\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_w/internal-states\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_w/trigger-rules\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_w/trigger-rules/actual_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_w/trigger-rules/on_used\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_w/trigger-rules/on_used_cast\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_e\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_e/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?skillKey=vex_e\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_e/parameters\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_e/parameters/base_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_e/parameters/ap_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_e/parameters/slow_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_e/parameters/slow_duration_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_e/parameters/starting_radius\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_e/parameters/radius_growth_rate\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_e/parameters/max_radius\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_e/parameters/gloom_champion_cooldown_refund_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_e/parameters/cast_time_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_e/parameters/cooldown_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_e/parameters/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_e/formulas\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_e/formulas/magic_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_e/effects\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_e/effects/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_e/effects/primary_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_e/processes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_e/processes/cast\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_e/internal-states\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_e/trigger-rules\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_e/trigger-rules/actual_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_e/trigger-rules/on_used\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/bard_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_bard\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_bard/attributes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_bard/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/bard_q/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?characterKey=champion_bard\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?skillKey=bard_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/bard_q/parameters\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/bard_q/parameters/base_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/bard_q/parameters/ap_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/bard_q/parameters/slow_percent\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/bard_q/parameters/slow_duration_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/bard_q/parameters/stun_duration_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/bard_q/parameters/cooldown_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/bard_q/parameters/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/bard_q/parameters/cast_time_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/bard_q/formulas\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/bard_q/formulas/total_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/bard_q/effects\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/bard_q/effects/primary_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/bard_q/effects/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/bard_q/processes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/bard_q/processes/cast\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/bard_q/internal-states\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/bard_q/trigger-rules\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/bard_q/trigger-rules/actual_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/bard_q/trigger-rules/on_used\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/akali_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_akali\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_akali/attributes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_akali/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/akali_q/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?characterKey=champion_akali\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?skillKey=akali_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/akali_q/parameters\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/akali_q/parameters/energy_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/akali_q/parameters/base_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/akali_q/parameters/total_ad_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/akali_q/parameters/ap_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/akali_q/parameters/slow_duration_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/akali_q/parameters/slow_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/akali_q/parameters/cooldown_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/akali_q/formulas\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/akali_q/formulas/damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/akali_q/effects\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/akali_q/effects/energy_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/akali_q/effects/primary_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/akali_q/processes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/akali_q/processes/use_cost_and_cooldown\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/akali_q/internal-states\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/akali_q/trigger-rules\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/akali_q/trigger-rules/on_used_cost_and_cooldown\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/akali_q/trigger-rules/actual_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leblanc_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_leblanc\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_leblanc/attributes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_leblanc/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leblanc_q/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?characterKey=champion_leblanc\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?skillKey=leblanc_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leblanc_q/parameters\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leblanc_q/parameters/base_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leblanc_q/parameters/mark_base_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leblanc_q/parameters/mark_duration_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leblanc_q/parameters/cooldown_refund_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leblanc_q/parameters/mana_refund_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leblanc_q/parameters/ap_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leblanc_q/parameters/cast_time_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leblanc_q/parameters/cooldown_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leblanc_q/parameters/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leblanc_q/formulas\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leblanc_q/formulas/initial_magic_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leblanc_q/formulas/mark_magic_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leblanc_q/effects\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leblanc_q/effects/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leblanc_q/processes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leblanc_q/processes/cast\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leblanc_q/internal-states\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leblanc_q/trigger-rules\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leblanc_q/trigger-rules/on_used\",\"status\":200},{\"method\":\"GET\",\"path\":\"/attributes/mana\",\"status\":200},{\"method\":\"GET\",\"path\":\"/attributes/ability_power\",\"status\":200},{\"method\":\"GET\",\"path\":\"/damage-types/magic\",\"status\":200},{\"method\":\"GET\",\"path\":\"/attributes/attack_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/attributes/energy\",\"status\":200}]}\n",
+  "summary": {
+    "status": "PASS",
+    "at": "2026-09-19T03:25:47.517Z",
+    "businessWrites": 0,
+    "GETs": 163,
+    "unchangedResponsesIncludingTimestamps": 131,
+    "expectedChangedCollections": 16,
+    "newObjects": {
+      "/skills/vex_q/effects/mana_cost": {
+        "createdAt": "2026-09-19T03:24:20.772902Z",
+        "description": "本技能普通主动使用消耗既有mana_cost参数给出的法力；具体使用时点由引用本效果的过程定义。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "施放法力消耗",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "vex_q",
+        "sortOrder": 5,
+        "updatedAt": "2026-09-19T03:24:20.772902Z"
+      },
+      "/skills/vex_q/processes/cast": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "createdAt": "2026-09-19T03:24:22.272295Z",
+        "description": "登记普通主动使用的基础法力、已有根施法时间和普通冷却；过程结束不产生命中，控制、印记和返还另行处理。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "gameId": "lol",
+        "name": "薇古丝·寒心波云施法登记",
+        "processKey": "cast",
+        "skillKey": "vex_q",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "读取当前技能既有施法时间参数；延迟结束不表示发生实际命中。",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            },
+            "name": "施法延迟",
+            "sortOrder": 10,
+            "stepKey": "cast_time",
+            "stepType": "DELAY"
+          }
+        ],
+        "updatedAt": "2026-09-19T03:24:22.272295Z"
+      },
+      "/skills/vex_q/trigger-rules/on_used": {
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "cast"
+            },
+            "name": "启动薇古丝·寒心波云使用登记",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "普通主动使用vex_q时启动cast，登记法力和普通冷却；引用已有根施法参数。实际命中、控制和其他联动由各自入口处理。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "vex_q",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "薇古丝·寒心波云使用登记",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used",
+        "sortOrder": 20
+      },
+      "/skills/vex_w/effects/mana_cost": {
+        "createdAt": "2026-09-19T03:24:25.449024Z",
+        "description": "本技能普通主动使用消耗既有mana_cost参数给出的法力；具体使用时点由引用本效果的过程定义。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "施放法力消耗",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "vex_w",
+        "sortOrder": 5,
+        "updatedAt": "2026-09-19T03:24:25.449024Z"
+      },
+      "/skills/vex_w/processes/cast": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "createdAt": "2026-09-19T03:24:26.759276Z",
+        "description": "登记普通主动使用的基础法力、已有根施法时间和普通冷却；过程结束不产生命中，控制、印记和返还另行处理。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "gameId": "lol",
+        "name": "薇古丝·生人勿近施法登记",
+        "processKey": "cast",
+        "skillKey": "vex_w",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "读取当前技能既有施法时间参数；延迟结束不表示发生实际命中。",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            },
+            "name": "施法延迟",
+            "sortOrder": 10,
+            "stepKey": "cast_time",
+            "stepType": "DELAY"
+          }
+        ],
+        "updatedAt": "2026-09-19T03:24:26.759276Z"
+      },
+      "/skills/vex_w/trigger-rules/on_used_cast": {
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "cast"
+            },
+            "name": "启动薇古丝·生人勿近使用登记",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "普通主动使用vex_w时启动cast，登记法力和普通冷却；引用已有根施法参数。原on_used自盾入口独立保留。实际命中、控制和其他联动由各自入口处理。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "vex_w",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "薇古丝·生人勿近使用登记",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used_cast",
+        "sortOrder": 20
+      },
+      "/skills/vex_e/effects/mana_cost": {
+        "createdAt": "2026-09-19T03:24:29.812964Z",
+        "description": "本技能普通主动使用消耗既有mana_cost参数给出的法力；具体使用时点由引用本效果的过程定义。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "施放法力消耗",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "vex_e",
+        "sortOrder": 5,
+        "updatedAt": "2026-09-19T03:24:29.812964Z"
+      },
+      "/skills/vex_e/processes/cast": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "createdAt": "2026-09-19T03:24:31.094687Z",
+        "description": "登记普通主动使用的基础法力、已有根施法时间和普通冷却；过程结束不产生命中，控制、印记和返还另行处理。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "gameId": "lol",
+        "name": "薇古丝·溟濛渐染施法登记",
+        "processKey": "cast",
+        "skillKey": "vex_e",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "读取当前技能既有施法时间参数；延迟结束不表示发生实际命中。",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            },
+            "name": "施法延迟",
+            "sortOrder": 10,
+            "stepKey": "cast_time",
+            "stepType": "DELAY"
+          }
+        ],
+        "updatedAt": "2026-09-19T03:24:31.094687Z"
+      },
+      "/skills/vex_e/trigger-rules/on_used": {
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "cast"
+            },
+            "name": "启动薇古丝·溟濛渐染使用登记",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "普通主动使用vex_e时启动cast，登记法力和普通冷却；引用已有根施法参数。实际命中、控制和其他联动由各自入口处理。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "vex_e",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "薇古丝·溟濛渐染使用登记",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used",
+        "sortOrder": 20
+      },
+      "/skills/bard_q/processes/cast": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "createdAt": "2026-09-19T03:24:34.086493Z",
+        "description": "登记普通主动使用的基础法力、已有根施法时间和普通冷却；过程结束不产生命中，控制、印记和返还另行处理。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "gameId": "lol",
+        "name": "巴德·星界束缚施法登记",
+        "processKey": "cast",
+        "skillKey": "bard_q",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "读取当前技能既有施法时间参数；延迟结束不表示发生实际命中。",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            },
+            "name": "施法延迟",
+            "sortOrder": 10,
+            "stepKey": "cast_time",
+            "stepType": "DELAY"
+          }
+        ],
+        "updatedAt": "2026-09-19T03:24:34.086493Z"
+      },
+      "/skills/bard_q/trigger-rules/on_used": {
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "cast"
+            },
+            "name": "启动巴德·星界束缚使用登记",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "普通主动使用bard_q时启动cast，登记法力和普通冷却；引用已有根施法参数。实际命中、控制和其他联动由各自入口处理。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "bard_q",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "巴德·星界束缚使用登记",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used",
+        "sortOrder": 20
+      },
+      "/skills/akali_q/processes/use_cost_and_cooldown": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "createdAt": "2026-09-19T03:24:37.280215Z",
+        "description": "仅登记普通主动使用的基础能量与普通冷却；两个施法字段0与0.25秒未择一，固定0只属于本登记步骤，不定义技能真实施法时长。",
+        "effectBindings": [
+          {
+            "bindingKey": "energy_cost",
+            "effectKey": "energy_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "gameId": "lol",
+        "name": "阿卡丽·我流奥义！寒影能量与冷却登记",
+        "processKey": "use_cost_and_cooldown",
+        "skillKey": "akali_q",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "固定0延迟仅表示本登记过程不建模技能施法时序。",
+            "detail": {
+              "delayValue": {
+                "kind": "FIXED",
+                "value": 0
+              }
+            },
+            "name": "登记本次使用",
+            "sortOrder": 10,
+            "stepKey": "register_use",
+            "stepType": "DELAY"
+          }
+        ],
+        "updatedAt": "2026-09-19T03:24:37.280215Z"
+      },
+      "/skills/akali_q/trigger-rules/on_used_cost_and_cooldown": {
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "use_cost_and_cooldown"
+            },
+            "name": "启动阿卡丽·我流奥义！寒影使用登记",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "普通主动使用akali_q时启动use_cost_and_cooldown，登记能量和普通冷却；不定义真实施法时长。实际命中、控制和其他联动由各自入口处理。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "akali_q",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "阿卡丽·我流奥义！寒影使用登记",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used_cost_and_cooldown",
+        "sortOrder": 5
+      },
+      "/skills/leblanc_q/effects/mana_cost": {
+        "createdAt": "2026-09-19T03:24:40.428826Z",
+        "description": "本技能普通主动使用消耗既有mana_cost参数给出的法力；具体使用时点由引用本效果的过程定义。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "施放法力消耗",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "leblanc_q",
+        "sortOrder": 5,
+        "updatedAt": "2026-09-19T03:24:40.428826Z"
+      },
+      "/skills/leblanc_q/processes/cast": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "createdAt": "2026-09-19T03:24:41.768228Z",
+        "description": "登记普通主动使用的基础法力、已有根施法时间和普通冷却；过程结束不产生命中，控制、印记和返还另行处理。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "gameId": "lol",
+        "name": "乐芙兰·恶意魔印施法登记",
+        "processKey": "cast",
+        "skillKey": "leblanc_q",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "读取当前技能既有施法时间参数；延迟结束不表示发生实际命中。",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            },
+            "name": "施法延迟",
+            "sortOrder": 10,
+            "stepKey": "cast_time",
+            "stepType": "DELAY"
+          }
+        ],
+        "updatedAt": "2026-09-19T03:24:41.768228Z"
+      },
+      "/skills/leblanc_q/trigger-rules/on_used": {
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "cast"
+            },
+            "name": "启动乐芙兰·恶意魔印使用登记",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "普通主动使用leblanc_q时启动cast，登记法力和普通冷却；引用已有根施法参数。实际命中、控制和其他联动由各自入口处理。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "leblanc_q",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "乐芙兰·恶意魔印使用登记",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used",
+        "sortOrder": 20
+      }
+    },
+    "audit": [
+      {
+        "method": "GET",
+        "path": "/skills/vex_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_vex",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_vex/attributes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_vex/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_q/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?characterKey=champion_vex",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?skillKey=vex_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_q/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_q/parameters/base_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_q/parameters/ap_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_q/parameters/cast_time_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_q/parameters/cooldown_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_q/parameters/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_q/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_q/formulas/magic_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_q/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_q/effects/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_q/effects/primary_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_q/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_q/processes/cast",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_q/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_q/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_q/trigger-rules/actual_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_q/trigger-rules/on_used",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_w",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_w/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?skillKey=vex_w",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_w/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_w/parameters/base_shield",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_w/parameters/shield_ap_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_w/parameters/base_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_w/parameters/damage_ap_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_w/parameters/shield_duration_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_w/parameters/aoe_radius",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_w/parameters/bonus_aoe_radius_vs_dashes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_w/parameters/cast_time_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_w/parameters/cooldown_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_w/parameters/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_w/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_w/formulas/shield_value",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_w/formulas/magic_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_w/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_w/effects/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_w/effects/self_shield",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_w/effects/primary_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_w/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_w/processes/cast",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_w/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_w/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_w/trigger-rules/actual_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_w/trigger-rules/on_used",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_w/trigger-rules/on_used_cast",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_e",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_e/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?skillKey=vex_e",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_e/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_e/parameters/base_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_e/parameters/ap_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_e/parameters/slow_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_e/parameters/slow_duration_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_e/parameters/starting_radius",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_e/parameters/radius_growth_rate",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_e/parameters/max_radius",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_e/parameters/gloom_champion_cooldown_refund_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_e/parameters/cast_time_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_e/parameters/cooldown_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_e/parameters/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_e/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_e/formulas/magic_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_e/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_e/effects/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_e/effects/primary_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_e/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_e/processes/cast",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_e/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_e/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_e/trigger-rules/actual_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_e/trigger-rules/on_used",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/bard_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_bard",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_bard/attributes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_bard/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/bard_q/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?characterKey=champion_bard",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?skillKey=bard_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/bard_q/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/bard_q/parameters/base_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/bard_q/parameters/ap_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/bard_q/parameters/slow_percent",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/bard_q/parameters/slow_duration_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/bard_q/parameters/stun_duration_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/bard_q/parameters/cooldown_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/bard_q/parameters/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/bard_q/parameters/cast_time_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/bard_q/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/bard_q/formulas/total_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/bard_q/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/bard_q/effects/primary_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/bard_q/effects/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/bard_q/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/bard_q/processes/cast",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/bard_q/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/bard_q/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/bard_q/trigger-rules/actual_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/bard_q/trigger-rules/on_used",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/akali_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_akali",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_akali/attributes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_akali/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/akali_q/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?characterKey=champion_akali",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?skillKey=akali_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/akali_q/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/akali_q/parameters/energy_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/akali_q/parameters/base_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/akali_q/parameters/total_ad_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/akali_q/parameters/ap_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/akali_q/parameters/slow_duration_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/akali_q/parameters/slow_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/akali_q/parameters/cooldown_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/akali_q/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/akali_q/formulas/damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/akali_q/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/akali_q/effects/energy_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/akali_q/effects/primary_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/akali_q/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/akali_q/processes/use_cost_and_cooldown",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/akali_q/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/akali_q/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/akali_q/trigger-rules/on_used_cost_and_cooldown",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/akali_q/trigger-rules/actual_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leblanc_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_leblanc",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_leblanc/attributes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_leblanc/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leblanc_q/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?characterKey=champion_leblanc",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?skillKey=leblanc_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leblanc_q/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leblanc_q/parameters/base_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leblanc_q/parameters/mark_base_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leblanc_q/parameters/mark_duration_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leblanc_q/parameters/cooldown_refund_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leblanc_q/parameters/mana_refund_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leblanc_q/parameters/ap_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leblanc_q/parameters/cast_time_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leblanc_q/parameters/cooldown_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leblanc_q/parameters/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leblanc_q/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leblanc_q/formulas/initial_magic_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leblanc_q/formulas/mark_magic_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leblanc_q/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leblanc_q/effects/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leblanc_q/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leblanc_q/processes/cast",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leblanc_q/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leblanc_q/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leblanc_q/trigger-rules/on_used",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/attributes/mana",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/attributes/ability_power",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/damage-types/magic",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/attributes/attack_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/attributes/energy",
+        "status": 200
+      }
+    ]
+  }
+}

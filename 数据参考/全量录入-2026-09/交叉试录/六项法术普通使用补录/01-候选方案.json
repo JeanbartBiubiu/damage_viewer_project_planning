@@ -1,0 +1,1653 @@
+{
+  "title": "六项法术普通使用、成本与冷却补录",
+  "at": "2026-09-19T03:19:19.407Z",
+  "targets": [
+    {
+      "skillKey": "vex_q",
+      "ownerKey": "champion_vex"
+    },
+    {
+      "skillKey": "vex_w",
+      "ownerKey": "champion_vex"
+    },
+    {
+      "skillKey": "vex_e",
+      "ownerKey": "champion_vex"
+    },
+    {
+      "skillKey": "bard_q",
+      "ownerKey": "champion_bard"
+    },
+    {
+      "skillKey": "akali_q",
+      "ownerKey": "champion_akali"
+    },
+    {
+      "skillKey": "leblanc_q",
+      "ownerKey": "champion_leblanc"
+    }
+  ],
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/vex_q/effects",
+      "detailRoute": "/skills/vex_q/effects/mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "本技能普通主动使用消耗既有mana_cost参数给出的法力；具体使用时点由引用本效果的过程定义。",
+        "sortOrder": 5,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      },
+      "expectedReadback": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "本技能普通主动使用消耗既有mana_cost参数给出的法力；具体使用时点由引用本效果的过程定义。",
+        "sortOrder": 5,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/vex_q/processes",
+      "detailRoute": "/skills/vex_q/processes/cast",
+      "body": {
+        "processKey": "cast",
+        "name": "薇古丝·寒心波云施法登记",
+        "activationType": "ACTIVE",
+        "description": "登记普通主动使用的基础法力、已有根施法时间和普通冷却；过程结束不产生命中，控制、印记和返还另行处理。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "cast_time",
+            "name": "施法延迟",
+            "description": "读取当前技能既有施法时间参数；延迟结束不表示发生实际命中。",
+            "sortOrder": 10,
+            "stepType": "DELAY",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            }
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      },
+      "expectedReadback": {
+        "processKey": "cast",
+        "name": "薇古丝·寒心波云施法登记",
+        "activationType": "ACTIVE",
+        "description": "登记普通主动使用的基础法力、已有根施法时间和普通冷却；过程结束不产生命中，控制、印记和返还另行处理。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "cast_time",
+            "name": "施法延迟",
+            "description": "读取当前技能既有施法时间参数；延迟结束不表示发生实际命中。",
+            "sortOrder": 10,
+            "stepType": "DELAY",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            }
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/vex_q/trigger-rules",
+      "detailRoute": "/skills/vex_q/trigger-rules/on_used",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "薇古丝·寒心波云使用登记",
+        "description": "普通主动使用vex_q时启动cast，登记法力和普通冷却；引用已有根施法参数。实际命中、控制和其他联动由各自入口处理。",
+        "sortOrder": 20,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "vex_q",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动薇古丝·寒心波云使用登记",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used",
+        "name": "薇古丝·寒心波云使用登记",
+        "description": "普通主动使用vex_q时启动cast，登记法力和普通冷却；引用已有根施法参数。实际命中、控制和其他联动由各自入口处理。",
+        "sortOrder": 20,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "vex_q",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动薇古丝·寒心波云使用登记",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/vex_w/effects",
+      "detailRoute": "/skills/vex_w/effects/mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "本技能普通主动使用消耗既有mana_cost参数给出的法力；具体使用时点由引用本效果的过程定义。",
+        "sortOrder": 5,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      },
+      "expectedReadback": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "本技能普通主动使用消耗既有mana_cost参数给出的法力；具体使用时点由引用本效果的过程定义。",
+        "sortOrder": 5,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/vex_w/processes",
+      "detailRoute": "/skills/vex_w/processes/cast",
+      "body": {
+        "processKey": "cast",
+        "name": "薇古丝·生人勿近施法登记",
+        "activationType": "ACTIVE",
+        "description": "登记普通主动使用的基础法力、已有根施法时间和普通冷却；过程结束不产生命中，控制、印记和返还另行处理。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "cast_time",
+            "name": "施法延迟",
+            "description": "读取当前技能既有施法时间参数；延迟结束不表示发生实际命中。",
+            "sortOrder": 10,
+            "stepType": "DELAY",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            }
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      },
+      "expectedReadback": {
+        "processKey": "cast",
+        "name": "薇古丝·生人勿近施法登记",
+        "activationType": "ACTIVE",
+        "description": "登记普通主动使用的基础法力、已有根施法时间和普通冷却；过程结束不产生命中，控制、印记和返还另行处理。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "cast_time",
+            "name": "施法延迟",
+            "description": "读取当前技能既有施法时间参数；延迟结束不表示发生实际命中。",
+            "sortOrder": 10,
+            "stepType": "DELAY",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            }
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/vex_w/trigger-rules",
+      "detailRoute": "/skills/vex_w/trigger-rules/on_used_cast",
+      "body": {
+        "ruleKey": "on_used_cast",
+        "name": "薇古丝·生人勿近使用登记",
+        "description": "普通主动使用vex_w时启动cast，登记法力和普通冷却；引用已有根施法参数。原on_used自盾入口独立保留。实际命中、控制和其他联动由各自入口处理。",
+        "sortOrder": 20,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "vex_w",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动薇古丝·生人勿近使用登记",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used_cast",
+        "name": "薇古丝·生人勿近使用登记",
+        "description": "普通主动使用vex_w时启动cast，登记法力和普通冷却；引用已有根施法参数。原on_used自盾入口独立保留。实际命中、控制和其他联动由各自入口处理。",
+        "sortOrder": 20,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "vex_w",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动薇古丝·生人勿近使用登记",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/vex_e/effects",
+      "detailRoute": "/skills/vex_e/effects/mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "本技能普通主动使用消耗既有mana_cost参数给出的法力；具体使用时点由引用本效果的过程定义。",
+        "sortOrder": 5,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      },
+      "expectedReadback": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "本技能普通主动使用消耗既有mana_cost参数给出的法力；具体使用时点由引用本效果的过程定义。",
+        "sortOrder": 5,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/vex_e/processes",
+      "detailRoute": "/skills/vex_e/processes/cast",
+      "body": {
+        "processKey": "cast",
+        "name": "薇古丝·溟濛渐染施法登记",
+        "activationType": "ACTIVE",
+        "description": "登记普通主动使用的基础法力、已有根施法时间和普通冷却；过程结束不产生命中，控制、印记和返还另行处理。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "cast_time",
+            "name": "施法延迟",
+            "description": "读取当前技能既有施法时间参数；延迟结束不表示发生实际命中。",
+            "sortOrder": 10,
+            "stepType": "DELAY",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            }
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      },
+      "expectedReadback": {
+        "processKey": "cast",
+        "name": "薇古丝·溟濛渐染施法登记",
+        "activationType": "ACTIVE",
+        "description": "登记普通主动使用的基础法力、已有根施法时间和普通冷却；过程结束不产生命中，控制、印记和返还另行处理。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "cast_time",
+            "name": "施法延迟",
+            "description": "读取当前技能既有施法时间参数；延迟结束不表示发生实际命中。",
+            "sortOrder": 10,
+            "stepType": "DELAY",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            }
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/vex_e/trigger-rules",
+      "detailRoute": "/skills/vex_e/trigger-rules/on_used",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "薇古丝·溟濛渐染使用登记",
+        "description": "普通主动使用vex_e时启动cast，登记法力和普通冷却；引用已有根施法参数。实际命中、控制和其他联动由各自入口处理。",
+        "sortOrder": 20,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "vex_e",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动薇古丝·溟濛渐染使用登记",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used",
+        "name": "薇古丝·溟濛渐染使用登记",
+        "description": "普通主动使用vex_e时启动cast，登记法力和普通冷却；引用已有根施法参数。实际命中、控制和其他联动由各自入口处理。",
+        "sortOrder": 20,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "vex_e",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动薇古丝·溟濛渐染使用登记",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/bard_q/processes",
+      "detailRoute": "/skills/bard_q/processes/cast",
+      "body": {
+        "processKey": "cast",
+        "name": "巴德·星界束缚施法登记",
+        "activationType": "ACTIVE",
+        "description": "登记普通主动使用的基础法力、已有根施法时间和普通冷却；过程结束不产生命中，控制、印记和返还另行处理。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "cast_time",
+            "name": "施法延迟",
+            "description": "读取当前技能既有施法时间参数；延迟结束不表示发生实际命中。",
+            "sortOrder": 10,
+            "stepType": "DELAY",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            }
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      },
+      "expectedReadback": {
+        "processKey": "cast",
+        "name": "巴德·星界束缚施法登记",
+        "activationType": "ACTIVE",
+        "description": "登记普通主动使用的基础法力、已有根施法时间和普通冷却；过程结束不产生命中，控制、印记和返还另行处理。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "cast_time",
+            "name": "施法延迟",
+            "description": "读取当前技能既有施法时间参数；延迟结束不表示发生实际命中。",
+            "sortOrder": 10,
+            "stepType": "DELAY",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            }
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/bard_q/trigger-rules",
+      "detailRoute": "/skills/bard_q/trigger-rules/on_used",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "巴德·星界束缚使用登记",
+        "description": "普通主动使用bard_q时启动cast，登记法力和普通冷却；引用已有根施法参数。实际命中、控制和其他联动由各自入口处理。",
+        "sortOrder": 20,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "bard_q",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动巴德·星界束缚使用登记",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used",
+        "name": "巴德·星界束缚使用登记",
+        "description": "普通主动使用bard_q时启动cast，登记法力和普通冷却；引用已有根施法参数。实际命中、控制和其他联动由各自入口处理。",
+        "sortOrder": 20,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "bard_q",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动巴德·星界束缚使用登记",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/akali_q/processes",
+      "detailRoute": "/skills/akali_q/processes/use_cost_and_cooldown",
+      "body": {
+        "processKey": "use_cost_and_cooldown",
+        "name": "阿卡丽·我流奥义！寒影能量与冷却登记",
+        "activationType": "ACTIVE",
+        "description": "仅登记普通主动使用的基础能量与普通冷却；两个施法字段0与0.25秒未择一，固定0只属于本登记步骤，不定义技能真实施法时长。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "register_use",
+            "name": "登记本次使用",
+            "description": "固定0延迟仅表示本登记过程不建模技能施法时序。",
+            "sortOrder": 10,
+            "stepType": "DELAY",
+            "detail": {
+              "delayValue": {
+                "kind": "FIXED",
+                "value": 0
+              }
+            }
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "energy_cost",
+            "effectKey": "energy_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      },
+      "expectedReadback": {
+        "processKey": "use_cost_and_cooldown",
+        "name": "阿卡丽·我流奥义！寒影能量与冷却登记",
+        "activationType": "ACTIVE",
+        "description": "仅登记普通主动使用的基础能量与普通冷却；两个施法字段0与0.25秒未择一，固定0只属于本登记步骤，不定义技能真实施法时长。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "register_use",
+            "name": "登记本次使用",
+            "description": "固定0延迟仅表示本登记过程不建模技能施法时序。",
+            "sortOrder": 10,
+            "stepType": "DELAY",
+            "detail": {
+              "delayValue": {
+                "kind": "FIXED",
+                "value": 0
+              }
+            }
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "energy_cost",
+            "effectKey": "energy_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/akali_q/trigger-rules",
+      "detailRoute": "/skills/akali_q/trigger-rules/on_used_cost_and_cooldown",
+      "body": {
+        "ruleKey": "on_used_cost_and_cooldown",
+        "name": "阿卡丽·我流奥义！寒影使用登记",
+        "description": "普通主动使用akali_q时启动use_cost_and_cooldown，登记能量和普通冷却；不定义真实施法时长。实际命中、控制和其他联动由各自入口处理。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "akali_q",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "name": "启动阿卡丽·我流奥义！寒影使用登记",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "use_cost_and_cooldown"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used_cost_and_cooldown",
+        "name": "阿卡丽·我流奥义！寒影使用登记",
+        "description": "普通主动使用akali_q时启动use_cost_and_cooldown，登记能量和普通冷却；不定义真实施法时长。实际命中、控制和其他联动由各自入口处理。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "akali_q",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "name": "启动阿卡丽·我流奥义！寒影使用登记",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "use_cost_and_cooldown"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/leblanc_q/effects",
+      "detailRoute": "/skills/leblanc_q/effects/mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "本技能普通主动使用消耗既有mana_cost参数给出的法力；具体使用时点由引用本效果的过程定义。",
+        "sortOrder": 5,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      },
+      "expectedReadback": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "本技能普通主动使用消耗既有mana_cost参数给出的法力；具体使用时点由引用本效果的过程定义。",
+        "sortOrder": 5,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/leblanc_q/processes",
+      "detailRoute": "/skills/leblanc_q/processes/cast",
+      "body": {
+        "processKey": "cast",
+        "name": "乐芙兰·恶意魔印施法登记",
+        "activationType": "ACTIVE",
+        "description": "登记普通主动使用的基础法力、已有根施法时间和普通冷却；过程结束不产生命中，控制、印记和返还另行处理。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "cast_time",
+            "name": "施法延迟",
+            "description": "读取当前技能既有施法时间参数；延迟结束不表示发生实际命中。",
+            "sortOrder": 10,
+            "stepType": "DELAY",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            }
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      },
+      "expectedReadback": {
+        "processKey": "cast",
+        "name": "乐芙兰·恶意魔印施法登记",
+        "activationType": "ACTIVE",
+        "description": "登记普通主动使用的基础法力、已有根施法时间和普通冷却；过程结束不产生命中，控制、印记和返还另行处理。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "cast_time",
+            "name": "施法延迟",
+            "description": "读取当前技能既有施法时间参数；延迟结束不表示发生实际命中。",
+            "sortOrder": 10,
+            "stepType": "DELAY",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            }
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/leblanc_q/trigger-rules",
+      "detailRoute": "/skills/leblanc_q/trigger-rules/on_used",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "乐芙兰·恶意魔印使用登记",
+        "description": "普通主动使用leblanc_q时启动cast，登记法力和普通冷却；引用已有根施法参数。实际命中、控制和其他联动由各自入口处理。",
+        "sortOrder": 20,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "leblanc_q",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动乐芙兰·恶意魔印使用登记",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used",
+        "name": "乐芙兰·恶意魔印使用登记",
+        "description": "普通主动使用leblanc_q时启动cast，登记法力和普通冷却；引用已有根施法参数。实际命中、控制和其他联动由各自入口处理。",
+        "sortOrder": 20,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "leblanc_q",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动乐芙兰·恶意魔印使用登记",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "sourceFiles": [
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/六项法术普通使用补录/00-六项使用来源与草案.json",
+      "sha256": "1aa211b6dccaacfbc16329c6cc1073ebf13877aa1f170feeee19a0202f5fc978"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Vex.json",
+      "sha256": "5e4c0eccbd8ce0947883690b57a6a208cbc3cfddb8943d53fa3878ca7a3d1a1c"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Vex.json.gz",
+      "sha256": "d200bc9a07b60d391886cbdbee5bfa66317efbf60a46ff5efffbb31860140f2b"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Bard.json",
+      "sha256": "b99ed05aa8778626db6b2fc2400ea65dedb509e85f6827f95d76e1482061056f"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Bard.json.gz",
+      "sha256": "3f49ac21817c493a6ba62949773e3c193982c7df8d2c132efe37a8a36e72dbb3"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Akali.json",
+      "sha256": "f932c5caefdad1f1731ca4a296f9fb7909eacdb4a95f18497621af82b8d93a9f"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Akali.json.gz",
+      "sha256": "9daa3aa723fe15eb8f64332c98be7b526e438cfd7d1e7170a049c0241bee4ee3"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Katarina.json",
+      "sha256": "2278baf5fe3501dd1b5b6f035ee96d8bdb0dc43393aeef34dd52c5ea40da7415"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Katarina.json.gz",
+      "sha256": "b3c1eb6d1c679ed63bb42955497d634fc6fac256f4c2b1b109479dfea9dbfce8"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Leblanc.json",
+      "sha256": "c38cbc98ff3211fd6d7b52c26036b7668e6d6bd0b2bd97b3c65569a4e783aeb4"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Leblanc.json.gz",
+      "sha256": "f2d01a3a75628c69b07e404a66a3ed0b06639d22fb3d8cc5b3312eb2e2dca4a1"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Syndra.json",
+      "sha256": "68e295a441ba3daa36a46c1e63731ca2e51b29fedb7ea7e01ed5f7ed02a0b2ce"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Syndra.json.gz",
+      "sha256": "d1f7751729edc8bcf3254afb9318dbc9020e55c0aa16e2215fde333d3b1f3acf"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/七项法术本体直接伤害补录/00-八项固定来源与现值.json",
+      "sha256": "a47a02512b90caaa814ab908cd0a2a44171280ed5c776b312691351a5fc7e27c"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/七项法术本体直接伤害补录/01-候选方案.json",
+      "sha256": "073501f5cac168ff29c0de6496379369d21c6add28b2094d6dadae61de0d0edd"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/七项法术本体直接伤害补录/04-写入前现值.json",
+      "sha256": "d59e1f1a0d9a6626563b45f686c638f9d0d0222ec706d05612ab32335a1befcc"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/七项法术本体直接伤害补录/07-独立回读.json",
+      "sha256": "fab8ce91a0c419c4f1ea5d792ae7293a2884fd03e4a8a99faf0c2ce32633d60e"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/七项法术本体直接伤害补录/09-证据清单.json",
+      "sha256": "4f141ef7a113f1b89d6376e3f33947a3d899a0547bcff5b669ed663c0ad01a78"
+    },
+    {
+      "root": "web",
+      "path": "web/src/types/skillEffect.ts",
+      "sha256": "0c1c6bec64b26f4b5d9a721eba0989d1fbee8deefc87105304e96fe92cfa2ed5"
+    },
+    {
+      "root": "web",
+      "path": "web/src/types/skillProcess.ts",
+      "sha256": "6fa0232b4ab6c1bbf44488f0e0a2eb41b8dfd1b23ac9db99a935a74ada0fb85b"
+    },
+    {
+      "root": "web",
+      "path": "web/src/types/skillTriggerRule.ts",
+      "sha256": "db1021ad59bf8cfee862603c2e7dcde6c618da85d235f36de941c6a205852615"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/六项后续技能使用流程补录/01-候选方案.json",
+      "sha256": "5e8f04cfc3643cd469c8a0906f86da934e8498243aa38f86f27cf91eb774410f"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/布兰德E与墨菲特ER使用流程补录/01-候选方案.json",
+      "sha256": "b7f1c8e992f04544e4e4348100c49bba10151e33540232cbf7b3ebc5474cfb75"
+    },
+    {
+      "root": "planning",
+      "path": "文档记录/详细设计/项目/条件事件与动态输入供值管理详细设计.md",
+      "sha256": "ec07ed1bb2daccb0217c189a84b16f15a701dccefb82b3258cc8ea6425238331"
+    }
+  ],
+  "scope": "新增薇古丝Q/W/E及乐芙兰Q四个法力成本效果，六项使用过程及入口各6个；巴德复用法力，阿卡丽复用能量且只登记成本冷却。",
+  "sourceDecisions": [
+    {
+      "skillKey": "vex_q",
+      "costEffectKey": "mana_cost",
+      "costCreated": true,
+      "processKey": "cast",
+      "ruleKey": "on_used",
+      "registrationOnly": false,
+      "timing": {
+        "spellCastTime": 0.15000000596046448,
+        "mCastTime": null,
+        "spellTotalTime": 0
+      },
+      "cooldown": {
+        "selected": "Cooldown.values",
+        "values": [
+          8,
+          8,
+          7,
+          6,
+          5,
+          4,
+          4
+        ],
+        "legacyCooldownTime": [
+          8,
+          8,
+          7,
+          6,
+          5,
+          4,
+          4
+        ],
+        "official": [
+          8,
+          7,
+          6,
+          5,
+          4
+        ]
+      },
+      "boundary": "已有根时间参数规范化保持，未把spellTotalTime当作施法时长。"
+    },
+    {
+      "skillKey": "vex_w",
+      "costEffectKey": "mana_cost",
+      "costCreated": true,
+      "processKey": "cast",
+      "ruleKey": "on_used_cast",
+      "registrationOnly": false,
+      "timing": {
+        "spellCastTime": 0.25,
+        "mCastTime": 0.25,
+        "spellTotalTime": 0
+      },
+      "cooldown": {
+        "selected": "Cooldown.values",
+        "values": [
+          17,
+          16,
+          15,
+          14,
+          13,
+          12,
+          11
+        ],
+        "legacyCooldownTime": [
+          17,
+          16,
+          15,
+          14,
+          13,
+          12,
+          11
+        ],
+        "official": [
+          16,
+          15,
+          14,
+          13,
+          12
+        ]
+      },
+      "boundary": "已有自盾规则保持，当前只新增成本过程入口，不把护盾挂到命中。"
+    },
+    {
+      "skillKey": "vex_e",
+      "costEffectKey": "mana_cost",
+      "costCreated": true,
+      "processKey": "cast",
+      "ruleKey": "on_used",
+      "registrationOnly": false,
+      "timing": {
+        "spellCastTime": 0.25,
+        "mCastTime": 0.25,
+        "spellTotalTime": 0
+      },
+      "cooldown": {
+        "selected": "Cooldown.values",
+        "values": [
+          12,
+          12,
+          12,
+          12,
+          12,
+          12,
+          12
+        ],
+        "legacyCooldownTime": [
+          13,
+          13,
+          13,
+          13,
+          13,
+          13,
+          13
+        ],
+        "official": [
+          12,
+          12,
+          12,
+          12,
+          12
+        ]
+      },
+      "boundary": "旧cooldownTime仍为13，当前Cooldown.values与固定官方为12；保留12000毫秒，不改数值。"
+    },
+    {
+      "skillKey": "bard_q",
+      "costEffectKey": "mana_cost",
+      "costCreated": false,
+      "processKey": "cast",
+      "ruleKey": "on_used",
+      "registrationOnly": false,
+      "timing": {
+        "spellCastTime": 0.25,
+        "mCastTime": 0.25,
+        "spellTotalTime": 1
+      },
+      "cooldown": {
+        "selected": "Cooldown.values",
+        "values": [
+          12,
+          11,
+          10,
+          9,
+          8,
+          7,
+          7
+        ],
+        "legacyCooldownTime": [
+          12,
+          11,
+          10,
+          9,
+          8,
+          7,
+          7
+        ],
+        "official": [
+          11,
+          10,
+          9,
+          8,
+          7
+        ]
+      },
+      "boundary": "已有根时间参数规范化保持，未把spellTotalTime当作施法时长。"
+    },
+    {
+      "skillKey": "akali_q",
+      "costEffectKey": "energy_cost",
+      "costCreated": false,
+      "processKey": "use_cost_and_cooldown",
+      "ruleKey": "on_used_cost_and_cooldown",
+      "registrationOnly": true,
+      "timing": {
+        "spellCastTime": 0,
+        "mCastTime": 0.25,
+        "spellTotalTime": 0
+      },
+      "cooldown": {
+        "selected": "Cooldown.values",
+        "values": [
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5
+        ],
+        "legacyCooldownTime": [
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5
+        ],
+        "official": [
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5
+        ]
+      },
+      "boundary": "消耗能量，不因底层字段名manaValues误写法力；两个施法字段不择一。"
+    },
+    {
+      "skillKey": "leblanc_q",
+      "costEffectKey": "mana_cost",
+      "costCreated": true,
+      "processKey": "cast",
+      "ruleKey": "on_used",
+      "registrationOnly": false,
+      "timing": {
+        "spellCastTime": 0.25,
+        "mCastTime": null,
+        "spellTotalTime": 1
+      },
+      "cooldown": {
+        "selected": "Cooldown.values",
+        "values": [
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6
+        ],
+        "legacyCooldownTime": [
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6
+        ],
+        "official": [
+          6,
+          6,
+          6,
+          6,
+          6
+        ]
+      },
+      "boundary": "使用登记只定义基础成本与冷却，初始命中、标记引爆和击杀返还仍独立待续。"
+    }
+  ],
+  "arithmeticCases": 85,
+  "excluded": [
+    {
+      "skillKey": "katarina_q",
+      "reason": "无资源的纯冷却过程修复仍待首次真实页面验收，当前不绕过页面门槛。"
+    },
+    {
+      "skillKey": "syndra_q",
+      "reason": "被动升级后新增充能，普通冷却与充能阶段需单独核定，不接重复计费或计时入口。"
+    }
+  ],
+  "vexECooldownCorroboration": {
+    "url": "https://www.leagueoflegends.com/en-au/news/game-updates/league-of-legends-patch-26-13-notes/",
+    "section": "Vex / E - Looming Darkness",
+    "quote": "Cooldown: 13s ⇒ 12s",
+    "observedOn": "2026-09-19",
+    "use": "仅印证旧字段与新字段的差异；本批选择仍由固定16.17客户端Cooldown.values和16.17.1官方逐级一致确定。"
+  },
+  "browser": "NOT_RUN_BROWSER_UNAVAILABLE",
+  "runtimeValidation": "未执行"
+}
