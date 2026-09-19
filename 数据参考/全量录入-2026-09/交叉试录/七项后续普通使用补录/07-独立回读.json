@@ -1,0 +1,1473 @@
+{
+  "toolExitCode": 0,
+  "stdout": "{\"status\":\"PASS\",\"at\":\"2026-09-19T03:09:10.016Z\",\"businessWrites\":0,\"GETs\":175,\"unchangedResponsesIncludingTimestamps\":145,\"expectedChangedCollections\":15,\"newObjects\":{\"/skills/braum_q/effects/mana_cost\":{\"createdAt\":\"2026-09-19T03:07:53.825494Z\",\"description\":\"本技能普通主动使用消耗对应等级45/50/55/60/65法力；引用既有mana_cost参数，具体使用时点由引用过程定义。\",\"effectKey\":\"mana_cost\",\"gameId\":\"lol\",\"lifecycle\":null,\"name\":\"施放法力消耗\",\"results\":[{\"description\":null,\"detail\":{\"attributeKey\":\"mana\",\"operation\":\"CONSUME\"},\"lifecycleBehavior\":null,\"name\":\"消耗法力\",\"resultKey\":\"consume_mana\",\"resultType\":\"RESOURCE_CHANGE\",\"sortOrder\":10,\"spellShieldBlockScope\":null,\"target\":\"SOURCE\",\"valueRule\":{\"fixedMaxValue\":null,\"fixedMinValue\":0,\"fixedMultiplier\":1,\"value\":{\"kind\":\"PARAMETER\",\"parameterKey\":\"mana_cost\"}}}],\"skillKey\":\"braum_q\",\"sortOrder\":5,\"updatedAt\":\"2026-09-19T03:07:53.825494Z\"},\"/skills/braum_q/processes/use_cost_and_cooldown\":{\"activationType\":\"ACTIVE\",\"cooldown\":{\"durationValue\":{\"kind\":\"PARAMETER\",\"parameterKey\":\"cooldown_ms\"},\"startMoment\":{\"momentType\":\"PROCESS_START\",\"stepKey\":null}},\"createdAt\":\"2026-09-19T03:07:55.404966Z\",\"description\":\"只登记本次普通主动使用的基础法力消耗与普通冷却。两个施法时间字段的语义尚待核定，固定0仅为本登记步骤，不定义真实施法时长；实际命中另有入口。\",\"effectBindings\":[{\"bindingKey\":\"mana_cost\",\"effectKey\":\"mana_cost\",\"moment\":{\"momentType\":\"PROCESS_START\",\"stepKey\":null},\"sortOrder\":10}],\"gameId\":\"lol\",\"name\":\"布隆·寒冬之咬使用消耗与冷却登记\",\"processKey\":\"use_cost_and_cooldown\",\"skillKey\":\"braum_q\",\"sortOrder\":10,\"stateOperations\":[],\"steps\":[{\"description\":\"固定0延迟仅表示本登记过程不建模技能施法时序。\",\"detail\":{\"delayValue\":{\"kind\":\"FIXED\",\"value\":0}},\"name\":\"登记本次使用\",\"sortOrder\":10,\"stepKey\":\"register_use\",\"stepType\":\"DELAY\"}],\"updatedAt\":\"2026-09-19T03:07:55.404966Z\"},\"/skills/braum_q/trigger-rules/on_used_cost_and_cooldown\":{\"actions\":[{\"actionKey\":\"start_use_cost\",\"actionType\":\"START_PROCESS\",\"detail\":{\"processKey\":\"use_cost_and_cooldown\"},\"name\":\"启动布隆·寒冬之咬使用登记\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[],\"description\":\"普通主动使用braum_q时启动use_cost_and_cooldown，登记基础法力和普通冷却；本入口不定义实际施法时长。实际命中、返还、控制和联动由各自入口处理。\",\"eventSource\":{\"detail\":{\"sourceSkillKey\":\"braum_q\",\"useKind\":\"ACTIVE\"},\"eventType\":\"SKILL_USED\"},\"maxTriggersPerProcess\":null,\"name\":\"布隆·寒冬之咬普通使用\",\"perTargetCooldown\":null,\"ruleKey\":\"on_used_cost_and_cooldown\",\"sortOrder\":5},\"/skills/nautilus_q/processes/cast\":{\"activationType\":\"ACTIVE\",\"cooldown\":{\"durationValue\":{\"kind\":\"PARAMETER\",\"parameterKey\":\"cooldown_ms\"},\"startMoment\":{\"momentType\":\"PROCESS_START\",\"stepKey\":null}},\"createdAt\":\"2026-09-19T03:07:58.42352Z\",\"description\":\"登记普通主动使用的基础法力消耗、已有250毫秒根施法延迟与普通冷却；延迟结束不产生命中，控制与其他联动单列。\",\"effectBindings\":[{\"bindingKey\":\"mana_cost\",\"effectKey\":\"mana_cost\",\"moment\":{\"momentType\":\"PROCESS_START\",\"stepKey\":null},\"sortOrder\":10}],\"gameId\":\"lol\",\"name\":\"诺提勒斯·疏通航道施法登记\",\"processKey\":\"cast\",\"skillKey\":\"nautilus_q\",\"sortOrder\":10,\"stateOperations\":[],\"steps\":[{\"description\":\"读取当前技能既有施法时间参数；延迟结束不表示发生实际命中。\",\"detail\":{\"delayValue\":{\"kind\":\"PARAMETER\",\"parameterKey\":\"cast_time_ms\"}},\"name\":\"施法延迟\",\"sortOrder\":10,\"stepKey\":\"cast_time\",\"stepType\":\"DELAY\"}],\"updatedAt\":\"2026-09-19T03:07:58.42352Z\"},\"/skills/nautilus_q/trigger-rules/on_used\":{\"actions\":[{\"actionKey\":\"start_cast\",\"actionType\":\"START_PROCESS\",\"detail\":{\"processKey\":\"cast\"},\"name\":\"启动诺提勒斯·疏通航道使用登记\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[],\"description\":\"普通主动使用nautilus_q时启动cast，登记基础法力和普通冷却；过程使用既有根施法参数。实际命中、返还、控制和联动由各自入口处理。\",\"eventSource\":{\"detail\":{\"sourceSkillKey\":\"nautilus_q\",\"useKind\":\"ACTIVE\"},\"eventType\":\"SKILL_USED\"},\"maxTriggersPerProcess\":null,\"name\":\"诺提勒斯·疏通航道普通使用\",\"perTargetCooldown\":null,\"ruleKey\":\"on_used\",\"sortOrder\":20},\"/skills/ziggs_q/processes/use_cost_and_cooldown\":{\"activationType\":\"ACTIVE\",\"cooldown\":{\"durationValue\":{\"kind\":\"PARAMETER\",\"parameterKey\":\"cooldown_ms\"},\"startMoment\":{\"momentType\":\"PROCESS_START\",\"stepKey\":null}},\"createdAt\":\"2026-09-19T03:08:01.499884Z\",\"description\":\"只登记本次普通主动使用的基础法力消耗与普通冷却。两个施法时间字段的语义尚待核定，固定0仅为本登记步骤，不定义真实施法时长；实际命中另有入口。\",\"effectBindings\":[{\"bindingKey\":\"mana_cost\",\"effectKey\":\"mana_cost\",\"moment\":{\"momentType\":\"PROCESS_START\",\"stepKey\":null},\"sortOrder\":10}],\"gameId\":\"lol\",\"name\":\"吉格斯·弹跳炸弹使用消耗与冷却登记\",\"processKey\":\"use_cost_and_cooldown\",\"skillKey\":\"ziggs_q\",\"sortOrder\":10,\"stateOperations\":[],\"steps\":[{\"description\":\"固定0延迟仅表示本登记过程不建模技能施法时序。\",\"detail\":{\"delayValue\":{\"kind\":\"FIXED\",\"value\":0}},\"name\":\"登记本次使用\",\"sortOrder\":10,\"stepKey\":\"register_use\",\"stepType\":\"DELAY\"}],\"updatedAt\":\"2026-09-19T03:08:01.499884Z\"},\"/skills/ziggs_q/trigger-rules/on_used_cost_and_cooldown\":{\"actions\":[{\"actionKey\":\"start_use_cost\",\"actionType\":\"START_PROCESS\",\"detail\":{\"processKey\":\"use_cost_and_cooldown\"},\"name\":\"启动吉格斯·弹跳炸弹使用登记\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[],\"description\":\"普通主动使用ziggs_q时启动use_cost_and_cooldown，登记基础法力和普通冷却；本入口不定义实际施法时长。实际命中、返还、控制和联动由各自入口处理。\",\"eventSource\":{\"detail\":{\"sourceSkillKey\":\"ziggs_q\",\"useKind\":\"ACTIVE\"},\"eventType\":\"SKILL_USED\"},\"maxTriggersPerProcess\":null,\"name\":\"吉格斯·弹跳炸弹普通使用\",\"perTargetCooldown\":null,\"ruleKey\":\"on_used_cost_and_cooldown\",\"sortOrder\":5},\"/skills/zyra_q/processes/cast\":{\"activationType\":\"ACTIVE\",\"cooldown\":{\"durationValue\":{\"kind\":\"PARAMETER\",\"parameterKey\":\"cooldown_ms\"},\"startMoment\":{\"momentType\":\"PROCESS_START\",\"stepKey\":null}},\"createdAt\":\"2026-09-19T03:08:04.366908Z\",\"description\":\"登记普通主动使用的基础法力消耗、已有250毫秒根施法延迟与普通冷却；延迟结束不产生命中，控制与其他联动单列。\",\"effectBindings\":[{\"bindingKey\":\"mana_cost\",\"effectKey\":\"mana_cost\",\"moment\":{\"momentType\":\"PROCESS_START\",\"stepKey\":null},\"sortOrder\":10}],\"gameId\":\"lol\",\"name\":\"婕拉·致命棘刺施法登记\",\"processKey\":\"cast\",\"skillKey\":\"zyra_q\",\"sortOrder\":10,\"stateOperations\":[],\"steps\":[{\"description\":\"读取当前技能既有施法时间参数；延迟结束不表示发生实际命中。\",\"detail\":{\"delayValue\":{\"kind\":\"PARAMETER\",\"parameterKey\":\"cast_time_ms\"}},\"name\":\"施法延迟\",\"sortOrder\":10,\"stepKey\":\"cast_time\",\"stepType\":\"DELAY\"}],\"updatedAt\":\"2026-09-19T03:08:04.366908Z\"},\"/skills/zyra_q/trigger-rules/on_used\":{\"actions\":[{\"actionKey\":\"start_cast\",\"actionType\":\"START_PROCESS\",\"detail\":{\"processKey\":\"cast\"},\"name\":\"启动婕拉·致命棘刺使用登记\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[],\"description\":\"普通主动使用zyra_q时启动cast，登记基础法力和普通冷却；过程使用既有根施法参数。实际命中、返还、控制和联动由各自入口处理。\",\"eventSource\":{\"detail\":{\"sourceSkillKey\":\"zyra_q\",\"useKind\":\"ACTIVE\"},\"eventType\":\"SKILL_USED\"},\"maxTriggersPerProcess\":null,\"name\":\"婕拉·致命棘刺普通使用\",\"perTargetCooldown\":null,\"ruleKey\":\"on_used\",\"sortOrder\":20},\"/skills/zyra_e/processes/cast\":{\"activationType\":\"ACTIVE\",\"cooldown\":{\"durationValue\":{\"kind\":\"PARAMETER\",\"parameterKey\":\"cooldown_ms\"},\"startMoment\":{\"momentType\":\"PROCESS_START\",\"stepKey\":null}},\"createdAt\":\"2026-09-19T03:08:07.529485Z\",\"description\":\"登记普通主动使用的基础法力消耗、已有250毫秒根施法延迟与普通冷却；延迟结束不产生命中，控制与其他联动单列。\",\"effectBindings\":[{\"bindingKey\":\"mana_cost\",\"effectKey\":\"mana_cost\",\"moment\":{\"momentType\":\"PROCESS_START\",\"stepKey\":null},\"sortOrder\":10}],\"gameId\":\"lol\",\"name\":\"婕拉·缠绕之根施法登记\",\"processKey\":\"cast\",\"skillKey\":\"zyra_e\",\"sortOrder\":10,\"stateOperations\":[],\"steps\":[{\"description\":\"读取当前技能既有施法时间参数；延迟结束不表示发生实际命中。\",\"detail\":{\"delayValue\":{\"kind\":\"PARAMETER\",\"parameterKey\":\"cast_time_ms\"}},\"name\":\"施法延迟\",\"sortOrder\":10,\"stepKey\":\"cast_time\",\"stepType\":\"DELAY\"}],\"updatedAt\":\"2026-09-19T03:08:07.529485Z\"},\"/skills/zyra_e/trigger-rules/on_used\":{\"actions\":[{\"actionKey\":\"start_cast\",\"actionType\":\"START_PROCESS\",\"detail\":{\"processKey\":\"cast\"},\"name\":\"启动婕拉·缠绕之根使用登记\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[],\"description\":\"普通主动使用zyra_e时启动cast，登记基础法力和普通冷却；过程使用既有根施法参数。实际命中、返还、控制和联动由各自入口处理。\",\"eventSource\":{\"detail\":{\"sourceSkillKey\":\"zyra_e\",\"useKind\":\"ACTIVE\"},\"eventType\":\"SKILL_USED\"},\"maxTriggersPerProcess\":null,\"name\":\"婕拉·缠绕之根普通使用\",\"perTargetCooldown\":null,\"ruleKey\":\"on_used\",\"sortOrder\":20},\"/skills/leona_r/processes/cast\":{\"activationType\":\"ACTIVE\",\"cooldown\":{\"durationValue\":{\"kind\":\"PARAMETER\",\"parameterKey\":\"cooldown_ms\"},\"startMoment\":{\"momentType\":\"PROCESS_START\",\"stepKey\":null}},\"createdAt\":\"2026-09-19T03:08:10.560447Z\",\"description\":\"登记普通主动使用的基础法力消耗、已有250毫秒根施法延迟与普通冷却；延迟结束不产生命中，控制与其他联动单列。\",\"effectBindings\":[{\"bindingKey\":\"mana_cost\",\"effectKey\":\"mana_cost\",\"moment\":{\"momentType\":\"PROCESS_START\",\"stepKey\":null},\"sortOrder\":10}],\"gameId\":\"lol\",\"name\":\"蕾欧娜·日炎耀斑施法登记\",\"processKey\":\"cast\",\"skillKey\":\"leona_r\",\"sortOrder\":10,\"stateOperations\":[],\"steps\":[{\"description\":\"读取当前技能既有施法时间参数；延迟结束不表示发生实际命中。\",\"detail\":{\"delayValue\":{\"kind\":\"PARAMETER\",\"parameterKey\":\"cast_time_ms\"}},\"name\":\"施法延迟\",\"sortOrder\":10,\"stepKey\":\"cast_time\",\"stepType\":\"DELAY\"}],\"updatedAt\":\"2026-09-19T03:08:10.560447Z\"},\"/skills/leona_r/trigger-rules/on_used\":{\"actions\":[{\"actionKey\":\"start_cast\",\"actionType\":\"START_PROCESS\",\"detail\":{\"processKey\":\"cast\"},\"name\":\"启动蕾欧娜·日炎耀斑使用登记\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[],\"description\":\"普通主动使用leona_r时启动cast，登记基础法力和普通冷却；过程使用既有根施法参数。实际命中、返还、控制和联动由各自入口处理。\",\"eventSource\":{\"detail\":{\"sourceSkillKey\":\"leona_r\",\"useKind\":\"ACTIVE\"},\"eventType\":\"SKILL_USED\"},\"maxTriggersPerProcess\":null,\"name\":\"蕾欧娜·日炎耀斑普通使用\",\"perTargetCooldown\":null,\"ruleKey\":\"on_used\",\"sortOrder\":20},\"/skills/malzahar_q/processes/cast\":{\"activationType\":\"ACTIVE\",\"cooldown\":{\"durationValue\":{\"kind\":\"PARAMETER\",\"parameterKey\":\"cooldown_ms\"},\"startMoment\":{\"momentType\":\"PROCESS_START\",\"stepKey\":null}},\"createdAt\":\"2026-09-19T03:08:13.416314Z\",\"description\":\"登记普通主动使用的基础法力消耗、已有250毫秒根施法延迟与普通冷却；延迟结束不产生命中，控制与其他联动单列。\",\"effectBindings\":[{\"bindingKey\":\"mana_cost\",\"effectKey\":\"mana_cost\",\"moment\":{\"momentType\":\"PROCESS_START\",\"stepKey\":null},\"sortOrder\":10}],\"gameId\":\"lol\",\"name\":\"玛尔扎哈·虚空召唤施法登记\",\"processKey\":\"cast\",\"skillKey\":\"malzahar_q\",\"sortOrder\":10,\"stateOperations\":[],\"steps\":[{\"description\":\"读取当前技能既有施法时间参数；延迟结束不表示发生实际命中。\",\"detail\":{\"delayValue\":{\"kind\":\"PARAMETER\",\"parameterKey\":\"cast_time_ms\"}},\"name\":\"施法延迟\",\"sortOrder\":10,\"stepKey\":\"cast_time\",\"stepType\":\"DELAY\"}],\"updatedAt\":\"2026-09-19T03:08:13.416314Z\"},\"/skills/malzahar_q/trigger-rules/on_used\":{\"actions\":[{\"actionKey\":\"start_cast\",\"actionType\":\"START_PROCESS\",\"detail\":{\"processKey\":\"cast\"},\"name\":\"启动玛尔扎哈·虚空召唤使用登记\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[],\"description\":\"普通主动使用malzahar_q时启动cast，登记基础法力和普通冷却；过程使用既有根施法参数。实际命中、返还、控制和联动由各自入口处理。\",\"eventSource\":{\"detail\":{\"sourceSkillKey\":\"malzahar_q\",\"useKind\":\"ACTIVE\"},\"eventType\":\"SKILL_USED\"},\"maxTriggersPerProcess\":null,\"name\":\"玛尔扎哈·虚空召唤普通使用\",\"perTargetCooldown\":null,\"ruleKey\":\"on_used\",\"sortOrder\":20}},\"audit\":[{\"method\":\"GET\",\"path\":\"/skills/braum_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_braum\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_braum/attributes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_braum/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/braum_q/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?characterKey=champion_braum\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?skillKey=braum_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/braum_q/parameters\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/braum_q/parameters/base_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/braum_q/parameters/source_max_hp_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/braum_q/parameters/initial_slow_percent_points\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/braum_q/parameters/minimum_slow_percent_points\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/braum_q/parameters/slow_duration_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/braum_q/parameters/cooldown_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/braum_q/parameters/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/braum_q/formulas\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/braum_q/formulas/magic_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/braum_q/effects\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/braum_q/effects/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/braum_q/effects/primary_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/braum_q/processes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/braum_q/processes/use_cost_and_cooldown\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/braum_q/internal-states\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/braum_q/trigger-rules\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/braum_q/trigger-rules/on_used_cost_and_cooldown\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/braum_q/trigger-rules/actual_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nautilus_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_nautilus\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_nautilus/attributes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_nautilus/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nautilus_q/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?characterKey=champion_nautilus\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?skillKey=nautilus_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nautilus_q/parameters\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nautilus_q/parameters/cast_time_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nautilus_q/parameters/base_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nautilus_q/parameters/ap_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nautilus_q/parameters/terrain_cooldown_reduction_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nautilus_q/parameters/terrain_mana_refund_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nautilus_q/parameters/cooldown_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nautilus_q/parameters/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nautilus_q/formulas\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nautilus_q/formulas/magic_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nautilus_q/effects\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nautilus_q/effects/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nautilus_q/effects/primary_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nautilus_q/processes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nautilus_q/processes/cast\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nautilus_q/internal-states\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nautilus_q/trigger-rules\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nautilus_q/trigger-rules/actual_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/nautilus_q/trigger-rules/on_used\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/ziggs_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_ziggs\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_ziggs/attributes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_ziggs/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/ziggs_q/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?characterKey=champion_ziggs\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?skillKey=ziggs_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/ziggs_q/parameters\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/ziggs_q/parameters/base_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/ziggs_q/parameters/ap_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/ziggs_q/parameters/cooldown_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/ziggs_q/parameters/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/ziggs_q/formulas\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/ziggs_q/formulas/damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/ziggs_q/effects\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/ziggs_q/effects/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/ziggs_q/effects/primary_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/ziggs_q/processes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/ziggs_q/processes/use_cost_and_cooldown\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/ziggs_q/internal-states\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/ziggs_q/trigger-rules\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/ziggs_q/trigger-rules/on_used_cost_and_cooldown\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/ziggs_q/trigger-rules/actual_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_zyra\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_zyra/attributes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_zyra/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_q/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?characterKey=champion_zyra\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?skillKey=zyra_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_q/parameters\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_q/parameters/base_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_q/parameters/ap_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_q/parameters/cast_time_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_q/parameters/cooldown_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_q/parameters/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_q/formulas\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_q/formulas/magic_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_q/effects\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_q/effects/primary_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_q/effects/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_q/processes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_q/processes/cast\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_q/internal-states\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_q/trigger-rules\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_q/trigger-rules/actual_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_q/trigger-rules/on_used\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_e\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_e/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?skillKey=zyra_e\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_e/parameters\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_e/parameters/base_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_e/parameters/ap_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_e/parameters/root_duration_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_e/parameters/cast_time_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_e/parameters/cooldown_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_e/parameters/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_e/formulas\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_e/formulas/magic_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_e/effects\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_e/effects/primary_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_e/effects/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_e/processes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_e/processes/cast\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_e/internal-states\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_e/trigger-rules\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_e/trigger-rules/actual_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/zyra_e/trigger-rules/on_used\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leona_r\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_leona\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_leona/attributes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_leona/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leona_r/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?characterKey=champion_leona\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?skillKey=leona_r\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leona_r/parameters\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leona_r/parameters/cast_time_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leona_r/parameters/explosion_base_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leona_r/parameters/explosion_ap_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leona_r/parameters/slow_percent_points\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leona_r/parameters/cc_duration_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leona_r/parameters/cooldown_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leona_r/parameters/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leona_r/formulas\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leona_r/formulas/magic_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leona_r/effects\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leona_r/effects/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leona_r/effects/primary_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leona_r/processes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leona_r/processes/cast\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leona_r/internal-states\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leona_r/trigger-rules\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leona_r/trigger-rules/actual_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/leona_r/trigger-rules/on_used\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/malzahar_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_malzahar\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_malzahar/attributes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_malzahar/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/malzahar_q/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?characterKey=champion_malzahar\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?skillKey=malzahar_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/malzahar_q/parameters\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/malzahar_q/parameters/cast_time_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/malzahar_q/parameters/base_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/malzahar_q/parameters/silence_duration_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/malzahar_q/parameters/ap_ratio_constant\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/malzahar_q/parameters/cooldown_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/malzahar_q/parameters/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/malzahar_q/formulas\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/malzahar_q/formulas/damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/malzahar_q/effects\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/malzahar_q/effects/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/malzahar_q/effects/primary_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/malzahar_q/processes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/malzahar_q/processes/cast\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/malzahar_q/internal-states\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/malzahar_q/trigger-rules\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/malzahar_q/trigger-rules/actual_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/malzahar_q/trigger-rules/on_used\",\"status\":200},{\"method\":\"GET\",\"path\":\"/attributes/mana\",\"status\":200},{\"method\":\"GET\",\"path\":\"/attributes/hp\",\"status\":200},{\"method\":\"GET\",\"path\":\"/damage-types/magic\",\"status\":200},{\"method\":\"GET\",\"path\":\"/attributes/ability_power\",\"status\":200}]}\n",
+  "summary": {
+    "status": "PASS",
+    "at": "2026-09-19T03:09:10.016Z",
+    "businessWrites": 0,
+    "GETs": 175,
+    "unchangedResponsesIncludingTimestamps": 145,
+    "expectedChangedCollections": 15,
+    "newObjects": {
+      "/skills/braum_q/effects/mana_cost": {
+        "createdAt": "2026-09-19T03:07:53.825494Z",
+        "description": "本技能普通主动使用消耗对应等级45/50/55/60/65法力；引用既有mana_cost参数，具体使用时点由引用过程定义。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "施放法力消耗",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "braum_q",
+        "sortOrder": 5,
+        "updatedAt": "2026-09-19T03:07:53.825494Z"
+      },
+      "/skills/braum_q/processes/use_cost_and_cooldown": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "createdAt": "2026-09-19T03:07:55.404966Z",
+        "description": "只登记本次普通主动使用的基础法力消耗与普通冷却。两个施法时间字段的语义尚待核定，固定0仅为本登记步骤，不定义真实施法时长；实际命中另有入口。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "gameId": "lol",
+        "name": "布隆·寒冬之咬使用消耗与冷却登记",
+        "processKey": "use_cost_and_cooldown",
+        "skillKey": "braum_q",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "固定0延迟仅表示本登记过程不建模技能施法时序。",
+            "detail": {
+              "delayValue": {
+                "kind": "FIXED",
+                "value": 0
+              }
+            },
+            "name": "登记本次使用",
+            "sortOrder": 10,
+            "stepKey": "register_use",
+            "stepType": "DELAY"
+          }
+        ],
+        "updatedAt": "2026-09-19T03:07:55.404966Z"
+      },
+      "/skills/braum_q/trigger-rules/on_used_cost_and_cooldown": {
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "use_cost_and_cooldown"
+            },
+            "name": "启动布隆·寒冬之咬使用登记",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "普通主动使用braum_q时启动use_cost_and_cooldown，登记基础法力和普通冷却；本入口不定义实际施法时长。实际命中、返还、控制和联动由各自入口处理。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "braum_q",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "布隆·寒冬之咬普通使用",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used_cost_and_cooldown",
+        "sortOrder": 5
+      },
+      "/skills/nautilus_q/processes/cast": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "createdAt": "2026-09-19T03:07:58.42352Z",
+        "description": "登记普通主动使用的基础法力消耗、已有250毫秒根施法延迟与普通冷却；延迟结束不产生命中，控制与其他联动单列。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "gameId": "lol",
+        "name": "诺提勒斯·疏通航道施法登记",
+        "processKey": "cast",
+        "skillKey": "nautilus_q",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "读取当前技能既有施法时间参数；延迟结束不表示发生实际命中。",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            },
+            "name": "施法延迟",
+            "sortOrder": 10,
+            "stepKey": "cast_time",
+            "stepType": "DELAY"
+          }
+        ],
+        "updatedAt": "2026-09-19T03:07:58.42352Z"
+      },
+      "/skills/nautilus_q/trigger-rules/on_used": {
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "cast"
+            },
+            "name": "启动诺提勒斯·疏通航道使用登记",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "普通主动使用nautilus_q时启动cast，登记基础法力和普通冷却；过程使用既有根施法参数。实际命中、返还、控制和联动由各自入口处理。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "nautilus_q",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "诺提勒斯·疏通航道普通使用",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used",
+        "sortOrder": 20
+      },
+      "/skills/ziggs_q/processes/use_cost_and_cooldown": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "createdAt": "2026-09-19T03:08:01.499884Z",
+        "description": "只登记本次普通主动使用的基础法力消耗与普通冷却。两个施法时间字段的语义尚待核定，固定0仅为本登记步骤，不定义真实施法时长；实际命中另有入口。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "gameId": "lol",
+        "name": "吉格斯·弹跳炸弹使用消耗与冷却登记",
+        "processKey": "use_cost_and_cooldown",
+        "skillKey": "ziggs_q",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "固定0延迟仅表示本登记过程不建模技能施法时序。",
+            "detail": {
+              "delayValue": {
+                "kind": "FIXED",
+                "value": 0
+              }
+            },
+            "name": "登记本次使用",
+            "sortOrder": 10,
+            "stepKey": "register_use",
+            "stepType": "DELAY"
+          }
+        ],
+        "updatedAt": "2026-09-19T03:08:01.499884Z"
+      },
+      "/skills/ziggs_q/trigger-rules/on_used_cost_and_cooldown": {
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "use_cost_and_cooldown"
+            },
+            "name": "启动吉格斯·弹跳炸弹使用登记",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "普通主动使用ziggs_q时启动use_cost_and_cooldown，登记基础法力和普通冷却；本入口不定义实际施法时长。实际命中、返还、控制和联动由各自入口处理。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "ziggs_q",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "吉格斯·弹跳炸弹普通使用",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used_cost_and_cooldown",
+        "sortOrder": 5
+      },
+      "/skills/zyra_q/processes/cast": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "createdAt": "2026-09-19T03:08:04.366908Z",
+        "description": "登记普通主动使用的基础法力消耗、已有250毫秒根施法延迟与普通冷却；延迟结束不产生命中，控制与其他联动单列。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "gameId": "lol",
+        "name": "婕拉·致命棘刺施法登记",
+        "processKey": "cast",
+        "skillKey": "zyra_q",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "读取当前技能既有施法时间参数；延迟结束不表示发生实际命中。",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            },
+            "name": "施法延迟",
+            "sortOrder": 10,
+            "stepKey": "cast_time",
+            "stepType": "DELAY"
+          }
+        ],
+        "updatedAt": "2026-09-19T03:08:04.366908Z"
+      },
+      "/skills/zyra_q/trigger-rules/on_used": {
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "cast"
+            },
+            "name": "启动婕拉·致命棘刺使用登记",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "普通主动使用zyra_q时启动cast，登记基础法力和普通冷却；过程使用既有根施法参数。实际命中、返还、控制和联动由各自入口处理。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "zyra_q",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "婕拉·致命棘刺普通使用",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used",
+        "sortOrder": 20
+      },
+      "/skills/zyra_e/processes/cast": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "createdAt": "2026-09-19T03:08:07.529485Z",
+        "description": "登记普通主动使用的基础法力消耗、已有250毫秒根施法延迟与普通冷却；延迟结束不产生命中，控制与其他联动单列。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "gameId": "lol",
+        "name": "婕拉·缠绕之根施法登记",
+        "processKey": "cast",
+        "skillKey": "zyra_e",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "读取当前技能既有施法时间参数；延迟结束不表示发生实际命中。",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            },
+            "name": "施法延迟",
+            "sortOrder": 10,
+            "stepKey": "cast_time",
+            "stepType": "DELAY"
+          }
+        ],
+        "updatedAt": "2026-09-19T03:08:07.529485Z"
+      },
+      "/skills/zyra_e/trigger-rules/on_used": {
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "cast"
+            },
+            "name": "启动婕拉·缠绕之根使用登记",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "普通主动使用zyra_e时启动cast，登记基础法力和普通冷却；过程使用既有根施法参数。实际命中、返还、控制和联动由各自入口处理。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "zyra_e",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "婕拉·缠绕之根普通使用",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used",
+        "sortOrder": 20
+      },
+      "/skills/leona_r/processes/cast": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "createdAt": "2026-09-19T03:08:10.560447Z",
+        "description": "登记普通主动使用的基础法力消耗、已有250毫秒根施法延迟与普通冷却；延迟结束不产生命中，控制与其他联动单列。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "gameId": "lol",
+        "name": "蕾欧娜·日炎耀斑施法登记",
+        "processKey": "cast",
+        "skillKey": "leona_r",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "读取当前技能既有施法时间参数；延迟结束不表示发生实际命中。",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            },
+            "name": "施法延迟",
+            "sortOrder": 10,
+            "stepKey": "cast_time",
+            "stepType": "DELAY"
+          }
+        ],
+        "updatedAt": "2026-09-19T03:08:10.560447Z"
+      },
+      "/skills/leona_r/trigger-rules/on_used": {
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "cast"
+            },
+            "name": "启动蕾欧娜·日炎耀斑使用登记",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "普通主动使用leona_r时启动cast，登记基础法力和普通冷却；过程使用既有根施法参数。实际命中、返还、控制和联动由各自入口处理。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "leona_r",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "蕾欧娜·日炎耀斑普通使用",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used",
+        "sortOrder": 20
+      },
+      "/skills/malzahar_q/processes/cast": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "createdAt": "2026-09-19T03:08:13.416314Z",
+        "description": "登记普通主动使用的基础法力消耗、已有250毫秒根施法延迟与普通冷却；延迟结束不产生命中，控制与其他联动单列。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "gameId": "lol",
+        "name": "玛尔扎哈·虚空召唤施法登记",
+        "processKey": "cast",
+        "skillKey": "malzahar_q",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "读取当前技能既有施法时间参数；延迟结束不表示发生实际命中。",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            },
+            "name": "施法延迟",
+            "sortOrder": 10,
+            "stepKey": "cast_time",
+            "stepType": "DELAY"
+          }
+        ],
+        "updatedAt": "2026-09-19T03:08:13.416314Z"
+      },
+      "/skills/malzahar_q/trigger-rules/on_used": {
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "cast"
+            },
+            "name": "启动玛尔扎哈·虚空召唤使用登记",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "普通主动使用malzahar_q时启动cast，登记基础法力和普通冷却；过程使用既有根施法参数。实际命中、返还、控制和联动由各自入口处理。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "malzahar_q",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "玛尔扎哈·虚空召唤普通使用",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used",
+        "sortOrder": 20
+      }
+    },
+    "audit": [
+      {
+        "method": "GET",
+        "path": "/skills/braum_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_braum",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_braum/attributes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_braum/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/braum_q/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?characterKey=champion_braum",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?skillKey=braum_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/braum_q/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/braum_q/parameters/base_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/braum_q/parameters/source_max_hp_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/braum_q/parameters/initial_slow_percent_points",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/braum_q/parameters/minimum_slow_percent_points",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/braum_q/parameters/slow_duration_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/braum_q/parameters/cooldown_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/braum_q/parameters/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/braum_q/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/braum_q/formulas/magic_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/braum_q/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/braum_q/effects/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/braum_q/effects/primary_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/braum_q/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/braum_q/processes/use_cost_and_cooldown",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/braum_q/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/braum_q/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/braum_q/trigger-rules/on_used_cost_and_cooldown",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/braum_q/trigger-rules/actual_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nautilus_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_nautilus",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_nautilus/attributes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_nautilus/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nautilus_q/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?characterKey=champion_nautilus",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?skillKey=nautilus_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nautilus_q/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nautilus_q/parameters/cast_time_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nautilus_q/parameters/base_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nautilus_q/parameters/ap_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nautilus_q/parameters/terrain_cooldown_reduction_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nautilus_q/parameters/terrain_mana_refund_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nautilus_q/parameters/cooldown_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nautilus_q/parameters/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nautilus_q/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nautilus_q/formulas/magic_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nautilus_q/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nautilus_q/effects/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nautilus_q/effects/primary_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nautilus_q/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nautilus_q/processes/cast",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nautilus_q/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nautilus_q/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nautilus_q/trigger-rules/actual_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/nautilus_q/trigger-rules/on_used",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/ziggs_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_ziggs",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_ziggs/attributes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_ziggs/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/ziggs_q/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?characterKey=champion_ziggs",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?skillKey=ziggs_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/ziggs_q/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/ziggs_q/parameters/base_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/ziggs_q/parameters/ap_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/ziggs_q/parameters/cooldown_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/ziggs_q/parameters/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/ziggs_q/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/ziggs_q/formulas/damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/ziggs_q/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/ziggs_q/effects/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/ziggs_q/effects/primary_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/ziggs_q/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/ziggs_q/processes/use_cost_and_cooldown",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/ziggs_q/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/ziggs_q/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/ziggs_q/trigger-rules/on_used_cost_and_cooldown",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/ziggs_q/trigger-rules/actual_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_zyra",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_zyra/attributes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_zyra/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_q/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?characterKey=champion_zyra",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?skillKey=zyra_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_q/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_q/parameters/base_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_q/parameters/ap_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_q/parameters/cast_time_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_q/parameters/cooldown_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_q/parameters/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_q/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_q/formulas/magic_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_q/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_q/effects/primary_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_q/effects/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_q/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_q/processes/cast",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_q/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_q/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_q/trigger-rules/actual_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_q/trigger-rules/on_used",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_e",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_e/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?skillKey=zyra_e",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_e/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_e/parameters/base_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_e/parameters/ap_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_e/parameters/root_duration_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_e/parameters/cast_time_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_e/parameters/cooldown_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_e/parameters/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_e/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_e/formulas/magic_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_e/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_e/effects/primary_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_e/effects/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_e/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_e/processes/cast",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_e/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_e/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_e/trigger-rules/actual_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_e/trigger-rules/on_used",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leona_r",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_leona",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_leona/attributes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_leona/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leona_r/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?characterKey=champion_leona",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?skillKey=leona_r",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leona_r/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leona_r/parameters/cast_time_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leona_r/parameters/explosion_base_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leona_r/parameters/explosion_ap_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leona_r/parameters/slow_percent_points",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leona_r/parameters/cc_duration_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leona_r/parameters/cooldown_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leona_r/parameters/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leona_r/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leona_r/formulas/magic_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leona_r/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leona_r/effects/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leona_r/effects/primary_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leona_r/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leona_r/processes/cast",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leona_r/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leona_r/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leona_r/trigger-rules/actual_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/leona_r/trigger-rules/on_used",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/malzahar_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_malzahar",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_malzahar/attributes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_malzahar/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/malzahar_q/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?characterKey=champion_malzahar",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?skillKey=malzahar_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/malzahar_q/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/malzahar_q/parameters/cast_time_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/malzahar_q/parameters/base_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/malzahar_q/parameters/silence_duration_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/malzahar_q/parameters/ap_ratio_constant",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/malzahar_q/parameters/cooldown_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/malzahar_q/parameters/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/malzahar_q/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/malzahar_q/formulas/damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/malzahar_q/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/malzahar_q/effects/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/malzahar_q/effects/primary_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/malzahar_q/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/malzahar_q/processes/cast",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/malzahar_q/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/malzahar_q/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/malzahar_q/trigger-rules/actual_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/malzahar_q/trigger-rules/on_used",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/attributes/mana",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/attributes/hp",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/damage-types/magic",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/attributes/ability_power",
+        "status": 200
+      }
+    ]
+  }
+}
