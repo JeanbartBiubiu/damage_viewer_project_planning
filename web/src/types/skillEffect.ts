@@ -56,9 +56,8 @@ export type SkillEffectCriticalPolicy = {
 };
 
 /**
- * 暂存的技能侧吸血结构。
- * 后续设计应以来源对象的吸血属性和游戏级结算规则为主；这里不应要求每个技能重复配置，
- * 最终只保留确有必要的伤害例外或效率修正。全局规则冻结前保持现有接口无损读写。
+ * 当前伤害结果的显式吸血资格、结算依据与效率。
+ * 空数组表示没有吸血规则，不会继承默认资格；按已核定来源填写适用规则。
  */
 export type SkillEffectVampRule = {
   vampType: SkillEffectVampType;
