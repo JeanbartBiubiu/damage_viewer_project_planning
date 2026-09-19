@@ -1,0 +1,12 @@
+{
+  "status":"PASS",
+  "url":"http://127.0.0.1:5173/#/skills",
+  "businessWrites":0,
+  "representatives":[
+    {"skillKey":"ashe_r","reason":"常规直接绑定","observedCategory":"终极技能","maxLevel":3},
+    {"skillKey":"fiddlesticks_r","reason":"固定资料角色根大小写不同的例外","observedCategory":"终极技能","maxLevel":3},
+    {"skillKey":"jayce_r","reason":"能力集合顺序与特殊最高等级","observedCategory":"终极技能","maxLevel":1}
+  ],
+  "checks":["各代表对象在其写入完成后查询列表并打开查看详情，终极分类、原名称、启用状态、排序4和原说明一致。","杰斯最高等级原为1，页面实际输入值仍为1；未统一改成3。","页面错误日志为空。"],
+  "runtimeValidation":"未执行"
+}

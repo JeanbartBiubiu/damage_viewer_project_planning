@@ -1,0 +1,4517 @@
+{
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "requests": [
+    {
+      "method": "PUT",
+      "route": "/skills/akshan_r",
+      "body": {
+        "name": "阿克尚·恩怨相抵",
+        "description": "阿克尚锁定一名敌方英雄并开始储存他的子弹。在释放时，他会发射所有已储存的子弹，对命中的第一个英雄、小兵或建筑物造成基于已损失生命值的伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:16:18.37569Z",
+        "description": "阿克尚锁定一名敌方英雄并开始储存他的子弹。在释放时，他会发射所有已储存的子弹，对命中的第一个英雄、小兵或建筑物造成基于已损失生命值的伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "阿克尚·恩怨相抵",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "akshan_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:16:18.37569Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/ambessa_r",
+      "body": {
+        "name": "安蓓萨·公开处刑",
+        "description": "安蓓萨选择一条直线，然后瞬移到直线上相距最远的那个敌方英雄身旁，并在到达后压制该英雄。随后将目标砸向地面，对其造成伤害和晕眩。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:16:22.002349Z",
+        "description": "安蓓萨选择一条直线，然后瞬移到直线上相距最远的那个敌方英雄身旁，并在到达后压制该英雄。随后将目标砸向地面，对其造成伤害和晕眩。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "安蓓萨·公开处刑",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "ambessa_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:16:22.002349Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/amumu_r",
+      "body": {
+        "name": "阿木木·木乃伊之咒",
+        "description": "阿木木用绷带将附近敌方单位通通缠住，对他们施加<keywordMajor>诅咒</keywordMajor>效果，并造成伤害和晕眩效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:16:23.74202Z",
+        "description": "阿木木用绷带将附近敌方单位通通缠住，对他们施加<keywordMajor>诅咒</keywordMajor>效果，并造成伤害和晕眩效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "阿木木·木乃伊之咒",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "amumu_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:16:23.74202Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/ashe_r",
+      "body": {
+        "name": "艾希·魔法水晶箭",
+        "description": "来源：官方静态资料16.17.1。原始说明：艾希射出一支沿直线飞行的魔法水晶箭。如果水晶箭命中了一名敌方英雄，那么它会对该英雄造成伤害和晕眩效果，晕眩时长取决于水晶箭的飞行距离。此外，该英雄附近的敌方单位会受到伤害和减速效果。 数值、机制及图片尚待录入与核对。",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T17:14:17.927699Z",
+        "description": "来源：官方静态资料16.17.1。原始说明：艾希射出一支沿直线飞行的魔法水晶箭。如果水晶箭命中了一名敌方英雄，那么它会对该英雄造成伤害和晕眩效果，晕眩时长取决于水晶箭的飞行距离。此外，该英雄附近的敌方单位会受到伤害和减速效果。 数值、机制及图片尚待录入与核对。",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "艾希·魔法水晶箭",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "ashe_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T17:14:17.927699Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/aurelionsol_r",
+      "body": {
+        "name": "奥瑞利安·索尔·星天落瀑",
+        "description": "星落：奥瑞利安 · 索尔召唤一颗星辰坠落地面。这次冲击造成魔法伤害并眩晕敌人，并且每命中一个敌方英雄还会提供星尘。收集足够的星尘后，奥瑞利安·索尔的下一次星落将会升级为天瀑。<br><br>天瀑：奥瑞利安 · 索尔从诸天拽下一颗巨大的星辰撞击地面，拥有提升过的冲击范围和提升过的伤害，并且会对敌人们造成击飞而非晕眩。随后会有一道冲击波从冲击范围的边缘散播出去，对命中的敌人们造成伤害和减速。星尘会提升【星落】和【天瀑】的冲击范围。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:16:29.269698Z",
+        "description": "星落：奥瑞利安 · 索尔召唤一颗星辰坠落地面。这次冲击造成魔法伤害并眩晕敌人，并且每命中一个敌方英雄还会提供星尘。收集足够的星尘后，奥瑞利安·索尔的下一次星落将会升级为天瀑。<br><br>天瀑：奥瑞利安 · 索尔从诸天拽下一颗巨大的星辰撞击地面，拥有提升过的冲击范围和提升过的伤害，并且会对敌人们造成击飞而非晕眩。随后会有一道冲击波从冲击范围的边缘散播出去，对命中的敌人们造成伤害和减速。星尘会提升【星落】和【天瀑】的冲击范围。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "奥瑞利安·索尔·星天落瀑",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "aurelionsol_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:16:29.269698Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/aurora_r",
+      "body": {
+        "name": "阿萝拉·双界合一",
+        "description": "阿萝拉跳向选定方向，释放出一片灵冲击波，对命中的敌人造成伤害和减速。然后，她会创造一个区域来减速其中的敌人们，并且允许阿萝拉从该区域的一侧传送到另一侧。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:16:30.906239Z",
+        "description": "阿萝拉跳向选定方向，释放出一片灵冲击波，对命中的敌人造成伤害和减速。然后，她会创造一个区域来减速其中的敌人们，并且允许阿萝拉从该区域的一侧传送到另一侧。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "阿萝拉·双界合一",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "aurora_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:16:30.906239Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/azir_r",
+      "body": {
+        "name": "阿兹尔·禁军之墙",
+        "description": "阿兹尔召唤一道由禁军组成的人墙向前冲锋，对敌人造成伤害和击退效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:16:32.57514Z",
+        "description": "阿兹尔召唤一道由禁军组成的人墙向前冲锋，对敌人造成伤害和击退效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "阿兹尔·禁军之墙",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "azir_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:16:32.57514Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/bard_r",
+      "body": {
+        "name": "巴德·调和命运",
+        "description": "巴德朝目标区域发射能量弧光，使区域内的所有单位、小兵、野怪和防御塔都暂时进入凝滞状态。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:16:34.110478Z",
+        "description": "巴德朝目标区域发射能量弧光，使区域内的所有单位、小兵、野怪和防御塔都暂时进入凝滞状态。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "巴德·调和命运",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "bard_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:16:34.110478Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/brand_r",
+      "body": {
+        "name": "布兰德·烈焰风暴",
+        "description": "布兰德释放一颗破坏力极强的火焰之种，火焰之种会在布兰德和附近敌人之间弹跳至多5次，每次弹跳时对敌人造成魔法伤害。弹跳会优先以带有即将满层的【炽热之焰】效果的英雄为目标。如果目标带有【烈焰焚身】效果，那么【R烈焰风暴】将使目标短暂减速。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:17:57.320373Z",
+        "description": "布兰德释放一颗破坏力极强的火焰之种，火焰之种会在布兰德和附近敌人之间弹跳至多5次，每次弹跳时对敌人造成魔法伤害。弹跳会优先以带有即将满层的【炽热之焰】效果的英雄为目标。如果目标带有【烈焰焚身】效果，那么【R烈焰风暴】将使目标短暂减速。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "布兰德·烈焰风暴",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "brand_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:17:57.320373Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/braum_r",
+      "body": {
+        "name": "布隆·冰川裂隙",
+        "description": "布隆敲击地面，击飞他身边和前方一条直线上的所有敌人。此外，还会在前方的直线上留下一条能让敌方减速的裂隙。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:17:58.712748Z",
+        "description": "布隆敲击地面，击飞他身边和前方一条直线上的所有敌人。此外，还会在前方的直线上留下一条能让敌方减速的裂隙。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "布隆·冰川裂隙",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "braum_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:17:58.712748Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/briar_r",
+      "body": {
+        "name": "贝蕾亚·毙除",
+        "description": "贝蕾亚踢出她的囚枷中的血石，让被它命中的第一个英雄成为她的猎物。她随后会径直走向该目标，在抵达目标处时恐惧周围的其它敌人们，并进入一个彻底血狂的状态。她将追击她的猎物直至阵亡才罢休，获得【血莽】的助益以及额外的护甲、魔抗、生命偷取和移动速度。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:18:00.032372Z",
+        "description": "贝蕾亚踢出她的囚枷中的血石，让被它命中的第一个英雄成为她的猎物。她随后会径直走向该目标，在抵达目标处时恐惧周围的其它敌人们，并进入一个彻底血狂的状态。她将追击她的猎物直至阵亡才罢休，获得【血莽】的助益以及额外的护甲、魔抗、生命偷取和移动速度。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "贝蕾亚·毙除",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "briar_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:00.032372Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/caitlyn_r",
+      "body": {
+        "name": "凯特琳·让子弹飞",
+        "description": "凯特琳精心准备完美一击，拥有超远射程并对单个目标造成巨大伤害。敌方英雄能为友军拦截子弹。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:18:01.457365Z",
+        "description": "凯特琳精心准备完美一击，拥有超远射程并对单个目标造成巨大伤害。敌方英雄能为友军拦截子弹。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "凯特琳·让子弹飞",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "caitlyn_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:01.457365Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/cassiopeia_r",
+      "body": {
+        "name": "卡西奥佩娅·石化凝视",
+        "description": "卡西奥佩娅从眼中放出一团魔法能量，对她前方的任何面对她的敌人造成晕眩效果并对其它背对她的敌人造成减速效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:18:04.127576Z",
+        "description": "卡西奥佩娅从眼中放出一团魔法能量，对她前方的任何面对她的敌人造成晕眩效果并对其它背对她的敌人造成减速效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "卡西奥佩娅·石化凝视",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "cassiopeia_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:04.127576Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/chogath_r",
+      "body": {
+        "name": "科加斯·盛宴",
+        "description": "吞噬一个敌方单位，造成高额真实伤害。若目标被吞噬致死，科加斯就会长大，提高最大生命值。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:18:05.507716Z",
+        "description": "吞噬一个敌方单位，造成高额真实伤害。若目标被吞噬致死，科加斯就会长大，提高最大生命值。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "科加斯·盛宴",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "chogath_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:05.507716Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/corki_r",
+      "body": {
+        "name": "库奇·火箭轰击",
+        "description": "库奇朝着他的目标地点发射一枚导弹。导弹会在命中第一个敌人后爆炸，并对目标周围单位造成伤害。库奇每隔一段时间就会挂载一枚导弹，最多挂载7枚。每发射2枚导弹后，下一次就会发射超级导弹，造成额外伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:18:06.816779Z",
+        "description": "库奇朝着他的目标地点发射一枚导弹。导弹会在命中第一个敌人后爆炸，并对目标周围单位造成伤害。库奇每隔一段时间就会挂载一枚导弹，最多挂载7枚。每发射2枚导弹后，下一次就会发射超级导弹，造成额外伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "库奇·火箭轰击",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "corki_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:06.816779Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/diana_r",
+      "body": {
+        "name": "黛安娜·月之降临",
+        "description": "黛安娜将附近所有敌人显形并拉拽到身边，然后使他们减速。<br><br>如果黛安娜将1个或以上的敌方英雄拉拽到身边，那么月光会在短暂延迟后倾注在她身上，在她附近的一个区域内造成魔法伤害，每拉拽一个额外目标就会使这个伤害提升。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:18:09.563944Z",
+        "description": "黛安娜将附近所有敌人显形并拉拽到身边，然后使他们减速。<br><br>如果黛安娜将1个或以上的敌方英雄拉拽到身边，那么月光会在短暂延迟后倾注在她身上，在她附近的一个区域内造成魔法伤害，每拉拽一个额外目标就会使这个伤害提升。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "黛安娜·月之降临",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "diana_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:09.563944Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/drmundo_r",
+      "body": {
+        "name": "蒙多医生·极限剂量",
+        "description": "蒙多医生给自己注入化学药剂，立刻治疗他的一部分已损失生命值。随后他会获得移动速度并在一段长周期内持续回复自身一部分最大生命值。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:18:12.351112Z",
+        "description": "蒙多医生给自己注入化学药剂，立刻治疗他的一部分已损失生命值。随后他会获得移动速度并在一段长周期内持续回复自身一部分最大生命值。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "蒙多医生·极限剂量",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "drmundo_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:12.351112Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/ekko_r",
+      "body": {
+        "name": "艾克·时空断裂",
+        "description": "艾克打破他的时间线，变得不可被选取并回溯到一个更加有利的时间点上。他会回到几秒前的位置，并治疗这几秒内所受的伤势。在完成传送后，传送终点区域附近的敌人都会受到巨量伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:18:13.671018Z",
+        "description": "艾克打破他的时间线，变得不可被选取并回溯到一个更加有利的时间点上。他会回到几秒前的位置，并治疗这几秒内所受的伤势。在完成传送后，传送终点区域附近的敌人都会受到巨量伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "艾克·时空断裂",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "ekko_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:13.671018Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/ez_r",
+      "body": {
+        "name": "精准弹幕",
+        "description": "向目标方向发射全图能量波并短暂提供周围视野，对命中的敌人造成魔法伤害；小兵和非史诗级野怪承受较低伤害。",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 50,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-08-30T16:28:33.325266Z",
+        "description": "向目标方向发射全图能量波并短暂提供周围视野，对命中的敌人造成魔法伤害；小兵和非史诗级野怪承受较低伤害。",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "精准弹幕",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "ez_r",
+        "sortOrder": 50,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-07T18:19:58.296126Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/fiora_r",
+      "body": {
+        "name": "菲奥娜·无双挑战",
+        "description": "菲奥娜显示出一个敌方英雄身上的所有四处破绽，并在目标附近时获得移动速度加成。如果菲奥娜命中了所有四处破绽，或者目标在死前至少被命中了一处破绽，那么菲奥娜和范围内的友军就会在接下来的几秒里持续获得治疗效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:18:19.46577Z",
+        "description": "菲奥娜显示出一个敌方英雄身上的所有四处破绽，并在目标附近时获得移动速度加成。如果菲奥娜命中了所有四处破绽，或者目标在死前至少被命中了一处破绽，那么菲奥娜和范围内的友军就会在接下来的几秒里持续获得治疗效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "菲奥娜·无双挑战",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "fiora_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:19.46577Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/fizz_r",
+      "body": {
+        "name": "菲兹·巨鲨强袭",
+        "description": "菲兹朝一个方向放出一条小鱼，小鱼会附身在第一个与它接触的敌方英雄身上，同时减速目标。在短暂的延迟之后，一条巨鲨就会破土而出，击飞目标并将目标附近的敌人震开。被命中的所有敌人都会受到魔法伤害和减速效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:18:20.933984Z",
+        "description": "菲兹朝一个方向放出一条小鱼，小鱼会附身在第一个与它接触的敌方英雄身上，同时减速目标。在短暂的延迟之后，一条巨鲨就会破土而出，击飞目标并将目标附近的敌人震开。被命中的所有敌人都会受到魔法伤害和减速效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "菲兹·巨鲨强袭",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "fizz_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:20.933984Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/galio_r",
+      "body": {
+        "name": "加里奥·英雄登场",
+        "description": "加里奥将一名友军的当前位置作为他的着陆点，并为区域内的所有友军提供一个魔法护盾。在短暂的延迟后，加里奥会落到该位置上，然后击退附近的敌人。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:18:22.443067Z",
+        "description": "加里奥将一名友军的当前位置作为他的着陆点，并为区域内的所有友军提供一个魔法护盾。在短暂的延迟后，加里奥会落到该位置上，然后击退附近的敌人。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "加里奥·英雄登场",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "galio_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:22.443067Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/gangplank_r",
+      "body": {
+        "name": "普朗克·加农炮幕",
+        "description": "普朗克给他的船发信号，来轰炸一个区域，伤害并减速敌人。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:18:23.958334Z",
+        "description": "普朗克给他的船发信号，来轰炸一个区域，伤害并减速敌人。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "普朗克·加农炮幕",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "gangplank_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:23.958334Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/garen_r",
+      "body": {
+        "name": "盖伦·德玛西亚正义",
+        "description": "R技能。对敌方英雄造成125/200/275+25/30/35%目标已损失生命值的真实伤害；冷却120/100/80秒。资料：16.17客户端及官方26.14补证。施法与实际命中、视野、失败和冷却边界待处理，图片待补。",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T15:35:07.212771Z",
+        "description": "R技能。对敌方英雄造成125/200/275+25/30/35%目标已损失生命值的真实伤害；冷却120/100/80秒。资料：16.17客户端及官方26.14补证。施法与实际命中、视野、失败和冷却边界待处理，图片待补。",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "盖伦·德玛西亚正义",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "garen_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T15:35:07.212771Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/gragas_r",
+      "body": {
+        "name": "古拉加斯·爆破酒桶",
+        "description": "古拉加斯向目标区域投掷他的酒桶，对爆炸范围内的所有敌人造成伤害和击退效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:18:27.224071Z",
+        "description": "古拉加斯向目标区域投掷他的酒桶，对爆炸范围内的所有敌人造成伤害和击退效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "古拉加斯·爆破酒桶",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "gragas_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:27.224071Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/graves_r",
+      "body": {
+        "name": "格雷福斯·终极爆弹",
+        "description": "格雷福斯射出一枚爆破弹，对它所命中的第一个敌人造成大量伤害。在命中一名英雄或者达到它的最大射程之后，爆弹会爆炸，并对锥形范围内的敌人造成伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:18:28.555735Z",
+        "description": "格雷福斯射出一枚爆破弹，对它所命中的第一个敌人造成大量伤害。在命中一名英雄或者达到它的最大射程之后，爆弹会爆炸，并对锥形范围内的敌人造成伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "格雷福斯·终极爆弹",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "graves_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:28.555735Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/hwei_r",
+      "body": {
+        "name": "彗·焚心绚华绘",
+        "description": "彗画出深重的绝望。命中的第一个敌人会成为画卷的中心。画卷向四周展开，减速并伤害附近的敌人们。展开至最大时，或是中心的敌人死亡时，画卷会发生爆炸。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:18:34.21341Z",
+        "description": "彗画出深重的绝望。命中的第一个敌人会成为画卷的中心。画卷向四周展开，减速并伤害附近的敌人们。展开至最大时，或是中心的敌人死亡时，画卷会发生爆炸。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "彗·焚心绚华绘",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "hwei_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:34.21341Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/illaoi_r",
+      "body": {
+        "name": "俄洛伊·过界信仰",
+        "description": "俄洛伊将她的神像砸在地上，对附近的敌人造成物理伤害。每命中一个敌人就会生成一条触手。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:18:35.527067Z",
+        "description": "俄洛伊将她的神像砸在地上，对附近的敌人造成物理伤害。每命中一个敌人就会生成一条触手。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "俄洛伊·过界信仰",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "illaoi_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:35.527067Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/janna_r",
+      "body": {
+        "name": "迦娜·复苏季风",
+        "description": "迦娜召唤魔法风暴围绕自己，将敌人击退。在风暴平息后，当技能仍处在激活状态时，和风将治疗附近的友军。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:18:39.633196Z",
+        "description": "迦娜召唤魔法风暴围绕自己，将敌人击退。在风暴平息后，当技能仍处在激活状态时，和风将治疗附近的友军。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "迦娜·复苏季风",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "janna_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:39.633196Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/kaisa_r",
+      "body": {
+        "name": "卡莎·猎手本能",
+        "description": "卡莎突进到一个敌方英雄身边。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:18:48.281729Z",
+        "description": "卡莎突进到一个敌方英雄身边。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "卡莎·猎手本能",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "kaisa_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:48.281729Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/karthus_r",
+      "body": {
+        "name": "卡尔萨斯·安魂曲",
+        "description": "在引导3秒后，卡尔萨斯就会对所有敌方英雄造成伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:18:52.467655Z",
+        "description": "在引导3秒后，卡尔萨斯就会对所有敌方英雄造成伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "卡尔萨斯·安魂曲",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "karthus_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:52.467655Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/kassadin_r",
+      "body": {
+        "name": "卡萨丁·虚空行走",
+        "description": "卡萨丁传送到附近区域，对区域内的敌方单位造成伤害。 在一段时间内连续施放虚空行走技能会消耗更多的法力值，但也会造成额外伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:18:53.825502Z",
+        "description": "卡萨丁传送到附近区域，对区域内的敌方单位造成伤害。 在一段时间内连续施放虚空行走技能会消耗更多的法力值，但也会造成额外伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "卡萨丁·虚空行走",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "kassadin_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:53.825502Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/kayle_r",
+      "body": {
+        "name": "凯尔·圣裁之刻",
+        "description": "凯尔让一名友方英雄免疫伤害，并号召曾经的正义星灵们用一阵神圣剑雨来纯化她目标附近的区域。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:18:56.724988Z",
+        "description": "凯尔让一名友方英雄免疫伤害，并号召曾经的正义星灵们用一阵神圣剑雨来纯化她目标附近的区域。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "凯尔·圣裁之刻",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "kayle_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:56.724988Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/kindred_r",
+      "body": {
+        "name": "千珏·羊灵生息",
+        "description": "羊灵让一块区域内的所有生灵都免受死亡。效果结束之前，谁都不会死去。效果结束时，所有单位都会获得治疗。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:19:02.256914Z",
+        "description": "羊灵让一块区域内的所有生灵都免受死亡。效果结束之前，谁都不会死去。效果结束时，所有单位都会获得治疗。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "千珏·羊灵生息",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "kindred_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:02.256914Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/kogmaw_r",
+      "body": {
+        "name": "克格莫·活体大炮",
+        "description": "克格莫发射一枚射程极远的活体炮弹，让被命中的敌人暴露在己方视野中，并对目标造成魔法伤害（对低血量目标的伤害会显著提升）。 在短时间内连续使用活体大炮，将消耗额外的法力值。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:19:05.073026Z",
+        "description": "克格莫发射一枚射程极远的活体炮弹，让被命中的敌人暴露在己方视野中，并对目标造成魔法伤害（对低血量目标的伤害会显著提升）。 在短时间内连续使用活体大炮，将消耗额外的法力值。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "克格莫·活体大炮",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "kogmaw_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:05.073026Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/ksante_r",
+      "body": {
+        "name": "奎桑提·傲岸雄姿",
+        "description": "奎桑提将一个敌人击退，并带其翻越沿途的任何墙体。然后，奎桑提进入【全盛姿态】并冲刺至其身后，获得提升过的伤害、治疗效果、以及转化过的各个技能，但代价是各防御属性降低。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:19:06.530808Z",
+        "description": "奎桑提将一个敌人击退，并带其翻越沿途的任何墙体。然后，奎桑提进入【全盛姿态】并冲刺至其身后，获得提升过的伤害、治疗效果、以及转化过的各个技能，但代价是各防御属性降低。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "奎桑提·傲岸雄姿",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "ksante_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:06.530808Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/leesin_r",
+      "body": {
+        "name": "李青·猛龙摆尾",
+        "description": "李青用强力的回旋踢击退敌方英雄，对目标以及被目标撞到的任何敌人造成物理伤害。 被目标撞到的敌人会被短暂击飞。这项技艺是春哥教他的，不过李青不能将玩家的英雄踢到地图外面去。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:19:09.288292Z",
+        "description": "李青用强力的回旋踢击退敌方英雄，对目标以及被目标撞到的任何敌人造成物理伤害。 被目标撞到的敌人会被短暂击飞。这项技艺是春哥教他的，不过李青不能将玩家的英雄踢到地图外面去。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "李青·猛龙摆尾",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "leesin_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:09.288292Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/leona_r",
+      "body": {
+        "name": "蕾欧娜·日炎耀斑",
+        "description": "蕾欧娜召唤一道太阳光束，对区域内的敌人造成伤害。区域中心的敌人会被晕眩，并且外围的敌人会被减速。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:19:10.6793Z",
+        "description": "蕾欧娜召唤一道太阳光束，对区域内的敌人造成伤害。区域中心的敌人会被晕眩，并且外围的敌人会被减速。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "蕾欧娜·日炎耀斑",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "leona_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:10.6793Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/lillia_r",
+      "body": {
+        "name": "莉莉娅·夜阑谣",
+        "description": "莉莉娅使所有带着【梦尘】的敌人陷入困倦状态，然后陷入昏睡状态。这些敌人在被强制唤醒时会受到额外伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:19:12.013584Z",
+        "description": "莉莉娅使所有带着【梦尘】的敌人陷入困倦状态，然后陷入昏睡状态。这些敌人在被强制唤醒时会受到额外伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "莉莉娅·夜阑谣",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "lillia_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:12.013584Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/lissandra_r",
+      "body": {
+        "name": "丽桑卓·冰封陵墓",
+        "description": "如果对敌方英雄施放，那么会冻结目标，对目标造成晕眩效果，如果对丽桑卓自己施放，那么她会暂时用暗黑之冰裹住自己，治疗自身并免疫任何伤害且不可被选取，但也无法进行任何动作。暗黑之冰可以从目标处放射寒芒对敌人造成魔法伤害和减速效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:19:13.299361Z",
+        "description": "如果对敌方英雄施放，那么会冻结目标，对目标造成晕眩效果，如果对丽桑卓自己施放，那么她会暂时用暗黑之冰裹住自己，治疗自身并免疫任何伤害且不可被选取，但也无法进行任何动作。暗黑之冰可以从目标处放射寒芒对敌人造成魔法伤害和减速效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "丽桑卓·冰封陵墓",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "lissandra_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:13.299361Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/lulu_r",
+      "body": {
+        "name": "璐璐·狂野生长",
+        "description": "璐璐让她的友军变大，击飞目标附近的敌人，同时为她的友军提供大量生命值加成。接下来的数秒内，该友军会获得一个减少附近敌人速度的光环。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:19:17.377794Z",
+        "description": "璐璐让她的友军变大，击飞目标附近的敌人，同时为她的友军提供大量生命值加成。接下来的数秒内，该友军会获得一个减少附近敌人速度的光环。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "璐璐·狂野生长",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "lulu_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:17.377794Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/malphite_r",
+      "body": {
+        "name": "墨菲特·势不可挡",
+        "description": "墨菲特自身高速冲向一个区域，对区域内的敌人们造成伤害和击飞效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:19:19.075519Z",
+        "description": "墨菲特自身高速冲向一个区域，对区域内的敌人们造成伤害和击飞效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "墨菲特·势不可挡",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "malphite_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:19.075519Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/malzahar_r",
+      "body": {
+        "name": "玛尔扎哈·冥府之握",
+        "description": "玛尔扎哈引导虚空的精萃来把一名敌方英雄压制在一个充满伤害的负能量地带上。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:19:20.42Z",
+        "description": "玛尔扎哈引导虚空的精萃来把一名敌方英雄压制在一个充满伤害的负能量地带上。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "玛尔扎哈·冥府之握",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "malzahar_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:20.42Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/maokai_r",
+      "body": {
+        "name": "茂凯·自然之握",
+        "description": "茂凯召唤一道荆棘和尖刺灌木组成的巨墙缓慢向前行进，对沿途的敌人造成伤害和禁锢效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:19:21.814747Z",
+        "description": "茂凯召唤一道荆棘和尖刺灌木组成的巨墙缓慢向前行进，对沿途的敌人造成伤害和禁锢效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "茂凯·自然之握",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "maokai_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:21.814747Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/masteryi_r",
+      "body": {
+        "name": "易·高原血统",
+        "description": "易以超乎想象的身法进行移动，短时间内提升移动速度和攻击速度，并免疫减速效果。该技能激活期间，易在参与击杀一名敌方英雄的同时，会延长该技能的持续时间。在击杀和助攻后，也会被动地减少易其它技能的冷却时间。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:19:23.165075Z",
+        "description": "易以超乎想象的身法进行移动，短时间内提升移动速度和攻击速度，并免疫减速效果。该技能激活期间，易在参与击杀一名敌方英雄的同时，会延长该技能的持续时间。在击杀和助攻后，也会被动地减少易其它技能的冷却时间。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "易·高原血统",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "masteryi_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:23.165075Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/nasus_r",
+      "body": {
+        "name": "内瑟斯·死神降临",
+        "description": "内瑟斯释放一个具有强大魔力的沙漠风暴来侵袭身边的敌人。当风暴肆虐期间，他会获得额外生命值、额外攻击距离，伤害附近的敌人，汲魂痛击会拥有较短冷却时间，并获得额外的护甲和魔法抗性。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:19:35.235762Z",
+        "description": "内瑟斯释放一个具有强大魔力的沙漠风暴来侵袭身边的敌人。当风暴肆虐期间，他会获得额外生命值、额外攻击距离，伤害附近的敌人，汲魂痛击会拥有较短冷却时间，并获得额外的护甲和魔法抗性。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "内瑟斯·死神降临",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "nasus_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:35.235762Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/nautilus_r",
+      "body": {
+        "name": "诺提勒斯·深海冲击",
+        "description": "诺提勒斯将一束冲击波打进土里，来追击敌方目标。这束冲击波会撕裂它上面的地表，将敌人震到半空中。当它命中目标时，冲击波会喷发，将他的目标震到半空中，并使目标晕眩。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:19:36.583867Z",
+        "description": "诺提勒斯将一束冲击波打进土里，来追击敌方目标。这束冲击波会撕裂它上面的地表，将敌人震到半空中。当它命中目标时，冲击波会喷发，将他的目标震到半空中，并使目标晕眩。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "诺提勒斯·深海冲击",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "nautilus_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:36.583867Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/nilah_r",
+      "body": {
+        "name": "尼菈·神恩激荡",
+        "description": "尼菈快乐洋溢地挥舞她的鞭刃，对她周围的敌人们造成伤害，然后用她的武器将他们拉得更加靠近。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:19:40.580096Z",
+        "description": "尼菈快乐洋溢地挥舞她的鞭刃，对她周围的敌人们造成伤害，然后用她的武器将他们拉得更加靠近。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "尼菈·神恩激荡",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "nilah_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:40.580096Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/olaf_r",
+      "body": {
+        "name": "奥拉夫·诸神黄昏",
+        "description": "奥拉夫被动获得护甲和魔法抗性提升。他可以激活这个技能来变得免疫控制效果，并且会在他保持攻击时一直持续。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:19:44.745208Z",
+        "description": "奥拉夫被动获得护甲和魔法抗性提升。他可以激活这个技能来变得免疫控制效果，并且会在他保持攻击时一直持续。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "奥拉夫·诸神黄昏",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "olaf_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:44.745208Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/orianna_r",
+      "body": {
+        "name": "奥莉安娜·指令：冲击波",
+        "description": "奥莉安娜指挥她的魔偶，释放一股冲击波，对周围敌军造成魔法伤害并在短暂延迟后将他们拉向魔偶。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:19:46.089127Z",
+        "description": "奥莉安娜指挥她的魔偶，释放一股冲击波，对周围敌军造成魔法伤害并在短暂延迟后将他们拉向魔偶。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "奥莉安娜·指令：冲击波",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "orianna_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:46.089127Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/poppy_r",
+      "body": {
+        "name": "波比·持卫的裁决",
+        "description": "波比引导一次能够把敌人击飞到远方的锤击。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:19:50.29577Z",
+        "description": "波比引导一次能够把敌人击飞到远方的锤击。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "波比·持卫的裁决",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "poppy_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:50.29577Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/rammus_r",
+      "body": {
+        "name": "拉莫斯·冲天猛撞",
+        "description": "拉莫斯跃到空中然后朝着目标位置猛撞，对敌人造成魔法伤害和减速效果。如果拉莫斯在【动力冲刺】状态下施放，那么拉莫斯还会击飞区域中心的敌人们。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:19:57.386818Z",
+        "description": "拉莫斯跃到空中然后朝着目标位置猛撞，对敌人造成魔法伤害和减速效果。如果拉莫斯在【动力冲刺】状态下施放，那么拉莫斯还会击飞区域中心的敌人们。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "拉莫斯·冲天猛撞",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "rammus_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:57.386818Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/reksai_r",
+      "body": {
+        "name": "雷克塞·虚空猛冲",
+        "description": "雷克塞对目标造成伤害即可将其标记。她可以激活这个技能，暂时变成不可被选取状态，并扑向一个被标记的目标，并基于其最大生命值造成大量伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:19:58.800533Z",
+        "description": "雷克塞对目标造成伤害即可将其标记。她可以激活这个技能，暂时变成不可被选取状态，并扑向一个被标记的目标，并基于其最大生命值造成大量伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "雷克塞·虚空猛冲",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "reksai_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:58.800533Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/rell_r",
+      "body": {
+        "name": "芮尔·极涌",
+        "description": "芮尔喷发出有磁性的怒火，粗暴地将附近敌方英雄向她拉拽。随后芮尔会持续将附近敌人向她拖曳一小段时间，并持续造成魔法伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:20:00.154975Z",
+        "description": "芮尔喷发出有磁性的怒火，粗暴地将附近敌方英雄向她拉拽。随后芮尔会持续将附近敌人向她拖曳一小段时间，并持续造成魔法伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "芮尔·极涌",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "rell_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:00.154975Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/renata_r",
+      "body": {
+        "name": "烈娜塔 · 戈拉斯克·恶意收购",
+        "description": "烈娜塔发射一道炼金波纹，使命中的敌人们都陷入狂暴状态。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:20:01.482976Z",
+        "description": "烈娜塔发射一道炼金波纹，使命中的敌人们都陷入狂暴状态。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "烈娜塔 · 戈拉斯克·恶意收购",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "renata_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:01.482976Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/renekton_r",
+      "body": {
+        "name": "雷克顿·终极统治",
+        "description": "雷克顿转换为暴君形态，获得额外生命值，并对周围敌人造成伤害。此形态的雷克顿定时获得怒气。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:20:03.105001Z",
+        "description": "雷克顿转换为暴君形态，获得额外生命值，并对周围敌人造成伤害。此形态的雷克顿定时获得怒气。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "雷克顿·终极统治",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "renekton_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:03.105001Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/rumble_r",
+      "body": {
+        "name": "兰博·恒温灼烧",
+        "description": "兰博朝目标区域发射火箭，形成一堵火焰之墙，对范围内的敌人造成伤害并减速。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:20:07.637557Z",
+        "description": "兰博朝目标区域发射火箭，形成一堵火焰之墙，对范围内的敌人造成伤害并减速。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "兰博·恒温灼烧",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "rumble_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:07.637557Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/ryze_r",
+      "body": {
+        "name": "瑞兹·曲境折跃",
+        "description": "被动部分：【超负荷】对带有【涌动】效果的目标造成更多伤害。<br><br>施放时，瑞兹会创造一个传送门来通向一个附近的位置。在若干秒后，站在传送门附近的友军会被传送至目标位置。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:20:09.032226Z",
+        "description": "被动部分：【超负荷】对带有【涌动】效果的目标造成更多伤害。<br><br>施放时，瑞兹会创造一个传送门来通向一个附近的位置。在若干秒后，站在传送门附近的友军会被传送至目标位置。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "瑞兹·曲境折跃",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "ryze_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:09.032226Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/sejuani_r",
+      "body": {
+        "name": "瑟庄妮·极冰寒狱",
+        "description": "瑟庄妮投出她的套索来冻结并击晕命中的第一名敌方英雄，并创造一次冰风暴来减速其它敌人。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:20:11.724832Z",
+        "description": "瑟庄妮投出她的套索来冻结并击晕命中的第一名敌方英雄，并创造一次冰风暴来减速其它敌人。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "瑟庄妮·极冰寒狱",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "sejuani_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:11.724832Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/seraphine_r",
+      "body": {
+        "name": "萨勒芬妮·炫音返场",
+        "description": "萨勒芬妮对命中的敌人们造成伤害和魅惑效果，会在每次命中友方英雄或敌方英雄时刷新距离。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:20:14.364885Z",
+        "description": "萨勒芬妮对命中的敌人们造成伤害和魅惑效果，会在每次命中友方英雄或敌方英雄时刷新距离。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "萨勒芬妮·炫音返场",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "seraphine_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:14.364885Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/shen_r",
+      "body": {
+        "name": "慎·秘奥义！慈悲度魂落",
+        "description": "慎为目标友方英雄提供一层吸收伤害的护盾，然后很快传送到目标身旁。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:20:18.538551Z",
+        "description": "慎为目标友方英雄提供一层吸收伤害的护盾，然后很快传送到目标身旁。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "慎·秘奥义！慈悲度魂落",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "shen_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:18.538551Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/singed_r",
+      "body": {
+        "name": "辛吉德·疯狂药剂",
+        "description": "辛吉德喝下精心炮制的化学药剂，大幅提高战斗属性，并使他的【剧毒踪迹】可以施加重伤效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:20:21.284749Z",
+        "description": "辛吉德喝下精心炮制的化学药剂，大幅提高战斗属性，并使他的【剧毒踪迹】可以施加重伤效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "辛吉德·疯狂药剂",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "singed_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:21.284749Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/sivir_r",
+      "body": {
+        "name": "希维尔·狩猎",
+        "description": "希维尔在战斗中引领她的友军，为他们提供持续一段时间的爆发性移动速度加成。此外，希维尔的攻击会缩短她的技能的冷却时间。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:20:24.003919Z",
+        "description": "希维尔在战斗中引领她的友军，为他们提供持续一段时间的爆发性移动速度加成。此外，希维尔的攻击会缩短她的技能的冷却时间。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "希维尔·狩猎",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "sivir_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:24.003919Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/skarner_r",
+      "body": {
+        "name": "斯卡纳·毒刺贯体",
+        "description": "斯卡纳向前甩出他的尾巴，以压制敌方英雄们。一旦被压制，猎物们就会在斯卡纳移动时被拖行。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:20:25.297208Z",
+        "description": "斯卡纳向前甩出他的尾巴，以压制敌方英雄们。一旦被压制，猎物们就会在斯卡纳移动时被拖行。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "斯卡纳·毒刺贯体",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "skarner_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:25.297208Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/syndra_r",
+      "body": {
+        "name": "辛德拉·能量倾泻",
+        "description": "辛德拉用她的所有暗黑法球来轰击一名敌方英雄。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:20:32.035565Z",
+        "description": "辛德拉用她的所有暗黑法球来轰击一名敌方英雄。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "辛德拉·能量倾泻",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "syndra_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:32.035565Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/taric_r",
+      "body": {
+        "name": "塔里克·宇宙之辉",
+        "description": "在短暂的延迟后，放射一道宇宙能量到附近的友方英雄身上，让他们免疫伤害一段时间。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:20:37.501537Z",
+        "description": "在短暂的延迟后，放射一道宇宙能量到附近的友方英雄身上，让他们免疫伤害一段时间。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "塔里克·宇宙之辉",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "taric_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:37.501537Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/teemo_r",
+      "body": {
+        "name": "提莫·种蘑菇",
+        "description": "提莫投掷一个可爆炸的毒性陷阱，需要消耗提莫背包里的一个蘑菇。陷阱会在被敌方踩中时爆炸，释放出一团毒云，对附近的敌人造成减速效果和持续伤害。如果提莫把一个蘑菇扔到另一个蘑菇上，那么这个蘑菇会进行弹跳，获得额外的距离。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:20:38.815419Z",
+        "description": "提莫投掷一个可爆炸的毒性陷阱，需要消耗提莫背包里的一个蘑菇。陷阱会在被敌方踩中时爆炸，释放出一团毒云，对附近的敌人造成减速效果和持续伤害。如果提莫把一个蘑菇扔到另一个蘑菇上，那么这个蘑菇会进行弹跳，获得额外的距离。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "提莫·种蘑菇",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "teemo_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:38.815419Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/thresh_r",
+      "body": {
+        "name": "锤石·幽冥监牢",
+        "description": "构建一座监牢，其墙壁在被敌方单位打破时对该敌方单位造成伤害和减速效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:20:40.248963Z",
+        "description": "构建一座监牢，其墙壁在被敌方单位打破时对该敌方单位造成伤害和减速效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "锤石·幽冥监牢",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "thresh_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:40.248963Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/tristana_r",
+      "body": {
+        "name": "崔丝塔娜·毁灭射击",
+        "description": "崔丝塔娜装填巨型加农炮弹攻击目标单位，造成巨大伤害并击退目标。如果目标携带着【爆炸火花】的炸弹，那么该炸弹的爆炸半径翻倍。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:20:41.588696Z",
+        "description": "崔丝塔娜装填巨型加农炮弹攻击目标单位，造成巨大伤害并击退目标。如果目标携带着【爆炸火花】的炸弹，那么该炸弹的爆炸半径翻倍。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "崔丝塔娜·毁灭射击",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "tristana_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:41.588696Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/trundle_r",
+      "body": {
+        "name": "特朗德尔·强权至上",
+        "description": "特朗德尔直接偷取目标的一部分生命值、大量的护甲和魔抗。在接下来的4秒里，特朗德尔将继续偷取双倍的等量的生命值、护甲值和魔抗。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:20:42.959922Z",
+        "description": "特朗德尔直接偷取目标的一部分生命值、大量的护甲和魔抗。在接下来的4秒里，特朗德尔将继续偷取双倍的等量的生命值、护甲值和魔抗。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "特朗德尔·强权至上",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "trundle_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:42.959922Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/tryndamere_r",
+      "body": {
+        "name": "泰达米尔·无尽怒火",
+        "description": "泰达米尔是如此渴望战斗，以至于承受再多的伤害也不会死亡。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:20:44.273243Z",
+        "description": "泰达米尔是如此渴望战斗，以至于承受再多的伤害也不会死亡。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "泰达米尔·无尽怒火",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "tryndamere_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:44.273243Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/twitch_r",
+      "body": {
+        "name": "图奇·火力全开",
+        "description": "图奇让十字弩火力全开，快速地朝他面前射出强力且射程极远的穿刺箭头，穿透沿途的所有敌人。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:20:48.750726Z",
+        "description": "图奇让十字弩火力全开，快速地朝他面前射出强力且射程极远的穿刺箭头，穿透沿途的所有敌人。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "图奇·火力全开",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "twitch_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:48.750726Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/varus_r",
+      "body": {
+        "name": "韦鲁斯·腐败锁链",
+        "description": "韦鲁斯投掷出一个腐败藤蔓，来禁锢命中的第一个敌方英雄，随后向附近没有被感染的英雄蔓延，并在碰到后将他们也禁锢。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:20:52.881981Z",
+        "description": "韦鲁斯投掷出一个腐败藤蔓，来禁锢命中的第一个敌方英雄，随后向附近没有被感染的英雄蔓延，并在碰到后将他们也禁锢。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "韦鲁斯·腐败锁链",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "varus_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:52.881981Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/vayne_r",
+      "body": {
+        "name": "薇恩·终极时刻",
+        "description": "薇恩准备进行史诗般的对决，她的攻击力得到提高，能在闪避突袭期间进入隐形状态，闪避突袭的冷却时间缩短，并且暗夜猎手（被动）提供更多移动速度。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:20:54.290519Z",
+        "description": "薇恩准备进行史诗般的对决，她的攻击力得到提高，能在闪避突袭期间进入隐形状态，闪避突袭的冷却时间缩短，并且暗夜猎手（被动）提供更多移动速度。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "薇恩·终极时刻",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "vayne_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:54.290519Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/velkoz_r",
+      "body": {
+        "name": "维克兹·生命形态瓦解射线",
+        "description": "维克兹释放一束被引导的光线跟随鼠标指针，可造成魔法伤害，持续2.5秒。【有机体解构】效果会研究敌方英雄，从而使他们受到真实伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:20:57.013576Z",
+        "description": "维克兹释放一束被引导的光线跟随鼠标指针，可造成魔法伤害，持续2.5秒。【有机体解构】效果会研究敌方英雄，从而使他们受到真实伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "维克兹·生命形态瓦解射线",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "velkoz_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:57.013576Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/vi_r",
+      "body": {
+        "name": "蔚·天霸横空烈轰",
+        "description": "蔚撞向一名敌人，将途中的人击退到两边。当她接触到目标时，她会将目标击飞到空中，然后跳上去，将目标轰到地面上。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:20:59.750615Z",
+        "description": "蔚撞向一名敌人，将途中的人击退到两边。当她接触到目标时，她会将目标击飞到空中，然后跳上去，将目标轰到地面上。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "蔚·天霸横空烈轰",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "vi_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:59.750615Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/viego_r",
+      "body": {
+        "name": "佛耶戈·痛贯天灵",
+        "description": "佛耶戈传送到一个附近的位置并在抵达时处决一名敌方英雄，将其心脏击碎并在其周围引发一阵毁灭性的冲击波来击退其友军。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:21:01.128917Z",
+        "description": "佛耶戈传送到一个附近的位置并在抵达时处决一名敌方英雄，将其心脏击碎并在其周围引发一阵毁灭性的冲击波来击退其友军。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "佛耶戈·痛贯天灵",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "viego_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:01.128917Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/vladimir_r",
+      "body": {
+        "name": "弗拉基米尔·血之瘟疫",
+        "description": "弗拉基米尔令一片区域感染上剧毒瘟疫，增加受感染敌人所受的伤害。在几秒后，血之瘟疫会对被感染的敌人造成魔法伤害，并根据命中的敌方英雄数来治疗弗拉基米尔。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:21:03.738884Z",
+        "description": "弗拉基米尔令一片区域感染上剧毒瘟疫，增加受感染敌人所受的伤害。在几秒后，血之瘟疫会对被感染的敌人造成魔法伤害，并根据命中的敌方英雄数来治疗弗拉基米尔。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "弗拉基米尔·血之瘟疫",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "vladimir_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:03.738884Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/volibear_r",
+      "body": {
+        "name": "沃利贝尔·天声震落",
+        "description": "沃利贝尔跃向一个目标区域，对他身下的敌人们造成伤害和减速效果，同时获得额外生命值。在他着陆时，附近的敌方防御塔也会暂时失效。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:21:05.049648Z",
+        "description": "沃利贝尔跃向一个目标区域，对他身下的敌人们造成伤害和减速效果，同时获得额外生命值。在他着陆时，附近的敌方防御塔也会暂时失效。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "沃利贝尔·天声震落",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "volibear_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:05.049648Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/xinzhao_r",
+      "body": {
+        "name": "赵信·新月护卫",
+        "description": "赵信被动地挑战一名近期被他造成过伤害的敌人。在主动施放时，赵信对附近的敌人们造成基于其当前生命值的伤害，并击退未被挑战的目标们，且自身变得不会受到来自圆环之外的敌人所造成的伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:21:10.697888Z",
+        "description": "赵信被动地挑战一名近期被他造成过伤害的敌人。在主动施放时，赵信对附近的敌人们造成基于其当前生命值的伤害，并击退未被挑战的目标们，且自身变得不会受到来自圆环之外的敌人所造成的伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "赵信·新月护卫",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "xinzhao_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:10.697888Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/yunara_r",
+      "body": {
+        "name": "芸阿娜·定圣诀",
+        "description": "芸阿娜进入超凡形态，在此形态下，她的基础技能获得升级。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:21:16.032654Z",
+        "description": "芸阿娜进入超凡形态，在此形态下，她的基础技能获得升级。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "芸阿娜·定圣诀",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "yunara_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:16.032654Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/zaahen_r",
+      "body": {
+        "name": "亚恒·大赦",
+        "description": "亚恒升空然后向下戳刺，对敌人造成伤害并治疗自身相当于一部分该造成伤害值的生命值。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:21:18.675855Z",
+        "description": "亚恒升空然后向下戳刺，对敌人造成伤害并治疗自身相当于一部分该造成伤害值的生命值。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "亚恒·大赦",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "zaahen_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:18.675855Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/zeri_r",
+      "body": {
+        "name": "泽丽·超限爆闪",
+        "description": "泽丽放出一道电能新星，并且自身进入超负荷状态，来获得伤害提升和可叠加的移动速度，并且这个状态可在她每次命中敌方英雄时刷新持续时间并变得更强。在超负荷状态下。【枪火迸射】会变成一个快速的3连发，并在敌人之间引发连锁闪电。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:21:22.815177Z",
+        "description": "泽丽放出一道电能新星，并且自身进入超负荷状态，来获得伤害提升和可叠加的移动速度，并且这个状态可在她每次命中敌方英雄时刷新持续时间并变得更强。在超负荷状态下。【枪火迸射】会变成一个快速的3连发，并在敌人之间引发连锁闪电。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "泽丽·超限爆闪",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "zeri_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:22.815177Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/ziggs_r",
+      "body": {
+        "name": "吉格斯·科学的地狱火炮",
+        "description": "吉格斯部署他的尖端发明，科学的地狱火炮，将它推送一段极远的距离。在主要爆炸区域里的敌人会比在其它爆炸区域里的敌人受到更多的伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:21:24.177832Z",
+        "description": "吉格斯部署他的尖端发明，科学的地狱火炮，将它推送一段极远的距离。在主要爆炸区域里的敌人会比在其它爆炸区域里的敌人受到更多的伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "吉格斯·科学的地狱火炮",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "ziggs_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:24.177832Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/zilean_r",
+      "body": {
+        "name": "基兰·时光倒流",
+        "description": "基兰对友方英雄施放时光结界，若目标死亡，则时光倒流，救活目标。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:21:25.481875Z",
+        "description": "基兰对友方英雄施放时光结界，若目标死亡，则时光倒流，救活目标。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "基兰·时光倒流",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "zilean_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:25.481875Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/zoe_r",
+      "body": {
+        "name": "佐伊·折返跃迁",
+        "description": "闪烁到附近的一个位置1秒。然后闪烁回去。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:21:26.896731Z",
+        "description": "闪烁到附近的一个位置1秒。然后闪烁回去。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "佐伊·折返跃迁",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "zoe_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:26.896731Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/zyra_r",
+      "body": {
+        "name": "婕拉·绞杀之藤",
+        "description": "婕拉在目标区域召唤一个扭曲的密林，在蔓延时对区域内的所有敌人造成伤害，并在收缩时击飞区域内的所有敌人。密林内的植物会被进入激怒状态。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:21:28.281861Z",
+        "description": "婕拉在目标区域召唤一个扭曲的密林，在蔓延时对区域内的所有敌人造成伤害，并在收缩时击飞区域内的所有敌人。密林内的植物会被进入激怒状态。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "婕拉·绞杀之藤",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "zyra_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:28.281861Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/aatrox_r",
+      "body": {
+        "name": "亚托克斯·大灭",
+        "description": "亚托克斯现出他的恶魔形态，恐惧附近的敌方小兵，并获得攻击力、治疗效果提升、以及移动速度。如果他参与了一次击杀，这个效果就会延长。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:16:13.078168Z",
+        "description": "亚托克斯现出他的恶魔形态，恐惧附近的敌方小兵，并获得攻击力、治疗效果提升、以及移动速度。如果他参与了一次击杀，这个效果就会延长。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "亚托克斯·大灭",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "aatrox_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:16:13.078168Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/ahri_r",
+      "body": {
+        "name": "阿狸·灵魄突袭",
+        "description": "阿狸向前猛冲，并放出元气弹，对周围的数个敌人造成伤害。灵魄突袭在进入冷却阶段以前最多可被施放三次，并在参与击杀敌方英雄后获得额外的再次施放次数。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:16:14.775462Z",
+        "description": "阿狸向前猛冲，并放出元气弹，对周围的数个敌人造成伤害。灵魄突袭在进入冷却阶段以前最多可被施放三次，并在参与击杀敌方英雄后获得额外的再次施放次数。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "阿狸·灵魄突袭",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "ahri_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:16:14.775462Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/akali_r",
+      "body": {
+        "name": "阿卡丽·我流秘奥义！表里杀缭乱",
+        "description": "阿卡丽朝着一个方向跃出，伤害被她击中的敌人。再次施放：阿卡丽朝着一个方向突进，处决所有被她击中的敌人。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:16:16.613191Z",
+        "description": "阿卡丽朝着一个方向跃出，伤害被她击中的敌人。再次施放：阿卡丽朝着一个方向突进，处决所有被她击中的敌人。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "阿卡丽·我流秘奥义！表里杀缭乱",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "akali_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:16:16.613191Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/alistar_r",
+      "body": {
+        "name": "阿利斯塔·坚定意志",
+        "description": "阿利斯塔发出野性的咆哮，移除身上所有控制效果，并且持续时间内所受的物理和魔法伤害将减少。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:16:20.213749Z",
+        "description": "阿利斯塔发出野性的咆哮，移除身上所有控制效果，并且持续时间内所受的物理和魔法伤害将减少。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "阿利斯塔·坚定意志",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "alistar_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:16:20.213749Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/anivia_r",
+      "body": {
+        "name": "艾尼维亚·冰川风暴",
+        "description": "艾尼维亚召唤出一朵夹杂着冰块和冰雹的雨云，对敌人造成伤害，并使其减速。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:16:25.505746Z",
+        "description": "艾尼维亚召唤出一朵夹杂着冰块和冰雹的雨云，对敌人造成伤害，并使其减速。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "艾尼维亚·冰川风暴",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "anivia_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:16:25.505746Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/belveth_r",
+      "body": {
+        "name": "卑尔维斯·万载豪筵",
+        "description": "卑尔维斯消耗【虚空珊瑚残片】，转化为她的真实形态并提升她的最大生命值、攻击距离、和攻击速度。消耗来自虚空史诗级野怪的【虚空珊瑚残片】将为她提供召唤【虚空鱼】的能量。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:17:54.530583Z",
+        "description": "卑尔维斯消耗【虚空珊瑚残片】，转化为她的真实形态并提升她的最大生命值、攻击距离、和攻击速度。消耗来自虚空史诗级野怪的【虚空珊瑚残片】将为她提供召唤【虚空鱼】的能量。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "卑尔维斯·万载豪筵",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "belveth_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:17:54.530583Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/blitzcrank_r",
+      "body": {
+        "name": "布里茨·静电力场",
+        "description": "被布里茨攻击过的敌人会被标记并在1秒后受到闪电伤害。此外，布里茨可以主动激活这个技能来移除附近敌人们的护盾、对他们造成伤害并暂时沉默他们。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:17:55.952603Z",
+        "description": "被布里茨攻击过的敌人会被标记并在1秒后受到闪电伤害。此外，布里茨可以主动激活这个技能来移除附近敌人们的护盾、对他们造成伤害并暂时沉默他们。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "布里茨·静电力场",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "blitzcrank_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:17:55.952603Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/camille_r",
+      "body": {
+        "name": "卡蜜尔·海克斯最后通牒",
+        "description": "卡蜜尔冲向目标英雄，并将该英雄锚定在区域中。她对目标英雄发起的普攻还会造成额外的魔法伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:18:02.768261Z",
+        "description": "卡蜜尔冲向目标英雄，并将该英雄锚定在区域中。她对目标英雄发起的普攻还会造成额外的魔法伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "卡蜜尔·海克斯最后通牒",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "camille_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:02.768261Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/darius_r",
+      "body": {
+        "name": "德莱厄斯·诺克萨斯断头台",
+        "description": "德莱厄斯跃向目标英雄并进行致命打击，造成真实伤害。目标身上的每层出血效果都会提升这个技能的伤害。如果诺克萨斯断头台完成了一次击杀，那么它的冷却时间会暂时被重置。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:18:08.187045Z",
+        "description": "德莱厄斯跃向目标英雄并进行致命打击，造成真实伤害。目标身上的每层出血效果都会提升这个技能的伤害。如果诺克萨斯断头台完成了一次击杀，那么它的冷却时间会暂时被重置。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "德莱厄斯·诺克萨斯断头台",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "darius_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:08.187045Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/draven_r",
+      "body": {
+        "name": "德莱文·冷血追命",
+        "description": "德莱文掷出两柄大斧，对命中的每个单位造成物理伤害。在命中一名敌方英雄后，大斧会缓慢地调转方向，并回到德莱文身边。在斧头正在向外飞的时候，德莱文可以激活该技能来让斧头早点飞回来。每命中一个单位，伤害值就会减少。在斧头调转方向时，伤害值会重置。会处决那些生命值低于德莱文崇拜层数的敌人们。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:18:10.923499Z",
+        "description": "德莱文掷出两柄大斧，对命中的每个单位造成物理伤害。在命中一名敌方英雄后，大斧会缓慢地调转方向，并回到德莱文身边。在斧头正在向外飞的时候，德莱文可以激活该技能来让斧头早点飞回来。每命中一个单位，伤害值就会减少。在斧头调转方向时，伤害值会重置。会处决那些生命值低于德莱文崇拜层数的敌人们。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "德莱文·冷血追命",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "draven_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:10.923499Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/elise_r",
+      "body": {
+        "name": "伊莉丝·蜘蛛形态",
+        "description": "变成一只凶恶的蜘蛛，减少攻击距离，但获得移动速度加成、一套全新技能并且会有一群小蜘蛛来攻击她的敌人。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 4,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:18:15.031017Z",
+        "description": "变成一只凶恶的蜘蛛，减少攻击距离，但获得移动速度加成、一套全新技能并且会有一群小蜘蛛来攻击她的敌人。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 4,
+        "name": "伊莉丝·蜘蛛形态",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "elise_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:15.031017Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/evelynn_r",
+      "body": {
+        "name": "伊芙琳·最终抚慰",
+        "description": "伊芙琳短暂进入不可被选取状态并大肆残杀她面前区域内的敌人，然后向后位移一大段距离。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:18:16.406357Z",
+        "description": "伊芙琳短暂进入不可被选取状态并大肆残杀她面前区域内的敌人，然后向后位移一大段距离。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "伊芙琳·最终抚慰",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "evelynn_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:16.406357Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/fiddlesticks_r",
+      "body": {
+        "name": "费德提克·群鸦风暴",
+        "description": "一群杀人鸦盘旋于费德提克身边，每秒对范围内的所有敌方单位造成伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:18:18.171586Z",
+        "description": "一群杀人鸦盘旋于费德提克身边，每秒对范围内的所有敌方单位造成伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "费德提克·群鸦风暴",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "fiddlesticks_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:18.171586Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/gnar_r",
+      "body": {
+        "name": "纳尔·呐啊！",
+        "description": "巨型纳尔将身边的所有东西都朝着一个选定的方向投掷，对他们造成伤害和减速效果。被投到墙上的敌人会被晕眩，并承受额外的伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:18:25.811604Z",
+        "description": "巨型纳尔将身边的所有东西都朝着一个选定的方向投掷，对他们造成伤害和减速效果。被投到墙上的敌人会被晕眩，并承受额外的伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "纳尔·呐啊！",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "gnar_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:25.811604Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/gwen_r",
+      "body": {
+        "name": "格温·引针簇射",
+        "description": "格温掷出一根针来对命中的敌人们造成减速、魔法伤害，并对命中的英雄们施加【千穿百孔】。<br><br>这个技能至多可进行2段再次施放，每一段再次施放都会投掷更多的针，并造成更多伤害。 （来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:18:29.98861Z",
+        "description": "格温掷出一根针来对命中的敌人们造成减速、魔法伤害，并对命中的英雄们施加【千穿百孔】。<br><br>这个技能至多可进行2段再次施放，每一段再次施放都会投掷更多的针，并造成更多伤害。 （来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "格温·引针簇射",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "gwen_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:29.98861Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/hecarim_r",
+      "body": {
+        "name": "赫卡里姆·暗影冲击",
+        "description": "赫卡里姆召唤幽魂骑兵向前冲锋，对一条直线上的敌人造成魔法伤害。赫卡里姆会在完成他的冲锋时发出一道冲击波，来使周围的敌人惊慌失措地逃命。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:18:31.394858Z",
+        "description": "赫卡里姆召唤幽魂骑兵向前冲锋，对一条直线上的敌人造成魔法伤害。赫卡里姆会在完成他的冲锋时发出一道冲击波，来使周围的敌人惊慌失措地逃命。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "赫卡里姆·暗影冲击",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "hecarim_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:31.394858Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/heimerdinger_r",
+      "body": {
+        "name": "黑默丁格·升级！！！",
+        "description": "黑默丁格通过发明进行一次技术升级，使他的下一个技能拥有强化效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:18:32.824001Z",
+        "description": "黑默丁格通过发明进行一次技术升级，使他的下一个技能拥有强化效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "黑默丁格·升级！！！",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "heimerdinger_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:32.824001Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/irelia_r",
+      "body": {
+        "name": "艾瑞莉娅·先锋之刃",
+        "description": "艾瑞莉娅发射庞大数量的利刃，它们会在命中一名敌方英雄时向外爆开。被利刃命中的敌人会受到伤害并被标记。然后利刃会形成一道刃墙，在敌人穿过时造成伤害、和减速效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:18:36.894519Z",
+        "description": "艾瑞莉娅发射庞大数量的利刃，它们会在命中一名敌方英雄时向外爆开。被利刃命中的敌人会受到伤害并被标记。然后利刃会形成一道刃墙，在敌人穿过时造成伤害、和减速效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "艾瑞莉娅·先锋之刃",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "irelia_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:36.894519Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/ivern_r",
+      "body": {
+        "name": "艾翁·小菊！",
+        "description": "艾翁召唤他的护卫好友小菊来与他并肩战斗。再次施放即可指挥小菊进行攻击或移动。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:18:38.293655Z",
+        "description": "艾翁召唤他的护卫好友小菊来与他并肩战斗。再次施放即可指挥小菊进行攻击或移动。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "艾翁·小菊！",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "ivern_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:38.293655Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/jarvaniv_r",
+      "body": {
+        "name": "嘉文四世·天崩地裂",
+        "description": "嘉文四世勇猛地跃向目标敌方英雄，对其造成物理伤害，并在敌人周围形成环形障碍，持续数秒。在嘉文四世着陆时，目标附近的敌人也会受到伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:18:40.977501Z",
+        "description": "嘉文四世勇猛地跃向目标敌方英雄，对其造成物理伤害，并在敌人周围形成环形障碍，持续数秒。在嘉文四世着陆时，目标附近的敌人也会受到伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "嘉文四世·天崩地裂",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "jarvaniv_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:40.977501Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/jax_r",
+      "body": {
+        "name": "贾克斯·武器大师",
+        "description": "每连续攻击2次，第3次攻击就会造成额外的魔法伤害。另外，贾克斯可以激活这个技能来在他周围造成伤害并增强他的决心，从而暂时性地提升他的护甲和魔法抗性。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:18:42.410983Z",
+        "description": "每连续攻击2次，第3次攻击就会造成额外的魔法伤害。另外，贾克斯可以激活这个技能来在他周围造成伤害并增强他的决心，从而暂时性地提升他的护甲和魔法抗性。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "贾克斯·武器大师",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "jax_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:42.410983Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/jayce_r",
+      "body": {
+        "name": "杰斯·墨丘利之炮 / 墨丘利之锤",
+        "description": "锤形态：将墨丘利之锤变成墨丘利之炮，获得新的技能和远程攻击能力。切换至这个形态后的第一下攻击将会减少目标的护甲和魔法抗性。<br><br>炮形态：将墨丘利之炮变成墨丘利之锤，获得新的技能和护甲与魔法抗性加成，切换至这个形态后的第一下攻击将会造成额外的魔法伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:18:43.882618Z",
+        "description": "锤形态：将墨丘利之锤变成墨丘利之炮，获得新的技能和远程攻击能力。切换至这个形态后的第一下攻击将会减少目标的护甲和魔法抗性。<br><br>炮形态：将墨丘利之炮变成墨丘利之锤，获得新的技能和护甲与魔法抗性加成，切换至这个形态后的第一下攻击将会造成额外的魔法伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "杰斯·墨丘利之炮 / 墨丘利之锤",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "jayce_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:43.882618Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/jhin_r",
+      "body": {
+        "name": "烬·完美谢幕",
+        "description": "烬开始引导，将“低语”切换成一个肩扛式重炮。它能够进行四次超级射击，超级射击的射程极远，可穿透小兵和野怪，但会在命中第一个敌方英雄后停下。“低语”会让命中的敌方单位怯场，也就是对它们造成减速效果和斩杀伤害。第四次射击是经过精心调制的，所以威力特别大，并且必定会造成暴击。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:18:45.296994Z",
+        "description": "烬开始引导，将“低语”切换成一个肩扛式重炮。它能够进行四次超级射击，超级射击的射程极远，可穿透小兵和野怪，但会在命中第一个敌方英雄后停下。“低语”会让命中的敌方单位怯场，也就是对它们造成减速效果和斩杀伤害。第四次射击是经过精心调制的，所以威力特别大，并且必定会造成暴击。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "烬·完美谢幕",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "jhin_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:45.296994Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/jinx_r",
+      "body": {
+        "name": "金克丝·超究极死神飞弹！",
+        "description": "金克丝发射一枚能够跨越整个地图的飞弹，并且飞行的时间越长，伤害值越高。飞弹会在命中一名敌方英雄后爆炸，对目标和目标附近的敌人造成伤害，且目标的生命值越低，所受的伤害值越高。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:18:46.707135Z",
+        "description": "金克丝发射一枚能够跨越整个地图的飞弹，并且飞行的时间越长，伤害值越高。飞弹会在命中一名敌方英雄后爆炸，对目标和目标附近的敌人造成伤害，且目标的生命值越低，所受的伤害值越高。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "金克丝·超究极死神飞弹！",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "jinx_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:46.707135Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/karma_r",
+      "body": {
+        "name": "卡尔玛·梵咒",
+        "description": "卡尔玛的下个技能会获得强化，造成额外特效。梵咒在1级时就可以使用，并且不需要投入技能点。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 4,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:18:51.135489Z",
+        "description": "卡尔玛的下个技能会获得强化，造成额外特效。梵咒在1级时就可以使用，并且不需要投入技能点。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 4,
+        "name": "卡尔玛·梵咒",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "karma_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:51.135489Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/katarina_r",
+      "body": {
+        "name": "卡特琳娜·死亡莲华",
+        "description": "卡特琳娜化身为一道剑刃飓风，以无与伦比的速度对周围最多三个敌方英雄造成巨量魔法伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:18:55.302259Z",
+        "description": "卡特琳娜化身为一道剑刃飓风，以无与伦比的速度对周围最多三个敌方英雄造成巨量魔法伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "卡特琳娜·死亡莲华",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "katarina_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:55.302259Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/kayn_r",
+      "body": {
+        "name": "凯隐·裂舍影",
+        "description": "凯隐隐藏在敌方身体内，在他破膛而出时造成巨量伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:18:58.108276Z",
+        "description": "凯隐隐藏在敌方身体内，在他破膛而出时造成巨量伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "凯隐·裂舍影",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "kayn_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:58.108276Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/kennen_r",
+      "body": {
+        "name": "凯南·秘奥义！万雷天牢引",
+        "description": "凯南召唤出一团风暴，会对周围的所有敌方英雄造成魔法伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:18:59.474409Z",
+        "description": "凯南召唤出一团风暴，会对周围的所有敌方英雄造成魔法伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "凯南·秘奥义！万雷天牢引",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "kennen_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:59.474409Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/khazix_r",
+      "body": {
+        "name": "卡兹克·虚空来袭",
+        "description": "每升一级此技能都会允许卡兹克进化他的一项技能，给予该技能独特的附加效果。在激活【虚空来袭】时，会使卡兹克变成<font color='#91d7ee'>隐形</font>状态，触发无形威胁并提升移动速度。如果他选择<font color='#00DD33'>进化动态遮蔽</font>的话，【虚空来袭】获得已提升的<font color='#91d7ee'>隐形</font>持续时间，以及一次额外的使用次数。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:19:00.844946Z",
+        "description": "每升一级此技能都会允许卡兹克进化他的一项技能，给予该技能独特的附加效果。在激活【虚空来袭】时，会使卡兹克变成<font color='#91d7ee'>隐形</font>状态，触发无形威胁并提升移动速度。如果他选择<font color='#00DD33'>进化动态遮蔽</font>的话，【虚空来袭】获得已提升的<font color='#91d7ee'>隐形</font>持续时间，以及一次额外的使用次数。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "卡兹克·虚空来袭",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "khazix_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:00.844946Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/kled_r",
+      "body": {
+        "name": "克烈·冲啊——！！",
+        "description": "克烈和斯嘎尔朝着一个位置发起冲锋，同时在身后留下一条提供加速效果的轨迹，并为自己构建一个护盾。斯嘎尔会在遭遇首个敌方英雄时将其锁定并发起撞击。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:19:03.696656Z",
+        "description": "克烈和斯嘎尔朝着一个位置发起冲锋，同时在身后留下一条提供加速效果的轨迹，并为自己构建一个护盾。斯嘎尔会在遭遇首个敌方英雄时将其锁定并发起撞击。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "克烈·冲啊——！！",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "kled_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:03.696656Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/leblanc_r",
+      "body": {
+        "name": "乐芙兰·故技重施",
+        "description": "乐芙兰可以施放她一个技能的故技重施版。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:19:07.864997Z",
+        "description": "乐芙兰可以施放她一个技能的故技重施版。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "乐芙兰·故技重施",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "leblanc_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:07.864997Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/locke_r",
+      "body": {
+        "name": "洛克·万魔狱",
+        "description": "洛克扔出封印法器来对命中的敌人们造成伤害并且有可能将其处决。成功处决敌人会为洛克提供增益效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:19:14.6679Z",
+        "description": "洛克扔出封印法器来对命中的敌人们造成伤害并且有可能将其处决。成功处决敌人会为洛克提供增益效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "洛克·万魔狱",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "locke_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:14.6679Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/lucian_r",
+      "body": {
+        "name": "卢锡安·圣枪洗礼",
+        "description": "卢锡安的武器释放出大量的子弹。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:19:15.991944Z",
+        "description": "卢锡安的武器释放出大量的子弹。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "卢锡安·圣枪洗礼",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "lucian_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:15.991944Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/mel_r",
+      "body": {
+        "name": "梅尔·鎏金蚀日",
+        "description": "梅尔无视距离，对所有带有【夺命残影】层数的敌人进行打击，造成基于【夺命残影】层数的额外伤害。<br><br>【鎏金蚀日】的技能等级会提升【夺命残影】的伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:19:24.477657Z",
+        "description": "梅尔无视距离，对所有带有【夺命残影】层数的敌人进行打击，造成基于【夺命残影】层数的额外伤害。<br><br>【鎏金蚀日】的技能等级会提升【夺命残影】的伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "梅尔·鎏金蚀日",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "mel_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:24.477657Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/milio_r",
+      "body": {
+        "name": "米利欧·生生不息",
+        "description": "米利欧释放一道舒心火焰波纹，治疗范围内的队友并净化他们身上的控制效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:19:25.828566Z",
+        "description": "米利欧释放一道舒心火焰波纹，治疗范围内的队友并净化他们身上的控制效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "米利欧·生生不息",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "milio_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:25.828566Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/missfortune_r",
+      "body": {
+        "name": "厄运小姐·弹幕时间",
+        "description": "厄运小姐向她面前的锥形范围内引导一阵子弹风暴，对敌人造成大量伤害。这个技能的每波子弹都可以暴击。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:19:27.243722Z",
+        "description": "厄运小姐向她面前的锥形范围内引导一阵子弹风暴，对敌人造成大量伤害。这个技能的每波子弹都可以暴击。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "厄运小姐·弹幕时间",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "missfortune_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:27.243722Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/monkeyking_r",
+      "body": {
+        "name": "孙悟空·大闹天宫",
+        "description": "孙悟空伸展金箍棒不断旋转，并获得移动速度。<br><br>击中敌人时会造成伤害和击飞效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:19:28.548407Z",
+        "description": "孙悟空伸展金箍棒不断旋转，并获得移动速度。<br><br>击中敌人时会造成伤害和击飞效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "孙悟空·大闹天宫",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "monkeyking_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:28.548407Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/mordekaiser_r",
+      "body": {
+        "name": "莫德凯撒·轮回绝境",
+        "description": "莫德凯撒将自身和他的目标拖拽到一个异次元空间，并偷取目标的一部分属性。如果他击杀了目标，那么会将这些属性保持到目标复活。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:19:29.904368Z",
+        "description": "莫德凯撒将自身和他的目标拖拽到一个异次元空间，并偷取目标的一部分属性。如果他击杀了目标，那么会将这些属性保持到目标复活。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "莫德凯撒·轮回绝境",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "mordekaiser_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:29.904368Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/naafiri_r",
+      "body": {
+        "name": "纳亚菲利·猎狗血性",
+        "description": "纳亚菲利与她的狗群伙伴们一起向一个英雄冲刺，然后造成伤害。如果纳亚菲利参与了一次击杀，那么她会显形附近的敌方英雄们并且可以再次施放这个技能一次。第二次施放会提供一个护盾。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:19:32.59867Z",
+        "description": "纳亚菲利与她的狗群伙伴们一起向一个英雄冲刺，然后造成伤害。如果纳亚菲利参与了一次击杀，那么她会显形附近的敌方英雄们并且可以再次施放这个技能一次。第二次施放会提供一个护盾。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "纳亚菲利·猎狗血性",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "naafiri_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:32.59867Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/neeko_r",
+      "body": {
+        "name": "妮蔻·怒放",
+        "description": "在短暂的准备阶段后，妮蔻会跃入空中，击飞所有附近的英雄。在着陆时，附近的敌人会受到伤害并被晕眩。如果妮蔻处于假扮状态时，那么准备阶段不会被敌人看见。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:19:37.942286Z",
+        "description": "在短暂的准备阶段后，妮蔻会跃入空中，击飞所有附近的英雄。在着陆时，附近的敌人会受到伤害并被晕眩。如果妮蔻处于假扮状态时，那么准备阶段不会被敌人看见。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "妮蔻·怒放",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "neeko_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:37.942286Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/nidalee_r",
+      "body": {
+        "name": "奈德丽·美洲狮形态",
+        "description": "奈德丽转变成美洲狮形态，获得全新技能。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 4,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:19:39.26416Z",
+        "description": "奈德丽转变成美洲狮形态，获得全新技能。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 4,
+        "name": "奈德丽·美洲狮形态",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "nidalee_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:39.26416Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/nocturne_r",
+      "body": {
+        "name": "魔腾·鬼影重重",
+        "description": "魔腾减少所有敌方英雄的视野范围，并在此过程中移除敌方英雄的友军的视野。魔腾能够借机突进到附近的敌方英雄身边。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:19:41.981897Z",
+        "description": "魔腾减少所有敌方英雄的视野范围，并在此过程中移除敌方英雄的友军的视野。魔腾能够借机突进到附近的敌方英雄身边。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "魔腾·鬼影重重",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "nocturne_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:41.981897Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/nunu_r",
+      "body": {
+        "name": "努努和威朗普·绝对零度",
+        "description": "努努和威朗普在一个区域内创造一阵强大的暴风雪，来减速敌人并在结束时造成巨额伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:19:43.385992Z",
+        "description": "努努和威朗普在一个区域内创造一阵强大的暴风雪，来减速敌人并在结束时造成巨额伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "努努和威朗普·绝对零度",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "nunu_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:43.385992Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/ornn_r",
+      "body": {
+        "name": "奥恩·熔铸之神的召唤",
+        "description": "奥恩在目标位置召唤一个巨大的岩浆元素，岩浆元素会以逐渐提升的速度跑向奥恩。被岩浆元素途经的敌人会受到伤害、减速效果并被施加易碎效果。奥恩可以再次施放这个技能，以冲向岩浆元素，并在命中岩浆元素时重新导向岩浆元素，使岩浆元素可将途经的任何敌人击飞，造成等额的伤害并再次施加易碎效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:19:47.407039Z",
+        "description": "奥恩在目标位置召唤一个巨大的岩浆元素，岩浆元素会以逐渐提升的速度跑向奥恩。被岩浆元素途经的敌人会受到伤害、减速效果并被施加易碎效果。奥恩可以再次施放这个技能，以冲向岩浆元素，并在命中岩浆元素时重新导向岩浆元素，使岩浆元素可将途经的任何敌人击飞，造成等额的伤害并再次施加易碎效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "奥恩·熔铸之神的召唤",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "ornn_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:47.407039Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/pantheon_r",
+      "body": {
+        "name": "潘森·大荒星陨",
+        "description": "潘森屏气凝神然后跃至空中， 随后如流星一般落到选定的位置上。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:19:48.796232Z",
+        "description": "潘森屏气凝神然后跃至空中， 随后如流星一般落到选定的位置上。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "潘森·大荒星陨",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "pantheon_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:48.796232Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/pyke_r",
+      "body": {
+        "name": "派克·涌泉之恨",
+        "description": "派克进行闪烁以处决低血量的敌人，并且如果处决成功还能再次施放此技能并为一名助攻的友军提供额外的金币。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:19:51.651663Z",
+        "description": "派克进行闪烁以处决低血量的敌人，并且如果处决成功还能再次施放此技能并为一名助攻的友军提供额外的金币。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "派克·涌泉之恨",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "pyke_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:51.651663Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/qiyana_r",
+      "body": {
+        "name": "奇亚娜·惊才绝景",
+        "description": "奇亚娜发出一道冲击波来引爆沿途命中的任何元素，对元素附近的敌人造成伤害和晕眩效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:19:53.019392Z",
+        "description": "奇亚娜发出一道冲击波来引爆沿途命中的任何元素，对元素附近的敌人造成伤害和晕眩效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "奇亚娜·惊才绝景",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "qiyana_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:53.019392Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/quinn_r",
+      "body": {
+        "name": "奎因·深入敌后",
+        "description": "奎因和华洛联成一体并以极高的速度进行移动。在结束此技能时会施放【鹰翼天翔】，对附近的敌人造成伤害并用侵扰标记英雄们。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:19:54.490176Z",
+        "description": "奎因和华洛联成一体并以极高的速度进行移动。在结束此技能时会施放【鹰翼天翔】，对附近的敌人造成伤害并用侵扰标记英雄们。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "奎因·深入敌后",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "quinn_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:54.490176Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/rakan_r",
+      "body": {
+        "name": "洛·惊鸿过隙",
+        "description": "获得移动速度，对触碰到的敌人造成魅惑和魔法伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:19:55.867238Z",
+        "description": "获得移动速度，对触碰到的敌人造成魅惑和魔法伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "洛·惊鸿过隙",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "rakan_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:55.867238Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/rengar_r",
+      "body": {
+        "name": "雷恩加尔·狩猎律动",
+        "description": "雷恩加尔激活他的掠食者本能，<font color='#cd90ee'>伪装</font>自身并感知附近极大范围内的距他最近的敌方英雄。在狩猎律动期间，他会获得移动速度加成，他的下次攻击将使他即使不在草丛内也可以进行跳跃，并且会减少目标的护甲。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:20:04.637521Z",
+        "description": "雷恩加尔激活他的掠食者本能，<font color='#cd90ee'>伪装</font>自身并感知附近极大范围内的距他最近的敌方英雄。在狩猎律动期间，他会获得移动速度加成，他的下次攻击将使他即使不在草丛内也可以进行跳跃，并且会减少目标的护甲。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "雷恩加尔·狩猎律动",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "rengar_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:04.637521Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/riven_r",
+      "body": {
+        "name": "锐雯·放逐之锋",
+        "description": "锐雯将能量灌入她那残破不堪的武器中，使攻击力和攻击范围都得到提高。在这段时间里，她还能使用一次疾风斩（一次强大的远程打击）。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:20:06.144412Z",
+        "description": "锐雯将能量灌入她那残破不堪的武器中，使攻击力和攻击范围都得到提高。在这段时间里，她还能使用一次疾风斩（一次强大的远程打击）。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "锐雯·放逐之锋",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "riven_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:06.144412Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/samira_r",
+      "body": {
+        "name": "莎弥拉·炼狱扳机",
+        "description": "莎弥拉的武器倾泻出大量的子弹，狂野地射击她周围的所有敌人。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:20:10.383943Z",
+        "description": "莎弥拉的武器倾泻出大量的子弹，狂野地射击她周围的所有敌人。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "莎弥拉·炼狱扳机",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "samira_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:10.383943Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/senna_r",
+      "body": {
+        "name": "赛娜·暗影燎原",
+        "description": "赛娜召唤陨落哨兵们的圣石，将她的圣物火炮拆分成一座光与影的神圣阵列。她随后会发射一道不限距离的光束，来为命中的友军提供护盾，并对中心区域内的敌人造成伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:20:13.038382Z",
+        "description": "赛娜召唤陨落哨兵们的圣石，将她的圣物火炮拆分成一座光与影的神圣阵列。她随后会发射一道不限距离的光束，来为命中的友军提供护盾，并对中心区域内的敌人造成伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "赛娜·暗影燎原",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "senna_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:13.038382Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/shaco_r",
+      "body": {
+        "name": "萨科·幻像",
+        "description": "萨科在身边制造一个自己的幻像，幻像能够攻击周围的敌人（对防御塔造成较少伤害）。在死亡时爆炸，它会爆炸，生成三个小型惊吓魔盒并对附近的敌人造成伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:20:17.19887Z",
+        "description": "萨科在身边制造一个自己的幻像，幻像能够攻击周围的敌人（对防御塔造成较少伤害）。在死亡时爆炸，它会爆炸，生成三个小型惊吓魔盒并对附近的敌人造成伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "萨科·幻像",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "shaco_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:17.19887Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/shyvana_r",
+      "body": {
+        "name": "希瓦娜·魔龙降世",
+        "description": "希瓦娜变形成一头魔龙并向前跳跃来使途经的敌人们因恐惧而逃跑。在【魔龙形态】下，她的体型变得更大并且她的基础技能都会获得强化。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:20:19.900163Z",
+        "description": "希瓦娜变形成一头魔龙并向前跳跃来使途经的敌人们因恐惧而逃跑。在【魔龙形态】下，她的体型变得更大并且她的基础技能都会获得强化。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "希瓦娜·魔龙降世",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "shyvana_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:19.900163Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/sion_r",
+      "body": {
+        "name": "赛恩·蛮横冲撞",
+        "description": "赛恩朝着一个方向冲锋，持续提升移动速度。他可以朝着鼠标悬停处进行微小的转向。当他与一名敌人产生碰撞时，他会基于敌人们与碰撞点之间的距离造成伤害和击飞效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:20:22.632797Z",
+        "description": "赛恩朝着一个方向冲锋，持续提升移动速度。他可以朝着鼠标悬停处进行微小的转向。当他与一名敌人产生碰撞时，他会基于敌人们与碰撞点之间的距离造成伤害和击飞效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "赛恩·蛮横冲撞",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "sion_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:22.632797Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/smolder_r",
+      "body": {
+        "name": "斯莫德·妈----！",
+        "description": "斯莫德召唤他的妈妈从天空喷吐烈焰，对她的烈焰中心的敌人们造成额外伤害和减速。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:20:26.626822Z",
+        "description": "斯莫德召唤他的妈妈从天空喷吐烈焰，对她的烈焰中心的敌人们造成额外伤害和减速。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "斯莫德·妈----！",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "smolder_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:26.626822Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/sona_r",
+      "body": {
+        "name": "娑娜·狂舞终乐章",
+        "description": "娑娜弹奏她的终极和弦，对敌方英雄造成魔法伤害，并晕眩他们，强制他们开始跳舞。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:20:27.984506Z",
+        "description": "娑娜弹奏她的终极和弦，对敌方英雄造成魔法伤害，并晕眩他们，强制他们开始跳舞。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "娑娜·狂舞终乐章",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "sona_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:27.984506Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/swain_r",
+      "body": {
+        "name": "斯维因·恶魔升华",
+        "description": "斯维因变身为恶魔并从附近的敌方英雄、小兵和中立野怪身上汲取生命值。斯维因能施放【恶魔耀光】来用一道魂焰新星残害并减速附近的敌人们。这个形态可以在斯维因汲取敌方英雄时无限持续。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:20:30.70117Z",
+        "description": "斯维因变身为恶魔并从附近的敌方英雄、小兵和中立野怪身上汲取生命值。斯维因能施放【恶魔耀光】来用一道魂焰新星残害并减速附近的敌人们。这个形态可以在斯维因汲取敌方英雄时无限持续。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "斯维因·恶魔升华",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "swain_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:30.70117Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/tahmkench_r",
+      "body": {
+        "name": "塔姆·大快朵颐",
+        "description": "塔姆吞噬一名英雄若干秒，如果该英雄是敌人则对其造成魔法伤害，如果该英雄是队友则为其提供护盾。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:20:33.411606Z",
+        "description": "塔姆吞噬一名英雄若干秒，如果该英雄是敌人则对其造成魔法伤害，如果该英雄是队友则为其提供护盾。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "塔姆·大快朵颐",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "tahmkench_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:33.411606Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/taliyah_r",
+      "body": {
+        "name": "塔莉垭·墙幔",
+        "description": "塔莉垭创造出一个非常长的石墙，然后在石墙上冲浪。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:20:34.716462Z",
+        "description": "塔莉垭创造出一个非常长的石墙，然后在石墙上冲浪。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "塔莉垭·墙幔",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "taliyah_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:34.716462Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/talon_r",
+      "body": {
+        "name": "泰隆·暗影突袭",
+        "description": "泰隆散出一圈刀刃并变为隐形状态，同时获得额外移动速度。当泰隆从隐形状态下现身时，刀刃会汇聚向泰隆处。刀刃的每段移动，都会让暗影突袭对被至少一枚刀刃命中的敌人造成物理伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:20:36.126293Z",
+        "description": "泰隆散出一圈刀刃并变为隐形状态，同时获得额外移动速度。当泰隆从隐形状态下现身时，刀刃会汇聚向泰隆处。刀刃的每段移动，都会让暗影突袭对被至少一枚刀刃命中的敌人造成物理伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "泰隆·暗影突袭",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "talon_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:36.126293Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/twistedfate_r",
+      "body": {
+        "name": "崔斯特·命运",
+        "description": "崔斯特为他的敌人算卜命运，短时间内显示所有敌方英雄的位置，并可使用传送，让他在引导1.5秒后传送至目标位置。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:20:47.36828Z",
+        "description": "崔斯特为他的敌人算卜命运，短时间内显示所有敌方英雄的位置，并可使用传送，让他在引导1.5秒后传送至目标位置。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "崔斯特·命运",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "twistedfate_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:47.36828Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/vex_r",
+      "body": {
+        "name": "薇古丝·愁煞",
+        "description": "射出一个飞弹来标记一名敌方英雄。再次施放可冲刺至该英雄处并造成伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:20:58.412362Z",
+        "description": "射出一个飞弹来标记一名敌方英雄。再次施放可冲刺至该英雄处并造成伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "薇古丝·愁煞",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "vex_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:58.412362Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/viktor_r",
+      "body": {
+        "name": "维克托·奥术风暴",
+        "description": "维克托在场上召唤一道奥术风暴，对敌人造成魔法伤害并打断敌人的引导。之后风暴会周期性对附近所有敌人造成魔法伤害，且可以被维克托重新导向。<br><br>增强：奥术风暴的移动速度提升25%，每有英雄在受到风暴伤害后阵亡，风暴就会扩大，持续时间也会延长。<br><br>（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:21:02.447612Z",
+        "description": "维克托在场上召唤一道奥术风暴，对敌人造成魔法伤害并打断敌人的引导。之后风暴会周期性对附近所有敌人造成魔法伤害，且可以被维克托重新导向。<br><br>增强：奥术风暴的移动速度提升25%，每有英雄在受到风暴伤害后阵亡，风暴就会扩大，持续时间也会延长。<br><br>（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "维克托·奥术风暴",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "viktor_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:02.447612Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/warwick_r",
+      "body": {
+        "name": "沃里克·无尽束缚",
+        "description": "沃里克朝一个方向跳跃（跳跃距离可从他的移动速度加成中获益），将他所碰撞到的第一个敌方英雄压制1.5秒。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:21:06.431323Z",
+        "description": "沃里克朝一个方向跳跃（跳跃距离可从他的移动速度加成中获益），将他所碰撞到的第一个敌方英雄压制1.5秒。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "沃里克·无尽束缚",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "warwick_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:06.431323Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/xayah_r",
+      "body": {
+        "name": "霞·暴风羽刃",
+        "description": "霞跳向空中，变为不可被选取状态，然后扔出一排匕首，同时掉落可供她召回的羽毛。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:21:08.024355Z",
+        "description": "霞跳向空中，变为不可被选取状态，然后扔出一排匕首，同时掉落可供她召回的羽毛。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "霞·暴风羽刃",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "xayah_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:08.024355Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/xerath_r",
+      "body": {
+        "name": "泽拉斯·奥术仪式",
+        "description": "泽拉斯将自己固定在一处魔力之源上，并获得数次远程施法的机会。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:21:09.27029Z",
+        "description": "泽拉斯将自己固定在一处魔力之源上，并获得数次远程施法的机会。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "泽拉斯·奥术仪式",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "xerath_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:09.27029Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/yasuo_r",
+      "body": {
+        "name": "亚索·狂风绝息斩",
+        "description": "闪烁到一个<factionIonia1>浮空</factionIonia1>的敌方英雄身边，造成物理伤害，并使范围内的所有<factionIonia1>浮空</factionIonia1>的敌人滞留在空中。获得满额的剑意值，但会重置旋风烈斩的层数。<br><br>在接下来的若干秒里，亚索的暴击会获得显著的额外护甲穿透加成值。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:21:12.009725Z",
+        "description": "闪烁到一个<factionIonia1>浮空</factionIonia1>的敌方英雄身边，造成物理伤害，并使范围内的所有<factionIonia1>浮空</factionIonia1>的敌人滞留在空中。获得满额的剑意值，但会重置旋风烈斩的层数。<br><br>在接下来的若干秒里，亚索的暴击会获得显著的额外护甲穿透加成值。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "亚索·狂风绝息斩",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "yasuo_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:12.009725Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/yone_r",
+      "body": {
+        "name": "永恩·封尘绝念斩",
+        "description": "永恩沿直线进行斩击，闪烁至最后一名敌方英雄身后，并将命中的所有敌人拉向他。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:21:13.338173Z",
+        "description": "永恩沿直线进行斩击，闪烁至最后一名敌方英雄身后，并将命中的所有敌人拉向他。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "永恩·封尘绝念斩",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "yone_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:13.338173Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/yorick_r",
+      "body": {
+        "name": "约里克·海屿悼词",
+        "description": "约里克召唤迷雾室女，来让约里克的攻击对室女锁定的目标造成额外伤害。室女也会自动从死亡的敌人身上唤起雾行者。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:21:14.614094Z",
+        "description": "约里克召唤迷雾室女，来让约里克的攻击对室女锁定的目标造成额外伤害。室女也会自动从死亡的敌人身上唤起雾行者。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "约里克·海屿悼词",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "yorick_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:14.614094Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/yuumi_r",
+      "body": {
+        "name": "悠米·魔典终章",
+        "description": "悠米引导5道波纹来伤害敌人并治疗友军。在引导时，悠米可以移动、附身并施放【旺盛精力】。在附身于她的挚友身上时，这个技能还会跟随她的鼠标。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:21:17.334773Z",
+        "description": "悠米引导5道波纹来伤害敌人并治疗友军。在引导时，悠米可以移动、附身并施放【旺盛精力】。在附身于她的挚友身上时，这个技能还会跟随她的鼠标。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "悠米·魔典终章",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "yuumi_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:17.334773Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/zac_r",
+      "body": {
+        "name": "扎克·动感弹球",
+        "description": "扎克弹跳4次，对命中的敌人造成击飞和减速效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:21:20.057825Z",
+        "description": "扎克弹跳4次，对命中的敌人造成击飞和减速效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "扎克·动感弹球",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "zac_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:20.057825Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/zed_r",
+      "body": {
+        "name": "劫·禁奥义！瞬狱影杀阵",
+        "description": "劫变为不可被选取状态并突进至一名敌方英雄，同时为目标施加死亡印记。在3秒后，印记将会爆炸，同时造成额外伤害，劫在印记激活期间造成的伤害越多，则此额外伤害越高。如果该英雄死于此技能期间，那么劫可以获得该英雄的一部分攻击力。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:21:21.438666Z",
+        "description": "劫变为不可被选取状态并突进至一名敌方英雄，同时为目标施加死亡印记。在3秒后，印记将会爆炸，同时造成额外伤害，劫在印记激活期间造成的伤害越多，则此额外伤害越高。如果该英雄死于此技能期间，那么劫可以获得该英雄的一部分攻击力。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "劫·禁奥义！瞬狱影杀阵",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "zed_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:21.438666Z"
+      }
+    }
+  ],
+  "reused": [],
+  "manualReview": [],
+  "sourceSha256": "f5d092a84dceab292ab316e9bc708289740ec52545c0227c347c6668d4983d82",
+  "baselineSha256": "e68ce929c0805a870c256925e960b6f5f224ec3139110e49b7f5c324b29c4d3b"
+}
