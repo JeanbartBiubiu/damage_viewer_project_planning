@@ -1,0 +1,146 @@
+{
+  "at": "2026-09-19T04:29:44.857Z",
+  "status": "PASS",
+  "targetedTests": 161,
+  "fullTests": 674,
+  "testFiles": 60,
+  "lint": "PASS",
+  "typecheck": "PASS",
+  "build": "PASS",
+  "browser": "PASS",
+  "page": {
+    "worktree": "damage_web_dev",
+    "path": "数据参考/全量录入-2026-09/交叉试录/娜美R敌方命中首次页面录入/08-页面验收.json",
+    "sha256": "bcd8ba2ef0e48600670398c07e8ef4b9ba22ff3103e366144f9733f68bf6bd62"
+  },
+  "data": {
+    "worktree": "damage_web_dev",
+    "path": "数据参考/全量录入-2026-09/交叉试录/娜美R敌方命中首次页面录入/09-证据清单.json",
+    "sha256": "e921300fb477db7541c6c4b7f22dc44acd8c0239b569e4b01355eaa9426613c4"
+  },
+  "independentReview": {
+    "worktree": "damage_viewer_project_planning",
+    "path": "数据参考/全量录入-2026-09/技能命中敌方资格补齐/03-最终代码独立检查.json",
+    "sha256": "34cdc8e6224a0099755d81722b49b0d185fd15be4fa223335f5da18c59179bb5"
+  },
+  "sourceSelectorReview": {
+    "worktree": "damage_viewer_project_planning",
+    "path": "数据参考/全量录入-2026-09/技能命中敌方资格补齐/04-来源选择增量独立检查.json",
+    "sha256": "9ccb46193e95d5311f7f6e6521ea3eb780e8d15d1261247acdcbafa4c66e5c6d"
+  },
+  "codeFiles": [
+    {
+      "worktree": "web",
+      "path": "C:/project/damage_web_dev/web/README.md",
+      "relativePath": "web/README.md",
+      "sha256": "bd7044713fbad7906608fef8bc6238e3af134b092c1f3eed3750ebcae429acbf",
+      "independentReviewSha256": "eca13c5efe6156282bfac5fe80d072df1c542fbb923536bf72447adc05dbbe43",
+      "documentationUpdatedAfterBrowser": true
+    },
+    {
+      "worktree": "web",
+      "path": "C:/project/damage_web_dev/web/src/pages/admin/skills/triggers/SkillTriggerConditionEditorModal.tsx",
+      "relativePath": "web/src/pages/admin/skills/triggers/SkillTriggerConditionEditorModal.tsx",
+      "sha256": "10dcd90d24e5c56900c9acac5f1aa0da4401e425b12543ed335e93adc18e03ac",
+      "independentReviewSha256": "10dcd90d24e5c56900c9acac5f1aa0da4401e425b12543ed335e93adc18e03ac",
+      "documentationUpdatedAfterBrowser": false
+    },
+    {
+      "worktree": "web",
+      "path": "C:/project/damage_web_dev/web/src/pages/admin/skills/triggers/triggerRuleForm.test.ts",
+      "relativePath": "web/src/pages/admin/skills/triggers/triggerRuleForm.test.ts",
+      "sha256": "b2e5dcbe7db798e63560c0ccdc142ce5f17a62e35fbee9624383e9aa25f058c2",
+      "independentReviewSha256": "b2e5dcbe7db798e63560c0ccdc142ce5f17a62e35fbee9624383e9aa25f058c2",
+      "documentationUpdatedAfterBrowser": false
+    },
+    {
+      "worktree": "web",
+      "path": "C:/project/damage_web_dev/web/src/pages/admin/skills/triggers/triggerRuleForm.ts",
+      "relativePath": "web/src/pages/admin/skills/triggers/triggerRuleForm.ts",
+      "sha256": "91fbba576225bc476492eb6c0a9e2ad2c10b187660d8667616958918b0f79064",
+      "independentReviewSha256": "91fbba576225bc476492eb6c0a9e2ad2c10b187660d8667616958918b0f79064",
+      "documentationUpdatedAfterBrowser": false
+    },
+    {
+      "worktree": "web",
+      "path": "C:/project/damage_web_dev/web/src/pages/admin/skills/triggers/skillHitEnemyCondition.ts",
+      "relativePath": "web/src/pages/admin/skills/triggers/skillHitEnemyCondition.ts",
+      "sha256": "cb80e87441d692815ebecd3a71ef25577a67d9b347568ef2b8d28647b1fff7e8",
+      "independentReviewSha256": "cb80e87441d692815ebecd3a71ef25577a67d9b347568ef2b8d28647b1fff7e8",
+      "documentationUpdatedAfterBrowser": false
+    },
+    {
+      "worktree": "web",
+      "path": "C:/project/damage_web_dev/web/src/pages/admin/skills/triggers/skillHitEnemyCondition.test.ts",
+      "relativePath": "web/src/pages/admin/skills/triggers/skillHitEnemyCondition.test.ts",
+      "sha256": "867b9e245eed49a57b1343a91b6b1b1a8b7549c2569195cc64dba738c0705790",
+      "independentReviewSha256": "867b9e245eed49a57b1343a91b6b1b1a8b7549c2569195cc64dba738c0705790",
+      "documentationUpdatedAfterBrowser": false
+    },
+    {
+      "worktree": "web",
+      "path": "C:/project/damage_web_dev/web/src/services/numericValue.ts",
+      "relativePath": "web/src/services/numericValue.ts",
+      "sha256": "afd44782a8996649bf5fd2cbf24446b6afc3041b76110ff824fb6eeb4044a0e5",
+      "independentReviewSha256": "afd44782a8996649bf5fd2cbf24446b6afc3041b76110ff824fb6eeb4044a0e5",
+      "documentationUpdatedAfterBrowser": false
+    },
+    {
+      "worktree": "web",
+      "path": "C:/project/damage_web_dev/web/src/services/skillTriggerRuleClient.test.ts",
+      "relativePath": "web/src/services/skillTriggerRuleClient.test.ts",
+      "sha256": "0c98d7f70fbec91da030fab171a0fbd2ece01e14d76a58cbbe0862cce1910aae",
+      "independentReviewSha256": "0c98d7f70fbec91da030fab171a0fbd2ece01e14d76a58cbbe0862cce1910aae",
+      "documentationUpdatedAfterBrowser": false
+    },
+    {
+      "worktree": "web",
+      "path": "C:/project/damage_web_dev/web/src/services/skillTriggerRuleClient.ts",
+      "relativePath": "web/src/services/skillTriggerRuleClient.ts",
+      "sha256": "c9ca51f368ce9fa634265c534b7acd4479e211801e80f2e88b2959bb652e461f",
+      "independentReviewSha256": "c9ca51f368ce9fa634265c534b7acd4479e211801e80f2e88b2959bb652e461f",
+      "documentationUpdatedAfterBrowser": false
+    },
+    {
+      "worktree": "web",
+      "path": "C:/project/damage_web_dev/web/src/types/skillTriggerRule.ts",
+      "relativePath": "web/src/types/skillTriggerRule.ts",
+      "sha256": "b1af9f8d15671444be8e4c574dd20be8249dc3ad0c91e6ef5b005463a6bb283b",
+      "independentReviewSha256": "b1af9f8d15671444be8e4c574dd20be8249dc3ad0c91e6ef5b005463a6bb283b",
+      "documentationUpdatedAfterBrowser": false
+    },
+    {
+      "worktree": "web",
+      "path": "C:/project/damage_web_dev/web/src/pages/admin/skills/triggers/SkillTriggerRuleEditorModal.tsx",
+      "relativePath": "web/src/pages/admin/skills/triggers/SkillTriggerRuleEditorModal.tsx",
+      "sha256": "bea0bc63cb9b9816dac102a77e3f14bae2cc20f8eef7650a7912999254d075e3"
+    }
+  ],
+  "logs": [
+    {
+      "path": "output/enemy-hit-condition/after-source-search-lint.log",
+      "sha256": "35c1098fbb3c5b9f3a8dd97e96598bba5babeac3aaac2ca8d1af5b2c15e8289e"
+    },
+    {
+      "path": "output/enemy-hit-condition/after-source-search-typecheck.log",
+      "sha256": "505ad0074d7218348c09544ca23577696d914a458cbb95dfab0d6ec58d3ecc8a"
+    },
+    {
+      "path": "output/enemy-hit-condition/after-source-search-tests.log",
+      "sha256": "84653f91ccbe0b682f40fe604184903967e7130bc10fb998796e72ed86e84792"
+    },
+    {
+      "path": "output/enemy-hit-condition/after-source-search-build.log",
+      "sha256": "5d88b0ff390df9404ed07e7f7f57ede90f7e98fc7b89bbf4b71dbda85dfa438e"
+    }
+  ],
+  "existingBuildWarning": "分块大小超过500kB",
+  "pageDiagnostics": {
+    "errorCount": 1,
+    "error": "[vite] failed to connect to websocket",
+    "observedTimestamp": "2026-09-19T03:58:24.539Z",
+    "impact": "热更新未生效，已丢弃本次尚未保存草稿并手动重载最终代码；重新录入及重开通过。",
+    "businessErrorObserved": false
+  },
+  "runtimeValidation": "未执行敌我关系或战斗求值"
+}

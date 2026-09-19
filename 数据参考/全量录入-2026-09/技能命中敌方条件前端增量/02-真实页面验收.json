@@ -1,0 +1,32 @@
+{
+  "at": "2026-09-19T04:23:36.824Z",
+  "status": "PASS",
+  "browser": "Codex In-app Browser",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "execution": "真实UI单次最终保存",
+  "businessSaveClicks": 1,
+  "observations": [
+    "来源技能输入娜美显示五项娜美技能，输入nami_r仅显示怒涛之啸，选择后回显稳定标识。",
+    "英雄类别与技能命中敌方对象在同一条件组，摘要明确显示并且。",
+    "敌方条件没有数值或关系配置输入，显示自身、友方、关系未知不匹配说明。",
+    "页面保存后提示规则已保存，列表actual_hit为技能命中、1组1动作、排序10。",
+    "重新打开后来源nami_r、两项条件和primary_hit动作保持。",
+    "将事件切换为技能使用前明确提示清理类别及敌方条件，确认后草稿条件组被移除。",
+    "取消并丢弃该验证草稿，再次打开正式规则仍为技能命中并保留同组两条件。"
+  ],
+  "screenshots": "已通过浏览器截图工具观察并在会话中展示重开页面顶部及条件组动作区域；截图未提供本地文件路径，不虚构文件附件。",
+  "diagnostics": {
+    "errorCount": 1,
+    "error": "[vite] failed to connect to websocket",
+    "observedTimestamp": "2026-09-19T03:58:24.539Z",
+    "impact": "热更新未生效，已丢弃本次尚未保存草稿并手动重载最终代码；重新录入及重开通过。",
+    "businessErrorObserved": false
+  },
+  "runtimeValidation": "未执行敌我关系或战斗求值",
+  "independentReadback": {
+    "GETs": 32,
+    "newRules": 1,
+    "changedCollections": 1,
+    "unchangedResponsesIncludingTimestamps": 30
+  }
+}

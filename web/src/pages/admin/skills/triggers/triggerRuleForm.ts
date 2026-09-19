@@ -1,5 +1,6 @@
 import { lifecycleConditionError, LIFECYCLE_CHECK_LABELS } from './lifecycleCondition';
 import { allowsExplicitTargetIsSource, explicitTargetIsSourceError } from './explicitTargetCondition';
+import { allowsSkillHitEnemy, skillHitEnemyError } from './skillHitEnemyCondition';
 import { allowsSourceCastResourceCost, sourceCastResourceCostError } from './sourceCastResourceCost';
 import { allowsTargetCategoryCheck, targetCategoryConditionError, TARGET_CATEGORY_LABELS } from './targetCategoryCondition';
 import type { Attribute } from '../../../../types/attribute';
@@ -231,6 +232,7 @@ export const SKILL_TRIGGER_CONDITION_TYPES = [
   'LIFECYCLE_CHECK',
   'TARGET_CATEGORY_CHECK',
   'EXPLICIT_TARGET_IS_SOURCE',
+  'SKILL_HIT_TARGET_IS_ENEMY',
   'INTERNAL_STATE_CHECK',
   'EVENT_VALUE_COMPARE'
 ] as const satisfies readonly SkillTriggerConditionType[];
@@ -586,6 +588,7 @@ export const SKILL_TRIGGER_CONDITION_TYPE_LABELS = {
   LIFECYCLE_CHECK: '生命周期检查',
   TARGET_CATEGORY_CHECK: '事件对方类别',
   EXPLICIT_TARGET_IS_SOURCE: '显式目标为来源对象',
+  SKILL_HIT_TARGET_IS_ENEMY: '技能命中敌方对象',
   INTERNAL_STATE_CHECK: '技能内部状态检查',
   EVENT_VALUE_COMPARE: '事件值比较'
 } as const satisfies { [K in SkillTriggerConditionType]: string };
@@ -718,6 +721,11 @@ export type SkillTriggerExplicitTargetIsSourceConditionDraft = ConditionDraftBas
   detail: SkillTriggerEmptyDetail;
 };
 
+export type SkillTriggerSkillHitEnemyConditionDraft = ConditionDraftBase & {
+  conditionType: 'SKILL_HIT_TARGET_IS_ENEMY';
+  detail: SkillTriggerEmptyDetail;
+};
+
 export type SkillTriggerInternalStateCheckConditionDraft = ConditionDraftBase & {
   conditionType: 'INTERNAL_STATE_CHECK';
   detail: SkillTriggerInternalStateCheckDetail;
@@ -734,6 +742,7 @@ export type SkillTriggerConditionDraft =
   | SkillTriggerLifecycleCheckConditionDraft
   | SkillTriggerTargetCategoryCheckConditionDraft
   | SkillTriggerExplicitTargetIsSourceConditionDraft
+  | SkillTriggerSkillHitEnemyConditionDraft
   | SkillTriggerInternalStateCheckConditionDraft
   | SkillTriggerEventValueCompareConditionDraft;
 
@@ -978,7 +987,7 @@ export function createEmptyConditionDetail(
   conditionType: 'TARGET_CATEGORY_CHECK'
 ): SkillTriggerTargetCategoryCheckDetail;
 export function createEmptyConditionDetail(
-  conditionType: 'EXPLICIT_TARGET_IS_SOURCE'
+  conditionType: 'EXPLICIT_TARGET_IS_SOURCE' | 'SKILL_HIT_TARGET_IS_ENEMY'
 ): SkillTriggerEmptyDetail;
 export function createEmptyConditionDetail(
   conditionType: 'ATTRIBUTE_COMPARE'
@@ -1000,6 +1009,7 @@ export function createEmptyConditionDetail(
 ): SkillTriggerCondition['detail'] {
   switch (conditionType) {
     case 'EXPLICIT_TARGET_IS_SOURCE':
+    case 'SKILL_HIT_TARGET_IS_ENEMY':
       return {};
     case 'TARGET_CATEGORY_CHECK':
       return { categories: [] };
@@ -1127,6 +1137,10 @@ export function createEmptyConditionDraft(
 ): SkillTriggerExplicitTargetIsSourceConditionDraft;
 export function createEmptyConditionDraft(
   existingKeys: readonly string[],
+  conditionType: 'SKILL_HIT_TARGET_IS_ENEMY'
+): SkillTriggerSkillHitEnemyConditionDraft;
+export function createEmptyConditionDraft(
+  existingKeys: readonly string[],
   conditionType: 'LIFECYCLE_CHECK'
 ): SkillTriggerLifecycleCheckConditionDraft;
 export function createEmptyConditionDraft(
@@ -1160,6 +1174,8 @@ export function createEmptyConditionDraft(
   switch (conditionType) {
     case 'EXPLICIT_TARGET_IS_SOURCE':
       return { ...base, conditionType, detail: createEmptyConditionDetail('EXPLICIT_TARGET_IS_SOURCE') };
+    case 'SKILL_HIT_TARGET_IS_ENEMY':
+      return { ...base, conditionType, detail: createEmptyConditionDetail('SKILL_HIT_TARGET_IS_ENEMY') };
     case 'TARGET_CATEGORY_CHECK':
       return { ...base, conditionType, detail: createEmptyConditionDetail('TARGET_CATEGORY_CHECK') };
     case 'LIFECYCLE_CHECK':
@@ -1875,6 +1891,8 @@ function conditionFromDetail(condition: SkillTriggerCondition): SkillTriggerCond
   switch (condition.conditionType) {
     case 'EXPLICIT_TARGET_IS_SOURCE':
       return { conditionKey: condition.conditionKey, conditionType: 'EXPLICIT_TARGET_IS_SOURCE', sortOrder: String(condition.sortOrder), detail: {} };
+    case 'SKILL_HIT_TARGET_IS_ENEMY':
+      return { conditionKey: condition.conditionKey, conditionType: 'SKILL_HIT_TARGET_IS_ENEMY', sortOrder: String(condition.sortOrder), detail: {} };
     case 'TARGET_CATEGORY_CHECK':
       return { conditionKey: condition.conditionKey, conditionType: 'TARGET_CATEGORY_CHECK', sortOrder: String(condition.sortOrder), detail: { categories: [...condition.detail.categories] } };
     case 'LIFECYCLE_CHECK':
@@ -1988,6 +2006,8 @@ function toCondition(condition: SkillTriggerConditionDraft, sortOrder: number): 
   switch (condition.conditionType) {
     case 'EXPLICIT_TARGET_IS_SOURCE':
       return { conditionKey: condition.conditionKey.trim(), conditionType: 'EXPLICIT_TARGET_IS_SOURCE', sortOrder, detail: {} };
+    case 'SKILL_HIT_TARGET_IS_ENEMY':
+      return { conditionKey: condition.conditionKey.trim(), conditionType: 'SKILL_HIT_TARGET_IS_ENEMY', sortOrder, detail: {} };
     case 'TARGET_CATEGORY_CHECK':
       return { conditionKey: condition.conditionKey.trim(), conditionType: 'TARGET_CATEGORY_CHECK', sortOrder, detail: { categories: [...condition.detail.categories] } };
     case 'LIFECYCLE_CHECK':
@@ -2182,6 +2202,9 @@ export function analyzeEventSwitchImpact(
   if (!allowsExplicitTargetIsSource(nextSource.eventType) && draft.conditionGroups.some((group) => group.conditions.some((condition) => condition.conditionType === 'EXPLICIT_TARGET_IS_SOURCE'))) {
     parts.push('当前事件不提供技能使用的显式目标身份，将清除显式自施条件；空条件组也会一并清除。');
   }
+  if (!allowsSkillHitEnemy(nextSource.eventType) && draft.conditionGroups.some((group) => group.conditions.some((condition) => condition.conditionType === 'SKILL_HIT_TARGET_IS_ENEMY'))) {
+    parts.push('当前事件不是技能命中，将清除技能命中敌方对象条件；空条件组也会一并清除。');
+  }
   if (!allowsSourceCastResourceCost(nextSource) && draft.actions.some((action) => action.runtimeInputBindings.some((binding) => binding.sourceType === 'SOURCE_CAST_RESOURCE_COST'))) {
     parts.push('当前事件未明确技能命中来源，将清除来源施放资源消耗绑定。');
   }
@@ -2224,6 +2247,8 @@ function cleanupConditionForEventSwitch(
   switch (condition.conditionType) {
     case 'EXPLICIT_TARGET_IS_SOURCE':
       return allowsExplicitTargetIsSource(nextSource.eventType) ? condition : null;
+    case 'SKILL_HIT_TARGET_IS_ENEMY':
+      return allowsSkillHitEnemy(nextSource.eventType) ? condition : null;
     case 'TARGET_CATEGORY_CHECK':
       return allowsTargetCategoryCheck(nextSource.eventType) ? condition : null;
     case 'EVENT_VALUE_COMPARE': {
@@ -2413,6 +2438,8 @@ export function conditionSummary(condition: SkillTriggerConditionDraft): string 
   switch (condition.conditionType) {
     case 'EXPLICIT_TARGET_IS_SOURCE':
       return SKILL_TRIGGER_CONDITION_TYPE_LABELS.EXPLICIT_TARGET_IS_SOURCE;
+    case 'SKILL_HIT_TARGET_IS_ENEMY':
+      return SKILL_TRIGGER_CONDITION_TYPE_LABELS.SKILL_HIT_TARGET_IS_ENEMY;
     case 'TARGET_CATEGORY_CHECK':
       return `${SKILL_TRIGGER_CONDITION_TYPE_LABELS.TARGET_CATEGORY_CHECK} / ${condition.detail.categories.map((category) => TARGET_CATEGORY_LABELS[category]).join('、')}`;
     case 'ATTRIBUTE_COMPARE':
@@ -3190,6 +3217,10 @@ export function validateSkillTriggerDraft(
         const error = explicitTargetIsSourceError(draft.eventSource.eventType);
         if (error) pushError(nestedErrors, `conditionGroups[${groupIndex}].conditions[${conditionIndex}].detail`, error);
       }
+      if (condition.conditionType === 'SKILL_HIT_TARGET_IS_ENEMY') {
+        const error = skillHitEnemyError(draft.eventSource.eventType);
+        if (error) pushError(nestedErrors, `conditionGroups[${groupIndex}].conditions[${conditionIndex}].detail`, error);
+      }
       if (condition.conditionType === 'EVENT_VALUE_COMPARE') {
         if (!allowedValues.includes(condition.detail.eventValueKey)) {
           pushError(
@@ -3395,7 +3426,8 @@ export function validateSkillTriggerDraft(
   };
   if (draft.eventSource.eventType === 'HEALTH_THRESHOLD_CROSSED') checkValue(draft.eventSource.detail.thresholdValue, 'eventSource.detail.thresholdValue');
   for (const [gi, group] of sortedGroups.entries()) for (const [ci, condition] of sortConditionDrafts(group.conditions).entries()) {
-    if (condition.conditionType === 'TARGET_CATEGORY_CHECK' || condition.conditionType === 'EXPLICIT_TARGET_IS_SOURCE') continue;
+    if (condition.conditionType === 'TARGET_CATEGORY_CHECK' || condition.conditionType === 'EXPLICIT_TARGET_IS_SOURCE'
+      || condition.conditionType === 'SKILL_HIT_TARGET_IS_ENEMY') continue;
     const detail = condition.detail;
     if (detail.comparator !== null) checkValue(detail.comparisonValue, `conditionGroups[${gi}].conditions[${ci}].detail.comparisonValue`, condition.conditionType === 'LIFECYCLE_CHECK' ? { min: 0, integer: true } : {});
   }
