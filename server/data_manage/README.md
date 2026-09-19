@@ -275,3 +275,7 @@ mvn "-Dtest=LegacyCombatDataCleanupDbContractSqlTest,SkillParameterFormulaManage
 [verify-aggregate-api.mjs](../../tools/authoring/verify-aggregate-api.mjs) 用于将管理接口回读与迁移前快照比较；[verify-aggregate-crud.mjs](../../tools/authoring/verify-aggregate-crud.mjs) 是本轮复制演练服务的新增、修改、删除与引用保护验收工具，运行前核对其固定目标和隔离测试标识。
 
 静态 SQL 检查、单测、复制库迁移、真实 HTTP 和浏览器验收分别提供不同层面的证据；单测通过或应用启动成功不能替代原库迁移和真实页面验收。发现旧明细表查询错误时，应核对实际数据库是否已迁移、服务是否使用当前编译产物，不要重新创建已吸收的旧表。
+
+沉默状态增量：目录追加 `SILENCE`（沉默），创建后种类不可改；施加和移除均复用无强度状态操作，期限由技能效果生命周期维护，当前结果法术护盾粒度沿用既有规则。共享含义见规划真源《系统精简实施说明》的“沉默状态增量”，不实现施法限制、引导中断或解除结算。
+
+已核定的原库使用 [add_silence_status_kind.sql](../../db/game_manage/migrations/add_silence_status_kind.sql) 追加种类约束；[ApplySilenceStatusKind.java](../../tools/authoring/ApplySilenceStatusKind.java) 固定主机、数据库和已审查SQL摘要，并用新建流水拒绝重放。它仅修改约束与注释，核对原三条状态含时间戳、970个效果和9331条引用，再比较事务前后原数据。执行结果不明时先独立只读恢复，不能直接重试；旧迁移和旧执行工具保持原字节。首次新增沉默目录使用最终服务的真实页面。

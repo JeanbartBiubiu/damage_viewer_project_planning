@@ -44,7 +44,7 @@ class StatusBasicManagementSchemaSqlTest {
         assertTrue(table.contains("foreign key (game_id) references public.games (game_id)"));
         assertTrue(table.contains("status_key varchar(64) not null"));
         assertTrue(table.contains("status_kind varchar(32) not null"));
-        assertTrue(table.contains("status_kind in ('stun', 'movement_slow', 'root')"));
+        assertTrue(table.contains("status_kind in ('stun', 'movement_slow', 'root', 'silence')"));
         assertFalse(table.contains("status_kind varchar(32) not null default"));
         assertTrue(table.contains("name varchar(100) not null"));
         assertTrue(table.contains("description varchar(2000)"));
