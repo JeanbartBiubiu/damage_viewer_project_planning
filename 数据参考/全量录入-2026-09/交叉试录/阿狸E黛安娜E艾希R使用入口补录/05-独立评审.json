@@ -1,0 +1,336 @@
+{
+  "schemaVersion": "damage.authoring.independent-review.v1",
+  "status": "APPROVED",
+  "title": "阿狸E黛安娜E艾希R使用入口补录独立评审",
+  "reviewedAt": "2026-09-19T00:38:15.827Z",
+  "reviewer": "/root/three_use_frozen_review",
+  "scope": {
+    "worktree": "C:\\project\\damage_web_dev",
+    "directory": "数据参考/全量录入-2026-09/交叉试录/阿狸E黛安娜E艾希R使用入口补录",
+    "gameId": "lol",
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "targets": [
+      "ahri_e",
+      "diana_e",
+      "ashe_r"
+    ],
+    "owners": [
+      "champion_ahri",
+      "champion_diana",
+      "champion_ashe"
+    ],
+    "preparedPOSTs": 4,
+    "apiCallsDuringReview": 0,
+    "networkRequestsDuringReview": 0,
+    "databaseAccess": false,
+    "businessWritesDuringReview": 0,
+    "runtimeBoundary": "本评审只核对冻结文件、固定来源、现有过程和管理配置请求；不证明浏览器、宿主/Wasm、实际使用事件、命中事件或战斗运行。"
+  },
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v3.mjs": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "01-候选方案.json": "88e881e19d7f27a011a1336b3e13ced15cf223113346e028f2b59839e6a84c9f",
+    "02-冻结请求.json": "af8ab8aee27db6a9380acb8ebf42f7fa5d5f4c8b4b4211abe543583d4d8b8af9",
+    "03-来源摘要.json": "652ba174c2576a8a937138213a5088e3aafe3a87d91828725ee620c2d78f0cf7",
+    "04-写入前现值.json": "15ef4c1d43e1cfcbb255cd03e5edad6fbe4d651f732eefbd2d59f8ab68ca52a5"
+  },
+  "toolBinding": {
+    "path": "tools/authoring/append-reviewed-skill-components-v3.mjs",
+    "sha256": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "expectedSha256": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "match": true,
+    "codeReviewBoundary": "工具实际字节散列等于锁定值；本评审只核对本批冻结请求与来源，不重复工具完整故障测试。"
+  },
+  "fileBinding": {
+    "fileHashes": {
+      "baseline": "15ef4c1d43e1cfcbb255cd03e5edad6fbe4d651f732eefbd2d59f8ab68ca52a5",
+      "plan": "88e881e19d7f27a011a1336b3e13ced15cf223113346e028f2b59839e6a84c9f",
+      "frozen": "af8ab8aee27db6a9380acb8ebf42f7fa5d5f4c8b4b4211abe543583d4d8b8af9",
+      "source": "652ba174c2576a8a937138213a5088e3aafe3a87d91828725ee620c2d78f0cf7"
+    },
+    "freezeLinks": {
+      "sourceSha256Matches03": true,
+      "baselineSha256Matches04": true,
+      "expectedFrozenSha256": "af8ab8aee27db6a9380acb8ebf42f7fa5d5f4c8b4b4211abe543583d4d8b8af9",
+      "frozenSha256": "af8ab8aee27db6a9380acb8ebf42f7fa5d5f4c8b4b4211abe543583d4d8b8af9",
+      "candidateAndFrozenPOSTsStructurallyEqual": true,
+      "sourceFilesEqualSourceSummary": true
+    },
+    "sourceHashAudit": {
+      "count": 14,
+      "mismatchCount": 0,
+      "rows": [
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/交叉试录/四项后续命中伤害吸血资格纠错/04-写入前现值.json",
+          "expectedSha256": "9e97cf5397b03d82ffc65d5396d773e2c029ec65ebf8f4551443e10005e0adb1",
+          "actualSha256": "9e97cf5397b03d82ffc65d5396d773e2c029ec65ebf8f4551443e10005e0adb1",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Ahri.json.gz",
+          "expectedSha256": "61c7d14f2d30346f1ae51ab82dab1f48c19ec7d9542f0c76e99f0576e1c71d12",
+          "actualSha256": "61c7d14f2d30346f1ae51ab82dab1f48c19ec7d9542f0c76e99f0576e1c71d12",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Ahri.json",
+          "expectedSha256": "0bd796d1e9376a738a70b2eb809d408ac296da11a527be2847aced37bfbaeea7",
+          "actualSha256": "0bd796d1e9376a738a70b2eb809d408ac296da11a527be2847aced37bfbaeea7",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Diana.json.gz",
+          "expectedSha256": "ab22fa97bbd90d4d738fd9502ea242b072d1097ac76f95708b04b3d5f94c5c5c",
+          "actualSha256": "ab22fa97bbd90d4d738fd9502ea242b072d1097ac76f95708b04b3d5f94c5c5c",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Diana.json",
+          "expectedSha256": "06bba838083bb91b9d6c41f6c9f7395966d911719b9893be08734ba6425e8055",
+          "actualSha256": "06bba838083bb91b9d6c41f6c9f7395966d911719b9893be08734ba6425e8055",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Ashe.json.gz",
+          "expectedSha256": "64ee52402a8f3b0eece7f9b584028767204058246d41441adc2cfd370f2a8e44",
+          "actualSha256": "64ee52402a8f3b0eece7f9b584028767204058246d41441adc2cfd370f2a8e44",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Ashe.json",
+          "expectedSha256": "e85c7e4b51ee4e39e602a6792ed106909414ba267b1f3914677d218e5977ca95",
+          "actualSha256": "e85c7e4b51ee4e39e602a6792ed106909414ba267b1f3914677d218e5977ca95",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Ivern.json.gz",
+          "expectedSha256": "3e21fdf20084ca37263d8bc86ea2eb040cabba152161021e8e89054548948196",
+          "actualSha256": "3e21fdf20084ca37263d8bc86ea2eb040cabba152161021e8e89054548948196",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Ivern.json",
+          "expectedSha256": "891792e3b500acaf06cf58158077a6038c3903083f0df2c513f75730f32df712",
+          "actualSha256": "891792e3b500acaf06cf58158077a6038c3903083f0df2c513f75730f32df712",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/交叉试录/阿狸E黛安娜E艾希R使用入口补录/00-四项定点来源核对.json",
+          "expectedSha256": "e424366be257a678da4f1b1ce5a862f5ea18d2789c65ca0b3a56b23c96ebc082",
+          "actualSha256": "e424366be257a678da4f1b1ce5a862f5ea18d2789c65ca0b3a56b23c96ebc082",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/交叉试录/六项既有施法过程入口补录/01-候选方案.json",
+          "expectedSha256": "4161dfdaee269f146e8abafd4b7584d1ea4e0c746dfa657fed4e57bc458b5534",
+          "actualSha256": "4161dfdaee269f146e8abafd4b7584d1ea4e0c746dfa657fed4e57bc458b5534",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "web/src/types/skillEffect.ts",
+          "expectedSha256": "0c1c6bec64b26f4b5d9a721eba0989d1fbee8deefc87105304e96fe92cfa2ed5",
+          "actualSha256": "0c1c6bec64b26f4b5d9a721eba0989d1fbee8deefc87105304e96fe92cfa2ed5",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "web/src/types/skillProcess.ts",
+          "expectedSha256": "6fa0232b4ab6c1bbf44488f0e0a2eb41b8dfd1b23ac9db99a935a74ada0fb85b",
+          "actualSha256": "6fa0232b4ab6c1bbf44488f0e0a2eb41b8dfd1b23ac9db99a935a74ada0fb85b",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "web/src/types/skillTriggerRule.ts",
+          "expectedSha256": "db1021ad59bf8cfee862603c2e7dcde6c618da85d235f36de941c6a205852615",
+          "actualSha256": "db1021ad59bf8cfee862603c2e7dcde6c618da85d235f36de941c6a205852615",
+          "match": true
+        }
+      ]
+    }
+  },
+  "reviewItems": [
+    {
+      "id": "R1",
+      "name": "工具与01至04原始文件绑定",
+      "result": "PASS",
+      "evidence": "append-reviewed-skill-components-v3.mjs实际SHA-256等于锁定443202555；approvedFiles已绑定01候选、02冻结、03来源和04现值原始字节散列。"
+    },
+    {
+      "id": "R2",
+      "name": "14项当前来源散列",
+      "result": "PASS",
+      "evidence": "03-来源摘要声明14项当前来源，逐项重算后14/14一致；type/skillEffect.ts采用本批当前散列0c1c6bec，不复用旧类型文件散列。"
+    },
+    {
+      "id": "R3",
+      "name": "等级起点与普通成本数值",
+      "result": "PASS",
+      "evidence": {
+        "ahri_e": "官方等级1至5法力60/60/60/60/60、普通冷却12000毫秒全等级；当前根mana/manaValues索引0至4同值，cooldownTime索引1至5同为12秒，施法时间250毫秒。",
+        "diana_e": "官方等级1至5法力40/45/50/55/60、普通冷却22000/20000/18000/16000/14000毫秒；当前根mana/manaValues索引0至4和cooldownTime索引1至5逐级一致，施法时间250毫秒。已有moonlight_reset_delay_ms不被本批接线。",
+        "ashe_r": "maxLevel=3，官方等级1至3法力100/100/100、普通冷却100000/80000/60000毫秒；当前根法力索引0至2为100且尾项0排除，cooldownTime索引1至3为100/80/60秒，施法时间250毫秒。"
+      }
+    },
+    {
+      "id": "R4",
+      "name": "既有cast复用与艾希R过程前置",
+      "result": "PASS",
+      "evidence": "阿狸E和黛安娜E写前已有cast过程，新增请求只补各自on_used；艾希R写前processes为空，冻结顺序先新增ashe_r/cast，再新增艾希R on_used。三项过程均只绑定既有mana_cost、cooldown_ms、cast_time_ms，冷却从PROCESS_START开始。"
+    },
+    {
+      "id": "R5",
+      "name": "4个POST完整引用与时点",
+      "result": "PASS",
+      "evidence": {
+        "candidateFrozenEquality": "01.requests与02.requests结构化逐项相等，共4项；顺序为艾希R过程、阿狸E入口、黛安娜E入口、艾希R入口。",
+        "requests": [
+          {
+            "index": 1,
+            "method": "POST",
+            "route": "/skills/ashe_r/processes",
+            "detailRoute": "/skills/ashe_r/processes/cast",
+            "assertions": ["processKey=cast", "activationType=ACTIVE", "cooldown引用cooldown_ms且从PROCESS_START开始", "唯一延迟引用cast_time_ms", "mana_cost在PROCESS_START绑定", "stateOperations为空"]
+          },
+          {
+            "index": 2,
+            "method": "POST",
+            "route": "/skills/ahri_e/trigger-rules",
+            "detailRoute": "/skills/ahri_e/trigger-rules/on_used",
+            "assertions": ["SKILL_USED/ahri_e/ACTIVE", "唯一动作START_PROCESS到既有cast", "conditionGroups/runtimeInputBindings/resultModifiers为空", "无命中伤害动作"]
+          },
+          {
+            "index": 3,
+            "method": "POST",
+            "route": "/skills/diana_e/trigger-rules",
+            "detailRoute": "/skills/diana_e/trigger-rules/on_used",
+            "assertions": ["SKILL_USED/diana_e/ACTIVE", "唯一动作START_PROCESS到既有cast", "conditionGroups/runtimeInputBindings/resultModifiers为空", "不接月光条件、刷新或标记消费"]
+          },
+          {
+            "index": 4,
+            "method": "POST",
+            "route": "/skills/ashe_r/trigger-rules",
+            "detailRoute": "/skills/ashe_r/trigger-rules/on_used",
+            "assertions": ["SKILL_USED/ashe_r/ACTIVE", "唯一动作START_PROCESS到新建cast", "conditionGroups/runtimeInputBindings/resultModifiers为空", "不接眩晕、距离、附近目标或弹道运行"]
+          }
+        ]
+      }
+    },
+    {
+      "id": "R6",
+      "name": "主动资格与不重复入口",
+      "result": "PASS",
+      "evidence": "三项均为对应英雄根技能，使用事件统一为SKILL_USED且useKind=ACTIVE；请求只启动施法过程，不执行actual_hit、不重建法力效果、不改普通伤害或吸血结果。阿狸E/黛安娜E没有既有主动入口可重复，艾希R新入口只启动新cast。"
+    },
+    {
+      "id": "R7",
+      "name": "已有命中、伤害、吸血和关系保护",
+      "result": "PASS",
+      "evidence": {
+        "ahri_e": "actual_hit仍执行charm_hit，既有DAMAGE、magic、SKILL、DIRECT及OMNIVAMP/POST_DEFENSE_DAMAGE效率1保持。",
+        "diana_e": "actual_hit仍执行lunar_rush_hit；moonlight_cooldown_reset效果和全部已有数值保留，不因本批未接线而删除或否认普通冷却。",
+        "ashe_r": "actual_hit仍由CHAMPION条件执行hit_damage，既有DAMAGE、普通伤害与吸血资格保持。",
+        "relations": "三项character-skill关系与英雄/技能现有对象属于写前保护基线，本批不修改。"
+      }
+    },
+    {
+      "id": "R8",
+      "name": "写前基线与新详情缺失",
+      "result": "PASS",
+      "evidence": {
+        "auditCount": 81,
+        "statusCounts": {
+          "200": 77,
+          "404": 4
+        },
+        "businessWrites": 0,
+        "newDetail404": [
+          "/skills/ashe_r/processes/cast",
+          "/skills/ahri_e/trigger-rules/on_used",
+          "/skills/diana_e/trigger-rules/on_used",
+          "/skills/ashe_r/trigger-rules/on_used"
+        ]
+      }
+    },
+    {
+      "id": "R9",
+      "name": "独立待办与排除项",
+      "result": "PASS",
+      "evidence": "黛安娜月光条件、重置效果入口和标记消费仍单独待办；阿狸魅惑与移动技能中止、艾希距离与眩晕表达不在本批；IvernQ首次投射/再次冲刺资格未清，不纳入本批，不借用其机制。"
+    },
+    {
+      "id": "R10",
+      "name": "执行边界",
+      "result": "PASS",
+      "evidence": "本次只读取本地冻结资料、固定原始资料和现值快照并重算散列，未访问业务API、数据库或浏览器；后续写入必须继续使用批准散列和冻结顺序。"
+    }
+  ],
+  "valueChecks": {
+    "ahri_e": {
+      "maxLevel": 5,
+      "manaCostRank1To5": [60, 60, 60, 60, 60],
+      "cooldownMsRank1To5": [12000, 12000, 12000, 12000, 12000],
+      "castTimeMs": 250
+    },
+    "diana_e": {
+      "maxLevel": 5,
+      "manaCostRank1To5": [40, 45, 50, 55, 60],
+      "cooldownMsRank1To5": [22000, 20000, 18000, 16000, 14000],
+      "castTimeMs": 250,
+      "moonlightResetBoundary": "已有moonlight_cooldown_reset和250毫秒参数保留；条件入口与标记消费待另行核定。"
+    },
+    "ashe_r": {
+      "maxLevel": 3,
+      "manaCostRank1To3": [100, 100, 100],
+      "cooldownMsRank1To3": [100000, 80000, 60000],
+      "castTimeMs": 250,
+      "excludedClientManaTail": [0, 0, 0]
+    }
+  },
+  "preflightBoundary": {
+    "expectedGETs": 81,
+    "expectedGETStatusCounts": {
+      "200": 77,
+      "404": 4
+    },
+    "expectedPOSTs": 4,
+    "newDetailRoutes": [
+      "/skills/ashe_r/processes/cast",
+      "/skills/ahri_e/trigger-rules/on_used",
+      "/skills/diana_e/trigger-rules/on_used",
+      "/skills/ashe_r/trigger-rules/on_used"
+    ],
+    "order": [
+      "先新增艾希R/cast过程",
+      "再新增阿狸E和黛安娜E的SKILL_USED/ACTIVE入口",
+      "最后新增艾希R的SKILL_USED/ACTIVE入口"
+    ]
+  },
+  "sourceAndRuntimeBoundary": {
+    "damageAndVamp": "三项既有actual_hit、普通伤害、吸血资格、法力效果、参数、公式和关系保持不变；本批只增加使用过程入口。",
+    "dianaMoonlight": "月光刷新效果已存在但条件入口与标记消费未定；本批不接线不等于否认普通cooldown。",
+    "ivernQ": "IvernQ再次冲刺资格未清，首次/再次使用不纳入本批。",
+    "typeContract": "skillEffect.ts本批当前来源哈希已核对，只有注释更新，结构不继承旧资格或旧散列。",
+    "browserRuntime": "未执行",
+    "wasmRuntime": "未执行",
+    "battleRuntime": "未执行"
+  },
+  "businessWritesDuringReview": 0,
+  "networkRequestsDuringReview": 0,
+  "fileWritesDuringReview": [
+    "仅新建本文件"
+  ],
+  "conclusion": "APPROVED：阿狸E、黛安娜E和艾希R的14项来源散列、4个POST及其顺序和引用、既有cast复用、艾希R过程前置、PROCESS_START普通冷却与250毫秒延迟边界、实际命中/伤害/吸血及关系保护均通过静态独立核对；未发现实质阻塞项。"
+}

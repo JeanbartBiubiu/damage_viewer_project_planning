@@ -1,0 +1,129 @@
+{
+  "at": "2026-09-19T00:34:00.070Z",
+  "producer": "/root",
+  "baseline": {
+    "path": "数据参考/全量录入-2026-09/交叉试录/四项后续命中伤害吸血资格纠错/04-写入前现值.json",
+    "sha256": "9e97cf5397b03d82ffc65d5396d773e2c029ec65ebf8f4551443e10005e0adb1"
+  },
+  "newHTTPRequests": 0,
+  "businessWrites": 0,
+  "candidates": [
+    {
+      "skillKey": "ahri_e",
+      "hero": "Ahri",
+      "rootPath": "Characters/Ahri/Spells/AhriEAbility/AhriE",
+      "sourceDescription": "Ahri blows a kiss that damages and charms an enemy it encounters, instantly stopping movement abilities and causing them to walk harmlessly towards her.",
+      "sourceTooltip": "Ahri blows a kiss that <status>Charms</status> the first enemy hit for {{ charmduration }} seconds and deals <magicDamage>{{ totaldamage }} magic damage</magicDamage>.{{ spellmodifierdescriptionappend }}",
+      "manaByRank": [
+        60,
+        60,
+        60,
+        60,
+        60
+      ],
+      "cooldownMsByRank": [
+        12000,
+        12000,
+        12000,
+        12000,
+        12000
+      ],
+      "castTimeMs": 250,
+      "observedMCastTime": 0.25,
+      "processes": [
+        "cast"
+      ],
+      "rules": [
+        "actual_hit"
+      ],
+      "decision": "READY_RULE_ONLY",
+      "boundary": "普通使用与实际命中职责分离。"
+    },
+    {
+      "skillKey": "diana_e",
+      "hero": "Diana",
+      "rootPath": "Characters/Diana/Spells/DianaTeleportAbility/DianaTeleport",
+      "sourceDescription": "Becomes the living embodiment of the vengeful moon, dashing to an enemy and dealing magic damage.<br><br>Lunar Rush has no cooldown when used to dash to an enemy afflicted with Moonlight. All other enemies will have the Moonlight debuff removed regardless of whether they were the target of Lunar Rush.",
+      "sourceTooltip": "Diana becomes as the vengeful moon, dashing to an enemy and dealing <magicDamage>{{ totaldamage }} magic damage</magicDamage>. If the target is afflicted with <keywordMajor>Moonlight</keywordMajor>, this Ability's Cooldown is refreshed.{{ spellmodifierdescriptionappend }}",
+      "manaByRank": [
+        40,
+        45,
+        50,
+        55,
+        60
+      ],
+      "cooldownMsByRank": [
+        22000,
+        20000,
+        18000,
+        16000,
+        14000
+      ],
+      "castTimeMs": 250,
+      "observedMCastTime": 0.25,
+      "processes": [
+        "cast"
+      ],
+      "rules": [
+        "actual_hit"
+      ],
+      "decision": "READY_RULE_ONLY",
+      "boundary": "仅启动既有普通施法过程；月光条件、重置效果入口和标记消费另外处理，不声称已完成刷新。"
+    },
+    {
+      "skillKey": "ashe_r",
+      "hero": "Ashe",
+      "rootPath": "Characters/Ashe/Spells/EnchantedCrystalArrowAbility/EnchantedCrystalArrow",
+      "sourceDescription": "Ashe fires a missile of ice in a straight line. If the arrow collides with an enemy Champion, it deals damage and stuns the Champion, stunning for longer the farther arrow has traveled. In addition, surrounding enemy units take damage and are slowed.",
+      "sourceTooltip": "Ashe launches a crystal arrow of ice that <status>Stuns</status> the first champion hit and deals <magicDamage>{{ rmaindamage }} magic damage</magicDamage>. The <status>Stun</status> duration increases with distance travelled, up to {{ maxstunduration }} seconds. Surrounding enemies are <status>Slowed</status> by <spellName>Frost Shot</spellName>.{{ spellmodifierdescriptionappend }}",
+      "manaByRank": [
+        100,
+        100,
+        100
+      ],
+      "cooldownMsByRank": [
+        100000,
+        80000,
+        60000
+      ],
+      "castTimeMs": 250,
+      "observedMCastTime": null,
+      "processes": [],
+      "rules": [
+        "actual_hit"
+      ],
+      "decision": "READY_PROCESS_AND_RULE",
+      "boundary": "普通使用与实际命中职责分离。"
+    },
+    {
+      "skillKey": "ivern_q",
+      "hero": "Ivern",
+      "rootPath": "Characters/Ivern/Spells/IvernQAbility/IvernQ",
+      "sourceDescription": "Ivern conjures a vine, dealing damage and rooting enemy targets hit. Ivern's allies can dash to the rooted target.",
+      "sourceTooltip": "Ivern conjures a vine dealing <magicDamage>{{ totaldamage }} magic damage</magicDamage> and <status>Rooting</status> the first enemy hit for {{ rootduration }} seconds. Allies that Attack a <status>Rooted</status> enemy dash into Attack Range. <br /><br /><recast>Recast:</recast> Ivern dashes directly onto the <status>Rooted</status> enemy.<br /><br /><rules>Hitting non-epic monsters reduces <spellName>Rootcaller's</spellName> cooldown by 50%.</rules>{{ spellmodifierdescriptionappend }}",
+      "manaByRank": [
+        60,
+        60,
+        60,
+        60,
+        60
+      ],
+      "cooldownMsByRank": [
+        14000,
+        13000,
+        12000,
+        11000,
+        10000
+      ],
+      "castTimeMs": 250,
+      "observedMCastTime": 0.25,
+      "processes": [],
+      "rules": [
+        "actual_hit"
+      ],
+      "decision": "DEFER_RECAST_QUALIFICATION",
+      "boundary": "首次投射与再次冲刺需区分；不能让再次使用重复收费或启动整轮普通冷却。"
+    }
+  ],
+  "scope": "复用既有完整快照与固定来源，主负责人接手后定点准备。后续实际写入另取实时基线。"
+}

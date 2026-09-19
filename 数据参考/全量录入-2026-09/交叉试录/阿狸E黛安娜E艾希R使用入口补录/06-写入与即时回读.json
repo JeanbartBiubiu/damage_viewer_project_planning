@@ -1,0 +1,787 @@
+{
+  "startedAt": "2026-09-19T00:41:32.284Z",
+  "status": "PASS",
+  "businessWritesAttempted": 4,
+  "operations": [
+    {
+      "method": "POST",
+      "route": "/skills/ashe_r/processes",
+      "response": {
+        "status": 201,
+        "data": {
+          "activationType": "ACTIVE",
+          "cooldown": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cooldown_ms"
+            },
+            "startMoment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            }
+          },
+          "createdAt": "2026-09-19T00:41:32.481721Z",
+          "description": "登记已核法力、普通冷却与当前根250毫秒施法延迟；实际命中由独立规则处理，不把过程结束当作命中。",
+          "effectBindings": [
+            {
+              "bindingKey": "mana_cost",
+              "effectKey": "mana_cost",
+              "moment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              },
+              "sortOrder": 10
+            }
+          ],
+          "gameId": "lol",
+          "name": "施放魔法水晶箭",
+          "processKey": "cast",
+          "skillKey": "ashe_r",
+          "sortOrder": 10,
+          "stateOperations": [],
+          "steps": [
+            {
+              "description": "主技能已核对的施法时间。",
+              "detail": {
+                "delayValue": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "cast_time_ms"
+                }
+              },
+              "name": "施法延迟",
+              "sortOrder": 10,
+              "stepKey": "cast_time",
+              "stepType": "DELAY"
+            }
+          ],
+          "updatedAt": "2026-09-19T00:41:32.481721Z"
+        }
+      },
+      "readback": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "createdAt": "2026-09-19T00:41:32.481721Z",
+        "description": "登记已核法力、普通冷却与当前根250毫秒施法延迟；实际命中由独立规则处理，不把过程结束当作命中。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "gameId": "lol",
+        "name": "施放魔法水晶箭",
+        "processKey": "cast",
+        "skillKey": "ashe_r",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "主技能已核对的施法时间。",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            },
+            "name": "施法延迟",
+            "sortOrder": 10,
+            "stepKey": "cast_time",
+            "stepType": "DELAY"
+          }
+        ],
+        "updatedAt": "2026-09-19T00:41:32.481721Z"
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ahri_e/trigger-rules",
+      "response": {
+        "status": 201,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "start_cast",
+              "actionType": "START_PROCESS",
+              "detail": {
+                "processKey": "cast"
+              },
+              "name": "启动施法过程",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "主动使用时启动本技能既有施法过程；法力、普通冷却和施法延迟沿用过程配置，实际命中由独立规则处理。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "ahri_e",
+              "useKind": "ACTIVE"
+            },
+            "eventType": "SKILL_USED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "主动使用启动阿狸·魅惑妖术过程",
+          "perTargetCooldown": null,
+          "ruleKey": "on_used",
+          "sortOrder": 10
+        }
+      },
+      "readback": {
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "cast"
+            },
+            "name": "启动施法过程",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "主动使用时启动本技能既有施法过程；法力、普通冷却和施法延迟沿用过程配置，实际命中由独立规则处理。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "ahri_e",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "主动使用启动阿狸·魅惑妖术过程",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/diana_e/trigger-rules",
+      "response": {
+        "status": 201,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "start_cast",
+              "actionType": "START_PROCESS",
+              "detail": {
+                "processKey": "cast"
+              },
+              "name": "启动施法过程",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "主动使用时启动本技能既有施法过程；法力、普通冷却和施法延迟沿用过程配置，实际命中由独立规则处理。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "diana_e",
+              "useKind": "ACTIVE"
+            },
+            "eventType": "SKILL_USED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "主动使用启动黛安娜·月神冲刺过程",
+          "perTargetCooldown": null,
+          "ruleKey": "on_used",
+          "sortOrder": 10
+        }
+      },
+      "readback": {
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "cast"
+            },
+            "name": "启动施法过程",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "主动使用时启动本技能既有施法过程；法力、普通冷却和施法延迟沿用过程配置，实际命中由独立规则处理。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "diana_e",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "主动使用启动黛安娜·月神冲刺过程",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ashe_r/trigger-rules",
+      "response": {
+        "status": 201,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "start_cast",
+              "actionType": "START_PROCESS",
+              "detail": {
+                "processKey": "cast"
+              },
+              "name": "启动施法过程",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "主动使用时启动本技能既有施法过程；法力、普通冷却和施法延迟沿用过程配置，实际命中由独立规则处理。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "ashe_r",
+              "useKind": "ACTIVE"
+            },
+            "eventType": "SKILL_USED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "主动使用启动艾希·魔法水晶箭过程",
+          "perTargetCooldown": null,
+          "ruleKey": "on_used",
+          "sortOrder": 10
+        }
+      },
+      "readback": {
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "cast"
+            },
+            "name": "启动施法过程",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "主动使用时启动本技能既有施法过程；法力、普通冷却和施法延迟沿用过程配置，实际命中由独立规则处理。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "ashe_r",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "主动使用启动艾希·魔法水晶箭过程",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used",
+        "sortOrder": 10
+      }
+    }
+  ],
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v3.mjs": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "01-候选方案.json": "88e881e19d7f27a011a1336b3e13ced15cf223113346e028f2b59839e6a84c9f",
+    "02-冻结请求.json": "af8ab8aee27db6a9380acb8ebf42f7fa5d5f4c8b4b4211abe543583d4d8b8af9",
+    "03-来源摘要.json": "652ba174c2576a8a937138213a5088e3aafe3a87d91828725ee620c2d78f0cf7",
+    "04-写入前现值.json": "15ef4c1d43e1cfcbb255cd03e5edad6fbe4d651f732eefbd2d59f8ab68ca52a5"
+  },
+  "pendingRoute": null,
+  "finishedAt": "2026-09-19T00:41:38.870Z",
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_ahri",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_ahri/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_ahri/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_ahri",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=ahri_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/charm_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/charm_slow_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/effects/charm_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_diana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_diana/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_diana/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_diana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=diana_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/parameters/moonlight_reset_delay_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/effects/lunar_rush_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/effects/moonlight_cooldown_reset",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_ashe",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_ashe/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_ashe/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_ashe",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=ashe_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/parameters/min_stun_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/parameters/max_stun_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/formulas/hit_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/effects/hit_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/ability_power",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/mana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/damage-types/magic",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/processes/cast",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/trigger-rules/on_used",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/trigger-rules/on_used",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/trigger-rules/on_used",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/processes/cast",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/ashe_r/processes",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/trigger-rules/on_used",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/ahri_e/trigger-rules",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/trigger-rules/on_used",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/diana_e/trigger-rules",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/trigger-rules/on_used",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/ashe_r/trigger-rules",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/trigger-rules/on_used",
+      "status": 200
+    }
+  ]
+}

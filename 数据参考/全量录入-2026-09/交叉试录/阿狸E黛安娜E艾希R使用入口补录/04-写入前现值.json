@@ -1,0 +1,2870 @@
+{
+  "at": "2026-09-19T00:34:03.784Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/skills/ahri_e": {
+      "createdAt": "2026-09-06T18:16:14.427185Z",
+      "description": "阿狸献出红唇热吻，对命中的第一个敌人造成伤害并将目标魅惑，并且立刻终止目标的移动技能并使目标无恶意地走向她。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "阿狸·魅惑妖术",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "ahri_e",
+      "sortOrder": 3,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:16:14.427185Z"
+    },
+    "/characters/champion_ahri": {
+      "characterKey": "champion_ahri",
+      "createdAt": "2026-09-06T15:34:15.193099Z",
+      "description": "九尾妖狐·阿狸。资料：官方静态资料16.17.1、同补丁客户端16.17.8104348。仅基础属性与1～18级自然成长；技能、被动叠层与图片尚待录入和核对。",
+      "gameId": "lol",
+      "name": "阿狸",
+      "updatedAt": "2026-09-06T15:34:15.193099Z"
+    },
+    "/characters/champion_ahri/attributes": {
+      "characterKey": "champion_ahri",
+      "levelValues": {
+        "1": {
+          "move_speed": 330,
+          "hp": 590,
+          "hp_regen": 2.5,
+          "mana": 418,
+          "mana_regen": 8,
+          "armor": 21,
+          "magic_resistance": 30,
+          "attack_damage": 53,
+          "attack_speed": 0.668,
+          "attack_range": 550
+        },
+        "2": {
+          "move_speed": 330,
+          "hp": 664.88,
+          "hp_regen": 2.932,
+          "mana": 436,
+          "mana_regen": 8.576,
+          "armor": 24.024,
+          "magic_resistance": 30.936,
+          "attack_damage": 55.16,
+          "attack_speed": 0.6779,
+          "attack_range": 550
+        },
+        "3": {
+          "move_speed": 330,
+          "hp": 743.4,
+          "hp_regen": 3.385,
+          "mana": 454.875,
+          "mana_regen": 9.18,
+          "armor": 27.195,
+          "magic_resistance": 31.9175,
+          "attack_damage": 57.425,
+          "attack_speed": 0.688281,
+          "attack_range": 550
+        },
+        "4": {
+          "move_speed": 330,
+          "hp": 825.56,
+          "hp_regen": 3.859,
+          "mana": 474.625,
+          "mana_regen": 9.812,
+          "armor": 30.513,
+          "magic_resistance": 32.9445,
+          "attack_damage": 59.795,
+          "attack_speed": 0.699144,
+          "attack_range": 550
+        },
+        "5": {
+          "move_speed": 330,
+          "hp": 911.36,
+          "hp_regen": 4.354,
+          "mana": 495.25,
+          "mana_regen": 10.472,
+          "armor": 33.978,
+          "magic_resistance": 34.017,
+          "attack_damage": 62.27,
+          "attack_speed": 0.710488,
+          "attack_range": 550
+        },
+        "6": {
+          "move_speed": 330,
+          "hp": 1000.8,
+          "hp_regen": 4.87,
+          "mana": 516.75,
+          "mana_regen": 11.16,
+          "armor": 37.59,
+          "magic_resistance": 35.135,
+          "attack_damage": 64.85,
+          "attack_speed": 0.722313,
+          "attack_range": 550
+        },
+        "7": {
+          "move_speed": 330,
+          "hp": 1093.88,
+          "hp_regen": 5.407,
+          "mana": 539.125,
+          "mana_regen": 11.876,
+          "armor": 41.349,
+          "magic_resistance": 36.2985,
+          "attack_damage": 67.535,
+          "attack_speed": 0.734619,
+          "attack_range": 550
+        },
+        "8": {
+          "move_speed": 330,
+          "hp": 1190.6,
+          "hp_regen": 5.965,
+          "mana": 562.375,
+          "mana_regen": 12.62,
+          "armor": 45.255,
+          "magic_resistance": 37.5075,
+          "attack_damage": 70.325,
+          "attack_speed": 0.747406,
+          "attack_range": 550
+        },
+        "9": {
+          "move_speed": 330,
+          "hp": 1290.96,
+          "hp_regen": 6.544,
+          "mana": 586.5,
+          "mana_regen": 13.392,
+          "armor": 49.308,
+          "magic_resistance": 38.762,
+          "attack_damage": 73.22,
+          "attack_speed": 0.760675,
+          "attack_range": 550
+        },
+        "10": {
+          "move_speed": 330,
+          "hp": 1394.96,
+          "hp_regen": 7.144,
+          "mana": 611.5,
+          "mana_regen": 14.192,
+          "armor": 53.508,
+          "magic_resistance": 40.062,
+          "attack_damage": 76.22,
+          "attack_speed": 0.774425,
+          "attack_range": 550
+        },
+        "11": {
+          "move_speed": 330,
+          "hp": 1502.6,
+          "hp_regen": 7.765,
+          "mana": 637.375,
+          "mana_regen": 15.02,
+          "armor": 57.855,
+          "magic_resistance": 41.4075,
+          "attack_damage": 79.325,
+          "attack_speed": 0.788656,
+          "attack_range": 550
+        },
+        "12": {
+          "move_speed": 330,
+          "hp": 1613.88,
+          "hp_regen": 8.407,
+          "mana": 664.125,
+          "mana_regen": 15.876,
+          "armor": 62.349,
+          "magic_resistance": 42.7985,
+          "attack_damage": 82.535,
+          "attack_speed": 0.803369,
+          "attack_range": 550
+        },
+        "13": {
+          "move_speed": 330,
+          "hp": 1728.8,
+          "hp_regen": 9.07,
+          "mana": 691.75,
+          "mana_regen": 16.76,
+          "armor": 66.99,
+          "magic_resistance": 44.235,
+          "attack_damage": 85.85,
+          "attack_speed": 0.818563,
+          "attack_range": 550
+        },
+        "14": {
+          "move_speed": 330,
+          "hp": 1847.36,
+          "hp_regen": 9.754,
+          "mana": 720.25,
+          "mana_regen": 17.672,
+          "armor": 71.778,
+          "magic_resistance": 45.717,
+          "attack_damage": 89.27,
+          "attack_speed": 0.834238,
+          "attack_range": 550
+        },
+        "15": {
+          "move_speed": 330,
+          "hp": 1969.56,
+          "hp_regen": 10.459,
+          "mana": 749.625,
+          "mana_regen": 18.612,
+          "armor": 76.713,
+          "magic_resistance": 47.2445,
+          "attack_damage": 92.795,
+          "attack_speed": 0.850394,
+          "attack_range": 550
+        },
+        "16": {
+          "move_speed": 330,
+          "hp": 2095.4,
+          "hp_regen": 11.185,
+          "mana": 779.875,
+          "mana_regen": 19.58,
+          "armor": 81.795,
+          "magic_resistance": 48.8175,
+          "attack_damage": 96.425,
+          "attack_speed": 0.867031,
+          "attack_range": 550
+        },
+        "17": {
+          "move_speed": 330,
+          "hp": 2224.88,
+          "hp_regen": 11.932,
+          "mana": 811,
+          "mana_regen": 20.576,
+          "armor": 87.024,
+          "magic_resistance": 50.436,
+          "attack_damage": 100.16,
+          "attack_speed": 0.88415,
+          "attack_range": 550
+        },
+        "18": {
+          "move_speed": 330,
+          "hp": 2358,
+          "hp_regen": 12.7,
+          "mana": 843,
+          "mana_regen": 21.6,
+          "armor": 92.4,
+          "magic_resistance": 52.1,
+          "attack_damage": 104,
+          "attack_speed": 0.90175,
+          "attack_range": 550
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_ahri/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "image_765384d4-2926-46c1-b9d6-c06a8d409328",
+        "name": "阿狸代表图片_765384d4-2926-46c1-b9d6-c06a8d409328"
+      }
+    },
+    "/skills/ahri_e/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_ahri_e",
+        "name": "ahri_e"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_ahri": {
+      "items": [
+        {
+          "characterKey": "champion_ahri",
+          "characterName": "阿狸",
+          "gameId": "lol",
+          "skillKey": "ahri_p",
+          "skillName": "阿狸·摄魂夺魄",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_ahri",
+          "characterName": "阿狸",
+          "gameId": "lol",
+          "skillKey": "ahri_q",
+          "skillName": "阿狸·欺诈宝珠",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_ahri",
+          "characterName": "阿狸",
+          "gameId": "lol",
+          "skillKey": "ahri_w",
+          "skillName": "阿狸·妖异狐火",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_ahri",
+          "characterName": "阿狸",
+          "gameId": "lol",
+          "skillKey": "ahri_e",
+          "skillName": "阿狸·魅惑妖术",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_ahri",
+          "characterName": "阿狸",
+          "gameId": "lol",
+          "skillKey": "ahri_r",
+          "skillName": "阿狸·灵魄突袭",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=ahri_e": {
+      "items": [
+        {
+          "characterKey": "champion_ahri",
+          "characterName": "阿狸",
+          "gameId": "lol",
+          "skillKey": "ahri_e",
+          "skillName": "阿狸·魅惑妖术",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        }
+      ],
+      "total": 1
+    },
+    "/skills/ahri_e/parameters": [
+      {
+        "createdAt": "2026-09-07T18:52:38.797791Z",
+        "description": "当前spellCastTime与已有mCastTime一致；不代替命中。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "ahri_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T18:52:38.797791Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:52:39.367241Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 80,
+          "2": 120,
+          "3": 160,
+          "4": 200,
+          "5": 240
+        },
+        "name": "基础伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "ahri_e",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-07T18:52:39.367241Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:52:39.90728Z",
+        "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+        "fixedValue": 0.85,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法强倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "ahri_e",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-07T18:52:39.90728Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T18:52:40.538547Z",
+        "description": "客户端当前根绑定 DataValues.CharmDuration 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 1200,
+          "2": 1350,
+          "3": 1500,
+          "4": 1650,
+          "5": 1800
+        },
+        "name": "魅惑时长（毫秒）",
+        "parameterKey": "charm_duration_ms",
+        "skillKey": "ahri_e",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-07T18:52:40.538547Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:52:41.142232Z",
+        "description": "客户端当前根绑定 DataValues.SlowPercent 取索引1至5。",
+        "fixedValue": 0.65,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "魅惑期间移速降低比例",
+        "parameterKey": "charm_slow_ratio",
+        "skillKey": "ahri_e",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-07T18:52:41.142232Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T16:00:05.508573Z",
+        "description": "DDragon16.17.1 Ahri.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 12000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "ahri_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T16:00:05.508573Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:00:05.845251Z",
+        "description": "DDragon16.17.1 Ahri.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 60,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "ahri_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T16:00:05.845251Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/ahri_e/parameters/cast_time_ms": {
+      "createdAt": "2026-09-07T18:52:38.797791Z",
+      "description": "当前spellCastTime与已有mCastTime一致；不代替命中。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "ahri_e",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-07T18:52:38.797791Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/ahri_e/parameters/base_damage": {
+      "createdAt": "2026-09-07T18:52:39.367241Z",
+      "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 80,
+        "2": 120,
+        "3": 160,
+        "4": 200,
+        "5": 240
+      },
+      "name": "基础伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "ahri_e",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-07T18:52:39.367241Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/ahri_e/parameters/ap_ratio": {
+      "createdAt": "2026-09-07T18:52:39.90728Z",
+      "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+      "fixedValue": 0.85,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法强倍率",
+      "parameterKey": "ap_ratio",
+      "skillKey": "ahri_e",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-07T18:52:39.90728Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/ahri_e/parameters/charm_duration_ms": {
+      "createdAt": "2026-09-07T18:52:40.538547Z",
+      "description": "客户端当前根绑定 DataValues.CharmDuration 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 1200,
+        "2": 1350,
+        "3": 1500,
+        "4": 1650,
+        "5": 1800
+      },
+      "name": "魅惑时长（毫秒）",
+      "parameterKey": "charm_duration_ms",
+      "skillKey": "ahri_e",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-07T18:52:40.538547Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/ahri_e/parameters/charm_slow_ratio": {
+      "createdAt": "2026-09-07T18:52:41.142232Z",
+      "description": "客户端当前根绑定 DataValues.SlowPercent 取索引1至5。",
+      "fixedValue": 0.65,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "魅惑期间移速降低比例",
+      "parameterKey": "charm_slow_ratio",
+      "skillKey": "ahri_e",
+      "sortOrder": 70,
+      "updatedAt": "2026-09-07T18:52:41.142232Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/ahri_e/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T16:00:05.508573Z",
+      "description": "DDragon16.17.1 Ahri.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 12000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "ahri_e",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T16:00:05.508573Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/ahri_e/parameters/mana_cost": {
+      "createdAt": "2026-09-07T16:00:05.845251Z",
+      "description": "DDragon16.17.1 Ahri.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 60,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "ahri_e",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-07T16:00:05.845251Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/ahri_e/formulas": [
+      {
+        "createdAt": "2026-09-07T18:52:41.871095Z",
+        "description": "当前根TotalDamage：基础伤害+法强倍率×总法强。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "魅惑妖术基础伤害",
+        "skillKey": "ahri_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:52:41.871095Z"
+      }
+    ],
+    "/skills/ahri_e/formulas/damage": {
+      "createdAt": "2026-09-07T18:52:41.871095Z",
+      "description": "当前根TotalDamage：基础伤害+法强倍率×总法强。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "魅惑妖术基础伤害",
+      "skillKey": "ahri_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T18:52:41.871095Z"
+    },
+    "/skills/ahri_e/effects": [
+      {
+        "createdAt": "2026-09-07T18:52:42.496789Z",
+        "description": "仅施放法力消耗；具体过程单独绑定。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "ahri_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:52:42.496789Z"
+      },
+      {
+        "createdAt": "2026-09-07T18:52:43.148014Z",
+        "description": "本轮1V1敌方英雄的一次普通直接魔法技能伤害；实际命中入口已配置，并明确登记防御结算后伤害、效率为1的全能吸血资格。控制、施放和相关技能联动分别维护。",
+        "effectKey": "charm_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "魅惑命中魔法伤害",
+        "resultCount": 1,
+        "skillKey": "ahri_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T00:05:51.566451Z"
+      }
+    ],
+    "/skills/ahri_e/effects/mana_cost": {
+      "createdAt": "2026-09-07T18:52:42.496789Z",
+      "description": "仅施放法力消耗；具体过程单独绑定。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "ahri_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T18:52:42.496789Z"
+    },
+    "/skills/ahri_e/effects/charm_hit": {
+      "createdAt": "2026-09-07T18:52:43.148014Z",
+      "description": "本轮1V1敌方英雄的一次普通直接魔法技能伤害；实际命中入口已配置，并明确登记防御结算后伤害、效率为1的全能吸血资格。控制、施放和相关技能联动分别维护。",
+      "effectKey": "charm_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "魅惑命中魔法伤害",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": [
+              {
+                "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                "efficiencyValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "vampType": "OMNIVAMP"
+              }
+            ]
+          },
+          "lifecycleBehavior": null,
+          "name": "魅惑命中魔法伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "RESULT",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "ahri_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-19T00:05:51.566451Z"
+    },
+    "/skills/ahri_e/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-07T18:52:43.677738Z",
+        "description": "只绑定法力、基础冷却及施法延迟；不在过程结束时自动造成伤害。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "施放魅惑妖术",
+        "processKey": "cast",
+        "skillKey": "ahri_e",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-07T18:52:43.677738Z"
+      }
+    ],
+    "/skills/ahri_e/processes/cast": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-07T18:52:43.677738Z",
+      "description": "只绑定法力、基础冷却及施法延迟；不在过程结束时自动造成伤害。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "施放魅惑妖术",
+      "processKey": "cast",
+      "skillKey": "ahri_e",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "主技能已核对的施法时间。",
+          "detail": {
+            "delayValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cast_time_ms"
+            }
+          },
+          "name": "施法延迟",
+          "sortOrder": 10,
+          "stepKey": "cast_time",
+          "stepType": "DELAY"
+        }
+      ],
+      "updatedAt": "2026-09-07T18:52:43.677738Z"
+    },
+    "/skills/ahri_e/internal-states": [],
+    "/skills/ahri_e/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "魅惑妖术实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:52:44.23608Z"
+      }
+    ],
+    "/skills/ahri_e/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "damage",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "charm_hit"
+          },
+          "name": "执行命中伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "ahri_e",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "魅惑妖术实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    },
+    "/skills/diana_e": {
+      "createdAt": "2026-09-06T18:18:09.313429Z",
+      "description": "成为复仇之月的活化身，冲向一名敌人并造成魔法伤害。<br>【月神冲刺】在冲达一名被施加了【月光】效果的敌人时，会没有冷却时间。所有其它的敌人都将移除掉身上的【月光】效果，无论他们是否是【月神冲刺】的目标。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "黛安娜·月神冲刺",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "diana_e",
+      "sortOrder": 3,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:18:09.313429Z"
+    },
+    "/characters/champion_diana": {
+      "characterKey": "champion_diana",
+      "createdAt": "2026-09-06T16:22:07.446309Z",
+      "description": "官方静态资料16.17.1；仅基础属性与1～18级自然成长，技能、图片和特殊机制待录。",
+      "gameId": "lol",
+      "name": "黛安娜",
+      "updatedAt": "2026-09-06T16:22:07.446309Z"
+    },
+    "/characters/champion_diana/attributes": {
+      "characterKey": "champion_diana",
+      "levelValues": {
+        "1": {
+          "move_speed": 345,
+          "hp": 640,
+          "hp_regen": 6.5,
+          "mana": 375,
+          "mana_regen": 8,
+          "armor": 31,
+          "magic_resistance": 32,
+          "attack_damage": 57,
+          "attack_speed": 0.625,
+          "attack_range": 150
+        },
+        "2": {
+          "move_speed": 345,
+          "hp": 718.48,
+          "hp_regen": 7.112,
+          "mana": 393,
+          "mana_regen": 8.576,
+          "armor": 34.096,
+          "magic_resistance": 33.476,
+          "attack_damage": 59.16,
+          "attack_speed": 0.634994,
+          "attack_range": 150
+        },
+        "3": {
+          "move_speed": 345,
+          "hp": 800.775,
+          "hp_regen": 7.75375,
+          "mana": 411.875,
+          "mana_regen": 9.18,
+          "armor": 37.3425,
+          "magic_resistance": 35.02375,
+          "attack_damage": 61.425,
+          "attack_speed": 0.645473,
+          "attack_range": 150
+        },
+        "4": {
+          "move_speed": 345,
+          "hp": 886.885,
+          "hp_regen": 8.42525,
+          "mana": 431.625,
+          "mana_regen": 9.812,
+          "armor": 40.7395,
+          "magic_resistance": 36.64325,
+          "attack_damage": 63.795,
+          "attack_speed": 0.656438,
+          "attack_range": 150
+        },
+        "5": {
+          "move_speed": 345,
+          "hp": 976.81,
+          "hp_regen": 9.1265,
+          "mana": 452.25,
+          "mana_regen": 10.472,
+          "armor": 44.287,
+          "magic_resistance": 38.3345,
+          "attack_damage": 66.27,
+          "attack_speed": 0.667889,
+          "attack_range": 150
+        },
+        "6": {
+          "move_speed": 345,
+          "hp": 1070.55,
+          "hp_regen": 9.8575,
+          "mana": 473.75,
+          "mana_regen": 11.16,
+          "armor": 47.985,
+          "magic_resistance": 40.0975,
+          "attack_damage": 68.85,
+          "attack_speed": 0.679826,
+          "attack_range": 150
+        },
+        "7": {
+          "move_speed": 345,
+          "hp": 1168.105,
+          "hp_regen": 10.61825,
+          "mana": 496.125,
+          "mana_regen": 11.876,
+          "armor": 51.8335,
+          "magic_resistance": 41.93225,
+          "attack_damage": 71.535,
+          "attack_speed": 0.692249,
+          "attack_range": 150
+        },
+        "8": {
+          "move_speed": 345,
+          "hp": 1269.475,
+          "hp_regen": 11.40875,
+          "mana": 519.375,
+          "mana_regen": 12.62,
+          "armor": 55.8325,
+          "magic_resistance": 43.83875,
+          "attack_damage": 74.325,
+          "attack_speed": 0.705157,
+          "attack_range": 150
+        },
+        "9": {
+          "move_speed": 345,
+          "hp": 1374.66,
+          "hp_regen": 12.229,
+          "mana": 543.5,
+          "mana_regen": 13.392,
+          "armor": 59.982,
+          "magic_resistance": 45.817,
+          "attack_damage": 77.22,
+          "attack_speed": 0.718551,
+          "attack_range": 150
+        },
+        "10": {
+          "move_speed": 345,
+          "hp": 1483.66,
+          "hp_regen": 13.079,
+          "mana": 568.5,
+          "mana_regen": 14.192,
+          "armor": 64.282,
+          "magic_resistance": 47.867,
+          "attack_damage": 80.22,
+          "attack_speed": 0.732431,
+          "attack_range": 150
+        },
+        "11": {
+          "move_speed": 345,
+          "hp": 1596.475,
+          "hp_regen": 13.95875,
+          "mana": 594.375,
+          "mana_regen": 15.02,
+          "armor": 68.7325,
+          "magic_resistance": 49.98875,
+          "attack_damage": 83.325,
+          "attack_speed": 0.746797,
+          "attack_range": 150
+        },
+        "12": {
+          "move_speed": 345,
+          "hp": 1713.105,
+          "hp_regen": 14.86825,
+          "mana": 621.125,
+          "mana_regen": 15.876,
+          "armor": 73.3335,
+          "magic_resistance": 52.18225,
+          "attack_damage": 86.535,
+          "attack_speed": 0.761649,
+          "attack_range": 150
+        },
+        "13": {
+          "move_speed": 345,
+          "hp": 1833.55,
+          "hp_regen": 15.8075,
+          "mana": 648.75,
+          "mana_regen": 16.76,
+          "armor": 78.085,
+          "magic_resistance": 54.4475,
+          "attack_damage": 89.85,
+          "attack_speed": 0.776986,
+          "attack_range": 150
+        },
+        "14": {
+          "move_speed": 345,
+          "hp": 1957.81,
+          "hp_regen": 16.7765,
+          "mana": 677.25,
+          "mana_regen": 17.672,
+          "armor": 82.987,
+          "magic_resistance": 56.7845,
+          "attack_damage": 93.27,
+          "attack_speed": 0.792809,
+          "attack_range": 150
+        },
+        "15": {
+          "move_speed": 345,
+          "hp": 2085.885,
+          "hp_regen": 17.77525,
+          "mana": 706.625,
+          "mana_regen": 18.612,
+          "armor": 88.0395,
+          "magic_resistance": 59.19325,
+          "attack_damage": 96.795,
+          "attack_speed": 0.809118,
+          "attack_range": 150
+        },
+        "16": {
+          "move_speed": 345,
+          "hp": 2217.775,
+          "hp_regen": 18.80375,
+          "mana": 736.875,
+          "mana_regen": 19.58,
+          "armor": 93.2425,
+          "magic_resistance": 61.67375,
+          "attack_damage": 100.425,
+          "attack_speed": 0.825913,
+          "attack_range": 150
+        },
+        "17": {
+          "move_speed": 345,
+          "hp": 2353.48,
+          "hp_regen": 19.862,
+          "mana": 768,
+          "mana_regen": 20.576,
+          "armor": 98.596,
+          "magic_resistance": 64.226,
+          "attack_damage": 104.16,
+          "attack_speed": 0.843194,
+          "attack_range": 150
+        },
+        "18": {
+          "move_speed": 345,
+          "hp": 2493,
+          "hp_regen": 20.95,
+          "mana": 800,
+          "mana_regen": 21.6,
+          "armor": 104.1,
+          "magic_resistance": 66.85,
+          "attack_damage": 108,
+          "attack_speed": 0.86096,
+          "attack_range": 150
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_diana/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_champion_diana",
+        "name": "champion_diana"
+      }
+    },
+    "/skills/diana_e/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_diana_e",
+        "name": "diana_e"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_diana": {
+      "items": [
+        {
+          "characterKey": "champion_diana",
+          "characterName": "黛安娜",
+          "gameId": "lol",
+          "skillKey": "diana_p",
+          "skillName": "黛安娜·月银之刃",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_diana",
+          "characterName": "黛安娜",
+          "gameId": "lol",
+          "skillKey": "diana_q",
+          "skillName": "黛安娜·新月打击",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_diana",
+          "characterName": "黛安娜",
+          "gameId": "lol",
+          "skillKey": "diana_w",
+          "skillName": "黛安娜·苍白之瀑",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_diana",
+          "characterName": "黛安娜",
+          "gameId": "lol",
+          "skillKey": "diana_e",
+          "skillName": "黛安娜·月神冲刺",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_diana",
+          "characterName": "黛安娜",
+          "gameId": "lol",
+          "skillKey": "diana_r",
+          "skillName": "黛安娜·月之降临",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=diana_e": {
+      "items": [
+        {
+          "characterKey": "champion_diana",
+          "characterName": "黛安娜",
+          "gameId": "lol",
+          "skillKey": "diana_e",
+          "skillName": "黛安娜·月神冲刺",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        }
+      ],
+      "total": 1
+    },
+    "/skills/diana_e/parameters": [
+      {
+        "createdAt": "2026-09-07T18:53:46.86388Z",
+        "description": "当前spellCastTime与已有mCastTime一致；不代替命中。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "diana_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T18:53:46.86388Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:53:47.37083Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 50,
+          "2": 70,
+          "3": 90,
+          "4": 110,
+          "5": 130
+        },
+        "name": "基础伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "diana_e",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-07T18:53:47.37083Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:53:47.872189Z",
+        "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+        "fixedValue": 0.6,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法强倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "diana_e",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-07T18:53:47.872189Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T18:53:48.447067Z",
+        "description": "客户端当前根绑定 DataValues.CDResetTime 取索引1至5。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "月光冷却刷新延迟原值（毫秒）",
+        "parameterKey": "moonlight_reset_delay_ms",
+        "skillKey": "diana_e",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-07T18:53:48.447067Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:00:19.459508Z",
+        "description": "DDragon16.17.1 Diana.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 22000,
+          "2": 20000,
+          "3": 18000,
+          "4": 16000,
+          "5": 14000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "diana_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T16:00:19.459508Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:00:19.744223Z",
+        "description": "DDragon16.17.1 Diana.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 40,
+          "2": 45,
+          "3": 50,
+          "4": 55,
+          "5": 60
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "diana_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T16:00:19.744223Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/diana_e/parameters/cast_time_ms": {
+      "createdAt": "2026-09-07T18:53:46.86388Z",
+      "description": "当前spellCastTime与已有mCastTime一致；不代替命中。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "diana_e",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-07T18:53:46.86388Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/diana_e/parameters/base_damage": {
+      "createdAt": "2026-09-07T18:53:47.37083Z",
+      "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 50,
+        "2": 70,
+        "3": 90,
+        "4": 110,
+        "5": 130
+      },
+      "name": "基础伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "diana_e",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-07T18:53:47.37083Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/diana_e/parameters/ap_ratio": {
+      "createdAt": "2026-09-07T18:53:47.872189Z",
+      "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+      "fixedValue": 0.6,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法强倍率",
+      "parameterKey": "ap_ratio",
+      "skillKey": "diana_e",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-07T18:53:47.872189Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/diana_e/parameters/moonlight_reset_delay_ms": {
+      "createdAt": "2026-09-07T18:53:48.447067Z",
+      "description": "客户端当前根绑定 DataValues.CDResetTime 取索引1至5。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "月光冷却刷新延迟原值（毫秒）",
+      "parameterKey": "moonlight_reset_delay_ms",
+      "skillKey": "diana_e",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-07T18:53:48.447067Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/diana_e/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T16:00:19.459508Z",
+      "description": "DDragon16.17.1 Diana.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 22000,
+        "2": 20000,
+        "3": 18000,
+        "4": 16000,
+        "5": 14000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "diana_e",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T16:00:19.459508Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/diana_e/parameters/mana_cost": {
+      "createdAt": "2026-09-07T16:00:19.744223Z",
+      "description": "DDragon16.17.1 Diana.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 40,
+        "2": 45,
+        "3": 50,
+        "4": 55,
+        "5": 60
+      },
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "diana_e",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-07T16:00:19.744223Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/diana_e/formulas": [
+      {
+        "createdAt": "2026-09-07T18:53:48.982208Z",
+        "description": "当前根TotalDamage：基础伤害+法强倍率×总法强。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "月神冲刺基础伤害",
+        "skillKey": "diana_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:53:48.982208Z"
+      }
+    ],
+    "/skills/diana_e/formulas/damage": {
+      "createdAt": "2026-09-07T18:53:48.982208Z",
+      "description": "当前根TotalDamage：基础伤害+法强倍率×总法强。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "月神冲刺基础伤害",
+      "skillKey": "diana_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T18:53:48.982208Z"
+    },
+    "/skills/diana_e/effects": [
+      {
+        "createdAt": "2026-09-07T18:53:49.670451Z",
+        "description": "仅施放法力消耗；具体过程单独绑定。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "diana_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:53:49.670451Z"
+      },
+      {
+        "createdAt": "2026-09-07T18:53:50.245978Z",
+        "description": "本轮1V1敌方英雄的一次普通直接魔法技能伤害；实际命中入口已配置，并明确登记防御结算后伤害、效率为1的全能吸血资格。控制、施放和相关技能联动分别维护。",
+        "effectKey": "lunar_rush_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "月神冲刺命中",
+        "resultCount": 1,
+        "skillKey": "diana_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T00:05:53.298295Z"
+      },
+      {
+        "createdAt": "2026-09-07T18:53:50.9611Z",
+        "description": null,
+        "effectKey": "moonlight_cooldown_reset",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "命中已有月光目标重置冲刺",
+        "resultCount": 1,
+        "skillKey": "diana_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T18:53:50.9611Z"
+      }
+    ],
+    "/skills/diana_e/effects/mana_cost": {
+      "createdAt": "2026-09-07T18:53:49.670451Z",
+      "description": "仅施放法力消耗；具体过程单独绑定。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "diana_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T18:53:49.670451Z"
+    },
+    "/skills/diana_e/effects/lunar_rush_hit": {
+      "createdAt": "2026-09-07T18:53:50.245978Z",
+      "description": "本轮1V1敌方英雄的一次普通直接魔法技能伤害；实际命中入口已配置，并明确登记防御结算后伤害、效率为1的全能吸血资格。控制、施放和相关技能联动分别维护。",
+      "effectKey": "lunar_rush_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "月神冲刺命中",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": [
+              {
+                "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                "efficiencyValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "vampType": "OMNIVAMP"
+              }
+            ]
+          },
+          "lifecycleBehavior": null,
+          "name": "月神冲刺命中",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "RESULT",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "diana_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-19T00:05:53.298295Z"
+    },
+    "/skills/diana_e/effects/moonlight_cooldown_reset": {
+      "createdAt": "2026-09-07T18:53:50.9611Z",
+      "description": null,
+      "effectKey": "moonlight_cooldown_reset",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "命中已有月光目标重置冲刺",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "affectedSkillScope": {
+              "mode": "SKILLS",
+              "skillCategoryKeys": [],
+              "skillKeys": [
+                "diana_e"
+              ]
+            },
+            "operation": "RESET"
+          },
+          "lifecycleBehavior": null,
+          "name": "命中已有月光目标重置冲刺",
+          "resultKey": "cooldown",
+          "resultType": "COOLDOWN_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": null
+        }
+      ],
+      "skillKey": "diana_e",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-07T18:53:50.9611Z"
+    },
+    "/skills/diana_e/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-07T18:53:51.536851Z",
+        "description": "只绑定法力、基础冷却及施法延迟；不在过程结束时自动造成伤害。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "施放月神冲刺",
+        "processKey": "cast",
+        "skillKey": "diana_e",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-07T18:53:51.536851Z"
+      }
+    ],
+    "/skills/diana_e/processes/cast": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-07T18:53:51.536851Z",
+      "description": "只绑定法力、基础冷却及施法延迟；不在过程结束时自动造成伤害。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "施放月神冲刺",
+      "processKey": "cast",
+      "skillKey": "diana_e",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "主技能已核对的施法时间。",
+          "detail": {
+            "delayValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cast_time_ms"
+            }
+          },
+          "name": "施法延迟",
+          "sortOrder": 10,
+          "stepKey": "cast_time",
+          "stepType": "DELAY"
+        }
+      ],
+      "updatedAt": "2026-09-07T18:53:51.536851Z"
+    },
+    "/skills/diana_e/internal-states": [],
+    "/skills/diana_e/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "月神冲刺实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:53:52.088523Z"
+      }
+    ],
+    "/skills/diana_e/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "damage",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "lunar_rush_hit"
+          },
+          "name": "执行命中伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "diana_e",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "月神冲刺实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    },
+    "/skills/ashe_r": {
+      "createdAt": "2026-09-06T17:14:17.927699Z",
+      "description": "来源：官方静态资料16.17.1。原始说明：艾希射出一支沿直线飞行的魔法水晶箭。如果水晶箭命中了一名敌方英雄，那么它会对该英雄造成伤害和晕眩效果，晕眩时长取决于水晶箭的飞行距离。此外，该英雄附近的敌方单位会受到伤害和减速效果。 数值、机制及图片尚待录入与核对。",
+      "gameId": "lol",
+      "maxLevel": 3,
+      "name": "艾希·魔法水晶箭",
+      "skillCategoryKeys": [],
+      "skillKey": "ashe_r",
+      "sortOrder": 4,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T17:14:17.927699Z"
+    },
+    "/characters/champion_ashe": {
+      "characterKey": "champion_ashe",
+      "createdAt": "2026-09-06T15:18:51.52044Z",
+      "description": "弗雷尔卓德·寒冰射手。基础及等级属性采用官方静态资料 16.17.1，并以同补丁客户端资料补证；本批仅录入角色主体与有充分来源的1～18级基础属性，技能待录，图片待补。",
+      "gameId": "lol",
+      "name": "艾希",
+      "updatedAt": "2026-09-06T15:18:51.52044Z"
+    },
+    "/characters/champion_ashe/attributes": {
+      "characterKey": "champion_ashe",
+      "levelValues": {
+        "1": {
+          "move_speed": 325,
+          "hp": 610,
+          "hp_regen": 3.5,
+          "mana": 280,
+          "mana_regen": 7,
+          "armor": 26,
+          "magic_resistance": 33,
+          "attack_damage": 59,
+          "attack_speed": 0.658,
+          "attack_range": 600
+        },
+        "2": {
+          "move_speed": 325,
+          "hp": 682.72,
+          "hp_regen": 3.896,
+          "mana": 305.2,
+          "mana_regen": 7.468,
+          "armor": 29.312,
+          "magic_resistance": 33.792,
+          "attack_damage": 61.52,
+          "attack_speed": 0.672213,
+          "attack_range": 600
+        },
+        "3": {
+          "move_speed": 325,
+          "hp": 758.975,
+          "hp_regen": 4.31125,
+          "mana": 331.625,
+          "mana_regen": 7.95875,
+          "armor": 32.785,
+          "magic_resistance": 34.6225,
+          "attack_damage": 64.1625,
+          "attack_speed": 0.687117,
+          "attack_range": 600
+        },
+        "4": {
+          "move_speed": 325,
+          "hp": 838.765,
+          "hp_regen": 4.74575,
+          "mana": 359.275,
+          "mana_regen": 8.47225,
+          "armor": 36.419,
+          "magic_resistance": 35.4915,
+          "attack_damage": 66.9275,
+          "attack_speed": 0.702711,
+          "attack_range": 600
+        },
+        "5": {
+          "move_speed": 325,
+          "hp": 922.09,
+          "hp_regen": 5.1995,
+          "mana": 388.15,
+          "mana_regen": 9.0085,
+          "armor": 40.214,
+          "magic_resistance": 36.399,
+          "attack_damage": 69.815,
+          "attack_speed": 0.718997,
+          "attack_range": 600
+        },
+        "6": {
+          "move_speed": 325,
+          "hp": 1008.95,
+          "hp_regen": 5.6725,
+          "mana": 418.25,
+          "mana_regen": 9.5675,
+          "armor": 44.17,
+          "magic_resistance": 37.345,
+          "attack_damage": 72.825,
+          "attack_speed": 0.735973,
+          "attack_range": 600
+        },
+        "7": {
+          "move_speed": 325,
+          "hp": 1099.345,
+          "hp_regen": 6.16475,
+          "mana": 449.575,
+          "mana_regen": 10.14925,
+          "armor": 48.287,
+          "magic_resistance": 38.3295,
+          "attack_damage": 75.9575,
+          "attack_speed": 0.75364,
+          "attack_range": 600
+        },
+        "8": {
+          "move_speed": 325,
+          "hp": 1193.275,
+          "hp_regen": 6.67625,
+          "mana": 482.125,
+          "mana_regen": 10.75375,
+          "armor": 52.565,
+          "magic_resistance": 39.3525,
+          "attack_damage": 79.2125,
+          "attack_speed": 0.771999,
+          "attack_range": 600
+        },
+        "9": {
+          "move_speed": 325,
+          "hp": 1290.74,
+          "hp_regen": 7.207,
+          "mana": 515.9,
+          "mana_regen": 11.381,
+          "armor": 57.004,
+          "magic_resistance": 40.414,
+          "attack_damage": 82.59,
+          "attack_speed": 0.791048,
+          "attack_range": 600
+        },
+        "10": {
+          "move_speed": 325,
+          "hp": 1391.74,
+          "hp_regen": 7.757,
+          "mana": 550.9,
+          "mana_regen": 12.031,
+          "armor": 61.604,
+          "magic_resistance": 41.514,
+          "attack_damage": 86.09,
+          "attack_speed": 0.810788,
+          "attack_range": 600
+        },
+        "11": {
+          "move_speed": 325,
+          "hp": 1496.275,
+          "hp_regen": 8.32625,
+          "mana": 587.125,
+          "mana_regen": 12.70375,
+          "armor": 66.365,
+          "magic_resistance": 42.6525,
+          "attack_damage": 89.7125,
+          "attack_speed": 0.831219,
+          "attack_range": 600
+        },
+        "12": {
+          "move_speed": 325,
+          "hp": 1604.345,
+          "hp_regen": 8.91475,
+          "mana": 624.575,
+          "mana_regen": 13.39925,
+          "armor": 71.287,
+          "magic_resistance": 43.8295,
+          "attack_damage": 93.4575,
+          "attack_speed": 0.85234,
+          "attack_range": 600
+        },
+        "13": {
+          "move_speed": 325,
+          "hp": 1715.95,
+          "hp_regen": 9.5225,
+          "mana": 663.25,
+          "mana_regen": 14.1175,
+          "armor": 76.37,
+          "magic_resistance": 45.045,
+          "attack_damage": 97.325,
+          "attack_speed": 0.874153,
+          "attack_range": 600
+        },
+        "14": {
+          "move_speed": 325,
+          "hp": 1831.09,
+          "hp_regen": 10.1495,
+          "mana": 703.15,
+          "mana_regen": 14.8585,
+          "armor": 81.614,
+          "magic_resistance": 46.299,
+          "attack_damage": 101.315,
+          "attack_speed": 0.896657,
+          "attack_range": 600
+        },
+        "15": {
+          "move_speed": 325,
+          "hp": 1949.765,
+          "hp_regen": 10.79575,
+          "mana": 744.275,
+          "mana_regen": 15.62225,
+          "armor": 87.019,
+          "magic_resistance": 47.5915,
+          "attack_damage": 105.4275,
+          "attack_speed": 0.919851,
+          "attack_range": 600
+        },
+        "16": {
+          "move_speed": 325,
+          "hp": 2071.975,
+          "hp_regen": 11.46125,
+          "mana": 786.625,
+          "mana_regen": 16.40875,
+          "armor": 92.585,
+          "magic_resistance": 48.9225,
+          "attack_damage": 109.6625,
+          "attack_speed": 0.943737,
+          "attack_range": 600
+        },
+        "17": {
+          "move_speed": 325,
+          "hp": 2197.72,
+          "hp_regen": 12.146,
+          "mana": 830.2,
+          "mana_regen": 17.218,
+          "armor": 98.312,
+          "magic_resistance": 50.292,
+          "attack_damage": 114.02,
+          "attack_speed": 0.968313,
+          "attack_range": 600
+        },
+        "18": {
+          "move_speed": 325,
+          "hp": 2327,
+          "hp_regen": 12.85,
+          "mana": 875,
+          "mana_regen": 18.05,
+          "armor": 104.2,
+          "magic_resistance": 51.7,
+          "attack_damage": 118.5,
+          "attack_speed": 0.99358,
+          "attack_range": 600
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_ashe/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "image_af7e97cc-03c4-421d-a411-3ca230874e62",
+        "name": "艾希代表图片_af7e97cc-03c4-421d-a411-3ca230874e62"
+      }
+    },
+    "/skills/ashe_r/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_ashe_r",
+        "name": "ashe_r"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_ashe": {
+      "items": [
+        {
+          "characterKey": "champion_ashe",
+          "characterName": "艾希",
+          "gameId": "lol",
+          "skillKey": "ashe_p",
+          "skillName": "艾希·冰霜射击",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_ashe",
+          "characterName": "艾希",
+          "gameId": "lol",
+          "skillKey": "ashe_q",
+          "skillName": "艾希·射手的专注",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_ashe",
+          "characterName": "艾希",
+          "gameId": "lol",
+          "skillKey": "ashe_w",
+          "skillName": "艾希·万箭齐发",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_ashe",
+          "characterName": "艾希",
+          "gameId": "lol",
+          "skillKey": "ashe_e",
+          "skillName": "艾希·鹰击长空",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_ashe",
+          "characterName": "艾希",
+          "gameId": "lol",
+          "skillKey": "ashe_r",
+          "skillName": "艾希·魔法水晶箭",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=ashe_r": {
+      "items": [
+        {
+          "characterKey": "champion_ashe",
+          "characterName": "艾希",
+          "gameId": "lol",
+          "skillKey": "ashe_r",
+          "skillName": "艾希·魔法水晶箭",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 1
+    },
+    "/skills/ashe_r/parameters": [
+      {
+        "createdAt": "2026-09-07T14:35:26.731135Z",
+        "description": "客户端 RBaseDamage 索引 1～3，与冻结 Wiki 一致。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 200,
+          "2": 400,
+          "3": 600
+        },
+        "name": "R 基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "ashe_r",
+        "sortOrder": 0,
+        "updatedAt": "2026-09-07T14:35:26.731135Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T14:35:27.155772Z",
+        "description": "客户端 RMainDamage.APRatio 原浮点 1.2000000476837158 按 1.2 归一，与冻结 Wiki 120%一致。",
+        "fixedValue": 1.2,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "R 法术强度比例",
+        "parameterKey": "ap_ratio",
+        "skillKey": "ashe_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T14:35:27.155772Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T14:35:27.851876Z",
+        "description": "客户端 cooldownTime 索引 1～3，秒转毫秒；与 DDragon 16.17.1 一致。仅参数，尚未挂接施法过程。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 100000,
+          "2": 80000,
+          "3": 60000
+        },
+        "name": "R 冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "ashe_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T14:35:27.851876Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T14:35:28.216248Z",
+        "description": "客户端 mana 索引 0～2 均为 100；与 DDragon 16.17.1 一致。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "R 法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "ashe_r",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T14:35:28.216248Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T14:35:28.611689Z",
+        "description": "客户端 MinStunDuration=1 秒；仅上下界参数，不表示已有眩晕效果。",
+        "fixedValue": 1000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "R 最短眩晕时间（毫秒）",
+        "parameterKey": "min_stun_duration_ms",
+        "skillKey": "ashe_r",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-07T14:35:28.611689Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T14:35:28.987787Z",
+        "description": "客户端 MaxStunDuration=3.5 秒；距离换算与控制行为待接线。",
+        "fixedValue": 3500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "R 最长眩晕时间（毫秒）",
+        "parameterKey": "max_stun_duration_ms",
+        "skillKey": "ashe_r",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-07T14:35:28.987787Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T14:35:29.317405Z",
+        "description": "客户端 spellCastTime=0.25 秒，与冻结 Wiki 一致；施法过程尚未配置。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "R 施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "ashe_r",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-07T14:35:29.317405Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/ashe_r/parameters/base_damage": {
+      "createdAt": "2026-09-07T14:35:26.731135Z",
+      "description": "客户端 RBaseDamage 索引 1～3，与冻结 Wiki 一致。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 200,
+        "2": 400,
+        "3": 600
+      },
+      "name": "R 基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "ashe_r",
+      "sortOrder": 0,
+      "updatedAt": "2026-09-07T14:35:26.731135Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/ashe_r/parameters/ap_ratio": {
+      "createdAt": "2026-09-07T14:35:27.155772Z",
+      "description": "客户端 RMainDamage.APRatio 原浮点 1.2000000476837158 按 1.2 归一，与冻结 Wiki 120%一致。",
+      "fixedValue": 1.2,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "R 法术强度比例",
+      "parameterKey": "ap_ratio",
+      "skillKey": "ashe_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T14:35:27.155772Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/ashe_r/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T14:35:27.851876Z",
+      "description": "客户端 cooldownTime 索引 1～3，秒转毫秒；与 DDragon 16.17.1 一致。仅参数，尚未挂接施法过程。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 100000,
+        "2": 80000,
+        "3": 60000
+      },
+      "name": "R 冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "ashe_r",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-07T14:35:27.851876Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/ashe_r/parameters/mana_cost": {
+      "createdAt": "2026-09-07T14:35:28.216248Z",
+      "description": "客户端 mana 索引 0～2 均为 100；与 DDragon 16.17.1 一致。",
+      "fixedValue": 100,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "R 法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "ashe_r",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-07T14:35:28.216248Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/ashe_r/parameters/min_stun_duration_ms": {
+      "createdAt": "2026-09-07T14:35:28.611689Z",
+      "description": "客户端 MinStunDuration=1 秒；仅上下界参数，不表示已有眩晕效果。",
+      "fixedValue": 1000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "R 最短眩晕时间（毫秒）",
+      "parameterKey": "min_stun_duration_ms",
+      "skillKey": "ashe_r",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-07T14:35:28.611689Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/ashe_r/parameters/max_stun_duration_ms": {
+      "createdAt": "2026-09-07T14:35:28.987787Z",
+      "description": "客户端 MaxStunDuration=3.5 秒；距离换算与控制行为待接线。",
+      "fixedValue": 3500,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "R 最长眩晕时间（毫秒）",
+      "parameterKey": "max_stun_duration_ms",
+      "skillKey": "ashe_r",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-07T14:35:28.987787Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/ashe_r/parameters/cast_time_ms": {
+      "createdAt": "2026-09-07T14:35:29.317405Z",
+      "description": "客户端 spellCastTime=0.25 秒，与冻结 Wiki 一致；施法过程尚未配置。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "R 施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "ashe_r",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-07T14:35:29.317405Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/ashe_r/formulas": [
+      {
+        "createdAt": "2026-09-07T14:35:29.71371Z",
+        "description": "基础伤害 + 120%法术强度；对应 RMainDamage，未建立附近目标选择。",
+        "formulaKey": "hit_damage",
+        "gameId": "lol",
+        "name": "R 命中英雄魔法伤害",
+        "skillKey": "ashe_r",
+        "sortOrder": 0,
+        "updatedAt": "2026-09-07T14:35:29.71371Z"
+      }
+    ],
+    "/skills/ashe_r/formulas/hit_damage": {
+      "createdAt": "2026-09-07T14:35:29.71371Z",
+      "description": "基础伤害 + 120%法术强度；对应 RMainDamage，未建立附近目标选择。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "hit_damage",
+      "gameId": "lol",
+      "name": "R 命中英雄魔法伤害",
+      "skillKey": "ashe_r",
+      "sortOrder": 0,
+      "updatedAt": "2026-09-07T14:35:29.71371Z"
+    },
+    "/skills/ashe_r/effects": [
+      {
+        "createdAt": "2026-09-07T14:35:30.04621Z",
+        "description": "本轮1V1敌方英雄的一次普通直接魔法技能伤害；实际命中入口已配置，并明确登记防御结算后伤害、效率为1的全能吸血资格。控制、施放和相关技能联动分别维护。",
+        "effectKey": "hit_damage",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "R 命中英雄魔法伤害",
+        "resultCount": 1,
+        "skillKey": "ashe_r",
+        "sortOrder": 0,
+        "updatedAt": "2026-09-19T00:05:55.099953Z"
+      },
+      {
+        "createdAt": "2026-09-07T14:35:30.429327Z",
+        "description": "明确的施放法力消耗组成；当前尚未挂接施法过程，不表示已经自动消耗。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "R 施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "ashe_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T14:35:30.429327Z"
+      }
+    ],
+    "/skills/ashe_r/effects/hit_damage": {
+      "createdAt": "2026-09-07T14:35:30.04621Z",
+      "description": "本轮1V1敌方英雄的一次普通直接魔法技能伤害；实际命中入口已配置，并明确登记防御结算后伤害、效率为1的全能吸血资格。控制、施放和相关技能联动分别维护。",
+      "effectKey": "hit_damage",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "R 命中英雄魔法伤害",
+      "results": [
+        {
+          "description": "仅伤害数值组成，不加普通暴击倍率；减速或眩晕另行配置。旧 Wiki 明示可被法术护盾阻挡，本结果选择当前结果粒度。吸血留待游戏级规则，空列表不表示不吸血。",
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": [
+              {
+                "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                "efficiencyValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "vampType": "OMNIVAMP"
+              }
+            ]
+          },
+          "lifecycleBehavior": null,
+          "name": "一次命中伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 0,
+          "spellShieldBlockScope": "RESULT",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": null,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "hit_damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "ashe_r",
+      "sortOrder": 0,
+      "updatedAt": "2026-09-19T00:05:55.099953Z"
+    },
+    "/skills/ashe_r/effects/mana_cost": {
+      "createdAt": "2026-09-07T14:35:30.429327Z",
+      "description": "明确的施放法力消耗组成；当前尚未挂接施法过程，不表示已经自动消耗。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "R 施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 0,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "ashe_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T14:35:30.429327Z"
+    },
+    "/skills/ashe_r/processes": [],
+    "/skills/ashe_r/internal-states": [],
+    "/skills/ashe_r/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "仅在运行时确认 ashe_r 已命中英雄后，在当前目标上执行已有的 hit_damage；眩晕、距离换算、附近目标伤害、减速、弹道、视野、消耗与冷却不在本条规则中。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "命中英雄触发水晶箭伤害",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-12T15:21:11.140365Z"
+      }
+    ],
+    "/skills/ashe_r/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "execute_hit_damage",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "hit_damage"
+          },
+          "name": "执行水晶箭命中伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "命中对象为英雄",
+          "sortOrder": 10
+        }
+      ],
+      "description": "仅在运行时确认 ashe_r 已命中英雄后，在当前目标上执行已有的 hit_damage；眩晕、距离换算、附近目标伤害、减速、弹道、视野、消耗与冷却不在本条规则中。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "ashe_r",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "命中英雄触发水晶箭伤害",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    },
+    "/attributes/ability_power": {
+      "attributeKey": "ability_power",
+      "createdAt": "2026-08-30T16:26:39.898635Z",
+      "description": "角色法术强度；基础值为 0，可由装备和效果增加",
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法术强度",
+      "sortOrder": 510,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-30T16:26:39.898635Z",
+      "valueType": "DECIMAL"
+    },
+    "/attributes/mana": {
+      "attributeKey": "mana",
+      "createdAt": "2026-08-22T15:27:36.139767Z",
+      "description": null,
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法力值",
+      "sortOrder": 310,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-22T15:27:36.139767Z",
+      "valueType": "DECIMAL"
+    },
+    "/damage-types/magic": {
+      "createdAt": "2026-08-26T05:59:15.870937Z",
+      "damageTypeKey": "magic",
+      "description": null,
+      "gameId": "lol",
+      "name": "魔法伤害",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-26T05:59:15.870937Z"
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_ahri",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_ahri/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_ahri/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_ahri",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=ahri_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/charm_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/charm_slow_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/effects/charm_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_diana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_diana/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_diana/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_diana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=diana_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/parameters/moonlight_reset_delay_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/effects/lunar_rush_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/effects/moonlight_cooldown_reset",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_ashe",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_ashe/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_ashe/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_ashe",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=ashe_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/parameters/min_stun_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/parameters/max_stun_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/formulas/hit_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/effects/hit_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/ability_power",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/mana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/damage-types/magic",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/processes/cast",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/trigger-rules/on_used",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/trigger-rules/on_used",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/trigger-rules/on_used",
+      "status": 404
+    }
+  ],
+  "businessWrites": 0
+}
