@@ -1,0 +1,1276 @@
+{
+  "at": "2026-09-19T03:07:30.870Z",
+  "status": "READY_FOR_REVIEW",
+  "businessHTTP": 0,
+  "businessWrites": 0,
+  "decisions": [
+    {
+      "skillKey": "vex_q",
+      "formulaKey": "magic_damage",
+      "calculationName": "QDamageCalc",
+      "sourceSlot": 0,
+      "abilityArrayIndex": 1,
+      "binding": "从角色mAbilities集合按mRootSpell匹配根技能，不把此数组位置当作槽位。",
+      "remaining": [
+        "暮气及恐惧联动",
+        "普通使用和资源",
+        "减速等其余分支",
+        "代表页面验收"
+      ],
+      "boundary": "本体伤害与暮气或恐惧分支分开；不对被动再产生命中。"
+    },
+    {
+      "skillKey": "vex_w",
+      "formulaKey": "magic_damage",
+      "calculationName": "WDamageCalc",
+      "sourceSlot": 1,
+      "abilityArrayIndex": 2,
+      "binding": "从角色mAbilities集合按mRootSpell匹配根技能，不把此数组位置当作槽位。",
+      "remaining": [
+        "暮气及恐惧联动",
+        "普通使用和资源",
+        "减速等其余分支",
+        "代表页面验收"
+      ],
+      "boundary": "保留既有主动自盾规则，新增命中伤害不改变护盾入口。"
+    },
+    {
+      "skillKey": "vex_e",
+      "formulaKey": "magic_damage",
+      "calculationName": "EDamageCalc",
+      "sourceSlot": 2,
+      "abilityArrayIndex": 3,
+      "binding": "从角色mAbilities集合按mRootSpell匹配根技能，不把此数组位置当作槽位。",
+      "remaining": [
+        "暮气及恐惧联动",
+        "普通使用和资源",
+        "减速等其余分支",
+        "代表页面验收"
+      ],
+      "boundary": "本体伤害与暮气或恐惧分支分开；不对被动再产生命中。"
+    },
+    {
+      "skillKey": "bard_q",
+      "formulaKey": "total_damage",
+      "calculationName": "TotalDamage",
+      "sourceSlot": 0,
+      "abilityArrayIndex": 0,
+      "binding": "从角色mAbilities集合按mRootSpell匹配根技能，不把此数组位置当作槽位。",
+      "remaining": [
+        "第一与后续碰撞的减速眩晕资格",
+        "普通使用",
+        "代表页面验收"
+      ],
+      "boundary": "前两个合法命中的基础伤害相同；墙体及第二次碰撞决定控制，不凭类别过滤生产第二次命中。"
+    },
+    {
+      "skillKey": "akali_q",
+      "formulaKey": "damage",
+      "calculationName": "Damage",
+      "sourceSlot": 0,
+      "abilityArrayIndex": 1,
+      "binding": "从角色mAbilities集合按mRootSpell匹配根技能，不把此数组位置当作槽位。",
+      "remaining": [
+        "能量使用流程",
+        "边缘减速及被动联动",
+        "代表页面验收"
+      ],
+      "boundary": "来源总攻击力与总法强同时计入普通英雄伤害；不取小兵专用计算。"
+    },
+    {
+      "skillKey": "katarina_q",
+      "formulaKey": "magic_damage",
+      "calculationName": "TotalDamage",
+      "sourceSlot": 0,
+      "abilityArrayIndex": 0,
+      "binding": "从角色mAbilities集合按mRootSpell匹配根技能，不把此数组位置当作槽位。",
+      "remaining": [
+        "普通冷却使用流程",
+        "落地匕首与被动联动",
+        "代表页面验收"
+      ],
+      "boundary": "只取直接投掷命中；捡起匕首的被动伤害不属于本规则。"
+    },
+    {
+      "skillKey": "syndra_q",
+      "formulaKey": "damage",
+      "calculationName": "TotalDamage",
+      "sourceSlot": 0,
+      "abilityArrayIndex": 0,
+      "binding": "从角色mAbilities集合按mRootSpell匹配根技能，不把此数组位置当作槽位。",
+      "remaining": [
+        "普通使用与升级充能",
+        "法球保存及跨技能联动",
+        "代表页面验收"
+      ],
+      "boundary": "只取本次Q生成法球的伤害，后续W/E/R操纵不等同于Q本体新命中。"
+    }
+  ],
+  "cases": [
+    {
+      "skillKey": "vex_q",
+      "rank": 1,
+      "sourceTotalAttributes": {
+        "attack_damage": 60,
+        "ability_power": 0
+      },
+      "expectedFromClient": 70,
+      "actualStored": 70,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "vex_q",
+      "rank": 1,
+      "sourceTotalAttributes": {
+        "attack_damage": 100,
+        "ability_power": 100
+      },
+      "expectedFromClient": 139.9999988079071,
+      "actualStored": 140,
+      "absoluteDifference": 0.0000011920928955078125
+    },
+    {
+      "skillKey": "vex_q",
+      "rank": 1,
+      "sourceTotalAttributes": {
+        "attack_damage": 200,
+        "ability_power": 300
+      },
+      "expectedFromClient": 279.9999964237213,
+      "actualStored": 280,
+      "absoluteDifference": 0.0000035762786865234375
+    },
+    {
+      "skillKey": "vex_q",
+      "rank": 2,
+      "sourceTotalAttributes": {
+        "attack_damage": 60,
+        "ability_power": 0
+      },
+      "expectedFromClient": 115,
+      "actualStored": 115,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "vex_q",
+      "rank": 2,
+      "sourceTotalAttributes": {
+        "attack_damage": 100,
+        "ability_power": 100
+      },
+      "expectedFromClient": 184.9999988079071,
+      "actualStored": 185,
+      "absoluteDifference": 0.0000011920928955078125
+    },
+    {
+      "skillKey": "vex_q",
+      "rank": 2,
+      "sourceTotalAttributes": {
+        "attack_damage": 200,
+        "ability_power": 300
+      },
+      "expectedFromClient": 324.9999964237213,
+      "actualStored": 325,
+      "absoluteDifference": 0.0000035762786865234375
+    },
+    {
+      "skillKey": "vex_q",
+      "rank": 3,
+      "sourceTotalAttributes": {
+        "attack_damage": 60,
+        "ability_power": 0
+      },
+      "expectedFromClient": 160,
+      "actualStored": 160,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "vex_q",
+      "rank": 3,
+      "sourceTotalAttributes": {
+        "attack_damage": 100,
+        "ability_power": 100
+      },
+      "expectedFromClient": 229.9999988079071,
+      "actualStored": 230,
+      "absoluteDifference": 0.0000011920928955078125
+    },
+    {
+      "skillKey": "vex_q",
+      "rank": 3,
+      "sourceTotalAttributes": {
+        "attack_damage": 200,
+        "ability_power": 300
+      },
+      "expectedFromClient": 369.9999964237213,
+      "actualStored": 370,
+      "absoluteDifference": 0.0000035762786865234375
+    },
+    {
+      "skillKey": "vex_q",
+      "rank": 4,
+      "sourceTotalAttributes": {
+        "attack_damage": 60,
+        "ability_power": 0
+      },
+      "expectedFromClient": 205,
+      "actualStored": 205,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "vex_q",
+      "rank": 4,
+      "sourceTotalAttributes": {
+        "attack_damage": 100,
+        "ability_power": 100
+      },
+      "expectedFromClient": 274.9999988079071,
+      "actualStored": 275,
+      "absoluteDifference": 0.0000011920928955078125
+    },
+    {
+      "skillKey": "vex_q",
+      "rank": 4,
+      "sourceTotalAttributes": {
+        "attack_damage": 200,
+        "ability_power": 300
+      },
+      "expectedFromClient": 414.9999964237213,
+      "actualStored": 415,
+      "absoluteDifference": 0.0000035762786865234375
+    },
+    {
+      "skillKey": "vex_q",
+      "rank": 5,
+      "sourceTotalAttributes": {
+        "attack_damage": 60,
+        "ability_power": 0
+      },
+      "expectedFromClient": 250,
+      "actualStored": 250,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "vex_q",
+      "rank": 5,
+      "sourceTotalAttributes": {
+        "attack_damage": 100,
+        "ability_power": 100
+      },
+      "expectedFromClient": 319.9999988079071,
+      "actualStored": 320,
+      "absoluteDifference": 0.0000011920928955078125
+    },
+    {
+      "skillKey": "vex_q",
+      "rank": 5,
+      "sourceTotalAttributes": {
+        "attack_damage": 200,
+        "ability_power": 300
+      },
+      "expectedFromClient": 459.9999964237213,
+      "actualStored": 460,
+      "absoluteDifference": 0.0000035762786865234375
+    },
+    {
+      "skillKey": "vex_w",
+      "rank": 1,
+      "sourceTotalAttributes": {
+        "attack_damage": 60,
+        "ability_power": 0
+      },
+      "expectedFromClient": 80,
+      "actualStored": 80,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "vex_w",
+      "rank": 1,
+      "sourceTotalAttributes": {
+        "attack_damage": 100,
+        "ability_power": 100
+      },
+      "expectedFromClient": 110.0000011920929,
+      "actualStored": 110,
+      "absoluteDifference": 0.0000011920928955078125
+    },
+    {
+      "skillKey": "vex_w",
+      "rank": 1,
+      "sourceTotalAttributes": {
+        "attack_damage": 200,
+        "ability_power": 300
+      },
+      "expectedFromClient": 170.0000035762787,
+      "actualStored": 170,
+      "absoluteDifference": 0.0000035762786865234375
+    },
+    {
+      "skillKey": "vex_w",
+      "rank": 2,
+      "sourceTotalAttributes": {
+        "attack_damage": 60,
+        "ability_power": 0
+      },
+      "expectedFromClient": 120,
+      "actualStored": 120,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "vex_w",
+      "rank": 2,
+      "sourceTotalAttributes": {
+        "attack_damage": 100,
+        "ability_power": 100
+      },
+      "expectedFromClient": 150.0000011920929,
+      "actualStored": 150,
+      "absoluteDifference": 0.0000011920928955078125
+    },
+    {
+      "skillKey": "vex_w",
+      "rank": 2,
+      "sourceTotalAttributes": {
+        "attack_damage": 200,
+        "ability_power": 300
+      },
+      "expectedFromClient": 210.0000035762787,
+      "actualStored": 210,
+      "absoluteDifference": 0.0000035762786865234375
+    },
+    {
+      "skillKey": "vex_w",
+      "rank": 3,
+      "sourceTotalAttributes": {
+        "attack_damage": 60,
+        "ability_power": 0
+      },
+      "expectedFromClient": 160,
+      "actualStored": 160,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "vex_w",
+      "rank": 3,
+      "sourceTotalAttributes": {
+        "attack_damage": 100,
+        "ability_power": 100
+      },
+      "expectedFromClient": 190.0000011920929,
+      "actualStored": 190,
+      "absoluteDifference": 0.0000011920928955078125
+    },
+    {
+      "skillKey": "vex_w",
+      "rank": 3,
+      "sourceTotalAttributes": {
+        "attack_damage": 200,
+        "ability_power": 300
+      },
+      "expectedFromClient": 250.0000035762787,
+      "actualStored": 250,
+      "absoluteDifference": 0.0000035762786865234375
+    },
+    {
+      "skillKey": "vex_w",
+      "rank": 4,
+      "sourceTotalAttributes": {
+        "attack_damage": 60,
+        "ability_power": 0
+      },
+      "expectedFromClient": 200,
+      "actualStored": 200,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "vex_w",
+      "rank": 4,
+      "sourceTotalAttributes": {
+        "attack_damage": 100,
+        "ability_power": 100
+      },
+      "expectedFromClient": 230.0000011920929,
+      "actualStored": 230,
+      "absoluteDifference": 0.0000011920928955078125
+    },
+    {
+      "skillKey": "vex_w",
+      "rank": 4,
+      "sourceTotalAttributes": {
+        "attack_damage": 200,
+        "ability_power": 300
+      },
+      "expectedFromClient": 290.0000035762787,
+      "actualStored": 290,
+      "absoluteDifference": 0.0000035762786865234375
+    },
+    {
+      "skillKey": "vex_w",
+      "rank": 5,
+      "sourceTotalAttributes": {
+        "attack_damage": 60,
+        "ability_power": 0
+      },
+      "expectedFromClient": 240,
+      "actualStored": 240,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "vex_w",
+      "rank": 5,
+      "sourceTotalAttributes": {
+        "attack_damage": 100,
+        "ability_power": 100
+      },
+      "expectedFromClient": 270.0000011920929,
+      "actualStored": 270,
+      "absoluteDifference": 0.0000011920928955078125
+    },
+    {
+      "skillKey": "vex_w",
+      "rank": 5,
+      "sourceTotalAttributes": {
+        "attack_damage": 200,
+        "ability_power": 300
+      },
+      "expectedFromClient": 330.0000035762787,
+      "actualStored": 330,
+      "absoluteDifference": 0.0000035762786865234375
+    },
+    {
+      "skillKey": "vex_e",
+      "rank": 1,
+      "sourceTotalAttributes": {
+        "attack_damage": 60,
+        "ability_power": 0
+      },
+      "expectedFromClient": 50,
+      "actualStored": 50,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "vex_e",
+      "rank": 1,
+      "sourceTotalAttributes": {
+        "attack_damage": 100,
+        "ability_power": 100
+      },
+      "expectedFromClient": 90.00000059604645,
+      "actualStored": 90,
+      "absoluteDifference": 5.960464477539062e-7
+    },
+    {
+      "skillKey": "vex_e",
+      "rank": 1,
+      "sourceTotalAttributes": {
+        "attack_damage": 200,
+        "ability_power": 300
+      },
+      "expectedFromClient": 170.00000178813934,
+      "actualStored": 170,
+      "absoluteDifference": 0.0000017881393432617188
+    },
+    {
+      "skillKey": "vex_e",
+      "rank": 2,
+      "sourceTotalAttributes": {
+        "attack_damage": 60,
+        "ability_power": 0
+      },
+      "expectedFromClient": 70,
+      "actualStored": 70,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "vex_e",
+      "rank": 2,
+      "sourceTotalAttributes": {
+        "attack_damage": 100,
+        "ability_power": 100
+      },
+      "expectedFromClient": 114.9999988079071,
+      "actualStored": 115,
+      "absoluteDifference": 0.0000011920928955078125
+    },
+    {
+      "skillKey": "vex_e",
+      "rank": 2,
+      "sourceTotalAttributes": {
+        "attack_damage": 200,
+        "ability_power": 300
+      },
+      "expectedFromClient": 204.9999964237213,
+      "actualStored": 205,
+      "absoluteDifference": 0.0000035762786865234375
+    },
+    {
+      "skillKey": "vex_e",
+      "rank": 3,
+      "sourceTotalAttributes": {
+        "attack_damage": 60,
+        "ability_power": 0
+      },
+      "expectedFromClient": 90,
+      "actualStored": 90,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "vex_e",
+      "rank": 3,
+      "sourceTotalAttributes": {
+        "attack_damage": 100,
+        "ability_power": 100
+      },
+      "expectedFromClient": 140,
+      "actualStored": 140,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "vex_e",
+      "rank": 3,
+      "sourceTotalAttributes": {
+        "attack_damage": 200,
+        "ability_power": 300
+      },
+      "expectedFromClient": 240,
+      "actualStored": 240,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "vex_e",
+      "rank": 4,
+      "sourceTotalAttributes": {
+        "attack_damage": 60,
+        "ability_power": 0
+      },
+      "expectedFromClient": 110,
+      "actualStored": 110,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "vex_e",
+      "rank": 4,
+      "sourceTotalAttributes": {
+        "attack_damage": 100,
+        "ability_power": 100
+      },
+      "expectedFromClient": 165.0000011920929,
+      "actualStored": 165,
+      "absoluteDifference": 0.0000011920928955078125
+    },
+    {
+      "skillKey": "vex_e",
+      "rank": 4,
+      "sourceTotalAttributes": {
+        "attack_damage": 200,
+        "ability_power": 300
+      },
+      "expectedFromClient": 275.0000035762787,
+      "actualStored": 275,
+      "absoluteDifference": 0.0000035762786865234375
+    },
+    {
+      "skillKey": "vex_e",
+      "rank": 5,
+      "sourceTotalAttributes": {
+        "attack_damage": 60,
+        "ability_power": 0
+      },
+      "expectedFromClient": 130,
+      "actualStored": 130,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "vex_e",
+      "rank": 5,
+      "sourceTotalAttributes": {
+        "attack_damage": 100,
+        "ability_power": 100
+      },
+      "expectedFromClient": 190.0000023841858,
+      "actualStored": 190,
+      "absoluteDifference": 0.000002384185791015625
+    },
+    {
+      "skillKey": "vex_e",
+      "rank": 5,
+      "sourceTotalAttributes": {
+        "attack_damage": 200,
+        "ability_power": 300
+      },
+      "expectedFromClient": 310.0000071525574,
+      "actualStored": 310,
+      "absoluteDifference": 0.000007152557373046875
+    },
+    {
+      "skillKey": "bard_q",
+      "rank": 1,
+      "sourceTotalAttributes": {
+        "attack_damage": 60,
+        "ability_power": 0
+      },
+      "expectedFromClient": 80,
+      "actualStored": 80,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "bard_q",
+      "rank": 1,
+      "sourceTotalAttributes": {
+        "attack_damage": 100,
+        "ability_power": 100
+      },
+      "expectedFromClient": 160.0000011920929,
+      "actualStored": 160.00000119,
+      "absoluteDifference": 2.09288941732666e-9
+    },
+    {
+      "skillKey": "bard_q",
+      "rank": 1,
+      "sourceTotalAttributes": {
+        "attack_damage": 200,
+        "ability_power": 300
+      },
+      "expectedFromClient": 320.0000035762787,
+      "actualStored": 320.00000357,
+      "absoluteDifference": 6.27869667368941e-9
+    },
+    {
+      "skillKey": "bard_q",
+      "rank": 2,
+      "sourceTotalAttributes": {
+        "attack_damage": 60,
+        "ability_power": 0
+      },
+      "expectedFromClient": 120,
+      "actualStored": 120,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "bard_q",
+      "rank": 2,
+      "sourceTotalAttributes": {
+        "attack_damage": 100,
+        "ability_power": 100
+      },
+      "expectedFromClient": 200.0000011920929,
+      "actualStored": 200.00000119,
+      "absoluteDifference": 2.09288941732666e-9
+    },
+    {
+      "skillKey": "bard_q",
+      "rank": 2,
+      "sourceTotalAttributes": {
+        "attack_damage": 200,
+        "ability_power": 300
+      },
+      "expectedFromClient": 360.0000035762787,
+      "actualStored": 360.00000357,
+      "absoluteDifference": 6.27869667368941e-9
+    },
+    {
+      "skillKey": "bard_q",
+      "rank": 3,
+      "sourceTotalAttributes": {
+        "attack_damage": 60,
+        "ability_power": 0
+      },
+      "expectedFromClient": 160,
+      "actualStored": 160,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "bard_q",
+      "rank": 3,
+      "sourceTotalAttributes": {
+        "attack_damage": 100,
+        "ability_power": 100
+      },
+      "expectedFromClient": 240.0000011920929,
+      "actualStored": 240.00000119,
+      "absoluteDifference": 2.09288941732666e-9
+    },
+    {
+      "skillKey": "bard_q",
+      "rank": 3,
+      "sourceTotalAttributes": {
+        "attack_damage": 200,
+        "ability_power": 300
+      },
+      "expectedFromClient": 400.0000035762787,
+      "actualStored": 400.00000357,
+      "absoluteDifference": 6.27869667368941e-9
+    },
+    {
+      "skillKey": "bard_q",
+      "rank": 4,
+      "sourceTotalAttributes": {
+        "attack_damage": 60,
+        "ability_power": 0
+      },
+      "expectedFromClient": 200,
+      "actualStored": 200,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "bard_q",
+      "rank": 4,
+      "sourceTotalAttributes": {
+        "attack_damage": 100,
+        "ability_power": 100
+      },
+      "expectedFromClient": 280.0000011920929,
+      "actualStored": 280.00000119000003,
+      "absoluteDifference": 2.0928609956172295e-9
+    },
+    {
+      "skillKey": "bard_q",
+      "rank": 4,
+      "sourceTotalAttributes": {
+        "attack_damage": 200,
+        "ability_power": 300
+      },
+      "expectedFromClient": 440.0000035762787,
+      "actualStored": 440.00000357,
+      "absoluteDifference": 6.27869667368941e-9
+    },
+    {
+      "skillKey": "bard_q",
+      "rank": 5,
+      "sourceTotalAttributes": {
+        "attack_damage": 60,
+        "ability_power": 0
+      },
+      "expectedFromClient": 240,
+      "actualStored": 240,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "bard_q",
+      "rank": 5,
+      "sourceTotalAttributes": {
+        "attack_damage": 100,
+        "ability_power": 100
+      },
+      "expectedFromClient": 320.0000011920929,
+      "actualStored": 320.00000119000003,
+      "absoluteDifference": 2.0928609956172295e-9
+    },
+    {
+      "skillKey": "bard_q",
+      "rank": 5,
+      "sourceTotalAttributes": {
+        "attack_damage": 200,
+        "ability_power": 300
+      },
+      "expectedFromClient": 480.0000035762787,
+      "actualStored": 480.00000357,
+      "absoluteDifference": 6.27869667368941e-9
+    },
+    {
+      "skillKey": "akali_q",
+      "rank": 1,
+      "sourceTotalAttributes": {
+        "attack_damage": 60,
+        "ability_power": 0
+      },
+      "expectedFromClient": 83.99999856948853,
+      "actualStored": 84,
+      "absoluteDifference": 0.000001430511474609375
+    },
+    {
+      "skillKey": "akali_q",
+      "rank": 1,
+      "sourceTotalAttributes": {
+        "attack_damage": 100,
+        "ability_power": 100
+      },
+      "expectedFromClient": 170,
+      "actualStored": 170,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "akali_q",
+      "rank": 1,
+      "sourceTotalAttributes": {
+        "attack_damage": 200,
+        "ability_power": 300
+      },
+      "expectedFromClient": 355.0000023841858,
+      "actualStored": 355,
+      "absoluteDifference": 0.000002384185791015625
+    },
+    {
+      "skillKey": "akali_q",
+      "rank": 2,
+      "sourceTotalAttributes": {
+        "attack_damage": 60,
+        "ability_power": 0
+      },
+      "expectedFromClient": 108.99999856948853,
+      "actualStored": 109,
+      "absoluteDifference": 0.000001430511474609375
+    },
+    {
+      "skillKey": "akali_q",
+      "rank": 2,
+      "sourceTotalAttributes": {
+        "attack_damage": 100,
+        "ability_power": 100
+      },
+      "expectedFromClient": 195,
+      "actualStored": 195,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "akali_q",
+      "rank": 2,
+      "sourceTotalAttributes": {
+        "attack_damage": 200,
+        "ability_power": 300
+      },
+      "expectedFromClient": 380.0000023841858,
+      "actualStored": 380,
+      "absoluteDifference": 0.000002384185791015625
+    },
+    {
+      "skillKey": "akali_q",
+      "rank": 3,
+      "sourceTotalAttributes": {
+        "attack_damage": 60,
+        "ability_power": 0
+      },
+      "expectedFromClient": 133.99999856948853,
+      "actualStored": 134,
+      "absoluteDifference": 0.000001430511474609375
+    },
+    {
+      "skillKey": "akali_q",
+      "rank": 3,
+      "sourceTotalAttributes": {
+        "attack_damage": 100,
+        "ability_power": 100
+      },
+      "expectedFromClient": 220,
+      "actualStored": 220,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "akali_q",
+      "rank": 3,
+      "sourceTotalAttributes": {
+        "attack_damage": 200,
+        "ability_power": 300
+      },
+      "expectedFromClient": 405.0000023841858,
+      "actualStored": 405,
+      "absoluteDifference": 0.000002384185791015625
+    },
+    {
+      "skillKey": "akali_q",
+      "rank": 4,
+      "sourceTotalAttributes": {
+        "attack_damage": 60,
+        "ability_power": 0
+      },
+      "expectedFromClient": 158.99999856948853,
+      "actualStored": 159,
+      "absoluteDifference": 0.000001430511474609375
+    },
+    {
+      "skillKey": "akali_q",
+      "rank": 4,
+      "sourceTotalAttributes": {
+        "attack_damage": 100,
+        "ability_power": 100
+      },
+      "expectedFromClient": 245,
+      "actualStored": 245,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "akali_q",
+      "rank": 4,
+      "sourceTotalAttributes": {
+        "attack_damage": 200,
+        "ability_power": 300
+      },
+      "expectedFromClient": 430.0000023841858,
+      "actualStored": 430,
+      "absoluteDifference": 0.000002384185791015625
+    },
+    {
+      "skillKey": "akali_q",
+      "rank": 5,
+      "sourceTotalAttributes": {
+        "attack_damage": 60,
+        "ability_power": 0
+      },
+      "expectedFromClient": 183.99999856948853,
+      "actualStored": 184,
+      "absoluteDifference": 0.000001430511474609375
+    },
+    {
+      "skillKey": "akali_q",
+      "rank": 5,
+      "sourceTotalAttributes": {
+        "attack_damage": 100,
+        "ability_power": 100
+      },
+      "expectedFromClient": 270,
+      "actualStored": 270,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "akali_q",
+      "rank": 5,
+      "sourceTotalAttributes": {
+        "attack_damage": 200,
+        "ability_power": 300
+      },
+      "expectedFromClient": 455.0000023841858,
+      "actualStored": 455,
+      "absoluteDifference": 0.000002384185791015625
+    },
+    {
+      "skillKey": "katarina_q",
+      "rank": 1,
+      "sourceTotalAttributes": {
+        "attack_damage": 60,
+        "ability_power": 0
+      },
+      "expectedFromClient": 80,
+      "actualStored": 80,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "katarina_q",
+      "rank": 1,
+      "sourceTotalAttributes": {
+        "attack_damage": 100,
+        "ability_power": 100
+      },
+      "expectedFromClient": 120.00000059604645,
+      "actualStored": 120,
+      "absoluteDifference": 5.960464477539062e-7
+    },
+    {
+      "skillKey": "katarina_q",
+      "rank": 1,
+      "sourceTotalAttributes": {
+        "attack_damage": 200,
+        "ability_power": 300
+      },
+      "expectedFromClient": 200.00000178813934,
+      "actualStored": 200,
+      "absoluteDifference": 0.0000017881393432617188
+    },
+    {
+      "skillKey": "katarina_q",
+      "rank": 2,
+      "sourceTotalAttributes": {
+        "attack_damage": 60,
+        "ability_power": 0
+      },
+      "expectedFromClient": 115,
+      "actualStored": 115,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "katarina_q",
+      "rank": 2,
+      "sourceTotalAttributes": {
+        "attack_damage": 100,
+        "ability_power": 100
+      },
+      "expectedFromClient": 155.00000059604645,
+      "actualStored": 155,
+      "absoluteDifference": 5.960464477539062e-7
+    },
+    {
+      "skillKey": "katarina_q",
+      "rank": 2,
+      "sourceTotalAttributes": {
+        "attack_damage": 200,
+        "ability_power": 300
+      },
+      "expectedFromClient": 235.00000178813934,
+      "actualStored": 235,
+      "absoluteDifference": 0.0000017881393432617188
+    },
+    {
+      "skillKey": "katarina_q",
+      "rank": 3,
+      "sourceTotalAttributes": {
+        "attack_damage": 60,
+        "ability_power": 0
+      },
+      "expectedFromClient": 150,
+      "actualStored": 150,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "katarina_q",
+      "rank": 3,
+      "sourceTotalAttributes": {
+        "attack_damage": 100,
+        "ability_power": 100
+      },
+      "expectedFromClient": 190.00000059604645,
+      "actualStored": 190,
+      "absoluteDifference": 5.960464477539062e-7
+    },
+    {
+      "skillKey": "katarina_q",
+      "rank": 3,
+      "sourceTotalAttributes": {
+        "attack_damage": 200,
+        "ability_power": 300
+      },
+      "expectedFromClient": 270.00000178813934,
+      "actualStored": 270,
+      "absoluteDifference": 0.0000017881393432617188
+    },
+    {
+      "skillKey": "katarina_q",
+      "rank": 4,
+      "sourceTotalAttributes": {
+        "attack_damage": 60,
+        "ability_power": 0
+      },
+      "expectedFromClient": 185,
+      "actualStored": 185,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "katarina_q",
+      "rank": 4,
+      "sourceTotalAttributes": {
+        "attack_damage": 100,
+        "ability_power": 100
+      },
+      "expectedFromClient": 225.00000059604645,
+      "actualStored": 225,
+      "absoluteDifference": 5.960464477539062e-7
+    },
+    {
+      "skillKey": "katarina_q",
+      "rank": 4,
+      "sourceTotalAttributes": {
+        "attack_damage": 200,
+        "ability_power": 300
+      },
+      "expectedFromClient": 305.00000178813934,
+      "actualStored": 305,
+      "absoluteDifference": 0.0000017881393432617188
+    },
+    {
+      "skillKey": "katarina_q",
+      "rank": 5,
+      "sourceTotalAttributes": {
+        "attack_damage": 60,
+        "ability_power": 0
+      },
+      "expectedFromClient": 220,
+      "actualStored": 220,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "katarina_q",
+      "rank": 5,
+      "sourceTotalAttributes": {
+        "attack_damage": 100,
+        "ability_power": 100
+      },
+      "expectedFromClient": 260.00000059604645,
+      "actualStored": 260,
+      "absoluteDifference": 5.960464477539062e-7
+    },
+    {
+      "skillKey": "katarina_q",
+      "rank": 5,
+      "sourceTotalAttributes": {
+        "attack_damage": 200,
+        "ability_power": 300
+      },
+      "expectedFromClient": 340.00000178813934,
+      "actualStored": 340,
+      "absoluteDifference": 0.0000017881393432617188
+    },
+    {
+      "skillKey": "syndra_q",
+      "rank": 1,
+      "sourceTotalAttributes": {
+        "attack_damage": 60,
+        "ability_power": 0
+      },
+      "expectedFromClient": 90,
+      "actualStored": 90,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "syndra_q",
+      "rank": 1,
+      "sourceTotalAttributes": {
+        "attack_damage": 100,
+        "ability_power": 100
+      },
+      "expectedFromClient": 159.9999988079071,
+      "actualStored": 160,
+      "absoluteDifference": 0.0000011920928955078125
+    },
+    {
+      "skillKey": "syndra_q",
+      "rank": 1,
+      "sourceTotalAttributes": {
+        "attack_damage": 200,
+        "ability_power": 300
+      },
+      "expectedFromClient": 299.9999964237213,
+      "actualStored": 300,
+      "absoluteDifference": 0.0000035762786865234375
+    },
+    {
+      "skillKey": "syndra_q",
+      "rank": 2,
+      "sourceTotalAttributes": {
+        "attack_damage": 60,
+        "ability_power": 0
+      },
+      "expectedFromClient": 125,
+      "actualStored": 125,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "syndra_q",
+      "rank": 2,
+      "sourceTotalAttributes": {
+        "attack_damage": 100,
+        "ability_power": 100
+      },
+      "expectedFromClient": 194.9999988079071,
+      "actualStored": 195,
+      "absoluteDifference": 0.0000011920928955078125
+    },
+    {
+      "skillKey": "syndra_q",
+      "rank": 2,
+      "sourceTotalAttributes": {
+        "attack_damage": 200,
+        "ability_power": 300
+      },
+      "expectedFromClient": 334.9999964237213,
+      "actualStored": 335,
+      "absoluteDifference": 0.0000035762786865234375
+    },
+    {
+      "skillKey": "syndra_q",
+      "rank": 3,
+      "sourceTotalAttributes": {
+        "attack_damage": 60,
+        "ability_power": 0
+      },
+      "expectedFromClient": 160,
+      "actualStored": 160,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "syndra_q",
+      "rank": 3,
+      "sourceTotalAttributes": {
+        "attack_damage": 100,
+        "ability_power": 100
+      },
+      "expectedFromClient": 229.9999988079071,
+      "actualStored": 230,
+      "absoluteDifference": 0.0000011920928955078125
+    },
+    {
+      "skillKey": "syndra_q",
+      "rank": 3,
+      "sourceTotalAttributes": {
+        "attack_damage": 200,
+        "ability_power": 300
+      },
+      "expectedFromClient": 369.9999964237213,
+      "actualStored": 370,
+      "absoluteDifference": 0.0000035762786865234375
+    },
+    {
+      "skillKey": "syndra_q",
+      "rank": 4,
+      "sourceTotalAttributes": {
+        "attack_damage": 60,
+        "ability_power": 0
+      },
+      "expectedFromClient": 195,
+      "actualStored": 195,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "syndra_q",
+      "rank": 4,
+      "sourceTotalAttributes": {
+        "attack_damage": 100,
+        "ability_power": 100
+      },
+      "expectedFromClient": 264.9999988079071,
+      "actualStored": 265,
+      "absoluteDifference": 0.0000011920928955078125
+    },
+    {
+      "skillKey": "syndra_q",
+      "rank": 4,
+      "sourceTotalAttributes": {
+        "attack_damage": 200,
+        "ability_power": 300
+      },
+      "expectedFromClient": 404.9999964237213,
+      "actualStored": 405,
+      "absoluteDifference": 0.0000035762786865234375
+    },
+    {
+      "skillKey": "syndra_q",
+      "rank": 5,
+      "sourceTotalAttributes": {
+        "attack_damage": 60,
+        "ability_power": 0
+      },
+      "expectedFromClient": 230,
+      "actualStored": 230,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "syndra_q",
+      "rank": 5,
+      "sourceTotalAttributes": {
+        "attack_damage": 100,
+        "ability_power": 100
+      },
+      "expectedFromClient": 299.9999988079071,
+      "actualStored": 300,
+      "absoluteDifference": 0.0000011920928955078125
+    },
+    {
+      "skillKey": "syndra_q",
+      "rank": 5,
+      "sourceTotalAttributes": {
+        "attack_damage": 200,
+        "ability_power": 300
+      },
+      "expectedFromClient": 439.9999964237213,
+      "actualStored": 440,
+      "absoluteDifference": 0.0000035762786865234375
+    }
+  ],
+  "arithmeticCases": 105,
+  "maxAbsoluteDifference": 0.000007152557373046875,
+  "tolerance": 0.0001,
+  "sourceExtractionCorrection": "首次提取在薇古丝Q的能力数组顺序断言失败，发生0HTTP/0业务写入；现按角色能力集合中的根引用唯一匹配。原来已验证的其他批次未发现绑定错配，不重新写入。",
+  "excluded": [
+    {
+      "skillKey": "leblanc_q",
+      "reason": "保留初始伤害与印记引爆分支，先另核两者的入口语义与返还依赖，本批不将二者合成重复命中。"
+    }
+  ]
+}

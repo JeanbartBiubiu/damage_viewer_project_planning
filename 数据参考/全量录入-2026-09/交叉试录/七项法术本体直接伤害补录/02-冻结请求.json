@@ -1,0 +1,1400 @@
+{
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/vex_q/effects",
+      "detailRoute": "/skills/vex_q/effects/primary_hit",
+      "body": {
+        "effectKey": "primary_hit",
+        "name": "薇古丝·寒心波云本体直接伤害",
+        "description": "根技能本体实际命中本轮敌方英雄的直接魔法伤害；引用已有完整公式，其他被动、印记、控制或场上对象联动单列。",
+        "sortOrder": 20,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "damage",
+            "name": "魔法伤害",
+            "resultType": "DAMAGE",
+            "target": "TARGET",
+            "description": "引用同技能magic_damage，只取本体直接伤害。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": "SKILL",
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "magic_damage"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "vampRules": [
+                {
+                  "vampType": "OMNIVAMP",
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "expectedReadback": {
+        "effectKey": "primary_hit",
+        "name": "薇古丝·寒心波云本体直接伤害",
+        "description": "根技能本体实际命中本轮敌方英雄的直接魔法伤害；引用已有完整公式，其他被动、印记、控制或场上对象联动单列。",
+        "sortOrder": 20,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "damage",
+            "name": "魔法伤害",
+            "resultType": "DAMAGE",
+            "target": "TARGET",
+            "description": "引用同技能magic_damage，只取本体直接伤害。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": "SKILL",
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "magic_damage"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "vampRules": [
+                {
+                  "vampType": "OMNIVAMP",
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/vex_q/trigger-rules",
+      "detailRoute": "/skills/vex_q/trigger-rules/actual_hit",
+      "body": {
+        "ruleKey": "actual_hit",
+        "name": "薇古丝·寒心波云本体实际命中",
+        "description": "消费vex_q根技能本体的合法实际英雄命中，执行primary_hit；不从使用、飞行变化、弹跳、捡起匕首或后续法球操纵生成同一次本体命中。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "vex_q"
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "champion_target",
+            "name": "本轮英雄目标",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "name": "执行薇古丝·寒心波云本体伤害",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "actual_hit",
+        "name": "薇古丝·寒心波云本体实际命中",
+        "description": "消费vex_q根技能本体的合法实际英雄命中，执行primary_hit；不从使用、飞行变化、弹跳、捡起匕首或后续法球操纵生成同一次本体命中。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "vex_q",
+            "useKind": null
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "champion_target",
+            "name": "本轮英雄目标",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "name": "执行薇古丝·寒心波云本体伤害",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/vex_w/effects",
+      "detailRoute": "/skills/vex_w/effects/primary_hit",
+      "body": {
+        "effectKey": "primary_hit",
+        "name": "薇古丝·生人勿近本体直接伤害",
+        "description": "根技能本体实际命中本轮敌方英雄的直接魔法伤害；引用已有完整公式，其他被动、印记、控制或场上对象联动单列。",
+        "sortOrder": 20,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "damage",
+            "name": "魔法伤害",
+            "resultType": "DAMAGE",
+            "target": "TARGET",
+            "description": "引用同技能magic_damage，只取本体直接伤害。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": "SKILL",
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "magic_damage"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "vampRules": [
+                {
+                  "vampType": "OMNIVAMP",
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "expectedReadback": {
+        "effectKey": "primary_hit",
+        "name": "薇古丝·生人勿近本体直接伤害",
+        "description": "根技能本体实际命中本轮敌方英雄的直接魔法伤害；引用已有完整公式，其他被动、印记、控制或场上对象联动单列。",
+        "sortOrder": 20,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "damage",
+            "name": "魔法伤害",
+            "resultType": "DAMAGE",
+            "target": "TARGET",
+            "description": "引用同技能magic_damage，只取本体直接伤害。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": "SKILL",
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "magic_damage"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "vampRules": [
+                {
+                  "vampType": "OMNIVAMP",
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/vex_w/trigger-rules",
+      "detailRoute": "/skills/vex_w/trigger-rules/actual_hit",
+      "body": {
+        "ruleKey": "actual_hit",
+        "name": "薇古丝·生人勿近本体实际命中",
+        "description": "消费vex_w根技能本体的合法实际英雄命中，执行primary_hit；不从使用、飞行变化、弹跳、捡起匕首或后续法球操纵生成同一次本体命中。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "vex_w"
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "champion_target",
+            "name": "本轮英雄目标",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "name": "执行薇古丝·生人勿近本体伤害",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "actual_hit",
+        "name": "薇古丝·生人勿近本体实际命中",
+        "description": "消费vex_w根技能本体的合法实际英雄命中，执行primary_hit；不从使用、飞行变化、弹跳、捡起匕首或后续法球操纵生成同一次本体命中。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "vex_w",
+            "useKind": null
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "champion_target",
+            "name": "本轮英雄目标",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "name": "执行薇古丝·生人勿近本体伤害",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/vex_e/effects",
+      "detailRoute": "/skills/vex_e/effects/primary_hit",
+      "body": {
+        "effectKey": "primary_hit",
+        "name": "薇古丝·溟濛渐染本体直接伤害",
+        "description": "根技能本体实际命中本轮敌方英雄的直接魔法伤害；引用已有完整公式，其他被动、印记、控制或场上对象联动单列。",
+        "sortOrder": 20,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "damage",
+            "name": "魔法伤害",
+            "resultType": "DAMAGE",
+            "target": "TARGET",
+            "description": "引用同技能magic_damage，只取本体直接伤害。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": "SKILL",
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "magic_damage"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "vampRules": [
+                {
+                  "vampType": "OMNIVAMP",
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "expectedReadback": {
+        "effectKey": "primary_hit",
+        "name": "薇古丝·溟濛渐染本体直接伤害",
+        "description": "根技能本体实际命中本轮敌方英雄的直接魔法伤害；引用已有完整公式，其他被动、印记、控制或场上对象联动单列。",
+        "sortOrder": 20,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "damage",
+            "name": "魔法伤害",
+            "resultType": "DAMAGE",
+            "target": "TARGET",
+            "description": "引用同技能magic_damage，只取本体直接伤害。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": "SKILL",
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "magic_damage"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "vampRules": [
+                {
+                  "vampType": "OMNIVAMP",
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/vex_e/trigger-rules",
+      "detailRoute": "/skills/vex_e/trigger-rules/actual_hit",
+      "body": {
+        "ruleKey": "actual_hit",
+        "name": "薇古丝·溟濛渐染本体实际命中",
+        "description": "消费vex_e根技能本体的合法实际英雄命中，执行primary_hit；不从使用、飞行变化、弹跳、捡起匕首或后续法球操纵生成同一次本体命中。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "vex_e"
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "champion_target",
+            "name": "本轮英雄目标",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "name": "执行薇古丝·溟濛渐染本体伤害",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "actual_hit",
+        "name": "薇古丝·溟濛渐染本体实际命中",
+        "description": "消费vex_e根技能本体的合法实际英雄命中，执行primary_hit；不从使用、飞行变化、弹跳、捡起匕首或后续法球操纵生成同一次本体命中。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "vex_e",
+            "useKind": null
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "champion_target",
+            "name": "本轮英雄目标",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "name": "执行薇古丝·溟濛渐染本体伤害",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/bard_q/effects",
+      "detailRoute": "/skills/bard_q/effects/primary_hit",
+      "body": {
+        "effectKey": "primary_hit",
+        "name": "巴德·星界束缚本体直接伤害",
+        "description": "根技能本体实际命中本轮敌方英雄的直接魔法伤害；引用已有完整公式，其他被动、印记、控制或场上对象联动单列。",
+        "sortOrder": 20,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "damage",
+            "name": "魔法伤害",
+            "resultType": "DAMAGE",
+            "target": "TARGET",
+            "description": "引用同技能total_damage，只取本体直接伤害。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": "SKILL",
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "total_damage"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "vampRules": [
+                {
+                  "vampType": "OMNIVAMP",
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "expectedReadback": {
+        "effectKey": "primary_hit",
+        "name": "巴德·星界束缚本体直接伤害",
+        "description": "根技能本体实际命中本轮敌方英雄的直接魔法伤害；引用已有完整公式，其他被动、印记、控制或场上对象联动单列。",
+        "sortOrder": 20,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "damage",
+            "name": "魔法伤害",
+            "resultType": "DAMAGE",
+            "target": "TARGET",
+            "description": "引用同技能total_damage，只取本体直接伤害。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": "SKILL",
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "total_damage"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "vampRules": [
+                {
+                  "vampType": "OMNIVAMP",
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/bard_q/trigger-rules",
+      "detailRoute": "/skills/bard_q/trigger-rules/actual_hit",
+      "body": {
+        "ruleKey": "actual_hit",
+        "name": "巴德·星界束缚本体实际命中",
+        "description": "消费bard_q根技能本体的合法实际英雄命中，执行primary_hit；不从使用、飞行变化、弹跳、捡起匕首或后续法球操纵生成同一次本体命中。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "bard_q"
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "champion_target",
+            "name": "本轮英雄目标",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "name": "执行巴德·星界束缚本体伤害",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "actual_hit",
+        "name": "巴德·星界束缚本体实际命中",
+        "description": "消费bard_q根技能本体的合法实际英雄命中，执行primary_hit；不从使用、飞行变化、弹跳、捡起匕首或后续法球操纵生成同一次本体命中。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "bard_q",
+            "useKind": null
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "champion_target",
+            "name": "本轮英雄目标",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "name": "执行巴德·星界束缚本体伤害",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/akali_q/effects",
+      "detailRoute": "/skills/akali_q/effects/primary_hit",
+      "body": {
+        "effectKey": "primary_hit",
+        "name": "阿卡丽·我流奥义！寒影本体直接伤害",
+        "description": "根技能本体实际命中本轮敌方英雄的直接魔法伤害；引用已有完整公式，其他被动、印记、控制或场上对象联动单列。",
+        "sortOrder": 20,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "damage",
+            "name": "魔法伤害",
+            "resultType": "DAMAGE",
+            "target": "TARGET",
+            "description": "引用同技能damage，只取本体直接伤害。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": "SKILL",
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "damage"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "vampRules": [
+                {
+                  "vampType": "OMNIVAMP",
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "expectedReadback": {
+        "effectKey": "primary_hit",
+        "name": "阿卡丽·我流奥义！寒影本体直接伤害",
+        "description": "根技能本体实际命中本轮敌方英雄的直接魔法伤害；引用已有完整公式，其他被动、印记、控制或场上对象联动单列。",
+        "sortOrder": 20,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "damage",
+            "name": "魔法伤害",
+            "resultType": "DAMAGE",
+            "target": "TARGET",
+            "description": "引用同技能damage，只取本体直接伤害。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": "SKILL",
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "damage"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "vampRules": [
+                {
+                  "vampType": "OMNIVAMP",
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/akali_q/trigger-rules",
+      "detailRoute": "/skills/akali_q/trigger-rules/actual_hit",
+      "body": {
+        "ruleKey": "actual_hit",
+        "name": "阿卡丽·我流奥义！寒影本体实际命中",
+        "description": "消费akali_q根技能本体的合法实际英雄命中，执行primary_hit；不从使用、飞行变化、弹跳、捡起匕首或后续法球操纵生成同一次本体命中。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "akali_q"
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "champion_target",
+            "name": "本轮英雄目标",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "name": "执行阿卡丽·我流奥义！寒影本体伤害",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "actual_hit",
+        "name": "阿卡丽·我流奥义！寒影本体实际命中",
+        "description": "消费akali_q根技能本体的合法实际英雄命中，执行primary_hit；不从使用、飞行变化、弹跳、捡起匕首或后续法球操纵生成同一次本体命中。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "akali_q",
+            "useKind": null
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "champion_target",
+            "name": "本轮英雄目标",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "name": "执行阿卡丽·我流奥义！寒影本体伤害",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/katarina_q/effects",
+      "detailRoute": "/skills/katarina_q/effects/primary_hit",
+      "body": {
+        "effectKey": "primary_hit",
+        "name": "卡特琳娜·弹射之刃本体直接伤害",
+        "description": "根技能本体实际命中本轮敌方英雄的直接魔法伤害；引用已有完整公式，其他被动、印记、控制或场上对象联动单列。",
+        "sortOrder": 20,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "damage",
+            "name": "魔法伤害",
+            "resultType": "DAMAGE",
+            "target": "TARGET",
+            "description": "引用同技能magic_damage，只取本体直接伤害。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": "SKILL",
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "magic_damage"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "vampRules": [
+                {
+                  "vampType": "OMNIVAMP",
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "expectedReadback": {
+        "effectKey": "primary_hit",
+        "name": "卡特琳娜·弹射之刃本体直接伤害",
+        "description": "根技能本体实际命中本轮敌方英雄的直接魔法伤害；引用已有完整公式，其他被动、印记、控制或场上对象联动单列。",
+        "sortOrder": 20,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "damage",
+            "name": "魔法伤害",
+            "resultType": "DAMAGE",
+            "target": "TARGET",
+            "description": "引用同技能magic_damage，只取本体直接伤害。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": "SKILL",
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "magic_damage"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "vampRules": [
+                {
+                  "vampType": "OMNIVAMP",
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/katarina_q/trigger-rules",
+      "detailRoute": "/skills/katarina_q/trigger-rules/actual_hit",
+      "body": {
+        "ruleKey": "actual_hit",
+        "name": "卡特琳娜·弹射之刃本体实际命中",
+        "description": "消费katarina_q根技能本体的合法实际英雄命中，执行primary_hit；不从使用、飞行变化、弹跳、捡起匕首或后续法球操纵生成同一次本体命中。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "katarina_q"
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "champion_target",
+            "name": "本轮英雄目标",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "name": "执行卡特琳娜·弹射之刃本体伤害",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "actual_hit",
+        "name": "卡特琳娜·弹射之刃本体实际命中",
+        "description": "消费katarina_q根技能本体的合法实际英雄命中，执行primary_hit；不从使用、飞行变化、弹跳、捡起匕首或后续法球操纵生成同一次本体命中。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "katarina_q",
+            "useKind": null
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "champion_target",
+            "name": "本轮英雄目标",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "name": "执行卡特琳娜·弹射之刃本体伤害",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/syndra_q/effects",
+      "detailRoute": "/skills/syndra_q/effects/primary_hit",
+      "body": {
+        "effectKey": "primary_hit",
+        "name": "辛德拉·暗黑法球本体直接伤害",
+        "description": "根技能本体实际命中本轮敌方英雄的直接魔法伤害；引用已有完整公式，其他被动、印记、控制或场上对象联动单列。",
+        "sortOrder": 20,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "damage",
+            "name": "魔法伤害",
+            "resultType": "DAMAGE",
+            "target": "TARGET",
+            "description": "引用同技能damage，只取本体直接伤害。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": "SKILL",
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "damage"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "vampRules": [
+                {
+                  "vampType": "OMNIVAMP",
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "expectedReadback": {
+        "effectKey": "primary_hit",
+        "name": "辛德拉·暗黑法球本体直接伤害",
+        "description": "根技能本体实际命中本轮敌方英雄的直接魔法伤害；引用已有完整公式，其他被动、印记、控制或场上对象联动单列。",
+        "sortOrder": 20,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "damage",
+            "name": "魔法伤害",
+            "resultType": "DAMAGE",
+            "target": "TARGET",
+            "description": "引用同技能damage，只取本体直接伤害。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": "SKILL",
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "damage"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "vampRules": [
+                {
+                  "vampType": "OMNIVAMP",
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/syndra_q/trigger-rules",
+      "detailRoute": "/skills/syndra_q/trigger-rules/actual_hit",
+      "body": {
+        "ruleKey": "actual_hit",
+        "name": "辛德拉·暗黑法球本体实际命中",
+        "description": "消费syndra_q根技能本体的合法实际英雄命中，执行primary_hit；不从使用、飞行变化、弹跳、捡起匕首或后续法球操纵生成同一次本体命中。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "syndra_q"
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "champion_target",
+            "name": "本轮英雄目标",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "name": "执行辛德拉·暗黑法球本体伤害",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "actual_hit",
+        "name": "辛德拉·暗黑法球本体实际命中",
+        "description": "消费syndra_q根技能本体的合法实际英雄命中，执行primary_hit；不从使用、飞行变化、弹跳、捡起匕首或后续法球操纵生成同一次本体命中。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "syndra_q",
+            "useKind": null
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "champion_target",
+            "name": "本轮英雄目标",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "name": "执行辛德拉·暗黑法球本体伤害",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "sourceSha256": "482b7d0b683fca13cb8325fbc9488d10c83460489d756fe36f8c7f57c332e315",
+  "baselineSha256": "d59e1f1a0d9a6626563b45f686c638f9d0d0222ec706d05612ab32335a1befcc"
+}

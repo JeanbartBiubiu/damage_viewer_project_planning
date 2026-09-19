@@ -1,0 +1,4958 @@
+{
+  "at": "2026-09-19T03:07:37.373Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/skills/vex_q": {
+      "createdAt": "2026-09-06T18:20:57.529775Z",
+      "description": "发射一个可在飞行途中提速的伤害型飞弹。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "薇古丝·寒心波云",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "vex_q",
+      "sortOrder": 1,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:20:57.529775Z"
+    },
+    "/characters/champion_vex": {
+      "characterKey": "champion_vex",
+      "createdAt": "2026-09-06T18:03:29.333122Z",
+      "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+      "gameId": "lol",
+      "name": "薇古丝",
+      "updatedAt": "2026-09-06T18:03:29.333122Z"
+    },
+    "/characters/champion_vex/attributes": {
+      "characterKey": "champion_vex",
+      "levelValues": {
+        "1": {
+          "move_speed": 335,
+          "hp": 590,
+          "hp_regen": 6.5,
+          "mana": 490,
+          "mana_regen": 6,
+          "armor": 23,
+          "magic_resistance": 28,
+          "attack_damage": 54,
+          "attack_speed": 0.669,
+          "attack_range": 550
+        },
+        "2": {
+          "move_speed": 335,
+          "hp": 664.88,
+          "hp_regen": 6.932,
+          "mana": 513.04,
+          "mana_regen": 6.576,
+          "armor": 26.204,
+          "magic_resistance": 28.936,
+          "attack_damage": 55.98,
+          "attack_speed": 0.6735,
+          "attack_range": 550
+        },
+        "3": {
+          "move_speed": 335,
+          "hp": 743.4,
+          "hp_regen": 7.385,
+          "mana": 537.2,
+          "mana_regen": 7.18,
+          "armor": 29.56375,
+          "magic_resistance": 29.9175,
+          "attack_damage": 58.05625,
+          "attack_speed": 0.678219,
+          "attack_range": 550
+        },
+        "4": {
+          "move_speed": 335,
+          "hp": 825.56,
+          "hp_regen": 7.859,
+          "mana": 562.48,
+          "mana_regen": 7.812,
+          "armor": 33.07925,
+          "magic_resistance": 30.9445,
+          "attack_damage": 60.22875,
+          "attack_speed": 0.683156,
+          "attack_range": 550
+        },
+        "5": {
+          "move_speed": 335,
+          "hp": 911.36,
+          "hp_regen": 8.354,
+          "mana": 588.88,
+          "mana_regen": 8.472,
+          "armor": 36.7505,
+          "magic_resistance": 32.017,
+          "attack_damage": 62.4975,
+          "attack_speed": 0.688312,
+          "attack_range": 550
+        },
+        "6": {
+          "move_speed": 335,
+          "hp": 1000.8,
+          "hp_regen": 8.87,
+          "mana": 616.4,
+          "mana_regen": 9.16,
+          "armor": 40.5775,
+          "magic_resistance": 33.135,
+          "attack_damage": 64.8625,
+          "attack_speed": 0.693688,
+          "attack_range": 550
+        },
+        "7": {
+          "move_speed": 335,
+          "hp": 1093.88,
+          "hp_regen": 9.407,
+          "mana": 645.04,
+          "mana_regen": 9.876,
+          "armor": 44.56025,
+          "magic_resistance": 34.2985,
+          "attack_damage": 67.32375,
+          "attack_speed": 0.699281,
+          "attack_range": 550
+        },
+        "8": {
+          "move_speed": 335,
+          "hp": 1190.6,
+          "hp_regen": 9.965,
+          "mana": 674.8,
+          "mana_regen": 10.62,
+          "armor": 48.69875,
+          "magic_resistance": 35.5075,
+          "attack_damage": 69.88125,
+          "attack_speed": 0.705094,
+          "attack_range": 550
+        },
+        "9": {
+          "move_speed": 335,
+          "hp": 1290.96,
+          "hp_regen": 10.544,
+          "mana": 705.68,
+          "mana_regen": 11.392,
+          "armor": 52.993,
+          "magic_resistance": 36.762,
+          "attack_damage": 72.535,
+          "attack_speed": 0.711125,
+          "attack_range": 550
+        },
+        "10": {
+          "move_speed": 335,
+          "hp": 1394.96,
+          "hp_regen": 11.144,
+          "mana": 737.68,
+          "mana_regen": 12.192,
+          "armor": 57.443,
+          "magic_resistance": 38.062,
+          "attack_damage": 75.285,
+          "attack_speed": 0.717375,
+          "attack_range": 550
+        },
+        "11": {
+          "move_speed": 335,
+          "hp": 1502.6,
+          "hp_regen": 11.765,
+          "mana": 770.8,
+          "mana_regen": 13.02,
+          "armor": 62.04875,
+          "magic_resistance": 39.4075,
+          "attack_damage": 78.13125,
+          "attack_speed": 0.723844,
+          "attack_range": 550
+        },
+        "12": {
+          "move_speed": 335,
+          "hp": 1613.88,
+          "hp_regen": 12.407,
+          "mana": 805.04,
+          "mana_regen": 13.876,
+          "armor": 66.81025,
+          "magic_resistance": 40.7985,
+          "attack_damage": 81.07375,
+          "attack_speed": 0.730531,
+          "attack_range": 550
+        },
+        "13": {
+          "move_speed": 335,
+          "hp": 1728.8,
+          "hp_regen": 13.07,
+          "mana": 840.4,
+          "mana_regen": 14.76,
+          "armor": 71.7275,
+          "magic_resistance": 42.235,
+          "attack_damage": 84.1125,
+          "attack_speed": 0.737438,
+          "attack_range": 550
+        },
+        "14": {
+          "move_speed": 335,
+          "hp": 1847.36,
+          "hp_regen": 13.754,
+          "mana": 876.88,
+          "mana_regen": 15.672,
+          "armor": 76.8005,
+          "magic_resistance": 43.717,
+          "attack_damage": 87.2475,
+          "attack_speed": 0.744563,
+          "attack_range": 550
+        },
+        "15": {
+          "move_speed": 335,
+          "hp": 1969.56,
+          "hp_regen": 14.459,
+          "mana": 914.48,
+          "mana_regen": 16.612,
+          "armor": 82.02925,
+          "magic_resistance": 45.2445,
+          "attack_damage": 90.47875,
+          "attack_speed": 0.751906,
+          "attack_range": 550
+        },
+        "16": {
+          "move_speed": 335,
+          "hp": 2095.4,
+          "hp_regen": 15.185,
+          "mana": 953.2,
+          "mana_regen": 17.58,
+          "armor": 87.41375,
+          "magic_resistance": 46.8175,
+          "attack_damage": 93.80625,
+          "attack_speed": 0.759469,
+          "attack_range": 550
+        },
+        "17": {
+          "move_speed": 335,
+          "hp": 2224.88,
+          "hp_regen": 15.932,
+          "mana": 993.04,
+          "mana_regen": 18.576,
+          "armor": 92.954,
+          "magic_resistance": 48.436,
+          "attack_damage": 97.23,
+          "attack_speed": 0.76725,
+          "attack_range": 550
+        },
+        "18": {
+          "move_speed": 335,
+          "hp": 2358,
+          "hp_regen": 16.7,
+          "mana": 1034,
+          "mana_regen": 19.6,
+          "armor": 98.65,
+          "magic_resistance": 50.1,
+          "attack_damage": 100.75,
+          "attack_speed": 0.77525,
+          "attack_range": 550
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_vex/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_champion_vex",
+        "name": "champion_vex"
+      }
+    },
+    "/skills/vex_q/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_vex_q",
+        "name": "vex_q"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_vex": {
+      "items": [
+        {
+          "characterKey": "champion_vex",
+          "characterName": "薇古丝",
+          "gameId": "lol",
+          "skillKey": "vex_p",
+          "skillName": "薇古丝·终焉暮气",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_vex",
+          "characterName": "薇古丝",
+          "gameId": "lol",
+          "skillKey": "vex_q",
+          "skillName": "薇古丝·寒心波云",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_vex",
+          "characterName": "薇古丝",
+          "gameId": "lol",
+          "skillKey": "vex_w",
+          "skillName": "薇古丝·生人勿近",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_vex",
+          "characterName": "薇古丝",
+          "gameId": "lol",
+          "skillKey": "vex_e",
+          "skillName": "薇古丝·溟濛渐染",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_vex",
+          "characterName": "薇古丝",
+          "gameId": "lol",
+          "skillKey": "vex_r",
+          "skillName": "薇古丝·愁煞",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=vex_q": {
+      "items": [
+        {
+          "characterKey": "champion_vex",
+          "characterName": "薇古丝",
+          "gameId": "lol",
+          "skillKey": "vex_q",
+          "skillName": "薇古丝·寒心波云",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        }
+      ],
+      "total": 1
+    },
+    "/skills/vex_q/parameters": [
+      {
+        "createdAt": "2026-09-09T18:46:27.229003Z",
+        "description": "客户端BaseDamage取索引1至5；索引0的25不是等级1。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 115,
+          "3": 160,
+          "4": 205,
+          "5": 250
+        },
+        "name": "基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "vex_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T18:46:27.229003Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T18:46:28.334969Z",
+        "description": "QDamageCalc消费APRatio=0.7×来源总法强。",
+        "fixedValue": 0.7,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法强比例",
+        "parameterKey": "ap_ratio",
+        "skillKey": "vex_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T18:46:28.334969Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T18:46:29.498024Z",
+        "description": "当前根spellCastTime约0.15秒，按来源精度转换为150毫秒。",
+        "fixedValue": 150,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "vex_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T18:46:29.498024Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T02:05:39.238449Z",
+        "description": "DDragon16.17.1 Vex.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 8000,
+          "2": 7000,
+          "3": 6000,
+          "4": 5000,
+          "5": 4000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "vex_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:39.238449Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T02:05:39.631983Z",
+        "description": "DDragon16.17.1 Vex.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 45,
+          "2": 50,
+          "3": 55,
+          "4": 60,
+          "5": 65
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "vex_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:05:39.631983Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/vex_q/parameters/base_damage": {
+      "createdAt": "2026-09-09T18:46:27.229003Z",
+      "description": "客户端BaseDamage取索引1至5；索引0的25不是等级1。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 70,
+        "2": 115,
+        "3": 160,
+        "4": 205,
+        "5": 250
+      },
+      "name": "基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "vex_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T18:46:27.229003Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/vex_q/parameters/ap_ratio": {
+      "createdAt": "2026-09-09T18:46:28.334969Z",
+      "description": "QDamageCalc消费APRatio=0.7×来源总法强。",
+      "fixedValue": 0.7,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法强比例",
+      "parameterKey": "ap_ratio",
+      "skillKey": "vex_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T18:46:28.334969Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/vex_q/parameters/cast_time_ms": {
+      "createdAt": "2026-09-09T18:46:29.498024Z",
+      "description": "当前根spellCastTime约0.15秒，按来源精度转换为150毫秒。",
+      "fixedValue": 150,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "vex_q",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T18:46:29.498024Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/vex_q/parameters/cooldown_ms": {
+      "createdAt": "2026-09-08T02:05:39.238449Z",
+      "description": "DDragon16.17.1 Vex.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 8000,
+        "2": 7000,
+        "3": 6000,
+        "4": 5000,
+        "5": 4000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "vex_q",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-08T02:05:39.238449Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/vex_q/parameters/mana_cost": {
+      "createdAt": "2026-09-08T02:05:39.631983Z",
+      "description": "DDragon16.17.1 Vex.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 45,
+        "2": 50,
+        "3": 55,
+        "4": 60,
+        "5": 65
+      },
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "vex_q",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-08T02:05:39.631983Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/vex_q/formulas": [
+      {
+        "createdAt": "2026-09-09T18:46:30.580052Z",
+        "description": "QDamageCalc = BaseDamage + APRatio×来源总法强；命中后消费暮气由事件接线。",
+        "formulaKey": "magic_damage",
+        "gameId": "lol",
+        "name": "寒心波云魔法伤害",
+        "skillKey": "vex_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T18:46:30.580052Z"
+      }
+    ],
+    "/skills/vex_q/formulas/magic_damage": {
+      "createdAt": "2026-09-09T18:46:30.580052Z",
+      "description": "QDamageCalc = BaseDamage + APRatio×来源总法强；命中后消费暮气由事件接线。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "magic_damage",
+      "gameId": "lol",
+      "name": "寒心波云魔法伤害",
+      "skillKey": "vex_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T18:46:30.580052Z"
+    },
+    "/skills/vex_q/effects": [],
+    "/skills/vex_q/processes": [],
+    "/skills/vex_q/internal-states": [],
+    "/skills/vex_q/trigger-rules": [],
+    "/skills/vex_w": {
+      "createdAt": "2026-09-06T18:20:57.769366Z",
+      "description": "获得一个护盾并伤害附近的敌人们。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "薇古丝·生人勿近",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "vex_w",
+      "sortOrder": 2,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:20:57.769366Z"
+    },
+    "/skills/vex_w/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_vex_w",
+        "name": "vex_w"
+      }
+    },
+    "/character-skill-relations?skillKey=vex_w": {
+      "items": [
+        {
+          "characterKey": "champion_vex",
+          "characterName": "薇古丝",
+          "gameId": "lol",
+          "skillKey": "vex_w",
+          "skillName": "薇古丝·生人勿近",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        }
+      ],
+      "total": 1
+    },
+    "/skills/vex_w/parameters": [
+      {
+        "createdAt": "2026-09-09T18:46:31.671523Z",
+        "description": "客户端ShieldAmount取索引1至5；索引0的25不是等级1。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 50,
+          "2": 75,
+          "3": 100,
+          "4": 125,
+          "5": 150
+        },
+        "name": "基础护盾值",
+        "parameterKey": "base_shield",
+        "skillKey": "vex_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T18:46:31.671523Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T18:46:32.786607Z",
+        "description": "ShieldCalc树的StatByCoefficient=0.75×来源总法强。",
+        "fixedValue": 0.75,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "护盾法强比例",
+        "parameterKey": "shield_ap_ratio",
+        "skillKey": "vex_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T18:46:32.786607Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T18:46:33.900871Z",
+        "description": "客户端BaseDamage取索引1至5；索引0的40不是等级1。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 80,
+          "2": 120,
+          "3": 160,
+          "4": 200,
+          "5": 240
+        },
+        "name": "基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "vex_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T18:46:33.900871Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T18:46:35.063636Z",
+        "description": "WDamageCalc消费DamageAPRatio=0.3×来源总法强。",
+        "fixedValue": 0.3,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "伤害法强比例",
+        "parameterKey": "damage_ap_ratio",
+        "skillKey": "vex_w",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T18:46:35.063636Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T18:46:36.182024Z",
+        "description": "客户端ShieldDuration取索引1的2.5秒，转换为2500毫秒。",
+        "fixedValue": 2500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "护盾持续（毫秒）",
+        "parameterKey": "shield_duration_ms",
+        "skillKey": "vex_w",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T18:46:36.182024Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T18:46:37.515892Z",
+        "description": "客户端AOERadius取索引1。",
+        "fixedValue": 475,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "冲击波范围半径",
+        "parameterKey": "aoe_radius",
+        "skillKey": "vex_w",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T18:46:37.515892Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T18:46:38.692433Z",
+        "description": "客户端BonusAOERadiusVsDashes取索引1；条件事件待接。",
+        "fixedValue": 75,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "针对位移目标的额外范围",
+        "parameterKey": "bonus_aoe_radius_vs_dashes",
+        "skillKey": "vex_w",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-09T18:46:38.692433Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T18:46:39.819566Z",
+        "description": "当前根spellCastTime=0.25秒，转换为250毫秒。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "vex_w",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-09T18:46:39.819566Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T02:05:40.197699Z",
+        "description": "DDragon16.17.1 Vex.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 16000,
+          "2": 15000,
+          "3": 14000,
+          "4": 13000,
+          "5": 12000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "vex_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:40.197699Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T02:05:40.635938Z",
+        "description": "DDragon16.17.1 Vex.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 75,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "vex_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:05:40.635938Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/vex_w/parameters/base_shield": {
+      "createdAt": "2026-09-09T18:46:31.671523Z",
+      "description": "客户端ShieldAmount取索引1至5；索引0的25不是等级1。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 50,
+        "2": 75,
+        "3": 100,
+        "4": 125,
+        "5": 150
+      },
+      "name": "基础护盾值",
+      "parameterKey": "base_shield",
+      "skillKey": "vex_w",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T18:46:31.671523Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/vex_w/parameters/shield_ap_ratio": {
+      "createdAt": "2026-09-09T18:46:32.786607Z",
+      "description": "ShieldCalc树的StatByCoefficient=0.75×来源总法强。",
+      "fixedValue": 0.75,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "护盾法强比例",
+      "parameterKey": "shield_ap_ratio",
+      "skillKey": "vex_w",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T18:46:32.786607Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/vex_w/parameters/base_damage": {
+      "createdAt": "2026-09-09T18:46:33.900871Z",
+      "description": "客户端BaseDamage取索引1至5；索引0的40不是等级1。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 80,
+        "2": 120,
+        "3": 160,
+        "4": 200,
+        "5": 240
+      },
+      "name": "基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "vex_w",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T18:46:33.900871Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/vex_w/parameters/damage_ap_ratio": {
+      "createdAt": "2026-09-09T18:46:35.063636Z",
+      "description": "WDamageCalc消费DamageAPRatio=0.3×来源总法强。",
+      "fixedValue": 0.3,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "伤害法强比例",
+      "parameterKey": "damage_ap_ratio",
+      "skillKey": "vex_w",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T18:46:35.063636Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/vex_w/parameters/shield_duration_ms": {
+      "createdAt": "2026-09-09T18:46:36.182024Z",
+      "description": "客户端ShieldDuration取索引1的2.5秒，转换为2500毫秒。",
+      "fixedValue": 2500,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "护盾持续（毫秒）",
+      "parameterKey": "shield_duration_ms",
+      "skillKey": "vex_w",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T18:46:36.182024Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/vex_w/parameters/aoe_radius": {
+      "createdAt": "2026-09-09T18:46:37.515892Z",
+      "description": "客户端AOERadius取索引1。",
+      "fixedValue": 475,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "冲击波范围半径",
+      "parameterKey": "aoe_radius",
+      "skillKey": "vex_w",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-09T18:46:37.515892Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/vex_w/parameters/bonus_aoe_radius_vs_dashes": {
+      "createdAt": "2026-09-09T18:46:38.692433Z",
+      "description": "客户端BonusAOERadiusVsDashes取索引1；条件事件待接。",
+      "fixedValue": 75,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "针对位移目标的额外范围",
+      "parameterKey": "bonus_aoe_radius_vs_dashes",
+      "skillKey": "vex_w",
+      "sortOrder": 70,
+      "updatedAt": "2026-09-09T18:46:38.692433Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/vex_w/parameters/cast_time_ms": {
+      "createdAt": "2026-09-09T18:46:39.819566Z",
+      "description": "当前根spellCastTime=0.25秒，转换为250毫秒。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "vex_w",
+      "sortOrder": 80,
+      "updatedAt": "2026-09-09T18:46:39.819566Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/vex_w/parameters/cooldown_ms": {
+      "createdAt": "2026-09-08T02:05:40.197699Z",
+      "description": "DDragon16.17.1 Vex.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 16000,
+        "2": 15000,
+        "3": 14000,
+        "4": 13000,
+        "5": 12000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "vex_w",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-08T02:05:40.197699Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/vex_w/parameters/mana_cost": {
+      "createdAt": "2026-09-08T02:05:40.635938Z",
+      "description": "DDragon16.17.1 Vex.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 75,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "vex_w",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-08T02:05:40.635938Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/vex_w/formulas": [
+      {
+        "createdAt": "2026-09-09T18:46:40.937286Z",
+        "description": "ShieldCalc = ShieldAmount + 0.75×来源总法强。",
+        "formulaKey": "shield_value",
+        "gameId": "lol",
+        "name": "生人勿近自身护盾值",
+        "skillKey": "vex_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T18:46:40.937286Z"
+      },
+      {
+        "createdAt": "2026-09-09T18:46:42.087359Z",
+        "description": "WDamageCalc = BaseDamage + DamageAPRatio×来源总法强。",
+        "formulaKey": "magic_damage",
+        "gameId": "lol",
+        "name": "生人勿近唯一敌人魔法伤害",
+        "skillKey": "vex_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T18:46:42.087359Z"
+      }
+    ],
+    "/skills/vex_w/formulas/shield_value": {
+      "createdAt": "2026-09-09T18:46:40.937286Z",
+      "description": "ShieldCalc = ShieldAmount + 0.75×来源总法强。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_shield"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "shield_ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "shield_value",
+      "gameId": "lol",
+      "name": "生人勿近自身护盾值",
+      "skillKey": "vex_w",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T18:46:40.937286Z"
+    },
+    "/skills/vex_w/formulas/magic_damage": {
+      "createdAt": "2026-09-09T18:46:42.087359Z",
+      "description": "WDamageCalc = BaseDamage + DamageAPRatio×来源总法强。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "damage_ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "magic_damage",
+      "gameId": "lol",
+      "name": "生人勿近唯一敌人魔法伤害",
+      "skillKey": "vex_w",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T18:46:42.087359Z"
+    },
+    "/skills/vex_w/effects": [
+      {
+        "createdAt": "2026-09-09T18:46:43.188434Z",
+        "description": "当前正文明确自身护盾，普通护盾吸收类型未限定；命中与暮气消费事件未接线。",
+        "effectKey": "self_shield",
+        "gameId": "lol",
+        "lifecycleEnabled": true,
+        "name": "生人勿近自身护盾",
+        "resultCount": 1,
+        "skillKey": "vex_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T18:46:43.188434Z"
+      }
+    ],
+    "/skills/vex_w/effects/self_shield": {
+      "createdAt": "2026-09-09T18:46:43.188434Z",
+      "description": "当前正文明确自身护盾，普通护盾吸收类型未限定；命中与暮气消费事件未接线。",
+      "effectKey": "self_shield",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "shield_duration_ms"
+        },
+        "expiryMode": "ALL_AT_ONCE",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "生人勿近自身护盾",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "absorbedDamageTypeKey": null,
+            "decayMode": "NONE"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": "REPLACE",
+            "stackValueMode": "SHARED",
+            "valueReadMode": "APPLICATION_SNAPSHOT"
+          },
+          "name": "生人勿近自身护盾",
+          "resultKey": "shield",
+          "resultType": "NORMAL_SHIELD",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "shield_value",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "vex_w",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T18:46:43.188434Z"
+    },
+    "/skills/vex_w/processes": [],
+    "/skills/vex_w/internal-states": [],
+    "/skills/vex_w/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "接收 vex_w 主动使用；无条件在 CURRENT_TARGET 上执行已有 self_shield。self_shield 结果 target=SOURCE，只连接自身护盾，不表达范围伤害、暮气消费或资源消耗。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "生人勿近主动使用",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-12T16:39:51.860191Z"
+      }
+    ],
+    "/skills/vex_w/trigger-rules/on_used": {
+      "actions": [
+        {
+          "actionKey": "execute_self_shield",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "self_shield"
+          },
+          "name": "执行生人勿近自身护盾",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "接收 vex_w 主动使用；无条件在 CURRENT_TARGET 上执行已有 self_shield。self_shield 结果 target=SOURCE，只连接自身护盾，不表达范围伤害、暮气消费或资源消耗。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "vex_w",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "生人勿近主动使用",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used",
+      "sortOrder": 10
+    },
+    "/skills/vex_e": {
+      "createdAt": "2026-09-06T18:20:58.007734Z",
+      "description": "召唤一个伤害性的减速地带，来对敌人们施加【暮气】效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "薇古丝·溟濛渐染",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "vex_e",
+      "sortOrder": 3,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:20:58.007734Z"
+    },
+    "/skills/vex_e/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_vex_e",
+        "name": "vex_e"
+      }
+    },
+    "/character-skill-relations?skillKey=vex_e": {
+      "items": [
+        {
+          "characterKey": "champion_vex",
+          "characterName": "薇古丝",
+          "gameId": "lol",
+          "skillKey": "vex_e",
+          "skillName": "薇古丝·溟濛渐染",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        }
+      ],
+      "total": 1
+    },
+    "/skills/vex_e/parameters": [
+      {
+        "createdAt": "2026-09-09T18:46:44.351Z",
+        "description": "客户端BaseDamage取索引1至5；索引0的30不是等级1。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 50,
+          "2": 70,
+          "3": 90,
+          "4": 110,
+          "5": 130
+        },
+        "name": "基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "vex_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T18:46:44.351Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T18:46:45.446675Z",
+        "description": "客户端APRatio取索引1至5，EDamageCalc按技能等级消费。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.4,
+          "2": 0.45,
+          "3": 0.5,
+          "4": 0.55,
+          "5": 0.6
+        },
+        "name": "法强比例",
+        "parameterKey": "ap_ratio",
+        "skillKey": "vex_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T18:46:45.446675Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T18:46:46.606962Z",
+        "description": "客户端SlowAmount取索引1至5的比例值；当前正文按SlowAmount×100显示百分数。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.3,
+          "2": 0.35,
+          "3": 0.4,
+          "4": 0.45,
+          "5": 0.5
+        },
+        "name": "减速比例",
+        "parameterKey": "slow_ratio",
+        "skillKey": "vex_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T18:46:46.606962Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T18:46:47.71606Z",
+        "description": "客户端SlowDuration取索引1的2秒，转换为2000毫秒。",
+        "fixedValue": 2000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "减速持续（毫秒）",
+        "parameterKey": "slow_duration_ms",
+        "skillKey": "vex_e",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T18:46:47.71606Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T18:46:48.901562Z",
+        "description": "客户端StartingRadius取索引1。",
+        "fixedValue": 200,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "初始范围半径",
+        "parameterKey": "starting_radius",
+        "skillKey": "vex_e",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T18:46:48.901562Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T18:46:50.090777Z",
+        "description": "客户端RadiusGrowthRate取索引1；增长时序待接。",
+        "fixedValue": 13,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "范围增长率",
+        "parameterKey": "radius_growth_rate",
+        "skillKey": "vex_e",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T18:46:50.090777Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T18:46:51.199763Z",
+        "description": "客户端MaxRadius取索引1。",
+        "fixedValue": 300,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "最大范围半径",
+        "parameterKey": "max_radius",
+        "skillKey": "vex_e",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-09T18:46:51.199763Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T18:46:52.345015Z",
+        "description": "当前正文扩展消费GloomCDChampTooltip=0.25；仅英雄击杀条件。",
+        "fixedValue": 0.25,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "击杀英雄后终焉冷却返还比例",
+        "parameterKey": "gloom_champion_cooldown_refund_ratio",
+        "skillKey": "vex_e",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-09T18:46:52.345015Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T18:46:53.476797Z",
+        "description": "当前根spellCastTime=0.25秒，转换为250毫秒。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "vex_e",
+        "sortOrder": 90,
+        "updatedAt": "2026-09-09T18:46:53.476797Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T02:05:41.120798Z",
+        "description": "DDragon16.17.1 Vex.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 12000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "vex_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:41.120798Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T02:05:41.501996Z",
+        "description": "DDragon16.17.1 Vex.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 80,
+          "3": 90,
+          "4": 100,
+          "5": 110
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "vex_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:05:41.501996Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/vex_e/parameters/base_damage": {
+      "createdAt": "2026-09-09T18:46:44.351Z",
+      "description": "客户端BaseDamage取索引1至5；索引0的30不是等级1。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 50,
+        "2": 70,
+        "3": 90,
+        "4": 110,
+        "5": 130
+      },
+      "name": "基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "vex_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T18:46:44.351Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/vex_e/parameters/ap_ratio": {
+      "createdAt": "2026-09-09T18:46:45.446675Z",
+      "description": "客户端APRatio取索引1至5，EDamageCalc按技能等级消费。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 0.4,
+        "2": 0.45,
+        "3": 0.5,
+        "4": 0.55,
+        "5": 0.6
+      },
+      "name": "法强比例",
+      "parameterKey": "ap_ratio",
+      "skillKey": "vex_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T18:46:45.446675Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "DECIMAL"
+    },
+    "/skills/vex_e/parameters/slow_ratio": {
+      "createdAt": "2026-09-09T18:46:46.606962Z",
+      "description": "客户端SlowAmount取索引1至5的比例值；当前正文按SlowAmount×100显示百分数。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 0.3,
+        "2": 0.35,
+        "3": 0.4,
+        "4": 0.45,
+        "5": 0.5
+      },
+      "name": "减速比例",
+      "parameterKey": "slow_ratio",
+      "skillKey": "vex_e",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T18:46:46.606962Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "DECIMAL"
+    },
+    "/skills/vex_e/parameters/slow_duration_ms": {
+      "createdAt": "2026-09-09T18:46:47.71606Z",
+      "description": "客户端SlowDuration取索引1的2秒，转换为2000毫秒。",
+      "fixedValue": 2000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "减速持续（毫秒）",
+      "parameterKey": "slow_duration_ms",
+      "skillKey": "vex_e",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T18:46:47.71606Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/vex_e/parameters/starting_radius": {
+      "createdAt": "2026-09-09T18:46:48.901562Z",
+      "description": "客户端StartingRadius取索引1。",
+      "fixedValue": 200,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "初始范围半径",
+      "parameterKey": "starting_radius",
+      "skillKey": "vex_e",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T18:46:48.901562Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/vex_e/parameters/radius_growth_rate": {
+      "createdAt": "2026-09-09T18:46:50.090777Z",
+      "description": "客户端RadiusGrowthRate取索引1；增长时序待接。",
+      "fixedValue": 13,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "范围增长率",
+      "parameterKey": "radius_growth_rate",
+      "skillKey": "vex_e",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-09T18:46:50.090777Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/vex_e/parameters/max_radius": {
+      "createdAt": "2026-09-09T18:46:51.199763Z",
+      "description": "客户端MaxRadius取索引1。",
+      "fixedValue": 300,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "最大范围半径",
+      "parameterKey": "max_radius",
+      "skillKey": "vex_e",
+      "sortOrder": 70,
+      "updatedAt": "2026-09-09T18:46:51.199763Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/vex_e/parameters/gloom_champion_cooldown_refund_ratio": {
+      "createdAt": "2026-09-09T18:46:52.345015Z",
+      "description": "当前正文扩展消费GloomCDChampTooltip=0.25；仅英雄击杀条件。",
+      "fixedValue": 0.25,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "击杀英雄后终焉冷却返还比例",
+      "parameterKey": "gloom_champion_cooldown_refund_ratio",
+      "skillKey": "vex_e",
+      "sortOrder": 80,
+      "updatedAt": "2026-09-09T18:46:52.345015Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/vex_e/parameters/cast_time_ms": {
+      "createdAt": "2026-09-09T18:46:53.476797Z",
+      "description": "当前根spellCastTime=0.25秒，转换为250毫秒。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "vex_e",
+      "sortOrder": 90,
+      "updatedAt": "2026-09-09T18:46:53.476797Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/vex_e/parameters/cooldown_ms": {
+      "createdAt": "2026-09-08T02:05:41.120798Z",
+      "description": "DDragon16.17.1 Vex.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 12000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "vex_e",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-08T02:05:41.120798Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/vex_e/parameters/mana_cost": {
+      "createdAt": "2026-09-08T02:05:41.501996Z",
+      "description": "DDragon16.17.1 Vex.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 70,
+        "2": 80,
+        "3": 90,
+        "4": 100,
+        "5": 110
+      },
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "vex_e",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-08T02:05:41.501996Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/vex_e/formulas": [
+      {
+        "createdAt": "2026-09-09T18:46:54.638269Z",
+        "description": "EDamageCalc = BaseDamage + APRatio×来源总法强。",
+        "formulaKey": "magic_damage",
+        "gameId": "lol",
+        "name": "溟濛渐染唯一敌人魔法伤害",
+        "skillKey": "vex_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T18:46:54.638269Z"
+      }
+    ],
+    "/skills/vex_e/formulas/magic_damage": {
+      "createdAt": "2026-09-09T18:46:54.638269Z",
+      "description": "EDamageCalc = BaseDamage + APRatio×来源总法强。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "magic_damage",
+      "gameId": "lol",
+      "name": "溟濛渐染唯一敌人魔法伤害",
+      "skillKey": "vex_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T18:46:54.638269Z"
+    },
+    "/skills/vex_e/effects": [],
+    "/skills/vex_e/processes": [],
+    "/skills/vex_e/internal-states": [],
+    "/skills/vex_e/trigger-rules": [],
+    "/skills/bard_q": {
+      "createdAt": "2026-09-06T18:16:33.18787Z",
+      "description": "巴德发射一束能量弹，减速命中的第一个敌人，并继续向前。如果能量弹命中墙体，它还会使首个目标晕眩；如果它命中了另一个敌人，那么它会让这两个敌人都晕眩。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "巴德·星界束缚",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "bard_q",
+      "sortOrder": 1,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:16:33.18787Z"
+    },
+    "/characters/champion_bard": {
+      "characterKey": "champion_bard",
+      "createdAt": "2026-09-06T17:07:02.738704Z",
+      "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+      "gameId": "lol",
+      "name": "巴德",
+      "updatedAt": "2026-09-06T17:07:02.738704Z"
+    },
+    "/characters/champion_bard/attributes": {
+      "characterKey": "champion_bard",
+      "levelValues": {
+        "1": {
+          "move_speed": 335,
+          "hp": 630,
+          "hp_regen": 5.5,
+          "mana": 350,
+          "mana_regen": 6,
+          "armor": 34,
+          "magic_resistance": 30,
+          "attack_damage": 52,
+          "attack_speed": 0.658,
+          "attack_range": 500
+        },
+        "2": {
+          "move_speed": 335,
+          "hp": 704.16,
+          "hp_regen": 5.896,
+          "mana": 386,
+          "mana_regen": 6.324,
+          "armor": 37.6,
+          "magic_resistance": 30.936,
+          "attack_damage": 54.16,
+          "attack_speed": 0.667475,
+          "attack_range": 500
+        },
+        "3": {
+          "move_speed": 335,
+          "hp": 781.925,
+          "hp_regen": 6.31125,
+          "mana": 423.75,
+          "mana_regen": 6.66375,
+          "armor": 41.375,
+          "magic_resistance": 31.9175,
+          "attack_damage": 56.425,
+          "attack_speed": 0.677411,
+          "attack_range": 500
+        },
+        "4": {
+          "move_speed": 335,
+          "hp": 863.295,
+          "hp_regen": 6.74575,
+          "mana": 463.25,
+          "mana_regen": 7.01925,
+          "armor": 45.325,
+          "magic_resistance": 32.9445,
+          "attack_damage": 58.795,
+          "attack_speed": 0.687807,
+          "attack_range": 500
+        },
+        "5": {
+          "move_speed": 335,
+          "hp": 948.27,
+          "hp_regen": 7.1995,
+          "mana": 504.5,
+          "mana_regen": 7.3905,
+          "armor": 49.45,
+          "magic_resistance": 34.017,
+          "attack_damage": 61.27,
+          "attack_speed": 0.698664,
+          "attack_range": 500
+        },
+        "6": {
+          "move_speed": 335,
+          "hp": 1036.85,
+          "hp_regen": 7.6725,
+          "mana": 547.5,
+          "mana_regen": 7.7775,
+          "armor": 53.75,
+          "magic_resistance": 35.135,
+          "attack_damage": 63.85,
+          "attack_speed": 0.709982,
+          "attack_range": 500
+        },
+        "7": {
+          "move_speed": 335,
+          "hp": 1129.035,
+          "hp_regen": 8.16475,
+          "mana": 592.25,
+          "mana_regen": 8.18025,
+          "armor": 58.225,
+          "magic_resistance": 36.2985,
+          "attack_damage": 66.535,
+          "attack_speed": 0.72176,
+          "attack_range": 500
+        },
+        "8": {
+          "move_speed": 335,
+          "hp": 1224.825,
+          "hp_regen": 8.67625,
+          "mana": 638.75,
+          "mana_regen": 8.59875,
+          "armor": 62.875,
+          "magic_resistance": 37.5075,
+          "attack_damage": 69.325,
+          "attack_speed": 0.733999,
+          "attack_range": 500
+        },
+        "9": {
+          "move_speed": 335,
+          "hp": 1324.22,
+          "hp_regen": 9.207,
+          "mana": 687,
+          "mana_regen": 9.033,
+          "armor": 67.7,
+          "magic_resistance": 38.762,
+          "attack_damage": 72.22,
+          "attack_speed": 0.746698,
+          "attack_range": 500
+        },
+        "10": {
+          "move_speed": 335,
+          "hp": 1427.22,
+          "hp_regen": 9.757,
+          "mana": 737,
+          "mana_regen": 9.483,
+          "armor": 72.7,
+          "magic_resistance": 40.062,
+          "attack_damage": 75.22,
+          "attack_speed": 0.759858,
+          "attack_range": 500
+        },
+        "11": {
+          "move_speed": 335,
+          "hp": 1533.825,
+          "hp_regen": 10.32625,
+          "mana": 788.75,
+          "mana_regen": 9.94875,
+          "armor": 77.875,
+          "magic_resistance": 41.4075,
+          "attack_damage": 78.325,
+          "attack_speed": 0.773479,
+          "attack_range": 500
+        },
+        "12": {
+          "move_speed": 335,
+          "hp": 1644.035,
+          "hp_regen": 10.91475,
+          "mana": 842.25,
+          "mana_regen": 10.43025,
+          "armor": 83.225,
+          "magic_resistance": 42.7985,
+          "attack_damage": 81.535,
+          "attack_speed": 0.78756,
+          "attack_range": 500
+        },
+        "13": {
+          "move_speed": 335,
+          "hp": 1757.85,
+          "hp_regen": 11.5225,
+          "mana": 897.5,
+          "mana_regen": 10.9275,
+          "armor": 88.75,
+          "magic_resistance": 44.235,
+          "attack_damage": 84.85,
+          "attack_speed": 0.802102,
+          "attack_range": 500
+        },
+        "14": {
+          "move_speed": 335,
+          "hp": 1875.27,
+          "hp_regen": 12.1495,
+          "mana": 954.5,
+          "mana_regen": 11.4405,
+          "armor": 94.45,
+          "magic_resistance": 45.717,
+          "attack_damage": 88.27,
+          "attack_speed": 0.817104,
+          "attack_range": 500
+        },
+        "15": {
+          "move_speed": 335,
+          "hp": 1996.295,
+          "hp_regen": 12.79575,
+          "mana": 1013.25,
+          "mana_regen": 11.96925,
+          "armor": 100.325,
+          "magic_resistance": 47.2445,
+          "attack_damage": 91.795,
+          "attack_speed": 0.832567,
+          "attack_range": 500
+        },
+        "16": {
+          "move_speed": 335,
+          "hp": 2120.925,
+          "hp_regen": 13.46125,
+          "mana": 1073.75,
+          "mana_regen": 12.51375,
+          "armor": 106.375,
+          "magic_resistance": 48.8175,
+          "attack_damage": 95.425,
+          "attack_speed": 0.848491,
+          "attack_range": 500
+        },
+        "17": {
+          "move_speed": 335,
+          "hp": 2249.16,
+          "hp_regen": 14.146,
+          "mana": 1136,
+          "mana_regen": 13.074,
+          "armor": 112.6,
+          "magic_resistance": 50.436,
+          "attack_damage": 99.16,
+          "attack_speed": 0.864875,
+          "attack_range": 500
+        },
+        "18": {
+          "move_speed": 335,
+          "hp": 2381,
+          "hp_regen": 14.85,
+          "mana": 1200,
+          "mana_regen": 13.65,
+          "armor": 119,
+          "magic_resistance": 52.1,
+          "attack_damage": 103,
+          "attack_speed": 0.88172,
+          "attack_range": 500
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_bard/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_champion_bard",
+        "name": "champion_bard"
+      }
+    },
+    "/skills/bard_q/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_bard_q",
+        "name": "bard_q"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_bard": {
+      "items": [
+        {
+          "characterKey": "champion_bard",
+          "characterName": "巴德",
+          "gameId": "lol",
+          "skillKey": "bard_p",
+          "skillName": "巴德·旅者的召唤",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_bard",
+          "characterName": "巴德",
+          "gameId": "lol",
+          "skillKey": "bard_q",
+          "skillName": "巴德·星界束缚",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_bard",
+          "characterName": "巴德",
+          "gameId": "lol",
+          "skillKey": "bard_w",
+          "skillName": "巴德·游神圣坛",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_bard",
+          "characterName": "巴德",
+          "gameId": "lol",
+          "skillKey": "bard_e",
+          "skillName": "巴德·神奇旅程",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_bard",
+          "characterName": "巴德",
+          "gameId": "lol",
+          "skillKey": "bard_r",
+          "skillName": "巴德·调和命运",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=bard_q": {
+      "items": [
+        {
+          "characterKey": "champion_bard",
+          "characterName": "巴德",
+          "gameId": "lol",
+          "skillKey": "bard_q",
+          "skillName": "巴德·星界束缚",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        }
+      ],
+      "total": 1
+    },
+    "/skills/bard_q/parameters": [
+      {
+        "createdAt": "2026-09-09T21:21:13.670482Z",
+        "description": "技能等级取DataValues索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 80,
+          "2": 120,
+          "3": 160,
+          "4": 200,
+          "5": 240
+        },
+        "name": "基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "bard_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T21:21:13.670482Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T21:21:15.991617Z",
+        "description": "TotalDamage树第二项按来源总法强。",
+        "fixedValue": 0.8000000119,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法强倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "bard_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T21:21:15.991617Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T21:21:18.389212Z",
+        "description": "当前正文显示60%。",
+        "fixedValue": 60,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "减速百分数点",
+        "parameterKey": "slow_percent",
+        "skillKey": "bard_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T21:21:18.389212Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T21:21:20.466075Z",
+        "description": "等级索引1至5，秒转毫秒。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 1000,
+          "2": 1200,
+          "3": 1400,
+          "4": 1600,
+          "5": 1800
+        },
+        "name": "减速持续（毫秒）",
+        "parameterKey": "slow_duration_ms",
+        "skillKey": "bard_q",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T21:21:20.466075Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T21:21:22.697357Z",
+        "description": "等级索引1至5，秒转毫秒。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 1000,
+          "2": 1200,
+          "3": 1400,
+          "4": 1600,
+          "5": 1800
+        },
+        "name": "晕眩持续（毫秒）",
+        "parameterKey": "stun_duration_ms",
+        "skillKey": "bard_q",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T21:21:22.697357Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:36:01.596165Z",
+        "description": "DDragon16.17.1 Bard.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 11000,
+          "2": 10000,
+          "3": 9000,
+          "4": 8000,
+          "5": 7000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "bard_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:36:01.596165Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:36:02.066139Z",
+        "description": "DDragon16.17.1 Bard.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 60,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "bard_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:36:02.066139Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T21:21:26.582168Z",
+        "description": "当前根字段时间转为毫秒；不表示命中时点。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "bard_q",
+        "sortOrder": 999,
+        "updatedAt": "2026-09-09T21:21:26.582168Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/bard_q/parameters/base_damage": {
+      "createdAt": "2026-09-09T21:21:13.670482Z",
+      "description": "技能等级取DataValues索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 80,
+        "2": 120,
+        "3": 160,
+        "4": 200,
+        "5": 240
+      },
+      "name": "基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "bard_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T21:21:13.670482Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/bard_q/parameters/ap_ratio": {
+      "createdAt": "2026-09-09T21:21:15.991617Z",
+      "description": "TotalDamage树第二项按来源总法强。",
+      "fixedValue": 0.8000000119,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法强倍率",
+      "parameterKey": "ap_ratio",
+      "skillKey": "bard_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T21:21:15.991617Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/bard_q/parameters/slow_percent": {
+      "createdAt": "2026-09-09T21:21:18.389212Z",
+      "description": "当前正文显示60%。",
+      "fixedValue": 60,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "减速百分数点",
+      "parameterKey": "slow_percent",
+      "skillKey": "bard_q",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T21:21:18.389212Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/bard_q/parameters/slow_duration_ms": {
+      "createdAt": "2026-09-09T21:21:20.466075Z",
+      "description": "等级索引1至5，秒转毫秒。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 1000,
+        "2": 1200,
+        "3": 1400,
+        "4": 1600,
+        "5": 1800
+      },
+      "name": "减速持续（毫秒）",
+      "parameterKey": "slow_duration_ms",
+      "skillKey": "bard_q",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T21:21:20.466075Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/bard_q/parameters/stun_duration_ms": {
+      "createdAt": "2026-09-09T21:21:22.697357Z",
+      "description": "等级索引1至5，秒转毫秒。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 1000,
+        "2": 1200,
+        "3": 1400,
+        "4": 1600,
+        "5": 1800
+      },
+      "name": "晕眩持续（毫秒）",
+      "parameterKey": "stun_duration_ms",
+      "skillKey": "bard_q",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T21:21:22.697357Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/bard_q/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T18:36:01.596165Z",
+      "description": "DDragon16.17.1 Bard.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 11000,
+        "2": 10000,
+        "3": 9000,
+        "4": 8000,
+        "5": 7000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "bard_q",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T18:36:01.596165Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/bard_q/parameters/mana_cost": {
+      "createdAt": "2026-09-07T18:36:02.066139Z",
+      "description": "DDragon16.17.1 Bard.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 60,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "bard_q",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-07T18:36:02.066139Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/bard_q/parameters/cast_time_ms": {
+      "createdAt": "2026-09-09T21:21:26.582168Z",
+      "description": "当前根字段时间转为毫秒；不表示命中时点。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "bard_q",
+      "sortOrder": 999,
+      "updatedAt": "2026-09-09T21:21:26.582168Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/bard_q/formulas": [
+      {
+        "createdAt": "2026-09-09T21:21:29.327851Z",
+        "description": "对应TotalDamage。",
+        "formulaKey": "total_damage",
+        "gameId": "lol",
+        "name": "星界束缚魔法伤害",
+        "skillKey": "bard_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T21:21:29.327851Z"
+      }
+    ],
+    "/skills/bard_q/formulas/total_damage": {
+      "createdAt": "2026-09-09T21:21:29.327851Z",
+      "description": "对应TotalDamage。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "total_damage",
+      "gameId": "lol",
+      "name": "星界束缚魔法伤害",
+      "skillKey": "bard_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T21:21:29.327851Z"
+    },
+    "/skills/bard_q/effects": [
+      {
+        "createdAt": "2026-09-09T21:21:31.122551Z",
+        "description": "复用冻结公共法力参数；仅记录基础资源消耗，实际扣除时点由事件层接线。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "bard_q",
+        "sortOrder": 900,
+        "updatedAt": "2026-09-09T21:21:31.122551Z"
+      }
+    ],
+    "/skills/bard_q/effects/mana_cost": {
+      "createdAt": "2026-09-09T21:21:31.122551Z",
+      "description": "复用冻结公共法力参数；仅记录基础资源消耗，实际扣除时点由事件层接线。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": "不表示战斗事件已经接线。",
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "施放资源消耗",
+          "resultKey": "consume_resource",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "bard_q",
+      "sortOrder": 900,
+      "updatedAt": "2026-09-09T21:21:31.122551Z"
+    },
+    "/skills/bard_q/processes": [],
+    "/skills/bard_q/internal-states": [],
+    "/skills/bard_q/trigger-rules": [],
+    "/skills/akali_q": {
+      "createdAt": "2026-09-06T18:16:15.514084Z",
+      "description": "阿卡丽掷出五枚苦无，基于她的额外攻击力和法术强度来造成伤害，并造成减速效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "阿卡丽·我流奥义！寒影",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "akali_q",
+      "sortOrder": 1,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:16:15.514084Z"
+    },
+    "/characters/champion_akali": {
+      "characterKey": "champion_akali",
+      "createdAt": "2026-09-06T17:01:54.483799Z",
+      "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+      "gameId": "lol",
+      "name": "阿卡丽",
+      "updatedAt": "2026-09-06T17:01:54.483799Z"
+    },
+    "/characters/champion_akali/attributes": {
+      "characterKey": "champion_akali",
+      "levelValues": {
+        "1": {
+          "move_speed": 345,
+          "hp": 600,
+          "hp_regen": 9,
+          "armor": 23,
+          "magic_resistance": 37,
+          "attack_damage": 62,
+          "attack_speed": 0.625,
+          "attack_range": 125
+        },
+        "2": {
+          "move_speed": 345,
+          "hp": 685.68,
+          "hp_regen": 9.648,
+          "armor": 26.384,
+          "magic_resistance": 38.476,
+          "attack_damage": 64.376,
+          "attack_speed": 0.6394,
+          "attack_range": 125
+        },
+        "3": {
+          "move_speed": 345,
+          "hp": 775.525,
+          "hp_regen": 10.3275,
+          "armor": 29.9325,
+          "magic_resistance": 40.02375,
+          "attack_damage": 66.8675,
+          "attack_speed": 0.6545,
+          "attack_range": 125
+        },
+        "4": {
+          "move_speed": 345,
+          "hp": 869.535,
+          "hp_regen": 11.0385,
+          "armor": 33.6455,
+          "magic_resistance": 41.64325,
+          "attack_damage": 69.4745,
+          "attack_speed": 0.6703,
+          "attack_range": 125
+        },
+        "5": {
+          "move_speed": 345,
+          "hp": 967.71,
+          "hp_regen": 11.781,
+          "armor": 37.523,
+          "magic_resistance": 43.3345,
+          "attack_damage": 72.197,
+          "attack_speed": 0.6868,
+          "attack_range": 125
+        },
+        "6": {
+          "move_speed": 345,
+          "hp": 1070.05,
+          "hp_regen": 12.555,
+          "armor": 41.565,
+          "magic_resistance": 45.0975,
+          "attack_damage": 75.035,
+          "attack_speed": 0.704,
+          "attack_range": 125
+        },
+        "7": {
+          "move_speed": 345,
+          "hp": 1176.555,
+          "hp_regen": 13.3605,
+          "armor": 45.7715,
+          "magic_resistance": 46.93225,
+          "attack_damage": 77.9885,
+          "attack_speed": 0.7219,
+          "attack_range": 125
+        },
+        "8": {
+          "move_speed": 345,
+          "hp": 1287.225,
+          "hp_regen": 14.1975,
+          "armor": 50.1425,
+          "magic_resistance": 48.83875,
+          "attack_damage": 81.0575,
+          "attack_speed": 0.7405,
+          "attack_range": 125
+        },
+        "9": {
+          "move_speed": 345,
+          "hp": 1402.06,
+          "hp_regen": 15.066,
+          "armor": 54.678,
+          "magic_resistance": 50.817,
+          "attack_damage": 84.242,
+          "attack_speed": 0.7598,
+          "attack_range": 125
+        },
+        "10": {
+          "move_speed": 345,
+          "hp": 1521.06,
+          "hp_regen": 15.966,
+          "armor": 59.378,
+          "magic_resistance": 52.867,
+          "attack_damage": 87.542,
+          "attack_speed": 0.7798,
+          "attack_range": 125
+        },
+        "11": {
+          "move_speed": 345,
+          "hp": 1644.225,
+          "hp_regen": 16.8975,
+          "armor": 64.2425,
+          "magic_resistance": 54.98875,
+          "attack_damage": 90.9575,
+          "attack_speed": 0.8005,
+          "attack_range": 125
+        },
+        "12": {
+          "move_speed": 345,
+          "hp": 1771.555,
+          "hp_regen": 17.8605,
+          "armor": 69.2715,
+          "magic_resistance": 57.18225,
+          "attack_damage": 94.4885,
+          "attack_speed": 0.8219,
+          "attack_range": 125
+        },
+        "13": {
+          "move_speed": 345,
+          "hp": 1903.05,
+          "hp_regen": 18.855,
+          "armor": 74.465,
+          "magic_resistance": 59.4475,
+          "attack_damage": 98.135,
+          "attack_speed": 0.844,
+          "attack_range": 125
+        },
+        "14": {
+          "move_speed": 345,
+          "hp": 2038.71,
+          "hp_regen": 19.881,
+          "armor": 79.823,
+          "magic_resistance": 61.7845,
+          "attack_damage": 101.897,
+          "attack_speed": 0.8668,
+          "attack_range": 125
+        },
+        "15": {
+          "move_speed": 345,
+          "hp": 2178.535,
+          "hp_regen": 20.9385,
+          "armor": 85.3455,
+          "magic_resistance": 64.19325,
+          "attack_damage": 105.7745,
+          "attack_speed": 0.8903,
+          "attack_range": 125
+        },
+        "16": {
+          "move_speed": 345,
+          "hp": 2322.525,
+          "hp_regen": 22.0275,
+          "armor": 91.0325,
+          "magic_resistance": 66.67375,
+          "attack_damage": 109.7675,
+          "attack_speed": 0.9145,
+          "attack_range": 125
+        },
+        "17": {
+          "move_speed": 345,
+          "hp": 2470.68,
+          "hp_regen": 23.148,
+          "armor": 96.884,
+          "magic_resistance": 69.226,
+          "attack_damage": 113.876,
+          "attack_speed": 0.9394,
+          "attack_range": 125
+        },
+        "18": {
+          "move_speed": 345,
+          "hp": 2623,
+          "hp_regen": 24.3,
+          "armor": 102.9,
+          "magic_resistance": 71.85,
+          "attack_damage": 118.1,
+          "attack_speed": 0.965,
+          "attack_range": 125
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_akali/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_champion_akali",
+        "name": "champion_akali"
+      }
+    },
+    "/skills/akali_q/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_akali_q",
+        "name": "akali_q"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_akali": {
+      "items": [
+        {
+          "characterKey": "champion_akali",
+          "characterName": "阿卡丽",
+          "gameId": "lol",
+          "skillKey": "akali_p",
+          "skillName": "阿卡丽·我流忍法！潜龙印",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_akali",
+          "characterName": "阿卡丽",
+          "gameId": "lol",
+          "skillKey": "akali_q",
+          "skillName": "阿卡丽·我流奥义！寒影",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_akali",
+          "characterName": "阿卡丽",
+          "gameId": "lol",
+          "skillKey": "akali_w",
+          "skillName": "阿卡丽·我流奥义！霞阵",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_akali",
+          "characterName": "阿卡丽",
+          "gameId": "lol",
+          "skillKey": "akali_e",
+          "skillName": "阿卡丽·我流奥义！隼舞",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_akali",
+          "characterName": "阿卡丽",
+          "gameId": "lol",
+          "skillKey": "akali_r",
+          "skillName": "阿卡丽·我流秘奥义！表里杀缭乱",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=akali_q": {
+      "items": [
+        {
+          "characterKey": "champion_akali",
+          "characterName": "阿卡丽",
+          "gameId": "lol",
+          "skillKey": "akali_q",
+          "skillName": "阿卡丽·我流奥义！寒影",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        }
+      ],
+      "total": 1
+    },
+    "/skills/akali_q/parameters": [
+      {
+        "createdAt": "2026-09-09T05:41:56.132856Z",
+        "description": "官方英雄资源类型Energy；当前根manaValues仅为通用成本字段名称，不代表本角色用法力。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 110,
+          "2": 100,
+          "3": 90,
+          "4": 80,
+          "5": 70
+        },
+        "name": "基础能量消耗",
+        "parameterKey": "energy_cost",
+        "skillKey": "akali_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T05:41:56.132856Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T05:41:57.057956Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamageNamed 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 45,
+          "2": 70,
+          "3": 95,
+          "4": 120,
+          "5": 145
+        },
+        "name": "基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "akali_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T05:41:57.057956Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T05:41:58.075621Z",
+        "description": "客户端当前根绑定 DataValues.tADRatio 取索引1至5。",
+        "fixedValue": 0.65,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "总攻击力系数",
+        "parameterKey": "total_ad_ratio",
+        "skillKey": "akali_q",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T05:41:58.075621Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T05:41:59.090596Z",
+        "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+        "fixedValue": 0.6,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法强系数",
+        "parameterKey": "ap_ratio",
+        "skillKey": "akali_q",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T05:41:59.090596Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T05:41:59.94557Z",
+        "description": "客户端当前根绑定 DataValues.SlowDuration 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+        "fixedValue": 500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "减速持续（毫秒）",
+        "parameterKey": "slow_duration_ms",
+        "skillKey": "akali_q",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T05:41:59.94557Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T05:42:00.80427Z",
+        "description": "客户端当前根绑定 DataValues.SlowPercentage 取索引1至5。",
+        "fixedValue": 0.5,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "减速比例",
+        "parameterKey": "slow_ratio",
+        "skillKey": "akali_q",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-09T05:42:00.80427Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T18:35:47.439303Z",
+        "description": "DDragon16.17.1 Akali.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 1500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "akali_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:35:47.439303Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/akali_q/parameters/energy_cost": {
+      "createdAt": "2026-09-09T05:41:56.132856Z",
+      "description": "官方英雄资源类型Energy；当前根manaValues仅为通用成本字段名称，不代表本角色用法力。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 110,
+        "2": 100,
+        "3": 90,
+        "4": 80,
+        "5": 70
+      },
+      "name": "基础能量消耗",
+      "parameterKey": "energy_cost",
+      "skillKey": "akali_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T05:41:56.132856Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/akali_q/parameters/base_damage": {
+      "createdAt": "2026-09-09T05:41:57.057956Z",
+      "description": "客户端当前根绑定 DataValues.BaseDamageNamed 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 45,
+        "2": 70,
+        "3": 95,
+        "4": 120,
+        "5": 145
+      },
+      "name": "基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "akali_q",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T05:41:57.057956Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/akali_q/parameters/total_ad_ratio": {
+      "createdAt": "2026-09-09T05:41:58.075621Z",
+      "description": "客户端当前根绑定 DataValues.tADRatio 取索引1至5。",
+      "fixedValue": 0.65,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "总攻击力系数",
+      "parameterKey": "total_ad_ratio",
+      "skillKey": "akali_q",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T05:41:58.075621Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/akali_q/parameters/ap_ratio": {
+      "createdAt": "2026-09-09T05:41:59.090596Z",
+      "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+      "fixedValue": 0.6,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法强系数",
+      "parameterKey": "ap_ratio",
+      "skillKey": "akali_q",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T05:41:59.090596Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/akali_q/parameters/slow_duration_ms": {
+      "createdAt": "2026-09-09T05:41:59.94557Z",
+      "description": "客户端当前根绑定 DataValues.SlowDuration 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+      "fixedValue": 500,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "减速持续（毫秒）",
+      "parameterKey": "slow_duration_ms",
+      "skillKey": "akali_q",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-09T05:41:59.94557Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/akali_q/parameters/slow_ratio": {
+      "createdAt": "2026-09-09T05:42:00.80427Z",
+      "description": "客户端当前根绑定 DataValues.SlowPercentage 取索引1至5。",
+      "fixedValue": 0.5,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "减速比例",
+      "parameterKey": "slow_ratio",
+      "skillKey": "akali_q",
+      "sortOrder": 70,
+      "updatedAt": "2026-09-09T05:42:00.80427Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/akali_q/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T18:35:47.439303Z",
+      "description": "DDragon16.17.1 Akali.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 1500,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "akali_q",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T18:35:47.439303Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/akali_q/formulas": [
+      {
+        "createdAt": "2026-09-09T05:42:01.667106Z",
+        "description": "当前根总AD系数与法强系数明确；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "苦无魔法伤害",
+        "skillKey": "akali_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T05:42:01.667106Z"
+      }
+    ],
+    "/skills/akali_q/formulas/damage": {
+      "createdAt": "2026-09-09T05:42:01.667106Z",
+      "description": "当前根总AD系数与法强系数明确；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "attributeKey": "attack_damage",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL",
+                    "nodeType": "ATTRIBUTE"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "total_ad_ratio"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "苦无魔法伤害",
+      "skillKey": "akali_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T05:42:01.667106Z"
+    },
+    "/skills/akali_q/effects": [
+      {
+        "createdAt": "2026-09-09T05:42:02.538323Z",
+        "description": "阿卡丽消耗能量；不创建法力消费。",
+        "effectKey": "energy_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "基础能量消耗",
+        "resultCount": 1,
+        "skillKey": "akali_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T05:42:02.538323Z"
+      }
+    ],
+    "/skills/akali_q/effects/energy_cost": {
+      "createdAt": "2026-09-09T05:42:02.538323Z",
+      "description": "阿卡丽消耗能量；不创建法力消费。",
+      "effectKey": "energy_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "基础能量消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "energy",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "基础能量消耗",
+          "resultKey": "resource",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "energy_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "akali_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T05:42:02.538323Z"
+    },
+    "/skills/akali_q/processes": [],
+    "/skills/akali_q/internal-states": [],
+    "/skills/akali_q/trigger-rules": [],
+    "/skills/katarina_q": {
+      "createdAt": "2026-09-06T18:18:54.415377Z",
+      "description": "卡特琳娜朝敌人扔出一把<font color='#FFF673'>匕首</font>，<font color='#FFF673'>匕首</font>会弹射到附近敌人身上，然后落到地面上。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "卡特琳娜·弹射之刃",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "katarina_q",
+      "sortOrder": 1,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:18:54.415377Z"
+    },
+    "/characters/champion_katarina": {
+      "characterKey": "champion_katarina",
+      "createdAt": "2026-09-06T17:24:21.055735Z",
+      "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+      "gameId": "lol",
+      "name": "卡特琳娜",
+      "updatedAt": "2026-09-06T17:24:21.055735Z"
+    },
+    "/characters/champion_katarina/attributes": {
+      "characterKey": "champion_katarina",
+      "levelValues": {
+        "1": {
+          "move_speed": 335,
+          "hp": 672,
+          "hp_regen": 7.5,
+          "armor": 32,
+          "magic_resistance": 32,
+          "attack_damage": 58,
+          "attack_speed": 0.658,
+          "attack_range": 125
+        },
+        "2": {
+          "move_speed": 335,
+          "hp": 749.76,
+          "hp_regen": 8.004,
+          "armor": 35.384,
+          "magic_resistance": 33.476,
+          "attack_damage": 60.304,
+          "attack_speed": 0.670981,
+          "attack_range": 125
+        },
+        "3": {
+          "move_speed": 335,
+          "hp": 831.3,
+          "hp_regen": 8.5325,
+          "armor": 38.9325,
+          "magic_resistance": 35.02375,
+          "attack_damage": 62.72,
+          "attack_speed": 0.684593,
+          "attack_range": 125
+        },
+        "4": {
+          "move_speed": 335,
+          "hp": 916.62,
+          "hp_regen": 9.0855,
+          "armor": 42.6455,
+          "magic_resistance": 36.64325,
+          "attack_damage": 65.248,
+          "attack_speed": 0.698836,
+          "attack_range": 125
+        },
+        "5": {
+          "move_speed": 335,
+          "hp": 1005.72,
+          "hp_regen": 9.663,
+          "armor": 46.523,
+          "magic_resistance": 38.3345,
+          "attack_damage": 67.888,
+          "attack_speed": 0.71371,
+          "attack_range": 125
+        },
+        "6": {
+          "move_speed": 335,
+          "hp": 1098.6,
+          "hp_regen": 10.265,
+          "armor": 50.565,
+          "magic_resistance": 40.0975,
+          "attack_damage": 70.64,
+          "attack_speed": 0.729215,
+          "attack_range": 125
+        },
+        "7": {
+          "move_speed": 335,
+          "hp": 1195.26,
+          "hp_regen": 10.8915,
+          "armor": 54.7715,
+          "magic_resistance": 41.93225,
+          "attack_damage": 73.504,
+          "attack_speed": 0.745351,
+          "attack_range": 125
+        },
+        "8": {
+          "move_speed": 335,
+          "hp": 1295.7,
+          "hp_regen": 11.5425,
+          "armor": 59.1425,
+          "magic_resistance": 43.83875,
+          "attack_damage": 76.48,
+          "attack_speed": 0.762119,
+          "attack_range": 125
+        },
+        "9": {
+          "move_speed": 335,
+          "hp": 1399.92,
+          "hp_regen": 12.218,
+          "armor": 63.678,
+          "magic_resistance": 45.817,
+          "attack_damage": 79.568,
+          "attack_speed": 0.779517,
+          "attack_range": 125
+        },
+        "10": {
+          "move_speed": 335,
+          "hp": 1507.92,
+          "hp_regen": 12.918,
+          "armor": 68.378,
+          "magic_resistance": 47.867,
+          "attack_damage": 82.768,
+          "attack_speed": 0.797546,
+          "attack_range": 125
+        },
+        "11": {
+          "move_speed": 335,
+          "hp": 1619.7,
+          "hp_regen": 13.6425,
+          "armor": 73.2425,
+          "magic_resistance": 49.98875,
+          "attack_damage": 86.08,
+          "attack_speed": 0.816206,
+          "attack_range": 125
+        },
+        "12": {
+          "move_speed": 335,
+          "hp": 1735.26,
+          "hp_regen": 14.3915,
+          "armor": 78.2715,
+          "magic_resistance": 52.18225,
+          "attack_damage": 89.504,
+          "attack_speed": 0.835497,
+          "attack_range": 125
+        },
+        "13": {
+          "move_speed": 335,
+          "hp": 1854.6,
+          "hp_regen": 15.165,
+          "armor": 83.465,
+          "magic_resistance": 54.4475,
+          "attack_damage": 93.04,
+          "attack_speed": 0.85542,
+          "attack_range": 125
+        },
+        "14": {
+          "move_speed": 335,
+          "hp": 1977.72,
+          "hp_regen": 15.963,
+          "armor": 88.823,
+          "magic_resistance": 56.7845,
+          "attack_damage": 96.688,
+          "attack_speed": 0.875973,
+          "attack_range": 125
+        },
+        "15": {
+          "move_speed": 335,
+          "hp": 2104.62,
+          "hp_regen": 16.7855,
+          "armor": 94.3455,
+          "magic_resistance": 59.19325,
+          "attack_damage": 100.448,
+          "attack_speed": 0.897157,
+          "attack_range": 125
+        },
+        "16": {
+          "move_speed": 335,
+          "hp": 2235.3,
+          "hp_regen": 17.6325,
+          "armor": 100.0325,
+          "magic_resistance": 61.67375,
+          "attack_damage": 104.32,
+          "attack_speed": 0.918973,
+          "attack_range": 125
+        },
+        "17": {
+          "move_speed": 335,
+          "hp": 2369.76,
+          "hp_regen": 18.504,
+          "armor": 105.884,
+          "magic_resistance": 64.226,
+          "attack_damage": 108.304,
+          "attack_speed": 0.941419,
+          "attack_range": 125
+        },
+        "18": {
+          "move_speed": 335,
+          "hp": 2508,
+          "hp_regen": 19.4,
+          "armor": 111.9,
+          "magic_resistance": 66.85,
+          "attack_damage": 112.4,
+          "attack_speed": 0.964496,
+          "attack_range": 125
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_katarina/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_champion_katarina",
+        "name": "champion_katarina"
+      }
+    },
+    "/skills/katarina_q/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_katarina_q",
+        "name": "katarina_q"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_katarina": {
+      "items": [
+        {
+          "characterKey": "champion_katarina",
+          "characterName": "卡特琳娜",
+          "gameId": "lol",
+          "skillKey": "katarina_p",
+          "skillName": "卡特琳娜·贪婪",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_katarina",
+          "characterName": "卡特琳娜",
+          "gameId": "lol",
+          "skillKey": "katarina_q",
+          "skillName": "卡特琳娜·弹射之刃",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_katarina",
+          "characterName": "卡特琳娜",
+          "gameId": "lol",
+          "skillKey": "katarina_w",
+          "skillName": "卡特琳娜·伺机待发",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_katarina",
+          "characterName": "卡特琳娜",
+          "gameId": "lol",
+          "skillKey": "katarina_e",
+          "skillName": "卡特琳娜·瞬步",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_katarina",
+          "characterName": "卡特琳娜",
+          "gameId": "lol",
+          "skillKey": "katarina_r",
+          "skillName": "卡特琳娜·死亡莲华",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=katarina_q": {
+      "items": [
+        {
+          "characterKey": "champion_katarina",
+          "characterName": "卡特琳娜",
+          "gameId": "lol",
+          "skillKey": "katarina_q",
+          "skillName": "卡特琳娜·弹射之刃",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        }
+      ],
+      "total": 1
+    },
+    "/skills/katarina_q/parameters": [
+      {
+        "createdAt": "2026-09-09T18:44:42.888056Z",
+        "description": "客户端BaseDamage取索引1至5；索引0的45不是技能等级1。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 80,
+          "2": 115,
+          "3": 150,
+          "4": 185,
+          "5": 220
+        },
+        "name": "基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "katarina_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T18:44:42.888056Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T18:44:44.094063Z",
+        "description": "客户端BounceOffset取索引1；仅保留弹射几何参数。",
+        "fixedValue": 350,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "弹射偏移距离",
+        "parameterKey": "bounce_offset",
+        "skillKey": "katarina_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T18:44:44.094063Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T18:44:45.237029Z",
+        "description": "TotalDamage树的QAPRatio项读取来源总法强。",
+        "fixedValue": 0.4,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法强比例",
+        "parameterKey": "ap_ratio",
+        "skillKey": "katarina_q",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T18:44:45.237029Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T18:44:46.362246Z",
+        "description": "当前根spellCastTime=0.25秒，转换为250毫秒。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "katarina_q",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T18:44:46.362246Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T01:02:34.766053Z",
+        "description": "DDragon16.17.1 Katarina.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 11000,
+          "2": 10000,
+          "3": 9000,
+          "4": 8000,
+          "5": 7000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "katarina_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T01:02:34.766053Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/katarina_q/parameters/base_damage": {
+      "createdAt": "2026-09-09T18:44:42.888056Z",
+      "description": "客户端BaseDamage取索引1至5；索引0的45不是技能等级1。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 80,
+        "2": 115,
+        "3": 150,
+        "4": 185,
+        "5": 220
+      },
+      "name": "基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "katarina_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T18:44:42.888056Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/katarina_q/parameters/bounce_offset": {
+      "createdAt": "2026-09-09T18:44:44.094063Z",
+      "description": "客户端BounceOffset取索引1；仅保留弹射几何参数。",
+      "fixedValue": 350,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "弹射偏移距离",
+      "parameterKey": "bounce_offset",
+      "skillKey": "katarina_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T18:44:44.094063Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/katarina_q/parameters/ap_ratio": {
+      "createdAt": "2026-09-09T18:44:45.237029Z",
+      "description": "TotalDamage树的QAPRatio项读取来源总法强。",
+      "fixedValue": 0.4,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法强比例",
+      "parameterKey": "ap_ratio",
+      "skillKey": "katarina_q",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T18:44:45.237029Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/katarina_q/parameters/cast_time_ms": {
+      "createdAt": "2026-09-09T18:44:46.362246Z",
+      "description": "当前根spellCastTime=0.25秒，转换为250毫秒。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "katarina_q",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-09T18:44:46.362246Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/katarina_q/parameters/cooldown_ms": {
+      "createdAt": "2026-09-08T01:02:34.766053Z",
+      "description": "DDragon16.17.1 Katarina.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 11000,
+        "2": 10000,
+        "3": 9000,
+        "4": 8000,
+        "5": 7000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "katarina_q",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-08T01:02:34.766053Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/katarina_q/formulas": [
+      {
+        "createdAt": "2026-09-09T18:44:47.548225Z",
+        "description": "TotalDamage = BaseDamage + QAPRatio×来源总法强；只表示唯一敌人单次载体。",
+        "formulaKey": "magic_damage",
+        "gameId": "lol",
+        "name": "弹射之刃魔法伤害",
+        "skillKey": "katarina_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T18:44:47.548225Z"
+      }
+    ],
+    "/skills/katarina_q/formulas/magic_damage": {
+      "createdAt": "2026-09-09T18:44:47.548225Z",
+      "description": "TotalDamage = BaseDamage + QAPRatio×来源总法强；只表示唯一敌人单次载体。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "magic_damage",
+      "gameId": "lol",
+      "name": "弹射之刃魔法伤害",
+      "skillKey": "katarina_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T18:44:47.548225Z"
+    },
+    "/skills/katarina_q/effects": [],
+    "/skills/katarina_q/processes": [],
+    "/skills/katarina_q/internal-states": [],
+    "/skills/katarina_q/trigger-rules": [],
+    "/skills/syndra_q": {
+      "createdAt": "2026-09-06T18:20:31.243811Z",
+      "description": "辛德拉幻化出一个造成魔法伤害的暗黑法球。法球会存留，并且被她的其它能力所操纵。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "辛德拉·暗黑法球",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "syndra_q",
+      "sortOrder": 1,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:20:31.243811Z"
+    },
+    "/characters/champion_syndra": {
+      "characterKey": "champion_syndra",
+      "createdAt": "2026-09-06T17:47:11.105886Z",
+      "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+      "gameId": "lol",
+      "name": "辛德拉",
+      "updatedAt": "2026-09-06T17:47:11.105886Z"
+    },
+    "/characters/champion_syndra/attributes": {
+      "characterKey": "champion_syndra",
+      "levelValues": {
+        "1": {
+          "move_speed": 330,
+          "hp": 583,
+          "hp_regen": 6.5,
+          "mana": 480,
+          "mana_regen": 8,
+          "armor": 25,
+          "magic_resistance": 30,
+          "attack_damage": 54,
+          "attack_speed": 0.658,
+          "attack_range": 550
+        },
+        "2": {
+          "move_speed": 330,
+          "hp": 655,
+          "hp_regen": 6.932,
+          "mana": 508.8,
+          "mana_regen": 8.576,
+          "armor": 27.88,
+          "magic_resistance": 30.936,
+          "attack_damage": 56.088,
+          "attack_speed": 0.667,
+          "attack_range": 550
+        },
+        "3": {
+          "move_speed": 330,
+          "hp": 730.5,
+          "hp_regen": 7.385,
+          "mana": 539,
+          "mana_regen": 9.18,
+          "armor": 30.9,
+          "magic_resistance": 31.9175,
+          "attack_damage": 58.2775,
+          "attack_speed": 0.676438,
+          "attack_range": 550
+        },
+        "4": {
+          "move_speed": 330,
+          "hp": 809.5,
+          "hp_regen": 7.859,
+          "mana": 570.6,
+          "mana_regen": 9.812,
+          "armor": 34.06,
+          "magic_resistance": 32.9445,
+          "attack_damage": 60.5685,
+          "attack_speed": 0.686312,
+          "attack_range": 550
+        },
+        "5": {
+          "move_speed": 330,
+          "hp": 892,
+          "hp_regen": 8.354,
+          "mana": 603.6,
+          "mana_regen": 10.472,
+          "armor": 37.36,
+          "magic_resistance": 34.017,
+          "attack_damage": 62.961,
+          "attack_speed": 0.696625,
+          "attack_range": 550
+        },
+        "6": {
+          "move_speed": 330,
+          "hp": 978,
+          "hp_regen": 8.87,
+          "mana": 638,
+          "mana_regen": 11.16,
+          "armor": 40.8,
+          "magic_resistance": 35.135,
+          "attack_damage": 65.455,
+          "attack_speed": 0.707375,
+          "attack_range": 550
+        },
+        "7": {
+          "move_speed": 330,
+          "hp": 1067.5,
+          "hp_regen": 9.407,
+          "mana": 673.8,
+          "mana_regen": 11.876,
+          "armor": 44.38,
+          "magic_resistance": 36.2985,
+          "attack_damage": 68.0505,
+          "attack_speed": 0.718562,
+          "attack_range": 550
+        },
+        "8": {
+          "move_speed": 330,
+          "hp": 1160.5,
+          "hp_regen": 9.965,
+          "mana": 711,
+          "mana_regen": 12.62,
+          "armor": 48.1,
+          "magic_resistance": 37.5075,
+          "attack_damage": 70.7475,
+          "attack_speed": 0.730187,
+          "attack_range": 550
+        },
+        "9": {
+          "move_speed": 330,
+          "hp": 1257,
+          "hp_regen": 10.544,
+          "mana": 749.6,
+          "mana_regen": 13.392,
+          "armor": 51.96,
+          "magic_resistance": 38.762,
+          "attack_damage": 73.546,
+          "attack_speed": 0.74225,
+          "attack_range": 550
+        },
+        "10": {
+          "move_speed": 330,
+          "hp": 1357,
+          "hp_regen": 11.144,
+          "mana": 789.6,
+          "mana_regen": 14.192,
+          "armor": 55.96,
+          "magic_resistance": 40.062,
+          "attack_damage": 76.446,
+          "attack_speed": 0.75475,
+          "attack_range": 550
+        },
+        "11": {
+          "move_speed": 330,
+          "hp": 1460.5,
+          "hp_regen": 11.765,
+          "mana": 831,
+          "mana_regen": 15.02,
+          "armor": 60.1,
+          "magic_resistance": 41.4075,
+          "attack_damage": 79.4475,
+          "attack_speed": 0.767688,
+          "attack_range": 550
+        },
+        "12": {
+          "move_speed": 330,
+          "hp": 1567.5,
+          "hp_regen": 12.407,
+          "mana": 873.8,
+          "mana_regen": 15.876,
+          "armor": 64.38,
+          "magic_resistance": 42.7985,
+          "attack_damage": 82.5505,
+          "attack_speed": 0.781062,
+          "attack_range": 550
+        },
+        "13": {
+          "move_speed": 330,
+          "hp": 1678,
+          "hp_regen": 13.07,
+          "mana": 918,
+          "mana_regen": 16.76,
+          "armor": 68.8,
+          "magic_resistance": 44.235,
+          "attack_damage": 85.755,
+          "attack_speed": 0.794875,
+          "attack_range": 550
+        },
+        "14": {
+          "move_speed": 330,
+          "hp": 1792,
+          "hp_regen": 13.754,
+          "mana": 963.6,
+          "mana_regen": 17.672,
+          "armor": 73.36,
+          "magic_resistance": 45.717,
+          "attack_damage": 89.061,
+          "attack_speed": 0.809125,
+          "attack_range": 550
+        },
+        "15": {
+          "move_speed": 330,
+          "hp": 1909.5,
+          "hp_regen": 14.459,
+          "mana": 1010.6,
+          "mana_regen": 18.612,
+          "armor": 78.06,
+          "magic_resistance": 47.2445,
+          "attack_damage": 92.4685,
+          "attack_speed": 0.823813,
+          "attack_range": 550
+        },
+        "16": {
+          "move_speed": 330,
+          "hp": 2030.5,
+          "hp_regen": 15.185,
+          "mana": 1059,
+          "mana_regen": 19.58,
+          "armor": 82.9,
+          "magic_resistance": 48.8175,
+          "attack_damage": 95.9775,
+          "attack_speed": 0.838938,
+          "attack_range": 550
+        },
+        "17": {
+          "move_speed": 330,
+          "hp": 2155,
+          "hp_regen": 15.932,
+          "mana": 1108.8,
+          "mana_regen": 20.576,
+          "armor": 87.88,
+          "magic_resistance": 50.436,
+          "attack_damage": 99.588,
+          "attack_speed": 0.8545,
+          "attack_range": 550
+        },
+        "18": {
+          "move_speed": 330,
+          "hp": 2283,
+          "hp_regen": 16.7,
+          "mana": 1160,
+          "mana_regen": 21.6,
+          "armor": 93,
+          "magic_resistance": 52.1,
+          "attack_damage": 103.3,
+          "attack_speed": 0.8705,
+          "attack_range": 550
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_syndra/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_champion_syndra",
+        "name": "champion_syndra"
+      }
+    },
+    "/skills/syndra_q/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_syndra_q",
+        "name": "syndra_q"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_syndra": {
+      "items": [
+        {
+          "characterKey": "champion_syndra",
+          "characterName": "辛德拉",
+          "gameId": "lol",
+          "skillKey": "syndra_p",
+          "skillName": "辛德拉·卓尔不凡",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_syndra",
+          "characterName": "辛德拉",
+          "gameId": "lol",
+          "skillKey": "syndra_q",
+          "skillName": "辛德拉·暗黑法球",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_syndra",
+          "characterName": "辛德拉",
+          "gameId": "lol",
+          "skillKey": "syndra_w",
+          "skillName": "辛德拉·驱使念力",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_syndra",
+          "characterName": "辛德拉",
+          "gameId": "lol",
+          "skillKey": "syndra_e",
+          "skillName": "辛德拉·弱者退散",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_syndra",
+          "characterName": "辛德拉",
+          "gameId": "lol",
+          "skillKey": "syndra_r",
+          "skillName": "辛德拉·能量倾泻",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=syndra_q": {
+      "items": [
+        {
+          "characterKey": "champion_syndra",
+          "characterName": "辛德拉",
+          "gameId": "lol",
+          "skillKey": "syndra_q",
+          "skillName": "辛德拉·暗黑法球",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        }
+      ],
+      "total": 1
+    },
+    "/skills/syndra_q/parameters": [
+      {
+        "createdAt": "2026-09-09T09:55:45.653228Z",
+        "description": "官方逐级冷却与当前根Cooldown.values索引1至等级上限逐级一致；不含急速或其他技能修正。",
+        "fixedValue": 7000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "syndra_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T09:55:45.653228Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T09:55:46.749429Z",
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "fixedValue": 375,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "syndra_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T09:55:46.749429Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T09:55:47.956627Z",
+        "description": "客户端当前根绑定 DataValues.Upgrade1MaxAmmo 取索引1至5。",
+        "fixedValue": 2,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "Q第一次升级最大充能数",
+        "parameterKey": "q_upgrade_max_ammo",
+        "skillKey": "syndra_q",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T09:55:47.956627Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T09:55:49.213509Z",
+        "description": "客户端当前根绑定 DataValues.SphereDuration 取索引1至5；单位毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "fixedValue": 6000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "暗黑法球存在时间（毫秒）",
+        "parameterKey": "sphere_duration_ms",
+        "skillKey": "syndra_q",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T09:55:49.213509Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T09:55:50.274905Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 90,
+          "2": 125,
+          "3": 160,
+          "4": 195,
+          "5": 230
+        },
+        "name": "暗黑法球基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "syndra_q",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-09T09:55:50.274905Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T09:55:51.245387Z",
+        "description": "当前原计算树显式常数；只用于此数学表达式。",
+        "fixedValue": 0.7,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "暗黑法球魔法伤害固定系数",
+        "parameterKey": "calculation_constant_1",
+        "skillKey": "syndra_q",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-09T09:55:51.245387Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T17:39:09.265206Z",
+        "description": "DDragon16.17.1 Syndra.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 40,
+          "2": 45,
+          "3": 50,
+          "4": 55,
+          "5": 60
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "syndra_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T17:39:09.265206Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/syndra_q/parameters/cooldown_ms": {
+      "createdAt": "2026-09-09T09:55:45.653228Z",
+      "description": "官方逐级冷却与当前根Cooldown.values索引1至等级上限逐级一致；不含急速或其他技能修正。",
+      "fixedValue": 7000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "syndra_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T09:55:45.653228Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/syndra_q/parameters/cast_time_ms": {
+      "createdAt": "2026-09-09T09:55:46.749429Z",
+      "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+      "fixedValue": 375,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "syndra_q",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T09:55:46.749429Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/syndra_q/parameters/q_upgrade_max_ammo": {
+      "createdAt": "2026-09-09T09:55:47.956627Z",
+      "description": "客户端当前根绑定 DataValues.Upgrade1MaxAmmo 取索引1至5。",
+      "fixedValue": 2,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "Q第一次升级最大充能数",
+      "parameterKey": "q_upgrade_max_ammo",
+      "skillKey": "syndra_q",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T09:55:47.956627Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/syndra_q/parameters/sphere_duration_ms": {
+      "createdAt": "2026-09-09T09:55:49.213509Z",
+      "description": "客户端当前根绑定 DataValues.SphereDuration 取索引1至5；单位毫秒；按来源显示单位换算为系统比例/毫秒。",
+      "fixedValue": 6000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "暗黑法球存在时间（毫秒）",
+      "parameterKey": "sphere_duration_ms",
+      "skillKey": "syndra_q",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-09T09:55:49.213509Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/syndra_q/parameters/base_damage": {
+      "createdAt": "2026-09-09T09:55:50.274905Z",
+      "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 90,
+        "2": 125,
+        "3": 160,
+        "4": 195,
+        "5": 230
+      },
+      "name": "暗黑法球基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "syndra_q",
+      "sortOrder": 70,
+      "updatedAt": "2026-09-09T09:55:50.274905Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/syndra_q/parameters/calculation_constant_1": {
+      "createdAt": "2026-09-09T09:55:51.245387Z",
+      "description": "当前原计算树显式常数；只用于此数学表达式。",
+      "fixedValue": 0.7,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "暗黑法球魔法伤害固定系数",
+      "parameterKey": "calculation_constant_1",
+      "skillKey": "syndra_q",
+      "sortOrder": 80,
+      "updatedAt": "2026-09-09T09:55:51.245387Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/syndra_q/parameters/mana_cost": {
+      "createdAt": "2026-09-07T17:39:09.265206Z",
+      "description": "DDragon16.17.1 Syndra.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 40,
+        "2": 45,
+        "3": 50,
+        "4": 55,
+        "5": 60
+      },
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "syndra_q",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-07T17:39:09.265206Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/syndra_q/formulas": [
+      {
+        "createdAt": "2026-09-09T09:55:52.287933Z",
+        "description": "实际命中当前敌方目标的法球伤害；球的后续操作另接。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "暗黑法球魔法伤害",
+        "skillKey": "syndra_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T09:55:52.287933Z"
+      }
+    ],
+    "/skills/syndra_q/formulas/damage": {
+      "createdAt": "2026-09-09T09:55:52.287933Z",
+      "description": "实际命中当前敌方目标的法球伤害；球的后续操作另接。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "calculation_constant_1"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "暗黑法球魔法伤害",
+      "skillKey": "syndra_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T09:55:52.287933Z"
+    },
+    "/skills/syndra_q/effects": [
+      {
+        "createdAt": "2026-09-09T09:55:53.278431Z",
+        "description": "仅绑定官方基础法力消耗；额外持续法力或真实扣除时点单独记录。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "syndra_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T09:55:53.278431Z"
+      }
+    ],
+    "/skills/syndra_q/effects/mana_cost": {
+      "createdAt": "2026-09-09T09:55:53.278431Z",
+      "description": "仅绑定官方基础法力消耗；额外持续法力或真实扣除时点单独记录。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "syndra_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T09:55:53.278431Z"
+    },
+    "/skills/syndra_q/processes": [],
+    "/skills/syndra_q/internal-states": [],
+    "/skills/syndra_q/trigger-rules": [],
+    "/damage-types/magic": {
+      "createdAt": "2026-08-26T05:59:15.870937Z",
+      "damageTypeKey": "magic",
+      "description": null,
+      "gameId": "lol",
+      "name": "魔法伤害",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-26T05:59:15.870937Z"
+    },
+    "/attributes/ability_power": {
+      "attributeKey": "ability_power",
+      "createdAt": "2026-08-30T16:26:39.898635Z",
+      "description": "角色法术强度；基础值为 0，可由装备和效果增加",
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法术强度",
+      "sortOrder": 510,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-30T16:26:39.898635Z",
+      "valueType": "DECIMAL"
+    },
+    "/attributes/mana": {
+      "attributeKey": "mana",
+      "createdAt": "2026-08-22T15:27:36.139767Z",
+      "description": null,
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法力值",
+      "sortOrder": 310,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-22T15:27:36.139767Z",
+      "valueType": "DECIMAL"
+    },
+    "/attributes/attack_damage": {
+      "attributeKey": "attack_damage",
+      "createdAt": "2026-08-30T16:26:29.341938Z",
+      "description": "角色面板攻击力；伊泽瑞尔数据按官方 16.17.1 版本录入",
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "攻击力",
+      "sortOrder": 500,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-30T16:26:29.341938Z",
+      "valueType": "DECIMAL"
+    },
+    "/attributes/energy": {
+      "attributeKey": "energy",
+      "createdAt": "2026-08-22T15:27:36.229561Z",
+      "description": null,
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "能量值",
+      "sortOrder": 320,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-22T15:27:36.229561Z",
+      "valueType": "DECIMAL"
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/vex_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_vex",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_vex/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_vex/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_q/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_vex",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=vex_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_q/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_q/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=vex_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/parameters/base_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/parameters/shield_ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/parameters/damage_ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/parameters/shield_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/parameters/aoe_radius",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/parameters/bonus_aoe_radius_vs_dashes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/formulas/shield_value",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/effects/self_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=vex_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/parameters/slow_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/parameters/slow_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/parameters/starting_radius",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/parameters/radius_growth_rate",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/parameters/max_radius",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/parameters/gloom_champion_cooldown_refund_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_bard",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_bard/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_bard/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_bard",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=bard_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/parameters/slow_percent",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/parameters/slow_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/parameters/stun_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/formulas/total_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/akali_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_akali",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_akali/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_akali/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/akali_q/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_akali",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=akali_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/akali_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/akali_q/parameters/energy_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/akali_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/akali_q/parameters/total_ad_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/akali_q/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/akali_q/parameters/slow_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/akali_q/parameters/slow_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/akali_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/akali_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/akali_q/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/akali_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/akali_q/effects/energy_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/akali_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/akali_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/akali_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/katarina_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_katarina",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_katarina/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_katarina/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/katarina_q/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_katarina",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=katarina_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/katarina_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/katarina_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/katarina_q/parameters/bounce_offset",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/katarina_q/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/katarina_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/katarina_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/katarina_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/katarina_q/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/katarina_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/katarina_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/katarina_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/katarina_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/syndra_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_syndra",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_syndra/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_syndra/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/syndra_q/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_syndra",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=syndra_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/syndra_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/syndra_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/syndra_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/syndra_q/parameters/q_upgrade_max_ammo",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/syndra_q/parameters/sphere_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/syndra_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/syndra_q/parameters/calculation_constant_1",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/syndra_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/syndra_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/syndra_q/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/syndra_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/syndra_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/syndra_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/syndra_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/syndra_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/damage-types/magic",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/ability_power",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/mana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/attack_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/energy",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_q/effects/primary_hit",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_q/trigger-rules/actual_hit",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/effects/primary_hit",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/trigger-rules/actual_hit",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/effects/primary_hit",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/trigger-rules/actual_hit",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/effects/primary_hit",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/trigger-rules/actual_hit",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/akali_q/effects/primary_hit",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/akali_q/trigger-rules/actual_hit",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/katarina_q/effects/primary_hit",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/katarina_q/trigger-rules/actual_hit",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/syndra_q/effects/primary_hit",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/syndra_q/trigger-rules/actual_hit",
+      "status": 404
+    }
+  ],
+  "businessWrites": 0
+}

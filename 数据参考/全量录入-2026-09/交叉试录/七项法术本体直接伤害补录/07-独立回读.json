@@ -1,0 +1,1549 @@
+{
+  "toolExitCode": 0,
+  "stdout": "{\"status\":\"PASS\",\"at\":\"2026-09-19T03:17:03.328Z\",\"businessWrites\":0,\"GETs\":168,\"unchangedResponsesIncludingTimestamps\":140,\"expectedChangedCollections\":14,\"newObjects\":{\"/skills/vex_q/effects/primary_hit\":{\"createdAt\":\"2026-09-19T03:14:58.68013Z\",\"description\":\"根技能本体实际命中本轮敌方英雄的直接魔法伤害；引用已有完整公式，其他被动、印记、控制或场上对象联动单列。\",\"effectKey\":\"primary_hit\",\"gameId\":\"lol\",\"lifecycle\":null,\"name\":\"薇古丝·寒心波云本体直接伤害\",\"results\":[{\"description\":\"引用同技能magic_damage，只取本体直接伤害。\",\"detail\":{\"critical\":{\"mode\":\"DISALLOWED\",\"multiplierValue\":null},\"damageTypeKey\":\"magic\",\"deliveryKind\":\"SKILL\",\"originKind\":\"DIRECT\",\"vampRules\":[{\"basisOutputKind\":\"POST_DEFENSE_DAMAGE\",\"efficiencyValue\":{\"kind\":\"FIXED\",\"value\":1},\"vampType\":\"OMNIVAMP\"}]},\"lifecycleBehavior\":null,\"name\":\"魔法伤害\",\"resultKey\":\"damage\",\"resultType\":\"DAMAGE\",\"sortOrder\":10,\"spellShieldBlockScope\":\"SKILL\",\"target\":\"TARGET\",\"valueRule\":{\"fixedMaxValue\":null,\"fixedMinValue\":0,\"fixedMultiplier\":1,\"value\":{\"formulaKey\":\"magic_damage\",\"kind\":\"FORMULA\"}}}],\"skillKey\":\"vex_q\",\"sortOrder\":20,\"updatedAt\":\"2026-09-19T03:14:58.68013Z\"},\"/skills/vex_q/trigger-rules/actual_hit\":{\"actions\":[{\"actionKey\":\"execute_primary_hit\",\"actionType\":\"EXECUTE_EFFECT\",\"detail\":{\"effectKey\":\"primary_hit\"},\"name\":\"执行薇古丝·寒心波云本体伤害\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[{\"conditions\":[{\"conditionKey\":\"champion_target\",\"conditionType\":\"TARGET_CATEGORY_CHECK\",\"detail\":{\"categories\":[\"CHAMPION\"]},\"sortOrder\":10}],\"groupKey\":\"champion_target\",\"name\":\"本轮英雄目标\",\"sortOrder\":10}],\"description\":\"消费vex_q根技能本体的合法实际英雄命中，执行primary_hit；不从使用、飞行变化、弹跳、捡起匕首或后续法球操纵生成同一次本体命中。\",\"eventSource\":{\"detail\":{\"sourceSkillKey\":\"vex_q\",\"useKind\":null},\"eventType\":\"SKILL_HIT\"},\"maxTriggersPerProcess\":null,\"name\":\"薇古丝·寒心波云本体实际命中\",\"perTargetCooldown\":null,\"ruleKey\":\"actual_hit\",\"sortOrder\":10},\"/skills/vex_w/effects/primary_hit\":{\"createdAt\":\"2026-09-19T03:15:02.547362Z\",\"description\":\"根技能本体实际命中本轮敌方英雄的直接魔法伤害；引用已有完整公式，其他被动、印记、控制或场上对象联动单列。\",\"effectKey\":\"primary_hit\",\"gameId\":\"lol\",\"lifecycle\":null,\"name\":\"薇古丝·生人勿近本体直接伤害\",\"results\":[{\"description\":\"引用同技能magic_damage，只取本体直接伤害。\",\"detail\":{\"critical\":{\"mode\":\"DISALLOWED\",\"multiplierValue\":null},\"damageTypeKey\":\"magic\",\"deliveryKind\":\"SKILL\",\"originKind\":\"DIRECT\",\"vampRules\":[{\"basisOutputKind\":\"POST_DEFENSE_DAMAGE\",\"efficiencyValue\":{\"kind\":\"FIXED\",\"value\":1},\"vampType\":\"OMNIVAMP\"}]},\"lifecycleBehavior\":null,\"name\":\"魔法伤害\",\"resultKey\":\"damage\",\"resultType\":\"DAMAGE\",\"sortOrder\":10,\"spellShieldBlockScope\":\"SKILL\",\"target\":\"TARGET\",\"valueRule\":{\"fixedMaxValue\":null,\"fixedMinValue\":0,\"fixedMultiplier\":1,\"value\":{\"formulaKey\":\"magic_damage\",\"kind\":\"FORMULA\"}}}],\"skillKey\":\"vex_w\",\"sortOrder\":20,\"updatedAt\":\"2026-09-19T03:15:02.547362Z\"},\"/skills/vex_w/trigger-rules/actual_hit\":{\"actions\":[{\"actionKey\":\"execute_primary_hit\",\"actionType\":\"EXECUTE_EFFECT\",\"detail\":{\"effectKey\":\"primary_hit\"},\"name\":\"执行薇古丝·生人勿近本体伤害\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[{\"conditions\":[{\"conditionKey\":\"champion_target\",\"conditionType\":\"TARGET_CATEGORY_CHECK\",\"detail\":{\"categories\":[\"CHAMPION\"]},\"sortOrder\":10}],\"groupKey\":\"champion_target\",\"name\":\"本轮英雄目标\",\"sortOrder\":10}],\"description\":\"消费vex_w根技能本体的合法实际英雄命中，执行primary_hit；不从使用、飞行变化、弹跳、捡起匕首或后续法球操纵生成同一次本体命中。\",\"eventSource\":{\"detail\":{\"sourceSkillKey\":\"vex_w\",\"useKind\":null},\"eventType\":\"SKILL_HIT\"},\"maxTriggersPerProcess\":null,\"name\":\"薇古丝·生人勿近本体实际命中\",\"perTargetCooldown\":null,\"ruleKey\":\"actual_hit\",\"sortOrder\":10},\"/skills/vex_e/effects/primary_hit\":{\"createdAt\":\"2026-09-19T03:15:05.577964Z\",\"description\":\"根技能本体实际命中本轮敌方英雄的直接魔法伤害；引用已有完整公式，其他被动、印记、控制或场上对象联动单列。\",\"effectKey\":\"primary_hit\",\"gameId\":\"lol\",\"lifecycle\":null,\"name\":\"薇古丝·溟濛渐染本体直接伤害\",\"results\":[{\"description\":\"引用同技能magic_damage，只取本体直接伤害。\",\"detail\":{\"critical\":{\"mode\":\"DISALLOWED\",\"multiplierValue\":null},\"damageTypeKey\":\"magic\",\"deliveryKind\":\"SKILL\",\"originKind\":\"DIRECT\",\"vampRules\":[{\"basisOutputKind\":\"POST_DEFENSE_DAMAGE\",\"efficiencyValue\":{\"kind\":\"FIXED\",\"value\":1},\"vampType\":\"OMNIVAMP\"}]},\"lifecycleBehavior\":null,\"name\":\"魔法伤害\",\"resultKey\":\"damage\",\"resultType\":\"DAMAGE\",\"sortOrder\":10,\"spellShieldBlockScope\":\"SKILL\",\"target\":\"TARGET\",\"valueRule\":{\"fixedMaxValue\":null,\"fixedMinValue\":0,\"fixedMultiplier\":1,\"value\":{\"formulaKey\":\"magic_damage\",\"kind\":\"FORMULA\"}}}],\"skillKey\":\"vex_e\",\"sortOrder\":20,\"updatedAt\":\"2026-09-19T03:15:05.577964Z\"},\"/skills/vex_e/trigger-rules/actual_hit\":{\"actions\":[{\"actionKey\":\"execute_primary_hit\",\"actionType\":\"EXECUTE_EFFECT\",\"detail\":{\"effectKey\":\"primary_hit\"},\"name\":\"执行薇古丝·溟濛渐染本体伤害\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[{\"conditions\":[{\"conditionKey\":\"champion_target\",\"conditionType\":\"TARGET_CATEGORY_CHECK\",\"detail\":{\"categories\":[\"CHAMPION\"]},\"sortOrder\":10}],\"groupKey\":\"champion_target\",\"name\":\"本轮英雄目标\",\"sortOrder\":10}],\"description\":\"消费vex_e根技能本体的合法实际英雄命中，执行primary_hit；不从使用、飞行变化、弹跳、捡起匕首或后续法球操纵生成同一次本体命中。\",\"eventSource\":{\"detail\":{\"sourceSkillKey\":\"vex_e\",\"useKind\":null},\"eventType\":\"SKILL_HIT\"},\"maxTriggersPerProcess\":null,\"name\":\"薇古丝·溟濛渐染本体实际命中\",\"perTargetCooldown\":null,\"ruleKey\":\"actual_hit\",\"sortOrder\":10},\"/skills/bard_q/effects/primary_hit\":{\"createdAt\":\"2026-09-19T03:15:08.67724Z\",\"description\":\"根技能本体实际命中本轮敌方英雄的直接魔法伤害；引用已有完整公式，其他被动、印记、控制或场上对象联动单列。\",\"effectKey\":\"primary_hit\",\"gameId\":\"lol\",\"lifecycle\":null,\"name\":\"巴德·星界束缚本体直接伤害\",\"results\":[{\"description\":\"引用同技能total_damage，只取本体直接伤害。\",\"detail\":{\"critical\":{\"mode\":\"DISALLOWED\",\"multiplierValue\":null},\"damageTypeKey\":\"magic\",\"deliveryKind\":\"SKILL\",\"originKind\":\"DIRECT\",\"vampRules\":[{\"basisOutputKind\":\"POST_DEFENSE_DAMAGE\",\"efficiencyValue\":{\"kind\":\"FIXED\",\"value\":1},\"vampType\":\"OMNIVAMP\"}]},\"lifecycleBehavior\":null,\"name\":\"魔法伤害\",\"resultKey\":\"damage\",\"resultType\":\"DAMAGE\",\"sortOrder\":10,\"spellShieldBlockScope\":\"SKILL\",\"target\":\"TARGET\",\"valueRule\":{\"fixedMaxValue\":null,\"fixedMinValue\":0,\"fixedMultiplier\":1,\"value\":{\"formulaKey\":\"total_damage\",\"kind\":\"FORMULA\"}}}],\"skillKey\":\"bard_q\",\"sortOrder\":20,\"updatedAt\":\"2026-09-19T03:15:08.67724Z\"},\"/skills/bard_q/trigger-rules/actual_hit\":{\"actions\":[{\"actionKey\":\"execute_primary_hit\",\"actionType\":\"EXECUTE_EFFECT\",\"detail\":{\"effectKey\":\"primary_hit\"},\"name\":\"执行巴德·星界束缚本体伤害\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[{\"conditions\":[{\"conditionKey\":\"champion_target\",\"conditionType\":\"TARGET_CATEGORY_CHECK\",\"detail\":{\"categories\":[\"CHAMPION\"]},\"sortOrder\":10}],\"groupKey\":\"champion_target\",\"name\":\"本轮英雄目标\",\"sortOrder\":10}],\"description\":\"消费bard_q根技能本体的合法实际英雄命中，执行primary_hit；不从使用、飞行变化、弹跳、捡起匕首或后续法球操纵生成同一次本体命中。\",\"eventSource\":{\"detail\":{\"sourceSkillKey\":\"bard_q\",\"useKind\":null},\"eventType\":\"SKILL_HIT\"},\"maxTriggersPerProcess\":null,\"name\":\"巴德·星界束缚本体实际命中\",\"perTargetCooldown\":null,\"ruleKey\":\"actual_hit\",\"sortOrder\":10},\"/skills/akali_q/effects/primary_hit\":{\"createdAt\":\"2026-09-19T03:15:11.776723Z\",\"description\":\"根技能本体实际命中本轮敌方英雄的直接魔法伤害；引用已有完整公式，其他被动、印记、控制或场上对象联动单列。\",\"effectKey\":\"primary_hit\",\"gameId\":\"lol\",\"lifecycle\":null,\"name\":\"阿卡丽·我流奥义！寒影本体直接伤害\",\"results\":[{\"description\":\"引用同技能damage，只取本体直接伤害。\",\"detail\":{\"critical\":{\"mode\":\"DISALLOWED\",\"multiplierValue\":null},\"damageTypeKey\":\"magic\",\"deliveryKind\":\"SKILL\",\"originKind\":\"DIRECT\",\"vampRules\":[{\"basisOutputKind\":\"POST_DEFENSE_DAMAGE\",\"efficiencyValue\":{\"kind\":\"FIXED\",\"value\":1},\"vampType\":\"OMNIVAMP\"}]},\"lifecycleBehavior\":null,\"name\":\"魔法伤害\",\"resultKey\":\"damage\",\"resultType\":\"DAMAGE\",\"sortOrder\":10,\"spellShieldBlockScope\":\"SKILL\",\"target\":\"TARGET\",\"valueRule\":{\"fixedMaxValue\":null,\"fixedMinValue\":0,\"fixedMultiplier\":1,\"value\":{\"formulaKey\":\"damage\",\"kind\":\"FORMULA\"}}}],\"skillKey\":\"akali_q\",\"sortOrder\":20,\"updatedAt\":\"2026-09-19T03:15:11.776723Z\"},\"/skills/akali_q/trigger-rules/actual_hit\":{\"actions\":[{\"actionKey\":\"execute_primary_hit\",\"actionType\":\"EXECUTE_EFFECT\",\"detail\":{\"effectKey\":\"primary_hit\"},\"name\":\"执行阿卡丽·我流奥义！寒影本体伤害\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[{\"conditions\":[{\"conditionKey\":\"champion_target\",\"conditionType\":\"TARGET_CATEGORY_CHECK\",\"detail\":{\"categories\":[\"CHAMPION\"]},\"sortOrder\":10}],\"groupKey\":\"champion_target\",\"name\":\"本轮英雄目标\",\"sortOrder\":10}],\"description\":\"消费akali_q根技能本体的合法实际英雄命中，执行primary_hit；不从使用、飞行变化、弹跳、捡起匕首或后续法球操纵生成同一次本体命中。\",\"eventSource\":{\"detail\":{\"sourceSkillKey\":\"akali_q\",\"useKind\":null},\"eventType\":\"SKILL_HIT\"},\"maxTriggersPerProcess\":null,\"name\":\"阿卡丽·我流奥义！寒影本体实际命中\",\"perTargetCooldown\":null,\"ruleKey\":\"actual_hit\",\"sortOrder\":10},\"/skills/katarina_q/effects/primary_hit\":{\"createdAt\":\"2026-09-19T03:15:14.898165Z\",\"description\":\"根技能本体实际命中本轮敌方英雄的直接魔法伤害；引用已有完整公式，其他被动、印记、控制或场上对象联动单列。\",\"effectKey\":\"primary_hit\",\"gameId\":\"lol\",\"lifecycle\":null,\"name\":\"卡特琳娜·弹射之刃本体直接伤害\",\"results\":[{\"description\":\"引用同技能magic_damage，只取本体直接伤害。\",\"detail\":{\"critical\":{\"mode\":\"DISALLOWED\",\"multiplierValue\":null},\"damageTypeKey\":\"magic\",\"deliveryKind\":\"SKILL\",\"originKind\":\"DIRECT\",\"vampRules\":[{\"basisOutputKind\":\"POST_DEFENSE_DAMAGE\",\"efficiencyValue\":{\"kind\":\"FIXED\",\"value\":1},\"vampType\":\"OMNIVAMP\"}]},\"lifecycleBehavior\":null,\"name\":\"魔法伤害\",\"resultKey\":\"damage\",\"resultType\":\"DAMAGE\",\"sortOrder\":10,\"spellShieldBlockScope\":\"SKILL\",\"target\":\"TARGET\",\"valueRule\":{\"fixedMaxValue\":null,\"fixedMinValue\":0,\"fixedMultiplier\":1,\"value\":{\"formulaKey\":\"magic_damage\",\"kind\":\"FORMULA\"}}}],\"skillKey\":\"katarina_q\",\"sortOrder\":20,\"updatedAt\":\"2026-09-19T03:15:14.898165Z\"},\"/skills/katarina_q/trigger-rules/actual_hit\":{\"actions\":[{\"actionKey\":\"execute_primary_hit\",\"actionType\":\"EXECUTE_EFFECT\",\"detail\":{\"effectKey\":\"primary_hit\"},\"name\":\"执行卡特琳娜·弹射之刃本体伤害\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[{\"conditions\":[{\"conditionKey\":\"champion_target\",\"conditionType\":\"TARGET_CATEGORY_CHECK\",\"detail\":{\"categories\":[\"CHAMPION\"]},\"sortOrder\":10}],\"groupKey\":\"champion_target\",\"name\":\"本轮英雄目标\",\"sortOrder\":10}],\"description\":\"消费katarina_q根技能本体的合法实际英雄命中，执行primary_hit；不从使用、飞行变化、弹跳、捡起匕首或后续法球操纵生成同一次本体命中。\",\"eventSource\":{\"detail\":{\"sourceSkillKey\":\"katarina_q\",\"useKind\":null},\"eventType\":\"SKILL_HIT\"},\"maxTriggersPerProcess\":null,\"name\":\"卡特琳娜·弹射之刃本体实际命中\",\"perTargetCooldown\":null,\"ruleKey\":\"actual_hit\",\"sortOrder\":10},\"/skills/syndra_q/effects/primary_hit\":{\"createdAt\":\"2026-09-19T03:15:18.04842Z\",\"description\":\"根技能本体实际命中本轮敌方英雄的直接魔法伤害；引用已有完整公式，其他被动、印记、控制或场上对象联动单列。\",\"effectKey\":\"primary_hit\",\"gameId\":\"lol\",\"lifecycle\":null,\"name\":\"辛德拉·暗黑法球本体直接伤害\",\"results\":[{\"description\":\"引用同技能damage，只取本体直接伤害。\",\"detail\":{\"critical\":{\"mode\":\"DISALLOWED\",\"multiplierValue\":null},\"damageTypeKey\":\"magic\",\"deliveryKind\":\"SKILL\",\"originKind\":\"DIRECT\",\"vampRules\":[{\"basisOutputKind\":\"POST_DEFENSE_DAMAGE\",\"efficiencyValue\":{\"kind\":\"FIXED\",\"value\":1},\"vampType\":\"OMNIVAMP\"}]},\"lifecycleBehavior\":null,\"name\":\"魔法伤害\",\"resultKey\":\"damage\",\"resultType\":\"DAMAGE\",\"sortOrder\":10,\"spellShieldBlockScope\":\"SKILL\",\"target\":\"TARGET\",\"valueRule\":{\"fixedMaxValue\":null,\"fixedMinValue\":0,\"fixedMultiplier\":1,\"value\":{\"formulaKey\":\"damage\",\"kind\":\"FORMULA\"}}}],\"skillKey\":\"syndra_q\",\"sortOrder\":20,\"updatedAt\":\"2026-09-19T03:15:18.04842Z\"},\"/skills/syndra_q/trigger-rules/actual_hit\":{\"actions\":[{\"actionKey\":\"execute_primary_hit\",\"actionType\":\"EXECUTE_EFFECT\",\"detail\":{\"effectKey\":\"primary_hit\"},\"name\":\"执行辛德拉·暗黑法球本体伤害\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[{\"conditions\":[{\"conditionKey\":\"champion_target\",\"conditionType\":\"TARGET_CATEGORY_CHECK\",\"detail\":{\"categories\":[\"CHAMPION\"]},\"sortOrder\":10}],\"groupKey\":\"champion_target\",\"name\":\"本轮英雄目标\",\"sortOrder\":10}],\"description\":\"消费syndra_q根技能本体的合法实际英雄命中，执行primary_hit；不从使用、飞行变化、弹跳、捡起匕首或后续法球操纵生成同一次本体命中。\",\"eventSource\":{\"detail\":{\"sourceSkillKey\":\"syndra_q\",\"useKind\":null},\"eventType\":\"SKILL_HIT\"},\"maxTriggersPerProcess\":null,\"name\":\"辛德拉·暗黑法球本体实际命中\",\"perTargetCooldown\":null,\"ruleKey\":\"actual_hit\",\"sortOrder\":10}},\"audit\":[{\"method\":\"GET\",\"path\":\"/skills/vex_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_vex\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_vex/attributes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_vex/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_q/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?characterKey=champion_vex\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?skillKey=vex_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_q/parameters\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_q/parameters/base_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_q/parameters/ap_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_q/parameters/cast_time_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_q/parameters/cooldown_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_q/parameters/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_q/formulas\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_q/formulas/magic_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_q/effects\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_q/effects/primary_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_q/processes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_q/internal-states\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_q/trigger-rules\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_q/trigger-rules/actual_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_w\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_w/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?skillKey=vex_w\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_w/parameters\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_w/parameters/base_shield\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_w/parameters/shield_ap_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_w/parameters/base_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_w/parameters/damage_ap_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_w/parameters/shield_duration_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_w/parameters/aoe_radius\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_w/parameters/bonus_aoe_radius_vs_dashes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_w/parameters/cast_time_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_w/parameters/cooldown_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_w/parameters/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_w/formulas\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_w/formulas/shield_value\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_w/formulas/magic_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_w/effects\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_w/effects/self_shield\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_w/effects/primary_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_w/processes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_w/internal-states\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_w/trigger-rules\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_w/trigger-rules/actual_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_w/trigger-rules/on_used\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_e\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_e/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?skillKey=vex_e\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_e/parameters\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_e/parameters/base_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_e/parameters/ap_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_e/parameters/slow_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_e/parameters/slow_duration_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_e/parameters/starting_radius\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_e/parameters/radius_growth_rate\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_e/parameters/max_radius\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_e/parameters/gloom_champion_cooldown_refund_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_e/parameters/cast_time_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_e/parameters/cooldown_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_e/parameters/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_e/formulas\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_e/formulas/magic_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_e/effects\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_e/effects/primary_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_e/processes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_e/internal-states\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_e/trigger-rules\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/vex_e/trigger-rules/actual_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/bard_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_bard\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_bard/attributes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_bard/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/bard_q/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?characterKey=champion_bard\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?skillKey=bard_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/bard_q/parameters\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/bard_q/parameters/base_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/bard_q/parameters/ap_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/bard_q/parameters/slow_percent\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/bard_q/parameters/slow_duration_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/bard_q/parameters/stun_duration_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/bard_q/parameters/cooldown_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/bard_q/parameters/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/bard_q/parameters/cast_time_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/bard_q/formulas\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/bard_q/formulas/total_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/bard_q/effects\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/bard_q/effects/primary_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/bard_q/effects/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/bard_q/processes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/bard_q/internal-states\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/bard_q/trigger-rules\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/bard_q/trigger-rules/actual_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/akali_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_akali\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_akali/attributes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_akali/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/akali_q/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?characterKey=champion_akali\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?skillKey=akali_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/akali_q/parameters\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/akali_q/parameters/energy_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/akali_q/parameters/base_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/akali_q/parameters/total_ad_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/akali_q/parameters/ap_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/akali_q/parameters/slow_duration_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/akali_q/parameters/slow_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/akali_q/parameters/cooldown_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/akali_q/formulas\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/akali_q/formulas/damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/akali_q/effects\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/akali_q/effects/energy_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/akali_q/effects/primary_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/akali_q/processes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/akali_q/internal-states\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/akali_q/trigger-rules\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/akali_q/trigger-rules/actual_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/katarina_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_katarina\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_katarina/attributes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_katarina/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/katarina_q/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?characterKey=champion_katarina\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?skillKey=katarina_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/katarina_q/parameters\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/katarina_q/parameters/base_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/katarina_q/parameters/bounce_offset\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/katarina_q/parameters/ap_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/katarina_q/parameters/cast_time_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/katarina_q/parameters/cooldown_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/katarina_q/formulas\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/katarina_q/formulas/magic_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/katarina_q/effects\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/katarina_q/effects/primary_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/katarina_q/processes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/katarina_q/internal-states\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/katarina_q/trigger-rules\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/katarina_q/trigger-rules/actual_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/syndra_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_syndra\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_syndra/attributes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_syndra/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/syndra_q/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?characterKey=champion_syndra\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?skillKey=syndra_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/syndra_q/parameters\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/syndra_q/parameters/cooldown_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/syndra_q/parameters/cast_time_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/syndra_q/parameters/q_upgrade_max_ammo\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/syndra_q/parameters/sphere_duration_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/syndra_q/parameters/base_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/syndra_q/parameters/calculation_constant_1\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/syndra_q/parameters/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/syndra_q/formulas\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/syndra_q/formulas/damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/syndra_q/effects\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/syndra_q/effects/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/syndra_q/effects/primary_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/syndra_q/processes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/syndra_q/internal-states\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/syndra_q/trigger-rules\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/syndra_q/trigger-rules/actual_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/damage-types/magic\",\"status\":200},{\"method\":\"GET\",\"path\":\"/attributes/ability_power\",\"status\":200},{\"method\":\"GET\",\"path\":\"/attributes/mana\",\"status\":200},{\"method\":\"GET\",\"path\":\"/attributes/attack_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/attributes/energy\",\"status\":200}]}\n",
+  "summary": {
+    "status": "PASS",
+    "at": "2026-09-19T03:17:03.328Z",
+    "businessWrites": 0,
+    "GETs": 168,
+    "unchangedResponsesIncludingTimestamps": 140,
+    "expectedChangedCollections": 14,
+    "newObjects": {
+      "/skills/vex_q/effects/primary_hit": {
+        "createdAt": "2026-09-19T03:14:58.68013Z",
+        "description": "根技能本体实际命中本轮敌方英雄的直接魔法伤害；引用已有完整公式，其他被动、印记、控制或场上对象联动单列。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "薇古丝·寒心波云本体直接伤害",
+        "results": [
+          {
+            "description": "引用同技能magic_damage，只取本体直接伤害。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "SKILL",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "magic_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "vex_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T03:14:58.68013Z"
+      },
+      "/skills/vex_q/trigger-rules/actual_hit": {
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "name": "执行薇古丝·寒心波云本体伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              }
+            ],
+            "groupKey": "champion_target",
+            "name": "本轮英雄目标",
+            "sortOrder": 10
+          }
+        ],
+        "description": "消费vex_q根技能本体的合法实际英雄命中，执行primary_hit；不从使用、飞行变化、弹跳、捡起匕首或后续法球操纵生成同一次本体命中。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "vex_q",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "薇古丝·寒心波云本体实际命中",
+        "perTargetCooldown": null,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10
+      },
+      "/skills/vex_w/effects/primary_hit": {
+        "createdAt": "2026-09-19T03:15:02.547362Z",
+        "description": "根技能本体实际命中本轮敌方英雄的直接魔法伤害；引用已有完整公式，其他被动、印记、控制或场上对象联动单列。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "薇古丝·生人勿近本体直接伤害",
+        "results": [
+          {
+            "description": "引用同技能magic_damage，只取本体直接伤害。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "SKILL",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "magic_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "vex_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T03:15:02.547362Z"
+      },
+      "/skills/vex_w/trigger-rules/actual_hit": {
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "name": "执行薇古丝·生人勿近本体伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              }
+            ],
+            "groupKey": "champion_target",
+            "name": "本轮英雄目标",
+            "sortOrder": 10
+          }
+        ],
+        "description": "消费vex_w根技能本体的合法实际英雄命中，执行primary_hit；不从使用、飞行变化、弹跳、捡起匕首或后续法球操纵生成同一次本体命中。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "vex_w",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "薇古丝·生人勿近本体实际命中",
+        "perTargetCooldown": null,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10
+      },
+      "/skills/vex_e/effects/primary_hit": {
+        "createdAt": "2026-09-19T03:15:05.577964Z",
+        "description": "根技能本体实际命中本轮敌方英雄的直接魔法伤害；引用已有完整公式，其他被动、印记、控制或场上对象联动单列。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "薇古丝·溟濛渐染本体直接伤害",
+        "results": [
+          {
+            "description": "引用同技能magic_damage，只取本体直接伤害。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "SKILL",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "magic_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "vex_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T03:15:05.577964Z"
+      },
+      "/skills/vex_e/trigger-rules/actual_hit": {
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "name": "执行薇古丝·溟濛渐染本体伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              }
+            ],
+            "groupKey": "champion_target",
+            "name": "本轮英雄目标",
+            "sortOrder": 10
+          }
+        ],
+        "description": "消费vex_e根技能本体的合法实际英雄命中，执行primary_hit；不从使用、飞行变化、弹跳、捡起匕首或后续法球操纵生成同一次本体命中。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "vex_e",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "薇古丝·溟濛渐染本体实际命中",
+        "perTargetCooldown": null,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10
+      },
+      "/skills/bard_q/effects/primary_hit": {
+        "createdAt": "2026-09-19T03:15:08.67724Z",
+        "description": "根技能本体实际命中本轮敌方英雄的直接魔法伤害；引用已有完整公式，其他被动、印记、控制或场上对象联动单列。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "巴德·星界束缚本体直接伤害",
+        "results": [
+          {
+            "description": "引用同技能total_damage，只取本体直接伤害。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "SKILL",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "total_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "bard_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T03:15:08.67724Z"
+      },
+      "/skills/bard_q/trigger-rules/actual_hit": {
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "name": "执行巴德·星界束缚本体伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              }
+            ],
+            "groupKey": "champion_target",
+            "name": "本轮英雄目标",
+            "sortOrder": 10
+          }
+        ],
+        "description": "消费bard_q根技能本体的合法实际英雄命中，执行primary_hit；不从使用、飞行变化、弹跳、捡起匕首或后续法球操纵生成同一次本体命中。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "bard_q",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "巴德·星界束缚本体实际命中",
+        "perTargetCooldown": null,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10
+      },
+      "/skills/akali_q/effects/primary_hit": {
+        "createdAt": "2026-09-19T03:15:11.776723Z",
+        "description": "根技能本体实际命中本轮敌方英雄的直接魔法伤害；引用已有完整公式，其他被动、印记、控制或场上对象联动单列。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "阿卡丽·我流奥义！寒影本体直接伤害",
+        "results": [
+          {
+            "description": "引用同技能damage，只取本体直接伤害。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "SKILL",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "akali_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T03:15:11.776723Z"
+      },
+      "/skills/akali_q/trigger-rules/actual_hit": {
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "name": "执行阿卡丽·我流奥义！寒影本体伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              }
+            ],
+            "groupKey": "champion_target",
+            "name": "本轮英雄目标",
+            "sortOrder": 10
+          }
+        ],
+        "description": "消费akali_q根技能本体的合法实际英雄命中，执行primary_hit；不从使用、飞行变化、弹跳、捡起匕首或后续法球操纵生成同一次本体命中。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "akali_q",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "阿卡丽·我流奥义！寒影本体实际命中",
+        "perTargetCooldown": null,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10
+      },
+      "/skills/katarina_q/effects/primary_hit": {
+        "createdAt": "2026-09-19T03:15:14.898165Z",
+        "description": "根技能本体实际命中本轮敌方英雄的直接魔法伤害；引用已有完整公式，其他被动、印记、控制或场上对象联动单列。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "卡特琳娜·弹射之刃本体直接伤害",
+        "results": [
+          {
+            "description": "引用同技能magic_damage，只取本体直接伤害。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "SKILL",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "magic_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "katarina_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T03:15:14.898165Z"
+      },
+      "/skills/katarina_q/trigger-rules/actual_hit": {
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "name": "执行卡特琳娜·弹射之刃本体伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              }
+            ],
+            "groupKey": "champion_target",
+            "name": "本轮英雄目标",
+            "sortOrder": 10
+          }
+        ],
+        "description": "消费katarina_q根技能本体的合法实际英雄命中，执行primary_hit；不从使用、飞行变化、弹跳、捡起匕首或后续法球操纵生成同一次本体命中。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "katarina_q",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "卡特琳娜·弹射之刃本体实际命中",
+        "perTargetCooldown": null,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10
+      },
+      "/skills/syndra_q/effects/primary_hit": {
+        "createdAt": "2026-09-19T03:15:18.04842Z",
+        "description": "根技能本体实际命中本轮敌方英雄的直接魔法伤害；引用已有完整公式，其他被动、印记、控制或场上对象联动单列。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "辛德拉·暗黑法球本体直接伤害",
+        "results": [
+          {
+            "description": "引用同技能damage，只取本体直接伤害。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "SKILL",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "syndra_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T03:15:18.04842Z"
+      },
+      "/skills/syndra_q/trigger-rules/actual_hit": {
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "name": "执行辛德拉·暗黑法球本体伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              }
+            ],
+            "groupKey": "champion_target",
+            "name": "本轮英雄目标",
+            "sortOrder": 10
+          }
+        ],
+        "description": "消费syndra_q根技能本体的合法实际英雄命中，执行primary_hit；不从使用、飞行变化、弹跳、捡起匕首或后续法球操纵生成同一次本体命中。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "syndra_q",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "辛德拉·暗黑法球本体实际命中",
+        "perTargetCooldown": null,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10
+      }
+    },
+    "audit": [
+      {
+        "method": "GET",
+        "path": "/skills/vex_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_vex",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_vex/attributes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_vex/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_q/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?characterKey=champion_vex",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?skillKey=vex_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_q/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_q/parameters/base_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_q/parameters/ap_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_q/parameters/cast_time_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_q/parameters/cooldown_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_q/parameters/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_q/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_q/formulas/magic_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_q/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_q/effects/primary_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_q/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_q/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_q/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_q/trigger-rules/actual_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_w",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_w/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?skillKey=vex_w",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_w/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_w/parameters/base_shield",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_w/parameters/shield_ap_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_w/parameters/base_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_w/parameters/damage_ap_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_w/parameters/shield_duration_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_w/parameters/aoe_radius",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_w/parameters/bonus_aoe_radius_vs_dashes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_w/parameters/cast_time_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_w/parameters/cooldown_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_w/parameters/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_w/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_w/formulas/shield_value",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_w/formulas/magic_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_w/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_w/effects/self_shield",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_w/effects/primary_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_w/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_w/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_w/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_w/trigger-rules/actual_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_w/trigger-rules/on_used",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_e",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_e/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?skillKey=vex_e",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_e/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_e/parameters/base_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_e/parameters/ap_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_e/parameters/slow_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_e/parameters/slow_duration_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_e/parameters/starting_radius",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_e/parameters/radius_growth_rate",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_e/parameters/max_radius",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_e/parameters/gloom_champion_cooldown_refund_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_e/parameters/cast_time_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_e/parameters/cooldown_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_e/parameters/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_e/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_e/formulas/magic_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_e/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_e/effects/primary_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_e/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_e/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_e/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/vex_e/trigger-rules/actual_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/bard_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_bard",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_bard/attributes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_bard/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/bard_q/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?characterKey=champion_bard",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?skillKey=bard_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/bard_q/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/bard_q/parameters/base_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/bard_q/parameters/ap_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/bard_q/parameters/slow_percent",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/bard_q/parameters/slow_duration_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/bard_q/parameters/stun_duration_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/bard_q/parameters/cooldown_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/bard_q/parameters/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/bard_q/parameters/cast_time_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/bard_q/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/bard_q/formulas/total_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/bard_q/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/bard_q/effects/primary_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/bard_q/effects/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/bard_q/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/bard_q/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/bard_q/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/bard_q/trigger-rules/actual_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/akali_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_akali",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_akali/attributes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_akali/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/akali_q/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?characterKey=champion_akali",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?skillKey=akali_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/akali_q/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/akali_q/parameters/energy_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/akali_q/parameters/base_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/akali_q/parameters/total_ad_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/akali_q/parameters/ap_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/akali_q/parameters/slow_duration_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/akali_q/parameters/slow_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/akali_q/parameters/cooldown_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/akali_q/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/akali_q/formulas/damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/akali_q/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/akali_q/effects/energy_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/akali_q/effects/primary_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/akali_q/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/akali_q/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/akali_q/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/akali_q/trigger-rules/actual_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/katarina_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_katarina",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_katarina/attributes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_katarina/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/katarina_q/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?characterKey=champion_katarina",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?skillKey=katarina_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/katarina_q/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/katarina_q/parameters/base_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/katarina_q/parameters/bounce_offset",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/katarina_q/parameters/ap_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/katarina_q/parameters/cast_time_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/katarina_q/parameters/cooldown_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/katarina_q/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/katarina_q/formulas/magic_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/katarina_q/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/katarina_q/effects/primary_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/katarina_q/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/katarina_q/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/katarina_q/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/katarina_q/trigger-rules/actual_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/syndra_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_syndra",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_syndra/attributes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_syndra/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/syndra_q/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?characterKey=champion_syndra",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?skillKey=syndra_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/syndra_q/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/syndra_q/parameters/cooldown_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/syndra_q/parameters/cast_time_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/syndra_q/parameters/q_upgrade_max_ammo",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/syndra_q/parameters/sphere_duration_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/syndra_q/parameters/base_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/syndra_q/parameters/calculation_constant_1",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/syndra_q/parameters/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/syndra_q/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/syndra_q/formulas/damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/syndra_q/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/syndra_q/effects/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/syndra_q/effects/primary_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/syndra_q/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/syndra_q/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/syndra_q/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/syndra_q/trigger-rules/actual_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/damage-types/magic",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/attributes/ability_power",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/attributes/mana",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/attributes/attack_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/attributes/energy",
+        "status": 200
+      }
+    ]
+  }
+}
