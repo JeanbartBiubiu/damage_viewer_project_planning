@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-19T06:51:27.816Z",
+  "generatedAt": "2026-09-19T07:30:27.066Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -9386,7 +9386,7 @@
     },
     "ordinaryMovementSlowAuthoring": {
       "at": "2026-09-18T19:35:39.477Z",
-      "status": "能力与原库增量已完成，普通减速目录首次页面闭环通过；原对象效果与入口继续返回",
+      "status": "能力、目录和厄加特Q减速效果首次页面闭环通过；兰顿冰杖及其他验收继续返回",
       "backendCommit": "84995ae4",
       "webCommit": "8bbe9687",
       "backendTests": 963,
@@ -9420,6 +9420,12 @@
           "relativePath": "数据参考/全量录入-2026-09/交叉试录/普通减速目录首次页面录入/09-证据清单.json",
           "commit": "f1808644",
           "sha256": "58eba1eee1a9a472d9cc75581c98a5f66c9eed5ba4122da7af5de170f8a05937"
+        },
+        "originalObjectEvidence": {
+          "worktree": "damage_web_dev",
+          "relativePath": "数据参考/全量录入-2026-09/交叉试录/厄加特Q减速首次页面补录/09-证据清单.json",
+          "commit": "6ddd170b",
+          "sha256": "03c3f3048f9d78133ea92182ee32ee6c8dfed0ab1b2d1a6ac9a0cd8119fd8c2f"
         }
       }
     },
@@ -10820,6 +10826,43 @@
         "commit": "f1808644",
         "sha256": "58eba1eee1a9a472d9cc75581c98a5f66c9eed5ba4122da7af5de170f8a05937"
       }
+    },
+    "urgotQMovementSlowFirstUI": {
+      "at": "2026-09-19T07:30:27.066Z",
+      "status": "普通减速结果首次页面在厄加特Q闭环，其他组成继续返回",
+      "skills": [
+        "urgot_q"
+      ],
+      "created": {
+        "effects": 1,
+        "triggerRules": 1
+      },
+      "prepareGETs": 25,
+      "preflightGETs": 25,
+      "browserWrites": 2,
+      "immediateReadbacks": 2,
+      "independentReadbackGETs": 25,
+      "readbackExecutor": "主负责人另启只读核对进程，非已失败代理",
+      "unchangedResponsesIncludingTimestamps": 21,
+      "expectedChangedCollections": 2,
+      "cursorReview": {
+        "status": "finished",
+        "verdict": "READY",
+        "planRevision": 1,
+        "runDeltaCount": 0,
+        "uniqueToolCalls": 90,
+        "allFinalCompleted": true,
+        "truncated": 0
+      },
+      "sourceMathPoints": 6,
+      "browser": "PASS",
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/厄加特Q减速首次页面补录/09-证据清单.json",
+        "commit": "6ddd170b",
+        "sha256": "03c3f3048f9d78133ea92182ee32ee6c8dfed0ab1b2d1a6ac9a0cd8119fd8c2f"
+      }
     }
   },
   "runtimeValidation": "未执行",
@@ -11275,6 +11318,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/普通减速目录首次页面录入/09-证据清单.json",
         "commit": "f1808644",
         "sha256": "58eba1eee1a9a472d9cc75581c98a5f66c9eed5ba4122da7af5de170f8a05937"
+      },
+      "urgotQMovementSlowFirstUI": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/厄加特Q减速首次页面补录/09-证据清单.json",
+        "commit": "6ddd170b",
+        "sha256": "03c3f3048f9d78133ea92182ee32ee6c8dfed0ab1b2d1a6ac9a0cd8119fd8c2f"
       }
     },
     "coverage": {
@@ -32165,18 +32214,45 @@
         "name": "厄加特·腐蚀电荷",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "候选已保存参数、公式或效果，但没有完整可执行入口；继续按系统接线缺口处理，不能把组成存在等同于技能完成。",
-        "pendingCounts": {
+        "reason": "普通减速效果及实际命中入口已真实页面保存、重开并通过独立程序回读；原物理伤害、成本与施法过程还需接线，说明及相关组成继续核对，不计整技能完成。",
+        "batchKey": "heroThirtyNinthBatch",
+        "candidateSha256": "b79197a5ca3d1762bdbc5955871d4c17e6923274e318913cf8843481254122c8",
+        "evidenceRefs": [
+          "skillFirstStageCurrentReadback",
+          "heroSourceInventory",
+          "urgotQMovementSlowFirstUI"
+        ],
+        "historicalPendingCounts": {
           "source": 0,
           "system": 0,
           "configuration": 0,
           "other": 0
         },
-        "batchKey": "heroThirtyNinthBatch",
-        "candidateSha256": "b79197a5ca3d1762bdbc5955871d4c17e6923274e318913cf8843481254122c8",
-        "evidenceRefs": [
-          "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+        "currentComponentCounts": {
+          "parameters": 7,
+          "formulas": 1,
+          "effects": 1,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 1
+        },
+        "authoredMovementSlow": {
+          "effectKey": "corrosive_charge_slow",
+          "ruleKey": "apply_slow_on_unblocked_hit",
+          "statusKey": "movement_slow",
+          "strengthParameterKey": "slow_percent_points",
+          "fixedMultiplier": 0.01,
+          "fixedMinValue": 0,
+          "fixedMaxValue": 1,
+          "durationParameterKey": "slow_duration_ms",
+          "httpReadback": "PASS",
+          "browser": "PASS"
+        },
+        "remainingBranches": [
+          "原物理伤害与实际命中入口",
+          "法力、普通冷却和250毫秒施法过程与使用入口",
+          "原百分数点及法力成本说明整理",
+          "Q与W相关字段按原1V1范围核对"
         ]
       },
       {
