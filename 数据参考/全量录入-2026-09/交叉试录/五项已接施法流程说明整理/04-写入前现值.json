@@ -1,0 +1,3505 @@
+{
+  "at": "2026-09-19T00:48:44.660Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/skills/diana_q": {
+      "createdAt": "2026-09-06T18:18:08.734441Z",
+      "description": "释放一道月能光束，对弧形范围内的敌人造成伤害。<br><br>会对命中的敌人施加月光效果，如果中了月光效果的敌人不在潜行状态下，就会暴露在己方视野中3秒。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "黛安娜·新月打击",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "diana_q",
+      "sortOrder": 1,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:18:08.734441Z"
+    },
+    "/skills/diana_q/parameters": [
+      {
+        "createdAt": "2026-09-07T18:53:33.398833Z",
+        "description": "当前spellCastTime与已有mCastTime一致；不代替命中。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "diana_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T18:53:33.398833Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:53:33.898105Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 105,
+          "3": 140,
+          "4": 175,
+          "5": 210
+        },
+        "name": "基础伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "diana_q",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-07T18:53:33.898105Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:53:34.558397Z",
+        "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+        "fixedValue": 0.7,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法强倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "diana_q",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-07T18:53:34.558397Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T18:53:35.25136Z",
+        "description": "客户端当前根绑定 DataValues.MoonlightDuration 取索引1至5。",
+        "fixedValue": 3000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "月光标记持续（毫秒）",
+        "parameterKey": "moonlight_duration_ms",
+        "skillKey": "diana_q",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-07T18:53:35.25136Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:00:18.357543Z",
+        "description": "DDragon16.17.1 Diana.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 8000,
+          "2": 7500,
+          "3": 7000,
+          "4": 6500,
+          "5": 6000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "diana_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T16:00:18.357543Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:00:18.624568Z",
+        "description": "DDragon16.17.1 Diana.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 50,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "diana_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T16:00:18.624568Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/diana_q/parameters/cast_time_ms": {
+      "createdAt": "2026-09-07T18:53:33.398833Z",
+      "description": "当前spellCastTime与已有mCastTime一致；不代替命中。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "diana_q",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-07T18:53:33.398833Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/diana_q/parameters/base_damage": {
+      "createdAt": "2026-09-07T18:53:33.898105Z",
+      "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 70,
+        "2": 105,
+        "3": 140,
+        "4": 175,
+        "5": 210
+      },
+      "name": "基础伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "diana_q",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-07T18:53:33.898105Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/diana_q/parameters/ap_ratio": {
+      "createdAt": "2026-09-07T18:53:34.558397Z",
+      "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+      "fixedValue": 0.7,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法强倍率",
+      "parameterKey": "ap_ratio",
+      "skillKey": "diana_q",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-07T18:53:34.558397Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/diana_q/parameters/moonlight_duration_ms": {
+      "createdAt": "2026-09-07T18:53:35.25136Z",
+      "description": "客户端当前根绑定 DataValues.MoonlightDuration 取索引1至5。",
+      "fixedValue": 3000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "月光标记持续（毫秒）",
+      "parameterKey": "moonlight_duration_ms",
+      "skillKey": "diana_q",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-07T18:53:35.25136Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/diana_q/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T16:00:18.357543Z",
+      "description": "DDragon16.17.1 Diana.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 8000,
+        "2": 7500,
+        "3": 7000,
+        "4": 6500,
+        "5": 6000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "diana_q",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T16:00:18.357543Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/diana_q/parameters/mana_cost": {
+      "createdAt": "2026-09-07T16:00:18.624568Z",
+      "description": "DDragon16.17.1 Diana.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 50,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "diana_q",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-07T16:00:18.624568Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/diana_q/formulas": [
+      {
+        "createdAt": "2026-09-07T18:53:35.815927Z",
+        "description": "当前根TotalDamage：基础伤害+法强倍率×总法强。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "新月打击基础伤害",
+        "skillKey": "diana_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:53:35.815927Z"
+      }
+    ],
+    "/skills/diana_q/formulas/damage": {
+      "createdAt": "2026-09-07T18:53:35.815927Z",
+      "description": "当前根TotalDamage：基础伤害+法强倍率×总法强。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "新月打击基础伤害",
+      "skillKey": "diana_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T18:53:35.815927Z"
+    },
+    "/skills/diana_q/effects": [
+      {
+        "createdAt": "2026-09-07T18:53:36.342966Z",
+        "description": "仅施放法力消耗；具体过程单独绑定。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "diana_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:53:36.342966Z"
+      },
+      {
+        "createdAt": "2026-09-07T18:53:36.94221Z",
+        "description": "本轮1V1敌方英雄的普通直接魔法技能伤害组成；显式登记防御结算后伤害、效率为1的全能吸血资格。实际命中入口已配置，其他被动、控制或目标分支分别维护。",
+        "effectKey": "moon_arc_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "月能圆弧命中",
+        "resultCount": 1,
+        "skillKey": "diana_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-18T23:30:36.444017Z"
+      }
+    ],
+    "/skills/diana_q/effects/mana_cost": {
+      "createdAt": "2026-09-07T18:53:36.342966Z",
+      "description": "仅施放法力消耗；具体过程单独绑定。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "diana_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T18:53:36.342966Z"
+    },
+    "/skills/diana_q/effects/moon_arc_hit": {
+      "createdAt": "2026-09-07T18:53:36.94221Z",
+      "description": "本轮1V1敌方英雄的普通直接魔法技能伤害组成；显式登记防御结算后伤害、效率为1的全能吸血资格。实际命中入口已配置，其他被动、控制或目标分支分别维护。",
+      "effectKey": "moon_arc_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "月能圆弧命中",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": [
+              {
+                "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                "efficiencyValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "vampType": "OMNIVAMP"
+              }
+            ]
+          },
+          "lifecycleBehavior": null,
+          "name": "月能圆弧命中",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "RESULT",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "diana_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-18T23:30:36.444017Z"
+    },
+    "/skills/diana_q/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-07T18:53:37.475665Z",
+        "description": "只绑定法力、基础冷却及施法延迟；不在过程结束时自动造成伤害。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "施放新月打击",
+        "processKey": "cast",
+        "skillKey": "diana_q",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-07T18:53:37.475665Z"
+      }
+    ],
+    "/skills/diana_q/processes/cast": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-07T18:53:37.475665Z",
+      "description": "只绑定法力、基础冷却及施法延迟；不在过程结束时自动造成伤害。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "施放新月打击",
+      "processKey": "cast",
+      "skillKey": "diana_q",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "主技能已核对的施法时间。",
+          "detail": {
+            "delayValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cast_time_ms"
+            }
+          },
+          "name": "施法延迟",
+          "sortOrder": 10,
+          "stepKey": "cast_time",
+          "stepType": "DELAY"
+        }
+      ],
+      "updatedAt": "2026-09-07T18:53:37.475665Z"
+    },
+    "/skills/diana_q/internal-states": [],
+    "/skills/diana_q/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "新月打击实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:53:38.050068Z"
+      },
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "主动使用时启动本技能施法过程；法力消耗、普通冷却及施法延迟沿用过程配置，实际命中由独立规则处理。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "主动使用启动新月打击施法过程",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-18T23:47:06.353694Z"
+      }
+    ],
+    "/skills/diana_q/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "damage",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "moon_arc_hit"
+          },
+          "name": "执行命中伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "diana_q",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "新月打击实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    },
+    "/skills/diana_q/trigger-rules/on_used": {
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "actionType": "START_PROCESS",
+          "detail": {
+            "processKey": "cast"
+          },
+          "name": "启动新月打击施法过程",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "主动使用时启动本技能施法过程；法力消耗、普通冷却及施法延迟沿用过程配置，实际命中由独立规则处理。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "diana_q",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "主动使用启动新月打击施法过程",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used",
+      "sortOrder": 10
+    },
+    "/skills/kassadin_q": {
+      "createdAt": "2026-09-06T18:18:53.006891Z",
+      "description": "卡萨丁向目标发射虚空能量法球，造成伤害并打断目标的技能引导。满溢的能量会在他身边环绕，提供一个可吸收魔法伤害的临时护盾。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "卡萨丁·虚无法球",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "kassadin_q",
+      "sortOrder": 1,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:18:53.006891Z"
+    },
+    "/skills/kassadin_q/parameters": [
+      {
+        "createdAt": "2026-09-09T05:42:29.536793Z",
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "kassadin_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T05:42:29.536793Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T05:42:30.547107Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 65,
+          "2": 95,
+          "3": 125,
+          "4": 155,
+          "5": 185
+        },
+        "name": "基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "kassadin_q",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T05:42:30.547107Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T05:42:31.52971Z",
+        "description": "客户端当前根绑定 DataValues.ShieldAmount 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 80,
+          "2": 110,
+          "3": 140,
+          "4": 170,
+          "5": 200
+        },
+        "name": "基础魔法护盾",
+        "parameterKey": "base_magic_shield",
+        "skillKey": "kassadin_q",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T05:42:31.52971Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T05:42:32.43055Z",
+        "description": "客户端当前根绑定 DataValues.ShieldDuration 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+        "fixedValue": 1500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "魔法护盾持续（毫秒）",
+        "parameterKey": "shield_duration_ms",
+        "skillKey": "kassadin_q",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T05:42:32.43055Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T05:42:33.432615Z",
+        "description": "当前原计算树显式常数；只用于此数学表达式。",
+        "fixedValue": 0.7,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "虚无法球魔法伤害固定系数",
+        "parameterKey": "calculation_constant_1",
+        "skillKey": "kassadin_q",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-09T05:42:33.432615Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T05:42:34.36376Z",
+        "description": "当前原计算树显式常数；只用于此数学表达式。",
+        "fixedValue": 0.3,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "魔法护盾数值固定系数",
+        "parameterKey": "calculation_constant_2",
+        "skillKey": "kassadin_q",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-09T05:42:34.36376Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T17:38:43.655385Z",
+        "description": "DDragon16.17.1 Kassadin.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 9000,
+          "2": 8500,
+          "3": 8000,
+          "4": 7500,
+          "5": 7000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "kassadin_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T17:38:43.655385Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T17:38:44.030641Z",
+        "description": "DDragon16.17.1 Kassadin.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 65,
+          "3": 70,
+          "4": 75,
+          "5": 80
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "kassadin_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T17:38:44.030641Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/kassadin_q/parameters/cast_time_ms": {
+      "createdAt": "2026-09-09T05:42:29.536793Z",
+      "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "kassadin_q",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T05:42:29.536793Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/kassadin_q/parameters/base_damage": {
+      "createdAt": "2026-09-09T05:42:30.547107Z",
+      "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 65,
+        "2": 95,
+        "3": 125,
+        "4": 155,
+        "5": 185
+      },
+      "name": "基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "kassadin_q",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T05:42:30.547107Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/kassadin_q/parameters/base_magic_shield": {
+      "createdAt": "2026-09-09T05:42:31.52971Z",
+      "description": "客户端当前根绑定 DataValues.ShieldAmount 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 80,
+        "2": 110,
+        "3": 140,
+        "4": 170,
+        "5": 200
+      },
+      "name": "基础魔法护盾",
+      "parameterKey": "base_magic_shield",
+      "skillKey": "kassadin_q",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T05:42:31.52971Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/kassadin_q/parameters/shield_duration_ms": {
+      "createdAt": "2026-09-09T05:42:32.43055Z",
+      "description": "客户端当前根绑定 DataValues.ShieldDuration 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+      "fixedValue": 1500,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "魔法护盾持续（毫秒）",
+      "parameterKey": "shield_duration_ms",
+      "skillKey": "kassadin_q",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-09T05:42:32.43055Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/kassadin_q/parameters/calculation_constant_1": {
+      "createdAt": "2026-09-09T05:42:33.432615Z",
+      "description": "当前原计算树显式常数；只用于此数学表达式。",
+      "fixedValue": 0.7,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "虚无法球魔法伤害固定系数",
+      "parameterKey": "calculation_constant_1",
+      "skillKey": "kassadin_q",
+      "sortOrder": 70,
+      "updatedAt": "2026-09-09T05:42:33.432615Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/kassadin_q/parameters/calculation_constant_2": {
+      "createdAt": "2026-09-09T05:42:34.36376Z",
+      "description": "当前原计算树显式常数；只用于此数学表达式。",
+      "fixedValue": 0.3,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "魔法护盾数值固定系数",
+      "parameterKey": "calculation_constant_2",
+      "skillKey": "kassadin_q",
+      "sortOrder": 80,
+      "updatedAt": "2026-09-09T05:42:34.36376Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/kassadin_q/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T17:38:43.655385Z",
+      "description": "DDragon16.17.1 Kassadin.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 9000,
+        "2": 8500,
+        "3": 8000,
+        "4": 7500,
+        "5": 7000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "kassadin_q",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T17:38:43.655385Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/kassadin_q/parameters/mana_cost": {
+      "createdAt": "2026-09-07T17:38:44.030641Z",
+      "description": "DDragon16.17.1 Kassadin.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 60,
+        "2": 65,
+        "3": 70,
+        "4": 75,
+        "5": 80
+      },
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "kassadin_q",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-07T17:38:44.030641Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/kassadin_q/formulas": [
+      {
+        "createdAt": "2026-09-09T05:42:35.339286Z",
+        "description": "基础值加0.7法强；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "虚无法球魔法伤害",
+        "skillKey": "kassadin_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T05:42:35.339286Z"
+      },
+      {
+        "createdAt": "2026-09-09T05:42:36.261054Z",
+        "description": "基础值加0.3法强；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "formulaKey": "magic_shield_amount",
+        "gameId": "lol",
+        "name": "魔法护盾数值",
+        "skillKey": "kassadin_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T05:42:36.261054Z"
+      }
+    ],
+    "/skills/kassadin_q/formulas/damage": {
+      "createdAt": "2026-09-09T05:42:35.339286Z",
+      "description": "基础值加0.7法强；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "calculation_constant_1"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "虚无法球魔法伤害",
+      "skillKey": "kassadin_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T05:42:35.339286Z"
+    },
+    "/skills/kassadin_q/formulas/magic_shield_amount": {
+      "createdAt": "2026-09-09T05:42:36.261054Z",
+      "description": "基础值加0.3法强；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_magic_shield"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "calculation_constant_2"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "magic_shield_amount",
+      "gameId": "lol",
+      "name": "魔法护盾数值",
+      "skillKey": "kassadin_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T05:42:36.261054Z"
+    },
+    "/skills/kassadin_q/effects": [
+      {
+        "createdAt": "2026-09-09T05:42:37.259358Z",
+        "description": "仅绑定官方基础法力消耗；额外持续法力或真实扣除时点单独记录。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "kassadin_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T05:42:37.259358Z"
+      },
+      {
+        "createdAt": "2026-09-09T05:42:38.202528Z",
+        "description": "当前正文明确自身1.5秒魔法护盾；施放与目标命中、护盾采样时点未自动连接。",
+        "effectKey": "magic_shield",
+        "gameId": "lol",
+        "lifecycleEnabled": true,
+        "name": "虚无法球自身魔法护盾",
+        "resultCount": 1,
+        "skillKey": "kassadin_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T05:42:38.202528Z"
+      },
+      {
+        "createdAt": "2026-09-19T00:18:52.380796Z",
+        "description": "1V1范围内当前唯一敌方英雄的一次实际命中魔法伤害；引导打断、护盾和其他控制分支不在本效果内。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "虚无法球命中伤害",
+        "resultCount": 1,
+        "skillKey": "kassadin_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-19T00:18:52.380796Z"
+      }
+    ],
+    "/skills/kassadin_q/effects/mana_cost": {
+      "createdAt": "2026-09-09T05:42:37.259358Z",
+      "description": "仅绑定官方基础法力消耗；额外持续法力或真实扣除时点单独记录。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "kassadin_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T05:42:37.259358Z"
+    },
+    "/skills/kassadin_q/effects/magic_shield": {
+      "createdAt": "2026-09-09T05:42:38.202528Z",
+      "description": "当前正文明确自身1.5秒魔法护盾；施放与目标命中、护盾采样时点未自动连接。",
+      "effectKey": "magic_shield",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "shield_duration_ms"
+        },
+        "expiryMode": "ALL_AT_ONCE",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "虚无法球自身魔法护盾",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "absorbedDamageTypeKey": "magic",
+            "decayMode": "NONE"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": "REPLACE",
+            "stackValueMode": "SHARED",
+            "valueReadMode": "APPLICATION_SNAPSHOT"
+          },
+          "name": "魔法护盾",
+          "resultKey": "shield",
+          "resultType": "NORMAL_SHIELD",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "magic_shield_amount",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "kassadin_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T05:42:38.202528Z"
+    },
+    "/skills/kassadin_q/effects/primary_hit": {
+      "createdAt": "2026-09-19T00:18:52.380796Z",
+      "description": "1V1范围内当前唯一敌方英雄的一次实际命中魔法伤害；引导打断、护盾和其他控制分支不在本效果内。",
+      "effectKey": "primary_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "虚无法球命中伤害",
+      "results": [
+        {
+          "description": "引用同技能 damage 公式；结果只表示直接技能伤害，不表达引导打断或护盾。",
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": [
+              {
+                "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                "efficiencyValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "vampType": "OMNIVAMP"
+              }
+            ]
+          },
+          "lifecycleBehavior": null,
+          "name": "魔法伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "SKILL",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "kassadin_q",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-19T00:18:52.380796Z"
+    },
+    "/skills/kassadin_q/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-19T00:18:53.738606Z",
+        "description": "负责主动使用的法力消耗、250毫秒施法延迟和普通冷却；命中伤害由独立SKILL_HIT规则处理，已有护盾入口保持独立。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "施放虚无法球",
+        "processKey": "cast",
+        "skillKey": "kassadin_q",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-19T00:18:53.738606Z"
+      }
+    ],
+    "/skills/kassadin_q/processes/cast": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-19T00:18:53.738606Z",
+      "description": "负责主动使用的法力消耗、250毫秒施法延迟和普通冷却；命中伤害由独立SKILL_HIT规则处理，已有护盾入口保持独立。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "施放虚无法球",
+      "processKey": "cast",
+      "skillKey": "kassadin_q",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "读取当前技能250毫秒施法参数；不表示命中事件已自动产生。",
+          "detail": {
+            "delayValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cast_time_ms"
+            }
+          },
+          "name": "施法延迟",
+          "sortOrder": 10,
+          "stepKey": "cast_time",
+          "stepType": "DELAY"
+        }
+      ],
+      "updatedAt": "2026-09-19T00:18:53.738606Z"
+    },
+    "/skills/kassadin_q/internal-states": [],
+    "/skills/kassadin_q/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "接收 kassadin_q 主动使用；无条件在 CURRENT_TARGET 上执行已有 magic_shield。magic_shield 结果 target=SOURCE 且只吸收 magic 魔法伤害，不表达目标伤害、引导打断或资源消耗。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "虚无法球主动使用",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-12T16:39:54.10274Z"
+      },
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "每次 kassadin_q 主动使用启动已有 cast 过程；只登记法力消耗、施法延迟和普通冷却，不重复执行护盾、不执行命中伤害，也不创建引导打断。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "主动使用启动虚无法球施放过程",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used_cast",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T00:18:57.073694Z"
+      },
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "仅消费宿主确认的 kassadin_q 实际 SKILL_HIT，在当前唯一敌方英雄上执行新增 primary_hit；规则本身不产生命中事件，也不创建引导打断、护盾或其他控制。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "Q实际命中结算",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "resolve_on_q_hit",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T00:18:55.022192Z"
+      }
+    ],
+    "/skills/kassadin_q/trigger-rules/on_used": {
+      "actions": [
+        {
+          "actionKey": "execute_magic_shield",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "magic_shield"
+          },
+          "name": "执行虚无法球魔法护盾",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "接收 kassadin_q 主动使用；无条件在 CURRENT_TARGET 上执行已有 magic_shield。magic_shield 结果 target=SOURCE 且只吸收 magic 魔法伤害，不表达目标伤害、引导打断或资源消耗。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "kassadin_q",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "虚无法球主动使用",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used",
+      "sortOrder": 10
+    },
+    "/skills/kassadin_q/trigger-rules/on_used_cast": {
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "actionType": "START_PROCESS",
+          "detail": {
+            "processKey": "cast"
+          },
+          "name": "启动虚无法球施放过程",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "每次 kassadin_q 主动使用启动已有 cast 过程；只登记法力消耗、施法延迟和普通冷却，不重复执行护盾、不执行命中伤害，也不创建引导打断。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "kassadin_q",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "主动使用启动虚无法球施放过程",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used_cast",
+      "sortOrder": 20
+    },
+    "/skills/kassadin_q/trigger-rules/resolve_on_q_hit": {
+      "actions": [
+        {
+          "actionKey": "execute_primary_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "primary_hit"
+          },
+          "name": "执行虚无法球命中伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "唯一敌方英雄",
+          "sortOrder": 10
+        }
+      ],
+      "description": "仅消费宿主确认的 kassadin_q 实际 SKILL_HIT，在当前唯一敌方英雄上执行新增 primary_hit；规则本身不产生命中事件，也不创建引导打断、护盾或其他控制。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "kassadin_q",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "Q实际命中结算",
+      "perTargetCooldown": null,
+      "ruleKey": "resolve_on_q_hit",
+      "sortOrder": 20
+    },
+    "/skills/ahri_e": {
+      "createdAt": "2026-09-06T18:16:14.427185Z",
+      "description": "阿狸献出红唇热吻，对命中的第一个敌人造成伤害并将目标魅惑，并且立刻终止目标的移动技能并使目标无恶意地走向她。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "阿狸·魅惑妖术",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "ahri_e",
+      "sortOrder": 3,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:16:14.427185Z"
+    },
+    "/skills/ahri_e/parameters": [
+      {
+        "createdAt": "2026-09-07T18:52:38.797791Z",
+        "description": "当前spellCastTime与已有mCastTime一致；不代替命中。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "ahri_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T18:52:38.797791Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:52:39.367241Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 80,
+          "2": 120,
+          "3": 160,
+          "4": 200,
+          "5": 240
+        },
+        "name": "基础伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "ahri_e",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-07T18:52:39.367241Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:52:39.90728Z",
+        "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+        "fixedValue": 0.85,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法强倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "ahri_e",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-07T18:52:39.90728Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T18:52:40.538547Z",
+        "description": "客户端当前根绑定 DataValues.CharmDuration 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 1200,
+          "2": 1350,
+          "3": 1500,
+          "4": 1650,
+          "5": 1800
+        },
+        "name": "魅惑时长（毫秒）",
+        "parameterKey": "charm_duration_ms",
+        "skillKey": "ahri_e",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-07T18:52:40.538547Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:52:41.142232Z",
+        "description": "客户端当前根绑定 DataValues.SlowPercent 取索引1至5。",
+        "fixedValue": 0.65,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "魅惑期间移速降低比例",
+        "parameterKey": "charm_slow_ratio",
+        "skillKey": "ahri_e",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-07T18:52:41.142232Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T16:00:05.508573Z",
+        "description": "DDragon16.17.1 Ahri.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 12000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "ahri_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T16:00:05.508573Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:00:05.845251Z",
+        "description": "DDragon16.17.1 Ahri.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 60,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "ahri_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T16:00:05.845251Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/ahri_e/parameters/cast_time_ms": {
+      "createdAt": "2026-09-07T18:52:38.797791Z",
+      "description": "当前spellCastTime与已有mCastTime一致；不代替命中。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "ahri_e",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-07T18:52:38.797791Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/ahri_e/parameters/base_damage": {
+      "createdAt": "2026-09-07T18:52:39.367241Z",
+      "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 80,
+        "2": 120,
+        "3": 160,
+        "4": 200,
+        "5": 240
+      },
+      "name": "基础伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "ahri_e",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-07T18:52:39.367241Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/ahri_e/parameters/ap_ratio": {
+      "createdAt": "2026-09-07T18:52:39.90728Z",
+      "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+      "fixedValue": 0.85,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法强倍率",
+      "parameterKey": "ap_ratio",
+      "skillKey": "ahri_e",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-07T18:52:39.90728Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/ahri_e/parameters/charm_duration_ms": {
+      "createdAt": "2026-09-07T18:52:40.538547Z",
+      "description": "客户端当前根绑定 DataValues.CharmDuration 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 1200,
+        "2": 1350,
+        "3": 1500,
+        "4": 1650,
+        "5": 1800
+      },
+      "name": "魅惑时长（毫秒）",
+      "parameterKey": "charm_duration_ms",
+      "skillKey": "ahri_e",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-07T18:52:40.538547Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/ahri_e/parameters/charm_slow_ratio": {
+      "createdAt": "2026-09-07T18:52:41.142232Z",
+      "description": "客户端当前根绑定 DataValues.SlowPercent 取索引1至5。",
+      "fixedValue": 0.65,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "魅惑期间移速降低比例",
+      "parameterKey": "charm_slow_ratio",
+      "skillKey": "ahri_e",
+      "sortOrder": 70,
+      "updatedAt": "2026-09-07T18:52:41.142232Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/ahri_e/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T16:00:05.508573Z",
+      "description": "DDragon16.17.1 Ahri.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 12000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "ahri_e",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T16:00:05.508573Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/ahri_e/parameters/mana_cost": {
+      "createdAt": "2026-09-07T16:00:05.845251Z",
+      "description": "DDragon16.17.1 Ahri.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 60,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "ahri_e",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-07T16:00:05.845251Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/ahri_e/formulas": [
+      {
+        "createdAt": "2026-09-07T18:52:41.871095Z",
+        "description": "当前根TotalDamage：基础伤害+法强倍率×总法强。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "魅惑妖术基础伤害",
+        "skillKey": "ahri_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:52:41.871095Z"
+      }
+    ],
+    "/skills/ahri_e/formulas/damage": {
+      "createdAt": "2026-09-07T18:52:41.871095Z",
+      "description": "当前根TotalDamage：基础伤害+法强倍率×总法强。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "魅惑妖术基础伤害",
+      "skillKey": "ahri_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T18:52:41.871095Z"
+    },
+    "/skills/ahri_e/effects": [
+      {
+        "createdAt": "2026-09-07T18:52:42.496789Z",
+        "description": "仅施放法力消耗；具体过程单独绑定。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "ahri_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:52:42.496789Z"
+      },
+      {
+        "createdAt": "2026-09-07T18:52:43.148014Z",
+        "description": "本轮1V1敌方英雄的一次普通直接魔法技能伤害；实际命中入口已配置，并明确登记防御结算后伤害、效率为1的全能吸血资格。控制、施放和相关技能联动分别维护。",
+        "effectKey": "charm_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "魅惑命中魔法伤害",
+        "resultCount": 1,
+        "skillKey": "ahri_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T00:05:51.566451Z"
+      }
+    ],
+    "/skills/ahri_e/effects/mana_cost": {
+      "createdAt": "2026-09-07T18:52:42.496789Z",
+      "description": "仅施放法力消耗；具体过程单独绑定。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "ahri_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T18:52:42.496789Z"
+    },
+    "/skills/ahri_e/effects/charm_hit": {
+      "createdAt": "2026-09-07T18:52:43.148014Z",
+      "description": "本轮1V1敌方英雄的一次普通直接魔法技能伤害；实际命中入口已配置，并明确登记防御结算后伤害、效率为1的全能吸血资格。控制、施放和相关技能联动分别维护。",
+      "effectKey": "charm_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "魅惑命中魔法伤害",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": [
+              {
+                "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                "efficiencyValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "vampType": "OMNIVAMP"
+              }
+            ]
+          },
+          "lifecycleBehavior": null,
+          "name": "魅惑命中魔法伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "RESULT",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "ahri_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-19T00:05:51.566451Z"
+    },
+    "/skills/ahri_e/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-07T18:52:43.677738Z",
+        "description": "只绑定法力、基础冷却及施法延迟；不在过程结束时自动造成伤害。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "施放魅惑妖术",
+        "processKey": "cast",
+        "skillKey": "ahri_e",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-07T18:52:43.677738Z"
+      }
+    ],
+    "/skills/ahri_e/processes/cast": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-07T18:52:43.677738Z",
+      "description": "只绑定法力、基础冷却及施法延迟；不在过程结束时自动造成伤害。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "施放魅惑妖术",
+      "processKey": "cast",
+      "skillKey": "ahri_e",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "主技能已核对的施法时间。",
+          "detail": {
+            "delayValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cast_time_ms"
+            }
+          },
+          "name": "施法延迟",
+          "sortOrder": 10,
+          "stepKey": "cast_time",
+          "stepType": "DELAY"
+        }
+      ],
+      "updatedAt": "2026-09-07T18:52:43.677738Z"
+    },
+    "/skills/ahri_e/internal-states": [],
+    "/skills/ahri_e/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "魅惑妖术实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:52:44.23608Z"
+      },
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "主动使用时启动本技能既有施法过程；法力、普通冷却和施法延迟沿用过程配置，实际命中由独立规则处理。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "主动使用启动阿狸·魅惑妖术过程",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T00:41:34.072894Z"
+      }
+    ],
+    "/skills/ahri_e/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "damage",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "charm_hit"
+          },
+          "name": "执行命中伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "ahri_e",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "魅惑妖术实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    },
+    "/skills/ahri_e/trigger-rules/on_used": {
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "actionType": "START_PROCESS",
+          "detail": {
+            "processKey": "cast"
+          },
+          "name": "启动施法过程",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "主动使用时启动本技能既有施法过程；法力、普通冷却和施法延迟沿用过程配置，实际命中由独立规则处理。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "ahri_e",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "主动使用启动阿狸·魅惑妖术过程",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used",
+      "sortOrder": 10
+    },
+    "/skills/diana_e": {
+      "createdAt": "2026-09-06T18:18:09.313429Z",
+      "description": "成为复仇之月的活化身，冲向一名敌人并造成魔法伤害。<br>【月神冲刺】在冲达一名被施加了【月光】效果的敌人时，会没有冷却时间。所有其它的敌人都将移除掉身上的【月光】效果，无论他们是否是【月神冲刺】的目标。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "黛安娜·月神冲刺",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "diana_e",
+      "sortOrder": 3,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:18:09.313429Z"
+    },
+    "/skills/diana_e/parameters": [
+      {
+        "createdAt": "2026-09-07T18:53:46.86388Z",
+        "description": "当前spellCastTime与已有mCastTime一致；不代替命中。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "diana_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T18:53:46.86388Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:53:47.37083Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 50,
+          "2": 70,
+          "3": 90,
+          "4": 110,
+          "5": 130
+        },
+        "name": "基础伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "diana_e",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-07T18:53:47.37083Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:53:47.872189Z",
+        "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+        "fixedValue": 0.6,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法强倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "diana_e",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-07T18:53:47.872189Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T18:53:48.447067Z",
+        "description": "客户端当前根绑定 DataValues.CDResetTime 取索引1至5。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "月光冷却刷新延迟原值（毫秒）",
+        "parameterKey": "moonlight_reset_delay_ms",
+        "skillKey": "diana_e",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-07T18:53:48.447067Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:00:19.459508Z",
+        "description": "DDragon16.17.1 Diana.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 22000,
+          "2": 20000,
+          "3": 18000,
+          "4": 16000,
+          "5": 14000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "diana_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T16:00:19.459508Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:00:19.744223Z",
+        "description": "DDragon16.17.1 Diana.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 40,
+          "2": 45,
+          "3": 50,
+          "4": 55,
+          "5": 60
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "diana_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T16:00:19.744223Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/diana_e/parameters/cast_time_ms": {
+      "createdAt": "2026-09-07T18:53:46.86388Z",
+      "description": "当前spellCastTime与已有mCastTime一致；不代替命中。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "diana_e",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-07T18:53:46.86388Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/diana_e/parameters/base_damage": {
+      "createdAt": "2026-09-07T18:53:47.37083Z",
+      "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 50,
+        "2": 70,
+        "3": 90,
+        "4": 110,
+        "5": 130
+      },
+      "name": "基础伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "diana_e",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-07T18:53:47.37083Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/diana_e/parameters/ap_ratio": {
+      "createdAt": "2026-09-07T18:53:47.872189Z",
+      "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+      "fixedValue": 0.6,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法强倍率",
+      "parameterKey": "ap_ratio",
+      "skillKey": "diana_e",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-07T18:53:47.872189Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/diana_e/parameters/moonlight_reset_delay_ms": {
+      "createdAt": "2026-09-07T18:53:48.447067Z",
+      "description": "客户端当前根绑定 DataValues.CDResetTime 取索引1至5。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "月光冷却刷新延迟原值（毫秒）",
+      "parameterKey": "moonlight_reset_delay_ms",
+      "skillKey": "diana_e",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-07T18:53:48.447067Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/diana_e/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T16:00:19.459508Z",
+      "description": "DDragon16.17.1 Diana.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 22000,
+        "2": 20000,
+        "3": 18000,
+        "4": 16000,
+        "5": 14000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "diana_e",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T16:00:19.459508Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/diana_e/parameters/mana_cost": {
+      "createdAt": "2026-09-07T16:00:19.744223Z",
+      "description": "DDragon16.17.1 Diana.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 40,
+        "2": 45,
+        "3": 50,
+        "4": 55,
+        "5": 60
+      },
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "diana_e",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-07T16:00:19.744223Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/diana_e/formulas": [
+      {
+        "createdAt": "2026-09-07T18:53:48.982208Z",
+        "description": "当前根TotalDamage：基础伤害+法强倍率×总法强。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "月神冲刺基础伤害",
+        "skillKey": "diana_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:53:48.982208Z"
+      }
+    ],
+    "/skills/diana_e/formulas/damage": {
+      "createdAt": "2026-09-07T18:53:48.982208Z",
+      "description": "当前根TotalDamage：基础伤害+法强倍率×总法强。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "月神冲刺基础伤害",
+      "skillKey": "diana_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T18:53:48.982208Z"
+    },
+    "/skills/diana_e/effects": [
+      {
+        "createdAt": "2026-09-07T18:53:49.670451Z",
+        "description": "仅施放法力消耗；具体过程单独绑定。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "diana_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:53:49.670451Z"
+      },
+      {
+        "createdAt": "2026-09-07T18:53:50.245978Z",
+        "description": "本轮1V1敌方英雄的一次普通直接魔法技能伤害；实际命中入口已配置，并明确登记防御结算后伤害、效率为1的全能吸血资格。控制、施放和相关技能联动分别维护。",
+        "effectKey": "lunar_rush_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "月神冲刺命中",
+        "resultCount": 1,
+        "skillKey": "diana_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T00:05:53.298295Z"
+      },
+      {
+        "createdAt": "2026-09-07T18:53:50.9611Z",
+        "description": null,
+        "effectKey": "moonlight_cooldown_reset",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "命中已有月光目标重置冲刺",
+        "resultCount": 1,
+        "skillKey": "diana_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T18:53:50.9611Z"
+      }
+    ],
+    "/skills/diana_e/effects/mana_cost": {
+      "createdAt": "2026-09-07T18:53:49.670451Z",
+      "description": "仅施放法力消耗；具体过程单独绑定。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "diana_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T18:53:49.670451Z"
+    },
+    "/skills/diana_e/effects/lunar_rush_hit": {
+      "createdAt": "2026-09-07T18:53:50.245978Z",
+      "description": "本轮1V1敌方英雄的一次普通直接魔法技能伤害；实际命中入口已配置，并明确登记防御结算后伤害、效率为1的全能吸血资格。控制、施放和相关技能联动分别维护。",
+      "effectKey": "lunar_rush_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "月神冲刺命中",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": [
+              {
+                "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                "efficiencyValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "vampType": "OMNIVAMP"
+              }
+            ]
+          },
+          "lifecycleBehavior": null,
+          "name": "月神冲刺命中",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "RESULT",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "diana_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-19T00:05:53.298295Z"
+    },
+    "/skills/diana_e/effects/moonlight_cooldown_reset": {
+      "createdAt": "2026-09-07T18:53:50.9611Z",
+      "description": null,
+      "effectKey": "moonlight_cooldown_reset",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "命中已有月光目标重置冲刺",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "affectedSkillScope": {
+              "mode": "SKILLS",
+              "skillCategoryKeys": [],
+              "skillKeys": [
+                "diana_e"
+              ]
+            },
+            "operation": "RESET"
+          },
+          "lifecycleBehavior": null,
+          "name": "命中已有月光目标重置冲刺",
+          "resultKey": "cooldown",
+          "resultType": "COOLDOWN_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": null
+        }
+      ],
+      "skillKey": "diana_e",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-07T18:53:50.9611Z"
+    },
+    "/skills/diana_e/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-07T18:53:51.536851Z",
+        "description": "只绑定法力、基础冷却及施法延迟；不在过程结束时自动造成伤害。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "施放月神冲刺",
+        "processKey": "cast",
+        "skillKey": "diana_e",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-07T18:53:51.536851Z"
+      }
+    ],
+    "/skills/diana_e/processes/cast": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-07T18:53:51.536851Z",
+      "description": "只绑定法力、基础冷却及施法延迟；不在过程结束时自动造成伤害。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "施放月神冲刺",
+      "processKey": "cast",
+      "skillKey": "diana_e",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "主技能已核对的施法时间。",
+          "detail": {
+            "delayValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cast_time_ms"
+            }
+          },
+          "name": "施法延迟",
+          "sortOrder": 10,
+          "stepKey": "cast_time",
+          "stepType": "DELAY"
+        }
+      ],
+      "updatedAt": "2026-09-07T18:53:51.536851Z"
+    },
+    "/skills/diana_e/internal-states": [],
+    "/skills/diana_e/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "月神冲刺实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:53:52.088523Z"
+      },
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "主动使用时启动本技能既有施法过程；法力、普通冷却和施法延迟沿用过程配置，实际命中由独立规则处理。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "主动使用启动黛安娜·月神冲刺过程",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T00:41:35.690785Z"
+      }
+    ],
+    "/skills/diana_e/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "damage",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "lunar_rush_hit"
+          },
+          "name": "执行命中伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "diana_e",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "月神冲刺实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    },
+    "/skills/diana_e/trigger-rules/on_used": {
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "actionType": "START_PROCESS",
+          "detail": {
+            "processKey": "cast"
+          },
+          "name": "启动施法过程",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "主动使用时启动本技能既有施法过程；法力、普通冷却和施法延迟沿用过程配置，实际命中由独立规则处理。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "diana_e",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "主动使用启动黛安娜·月神冲刺过程",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used",
+      "sortOrder": 10
+    },
+    "/skills/ashe_r": {
+      "createdAt": "2026-09-06T17:14:17.927699Z",
+      "description": "来源：官方静态资料16.17.1。原始说明：艾希射出一支沿直线飞行的魔法水晶箭。如果水晶箭命中了一名敌方英雄，那么它会对该英雄造成伤害和晕眩效果，晕眩时长取决于水晶箭的飞行距离。此外，该英雄附近的敌方单位会受到伤害和减速效果。 数值、机制及图片尚待录入与核对。",
+      "gameId": "lol",
+      "maxLevel": 3,
+      "name": "艾希·魔法水晶箭",
+      "skillCategoryKeys": [],
+      "skillKey": "ashe_r",
+      "sortOrder": 4,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T17:14:17.927699Z"
+    },
+    "/skills/ashe_r/parameters": [
+      {
+        "createdAt": "2026-09-07T14:35:26.731135Z",
+        "description": "客户端 RBaseDamage 索引 1～3，与冻结 Wiki 一致。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 200,
+          "2": 400,
+          "3": 600
+        },
+        "name": "R 基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "ashe_r",
+        "sortOrder": 0,
+        "updatedAt": "2026-09-07T14:35:26.731135Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T14:35:27.155772Z",
+        "description": "客户端 RMainDamage.APRatio 原浮点 1.2000000476837158 按 1.2 归一，与冻结 Wiki 120%一致。",
+        "fixedValue": 1.2,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "R 法术强度比例",
+        "parameterKey": "ap_ratio",
+        "skillKey": "ashe_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T14:35:27.155772Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T14:35:27.851876Z",
+        "description": "客户端 cooldownTime 索引 1～3，秒转毫秒；与 DDragon 16.17.1 一致。仅参数，尚未挂接施法过程。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 100000,
+          "2": 80000,
+          "3": 60000
+        },
+        "name": "R 冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "ashe_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T14:35:27.851876Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T14:35:28.216248Z",
+        "description": "客户端 mana 索引 0～2 均为 100；与 DDragon 16.17.1 一致。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "R 法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "ashe_r",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T14:35:28.216248Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T14:35:28.611689Z",
+        "description": "客户端 MinStunDuration=1 秒；仅上下界参数，不表示已有眩晕效果。",
+        "fixedValue": 1000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "R 最短眩晕时间（毫秒）",
+        "parameterKey": "min_stun_duration_ms",
+        "skillKey": "ashe_r",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-07T14:35:28.611689Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T14:35:28.987787Z",
+        "description": "客户端 MaxStunDuration=3.5 秒；距离换算与控制行为待接线。",
+        "fixedValue": 3500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "R 最长眩晕时间（毫秒）",
+        "parameterKey": "max_stun_duration_ms",
+        "skillKey": "ashe_r",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-07T14:35:28.987787Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T14:35:29.317405Z",
+        "description": "客户端 spellCastTime=0.25 秒，与冻结 Wiki 一致；施法过程尚未配置。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "R 施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "ashe_r",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-07T14:35:29.317405Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/ashe_r/parameters/base_damage": {
+      "createdAt": "2026-09-07T14:35:26.731135Z",
+      "description": "客户端 RBaseDamage 索引 1～3，与冻结 Wiki 一致。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 200,
+        "2": 400,
+        "3": 600
+      },
+      "name": "R 基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "ashe_r",
+      "sortOrder": 0,
+      "updatedAt": "2026-09-07T14:35:26.731135Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/ashe_r/parameters/ap_ratio": {
+      "createdAt": "2026-09-07T14:35:27.155772Z",
+      "description": "客户端 RMainDamage.APRatio 原浮点 1.2000000476837158 按 1.2 归一，与冻结 Wiki 120%一致。",
+      "fixedValue": 1.2,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "R 法术强度比例",
+      "parameterKey": "ap_ratio",
+      "skillKey": "ashe_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T14:35:27.155772Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/ashe_r/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T14:35:27.851876Z",
+      "description": "客户端 cooldownTime 索引 1～3，秒转毫秒；与 DDragon 16.17.1 一致。仅参数，尚未挂接施法过程。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 100000,
+        "2": 80000,
+        "3": 60000
+      },
+      "name": "R 冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "ashe_r",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-07T14:35:27.851876Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/ashe_r/parameters/mana_cost": {
+      "createdAt": "2026-09-07T14:35:28.216248Z",
+      "description": "客户端 mana 索引 0～2 均为 100；与 DDragon 16.17.1 一致。",
+      "fixedValue": 100,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "R 法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "ashe_r",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-07T14:35:28.216248Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/ashe_r/parameters/min_stun_duration_ms": {
+      "createdAt": "2026-09-07T14:35:28.611689Z",
+      "description": "客户端 MinStunDuration=1 秒；仅上下界参数，不表示已有眩晕效果。",
+      "fixedValue": 1000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "R 最短眩晕时间（毫秒）",
+      "parameterKey": "min_stun_duration_ms",
+      "skillKey": "ashe_r",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-07T14:35:28.611689Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/ashe_r/parameters/max_stun_duration_ms": {
+      "createdAt": "2026-09-07T14:35:28.987787Z",
+      "description": "客户端 MaxStunDuration=3.5 秒；距离换算与控制行为待接线。",
+      "fixedValue": 3500,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "R 最长眩晕时间（毫秒）",
+      "parameterKey": "max_stun_duration_ms",
+      "skillKey": "ashe_r",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-07T14:35:28.987787Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/ashe_r/parameters/cast_time_ms": {
+      "createdAt": "2026-09-07T14:35:29.317405Z",
+      "description": "客户端 spellCastTime=0.25 秒，与冻结 Wiki 一致；施法过程尚未配置。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "R 施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "ashe_r",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-07T14:35:29.317405Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/ashe_r/formulas": [
+      {
+        "createdAt": "2026-09-07T14:35:29.71371Z",
+        "description": "基础伤害 + 120%法术强度；对应 RMainDamage，未建立附近目标选择。",
+        "formulaKey": "hit_damage",
+        "gameId": "lol",
+        "name": "R 命中英雄魔法伤害",
+        "skillKey": "ashe_r",
+        "sortOrder": 0,
+        "updatedAt": "2026-09-07T14:35:29.71371Z"
+      }
+    ],
+    "/skills/ashe_r/formulas/hit_damage": {
+      "createdAt": "2026-09-07T14:35:29.71371Z",
+      "description": "基础伤害 + 120%法术强度；对应 RMainDamage，未建立附近目标选择。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "hit_damage",
+      "gameId": "lol",
+      "name": "R 命中英雄魔法伤害",
+      "skillKey": "ashe_r",
+      "sortOrder": 0,
+      "updatedAt": "2026-09-07T14:35:29.71371Z"
+    },
+    "/skills/ashe_r/effects": [
+      {
+        "createdAt": "2026-09-07T14:35:30.04621Z",
+        "description": "本轮1V1敌方英雄的一次普通直接魔法技能伤害；实际命中入口已配置，并明确登记防御结算后伤害、效率为1的全能吸血资格。控制、施放和相关技能联动分别维护。",
+        "effectKey": "hit_damage",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "R 命中英雄魔法伤害",
+        "resultCount": 1,
+        "skillKey": "ashe_r",
+        "sortOrder": 0,
+        "updatedAt": "2026-09-19T00:05:55.099953Z"
+      },
+      {
+        "createdAt": "2026-09-07T14:35:30.429327Z",
+        "description": "明确的施放法力消耗组成；当前尚未挂接施法过程，不表示已经自动消耗。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "R 施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "ashe_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T14:35:30.429327Z"
+      }
+    ],
+    "/skills/ashe_r/effects/hit_damage": {
+      "createdAt": "2026-09-07T14:35:30.04621Z",
+      "description": "本轮1V1敌方英雄的一次普通直接魔法技能伤害；实际命中入口已配置，并明确登记防御结算后伤害、效率为1的全能吸血资格。控制、施放和相关技能联动分别维护。",
+      "effectKey": "hit_damage",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "R 命中英雄魔法伤害",
+      "results": [
+        {
+          "description": "仅伤害数值组成，不加普通暴击倍率；减速或眩晕另行配置。旧 Wiki 明示可被法术护盾阻挡，本结果选择当前结果粒度。吸血留待游戏级规则，空列表不表示不吸血。",
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": [
+              {
+                "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                "efficiencyValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "vampType": "OMNIVAMP"
+              }
+            ]
+          },
+          "lifecycleBehavior": null,
+          "name": "一次命中伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 0,
+          "spellShieldBlockScope": "RESULT",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": null,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "hit_damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "ashe_r",
+      "sortOrder": 0,
+      "updatedAt": "2026-09-19T00:05:55.099953Z"
+    },
+    "/skills/ashe_r/effects/mana_cost": {
+      "createdAt": "2026-09-07T14:35:30.429327Z",
+      "description": "明确的施放法力消耗组成；当前尚未挂接施法过程，不表示已经自动消耗。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "R 施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 0,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "ashe_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T14:35:30.429327Z"
+    },
+    "/skills/ashe_r/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-19T00:41:32.481721Z",
+        "description": "登记已核法力、普通冷却与当前根250毫秒施法延迟；实际命中由独立规则处理，不把过程结束当作命中。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "施放魔法水晶箭",
+        "processKey": "cast",
+        "skillKey": "ashe_r",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-19T00:41:32.481721Z"
+      }
+    ],
+    "/skills/ashe_r/processes/cast": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-19T00:41:32.481721Z",
+      "description": "登记已核法力、普通冷却与当前根250毫秒施法延迟；实际命中由独立规则处理，不把过程结束当作命中。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "施放魔法水晶箭",
+      "processKey": "cast",
+      "skillKey": "ashe_r",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "主技能已核对的施法时间。",
+          "detail": {
+            "delayValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cast_time_ms"
+            }
+          },
+          "name": "施法延迟",
+          "sortOrder": 10,
+          "stepKey": "cast_time",
+          "stepType": "DELAY"
+        }
+      ],
+      "updatedAt": "2026-09-19T00:41:32.481721Z"
+    },
+    "/skills/ashe_r/internal-states": [],
+    "/skills/ashe_r/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "仅在运行时确认 ashe_r 已命中英雄后，在当前目标上执行已有的 hit_damage；眩晕、距离换算、附近目标伤害、减速、弹道、视野、消耗与冷却不在本条规则中。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "命中英雄触发水晶箭伤害",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-12T15:21:11.140365Z"
+      },
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "主动使用时启动本技能既有施法过程；法力、普通冷却和施法延迟沿用过程配置，实际命中由独立规则处理。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "主动使用启动艾希·魔法水晶箭过程",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T00:41:37.209931Z"
+      }
+    ],
+    "/skills/ashe_r/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "execute_hit_damage",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "hit_damage"
+          },
+          "name": "执行水晶箭命中伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "命中对象为英雄",
+          "sortOrder": 10
+        }
+      ],
+      "description": "仅在运行时确认 ashe_r 已命中英雄后，在当前目标上执行已有的 hit_damage；眩晕、距离换算、附近目标伤害、减速、弹道、视野、消耗与冷却不在本条规则中。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "ashe_r",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "命中英雄触发水晶箭伤害",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    },
+    "/skills/ashe_r/trigger-rules/on_used": {
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "actionType": "START_PROCESS",
+          "detail": {
+            "processKey": "cast"
+          },
+          "name": "启动施法过程",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "主动使用时启动本技能既有施法过程；法力、普通冷却和施法延迟沿用过程配置，实际命中由独立规则处理。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "ashe_r",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "主动使用启动艾希·魔法水晶箭过程",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used",
+      "sortOrder": 10
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/diana_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/parameters/moonlight_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/effects/moon_arc_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/parameters/base_magic_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/parameters/shield_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/parameters/calculation_constant_1",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/parameters/calculation_constant_2",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/formulas/magic_shield_amount",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/effects/magic_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/trigger-rules/on_used_cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/trigger-rules/resolve_on_q_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/charm_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/charm_slow_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/effects/charm_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/parameters/moonlight_reset_delay_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/effects/lunar_rush_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/effects/moonlight_cooldown_reset",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/parameters/min_stun_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/parameters/max_stun_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/formulas/hit_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/effects/hit_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/trigger-rules/on_used",
+      "status": 200
+    }
+  ],
+  "businessWrites": 0
+}

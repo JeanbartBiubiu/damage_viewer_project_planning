@@ -1,0 +1,183 @@
+{
+  "schemaVersion": "authoring.independent-review.v1",
+  "status": "APPROVED",
+  "title": "五项已接施法流程说明整理独立评审",
+  "reviewedAt": "2026-09-19T08:18:00+08:00",
+  "reviewer": "/root/eight_direct_damage_audit",
+  "mode": "静态冻结审查；未访问业务API、数据库、浏览器、Wasm或战斗运行；只新建本文件",
+  "scope": {
+    "worktree": "C:\\project\\damage_web_dev",
+    "directory": "数据参考/全量录入-2026-09/交叉试录/五项已接施法流程说明整理",
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "plannedPUTs": 8,
+    "parameterChanges": 6,
+    "effectChanges": 2,
+    "baselineGETs": 103,
+    "baselineStatusCounts": {
+      "200": 103
+    },
+    "businessWritesDuringReview": 0,
+    "excluded": [
+      "真实PUT、写后独立回读、浏览器、宿主/Wasm和战斗运行",
+      "新增施法流程或规则；本批只修正已接流程对象的过时说明"
+    ]
+  },
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-descriptions-v2.mjs": "f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517",
+    "01-纠错计划.json": "10020da39a4ef437fbb49b365d569971bf48ab6c143d17c00f5befc43483e03b",
+    "02-冻结请求.json": "d046d290ee22edf88147d450348606c4e068f862fd35f104f4b8bb29e150979e",
+    "03-来源摘要.json": "5bd025ca16b4538ddc8b313c218704511679150061b9622a4452df778f91235a",
+    "04-写入前现值.json": "4ce27ae677614beeb2595c94a9a32da5359af3c360e5ff5509d9a0a34a2f2be3"
+  },
+  "supportingFiles": {
+    "00-说明差异与入口依据.json": "299370b1dd728bf7e32bafb544993daa002487c52a49f824b3479ba7b57de01d"
+  },
+  "sourceReview": {
+    "sourceFileCount": 13,
+    "sourceFilesAllMatch": true,
+    "sourceHashesCheckedAgainstCurrentBytes": true,
+    "sourceSummarySha256BoundTo03": true,
+    "sourceBasis": "来源均来自已保存且已有独立回读的六项既有施法过程、卡萨丁Q伤害与使用流程、阿狸E/黛安娜E/艾希R使用入口批次及本批00差异表。",
+    "currentHTTPRequestsDuringReview": 0,
+    "businessWritesDuringReview": 0,
+    "oldDescriptionBoundary": "8个oldDescription均明确写出未接入、尚未挂接或施法过程尚未配置；新说明只描述已有引用过程职责，不扩大机制完成范围。"
+  },
+  "frozenLinkage": {
+    "base": "http://127.0.0.1:8080/api/admin/games/lol",
+    "requestCount": 8,
+    "allMethodsPUT": true,
+    "distinctRoutes": true,
+    "routes": [
+      "/skills/diana_q/parameters/mana_cost",
+      "/skills/kassadin_q/parameters/mana_cost",
+      "/skills/kassadin_q/effects/mana_cost",
+      "/skills/ahri_e/parameters/mana_cost",
+      "/skills/diana_e/parameters/mana_cost",
+      "/skills/ashe_r/parameters/cooldown_ms",
+      "/skills/ashe_r/parameters/cast_time_ms",
+      "/skills/ashe_r/effects/mana_cost"
+    ],
+    "collectionPaths": [
+      "/skills/diana_q/parameters",
+      "/skills/kassadin_q/parameters",
+      "/skills/kassadin_q/effects",
+      "/skills/ahri_e/parameters",
+      "/skills/diana_e/parameters",
+      "/skills/ashe_r/parameters",
+      "/skills/ashe_r/effects"
+    ],
+    "asheRParameterRowsShareOneCollection": true,
+    "sourceSha256": "5bd025ca16b4538ddc8b313c218704511679150061b9622a4452df778f91235a",
+    "baselineSha256": "4ce27ae677614beeb2595c94a9a32da5359af3c360e5ff5509d9a0a34a2f2be3",
+    "sourceSha256BoundTo03": true,
+    "baselineSha256BoundTo04": true
+  },
+  "changedRoutes": [
+    {
+      "skillKey": "diana_q",
+      "kind": "parameter",
+      "route": "/skills/diana_q/parameters/mana_cost",
+      "descriptionRole": "法力参数由引用过程定义具体使用时点"
+    },
+    {
+      "skillKey": "kassadin_q",
+      "kind": "parameter",
+      "route": "/skills/kassadin_q/parameters/mana_cost",
+      "descriptionRole": "法力参数由引用过程定义具体使用时点"
+    },
+    {
+      "skillKey": "kassadin_q",
+      "kind": "effect",
+      "route": "/skills/kassadin_q/effects/mana_cost",
+      "descriptionRole": "主动使用消耗由引用效果的过程定义"
+    },
+    {
+      "skillKey": "ahri_e",
+      "kind": "parameter",
+      "route": "/skills/ahri_e/parameters/mana_cost",
+      "descriptionRole": "法力参数由引用过程定义具体使用时点"
+    },
+    {
+      "skillKey": "diana_e",
+      "kind": "parameter",
+      "route": "/skills/diana_e/parameters/mana_cost",
+      "descriptionRole": "法力参数由引用过程定义具体使用时点"
+    },
+    {
+      "skillKey": "ashe_r",
+      "kind": "parameter",
+      "route": "/skills/ashe_r/parameters/cooldown_ms",
+      "descriptionRole": "基础冷却参数由引用过程定义具体起算"
+    },
+    {
+      "skillKey": "ashe_r",
+      "kind": "parameter",
+      "route": "/skills/ashe_r/parameters/cast_time_ms",
+      "descriptionRole": "由施法过程读取，不代替实际命中"
+    },
+    {
+      "skillKey": "ashe_r",
+      "kind": "effect",
+      "route": "/skills/ashe_r/effects/mana_cost",
+      "descriptionRole": "主动使用消耗由引用效果的过程定义"
+    }
+  ],
+  "requestProtection": {
+    "allEightDescriptionsMatch01Plan": true,
+    "allEightOldDescriptionsMatch00And04": true,
+    "parameterBodyFieldSetPreserved": ["name", "valueType", "valueMode", "fixedValue", "levelValues", "sortOrder"],
+    "effectBodyFieldSetPreserved": ["name", "sortOrder", "lifecycle", "results"],
+    "allBodiesMatchCurrent04ExceptDescription": true,
+    "allExpectedReadbacksMatchCurrent04ExceptDescription": true,
+    "allNumericValuesPreserved": true,
+    "allCreatedAtValuesProtectedByExpectedReadback": true,
+    "allFormulaReferencesAndExpressionsPreserved": true,
+    "allProcessAndTriggerRuleObjectsPreserved": true,
+    "allNewProcessAndRuleBoundariesPreserved": true,
+    "toolWriteGateAndImmediateReadbackPresent": true
+  },
+  "checks": [
+    {
+      "name": "工具与01至04完整原始字节绑定",
+      "status": "PASS",
+      "evidence": "工具SHA为f4c05230...，02为d046d290...；现场重算01、02、03、04并核对02.sourceSha256/02.baselineSha256均与对应文件一致。"
+    },
+    {
+      "name": "13项来源原字节散列",
+      "status": "PASS",
+      "evidence": "03-来源摘要列出13项，按web根解析后13项当前原始字节SHA-256逐项一致；无新增HTTP或业务写入。"
+    },
+    {
+      "name": "103GET写前基线",
+      "status": "PASS",
+      "evidence": "04包含103个唯一GET路径，响应全部200，method全为GET，businessWrites=0；四个技能主体、参数、效果、公式、过程和规则快照完整。"
+    },
+    {
+      "name": "范围与集合准确",
+      "status": "PASS",
+      "evidence": "01/02共8条PUT：6个参数、2个法力效果；对应7个集合，AsheR的cooldown_ms与cast_time_ms共享parameters集合；没有额外技能或对象。"
+    },
+    {
+      "name": "完整PUT仅改description",
+      "status": "PASS",
+      "evidence": "逐条按参数/效果允许字段与04现值比较：8个body除description外完全一致，8个expectedReadback除description外完全一致；固定值、等级数组、公式引用、结果、排序、生命周期和元数据保护均保持。"
+    },
+    {
+      "name": "来源差异与职责边界",
+      "status": "PASS",
+      "evidence": "00中的8个oldDescription与04一致且均含过时未接入措辞；新说明只说明已有过程或效果的职责，不新增流程、规则或运行完成结论。"
+    },
+    {
+      "name": "版本与执行边界",
+      "status": "PASS",
+      "evidence": "来源候选固定客户端16.17、DDragon16.17.1；本评审不采用新只读回读工具，也未修改writer、冻结文件或其他目录。"
+    },
+    {
+      "name": "运行边界",
+      "status": "PASS",
+      "evidence": "本评审仅做静态字节、结构和来源核对；不把已有施法过程/规则配置写成资源实际扣除、冷却调度、浏览器、宿主/Wasm或战斗运行证明。"
+    }
+  ],
+  "conclusion": "APPROVED：未发现阻塞项；主负责人可在保持工具及01至04原始散列和全量现值不漂移的前提下进入后续写入阶段。"
+}
