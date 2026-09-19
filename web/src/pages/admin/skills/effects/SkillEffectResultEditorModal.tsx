@@ -1275,6 +1275,9 @@ export function SkillEffectResultEditorModal({
             />
           </Form.Item>
 
+          {draft.resultType === 'ATTACK_TIMER_RESET' ? (
+            <Alert type="info" content="将作用对象普通攻击间隔的剩余等待归零；不会直接发起攻击，也不改变技能冷却。" />
+          ) : null}
           {showValueRule ? (
             <>
               {slowApply ? <Alert type="info" content="0.3 表示 30% 减速；百分数点参数使用固定倍率 0.01。上下界固定为 0 和 1。" /> : null}
