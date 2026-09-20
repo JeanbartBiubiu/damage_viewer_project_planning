@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-20T10:35:05.348Z",
+  "generatedAt": "2026-09-20T11:09:42.335Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -12351,6 +12351,74 @@
         "commit": "9f31bafd",
         "sha256": "5f89fb1b862437ad21fc2c61582358ee8063c35879592e8b75d9a05506583103"
       }
+    },
+    "kogMawQDamageUseReturn": {
+      "at": "2026-09-20T11:07:30.907Z",
+      "status": "MANAGEMENT_COMPONENT_RETURN_PASS",
+      "skillKey": "kogmaw_q",
+      "sourceVersion": {
+        "client": "16.17",
+        "official": "16.17.1"
+      },
+      "businessWrites": {
+        "total": 8,
+        "newPOSTs": 4,
+        "descriptionApiPUTs": 3,
+        "descriptionUISaves": 1,
+        "alreadyCompletedPassiveUpdateCountedHere": false
+      },
+      "independentReadback": {
+        "status": "PASS",
+        "retainedValidatedGETs": 57,
+        "actualGETs": 90,
+        "append": {
+          "retained": 33,
+          "rounds": 2,
+          "actual": 66
+        },
+        "descriptions": {
+          "GETs": 22,
+          "unchangedIncludingTimestamps": 17
+        },
+        "initialization": {
+          "GETs": 2,
+          "otherRulesUnchanged": 2
+        },
+        "notes": "33+22+2为最终保留并验证的读取数；首轮追加33GET原始响应未保留，故实际读取为66+22+2。"
+      },
+      "currentComponentCounts": {
+        "parameters": 7,
+        "formulas": 1,
+        "effects": 3,
+        "processes": 1,
+        "internalStates": 0,
+        "triggerRules": 3
+      },
+      "formulaArithmetic": {
+        "reused": true,
+        "cases": 15,
+        "status": "PASS",
+        "source": "03-公式算术.json"
+      },
+      "browser": {
+        "status": "PASS",
+        "checks": 6,
+        "errorWarningLogs": 0
+      },
+      "wholeSkillComplete": false,
+      "remaining": [
+        "双抗削减、伤害先后与重施",
+        "有效施法时长"
+      ],
+      "runtimeValidation": "未执行",
+      "newTables": 0,
+      "codeChanges": 0,
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/克格莫Q伤害与使用返回/13-证据清单.json",
+        "commit": "0a346d86",
+        "sha256": "289bc916147482b667f2b6b2be0ed95516683827e9cfa0dc84a7441a9772a331"
+      }
     }
   },
   "runtimeValidation": "未执行",
@@ -13023,6 +13091,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/三项常驻攻速动态读取返回/05-证据清单.json",
         "commit": "9f31bafd",
         "sha256": "5f89fb1b862437ad21fc2c61582358ee8063c35879592e8b75d9a05506583103"
+      },
+      "kogMawQDamageUseReturn": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/克格莫Q伤害与使用返回/13-证据清单.json",
+        "commit": "0a346d86",
+        "sha256": "289bc916147482b667f2b6b2be0ed95516683827e9cfa0dc84a7441a9772a331"
       }
     },
     "coverage": {
@@ -24285,11 +24359,11 @@
         "name": "克格莫·腐蚀唾液",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "常驻自身攻速已由施加快照改为当前已学Q等级重新取值，原初始化保持，三项共3次保存、78次独立GET和页面返回通过。主动伤害和普通使用组成已核定待追加；双抗削减及其先后/重施、有效施法时长仍待核，不计整技能完整。",
+        "reason": "常驻自身攻速保持当前已学Q等级动态读取；直接魔法伤害、普通40法力/7000毫秒冷却登记及两个独立入口已保存，四项旧说明已返回修正。8次保存、最终保留57路独立回读及6个页面检查通过；双抗削减及其伤害先后/重施、有效施法时长仍待核，整技能不计完整。",
         "pendingCounts": {
           "source": 2,
           "system": 0,
-          "configuration": 1,
+          "configuration": 0,
           "other": 0
         },
         "batchKey": "heroTenthBatch",
@@ -24298,7 +24372,8 @@
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
           "threeSkillPersistentAttributeInitializationBackfill",
-          "threePermanentAttackSpeedDynamicReturn"
+          "threePermanentAttackSpeedDynamicReturn",
+          "kogMawQDamageUseReturn"
         ],
         "permanentAttackSpeedReturn": {
           "effectKey": "passive_attack_speed",
@@ -24315,21 +24390,31 @@
           "runtimeValidation": "未执行"
         },
         "completedBranches": [
-          "常驻自身攻速按当前已学技能等级读取，参数和初始化动作保留"
+          "常驻自身攻速按当前已学技能等级读取，参数和初始化动作保留",
+          "第一个碰撞敌人为英雄时的直接魔法伤害及实际命中入口",
+          "普通主动使用的40法力和7000毫秒基础冷却登记及独立使用入口"
         ],
         "currentComponentCounts": {
           "parameters": 7,
           "formulas": 1,
-          "effects": 2,
-          "processes": 0,
+          "effects": 3,
+          "processes": 1,
           "internalStates": 0,
-          "triggerRules": 1
+          "triggerRules": 3
         },
         "historicalPendingCounts": {
           "source": 2,
           "system": 1,
           "configuration": 0,
           "other": 0
+        },
+        "damageAndUseReturn": {
+          "businessWrites": 8,
+          "independentRetainedGETs": 57,
+          "independentActualGETs": 90,
+          "browser": "PASS",
+          "wholeSkillComplete": false,
+          "runtimeValidation": "未执行"
         }
       },
       {
