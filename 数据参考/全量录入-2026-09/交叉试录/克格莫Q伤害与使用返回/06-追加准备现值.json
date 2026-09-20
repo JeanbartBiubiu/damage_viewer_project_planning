@@ -1,0 +1,1037 @@
+{
+  "at": "2026-09-20T09:38:31.493Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/skills/kogmaw_q": {
+      "createdAt": "2026-09-06T18:19:04.23212Z",
+      "description": "克格莫发射一团腐蚀性物质，对目标造成魔法伤害，并暂时腐蚀目标的护甲和魔法抗性。克格莫还会获得额外攻速。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "克格莫·腐蚀唾液",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "kogmaw_q",
+      "sortOrder": 1,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:19:04.23212Z"
+    },
+    "/characters/champion_kogmaw": {
+      "characterKey": "champion_kogmaw",
+      "createdAt": "2026-09-06T16:55:52.582601Z",
+      "description": "官方静态资料16.17.1；仅基础属性与1～18级自然成长，技能、图片和特殊机制待录。",
+      "gameId": "lol",
+      "name": "克格莫",
+      "updatedAt": "2026-09-06T16:55:52.582601Z"
+    },
+    "/characters/champion_kogmaw/attributes": {
+      "characterKey": "champion_kogmaw",
+      "levelValues": {
+        "1": {
+          "move_speed": 330,
+          "hp": 635,
+          "hp_regen": 3.75,
+          "mana": 325,
+          "mana_regen": 8.75,
+          "armor": 24,
+          "magic_resistance": 33,
+          "attack_damage": 61,
+          "attack_speed": 0.665,
+          "attack_range": 500
+        },
+        "2": {
+          "move_speed": 330,
+          "hp": 706.28,
+          "hp_regen": 4.146,
+          "mana": 353.8,
+          "mana_regen": 9.254,
+          "armor": 27.204,
+          "magic_resistance": 33.792,
+          "attack_damage": 63.232,
+          "attack_speed": 0.677688,
+          "attack_range": 500
+        },
+        "3": {
+          "move_speed": 330,
+          "hp": 781.025,
+          "hp_regen": 4.56125,
+          "mana": 384,
+          "mana_regen": 9.7825,
+          "armor": 30.56375,
+          "magic_resistance": 34.6225,
+          "attack_damage": 65.5725,
+          "attack_speed": 0.690993,
+          "attack_range": 500
+        },
+        "4": {
+          "move_speed": 330,
+          "hp": 859.235,
+          "hp_regen": 4.99575,
+          "mana": 415.6,
+          "mana_regen": 10.3355,
+          "armor": 34.07925,
+          "magic_resistance": 35.4915,
+          "attack_damage": 68.0215,
+          "attack_speed": 0.704915,
+          "attack_range": 500
+        },
+        "5": {
+          "move_speed": 330,
+          "hp": 940.91,
+          "hp_regen": 5.4495,
+          "mana": 448.6,
+          "mana_regen": 10.913,
+          "armor": 37.7505,
+          "magic_resistance": 36.399,
+          "attack_damage": 70.579,
+          "attack_speed": 0.719454,
+          "attack_range": 500
+        },
+        "6": {
+          "move_speed": 330,
+          "hp": 1026.05,
+          "hp_regen": 5.9225,
+          "mana": 483,
+          "mana_regen": 11.515,
+          "armor": 41.5775,
+          "magic_resistance": 37.345,
+          "attack_damage": 73.245,
+          "attack_speed": 0.734609,
+          "attack_range": 500
+        },
+        "7": {
+          "move_speed": 330,
+          "hp": 1114.655,
+          "hp_regen": 6.41475,
+          "mana": 518.8,
+          "mana_regen": 12.1415,
+          "armor": 45.56025,
+          "magic_resistance": 38.3295,
+          "attack_damage": 76.0195,
+          "attack_speed": 0.750381,
+          "attack_range": 500
+        },
+        "8": {
+          "move_speed": 330,
+          "hp": 1206.725,
+          "hp_regen": 6.92625,
+          "mana": 556,
+          "mana_regen": 12.7925,
+          "armor": 49.69875,
+          "magic_resistance": 39.3525,
+          "attack_damage": 78.9025,
+          "attack_speed": 0.76677,
+          "attack_range": 500
+        },
+        "9": {
+          "move_speed": 330,
+          "hp": 1302.26,
+          "hp_regen": 7.457,
+          "mana": 594.6,
+          "mana_regen": 13.468,
+          "armor": 53.993,
+          "magic_resistance": 40.414,
+          "attack_damage": 81.894,
+          "attack_speed": 0.783776,
+          "attack_range": 500
+        },
+        "10": {
+          "move_speed": 330,
+          "hp": 1401.26,
+          "hp_regen": 8.007,
+          "mana": 634.6,
+          "mana_regen": 14.168,
+          "armor": 58.443,
+          "magic_resistance": 41.514,
+          "attack_damage": 84.994,
+          "attack_speed": 0.801398,
+          "attack_range": 500
+        },
+        "11": {
+          "move_speed": 330,
+          "hp": 1503.725,
+          "hp_regen": 8.57625,
+          "mana": 676,
+          "mana_regen": 14.8925,
+          "armor": 63.04875,
+          "magic_resistance": 42.6525,
+          "attack_damage": 88.2025,
+          "attack_speed": 0.819637,
+          "attack_range": 500
+        },
+        "12": {
+          "move_speed": 330,
+          "hp": 1609.655,
+          "hp_regen": 9.16475,
+          "mana": 718.8,
+          "mana_regen": 15.6415,
+          "armor": 67.81025,
+          "magic_resistance": 43.8295,
+          "attack_damage": 91.5195,
+          "attack_speed": 0.838494,
+          "attack_range": 500
+        },
+        "13": {
+          "move_speed": 330,
+          "hp": 1719.05,
+          "hp_regen": 9.7725,
+          "mana": 763,
+          "mana_regen": 16.415,
+          "armor": 72.7275,
+          "magic_resistance": 45.045,
+          "attack_damage": 94.945,
+          "attack_speed": 0.857966,
+          "attack_range": 500
+        },
+        "14": {
+          "move_speed": 330,
+          "hp": 1831.91,
+          "hp_regen": 10.3995,
+          "mana": 808.6,
+          "mana_regen": 17.213,
+          "armor": 77.8005,
+          "magic_resistance": 46.299,
+          "attack_damage": 98.479,
+          "attack_speed": 0.878056,
+          "attack_range": 500
+        },
+        "15": {
+          "move_speed": 330,
+          "hp": 1948.235,
+          "hp_regen": 11.04575,
+          "mana": 855.6,
+          "mana_regen": 18.0355,
+          "armor": 83.02925,
+          "magic_resistance": 47.5915,
+          "attack_damage": 102.1215,
+          "attack_speed": 0.898762,
+          "attack_range": 500
+        },
+        "16": {
+          "move_speed": 330,
+          "hp": 2068.025,
+          "hp_regen": 11.71125,
+          "mana": 904,
+          "mana_regen": 18.8825,
+          "armor": 88.41375,
+          "magic_resistance": 48.9225,
+          "attack_damage": 105.8725,
+          "attack_speed": 0.920086,
+          "attack_range": 500
+        },
+        "17": {
+          "move_speed": 330,
+          "hp": 2191.28,
+          "hp_regen": 12.396,
+          "mana": 953.8,
+          "mana_regen": 19.754,
+          "armor": 93.954,
+          "magic_resistance": 50.292,
+          "attack_damage": 109.732,
+          "attack_speed": 0.942026,
+          "attack_range": 500
+        },
+        "18": {
+          "move_speed": 330,
+          "hp": 2318,
+          "hp_regen": 13.1,
+          "mana": 1005,
+          "mana_regen": 20.65,
+          "armor": 99.65,
+          "magic_resistance": 51.7,
+          "attack_damage": 113.7,
+          "attack_speed": 0.964583,
+          "attack_range": 500
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_kogmaw/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_champion_kogmaw",
+        "name": "champion_kogmaw"
+      }
+    },
+    "/skills/kogmaw_q/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_kogmaw_q",
+        "name": "kogmaw_q"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_kogmaw": {
+      "items": [
+        {
+          "characterKey": "champion_kogmaw",
+          "characterName": "克格莫",
+          "gameId": "lol",
+          "skillKey": "kogmaw_p",
+          "skillName": "克格莫·来自艾卡西亚的惊喜",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_kogmaw",
+          "characterName": "克格莫",
+          "gameId": "lol",
+          "skillKey": "kogmaw_q",
+          "skillName": "克格莫·腐蚀唾液",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_kogmaw",
+          "characterName": "克格莫",
+          "gameId": "lol",
+          "skillKey": "kogmaw_w",
+          "skillName": "克格莫·生化弹幕",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_kogmaw",
+          "characterName": "克格莫",
+          "gameId": "lol",
+          "skillKey": "kogmaw_e",
+          "skillName": "克格莫·虚空淤泥",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_kogmaw",
+          "characterName": "克格莫",
+          "gameId": "lol",
+          "skillKey": "kogmaw_r",
+          "skillName": "克格莫·活体大炮",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=kogmaw_q": {
+      "items": [
+        {
+          "characterKey": "champion_kogmaw",
+          "characterName": "克格莫",
+          "gameId": "lol",
+          "skillKey": "kogmaw_q",
+          "skillName": "克格莫·腐蚀唾液",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        }
+      ],
+      "total": 1
+    },
+    "/skills/kogmaw_q/parameters": [
+      {
+        "createdAt": "2026-09-09T04:29:08.465314Z",
+        "description": "客户端当前根绑定 DataValues.AttackSpeed 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.05,
+          "2": 0.1,
+          "3": 0.15,
+          "4": 0.2,
+          "5": 0.25
+        },
+        "name": "腐蚀唾液被动额外攻速比例",
+        "parameterKey": "passive_attack_speed_ratio",
+        "skillKey": "kogmaw_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T04:29:08.465314Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T04:29:09.300715Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 80,
+          "2": 125,
+          "3": 170,
+          "4": 215,
+          "5": 260
+        },
+        "name": "腐蚀唾液基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "kogmaw_q",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T04:29:09.300715Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T04:29:10.073634Z",
+        "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+        "fixedValue": 0.9,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "腐蚀唾液法强系数",
+        "parameterKey": "ap_ratio",
+        "skillKey": "kogmaw_q",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T04:29:10.073634Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T04:29:11.103745Z",
+        "description": "客户端当前根绑定 DataValues.ShredAmount 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.16,
+          "2": 0.2,
+          "3": 0.24,
+          "4": 0.28,
+          "5": 0.32
+        },
+        "name": "护甲与魔抗削减比例",
+        "parameterKey": "resistance_shred_ratio",
+        "skillKey": "kogmaw_q",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T04:29:11.103745Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T04:29:12.008275Z",
+        "description": "客户端当前根绑定 DataValues.ShredDuration 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+        "fixedValue": 4000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "双抗削减持续（毫秒）",
+        "parameterKey": "shred_duration_ms",
+        "skillKey": "kogmaw_q",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-09T04:29:12.008275Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:00:15.073968Z",
+        "description": "DDragon16.17.1 KogMaw.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 7000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "kogmaw_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:15.073968Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:00:15.437135Z",
+        "description": "DDragon16.17.1 KogMaw.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 40,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "kogmaw_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:15.437135Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/kogmaw_q/parameters/passive_attack_speed_ratio": {
+      "createdAt": "2026-09-09T04:29:08.465314Z",
+      "description": "客户端当前根绑定 DataValues.AttackSpeed 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 0.05,
+        "2": 0.1,
+        "3": 0.15,
+        "4": 0.2,
+        "5": 0.25
+      },
+      "name": "腐蚀唾液被动额外攻速比例",
+      "parameterKey": "passive_attack_speed_ratio",
+      "skillKey": "kogmaw_q",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T04:29:08.465314Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "DECIMAL"
+    },
+    "/skills/kogmaw_q/parameters/base_damage": {
+      "createdAt": "2026-09-09T04:29:09.300715Z",
+      "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 80,
+        "2": 125,
+        "3": 170,
+        "4": 215,
+        "5": 260
+      },
+      "name": "腐蚀唾液基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "kogmaw_q",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T04:29:09.300715Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/kogmaw_q/parameters/ap_ratio": {
+      "createdAt": "2026-09-09T04:29:10.073634Z",
+      "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+      "fixedValue": 0.9,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "腐蚀唾液法强系数",
+      "parameterKey": "ap_ratio",
+      "skillKey": "kogmaw_q",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T04:29:10.073634Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/kogmaw_q/parameters/resistance_shred_ratio": {
+      "createdAt": "2026-09-09T04:29:11.103745Z",
+      "description": "客户端当前根绑定 DataValues.ShredAmount 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 0.16,
+        "2": 0.2,
+        "3": 0.24,
+        "4": 0.28,
+        "5": 0.32
+      },
+      "name": "护甲与魔抗削减比例",
+      "parameterKey": "resistance_shred_ratio",
+      "skillKey": "kogmaw_q",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-09T04:29:11.103745Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "DECIMAL"
+    },
+    "/skills/kogmaw_q/parameters/shred_duration_ms": {
+      "createdAt": "2026-09-09T04:29:12.008275Z",
+      "description": "客户端当前根绑定 DataValues.ShredDuration 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+      "fixedValue": 4000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "双抗削减持续（毫秒）",
+      "parameterKey": "shred_duration_ms",
+      "skillKey": "kogmaw_q",
+      "sortOrder": 70,
+      "updatedAt": "2026-09-09T04:29:12.008275Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/kogmaw_q/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T18:00:15.073968Z",
+      "description": "DDragon16.17.1 KogMaw.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 7000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "kogmaw_q",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T18:00:15.073968Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/kogmaw_q/parameters/mana_cost": {
+      "createdAt": "2026-09-07T18:00:15.437135Z",
+      "description": "DDragon16.17.1 KogMaw.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 40,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "kogmaw_q",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-07T18:00:15.437135Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/kogmaw_q/formulas": [
+      {
+        "createdAt": "2026-09-09T04:29:12.784269Z",
+        "description": "基础值加0.9法强；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "腐蚀唾液魔法伤害",
+        "skillKey": "kogmaw_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T04:29:12.784269Z"
+      }
+    ],
+    "/skills/kogmaw_q/formulas/damage": {
+      "createdAt": "2026-09-09T04:29:12.784269Z",
+      "description": "基础值加0.9法强；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "腐蚀唾液魔法伤害",
+      "skillKey": "kogmaw_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T04:29:12.784269Z"
+    },
+    "/skills/kogmaw_q/effects": [
+      {
+        "createdAt": "2026-09-09T04:29:13.687059Z",
+        "description": "仅绑定官方基础法力消耗；额外持续法力或真实扣除时点单独记录。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "kogmaw_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T04:29:13.687059Z"
+      },
+      {
+        "createdAt": "2026-09-09T04:29:14.557374Z",
+        "description": "仅被动已学技能等级提供的额外攻速；初始化和等级变更由外部来源事件处理，不创建默认触发。",
+        "effectKey": "passive_attack_speed",
+        "gameId": "lol",
+        "lifecycleEnabled": true,
+        "name": "腐蚀唾液被动额外攻速",
+        "resultCount": 1,
+        "skillKey": "kogmaw_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T04:29:14.557374Z"
+      }
+    ],
+    "/skills/kogmaw_q/effects/mana_cost": {
+      "createdAt": "2026-09-09T04:29:13.687059Z",
+      "description": "仅绑定官方基础法力消耗；额外持续法力或真实扣除时点单独记录。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "kogmaw_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T04:29:13.687059Z"
+    },
+    "/skills/kogmaw_q/effects/passive_attack_speed": {
+      "createdAt": "2026-09-09T04:29:14.557374Z",
+      "description": "仅被动已学技能等级提供的额外攻速；初始化和等级变更由外部来源事件处理，不创建默认触发。",
+      "effectKey": "passive_attack_speed",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": null,
+        "expiryMode": "EXPLICIT_ONLY",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": null,
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "腐蚀唾液被动额外攻速",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "bonus_attack_speed_percent",
+            "modifierZoneKey": "attribute_flat_add",
+            "operation": "INCREASE"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": "REPLACE",
+            "stackValueMode": "SHARED",
+            "valueReadMode": "APPLICATION_SNAPSHOT"
+          },
+          "name": "腐蚀唾液被动额外攻速",
+          "resultKey": "attribute",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "passive_attack_speed_ratio"
+            }
+          }
+        }
+      ],
+      "skillKey": "kogmaw_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T04:29:14.557374Z"
+    },
+    "/skills/kogmaw_q/processes": [],
+    "/skills/kogmaw_q/internal-states": [],
+    "/skills/kogmaw_q/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "来源对象的基础属性、技能与装备挂载及初始状态准备完成后，执行已有 passive_attack_speed，建立按当前技能等级取值的单层常驻自身攻速；来源初始化不表示后续技能升级，主动伤害、双抗削减、法力消耗、命中与法术护盾分支继续暂缓。",
+        "eventType": "SOURCE_INITIALIZED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "初始化腐蚀唾液被动攻速",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "initialize_passive_attack_speed",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-13T11:43:03.709912Z"
+      }
+    ],
+    "/skills/kogmaw_q/trigger-rules/initialize_passive_attack_speed": {
+      "actions": [
+        {
+          "actionKey": "execute_passive_attack_speed",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "passive_attack_speed"
+          },
+          "name": "执行腐蚀唾液被动攻速",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "EVENT_SOURCE"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "来源对象的基础属性、技能与装备挂载及初始状态准备完成后，执行已有 passive_attack_speed，建立按当前技能等级取值的单层常驻自身攻速；来源初始化不表示后续技能升级，主动伤害、双抗削减、法力消耗、命中与法术护盾分支继续暂缓。",
+      "eventSource": {
+        "detail": {},
+        "eventType": "SOURCE_INITIALIZED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "初始化腐蚀唾液被动攻速",
+      "perTargetCooldown": null,
+      "ruleKey": "initialize_passive_attack_speed",
+      "sortOrder": 10
+    },
+    "/attributes/ability_power": {
+      "attributeKey": "ability_power",
+      "createdAt": "2026-08-30T16:26:39.898635Z",
+      "description": "角色法术强度；基础值为 0，可由装备和效果增加",
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法术强度",
+      "sortOrder": 510,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-30T16:26:39.898635Z",
+      "valueType": "DECIMAL"
+    },
+    "/attributes/mana": {
+      "attributeKey": "mana",
+      "createdAt": "2026-08-22T15:27:36.139767Z",
+      "description": null,
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法力值",
+      "sortOrder": 310,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-22T15:27:36.139767Z",
+      "valueType": "DECIMAL"
+    },
+    "/attributes/bonus_attack_speed_percent": {
+      "attributeKey": "bonus_attack_speed_percent",
+      "createdAt": "2026-08-30T16:27:55.439812Z",
+      "description": "以 1 表示 100%；用于记录等级成长和咒能高涨等效果",
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": null,
+      "name": "额外攻击速度比例",
+      "sortOrder": 521,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-30T16:27:55.439812Z",
+      "valueType": "DECIMAL"
+    },
+    "/modifier-zones/attribute_flat_add": {
+      "applicationStage": "ATTRIBUTE_FLAT",
+      "calculationMode": "FLAT_ADD",
+      "createdAt": "2026-09-06T16:50:52.756989Z",
+      "description": "持续属性的固定值增加或减少；同属性同乘区内按方向加算，先于属性比例修正。比例类属性自身以1表示100%，增加0.6表示增加60个百分点，跨来源韧性组合仍待游戏规则核对。",
+      "domain": "ATTRIBUTE",
+      "gameId": "lol",
+      "modifierZoneKey": "attribute_flat_add",
+      "name": "属性固定加算",
+      "sortOrder": 10,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T16:50:52.756989Z"
+    },
+    "/damage-types/magic": {
+      "createdAt": "2026-08-26T05:59:15.870937Z",
+      "damageTypeKey": "magic",
+      "description": null,
+      "gameId": "lol",
+      "name": "魔法伤害",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-26T05:59:15.870937Z"
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q",
+      "status": 200,
+      "reusedFrom": "01-共享现值.json"
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_kogmaw",
+      "status": 200,
+      "reusedFrom": "01-共享现值.json"
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_kogmaw/attributes",
+      "status": 200,
+      "reusedFrom": "01-共享现值.json"
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_kogmaw/representative-image",
+      "status": 200,
+      "reusedFrom": "01-共享现值.json"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/representative-image",
+      "status": 200,
+      "reusedFrom": "01-共享现值.json"
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_kogmaw",
+      "status": 200,
+      "reusedFrom": "01-共享现值.json"
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=kogmaw_q",
+      "status": 200,
+      "reusedFrom": "01-共享现值.json"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/parameters",
+      "status": 200,
+      "reusedFrom": "01-共享现值.json"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/parameters/passive_attack_speed_ratio",
+      "status": 200,
+      "reusedFrom": "01-共享现值.json"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/parameters/base_damage",
+      "status": 200,
+      "reusedFrom": "01-共享现值.json"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/parameters/ap_ratio",
+      "status": 200,
+      "reusedFrom": "01-共享现值.json"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/parameters/resistance_shred_ratio",
+      "status": 200,
+      "reusedFrom": "01-共享现值.json"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/parameters/shred_duration_ms",
+      "status": 200,
+      "reusedFrom": "01-共享现值.json"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/parameters/cooldown_ms",
+      "status": 200,
+      "reusedFrom": "01-共享现值.json"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/parameters/mana_cost",
+      "status": 200,
+      "reusedFrom": "01-共享现值.json"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/formulas",
+      "status": 200,
+      "reusedFrom": "01-共享现值.json"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/formulas/damage",
+      "status": 200,
+      "reusedFrom": "01-共享现值.json"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/effects",
+      "status": 200,
+      "reusedFrom": "01-共享现值.json"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/effects/mana_cost",
+      "status": 200,
+      "reusedFrom": "01-共享现值.json"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/effects/passive_attack_speed",
+      "status": 200,
+      "reusedFrom": "01-共享现值.json"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/processes",
+      "status": 200,
+      "reusedFrom": "01-共享现值.json"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/internal-states",
+      "status": 200,
+      "reusedFrom": "01-共享现值.json"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/trigger-rules",
+      "status": 200,
+      "reusedFrom": "01-共享现值.json"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/trigger-rules/initialize_passive_attack_speed",
+      "status": 200,
+      "reusedFrom": "01-共享现值.json"
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/ability_power",
+      "status": 200,
+      "reusedFrom": "01-共享现值.json"
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/mana",
+      "status": 200,
+      "reusedFrom": "01-共享现值.json"
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/bonus_attack_speed_percent",
+      "status": 200,
+      "reusedFrom": "01-共享现值.json"
+    },
+    {
+      "method": "GET",
+      "path": "/modifier-zones/attribute_flat_add",
+      "status": 200,
+      "reusedFrom": "01-共享现值.json"
+    },
+    {
+      "method": "GET",
+      "path": "/damage-types/magic",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/effects/primary_hit",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/processes/use_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/trigger-rules/actual_hit",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/trigger-rules/on_used_cost_and_cooldown",
+      "status": 404
+    }
+  ],
+  "businessWrites": 0,
+  "reusedBaselineGETs": 28,
+  "newGETs": 5,
+  "newSuccessfulReferences": 1,
+  "newObjectAbsenceGETs": 4
+}

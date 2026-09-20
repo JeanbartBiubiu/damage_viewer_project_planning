@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 1,
+  "at": "2026-09-20T11:00:00.000Z",
+  "status": "APPROVED",
+  "reviewer": "kogmaw_q_initialization_description_independent_review",
+  "methodPolicy": "LOCAL_FILES_ONLY_NO_HTTP_SQL_UI",
+  "sourceVersion": {
+    "client": "16.17",
+    "official": "16.17.1"
+  },
+  "businessWrites": 0,
+  "reviewerHTTPRequests": 0,
+  "reviewerSQLRequests": 0,
+  "approvedFiles": {
+    "01-冻结请求与允许差异.json": "d8c239fae4936b4f13d3fb953fc3b51f52638a2a461a0d59feab8ad731fb4cc8",
+    "02-写前保护现值.json": "7ce4978156dc9db1ee1ec36a6deab246a51bea9429f0f1e54d139a01388ea2bf",
+    "web/src/pages/admin/skills/triggers/triggerRuleForm.ts": "91fbba576225bc476492eb6c0a9e2ad2c10b187660d8667616958918b0f79064"
+  },
+  "frozenFiles": {
+    "01-冻结请求与允许差异.json": {
+      "path": "数据参考/全量录入-2026-09/交叉试录/克格莫Q伤害与使用返回/初始化说明返回/01-冻结请求与允许差异.json",
+      "sha256": "d8c239fae4936b4f13d3fb953fc3b51f52638a2a461a0d59feab8ad731fb4cc8"
+    },
+    "02-写前保护现值.json": {
+      "path": "数据参考/全量录入-2026-09/交叉试录/克格莫Q伤害与使用返回/初始化说明返回/02-写前保护现值.json",
+      "sha256": "7ce4978156dc9db1ee1ec36a6deab246a51bea9429f0f1e54d139a01388ea2bf"
+    }
+  },
+  "updateBodyEvidence": {
+    "path": "web/src/pages/admin/skills/triggers/triggerRuleForm.ts",
+    "sha256": "91fbba576225bc476492eb6c0a9e2ad2c10b187660d8667616958918b0f79064",
+    "function": "toUpdateRequest",
+    "lines": "2155-2157",
+    "ruleKeyInUpdateBody": false,
+    "meaning": "更新体从创建体移除 ruleKey；稳定标识由路径传递，详情读回仍保留 ruleKey。"
+  },
+  "protection": {
+    "sourcePath": "数据参考/全量录入-2026-09/交叉试录/克格莫Q伤害与使用返回/初始化说明返回/02-写前保护现值.json",
+    "businessWrites": 0,
+    "auditGETCount": 2,
+    "methodCounts": {
+      "GET": 2
+    },
+    "statusCounts": {
+      "200": 2
+    },
+    "sourceBaselineGETs": 22,
+    "protectedRoutes": [
+      "/skills/kogmaw_q/trigger-rules/initialize_passive_attack_speed",
+      "/skills/kogmaw_q/trigger-rules"
+    ],
+    "reusedFrom": {
+      "path": "数据参考/全量录入-2026-09/交叉试录/克格莫Q伤害与使用返回/说明返回/04-写入前现值.json",
+      "sha256": "97a8eeb2ad25c0f2c623f3c5512f2f228a0eb11a1f6750d28b2f96eb543cd0b1"
+    }
+  },
+  "sourceEvidence": [
+    {
+      "path": "数据参考/全量录入-2026-09/交叉试录/克格莫Q伤害与使用返回/伤害与使用组成/07-独立回读.json",
+      "sha256": "cd736eb15235fed98b980af75aa9a15eb512892860f9cb0fede78db7cc65bbbd",
+      "status": "PASS",
+      "businessWrites": 0,
+      "evidence": "已写入的伤害、普通使用和两个命中/使用入口均已有独立回读；初始化规则仍单独保护。"
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/交叉试录/三项常驻攻速动态读取返回/正式返回/06a-独立回读补充核对.json",
+      "sha256": "be737b7539289f610ae64fda7e482e6ec1370689272d72c4fc4bb16a1209feee",
+      "status": "PASS",
+      "businessWrites": 0,
+      "evidence": "passive_attack_speed 已为 PERSISTENT + SOURCE + 单层 SHARED + MOMENT_EVALUATION + reapplicationValueMode=null；本次只更新初始化说明。"
+    }
+  ],
+  "requestReview": {
+    "method": "PUT",
+    "route": "/skills/kogmaw_q/trigger-rules/initialize_passive_attack_speed",
+    "bodyKeys": [
+      "actions",
+      "conditionGroups",
+      "description",
+      "eventSource",
+      "maxTriggersPerProcess",
+      "name",
+      "perTargetCooldown",
+      "sortOrder"
+    ],
+    "bodyHasRuleKey": false,
+    "expectedReadbackHasRuleKey": true,
+    "allowedChanges": [
+      "description",
+      "列表中同一规则的description",
+      "updatedAt"
+    ],
+    "actualBusinessDiff": [
+      "description"
+    ],
+    "unchangedFields": [
+      "eventSource",
+      "conditionGroups",
+      "actions",
+      "maxTriggersPerProcess",
+      "perTargetCooldown",
+      "name",
+      "sortOrder",
+      "ruleKey"
+    ],
+    "eventSource": {
+      "eventType": "SOURCE_INITIALIZED",
+      "detail": {}
+    },
+    "action": {
+      "actionKey": "execute_passive_attack_speed",
+      "actionType": "EXECUTE_EFFECT",
+      "effectKey": "passive_attack_speed",
+      "targetContext": "EVENT_SOURCE",
+      "sortOrder": 10
+    },
+    "newDescription": "来源对象的基础属性、技能与装备挂载及初始状态准备完成后，执行已有passive_attack_speed，建立单层常驻自身攻速；效果在属性结算时按当前已学Q等级重新取值，不把初始化事件当升级事件。主动使用与命中由各自入口维护，双抗削减和有效施放时长继续单列。",
+    "descriptionConsistency": {
+      "dynamicPassiveAlreadyEffective": true,
+      "ordinaryUseAndHitAlreadySeparate": true,
+      "resistanceShredStillOpen": true,
+      "effectiveCastTimeStillOpen": true,
+      "noOldActiveSuspensionClaim": true
+    },
+    "status": "PASS"
+  },
+  "checks": {
+    "frozenRequestShaMatches": true,
+    "protectedSnapshotShaMatches": true,
+    "sourceAndDependencyHashesBound": true,
+    "requestCount": 1,
+    "onlyTargetRoute": true,
+    "onlyDescriptionBusinessChange": true,
+    "updateBodyOmitsRuleKey": true,
+    "expectedReadbackRetainsRuleKey": true,
+    "eventConditionActionAndTargetUnchanged": true,
+    "otherRulesAndTimestampsProtected": true,
+    "protectionGETsAll200": true,
+    "protectionBusinessWrites0": true,
+    "reviewerHTTP0": true,
+    "reviewerSQL0": true,
+    "reviewerBusinessWrites0": true
+  },
+  "gating": {
+    "descriptionReadbackMustPassBeforeUI": true,
+    "note": "本审查不执行UI保存；主负责人应等待说明返回07独立PASS后，再由页面保存并重新GET初始化详情和规则列表。"
+  },
+  "openBoundaries": [
+    "主动使用和实际命中由各自入口维护。",
+    "双抗削减及其与伤害的先后和重施规则继续开放。",
+    "有效施法时长继续开放。",
+    "未学习Q等级0的初始化资格不补默认值。",
+    "战斗运行与浏览器验证未执行。"
+  ],
+  "decision": "APPROVED：冻结请求只更新初始化规则description；更新体不含ruleKey，读回保留ruleKey；事件、条件、动作、来源目标、顺序和其他规则均保持，说明与已生效动态被动及已写使用/命中组成一致。",
+  "runtimeValidation": "未执行",
+  "wholeSkillComplete": false
+}

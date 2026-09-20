@@ -1,0 +1,253 @@
+{
+  "schemaVersion": 1,
+  "at": "2026-09-20T10:55:00.000Z",
+  "status": "APPROVED",
+  "reviewer": "kogmaw_q_description_only_independent_review",
+  "methodPolicy": "LOCAL_FILES_ONLY_NO_HTTP_SQL",
+  "sourceVersion": {
+    "client": "16.17",
+    "official": "16.17.1"
+  },
+  "businessWrites": 0,
+  "reviewerHTTPRequests": 0,
+  "reviewerSQLRequests": 0,
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-descriptions-v2.mjs": "f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517",
+    "01-纠错计划.json": "9eab48ee1cd27382b742eb3b167363a4397c2eb9c74905ac9a2d668caaf5b898",
+    "02-冻结请求.json": "f393d4a154b1d94a4eca77f74adf5e82e5d1bb425fcee26a0c6d453712aa81f8",
+    "03-来源摘要.json": "4d7f439c853e521728491b6d3ca892d9516da9d1dad46cffaadd369b3e0697df",
+    "04-写入前现值.json": "97a8eeb2ad25c0f2c623f3c5512f2f228a0eb11a1f6750d28b2f96eb543cd0b1"
+  },
+  "frozenFiles": {
+    "01-纠错计划.json": {
+      "path": "数据参考/全量录入-2026-09/交叉试录/克格莫Q伤害与使用返回/说明返回/01-纠错计划.json",
+      "byteSize": 2928,
+      "sha256": "9eab48ee1cd27382b742eb3b167363a4397c2eb9c74905ac9a2d668caaf5b898"
+    },
+    "02-冻结请求.json": {
+      "path": "数据参考/全量录入-2026-09/交叉试录/克格莫Q伤害与使用返回/说明返回/02-冻结请求.json",
+      "byteSize": 5645,
+      "sha256": "f393d4a154b1d94a4eca77f74adf5e82e5d1bb425fcee26a0c6d453712aa81f8"
+    },
+    "03-来源摘要.json": {
+      "path": "数据参考/全量录入-2026-09/交叉试录/克格莫Q伤害与使用返回/说明返回/03-来源摘要.json",
+      "byteSize": 1250,
+      "sha256": "4d7f439c853e521728491b6d3ca892d9516da9d1dad46cffaadd369b3e0697df"
+    },
+    "04-写入前现值.json": {
+      "path": "数据参考/全量录入-2026-09/交叉试录/克格莫Q伤害与使用返回/说明返回/04-写入前现值.json",
+      "byteSize": 28611,
+      "sha256": "97a8eeb2ad25c0f2c623f3c5512f2f228a0eb11a1f6750d28b2f96eb543cd0b1"
+    }
+  },
+  "sourceReview": {
+    "sourceSummarySha256": "4d7f439c853e521728491b6d3ca892d9516da9d1dad46cffaadd369b3e0697df",
+    "sourceFileCount": 5,
+    "sourceFileHashesMatch": true,
+    "frozenSourceSha256Matches": true,
+    "baselineSha256Matches": true
+  },
+  "prewriteProtection": {
+    "path": "数据参考/全量录入-2026-09/交叉试录/克格莫Q伤害与使用返回/说明返回/04-写入前现值.json",
+    "businessWrites": 0,
+    "auditGETCount": 22,
+    "methodCounts": {
+      "GET": 22
+    },
+    "statusCounts": {
+      "200": 22
+    },
+    "protectedRoutes": [
+      "/skills/kogmaw_q",
+      "/skills/kogmaw_q/parameters/mana_cost",
+      "/skills/kogmaw_q/effects/mana_cost"
+    ],
+    "allTargetsPresent": true
+  },
+  "priorWriteEvidence": {
+    "path": "数据参考/全量录入-2026-09/交叉试录/克格莫Q伤害与使用返回/伤害与使用组成/06-写入与即时回读.json",
+    "sha256": "cde212614f088a06cd547ef46e1c2bab8e287e725bddedce154135a31cd860f3",
+    "status": "PASS",
+    "businessWritesAttempted": 4,
+    "postStatuses": [
+      201,
+      201,
+      201,
+      201
+    ],
+    "immediateReadbacks": 4,
+    "note": "本审查复用既有记录，不重放写入。"
+  },
+  "changes": [
+    {
+      "index": 1,
+      "kind": "skill",
+      "route": "/skills/kogmaw_q",
+      "allowedFields": [
+        "name",
+        "description",
+        "maxLevel",
+        "status",
+        "sortOrder",
+        "skillCategoryKeys"
+      ],
+      "bodyKeysExact": true,
+      "stableKeyInBody": false,
+      "changedPathsOnly": [
+        "description"
+      ],
+      "unchangedFields": [
+        "name",
+        "maxLevel",
+        "status",
+        "sortOrder",
+        "skillCategoryKeys"
+      ],
+      "newDescription": "固定来源：客户端16.17、官方静态资料16.17.1。已登记按当前已学Q等级取值的常驻自身攻速、首个碰撞敌人为英雄时的直接魔法伤害，以及普通主动使用的40法力和7000毫秒基础冷却；伤害由独立实际命中入口执行。双抗削减及其与伤害的先后和重施规则、有效施法时长仍待核定，当前不计整技能管理配置完整。",
+      "consistency": {
+        "writtenDamageAndUse": true,
+        "passiveDynamicRead": true,
+        "resistanceShredOpen": true,
+        "effectiveCastTimeOpen": true
+      },
+      "status": "PASS"
+    },
+    {
+      "index": 2,
+      "kind": "parameter",
+      "route": "/skills/kogmaw_q/parameters/mana_cost",
+      "allowedFields": [
+        "name",
+        "description",
+        "valueType",
+        "valueMode",
+        "fixedValue",
+        "levelValues",
+        "sortOrder"
+      ],
+      "bodyKeysExact": true,
+      "stableKeyInBody": false,
+      "changedPathsOnly": [
+        "description"
+      ],
+      "unchangedFields": [
+        "name",
+        "valueType",
+        "valueMode",
+        "fixedValue",
+        "levelValues",
+        "sortOrder"
+      ],
+      "fixedValue": 40,
+      "newDescription": "官方静态资料16.17.1 KogMaw.spells[0].cost，等级1起索引0；与固定客户端根绑定字段逐级一致。普通主动使用消耗40法力，由使用登记过程开始时引用并扣除，不以命中为前提。仅基础成本，未计其他技能修正；不表示有效施法时长及整技能机制完成。",
+      "consistency": {
+        "processRoute": "/skills/kogmaw_q/processes/use_cost_and_cooldown",
+        "processBindingMoment": "PROCESS_START",
+        "processReferences": "mana_cost",
+        "cooldownMs": 7000,
+        "hitIndependent": true,
+        "effectiveCastTimeOpen": true
+      },
+      "status": "PASS"
+    },
+    {
+      "index": 3,
+      "kind": "effect",
+      "route": "/skills/kogmaw_q/effects/mana_cost",
+      "allowedFields": [
+        "name",
+        "description",
+        "sortOrder",
+        "lifecycle",
+        "results"
+      ],
+      "bodyKeysExact": true,
+      "stableKeyInBody": false,
+      "changedPathsOnly": [
+        "description"
+      ],
+      "unchangedFields": [
+        "name",
+        "sortOrder",
+        "lifecycle",
+        "results"
+      ],
+      "newDescription": "引用已有mana_cost参数，普通主动使用的登记过程开始时从来源对象消耗基础40法力，不以实际命中为前提；与伤害入口分开，未知有效施法时长继续补证。",
+      "consistency": {
+        "resultKey": "consume_mana",
+        "resultType": "RESOURCE_CHANGE",
+        "target": "SOURCE",
+        "attributeKey": "mana",
+        "operation": "CONSUME",
+        "parameterKey": "mana_cost",
+        "processBindingMoment": "PROCESS_START",
+        "damageEntranceSeparate": true
+      },
+      "status": "PASS"
+    }
+  ],
+  "updateContractReview": {
+    "toolPath": "tools/authoring/update-reviewed-descriptions-v2.mjs",
+    "toolSha256": "f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517",
+    "fieldSets": {
+      "skill": [
+        "name",
+        "description",
+        "maxLevel",
+        "status",
+        "sortOrder",
+        "skillCategoryKeys"
+      ],
+      "parameter": [
+        "name",
+        "description",
+        "valueType",
+        "valueMode",
+        "fixedValue",
+        "levelValues",
+        "sortOrder"
+      ],
+      "effect": [
+        "name",
+        "description",
+        "sortOrder",
+        "lifecycle",
+        "results"
+      ]
+    },
+    "lines": "20-26, 48-51, 74-79",
+    "stableKeyInUpdateBody": false,
+    "expectedReadbackOnlyAllowsUpdatedAt": true,
+    "threePUTsOnly": true
+  },
+  "checks": {
+    "requestCount": 3,
+    "allMethodsPUT": true,
+    "routeSetExact": [
+      "/skills/kogmaw_q",
+      "/skills/kogmaw_q/parameters/mana_cost",
+      "/skills/kogmaw_q/effects/mana_cost"
+    ],
+    "bodyKeysExactlyMatchUpdateFieldSets": true,
+    "stableKeysAbsentFromPUTBodies": true,
+    "expectedReadbacksDifferOnlyByDescriptionAndUpdatedAt": true,
+    "numericAndStructuralFieldsUnchanged": true,
+    "sourceHashesMatch": true,
+    "frozenRequestAndBaselineHashesMatch": true,
+    "prewriteGETsAll200": true,
+    "prewriteBusinessWrites0": true,
+    "priorFourComponentWritePASSReused": true,
+    "reviewerHTTP0": true,
+    "reviewerSQL0": true,
+    "reviewerBusinessWrites0": true
+  },
+  "openBoundaries": [
+    "双抗削减及其与伤害的先后和重施规则继续开放。",
+    "spellCastTime 与 mUseAutoattackCastTimeData 的有效施法时长关系继续开放。",
+    "未学习Q等级0的初始化资格不补默认值。",
+    "本审查不执行运行时、浏览器或写后验证。"
+  ],
+  "decision": "APPROVED：三条说明仅更新技能根、mana_cost参数和mana_cost效果的description；数值、稳定标识、引用、分类、生命周期、结果、触发与初始化均保持，正文与已写伤害/使用组成及双抗和有效施法时长开放项一致。",
+  "runtimeValidation": "未执行",
+  "wholeSkillComplete": false
+}

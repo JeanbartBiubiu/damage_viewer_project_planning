@@ -1,0 +1,16 @@
+{
+  "at": "2026-09-20T10:55:14.119Z",
+  "status": "PASS_WITH_REPEATED_READ_NOTE",
+  "finalReadbackFile": "07-独立回读.json",
+  "finalReadbackSha256": "cd736eb15235fed98b980af75aa9a15eb512892860f9cb0fede78db7cc65bbbd",
+  "finalValidatedGETs": 33,
+  "actualIndependentReadbackRounds": 2,
+  "actualIndependentGETsReportedByAgent": 66,
+  "firstRoundRawResponsesRetained": false,
+  "reason": "独立代理为捕获完整标准输出重复执行了只读回读；最终07只保存后一轮33GET。未因此重放任何业务写入。",
+  "finalStatus": "PASS",
+  "finalUnchangedResponsesIncludingTimestamps": 26,
+  "finalChangedCollections": 3,
+  "newObjects": 4,
+  "businessWritesDuringReadback": 0
+}

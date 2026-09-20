@@ -1,0 +1,319 @@
+{
+  "startedAt": "2026-09-20T10:54:05.190Z",
+  "status": "PASS",
+  "businessWritesAttempted": 3,
+  "operations": [
+    {
+      "route": "/skills/kogmaw_q",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:19:04.23212Z",
+          "description": "固定来源：客户端16.17、官方静态资料16.17.1。已登记按当前已学Q等级取值的常驻自身攻速、首个碰撞敌人为英雄时的直接魔法伤害，以及普通主动使用的40法力和7000毫秒基础冷却；伤害由独立实际命中入口执行。双抗削减及其与伤害的先后和重施规则、有效施法时长仍待核定，当前不计整技能管理配置完整。",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "克格莫·腐蚀唾液",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "kogmaw_q",
+          "sortOrder": 1,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-20T10:54:07.62494Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-06T18:19:04.23212Z",
+        "description": "固定来源：客户端16.17、官方静态资料16.17.1。已登记按当前已学Q等级取值的常驻自身攻速、首个碰撞敌人为英雄时的直接魔法伤害，以及普通主动使用的40法力和7000毫秒基础冷却；伤害由独立实际命中入口执行。双抗削减及其与伤害的先后和重施规则、有效施法时长仍待核定，当前不计整技能管理配置完整。",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "克格莫·腐蚀唾液",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "kogmaw_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-20T10:54:07.62494Z"
+      }
+    },
+    {
+      "route": "/skills/kogmaw_q/parameters/mana_cost",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:00:15.437135Z",
+          "description": "官方静态资料16.17.1 KogMaw.spells[0].cost，等级1起索引0；与固定客户端根绑定字段逐级一致。普通主动使用消耗40法力，由使用登记过程开始时引用并扣除，不以命中为前提。仅基础成本，未计其他技能修正；不表示有效施法时长及整技能机制完成。",
+          "fixedValue": 40,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "kogmaw_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-20T10:54:08.949735Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-07T18:00:15.437135Z",
+        "description": "官方静态资料16.17.1 KogMaw.spells[0].cost，等级1起索引0；与固定客户端根绑定字段逐级一致。普通主动使用消耗40法力，由使用登记过程开始时引用并扣除，不以命中为前提。仅基础成本，未计其他技能修正；不表示有效施法时长及整技能机制完成。",
+        "fixedValue": 40,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "kogmaw_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-20T10:54:08.949735Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/kogmaw_q/effects/mana_cost",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-09T04:29:13.687059Z",
+          "description": "引用已有mana_cost参数，普通主动使用的登记过程开始时从来源对象消耗基础40法力，不以实际命中为前提；与伤害入口分开，未知有效施法时长继续补证。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "施放法力消耗",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "attributeKey": "mana",
+                "operation": "CONSUME"
+              },
+              "lifecycleBehavior": null,
+              "name": "消耗法力",
+              "resultKey": "consume_mana",
+              "resultType": "RESOURCE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "mana_cost"
+                }
+              }
+            }
+          ],
+          "skillKey": "kogmaw_q",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-20T10:54:10.282351Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-09T04:29:13.687059Z",
+        "description": "引用已有mana_cost参数，普通主动使用的登记过程开始时从来源对象消耗基础40法力，不以实际命中为前提；与伤害入口分开，未知有效施法时长继续补证。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "施放法力消耗",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "kogmaw_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-20T10:54:10.282351Z"
+      }
+    }
+  ],
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-descriptions-v2.mjs": "f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517",
+    "01-纠错计划.json": "9eab48ee1cd27382b742eb3b167363a4397c2eb9c74905ac9a2d668caaf5b898",
+    "02-冻结请求.json": "f393d4a154b1d94a4eca77f74adf5e82e5d1bb425fcee26a0c6d453712aa81f8",
+    "03-来源摘要.json": "4d7f439c853e521728491b6d3ca892d9516da9d1dad46cffaadd369b3e0697df",
+    "04-写入前现值.json": "97a8eeb2ad25c0f2c623f3c5512f2f228a0eb11a1f6750d28b2f96eb543cd0b1"
+  },
+  "pendingRoute": null,
+  "finishedAt": "2026-09-20T10:54:09.524Z",
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/parameters/passive_attack_speed_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/parameters/resistance_shred_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/parameters/shred_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/effects/passive_attack_speed",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/processes/use_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/trigger-rules/initialize_passive_attack_speed",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/trigger-rules/on_used_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/kogmaw_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/kogmaw_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/kogmaw_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/effects/mana_cost",
+      "status": 200
+    }
+  ]
+}

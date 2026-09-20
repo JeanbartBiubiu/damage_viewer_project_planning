@@ -1,0 +1,413 @@
+{
+  "at": "2026-09-20T10:37:20.894Z",
+  "targets": [
+    {
+      "skillKey": "kogmaw_q",
+      "ownerKey": "champion_kogmaw"
+    }
+  ],
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/kogmaw_q/effects",
+      "detailRoute": "/skills/kogmaw_q/effects/primary_hit",
+      "body": {
+        "description": "本轮仅处理根Q命中的第一个敌人为敌方英雄时的直接魔法伤害，引用已核定伤害公式；全能吸血按防御后伤害、效率1登记。双抗削减及其与本次伤害的先后另行维护，不从主动使用或过程结束生成命中。",
+        "effectKey": "primary_hit",
+        "lifecycle": null,
+        "name": "腐蚀唾液命中魔法伤害",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "腐蚀唾液魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "SKILL",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "damage"
+              }
+            }
+          }
+        ],
+        "sortOrder": 30
+      },
+      "expectedReadback": {
+        "description": "本轮仅处理根Q命中的第一个敌人为敌方英雄时的直接魔法伤害，引用已核定伤害公式；全能吸血按防御后伤害、效率1登记。双抗削减及其与本次伤害的先后另行维护，不从主动使用或过程结束生成命中。",
+        "effectKey": "primary_hit",
+        "lifecycle": null,
+        "name": "腐蚀唾液命中魔法伤害",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "腐蚀唾液魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "SKILL",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "damage"
+              }
+            }
+          }
+        ],
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/kogmaw_q/processes",
+      "detailRoute": "/skills/kogmaw_q/processes/use_cost_and_cooldown",
+      "body": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "description": "只登记普通主动使用的40法力和7000毫秒基础冷却；立即步骤不表示零施放时长。根施法字段与普攻施放时间配置的有效关系仍待核定，实际命中伤害和双抗削减分别维护。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "name": "腐蚀唾液使用登记",
+        "processKey": "use_cost_and_cooldown",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+            "detail": {},
+            "name": "登记本次使用",
+            "sortOrder": 10,
+            "stepKey": "register_use",
+            "stepType": "IMMEDIATE"
+          }
+        ]
+      },
+      "expectedReadback": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "description": "只登记普通主动使用的40法力和7000毫秒基础冷却；立即步骤不表示零施放时长。根施法字段与普攻施放时间配置的有效关系仍待核定，实际命中伤害和双抗削减分别维护。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "name": "腐蚀唾液使用登记",
+        "processKey": "use_cost_and_cooldown",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+            "detail": {},
+            "name": "登记本次使用",
+            "sortOrder": 10,
+            "stepKey": "register_use",
+            "stepType": "IMMEDIATE"
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/kogmaw_q/trigger-rules",
+      "detailRoute": "/skills/kogmaw_q/trigger-rules/actual_hit",
+      "body": {
+        "actions": [
+          {
+            "actionKey": "damage",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "name": "执行命中伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "groupKey": "champion_target",
+            "name": "本轮敌方英雄",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "sortOrder": 20,
+                "detail": {}
+              }
+            ]
+          }
+        ],
+        "description": "仅接收kogmaw_q已确认的实际命中，对事件中的敌方英雄执行一次primary_hit；第一个碰撞对象的命中由外部事件生产，本规则不从使用或过程结束生成命中。双抗削减及其先后继续单列。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "kogmaw_q"
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "腐蚀唾液敌方英雄实际命中",
+        "perTargetCooldown": null,
+        "ruleKey": "actual_hit",
+        "sortOrder": 20
+      },
+      "expectedReadback": {
+        "actions": [
+          {
+            "actionKey": "damage",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "name": "执行命中伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "groupKey": "champion_target",
+            "name": "本轮敌方英雄",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "sortOrder": 20,
+                "detail": {}
+              }
+            ]
+          }
+        ],
+        "description": "仅接收kogmaw_q已确认的实际命中，对事件中的敌方英雄执行一次primary_hit；第一个碰撞对象的命中由外部事件生产，本规则不从使用或过程结束生成命中。双抗削减及其先后继续单列。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "kogmaw_q",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "腐蚀唾液敌方英雄实际命中",
+        "perTargetCooldown": null,
+        "ruleKey": "actual_hit",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/kogmaw_q/trigger-rules",
+      "detailRoute": "/skills/kogmaw_q/trigger-rules/on_used_cost_and_cooldown",
+      "body": {
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "use_cost_and_cooldown"
+            },
+            "name": "启动消耗与冷却登记",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "普通主动使用kogmaw_q时启动使用登记过程，登记已有基础法力和冷却；费用不以实际命中为前提，未知有效施法时长继续补证。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "kogmaw_q",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "腐蚀唾液普通主动使用",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used_cost_and_cooldown",
+        "sortOrder": 30
+      },
+      "expectedReadback": {
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "use_cost_and_cooldown"
+            },
+            "name": "启动消耗与冷却登记",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "普通主动使用kogmaw_q时启动使用登记过程，登记已有基础法力和冷却；费用不以实际命中为前提，未知有效施法时长继续补证。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "kogmaw_q",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "腐蚀唾液普通主动使用",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used_cost_and_cooldown",
+        "sortOrder": 30
+      }
+    }
+  ],
+  "sourceFiles": [
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/KogMaw.json.gz",
+      "sha256": "5eafce97815062a4cc8ef819967257c625a487ff560347eeb4dc810a859e8c5c"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/KogMaw.json",
+      "sha256": "0b3108e708beef63649ff526f6539c2575598f7f19c8e85553d4397bc67ed8ed"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/KogMaw.json",
+      "sha256": "5b6abbf6b34516b9d057ce5c2fdbbe99bc615b6630d29a77d9b65dd837338f37"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/克格莫Q伤害与使用返回/02-来源与范围.json",
+      "sha256": "0686a3876f94c8df2afba95a972704a92e5061783a579abc4205464c8d56ffb0"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/克格莫Q伤害与使用返回/03-公式算术.json",
+      "sha256": "aaede8e97f6ee32701a88404e7756345818a84cce1b743d330e6701948c14194"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/克格莫Q伤害与使用返回/08-主负责人范围与顺序结论.json",
+      "sha256": "a8c024cc042dd6783ac211394d55330416afd1dc209f02b5b8352739b1cb39e9"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/三项常驻攻速动态读取返回/正式返回/06a-独立回读补充核对.json",
+      "sha256": "be737b7539289f610ae64fda7e482e6ec1370689272d72c4fc4bb16a1209feee"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/三项常驻攻速动态读取返回/正式返回/08-冻结对照字段说明.json",
+      "sha256": "f2ea82b4a6c7a9b86b567d7d89a40ab210c8e3572f62eb1723a852049a7f6c4a"
+    }
+  ],
+  "scope": "追加一个直接魔法伤害效果、一个普通使用登记过程、两个独立入口；保留已修正常驻攻速，不改原参数、公式和初始化动作；有效施法时长和双抗削减等继续开放。"
+}

@@ -1,0 +1,62 @@
+{
+  "at": "2026-09-20T11:07:30.907Z",
+  "status": "MANAGEMENT_COMPONENT_RETURN_PASS",
+  "skillKey": "kogmaw_q",
+  "sourceVersion": {
+    "client": "16.17",
+    "official": "16.17.1"
+  },
+  "businessWrites": {
+    "total": 8,
+    "newPOSTs": 4,
+    "descriptionApiPUTs": 3,
+    "descriptionUISaves": 1,
+    "alreadyCompletedPassiveUpdateCountedHere": false
+  },
+  "independentReadback": {
+    "status": "PASS",
+    "retainedValidatedGETs": 57,
+    "actualGETs": 90,
+    "append": {
+      "retained": 33,
+      "rounds": 2,
+      "actual": 66
+    },
+    "descriptions": {
+      "GETs": 22,
+      "unchangedIncludingTimestamps": 17
+    },
+    "initialization": {
+      "GETs": 2,
+      "otherRulesUnchanged": 2
+    },
+    "notes": "33+22+2为最终保留并验证的读取数；首轮追加33GET原始响应未保留，故实际读取为66+22+2。"
+  },
+  "currentComponentCounts": {
+    "parameters": 7,
+    "formulas": 1,
+    "effects": 3,
+    "processes": 1,
+    "internalStates": 0,
+    "triggerRules": 3
+  },
+  "formulaArithmetic": {
+    "reused": true,
+    "cases": 15,
+    "status": "PASS",
+    "source": "03-公式算术.json"
+  },
+  "browser": {
+    "status": "PASS",
+    "checks": 6,
+    "errorWarningLogs": 0
+  },
+  "wholeSkillComplete": false,
+  "remaining": [
+    "双抗削减、伤害先后与重施",
+    "有效施法时长"
+  ],
+  "runtimeValidation": "未执行",
+  "newTables": 0,
+  "codeChanges": 0
+}

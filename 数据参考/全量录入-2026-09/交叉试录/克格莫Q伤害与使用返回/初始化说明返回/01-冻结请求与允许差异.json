@@ -1,0 +1,101 @@
+{
+  "at": "2026-09-20T10:56:24.442Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "mode": "REAL_BROWSER_SINGLE_SAVE",
+  "requests": [
+    {
+      "method": "PUT",
+      "route": "/skills/kogmaw_q/trigger-rules/initialize_passive_attack_speed",
+      "body": {
+        "actions": [
+          {
+            "actionKey": "execute_passive_attack_speed",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "passive_attack_speed"
+            },
+            "name": "执行腐蚀唾液被动攻速",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "EVENT_SOURCE"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "来源对象的基础属性、技能与装备挂载及初始状态准备完成后，执行已有passive_attack_speed，建立单层常驻自身攻速；效果在属性结算时按当前已学Q等级重新取值，不把初始化事件当升级事件。主动使用与命中由各自入口维护，双抗削减和有效施放时长继续单列。",
+        "eventSource": {
+          "detail": {},
+          "eventType": "SOURCE_INITIALIZED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "初始化腐蚀唾液被动攻速",
+        "perTargetCooldown": null,
+        "sortOrder": 10
+      },
+      "expectedReadback": {
+        "actions": [
+          {
+            "actionKey": "execute_passive_attack_speed",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "passive_attack_speed"
+            },
+            "name": "执行腐蚀唾液被动攻速",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "EVENT_SOURCE"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "来源对象的基础属性、技能与装备挂载及初始状态准备完成后，执行已有passive_attack_speed，建立单层常驻自身攻速；效果在属性结算时按当前已学Q等级重新取值，不把初始化事件当升级事件。主动使用与命中由各自入口维护，双抗削减和有效施放时长继续单列。",
+        "eventSource": {
+          "detail": {},
+          "eventType": "SOURCE_INITIALIZED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "初始化腐蚀唾液被动攻速",
+        "perTargetCooldown": null,
+        "ruleKey": "initialize_passive_attack_speed",
+        "sortOrder": 10
+      }
+    }
+  ],
+  "allowedChanges": [
+    "目标规则description",
+    "目标规则列表中同一行description和updatedAt"
+  ],
+  "prohibitedChanges": [
+    "事件来源",
+    "条件",
+    "动作",
+    "稳定标识",
+    "其他规则及其时间戳"
+  ],
+  "updateBodyEvidence": {
+    "path": "web/src/pages/admin/skills/triggers/triggerRuleForm.ts",
+    "sha256": "91fbba576225bc476492eb6c0a9e2ad2c10b187660d8667616958918b0f79064",
+    "function": "toUpdateRequest",
+    "lines": [
+      2155,
+      2157
+    ],
+    "ruleKeyInUpdateBody": false
+  },
+  "dependsOn": {
+    "descriptionWrites": "说明返回/06-写入与即时回读.json",
+    "sha256": "a3768f35e63585b412e09e78c77ecddca5fd9e3c5243f5bf12862d38315d10fb",
+    "independentDescriptionReadbackMustPassBeforeUISave": true
+  },
+  "sources": [
+    {
+      "path": "数据参考/全量录入-2026-09/交叉试录/克格莫Q伤害与使用返回/伤害与使用组成/07-独立回读.json",
+      "sha256": "cd736eb15235fed98b980af75aa9a15eb512892860f9cb0fede78db7cc65bbbd"
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/交叉试录/三项常驻攻速动态读取返回/正式返回/06a-独立回读补充核对.json",
+      "sha256": "be737b7539289f610ae64fda7e482e6ec1370689272d72c4fc4bb16a1209feee"
+    }
+  ],
+  "runtimeValidation": "未执行"
+}
