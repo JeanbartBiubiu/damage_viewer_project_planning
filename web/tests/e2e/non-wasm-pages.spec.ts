@@ -7348,6 +7348,56 @@ test('source cast resource cost binding retains failed drafts and saves and reop
   diagnostics.assertClean('source cast resource cost binding round trip and retained failures');
 });
 
+test('remaining cooldown ratio clears milliseconds, rejects invalid values and survives save and reopen', async ({ page }) => {
+  const mock = new MockApi();
+  seedSkillEffectCatalog(mock);
+  const diagnostics = await prepare(page, mock);
+  await openSkills(page);
+  const shell = await openSkillEffects(page, 'varus_w', '枯萎箭袋');
+  await shell.getByRole('button', { name: '新增效果', exact: true }).click();
+  const create = visibleModal(page, '新增效果');
+  await create.getByLabel('效果标识', { exact: true }).fill('ratio_refund');
+  await create.getByLabel('效果名称', { exact: true }).fill('按剩余比例返还');
+  await create.getByRole('button', { name: '新增结果', exact: true }).click();
+  const result = visibleModal(page, '新增结果');
+  await result.getByLabel('结果标识', { exact: true }).fill('refund');
+  await result.getByLabel('结果名称', { exact: true }).fill('返还剩余冷却');
+  await chooseSelectOption(page, result, '结果种类', '冷却变化');
+  await clickArcoRadioByVisibleLabel(result, '指定技能');
+  await result.getByRole('combobox', { name: '指定技能', exact: true }).click();
+  await page.getByRole('option', { name: '枯萎箭袋', exact: true }).click();
+  await page.keyboard.press('Escape');
+  await result.getByLabel('数值固定数值', { exact: true }).fill('1500');
+  await result.getByLabel('固定倍率', { exact: true }).fill('2');
+  await clickArcoRadioByVisibleLabel(result, '按比例减少剩余冷却');
+  await expect(result.getByLabel('数值固定数值', { exact: true })).toHaveValue('');
+  await expect(result.getByLabel('固定倍率', { exact: true })).toHaveValue('1');
+  await expect(result.getByRole('combobox', { name: '指定技能', exact: true })).toContainText('枯萎箭袋');
+  await expect(result.getByText(/70% 填 0.7；不按总冷却计算/)).toBeVisible();
+  await result.getByLabel('数值固定数值', { exact: true }).fill('1.1');
+  await result.getByRole('button', { name: '保存', exact: true }).click();
+  await expect(result.getByText('有效冷却减少比例必须在 0 到 1 之间（70% 填 0.7）。', { exact: true })).toBeVisible();
+  await expect(result.getByLabel('数值固定数值', { exact: true })).toHaveValue('1.1');
+  await result.getByLabel('数值固定数值', { exact: true }).fill('0.7');
+  await saveOpenModal(result);
+  await saveOpenModal(create);
+  const saved = mock.skillEffects.find((item) => item.effectKey === 'ratio_refund')!;
+  expect(saved.results[0].detail).toEqual({ operation: 'REDUCE_REMAINING_RATIO',
+    affectedSkillScope: { mode: 'SKILLS', skillKeys: ['varus_w'], skillCategoryKeys: [] } });
+  expect(saved.results[0].valueRule).toEqual({ value: { kind: 'FIXED', value: 0.7 }, fixedMultiplier: 1,
+    fixedMinValue: null, fixedMaxValue: null });
+  await shell.locator('tr', { hasText: 'ratio_refund' }).getByRole('button', { name: '编辑', exact: true }).click();
+  const edit = visibleModal(page, '编辑效果');
+  await edit.locator('tr', { hasText: 'refund' }).getByRole('button', { name: '编辑', exact: true }).click();
+  const reopened = visibleModal(page, '编辑结果');
+  await expect(reopened.getByRole('radio', { name: '按比例减少剩余冷却', exact: true })).toBeChecked();
+  await expect(reopened.getByLabel('数值固定数值', { exact: true })).toHaveValue('0.7');
+  await clickArcoRadioByVisibleLabel(reopened, '减少');
+  await expect(reopened.getByLabel('数值固定数值', { exact: true })).toHaveValue('');
+  await expect(reopened.getByText('变化量按毫秒解释')).toBeVisible();
+  diagnostics.assertClean('remaining cooldown ratio units, validation and round trip');
+});
+
 test('event counterpart category supports kill, takedown, damage directions, legal switches and confirms invalid event cleanup', async ({ page }) => {
   const mock = new MockApi();
   seedSkillTriggerCatalog(mock);

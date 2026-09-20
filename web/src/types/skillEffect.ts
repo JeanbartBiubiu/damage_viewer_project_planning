@@ -69,7 +69,7 @@ export type SkillEffectVampRule = {
 
 export type AttributeChangeOperation = 'INCREASE' | 'DECREASE' | 'SET';
 export type ResourceChangeOperation = 'RESTORE' | 'CONSUME' | 'REFUND';
-export type CooldownChangeOperation = 'REDUCE' | 'INCREASE' | 'RESET';
+export type CooldownChangeOperation = 'REDUCE' | 'INCREASE' | 'RESET' | 'REDUCE_REMAINING_RATIO';
 export type StatusOperation = 'APPLY' | 'REMOVE';
 
 export type SkillEffectLifecycleInstanceScope = 'SKILL' | 'SOURCE' | 'TARGET' | 'SOURCE_TARGET';
@@ -184,7 +184,7 @@ export type SkillEffectResourceChangeDetail = {
 
 export type SkillEffectCooldownAdjustDetail = {
   affectedSkillScope: SkillEffectAffectedSkillScope;
-  operation: 'REDUCE' | 'INCREASE';
+  operation: 'REDUCE' | 'INCREASE' | 'REDUCE_REMAINING_RATIO';
 };
 
 export type SkillEffectCooldownResetDetail = {

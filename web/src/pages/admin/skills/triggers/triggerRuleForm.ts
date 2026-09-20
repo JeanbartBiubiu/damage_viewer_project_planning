@@ -2748,7 +2748,7 @@ export function isImmediateNumericResult(result: SkillEffectResult, hasLifecycle
 
 export function cooldownOperationOf(
   result: SkillEffectResult
-): 'REDUCE' | 'INCREASE' | 'RESET' | null {
+): Extract<SkillEffectResult, { resultType: 'COOLDOWN_CHANGE' }>['detail']['operation'] | null {
   return result.resultType === 'COOLDOWN_CHANGE' ? result.detail.operation : null;
 }
 

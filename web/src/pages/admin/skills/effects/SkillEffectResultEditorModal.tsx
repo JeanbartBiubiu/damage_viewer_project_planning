@@ -369,6 +369,7 @@ export function SkillEffectResultEditorModal({
   const existingResult = draft.originalResultType !== null;
   const showValueRule = isValueRuleVisible(draft);
   const cooldownHint = cooldownChangeAmountHint(draft);
+  const ratioCooldown = draft.resultType === 'COOLDOWN_CHANGE' && draft.cooldownOperation === 'REDUCE_REMAINING_RATIO';
   const slowApply = isMovementSlowApply(draft);
   const valueFormulaLabel = draft.resultType === 'STATUS_OPERATION' ? '减速比例' : valueFormulaLabelFor(draft.resultType);
 
@@ -1280,6 +1281,7 @@ export function SkillEffectResultEditorModal({
           ) : null}
           {showValueRule ? (
             <>
+              {ratioCooldown && cooldownHint ? <Alert type="info" content={cooldownHint} /> : null}
               {slowApply ? <Alert type="info" content="0.3 表示 30% 减速；百分数点参数使用固定倍率 0.01。上下界固定为 0 和 1。" /> : null}
               {draft.resultType === 'EXECUTE' ? (
                 <Alert type="info" content={EXECUTE_RESULT_HINT} />
@@ -1302,7 +1304,7 @@ export function SkillEffectResultEditorModal({
                   disabled={readOnly} />
               </Form.Item>
               <Form.Item
-                label={cooldownHint ? `固定倍率（${cooldownHint}）` : '固定倍率'}
+                label={cooldownHint && !ratioCooldown ? `固定倍率（${cooldownHint}）` : '固定倍率'}
                 required
                 validateStatus={errors.fixedMultiplier ? 'error' : undefined}
                 help={errors.fixedMultiplier}
