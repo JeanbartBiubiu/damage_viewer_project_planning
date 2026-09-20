@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-20T07:33:35.519Z",
+  "generatedAt": "2026-09-20T08:50:59.928Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -12190,6 +12190,41 @@
         "commit": "369bf3f1",
         "sha256": "88ee88f29f989fe01732391b16d7ac626b94c249ced13dd5948d0d0278726802"
       }
+    },
+    "zyraQManagementReturn": {
+      "at": "2026-09-20T08:50:59.928Z",
+      "status": "MANAGEMENT_COMPLETE_FOR_1V1",
+      "skills": [
+        "zyra_q"
+      ],
+      "businessWrites": 2,
+      "browserWrites": 1,
+      "protectedAPIWrites": 1,
+      "independentGETs": 45,
+      "readOnlyBaselineGETs": 27,
+      "currentComponentCounts": {
+        "parameters": 5,
+        "formulas": 1,
+        "effects": 2,
+        "processes": 1,
+        "internalStates": 0,
+        "triggerRules": 2
+      },
+      "configurationArithmeticCases": 15,
+      "browser": "PASS",
+      "scopeExclusions": [
+        "种子转植物",
+        "独立植物攻击链"
+      ],
+      "managementComplete": true,
+      "runtimeValidation": "未执行",
+      "goalComplete": false,
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/婕拉Q管理返回/07-证据清单.json",
+        "commit": "cc853b7b",
+        "sha256": "42e4faa5ef47fa1637e6c81750d04d682e61ca9f3b8750596549afb6fcdf535b"
+      }
     }
   },
   "runtimeValidation": "未执行",
@@ -12832,6 +12867,12 @@
         "relativePath": "数据参考/全量录入-2026-09/来源技能目录提示修正/04-证据清单.json",
         "commit": "369bf3f1",
         "sha256": "88ee88f29f989fe01732391b16d7ac626b94c249ced13dd5948d0d0278726802"
+      },
+      "zyraQManagementReturn": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/婕拉Q管理返回/07-证据清单.json",
+        "commit": "cc853b7b",
+        "sha256": "42e4faa5ef47fa1637e6c81750d04d682e61ca9f3b8750596549afb6fcdf535b"
       }
     },
     "coverage": {
@@ -12851,16 +12892,16 @@
         "concludedItems": 865,
         "conclusions": {
           "资料待核": 386,
-          "系统暂缓": 446,
+          "系统暂缓": 445,
           "明确排除": 26,
-          "已录入": 7
+          "已录入": 8
         },
         "matchedInScopeItems": 855,
         "excludedChampionSlots": 10,
         "remainingInScopeItems": 0,
         "status": "FULL_COVERAGE_WITH_OPEN_QUEUE",
-        "openQueueItems": 832,
-        "managementCompleteItems": 7,
+        "openQueueItems": 831,
+        "managementCompleteItems": 8,
         "countingBoundary": "sourceItems=865为来源槽位，matchedInScopeItems=855为范围内技能；remainingInScopeItems只指尚未分类项，openQueueItems才是资料或系统开放项，已录入仅指管理配置完成。"
       },
       "equipment": {
@@ -38278,12 +38319,12 @@
         "slot": "Q",
         "skillKey": "zyra_q",
         "name": "婕拉·致命棘刺",
-        "conclusion": "系统暂缓",
-        "conclusionScope": "技能范围内数据与机制",
-        "reason": "普通主动使用入口已登记基础法力与普通冷却，复用既有250毫秒根施法参数；种子和植物分支按原范围结论处理、代表页面验收继续处理，不计整技能管理完成。",
+        "conclusion": "已录入",
+        "conclusionScope": "本轮1V1管理配置完整；战斗运行未验证",
+        "reason": "固定来源确认Q根本体数值、施放法力和冷却；原命中规则补同组敌方条件并更新主体说明。2次保存、45次独立GET、15组实际公式算术及组成和主体页面通过。种子转植物及独立植物攻击沿既定范围排除，已有数据保留。",
         "pendingCounts": {
           "source": 0,
-          "system": 1,
+          "system": 0,
           "configuration": 0,
           "other": 0
         },
@@ -38294,7 +38335,8 @@
           "heroSourceInventory",
           "eightNextDirectMagicHitBackfill",
           "sevenNextOrdinaryUseBackfill",
-          "sevenNextUseDescriptionCleanup"
+          "sevenNextUseDescriptionCleanup",
+          "zyraQManagementReturn"
         ],
         "currentComponentCounts": {
           "parameters": 5,
@@ -38304,10 +38346,7 @@
           "internalStates": 0,
           "triggerRules": 2
         },
-        "remainingBranches": [
-          "种子和植物分支按原范围结论处理",
-          "代表页面验收"
-        ],
+        "remainingBranches": [],
         "authoredDirectHit": {
           "effectKey": "primary_hit",
           "ruleKey": "actual_hit",
@@ -38316,7 +38355,7 @@
           "vampType": "OMNIVAMP",
           "basisOutputKind": "POST_DEFENSE_DAMAGE",
           "efficiency": 1,
-          "browser": "待验"
+          "browser": "PASS"
         },
         "authoredUseEntry": {
           "processKey": "cast",
@@ -38324,14 +38363,33 @@
           "costEffectKey": "mana_cost",
           "registrationOnly": false,
           "httpReadback": "PASS",
-          "browser": "待验"
+          "browser": "PASS"
         },
         "useCostDescriptionCleanup": {
           "status": "PASS",
           "changedDescriptions": 1,
           "numericAndProcessChanges": 0,
-          "browser": "待验"
-        }
+          "browser": "PASS"
+        },
+        "historicalPendingCounts": {
+          "source": 0,
+          "system": 1,
+          "configuration": 0,
+          "other": 0
+        },
+        "remainingBranchesBoundary": "当前本轮管理范围没有开放分支；实际碰撞、命中时间及战斗运行保持未验证。",
+        "managementCheck": {
+          "components": "本轮范围完整",
+          "persistence": "PASS",
+          "browser": "PASS",
+          "runtime": "NOT_RUN",
+          "complete": true
+        },
+        "scopeExclusions": [
+          "种子转植物",
+          "独立植物攻击链"
+        ],
+        "runtimeBoundary": "实际碰撞、命中时间、宿主/Wasm、防御、吸血及战斗结算未运行；管理完整不代表这些运行行为已验证。"
       },
       {
         "sourceChampionId": "Zyra",
