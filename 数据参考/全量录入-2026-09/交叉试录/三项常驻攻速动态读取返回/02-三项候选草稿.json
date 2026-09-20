@@ -1,0 +1,218 @@
+{
+  "at": "2026-09-20T09:47:30.683Z",
+  "status": "待独立来源核定及前批保存后冻结",
+  "requests": [
+    {
+      "method": "PUT",
+      "route": "/skills/kogmaw_q/effects/passive_attack_speed",
+      "body": {
+        "description": "在已学习Q的1至5级范围内，持续按当前技能等级提供额外攻击速度；属性结算时重新读取passive_attack_speed_ratio，沿用单层按来源对象实例和已有初始化入口，不需要用重复初始化模拟升级。未学习时的资格不得补成默认等级；战斗运行未验证。",
+        "effectKey": "passive_attack_speed",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": null,
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "腐蚀唾液被动额外攻速",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "bonus_attack_speed_percent",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": null,
+              "stackValueMode": "SHARED",
+              "valueReadMode": "MOMENT_EVALUATION"
+            },
+            "name": "腐蚀唾液被动额外攻速",
+            "resultKey": "attribute",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "passive_attack_speed_ratio"
+              }
+            }
+          }
+        ],
+        "sortOrder": 20
+      },
+      "allowedChanges": [
+        "description",
+        "results[0].lifecycleBehavior.valueReadMode",
+        "results[0].lifecycleBehavior.reapplicationValueMode"
+      ],
+      "baseline": {
+        "worktree": "damage_web_dev",
+        "path": "数据参考/全量录入-2026-09/交叉试录/克格莫Q伤害与使用返回/01-共享现值.json",
+        "sha256": "673c2f518e726db4db12922e425c5dfefcdef4497e4013633a50289e45f55ffc"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/jarvaniv_e/effects/self_attack_speed",
+      "body": {
+        "description": "德邦军旗被动按当前已学习的E等级提供自身攻击速度；单层常驻实例在属性结算时重新读取数值，不使用主动军旗8秒时长。主动军旗光环与其他联动独立维护，战斗运行未验证。",
+        "effectKey": "self_attack_speed",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": null,
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "德邦军旗自身被动攻击速度",
+        "results": [
+          {
+            "description": "按当前已学E等级重新读取自身攻速比例；已有来源初始化入口建立实例。",
+            "detail": {
+              "attributeKey": "bonus_attack_speed_percent",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": null,
+              "stackValueMode": "SHARED",
+              "valueReadMode": "MOMENT_EVALUATION"
+            },
+            "name": "德邦军旗自身被动攻击速度",
+            "resultKey": "attribute",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "self_attack_speed_ratio"
+              }
+            }
+          }
+        ],
+        "sortOrder": 20
+      },
+      "allowedChanges": [
+        "description",
+        "results[0].lifecycleBehavior.valueReadMode",
+        "results[0].lifecycleBehavior.reapplicationValueMode",
+        "results[0].description"
+      ],
+      "baseline": {
+        "worktree": "damage_web_dev",
+        "path": "数据参考/全量录入-2026-09/交叉试录/三项常驻攻速动态读取返回/01-jarvaniv_e现值.json",
+        "sha256": "efac1ba5f44d903b5f5a86293c3123ef99522917f3a777ca22fd6fa2642392b9"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/twistedfate_e/effects/permanent_attack_speed",
+      "body": {
+        "description": "卡牌骗术按当前已学习的E等级提供永久自身攻击速度，单层实例在属性结算时重新读取数值；第四次攻击计数和额外伤害独立维护，战斗运行未验证。",
+        "effectKey": "permanent_attack_speed",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": null,
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "卡牌骗术自身永久攻击速度",
+        "results": [
+          {
+            "description": "按当前已学E等级重新读取自身攻速比例；已有来源初始化入口建立实例。",
+            "detail": {
+              "attributeKey": "bonus_attack_speed_percent",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": null,
+              "stackValueMode": "SHARED",
+              "valueReadMode": "MOMENT_EVALUATION"
+            },
+            "name": "卡牌骗术自身永久攻击速度",
+            "resultKey": "attribute",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "attack_speed_bonus_ratio"
+              }
+            }
+          }
+        ],
+        "sortOrder": 20
+      },
+      "allowedChanges": [
+        "description",
+        "results[0].lifecycleBehavior.valueReadMode",
+        "results[0].lifecycleBehavior.reapplicationValueMode",
+        "results[0].description"
+      ],
+      "baseline": {
+        "worktree": "damage_web_dev",
+        "path": "数据参考/全量录入-2026-09/交叉试录/三项常驻攻速动态读取返回/01-twistedfate_e现值.json",
+        "sha256": "97fb1984d957e367e093d14add7691c3f7f0e3ef052c95a132e137de69008731"
+      }
+    }
+  ],
+  "protected": "原参数值、乘区、生命周期、层数、目标及初始化动作全部保持；三项原开放分支不计完成。",
+  "businessWrites": 0,
+  "runtimeValidation": "未执行"
+}

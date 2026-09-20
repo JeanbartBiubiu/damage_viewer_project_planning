@@ -1,0 +1,23 @@
+{
+  "at": "2026-09-20T09:50:48.617Z",
+  "status": "当前顺序决定",
+  "sourceReview": {
+    "path": "02-来源与范围.json",
+    "sha256": "0686a3876f94c8df2afba95a972704a92e5061783a579abc4205464c8d56ffb0"
+  },
+  "arithmetic": {
+    "path": "03-公式算术.json",
+    "sha256": "aaede8e97f6ee32701a88404e7756345818a84cce1b743d330e6701948c14194",
+    "status": "PASS",
+    "cases": 15
+  },
+  "decisions": [
+    "先将三项已初始化常驻攻速修正为当前等级重新取值，再以保存后现值冻结克格莫Q四项追加。",
+    "原报告中双抗削减和有效施放时长的managementBlocking=false只适用于独立新增组成；它们仍是整技能管理完整的开放项，不作范围排除。",
+    "本子批沿既有默认主根数组核对，不混入ARAM或斗魂模式覆盖值；这里只限定本批资料口径，不新增对整个模式的全局排除结论。",
+    "未学习0级不补默认值；本次参数与效果返回只覆盖已学习1至5级，宿主初始化资格仍未运行。"
+  ],
+  "runtimeValidation": "未执行",
+  "wholeSkillComplete": false,
+  "businessWrites": 0
+}

@@ -1,0 +1,676 @@
+{
+  "generatedAt": "2026-09-20T09:39:20.5368170Z",
+  "status": "PASS",
+  "scope": "仅核对现有 damage 公式与固定客户端主根 TotalDamage 计算树的数学结果；核对等级1至5、SOURCE.TOTAL ability_power 为0/100/500的15例。不测实际伤害、防御、法术护盾、吸血、事件生产或战斗运行。",
+  "snapshot": {
+    "path": "数据参考/全量录入-2026-09/交叉试录/克格莫Q伤害与使用返回/01-共享现值.json",
+    "sha256": "673c2f518e726db4db12922e425c5dfefcdef4497e4013633a50289e45f55ffc",
+    "businessWrites": 0,
+    "valuesCount": 28,
+    "formulaRoute": "/skills/kogmaw_q/formulas/damage",
+    "parameterRoutes": [
+      "/skills/kogmaw_q/parameters/base_damage",
+      "/skills/kogmaw_q/parameters/ap_ratio"
+    ],
+    "formulaValueSha256": "45e5b3f78b83102f149e8dc028379c0d7ac6a2ed7a571293c154ad0da1d1d1b8",
+    "expressionValueSha256": "72f0fba64fb6a37788925b6cd7613f02728e59de710b6d6298a0e6f96b80a85c",
+    "baseParameterValueSha256": "40a2b1767fb40671401383c14c3868e1ce2a886c33a950bc48f44b65cc53606c",
+    "ratioParameterValueSha256": "700dd16d04563bce55c9daecd9051e4baeaeb9a35a7d486b877d48e807030b64"
+  },
+  "source": {
+    "clientVersion": "16.17",
+    "clientPath": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/KogMaw.json.gz",
+    "clientCompressedSha256": "5eafce97815062a4cc8ef819967257c625a487ff560347eeb4dc810a859e8c5c",
+    "clientDecompressedSha256": "a9f72b07de44dcad18624d61daa4dcaaabe7d4990103c0c7dbc3a7b36026749a",
+    "objectPath": "Characters/KogMaw/Spells/KogMawQAbility/KogMawQ",
+    "abilityPath": "Characters/KogMaw/Spells/KogMawQAbility",
+    "expectedFormulaPath": "Characters/KogMaw/Spells/KogMawQAbility/KogMawQ/mSpell/mSpellCalculations/TotalDamage",
+    "expectedDataValuePaths": {
+      "BaseDamage": "Characters/KogMaw/Spells/KogMawQAbility/KogMawQ/mSpell/DataValues[name=BaseDamage]/values",
+      "APRatio": "Characters/KogMaw/Spells/KogMawQAbility/KogMawQ/mSpell/DataValues[name=APRatio]/values"
+    },
+    "rawClientArrays": {
+      "BaseDamage": [
+        35,
+        80,
+        125,
+        170,
+        215,
+        260,
+        305
+      ],
+      "APRatio": [
+        0.8999999761581421,
+        0.8999999761581421,
+        0.8999999761581421,
+        0.8999999761581421,
+        0.8999999761581421,
+        0.8999999761581421,
+        0.8999999761581421
+      ]
+    },
+    "rawFormulaParts": [
+      {
+        "mDataValue": "BaseDamage",
+        "__type": "NamedDataValueCalculationPart"
+      },
+      {
+        "mDataValue": "APRatio",
+        "__type": "StatByNamedDataValueCalculationPart"
+      }
+    ],
+    "levelMapping": {
+      "maxRank": 5,
+      "skillLevels": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "rawArrayIndexBase": "1-based for this fixed binding",
+      "skillLevelToRawArrayIndex": {
+        "1": 1,
+        "2": 2,
+        "3": 3,
+        "4": 4,
+        "5": 5
+      },
+      "note": "BaseDamage数组下标0为35的基础槽，现有管理参数按下标1至5取80至260；下标6的305不属于等级1至5。本轮不为等级0或下标6设置默认。"
+    },
+    "official": {
+      "zhPath": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/KogMaw.json",
+      "zhSha256": "0b3108e708beef63649ff526f6539c2575598f7f19c8e85553d4397bc67ed8ed",
+      "enPath": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/KogMaw.json",
+      "enSha256": "5b6abbf6b34516b9d057ce5c2fdbbe99bc615b6630d29a77d9b65dd837338f37",
+      "zhJsonPath": "data.KogMaw.spells[0]",
+      "enJsonPath": "data.KogMaw.spells[0]",
+      "zhId": "KogMawQ",
+      "enId": "KogMawQ",
+      "zhMaxRank": 5,
+      "enMaxRank": 5
+    }
+  },
+  "actualSide": {
+    "expression": {
+      "nodeType": "OPERATION",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "base_damage"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "attributeKey": "ability_power",
+              "attributeOwner": "SOURCE",
+              "attributeValueKind": "TOTAL",
+              "nodeType": "ATTRIBUTE"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "ap_ratio"
+            }
+          ],
+          "operation": "MULTIPLY"
+        }
+      ],
+      "operation": "ADD"
+    },
+    "parameterValues": {
+      "base_damage": {
+        "1": 80,
+        "2": 125,
+        "3": 170,
+        "4": 215,
+        "5": 260
+      },
+      "ap_ratio": 0.9
+    },
+    "attributeBinding": {
+      "owner": "SOURCE",
+      "key": "ability_power",
+      "valueKind": "TOTAL",
+      "meaning": "来源角色总法术强度，包含基础值与可生效加成后的总值；不是仅装备加成，也不是单独基础法强。"
+    },
+    "expressionChecks": {
+      "rootOperationAdd": true,
+      "firstOperandBaseParameter": true,
+      "secondOperandMultiply": true,
+      "secondOperandSourceTotalAp": true,
+      "secondOperandRatioParameter": true,
+      "formulaRouteUsesDamage": true
+    }
+  },
+  "expectedSide": {
+    "formula": "BaseDamage + APRatio × SOURCE.TOTAL ability_power",
+    "rawClientArrays": {
+      "BaseDamage": [
+        35,
+        80,
+        125,
+        170,
+        215,
+        260,
+        305
+      ],
+      "APRatio": [
+        0.8999999761581421,
+        0.8999999761581421,
+        0.8999999761581421,
+        0.8999999761581421,
+        0.8999999761581421,
+        0.8999999761581421,
+        0.8999999761581421
+      ]
+    },
+    "normalizedLevelValues": {
+      "base_damage": {
+        "1": 80,
+        "2": 125,
+        "3": 170,
+        "4": 215,
+        "5": 260
+      },
+      "ap_ratio": {
+        "1": 0.8999999761581421,
+        "2": 0.8999999761581421,
+        "3": 0.8999999761581421,
+        "4": 0.8999999761581421,
+        "5": 0.8999999761581421
+      }
+    },
+    "apRatioDisplayAndRaw": {
+      "storedManagementValue": 0.9,
+      "rawClientFloat32Value": 0.8999999761581421,
+      "absoluteCoefficientDifference": 2.384185793236071e-8,
+      "rule": "展示0.9不是客户端求值规则；期望值按客户端原始浮点值计算，实际值按现有管理参数0.9计算。"
+    }
+  },
+  "tolerance": {
+    "absolute": 0.0001,
+    "reason": "管理端保存0.9，固定客户端原始系数为0.8999999761581421；有限精度差异在总法强500时放大，但仍在预先明确的1e-4绝对容差内。"
+  },
+  "cases": [
+    {
+      "skillLevel": 1,
+      "rawClientArrayIndex": 1,
+      "sourceTotalAbilityPower": 0,
+      "actualInputs": {
+        "base_damage": 80,
+        "ap_ratio": 0.9,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 0
+        }
+      },
+      "expectedInputs": {
+        "BaseDamage": 80,
+        "APRatio": 0.8999999761581421,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 0
+        }
+      },
+      "actualResult": 80,
+      "expectedResult": 80,
+      "absoluteDifference": 0,
+      "withinAbsoluteTolerance": true
+    },
+    {
+      "skillLevel": 1,
+      "rawClientArrayIndex": 1,
+      "sourceTotalAbilityPower": 100,
+      "actualInputs": {
+        "base_damage": 80,
+        "ap_ratio": 0.9,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 100
+        }
+      },
+      "expectedInputs": {
+        "BaseDamage": 80,
+        "APRatio": 0.8999999761581421,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 100
+        }
+      },
+      "actualResult": 170,
+      "expectedResult": 169.9999976158142,
+      "absoluteDifference": 0.000002384185791015625,
+      "withinAbsoluteTolerance": true
+    },
+    {
+      "skillLevel": 1,
+      "rawClientArrayIndex": 1,
+      "sourceTotalAbilityPower": 500,
+      "actualInputs": {
+        "base_damage": 80,
+        "ap_ratio": 0.9,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 500
+        }
+      },
+      "expectedInputs": {
+        "BaseDamage": 80,
+        "APRatio": 0.8999999761581421,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 500
+        }
+      },
+      "actualResult": 530,
+      "expectedResult": 529.999988079071,
+      "absoluteDifference": 0.000011920928955078125,
+      "withinAbsoluteTolerance": true
+    },
+    {
+      "skillLevel": 2,
+      "rawClientArrayIndex": 2,
+      "sourceTotalAbilityPower": 0,
+      "actualInputs": {
+        "base_damage": 125,
+        "ap_ratio": 0.9,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 0
+        }
+      },
+      "expectedInputs": {
+        "BaseDamage": 125,
+        "APRatio": 0.8999999761581421,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 0
+        }
+      },
+      "actualResult": 125,
+      "expectedResult": 125,
+      "absoluteDifference": 0,
+      "withinAbsoluteTolerance": true
+    },
+    {
+      "skillLevel": 2,
+      "rawClientArrayIndex": 2,
+      "sourceTotalAbilityPower": 100,
+      "actualInputs": {
+        "base_damage": 125,
+        "ap_ratio": 0.9,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 100
+        }
+      },
+      "expectedInputs": {
+        "BaseDamage": 125,
+        "APRatio": 0.8999999761581421,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 100
+        }
+      },
+      "actualResult": 215,
+      "expectedResult": 214.9999976158142,
+      "absoluteDifference": 0.000002384185791015625,
+      "withinAbsoluteTolerance": true
+    },
+    {
+      "skillLevel": 2,
+      "rawClientArrayIndex": 2,
+      "sourceTotalAbilityPower": 500,
+      "actualInputs": {
+        "base_damage": 125,
+        "ap_ratio": 0.9,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 500
+        }
+      },
+      "expectedInputs": {
+        "BaseDamage": 125,
+        "APRatio": 0.8999999761581421,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 500
+        }
+      },
+      "actualResult": 575,
+      "expectedResult": 574.999988079071,
+      "absoluteDifference": 0.000011920928955078125,
+      "withinAbsoluteTolerance": true
+    },
+    {
+      "skillLevel": 3,
+      "rawClientArrayIndex": 3,
+      "sourceTotalAbilityPower": 0,
+      "actualInputs": {
+        "base_damage": 170,
+        "ap_ratio": 0.9,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 0
+        }
+      },
+      "expectedInputs": {
+        "BaseDamage": 170,
+        "APRatio": 0.8999999761581421,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 0
+        }
+      },
+      "actualResult": 170,
+      "expectedResult": 170,
+      "absoluteDifference": 0,
+      "withinAbsoluteTolerance": true
+    },
+    {
+      "skillLevel": 3,
+      "rawClientArrayIndex": 3,
+      "sourceTotalAbilityPower": 100,
+      "actualInputs": {
+        "base_damage": 170,
+        "ap_ratio": 0.9,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 100
+        }
+      },
+      "expectedInputs": {
+        "BaseDamage": 170,
+        "APRatio": 0.8999999761581421,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 100
+        }
+      },
+      "actualResult": 260,
+      "expectedResult": 259.9999976158142,
+      "absoluteDifference": 0.000002384185791015625,
+      "withinAbsoluteTolerance": true
+    },
+    {
+      "skillLevel": 3,
+      "rawClientArrayIndex": 3,
+      "sourceTotalAbilityPower": 500,
+      "actualInputs": {
+        "base_damage": 170,
+        "ap_ratio": 0.9,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 500
+        }
+      },
+      "expectedInputs": {
+        "BaseDamage": 170,
+        "APRatio": 0.8999999761581421,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 500
+        }
+      },
+      "actualResult": 620,
+      "expectedResult": 619.999988079071,
+      "absoluteDifference": 0.000011920928955078125,
+      "withinAbsoluteTolerance": true
+    },
+    {
+      "skillLevel": 4,
+      "rawClientArrayIndex": 4,
+      "sourceTotalAbilityPower": 0,
+      "actualInputs": {
+        "base_damage": 215,
+        "ap_ratio": 0.9,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 0
+        }
+      },
+      "expectedInputs": {
+        "BaseDamage": 215,
+        "APRatio": 0.8999999761581421,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 0
+        }
+      },
+      "actualResult": 215,
+      "expectedResult": 215,
+      "absoluteDifference": 0,
+      "withinAbsoluteTolerance": true
+    },
+    {
+      "skillLevel": 4,
+      "rawClientArrayIndex": 4,
+      "sourceTotalAbilityPower": 100,
+      "actualInputs": {
+        "base_damage": 215,
+        "ap_ratio": 0.9,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 100
+        }
+      },
+      "expectedInputs": {
+        "BaseDamage": 215,
+        "APRatio": 0.8999999761581421,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 100
+        }
+      },
+      "actualResult": 305,
+      "expectedResult": 304.9999976158142,
+      "absoluteDifference": 0.000002384185791015625,
+      "withinAbsoluteTolerance": true
+    },
+    {
+      "skillLevel": 4,
+      "rawClientArrayIndex": 4,
+      "sourceTotalAbilityPower": 500,
+      "actualInputs": {
+        "base_damage": 215,
+        "ap_ratio": 0.9,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 500
+        }
+      },
+      "expectedInputs": {
+        "BaseDamage": 215,
+        "APRatio": 0.8999999761581421,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 500
+        }
+      },
+      "actualResult": 665,
+      "expectedResult": 664.999988079071,
+      "absoluteDifference": 0.000011920928955078125,
+      "withinAbsoluteTolerance": true
+    },
+    {
+      "skillLevel": 5,
+      "rawClientArrayIndex": 5,
+      "sourceTotalAbilityPower": 0,
+      "actualInputs": {
+        "base_damage": 260,
+        "ap_ratio": 0.9,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 0
+        }
+      },
+      "expectedInputs": {
+        "BaseDamage": 260,
+        "APRatio": 0.8999999761581421,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 0
+        }
+      },
+      "actualResult": 260,
+      "expectedResult": 260,
+      "absoluteDifference": 0,
+      "withinAbsoluteTolerance": true
+    },
+    {
+      "skillLevel": 5,
+      "rawClientArrayIndex": 5,
+      "sourceTotalAbilityPower": 100,
+      "actualInputs": {
+        "base_damage": 260,
+        "ap_ratio": 0.9,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 100
+        }
+      },
+      "expectedInputs": {
+        "BaseDamage": 260,
+        "APRatio": 0.8999999761581421,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 100
+        }
+      },
+      "actualResult": 350,
+      "expectedResult": 349.9999976158142,
+      "absoluteDifference": 0.000002384185791015625,
+      "withinAbsoluteTolerance": true
+    },
+    {
+      "skillLevel": 5,
+      "rawClientArrayIndex": 5,
+      "sourceTotalAbilityPower": 500,
+      "actualInputs": {
+        "base_damage": 260,
+        "ap_ratio": 0.9,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 500
+        }
+      },
+      "expectedInputs": {
+        "BaseDamage": 260,
+        "APRatio": 0.8999999761581421,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 500
+        }
+      },
+      "actualResult": 710,
+      "expectedResult": 709.999988079071,
+      "absoluteDifference": 0.000011920928955078125,
+      "withinAbsoluteTolerance": true
+    }
+  ],
+  "summary": {
+    "totalCases": 15,
+    "passedCases": 15,
+    "failedCases": 0,
+    "maxAbsoluteDifference": 0.000011920928955078125,
+      "maxDifferenceCase": {
+        "skillLevel": 5,
+        "rawClientArrayIndex": 5,
+      "sourceTotalAbilityPower": 500,
+        "actualInputs": {
+          "base_damage": 260,
+        "ap_ratio": 0.9,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 500
+        }
+      },
+        "expectedInputs": {
+          "BaseDamage": 260,
+        "APRatio": 0.8999999761581421,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 500
+        }
+      },
+      "actualResult": 530,
+      "expectedResult": 529.999988079071,
+      "absoluteDifference": 0.000011920928955078125,
+      "withinAbsoluteTolerance": true
+    },
+    "formulaUsesSourceTotalAbilityPower": true,
+    "coefficientFinitePrecisionDifference": 2.384185793236071e-8,
+    "noDisplayPrecisionAsRule": true
+  },
+  "risk": [
+    "本算术核对只证明管理公式与客户端主根计算树的数值一致性；不证明实际伤害、防御、法术护盾、吸血或事件运行。",
+    "客户端存在模式覆盖值，本15例固定使用默认主根数组；未把ARAM或cherry覆盖混入普通管理参数。",
+    "公式实际值按已保存0.9求值，期望值按原始0.8999999761581421求值；两者差异是有限精度差，不应将显示0.9反向当成客户端原始值。"
+  ],
+  "runtimeValidation": "未执行"
+}

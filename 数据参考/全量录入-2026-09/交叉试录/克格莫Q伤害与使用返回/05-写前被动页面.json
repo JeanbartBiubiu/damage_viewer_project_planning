@@ -1,0 +1,20 @@
+{
+  "at": "2026-09-20T09:35:58.325Z",
+  "status": "OBSERVED",
+  "skillKey": "kogmaw_q",
+  "effectKey": "passive_attack_speed",
+  "businessWrites": 0,
+  "observed": {
+    "instanceScope": "按来源对象",
+    "maxStacks": 1,
+    "applicationStacks": 1,
+    "expiryMode": "仅显式移除",
+    "resultType": "属性变化",
+    "target": "施法者",
+    "moment": "持续生效",
+    "valueReadMode": "施加时留存",
+    "stackValueMode": "整个实例共享数值",
+    "attributeKey": "bonus_attack_speed_percent"
+  },
+  "decision": "先核定结算时重新读取是否适用，尚未修改现有结果。"
+}

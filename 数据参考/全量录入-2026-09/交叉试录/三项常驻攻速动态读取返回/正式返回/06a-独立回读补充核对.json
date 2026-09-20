@@ -1,0 +1,3036 @@
+{
+  "status": "PASS",
+  "at": "2026-09-20T10:28:31.576Z",
+  "mode": "INDEPENDENT_GET_SUPPLEMENT_FROM_06",
+  "businessWrites": 0,
+  "sourceReadback": {
+    "path": "数据参考/全量录入-2026-09/交叉试录/三项常驻攻速动态读取返回/正式返回/06-独立回读.json",
+    "sha256": "fae8c69dc798c0a3dd47dd5a27df64a9ac83057a81c34fc838aebcabe959c368",
+    "status": "FAIL",
+    "originalFailureCount": 1
+  },
+  "freezeSHA256": "0b1e47d05f5204bf41206ecd95cf9a1a07aa668252324aa04f4c9961094a0af2",
+  "baselineSHA256": "739b9c5b8fc571f6cc1f6d67792d219add6669ab0d03d5d109a41c29219f098e",
+  "approvalSHA256": "5d5eacf32242e4273faf39b7aefac7b46c018a24744770a651ae7408b629ccd5",
+  "preflightSHA256": "9fdefa084e059657d768832d7b29edef1cc5e343c1cb4217040cd306b6309bbe",
+  "pageWriteSHA256": "6667bcb90f08dedabc156fb338cc72951fb53b1166bdc95b80e6522c5ee201f6",
+  "sourceFiles": [
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/KogMaw.json.gz",
+      "declaredSha256": "5eafce97815062a4cc8ef819967257c625a487ff560347eeb4dc810a859e8c5c",
+      "actualSha256": "5eafce97815062a4cc8ef819967257c625a487ff560347eeb4dc810a859e8c5c",
+      "match": true
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/KogMaw.json",
+      "declaredSha256": "0b3108e708beef63649ff526f6539c2575598f7f19c8e85553d4397bc67ed8ed",
+      "actualSha256": "0b3108e708beef63649ff526f6539c2575598f7f19c8e85553d4397bc67ed8ed",
+      "match": true
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/KogMaw.json",
+      "declaredSha256": "5b6abbf6b34516b9d057ce5c2fdbbe99bc615b6630d29a77d9b65dd837338f37",
+      "actualSha256": "5b6abbf6b34516b9d057ce5c2fdbbe99bc615b6630d29a77d9b65dd837338f37",
+      "match": true
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/JarvanIV.json.gz",
+      "declaredSha256": "45eb3307c6d2a0015ce3942366e08a6d8b5566402e94afec8d2acef1e473b9ae",
+      "actualSha256": "45eb3307c6d2a0015ce3942366e08a6d8b5566402e94afec8d2acef1e473b9ae",
+      "match": true
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/JarvanIV.json",
+      "declaredSha256": "6ad75b89b0c298bbe08c5aa13b46f8013f81a4c6fa460e6826157d8efce4e483",
+      "actualSha256": "6ad75b89b0c298bbe08c5aa13b46f8013f81a4c6fa460e6826157d8efce4e483",
+      "match": true
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/JarvanIV.json",
+      "declaredSha256": "27820f30fdda0380b5c25006a6253c4b4bc61050e63b4709c165bd99c14e4343",
+      "actualSha256": "27820f30fdda0380b5c25006a6253c4b4bc61050e63b4709c165bd99c14e4343",
+      "match": true
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/TwistedFate.json.gz",
+      "declaredSha256": "9173c046ffc63b7075cf64d2f725c658808685a88539416e4d68df1bc3d23e59",
+      "actualSha256": "9173c046ffc63b7075cf64d2f725c658808685a88539416e4d68df1bc3d23e59",
+      "match": true
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/TwistedFate.json",
+      "declaredSha256": "6163447fc01fa1a63c3d959b1a072aba58892f54fd3581b037f93b538f494429",
+      "actualSha256": "6163447fc01fa1a63c3d959b1a072aba58892f54fd3581b037f93b538f494429",
+      "match": true
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/TwistedFate.json",
+      "declaredSha256": "8bd11dee51dccdb8553f1df5d92495269d0083ba907b2837f19a8f0ba4ab06ed",
+      "actualSha256": "8bd11dee51dccdb8553f1df5d92495269d0083ba907b2837f19a8f0ba4ab06ed",
+      "match": true
+    },
+    {
+      "root": "planning",
+      "path": "文档记录/详细设计/项目/乘区管理与修正结果补充详细设计.md",
+      "declaredSha256": "64a802c3e748c6001050a2d26ba91a4cb1f7e05cd0147f83eb3c7802dd63c524",
+      "actualSha256": "64a802c3e748c6001050a2d26ba91a4cb1f7e05cd0147f83eb3c7802dd63c524",
+      "match": true
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/克格莫Q伤害与使用返回/02-来源与范围.json",
+      "declaredSha256": "0686a3876f94c8df2afba95a972704a92e5061783a579abc4205464c8d56ffb0",
+      "actualSha256": "0686a3876f94c8df2afba95a972704a92e5061783a579abc4205464c8d56ffb0",
+      "match": true
+    }
+  ],
+  "approvedFiles": {
+    "01-冻结请求与允许差异.json": {
+      "path": "数据参考/全量录入-2026-09/交叉试录/三项常驻攻速动态读取返回/正式返回/01-冻结请求与允许差异.json",
+      "declaredSha256": "0b1e47d05f5204bf41206ecd95cf9a1a07aa668252324aa04f4c9961094a0af2",
+      "actualSha256": "0b1e47d05f5204bf41206ecd95cf9a1a07aa668252324aa04f4c9961094a0af2",
+      "match": true,
+      "originalBytesBound": true
+    },
+    "02-写前保护现值.json": {
+      "path": "数据参考/全量录入-2026-09/交叉试录/三项常驻攻速动态读取返回/正式返回/02-写前保护现值.json",
+      "declaredSha256": "739b9c5b8fc571f6cc1f6d67792d219add6669ab0d03d5d109a41c29219f098e",
+      "actualSha256": "739b9c5b8fc571f6cc1f6d67792d219add6669ab0d03d5d109a41c29219f098e",
+      "match": true,
+      "originalBytesBound": true
+    }
+  },
+  "failureExplanation": {
+    "code": "PAGE_WRITE_PRECONDITION",
+    "originalRecord": {
+      "code": "PAGE_WRITE_PRECONDITION",
+      "route": null,
+      "detail": {
+        "status": "PASS",
+        "businessWritesAttempted": 3,
+        "operations": 3
+      }
+    },
+    "actualPageFields": {
+      "status": "PASS",
+      "businessWritesAttempted": 3,
+      "operations": 3,
+      "pendingRoute": null
+    },
+    "checkerExpression": "page.pending !== null",
+    "checkerObservedValue": "page.pending was undefined because the formal file uses pendingRoute",
+    "javascriptResult": "undefined !== null is true",
+    "correctedExpression": "page.pendingRoute !== null",
+    "correctedResult": false,
+    "conclusion": "05页面写入与即时回读本身为PASS；该唯一失败是补充检查脚本使用了错误字段名，不是业务写入或即时回读失败。"
+  },
+  "oldAuditPreserved": {
+    "path": "数据参考/全量录入-2026-09/交叉试录/三项常驻攻速动态读取返回/正式返回/05a-计数更正前写入记录.json",
+    "status": "IN_PROGRESS",
+    "operations": 2,
+    "replayed": false
+  },
+  "counts": {
+    "plannedRoutes": 78,
+    "GETs": 78,
+    "successfulGETs": 78,
+    "failedGETs": 0,
+    "values": 78,
+    "audit": 78,
+    "targetDetails": 3,
+    "targetDetailsMatched": 3,
+    "targetEffectsLists": 3,
+    "targetEffectsListsMatched": 3,
+    "changedResponses": 6,
+    "expectedChangedCollections": 3,
+    "unchangedResponsesIncludingTimestamps": 72,
+    "statusCounts": {
+      "200": 78
+    }
+  },
+  "failures": [],
+  "values": {
+    "/skills/kogmaw_q": {
+      "createdAt": "2026-09-06T18:19:04.23212Z",
+      "description": "克格莫发射一团腐蚀性物质，对目标造成魔法伤害，并暂时腐蚀目标的护甲和魔法抗性。克格莫还会获得额外攻速。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "克格莫·腐蚀唾液",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "kogmaw_q",
+      "sortOrder": 1,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:19:04.23212Z"
+    },
+    "/characters/champion_kogmaw": {
+      "characterKey": "champion_kogmaw",
+      "createdAt": "2026-09-06T16:55:52.582601Z",
+      "description": "官方静态资料16.17.1；仅基础属性与1～18级自然成长，技能、图片和特殊机制待录。",
+      "gameId": "lol",
+      "name": "克格莫",
+      "updatedAt": "2026-09-06T16:55:52.582601Z"
+    },
+    "/characters/champion_kogmaw/attributes": {
+      "characterKey": "champion_kogmaw",
+      "levelValues": {
+        "1": {
+          "move_speed": 330,
+          "hp": 635,
+          "hp_regen": 3.75,
+          "mana": 325,
+          "mana_regen": 8.75,
+          "armor": 24,
+          "magic_resistance": 33,
+          "attack_damage": 61,
+          "attack_speed": 0.665,
+          "attack_range": 500
+        },
+        "2": {
+          "move_speed": 330,
+          "hp": 706.28,
+          "hp_regen": 4.146,
+          "mana": 353.8,
+          "mana_regen": 9.254,
+          "armor": 27.204,
+          "magic_resistance": 33.792,
+          "attack_damage": 63.232,
+          "attack_speed": 0.677688,
+          "attack_range": 500
+        },
+        "3": {
+          "move_speed": 330,
+          "hp": 781.025,
+          "hp_regen": 4.56125,
+          "mana": 384,
+          "mana_regen": 9.7825,
+          "armor": 30.56375,
+          "magic_resistance": 34.6225,
+          "attack_damage": 65.5725,
+          "attack_speed": 0.690993,
+          "attack_range": 500
+        },
+        "4": {
+          "move_speed": 330,
+          "hp": 859.235,
+          "hp_regen": 4.99575,
+          "mana": 415.6,
+          "mana_regen": 10.3355,
+          "armor": 34.07925,
+          "magic_resistance": 35.4915,
+          "attack_damage": 68.0215,
+          "attack_speed": 0.704915,
+          "attack_range": 500
+        },
+        "5": {
+          "move_speed": 330,
+          "hp": 940.91,
+          "hp_regen": 5.4495,
+          "mana": 448.6,
+          "mana_regen": 10.913,
+          "armor": 37.7505,
+          "magic_resistance": 36.399,
+          "attack_damage": 70.579,
+          "attack_speed": 0.719454,
+          "attack_range": 500
+        },
+        "6": {
+          "move_speed": 330,
+          "hp": 1026.05,
+          "hp_regen": 5.9225,
+          "mana": 483,
+          "mana_regen": 11.515,
+          "armor": 41.5775,
+          "magic_resistance": 37.345,
+          "attack_damage": 73.245,
+          "attack_speed": 0.734609,
+          "attack_range": 500
+        },
+        "7": {
+          "move_speed": 330,
+          "hp": 1114.655,
+          "hp_regen": 6.41475,
+          "mana": 518.8,
+          "mana_regen": 12.1415,
+          "armor": 45.56025,
+          "magic_resistance": 38.3295,
+          "attack_damage": 76.0195,
+          "attack_speed": 0.750381,
+          "attack_range": 500
+        },
+        "8": {
+          "move_speed": 330,
+          "hp": 1206.725,
+          "hp_regen": 6.92625,
+          "mana": 556,
+          "mana_regen": 12.7925,
+          "armor": 49.69875,
+          "magic_resistance": 39.3525,
+          "attack_damage": 78.9025,
+          "attack_speed": 0.76677,
+          "attack_range": 500
+        },
+        "9": {
+          "move_speed": 330,
+          "hp": 1302.26,
+          "hp_regen": 7.457,
+          "mana": 594.6,
+          "mana_regen": 13.468,
+          "armor": 53.993,
+          "magic_resistance": 40.414,
+          "attack_damage": 81.894,
+          "attack_speed": 0.783776,
+          "attack_range": 500
+        },
+        "10": {
+          "move_speed": 330,
+          "hp": 1401.26,
+          "hp_regen": 8.007,
+          "mana": 634.6,
+          "mana_regen": 14.168,
+          "armor": 58.443,
+          "magic_resistance": 41.514,
+          "attack_damage": 84.994,
+          "attack_speed": 0.801398,
+          "attack_range": 500
+        },
+        "11": {
+          "move_speed": 330,
+          "hp": 1503.725,
+          "hp_regen": 8.57625,
+          "mana": 676,
+          "mana_regen": 14.8925,
+          "armor": 63.04875,
+          "magic_resistance": 42.6525,
+          "attack_damage": 88.2025,
+          "attack_speed": 0.819637,
+          "attack_range": 500
+        },
+        "12": {
+          "move_speed": 330,
+          "hp": 1609.655,
+          "hp_regen": 9.16475,
+          "mana": 718.8,
+          "mana_regen": 15.6415,
+          "armor": 67.81025,
+          "magic_resistance": 43.8295,
+          "attack_damage": 91.5195,
+          "attack_speed": 0.838494,
+          "attack_range": 500
+        },
+        "13": {
+          "move_speed": 330,
+          "hp": 1719.05,
+          "hp_regen": 9.7725,
+          "mana": 763,
+          "mana_regen": 16.415,
+          "armor": 72.7275,
+          "magic_resistance": 45.045,
+          "attack_damage": 94.945,
+          "attack_speed": 0.857966,
+          "attack_range": 500
+        },
+        "14": {
+          "move_speed": 330,
+          "hp": 1831.91,
+          "hp_regen": 10.3995,
+          "mana": 808.6,
+          "mana_regen": 17.213,
+          "armor": 77.8005,
+          "magic_resistance": 46.299,
+          "attack_damage": 98.479,
+          "attack_speed": 0.878056,
+          "attack_range": 500
+        },
+        "15": {
+          "move_speed": 330,
+          "hp": 1948.235,
+          "hp_regen": 11.04575,
+          "mana": 855.6,
+          "mana_regen": 18.0355,
+          "armor": 83.02925,
+          "magic_resistance": 47.5915,
+          "attack_damage": 102.1215,
+          "attack_speed": 0.898762,
+          "attack_range": 500
+        },
+        "16": {
+          "move_speed": 330,
+          "hp": 2068.025,
+          "hp_regen": 11.71125,
+          "mana": 904,
+          "mana_regen": 18.8825,
+          "armor": 88.41375,
+          "magic_resistance": 48.9225,
+          "attack_damage": 105.8725,
+          "attack_speed": 0.920086,
+          "attack_range": 500
+        },
+        "17": {
+          "move_speed": 330,
+          "hp": 2191.28,
+          "hp_regen": 12.396,
+          "mana": 953.8,
+          "mana_regen": 19.754,
+          "armor": 93.954,
+          "magic_resistance": 50.292,
+          "attack_damage": 109.732,
+          "attack_speed": 0.942026,
+          "attack_range": 500
+        },
+        "18": {
+          "move_speed": 330,
+          "hp": 2318,
+          "hp_regen": 13.1,
+          "mana": 1005,
+          "mana_regen": 20.65,
+          "armor": 99.65,
+          "magic_resistance": 51.7,
+          "attack_damage": 113.7,
+          "attack_speed": 0.964583,
+          "attack_range": 500
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_kogmaw/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_champion_kogmaw",
+        "name": "champion_kogmaw"
+      }
+    },
+    "/skills/kogmaw_q/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_kogmaw_q",
+        "name": "kogmaw_q"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_kogmaw": {
+      "items": [
+        {
+          "characterKey": "champion_kogmaw",
+          "characterName": "克格莫",
+          "gameId": "lol",
+          "skillKey": "kogmaw_p",
+          "skillName": "克格莫·来自艾卡西亚的惊喜",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_kogmaw",
+          "characterName": "克格莫",
+          "gameId": "lol",
+          "skillKey": "kogmaw_q",
+          "skillName": "克格莫·腐蚀唾液",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_kogmaw",
+          "characterName": "克格莫",
+          "gameId": "lol",
+          "skillKey": "kogmaw_w",
+          "skillName": "克格莫·生化弹幕",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_kogmaw",
+          "characterName": "克格莫",
+          "gameId": "lol",
+          "skillKey": "kogmaw_e",
+          "skillName": "克格莫·虚空淤泥",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_kogmaw",
+          "characterName": "克格莫",
+          "gameId": "lol",
+          "skillKey": "kogmaw_r",
+          "skillName": "克格莫·活体大炮",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=kogmaw_q": {
+      "items": [
+        {
+          "characterKey": "champion_kogmaw",
+          "characterName": "克格莫",
+          "gameId": "lol",
+          "skillKey": "kogmaw_q",
+          "skillName": "克格莫·腐蚀唾液",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        }
+      ],
+      "total": 1
+    },
+    "/skills/kogmaw_q/parameters": [
+      {
+        "createdAt": "2026-09-09T04:29:08.465314Z",
+        "description": "客户端当前根绑定 DataValues.AttackSpeed 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.05,
+          "2": 0.1,
+          "3": 0.15,
+          "4": 0.2,
+          "5": 0.25
+        },
+        "name": "腐蚀唾液被动额外攻速比例",
+        "parameterKey": "passive_attack_speed_ratio",
+        "skillKey": "kogmaw_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T04:29:08.465314Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T04:29:09.300715Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 80,
+          "2": 125,
+          "3": 170,
+          "4": 215,
+          "5": 260
+        },
+        "name": "腐蚀唾液基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "kogmaw_q",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T04:29:09.300715Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T04:29:10.073634Z",
+        "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+        "fixedValue": 0.9,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "腐蚀唾液法强系数",
+        "parameterKey": "ap_ratio",
+        "skillKey": "kogmaw_q",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T04:29:10.073634Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T04:29:11.103745Z",
+        "description": "客户端当前根绑定 DataValues.ShredAmount 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.16,
+          "2": 0.2,
+          "3": 0.24,
+          "4": 0.28,
+          "5": 0.32
+        },
+        "name": "护甲与魔抗削减比例",
+        "parameterKey": "resistance_shred_ratio",
+        "skillKey": "kogmaw_q",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T04:29:11.103745Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T04:29:12.008275Z",
+        "description": "客户端当前根绑定 DataValues.ShredDuration 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+        "fixedValue": 4000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "双抗削减持续（毫秒）",
+        "parameterKey": "shred_duration_ms",
+        "skillKey": "kogmaw_q",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-09T04:29:12.008275Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:00:15.073968Z",
+        "description": "DDragon16.17.1 KogMaw.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 7000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "kogmaw_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:15.073968Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:00:15.437135Z",
+        "description": "DDragon16.17.1 KogMaw.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 40,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "kogmaw_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:15.437135Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/kogmaw_q/parameters/passive_attack_speed_ratio": {
+      "createdAt": "2026-09-09T04:29:08.465314Z",
+      "description": "客户端当前根绑定 DataValues.AttackSpeed 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 0.05,
+        "2": 0.1,
+        "3": 0.15,
+        "4": 0.2,
+        "5": 0.25
+      },
+      "name": "腐蚀唾液被动额外攻速比例",
+      "parameterKey": "passive_attack_speed_ratio",
+      "skillKey": "kogmaw_q",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T04:29:08.465314Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "DECIMAL"
+    },
+    "/skills/kogmaw_q/parameters/base_damage": {
+      "createdAt": "2026-09-09T04:29:09.300715Z",
+      "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 80,
+        "2": 125,
+        "3": 170,
+        "4": 215,
+        "5": 260
+      },
+      "name": "腐蚀唾液基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "kogmaw_q",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T04:29:09.300715Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/kogmaw_q/parameters/ap_ratio": {
+      "createdAt": "2026-09-09T04:29:10.073634Z",
+      "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+      "fixedValue": 0.9,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "腐蚀唾液法强系数",
+      "parameterKey": "ap_ratio",
+      "skillKey": "kogmaw_q",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T04:29:10.073634Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/kogmaw_q/parameters/resistance_shred_ratio": {
+      "createdAt": "2026-09-09T04:29:11.103745Z",
+      "description": "客户端当前根绑定 DataValues.ShredAmount 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 0.16,
+        "2": 0.2,
+        "3": 0.24,
+        "4": 0.28,
+        "5": 0.32
+      },
+      "name": "护甲与魔抗削减比例",
+      "parameterKey": "resistance_shred_ratio",
+      "skillKey": "kogmaw_q",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-09T04:29:11.103745Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "DECIMAL"
+    },
+    "/skills/kogmaw_q/parameters/shred_duration_ms": {
+      "createdAt": "2026-09-09T04:29:12.008275Z",
+      "description": "客户端当前根绑定 DataValues.ShredDuration 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+      "fixedValue": 4000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "双抗削减持续（毫秒）",
+      "parameterKey": "shred_duration_ms",
+      "skillKey": "kogmaw_q",
+      "sortOrder": 70,
+      "updatedAt": "2026-09-09T04:29:12.008275Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/kogmaw_q/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T18:00:15.073968Z",
+      "description": "DDragon16.17.1 KogMaw.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 7000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "kogmaw_q",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T18:00:15.073968Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/kogmaw_q/parameters/mana_cost": {
+      "createdAt": "2026-09-07T18:00:15.437135Z",
+      "description": "DDragon16.17.1 KogMaw.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 40,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "kogmaw_q",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-07T18:00:15.437135Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/kogmaw_q/formulas": [
+      {
+        "createdAt": "2026-09-09T04:29:12.784269Z",
+        "description": "基础值加0.9法强；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "腐蚀唾液魔法伤害",
+        "skillKey": "kogmaw_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T04:29:12.784269Z"
+      }
+    ],
+    "/skills/kogmaw_q/formulas/damage": {
+      "createdAt": "2026-09-09T04:29:12.784269Z",
+      "description": "基础值加0.9法强；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "腐蚀唾液魔法伤害",
+      "skillKey": "kogmaw_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T04:29:12.784269Z"
+    },
+    "/skills/kogmaw_q/effects": [
+      {
+        "createdAt": "2026-09-09T04:29:13.687059Z",
+        "description": "仅绑定官方基础法力消耗；额外持续法力或真实扣除时点单独记录。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "kogmaw_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T04:29:13.687059Z"
+      },
+      {
+        "createdAt": "2026-09-09T04:29:14.557374Z",
+        "description": "在已学习Q的1至5级范围内，持续按当前技能等级提供额外攻击速度；属性结算时重新读取passive_attack_speed_ratio，沿用单层按来源对象实例和已有初始化入口，不需要用重复初始化模拟升级。未学习时的资格不得补成默认等级；战斗运行未验证。",
+        "effectKey": "passive_attack_speed",
+        "gameId": "lol",
+        "lifecycleEnabled": true,
+        "name": "腐蚀唾液被动额外攻速",
+        "resultCount": 1,
+        "skillKey": "kogmaw_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-20T10:02:33.820481Z"
+      }
+    ],
+    "/skills/kogmaw_q/effects/mana_cost": {
+      "createdAt": "2026-09-09T04:29:13.687059Z",
+      "description": "仅绑定官方基础法力消耗；额外持续法力或真实扣除时点单独记录。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "kogmaw_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T04:29:13.687059Z"
+    },
+    "/skills/kogmaw_q/effects/passive_attack_speed": {
+      "createdAt": "2026-09-09T04:29:14.557374Z",
+      "description": "在已学习Q的1至5级范围内，持续按当前技能等级提供额外攻击速度；属性结算时重新读取passive_attack_speed_ratio，沿用单层按来源对象实例和已有初始化入口，不需要用重复初始化模拟升级。未学习时的资格不得补成默认等级；战斗运行未验证。",
+      "effectKey": "passive_attack_speed",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": null,
+        "expiryMode": "EXPLICIT_ONLY",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": null,
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "腐蚀唾液被动额外攻速",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "bonus_attack_speed_percent",
+            "modifierZoneKey": "attribute_flat_add",
+            "operation": "INCREASE"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": null,
+            "stackValueMode": "SHARED",
+            "valueReadMode": "MOMENT_EVALUATION"
+          },
+          "name": "腐蚀唾液被动额外攻速",
+          "resultKey": "attribute",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "passive_attack_speed_ratio"
+            }
+          }
+        }
+      ],
+      "skillKey": "kogmaw_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-20T10:02:33.820481Z"
+    },
+    "/skills/kogmaw_q/processes": [],
+    "/skills/kogmaw_q/internal-states": [],
+    "/skills/kogmaw_q/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "来源对象的基础属性、技能与装备挂载及初始状态准备完成后，执行已有 passive_attack_speed，建立按当前技能等级取值的单层常驻自身攻速；来源初始化不表示后续技能升级，主动伤害、双抗削减、法力消耗、命中与法术护盾分支继续暂缓。",
+        "eventType": "SOURCE_INITIALIZED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "初始化腐蚀唾液被动攻速",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "initialize_passive_attack_speed",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-13T11:43:03.709912Z"
+      }
+    ],
+    "/skills/kogmaw_q/trigger-rules/initialize_passive_attack_speed": {
+      "actions": [
+        {
+          "actionKey": "execute_passive_attack_speed",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "passive_attack_speed"
+          },
+          "name": "执行腐蚀唾液被动攻速",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "EVENT_SOURCE"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "来源对象的基础属性、技能与装备挂载及初始状态准备完成后，执行已有 passive_attack_speed，建立按当前技能等级取值的单层常驻自身攻速；来源初始化不表示后续技能升级，主动伤害、双抗削减、法力消耗、命中与法术护盾分支继续暂缓。",
+      "eventSource": {
+        "detail": {},
+        "eventType": "SOURCE_INITIALIZED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "初始化腐蚀唾液被动攻速",
+      "perTargetCooldown": null,
+      "ruleKey": "initialize_passive_attack_speed",
+      "sortOrder": 10
+    },
+    "/attributes/ability_power": {
+      "attributeKey": "ability_power",
+      "createdAt": "2026-08-30T16:26:39.898635Z",
+      "description": "角色法术强度；基础值为 0，可由装备和效果增加",
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法术强度",
+      "sortOrder": 510,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-30T16:26:39.898635Z",
+      "valueType": "DECIMAL"
+    },
+    "/attributes/mana": {
+      "attributeKey": "mana",
+      "createdAt": "2026-08-22T15:27:36.139767Z",
+      "description": null,
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法力值",
+      "sortOrder": 310,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-22T15:27:36.139767Z",
+      "valueType": "DECIMAL"
+    },
+    "/attributes/bonus_attack_speed_percent": {
+      "attributeKey": "bonus_attack_speed_percent",
+      "createdAt": "2026-08-30T16:27:55.439812Z",
+      "description": "以 1 表示 100%；用于记录等级成长和咒能高涨等效果",
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": null,
+      "name": "额外攻击速度比例",
+      "sortOrder": 521,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-30T16:27:55.439812Z",
+      "valueType": "DECIMAL"
+    },
+    "/modifier-zones/attribute_flat_add": {
+      "applicationStage": "ATTRIBUTE_FLAT",
+      "calculationMode": "FLAT_ADD",
+      "createdAt": "2026-09-06T16:50:52.756989Z",
+      "description": "持续属性的固定值增加或减少；同属性同乘区内按方向加算，先于属性比例修正。比例类属性自身以1表示100%，增加0.6表示增加60个百分点，跨来源韧性组合仍待游戏规则核对。",
+      "domain": "ATTRIBUTE",
+      "gameId": "lol",
+      "modifierZoneKey": "attribute_flat_add",
+      "name": "属性固定加算",
+      "sortOrder": 10,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T16:50:52.756989Z"
+    },
+    "/skills/jarvaniv_e": {
+      "createdAt": "2026-09-06T18:18:40.708008Z",
+      "description": "嘉文四世携带着德玛西亚的骄傲，能被动地给予他额外的攻击速度。激活德邦军旗会使嘉文四世放置一面德玛西亚军旗，在军旗的着陆点造成魔法伤害，并强化军旗附近的队友们的攻击速度。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "嘉文四世·德邦军旗",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "jarvaniv_e",
+      "sortOrder": 3,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:18:40.708008Z"
+    },
+    "/characters/champion_jarvaniv": {
+      "characterKey": "champion_jarvaniv",
+      "createdAt": "2026-09-06T16:55:43.256967Z",
+      "description": "官方静态资料16.17.1；仅基础属性与1～18级自然成长，技能、图片和特殊机制待录。",
+      "gameId": "lol",
+      "name": "嘉文四世",
+      "updatedAt": "2026-09-06T16:55:43.256967Z"
+    },
+    "/characters/champion_jarvaniv/attributes": {
+      "characterKey": "champion_jarvaniv",
+      "levelValues": {
+        "1": {
+          "move_speed": 340,
+          "hp": 640,
+          "hp_regen": 8,
+          "mana": 300,
+          "mana_regen": 6.5,
+          "armor": 36,
+          "magic_resistance": 32,
+          "attack_damage": 64,
+          "attack_speed": 0.658,
+          "attack_range": 175
+        },
+        "2": {
+          "move_speed": 340,
+          "hp": 714.88,
+          "hp_regen": 8.504,
+          "mana": 339.6,
+          "mana_regen": 6.824,
+          "armor": 39.312,
+          "magic_resistance": 33.476,
+          "attack_damage": 66.16,
+          "attack_speed": 0.669844,
+          "attack_range": 175
+        },
+        "3": {
+          "move_speed": 340,
+          "hp": 793.4,
+          "hp_regen": 9.0325,
+          "mana": 381.125,
+          "mana_regen": 7.16375,
+          "armor": 42.785,
+          "magic_resistance": 35.02375,
+          "attack_damage": 68.425,
+          "attack_speed": 0.682264,
+          "attack_range": 175
+        },
+        "4": {
+          "move_speed": 340,
+          "hp": 875.56,
+          "hp_regen": 9.5855,
+          "mana": 424.575,
+          "mana_regen": 7.51925,
+          "armor": 46.419,
+          "magic_resistance": 36.64325,
+          "attack_damage": 70.795,
+          "attack_speed": 0.695259,
+          "attack_range": 175
+        },
+        "5": {
+          "move_speed": 340,
+          "hp": 961.36,
+          "hp_regen": 10.163,
+          "mana": 469.95,
+          "mana_regen": 7.8905,
+          "armor": 50.214,
+          "magic_resistance": 38.3345,
+          "attack_damage": 73.27,
+          "attack_speed": 0.708831,
+          "attack_range": 175
+        },
+        "6": {
+          "move_speed": 340,
+          "hp": 1050.8,
+          "hp_regen": 10.765,
+          "mana": 517.25,
+          "mana_regen": 8.2775,
+          "armor": 54.17,
+          "magic_resistance": 40.0975,
+          "attack_damage": 75.85,
+          "attack_speed": 0.722978,
+          "attack_range": 175
+        },
+        "7": {
+          "move_speed": 340,
+          "hp": 1143.88,
+          "hp_regen": 11.3915,
+          "mana": 566.475,
+          "mana_regen": 8.68025,
+          "armor": 58.287,
+          "magic_resistance": 41.93225,
+          "attack_damage": 78.535,
+          "attack_speed": 0.7377,
+          "attack_range": 175
+        },
+        "8": {
+          "move_speed": 340,
+          "hp": 1240.6,
+          "hp_regen": 12.0425,
+          "mana": 617.625,
+          "mana_regen": 9.09875,
+          "armor": 62.565,
+          "magic_resistance": 43.83875,
+          "attack_damage": 81.325,
+          "attack_speed": 0.752999,
+          "attack_range": 175
+        },
+        "9": {
+          "move_speed": 340,
+          "hp": 1340.96,
+          "hp_regen": 12.718,
+          "mana": 670.7,
+          "mana_regen": 9.533,
+          "armor": 67.004,
+          "magic_resistance": 45.817,
+          "attack_damage": 84.22,
+          "attack_speed": 0.768873,
+          "attack_range": 175
+        },
+        "10": {
+          "move_speed": 340,
+          "hp": 1444.96,
+          "hp_regen": 13.418,
+          "mana": 725.7,
+          "mana_regen": 9.983,
+          "armor": 71.604,
+          "magic_resistance": 47.867,
+          "attack_damage": 87.22,
+          "attack_speed": 0.785323,
+          "attack_range": 175
+        },
+        "11": {
+          "move_speed": 340,
+          "hp": 1552.6,
+          "hp_regen": 14.1425,
+          "mana": 782.625,
+          "mana_regen": 10.44875,
+          "armor": 76.365,
+          "magic_resistance": 49.98875,
+          "attack_damage": 90.325,
+          "attack_speed": 0.802349,
+          "attack_range": 175
+        },
+        "12": {
+          "move_speed": 340,
+          "hp": 1663.88,
+          "hp_regen": 14.8915,
+          "mana": 841.475,
+          "mana_regen": 10.93025,
+          "armor": 81.287,
+          "magic_resistance": 52.18225,
+          "attack_damage": 93.535,
+          "attack_speed": 0.81995,
+          "attack_range": 175
+        },
+        "13": {
+          "move_speed": 340,
+          "hp": 1778.8,
+          "hp_regen": 15.665,
+          "mana": 902.25,
+          "mana_regen": 11.4275,
+          "armor": 86.37,
+          "magic_resistance": 54.4475,
+          "attack_damage": 96.85,
+          "attack_speed": 0.838128,
+          "attack_range": 175
+        },
+        "14": {
+          "move_speed": 340,
+          "hp": 1897.36,
+          "hp_regen": 16.463,
+          "mana": 964.95,
+          "mana_regen": 11.9405,
+          "armor": 91.614,
+          "magic_resistance": 56.7845,
+          "attack_damage": 100.27,
+          "attack_speed": 0.856881,
+          "attack_range": 175
+        },
+        "15": {
+          "move_speed": 340,
+          "hp": 2019.56,
+          "hp_regen": 17.2855,
+          "mana": 1029.575,
+          "mana_regen": 12.46925,
+          "armor": 97.019,
+          "magic_resistance": 59.19325,
+          "attack_damage": 103.795,
+          "attack_speed": 0.876209,
+          "attack_range": 175
+        },
+        "16": {
+          "move_speed": 340,
+          "hp": 2145.4,
+          "hp_regen": 18.1325,
+          "mana": 1096.125,
+          "mana_regen": 13.01375,
+          "armor": 102.585,
+          "magic_resistance": 61.67375,
+          "attack_damage": 107.425,
+          "attack_speed": 0.896114,
+          "attack_range": 175
+        },
+        "17": {
+          "move_speed": 340,
+          "hp": 2274.88,
+          "hp_regen": 19.004,
+          "mana": 1164.6,
+          "mana_regen": 13.574,
+          "armor": 108.312,
+          "magic_resistance": 64.226,
+          "attack_damage": 111.16,
+          "attack_speed": 0.916594,
+          "attack_range": 175
+        },
+        "18": {
+          "move_speed": 340,
+          "hp": 2408,
+          "hp_regen": 19.9,
+          "mana": 1235,
+          "mana_regen": 14.15,
+          "armor": 114.2,
+          "magic_resistance": 66.85,
+          "attack_damage": 115,
+          "attack_speed": 0.93765,
+          "attack_range": 175
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_jarvaniv/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_champion_jarvaniv",
+        "name": "champion_jarvaniv"
+      }
+    },
+    "/skills/jarvaniv_e/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_jarvaniv_e",
+        "name": "jarvaniv_e"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_jarvaniv": {
+      "items": [
+        {
+          "characterKey": "champion_jarvaniv",
+          "characterName": "嘉文四世",
+          "gameId": "lol",
+          "skillKey": "jarvaniv_p",
+          "skillName": "嘉文四世·战争律动",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_jarvaniv",
+          "characterName": "嘉文四世",
+          "gameId": "lol",
+          "skillKey": "jarvaniv_q",
+          "skillName": "嘉文四世·巨龙撞击",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_jarvaniv",
+          "characterName": "嘉文四世",
+          "gameId": "lol",
+          "skillKey": "jarvaniv_w",
+          "skillName": "嘉文四世·黄金圣盾",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_jarvaniv",
+          "characterName": "嘉文四世",
+          "gameId": "lol",
+          "skillKey": "jarvaniv_e",
+          "skillName": "嘉文四世·德邦军旗",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_jarvaniv",
+          "characterName": "嘉文四世",
+          "gameId": "lol",
+          "skillKey": "jarvaniv_r",
+          "skillName": "嘉文四世·天崩地裂",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=jarvaniv_e": {
+      "items": [
+        {
+          "characterKey": "champion_jarvaniv",
+          "characterName": "嘉文四世",
+          "gameId": "lol",
+          "skillKey": "jarvaniv_e",
+          "skillName": "嘉文四世·德邦军旗",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        }
+      ],
+      "total": 1
+    },
+    "/skills/jarvaniv_e/parameters": [
+      {
+        "createdAt": "2026-09-09T20:32:35.265483Z",
+        "description": "当前正文/数据值明确的空间移动参数；不接入伤害或发数公式。",
+        "fixedValue": 1400,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "德邦军旗冲刺速度",
+        "parameterKey": "dash_speed",
+        "skillKey": "jarvaniv_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T20:32:35.265483Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T20:32:36.569278Z",
+        "description": "当前来源几何判定值，保留为资料参数。",
+        "fixedValue": 400,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "德邦军旗身后判定距离",
+        "parameterKey": "behind_flag_check_distance",
+        "skillKey": "jarvaniv_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T20:32:36.569278Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T20:32:37.899571Z",
+        "description": "客户端数组索引1起为180；不把空间半径当伤害范围。",
+        "fixedValue": 180,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "德邦军旗击飞范围半径",
+        "parameterKey": "knock_up_radius",
+        "skillKey": "jarvaniv_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T20:32:37.899571Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T20:32:39.227986Z",
+        "description": "当前正文被动直接消费PermanentAttackSpeed并乘100显示；取技能等级索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.2,
+          "2": 0.22499999,
+          "3": 0.25,
+          "4": 0.27500001,
+          "5": 0.30000001
+        },
+        "name": "德邦军旗自身攻击速度比例",
+        "parameterKey": "self_attack_speed_ratio",
+        "skillKey": "jarvaniv_e",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T20:32:39.227986Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T20:32:40.55672Z",
+        "description": "当前正文主动消费BaseAuraAS并乘100显示；本轮保留来源数值但不创建第三友方效果。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.2,
+          "2": 0.22499999,
+          "3": 0.25,
+          "4": 0.27500001,
+          "5": 0.30000001
+        },
+        "name": "德邦军旗附近友军攻击速度比例",
+        "parameterKey": "ally_attack_speed_ratio",
+        "skillKey": "jarvaniv_e",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T20:32:40.55672Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T20:32:41.895101Z",
+        "description": "TotalDamage的StatByNamedDataValue使用APRatio；同版窄证读取来源总法术强度。",
+        "fixedValue": 0.80000001,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "德邦军旗法术强度比例",
+        "parameterKey": "ap_ratio",
+        "skillKey": "jarvaniv_e",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T20:32:41.895101Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T20:32:43.136205Z",
+        "description": "当前TotalDamage的mEffectIndex=2对应mEffectAmount[1]，取技能等级索引1至5为80/120/160/200/240。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 80,
+          "2": 120,
+          "3": 160,
+          "4": 200,
+          "5": 240
+        },
+        "name": "德邦军旗基础魔法伤害",
+        "parameterKey": "base_magic_damage",
+        "skillKey": "jarvaniv_e",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-09T20:32:43.136205Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T20:32:44.380421Z",
+        "description": "当前Effect4Amount取索引1为8秒；用于自身被动及旗帜期间来源说明。",
+        "fixedValue": 8000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "德邦军旗持续（毫秒）",
+        "parameterKey": "flag_duration_ms",
+        "skillKey": "jarvaniv_e",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-09T20:32:44.380421Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T20:32:45.791939Z",
+        "description": "只记录根spellCastTime。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "德邦军旗根施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "jarvaniv_e",
+        "sortOrder": 90,
+        "updatedAt": "2026-09-09T20:32:45.791939Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T01:02:32.631388Z",
+        "description": "DDragon16.17.1 JarvanIV.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 12000,
+          "2": 11500,
+          "3": 11000,
+          "4": 10500,
+          "5": 10000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "jarvaniv_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T01:02:32.631388Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T01:02:33.269319Z",
+        "description": "DDragon16.17.1 JarvanIV.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 55,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "jarvaniv_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T01:02:33.269319Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/jarvaniv_e/parameters/dash_speed": {
+      "createdAt": "2026-09-09T20:32:35.265483Z",
+      "description": "当前正文/数据值明确的空间移动参数；不接入伤害或发数公式。",
+      "fixedValue": 1400,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "德邦军旗冲刺速度",
+      "parameterKey": "dash_speed",
+      "skillKey": "jarvaniv_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T20:32:35.265483Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/jarvaniv_e/parameters/behind_flag_check_distance": {
+      "createdAt": "2026-09-09T20:32:36.569278Z",
+      "description": "当前来源几何判定值，保留为资料参数。",
+      "fixedValue": 400,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "德邦军旗身后判定距离",
+      "parameterKey": "behind_flag_check_distance",
+      "skillKey": "jarvaniv_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T20:32:36.569278Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/jarvaniv_e/parameters/knock_up_radius": {
+      "createdAt": "2026-09-09T20:32:37.899571Z",
+      "description": "客户端数组索引1起为180；不把空间半径当伤害范围。",
+      "fixedValue": 180,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "德邦军旗击飞范围半径",
+      "parameterKey": "knock_up_radius",
+      "skillKey": "jarvaniv_e",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T20:32:37.899571Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/jarvaniv_e/parameters/self_attack_speed_ratio": {
+      "createdAt": "2026-09-09T20:32:39.227986Z",
+      "description": "当前正文被动直接消费PermanentAttackSpeed并乘100显示；取技能等级索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 0.2,
+        "2": 0.22499999,
+        "3": 0.25,
+        "4": 0.27500001,
+        "5": 0.30000001
+      },
+      "name": "德邦军旗自身攻击速度比例",
+      "parameterKey": "self_attack_speed_ratio",
+      "skillKey": "jarvaniv_e",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T20:32:39.227986Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "DECIMAL"
+    },
+    "/skills/jarvaniv_e/parameters/ally_attack_speed_ratio": {
+      "createdAt": "2026-09-09T20:32:40.55672Z",
+      "description": "当前正文主动消费BaseAuraAS并乘100显示；本轮保留来源数值但不创建第三友方效果。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 0.2,
+        "2": 0.22499999,
+        "3": 0.25,
+        "4": 0.27500001,
+        "5": 0.30000001
+      },
+      "name": "德邦军旗附近友军攻击速度比例",
+      "parameterKey": "ally_attack_speed_ratio",
+      "skillKey": "jarvaniv_e",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T20:32:40.55672Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "DECIMAL"
+    },
+    "/skills/jarvaniv_e/parameters/ap_ratio": {
+      "createdAt": "2026-09-09T20:32:41.895101Z",
+      "description": "TotalDamage的StatByNamedDataValue使用APRatio；同版窄证读取来源总法术强度。",
+      "fixedValue": 0.80000001,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "德邦军旗法术强度比例",
+      "parameterKey": "ap_ratio",
+      "skillKey": "jarvaniv_e",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-09T20:32:41.895101Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/jarvaniv_e/parameters/base_magic_damage": {
+      "createdAt": "2026-09-09T20:32:43.136205Z",
+      "description": "当前TotalDamage的mEffectIndex=2对应mEffectAmount[1]，取技能等级索引1至5为80/120/160/200/240。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 80,
+        "2": 120,
+        "3": 160,
+        "4": 200,
+        "5": 240
+      },
+      "name": "德邦军旗基础魔法伤害",
+      "parameterKey": "base_magic_damage",
+      "skillKey": "jarvaniv_e",
+      "sortOrder": 70,
+      "updatedAt": "2026-09-09T20:32:43.136205Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/jarvaniv_e/parameters/flag_duration_ms": {
+      "createdAt": "2026-09-09T20:32:44.380421Z",
+      "description": "当前Effect4Amount取索引1为8秒；用于自身被动及旗帜期间来源说明。",
+      "fixedValue": 8000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "德邦军旗持续（毫秒）",
+      "parameterKey": "flag_duration_ms",
+      "skillKey": "jarvaniv_e",
+      "sortOrder": 80,
+      "updatedAt": "2026-09-09T20:32:44.380421Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/jarvaniv_e/parameters/cast_time_ms": {
+      "createdAt": "2026-09-09T20:32:45.791939Z",
+      "description": "只记录根spellCastTime。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "德邦军旗根施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "jarvaniv_e",
+      "sortOrder": 90,
+      "updatedAt": "2026-09-09T20:32:45.791939Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/jarvaniv_e/parameters/cooldown_ms": {
+      "createdAt": "2026-09-08T01:02:32.631388Z",
+      "description": "DDragon16.17.1 JarvanIV.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 12000,
+        "2": 11500,
+        "3": 11000,
+        "4": 10500,
+        "5": 10000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "jarvaniv_e",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-08T01:02:32.631388Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/jarvaniv_e/parameters/mana_cost": {
+      "createdAt": "2026-09-08T01:02:33.269319Z",
+      "description": "DDragon16.17.1 JarvanIV.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 55,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "jarvaniv_e",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-08T01:02:33.269319Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/jarvaniv_e/formulas": [
+      {
+        "createdAt": "2026-09-09T20:32:47.244859Z",
+        "description": "当前TotalDamage=落点基础伤害+0.8×来源总法术强度；友军光环不并入伤害。",
+        "formulaKey": "magic_damage",
+        "gameId": "lol",
+        "name": "德邦军旗落点单一敌人魔法伤害",
+        "skillKey": "jarvaniv_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T20:32:47.244859Z"
+      }
+    ],
+    "/skills/jarvaniv_e/formulas/magic_damage": {
+      "createdAt": "2026-09-09T20:32:47.244859Z",
+      "description": "当前TotalDamage=落点基础伤害+0.8×来源总法术强度；友军光环不并入伤害。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_magic_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "magic_damage",
+      "gameId": "lol",
+      "name": "德邦军旗落点单一敌人魔法伤害",
+      "skillKey": "jarvaniv_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T20:32:47.244859Z"
+    },
+    "/skills/jarvaniv_e/effects": [
+      {
+        "createdAt": "2026-09-09T20:32:50.445171Z",
+        "description": "德邦军旗被动按当前已学习的E等级提供自身攻击速度；单层常驻实例在属性结算时重新读取数值，不使用主动军旗8秒时长。主动军旗光环与其他联动独立维护，战斗运行未验证。",
+        "effectKey": "self_attack_speed",
+        "gameId": "lol",
+        "lifecycleEnabled": true,
+        "name": "德邦军旗自身被动攻击速度",
+        "resultCount": 1,
+        "skillKey": "jarvaniv_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-20T10:07:53.921992Z"
+      },
+      {
+        "createdAt": "2026-09-09T20:32:48.889075Z",
+        "description": "沿用冻结公共参数mana_cost；不创建或覆盖公共参数。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "jarvaniv_e",
+        "sortOrder": 900,
+        "updatedAt": "2026-09-09T20:32:48.889075Z"
+      }
+    ],
+    "/skills/jarvaniv_e/effects/self_attack_speed": {
+      "createdAt": "2026-09-09T20:32:50.445171Z",
+      "description": "德邦军旗被动按当前已学习的E等级提供自身攻击速度；单层常驻实例在属性结算时重新读取数值，不使用主动军旗8秒时长。主动军旗光环与其他联动独立维护，战斗运行未验证。",
+      "effectKey": "self_attack_speed",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": null,
+        "expiryMode": "EXPLICIT_ONLY",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": null,
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "德邦军旗自身被动攻击速度",
+      "results": [
+        {
+          "description": "按当前已学E等级重新读取自身攻速比例；已有来源初始化入口建立实例。",
+          "detail": {
+            "attributeKey": "bonus_attack_speed_percent",
+            "modifierZoneKey": "attribute_flat_add",
+            "operation": "INCREASE"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": null,
+            "stackValueMode": "SHARED",
+            "valueReadMode": "MOMENT_EVALUATION"
+          },
+          "name": "德邦军旗自身被动攻击速度",
+          "resultKey": "attribute",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "self_attack_speed_ratio"
+            }
+          }
+        }
+      ],
+      "skillKey": "jarvaniv_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-20T10:07:53.921992Z"
+    },
+    "/skills/jarvaniv_e/effects/mana_cost": {
+      "createdAt": "2026-09-09T20:32:48.889075Z",
+      "description": "沿用冻结公共参数mana_cost；不创建或覆盖公共参数。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": "只记录当前基础资源消耗；实际扣除时点和施放资格由后续事件接线。",
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "施放法力消耗",
+          "resultKey": "consume_resource",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "jarvaniv_e",
+      "sortOrder": 900,
+      "updatedAt": "2026-09-09T20:32:48.889075Z"
+    },
+    "/skills/jarvaniv_e/processes": [],
+    "/skills/jarvaniv_e/internal-states": [],
+    "/skills/jarvaniv_e/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "来源对象初始化完成时执行已有 self_attack_speed，建立嘉文E技能等级对应的单层自身被动攻击速度；军旗落点伤害、附近友军光环、旗帜连接和控制继续暂缓。",
+        "eventType": "SOURCE_INITIALIZED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "初始化德邦军旗被动攻击速度",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "initialize_self_attack_speed",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-13T10:32:47.024609Z"
+      }
+    ],
+    "/skills/jarvaniv_e/trigger-rules/initialize_self_attack_speed": {
+      "actions": [
+        {
+          "actionKey": "execute_self_attack_speed",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "self_attack_speed"
+          },
+          "name": "执行德邦军旗自身被动攻击速度",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "EVENT_SOURCE"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "来源对象初始化完成时执行已有 self_attack_speed，建立嘉文E技能等级对应的单层自身被动攻击速度；军旗落点伤害、附近友军光环、旗帜连接和控制继续暂缓。",
+      "eventSource": {
+        "detail": {},
+        "eventType": "SOURCE_INITIALIZED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "初始化德邦军旗被动攻击速度",
+      "perTargetCooldown": null,
+      "ruleKey": "initialize_self_attack_speed",
+      "sortOrder": 10
+    },
+    "/skills/twistedfate_e": {
+      "createdAt": "2026-09-06T18:20:46.786441Z",
+      "description": "崔斯特每四次攻击附加一次额外伤害。另外，崔斯特的攻击速度得到被动提升。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "崔斯特·卡牌骗术",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "twistedfate_e",
+      "sortOrder": 3,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:20:46.786441Z"
+    },
+    "/characters/champion_twistedfate": {
+      "characterKey": "champion_twistedfate",
+      "createdAt": "2026-09-06T17:59:42.447286Z",
+      "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+      "gameId": "lol",
+      "name": "崔斯特",
+      "updatedAt": "2026-09-06T17:59:42.447286Z"
+    },
+    "/characters/champion_twistedfate/attributes": {
+      "characterKey": "champion_twistedfate",
+      "levelValues": {
+        "1": {
+          "move_speed": 330,
+          "hp": 604,
+          "hp_regen": 5.5,
+          "mana": 333,
+          "mana_regen": 8,
+          "armor": 24,
+          "magic_resistance": 30,
+          "attack_damage": 52,
+          "attack_speed": 0.625,
+          "attack_range": 525
+        },
+        "2": {
+          "move_speed": 330,
+          "hp": 681.76,
+          "hp_regen": 5.932,
+          "mana": 361.08,
+          "mana_regen": 8.576,
+          "armor": 27.132,
+          "magic_resistance": 30.936,
+          "attack_damage": 53.8,
+          "attack_speed": 0.636718,
+          "attack_range": 525
+        },
+        "3": {
+          "move_speed": 330,
+          "hp": 763.3,
+          "hp_regen": 6.385,
+          "mana": 390.525,
+          "mana_regen": 9.18,
+          "armor": 30.41625,
+          "magic_resistance": 31.9175,
+          "attack_damage": 55.6875,
+          "attack_speed": 0.649006,
+          "attack_range": 525
+        },
+        "4": {
+          "move_speed": 330,
+          "hp": 848.62,
+          "hp_regen": 6.859,
+          "mana": 421.335,
+          "mana_regen": 9.812,
+          "armor": 33.85275,
+          "magic_resistance": 32.9445,
+          "attack_damage": 57.6625,
+          "attack_speed": 0.661863,
+          "attack_range": 525
+        },
+        "5": {
+          "move_speed": 330,
+          "hp": 937.72,
+          "hp_regen": 7.354,
+          "mana": 453.51,
+          "mana_regen": 10.472,
+          "armor": 37.4415,
+          "magic_resistance": 34.017,
+          "attack_damage": 59.725,
+          "attack_speed": 0.67529,
+          "attack_range": 525
+        },
+        "6": {
+          "move_speed": 330,
+          "hp": 1030.6,
+          "hp_regen": 7.87,
+          "mana": 487.05,
+          "mana_regen": 11.16,
+          "armor": 41.1825,
+          "magic_resistance": 35.135,
+          "attack_damage": 61.875,
+          "attack_speed": 0.689286,
+          "attack_range": 525
+        },
+        "7": {
+          "move_speed": 330,
+          "hp": 1127.26,
+          "hp_regen": 8.407,
+          "mana": 521.955,
+          "mana_regen": 11.876,
+          "armor": 45.07575,
+          "magic_resistance": 36.2985,
+          "attack_damage": 64.1125,
+          "attack_speed": 0.703852,
+          "attack_range": 525
+        },
+        "8": {
+          "move_speed": 330,
+          "hp": 1227.7,
+          "hp_regen": 8.965,
+          "mana": 558.225,
+          "mana_regen": 12.62,
+          "armor": 49.12125,
+          "magic_resistance": 37.5075,
+          "attack_damage": 66.4375,
+          "attack_speed": 0.718988,
+          "attack_range": 525
+        },
+        "9": {
+          "move_speed": 330,
+          "hp": 1331.92,
+          "hp_regen": 9.544,
+          "mana": 595.86,
+          "mana_regen": 13.392,
+          "armor": 53.319,
+          "magic_resistance": 38.762,
+          "attack_damage": 68.85,
+          "attack_speed": 0.734693,
+          "attack_range": 525
+        },
+        "10": {
+          "move_speed": 330,
+          "hp": 1439.92,
+          "hp_regen": 10.144,
+          "mana": 634.86,
+          "mana_regen": 14.192,
+          "armor": 57.669,
+          "magic_resistance": 40.062,
+          "attack_damage": 71.35,
+          "attack_speed": 0.750969,
+          "attack_range": 525
+        },
+        "11": {
+          "move_speed": 330,
+          "hp": 1551.7,
+          "hp_regen": 10.765,
+          "mana": 675.225,
+          "mana_regen": 15.02,
+          "armor": 62.17125,
+          "magic_resistance": 41.4075,
+          "attack_damage": 73.9375,
+          "attack_speed": 0.767813,
+          "attack_range": 525
+        },
+        "12": {
+          "move_speed": 330,
+          "hp": 1667.26,
+          "hp_regen": 11.407,
+          "mana": 716.955,
+          "mana_regen": 15.876,
+          "armor": 66.82575,
+          "magic_resistance": 42.7985,
+          "attack_damage": 76.6125,
+          "attack_speed": 0.785227,
+          "attack_range": 525
+        },
+        "13": {
+          "move_speed": 330,
+          "hp": 1786.6,
+          "hp_regen": 12.07,
+          "mana": 760.05,
+          "mana_regen": 16.76,
+          "armor": 71.6325,
+          "magic_resistance": 44.235,
+          "attack_damage": 79.375,
+          "attack_speed": 0.803211,
+          "attack_range": 525
+        },
+        "14": {
+          "move_speed": 330,
+          "hp": 1909.72,
+          "hp_regen": 12.754,
+          "mana": 804.51,
+          "mana_regen": 17.672,
+          "armor": 76.5915,
+          "magic_resistance": 45.717,
+          "attack_damage": 82.225,
+          "attack_speed": 0.821765,
+          "attack_range": 525
+        },
+        "15": {
+          "move_speed": 330,
+          "hp": 2036.62,
+          "hp_regen": 13.459,
+          "mana": 850.335,
+          "mana_regen": 18.612,
+          "armor": 81.70275,
+          "magic_resistance": 47.2445,
+          "attack_damage": 85.1625,
+          "attack_speed": 0.840888,
+          "attack_range": 525
+        },
+        "16": {
+          "move_speed": 330,
+          "hp": 2167.3,
+          "hp_regen": 14.185,
+          "mana": 897.525,
+          "mana_regen": 19.58,
+          "armor": 86.96625,
+          "magic_resistance": 48.8175,
+          "attack_damage": 88.1875,
+          "attack_speed": 0.860581,
+          "attack_range": 525
+        },
+        "17": {
+          "move_speed": 330,
+          "hp": 2301.76,
+          "hp_regen": 14.932,
+          "mana": 946.08,
+          "mana_regen": 20.576,
+          "armor": 92.382,
+          "magic_resistance": 50.436,
+          "attack_damage": 91.3,
+          "attack_speed": 0.880843,
+          "attack_range": 525
+        },
+        "18": {
+          "move_speed": 330,
+          "hp": 2440,
+          "hp_regen": 15.7,
+          "mana": 996,
+          "mana_regen": 21.6,
+          "armor": 97.95,
+          "magic_resistance": 52.1,
+          "attack_damage": 94.5,
+          "attack_speed": 0.901675,
+          "attack_range": 525
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_twistedfate/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_champion_twistedfate",
+        "name": "champion_twistedfate"
+      }
+    },
+    "/skills/twistedfate_e/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_twistedfate_e",
+        "name": "twistedfate_e"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_twistedfate": {
+      "items": [
+        {
+          "characterKey": "champion_twistedfate",
+          "characterName": "崔斯特",
+          "gameId": "lol",
+          "skillKey": "twistedfate_p",
+          "skillName": "崔斯特·灌铅骰子",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_twistedfate",
+          "characterName": "崔斯特",
+          "gameId": "lol",
+          "skillKey": "twistedfate_q",
+          "skillName": "崔斯特·万能牌",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_twistedfate",
+          "characterName": "崔斯特",
+          "gameId": "lol",
+          "skillKey": "twistedfate_w",
+          "skillName": "崔斯特·选牌",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_twistedfate",
+          "characterName": "崔斯特",
+          "gameId": "lol",
+          "skillKey": "twistedfate_e",
+          "skillName": "崔斯特·卡牌骗术",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_twistedfate",
+          "characterName": "崔斯特",
+          "gameId": "lol",
+          "skillKey": "twistedfate_r",
+          "skillName": "崔斯特·命运",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=twistedfate_e": {
+      "items": [
+        {
+          "characterKey": "champion_twistedfate",
+          "characterName": "崔斯特",
+          "gameId": "lol",
+          "skillKey": "twistedfate_e",
+          "skillName": "崔斯特·卡牌骗术",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        }
+      ],
+      "total": 1
+    },
+    "/skills/twistedfate_e/parameters": [
+      {
+        "createdAt": "2026-09-09T21:21:45.992608Z",
+        "description": "当前AttackSpeedBonus原值15/25/35/45/55为百分数点，转换为0.15至0.55；永久属性不挂临时持续时间。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.15,
+          "2": 0.25,
+          "3": 0.35,
+          "4": 0.45,
+          "5": 0.55
+        },
+        "name": "卡牌骗术永久攻击速度比例",
+        "parameterKey": "attack_speed_bonus_ratio",
+        "skillKey": "twistedfate_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T21:21:45.992608Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T21:21:48.177056Z",
+        "description": "当前Damage技能等级1至5为65/90/115/140/165；索引0的40不是一级。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 65,
+          "2": 90,
+          "3": 115,
+          "4": 140,
+          "5": 165
+        },
+        "name": "卡牌骗术第四次攻击基础魔法伤害",
+        "parameterKey": "bonus_damage",
+        "skillKey": "twistedfate_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T21:21:48.177056Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T21:21:50.350526Z",
+        "description": "当前BonusDamage的mStat2带formula2，按来源额外攻击力读取。",
+        "fixedValue": 0.2,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "卡牌骗术额外攻击力伤害比例",
+        "parameterKey": "bonus_ad_ratio",
+        "skillKey": "twistedfate_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T21:21:50.350526Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T21:21:52.588334Z",
+        "description": "当前BonusDamage消费APRatio×来源总法强。",
+        "fixedValue": 0.40000001,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "卡牌骗术法强伤害比例",
+        "parameterKey": "ap_ratio",
+        "skillKey": "twistedfate_e",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T21:21:52.588334Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T21:21:55.0133Z",
+        "description": "当前正文明确每第4次攻击触发额外伤害。",
+        "fixedValue": 4,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "卡牌骗术触发攻击次数",
+        "parameterKey": "fourth_attack_count",
+        "skillKey": "twistedfate_e",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T21:21:55.0133Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/twistedfate_e/parameters/attack_speed_bonus_ratio": {
+      "createdAt": "2026-09-09T21:21:45.992608Z",
+      "description": "当前AttackSpeedBonus原值15/25/35/45/55为百分数点，转换为0.15至0.55；永久属性不挂临时持续时间。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 0.15,
+        "2": 0.25,
+        "3": 0.35,
+        "4": 0.45,
+        "5": 0.55
+      },
+      "name": "卡牌骗术永久攻击速度比例",
+      "parameterKey": "attack_speed_bonus_ratio",
+      "skillKey": "twistedfate_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T21:21:45.992608Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "DECIMAL"
+    },
+    "/skills/twistedfate_e/parameters/bonus_damage": {
+      "createdAt": "2026-09-09T21:21:48.177056Z",
+      "description": "当前Damage技能等级1至5为65/90/115/140/165；索引0的40不是一级。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 65,
+        "2": 90,
+        "3": 115,
+        "4": 140,
+        "5": 165
+      },
+      "name": "卡牌骗术第四次攻击基础魔法伤害",
+      "parameterKey": "bonus_damage",
+      "skillKey": "twistedfate_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T21:21:48.177056Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/twistedfate_e/parameters/bonus_ad_ratio": {
+      "createdAt": "2026-09-09T21:21:50.350526Z",
+      "description": "当前BonusDamage的mStat2带formula2，按来源额外攻击力读取。",
+      "fixedValue": 0.2,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "卡牌骗术额外攻击力伤害比例",
+      "parameterKey": "bonus_ad_ratio",
+      "skillKey": "twistedfate_e",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T21:21:50.350526Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/twistedfate_e/parameters/ap_ratio": {
+      "createdAt": "2026-09-09T21:21:52.588334Z",
+      "description": "当前BonusDamage消费APRatio×来源总法强。",
+      "fixedValue": 0.40000001,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "卡牌骗术法强伤害比例",
+      "parameterKey": "ap_ratio",
+      "skillKey": "twistedfate_e",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T21:21:52.588334Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/twistedfate_e/parameters/fourth_attack_count": {
+      "createdAt": "2026-09-09T21:21:55.0133Z",
+      "description": "当前正文明确每第4次攻击触发额外伤害。",
+      "fixedValue": 4,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "卡牌骗术触发攻击次数",
+      "parameterKey": "fourth_attack_count",
+      "skillKey": "twistedfate_e",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T21:21:55.0133Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/twistedfate_e/formulas": [
+      {
+        "createdAt": "2026-09-09T21:21:56.920756Z",
+        "description": "当前BonusDamage=Damage+0.2×来源额外攻击力+0.4×来源总法强；触发次数由事件层接线。",
+        "formulaKey": "fourth_attack_magic_damage",
+        "gameId": "lol",
+        "name": "卡牌骗术第四次攻击单一敌人魔法伤害",
+        "skillKey": "twistedfate_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T21:21:56.920756Z"
+      }
+    ],
+    "/skills/twistedfate_e/formulas/fourth_attack_magic_damage": {
+      "createdAt": "2026-09-09T21:21:56.920756Z",
+      "description": "当前BonusDamage=Damage+0.2×来源额外攻击力+0.4×来源总法强；触发次数由事件层接线。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_ad_ratio"
+                  },
+                  {
+                    "attributeKey": "attack_damage",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "BONUS",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "fourth_attack_magic_damage",
+      "gameId": "lol",
+      "name": "卡牌骗术第四次攻击单一敌人魔法伤害",
+      "skillKey": "twistedfate_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T21:21:56.920756Z"
+    },
+    "/skills/twistedfate_e/effects": [
+      {
+        "createdAt": "2026-09-09T21:21:59.258442Z",
+        "description": "卡牌骗术按当前已学习的E等级提供永久自身攻击速度，单层实例在属性结算时重新读取数值；第四次攻击计数和额外伤害独立维护，战斗运行未验证。",
+        "effectKey": "permanent_attack_speed",
+        "gameId": "lol",
+        "lifecycleEnabled": true,
+        "name": "卡牌骗术自身永久攻击速度",
+        "resultCount": 1,
+        "skillKey": "twistedfate_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-20T10:13:38.300414Z"
+      }
+    ],
+    "/skills/twistedfate_e/effects/permanent_attack_speed": {
+      "createdAt": "2026-09-09T21:21:59.258442Z",
+      "description": "卡牌骗术按当前已学习的E等级提供永久自身攻击速度，单层实例在属性结算时重新读取数值；第四次攻击计数和额外伤害独立维护，战斗运行未验证。",
+      "effectKey": "permanent_attack_speed",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": null,
+        "expiryMode": "EXPLICIT_ONLY",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": null,
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "卡牌骗术自身永久攻击速度",
+      "results": [
+        {
+          "description": "按当前已学E等级重新读取自身攻速比例；已有来源初始化入口建立实例。",
+          "detail": {
+            "attributeKey": "bonus_attack_speed_percent",
+            "modifierZoneKey": "attribute_flat_add",
+            "operation": "INCREASE"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": null,
+            "stackValueMode": "SHARED",
+            "valueReadMode": "MOMENT_EVALUATION"
+          },
+          "name": "卡牌骗术自身永久攻击速度",
+          "resultKey": "attribute",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "attack_speed_bonus_ratio"
+            }
+          }
+        }
+      ],
+      "skillKey": "twistedfate_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-20T10:13:38.300414Z"
+    },
+    "/skills/twistedfate_e/processes": [],
+    "/skills/twistedfate_e/internal-states": [],
+    "/skills/twistedfate_e/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "来源对象初始化完成时执行已有 permanent_attack_speed，建立技能等级对应的单层永久自身攻击速度；第四次攻击计数、额外伤害、建筑物分支和实际攻击事件继续暂缓。",
+        "eventType": "SOURCE_INITIALIZED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "初始化卡牌骗术永久攻击速度",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "initialize_permanent_attack_speed",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-13T11:10:25.712908Z"
+      }
+    ],
+    "/skills/twistedfate_e/trigger-rules/initialize_permanent_attack_speed": {
+      "actions": [
+        {
+          "actionKey": "execute_permanent_attack_speed",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "permanent_attack_speed"
+          },
+          "name": "执行卡牌骗术永久攻击速度",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "EVENT_SOURCE"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "来源对象初始化完成时执行已有 permanent_attack_speed，建立技能等级对应的单层永久自身攻击速度；第四次攻击计数、额外伤害、建筑物分支和实际攻击事件继续暂缓。",
+      "eventSource": {
+        "detail": {},
+        "eventType": "SOURCE_INITIALIZED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "初始化卡牌骗术永久攻击速度",
+      "perTargetCooldown": null,
+      "ruleKey": "initialize_permanent_attack_speed",
+      "sortOrder": 10
+    },
+    "/attributes/attack_damage": {
+      "attributeKey": "attack_damage",
+      "createdAt": "2026-08-30T16:26:29.341938Z",
+      "description": "角色面板攻击力；伊泽瑞尔数据按官方 16.17.1 版本录入",
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "攻击力",
+      "sortOrder": 500,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-30T16:26:29.341938Z",
+      "valueType": "DECIMAL"
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q",
+      "status": 200,
+      "at": "2026-09-20T10:24:52.148Z"
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_kogmaw",
+      "status": 200,
+      "at": "2026-09-20T10:24:52.182Z"
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_kogmaw/attributes",
+      "status": 200,
+      "at": "2026-09-20T10:24:52.249Z"
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_kogmaw/representative-image",
+      "status": 200,
+      "at": "2026-09-20T10:24:52.297Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/representative-image",
+      "status": 200,
+      "at": "2026-09-20T10:24:52.340Z"
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_kogmaw",
+      "status": 200,
+      "at": "2026-09-20T10:24:52.377Z"
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=kogmaw_q",
+      "status": 200,
+      "at": "2026-09-20T10:24:52.414Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/parameters",
+      "status": 200,
+      "at": "2026-09-20T10:24:52.447Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/parameters/passive_attack_speed_ratio",
+      "status": 200,
+      "at": "2026-09-20T10:24:52.484Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/parameters/base_damage",
+      "status": 200,
+      "at": "2026-09-20T10:24:52.516Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/parameters/ap_ratio",
+      "status": 200,
+      "at": "2026-09-20T10:24:52.548Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/parameters/resistance_shred_ratio",
+      "status": 200,
+      "at": "2026-09-20T10:24:52.581Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/parameters/shred_duration_ms",
+      "status": 200,
+      "at": "2026-09-20T10:24:52.615Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/parameters/cooldown_ms",
+      "status": 200,
+      "at": "2026-09-20T10:24:52.647Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/parameters/mana_cost",
+      "status": 200,
+      "at": "2026-09-20T10:24:52.681Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/formulas",
+      "status": 200,
+      "at": "2026-09-20T10:24:52.714Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/formulas/damage",
+      "status": 200,
+      "at": "2026-09-20T10:24:52.750Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/effects",
+      "status": 200,
+      "at": "2026-09-20T10:24:52.782Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/effects/mana_cost",
+      "status": 200,
+      "at": "2026-09-20T10:24:52.814Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/effects/passive_attack_speed",
+      "status": 200,
+      "at": "2026-09-20T10:24:52.845Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/processes",
+      "status": 200,
+      "at": "2026-09-20T10:24:52.878Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/internal-states",
+      "status": 200,
+      "at": "2026-09-20T10:24:52.912Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/trigger-rules",
+      "status": 200,
+      "at": "2026-09-20T10:24:52.952Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kogmaw_q/trigger-rules/initialize_passive_attack_speed",
+      "status": 200,
+      "at": "2026-09-20T10:24:52.986Z"
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/ability_power",
+      "status": 200,
+      "at": "2026-09-20T10:24:53.011Z"
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/mana",
+      "status": 200,
+      "at": "2026-09-20T10:24:53.036Z"
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/bonus_attack_speed_percent",
+      "status": 200,
+      "at": "2026-09-20T10:24:53.062Z"
+    },
+    {
+      "method": "GET",
+      "path": "/modifier-zones/attribute_flat_add",
+      "status": 200,
+      "at": "2026-09-20T10:24:53.090Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jarvaniv_e",
+      "status": 200,
+      "at": "2026-09-20T10:24:53.122Z"
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_jarvaniv",
+      "status": 200,
+      "at": "2026-09-20T10:24:53.147Z"
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_jarvaniv/attributes",
+      "status": 200,
+      "at": "2026-09-20T10:24:53.198Z"
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_jarvaniv/representative-image",
+      "status": 200,
+      "at": "2026-09-20T10:24:53.237Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jarvaniv_e/representative-image",
+      "status": 200,
+      "at": "2026-09-20T10:24:53.281Z"
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_jarvaniv",
+      "status": 200,
+      "at": "2026-09-20T10:24:53.315Z"
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=jarvaniv_e",
+      "status": 200,
+      "at": "2026-09-20T10:24:53.348Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jarvaniv_e/parameters",
+      "status": 200,
+      "at": "2026-09-20T10:24:53.380Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jarvaniv_e/parameters/dash_speed",
+      "status": 200,
+      "at": "2026-09-20T10:24:53.413Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jarvaniv_e/parameters/behind_flag_check_distance",
+      "status": 200,
+      "at": "2026-09-20T10:24:53.447Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jarvaniv_e/parameters/knock_up_radius",
+      "status": 200,
+      "at": "2026-09-20T10:24:53.481Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jarvaniv_e/parameters/self_attack_speed_ratio",
+      "status": 200,
+      "at": "2026-09-20T10:24:53.514Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jarvaniv_e/parameters/ally_attack_speed_ratio",
+      "status": 200,
+      "at": "2026-09-20T10:24:53.546Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jarvaniv_e/parameters/ap_ratio",
+      "status": 200,
+      "at": "2026-09-20T10:24:53.579Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jarvaniv_e/parameters/base_magic_damage",
+      "status": 200,
+      "at": "2026-09-20T10:24:53.613Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jarvaniv_e/parameters/flag_duration_ms",
+      "status": 200,
+      "at": "2026-09-20T10:24:53.647Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jarvaniv_e/parameters/cast_time_ms",
+      "status": 200,
+      "at": "2026-09-20T10:24:53.680Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jarvaniv_e/parameters/cooldown_ms",
+      "status": 200,
+      "at": "2026-09-20T10:24:53.713Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jarvaniv_e/parameters/mana_cost",
+      "status": 200,
+      "at": "2026-09-20T10:24:53.745Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jarvaniv_e/formulas",
+      "status": 200,
+      "at": "2026-09-20T10:24:53.777Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jarvaniv_e/formulas/magic_damage",
+      "status": 200,
+      "at": "2026-09-20T10:24:53.812Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jarvaniv_e/effects",
+      "status": 200,
+      "at": "2026-09-20T10:24:53.845Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jarvaniv_e/effects/self_attack_speed",
+      "status": 200,
+      "at": "2026-09-20T10:24:53.878Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jarvaniv_e/effects/mana_cost",
+      "status": 200,
+      "at": "2026-09-20T10:24:53.913Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jarvaniv_e/processes",
+      "status": 200,
+      "at": "2026-09-20T10:24:53.946Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jarvaniv_e/internal-states",
+      "status": 200,
+      "at": "2026-09-20T10:24:53.979Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jarvaniv_e/trigger-rules",
+      "status": 200,
+      "at": "2026-09-20T10:24:54.013Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jarvaniv_e/trigger-rules/initialize_self_attack_speed",
+      "status": 200,
+      "at": "2026-09-20T10:24:54.049Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_e",
+      "status": 200,
+      "at": "2026-09-20T10:24:54.085Z"
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_twistedfate",
+      "status": 200,
+      "at": "2026-09-20T10:24:54.109Z"
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_twistedfate/attributes",
+      "status": 200,
+      "at": "2026-09-20T10:24:54.157Z"
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_twistedfate/representative-image",
+      "status": 200,
+      "at": "2026-09-20T10:24:54.195Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_e/representative-image",
+      "status": 200,
+      "at": "2026-09-20T10:24:54.236Z"
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_twistedfate",
+      "status": 200,
+      "at": "2026-09-20T10:24:54.269Z"
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=twistedfate_e",
+      "status": 200,
+      "at": "2026-09-20T10:24:54.303Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_e/parameters",
+      "status": 200,
+      "at": "2026-09-20T10:24:54.337Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_e/parameters/attack_speed_bonus_ratio",
+      "status": 200,
+      "at": "2026-09-20T10:24:54.368Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_e/parameters/bonus_damage",
+      "status": 200,
+      "at": "2026-09-20T10:24:54.400Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_e/parameters/bonus_ad_ratio",
+      "status": 200,
+      "at": "2026-09-20T10:24:54.434Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_e/parameters/ap_ratio",
+      "status": 200,
+      "at": "2026-09-20T10:24:54.466Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_e/parameters/fourth_attack_count",
+      "status": 200,
+      "at": "2026-09-20T10:24:54.497Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_e/formulas",
+      "status": 200,
+      "at": "2026-09-20T10:24:54.528Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_e/formulas/fourth_attack_magic_damage",
+      "status": 200,
+      "at": "2026-09-20T10:24:54.562Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_e/effects",
+      "status": 200,
+      "at": "2026-09-20T10:24:54.595Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_e/effects/permanent_attack_speed",
+      "status": 200,
+      "at": "2026-09-20T10:24:54.628Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_e/processes",
+      "status": 200,
+      "at": "2026-09-20T10:24:54.661Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_e/internal-states",
+      "status": 200,
+      "at": "2026-09-20T10:24:54.693Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_e/trigger-rules",
+      "status": 200,
+      "at": "2026-09-20T10:24:54.726Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_e/trigger-rules/initialize_permanent_attack_speed",
+      "status": 200,
+      "at": "2026-09-20T10:24:54.759Z"
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/attack_damage",
+      "status": 200,
+      "at": "2026-09-20T10:24:54.785Z"
+    }
+  ]
+}
+

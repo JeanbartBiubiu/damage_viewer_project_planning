@@ -1,0 +1,1114 @@
+{
+  "at": "2026-09-20T09:44:38.683Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/skills/jarvaniv_e": {
+      "createdAt": "2026-09-06T18:18:40.708008Z",
+      "description": "嘉文四世携带着德玛西亚的骄傲，能被动地给予他额外的攻击速度。激活德邦军旗会使嘉文四世放置一面德玛西亚军旗，在军旗的着陆点造成魔法伤害，并强化军旗附近的队友们的攻击速度。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "嘉文四世·德邦军旗",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "jarvaniv_e",
+      "sortOrder": 3,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:18:40.708008Z"
+    },
+    "/characters/champion_jarvaniv": {
+      "characterKey": "champion_jarvaniv",
+      "createdAt": "2026-09-06T16:55:43.256967Z",
+      "description": "官方静态资料16.17.1；仅基础属性与1～18级自然成长，技能、图片和特殊机制待录。",
+      "gameId": "lol",
+      "name": "嘉文四世",
+      "updatedAt": "2026-09-06T16:55:43.256967Z"
+    },
+    "/characters/champion_jarvaniv/attributes": {
+      "characterKey": "champion_jarvaniv",
+      "levelValues": {
+        "1": {
+          "move_speed": 340,
+          "hp": 640,
+          "hp_regen": 8,
+          "mana": 300,
+          "mana_regen": 6.5,
+          "armor": 36,
+          "magic_resistance": 32,
+          "attack_damage": 64,
+          "attack_speed": 0.658,
+          "attack_range": 175
+        },
+        "2": {
+          "move_speed": 340,
+          "hp": 714.88,
+          "hp_regen": 8.504,
+          "mana": 339.6,
+          "mana_regen": 6.824,
+          "armor": 39.312,
+          "magic_resistance": 33.476,
+          "attack_damage": 66.16,
+          "attack_speed": 0.669844,
+          "attack_range": 175
+        },
+        "3": {
+          "move_speed": 340,
+          "hp": 793.4,
+          "hp_regen": 9.0325,
+          "mana": 381.125,
+          "mana_regen": 7.16375,
+          "armor": 42.785,
+          "magic_resistance": 35.02375,
+          "attack_damage": 68.425,
+          "attack_speed": 0.682264,
+          "attack_range": 175
+        },
+        "4": {
+          "move_speed": 340,
+          "hp": 875.56,
+          "hp_regen": 9.5855,
+          "mana": 424.575,
+          "mana_regen": 7.51925,
+          "armor": 46.419,
+          "magic_resistance": 36.64325,
+          "attack_damage": 70.795,
+          "attack_speed": 0.695259,
+          "attack_range": 175
+        },
+        "5": {
+          "move_speed": 340,
+          "hp": 961.36,
+          "hp_regen": 10.163,
+          "mana": 469.95,
+          "mana_regen": 7.8905,
+          "armor": 50.214,
+          "magic_resistance": 38.3345,
+          "attack_damage": 73.27,
+          "attack_speed": 0.708831,
+          "attack_range": 175
+        },
+        "6": {
+          "move_speed": 340,
+          "hp": 1050.8,
+          "hp_regen": 10.765,
+          "mana": 517.25,
+          "mana_regen": 8.2775,
+          "armor": 54.17,
+          "magic_resistance": 40.0975,
+          "attack_damage": 75.85,
+          "attack_speed": 0.722978,
+          "attack_range": 175
+        },
+        "7": {
+          "move_speed": 340,
+          "hp": 1143.88,
+          "hp_regen": 11.3915,
+          "mana": 566.475,
+          "mana_regen": 8.68025,
+          "armor": 58.287,
+          "magic_resistance": 41.93225,
+          "attack_damage": 78.535,
+          "attack_speed": 0.7377,
+          "attack_range": 175
+        },
+        "8": {
+          "move_speed": 340,
+          "hp": 1240.6,
+          "hp_regen": 12.0425,
+          "mana": 617.625,
+          "mana_regen": 9.09875,
+          "armor": 62.565,
+          "magic_resistance": 43.83875,
+          "attack_damage": 81.325,
+          "attack_speed": 0.752999,
+          "attack_range": 175
+        },
+        "9": {
+          "move_speed": 340,
+          "hp": 1340.96,
+          "hp_regen": 12.718,
+          "mana": 670.7,
+          "mana_regen": 9.533,
+          "armor": 67.004,
+          "magic_resistance": 45.817,
+          "attack_damage": 84.22,
+          "attack_speed": 0.768873,
+          "attack_range": 175
+        },
+        "10": {
+          "move_speed": 340,
+          "hp": 1444.96,
+          "hp_regen": 13.418,
+          "mana": 725.7,
+          "mana_regen": 9.983,
+          "armor": 71.604,
+          "magic_resistance": 47.867,
+          "attack_damage": 87.22,
+          "attack_speed": 0.785323,
+          "attack_range": 175
+        },
+        "11": {
+          "move_speed": 340,
+          "hp": 1552.6,
+          "hp_regen": 14.1425,
+          "mana": 782.625,
+          "mana_regen": 10.44875,
+          "armor": 76.365,
+          "magic_resistance": 49.98875,
+          "attack_damage": 90.325,
+          "attack_speed": 0.802349,
+          "attack_range": 175
+        },
+        "12": {
+          "move_speed": 340,
+          "hp": 1663.88,
+          "hp_regen": 14.8915,
+          "mana": 841.475,
+          "mana_regen": 10.93025,
+          "armor": 81.287,
+          "magic_resistance": 52.18225,
+          "attack_damage": 93.535,
+          "attack_speed": 0.81995,
+          "attack_range": 175
+        },
+        "13": {
+          "move_speed": 340,
+          "hp": 1778.8,
+          "hp_regen": 15.665,
+          "mana": 902.25,
+          "mana_regen": 11.4275,
+          "armor": 86.37,
+          "magic_resistance": 54.4475,
+          "attack_damage": 96.85,
+          "attack_speed": 0.838128,
+          "attack_range": 175
+        },
+        "14": {
+          "move_speed": 340,
+          "hp": 1897.36,
+          "hp_regen": 16.463,
+          "mana": 964.95,
+          "mana_regen": 11.9405,
+          "armor": 91.614,
+          "magic_resistance": 56.7845,
+          "attack_damage": 100.27,
+          "attack_speed": 0.856881,
+          "attack_range": 175
+        },
+        "15": {
+          "move_speed": 340,
+          "hp": 2019.56,
+          "hp_regen": 17.2855,
+          "mana": 1029.575,
+          "mana_regen": 12.46925,
+          "armor": 97.019,
+          "magic_resistance": 59.19325,
+          "attack_damage": 103.795,
+          "attack_speed": 0.876209,
+          "attack_range": 175
+        },
+        "16": {
+          "move_speed": 340,
+          "hp": 2145.4,
+          "hp_regen": 18.1325,
+          "mana": 1096.125,
+          "mana_regen": 13.01375,
+          "armor": 102.585,
+          "magic_resistance": 61.67375,
+          "attack_damage": 107.425,
+          "attack_speed": 0.896114,
+          "attack_range": 175
+        },
+        "17": {
+          "move_speed": 340,
+          "hp": 2274.88,
+          "hp_regen": 19.004,
+          "mana": 1164.6,
+          "mana_regen": 13.574,
+          "armor": 108.312,
+          "magic_resistance": 64.226,
+          "attack_damage": 111.16,
+          "attack_speed": 0.916594,
+          "attack_range": 175
+        },
+        "18": {
+          "move_speed": 340,
+          "hp": 2408,
+          "hp_regen": 19.9,
+          "mana": 1235,
+          "mana_regen": 14.15,
+          "armor": 114.2,
+          "magic_resistance": 66.85,
+          "attack_damage": 115,
+          "attack_speed": 0.93765,
+          "attack_range": 175
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_jarvaniv/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_champion_jarvaniv",
+        "name": "champion_jarvaniv"
+      }
+    },
+    "/skills/jarvaniv_e/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_jarvaniv_e",
+        "name": "jarvaniv_e"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_jarvaniv": {
+      "items": [
+        {
+          "characterKey": "champion_jarvaniv",
+          "characterName": "嘉文四世",
+          "gameId": "lol",
+          "skillKey": "jarvaniv_p",
+          "skillName": "嘉文四世·战争律动",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_jarvaniv",
+          "characterName": "嘉文四世",
+          "gameId": "lol",
+          "skillKey": "jarvaniv_q",
+          "skillName": "嘉文四世·巨龙撞击",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_jarvaniv",
+          "characterName": "嘉文四世",
+          "gameId": "lol",
+          "skillKey": "jarvaniv_w",
+          "skillName": "嘉文四世·黄金圣盾",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_jarvaniv",
+          "characterName": "嘉文四世",
+          "gameId": "lol",
+          "skillKey": "jarvaniv_e",
+          "skillName": "嘉文四世·德邦军旗",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_jarvaniv",
+          "characterName": "嘉文四世",
+          "gameId": "lol",
+          "skillKey": "jarvaniv_r",
+          "skillName": "嘉文四世·天崩地裂",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=jarvaniv_e": {
+      "items": [
+        {
+          "characterKey": "champion_jarvaniv",
+          "characterName": "嘉文四世",
+          "gameId": "lol",
+          "skillKey": "jarvaniv_e",
+          "skillName": "嘉文四世·德邦军旗",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        }
+      ],
+      "total": 1
+    },
+    "/skills/jarvaniv_e/parameters": [
+      {
+        "createdAt": "2026-09-09T20:32:35.265483Z",
+        "description": "当前正文/数据值明确的空间移动参数；不接入伤害或发数公式。",
+        "fixedValue": 1400,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "德邦军旗冲刺速度",
+        "parameterKey": "dash_speed",
+        "skillKey": "jarvaniv_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T20:32:35.265483Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T20:32:36.569278Z",
+        "description": "当前来源几何判定值，保留为资料参数。",
+        "fixedValue": 400,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "德邦军旗身后判定距离",
+        "parameterKey": "behind_flag_check_distance",
+        "skillKey": "jarvaniv_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T20:32:36.569278Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T20:32:37.899571Z",
+        "description": "客户端数组索引1起为180；不把空间半径当伤害范围。",
+        "fixedValue": 180,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "德邦军旗击飞范围半径",
+        "parameterKey": "knock_up_radius",
+        "skillKey": "jarvaniv_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T20:32:37.899571Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T20:32:39.227986Z",
+        "description": "当前正文被动直接消费PermanentAttackSpeed并乘100显示；取技能等级索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.2,
+          "2": 0.22499999,
+          "3": 0.25,
+          "4": 0.27500001,
+          "5": 0.30000001
+        },
+        "name": "德邦军旗自身攻击速度比例",
+        "parameterKey": "self_attack_speed_ratio",
+        "skillKey": "jarvaniv_e",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T20:32:39.227986Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T20:32:40.55672Z",
+        "description": "当前正文主动消费BaseAuraAS并乘100显示；本轮保留来源数值但不创建第三友方效果。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.2,
+          "2": 0.22499999,
+          "3": 0.25,
+          "4": 0.27500001,
+          "5": 0.30000001
+        },
+        "name": "德邦军旗附近友军攻击速度比例",
+        "parameterKey": "ally_attack_speed_ratio",
+        "skillKey": "jarvaniv_e",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T20:32:40.55672Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T20:32:41.895101Z",
+        "description": "TotalDamage的StatByNamedDataValue使用APRatio；同版窄证读取来源总法术强度。",
+        "fixedValue": 0.80000001,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "德邦军旗法术强度比例",
+        "parameterKey": "ap_ratio",
+        "skillKey": "jarvaniv_e",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T20:32:41.895101Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T20:32:43.136205Z",
+        "description": "当前TotalDamage的mEffectIndex=2对应mEffectAmount[1]，取技能等级索引1至5为80/120/160/200/240。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 80,
+          "2": 120,
+          "3": 160,
+          "4": 200,
+          "5": 240
+        },
+        "name": "德邦军旗基础魔法伤害",
+        "parameterKey": "base_magic_damage",
+        "skillKey": "jarvaniv_e",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-09T20:32:43.136205Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T20:32:44.380421Z",
+        "description": "当前Effect4Amount取索引1为8秒；用于自身被动及旗帜期间来源说明。",
+        "fixedValue": 8000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "德邦军旗持续（毫秒）",
+        "parameterKey": "flag_duration_ms",
+        "skillKey": "jarvaniv_e",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-09T20:32:44.380421Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T20:32:45.791939Z",
+        "description": "只记录根spellCastTime。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "德邦军旗根施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "jarvaniv_e",
+        "sortOrder": 90,
+        "updatedAt": "2026-09-09T20:32:45.791939Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T01:02:32.631388Z",
+        "description": "DDragon16.17.1 JarvanIV.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 12000,
+          "2": 11500,
+          "3": 11000,
+          "4": 10500,
+          "5": 10000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "jarvaniv_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T01:02:32.631388Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T01:02:33.269319Z",
+        "description": "DDragon16.17.1 JarvanIV.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 55,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "jarvaniv_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T01:02:33.269319Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/jarvaniv_e/parameters/dash_speed": {
+      "createdAt": "2026-09-09T20:32:35.265483Z",
+      "description": "当前正文/数据值明确的空间移动参数；不接入伤害或发数公式。",
+      "fixedValue": 1400,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "德邦军旗冲刺速度",
+      "parameterKey": "dash_speed",
+      "skillKey": "jarvaniv_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T20:32:35.265483Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/jarvaniv_e/parameters/behind_flag_check_distance": {
+      "createdAt": "2026-09-09T20:32:36.569278Z",
+      "description": "当前来源几何判定值，保留为资料参数。",
+      "fixedValue": 400,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "德邦军旗身后判定距离",
+      "parameterKey": "behind_flag_check_distance",
+      "skillKey": "jarvaniv_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T20:32:36.569278Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/jarvaniv_e/parameters/knock_up_radius": {
+      "createdAt": "2026-09-09T20:32:37.899571Z",
+      "description": "客户端数组索引1起为180；不把空间半径当伤害范围。",
+      "fixedValue": 180,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "德邦军旗击飞范围半径",
+      "parameterKey": "knock_up_radius",
+      "skillKey": "jarvaniv_e",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T20:32:37.899571Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/jarvaniv_e/parameters/self_attack_speed_ratio": {
+      "createdAt": "2026-09-09T20:32:39.227986Z",
+      "description": "当前正文被动直接消费PermanentAttackSpeed并乘100显示；取技能等级索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 0.2,
+        "2": 0.22499999,
+        "3": 0.25,
+        "4": 0.27500001,
+        "5": 0.30000001
+      },
+      "name": "德邦军旗自身攻击速度比例",
+      "parameterKey": "self_attack_speed_ratio",
+      "skillKey": "jarvaniv_e",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T20:32:39.227986Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "DECIMAL"
+    },
+    "/skills/jarvaniv_e/parameters/ally_attack_speed_ratio": {
+      "createdAt": "2026-09-09T20:32:40.55672Z",
+      "description": "当前正文主动消费BaseAuraAS并乘100显示；本轮保留来源数值但不创建第三友方效果。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 0.2,
+        "2": 0.22499999,
+        "3": 0.25,
+        "4": 0.27500001,
+        "5": 0.30000001
+      },
+      "name": "德邦军旗附近友军攻击速度比例",
+      "parameterKey": "ally_attack_speed_ratio",
+      "skillKey": "jarvaniv_e",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T20:32:40.55672Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "DECIMAL"
+    },
+    "/skills/jarvaniv_e/parameters/ap_ratio": {
+      "createdAt": "2026-09-09T20:32:41.895101Z",
+      "description": "TotalDamage的StatByNamedDataValue使用APRatio；同版窄证读取来源总法术强度。",
+      "fixedValue": 0.80000001,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "德邦军旗法术强度比例",
+      "parameterKey": "ap_ratio",
+      "skillKey": "jarvaniv_e",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-09T20:32:41.895101Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/jarvaniv_e/parameters/base_magic_damage": {
+      "createdAt": "2026-09-09T20:32:43.136205Z",
+      "description": "当前TotalDamage的mEffectIndex=2对应mEffectAmount[1]，取技能等级索引1至5为80/120/160/200/240。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 80,
+        "2": 120,
+        "3": 160,
+        "4": 200,
+        "5": 240
+      },
+      "name": "德邦军旗基础魔法伤害",
+      "parameterKey": "base_magic_damage",
+      "skillKey": "jarvaniv_e",
+      "sortOrder": 70,
+      "updatedAt": "2026-09-09T20:32:43.136205Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/jarvaniv_e/parameters/flag_duration_ms": {
+      "createdAt": "2026-09-09T20:32:44.380421Z",
+      "description": "当前Effect4Amount取索引1为8秒；用于自身被动及旗帜期间来源说明。",
+      "fixedValue": 8000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "德邦军旗持续（毫秒）",
+      "parameterKey": "flag_duration_ms",
+      "skillKey": "jarvaniv_e",
+      "sortOrder": 80,
+      "updatedAt": "2026-09-09T20:32:44.380421Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/jarvaniv_e/parameters/cast_time_ms": {
+      "createdAt": "2026-09-09T20:32:45.791939Z",
+      "description": "只记录根spellCastTime。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "德邦军旗根施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "jarvaniv_e",
+      "sortOrder": 90,
+      "updatedAt": "2026-09-09T20:32:45.791939Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/jarvaniv_e/parameters/cooldown_ms": {
+      "createdAt": "2026-09-08T01:02:32.631388Z",
+      "description": "DDragon16.17.1 JarvanIV.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 12000,
+        "2": 11500,
+        "3": 11000,
+        "4": 10500,
+        "5": 10000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "jarvaniv_e",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-08T01:02:32.631388Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/jarvaniv_e/parameters/mana_cost": {
+      "createdAt": "2026-09-08T01:02:33.269319Z",
+      "description": "DDragon16.17.1 JarvanIV.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 55,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "jarvaniv_e",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-08T01:02:33.269319Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/jarvaniv_e/formulas": [
+      {
+        "createdAt": "2026-09-09T20:32:47.244859Z",
+        "description": "当前TotalDamage=落点基础伤害+0.8×来源总法术强度；友军光环不并入伤害。",
+        "formulaKey": "magic_damage",
+        "gameId": "lol",
+        "name": "德邦军旗落点单一敌人魔法伤害",
+        "skillKey": "jarvaniv_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T20:32:47.244859Z"
+      }
+    ],
+    "/skills/jarvaniv_e/formulas/magic_damage": {
+      "createdAt": "2026-09-09T20:32:47.244859Z",
+      "description": "当前TotalDamage=落点基础伤害+0.8×来源总法术强度；友军光环不并入伤害。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_magic_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "magic_damage",
+      "gameId": "lol",
+      "name": "德邦军旗落点单一敌人魔法伤害",
+      "skillKey": "jarvaniv_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T20:32:47.244859Z"
+    },
+    "/skills/jarvaniv_e/effects": [
+      {
+        "createdAt": "2026-09-09T20:32:50.445171Z",
+        "description": "当前正文明确军旗被动给予自身攻击速度；该自身被动随技能/资格存在，不使用主动军旗8秒时长。",
+        "effectKey": "self_attack_speed",
+        "gameId": "lol",
+        "lifecycleEnabled": true,
+        "name": "德邦军旗自身被动攻击速度",
+        "resultCount": 1,
+        "skillKey": "jarvaniv_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T20:32:50.445171Z"
+      },
+      {
+        "createdAt": "2026-09-09T20:32:48.889075Z",
+        "description": "沿用冻结公共参数mana_cost；不创建或覆盖公共参数。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "jarvaniv_e",
+        "sortOrder": 900,
+        "updatedAt": "2026-09-09T20:32:48.889075Z"
+      }
+    ],
+    "/skills/jarvaniv_e/effects/self_attack_speed": {
+      "createdAt": "2026-09-09T20:32:50.445171Z",
+      "description": "当前正文明确军旗被动给予自身攻击速度；该自身被动随技能/资格存在，不使用主动军旗8秒时长。",
+      "effectKey": "self_attack_speed",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": null,
+        "expiryMode": "EXPLICIT_ONLY",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": null,
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "德邦军旗自身被动攻击速度",
+      "results": [
+        {
+          "description": "只定义当前正文明确的自身属性变化；触发事件由后续事件层接线。",
+          "detail": {
+            "attributeKey": "bonus_attack_speed_percent",
+            "modifierZoneKey": "attribute_flat_add",
+            "operation": "INCREASE"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": "REPLACE",
+            "stackValueMode": "SHARED",
+            "valueReadMode": "APPLICATION_SNAPSHOT"
+          },
+          "name": "德邦军旗自身被动攻击速度",
+          "resultKey": "attribute",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "self_attack_speed_ratio"
+            }
+          }
+        }
+      ],
+      "skillKey": "jarvaniv_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T20:32:50.445171Z"
+    },
+    "/skills/jarvaniv_e/effects/mana_cost": {
+      "createdAt": "2026-09-09T20:32:48.889075Z",
+      "description": "沿用冻结公共参数mana_cost；不创建或覆盖公共参数。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": "只记录当前基础资源消耗；实际扣除时点和施放资格由后续事件接线。",
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "施放法力消耗",
+          "resultKey": "consume_resource",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "jarvaniv_e",
+      "sortOrder": 900,
+      "updatedAt": "2026-09-09T20:32:48.889075Z"
+    },
+    "/skills/jarvaniv_e/processes": [],
+    "/skills/jarvaniv_e/internal-states": [],
+    "/skills/jarvaniv_e/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "来源对象初始化完成时执行已有 self_attack_speed，建立嘉文E技能等级对应的单层自身被动攻击速度；军旗落点伤害、附近友军光环、旗帜连接和控制继续暂缓。",
+        "eventType": "SOURCE_INITIALIZED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "初始化德邦军旗被动攻击速度",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "initialize_self_attack_speed",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-13T10:32:47.024609Z"
+      }
+    ],
+    "/skills/jarvaniv_e/trigger-rules/initialize_self_attack_speed": {
+      "actions": [
+        {
+          "actionKey": "execute_self_attack_speed",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "self_attack_speed"
+          },
+          "name": "执行德邦军旗自身被动攻击速度",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "EVENT_SOURCE"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "来源对象初始化完成时执行已有 self_attack_speed，建立嘉文E技能等级对应的单层自身被动攻击速度；军旗落点伤害、附近友军光环、旗帜连接和控制继续暂缓。",
+      "eventSource": {
+        "detail": {},
+        "eventType": "SOURCE_INITIALIZED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "初始化德邦军旗被动攻击速度",
+      "perTargetCooldown": null,
+      "ruleKey": "initialize_self_attack_speed",
+      "sortOrder": 10
+    },
+    "/attributes/ability_power": {
+      "attributeKey": "ability_power",
+      "createdAt": "2026-08-30T16:26:39.898635Z",
+      "description": "角色法术强度；基础值为 0，可由装备和效果增加",
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法术强度",
+      "sortOrder": 510,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-30T16:26:39.898635Z",
+      "valueType": "DECIMAL"
+    },
+    "/attributes/bonus_attack_speed_percent": {
+      "attributeKey": "bonus_attack_speed_percent",
+      "createdAt": "2026-08-30T16:27:55.439812Z",
+      "description": "以 1 表示 100%；用于记录等级成长和咒能高涨等效果",
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": null,
+      "name": "额外攻击速度比例",
+      "sortOrder": 521,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-30T16:27:55.439812Z",
+      "valueType": "DECIMAL"
+    },
+    "/modifier-zones/attribute_flat_add": {
+      "applicationStage": "ATTRIBUTE_FLAT",
+      "calculationMode": "FLAT_ADD",
+      "createdAt": "2026-09-06T16:50:52.756989Z",
+      "description": "持续属性的固定值增加或减少；同属性同乘区内按方向加算，先于属性比例修正。比例类属性自身以1表示100%，增加0.6表示增加60个百分点，跨来源韧性组合仍待游戏规则核对。",
+      "domain": "ATTRIBUTE",
+      "gameId": "lol",
+      "modifierZoneKey": "attribute_flat_add",
+      "name": "属性固定加算",
+      "sortOrder": 10,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T16:50:52.756989Z"
+    },
+    "/attributes/mana": {
+      "attributeKey": "mana",
+      "createdAt": "2026-08-22T15:27:36.139767Z",
+      "description": null,
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法力值",
+      "sortOrder": 310,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-22T15:27:36.139767Z",
+      "valueType": "DECIMAL"
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/jarvaniv_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_jarvaniv",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_jarvaniv/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_jarvaniv/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jarvaniv_e/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_jarvaniv",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=jarvaniv_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jarvaniv_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jarvaniv_e/parameters/dash_speed",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jarvaniv_e/parameters/behind_flag_check_distance",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jarvaniv_e/parameters/knock_up_radius",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jarvaniv_e/parameters/self_attack_speed_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jarvaniv_e/parameters/ally_attack_speed_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jarvaniv_e/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jarvaniv_e/parameters/base_magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jarvaniv_e/parameters/flag_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jarvaniv_e/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jarvaniv_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jarvaniv_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jarvaniv_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jarvaniv_e/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jarvaniv_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jarvaniv_e/effects/self_attack_speed",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jarvaniv_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jarvaniv_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jarvaniv_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jarvaniv_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/jarvaniv_e/trigger-rules/initialize_self_attack_speed",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/ability_power",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/bonus_attack_speed_percent",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/modifier-zones/attribute_flat_add",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/mana",
+      "status": 200
+    }
+  ],
+  "businessWrites": 0
+}
