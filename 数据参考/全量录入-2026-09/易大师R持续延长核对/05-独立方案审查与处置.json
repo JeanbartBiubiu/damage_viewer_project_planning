@@ -1,0 +1,30 @@
+{
+  "at": "2026-09-20T17:53:52.933Z",
+  "reviewer": "/root/duration_extension_plan_review",
+  "result": "REVISE",
+  "reviewedPlanSha256": "3dcb5f8e52cf5f86f70e74a5edffd0ae6f21d4587a99bedb29452d3176be53c3",
+  "reviewedPlanCommit": "6c23d54a85b9ace39e4f70c59b90bebbe6d48780",
+  "findings": [
+    {
+      "id": 1,
+      "topic": "目标自然期限及统一到期正反向校验",
+      "disposition": "原方案已要求，补充明确现有REFRESH专用检查与查询必须扩展。"
+    },
+    {
+      "id": 2,
+      "topic": "前端摘要没有期限和到期方式",
+      "disposition": "接受。保存时后端最终核对，错误回填到对应结果与目标字段并保留草稿；不额外全目录加载详情。"
+    },
+    {
+      "id": 3,
+      "topic": "原始整数检查阻碍明确倍率换算",
+      "disposition": "原方案已要求有效值检查，补充实现不得沿用原始INTEGER约束。"
+    },
+    {
+      "id": 4,
+      "topic": "循环图不能误产生生命周期事件",
+      "disposition": "原方案已要求无即时事件，保持并纳入明确回归断言。"
+    }
+  ],
+  "noBusinessWrites": true
+}

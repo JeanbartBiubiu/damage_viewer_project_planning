@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-20T18:06:00.712Z",
+  "state": "前端检查通过，后端与真实服务验收尚未完成",
+  "targeted": {
+    "tests": 99,
+    "files": 4,
+    "result": "PASS"
+  },
+  "lint": {
+    "productionFiles": 143,
+    "result": "PASS"
+  },
+  "typecheck": "PASS",
+  "unit": {
+    "tests": 767,
+    "files": 64,
+    "result": "PASS"
+  },
+  "build": {
+    "modules": 1294,
+    "result": "PASS",
+    "existingWarning": "产物分块体积提示"
+  },
+  "productionBrowser": {
+    "tests": 2,
+    "result": "PASS",
+    "seconds": 39.7,
+    "scope": [
+      "旧生命周期层数消耗流程",
+      "延长操作切换单位、非法数值、永久/逐层目标拒绝后草稿恢复、合法保存与重开"
+    ],
+    "api": "隔离模拟接口，非实库证据"
+  },
+  "exactDecimalRegression": "0.035乘1000按十进制判断为35毫秒，不用近似容差接受真实小数。",
+  "liveBusinessWrites": 0,
+  "host": false,
+  "wasm": false,
+  "battle": false
+}

@@ -1,0 +1,53 @@
+{
+  "at": "2026-09-20T17:49:12.685Z",
+  "reviewer": "/root/masteryi_r_duration_return_audit",
+  "mode": "只读源码核对",
+  "index": "发现.codegraph/codegraph.db但未提供可用查询入口；采用精确源码核对。",
+  "storage": {
+    "ddlRequired": false,
+    "reason": "当前skill_effects.results/lifecycle为JSONB，仅通用数组/对象形状约束。",
+    "references": [
+      "damage_backend_dev/db/game_manage/schema.sql:407-429",
+      "damage_backend_dev/db/game_manage/schema.sql:640-642"
+    ]
+  },
+  "editPoints": [
+    {
+      "file": "server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectLifecycleOperation.java",
+      "reason": "新增明确时长操作枚举"
+    },
+    {
+      "file": "server/data_manage/src/main/java/xyz/game/datamanage/service/skilleffect/SkillEffectService.java",
+      "lines": "251-261,1377-1415,2509-2533",
+      "reason": "目标有期限与ALL_AT_ONCE检查，目标后续修改反向保护"
+    },
+    {
+      "file": "server/data_manage/src/main/resources/mapper/skilleffect/SkillEffectMapper.xml",
+      "lines": "248-265",
+      "reason": "现有入站期限保护只统计REFRESH；扩展期限操作并区别延长的到期模式限制。"
+    },
+    {
+      "file": "server/data_manage/src/main/java/xyz/game/datamanage/support/authoring/SkillNumericSemantics.java",
+      "lines": "68-80,190-204",
+      "reason": "新操作按有效毫秒检查，不能误把层数整数要求直接套到单位换算前的值"
+    },
+    {
+      "file": "server/data_manage/src/main/java/xyz/game/datamanage/service/skilltrigger/SkillTriggerCycleValidator.java",
+      "lines": "452-469",
+      "reason": "延长剩余时间不生产施加/满层/提前移除即时事件"
+    }
+  ],
+  "reuse": [
+    "任意生命周期操作已提取targetEffectKey引用",
+    "同技能、存在、非自引用边界保持",
+    "前序CONFIGURED_VALUE沿用通用数值域，含义是增加毫秒，不是当前剩余时间"
+  ],
+  "rootClarifications": [
+    "只读代理提出直接NON_NEGATIVE_INTEGER是原始值入口，方案要求最终固定修正后检查，原始小数可换算为整数毫秒。",
+    "现有DECIMAL前序输出能承载整数毫秒；无实际阻塞不额外扩展输出类型。",
+    "执行时有效才延长可以定义边界，不代表后端执行或决定事件队列顺序。"
+  ],
+  "httpGETs": 0,
+  "businessWrites": 0,
+  "tests": false
+}
