@@ -76,6 +76,7 @@ import {
   SKILL_TRIGGER_CYCLE_MESSAGE,
   SKILL_TRIGGER_RESULT_EVENT_GRAPH_HINT,
   SKILL_TRIGGER_SOURCE_INITIALIZED_HINT,
+  SKILL_TRIGGER_TAKEDOWN_HINT,
   SKILL_TRIGGER_SOURCE_SKILL_FILTER_HINT,
   SKILL_TRIGGER_DAMAGE_DELIVERY_KIND_LABELS,
   SKILL_TRIGGER_DAMAGE_ORIGIN_KIND_LABELS,
@@ -1291,6 +1292,9 @@ export function SkillTriggerRuleEditorModal({
             </Form.Item>
             {draft.eventSource.eventType === 'SOURCE_INITIALIZED' ? (
               <Alert type="info" content={`${SKILL_TRIGGER_SOURCE_INITIALIZED_HINT} ${SKILL_TRIGGER_EVENT_CAPABILITIES.SOURCE_INITIALIZED.currentTargetBinding}`} />
+            ) : null}
+            {draft.eventSource.eventType === 'TAKEDOWN' ? (
+              <Alert type="info" content={SKILL_TRIGGER_TAKEDOWN_HINT} />
             ) : null}
             {renderEventSourceFields({
               eventSource: draft.eventSource,

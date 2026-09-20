@@ -21,6 +21,7 @@ export type SkillTriggerEventType =
   | 'ENTITY_DIED'
   | 'ENTITY_UNTARGETABLE'
   | 'KILL'
+  | 'TAKEDOWN'
   | 'PROCESS_CANCEL_REQUESTED'
   | 'SPELL_SHIELD_BLOCKED'
   | 'HIT_LINK_APPLIED'
@@ -291,6 +292,11 @@ export type SkillTriggerKillEventSource = {
   detail: SkillTriggerEmptyDetail;
 };
 
+export type SkillTriggerTakedownEventSource = {
+  eventType: 'TAKEDOWN';
+  detail: SkillTriggerEmptyDetail;
+};
+
 export type SkillTriggerProcessCancelRequestedEventSource = {
   eventType: 'PROCESS_CANCEL_REQUESTED';
   detail: SkillTriggerCancelProcessEventDetail;
@@ -330,6 +336,7 @@ export type SkillTriggerEventSource =
   | SkillTriggerEntityDiedEventSource
   | SkillTriggerEntityUntargetableEventSource
   | SkillTriggerKillEventSource
+  | SkillTriggerTakedownEventSource
   | SkillTriggerProcessCancelRequestedEventSource
   | SkillTriggerSpellShieldBlockedEventSource
   | SkillTriggerHitLinkAppliedEventSource

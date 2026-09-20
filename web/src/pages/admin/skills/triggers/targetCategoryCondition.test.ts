@@ -21,6 +21,7 @@ describe('事件对方类别条件', () => {
     ['SKILL_HIT', '命中事件读取本次实际命中对象；匹配所选任一类别。'],
     ['BASIC_ATTACK_HIT', '命中事件读取本次实际命中对象；匹配所选任一类别。'],
     ['KILL', '击杀事件读取本次被击杀对象；匹配所选任一类别。'],
+    ['TAKEDOWN', '参与击杀事件读取本次死亡对象；匹配所选任一类别。'],
     ['DAMAGE_DEALT', '造成伤害事件读取本次伤害承受对象；匹配所选任一类别。'],
     ['DAMAGE_PENDING', '伤害待结算事件读取本次伤害来源对象；匹配所选任一类别。'],
     ['DAMAGE_TAKEN', '受到伤害事件读取本次伤害来源对象；匹配所选任一类别。']
@@ -37,7 +38,7 @@ describe('事件对方类别条件', () => {
     expect(switchConditionType(category, 'LIFECYCLE_CHECK').detail).not.toHaveProperty('categories');
   });
 
-  it.each(['SKILL_HIT', 'BASIC_ATTACK_HIT', 'KILL', 'DAMAGE_PENDING', 'DAMAGE_DEALT', 'DAMAGE_TAKEN'] as const)('%s 保存回读仅含类别并保持排序；不增加数值依赖或循环保护', (eventType) => {
+  it.each(['SKILL_HIT', 'BASIC_ATTACK_HIT', 'KILL', 'TAKEDOWN', 'DAMAGE_PENDING', 'DAMAGE_DEALT', 'DAMAGE_TAKEN'] as const)('%s 保存回读仅含类别并保持排序；不增加数值依赖或循环保护', (eventType) => {
     const draft = makeDraft({ categories: ['EPIC_MONSTER', 'CHAMPION', 'STRUCTURE'] });
     draft.eventSource = eventType === 'SKILL_HIT' ? hit : createEmptyEventSource(eventType);
     expect(allowsTargetCategoryCheck(eventType)).toBe(true);
@@ -86,7 +87,7 @@ describe('事件对方类别条件', () => {
 
   it('在命中、击杀和三种伤害事件之间切换均保留类别', () => {
     let draft = makeDraft();
-    for (const eventType of ['KILL', 'BASIC_ATTACK_HIT', 'SKILL_HIT', 'DAMAGE_PENDING', 'DAMAGE_DEALT', 'DAMAGE_TAKEN'] as const) {
+    for (const eventType of ['KILL', 'TAKEDOWN', 'BASIC_ATTACK_HIT', 'SKILL_HIT', 'DAMAGE_PENDING', 'DAMAGE_DEALT', 'DAMAGE_TAKEN'] as const) {
       const next: SkillTriggerEventSource = eventType === 'SKILL_HIT' ? hit : createEmptyEventSource(eventType);
       expect(analyzeEventSwitchImpact(draft, next).summary).toBe('');
       const cleaned = applyEventSwitchCleanup(draft, next);

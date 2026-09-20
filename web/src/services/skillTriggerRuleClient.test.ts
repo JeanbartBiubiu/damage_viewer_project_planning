@@ -103,6 +103,35 @@ describe('skillTriggerRuleClient', () => {
     vi.restoreAllMocks();
   });
 
+  it('更新参与击杀规则并按原稳定标识读取空明细', async () => {
+    const takedown: SkillTriggerRuleDetail = {
+      ...detail,
+      ruleKey: 'own_kill_reset',
+      eventSource: { eventType: 'TAKEDOWN', detail: {} }
+    };
+    const calls: unknown[] = [];
+    vi.stubGlobal('fetch', vi.fn(async (_input: RequestInfo | URL, init?: RequestInit) => {
+      calls.push(init?.body ? JSON.parse(String(init.body)) : null);
+      return jsonResponse(200, takedown);
+    }));
+    const { ruleKey, ...body } = takedown;
+    const updated = await updateSkillTriggerRule('http://localhost:8080', 'lol', 'tristana_w', ruleKey, 'local-entry', body);
+    const loaded = await getSkillTriggerRule('http://localhost:8080', 'lol', 'tristana_w', ruleKey, 'local-entry');
+    expect(calls).toEqual([body, null]);
+    expect(updated.data).toEqual(takedown);
+    expect(loaded.data).toEqual(takedown);
+    expect(parseSkillTriggerRuleSummary({ ...summary, eventType: 'TAKEDOWN' }).eventType).toBe('TAKEDOWN');
+  });
+
+  it.each([undefined, null, [], '', 0, true, { sourceSkillKey: null }, { subject: 'SOURCE' }])(
+    '拒绝参与击杀非空或非对象明细 %j', (eventDetail) => {
+      expect(() => parseSkillTriggerRuleDetail({
+        ...detail,
+        eventSource: { eventType: 'TAKEDOWN', detail: eventDetail }
+      })).toThrow(/detail\.eventSource\.detail/);
+    }
+  );
+
   it('saves and reads initialization rules with empty details and event-source actions', async () => {
     const initialized: SkillTriggerRuleDetail = {
       ...detail,

@@ -36,6 +36,7 @@ const EVENT_TYPES = new Set<SkillTriggerEventType>([
   'ENTITY_DIED',
   'ENTITY_UNTARGETABLE',
   'KILL',
+  'TAKEDOWN',
   'PROCESS_CANCEL_REQUESTED',
   'SPELL_SHIELD_BLOCKED',
   'HIT_LINK_APPLIED',
@@ -162,6 +163,7 @@ function assertEventSource(value: unknown, path: string): SkillTriggerEventSourc
   const detail = value.detail;
   switch (eventType) {
     case 'SOURCE_INITIALIZED':
+    case 'TAKEDOWN':
       if (Object.keys(detail).length !== 0) protocolError(`${path}.detail`);
       break;
     case 'SKILL_USED':

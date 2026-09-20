@@ -47,6 +47,7 @@
 - `src/services/skillRelationClient.ts`、`src/services/imageRelationClient.ts`：关系接口、严格响应校验和统一错误处理
 - “条件与触发”新增“技能命中敌方对象”选项，仅在技能命中事件下使用；定义见规划 `master` 的《条件事件与动态输入供值管理详细设计》第6.7节。娜美R真实页面保存、重开、切换事件清理并取消恢复及独立回读已通过。三个来源技能选择器支持中文名称和稳定标识搜索；热更新连接失败时须重载后验收，不能假定旧页面已应用代码。
 - `src/types/skillTriggerRule.ts`、`src/services/skillTriggerRuleClient.ts`：技能条件与触发规则 list/get/create/update/delete（`/api/admin/games/{gameId}/skills/{skillKey}/trigger-rules`）
+  - “来源对象参与击杀”使用空明细，可通过“事件对方类别”限定英雄；页面说明正式归属要求及重复入口风险。共享定义见规划真源《条件事件与动态输入供值管理详细设计》第5.4节。保存不代表战斗事件已实现。
 - `src/engine/genericEngineClient.ts`：通用 ABI compile / run / release
 - `src/engine/tinygoV2Bridge.ts`：低层 frame / loader
 - `src/engine/wasm/`：Wasm 构建产物目录
