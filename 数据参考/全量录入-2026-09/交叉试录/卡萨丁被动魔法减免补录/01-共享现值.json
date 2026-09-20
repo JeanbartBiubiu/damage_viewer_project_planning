@@ -1,0 +1,437 @@
+{
+  "at": "2026-09-20T08:53:00.488Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/skills/kassadin_p": {
+      "createdAt": "2026-09-06T18:18:52.744202Z",
+      "description": "卡萨丁所受的魔法伤害减少，并无视单位的碰撞体积。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+      "gameId": "lol",
+      "maxLevel": 1,
+      "name": "卡萨丁·虚空之石",
+      "skillCategoryKeys": [
+        "passive"
+      ],
+      "skillKey": "kassadin_p",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:18:52.744202Z"
+    },
+    "/characters/champion_kassadin": {
+      "characterKey": "champion_kassadin",
+      "createdAt": "2026-09-06T16:55:50.266652Z",
+      "description": "官方静态资料16.17.1；仅基础属性与1～18级自然成长，技能、图片和特殊机制待录。",
+      "gameId": "lol",
+      "name": "卡萨丁",
+      "updatedAt": "2026-09-06T16:55:50.266652Z"
+    },
+    "/characters/champion_kassadin/attributes": {
+      "characterKey": "champion_kassadin",
+      "levelValues": {
+        "1": {
+          "move_speed": 335,
+          "hp": 646,
+          "hp_regen": 6,
+          "mana": 400,
+          "mana_regen": 6,
+          "armor": 21,
+          "magic_resistance": 30,
+          "attack_damage": 59,
+          "attack_speed": 0.64,
+          "attack_range": 150
+        },
+        "2": {
+          "move_speed": 335,
+          "hp": 727.36,
+          "hp_regen": 6.36,
+          "mana": 462.64,
+          "mana_regen": 6.576,
+          "armor": 23.88,
+          "magic_resistance": 30.936,
+          "attack_damage": 61.808,
+          "attack_speed": 0.65705,
+          "attack_range": 150
+        },
+        "3": {
+          "move_speed": 335,
+          "hp": 812.675,
+          "hp_regen": 6.7375,
+          "mana": 528.325,
+          "mana_regen": 7.18,
+          "armor": 26.9,
+          "magic_resistance": 31.9175,
+          "attack_damage": 64.7525,
+          "attack_speed": 0.674928,
+          "attack_range": 150
+        },
+        "4": {
+          "move_speed": 335,
+          "hp": 901.945,
+          "hp_regen": 7.1325,
+          "mana": 597.055,
+          "mana_regen": 7.812,
+          "armor": 30.06,
+          "magic_resistance": 32.9445,
+          "attack_damage": 67.8335,
+          "attack_speed": 0.693635,
+          "attack_range": 150
+        },
+        "5": {
+          "move_speed": 335,
+          "hp": 995.17,
+          "hp_regen": 7.545,
+          "mana": 668.83,
+          "mana_regen": 8.472,
+          "armor": 33.36,
+          "magic_resistance": 34.017,
+          "attack_damage": 71.051,
+          "attack_speed": 0.713171,
+          "attack_range": 150
+        },
+        "6": {
+          "move_speed": 335,
+          "hp": 1092.35,
+          "hp_regen": 7.975,
+          "mana": 743.65,
+          "mana_regen": 9.16,
+          "armor": 36.8,
+          "magic_resistance": 35.135,
+          "attack_damage": 74.405,
+          "attack_speed": 0.733536,
+          "attack_range": 150
+        },
+        "7": {
+          "move_speed": 335,
+          "hp": 1193.485,
+          "hp_regen": 8.4225,
+          "mana": 821.515,
+          "mana_regen": 9.876,
+          "armor": 40.38,
+          "magic_resistance": 36.2985,
+          "attack_damage": 77.8955,
+          "attack_speed": 0.75473,
+          "attack_range": 150
+        },
+        "8": {
+          "move_speed": 335,
+          "hp": 1298.575,
+          "hp_regen": 8.8875,
+          "mana": 902.425,
+          "mana_regen": 10.62,
+          "armor": 44.1,
+          "magic_resistance": 37.5075,
+          "attack_damage": 81.5225,
+          "attack_speed": 0.776752,
+          "attack_range": 150
+        },
+        "9": {
+          "move_speed": 335,
+          "hp": 1407.62,
+          "hp_regen": 9.37,
+          "mana": 986.38,
+          "mana_regen": 11.392,
+          "armor": 47.96,
+          "magic_resistance": 38.762,
+          "attack_damage": 85.286,
+          "attack_speed": 0.799603,
+          "attack_range": 150
+        },
+        "10": {
+          "move_speed": 335,
+          "hp": 1520.62,
+          "hp_regen": 9.87,
+          "mana": 1073.38,
+          "mana_regen": 12.192,
+          "armor": 51.96,
+          "magic_resistance": 40.062,
+          "attack_damage": 89.186,
+          "attack_speed": 0.823283,
+          "attack_range": 150
+        },
+        "11": {
+          "move_speed": 335,
+          "hp": 1637.575,
+          "hp_regen": 10.3875,
+          "mana": 1163.425,
+          "mana_regen": 13.02,
+          "armor": 56.1,
+          "magic_resistance": 41.4075,
+          "attack_damage": 93.2225,
+          "attack_speed": 0.847792,
+          "attack_range": 150
+        },
+        "12": {
+          "move_speed": 335,
+          "hp": 1758.485,
+          "hp_regen": 10.9225,
+          "mana": 1256.515,
+          "mana_regen": 13.876,
+          "armor": 60.38,
+          "magic_resistance": 42.7985,
+          "attack_damage": 97.3955,
+          "attack_speed": 0.87313,
+          "attack_range": 150
+        },
+        "13": {
+          "move_speed": 335,
+          "hp": 1883.35,
+          "hp_regen": 11.475,
+          "mana": 1352.65,
+          "mana_regen": 14.76,
+          "armor": 64.8,
+          "magic_resistance": 44.235,
+          "attack_damage": 101.705,
+          "attack_speed": 0.899296,
+          "attack_range": 150
+        },
+        "14": {
+          "move_speed": 335,
+          "hp": 2012.17,
+          "hp_regen": 12.045,
+          "mana": 1451.83,
+          "mana_regen": 15.672,
+          "armor": 69.36,
+          "magic_resistance": 45.717,
+          "attack_damage": 106.151,
+          "attack_speed": 0.926291,
+          "attack_range": 150
+        },
+        "15": {
+          "move_speed": 335,
+          "hp": 2144.945,
+          "hp_regen": 12.6325,
+          "mana": 1554.055,
+          "mana_regen": 16.612,
+          "armor": 74.06,
+          "magic_resistance": 47.2445,
+          "attack_damage": 110.7335,
+          "attack_speed": 0.954115,
+          "attack_range": 150
+        },
+        "16": {
+          "move_speed": 335,
+          "hp": 2281.675,
+          "hp_regen": 13.2375,
+          "mana": 1659.325,
+          "mana_regen": 17.58,
+          "armor": 78.9,
+          "magic_resistance": 48.8175,
+          "attack_damage": 115.4525,
+          "attack_speed": 0.982768,
+          "attack_range": 150
+        },
+        "17": {
+          "move_speed": 335,
+          "hp": 2422.36,
+          "hp_regen": 13.86,
+          "mana": 1767.64,
+          "mana_regen": 18.576,
+          "armor": 83.88,
+          "magic_resistance": 50.436,
+          "attack_damage": 120.308,
+          "attack_speed": 1.01225,
+          "attack_range": 150
+        },
+        "18": {
+          "move_speed": 335,
+          "hp": 2567,
+          "hp_regen": 14.5,
+          "mana": 1879,
+          "mana_regen": 19.6,
+          "armor": 89,
+          "magic_resistance": 52.1,
+          "attack_damage": 125.3,
+          "attack_speed": 1.04256,
+          "attack_range": 150
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_kassadin/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_champion_kassadin",
+        "name": "champion_kassadin"
+      }
+    },
+    "/skills/kassadin_p/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_kassadin_p",
+        "name": "kassadin_p"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_kassadin": {
+      "items": [
+        {
+          "characterKey": "champion_kassadin",
+          "characterName": "卡萨丁",
+          "gameId": "lol",
+          "skillKey": "kassadin_p",
+          "skillName": "卡萨丁·虚空之石",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_kassadin",
+          "characterName": "卡萨丁",
+          "gameId": "lol",
+          "skillKey": "kassadin_q",
+          "skillName": "卡萨丁·虚无法球",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_kassadin",
+          "characterName": "卡萨丁",
+          "gameId": "lol",
+          "skillKey": "kassadin_w",
+          "skillName": "卡萨丁·虚空之刃",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_kassadin",
+          "characterName": "卡萨丁",
+          "gameId": "lol",
+          "skillKey": "kassadin_e",
+          "skillName": "卡萨丁·能量脉冲",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_kassadin",
+          "characterName": "卡萨丁",
+          "gameId": "lol",
+          "skillKey": "kassadin_r",
+          "skillName": "卡萨丁·虚空行走",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=kassadin_p": {
+      "items": [
+        {
+          "characterKey": "champion_kassadin",
+          "characterName": "卡萨丁",
+          "gameId": "lol",
+          "skillKey": "kassadin_p",
+          "skillName": "卡萨丁·虚空之石",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        }
+      ],
+      "total": 1
+    },
+    "/skills/kassadin_p/parameters": [
+      {
+        "createdAt": "2026-09-09T05:42:28.581521Z",
+        "description": "客户端当前根绑定 DataValues.DamageReductionPercent 取索引1至1。",
+        "fixedValue": 0.1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "所受魔法伤害减免比例",
+        "parameterKey": "magic_damage_reduction_ratio",
+        "skillKey": "kassadin_p",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T05:42:28.581521Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    ],
+    "/skills/kassadin_p/parameters/magic_damage_reduction_ratio": {
+      "createdAt": "2026-09-09T05:42:28.581521Z",
+      "description": "客户端当前根绑定 DataValues.DamageReductionPercent 取索引1至1。",
+      "fixedValue": 0.1,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "所受魔法伤害减免比例",
+      "parameterKey": "magic_damage_reduction_ratio",
+      "skillKey": "kassadin_p",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T05:42:28.581521Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/kassadin_p/formulas": [],
+    "/skills/kassadin_p/effects": [],
+    "/skills/kassadin_p/processes": [],
+    "/skills/kassadin_p/internal-states": [],
+    "/skills/kassadin_p/trigger-rules": []
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_p",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_kassadin",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_kassadin/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_kassadin/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_p/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_kassadin",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=kassadin_p",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_p/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_p/parameters/magic_damage_reduction_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_p/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_p/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_p/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_p/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_p/trigger-rules",
+      "status": 200
+    }
+  ],
+  "businessWrites": 0
+}
