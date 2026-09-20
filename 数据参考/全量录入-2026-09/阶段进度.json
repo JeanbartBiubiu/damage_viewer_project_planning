@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-20T12:02:47.792Z",
+  "generatedAt": "2026-09-20T12:12:25.860Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -12541,6 +12541,21 @@
         "commit": "12574d7b",
         "sha256": "8c153e1e4ebb5e7cd3d09fbeb5fb16235c40585d7b6010d4825db5c35fcddf25"
       }
+    },
+    "ambessaWCharacterLevelSourceAudit": {
+      "at": "2026-09-20T12:12:25.860Z",
+      "status": "READ_ONLY_SOURCE_BOUNDARY_CORRECTION",
+      "skillKey": "ambessa_w",
+      "GETs": 29,
+      "businessWrites": 0,
+      "conclusion": "资料待核",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/安蓓萨W角色等级供值返回/03-证据清单.json",
+        "commit": "e0510cbd",
+        "sha256": "7798d9f76db46e4c7c817a1ad4b08d6bb10d8082902fd0f20950043b9de01c96"
+      },
+      "runtimeValidation": "未执行"
     }
   },
   "runtimeValidation": "未执行",
@@ -13231,6 +13246,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/蒙多E常驻攻击力动态依赖核对/06-证据清单.json",
         "commit": "12574d7b",
         "sha256": "8c153e1e4ebb5e7cd3d09fbeb5fb16235c40585d7b6010d4825db5c35fcddf25"
+      },
+      "ambessaWCharacterLevelSourceAudit": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/安蓓萨W角色等级供值返回/03-证据清单.json",
+        "commit": "e0510cbd",
+        "sha256": "7798d9f76db46e4c7c817a1ad4b08d6bb10d8082902fd0f20950043b9de01c96"
       }
     },
     "coverage": {
@@ -13249,10 +13270,10 @@
         "sourceItems": 865,
         "concludedItems": 865,
         "conclusions": {
-          "资料待核": 387,
-          "系统暂缓": 444,
+          "已录入": 8,
           "明确排除": 26,
-          "已录入": 8
+          "资料待核": 388,
+          "系统暂缓": 443
         },
         "matchedInScopeItems": 855,
         "excludedChampionSlots": 10,
@@ -16287,12 +16308,12 @@
         "slot": "W",
         "skillKey": "ambessa_w",
         "name": "安蓓萨·铁令",
-        "conclusion": "系统暂缓",
+        "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "29次定点GET确认当前11参数3公式1护盾效果、无过程与规则。现有前后端支持角色等级参数；当前Calc_Shield虽给出起点50、终点320和1.5倍额外攻击力，但中间等级插值及省略开关的16.17语义未证。护盾基础值应归资料待核，保留原计算时输入，不生成猜测等级表；主动低档/格挡后伤害等仍未完整验收。",
         "pendingCounts": {
-          "source": 0,
-          "system": 1,
+          "source": 1,
+          "system": 0,
           "configuration": 0,
           "other": 0
         },
@@ -16300,8 +16321,30 @@
         "candidateSha256": "a701138c64980aca63185467c43152196519c035365faea161f8ea0123b273b5",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "ambessaWCharacterLevelSourceAudit"
+        ],
+        "historicalPendingCounts": {
+          "source": 0,
+          "system": 1,
+          "configuration": 0,
+          "other": 0
+        },
+        "currentComponentCounts": {
+          "parameters": 11,
+          "formulas": 3,
+          "effects": 1,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0
+        },
+        "characterLevelAudit": {
+          "GETs": 29,
+          "businessWrites": 0,
+          "parameterModeAvailable": "CHARACTER_LEVEL",
+          "missing": "固定版完整等级插值语义",
+          "wholeSkillComplete": false
+        }
       },
       {
         "sourceChampionId": "Ambessa",
