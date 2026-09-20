@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-20T09:15:22.717Z",
+  "generatedAt": "2026-09-20T10:35:05.348Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -12320,6 +12320,37 @@
         "commit": "a92dde45",
         "sha256": "a0b1a19474920d990ccbc5a57201e5fbbf2f7f332372e02ca6e791e1ee16edff"
       }
+    },
+    "threePermanentAttackSpeedDynamicReturn": {
+      "at": "2026-09-20T10:35:05.348Z",
+      "status": "MANAGEMENT_COMPONENT_RETURN_PASS_WITH_AUDIT_CORRECTIONS",
+      "issueGroup": "系统-21",
+      "skills": [
+        "kogmaw_q",
+        "jarvaniv_e",
+        "twistedfate_e"
+      ],
+      "businessWrites": 3,
+      "independentGETs": 78,
+      "unchangedResponsesIncludingTimestamps": 72,
+      "changedDetails": 3,
+      "changedCollections": 3,
+      "browser": "PASS",
+      "newTables": 0,
+      "codeChanges": 0,
+      "wholeSkillsComplete": false,
+      "runtimeValidation": "未执行",
+      "auditNotes": [
+        "写入计数按实际操作更正，05a保留原件",
+        "独立检查误读pending字段，06a基于原78响应修正为PASS",
+        "UI冻结对照含effectKey的形状说明见正式返回08，未声称捕获实际PUT正文"
+      ],
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/三项常驻攻速动态读取返回/05-证据清单.json",
+        "commit": "9f31bafd",
+        "sha256": "5f89fb1b862437ad21fc2c61582358ee8063c35879592e8b75d9a05506583103"
+      }
     }
   },
   "runtimeValidation": "未执行",
@@ -12986,6 +13017,12 @@
         "relativePath": "数据参考/全量录入-2026-09/技能参数整列录入修正/03-证据清单.json",
         "commit": "a92dde45",
         "sha256": "a0b1a19474920d990ccbc5a57201e5fbbf2f7f332372e02ca6e791e1ee16edff"
+      },
+      "threePermanentAttackSpeedDynamicReturn": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/三项常驻攻速动态读取返回/05-证据清单.json",
+        "commit": "9f31bafd",
+        "sha256": "5f89fb1b862437ad21fc2c61582358ee8063c35879592e8b75d9a05506583103"
       }
     },
     "coverage": {
@@ -22046,7 +22083,7 @@
         "name": "嘉文四世·德邦军旗",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "自身被动攻击速度来源初始化规则已保存并完成两路GET与页面验收；军旗落点伤害、友军光环、旗帜连接和控制仍缺事件或目标接线。",
+        "reason": "常驻自身被动攻速已改为按当前已学E等级重新取值，参数与初始化动作保留，三项共78次独立GET及页面返回通过；军旗落点伤害、主动光环、旗帜连接和控制仍开放。",
         "pendingCounts": {
           "source": 0,
           "system": 1,
@@ -22058,8 +22095,34 @@
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
-          "fourHeroSelfBuffTriggerBackfill"
-        ]
+          "fourHeroSelfBuffTriggerBackfill",
+          "threePermanentAttackSpeedDynamicReturn"
+        ],
+        "permanentAttackSpeedReturn": {
+          "effectKey": "self_attack_speed",
+          "valueReadMode": "MOMENT_EVALUATION",
+          "stackValueMode": "SHARED",
+          "reapplicationValueMode": null,
+          "skillRankRange": [
+            1,
+            5
+          ],
+          "initializationRulePreserved": true,
+          "independentReadback": "PASS",
+          "browser": "PASS",
+          "runtimeValidation": "未执行"
+        },
+        "completedBranches": [
+          "常驻自身攻速按当前已学技能等级读取，参数和初始化动作保留"
+        ],
+        "currentComponentCounts": {
+          "parameters": 11,
+          "formulas": 1,
+          "effects": 2,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 1
+        }
       },
       {
         "sourceChampionId": "JarvanIV",
@@ -24222,11 +24285,11 @@
         "name": "克格莫·腐蚀唾液",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已补录来源初始化时的passive_attack_speed；主动伤害、双抗削减、施法时间、命中资格、法力消耗与法术护盾口径仍有来源或系统缺口，整技能保持资料待核。",
+        "reason": "常驻自身攻速已由施加快照改为当前已学Q等级重新取值，原初始化保持，三项共3次保存、78次独立GET和页面返回通过。主动伤害和普通使用组成已核定待追加；双抗削减及其先后/重施、有效施法时长仍待核，不计整技能完整。",
         "pendingCounts": {
           "source": 2,
-          "system": 1,
-          "configuration": 0,
+          "system": 0,
+          "configuration": 1,
           "other": 0
         },
         "batchKey": "heroTenthBatch",
@@ -24234,8 +24297,40 @@
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
-          "threeSkillPersistentAttributeInitializationBackfill"
-        ]
+          "threeSkillPersistentAttributeInitializationBackfill",
+          "threePermanentAttackSpeedDynamicReturn"
+        ],
+        "permanentAttackSpeedReturn": {
+          "effectKey": "passive_attack_speed",
+          "valueReadMode": "MOMENT_EVALUATION",
+          "stackValueMode": "SHARED",
+          "reapplicationValueMode": null,
+          "skillRankRange": [
+            1,
+            5
+          ],
+          "initializationRulePreserved": true,
+          "independentReadback": "PASS",
+          "browser": "PASS",
+          "runtimeValidation": "未执行"
+        },
+        "completedBranches": [
+          "常驻自身攻速按当前已学技能等级读取，参数和初始化动作保留"
+        ],
+        "currentComponentCounts": {
+          "parameters": 7,
+          "formulas": 1,
+          "effects": 2,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 1
+        },
+        "historicalPendingCounts": {
+          "source": 2,
+          "system": 1,
+          "configuration": 0,
+          "other": 0
+        }
       },
       {
         "sourceChampionId": "KogMaw",
@@ -34557,7 +34652,7 @@
         "name": "崔斯特·卡牌骗术",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已补录来源初始化永久攻击速度；第四次攻击计数、额外伤害、建筑物分支和实际攻击事件仍未接，整技能保持系统暂缓。",
+        "reason": "永久自身攻速已改为按当前已学E等级重新取值，参数与初始化动作保留，三项共78次独立GET及页面返回通过；第四次攻击计数、命中及额外伤害等原分支仍开放。",
         "pendingCounts": {
           "source": 0,
           "system": 1,
@@ -34569,8 +34664,34 @@
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
-          "fourHeroSelfBuffTriggerBackfillSecond"
-        ]
+          "fourHeroSelfBuffTriggerBackfillSecond",
+          "threePermanentAttackSpeedDynamicReturn"
+        ],
+        "permanentAttackSpeedReturn": {
+          "effectKey": "permanent_attack_speed",
+          "valueReadMode": "MOMENT_EVALUATION",
+          "stackValueMode": "SHARED",
+          "reapplicationValueMode": null,
+          "skillRankRange": [
+            1,
+            5
+          ],
+          "initializationRulePreserved": true,
+          "independentReadback": "PASS",
+          "browser": "PASS",
+          "runtimeValidation": "未执行"
+        },
+        "completedBranches": [
+          "常驻自身攻速按当前已学技能等级读取，参数和初始化动作保留"
+        ],
+        "currentComponentCounts": {
+          "parameters": 5,
+          "formulas": 1,
+          "effects": 1,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 1
+        }
       },
       {
         "sourceChampionId": "TwistedFate",
