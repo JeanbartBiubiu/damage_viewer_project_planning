@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-20T11:09:42.335Z",
+  "generatedAt": "2026-09-20T11:29:32.620Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -12419,6 +12419,43 @@
         "commit": "0a346d86",
         "sha256": "289bc916147482b667f2b6b2be0ed95516683827e9cfa0dc84a7441a9772a331"
       }
+    },
+    "twoUltimatePermanentAttributeDynamicReturn": {
+      "at": "2026-09-20T11:28:10.276Z",
+      "status": "MANAGEMENT_COMPONENT_RETURN_PASS",
+      "skills": [
+        "olaf_r",
+        "zaahen_r"
+      ],
+      "changedEffects": 3,
+      "businessSaves": 3,
+      "baselineActualGETs": 65,
+      "uniqueBaselineResponses": 63,
+      "preflightTargetedGETs": 15,
+      "immediateGETs": 3,
+      "independentGETs": 63,
+      "changedDetails": 3,
+      "changedCollections": 2,
+      "unchangedResponsesIncludingTimestamps": 58,
+      "browser": "PASS",
+      "sourceRankRange": [
+        1,
+        3
+      ],
+      "parametersUnchanged": true,
+      "initializationRulesUnchanged": true,
+      "scope": "三项常驻属性的当前等级读取，沿既有属性与乘区保存。主动分支、等级0与跨来源合并不在本批验证范围，并非新增全局排除。",
+      "wholeSkillsComplete": false,
+      "newTables": 0,
+      "codeChanges": 0,
+      "runtimeValidation": "未执行",
+      "issueGroup": "系统-21",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/奥拉夫亚恒常驻属性动态核对/04-证据清单.json",
+        "commit": "22874301",
+        "sha256": "6c16dca51c5d298bc4d396e4726180ad86b2dfbfa58efd070a2f3b265de90aa3"
+      }
     }
   },
   "runtimeValidation": "未执行",
@@ -13097,6 +13134,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/克格莫Q伤害与使用返回/13-证据清单.json",
         "commit": "0a346d86",
         "sha256": "289bc916147482b667f2b6b2be0ed95516683827e9cfa0dc84a7441a9772a331"
+      },
+      "twoUltimatePermanentAttributeDynamicReturn": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/奥拉夫亚恒常驻属性动态核对/04-证据清单.json",
+        "commit": "22874301",
+        "sha256": "6c16dca51c5d298bc4d396e4726180ad86b2dfbfa58efd070a2f3b265de90aa3"
       }
     },
     "coverage": {
@@ -28879,7 +28922,7 @@
         "name": "奥拉夫·诸神黄昏",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已补录来源初始化时的passive_armor与passive_magic_resistance；主动攻击力读取时点、净化免控、持续延长、朝向加速、资源与后续升级仍未接，整技能保持资料待核。",
+        "reason": "常驻双抗已由施加快照改为当前已学R等级动态读取，参数与原初始化双动作保留；三效果批3次保存、63次独立GET及重开通过。主动攻击力取值、净化免控、延长、朝向加速和普通使用等原待办分组继续保留；未将管理表达后的实际重算认定为运行通过。",
         "pendingCounts": {
           "source": 1,
           "system": 1,
@@ -28892,11 +28935,38 @@
           "skillThirdStageCurrentReadback",
           "heroSourceInventory",
           "threeSkillPersistentAttributeInitializationBackfill",
-          "remainingUltimateCategoryBackfill"
+          "remainingUltimateCategoryBackfill",
+          "twoUltimatePermanentAttributeDynamicReturn"
         ],
         "completedBranches": [
-          "固定来源主R终极技能分类关联"
-        ]
+          "固定来源主R终极技能分类关联",
+          "常驻自身护甲与魔抗按当前已学R等级动态读取，原双动作初始化保留"
+        ],
+        "permanentRankReturn": {
+          "effects": [
+            "passive_armor",
+            "passive_magic_resistance"
+          ],
+          "valueReadMode": "MOMENT_EVALUATION",
+          "stackValueMode": "SHARED",
+          "reapplicationValueMode": null,
+          "skillRankRange": [
+            1,
+            3
+          ],
+          "initializationRulesUnchanged": true,
+          "independentReadback": "PASS",
+          "browser": "PASS",
+          "runtimeValidation": "未执行"
+        },
+        "currentComponentCounts": {
+          "parameters": 9,
+          "formulas": 1,
+          "effects": 3,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 1
+        }
       },
       {
         "sourceChampionId": "Orianna",
@@ -37841,7 +37911,7 @@
         "name": "亚恒·大赦",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已补录来源初始化时的armor_penetration；主动伤害、实际伤害治疗、施放减伤、位移、生存链、资源与后续升级仍未接，整技能保持系统暂缓。",
+        "reason": "常驻护甲穿透已由施加快照改为当前已学R等级动态读取，原比例和初始化保留；三效果批3次保存、63次独立GET及重开通过。主动伤害、实际伤害治疗、施放减伤、位移、生存链与资源仍开放，不计整技能完整。",
         "pendingCounts": {
           "source": 0,
           "system": 1,
@@ -37854,11 +37924,37 @@
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
           "threeSkillPersistentAttributeInitializationBackfill",
-          "remainingUltimateCategoryBackfill"
+          "remainingUltimateCategoryBackfill",
+          "twoUltimatePermanentAttributeDynamicReturn"
         ],
         "completedBranches": [
-          "固定来源主R终极技能分类关联"
-        ]
+          "固定来源主R终极技能分类关联",
+          "常驻自身护甲穿透按当前已学R等级动态读取，原初始化保留"
+        ],
+        "permanentRankReturn": {
+          "effects": [
+            "armor_penetration"
+          ],
+          "valueReadMode": "MOMENT_EVALUATION",
+          "stackValueMode": "SHARED",
+          "reapplicationValueMode": null,
+          "skillRankRange": [
+            1,
+            3
+          ],
+          "initializationRulesUnchanged": true,
+          "independentReadback": "PASS",
+          "browser": "PASS",
+          "runtimeValidation": "未执行"
+        },
+        "currentComponentCounts": {
+          "parameters": 12,
+          "formulas": 2,
+          "effects": 1,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 1
+        }
       },
       {
         "sourceChampionId": "Zac",
