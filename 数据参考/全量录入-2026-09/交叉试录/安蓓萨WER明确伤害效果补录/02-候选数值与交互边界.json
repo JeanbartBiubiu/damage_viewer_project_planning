@@ -1,0 +1,586 @@
+{
+  "at": "2026-09-20T12:34:01.101Z",
+  "status": "FORMULAS_VERIFIED_INTERACTION_REVIEW_PENDING",
+  "sourceVersion": {
+    "client": "16.17",
+    "official": "16.17.1"
+  },
+  "businessWrites": 0,
+  "newGETs": 45,
+  "reusedGETs": 29,
+  "sourceFiles": [
+    {
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Ambessa.json.gz",
+      "sha256": "f8d4ef879059fec4fc2d1d44701440caf889f919fa21fc8618e540334ecba689"
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Ambessa.json",
+      "sha256": "6bb2391bb93cece3b7da071fa55c776a0394e6b6c1018562aeed25b920c71523"
+    }
+  ],
+  "sharedW": {
+    "path": "数据参考/全量录入-2026-09/交叉试录/安蓓萨W角色等级供值返回/01-共享现值.json",
+    "sha256": "dcd7e47726c0319024653d62a5e1304299dffc49c28486d01f2485f4334b3f1b"
+  },
+  "formulaChecks": {
+    "cases": 54,
+    "status": "PASS",
+    "declaredAbsoluteTolerance": 0.0001,
+    "maxDifference": 5.762786940977094e-7,
+    "values": [
+      {
+        "skillKey": "ambessa_w",
+        "formulaKey": "low_physical_damage",
+        "rank": 1,
+        "bonusAD": 0,
+        "source": 50,
+        "saved": 50,
+        "absoluteDifference": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ambessa_w",
+        "formulaKey": "low_physical_damage",
+        "rank": 1,
+        "bonusAD": 100,
+        "source": 100,
+        "saved": 100,
+        "absoluteDifference": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ambessa_w",
+        "formulaKey": "low_physical_damage",
+        "rank": 1,
+        "bonusAD": 300,
+        "source": 200,
+        "saved": 200,
+        "absoluteDifference": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ambessa_w",
+        "formulaKey": "low_physical_damage",
+        "rank": 2,
+        "bonusAD": 0,
+        "source": 75,
+        "saved": 75,
+        "absoluteDifference": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ambessa_w",
+        "formulaKey": "low_physical_damage",
+        "rank": 2,
+        "bonusAD": 100,
+        "source": 125,
+        "saved": 125,
+        "absoluteDifference": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ambessa_w",
+        "formulaKey": "low_physical_damage",
+        "rank": 2,
+        "bonusAD": 300,
+        "source": 225,
+        "saved": 225,
+        "absoluteDifference": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ambessa_w",
+        "formulaKey": "low_physical_damage",
+        "rank": 3,
+        "bonusAD": 0,
+        "source": 100,
+        "saved": 100,
+        "absoluteDifference": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ambessa_w",
+        "formulaKey": "low_physical_damage",
+        "rank": 3,
+        "bonusAD": 100,
+        "source": 150,
+        "saved": 150,
+        "absoluteDifference": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ambessa_w",
+        "formulaKey": "low_physical_damage",
+        "rank": 3,
+        "bonusAD": 300,
+        "source": 250,
+        "saved": 250,
+        "absoluteDifference": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ambessa_w",
+        "formulaKey": "low_physical_damage",
+        "rank": 4,
+        "bonusAD": 0,
+        "source": 125,
+        "saved": 125,
+        "absoluteDifference": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ambessa_w",
+        "formulaKey": "low_physical_damage",
+        "rank": 4,
+        "bonusAD": 100,
+        "source": 175,
+        "saved": 175,
+        "absoluteDifference": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ambessa_w",
+        "formulaKey": "low_physical_damage",
+        "rank": 4,
+        "bonusAD": 300,
+        "source": 275,
+        "saved": 275,
+        "absoluteDifference": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ambessa_w",
+        "formulaKey": "low_physical_damage",
+        "rank": 5,
+        "bonusAD": 0,
+        "source": 150,
+        "saved": 150,
+        "absoluteDifference": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ambessa_w",
+        "formulaKey": "low_physical_damage",
+        "rank": 5,
+        "bonusAD": 100,
+        "source": 200,
+        "saved": 200,
+        "absoluteDifference": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ambessa_w",
+        "formulaKey": "low_physical_damage",
+        "rank": 5,
+        "bonusAD": 300,
+        "source": 300,
+        "saved": 300,
+        "absoluteDifference": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ambessa_w",
+        "formulaKey": "high_physical_damage",
+        "rank": 1,
+        "bonusAD": 0,
+        "source": 75,
+        "saved": 75,
+        "absoluteDifference": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ambessa_w",
+        "formulaKey": "high_physical_damage",
+        "rank": 1,
+        "bonusAD": 100,
+        "source": 150,
+        "saved": 150,
+        "absoluteDifference": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ambessa_w",
+        "formulaKey": "high_physical_damage",
+        "rank": 1,
+        "bonusAD": 300,
+        "source": 300,
+        "saved": 300,
+        "absoluteDifference": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ambessa_w",
+        "formulaKey": "high_physical_damage",
+        "rank": 2,
+        "bonusAD": 0,
+        "source": 112.5,
+        "saved": 112.5,
+        "absoluteDifference": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ambessa_w",
+        "formulaKey": "high_physical_damage",
+        "rank": 2,
+        "bonusAD": 100,
+        "source": 187.5,
+        "saved": 187.5,
+        "absoluteDifference": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ambessa_w",
+        "formulaKey": "high_physical_damage",
+        "rank": 2,
+        "bonusAD": 300,
+        "source": 337.5,
+        "saved": 337.5,
+        "absoluteDifference": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ambessa_w",
+        "formulaKey": "high_physical_damage",
+        "rank": 3,
+        "bonusAD": 0,
+        "source": 150,
+        "saved": 150,
+        "absoluteDifference": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ambessa_w",
+        "formulaKey": "high_physical_damage",
+        "rank": 3,
+        "bonusAD": 100,
+        "source": 225,
+        "saved": 225,
+        "absoluteDifference": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ambessa_w",
+        "formulaKey": "high_physical_damage",
+        "rank": 3,
+        "bonusAD": 300,
+        "source": 375,
+        "saved": 375,
+        "absoluteDifference": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ambessa_w",
+        "formulaKey": "high_physical_damage",
+        "rank": 4,
+        "bonusAD": 0,
+        "source": 187.5,
+        "saved": 187.5,
+        "absoluteDifference": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ambessa_w",
+        "formulaKey": "high_physical_damage",
+        "rank": 4,
+        "bonusAD": 100,
+        "source": 262.5,
+        "saved": 262.5,
+        "absoluteDifference": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ambessa_w",
+        "formulaKey": "high_physical_damage",
+        "rank": 4,
+        "bonusAD": 300,
+        "source": 412.5,
+        "saved": 412.5,
+        "absoluteDifference": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ambessa_w",
+        "formulaKey": "high_physical_damage",
+        "rank": 5,
+        "bonusAD": 0,
+        "source": 225,
+        "saved": 225,
+        "absoluteDifference": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ambessa_w",
+        "formulaKey": "high_physical_damage",
+        "rank": 5,
+        "bonusAD": 100,
+        "source": 300,
+        "saved": 300,
+        "absoluteDifference": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ambessa_w",
+        "formulaKey": "high_physical_damage",
+        "rank": 5,
+        "bonusAD": 300,
+        "source": 450,
+        "saved": 450,
+        "absoluteDifference": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ambessa_e",
+        "formulaKey": "physical_damage",
+        "rank": 1,
+        "bonusAD": 0,
+        "source": 40,
+        "saved": 40,
+        "absoluteDifference": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ambessa_e",
+        "formulaKey": "physical_damage",
+        "rank": 1,
+        "bonusAD": 100,
+        "source": 90,
+        "saved": 90,
+        "absoluteDifference": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ambessa_e",
+        "formulaKey": "physical_damage",
+        "rank": 1,
+        "bonusAD": 300,
+        "source": 190,
+        "saved": 190,
+        "absoluteDifference": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ambessa_e",
+        "formulaKey": "physical_damage",
+        "rank": 2,
+        "bonusAD": 0,
+        "source": 60,
+        "saved": 60,
+        "absoluteDifference": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ambessa_e",
+        "formulaKey": "physical_damage",
+        "rank": 2,
+        "bonusAD": 100,
+        "source": 110,
+        "saved": 110,
+        "absoluteDifference": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ambessa_e",
+        "formulaKey": "physical_damage",
+        "rank": 2,
+        "bonusAD": 300,
+        "source": 210,
+        "saved": 210,
+        "absoluteDifference": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ambessa_e",
+        "formulaKey": "physical_damage",
+        "rank": 3,
+        "bonusAD": 0,
+        "source": 80,
+        "saved": 80,
+        "absoluteDifference": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ambessa_e",
+        "formulaKey": "physical_damage",
+        "rank": 3,
+        "bonusAD": 100,
+        "source": 130,
+        "saved": 130,
+        "absoluteDifference": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ambessa_e",
+        "formulaKey": "physical_damage",
+        "rank": 3,
+        "bonusAD": 300,
+        "source": 230,
+        "saved": 230,
+        "absoluteDifference": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ambessa_e",
+        "formulaKey": "physical_damage",
+        "rank": 4,
+        "bonusAD": 0,
+        "source": 100,
+        "saved": 100,
+        "absoluteDifference": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ambessa_e",
+        "formulaKey": "physical_damage",
+        "rank": 4,
+        "bonusAD": 100,
+        "source": 150,
+        "saved": 150,
+        "absoluteDifference": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ambessa_e",
+        "formulaKey": "physical_damage",
+        "rank": 4,
+        "bonusAD": 300,
+        "source": 250,
+        "saved": 250,
+        "absoluteDifference": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ambessa_e",
+        "formulaKey": "physical_damage",
+        "rank": 5,
+        "bonusAD": 0,
+        "source": 120,
+        "saved": 120,
+        "absoluteDifference": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ambessa_e",
+        "formulaKey": "physical_damage",
+        "rank": 5,
+        "bonusAD": 100,
+        "source": 170,
+        "saved": 170,
+        "absoluteDifference": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ambessa_e",
+        "formulaKey": "physical_damage",
+        "rank": 5,
+        "bonusAD": 300,
+        "source": 270,
+        "saved": 270,
+        "absoluteDifference": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ambessa_r",
+        "formulaKey": "physical_damage",
+        "rank": 1,
+        "bonusAD": 0,
+        "source": 150,
+        "saved": 150,
+        "absoluteDifference": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ambessa_r",
+        "formulaKey": "physical_damage",
+        "rank": 1,
+        "bonusAD": 100,
+        "source": 230.0000011920929,
+        "saved": 230.000001,
+        "absoluteDifference": 1.920928980325698e-7,
+        "pass": true
+      },
+      {
+        "skillKey": "ambessa_r",
+        "formulaKey": "physical_damage",
+        "rank": 1,
+        "bonusAD": 300,
+        "source": 390.0000035762787,
+        "saved": 390.000003,
+        "absoluteDifference": 5.762786940977094e-7,
+        "pass": true
+      },
+      {
+        "skillKey": "ambessa_r",
+        "formulaKey": "physical_damage",
+        "rank": 2,
+        "bonusAD": 0,
+        "source": 250,
+        "saved": 250,
+        "absoluteDifference": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ambessa_r",
+        "formulaKey": "physical_damage",
+        "rank": 2,
+        "bonusAD": 100,
+        "source": 330.0000011920929,
+        "saved": 330.000001,
+        "absoluteDifference": 1.920928980325698e-7,
+        "pass": true
+      },
+      {
+        "skillKey": "ambessa_r",
+        "formulaKey": "physical_damage",
+        "rank": 2,
+        "bonusAD": 300,
+        "source": 490.0000035762787,
+        "saved": 490.000003,
+        "absoluteDifference": 5.762786940977094e-7,
+        "pass": true
+      },
+      {
+        "skillKey": "ambessa_r",
+        "formulaKey": "physical_damage",
+        "rank": 3,
+        "bonusAD": 0,
+        "source": 350,
+        "saved": 350,
+        "absoluteDifference": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ambessa_r",
+        "formulaKey": "physical_damage",
+        "rank": 3,
+        "bonusAD": 100,
+        "source": 430.0000011920929,
+        "saved": 430.000001,
+        "absoluteDifference": 1.920928980325698e-7,
+        "pass": true
+      },
+      {
+        "skillKey": "ambessa_r",
+        "formulaKey": "physical_damage",
+        "rank": 3,
+        "bonusAD": 300,
+        "source": 590.0000035762787,
+        "saved": 590.000003,
+        "absoluteDifference": 5.762786940977094e-7,
+        "pass": true
+      }
+    ]
+  },
+  "confirmed": [
+    "W普通档与格挡后档为互斥伤害值，后者是整个普通档伤害乘1.5",
+    "E当前根的一次打击数值不自动代表施放后额外打击已接线",
+    "R摔击伤害数值与自身特殊回血分别维护"
+  ],
+  "pending": [
+    "建立效果前逐项确认法术护盾阻挡单元，不能把E多次打击直接设为本次技能使用整体阻挡",
+    "R专有技能回血继续核对范围与实际伤害基准，不以一般全能吸血字段冒充",
+    "W格挡资格和高低档选择不从仅有伤害公式推断事件或默认状态"
+  ],
+  "currentState": "未生成正式请求、未独立批准、未发POST；数值候选保留，先推进基兰W明确冷却范围。",
+  "wholeSkillsComplete": false,
+  "runtimeValidation": "未执行"
+}
