@@ -569,6 +569,59 @@ test('stage 9 skill relations keep both ends, order, disabled references and fai
   assertClean();
 });
 
+test('equipment skill authoring preserves owner and filter, confirms drafts, retries and clears on game change', async ({ page }) => {
+  const api = new RelationApi();
+  api.mounts.push({ gameId: FIRST_GAME, kind: 'equipment', ownerKey: 'blade', skillKey: 'strike', sortOrder: 4 });
+  const assertClean = await prepare(page, api);
+  let failSkillRead = true;
+  await page.route(`${API}/api/admin/games/${FIRST_GAME}/skills/strike`, async route => {
+    if (route.request().method() === 'GET' && failSkillRead) {
+      await api.error(route, { status: 503, code: '503.SKILL_READ_FAILED', message: '技能读取暂时失败', field: '' });
+    } else await route.fallback();
+  });
+  await navigate(page, 'equipment');
+  await page.getByLabel('装备关键词', { exact: true }).fill('装备甲');
+  await page.getByRole('button', { name: '查询', exact: true }).click();
+  await row(page, 'blade').getByRole('button', { name: '关联技能', exact: true }).click();
+  const relations = modal(page, '关联技能 · 装备甲');
+  await relations.getByLabel('打击技能排序', { exact: true }).fill('9');
+  await relations.getByRole('button', { name: '录入技能', exact: true }).click();
+  await page.getByRole('button', { name: '继续编辑', exact: true }).click();
+  await expect(relations.getByLabel('打击技能排序', { exact: true })).toHaveValue('9');
+  await relations.getByRole('button', { name: '录入技能', exact: true }).click();
+  await page.getByRole('button', { name: '放弃修改', exact: true }).click();
+  await expect(page.getByRole('button', { name: '返回装备技能', exact: true })).toBeVisible();
+  await expect(page.getByText(/来自装备：装备甲（blade）/)).toBeVisible();
+  await expect(page.getByRole('alert').filter({ hasText: '503.SKILL_READ_FAILED: 技能读取暂时失败' })).toBeVisible();
+  expect(api.mounts[0]!.sortOrder).toBe(4);
+  expect(api.writes).toEqual([]);
+  failSkillRead = false;
+  await page.locator('.page-stack').getByRole('button', { name: '刷新', exact: true }).click();
+  await expect(page.getByRole('heading', { name: '技能录入 · 打击技能', exact: true })).toBeVisible();
+  await expect(row(page, 'guard')).toHaveCount(0);
+  await row(page, 'strike').getByRole('button', { name: '编辑', exact: true }).click();
+  const editor = modal(page, '编辑技能');
+  await editor.getByLabel('技能名称', { exact: true }).fill('已编辑打击技能');
+  await editor.getByRole('button', { name: '保存', exact: true }).click();
+  await expect(editor).toBeHidden();
+  expect(api.writes.map(write => `${write.method} ${write.path}`)).toEqual([`PUT /api/admin/games/${FIRST_GAME}/skills/strike`]);
+  await page.getByRole('button', { name: '返回装备技能', exact: true }).click();
+  await expect(relations.getByText('已编辑打击技能', { exact: true })).toBeVisible();
+  await expect(relations.getByLabel('已编辑打击技能排序', { exact: true })).toHaveValue('4');
+  await closeModal(relations);
+  await expect(page.getByLabel('装备关键词', { exact: true })).toHaveValue('装备甲');
+  await row(page, 'blade').getByRole('button', { name: '关联技能', exact: true }).click();
+  await relations.getByRole('button', { name: '录入技能', exact: true }).click();
+  await expect(page.getByRole('heading', { name: '技能录入 · 已编辑打击技能', exact: true })).toBeVisible();
+  await page.locator('.app-toolbar-field--game .arco-select-view').click();
+  await page.locator('.arco-select-option:visible').filter({ hasText: SECOND_GAME }).click();
+  await expect(page.getByRole('heading', { name: '装备管理', exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: '返回装备技能', exact: true })).toHaveCount(0);
+  await expect(row(page, 'blade')).toContainText('另一游戏装备甲');
+  await expect(relations).toBeHidden();
+  assertClean();
+});
+
 const IMAGE_SOURCES = [
   { route: 'game-settings', key: FIRST_GAME, name: '关联验收游戏', type: '游戏', source: '' },
   { route: 'characters', key: 'hero_a', name: '角色甲', type: '角色', source: 'characters/hero_a' },

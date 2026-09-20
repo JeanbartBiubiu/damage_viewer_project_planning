@@ -40,10 +40,11 @@ export type SkillManagementPageProps = {
   onDirtyChange: (dirty: boolean) => void;
   focus?: {
     skillKey: string;
-    characterKey: string;
-    characterName: string;
+    sourceKind: 'character' | 'equipment';
+    sourceKey: string;
+    sourceName: string;
     onReturn: () => void;
-    returnLabel?: string;
+    returnLabel: string;
   };
 };
 
@@ -444,7 +445,7 @@ export function SkillManagementPage({
         title={focus ? `技能录入${items[0] ? ` · ${items[0].name}` : ''}` : '技能管理'}
         actions={
           <Space>
-            {focus ? <Button type="primary" onClick={focus.onReturn}>{focus.returnLabel ?? '返回角色技能'}</Button> : null}
+            {focus ? <Button type="primary" onClick={focus.onReturn}>{focus.returnLabel}</Button> : null}
             <Button
               loading={loading}
               disabled={!selectedGameId || !adminToken.trim()}
@@ -478,7 +479,7 @@ export function SkillManagementPage({
         ) : null}
         {notice ? <Alert type="success" content={notice} className="workspace-alert" /> : null}
 
-        {focus ? <Alert type="info" content={`来自角色：${focus.characterName}（${focus.characterKey}）。正在录入下方这一项技能；完成后${focus.returnLabel ?? '返回角色技能'}可继续核对。`} style={{ marginBottom: 16 }} /> : null}
+        {focus ? <Alert type="info" content={`来自${focus.sourceKind === 'character' ? '角色' : '装备'}：${focus.sourceName}（${focus.sourceKey}）。正在录入下方这一项技能；完成后${focus.returnLabel}可继续核对。`} style={{ marginBottom: 16 }} /> : null}
 
         {!focus ? <div style={{ display: 'grid', gridTemplateColumns: 'minmax(220px, 1fr) minmax(220px, auto) auto', gap: 12, alignItems: 'end', marginBottom: 16 }}>
           <label style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>

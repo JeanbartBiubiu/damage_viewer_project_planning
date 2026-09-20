@@ -207,9 +207,10 @@ export function CharacterManagementPage({
       onDirtyChange={reportSkillDirty}
       focus={{
         skillKey: skillFocus.skillKey,
-        characterKey: skillFocus.character.characterKey,
-        characterName: skillFocus.character.name,
-        returnLabel: skillFocus.fromCheck ? '返回录入检查' : undefined,
+        sourceKind: 'character',
+        sourceKey: skillFocus.character.characterKey,
+        sourceName: skillFocus.character.name,
+        returnLabel: skillFocus.fromCheck ? '返回录入检查' : '返回角色技能',
         onReturn: () => {
           if (skillFocusDirty.current && !window.confirm(`当前技能修改尚未保存，确定${skillFocus.fromCheck ? '返回录入检查' : '返回角色技能'}吗？`)) return;
           reportSkillDirty(false);
