@@ -1,0 +1,203 @@
+{
+  "at": "2026-09-20T15:20:56.973Z",
+  "values": {
+    "/skills/masteryi_r/parameters": [
+      {
+        "createdAt": "2026-09-09T03:42:34.642286Z",
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "fixedValue": 404,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "masteryi_r",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T03:42:34.642286Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T03:42:35.527086Z",
+        "description": "客户端当前根绑定 DataValues.RDuration 取索引1至3；按来源显示单位换算为系统比例/毫秒。",
+        "fixedValue": 7000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "高原血统持续时间（毫秒）",
+        "parameterKey": "duration_ms",
+        "skillKey": "masteryi_r",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T03:42:35.527086Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T03:42:36.286651Z",
+        "description": "客户端当前根绑定 DataValues.RASBonus 取索引1至3；按来源显示单位换算为系统比例/毫秒。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.25,
+          "2": 0.45,
+          "3": 0.65
+        },
+        "name": "高原血统额外攻击速度比例",
+        "parameterKey": "attack_speed_ratio",
+        "skillKey": "masteryi_r",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T03:42:36.286651Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T03:42:37.128191Z",
+        "description": "客户端当前根绑定 DataValues.RMSBonus 取索引1至3；按来源显示单位换算为系统比例/毫秒。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.35,
+          "2": 0.45,
+          "3": 0.55
+        },
+        "name": "高原血统额外移动速度比例",
+        "parameterKey": "move_speed_ratio",
+        "skillKey": "masteryi_r",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T03:42:37.128191Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T03:42:38.316682Z",
+        "description": "客户端当前根绑定 DataValues.RKillAssistExtension 取索引1至3；按来源显示单位换算为系统比例/毫秒。",
+        "fixedValue": 7000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "参与击杀延长持续时间（毫秒）",
+        "parameterKey": "kill_assist_extension_ms",
+        "skillKey": "masteryi_r",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-09T03:42:38.316682Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T03:42:39.032903Z",
+        "description": "客户端当前根绑定 DataValues.RCooldownRefund 取索引1至3。",
+        "fixedValue": 0.7,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "参与击杀后普通技能冷却减少比例",
+        "parameterKey": "basic_cooldown_refund_ratio",
+        "skillKey": "masteryi_r",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-09T03:42:39.032903Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T18:00:19.317976Z",
+        "description": "DDragon16.17.1 MasterYi.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 85000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "masteryi_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:19.317976Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:00:19.729247Z",
+        "description": "DDragon16.17.1 MasterYi.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "masteryi_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:19.729247Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/masteryi_r/effects": [
+      {
+        "createdAt": "2026-09-09T03:42:39.966536Z",
+        "description": "仅绑定官方基础法力消耗；额外持续法力或真实扣除时点单独记录。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "masteryi_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T03:42:39.966536Z"
+      },
+      {
+        "createdAt": "2026-09-09T03:42:40.71583Z",
+        "description": "仅在高原血统实际激活期间提供额外攻速；击杀延长和Q/W期间暂停另行接线。",
+        "effectKey": "attack_speed",
+        "gameId": "lol",
+        "lifecycleEnabled": true,
+        "name": "高原血统额外攻击速度",
+        "resultCount": 1,
+        "skillKey": "masteryi_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T03:42:40.71583Z"
+      },
+      {
+        "createdAt": "2026-09-09T03:42:42.059198Z",
+        "description": "仅在高原血统实际激活期间提供额外移速；不把空间位移当作该属性。",
+        "effectKey": "move_speed",
+        "gameId": "lol",
+        "lifecycleEnabled": true,
+        "name": "高原血统额外移动速度",
+        "resultCount": 1,
+        "skillKey": "masteryi_r",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T03:42:42.059198Z"
+      }
+    ],
+    "/skills/masteryi_r/trigger-rules": [
+      {
+        "actionCount": 2,
+        "conditionGroupCount": 0,
+        "description": "接收 masteryi_r 主动使用；无条件在 CURRENT_TARGET 上依次执行已有 attack_speed 和 move_speed。两个效果结果 target=SOURCE，均使用 duration_ms（7000毫秒）；相关的减速免疫、击杀/助攻延长、普通技能冷却变化、法力消耗和基础冷却留待后续规则补录。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "高原血统主动使用",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-12T18:00:50.275534Z"
+      }
+    ]
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/masteryi_r/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/masteryi_r/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/masteryi_r/trigger-rules",
+      "status": 200
+    }
+  ],
+  "businessWrites": 0,
+  "sourceEvidence": "02-固定版本来源核对.json",
+  "previousEvidence": {
+    "path": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第九批/README.md",
+    "sha256": "2f16e05f3e5997a04479e692fa909f555cf9f5d46bdba4852e8d0e5621f00deb"
+  },
+  "conclusion": "易大师R明确消费英雄击杀/助攻事件；本次事件补齐其触发类型，但按剩余冷却比例返还和现有效果期限延长仍需独立准确表达，不创建只有入口没有完整动作的规则。卡特琳娜被动需最近伤害资格，不适用本事件。"
+}

@@ -1,0 +1,56 @@
+{
+  "at": "2026-09-20T15:45:12.171Z",
+  "reviewer": "/root",
+  "implementationAuthor": "/root/takedown_backend_impl",
+  "scope": "后端生产代码和新库事件检查约束独立复核",
+  "result": "READY",
+  "conclusions": [
+    "事件枚举、空明细反序列化和服务形状门禁一致",
+    "没有加入EVENT_SOURCE集合，事件值全部拒绝，死亡对象绑定与前端一致",
+    "类别条件及作者引用快照接受新事件",
+    "DAMAGE仅TARGET增加TAKEDOWN；EXECUTE保持旧KILL边但仅TARGET追加TAKEDOWN",
+    "matches显式宽匹配TAKEDOWN，复用现有过程展开与修改时循环校验"
+  ],
+  "files": [
+    {
+      "path": "db/game_manage/schema.sql",
+      "sha256LF": "d0c86d7257fa94acac82672a4d00aabc6341505cc64acb22b4786d376c9effd3"
+    },
+    {
+      "path": "server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerEventCapabilities.java",
+      "sha256LF": "7bde9d42641d0310625ff31bd7b676ecee7df919e82929954ff6bb65c9494212"
+    },
+    {
+      "path": "server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerEventSourceDeserializer.java",
+      "sha256LF": "a78d0fb8a8c3855bbcb6dea89a8ab3f2daa5897138fd1951a5c7893f05cb1d38"
+    },
+    {
+      "path": "server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerEventType.java",
+      "sha256LF": "9651ef48a13cba4096944dd319da7918630c8ca61b38092f72507b33b4d4ab1c"
+    },
+    {
+      "path": "server/data_manage/src/main/java/xyz/game/datamanage/service/skilltrigger/SkillTriggerCycleValidator.java",
+      "sha256LF": "d9a9dce6e10197b98032c28396d29b0fa6fab9647823a3fe4c392d586bd9fc98"
+    },
+    {
+      "path": "server/data_manage/src/main/java/xyz/game/datamanage/service/skilltrigger/SkillTriggerRuleService.java",
+      "sha256LF": "5a31936ccbf7df92c2da338457fcc885b690ddea2e0d48b2e82b67c0f2302096"
+    },
+    {
+      "path": "server/data_manage/src/main/java/xyz/game/datamanage/support/authoring/SkillObjectReferences.java",
+      "sha256LF": "13bb4541eb520077b4b5913d6ceb58ee414520b2e394cc1b781239a65dc31748"
+    },
+    {
+      "path": "server/data_manage/src/main/java/xyz/game/datamanage/support/authoring/SkillTargetCategoryConditionSemantics.java",
+      "sha256LF": "2d78d577d6ace22f972399d9607da4092b443d9db20850c14e6ef6e872b8db8a"
+    }
+  ],
+  "tests": "后端执行代理完成后独立记录；已要求補充斩杀两目标分支和间接路径",
+  "databaseMigration": "最终SQL/执行器独立审查中，未执行",
+  "businessWrites": 0,
+  "finalRecheck": {
+    "at": "2026-09-20T16:01:45.176Z",
+    "changesSinceInitialReview": "两处说明补清获记击杀或助攻、死亡对象；行为未改变。补充检查TARGET/SOURCE斩杀与间接循环测试。",
+    "result": "READY"
+  }
+}

@@ -1,0 +1,110 @@
+{
+  "database" : [ {
+    "name" : "test0221"
+  } ],
+  "tables" : [ {
+    "name" : "attributes"
+  }, {
+    "name" : "character_attributes"
+  }, {
+    "name" : "character_skill_relations"
+  }, {
+    "name" : "characters"
+  }, {
+    "name" : "damage_types"
+  }, {
+    "name" : "equipment"
+  }, {
+    "name" : "equipment_attributes"
+  }, {
+    "name" : "equipment_skill_relations"
+  }, {
+    "name" : "game_level_configs"
+  }, {
+    "name" : "games"
+  }, {
+    "name" : "image_relations"
+  }, {
+    "name" : "images"
+  }, {
+    "name" : "modifier_zones"
+  }, {
+    "name" : "rune_paths"
+  }, {
+    "name" : "rune_skill_relations"
+  }, {
+    "name" : "runes"
+  }, {
+    "name" : "skill_categories"
+  }, {
+    "name" : "skill_category_relations"
+  }, {
+    "name" : "skill_effects"
+  }, {
+    "name" : "skill_formulas"
+  }, {
+    "name" : "skill_internal_states"
+  }, {
+    "name" : "skill_object_references"
+  }, {
+    "name" : "skill_parameters"
+  }, {
+    "name" : "skill_processes"
+  }, {
+    "name" : "skill_trigger_rules"
+  }, {
+    "name" : "skills"
+  }, {
+    "name" : "statuses"
+  } ],
+  "eventConstraint" : [ {
+    "conname" : "ck_skill_trigger_rules_event_type",
+    "convalidated" : "t",
+    "definition" : "CHECK (((event_type)::text = ANY ((ARRAY['SOURCE_INITIALIZED'::character varying, 'SKILL_USED'::character varying, 'BASIC_ATTACK_START'::character varying, 'BASIC_ATTACK_HIT'::character varying, 'SKILL_HIT'::character varying, 'PROCESS_MOMENT'::character varying, 'RESULT_AVAILABLE'::character varying, 'LIFECYCLE_MOMENT'::character varying, 'DAMAGE_PENDING'::character varying, 'DAMAGE_DEALT'::character varying, 'DAMAGE_TAKEN'::character varying, 'STATUS_CHANGED'::character varying, 'HEALTH_THRESHOLD_CROSSED'::character varying, 'INTERNAL_STATE_CHANGED'::character varying, 'CONTROL_RECEIVED'::character varying, 'ENTITY_DIED'::character varying, 'ENTITY_UNTARGETABLE'::character varying, 'KILL'::character varying, 'TAKEDOWN'::character varying, 'PROCESS_CANCEL_REQUESTED'::character varying, 'SPELL_SHIELD_BLOCKED'::character varying, 'HIT_LINK_APPLIED'::character varying, 'ATTACK_LINK_APPLIED'::character varying])::text[])))"
+  } ],
+  "eventCounts" : [ {
+    "event_type" : "BASIC_ATTACK_HIT",
+    "count" : "10"
+  }, {
+    "event_type" : "DAMAGE_DEALT",
+    "count" : "3"
+  }, {
+    "event_type" : "DAMAGE_PENDING",
+    "count" : "1"
+  }, {
+    "event_type" : "DAMAGE_TAKEN",
+    "count" : "3"
+  }, {
+    "event_type" : "KILL",
+    "count" : "2"
+  }, {
+    "event_type" : "SKILL_HIT",
+    "count" : "109"
+  }, {
+    "event_type" : "SKILL_USED",
+    "count" : "137"
+  }, {
+    "event_type" : "SOURCE_INITIALIZED",
+    "count" : "32"
+  }, {
+    "event_type" : "SPELL_SHIELD_BLOCKED",
+    "count" : "5"
+  } ],
+  "skill_trigger_rules" : {
+    "sha256" : "b40ca05446cca854ad12d1fa8d486b115fc1da48c756024e9d9cfa5148a6f403",
+    "rows" : 302
+  },
+  "skill_effects" : {
+    "sha256" : "477ba9884542817c18d5863522ed61cda15878d1d83fa7c01fd9e03c6b72c30e",
+    "rows" : 981
+  },
+  "skill_object_references" : {
+    "sha256" : "1eee31e2c94e4867f5ca2f59b8c60fe52e29b80a37b608cd7505ec3cfb3a78f0",
+    "rows" : 9406
+  },
+  "at" : "2026-09-20T15:51:50.878867600Z",
+  "host" : "192.168.5.6",
+  "SELECTs" : 7,
+  "businessWrites" : 0,
+  "readOnlyTransaction" : true
+}

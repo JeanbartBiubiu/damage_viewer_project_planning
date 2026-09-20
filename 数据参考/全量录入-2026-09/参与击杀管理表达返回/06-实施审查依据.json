@@ -1,0 +1,32 @@
+{
+  "at": "2026-09-20T15:28:00.513Z",
+  "planSha256": "8d6298434e70a3c090c10b3b0a1f1edbd2ce9fdb29714295e31bc2fe034ecb56",
+  "status": "独立方案审查READY",
+  "basis": [
+    "独立来源核对：固定版本Tristana W参与击杀和MasterYi R击杀或助攻对应；Katarina独立最近伤害资格不套用",
+    "独立后端审计：枚举、严格空明细、能力、类别、引用快照、循环边及matches分支、建表检查均已定位；没有未解决的功能阻塞"
+  ],
+  "decisions": [
+    "现有KILL行为保持；新TAKEDOWN只在TARGET伤害或斩杀分支产生保守边",
+    "当前只进行代码和迁移脚本准备；DB执行仍需对最终SQL和执行器独立审查",
+    "保留own_kill_reset稳定键，一次PUT替换入口，再仅纠正主体和重置效果说明"
+  ],
+  "toolLimits": [
+    "未设置工具不支持的一百万上下文参数",
+    "已完成审计代理的followup因agent thread limit reached失败；实际SQL/执行器独立审查改交未编写它们的后端worker"
+  ],
+  "businessWrites": 0,
+  "independentPlanReview": {
+    "reviewer": "/root/takedown_plan_review",
+    "model": "gpt-5.6-luna",
+    "reasoning": "max",
+    "result": "READY",
+    "planSha256": "8d6298434e70a3c090c10b3b0a1f1edbd2ce9fdb29714295e31bc2fe034ecb56",
+    "findings": [
+      "TARGET限定的新TAKEDOWN生产边与matches显式匹配足够",
+      "类别条件不作循环保护；每目标冷却沿原契约",
+      "前端抽象EXECUTE事件表需结合SOURCE不产生参与击杀的提示理解"
+    ],
+    "runtimeVerified": false
+  }
+}

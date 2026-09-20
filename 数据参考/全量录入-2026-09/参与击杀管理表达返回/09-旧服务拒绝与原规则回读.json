@@ -1,0 +1,61 @@
+{
+  "at": "2026-09-20T15:37:54.991Z",
+  "operation": "浏览器选择参与击杀后尝试验证空名称；批量UI动作后名称仍为旧值，实际提交被旧后端拒绝",
+  "observedError": "400.INVALID_BODY: Invalid JSON body",
+  "actualRequestBodyCaptured": false,
+  "readback": {
+    "method": "GET",
+    "path": "/skills/tristana_w/trigger-rules/own_kill_reset",
+    "status": 200,
+    "value": {
+      "actions": [
+        {
+          "actionKey": "reset_jump",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "reset_jump"
+          },
+          "name": "重置火箭跳跃冷却",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_only",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "killed_target",
+          "name": "被击杀对象",
+          "sortOrder": 10
+        }
+      ],
+      "description": "只表达来源对象本人完成英雄击杀时的冷却重置；不表示参与击杀，也不包含满层爆炸分支。",
+      "eventSource": {
+        "detail": {},
+        "eventType": "KILL"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "本人击杀英雄重置火箭跳跃",
+      "perTargetCooldown": null,
+      "ruleKey": "own_kill_reset",
+      "sortOrder": 20
+    }
+  },
+  "unchangedFrom": "04-崔丝塔娜W写前共享现值.json",
+  "businessWrites": 0,
+  "writeResult": "旧服务明确400且原规则逐字段不变；不计正式保存成功",
+  "comparisonNote": "跨REPL值先规范化后比较；没有重复GET或写入",
+  "next": "取消草稿，最终后端服务与SQL就绪并重新核对冻结请求后正式保存"
+}

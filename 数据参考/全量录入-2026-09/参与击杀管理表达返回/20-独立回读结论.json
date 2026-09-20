@@ -1,0 +1,20 @@
+{
+  "at": "2026-09-20T16:14:47.006Z",
+  "result": "PASS",
+  "GETs": 36,
+  "businessWrites": 0,
+  "unchangedRoutes": 31,
+  "expectedChangedTargets": 3,
+  "expectedChangedCollections": 2,
+  "counts": {
+    "parameters": 8,
+    "formulas": 1,
+    "effects": 4,
+    "processes": 1,
+    "internal-states": 0,
+    "trigger-rules": 4
+  },
+  "unexpectedDifferences": [],
+  "recovery": "先核对无已落地产物，再中断未产出代理，主负责人另启GET-only进程复核。取消代理是否已发出GET未确认，不将其记为零或计入36次。",
+  "runtimeVerified": false
+}

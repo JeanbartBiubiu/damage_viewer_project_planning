@@ -1,0 +1,36 @@
+{
+  "at": "2026-09-20T15:48:49.561Z",
+  "reviewer": "/root/takedown_backend_impl",
+  "model": "gpt-5.6-luna",
+  "reasoning": "max",
+  "migrationReview": "READY",
+  "sqlSha256": "67755dbec1f1a65c6244933891a5f9cc6d421e85375e68b5ad10bebd523e88ed",
+  "runnerSha256": "ea988a47c353705ea58ed0c26f70c527dcb19c2c09fc3348e967a22093472316",
+  "implementation": {
+    "status": "COMPLETE",
+    "testCommand": "mvn test",
+    "tests": 1018,
+    "failures": 0
+  },
+  "databaseWrites": 0,
+  "serviceStarted": false,
+  "finalSurefireArtifacts": {
+    "suites": 107,
+    "tests": 1018,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "verifiedTargetedReports": [
+    {
+      "file": "xyz.game.datamanage.db.skilltrigger.SkillTriggerEventSchemaContractTest.txt",
+      "at": "2026-09-20T15:47:41.175Z",
+      "summary": "Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s -- in xyz.game.datamanage.db.skilltrigger.SkillTriggerEventSchemaContractTest"
+    },
+    {
+      "file": "xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleCycleServiceTest.txt",
+      "at": "2026-09-20T15:47:43.493Z",
+      "summary": "Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.050 s -- in xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleCycleServiceTest"
+    }
+  ]
+}

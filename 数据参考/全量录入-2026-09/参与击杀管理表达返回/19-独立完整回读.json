@@ -1,0 +1,1459 @@
+{
+  "at": "2026-09-20T16:14:44.975Z",
+  "mode": "SEPARATE_GET_ONLY_PROCESS",
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_tristana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_tristana/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_tristana/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_tristana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=tristana_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/parameters/ad_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/parameters/slow_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/parameters/slow_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/effects/landing_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/effects/reset_jump",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/effects/rocket_jump_slow",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/trigger-rules/own_kill_reset",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/trigger-rules/apply_slow_on_first_unblocked_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/attack_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/ability_power",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/mana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/damage-types/magic",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/statuses/movement_slow",
+      "status": 200
+    }
+  ],
+  "values": {
+    "/skills/tristana_w": {
+      "createdAt": "2026-09-06T18:20:41.015015Z",
+      "description": "火箭跳跃落地对附近敌人造成魔法伤害并减速。本轮已配置敌方英雄实际落地伤害、40%持续2秒首次减速、普通主动使用的法力/基础冷却/250毫秒施法过程，以及正式参与英雄击杀（击杀或助攻）时重置W。对英雄满层E引爆重置与叠层、减速重施及完整护盾交互继续核定；跳跃路径与附近目标搜索沿既定范围后置，战斗运行未验证。来源：客户端16.17、官方静态资料16.17.1。",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "崔丝塔娜·火箭跳跃",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "tristana_w",
+      "sortOrder": 2,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-20T15:54:58.707711Z"
+    },
+    "/characters/champion_tristana": {
+      "characterKey": "champion_tristana",
+      "createdAt": "2026-09-06T15:42:48.29848Z",
+      "description": "麦林炮手·崔丝塔娜。资料：官方静态资料16.17.1、同补丁客户端16.17.8104348。仅基础属性与1～18级自然成长；技能、被动叠层与图片尚待录入和核对。",
+      "gameId": "lol",
+      "name": "崔丝塔娜",
+      "updatedAt": "2026-09-06T15:42:48.29848Z"
+    },
+    "/characters/champion_tristana/attributes": {
+      "characterKey": "champion_tristana",
+      "levelValues": {
+        "1": {
+          "move_speed": 325,
+          "hp": 640,
+          "hp_regen": 4,
+          "mana": 300,
+          "mana_regen": 7.2,
+          "armor": 30,
+          "magic_resistance": 33,
+          "attack_damage": 60,
+          "attack_speed": 0.656,
+          "attack_range": 550
+        },
+        "2": {
+          "move_speed": 325,
+          "hp": 713.44,
+          "hp_regen": 4.36,
+          "mana": 323.04,
+          "mana_regen": 7.524,
+          "armor": 32.88,
+          "magic_resistance": 33.792,
+          "attack_damage": 62.448,
+          "attack_speed": 0.663495,
+          "attack_range": 550
+        },
+        "3": {
+          "move_speed": 325,
+          "hp": 790.45,
+          "hp_regen": 4.7375,
+          "mana": 347.2,
+          "mana_regen": 7.86375,
+          "armor": 35.9,
+          "magic_resistance": 34.6225,
+          "attack_damage": 65.015,
+          "attack_speed": 0.671355,
+          "attack_range": 550
+        },
+        "4": {
+          "move_speed": 325,
+          "hp": 871.03,
+          "hp_regen": 5.1325,
+          "mana": 372.48,
+          "mana_regen": 8.21925,
+          "armor": 39.06,
+          "magic_resistance": 35.4915,
+          "attack_damage": 67.701,
+          "attack_speed": 0.679579,
+          "attack_range": 550
+        },
+        "5": {
+          "move_speed": 325,
+          "hp": 955.18,
+          "hp_regen": 5.545,
+          "mana": 398.88,
+          "mana_regen": 8.5905,
+          "armor": 42.36,
+          "magic_resistance": 36.399,
+          "attack_damage": 70.506,
+          "attack_speed": 0.688167,
+          "attack_range": 550
+        },
+        "6": {
+          "move_speed": 325,
+          "hp": 1042.9,
+          "hp_regen": 5.975,
+          "mana": 426.4,
+          "mana_regen": 8.9775,
+          "armor": 45.8,
+          "magic_resistance": 37.345,
+          "attack_damage": 73.43,
+          "attack_speed": 0.69712,
+          "attack_range": 550
+        },
+        "7": {
+          "move_speed": 325,
+          "hp": 1134.19,
+          "hp_regen": 6.4225,
+          "mana": 455.04,
+          "mana_regen": 9.38025,
+          "armor": 49.38,
+          "magic_resistance": 38.3295,
+          "attack_damage": 76.473,
+          "attack_speed": 0.706436,
+          "attack_range": 550
+        },
+        "8": {
+          "move_speed": 325,
+          "hp": 1229.05,
+          "hp_regen": 6.8875,
+          "mana": 484.8,
+          "mana_regen": 9.79875,
+          "armor": 53.1,
+          "magic_resistance": 39.3525,
+          "attack_damage": 79.635,
+          "attack_speed": 0.716118,
+          "attack_range": 550
+        },
+        "9": {
+          "move_speed": 325,
+          "hp": 1327.48,
+          "hp_regen": 7.37,
+          "mana": 515.68,
+          "mana_regen": 10.233,
+          "armor": 56.96,
+          "magic_resistance": 40.414,
+          "attack_damage": 82.916,
+          "attack_speed": 0.726163,
+          "attack_range": 550
+        },
+        "10": {
+          "move_speed": 325,
+          "hp": 1429.48,
+          "hp_regen": 7.87,
+          "mana": 547.68,
+          "mana_regen": 10.683,
+          "armor": 60.96,
+          "magic_resistance": 41.514,
+          "attack_damage": 86.316,
+          "attack_speed": 0.736573,
+          "attack_range": 550
+        },
+        "11": {
+          "move_speed": 325,
+          "hp": 1535.05,
+          "hp_regen": 8.3875,
+          "mana": 580.8,
+          "mana_regen": 11.14875,
+          "armor": 65.1,
+          "magic_resistance": 42.6525,
+          "attack_damage": 89.835,
+          "attack_speed": 0.747348,
+          "attack_range": 550
+        },
+        "12": {
+          "move_speed": 325,
+          "hp": 1644.19,
+          "hp_regen": 8.9225,
+          "mana": 615.04,
+          "mana_regen": 11.63025,
+          "armor": 69.38,
+          "magic_resistance": 43.8295,
+          "attack_damage": 93.473,
+          "attack_speed": 0.758486,
+          "attack_range": 550
+        },
+        "13": {
+          "move_speed": 325,
+          "hp": 1756.9,
+          "hp_regen": 9.475,
+          "mana": 650.4,
+          "mana_regen": 12.1275,
+          "armor": 73.8,
+          "magic_resistance": 45.045,
+          "attack_damage": 97.23,
+          "attack_speed": 0.769989,
+          "attack_range": 550
+        },
+        "14": {
+          "move_speed": 325,
+          "hp": 1873.18,
+          "hp_regen": 10.045,
+          "mana": 686.88,
+          "mana_regen": 12.6405,
+          "armor": 78.36,
+          "magic_resistance": 46.299,
+          "attack_damage": 101.106,
+          "attack_speed": 0.781857,
+          "attack_range": 550
+        },
+        "15": {
+          "move_speed": 325,
+          "hp": 1993.03,
+          "hp_regen": 10.6325,
+          "mana": 724.48,
+          "mana_regen": 13.16925,
+          "armor": 83.06,
+          "magic_resistance": 47.5915,
+          "attack_damage": 105.101,
+          "attack_speed": 0.794089,
+          "attack_range": 550
+        },
+        "16": {
+          "move_speed": 325,
+          "hp": 2116.45,
+          "hp_regen": 11.2375,
+          "mana": 763.2,
+          "mana_regen": 13.71375,
+          "armor": 87.9,
+          "magic_resistance": 48.9225,
+          "attack_damage": 109.215,
+          "attack_speed": 0.806685,
+          "attack_range": 550
+        },
+        "17": {
+          "move_speed": 325,
+          "hp": 2243.44,
+          "hp_regen": 11.86,
+          "mana": 803.04,
+          "mana_regen": 14.274,
+          "armor": 92.88,
+          "magic_resistance": 50.292,
+          "attack_damage": 113.448,
+          "attack_speed": 0.819645,
+          "attack_range": 550
+        },
+        "18": {
+          "move_speed": 325,
+          "hp": 2374,
+          "hp_regen": 12.5,
+          "mana": 844,
+          "mana_regen": 14.85,
+          "armor": 98,
+          "magic_resistance": 51.7,
+          "attack_damage": 117.8,
+          "attack_speed": 0.83297,
+          "attack_range": 550
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_tristana/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "image_d43a045f-f78d-461c-8bce-4f34ff472c4a",
+        "name": "崔丝塔娜代表图片_d43a045f-f78d-461c-8bce-4f34ff472c4a"
+      }
+    },
+    "/skills/tristana_w/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_tristana_w",
+        "name": "tristana_w"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_tristana": {
+      "items": [
+        {
+          "characterKey": "champion_tristana",
+          "characterName": "崔丝塔娜",
+          "gameId": "lol",
+          "skillKey": "tristana_p",
+          "skillName": "崔丝塔娜·瞄准",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_tristana",
+          "characterName": "崔丝塔娜",
+          "gameId": "lol",
+          "skillKey": "tristana_q",
+          "skillName": "崔丝塔娜·急速射击",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_tristana",
+          "characterName": "崔丝塔娜",
+          "gameId": "lol",
+          "skillKey": "tristana_w",
+          "skillName": "崔丝塔娜·火箭跳跃",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_tristana",
+          "characterName": "崔丝塔娜",
+          "gameId": "lol",
+          "skillKey": "tristana_e",
+          "skillName": "崔丝塔娜·爆炸火花",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_tristana",
+          "characterName": "崔丝塔娜",
+          "gameId": "lol",
+          "skillKey": "tristana_r",
+          "skillName": "崔丝塔娜·毁灭射击",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=tristana_w": {
+      "items": [
+        {
+          "characterKey": "champion_tristana",
+          "characterName": "崔丝塔娜",
+          "gameId": "lol",
+          "skillKey": "tristana_w",
+          "skillName": "崔丝塔娜·火箭跳跃",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        }
+      ],
+      "total": 1
+    },
+    "/skills/tristana_w/parameters": [
+      {
+        "createdAt": "2026-09-07T17:59:35.789253Z",
+        "description": "官方16.17.1与当前根对象cooldownTime索引1起一致。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 22000,
+          "2": 20000,
+          "3": 18000,
+          "4": 16000,
+          "5": 14000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "tristana_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T17:59:35.789253Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T17:59:36.259261Z",
+        "description": "官方cost与当前manaValues.values索引0起一致；明确0消耗保留。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 30,
+          "2": 35,
+          "3": 40,
+          "4": 45,
+          "5": 50
+        },
+        "name": "法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "tristana_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T17:59:36.259261Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T17:59:36.70796Z",
+        "description": "当前spellCastTime与已有mCastTime一致；不代替命中。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "tristana_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T17:59:36.70796Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T17:59:37.128269Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 105,
+          "3": 140,
+          "4": 175,
+          "5": 210
+        },
+        "name": "基础伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "tristana_w",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-07T17:59:37.128269Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T17:59:37.577961Z",
+        "description": "客户端当前根绑定 DataValues.ADRatio 取索引1至5。",
+        "fixedValue": 1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "攻击力倍率",
+        "parameterKey": "ad_ratio",
+        "skillKey": "tristana_w",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-07T17:59:37.577961Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T17:59:38.094506Z",
+        "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+        "fixedValue": 0.5,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法术强度倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "tristana_w",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-07T17:59:38.094506Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T17:59:38.513185Z",
+        "description": "客户端当前根绑定 DataValues.SlowMod 取索引1至5。",
+        "fixedValue": 0.4,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "减速比例",
+        "parameterKey": "slow_ratio",
+        "skillKey": "tristana_w",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-07T17:59:38.513185Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T17:59:38.898819Z",
+        "description": "客户端当前根绑定 DataValues.SlowDuration 取索引1至5。",
+        "fixedValue": 2000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "减速持续（毫秒）",
+        "parameterKey": "slow_duration_ms",
+        "skillKey": "tristana_w",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-07T17:59:38.898819Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/tristana_w/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T17:59:35.789253Z",
+      "description": "官方16.17.1与当前根对象cooldownTime索引1起一致。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 22000,
+        "2": 20000,
+        "3": 18000,
+        "4": 16000,
+        "5": 14000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "tristana_w",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T17:59:35.789253Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/tristana_w/parameters/mana_cost": {
+      "createdAt": "2026-09-07T17:59:36.259261Z",
+      "description": "官方cost与当前manaValues.values索引0起一致；明确0消耗保留。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 30,
+        "2": 35,
+        "3": 40,
+        "4": 45,
+        "5": 50
+      },
+      "name": "法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "tristana_w",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-07T17:59:36.259261Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/tristana_w/parameters/cast_time_ms": {
+      "createdAt": "2026-09-07T17:59:36.70796Z",
+      "description": "当前spellCastTime与已有mCastTime一致；不代替命中。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "tristana_w",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-07T17:59:36.70796Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/tristana_w/parameters/base_damage": {
+      "createdAt": "2026-09-07T17:59:37.128269Z",
+      "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 70,
+        "2": 105,
+        "3": 140,
+        "4": 175,
+        "5": 210
+      },
+      "name": "基础伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "tristana_w",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-07T17:59:37.128269Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/tristana_w/parameters/ad_ratio": {
+      "createdAt": "2026-09-07T17:59:37.577961Z",
+      "description": "客户端当前根绑定 DataValues.ADRatio 取索引1至5。",
+      "fixedValue": 1,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "攻击力倍率",
+      "parameterKey": "ad_ratio",
+      "skillKey": "tristana_w",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-07T17:59:37.577961Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/tristana_w/parameters/ap_ratio": {
+      "createdAt": "2026-09-07T17:59:38.094506Z",
+      "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+      "fixedValue": 0.5,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法术强度倍率",
+      "parameterKey": "ap_ratio",
+      "skillKey": "tristana_w",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-07T17:59:38.094506Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/tristana_w/parameters/slow_ratio": {
+      "createdAt": "2026-09-07T17:59:38.513185Z",
+      "description": "客户端当前根绑定 DataValues.SlowMod 取索引1至5。",
+      "fixedValue": 0.4,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "减速比例",
+      "parameterKey": "slow_ratio",
+      "skillKey": "tristana_w",
+      "sortOrder": 70,
+      "updatedAt": "2026-09-07T17:59:38.513185Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/tristana_w/parameters/slow_duration_ms": {
+      "createdAt": "2026-09-07T17:59:38.898819Z",
+      "description": "客户端当前根绑定 DataValues.SlowDuration 取索引1至5。",
+      "fixedValue": 2000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "减速持续（毫秒）",
+      "parameterKey": "slow_duration_ms",
+      "skillKey": "tristana_w",
+      "sortOrder": 80,
+      "updatedAt": "2026-09-07T17:59:38.898819Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/tristana_w/formulas": [
+      {
+        "createdAt": "2026-09-07T17:59:39.378528Z",
+        "description": "当前LandingDamage明确魔法伤害，基础+1额外AD+0.5AP。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "火箭跳跃落地伤害",
+        "skillKey": "tristana_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T17:59:39.378528Z"
+      }
+    ],
+    "/skills/tristana_w/formulas/damage": {
+      "createdAt": "2026-09-07T17:59:39.378528Z",
+      "description": "当前LandingDamage明确魔法伤害，基础+1额外AD+0.5AP。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ad_ratio"
+                  },
+                  {
+                    "attributeKey": "attack_damage",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "BONUS",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "火箭跳跃落地伤害",
+      "skillKey": "tristana_w",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T17:59:39.378528Z"
+    },
+    "/skills/tristana_w/effects": [
+      {
+        "createdAt": "2026-09-07T17:59:39.81282Z",
+        "description": "本技能等级1至5消耗30/35/40/45/50法力，由普通主动使用入口启动既有cast过程并在过程开始扣除一次。该效果不处理伤害、减速或冷却重置。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "tristana_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-20T14:45:28.207124Z"
+      },
+      {
+        "createdAt": "2026-09-07T17:59:40.2229Z",
+        "description": "本轮明确敌方英雄的实际落地魔法伤害，沿原公式读取基础值、额外攻击力与总法强；显式登记防御结算后伤害、效率1的全能吸血资格。保留原结果法术护盾粒度；不将过程结束当命中，减速和重置各自核定。",
+        "effectKey": "landing_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "落地命中伤害",
+        "resultCount": 1,
+        "skillKey": "tristana_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-20T14:38:29.758394Z"
+      },
+      {
+        "createdAt": "2026-09-07T17:59:40.679569Z",
+        "description": "来源对象自身W当前冷却重置，由唯一正式英雄参与击杀（击杀或助攻）规则执行。对英雄满层E爆炸尚无准确因果入口，不因效果存在而视为已接通。",
+        "effectKey": "reset_jump",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "参与击杀或满层炸弹重置跳跃",
+        "resultCount": 1,
+        "skillKey": "tristana_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-20T15:56:48.572755Z"
+      },
+      {
+        "createdAt": "2026-09-20T14:25:23.430298Z",
+        "description": "对本轮实际命中的敌方英雄首次施加40%普通移动减速，持续2000毫秒；入口要求同次法术护盾明确未阻挡且当前来源目标没有本效果实例。重施另待核，不以刷新选项证明重复命中行为。",
+        "effectKey": "rocket_jump_slow",
+        "gameId": "lol",
+        "lifecycleEnabled": true,
+        "name": "火箭跳跃首次普通减速",
+        "resultCount": 1,
+        "skillKey": "tristana_w",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-20T14:25:23.430298Z"
+      }
+    ],
+    "/skills/tristana_w/effects/mana_cost": {
+      "createdAt": "2026-09-07T17:59:39.81282Z",
+      "description": "本技能等级1至5消耗30/35/40/45/50法力，由普通主动使用入口启动既有cast过程并在过程开始扣除一次。该效果不处理伤害、减速或冷却重置。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "tristana_w",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-20T14:45:28.207124Z"
+    },
+    "/skills/tristana_w/effects/landing_hit": {
+      "createdAt": "2026-09-07T17:59:40.2229Z",
+      "description": "本轮明确敌方英雄的实际落地魔法伤害，沿原公式读取基础值、额外攻击力与总法强；显式登记防御结算后伤害、效率1的全能吸血资格。保留原结果法术护盾粒度；不将过程结束当命中，减速和重置各自核定。",
+      "effectKey": "landing_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "落地命中伤害",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": [
+              {
+                "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                "efficiencyValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "vampType": "OMNIVAMP"
+              }
+            ]
+          },
+          "lifecycleBehavior": null,
+          "name": "落地命中伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "RESULT",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "tristana_w",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-20T14:38:29.758394Z"
+    },
+    "/skills/tristana_w/effects/reset_jump": {
+      "createdAt": "2026-09-07T17:59:40.679569Z",
+      "description": "来源对象自身W当前冷却重置，由唯一正式英雄参与击杀（击杀或助攻）规则执行。对英雄满层E爆炸尚无准确因果入口，不因效果存在而视为已接通。",
+      "effectKey": "reset_jump",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "参与击杀或满层炸弹重置跳跃",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "affectedSkillScope": {
+              "mode": "SKILLS",
+              "skillCategoryKeys": [],
+              "skillKeys": [
+                "tristana_w"
+              ]
+            },
+            "operation": "RESET"
+          },
+          "lifecycleBehavior": null,
+          "name": "参与击杀或满层炸弹重置跳跃",
+          "resultKey": "cooldown",
+          "resultType": "COOLDOWN_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": null
+        }
+      ],
+      "skillKey": "tristana_w",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-20T15:56:48.572755Z"
+    },
+    "/skills/tristana_w/effects/rocket_jump_slow": {
+      "createdAt": "2026-09-20T14:25:23.430298Z",
+      "description": "对本轮实际命中的敌方英雄首次施加40%普通移动减速，持续2000毫秒；入口要求同次法术护盾明确未阻挡且当前来源目标没有本效果实例。重施另待核，不以刷新选项证明重复命中行为。",
+      "effectKey": "rocket_jump_slow",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "slow_duration_ms"
+        },
+        "expiryMode": "ALL_AT_ONCE",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE_TARGET",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "火箭跳跃首次普通减速",
+      "results": [
+        {
+          "description": "来源字段为负向速度比例，按官方展示模板保存正减速比例0.4；上下界0至1，期限随本效果。",
+          "detail": {
+            "operation": "APPLY",
+            "statusKey": "movement_slow"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": "REPLACE",
+            "stackValueMode": "SHARED",
+            "valueReadMode": "APPLICATION_SNAPSHOT"
+          },
+          "name": "落地首次普通减速",
+          "resultKey": "slow",
+          "resultType": "STATUS_OPERATION",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "RESULT",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": 1,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "slow_ratio"
+            }
+          }
+        }
+      ],
+      "skillKey": "tristana_w",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-20T14:25:23.430298Z"
+    },
+    "/skills/tristana_w/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-07T17:59:41.161228Z",
+        "description": "只绑定法力、基础冷却及施法延迟；不在过程结束时自动造成伤害。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "施放火箭跳跃",
+        "processKey": "cast",
+        "skillKey": "tristana_w",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-07T17:59:41.161228Z"
+      }
+    ],
+    "/skills/tristana_w/processes/cast": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-07T17:59:41.161228Z",
+      "description": "只绑定法力、基础冷却及施法延迟；不在过程结束时自动造成伤害。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "施放火箭跳跃",
+      "processKey": "cast",
+      "skillKey": "tristana_w",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "主技能已核对的施法时间。",
+          "detail": {
+            "delayValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cast_time_ms"
+            }
+          },
+          "name": "施法延迟",
+          "sortOrder": 10,
+          "stepKey": "cast_time",
+          "stepType": "DELAY"
+        }
+      ],
+      "updatedAt": "2026-09-07T17:59:41.161228Z"
+    },
+    "/skills/tristana_w/internal-states": [],
+    "/skills/tristana_w/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "本技能普通主动使用启动已有cast过程，统一登记法力、基础冷却和250毫秒施法延迟；不以过程结束制造落地命中，也不执行重置或减速。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "主动使用启动火箭跳跃",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used",
+        "sortOrder": 5,
+        "updatedAt": "2026-09-20T14:25:25.210766Z"
+      },
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "火箭跳跃实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-20T14:11:34.496447Z"
+      },
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "来源对象被正式记为本次英雄死亡的击杀者或助攻参与者时重置W冷却；同次死亡只使用此入口，不再并存本人击杀重置规则。对英雄满层E爆炸另需因果入口，本规则不表示该分支。",
+        "eventType": "TAKEDOWN",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "参与击杀英雄重置火箭跳跃",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "own_kill_reset",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-20T15:53:34.473557Z"
+      },
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "同次实际W命中须为本轮明确敌方英雄、法术护盾判定为0，且本来源当前目标没有火箭跳跃减速实例。缺少事件判定不默认0；当前实例已存在时不执行，重施分支待核。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "落地未受阻挡时首次减速",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "apply_slow_on_first_unblocked_hit",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-20T14:25:27.050312Z"
+      }
+    ],
+    "/skills/tristana_w/trigger-rules/on_used": {
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "actionType": "START_PROCESS",
+          "detail": {
+            "processKey": "cast"
+          },
+          "name": "启动既有施法过程",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "本技能普通主动使用启动已有cast过程，统一登记法力、基础冷却和250毫秒施法延迟；不以过程结束制造落地命中，也不执行重置或减速。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "tristana_w",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "主动使用启动火箭跳跃",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used",
+      "sortOrder": 5
+    },
+    "/skills/tristana_w/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "damage",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "landing_hit"
+          },
+          "name": "执行命中伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "detail": {},
+              "sortOrder": 20
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮敌方英雄",
+          "sortOrder": 10
+        }
+      ],
+      "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "tristana_w",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "火箭跳跃实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    },
+    "/skills/tristana_w/trigger-rules/own_kill_reset": {
+      "actions": [
+        {
+          "actionKey": "reset_jump",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "reset_jump"
+          },
+          "name": "重置火箭跳跃冷却",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_only",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "killed_target",
+          "name": "被击杀对象",
+          "sortOrder": 10
+        }
+      ],
+      "description": "来源对象被正式记为本次英雄死亡的击杀者或助攻参与者时重置W冷却；同次死亡只使用此入口，不再并存本人击杀重置规则。对英雄满层E爆炸另需因果入口，本规则不表示该分支。",
+      "eventSource": {
+        "detail": {},
+        "eventType": "TAKEDOWN"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "参与击杀英雄重置火箭跳跃",
+      "perTargetCooldown": null,
+      "ruleKey": "own_kill_reset",
+      "sortOrder": 20
+    },
+    "/skills/tristana_w/trigger-rules/apply_slow_on_first_unblocked_hit": {
+      "actions": [
+        {
+          "actionKey": "apply_slow",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "rocket_jump_slow"
+          },
+          "name": "施加本次普通减速",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "detail": {},
+              "sortOrder": 20
+            },
+            {
+              "conditionKey": "not_spell_shield_blocked",
+              "conditionType": "EVENT_VALUE_COMPARE",
+              "detail": {
+                "comparator": "EQ",
+                "comparisonValue": {
+                  "kind": "FIXED",
+                  "value": 0
+                },
+                "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED"
+              },
+              "sortOrder": 30
+            },
+            {
+              "conditionKey": "no_existing_slow",
+              "conditionType": "LIFECYCLE_CHECK",
+              "detail": {
+                "checkKind": "ABSENT",
+                "comparator": null,
+                "comparisonValue": null,
+                "effectKey": "rocket_jump_slow",
+                "subject": "CURRENT_TARGET"
+              },
+              "sortOrder": 40
+            }
+          ],
+          "groupKey": "slow_eligible",
+          "name": "本次普通减速可施加",
+          "sortOrder": 10
+        }
+      ],
+      "description": "同次实际W命中须为本轮明确敌方英雄、法术护盾判定为0，且本来源当前目标没有火箭跳跃减速实例。缺少事件判定不默认0；当前实例已存在时不执行，重施分支待核。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "tristana_w",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "落地未受阻挡时首次减速",
+      "perTargetCooldown": null,
+      "ruleKey": "apply_slow_on_first_unblocked_hit",
+      "sortOrder": 40
+    },
+    "/attributes/attack_damage": {
+      "attributeKey": "attack_damage",
+      "createdAt": "2026-08-30T16:26:29.341938Z",
+      "description": "角色面板攻击力；伊泽瑞尔数据按官方 16.17.1 版本录入",
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "攻击力",
+      "sortOrder": 500,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-30T16:26:29.341938Z",
+      "valueType": "DECIMAL"
+    },
+    "/attributes/ability_power": {
+      "attributeKey": "ability_power",
+      "createdAt": "2026-08-30T16:26:39.898635Z",
+      "description": "角色法术强度；基础值为 0，可由装备和效果增加",
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法术强度",
+      "sortOrder": 510,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-30T16:26:39.898635Z",
+      "valueType": "DECIMAL"
+    },
+    "/attributes/mana": {
+      "attributeKey": "mana",
+      "createdAt": "2026-08-22T15:27:36.139767Z",
+      "description": null,
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法力值",
+      "sortOrder": 310,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-22T15:27:36.139767Z",
+      "valueType": "DECIMAL"
+    },
+    "/damage-types/magic": {
+      "createdAt": "2026-08-26T05:59:15.870937Z",
+      "damageTypeKey": "magic",
+      "description": null,
+      "gameId": "lol",
+      "name": "魔法伤害",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-26T05:59:15.870937Z"
+    },
+    "/statuses/movement_slow": {
+      "createdAt": "2026-09-19T06:37:05.092208Z",
+      "description": "普通移动减速状态身份；具体减速比例与持续时间由技能效果维护。",
+      "gameId": "lol",
+      "name": "普通移动减速",
+      "sortOrder": 10,
+      "status": "ENABLED",
+      "statusKey": "movement_slow",
+      "statusKind": "MOVEMENT_SLOW",
+      "updatedAt": "2026-09-19T08:22:48.378088Z"
+    }
+  },
+  "businessWrites": 0
+}

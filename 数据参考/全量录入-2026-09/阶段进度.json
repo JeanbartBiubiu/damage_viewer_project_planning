@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-09-20T14:51:47.063Z",
+  "generatedAt": "2026-09-20T16:17:34.373Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
-  "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。；基兰W冷却回退返回：7次保存、41次独立GET与5类页面通过，有效施放时间仍待核，管理完整8项/开放831项保持，见zileanWCooldownReductionReturn。；系统-16装备技能直达录入已完成，728单测/3项定向页面及两件真实装备往返通过，6条独立回读不变，业务写入0。；中娅主体说明1次页面更正、独立13GET及重开通过，装备开放234项保持；百分比穿透候选与两份历史来源的边界另见percentPenetrationSourceContractAudit，尚未批准实施。；崔丝塔娜W明确组成返回8次保存、108次独立GET、20组算例及8类页面通过；复用旧本人击杀入口，整技能仍系统暂缓，管理完整8项/开放831项保持。",
+  "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。；基兰W冷却回退返回：7次保存、41次独立GET与5类页面通过，有效施放时间仍待核，管理完整8项/开放831项保持，见zileanWCooldownReductionReturn。；系统-16装备技能直达录入已完成，728单测/3项定向页面及两件真实装备往返通过，6条独立回读不变，业务写入0。；中娅主体说明1次页面更正、独立13GET及重开通过，装备开放234项保持；百分比穿透候选与两份历史来源的边界另见percentPenetrationSourceContractAudit，尚未批准实施。；崔丝塔娜W明确组成返回8次保存、108次独立GET、20组算例及8类页面通过；复用旧本人击杀入口，整技能仍系统暂缓，管理完整8项/开放831项保持。；正式参与击杀事件已返回崔丝塔娜W：3次页面保存、36次独立GET、4项拒绝验证通过，原4规则数量保持；剩余系统1项、资料1项，整技能未记完整。",
   "heroes": {
     "count": 171,
     "attributes": 1641,
@@ -12773,6 +12773,87 @@
         "commit": "5ae624901ce8f6befd047939d8a1f8176e1ed990",
         "sha256": "1307b7f2b57f6b3d941f9097a562ede7f22fbded36771f480961970131122256"
       }
+    },
+    "takedownEventReturn": {
+      "at": "2026-09-20T16:16:52.887Z",
+      "status": "MANAGEMENT_EVENT_AND_RETURN_PASS",
+      "sourceVersion": {
+        "client": "16.17",
+        "official": "16.17.1"
+      },
+      "skillKey": "tristana_w",
+      "businessSaves": 3,
+      "saveBreakdown": {
+        "ruleReplacement": 1,
+        "descriptionOnly": 2
+      },
+      "independentGETs": 36,
+      "unchangedReadRoutes": 31,
+      "expectedChangedTargets": 3,
+      "expectedChangedCollections": 2,
+      "negativeRequests": {
+        "count": 4,
+        "allStatus": 400,
+        "ruleUnchangedAfterEach": true
+      },
+      "earlierRejectedBrowserAttempt": 1,
+      "componentCounts": {
+        "parameters": 8,
+        "formulas": 1,
+        "effects": 4,
+        "processes": 1,
+        "internalStates": 0,
+        "triggerRules": 4
+      },
+      "database": {
+        "migrationExecutions": 1,
+        "logicalTables": 27,
+        "originalRulesDuringMigration": 302,
+        "originalRuleEffectReferenceRowsPreserved": true
+      },
+      "validation": {
+        "frontendUnitTests": 739,
+        "backendTests": 1018,
+        "isolatedProductionBrowserTests": 1,
+        "realBrowserPages": 3,
+        "pageWarningsOrErrors": 0
+      },
+      "commits": {
+        "web": "765fcd2eeeb8f6c2ae63c036553304c9b643dc37",
+        "backend": "dc77fb4a34d61d1dd092f1db37aa87a78d86bc1a"
+      },
+      "wholeSkillComplete": false,
+      "remaining": [
+        "对英雄满层E爆炸与W叠层、冷却重置的因果联动",
+        "减速重施及完整技能法术护盾交互"
+      ],
+      "runtimeValidation": "未执行；本次不新增宿主或Wasm实现",
+      "recoveryNotes": [
+        "旧服务试提交400后原规则完全未变；只在最终服务写前重新核对目标后正式保存",
+        "返回请求、SQL和执行器均有独立批准摘要；没有重放写入",
+        "只读回读代理中断后未发现已落地文件，另启独立GET-only进程完成36项；被取消代理是否已发GET未确认",
+        "首次拒绝验证比较器未读取error.code包装，从已保存响应修正后只执行其余3项，未重放首项"
+      ],
+      "next": "剩余冷却比例表达返回已开始只读定位，尚未实施",
+      "evidence": {
+        "worktree": "damage_viewer_project_planning",
+        "relativePath": "数据参考/全量录入-2026-09/参与击杀管理表达返回/22-证据清单.json",
+        "sha256": "e533eba2856b578d8124ba8143cbf34cdcf0e3e56faba4fa1be56c1f883f89dd",
+        "webCommit": "765fcd2eeeb8f6c2ae63c036553304c9b643dc37",
+        "backendCommit": "dc77fb4a34d61d1dd092f1db37aa87a78d86bc1a"
+      },
+      "beforePendingCounts": {
+        "source": 1,
+        "system": 2,
+        "configuration": 0,
+        "other": 0
+      },
+      "afterPendingCounts": {
+        "source": 1,
+        "system": 1,
+        "configuration": 0,
+        "other": 0
+      }
     }
   },
   "runtimeValidation": "未执行",
@@ -13505,6 +13586,13 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/崔丝塔娜W击杀英雄重置补录/证据清单.json",
         "sha256": "30b164b79d46dab98a823c5f57b59a70e3057503c7322cf7b4792fa7fc438f87",
         "commit": "06c2349dbcbff5eb84db9f85aa5c973a2bd99789"
+      },
+      "takedownEventReturn": {
+        "worktree": "damage_viewer_project_planning",
+        "relativePath": "数据参考/全量录入-2026-09/参与击杀管理表达返回/22-证据清单.json",
+        "sha256": "e533eba2856b578d8124ba8143cbf34cdcf0e3e56faba4fa1be56c1f883f89dd",
+        "webCommit": "765fcd2eeeb8f6c2ae63c036553304c9b643dc37",
+        "backendCommit": "dc77fb4a34d61d1dd092f1db37aa87a78d86bc1a"
       }
     },
     "coverage": {
@@ -34803,10 +34891,10 @@
         "name": "崔丝塔娜·火箭跳跃",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "当前8参数1公式4效果1过程4规则。普通使用入口、明确敌方英雄实际伤害及吸血、40%持续2秒首次减速已返回，8次保存/108次独立GET/20组算例/8类页面通过。原本人击杀英雄重置和KILL类别能力已在历史批次完成，本次复用；助攻参与与英雄满层E因果表达仍缺，减速重施及完整护盾交互待核，主结论保持系统暂缓。",
+        "reason": "当前8参数1公式4效果1过程4规则。已用正式参与击杀事件替换原本人击杀入口，英雄条件和唯一W冷却重置动作保持，3次页面保存、36次独立GET与4个400拒绝用例通过。剩余英雄满层E与W因果联动，以及减速重施/完整护盾交互；整技能仍系统暂缓。",
         "pendingCounts": {
           "source": 1,
-          "system": 2,
+          "system": 1,
           "configuration": 0,
           "other": 0
         },
@@ -34816,7 +34904,8 @@
           "skillThirdStageCurrentReadback",
           "heroSourceInventory",
           "tristanaWOwnKillResetBackfill",
-          "tristanaWExplicitComponentsReturn"
+          "tristanaWExplicitComponentsReturn",
+          "takedownEventReturn"
         ],
         "historicalPendingCounts": {
           "source": 0,
@@ -34838,13 +34927,9 @@
           "40%持续2000ms首次普通减速",
           "原普通魔法伤害显式全能吸血资格",
           "主体与两效果说明同步",
-          "历史本人击杀英雄重置复用"
+          "原本人击杀入口已替换为唯一正式英雄参与击杀重置入口"
         ],
         "pendingBranches": [
-          {
-            "kind": "系统",
-            "item": "英雄助攻参与击杀的准确资格及事件"
-          },
           {
             "kind": "系统",
             "item": "对英雄满层E爆炸与W叠层、冷却重置的因果联动"

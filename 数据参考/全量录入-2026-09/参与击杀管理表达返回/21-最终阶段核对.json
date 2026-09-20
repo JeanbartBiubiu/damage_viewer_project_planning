@@ -1,0 +1,62 @@
+{
+  "at": "2026-09-20T16:16:52.887Z",
+  "status": "MANAGEMENT_EVENT_AND_RETURN_PASS",
+  "sourceVersion": {
+    "client": "16.17",
+    "official": "16.17.1"
+  },
+  "skillKey": "tristana_w",
+  "businessSaves": 3,
+  "saveBreakdown": {
+    "ruleReplacement": 1,
+    "descriptionOnly": 2
+  },
+  "independentGETs": 36,
+  "unchangedReadRoutes": 31,
+  "expectedChangedTargets": 3,
+  "expectedChangedCollections": 2,
+  "negativeRequests": {
+    "count": 4,
+    "allStatus": 400,
+    "ruleUnchangedAfterEach": true
+  },
+  "earlierRejectedBrowserAttempt": 1,
+  "componentCounts": {
+    "parameters": 8,
+    "formulas": 1,
+    "effects": 4,
+    "processes": 1,
+    "internalStates": 0,
+    "triggerRules": 4
+  },
+  "database": {
+    "migrationExecutions": 1,
+    "logicalTables": 27,
+    "originalRulesDuringMigration": 302,
+    "originalRuleEffectReferenceRowsPreserved": true
+  },
+  "validation": {
+    "frontendUnitTests": 739,
+    "backendTests": 1018,
+    "isolatedProductionBrowserTests": 1,
+    "realBrowserPages": 3,
+    "pageWarningsOrErrors": 0
+  },
+  "commits": {
+    "web": "765fcd2eeeb8f6c2ae63c036553304c9b643dc37",
+    "backend": "dc77fb4a34d61d1dd092f1db37aa87a78d86bc1a"
+  },
+  "wholeSkillComplete": false,
+  "remaining": [
+    "对英雄满层E爆炸与W叠层、冷却重置的因果联动",
+    "减速重施及完整技能法术护盾交互"
+  ],
+  "runtimeValidation": "未执行；本次不新增宿主或Wasm实现",
+  "recoveryNotes": [
+    "旧服务试提交400后原规则完全未变；只在最终服务写前重新核对目标后正式保存",
+    "返回请求、SQL和执行器均有独立批准摘要；没有重放写入",
+    "只读回读代理中断后未发现已落地文件，另启独立GET-only进程完成36项；被取消代理是否已发GET未确认",
+    "首次拒绝验证比较器未读取error.code包装，从已保存响应修正后只执行其余3项，未重放首项"
+  ],
+  "next": "剩余冷却比例表达返回已开始只读定位，尚未实施"
+}

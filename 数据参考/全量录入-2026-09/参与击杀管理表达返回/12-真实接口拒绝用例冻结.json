@@ -1,0 +1,221 @@
+{
+  "at": "2026-09-20T15:47:45.765Z",
+  "method": "PUT",
+  "path": "/skills/tristana_w/trigger-rules/own_kill_reset",
+  "precondition": "正式TAKEDOWN页面保存通过；每次请求后GET逐字段确认仍等于07中的预期规则。任何非预期响应先读现值，不重放。",
+  "sourceFrozenSha256": "e1532c8191391088bc87928ac2120d4aa3d312a3546c1b9468388dbb833614ce",
+  "cases": [
+    {
+      "name": "拒绝额外事件明细",
+      "body": {
+        "actions": [
+          {
+            "actionKey": "reset_jump",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "reset_jump"
+            },
+            "name": "重置火箭跳跃冷却",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_only",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              }
+            ],
+            "groupKey": "killed_target",
+            "name": "被击杀对象",
+            "sortOrder": 10
+          }
+        ],
+        "description": "来源对象被正式记为本次英雄死亡的击杀者或助攻参与者时重置W冷却；同次死亡只使用此入口，不再并存本人击杀重置规则。对英雄满层E爆炸另需因果入口，本规则不表示该分支。",
+        "eventSource": {
+          "eventType": "TAKEDOWN",
+          "detail": {
+            "sourceSkillKey": null
+          }
+        },
+        "maxTriggersPerProcess": null,
+        "name": "参与击杀英雄重置火箭跳跃",
+        "perTargetCooldown": null,
+        "sortOrder": 20
+      },
+      "expectedStatus": 400,
+      "expectedCode": "400.INVALID_BODY"
+    },
+    {
+      "name": "拒绝不存在的事件来源对象",
+      "body": {
+        "actions": [
+          {
+            "actionKey": "reset_jump",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "reset_jump"
+            },
+            "name": "重置火箭跳跃冷却",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "EVENT_SOURCE"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_only",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              }
+            ],
+            "groupKey": "killed_target",
+            "name": "被击杀对象",
+            "sortOrder": 10
+          }
+        ],
+        "description": "来源对象被正式记为本次英雄死亡的击杀者或助攻参与者时重置W冷却；同次死亡只使用此入口，不再并存本人击杀重置规则。对英雄满层E爆炸另需因果入口，本规则不表示该分支。",
+        "eventSource": {
+          "eventType": "TAKEDOWN",
+          "detail": {}
+        },
+        "maxTriggersPerProcess": null,
+        "name": "参与击杀英雄重置火箭跳跃",
+        "perTargetCooldown": null,
+        "sortOrder": 20
+      },
+      "expectedStatus": 400,
+      "expectedCode": "400.INVALID_SKILL_TRIGGER_RULE_REFERENCE"
+    },
+    {
+      "name": "拒绝不可用的击杀事件数值",
+      "body": {
+        "actions": [
+          {
+            "actionKey": "reset_jump",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "reset_jump"
+            },
+            "name": "重置火箭跳跃冷却",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_only",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              },
+              {
+                "conditionKey": "unavailable_event_value",
+                "conditionType": "EVENT_VALUE_COMPARE",
+                "sortOrder": 20,
+                "detail": {
+                  "eventValueKey": "KILLED",
+                  "comparator": "EQ",
+                  "comparisonValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  }
+                }
+              }
+            ],
+            "groupKey": "killed_target",
+            "name": "被击杀对象",
+            "sortOrder": 10
+          }
+        ],
+        "description": "来源对象被正式记为本次英雄死亡的击杀者或助攻参与者时重置W冷却；同次死亡只使用此入口，不再并存本人击杀重置规则。对英雄满层E爆炸另需因果入口，本规则不表示该分支。",
+        "eventSource": {
+          "eventType": "TAKEDOWN",
+          "detail": {}
+        },
+        "maxTriggersPerProcess": null,
+        "name": "参与击杀英雄重置火箭跳跃",
+        "perTargetCooldown": null,
+        "sortOrder": 20
+      },
+      "expectedStatus": 400,
+      "expectedCode": "400.INVALID_SKILL_TRIGGER_RULE_REFERENCE"
+    },
+    {
+      "name": "英雄类别不保护参与击杀伤害自循环",
+      "body": {
+        "actions": [
+          {
+            "actionKey": "reset_jump",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "landing_hit"
+            },
+            "name": "重置火箭跳跃冷却",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_only",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              }
+            ],
+            "groupKey": "killed_target",
+            "name": "被击杀对象",
+            "sortOrder": 10
+          }
+        ],
+        "description": "来源对象被正式记为本次英雄死亡的击杀者或助攻参与者时重置W冷却；同次死亡只使用此入口，不再并存本人击杀重置规则。对英雄满层E爆炸另需因果入口，本规则不表示该分支。",
+        "eventSource": {
+          "eventType": "TAKEDOWN",
+          "detail": {}
+        },
+        "maxTriggersPerProcess": null,
+        "name": "参与击杀英雄重置火箭跳跃",
+        "perTargetCooldown": null,
+        "sortOrder": 20
+      },
+      "expectedStatus": 400,
+      "expectedCode": "400.TRIGGER_RULE_CYCLE_UNGUARDED"
+    }
+  ],
+  "businessWrites": 0
+}

@@ -1,0 +1,304 @@
+{
+  "recordedAt": "2026-09-20T15:12:56.754Z",
+  "clientVersion": "16.17",
+  "ddragonVersion": "16.17.1",
+  "evidenceLayer": "固定版本来源核对；未执行管理写入或战斗运行",
+  "sources": [
+    {
+      "champion": "Tristana",
+      "version": "16.17.1",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Tristana.json",
+      "sha256": "2ad512109196fbfa13b18ae21b3b47ba6eab2ce057ab5c198816c8177b7d7162",
+      "ability": {
+        "id": "TristanaW",
+        "name": "Rocket Jump",
+        "description": "Tristana fires at the ground to propel her to a distant location, dealing damage and slowing surrounding units for a brief period where she lands.",
+        "tooltip": "Tristana launches herself, dealing <magicDamage>{{ landingdamage }} magic damage</magicDamage> and <status>Slowing</status> by {{ slowmod*-100 }}% for {{ slowduration }} seconds upon landing.<br /><br />Champion takedowns and max stack <spellName>Explosive Charge</spellName> detonations on champions refresh this Ability's Cooldown.{{ spellmodifierdescriptionappend }}",
+        "leveltip": {
+          "label": [
+            "Damage",
+            "Cooldown",
+            "@AbilityResourceName@ Cost"
+          ],
+          "effect": [
+            "{{ basedamage }} -> {{ basedamageNL }}",
+            "{{ cooldown }} -> {{ cooldownNL }}",
+            "{{ cost }} -> {{ costNL }}"
+          ]
+        },
+        "maxrank": 5,
+        "cooldown": [
+          22,
+          20,
+          18,
+          16,
+          14
+        ],
+        "cooldownBurn": "22/20/18/16/14",
+        "cost": [
+          30,
+          35,
+          40,
+          45,
+          50
+        ],
+        "costBurn": "30/35/40/45/50",
+        "datavalues": {},
+        "effect": [
+          null,
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        ],
+        "effectBurn": [
+          null,
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        "vars": [],
+        "costType": " {{ abilityresourcename }}",
+        "maxammo": "-1",
+        "range": [
+          900,
+          900,
+          900,
+          900,
+          900
+        ],
+        "rangeBurn": "900",
+        "image": {
+          "full": "TristanaW.png",
+          "sprite": "spell14.png",
+          "group": "spell",
+          "x": 48,
+          "y": 144,
+          "w": 48,
+          "h": 48
+        },
+        "resource": "{{ cost }} {{ abilityresourcename }}"
+      }
+    },
+    {
+      "champion": "MasterYi",
+      "version": "16.17.1",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/MasterYi.json",
+      "sha256": "11b8f0b3b614c71f45cc0d12a8971c7bc054a2a0a3c86c251ca9ac80324530e4",
+      "ability": {
+        "id": "Highlander",
+        "name": "Highlander",
+        "description": "Master Yi moves with unparalleled agility, temporarily increasing his Move Speed and Attack Speed as well as making him immune to all slowing effects. While active, Champion kills or assists extend Highlander's duration. Passively reduces cooldown for his other abilities on a kill or assist.",
+        "tooltip": "<spellPassive>Passive:</spellPassive> Champion takedowns reduce the remaining Cooldown of Master Yi's basic Abilities by {{ rcooldownrefund*100 }}%.<br /><br /><spellActive>Active:</spellActive> Master Yi enters a trance, gaining <speed>{{ rmsbonus }}% Move Speed</speed>, <attackSpeed>{{ rasbonus }}% Attack Speed</attackSpeed>, and immunity to <status>Slows</status> for {{ rduration }} seconds. Champion takedowns extend the duration of this Ability by {{ rkillassistextension }} seconds.{{ spellmodifierdescriptionappend }}",
+        "leveltip": {
+          "label": [
+            "Attack Speed",
+            "Move Speed"
+          ],
+          "effect": [
+            "{{ rasbonus }}% -> {{ rasbonusNL }}%",
+            "{{ rmsbonus }}% -> {{ rmsbonusNL }}%"
+          ]
+        },
+        "maxrank": 3,
+        "cooldown": [
+          85,
+          85,
+          85
+        ],
+        "cooldownBurn": "85",
+        "cost": [
+          100,
+          100,
+          100
+        ],
+        "costBurn": "100",
+        "datavalues": {},
+        "effect": [
+          null,
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "effectBurn": [
+          null,
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        "vars": [],
+        "costType": " {{ abilityresourcename }}",
+        "maxammo": "-1",
+        "range": [
+          1,
+          1,
+          1
+        ],
+        "rangeBurn": "1",
+        "image": {
+          "full": "Highlander.png",
+          "sprite": "spell9.png",
+          "group": "spell",
+          "x": 48,
+          "y": 0,
+          "w": 48,
+          "h": 48
+        },
+        "resource": "{{ cost }} {{ abilityresourcename }}"
+      }
+    },
+    {
+      "champion": "Katarina",
+      "version": "16.17.1",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Katarina.json",
+      "sha256": "93dd12e52bf0482cdd305a305feac59d5d4ea685881c3c2b7f29944b9b7cdc38",
+      "ability": {
+        "name": "Voracity",
+        "description": "Whenever an enemy champion dies that Katarina has damaged recently, her remaining ability cooldowns are dramatically reduced.<br><br>If Katarina picks up a <font color='#FFF673'>Dagger</font>, she uses it to slash through all nearby enemies, dealing magic damage.",
+        "image": {
+          "full": "Katarina_Passive.png",
+          "sprite": "passive2.png",
+          "group": "passive",
+          "x": 0,
+          "y": 0,
+          "w": 48,
+          "h": 48
+        }
+      }
+    }
+  ],
+  "conclusions": {
+    "tristanaW": "英雄参与击杀刷新W冷却，和英雄身上满层E爆炸为两个入口；本次只扩充原本人击杀入口。",
+    "sameVersionTermBridge": "MasterYi同一16.17.1文件的R description使用kills or assists，tooltip使用takedowns，对同一冷却返还和持续延长描述给出词义对应。",
+    "excludedInference": "Katarina被动最近伤害窗口不是正式助攻归属；不套用。",
+    "rejectedSource": "代理提供的Wr_takedown为手游页面，不采用；无需据其定义PC端事件。"
+  },
+  "writes": 0
+}

@@ -1,0 +1,319 @@
+{
+  "at": "2026-09-20T15:33:55.786Z",
+  "mode": "BROWSER_UI_ONLY",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "skillKey": "tristana_w",
+  "ownerKey": "champion_tristana",
+  "sourceEvidenceSha256": "db3832d488c72aa6d40e8dfb6c6bf2933f0a90e8bbdde711b3924f9322b59617",
+  "baselineSha256": "c42f8e6dd9e62b7f4a2724a4d11845abf03b9e11be03b94b69ac1c5d999174b3",
+  "requests": [
+    {
+      "method": "PUT",
+      "path": "/skills/tristana_w/trigger-rules/own_kill_reset",
+      "before": {
+        "actions": [
+          {
+            "actionKey": "reset_jump",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "reset_jump"
+            },
+            "name": "重置火箭跳跃冷却",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_only",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              }
+            ],
+            "groupKey": "killed_target",
+            "name": "被击杀对象",
+            "sortOrder": 10
+          }
+        ],
+        "description": "只表达来源对象本人完成英雄击杀时的冷却重置；不表示参与击杀，也不包含满层爆炸分支。",
+        "eventSource": {
+          "detail": {},
+          "eventType": "KILL"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "本人击杀英雄重置火箭跳跃",
+        "perTargetCooldown": null,
+        "ruleKey": "own_kill_reset",
+        "sortOrder": 20
+      },
+      "body": {
+        "actions": [
+          {
+            "actionKey": "reset_jump",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "reset_jump"
+            },
+            "name": "重置火箭跳跃冷却",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_only",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              }
+            ],
+            "groupKey": "killed_target",
+            "name": "被击杀对象",
+            "sortOrder": 10
+          }
+        ],
+        "description": "来源对象被正式记为本次英雄死亡的击杀者或助攻参与者时重置W冷却；同次死亡只使用此入口，不再并存本人击杀重置规则。对英雄满层E爆炸另需因果入口，本规则不表示该分支。",
+        "eventSource": {
+          "eventType": "TAKEDOWN",
+          "detail": {}
+        },
+        "maxTriggersPerProcess": null,
+        "name": "参与击杀英雄重置火箭跳跃",
+        "perTargetCooldown": null,
+        "sortOrder": 20
+      },
+      "expected": {
+        "actions": [
+          {
+            "actionKey": "reset_jump",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "reset_jump"
+            },
+            "name": "重置火箭跳跃冷却",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_only",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              }
+            ],
+            "groupKey": "killed_target",
+            "name": "被击杀对象",
+            "sortOrder": 10
+          }
+        ],
+        "description": "来源对象被正式记为本次英雄死亡的击杀者或助攻参与者时重置W冷却；同次死亡只使用此入口，不再并存本人击杀重置规则。对英雄满层E爆炸另需因果入口，本规则不表示该分支。",
+        "eventSource": {
+          "eventType": "TAKEDOWN",
+          "detail": {}
+        },
+        "maxTriggersPerProcess": null,
+        "name": "参与击杀英雄重置火箭跳跃",
+        "perTargetCooldown": null,
+        "ruleKey": "own_kill_reset",
+        "sortOrder": 20
+      },
+      "allowedChanges": [
+        "name",
+        "description",
+        "eventSource.eventType"
+      ]
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/tristana_w",
+      "before": {
+        "createdAt": "2026-09-06T18:20:41.015015Z",
+        "description": "火箭跳跃落地对附近敌人造成魔法伤害并减速。本轮已配置敌方英雄实际落地伤害、40%持续2秒首次减速、普通主动使用的法力/基础冷却/250毫秒施法过程，以及本人完成英雄击杀时重置W。助攻参与、对英雄满层E引爆重置与叠层、减速重施及完整护盾交互继续核定；跳跃路径与附近目标搜索沿既定范围后置，战斗运行未验证。来源：客户端16.17、官方静态资料16.17.1。",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "崔丝塔娜·火箭跳跃",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "tristana_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-20T14:45:26.684652Z"
+      },
+      "allowedChanges": [
+        "description"
+      ],
+      "body": {
+        "description": "火箭跳跃落地对附近敌人造成魔法伤害并减速。本轮已配置敌方英雄实际落地伤害、40%持续2秒首次减速、普通主动使用的法力/基础冷却/250毫秒施法过程，以及正式参与英雄击杀（击杀或助攻）时重置W。对英雄满层E引爆重置与叠层、减速重施及完整护盾交互继续核定；跳跃路径与附近目标搜索沿既定范围后置，战斗运行未验证。来源：客户端16.17、官方静态资料16.17.1。",
+        "maxLevel": 5,
+        "name": "崔丝塔娜·火箭跳跃",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "sortOrder": 2,
+        "status": "ENABLED"
+      },
+      "expected": {
+        "createdAt": "2026-09-06T18:20:41.015015Z",
+        "description": "火箭跳跃落地对附近敌人造成魔法伤害并减速。本轮已配置敌方英雄实际落地伤害、40%持续2秒首次减速、普通主动使用的法力/基础冷却/250毫秒施法过程，以及正式参与英雄击杀（击杀或助攻）时重置W。对英雄满层E引爆重置与叠层、减速重施及完整护盾交互继续核定；跳跃路径与附近目标搜索沿既定范围后置，战斗运行未验证。来源：客户端16.17、官方静态资料16.17.1。",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "崔丝塔娜·火箭跳跃",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "tristana_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-20T14:45:26.684652Z"
+      },
+      "serverManagedFields": [
+        "updatedAt"
+      ]
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/tristana_w/effects/reset_jump",
+      "before": {
+        "createdAt": "2026-09-07T17:59:40.679569Z",
+        "description": "来源对象自身W当前冷却重置，当前仅由本人完成英雄击杀规则执行。名称保留完整机制方向，但英雄助攻参与及对英雄满层E爆炸尚无对应准确入口，不因效果存在而视为已接通。",
+        "effectKey": "reset_jump",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "参与击杀或满层炸弹重置跳跃",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "affectedSkillScope": {
+                "mode": "SKILLS",
+                "skillCategoryKeys": [],
+                "skillKeys": [
+                  "tristana_w"
+                ]
+              },
+              "operation": "RESET"
+            },
+            "lifecycleBehavior": null,
+            "name": "参与击杀或满层炸弹重置跳跃",
+            "resultKey": "cooldown",
+            "resultType": "COOLDOWN_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": null
+          }
+        ],
+        "skillKey": "tristana_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-20T14:45:30.126206Z"
+      },
+      "allowedChanges": [
+        "description"
+      ],
+      "body": {
+        "description": "来源对象自身W当前冷却重置，由唯一正式英雄参与击杀（击杀或助攻）规则执行。对英雄满层E爆炸尚无准确因果入口，不因效果存在而视为已接通。",
+        "lifecycle": null,
+        "name": "参与击杀或满层炸弹重置跳跃",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "affectedSkillScope": {
+                "mode": "SKILLS",
+                "skillCategoryKeys": [],
+                "skillKeys": [
+                  "tristana_w"
+                ]
+              },
+              "operation": "RESET"
+            },
+            "lifecycleBehavior": null,
+            "name": "参与击杀或满层炸弹重置跳跃",
+            "resultKey": "cooldown",
+            "resultType": "COOLDOWN_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": null
+          }
+        ],
+        "sortOrder": 30
+      },
+      "expected": {
+        "createdAt": "2026-09-07T17:59:40.679569Z",
+        "description": "来源对象自身W当前冷却重置，由唯一正式英雄参与击杀（击杀或助攻）规则执行。对英雄满层E爆炸尚无准确因果入口，不因效果存在而视为已接通。",
+        "effectKey": "reset_jump",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "参与击杀或满层炸弹重置跳跃",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "affectedSkillScope": {
+                "mode": "SKILLS",
+                "skillCategoryKeys": [],
+                "skillKeys": [
+                  "tristana_w"
+                ]
+              },
+              "operation": "RESET"
+            },
+            "lifecycleBehavior": null,
+            "name": "参与击杀或满层炸弹重置跳跃",
+            "resultKey": "cooldown",
+            "resultType": "COOLDOWN_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": null
+          }
+        ],
+        "skillKey": "tristana_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-20T14:45:30.126206Z"
+      },
+      "serverManagedFields": [
+        "updatedAt"
+      ]
+    }
+  ],
+  "expectedCounts": {
+    "parameters": 8,
+    "formulas": 1,
+    "effects": 4,
+    "processes": 1,
+    "internalStates": 0,
+    "triggerRules": 4
+  },
+  "businessWrites": 0,
+  "precondition": "最终前后端代码和DB增量通过，写前3个GET确认全部原对象不变；每次页面保存后立即GET，未知结果先回读不重放。"
+}

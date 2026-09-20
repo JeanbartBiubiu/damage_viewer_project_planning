@@ -1,0 +1,14 @@
+{
+  "at": "2026-09-20T15:01:58.773Z",
+  "status": "READ_ONLY_DESIGN_PREPARATION",
+  "actualGap": "现有KILL只表示本人完成击杀；不等价于获记英雄击杀或助攻参与。",
+  "startingEvidence": {
+    "webCommit": "5ae62490",
+    "planningCommit": "97a58254",
+    "skillKey": "tristana_w",
+    "ruleKey": "own_kill_reset"
+  },
+  "businessWrites": 0,
+  "codeChanges": 0,
+  "runtimeBoundary": "只拟新增管理事件身份、保存校验和循环保护；不生产运行事件。"
+}

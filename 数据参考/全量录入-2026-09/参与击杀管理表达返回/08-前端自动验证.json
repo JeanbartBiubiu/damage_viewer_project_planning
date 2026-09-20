@@ -1,0 +1,89 @@
+{
+  "at": "2026-09-20T15:35:20.917Z",
+  "worktree": "C:/project/damage_web_dev",
+  "checks": [
+    {
+      "command": "npm run test -- src/services/skillTriggerRuleClient.test.ts src/pages/admin/skills/triggers/triggerRuleForm.test.ts src/pages/admin/skills/triggers/targetCategoryCondition.test.ts",
+      "result": "PASS",
+      "tests": 149,
+      "files": 3
+    },
+    {
+      "command": "npm run lint",
+      "result": "PASS",
+      "productionFiles": 141
+    },
+    {
+      "command": "npm run typecheck",
+      "result": "PASS"
+    },
+    {
+      "command": "npm run test",
+      "result": "PASS",
+      "tests": 739,
+      "files": 62
+    },
+    {
+      "command": "npm run build",
+      "result": "PASS",
+      "modules": 1292,
+      "warning": "既有产物体积提示，未新增构建失败"
+    },
+    {
+      "command": "npm run test:e2e:non-wasm -- --grep 'event counterpart category supports'",
+      "result": "PASS",
+      "tests": 1,
+      "mode": "生产构建预览，隔离模拟API；不等于真实业务保存",
+      "covered": [
+        "KILL原行为",
+        "TAKEDOWN空明细保存和重开",
+        "类别保留及切换清理确认",
+        "页面正式归属提示",
+        "页面诊断"
+      ]
+    }
+  ],
+  "files": [
+    {
+      "path": "web/README.md",
+      "sha256LF": "20863285584d3474f725a023cec15750ed4ef12aee10ce89f1ca32fe0af66e2d"
+    },
+    {
+      "path": "web/src/pages/admin/skills/triggers/SkillTriggerRuleEditorModal.tsx",
+      "sha256LF": "5089a4c757dcf1ee3a3b6637e355f3de362d8b82825a58c081e6040210d88edb"
+    },
+    {
+      "path": "web/src/pages/admin/skills/triggers/targetCategoryCondition.test.ts",
+      "sha256LF": "ef480b21b1c31102db4521ef187f5c56fe6142bd1eb308d9dc59624702300041"
+    },
+    {
+      "path": "web/src/pages/admin/skills/triggers/targetCategoryCondition.ts",
+      "sha256LF": "f2441e62b9ebec614875559d819c3cfdde3f4f94a9907f0269a3799b7f5a536b"
+    },
+    {
+      "path": "web/src/pages/admin/skills/triggers/triggerRuleForm.test.ts",
+      "sha256LF": "ad8914a1d2ffdbd92cda3a8bd7907bb5422eebad890b28e1cfd8a95ef6364a27"
+    },
+    {
+      "path": "web/src/pages/admin/skills/triggers/triggerRuleForm.ts",
+      "sha256LF": "7d7d35213310f0f9446a4ddba866b7a035268daf09091e122d20a9fd52228c72"
+    },
+    {
+      "path": "web/src/services/skillTriggerRuleClient.test.ts",
+      "sha256LF": "9858a2128edfddffc02db1916b5b36aed38321d6d9859e8c0cb43139db42869e"
+    },
+    {
+      "path": "web/src/services/skillTriggerRuleClient.ts",
+      "sha256LF": "cef3e88771b5b5debcd9127ac3251a6fa5292ba1ad8b48d905e5e2320d62601e"
+    },
+    {
+      "path": "web/src/types/skillTriggerRule.ts",
+      "sha256LF": "3f76585666dd7adf92fef9be6db880bf3c1b3774090018d5f1992b384a9deae1"
+    },
+    {
+      "path": "web/tests/e2e/non-wasm-pages.spec.ts",
+      "sha256LF": "999512590cfe6f28524daf4bb6c01934cc3a92e165711676341a8f1357ddb79f"
+    }
+  ],
+  "businessWrites": 0
+}

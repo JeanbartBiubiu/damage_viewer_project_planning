@@ -1,0 +1,141 @@
+{
+  "at": "2026-09-20T15:54:04.505Z",
+  "mode": "BROWSER_UI_ONLY",
+  "successfulSaves": [
+    {
+      "path": "/skills/tristana_w/trigger-rules/own_kill_reset",
+      "browserResult": "保存提示和重新打开均一致"
+    },
+    {
+      "path": "/skills/tristana_w",
+      "browserResult": "主体保存提示和实际重开说明一致"
+    },
+    {
+      "path": "/skills/tristana_w/effects/reset_jump",
+      "browserResult": "效果保存提示、重新打开说明与原唯一SOURCE冷却重置结果一致"
+    }
+  ],
+  "reads": [
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/trigger-rules/own_kill_reset",
+      "status": 200,
+      "value": {
+        "actions": [
+          {
+            "actionKey": "reset_jump",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "reset_jump"
+            },
+            "name": "重置火箭跳跃冷却",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_only",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              }
+            ],
+            "groupKey": "killed_target",
+            "name": "被击杀对象",
+            "sortOrder": 10
+          }
+        ],
+        "description": "来源对象被正式记为本次英雄死亡的击杀者或助攻参与者时重置W冷却；同次死亡只使用此入口，不再并存本人击杀重置规则。对英雄满层E爆炸另需因果入口，本规则不表示该分支。",
+        "eventSource": {
+          "detail": {},
+          "eventType": "TAKEDOWN"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "参与击杀英雄重置火箭跳跃",
+        "perTargetCooldown": null,
+        "ruleKey": "own_kill_reset",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w",
+      "status": 200,
+      "value": {
+        "createdAt": "2026-09-06T18:20:41.015015Z",
+        "description": "火箭跳跃落地对附近敌人造成魔法伤害并减速。本轮已配置敌方英雄实际落地伤害、40%持续2秒首次减速、普通主动使用的法力/基础冷却/250毫秒施法过程，以及正式参与英雄击杀（击杀或助攻）时重置W。对英雄满层E引爆重置与叠层、减速重施及完整护盾交互继续核定；跳跃路径与附近目标搜索沿既定范围后置，战斗运行未验证。来源：客户端16.17、官方静态资料16.17.1。",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "崔丝塔娜·火箭跳跃",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "tristana_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-20T15:54:58.707711Z"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/effects/reset_jump",
+      "status": 200,
+      "value": {
+        "createdAt": "2026-09-07T17:59:40.679569Z",
+        "description": "来源对象自身W当前冷却重置，由唯一正式英雄参与击杀（击杀或助攻）规则执行。对英雄满层E爆炸尚无准确因果入口，不因效果存在而视为已接通。",
+        "effectKey": "reset_jump",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "参与击杀或满层炸弹重置跳跃",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "affectedSkillScope": {
+                "mode": "SKILLS",
+                "skillCategoryKeys": [],
+                "skillKeys": [
+                  "tristana_w"
+                ]
+              },
+              "operation": "RESET"
+            },
+            "lifecycleBehavior": null,
+            "name": "参与击杀或满层炸弹重置跳跃",
+            "resultKey": "cooldown",
+            "resultType": "COOLDOWN_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": null
+          }
+        ],
+        "skillKey": "tristana_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-20T15:56:48.572755Z"
+      }
+    }
+  ],
+  "browserAcceptance": {
+    "at": "2026-09-20T16:00:36.972Z",
+    "pages": [
+      "参与击杀规则保存重开，英雄条件及唯一动作保持",
+      "技能主体说明保存重开",
+      "重置效果说明保存重开，原结果保持"
+    ],
+    "pageDiagnostics": [],
+    "allModalsClosed": true,
+    "retainedFilter": "tristana_w",
+    "actualBrowserSuccessfulSaves": 3,
+    "earlierRejectedAttemptEvidence": "09-旧服务拒绝与原规则回读.json"
+  }
+}
