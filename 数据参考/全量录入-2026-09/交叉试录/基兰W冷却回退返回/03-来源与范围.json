@@ -1,0 +1,164 @@
+{
+  "at": "2026-09-20T12:31:29.504Z",
+  "status": "READY_FOR_BOUNDED_REVIEW",
+  "sourceVersion": {
+    "client": "16.17",
+    "official": "16.17.1"
+  },
+  "skillKey": "zilean_w",
+  "rootBinding": {
+    "character": "Characters/Zilean/CharacterRecords/Root",
+    "slotIndex": 1,
+    "root": "Characters/Zilean/Spells/ZileanWAbility/ZileanW",
+    "abilityRoot": "Characters/Zilean/Spells/ZileanWAbility/ZileanW"
+  },
+  "official": {
+    "description": "基兰为未来的对抗做准备，减少他所有其它基础技能的冷却时间。",
+    "tooltip": "基兰倒转时间，使他其它基础技能的冷却时间缩短{{ cooldownreduction }}秒。{{ spellmodifierdescriptionappend }}",
+    "cost": [
+      35,
+      35,
+      35,
+      35,
+      35
+    ],
+    "cooldown": [
+      14,
+      12,
+      10,
+      8,
+      6
+    ]
+  },
+  "primaryData": {
+    "cooldownReduction": {
+      "name": "CooldownReduction",
+      "values": [
+        10,
+        10,
+        10,
+        10,
+        10,
+        10,
+        10
+      ],
+      "__type": "SpellDataValue"
+    },
+    "manaCost": {
+      "name": "ManaCost",
+      "values": [
+        35,
+        35,
+        35,
+        35,
+        35,
+        35,
+        35
+      ],
+      "__type": "SpellDataValue"
+    },
+    "rootCooldown": [
+      16,
+      14,
+      12,
+      10,
+      8,
+      6,
+      6
+    ],
+    "selfTarget": {
+      "__type": "Self"
+    },
+    "rawSpellCastTime": 0.5182999968528748,
+    "mDoesNotConsumeMana": true
+  },
+  "sourceDecisions": [
+    "当前正文引用CooldownReduction，10秒转10000毫秒；旧mEffectAmount第一列20至60不作为冷却缩减来源。",
+    "其它基础技能按当前角色Q/W/E槽位排除W自身，明确引用zilean_q与zilean_e；当前挂载和普通技能分类均已核对，不包括R、W或全局所有基础技能。",
+    "普通法力35与自身基础冷却14/12/10/8/6秒由官方及当前命名字段共同确认；客户端mDoesNotConsumeMana保留，不将其解释成实际消耗为0。",
+    "只建立普通主动使用的登记过程，立即步骤不声明0施放时长；0.5183秒字段的有效含义和非整数毫秒精度继续单列，不取整。"
+  ],
+  "referenceEvidence": {
+    "path": "02-引用技能与法力现值.json",
+    "sha256": "1f799435e23ecc5657f2cc46ab375c5f1311e53a42af9ac66d1784463dcabdf6",
+    "sourceOwnedSkillKeys": [
+      "zilean_q",
+      "zilean_w",
+      "zilean_e"
+    ],
+    "affectedSkillKeys": [
+      "zilean_q",
+      "zilean_e"
+    ],
+    "existingTargetRuleEvents": {
+      "zilean_q": [],
+      "zilean_e": [
+        "SKILL_USED"
+      ]
+    }
+  },
+  "plannedBehavior": {
+    "effects": [
+      "mana_cost",
+      "rewind_basic_cooldowns"
+    ],
+    "process": "use_cost_cooldown_and_rewind",
+    "rule": "on_used_cost_cooldown_and_rewind",
+    "order": [
+      "两个效果",
+      "登记过程，开始时依次消耗法力与减少Q/E当前冷却",
+      "主动使用入口只启动过程"
+    ]
+  },
+  "sourceFiles": [
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Zilean.json.gz",
+      "sha256": "33de2eb35de066e983e53ea06d1aede5cc1a920699cbbf7f1b14236f785c5e2d"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Zilean.json",
+      "sha256": "358afc4390e66600ad8d7f1ed35cdaed8456a1e2f25c85fe0962ded936c285b6"
+    }
+  ],
+  "managementBoundary": "保存冷却减少的明确范围、数值和普通使用登记；不证明实际可施放资格、计时执行、资源扣除或冷却变化已运行，原始施放时长待核，不计整技能完整。",
+  "businessWrites": 0,
+  "levelChecks": [
+    {
+      "rank": 1,
+      "cooldownMs": 14000,
+      "otherBasicCooldownReductionMs": 10000,
+      "mana": 35,
+      "pass": true
+    },
+    {
+      "rank": 2,
+      "cooldownMs": 12000,
+      "otherBasicCooldownReductionMs": 10000,
+      "mana": 35,
+      "pass": true
+    },
+    {
+      "rank": 3,
+      "cooldownMs": 10000,
+      "otherBasicCooldownReductionMs": 10000,
+      "mana": 35,
+      "pass": true
+    },
+    {
+      "rank": 4,
+      "cooldownMs": 8000,
+      "otherBasicCooldownReductionMs": 10000,
+      "mana": 35,
+      "pass": true
+    },
+    {
+      "rank": 5,
+      "cooldownMs": 6000,
+      "otherBasicCooldownReductionMs": 10000,
+      "mana": 35,
+      "pass": true
+    }
+  ]
+}

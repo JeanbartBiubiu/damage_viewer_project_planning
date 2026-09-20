@@ -1,0 +1,89 @@
+{
+  "at": "2026-09-20T12:26:30.498Z",
+  "values": {
+    "/skills/zilean_q": {
+      "createdAt": "2026-09-06T18:21:24.660613Z",
+      "description": "将一颗炸弹扔向目标区域，炸弹会附着在靠近它的单位身上（英雄优先）。炸弹会在3秒后爆炸，造成范围魔法伤害。如果炸弹被另一颗定时炸弹给提前引爆，那么还会使敌人晕眩。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "基兰·定时炸弹",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "zilean_q",
+      "sortOrder": 1,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:21:24.660613Z"
+    },
+    "/skills/zilean_e": {
+      "createdAt": "2026-09-06T18:21:25.233966Z",
+      "description": "基兰扭曲任意单位的时光，短时间内提升友方单位移动速度或减少敌方单位移动速度。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "基兰·时光发条",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "zilean_e",
+      "sortOrder": 3,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:21:25.233966Z"
+    },
+    "/skills/zilean_q/trigger-rules": [],
+    "/skills/zilean_e/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "每次本技能主动使用启动专门的消耗与冷却登记过程；不定义完整施法时长，不代替命中、治疗、护盾、球或其他未完成分支。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "主动使用登记消耗与冷却",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used_cost_and_cooldown",
+        "sortOrder": 5,
+        "updatedAt": "2026-09-18T20:26:14.013474Z"
+      }
+    ],
+    "/attributes/mana": {
+      "attributeKey": "mana",
+      "createdAt": "2026-08-22T15:27:36.139767Z",
+      "description": null,
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法力值",
+      "sortOrder": 310,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-22T15:27:36.139767Z",
+      "valueType": "DECIMAL"
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/zilean_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/mana",
+      "status": 200
+    }
+  ],
+  "businessWrites": 0
+}

@@ -1,0 +1,59 @@
+{
+  "at": "2026-09-20T13:15:44.244Z",
+  "status": "MANAGEMENT_COMPONENT_RETURN_PASS",
+  "skillKey": "zilean_w",
+  "sourceVersion": {
+    "client": "16.17",
+    "official": "16.17.1"
+  },
+  "businessSaves": 7,
+  "newComponentPOSTs": 4,
+  "descriptionPUTs": 3,
+  "immediateReadbacks": 7,
+  "independentGETs": 41,
+  "readbackParts": {
+    "newComponents": 22,
+    "crossSkillReferences": 4,
+    "descriptionUpdates": 15
+  },
+  "currentComponentCounts": {
+    "parameters": 4,
+    "formulas": 0,
+    "effects": 2,
+    "processes": 1,
+    "internalStates": 0,
+    "triggerRules": 1
+  },
+  "levelChecks": 5,
+  "representativePages": 5,
+  "diagnosticWarningsOrErrors": 0,
+  "wholeSkillComplete": false,
+  "remaining": [
+    "原始spellCastTime约0.5183秒的有效施放含义及非整数毫秒精度待同版来源核定；不取整或解释成零。"
+  ],
+  "closedHistoricalPending": [
+    {
+      "item": "W对Q/E的冷却联动",
+      "resolution": "明确Q/E范围与10秒减少已接普通使用登记；实际计时未作为运行验收。"
+    },
+    {
+      "item": "mDoesNotConsumeMana与公共法力",
+      "resolution": "35法力已按官方与当前命名字段核定并接普通登记；自动扣费标志不代表零成本。"
+    }
+  ],
+  "cursorReview": {
+    "runId": "run-79b5be0c-1bc3-42b0-80bd-c8348b4777df",
+    "status": "finished",
+    "verdict": "READY",
+    "runDeltaCount": 0,
+    "eventAudit": "PASS"
+  },
+  "recoveryNotes": [
+    "读回代理因服务繁忙退出前已落盘22GET主报告；核查后保留，只补尚缺的4GET引用核对。",
+    "接手引用核对的第一次子进程脚本在解析阶段失败，零HTTP；修正后仅成功执行4GET。",
+    "说明写入第一次工具准备因不允许导入node:process中止，未产生06及业务请求；改用绝对Node路径和仅冻结摘要环境后3PUT成功。"
+  ],
+  "newTables": 0,
+  "codeChanges": 0,
+  "runtimeValidation": "未执行"
+}

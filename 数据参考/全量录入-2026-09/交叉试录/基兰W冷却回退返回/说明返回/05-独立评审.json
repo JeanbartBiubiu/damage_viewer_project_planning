@@ -1,0 +1,129 @@
+{
+  "schemaVersion": 1,
+  "at": "2026-09-20T13:11:40.160Z",
+  "status": "APPROVED",
+  "reviewer": "zilean_w_description_independent_review",
+  "methodPolicy": "LOCAL_FILES_ONLY_NO_HTTP_SQL_UI",
+  "businessWrites": 0,
+  "reviewerHTTPRequests": 0,
+  "reviewerSQLRequests": 0,
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-descriptions-v2.mjs": "f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517",
+    "01-纠错计划.json": "323d26c28454eaef0c528e58561c5ab451b120393fbd2620046b9b491e7d2c69",
+    "02-冻结请求.json": "9f693baf6e2cc81588bafb437f09a500eac30e3876927ac37d7ef1fd366ef034",
+    "03-来源摘要.json": "60367a822983adefe97f1c2fede2e2166a232e1b36c0833124787f9bfc28f2d4",
+    "04-写入前现值.json": "4a01f7d9a13f49d536ea150f2a1d7674d9aacb4b6fea465b9a86c41745dcf462"
+  },
+  "sourceChecks": {
+    "sourceCount": 3,
+    "sourceShaMatches": true,
+    "entries": [
+      {
+        "root": "web",
+        "path": "数据参考/全量录入-2026-09/交叉试录/基兰W冷却回退返回/03-来源与范围.json",
+        "expectedSha256": "65985f496b0467be4e72d98f473833accae0b0955d72aa824dae9fb9485e8c1a",
+        "actualSha256": "65985f496b0467be4e72d98f473833accae0b0955d72aa824dae9fb9485e8c1a",
+        "matches": true
+      },
+      {
+        "root": "web",
+        "path": "数据参考/全量录入-2026-09/交叉试录/基兰W冷却回退返回/正式返回/07-独立回读.json",
+        "expectedSha256": "adf8e46edf20b1a785156816f5dfd225ca47c661259fbe554b1b584b65e1e50e",
+        "actualSha256": "adf8e46edf20b1a785156816f5dfd225ca47c661259fbe554b1b584b65e1e50e",
+        "matches": true
+      },
+      {
+        "root": "web",
+        "path": "数据参考/全量录入-2026-09/交叉试录/基兰W冷却回退返回/06-引用独立回读.json",
+        "expectedSha256": "c3b5b575432f9caa3a321d354120288d27ddb4db23e2d434daf74a07f23d1cbb",
+        "actualSha256": "c3b5b575432f9caa3a321d354120288d27ddb4db23e2d434daf74a07f23d1cbb",
+        "matches": true
+      }
+    ]
+  },
+  "protectedBaseline": {
+    "path": "04-写入前现值.json",
+    "sha256": "4a01f7d9a13f49d536ea150f2a1d7674d9aacb4b6fea465b9a86c41745dcf462",
+    "businessWrites": 0,
+    "auditGETCount": 15,
+    "allGET200": true
+  },
+  "requestReview": {
+    "method": "PUT",
+    "requestCount": 3,
+    "routes": [
+      "/skills/zilean_w",
+      "/skills/zilean_w/parameters/mana_cost",
+      "/skills/zilean_w/parameters/cooldown_ms"
+    ],
+    "bodyFieldsByRoute": [
+      {
+        "route": "/skills/zilean_w",
+        "fields": [
+          "name",
+          "description",
+          "maxLevel",
+          "status",
+          "sortOrder",
+          "skillCategoryKeys"
+        ]
+      },
+      {
+        "route": "/skills/zilean_w/parameters/mana_cost",
+        "fields": [
+          "name",
+          "description",
+          "valueType",
+          "valueMode",
+          "fixedValue",
+          "levelValues",
+          "sortOrder"
+        ]
+      },
+      {
+        "route": "/skills/zilean_w/parameters/cooldown_ms",
+        "fields": [
+          "name",
+          "description",
+          "valueType",
+          "valueMode",
+          "fixedValue",
+          "levelValues",
+          "sortOrder"
+        ]
+      }
+    ],
+    "changedBusinessFields": [
+      "description"
+    ],
+    "unchangedBodyFields": true,
+    "expectedReadbackChanges": [
+      "description",
+      "updatedAt"
+    ]
+  },
+  "checks": {
+    "planTargetsExactlyRootManaCooldown": true,
+    "sourceFilesMatchPlanAndCurrentBytes": true,
+    "frozenSourceShaMatches": true,
+    "frozenBaselineShaMatches": true,
+    "requestsExactlyThreePUT": true,
+    "onlyDescriptionChangesInBodies": true,
+    "expectedReadbacksMatchBaselineExceptDescription": true,
+    "baselineBusinessWrites0": true,
+    "baselineGETOnlySuccessful": true,
+    "reviewerHTTP0": true,
+    "reviewerSQL0": true
+  },
+  "scope": {
+    "included": "仅修正基兰W根说明、基础法力消耗说明和基础冷却说明。",
+    "excluded": [
+      "有效施放时间及非整数毫秒精度",
+      "运行时资源扣除、冷却计时和实际可施放资格",
+      "其他效果、过程、规则或来源数据"
+    ]
+  },
+  "decision": "APPROVED：三条冻结请求均只替换说明字段，其他详情字段与写前现值保持一致；工具和来源文件摘要按现场字节计算。",
+  "runtimeValidation": "未执行",
+  "wholeSkillComplete": false
+}

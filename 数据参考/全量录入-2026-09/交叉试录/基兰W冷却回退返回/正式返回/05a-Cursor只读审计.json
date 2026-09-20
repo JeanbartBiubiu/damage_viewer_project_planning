@@ -1,0 +1,158 @@
+{
+  "at": "2026-09-20T12:53:42.387Z",
+  "status": "PASS",
+  "runId": "run-79b5be0c-1bc3-42b0-80bd-c8348b4777df",
+  "resultStatus": "finished",
+  "model": {
+    "id": "grok-4.6",
+    "params": [
+      {
+        "id": "effort",
+        "value": "high"
+      },
+      {
+        "id": "fast",
+        "value": "false"
+      }
+    ]
+  },
+  "verdict": "READY",
+  "reviewedPlanRev": "zilean-w-v1-ef3f99a6b6db146fde9c8123eaa44289613fd9554581e21018eb1c609f21e447",
+  "auditAvailable": true,
+  "runDeltaCount": 0,
+  "preexistingOutsideScopeCount": 10,
+  "runDeltaOutsideScopeCount": 0,
+  "eventsParseable": true,
+  "toolEventCount": 159,
+  "uniqueToolCalls": 80,
+  "truncatedToolEvents": 0,
+  "toolKinds": [
+    "read",
+    "glob",
+    "shell",
+    "grep"
+  ],
+  "shellAudit": [
+    {
+      "callId": "call-65e200ff-5c76-4d13-a7c7-cd729ed4ab8d-4",
+      "length": 208,
+      "firstLine": "git -c safe.directory=C:/project/damage_web_dev rev-parse --show-toplevel; git -c safe.directory=C:/project/damage_web_dev branch --show-cur",
+      "fsCalls": [],
+      "dangerousFileCalls": false,
+      "networkCalls": false,
+      "processCalls": false,
+      "shellMutations": false,
+      "sha256": "c54df2400f576ec1b0614df6ff0e372532cd48a8814b034cfec7d3f4e7d6918a"
+    },
+    {
+      "callId": "call-b6770daa-bd36-4be4-b632-a0c850a00b41-12",
+      "length": 493,
+      "firstLine": "Get-FileHash -Algorithm SHA256 \"C:\\project\\damage_web_dev\\tools\\authoring\\append-reviewed-skill-components-v3.mjs\",\"C:\\project\\damage_web_de",
+      "fsCalls": [],
+      "dangerousFileCalls": false,
+      "networkCalls": false,
+      "processCalls": false,
+      "shellMutations": false,
+      "sha256": "b90c47d4636cf8acf9d769607b0b5833db0e279839c374652057567a3d448f60"
+    },
+    {
+      "callId": "call-60eb9f8a-29bb-4bff-b976-404b354e7519-19",
+      "length": 2174,
+      "firstLine": "$files = @(",
+      "fsCalls": [],
+      "dangerousFileCalls": false,
+      "networkCalls": false,
+      "processCalls": false,
+      "shellMutations": false,
+      "sha256": "b81381ac4f6b29459e12e978f5e56fc40133fe7ce78a80f8d72df19b3940e6d7"
+    },
+    {
+      "callId": "call-6a8c3809-0cab-48a3-9542-2f4fbb678799-64",
+      "length": 6100,
+      "firstLine": "node --input-type=module -e \"",
+      "fsCalls": [
+        "readFileSync"
+      ],
+      "dangerousFileCalls": false,
+      "networkCalls": false,
+      "processCalls": false,
+      "shellMutations": false,
+      "sha256": "88a11265fe6832d5c568128896e4e0b5bb58819385ede17c30f6e294fc376cac"
+    },
+    {
+      "callId": "call-f9cbe2e0-684e-438a-a5db-9e56612d937b-65",
+      "length": 2875,
+      "firstLine": "node --input-type=module -e \"",
+      "fsCalls": [
+        "readFileSync"
+      ],
+      "dangerousFileCalls": false,
+      "networkCalls": false,
+      "processCalls": false,
+      "shellMutations": false,
+      "sha256": "2466b7b2597e6fe7c996aa4c34364938d493a131a602826d4bfc03b9c3da5611"
+    },
+    {
+      "callId": "call-f549656c-e947-4b0a-86b8-7e97b8cfcb91-66",
+      "length": 2169,
+      "firstLine": "node --input-type=module -e \"",
+      "fsCalls": [
+        "readFileSync"
+      ],
+      "dangerousFileCalls": false,
+      "networkCalls": false,
+      "processCalls": false,
+      "shellMutations": false,
+      "sha256": "945ba0434bbeb46f2a0fab60354e56f905a48c8be60378e11be04f8550880e42"
+    },
+    {
+      "callId": "call-50447b4e-b3ba-4ebd-ad68-a711c98782f1-67",
+      "length": 2185,
+      "firstLine": "node --input-type=module -e \"",
+      "fsCalls": [
+        "readFileSync"
+      ],
+      "dangerousFileCalls": false,
+      "networkCalls": false,
+      "processCalls": false,
+      "shellMutations": false,
+      "sha256": "7931cfb7749679eb6a6113712837dfdf2d6f991c01bcd11a6181f187ed25c15a"
+    },
+    {
+      "callId": "call-8f22aed2-9c02-48dd-b663-452dadaa4b8d-79",
+      "length": 458,
+      "firstLine": "git -c safe.directory=C:/project/damage_web_dev status --short; node --input-type=module -e \"",
+      "fsCalls": [
+        "readFileSync"
+      ],
+      "dangerousFileCalls": false,
+      "networkCalls": false,
+      "processCalls": false,
+      "shellMutations": false,
+      "sha256": "ab9a8c6260aeeedb317935291de2c7d7b131045fe16be469e2cf4a918a8c7ae1"
+    }
+  ],
+  "mutatingToolEvidence": [],
+  "businessWrites": 0,
+  "HTTP": 0,
+  "SQL": 0,
+  "rawArtifacts": [
+    {
+      "path": ".agents/artifacts/zilean-w-review-1789907808540/summary.json",
+      "sha256": "29f3820a65a33b1f59fa2d5a3d89100d785de08979f57fecfa0c8f569e8852e9"
+    },
+    {
+      "path": ".agents/artifacts/zilean-w-review-1789907808540/events.jsonl",
+      "sha256": "7808688b2a156980e5e0f71216e4c288d7d995b42f0e2deb4b8ecdee6435174d"
+    },
+    {
+      "path": ".agents/artifacts/zilean-w-review-1789907808540/path-signatures-before.json",
+      "sha256": "f389797be6f208dd228e769d10aa26cf5835de807c53548f9997d187db27e3b2"
+    },
+    {
+      "path": ".agents/artifacts/zilean-w-review-1789907808540/path-signatures-after.json",
+      "sha256": "f389797be6f208dd228e769d10aa26cf5835de807c53548f9997d187db27e3b2"
+    }
+  ],
+  "assistantText": "按只读审查执行：先核对工作树与必读文件，再计算真实 SHA，并对照冻结请求、来源与现值做一致性核对。工作树与分支已确认。接着读取批次四件套、写入工具和根来源文件。散列已对齐。接下来核对来源文件 SHA、类型与后端聚合实现，并对照共享现值和参考冻结请求。来源散列均已核对。接着对照参考冻结请求、触发规则回读形状，并在内存中抽取基兰 W 源头字段。**VERDICT: READY**  \n**REVIEWED_PLAN_REV: zilean-w-v1-ef3f99a6b6db146fde9c8123eaa44289613fd9554581e21018eb1c609f21e447**\n\n四个冻结 POST 与来源、现值、管理契约一致，未发现需要改字段的正确性或业务语义问题。工作树 `C:/project/damage_web_dev`、分支 `web/dev`；本审查只读，Git 无新改动。\n\n**APPROVED_FILES_JSON**\n```json\n{\n  \"tools/authoring/append-reviewed-skill-components-v3.mjs\": \"443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf\",\n  \"01-候选方案.json\": \"cfdbc879086dd7fede85635c89a12c778f682c1e9c56f2cac7bdfb22416985b4\",\n  \"02-冻结请求.json\": \"ef3f99a6b6db146fde9c8123eaa44289613fd9554581e21018eb1c609f21e447\",\n  \"03-来源摘要.json\": \"b2b73b38b0d85e9e505a01ae51400068138b94bac2c160241ee411256021e8a1\",\n  \"04-写入前现值.json\": \"d63d37e9228daf303d84003741bb342ab4f3d54b121c1e675000e90640029ad9\"\n}\n```\n\n`02` 整文件 SHA 与 `REVIEWED_PLAN_REV` 后缀一致；`sourceSha256`/`baselineSha256` 分别等于实算的 `03`/`04`。`01.requests` 与 `02.requests` 深等，四条 `body` 均等于对应 `expectedReadback`。七个来源文件的声明 SHA、`03-来源摘要.actualSha256` 与磁盘实算一致。\n\n**语义**\n\n- 根绑定：`Root.spells[1]` → `ZileanWAbility` → `ZileanW`；官方 16.17.1 正文为缩短其它基础技能冷却，`{{ cooldownreduction }}` 对应 `DataValues.CooldownReduction` 全 10 秒 → 已有参数 `cooldown_reduction_ms=10000`。未采用 `mEffectAmount[0]` 等级 1–5 的 20/30/40/50/60。\n- 作用范围：`COOLDOWN_CHANGE/REDUCE`、`SOURCE`、无生命周期、法术护盾 `null`、`affectedSkillScope.mode=SKILLS`、`skillKeys:[zilean_q,zilean_e]`、`skillCategoryKeys:[]`。Q/E 均为 `ENABLED` 且分类 `common`；不含 W/R/装备/他人。聚合按存储顺序回显，与 `SkillEffectAggregate` 注释及技能作用范围文档一致。\n- 使用登记：先 `mana_cost` 再 `rewind_basic_cooldowns`（同 `PROCESS_START` 下 sortOrder 10/20），并登记 W 自身 14/12/10/8/6 秒基础冷却。立即步骤不表示 0 毫秒施放。规则仅 `SKILL_USED`+`ACTIVE` 一次 `START_PROCESS`，动作为 `CURRENT_TARGET`，效果为 `SOURCE`，与克格莫 Q / 基兰 E 既有用法一致。\n- `mDoesNotConsumeMana=true` 与官方/DataValues/mana 的 35 并存，本批只登记已证普通成本。`spellCastTime≈0.5183` 不取整、不新增延迟。\n\n**现值与写入顺序**\n\nW 仅 4 个参数，公式/效果/过程/内部状态/规则均为空；四个新对象不在现列表中。保护基线 18 GET：17 条 W/角色共享现值与 `01-共享现值.json` 深等，另加法力字典且与 `02-引用技能与法力现值.json` 深等。POST 顺序为效果 → 过程 → 规则，引用的 `mana_cost` / `cooldown_reduction_ms` / `cooldown_ms` 均已存在。写入工具会在 18 GET 与四目标 404 后唯一写入，随后独立 22 GET；Q/E 根与规则列表按方案另做 4 路定点保护，不在本工具快照内。\n\n**非阻塞**\n\n- `04` 含 `reusedSources`/`newObjectAbsence` 等审计字段，不是 `prepare()` 的最小形状，但不进入 `values` 深等，整文件哈希仍作为批准字节。\n- 客户端另有 `spellTotalTime`、`castFrame` 等未建模字段，与本批明确待核的施放时长同一边界，不构成本次字段错误。"
+}

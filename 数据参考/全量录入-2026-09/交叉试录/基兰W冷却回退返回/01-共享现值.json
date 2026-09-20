@@ -1,0 +1,548 @@
+{
+  "at": "2026-09-20T12:24:25.570Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/skills/zilean_w": {
+      "createdAt": "2026-09-06T18:21:24.989992Z",
+      "description": "基兰为未来的对抗做准备，减少他所有其它基础技能的冷却时间。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "基兰·穿梭未来",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "zilean_w",
+      "sortOrder": 2,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:21:24.989992Z"
+    },
+    "/characters/champion_zilean": {
+      "characterKey": "champion_zilean",
+      "createdAt": "2026-09-06T18:14:11.897495Z",
+      "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+      "gameId": "lol",
+      "name": "基兰",
+      "updatedAt": "2026-09-06T18:14:11.897495Z"
+    },
+    "/characters/champion_zilean/attributes": {
+      "characterKey": "champion_zilean",
+      "levelValues": {
+        "1": {
+          "move_speed": 335,
+          "hp": 574,
+          "hp_regen": 5.5,
+          "mana": 452,
+          "mana_regen": 11.35,
+          "armor": 24,
+          "magic_resistance": 30,
+          "attack_damage": 52,
+          "attack_speed": 0.658,
+          "attack_range": 550
+        },
+        "2": {
+          "move_speed": 335,
+          "hp": 643.12,
+          "hp_regen": 5.86,
+          "mana": 488,
+          "mana_regen": 11.926,
+          "armor": 27.6,
+          "magic_resistance": 30.936,
+          "attack_damage": 54.16,
+          "attack_speed": 0.667585,
+          "attack_range": 550
+        },
+        "3": {
+          "move_speed": 335,
+          "hp": 715.6,
+          "hp_regen": 6.2375,
+          "mana": 525.75,
+          "mana_regen": 12.53,
+          "armor": 31.375,
+          "magic_resistance": 31.9175,
+          "attack_damage": 56.425,
+          "attack_speed": 0.677636,
+          "attack_range": 550
+        },
+        "4": {
+          "move_speed": 335,
+          "hp": 791.44,
+          "hp_regen": 6.6325,
+          "mana": 565.25,
+          "mana_regen": 13.162,
+          "armor": 35.325,
+          "magic_resistance": 32.9445,
+          "attack_damage": 58.795,
+          "attack_speed": 0.688153,
+          "attack_range": 550
+        },
+        "5": {
+          "move_speed": 335,
+          "hp": 870.64,
+          "hp_regen": 7.045,
+          "mana": 606.5,
+          "mana_regen": 13.822,
+          "armor": 39.45,
+          "magic_resistance": 34.017,
+          "attack_damage": 61.27,
+          "attack_speed": 0.699136,
+          "attack_range": 550
+        },
+        "6": {
+          "move_speed": 335,
+          "hp": 953.2,
+          "hp_regen": 7.475,
+          "mana": 649.5,
+          "mana_regen": 14.51,
+          "armor": 43.75,
+          "magic_resistance": 35.135,
+          "attack_damage": 63.85,
+          "attack_speed": 0.710584,
+          "attack_range": 550
+        },
+        "7": {
+          "move_speed": 335,
+          "hp": 1039.12,
+          "hp_regen": 7.9225,
+          "mana": 694.25,
+          "mana_regen": 15.226,
+          "armor": 48.225,
+          "magic_resistance": 36.2985,
+          "attack_damage": 66.535,
+          "attack_speed": 0.722499,
+          "attack_range": 550
+        },
+        "8": {
+          "move_speed": 335,
+          "hp": 1128.4,
+          "hp_regen": 8.3875,
+          "mana": 740.75,
+          "mana_regen": 15.97,
+          "armor": 52.875,
+          "magic_resistance": 37.5075,
+          "attack_damage": 69.325,
+          "attack_speed": 0.73488,
+          "attack_range": 550
+        },
+        "9": {
+          "move_speed": 335,
+          "hp": 1221.04,
+          "hp_regen": 8.87,
+          "mana": 789,
+          "mana_regen": 16.742,
+          "armor": 57.7,
+          "magic_resistance": 38.762,
+          "attack_damage": 72.22,
+          "attack_speed": 0.747726,
+          "attack_range": 550
+        },
+        "10": {
+          "move_speed": 335,
+          "hp": 1317.04,
+          "hp_regen": 9.37,
+          "mana": 839,
+          "mana_regen": 17.542,
+          "armor": 62.7,
+          "magic_resistance": 40.062,
+          "attack_damage": 75.22,
+          "attack_speed": 0.761039,
+          "attack_range": 550
+        },
+        "11": {
+          "move_speed": 335,
+          "hp": 1416.4,
+          "hp_regen": 9.8875,
+          "mana": 890.75,
+          "mana_regen": 18.37,
+          "armor": 67.875,
+          "magic_resistance": 41.4075,
+          "attack_damage": 78.325,
+          "attack_speed": 0.774817,
+          "attack_range": 550
+        },
+        "12": {
+          "move_speed": 335,
+          "hp": 1519.12,
+          "hp_regen": 10.4225,
+          "mana": 944.25,
+          "mana_regen": 19.226,
+          "armor": 73.225,
+          "magic_resistance": 42.7985,
+          "attack_damage": 81.535,
+          "attack_speed": 0.789062,
+          "attack_range": 550
+        },
+        "13": {
+          "move_speed": 335,
+          "hp": 1625.2,
+          "hp_regen": 10.975,
+          "mana": 999.5,
+          "mana_regen": 20.11,
+          "armor": 78.75,
+          "magic_resistance": 44.235,
+          "attack_damage": 84.85,
+          "attack_speed": 0.803772,
+          "attack_range": 550
+        },
+        "14": {
+          "move_speed": 335,
+          "hp": 1734.64,
+          "hp_regen": 11.545,
+          "mana": 1056.5,
+          "mana_regen": 21.022,
+          "armor": 84.45,
+          "magic_resistance": 45.717,
+          "attack_damage": 88.27,
+          "attack_speed": 0.818948,
+          "attack_range": 550
+        },
+        "15": {
+          "move_speed": 335,
+          "hp": 1847.44,
+          "hp_regen": 12.1325,
+          "mana": 1115.25,
+          "mana_regen": 21.962,
+          "armor": 90.325,
+          "magic_resistance": 47.2445,
+          "attack_damage": 91.795,
+          "attack_speed": 0.83459,
+          "attack_range": 550
+        },
+        "16": {
+          "move_speed": 335,
+          "hp": 1963.6,
+          "hp_regen": 12.7375,
+          "mana": 1175.75,
+          "mana_regen": 22.93,
+          "armor": 96.375,
+          "magic_resistance": 48.8175,
+          "attack_damage": 95.425,
+          "attack_speed": 0.850698,
+          "attack_range": 550
+        },
+        "17": {
+          "move_speed": 335,
+          "hp": 2083.12,
+          "hp_regen": 13.36,
+          "mana": 1238,
+          "mana_regen": 23.926,
+          "armor": 102.6,
+          "magic_resistance": 50.436,
+          "attack_damage": 99.16,
+          "attack_speed": 0.867273,
+          "attack_range": 550
+        },
+        "18": {
+          "move_speed": 335,
+          "hp": 2206,
+          "hp_regen": 14,
+          "mana": 1302,
+          "mana_regen": 24.95,
+          "armor": 109,
+          "magic_resistance": 52.1,
+          "attack_damage": 103,
+          "attack_speed": 0.884313,
+          "attack_range": 550
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_zilean/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_champion_zilean",
+        "name": "champion_zilean"
+      }
+    },
+    "/skills/zilean_w/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_zilean_w",
+        "name": "zilean_w"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_zilean": {
+      "items": [
+        {
+          "characterKey": "champion_zilean",
+          "characterName": "基兰",
+          "gameId": "lol",
+          "skillKey": "zilean_p",
+          "skillName": "基兰·瓶中时光",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_zilean",
+          "characterName": "基兰",
+          "gameId": "lol",
+          "skillKey": "zilean_q",
+          "skillName": "基兰·定时炸弹",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_zilean",
+          "characterName": "基兰",
+          "gameId": "lol",
+          "skillKey": "zilean_w",
+          "skillName": "基兰·穿梭未来",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_zilean",
+          "characterName": "基兰",
+          "gameId": "lol",
+          "skillKey": "zilean_e",
+          "skillName": "基兰·时光发条",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_zilean",
+          "characterName": "基兰",
+          "gameId": "lol",
+          "skillKey": "zilean_r",
+          "skillName": "基兰·时光倒流",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=zilean_w": {
+      "items": [
+        {
+          "characterKey": "champion_zilean",
+          "characterName": "基兰",
+          "gameId": "lol",
+          "skillKey": "zilean_w",
+          "skillName": "基兰·穿梭未来",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        }
+      ],
+      "total": 1
+    },
+    "/skills/zilean_w/parameters": [
+      {
+        "createdAt": "2026-09-09T18:47:13.323049Z",
+        "description": "客户端CooldownReduction取索引1的10秒，转换为10000毫秒；当前正文限定其它基础技能。",
+        "fixedValue": 10000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "其它基础技能冷却缩短（毫秒）",
+        "parameterKey": "cooldown_reduction_ms",
+        "skillKey": "zilean_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T18:47:13.323049Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T18:47:14.49023Z",
+        "description": "当前根spellCastTime原值约0.5183秒，因毫秒换算不是整数，保留来源秒单位。",
+        "fixedValue": 0.5183,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（秒）",
+        "parameterKey": "cast_time_seconds",
+        "skillKey": "zilean_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T18:47:14.49023Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-08T02:41:34.836265Z",
+        "description": "DDragon16.17.1 Zilean.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 14000,
+          "2": 12000,
+          "3": 10000,
+          "4": 8000,
+          "5": 6000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "zilean_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:41:34.836265Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T02:41:35.300583Z",
+        "description": "DDragon16.17.1 Zilean.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 35,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "zilean_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:41:35.300583Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/zilean_w/parameters/cooldown_reduction_ms": {
+      "createdAt": "2026-09-09T18:47:13.323049Z",
+      "description": "客户端CooldownReduction取索引1的10秒，转换为10000毫秒；当前正文限定其它基础技能。",
+      "fixedValue": 10000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "其它基础技能冷却缩短（毫秒）",
+      "parameterKey": "cooldown_reduction_ms",
+      "skillKey": "zilean_w",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T18:47:13.323049Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/zilean_w/parameters/cast_time_seconds": {
+      "createdAt": "2026-09-09T18:47:14.49023Z",
+      "description": "当前根spellCastTime原值约0.5183秒，因毫秒换算不是整数，保留来源秒单位。",
+      "fixedValue": 0.5183,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（秒）",
+      "parameterKey": "cast_time_seconds",
+      "skillKey": "zilean_w",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T18:47:14.49023Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/zilean_w/parameters/cooldown_ms": {
+      "createdAt": "2026-09-08T02:41:34.836265Z",
+      "description": "DDragon16.17.1 Zilean.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 14000,
+        "2": 12000,
+        "3": 10000,
+        "4": 8000,
+        "5": 6000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "zilean_w",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-08T02:41:34.836265Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/zilean_w/parameters/mana_cost": {
+      "createdAt": "2026-09-08T02:41:35.300583Z",
+      "description": "DDragon16.17.1 Zilean.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 35,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "zilean_w",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-08T02:41:35.300583Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/zilean_w/formulas": [],
+    "/skills/zilean_w/effects": [],
+    "/skills/zilean_w/processes": [],
+    "/skills/zilean_w/internal-states": [],
+    "/skills/zilean_w/trigger-rules": []
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/zilean_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_zilean",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_zilean/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_zilean/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_w/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_zilean",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=zilean_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_w/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_w/parameters/cooldown_reduction_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_w/parameters/cast_time_seconds",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_w/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_w/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_w/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_w/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_w/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_w/trigger-rules",
+      "status": 200
+    }
+  ],
+  "businessWrites": 0
+}

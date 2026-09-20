@@ -1,0 +1,252 @@
+{
+  "startedAt": "2026-09-20T13:12:58.882Z",
+  "status": "PASS",
+  "businessWritesAttempted": 3,
+  "operations": [
+    {
+      "route": "/skills/zilean_w",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:21:24.989992Z",
+          "description": "基兰为未来的对抗做准备，减少他所有其它基础技能的冷却时间。已配置普通主动使用入口、35法力、自身14/12/10/8/6秒基础冷却，以及自身Q与E当前冷却各减少10秒。范围内不包含W自身或终极技能；原始施放字段保留秒单位，有效施放时间与非整数毫秒精度仍待核定。来源：官方中文静态资料16.17.1与客户端16.17。",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "基兰·穿梭未来",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "zilean_w",
+          "sortOrder": 2,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-20T13:12:58.902137Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-06T18:21:24.989992Z",
+        "description": "基兰为未来的对抗做准备，减少他所有其它基础技能的冷却时间。已配置普通主动使用入口、35法力、自身14/12/10/8/6秒基础冷却，以及自身Q与E当前冷却各减少10秒。范围内不包含W自身或终极技能；原始施放字段保留秒单位，有效施放时间与非整数毫秒精度仍待核定。来源：官方中文静态资料16.17.1与客户端16.17。",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "基兰·穿梭未来",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "zilean_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-20T13:12:58.902137Z"
+      }
+    },
+    {
+      "route": "/skills/zilean_w/parameters/mana_cost",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-08T02:41:35.300583Z",
+          "description": "官方静态资料16.17.1的等级1至5法力消耗均为35，与客户端命名数值ManaCost及mana字段一致。已由普通使用登记过程开始时从来源对象消耗一次；客户端自动扣费标志不作为零成本依据。有效施放时间仍待核定。",
+          "fixedValue": 35,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "zilean_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-20T13:13:00.255434Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-08T02:41:35.300583Z",
+        "description": "官方静态资料16.17.1的等级1至5法力消耗均为35，与客户端命名数值ManaCost及mana字段一致。已由普通使用登记过程开始时从来源对象消耗一次；客户端自动扣费标志不作为零成本依据。有效施放时间仍待核定。",
+        "fixedValue": 35,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "zilean_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-20T13:13:00.255434Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/zilean_w/parameters/cooldown_ms",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-08T02:41:34.836265Z",
+          "description": "官方静态资料16.17.1等级1至5基础冷却为14/12/10/8/6秒，与客户端根字段索引1至5一致，按毫秒保存。已接入普通使用登记过程的自身冷却；未计技能急速等修正，有效施放时间仍待核定。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 14000,
+            "2": 12000,
+            "3": 10000,
+            "4": 8000,
+            "5": 6000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "zilean_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-20T13:13:01.580569Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-08T02:41:34.836265Z",
+        "description": "官方静态资料16.17.1等级1至5基础冷却为14/12/10/8/6秒，与客户端根字段索引1至5一致，按毫秒保存。已接入普通使用登记过程的自身冷却；未计技能急速等修正，有效施放时间仍待核定。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 14000,
+          "2": 12000,
+          "3": 10000,
+          "4": 8000,
+          "5": 6000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "zilean_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-20T13:13:01.580569Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    }
+  ],
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-descriptions-v2.mjs": "f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517",
+    "01-纠错计划.json": "323d26c28454eaef0c528e58561c5ab451b120393fbd2620046b9b491e7d2c69",
+    "02-冻结请求.json": "9f693baf6e2cc81588bafb437f09a500eac30e3876927ac37d7ef1fd366ef034",
+    "03-来源摘要.json": "60367a822983adefe97f1c2fede2e2166a232e1b36c0833124787f9bfc28f2d4",
+    "04-写入前现值.json": "4a01f7d9a13f49d536ea150f2a1d7674d9aacb4b6fea465b9a86c41745dcf462"
+  },
+  "pendingRoute": null,
+  "finishedAt": "2026-09-20T13:13:02.853Z",
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/zilean_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_w/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_w/parameters/cooldown_reduction_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_w/parameters/cast_time_seconds",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_w/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_w/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_w/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_w/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_w/effects/rewind_basic_cooldowns",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_w/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_w/processes/use_cost_cooldown_and_rewind",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_w/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_w/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_w/trigger-rules/on_used_cost_cooldown_and_rewind",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_w",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/zilean_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/zilean_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_w/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/zilean_w/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_w/parameters/cooldown_ms",
+      "status": 200
+    }
+  ]
+}

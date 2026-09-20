@@ -1,0 +1,68 @@
+{
+  "at": "2026-09-20T13:15:44.244Z",
+  "status": "PASS",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "skillKey": "zilean_w",
+  "representativePages": [
+    {
+      "page": "冷却减少效果与结果",
+      "verified": [
+        "来源对象",
+        "参数cooldown_reduction_ms",
+        "指定zilean_q和zilean_e",
+        "减少操作",
+        "无生命周期",
+        "不含W与R"
+      ]
+    },
+    {
+      "page": "法力效果与结果",
+      "verified": [
+        "来源对象",
+        "参数mana_cost",
+        "法力资源",
+        "扣除操作",
+        "固定倍率1"
+      ]
+    },
+    {
+      "page": "普通使用过程",
+      "verified": [
+        "主动过程",
+        "基础冷却参数cooldown_ms",
+        "过程开始",
+        "立即登记步骤",
+        "两项效果挂接顺序为法力10、冷却减少20",
+        "无内部状态操作"
+      ]
+    },
+    {
+      "page": "主动使用入口",
+      "verified": [
+        "来源zilean_w",
+        "主动使用",
+        "零条件组",
+        "唯一启动use_cost_cooldown_and_rewind动作",
+        "零输入绑定与修正",
+        "仅查看后取消，未保存"
+      ]
+    },
+    {
+      "page": "最新主体说明",
+      "verified": [
+        "35法力",
+        "14/12/10/8/6秒基础冷却",
+        "自身Q/E各减少10秒",
+        "有效施放时间与非整数毫秒仍待核",
+        "未刷新旧列表仍取得当前根说明"
+      ]
+    }
+  ],
+  "businessUISaves": 0,
+  "diagnosticWarningsOrErrors": 0,
+  "notes": [
+    "弹窗关闭过渡期间下一次操作未打开目标时，检查当前页面后再次从入口打开；没有业务保存重试。",
+    "真实页面核对通过，不计API请求体抓取或战斗运行证据。"
+  ],
+  "runtimeValidation": "未执行"
+}
