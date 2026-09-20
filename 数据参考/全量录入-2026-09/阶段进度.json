@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-20T08:50:59.928Z",
+  "generatedAt": "2026-09-20T08:56:01.129Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -12225,6 +12225,34 @@
         "commit": "cc853b7b",
         "sha256": "42e4faa5ef47fa1637e6c81750d04d682e61ca9f3b8750596549afb6fcdf535b"
       }
+    },
+    "tristanaPRangeSourceAudit": {
+      "at": "2026-09-20T08:56:01.129Z",
+      "status": "资料待核",
+      "skillKey": "tristana_p",
+      "GETs": 13,
+      "businessWrites": 0,
+      "currentComponentCounts": {
+        "parameters": 0,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      },
+      "confirmedBaseRange": 550,
+      "confirmedPassiveEndValue": 150,
+      "remaining": [
+        "固定版本插值缺省及完整等级曲线",
+        "E/R范围与被动增量联动"
+      ],
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/崔丝塔娜被动射程核对/04-证据清单.json",
+        "commit": "c4246ed1",
+        "sha256": "370b57f2713268ea2c5537e131998d60ededbf2d95ce3b4e0f88d3b5ca8c2fc3"
+      },
+      "runtimeValidation": "未执行"
     }
   },
   "runtimeValidation": "未执行",
@@ -12873,6 +12901,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/婕拉Q管理返回/07-证据清单.json",
         "commit": "cc853b7b",
         "sha256": "42e4faa5ef47fa1637e6c81750d04d682e61ca9f3b8750596549afb6fcdf535b"
+      },
+      "tristanaPRangeSourceAudit": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/崔丝塔娜被动射程核对/04-证据清单.json",
+        "commit": "c4246ed1",
+        "sha256": "370b57f2713268ea2c5537e131998d60ededbf2d95ce3b4e0f88d3b5ca8c2fc3"
       }
     },
     "coverage": {
@@ -33947,7 +33981,7 @@
         "name": "崔丝塔娜·瞄准",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，其中来源或资料缺口1个、系统缺口0个、配置缺口0个。",
+        "reason": "13次当前GET确认被动无组成，角色18级基础射程均550，未包含被动增量；固定客户端只给被动计算终点150，省略起点与插值开关，完整曲线及E/R联动尚未证明。没有补零或业务写入，保持资料待核。",
         "pendingCounts": {
           "source": 1,
           "system": 0,
@@ -33958,7 +33992,20 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "tristanaPRangeSourceAudit"
+        ],
+        "currentComponentCounts": {
+          "parameters": 0,
+          "formulas": 0,
+          "effects": 0,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0
+        },
+        "remainingBranches": [
+          "固定版本插值缺省及完整等级曲线",
+          "E/R范围与被动增量联动"
         ]
       },
       {
