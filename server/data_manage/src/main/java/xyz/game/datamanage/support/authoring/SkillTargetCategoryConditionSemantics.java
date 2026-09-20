@@ -15,7 +15,7 @@ import xyz.game.datamanage.support.authoring.SkillObjectReferences.Aggregate;
 import xyz.game.datamanage.support.authoring.SkillObjectReferences.SourceType;
 import xyz.game.datamanage.support.error.ApiException;
 
-/** 事件对方类别条件；命中事件读取实际命中对象，击杀事件读取被击杀对象，造成伤害读取本次伤害承受对象，伤害待结算和受到伤害读取本次伤害来源对象；不读取属性或产生执行依赖。 */
+/** 事件对方类别条件；命中事件读取实际命中对象，击杀和参与击杀事件读取本次死亡对象，造成伤害读取本次伤害承受对象，伤害待结算和受到伤害读取本次伤害来源对象；不读取属性或产生执行依赖。 */
 public final class SkillTargetCategoryConditionSemantics {
     private SkillTargetCategoryConditionSemantics() { }
 
@@ -39,6 +39,7 @@ public final class SkillTargetCategoryConditionSemantics {
         if (eventType == SkillTriggerEventType.SKILL_HIT
             || eventType == SkillTriggerEventType.BASIC_ATTACK_HIT
             || eventType == SkillTriggerEventType.KILL
+            || eventType == SkillTriggerEventType.TAKEDOWN
             || eventType == SkillTriggerEventType.DAMAGE_PENDING
             || eventType == SkillTriggerEventType.DAMAGE_DEALT
             || eventType == SkillTriggerEventType.DAMAGE_TAKEN) return List.of();

@@ -727,10 +727,16 @@ class SkillTriggerRuleServiceTest {
 
     @Test
     void capabilitiesTableCoversAllEventsAndRejectsValueReached() {
-        assertEquals(22, SkillTriggerEventType.values().length);
-        assertEquals(22, xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.currentTargetBindings().size());
+        assertEquals(23, SkillTriggerEventType.values().length);
+        assertEquals(23, xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.currentTargetBindings().size());
         assertTrue(xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.hasEventSource(SkillTriggerEventType.SOURCE_INITIALIZED));
         assertTrue(xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.requiresEmptyDetail(SkillTriggerEventType.SOURCE_INITIALIZED));
+        assertTrue(xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.requiresEmptyDetail(SkillTriggerEventType.TAKEDOWN));
+        assertFalse(xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.hasEventSource(SkillTriggerEventType.TAKEDOWN));
+        for (var valueKey : xyz.game.datamanage.model.skilltrigger.SkillTriggerEventValueKey.values()) {
+            assertFalse(xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.eventValueAllowed(
+                SkillTriggerEventType.TAKEDOWN, valueKey, null, null));
+        }
         for (var valueKey : xyz.game.datamanage.model.skilltrigger.SkillTriggerEventValueKey.values()) {
             assertFalse(xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.eventValueAllowed(
                 SkillTriggerEventType.SOURCE_INITIALIZED, valueKey, null, null));

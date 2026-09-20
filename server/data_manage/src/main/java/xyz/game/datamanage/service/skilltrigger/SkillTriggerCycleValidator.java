@@ -401,6 +401,7 @@ public class SkillTriggerCycleValidator {
                     ));
                     produced.add(ProducedEvent.health(SkillTriggerSubject.CURRENT_TARGET, SkillTriggerHealthDirection.DOWNWARD, null));
                     produced.add(ProducedEvent.wide(SkillTriggerEventType.KILL));
+                    produced.add(ProducedEvent.wide(SkillTriggerEventType.TAKEDOWN));
                     produced.add(ProducedEvent.entityDied(SkillTriggerSubject.CURRENT_TARGET));
                 } else if (row.target() == SkillEffectTarget.SOURCE) {
                     produced.add(ProducedEvent.damage(
@@ -470,6 +471,9 @@ public class SkillTriggerCycleValidator {
             }
             case EXECUTE -> {
                 produced.add(ProducedEvent.wide(SkillTriggerEventType.KILL));
+                if (row.target() == SkillEffectTarget.TARGET) {
+                    produced.add(ProducedEvent.wide(SkillTriggerEventType.TAKEDOWN));
+                }
                 if (subject != null) {
                     produced.add(ProducedEvent.entityDied(subject));
                 }
@@ -514,6 +518,7 @@ public class SkillTriggerCycleValidator {
             case ENTITY_DIED -> produced.subject() == filter.subject();
             case DAMAGE_PENDING, DAMAGE_DEALT, DAMAGE_TAKEN -> damageMatches(produced.damage(), filter.damage());
             case KILL -> true;
+            case TAKEDOWN -> true;
             case SPELL_SHIELD_BLOCKED -> true;
             case HIT_LINK_APPLIED, ATTACK_LINK_APPLIED -> filter.hasSourceSkillFilter()
                 && (filter.sourceSkillKey() == null

@@ -276,7 +276,7 @@ public final class SkillObjectReferences {
                 }
                 case "INTERNAL_STATE_CHANGED" -> local(detail, path, "stateKey", TargetType.STATE);
                 case "SPELL_SHIELD_BLOCKED" -> local(detail, path, "shieldEffectKey", TargetType.EFFECT);
-                case "SOURCE_INITIALIZED", "BASIC_ATTACK_START", "BASIC_ATTACK_HIT", "CONTROL_RECEIVED", "ENTITY_DIED", "ENTITY_UNTARGETABLE", "KILL" -> { }
+                case "SOURCE_INITIALIZED", "BASIC_ATTACK_START", "BASIC_ATTACK_HIT", "CONTROL_RECEIVED", "ENTITY_DIED", "ENTITY_UNTARGETABLE", "KILL", "TAKEDOWN" -> { }
                 default -> throw shape("eventSource", "未知触发事件类型");
             }
         }
