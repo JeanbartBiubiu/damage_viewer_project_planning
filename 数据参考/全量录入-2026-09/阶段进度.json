@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-09-20T12:12:25.860Z",
+  "generatedAt": "2026-09-20T13:17:38.149Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
-  "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
+  "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。；基兰W冷却回退返回：7次保存、41次独立GET与5类页面通过，有效施放时间仍待核，管理完整8项/开放831项保持，见zileanWCooldownReductionReturn。",
   "heroes": {
     "count": 171,
     "attributes": 1641,
@@ -12556,6 +12556,71 @@
         "sha256": "7798d9f76db46e4c7c817a1ad4b08d6bb10d8082902fd0f20950043b9de01c96"
       },
       "runtimeValidation": "未执行"
+    },
+    "zileanWCooldownReductionReturn": {
+      "at": "2026-09-20T13:15:44.244Z",
+      "status": "MANAGEMENT_COMPONENT_RETURN_PASS",
+      "skillKey": "zilean_w",
+      "sourceVersion": {
+        "client": "16.17",
+        "official": "16.17.1"
+      },
+      "businessSaves": 7,
+      "newComponentPOSTs": 4,
+      "descriptionPUTs": 3,
+      "immediateReadbacks": 7,
+      "independentGETs": 41,
+      "readbackParts": {
+        "newComponents": 22,
+        "crossSkillReferences": 4,
+        "descriptionUpdates": 15
+      },
+      "currentComponentCounts": {
+        "parameters": 4,
+        "formulas": 0,
+        "effects": 2,
+        "processes": 1,
+        "internalStates": 0,
+        "triggerRules": 1
+      },
+      "levelChecks": 5,
+      "representativePages": 5,
+      "diagnosticWarningsOrErrors": 0,
+      "wholeSkillComplete": false,
+      "remaining": [
+        "原始spellCastTime约0.5183秒的有效施放含义及非整数毫秒精度待同版来源核定；不取整或解释成零。"
+      ],
+      "closedHistoricalPending": [
+        {
+          "item": "W对Q/E的冷却联动",
+          "resolution": "明确Q/E范围与10秒减少已接普通使用登记；实际计时未作为运行验收。"
+        },
+        {
+          "item": "mDoesNotConsumeMana与公共法力",
+          "resolution": "35法力已按官方与当前命名字段核定并接普通登记；自动扣费标志不代表零成本。"
+        }
+      ],
+      "cursorReview": {
+        "runId": "run-79b5be0c-1bc3-42b0-80bd-c8348b4777df",
+        "status": "finished",
+        "verdict": "READY",
+        "runDeltaCount": 0,
+        "eventAudit": "PASS"
+      },
+      "recoveryNotes": [
+        "读回代理因服务繁忙退出前已落盘22GET主报告；核查后保留，只补尚缺的4GET引用核对。",
+        "接手引用核对的第一次子进程脚本在解析阶段失败，零HTTP；修正后仅成功执行4GET。",
+        "说明写入第一次工具准备因不允许导入node:process中止，未产生06及业务请求；改用绝对Node路径和仅冻结摘要环境后3PUT成功。"
+      ],
+      "newTables": 0,
+      "codeChanges": 0,
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/基兰W冷却回退返回/09-证据清单.json",
+        "sha256": "8a559afce5c1a45dcce3c7afeecdf909ec573090e48f734bbf124b2d73fc26f3",
+        "commit": "b7d9b2920fe07cde36dc682e9612eb9634eb4a0e"
+      }
     }
   },
   "runtimeValidation": "未执行",
@@ -13252,6 +13317,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/安蓓萨W角色等级供值返回/03-证据清单.json",
         "commit": "e0510cbd",
         "sha256": "7798d9f76db46e4c7c817a1ad4b08d6bb10d8082902fd0f20950043b9de01c96"
+      },
+      "zileanWCooldownReductionReturn": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/基兰W冷却回退返回/09-证据清单.json",
+        "sha256": "8a559afce5c1a45dcce3c7afeecdf909ec573090e48f734bbf124b2d73fc26f3",
+        "commit": "b7d9b2920fe07cde36dc682e9612eb9634eb4a0e"
       }
     },
     "coverage": {
@@ -13272,8 +13343,8 @@
         "conclusions": {
           "已录入": 8,
           "明确排除": 26,
-          "资料待核": 388,
-          "系统暂缓": 443
+          "资料待核": 389,
+          "系统暂缓": 442
         },
         "matchedInScopeItems": 855,
         "excludedChampionSlots": 10,
@@ -38681,21 +38752,42 @@
         "slot": "W",
         "skillKey": "zilean_w",
         "name": "基兰·穿梭未来",
-        "conclusion": "系统暂缓",
+        "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有2个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "已补35法力、14/12/10/8/6秒自身基础冷却、仅自身Q/E各减少10秒的效果和普通主动使用入口。7次保存、41次独立GET、5类代表页面通过；约0.5183秒原始施放字段的有效含义及非整数毫秒精度仍待同版核定，不计整技能完成。",
         "pendingCounts": {
-          "source": 0,
-          "system": 1,
+          "source": 1,
+          "system": 0,
           "configuration": 0,
-          "other": 1
+          "other": 0
         },
         "batchKey": "heroThirtyFourthBatch",
         "candidateSha256": "07cbc606f8138ec61cbd8600cd53ce9eaf392241960cb54ea72016a67b0c219b",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "zileanWCooldownReductionReturn"
+        ],
+        "historicalPendingCounts": {
+          "source": 0,
+          "system": 1,
+          "configuration": 0,
+          "other": 1
+        },
+        "completedBranches": [
+          "固定版本四项参数复用",
+          "来源对象35法力与自身普通冷却登记",
+          "指定本角色Q/E当前冷却各减少10000毫秒",
+          "普通主动使用启动唯一登记过程"
+        ],
+        "currentComponentCounts": {
+          "parameters": 4,
+          "formulas": 0,
+          "effects": 2,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 1
+        }
       },
       {
         "sourceChampionId": "Zilean",
