@@ -1,0 +1,254 @@
+{
+  "startedAt": "2026-09-20T11:55:19.529Z",
+  "status": "PASS",
+  "businessWritesAttempted": 1,
+  "operations": [
+    {
+      "method": "POST",
+      "route": "/skills/drmundo_e/trigger-rules",
+      "response": {
+        "status": 201,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_passive_bonus_attack_damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "passive_bonus_attack_damage"
+              },
+              "name": "建立大力行医被动攻击力",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "EVENT_SOURCE"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "来源对象的基础属性、技能与装备挂载及初始状态准备完成后，执行已有passive_bonus_attack_damage建立单层自身攻击力实例；公式在属性结算时按当前已学E等级和当时来源总生命重新读取。此入口不代表等级或生命变化事件，不处理主动强化攻击、费用及拍飞。",
+          "eventSource": {
+            "detail": {},
+            "eventType": "SOURCE_INITIALIZED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "初始化大力行医被动攻击力",
+          "perTargetCooldown": null,
+          "ruleKey": "initialize_passive_bonus_attack_damage",
+          "sortOrder": 10
+        }
+      },
+      "readback": {
+        "actions": [
+          {
+            "actionKey": "execute_passive_bonus_attack_damage",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "passive_bonus_attack_damage"
+            },
+            "name": "建立大力行医被动攻击力",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "EVENT_SOURCE"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "来源对象的基础属性、技能与装备挂载及初始状态准备完成后，执行已有passive_bonus_attack_damage建立单层自身攻击力实例；公式在属性结算时按当前已学E等级和当时来源总生命重新读取。此入口不代表等级或生命变化事件，不处理主动强化攻击、费用及拍飞。",
+        "eventSource": {
+          "detail": {},
+          "eventType": "SOURCE_INITIALIZED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "初始化大力行医被动攻击力",
+        "perTargetCooldown": null,
+        "ruleKey": "initialize_passive_bonus_attack_damage",
+        "sortOrder": 10
+      }
+    }
+  ],
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v3.mjs": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "01-候选方案.json": "17abf8bb58e111d36e5f14037dfa941d5e40ab24a2f1b577f8b6c1c6a000e441",
+    "02-冻结请求.json": "6ccd376003b84b59377fea144e9f4a0cf8d876d0af8d08c2a5a1b3842582cc7d",
+    "03-来源摘要.json": "c53d8711c31eccbd1758dbba60423c0e43296b706f7540c7a389cd65ff522684",
+    "04-写入前现值.json": "3296ff51342d5971190e759d23c87d85a2f20224ab5951490b5f84ba30624895"
+  },
+  "pendingRoute": null,
+  "finishedAt": "2026-09-20T11:55:21.478Z",
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/drmundo_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_drmundo",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_drmundo/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_drmundo/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/drmundo_e/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_drmundo",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=drmundo_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/drmundo_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/drmundo_e/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/drmundo_e/parameters/attack_override_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/drmundo_e/parameters/flat_health_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/drmundo_e/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/drmundo_e/parameters/bonus_health_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/drmundo_e/parameters/max_damage_amp",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/drmundo_e/parameters/health_to_ad_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/drmundo_e/parameters/health_to_ad_scale",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/drmundo_e/parameters/unity",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/drmundo_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/drmundo_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/drmundo_e/formulas/additional_physical_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/drmundo_e/formulas/passive_bonus_attack_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/drmundo_e/formulas/maximum_additional_damage_endpoint",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/drmundo_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/drmundo_e/effects/health_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/drmundo_e/effects/passive_bonus_attack_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/drmundo_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/drmundo_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/drmundo_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/hp",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/attack_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/modifier-zones/attribute_flat_add",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/drmundo_e/trigger-rules/initialize_passive_bonus_attack_damage",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/drmundo_e/trigger-rules/initialize_passive_bonus_attack_damage",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/drmundo_e/trigger-rules",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/drmundo_e/trigger-rules/initialize_passive_bonus_attack_damage",
+      "status": 200
+    }
+  ]
+}

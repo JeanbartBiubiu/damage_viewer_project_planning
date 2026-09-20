@@ -1,0 +1,1094 @@
+{
+  "at": "2026-09-20T11:25:59.059Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/skills/drmundo_e": {
+      "createdAt": "2026-09-06T18:18:12.056246Z",
+      "description": "被动 - 蒙多医生获得额外攻击力，数额会基于他的最大生命值而提升。<br><br>主动 - 蒙多医生用他的“医用”手提包猛砸一个敌人，造成基于他已损失生命值的额外伤害。如果这个敌人被击杀，那么还会被拍飞，对途经的所有敌人造成伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "蒙多医生·大力行医",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "drmundo_e",
+      "sortOrder": 3,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:18:12.056246Z"
+    },
+    "/characters/champion_drmundo": {
+      "characterKey": "champion_drmundo",
+      "createdAt": "2026-09-06T17:08:58.633853Z",
+      "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+      "gameId": "lol",
+      "name": "蒙多医生",
+      "updatedAt": "2026-09-06T17:08:58.633853Z"
+    },
+    "/characters/champion_drmundo/attributes": {
+      "characterKey": "champion_drmundo",
+      "levelValues": {
+        "1": {
+          "move_speed": 345,
+          "hp": 640,
+          "hp_regen": 7,
+          "armor": 32,
+          "magic_resistance": 29,
+          "attack_damage": 61,
+          "attack_speed": 0.67,
+          "attack_range": 125
+        },
+        "2": {
+          "move_speed": 345,
+          "hp": 714.16,
+          "hp_regen": 7.36,
+          "armor": 35.24,
+          "magic_resistance": 30.656,
+          "attack_damage": 62.8,
+          "attack_speed": 0.68485,
+          "attack_range": 125
+        },
+        "3": {
+          "move_speed": 345,
+          "hp": 791.925,
+          "hp_regen": 7.7375,
+          "armor": 38.6375,
+          "magic_resistance": 32.3925,
+          "attack_damage": 64.6875,
+          "attack_speed": 0.700422,
+          "attack_range": 125
+        },
+        "4": {
+          "move_speed": 345,
+          "hp": 873.295,
+          "hp_regen": 8.1325,
+          "armor": 42.1925,
+          "magic_resistance": 34.2095,
+          "attack_damage": 66.6625,
+          "attack_speed": 0.716716,
+          "attack_range": 125
+        },
+        "5": {
+          "move_speed": 345,
+          "hp": 958.27,
+          "hp_regen": 8.545,
+          "armor": 45.905,
+          "magic_resistance": 36.107,
+          "attack_damage": 68.725,
+          "attack_speed": 0.733731,
+          "attack_range": 125
+        },
+        "6": {
+          "move_speed": 345,
+          "hp": 1046.85,
+          "hp_regen": 8.975,
+          "armor": 49.775,
+          "magic_resistance": 38.085,
+          "attack_damage": 70.875,
+          "attack_speed": 0.751469,
+          "attack_range": 125
+        },
+        "7": {
+          "move_speed": 345,
+          "hp": 1139.035,
+          "hp_regen": 9.4225,
+          "armor": 53.8025,
+          "magic_resistance": 40.1435,
+          "attack_damage": 73.1125,
+          "attack_speed": 0.769928,
+          "attack_range": 125
+        },
+        "8": {
+          "move_speed": 345,
+          "hp": 1234.825,
+          "hp_regen": 9.8875,
+          "armor": 57.9875,
+          "magic_resistance": 42.2825,
+          "attack_damage": 75.4375,
+          "attack_speed": 0.789109,
+          "attack_range": 125
+        },
+        "9": {
+          "move_speed": 345,
+          "hp": 1334.22,
+          "hp_regen": 10.37,
+          "armor": 62.33,
+          "magic_resistance": 44.502,
+          "attack_damage": 77.85,
+          "attack_speed": 0.809013,
+          "attack_range": 125
+        },
+        "10": {
+          "move_speed": 345,
+          "hp": 1437.22,
+          "hp_regen": 10.87,
+          "armor": 66.83,
+          "magic_resistance": 46.802,
+          "attack_damage": 80.35,
+          "attack_speed": 0.829638,
+          "attack_range": 125
+        },
+        "11": {
+          "move_speed": 345,
+          "hp": 1543.825,
+          "hp_regen": 11.3875,
+          "armor": 71.4875,
+          "magic_resistance": 49.1825,
+          "attack_damage": 82.9375,
+          "attack_speed": 0.850984,
+          "attack_range": 125
+        },
+        "12": {
+          "move_speed": 345,
+          "hp": 1654.035,
+          "hp_regen": 11.9225,
+          "armor": 76.3025,
+          "magic_resistance": 51.6435,
+          "attack_damage": 85.6125,
+          "attack_speed": 0.873053,
+          "attack_range": 125
+        },
+        "13": {
+          "move_speed": 345,
+          "hp": 1767.85,
+          "hp_regen": 12.475,
+          "armor": 81.275,
+          "magic_resistance": 54.185,
+          "attack_damage": 88.375,
+          "attack_speed": 0.895844,
+          "attack_range": 125
+        },
+        "14": {
+          "move_speed": 345,
+          "hp": 1885.27,
+          "hp_regen": 13.045,
+          "armor": 86.405,
+          "magic_resistance": 56.807,
+          "attack_damage": 91.225,
+          "attack_speed": 0.919356,
+          "attack_range": 125
+        },
+        "15": {
+          "move_speed": 345,
+          "hp": 2006.295,
+          "hp_regen": 13.6325,
+          "armor": 91.6925,
+          "magic_resistance": 59.5095,
+          "attack_damage": 94.1625,
+          "attack_speed": 0.943591,
+          "attack_range": 125
+        },
+        "16": {
+          "move_speed": 345,
+          "hp": 2130.925,
+          "hp_regen": 14.2375,
+          "armor": 97.1375,
+          "magic_resistance": 62.2925,
+          "attack_damage": 97.1875,
+          "attack_speed": 0.968547,
+          "attack_range": 125
+        },
+        "17": {
+          "move_speed": 345,
+          "hp": 2259.16,
+          "hp_regen": 14.86,
+          "armor": 102.74,
+          "magic_resistance": 65.156,
+          "attack_damage": 100.3,
+          "attack_speed": 0.994225,
+          "attack_range": 125
+        },
+        "18": {
+          "move_speed": 345,
+          "hp": 2391,
+          "hp_regen": 15.5,
+          "armor": 108.5,
+          "magic_resistance": 68.1,
+          "attack_damage": 103.5,
+          "attack_speed": 1.020625,
+          "attack_range": 125
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_drmundo/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_champion_drmundo",
+        "name": "champion_drmundo"
+      }
+    },
+    "/skills/drmundo_e/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_drmundo_e",
+        "name": "drmundo_e"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_drmundo": {
+      "items": [
+        {
+          "characterKey": "champion_drmundo",
+          "characterName": "蒙多医生",
+          "gameId": "lol",
+          "skillKey": "drmundo_p",
+          "skillName": "蒙多医生·想去哪就去哪",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_drmundo",
+          "characterName": "蒙多医生",
+          "gameId": "lol",
+          "skillKey": "drmundo_q",
+          "skillName": "蒙多医生·病毒屠刀",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_drmundo",
+          "characterName": "蒙多医生",
+          "gameId": "lol",
+          "skillKey": "drmundo_w",
+          "skillName": "蒙多医生·电击疗法",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_drmundo",
+          "characterName": "蒙多医生",
+          "gameId": "lol",
+          "skillKey": "drmundo_e",
+          "skillName": "蒙多医生·大力行医",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_drmundo",
+          "characterName": "蒙多医生",
+          "gameId": "lol",
+          "skillKey": "drmundo_r",
+          "skillName": "蒙多医生·极限剂量",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=drmundo_e": {
+      "items": [
+        {
+          "characterKey": "champion_drmundo",
+          "characterName": "蒙多医生",
+          "gameId": "lol",
+          "skillKey": "drmundo_e",
+          "skillName": "蒙多医生·大力行医",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        }
+      ],
+      "total": 1
+    },
+    "/skills/drmundo_e/parameters": [
+      {
+        "createdAt": "2026-09-09T15:37:21.063088Z",
+        "description": "当前根spellCastTime=1秒且mCastTime=1秒；两字段一致，单位换算为1000毫秒。",
+        "fixedValue": 1000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "drmundo_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T15:37:21.063088Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T15:37:22.140315Z",
+        "description": "客户端当前根绑定 DataValues.AttackOverrideDuration=4秒；只记录下次攻击窗口。",
+        "fixedValue": 4000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "强化攻击窗口（毫秒）",
+        "parameterKey": "attack_override_duration_ms",
+        "skillKey": "drmundo_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T15:37:22.140315Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T15:37:23.138531Z",
+        "description": "客户端当前根绑定 DataValues.FlatHealthCost，等级1至5取索引1至5；保留正值生命代价。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 10,
+          "2": 25,
+          "3": 40,
+          "4": 55,
+          "5": 70
+        },
+        "name": "生命值消耗",
+        "parameterKey": "flat_health_cost",
+        "skillKey": "drmundo_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T15:37:23.138531Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T15:37:24.19441Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage，等级1至5取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 5,
+          "2": 15,
+          "3": 25,
+          "4": 35,
+          "5": 45
+        },
+        "name": "额外物理伤害基础值",
+        "parameterKey": "base_damage",
+        "skillKey": "drmundo_e",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T15:37:24.19441Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T15:37:25.258521Z",
+        "description": "客户端当前根绑定 DataValues.BonusHealthRatio=0.05；当前AdditionalDamage树使用来源额外生命。",
+        "fixedValue": 0.05,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "额外生命倍率",
+        "parameterKey": "bonus_health_ratio",
+        "skillKey": "drmundo_e",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T15:37:25.258521Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T15:37:26.250974Z",
+        "description": "客户端当前根绑定 DataValues.MaxDamageAmp=1.4；这是最高端点，不是当前伤害倍率默认值。",
+        "fixedValue": 1.4,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "最高伤害倍率端点",
+        "parameterKey": "max_damage_amp",
+        "skillKey": "drmundo_e",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-09T15:37:26.250974Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T15:37:27.351834Z",
+        "description": "客户端当前根绑定 DataValues.HealthToADRatio，等级1至5取索引1至5；当前PassiveBonusAD树另有0.01乘数。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 2,
+          "2": 2.3,
+          "3": 2.6,
+          "4": 2.9,
+          "5": 3.2
+        },
+        "name": "最大生命转攻击力倍率",
+        "parameterKey": "health_to_ad_ratio",
+        "skillKey": "drmundo_e",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-09T15:37:27.351834Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T15:37:29.498214Z",
+        "description": "当前PassiveBonusAD计算树直接给出Number(0.01)；与HealthToADRatio相乘。",
+        "fixedValue": 0.01,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "生命转攻击力根乘数",
+        "parameterKey": "health_to_ad_scale",
+        "skillKey": "drmundo_e",
+        "sortOrder": 85,
+        "updatedAt": "2026-09-09T15:37:29.498214Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T15:37:28.395927Z",
+        "description": "用于复刻MaxDamageAmpTooltip树中的减1操作；不是伤害倍率默认值。",
+        "fixedValue": 1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "单位倍率1",
+        "parameterKey": "unity",
+        "skillKey": "drmundo_e",
+        "sortOrder": 90,
+        "updatedAt": "2026-09-09T15:37:28.395927Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:00:20.842172Z",
+        "description": "DDragon16.17.1 DrMundo.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 9000,
+          "2": 8250,
+          "3": 7500,
+          "4": 6750,
+          "5": 6000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "drmundo_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T16:00:20.842172Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/drmundo_e/parameters/cast_time_ms": {
+      "createdAt": "2026-09-09T15:37:21.063088Z",
+      "description": "当前根spellCastTime=1秒且mCastTime=1秒；两字段一致，单位换算为1000毫秒。",
+      "fixedValue": 1000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "drmundo_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T15:37:21.063088Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/drmundo_e/parameters/attack_override_duration_ms": {
+      "createdAt": "2026-09-09T15:37:22.140315Z",
+      "description": "客户端当前根绑定 DataValues.AttackOverrideDuration=4秒；只记录下次攻击窗口。",
+      "fixedValue": 4000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "强化攻击窗口（毫秒）",
+      "parameterKey": "attack_override_duration_ms",
+      "skillKey": "drmundo_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T15:37:22.140315Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/drmundo_e/parameters/flat_health_cost": {
+      "createdAt": "2026-09-09T15:37:23.138531Z",
+      "description": "客户端当前根绑定 DataValues.FlatHealthCost，等级1至5取索引1至5；保留正值生命代价。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 10,
+        "2": 25,
+        "3": 40,
+        "4": 55,
+        "5": 70
+      },
+      "name": "生命值消耗",
+      "parameterKey": "flat_health_cost",
+      "skillKey": "drmundo_e",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T15:37:23.138531Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/drmundo_e/parameters/base_damage": {
+      "createdAt": "2026-09-09T15:37:24.19441Z",
+      "description": "客户端当前根绑定 DataValues.BaseDamage，等级1至5取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 5,
+        "2": 15,
+        "3": 25,
+        "4": 35,
+        "5": 45
+      },
+      "name": "额外物理伤害基础值",
+      "parameterKey": "base_damage",
+      "skillKey": "drmundo_e",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T15:37:24.19441Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/drmundo_e/parameters/bonus_health_ratio": {
+      "createdAt": "2026-09-09T15:37:25.258521Z",
+      "description": "客户端当前根绑定 DataValues.BonusHealthRatio=0.05；当前AdditionalDamage树使用来源额外生命。",
+      "fixedValue": 0.05,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "额外生命倍率",
+      "parameterKey": "bonus_health_ratio",
+      "skillKey": "drmundo_e",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T15:37:25.258521Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/drmundo_e/parameters/max_damage_amp": {
+      "createdAt": "2026-09-09T15:37:26.250974Z",
+      "description": "客户端当前根绑定 DataValues.MaxDamageAmp=1.4；这是最高端点，不是当前伤害倍率默认值。",
+      "fixedValue": 1.4,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "最高伤害倍率端点",
+      "parameterKey": "max_damage_amp",
+      "skillKey": "drmundo_e",
+      "sortOrder": 70,
+      "updatedAt": "2026-09-09T15:37:26.250974Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/drmundo_e/parameters/health_to_ad_ratio": {
+      "createdAt": "2026-09-09T15:37:27.351834Z",
+      "description": "客户端当前根绑定 DataValues.HealthToADRatio，等级1至5取索引1至5；当前PassiveBonusAD树另有0.01乘数。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 2,
+        "2": 2.3,
+        "3": 2.6,
+        "4": 2.9,
+        "5": 3.2
+      },
+      "name": "最大生命转攻击力倍率",
+      "parameterKey": "health_to_ad_ratio",
+      "skillKey": "drmundo_e",
+      "sortOrder": 80,
+      "updatedAt": "2026-09-09T15:37:27.351834Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "DECIMAL"
+    },
+    "/skills/drmundo_e/parameters/health_to_ad_scale": {
+      "createdAt": "2026-09-09T15:37:29.498214Z",
+      "description": "当前PassiveBonusAD计算树直接给出Number(0.01)；与HealthToADRatio相乘。",
+      "fixedValue": 0.01,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "生命转攻击力根乘数",
+      "parameterKey": "health_to_ad_scale",
+      "skillKey": "drmundo_e",
+      "sortOrder": 85,
+      "updatedAt": "2026-09-09T15:37:29.498214Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/drmundo_e/parameters/unity": {
+      "createdAt": "2026-09-09T15:37:28.395927Z",
+      "description": "用于复刻MaxDamageAmpTooltip树中的减1操作；不是伤害倍率默认值。",
+      "fixedValue": 1,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "单位倍率1",
+      "parameterKey": "unity",
+      "skillKey": "drmundo_e",
+      "sortOrder": 90,
+      "updatedAt": "2026-09-09T15:37:28.395927Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/drmundo_e/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T16:00:20.842172Z",
+      "description": "DDragon16.17.1 DrMundo.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 9000,
+        "2": 8250,
+        "3": 7500,
+        "4": 6750,
+        "5": 6000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "drmundo_e",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T16:00:20.842172Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/drmundo_e/formulas": [
+      {
+        "createdAt": "2026-09-09T15:37:30.716109Z",
+        "description": "当前AdditionalDamage树=BaseDamage+0.05×来源额外生命；已损失生命提升的中间过程仅由正文端点描述，未并入此基础组成。",
+        "formulaKey": "additional_physical_damage",
+        "gameId": "lol",
+        "name": "大力行医强化攻击额外物理伤害",
+        "skillKey": "drmundo_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T15:37:30.716109Z"
+      },
+      {
+        "createdAt": "2026-09-09T15:37:31.833643Z",
+        "description": "当前PassiveBonusAD树为0.01×HealthToADRatio×来源总生命；保留实际根乘数，不把总生命和额外生命混淆。",
+        "formulaKey": "passive_bonus_attack_damage",
+        "gameId": "lol",
+        "name": "大力行医被动额外攻击力",
+        "skillKey": "drmundo_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T15:37:31.833643Z"
+      },
+      {
+        "createdAt": "2026-09-09T15:37:32.972974Z",
+        "description": "当前MaxDamageAmpTooltip只证最高端点；本式明确为完整AdditionalDamage×1.4，即（BaseDamage+0.05×来源额外生命）×MaxDamageAmp。只记录端点，不生成已损失生命到端点的中间曲线。",
+        "formulaKey": "maximum_additional_damage_endpoint",
+        "gameId": "lol",
+        "name": "大力行医完整额外伤害最高端点",
+        "skillKey": "drmundo_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T15:37:32.972974Z"
+      }
+    ],
+    "/skills/drmundo_e/formulas/additional_physical_damage": {
+      "createdAt": "2026-09-09T15:37:30.716109Z",
+      "description": "当前AdditionalDamage树=BaseDamage+0.05×来源额外生命；已损失生命提升的中间过程仅由正文端点描述，未并入此基础组成。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_health_ratio"
+              },
+              {
+                "attributeKey": "hp",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "BONUS",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "additional_physical_damage",
+      "gameId": "lol",
+      "name": "大力行医强化攻击额外物理伤害",
+      "skillKey": "drmundo_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T15:37:30.716109Z"
+    },
+    "/skills/drmundo_e/formulas/passive_bonus_attack_damage": {
+      "createdAt": "2026-09-09T15:37:31.833643Z",
+      "description": "当前PassiveBonusAD树为0.01×HealthToADRatio×来源总生命；保留实际根乘数，不把总生命和额外生命混淆。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "health_to_ad_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "health_to_ad_scale"
+              }
+            ],
+            "operation": "MULTIPLY"
+          },
+          {
+            "attributeKey": "hp",
+            "attributeOwner": "SOURCE",
+            "attributeValueKind": "TOTAL",
+            "nodeType": "ATTRIBUTE"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "formulaKey": "passive_bonus_attack_damage",
+      "gameId": "lol",
+      "name": "大力行医被动额外攻击力",
+      "skillKey": "drmundo_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T15:37:31.833643Z"
+    },
+    "/skills/drmundo_e/formulas/maximum_additional_damage_endpoint": {
+      "createdAt": "2026-09-09T15:37:32.972974Z",
+      "description": "当前MaxDamageAmpTooltip只证最高端点；本式明确为完整AdditionalDamage×1.4，即（BaseDamage+0.05×来源额外生命）×MaxDamageAmp。只记录端点，不生成已损失生命到端点的中间曲线。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_health_ratio"
+                  },
+                  {
+                    "attributeKey": "hp",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "BONUS",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "max_damage_amp"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "formulaKey": "maximum_additional_damage_endpoint",
+      "gameId": "lol",
+      "name": "大力行医完整额外伤害最高端点",
+      "skillKey": "drmundo_e",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T15:37:32.972974Z"
+    },
+    "/skills/drmundo_e/effects": [
+      {
+        "createdAt": "2026-09-09T15:37:33.999538Z",
+        "description": "只定义主动生命值代价；实际施放与下次攻击事件待接线。",
+        "effectKey": "health_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "大力行医生命值消耗",
+        "resultCount": 1,
+        "skillKey": "drmundo_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T15:37:33.999538Z"
+      },
+      {
+        "createdAt": "2026-09-09T15:37:35.123919Z",
+        "description": "独立定义当前根被动额外攻击力；不创建自动初始化或触发，应用时读取公式。",
+        "effectKey": "passive_bonus_attack_damage",
+        "gameId": "lol",
+        "lifecycleEnabled": true,
+        "name": "大力行医被动额外攻击力",
+        "resultCount": 1,
+        "skillKey": "drmundo_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T15:37:35.123919Z"
+      }
+    ],
+    "/skills/drmundo_e/effects/health_cost": {
+      "createdAt": "2026-09-09T15:37:33.999538Z",
+      "description": "只定义主动生命值代价；实际施放与下次攻击事件待接线。",
+      "effectKey": "health_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "大力行医生命值消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "hp",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "大力行医生命值消耗",
+          "resultKey": "resource",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "flat_health_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "drmundo_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T15:37:33.999538Z"
+    },
+    "/skills/drmundo_e/effects/passive_bonus_attack_damage": {
+      "createdAt": "2026-09-09T15:37:35.123919Z",
+      "description": "独立定义当前根被动额外攻击力；不创建自动初始化或触发，应用时读取公式。",
+      "effectKey": "passive_bonus_attack_damage",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": null,
+        "expiryMode": "EXPLICIT_ONLY",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": null,
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "大力行医被动额外攻击力",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "attack_damage",
+            "modifierZoneKey": "attribute_flat_add",
+            "operation": "INCREASE"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": "REPLACE",
+            "stackValueMode": "SHARED",
+            "valueReadMode": "APPLICATION_SNAPSHOT"
+          },
+          "name": "大力行医被动额外攻击力",
+          "resultKey": "attribute",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "passive_bonus_attack_damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "drmundo_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T15:37:35.123919Z"
+    },
+    "/skills/drmundo_e/processes": [],
+    "/skills/drmundo_e/internal-states": [],
+    "/skills/drmundo_e/trigger-rules": [],
+    "/attributes/hp": {
+      "attributeKey": "hp",
+      "createdAt": "2026-08-22T15:27:36.051116Z",
+      "description": null,
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "生命值",
+      "sortOrder": 300,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-22T15:27:36.051116Z",
+      "valueType": "DECIMAL"
+    },
+    "/attributes/attack_damage": {
+      "attributeKey": "attack_damage",
+      "createdAt": "2026-08-30T16:26:29.341938Z",
+      "description": "角色面板攻击力；伊泽瑞尔数据按官方 16.17.1 版本录入",
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "攻击力",
+      "sortOrder": 500,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-30T16:26:29.341938Z",
+      "valueType": "DECIMAL"
+    },
+    "/modifier-zones/attribute_flat_add": {
+      "applicationStage": "ATTRIBUTE_FLAT",
+      "calculationMode": "FLAT_ADD",
+      "createdAt": "2026-09-06T16:50:52.756989Z",
+      "description": "持续属性的固定值增加或减少；同属性同乘区内按方向加算，先于属性比例修正。比例类属性自身以1表示100%，增加0.6表示增加60个百分点，跨来源韧性组合仍待游戏规则核对。",
+      "domain": "ATTRIBUTE",
+      "gameId": "lol",
+      "modifierZoneKey": "attribute_flat_add",
+      "name": "属性固定加算",
+      "sortOrder": 10,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T16:50:52.756989Z"
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/drmundo_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_drmundo",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_drmundo/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_drmundo/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/drmundo_e/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_drmundo",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=drmundo_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/drmundo_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/drmundo_e/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/drmundo_e/parameters/attack_override_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/drmundo_e/parameters/flat_health_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/drmundo_e/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/drmundo_e/parameters/bonus_health_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/drmundo_e/parameters/max_damage_amp",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/drmundo_e/parameters/health_to_ad_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/drmundo_e/parameters/health_to_ad_scale",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/drmundo_e/parameters/unity",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/drmundo_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/drmundo_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/drmundo_e/formulas/additional_physical_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/drmundo_e/formulas/passive_bonus_attack_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/drmundo_e/formulas/maximum_additional_damage_endpoint",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/drmundo_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/drmundo_e/effects/health_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/drmundo_e/effects/passive_bonus_attack_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/drmundo_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/drmundo_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/drmundo_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/hp",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/attack_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/modifier-zones/attribute_flat_add",
+      "status": 200
+    }
+  ],
+  "businessWrites": 0
+}

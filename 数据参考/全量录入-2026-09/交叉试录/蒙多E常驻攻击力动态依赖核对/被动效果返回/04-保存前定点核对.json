@@ -1,0 +1,269 @@
+{
+  "at": "2026-09-20T11:33:44.969Z",
+  "status": "PASS",
+  "GETs": 10,
+  "businessWrites": 0,
+  "values": {
+    "/skills/drmundo_e/effects/passive_bonus_attack_damage": {
+      "createdAt": "2026-09-09T15:37:35.123919Z",
+      "description": "独立定义当前根被动额外攻击力；不创建自动初始化或触发，应用时读取公式。",
+      "effectKey": "passive_bonus_attack_damage",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": null,
+        "expiryMode": "EXPLICIT_ONLY",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": null,
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "大力行医被动额外攻击力",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "attack_damage",
+            "modifierZoneKey": "attribute_flat_add",
+            "operation": "INCREASE"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": "REPLACE",
+            "stackValueMode": "SHARED",
+            "valueReadMode": "APPLICATION_SNAPSHOT"
+          },
+          "name": "大力行医被动额外攻击力",
+          "resultKey": "attribute",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "passive_bonus_attack_damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "drmundo_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T15:37:35.123919Z"
+    },
+    "/skills/drmundo_e": {
+      "createdAt": "2026-09-06T18:18:12.056246Z",
+      "description": "被动 - 蒙多医生获得额外攻击力，数额会基于他的最大生命值而提升。<br><br>主动 - 蒙多医生用他的“医用”手提包猛砸一个敌人，造成基于他已损失生命值的额外伤害。如果这个敌人被击杀，那么还会被拍飞，对途经的所有敌人造成伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "蒙多医生·大力行医",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "drmundo_e",
+      "sortOrder": 3,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:18:12.056246Z"
+    },
+    "/skills/drmundo_e/effects": [
+      {
+        "createdAt": "2026-09-09T15:37:33.999538Z",
+        "description": "只定义主动生命值代价；实际施放与下次攻击事件待接线。",
+        "effectKey": "health_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "大力行医生命值消耗",
+        "resultCount": 1,
+        "skillKey": "drmundo_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T15:37:33.999538Z"
+      },
+      {
+        "createdAt": "2026-09-09T15:37:35.123919Z",
+        "description": "独立定义当前根被动额外攻击力；不创建自动初始化或触发，应用时读取公式。",
+        "effectKey": "passive_bonus_attack_damage",
+        "gameId": "lol",
+        "lifecycleEnabled": true,
+        "name": "大力行医被动额外攻击力",
+        "resultCount": 1,
+        "skillKey": "drmundo_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T15:37:35.123919Z"
+      }
+    ],
+    "/skills/drmundo_e/trigger-rules": [],
+    "/skills/drmundo_e/formulas/passive_bonus_attack_damage": {
+      "createdAt": "2026-09-09T15:37:31.833643Z",
+      "description": "当前PassiveBonusAD树为0.01×HealthToADRatio×来源总生命；保留实际根乘数，不把总生命和额外生命混淆。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "health_to_ad_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "health_to_ad_scale"
+              }
+            ],
+            "operation": "MULTIPLY"
+          },
+          {
+            "attributeKey": "hp",
+            "attributeOwner": "SOURCE",
+            "attributeValueKind": "TOTAL",
+            "nodeType": "ATTRIBUTE"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "formulaKey": "passive_bonus_attack_damage",
+      "gameId": "lol",
+      "name": "大力行医被动额外攻击力",
+      "skillKey": "drmundo_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T15:37:31.833643Z"
+    },
+    "/skills/drmundo_e/parameters/health_to_ad_ratio": {
+      "createdAt": "2026-09-09T15:37:27.351834Z",
+      "description": "客户端当前根绑定 DataValues.HealthToADRatio，等级1至5取索引1至5；当前PassiveBonusAD树另有0.01乘数。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 2,
+        "2": 2.3,
+        "3": 2.6,
+        "4": 2.9,
+        "5": 3.2
+      },
+      "name": "最大生命转攻击力倍率",
+      "parameterKey": "health_to_ad_ratio",
+      "skillKey": "drmundo_e",
+      "sortOrder": 80,
+      "updatedAt": "2026-09-09T15:37:27.351834Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "DECIMAL"
+    },
+    "/skills/drmundo_e/parameters/health_to_ad_scale": {
+      "createdAt": "2026-09-09T15:37:29.498214Z",
+      "description": "当前PassiveBonusAD计算树直接给出Number(0.01)；与HealthToADRatio相乘。",
+      "fixedValue": 0.01,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "生命转攻击力根乘数",
+      "parameterKey": "health_to_ad_scale",
+      "skillKey": "drmundo_e",
+      "sortOrder": 85,
+      "updatedAt": "2026-09-09T15:37:29.498214Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/attributes/hp": {
+      "attributeKey": "hp",
+      "createdAt": "2026-08-22T15:27:36.051116Z",
+      "description": null,
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "生命值",
+      "sortOrder": 300,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-22T15:27:36.051116Z",
+      "valueType": "DECIMAL"
+    },
+    "/attributes/attack_damage": {
+      "attributeKey": "attack_damage",
+      "createdAt": "2026-08-30T16:26:29.341938Z",
+      "description": "角色面板攻击力；伊泽瑞尔数据按官方 16.17.1 版本录入",
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "攻击力",
+      "sortOrder": 500,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-30T16:26:29.341938Z",
+      "valueType": "DECIMAL"
+    },
+    "/modifier-zones/attribute_flat_add": {
+      "applicationStage": "ATTRIBUTE_FLAT",
+      "calculationMode": "FLAT_ADD",
+      "createdAt": "2026-09-06T16:50:52.756989Z",
+      "description": "持续属性的固定值增加或减少；同属性同乘区内按方向加算，先于属性比例修正。比例类属性自身以1表示100%，增加0.6表示增加60个百分点，跨来源韧性组合仍待游戏规则核对。",
+      "domain": "ATTRIBUTE",
+      "gameId": "lol",
+      "modifierZoneKey": "attribute_flat_add",
+      "name": "属性固定加算",
+      "sortOrder": 10,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T16:50:52.756989Z"
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/drmundo_e/effects/passive_bonus_attack_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/drmundo_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/drmundo_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/drmundo_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/drmundo_e/formulas/passive_bonus_attack_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/drmundo_e/parameters/health_to_ad_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/drmundo_e/parameters/health_to_ad_scale",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/hp",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/attack_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/modifier-zones/attribute_flat_add",
+      "status": 200
+    }
+  ]
+}

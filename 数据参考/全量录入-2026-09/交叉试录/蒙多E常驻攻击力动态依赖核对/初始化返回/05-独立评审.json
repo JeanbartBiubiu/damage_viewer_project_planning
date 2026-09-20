@@ -1,0 +1,26 @@
+{
+  "at": "2026-09-20T11:55:00.447Z",
+  "status": "APPROVED",
+  "reviewer": "Cursor SDK grok-4.6 high fast=false",
+  "reviewedPlanRev": "mundo-init-v1-6ccd376003b84b59377fea144e9f4a0cf8d876d0af8d08c2a5a1b3842582cc7d",
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v3.mjs": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "01-候选方案.json": "17abf8bb58e111d36e5f14037dfa941d5e40ab24a2f1b577f8b6c1c6a000e441",
+    "02-冻结请求.json": "6ccd376003b84b59377fea144e9f4a0cf8d876d0af8d08c2a5a1b3842582cc7d",
+    "03-来源摘要.json": "c53d8711c31eccbd1758dbba60423c0e43296b706f7540c7a389cd65ff522684",
+    "04-写入前现值.json": "3296ff51342d5971190e759d23c87d85a2f20224ab5951490b5f84ba30624895"
+  },
+  "approvalBasis": {
+    "path": "05a-Cursor只读审计.json",
+    "sha256": "e46ca8cc85538ec35c14d2dde268c141a21db4997ae38021d41f40745b329ba5",
+    "runId": "run-0eb914f3-3833-496c-bf94-0593fa93094b",
+    "resultStatus": "finished",
+    "verdict": "READY",
+    "runDeltaCount": 0,
+    "toolEventAudit": "PASS"
+  },
+  "scope": "只批准冻结的一个初始化规则POST；保留31条旧现值及新增前404核对，随后独立32GET和页面返回。",
+  "businessWrites": 0,
+  "runtimeValidation": "未执行",
+  "wholeSkillComplete": false
+}

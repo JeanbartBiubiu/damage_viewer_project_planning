@@ -1,0 +1,27 @@
+{
+  "at": "2026-09-20T11:57:35.757Z",
+  "status": "PASS",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "newRule": "initialize_passive_bonus_attack_damage",
+  "event": "来源对象初始化完成",
+  "description": "来源对象的基础属性、技能与装备挂载及初始状态准备完成后，执行已有passive_bonus_attack_damage建立单层自身攻击力实例；公式在属性结算时按当前已学E等级和当时来源总生命重新读取。此入口不代表等级或生命变化事件，不处理主动强化攻击、费用及拍飞。",
+  "conditions": 0,
+  "actions": [
+    {
+      "visible": "执行效果 / 事件来源对象 / passive_bonus_attack_damage / 绑定 0 / 修正 0",
+      "type": "EXECUTE_EFFECT",
+      "targetContext": "EVENT_SOURCE"
+    }
+  ],
+  "openedAfterAPIWrite": true,
+  "browserBusinessWrites": 0,
+  "formulaPage": {
+    "name": "大力行医被动额外攻击力",
+    "expression": "( 最大生命转攻击力倍率 × 生命转攻击力根乘数 ) × 施法者.生命值.最终值",
+    "observedOwner": "施法者",
+    "observedAttribute": "生命值（hp）",
+    "observedValueKind": "最终值"
+  },
+  "diagnostics": [],
+  "runtimeValidation": "未执行"
+}

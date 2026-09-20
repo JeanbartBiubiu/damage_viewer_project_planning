@@ -1,0 +1,113 @@
+{
+  "at": "2026-09-20T11:47:13.380Z",
+  "targets": [
+    {
+      "skillKey": "drmundo_e",
+      "ownerKey": "champion_drmundo"
+    }
+  ],
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/drmundo_e/trigger-rules",
+      "detailRoute": "/skills/drmundo_e/trigger-rules/initialize_passive_bonus_attack_damage",
+      "body": {
+        "ruleKey": "initialize_passive_bonus_attack_damage",
+        "name": "初始化大力行医被动攻击力",
+        "description": "来源对象的基础属性、技能与装备挂载及初始状态准备完成后，执行已有passive_bonus_attack_damage建立单层自身攻击力实例；公式在属性结算时按当前已学E等级和当时来源总生命重新读取。此入口不代表等级或生命变化事件，不处理主动强化攻击、费用及拍飞。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SOURCE_INITIALIZED",
+          "detail": {}
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "execute_passive_bonus_attack_damage",
+            "name": "建立大力行医被动攻击力",
+            "actionType": "EXECUTE_EFFECT",
+            "targetContext": "EVENT_SOURCE",
+            "detail": {
+              "effectKey": "passive_bonus_attack_damage"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": [],
+            "sortOrder": 10
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "initialize_passive_bonus_attack_damage",
+        "name": "初始化大力行医被动攻击力",
+        "description": "来源对象的基础属性、技能与装备挂载及初始状态准备完成后，执行已有passive_bonus_attack_damage建立单层自身攻击力实例；公式在属性结算时按当前已学E等级和当时来源总生命重新读取。此入口不代表等级或生命变化事件，不处理主动强化攻击、费用及拍飞。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SOURCE_INITIALIZED",
+          "detail": {}
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "execute_passive_bonus_attack_damage",
+            "name": "建立大力行医被动攻击力",
+            "actionType": "EXECUTE_EFFECT",
+            "targetContext": "EVENT_SOURCE",
+            "detail": {
+              "effectKey": "passive_bonus_attack_damage"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": [],
+            "sortOrder": 10
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "sourceFiles": [
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/DrMundo.json.gz",
+      "sha256": "2cb1ceb70e889b28545546926e7f76afe0844d7606c01b616cb815aa947a91f0"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/DrMundo.json",
+      "sha256": "e7d38d995841cf424c81a225d88446e2a69054405f464bb2bf55e8736824b34b"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/蒙多E常驻攻击力动态依赖核对/02-被动来源与依赖.json",
+      "sha256": "0870471520d275d8148d311b643884381d1abb49c12c21f22efebe031207191c"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/蒙多E常驻攻击力动态依赖核对/03-公式算术.json",
+      "sha256": "a00819cdb07b4e15ec5746b965d7409880da1b9a88c98ad34774858b93cb097a"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/蒙多E常驻攻击力动态依赖核对/被动效果返回/05-页面写入与即时回读.json",
+      "sha256": "5c431ae5bb76c72dc7a777c1d5b16e9b0f916172b23802a652a654dacead3eda"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/蒙多E常驻攻击力动态依赖核对/被动效果返回/06-独立回读.json",
+      "sha256": "d58c930f03a4f5e659813b66aa7a130e2365f95fd98b5eeba814ca833c76fcef"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/蒙多E常驻攻击力动态依赖核对/被动效果返回/07-页面返回.json",
+      "sha256": "7608373f4012c86b59b890d26320cf76782cde06a9b7047c4f39cdd04f3780e6"
+    },
+    {
+      "root": "planning",
+      "path": "文档记录/概要设计/项目/技能参数公式与效果引用边界.md",
+      "sha256": "55cf5c1de21c4018ec60dda69d4ab909786e2155cddab89eb50689f555d9882c"
+    }
+  ],
+  "scope": "只新增一个来源初始化入口，执行已修正为当前时点读取的现有常驻自身攻击力效果；既有全部组成与引用保持。1至5级被动范围，未学习0级资格与主动分支继续开放，未执行运行时。"
+}

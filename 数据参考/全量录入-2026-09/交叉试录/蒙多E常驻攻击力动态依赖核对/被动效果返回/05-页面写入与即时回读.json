@@ -1,0 +1,83 @@
+{
+  "startedAt": "2026-09-20T11:42:33.440Z",
+  "status": "PASS",
+  "businessWritesAttempted": 1,
+  "operations": [
+    {
+      "route": "/skills/drmundo_e/effects/passive_bonus_attack_damage",
+      "saveClicks": 1,
+      "putBodyCaptured": false,
+      "putResponseStatusCaptured": false,
+      "readback": {
+        "createdAt": "2026-09-09T15:37:35.123919Z",
+        "description": "常驻自身攻击力，按当前已学E等级1至5与当时来源总生命持续重新读取既有公式；初始化仅建立单层实例。主动强化攻击、生命消耗与拍飞分支继续单列，不把等级或生命变化伪装成初始化事件。",
+        "effectKey": "passive_bonus_attack_damage",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": null,
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "大力行医被动额外攻击力",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "attack_damage",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": null,
+              "stackValueMode": "SHARED",
+              "valueReadMode": "MOMENT_EVALUATION"
+            },
+            "name": "大力行医被动额外攻击力",
+            "resultKey": "attribute",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "passive_bonus_attack_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "drmundo_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-20T11:42:50.680261Z"
+      },
+      "audit": {
+        "method": "GET",
+        "path": "/skills/drmundo_e/effects/passive_bonus_attack_damage",
+        "status": 200
+      }
+    }
+  ],
+  "pendingRoute": null,
+  "reviewSha256": "9d341854e3c909a2798fb49ed04d14de1b037516d5282ef319282c7f8df54041",
+  "frozenSha256": "192b353de9997f02e9d79d5f7f48bf81493f8e5ddcc5cf91c86aa28701fa7df4",
+  "method": "REAL_BROWSER_SINGLE_SAVE",
+  "note": "只点击父效果保存一次；子结果已应用草稿。实际PUT正文与状态未捕获，保存后以完整GET核对。审批路径和摘要错误已在业务保存前修订，03a保留修订前版本。",
+  "finishedAt": "2026-09-20T11:43:07.284Z"
+}
