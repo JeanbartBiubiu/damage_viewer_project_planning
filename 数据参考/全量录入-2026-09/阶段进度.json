@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-20T09:03:28.625Z",
+  "generatedAt": "2026-09-20T09:15:22.717Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -12280,6 +12280,46 @@
         "sha256": "cb6f402d7472a25040ff21dda1ba2a6ecdb7dc4c51881d9671aa557bb4796b3d"
       },
       "runtimeValidation": "未执行"
+    },
+    "skillParameterBulkEntryFix": {
+      "at": "2026-09-20T09:15:22.717Z",
+      "status": "FIXED_AND_RETURNED",
+      "issueGroup": "系统-05",
+      "codeCommit": "a92dde45",
+      "businessWrites": 0,
+      "backendChanges": 0,
+      "checks": {
+        "lint": "PASS",
+        "typecheck": "PASS",
+        "unitTests": 728,
+        "affectedParameterTests": 18,
+        "build": "PASS",
+        "targetedBrowserTests": 3
+      },
+      "realBrowser": {
+        "status": "PASS",
+        "parameters": [
+          "nasus_p/life_steal_ratio",
+          "zyra_q/base_damage"
+        ],
+        "checks": [
+          "空项、整数、数量错误保留原值",
+          "完整18级与5级数值应用到草稿",
+          "查看无批量入口"
+        ],
+        "businessWrites": 0,
+        "errors": 0,
+        "warnings": 0
+      },
+      "postBrowserGETs": 2,
+      "protectedParametersIncludingTimestampsUnchanged": true,
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/技能参数整列录入修正/03-证据清单.json",
+        "commit": "a92dde45",
+        "sha256": "a0b1a19474920d990ccbc5a57201e5fbbf2f7f332372e02ca6e791e1ee16edff"
+      }
     }
   },
   "runtimeValidation": "未执行",
@@ -12940,6 +12980,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/卡萨丁被动魔法减免补录/03-证据清单.json",
         "commit": "40c8ee08",
         "sha256": "cb6f402d7472a25040ff21dda1ba2a6ecdb7dc4c51881d9671aa557bb4796b3d"
+      },
+      "skillParameterBulkEntryFix": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/技能参数整列录入修正/03-证据清单.json",
+        "commit": "a92dde45",
+        "sha256": "a0b1a19474920d990ccbc5a57201e5fbbf2f7f332372e02ca6e791e1ee16edff"
       }
     },
     "coverage": {
