@@ -1,0 +1,50 @@
+{
+  "at": "2026-09-20T16:07:37.982Z",
+  "status": "只读定位，未批准实施",
+  "sourceVersion": {
+    "client": "16.17",
+    "official": "16.17.1"
+  },
+  "triggeringObject": "masteryi_r",
+  "currentEvidence": "../参与击杀管理表达返回/05-同类对象边界核对.json",
+  "observedManagementGap": "当前冷却变化操作只有按毫秒减少、按毫秒增加、重置为可用，无法直接表达按剩余冷却百分比减少。",
+  "codeEvidence": [
+    {
+      "worktree": "damage_backend_dev",
+      "path": "server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectCooldownChangeOperation.java",
+      "values": [
+        "REDUCE",
+        "INCREASE",
+        "RESET"
+      ]
+    },
+    {
+      "worktree": "damage_backend_dev",
+      "path": "server/data_manage/src/main/java/xyz/game/datamanage/service/skilleffect/SkillEffectService.java",
+      "method": "validateCooldownChange",
+      "behavior": "RESET禁止数值规则，其余要求数值规则；复用affectedSkillScope"
+    },
+    {
+      "worktree": "damage_web_dev",
+      "path": "web/src/pages/admin/skills/effects/effectForm.ts",
+      "symbol": "COOLDOWN_CHANGE_OPERATION_LABELS",
+      "values": [
+        "减少",
+        "增加",
+        "重置为可用"
+      ]
+    }
+  ],
+  "questions": [
+    "固定版本分别按剩余冷却还是总冷却返还",
+    "明确触发时点与自身/基础技能范围",
+    "能否复用现有结果与数值规则，只新增明确的比例操作且限定0到1"
+  ],
+  "candidateComparison": [
+    "masteryi_r",
+    "pantheon_q",
+    "talon_q"
+  ],
+  "runtimeDevelopment": false,
+  "businessWrites": 0
+}

@@ -1,0 +1,100 @@
+{
+  "at": "2026-09-20T16:13:04.769Z",
+  "sourceRows": [
+    {
+      "champion": "MasterYi",
+      "ddragonVersion": "16.17.1",
+      "sourcePath": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/MasterYi.json",
+      "sourceSha256": "11b8f0b3b614c71f45cc0d12a8971c7bc054a2a0a3c86c251ca9ac80324530e4",
+      "description": "Master Yi moves with unparalleled agility, temporarily increasing his Move Speed and Attack Speed as well as making him immune to all slowing effects. While active, Champion kills or assists extend Highlander's duration. Passively reduces cooldown for his other abilities on a kill or assist.",
+      "tooltip": "<spellPassive>Passive:</spellPassive> Champion takedowns reduce the remaining Cooldown of Master Yi's basic Abilities by {{ rcooldownrefund*100 }}%.<br /><br /><spellActive>Active:</spellActive> Master Yi enters a trance, gaining <speed>{{ rmsbonus }}% Move Speed</speed>, <attackSpeed>{{ rasbonus }}% Attack Speed</attackSpeed>, and immunity to <status>Slows</status> for {{ rduration }} seconds. Champion takedowns extend the duration of this Ability by {{ rkillassistextension }} seconds.{{ spellmodifierdescriptionappend }}",
+      "clientPath": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/MasterYi.json.gz",
+      "clientDecompressedSha256": "406982f759b8260ea1ebe8f930753dab9e0a626a811889e099b05caebbbfef1c",
+      "spellPath": "Characters/MasterYi/Spells/HighlanderAbility/Highlander",
+      "refundValues": [
+        {
+          "name": "RCooldownRefund",
+          "values": [
+            0.699999988079071,
+            0.699999988079071,
+            0.699999988079071,
+            0.699999988079071,
+            0.699999988079071,
+            0.699999988079071,
+            0.699999988079071
+          ],
+          "__type": "SpellDataValue"
+        }
+      ]
+    },
+    {
+      "champion": "Pantheon",
+      "ddragonVersion": "16.17.1",
+      "sourcePath": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Pantheon.json",
+      "sourceSha256": "7283a668ec2c0a0427f9545c19ceb59c2f64e2e0f72fea922660823b28fcb9ef",
+      "description": "Pantheon either thrusts his spear or throws his spear in the chosen direction.",
+      "tooltip": "<span class=\"colorFF8C00\">Tap:</span> Pantheon thrusts his spear, dealing <physicalDamage>{{ tapdamagecalc }} physical damage</physicalDamage> to enemies hit. Refunds {{ tapcooldownrefund*100 }}% of this Ability's Cooldown.<br /><br /><span class=\"colorFF8C00\">Hold:</span> Pantheon hurls his spear, dealing <physicalDamage>{{ holddamagecalc }} physical damage</physicalDamage> to the first enemy hit and {{ damagefalloff*100 }}% less to further targets. <br /><br />This Ability is enhanced against enemies below {{ crithealththreshold*100 }}% Health to deal <physicalDamage>{{ executedamagecalcmodified }} physical damage</physicalDamage> instead.<br /><br /><span class=\"colorEDDA74\">Mortal Will Bonus:</span> Deals an additional <physicalDamage>{{ empowereddamagecalc }} physical damage</physicalDamage>.{{ spellmodifierdescriptionappend }}",
+      "clientPath": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Pantheon.json.gz",
+      "clientDecompressedSha256": "ed4d9b0875d42ac28452ca6f6f0eb9171b1338253ec12318cef784646a87abc7",
+      "spellPath": "Characters/Pantheon/Spells/PantheonQAbility/PantheonQ",
+      "refundValues": [
+        {
+          "name": "TapCooldownRefund",
+          "values": [
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579
+          ],
+          "__type": "SpellDataValue"
+        }
+      ]
+    },
+    {
+      "champion": "Talon",
+      "ddragonVersion": "16.17.1",
+      "sourcePath": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Talon.json",
+      "sourceSha256": "1504dbe1b9d6bcb58be3eecf6eadfee61c9422573063295ffbdbfe3075c2c550",
+      "description": "Talon stabs the target unit. If they are within melee range, this attack deals critical damage. If they are outside melee range, Talon will leap at his target before stabbing them. Talon refunds some health and cooldown if this ability kills the target.",
+      "tooltip": "Talon leaps to a target and deals <physicalDamage>{{ leapdamage }} physical damage</physicalDamage>. If used in melee range, this Ability instead critically strikes for <physicalDamage>{{ criticaldamage }} physical damage</physicalDamage>.<br /><br />If this Ability kills the target, Talon restores <healing>{{ totalhealing }} Health</healing> and refunds {{ cooldownrefund*100 }}% of its Cooldown.{{ spellmodifierdescriptionappend }}",
+      "clientPath": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Talon.json.gz",
+      "clientDecompressedSha256": "94a23dece6d2dee4fcbca0fbfa35e9ee6fc2b059e8561d06f476c4f7e307d4b0",
+      "spellPath": "Characters/Talon/Spells/TalonQAbility/TalonQ",
+      "refundValues": [
+        {
+          "name": "CooldownRefund",
+          "values": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ],
+          "__type": "SpellDataValue"
+        }
+      ]
+    }
+  ],
+  "independentReviewer": "/root/remaining_cooldown_ratio_sources",
+  "accepted": {
+    "masteryi_r": "明确为自身Q/W/E的剩余冷却减少70%，击杀或助攻触发；文本未限制必须处于R主动持续期。",
+    "pantheon_q": "仅点按Q明确返还Q冷却60%；总冷却或剩余冷却基数未由现有原文直接说明。",
+    "talon_q": "Q击杀自身目标时返还Q冷却50%；原文未限制目标必须英雄；总冷却或剩余冷却基数仍待核。"
+  },
+  "correction": "独立代理把潘森和泰隆未写remaining推断为总冷却。主负责人不采用该推断；未明示剩余不能反证为总冷却。",
+  "pending": [
+    "易大师R被动学习门槛及更细事件顺序，需要沿既有技能生效契约确认",
+    "潘森Q与泰隆Q的返还基数、时点和急速关系"
+  ],
+  "floatRepresentations": {
+    "masteryiMatchesFloat32Point7": true,
+    "pantheonMatchesFloat32Point6": true
+  },
+  "businessWrites": 0,
+  "runtimeVerified": false
+}
