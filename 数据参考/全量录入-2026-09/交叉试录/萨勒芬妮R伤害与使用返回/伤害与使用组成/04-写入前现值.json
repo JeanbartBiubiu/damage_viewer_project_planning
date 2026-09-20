@@ -1,0 +1,905 @@
+{
+  "at": "2026-09-20T06:56:22.807Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/skills/seraphine_r": {
+      "createdAt": "2026-09-06T18:20:14.364885Z",
+      "description": "萨勒芬妮对命中的敌人造成伤害和魅惑，并在命中友方或敌方英雄时延伸技能距离。已保存基础参数、伤害公式、终极技能分类，以及本来源当前目标无魅惑实例时的首次魅惑身份与期限；首次魅惑只连接敌方英雄实际命中且本次未被法术护盾阻挡的入口。伤害结果、使用成本与过程、施放时间冲突、重施及距离延伸仍待完善；仅队友音符不在本轮1V1范围内。不计整技能管理完整。来源：客户端16.17、官方中英文16.17.1。",
+      "gameId": "lol",
+      "maxLevel": 3,
+      "name": "萨勒芬妮·炫音返场",
+      "skillCategoryKeys": [
+        "ultimate"
+      ],
+      "skillKey": "seraphine_r",
+      "sortOrder": 4,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-20T04:25:25.853869Z"
+    },
+    "/characters/champion_seraphine": {
+      "characterKey": "champion_seraphine",
+      "createdAt": "2026-09-06T17:40:02.694374Z",
+      "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+      "gameId": "lol",
+      "name": "萨勒芬妮",
+      "updatedAt": "2026-09-06T17:40:02.694374Z"
+    },
+    "/characters/champion_seraphine/attributes": {
+      "characterKey": "champion_seraphine",
+      "levelValues": {
+        "1": {
+          "move_speed": 330,
+          "hp": 570,
+          "hp_regen": 6.5,
+          "mana": 360,
+          "mana_regen": 11.5,
+          "armor": 26,
+          "magic_resistance": 30,
+          "attack_damage": 50,
+          "attack_speed": 0.669,
+          "attack_range": 525
+        },
+        "2": {
+          "move_speed": 330,
+          "hp": 638.4,
+          "hp_regen": 6.932,
+          "mana": 388.8,
+          "mana_regen": 12.184,
+          "armor": 29.024,
+          "magic_resistance": 30.936,
+          "attack_damage": 52.16,
+          "attack_speed": 0.678,
+          "attack_range": 525
+        },
+        "3": {
+          "move_speed": 330,
+          "hp": 710.125,
+          "hp_regen": 7.385,
+          "mana": 419,
+          "mana_regen": 12.90125,
+          "armor": 32.195,
+          "magic_resistance": 31.9175,
+          "attack_damage": 54.425,
+          "attack_speed": 0.687438,
+          "attack_range": 525
+        },
+        "4": {
+          "move_speed": 330,
+          "hp": 785.175,
+          "hp_regen": 7.859,
+          "mana": 450.6,
+          "mana_regen": 13.65175,
+          "armor": 35.513,
+          "magic_resistance": 32.9445,
+          "attack_damage": 56.795,
+          "attack_speed": 0.697313,
+          "attack_range": 525
+        },
+        "5": {
+          "move_speed": 330,
+          "hp": 863.55,
+          "hp_regen": 8.354,
+          "mana": 483.6,
+          "mana_regen": 14.4355,
+          "armor": 38.978,
+          "magic_resistance": 34.017,
+          "attack_damage": 59.27,
+          "attack_speed": 0.707625,
+          "attack_range": 525
+        },
+        "6": {
+          "move_speed": 330,
+          "hp": 945.25,
+          "hp_regen": 8.87,
+          "mana": 518,
+          "mana_regen": 15.2525,
+          "armor": 42.59,
+          "magic_resistance": 35.135,
+          "attack_damage": 61.85,
+          "attack_speed": 0.718375,
+          "attack_range": 525
+        },
+        "7": {
+          "move_speed": 330,
+          "hp": 1030.275,
+          "hp_regen": 9.407,
+          "mana": 553.8,
+          "mana_regen": 16.10275,
+          "armor": 46.349,
+          "magic_resistance": 36.2985,
+          "attack_damage": 64.535,
+          "attack_speed": 0.729563,
+          "attack_range": 525
+        },
+        "8": {
+          "move_speed": 330,
+          "hp": 1118.625,
+          "hp_regen": 9.965,
+          "mana": 591,
+          "mana_regen": 16.98625,
+          "armor": 50.255,
+          "magic_resistance": 37.5075,
+          "attack_damage": 67.325,
+          "attack_speed": 0.741187,
+          "attack_range": 525
+        },
+        "9": {
+          "move_speed": 330,
+          "hp": 1210.3,
+          "hp_regen": 10.544,
+          "mana": 629.6,
+          "mana_regen": 17.903,
+          "armor": 54.308,
+          "magic_resistance": 38.762,
+          "attack_damage": 70.22,
+          "attack_speed": 0.75325,
+          "attack_range": 525
+        },
+        "10": {
+          "move_speed": 330,
+          "hp": 1305.3,
+          "hp_regen": 11.144,
+          "mana": 669.6,
+          "mana_regen": 18.853,
+          "armor": 58.508,
+          "magic_resistance": 40.062,
+          "attack_damage": 73.22,
+          "attack_speed": 0.76575,
+          "attack_range": 525
+        },
+        "11": {
+          "move_speed": 330,
+          "hp": 1403.625,
+          "hp_regen": 11.765,
+          "mana": 711,
+          "mana_regen": 19.83625,
+          "armor": 62.855,
+          "magic_resistance": 41.4075,
+          "attack_damage": 76.325,
+          "attack_speed": 0.778688,
+          "attack_range": 525
+        },
+        "12": {
+          "move_speed": 330,
+          "hp": 1505.275,
+          "hp_regen": 12.407,
+          "mana": 753.8,
+          "mana_regen": 20.85275,
+          "armor": 67.349,
+          "magic_resistance": 42.7985,
+          "attack_damage": 79.535,
+          "attack_speed": 0.792063,
+          "attack_range": 525
+        },
+        "13": {
+          "move_speed": 330,
+          "hp": 1610.25,
+          "hp_regen": 13.07,
+          "mana": 798,
+          "mana_regen": 21.9025,
+          "armor": 71.99,
+          "magic_resistance": 44.235,
+          "attack_damage": 82.85,
+          "attack_speed": 0.805875,
+          "attack_range": 525
+        },
+        "14": {
+          "move_speed": 330,
+          "hp": 1718.55,
+          "hp_regen": 13.754,
+          "mana": 843.6,
+          "mana_regen": 22.9855,
+          "armor": 76.778,
+          "magic_resistance": 45.717,
+          "attack_damage": 86.27,
+          "attack_speed": 0.820125,
+          "attack_range": 525
+        },
+        "15": {
+          "move_speed": 330,
+          "hp": 1830.175,
+          "hp_regen": 14.459,
+          "mana": 890.6,
+          "mana_regen": 24.10175,
+          "armor": 81.713,
+          "magic_resistance": 47.2445,
+          "attack_damage": 89.795,
+          "attack_speed": 0.834813,
+          "attack_range": 525
+        },
+        "16": {
+          "move_speed": 330,
+          "hp": 1945.125,
+          "hp_regen": 15.185,
+          "mana": 939,
+          "mana_regen": 25.25125,
+          "armor": 86.795,
+          "magic_resistance": 48.8175,
+          "attack_damage": 93.425,
+          "attack_speed": 0.849938,
+          "attack_range": 525
+        },
+        "17": {
+          "move_speed": 330,
+          "hp": 2063.4,
+          "hp_regen": 15.932,
+          "mana": 988.8,
+          "mana_regen": 26.434,
+          "armor": 92.024,
+          "magic_resistance": 50.436,
+          "attack_damage": 97.16,
+          "attack_speed": 0.8655,
+          "attack_range": 525
+        },
+        "18": {
+          "move_speed": 330,
+          "hp": 2185,
+          "hp_regen": 16.7,
+          "mana": 1040,
+          "mana_regen": 27.65,
+          "armor": 97.4,
+          "magic_resistance": 52.1,
+          "attack_damage": 101,
+          "attack_speed": 0.8815,
+          "attack_range": 525
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_seraphine/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_champion_seraphine",
+        "name": "champion_seraphine"
+      }
+    },
+    "/skills/seraphine_r/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_seraphine_r",
+        "name": "seraphine_r"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_seraphine": {
+      "items": [
+        {
+          "characterKey": "champion_seraphine",
+          "characterName": "萨勒芬妮",
+          "gameId": "lol",
+          "skillKey": "seraphine_p",
+          "skillName": "萨勒芬妮·星光漫射",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_seraphine",
+          "characterName": "萨勒芬妮",
+          "gameId": "lol",
+          "skillKey": "seraphine_q",
+          "skillName": "萨勒芬妮·清籁穿云",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_seraphine",
+          "characterName": "萨勒芬妮",
+          "gameId": "lol",
+          "skillKey": "seraphine_w",
+          "skillName": "萨勒芬妮·聚和心声",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_seraphine",
+          "characterName": "萨勒芬妮",
+          "gameId": "lol",
+          "skillKey": "seraphine_e",
+          "skillName": "萨勒芬妮·增幅节拍",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_seraphine",
+          "characterName": "萨勒芬妮",
+          "gameId": "lol",
+          "skillKey": "seraphine_r",
+          "skillName": "萨勒芬妮·炫音返场",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=seraphine_r": {
+      "items": [
+        {
+          "characterKey": "champion_seraphine",
+          "characterName": "萨勒芬妮",
+          "gameId": "lol",
+          "skillKey": "seraphine_r",
+          "skillName": "萨勒芬妮·炫音返场",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 1
+    },
+    "/skills/seraphine_r/parameters": [
+      {
+        "createdAt": "2026-09-09T18:44:30.027264Z",
+        "description": "当前R1BaseDamage技能等级1至3。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 150,
+          "2": 200,
+          "3": 250
+        },
+        "name": "舞台魅影基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "seraphine_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T18:44:30.027264Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T18:44:32.181718Z",
+        "description": "当前R1TotalDamage树AP比例为0.4。",
+        "fixedValue": 0.4,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "舞台魅影法强比例",
+        "parameterKey": "ability_power_ratio",
+        "skillKey": "seraphine_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T18:44:32.181718Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T18:44:34.097455Z",
+        "description": "当前RChannelDuration技能等级1至3对应1.25/1.5/1.75秒。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 1250,
+          "2": 1500,
+          "3": 1750
+        },
+        "name": "魅惑持续时间",
+        "parameterKey": "charm_duration_ms",
+        "skillKey": "seraphine_r",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T18:44:34.097455Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T02:41:04.691949Z",
+        "description": "DDragon16.17.1 Seraphine.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 160000,
+          "2": 140000,
+          "3": 120000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "seraphine_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:41:04.691949Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T02:41:05.224091Z",
+        "description": "DDragon16.17.1 Seraphine.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "seraphine_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:41:05.224091Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/seraphine_r/parameters/base_damage": {
+      "createdAt": "2026-09-09T18:44:30.027264Z",
+      "description": "当前R1BaseDamage技能等级1至3。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 150,
+        "2": 200,
+        "3": 250
+      },
+      "name": "舞台魅影基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "seraphine_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T18:44:30.027264Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/seraphine_r/parameters/ability_power_ratio": {
+      "createdAt": "2026-09-09T18:44:32.181718Z",
+      "description": "当前R1TotalDamage树AP比例为0.4。",
+      "fixedValue": 0.4,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "舞台魅影法强比例",
+      "parameterKey": "ability_power_ratio",
+      "skillKey": "seraphine_r",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T18:44:32.181718Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/seraphine_r/parameters/charm_duration_ms": {
+      "createdAt": "2026-09-09T18:44:34.097455Z",
+      "description": "当前RChannelDuration技能等级1至3对应1.25/1.5/1.75秒。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 1250,
+        "2": 1500,
+        "3": 1750
+      },
+      "name": "魅惑持续时间",
+      "parameterKey": "charm_duration_ms",
+      "skillKey": "seraphine_r",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T18:44:34.097455Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/seraphine_r/parameters/cooldown_ms": {
+      "createdAt": "2026-09-08T02:41:04.691949Z",
+      "description": "DDragon16.17.1 Seraphine.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 160000,
+        "2": 140000,
+        "3": 120000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "seraphine_r",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-08T02:41:04.691949Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/seraphine_r/parameters/mana_cost": {
+      "createdAt": "2026-09-08T02:41:05.224091Z",
+      "description": "DDragon16.17.1 Seraphine.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 100,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "seraphine_r",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-08T02:41:05.224091Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/seraphine_r/formulas": [
+      {
+        "createdAt": "2026-09-09T18:44:36.214215Z",
+        "description": "只保存单一敌方伤害；范围延伸和友方音符不录。",
+        "formulaKey": "magic_damage",
+        "gameId": "lol",
+        "name": "舞台魅影单一敌方魔法伤害",
+        "skillKey": "seraphine_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T18:44:36.214215Z"
+      }
+    ],
+    "/skills/seraphine_r/formulas/magic_damage": {
+      "createdAt": "2026-09-09T18:44:36.214215Z",
+      "description": "只保存单一敌方伤害；范围延伸和友方音符不录。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ability_power_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "magic_damage",
+      "gameId": "lol",
+      "name": "舞台魅影单一敌方魔法伤害",
+      "skillKey": "seraphine_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T18:44:36.214215Z"
+    },
+    "/skills/seraphine_r/effects": [
+      {
+        "createdAt": "2026-09-19T20:39:22.255372Z",
+        "description": "本来源当前目标无本魅惑实例时施加一次魅惑，期限引用已有技能等级参数；入口同时要求敌方英雄实际命中且同次命中明确未被法术护盾阻挡。已有实例时不执行，重施字段在本入口不可达。只登记魅惑身份与期限，伴随减速、中止或距离延伸等分支分别维护。",
+        "effectKey": "charm_first_application",
+        "gameId": "lol",
+        "lifecycleEnabled": true,
+        "name": "炫音返场首次魅惑",
+        "resultCount": 1,
+        "skillKey": "seraphine_r",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-19T20:39:22.255372Z"
+      }
+    ],
+    "/skills/seraphine_r/effects/charm_first_application": {
+      "createdAt": "2026-09-19T20:39:22.255372Z",
+      "description": "本来源当前目标无本魅惑实例时施加一次魅惑，期限引用已有技能等级参数；入口同时要求敌方英雄实际命中且同次命中明确未被法术护盾阻挡。已有实例时不执行，重施字段在本入口不可达。只登记魅惑身份与期限，伴随减速、中止或距离延伸等分支分别维护。",
+      "effectKey": "charm_first_application",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "charm_duration_ms"
+        },
+        "expiryMode": "ALL_AT_ONCE",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE_TARGET",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "炫音返场首次魅惑",
+      "results": [
+        {
+          "description": "施加无强度魅惑并随父效果期限结束，只在本次施加时按当前结果参与法术护盾判断。",
+          "detail": {
+            "operation": "APPLY",
+            "statusKey": "charm"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": null,
+            "stackValueMode": null,
+            "valueReadMode": null
+          },
+          "name": "炫音返场魅惑",
+          "resultKey": "charm",
+          "resultType": "STATUS_OPERATION",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "RESULT",
+          "target": "TARGET",
+          "valueRule": null
+        }
+      ],
+      "skillKey": "seraphine_r",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-19T20:39:22.255372Z"
+    },
+    "/skills/seraphine_r/processes": [],
+    "/skills/seraphine_r/internal-states": [],
+    "/skills/seraphine_r/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "仅当本次实际命中明确为敌方英雄、法术护盾阻挡值为0且当前目标无本来源魅惑实例时施加；缺少阻挡值不得默认0。已有实例的重施未录，伤害、资源及其他分支独立维护。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "无本魅惑实例时施加",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "apply_charm_on_unblocked_hit",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-19T20:39:23.825518Z"
+      }
+    ],
+    "/skills/seraphine_r/trigger-rules/apply_charm_on_unblocked_hit": {
+      "actions": [
+        {
+          "actionKey": "apply_charm",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "charm_first_application"
+          },
+          "name": "施加本次魅惑",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "detail": {},
+              "sortOrder": 20
+            },
+            {
+              "conditionKey": "not_spell_shield_blocked",
+              "conditionType": "EVENT_VALUE_COMPARE",
+              "detail": {
+                "comparator": "EQ",
+                "comparisonValue": {
+                  "kind": "FIXED",
+                  "value": 0
+                },
+                "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED"
+              },
+              "sortOrder": 30
+            },
+            {
+              "conditionKey": "own_charm_absent",
+              "conditionType": "LIFECYCLE_CHECK",
+              "detail": {
+                "checkKind": "ABSENT",
+                "comparator": null,
+                "comparisonValue": null,
+                "effectKey": "charm_first_application",
+                "subject": "CURRENT_TARGET"
+              },
+              "sortOrder": 40
+            }
+          ],
+          "groupKey": "charm_eligible",
+          "name": "本次魅惑可施加",
+          "sortOrder": 10
+        }
+      ],
+      "description": "仅当本次实际命中明确为敌方英雄、法术护盾阻挡值为0且当前目标无本来源魅惑实例时施加；缺少阻挡值不得默认0。已有实例的重施未录，伤害、资源及其他分支独立维护。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "seraphine_r",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "无本魅惑实例时施加",
+      "perTargetCooldown": null,
+      "ruleKey": "apply_charm_on_unblocked_hit",
+      "sortOrder": 30
+    },
+    "/attributes/mana": {
+      "attributeKey": "mana",
+      "createdAt": "2026-08-22T15:27:36.139767Z",
+      "description": null,
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法力值",
+      "sortOrder": 310,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-22T15:27:36.139767Z",
+      "valueType": "DECIMAL"
+    },
+    "/damage-types/magic": {
+      "createdAt": "2026-08-26T05:59:15.870937Z",
+      "damageTypeKey": "magic",
+      "description": null,
+      "gameId": "lol",
+      "name": "魔法伤害",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-26T05:59:15.870937Z"
+    },
+    "/attributes/ability_power": {
+      "attributeKey": "ability_power",
+      "createdAt": "2026-08-30T16:26:39.898635Z",
+      "description": "角色法术强度；基础值为 0，可由装备和效果增加",
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法术强度",
+      "sortOrder": 510,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-30T16:26:39.898635Z",
+      "valueType": "DECIMAL"
+    },
+    "/statuses/charm": {
+      "createdAt": "2026-09-19T20:24:19.522892Z",
+      "description": "魅惑状态身份：目标被迫接近技能来源；具体期限由效果生命周期维护，本状态不另设强度数值。",
+      "gameId": "lol",
+      "name": "魅惑",
+      "sortOrder": 40,
+      "status": "ENABLED",
+      "statusKey": "charm",
+      "statusKind": "CHARM",
+      "updatedAt": "2026-09-19T20:24:19.522892Z"
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_seraphine",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_seraphine/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_seraphine/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_seraphine",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=seraphine_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/parameters/ability_power_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/parameters/charm_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/effects/charm_first_application",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/trigger-rules/apply_charm_on_unblocked_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/mana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/damage-types/magic",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/ability_power",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/statuses/charm",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/effects/mana_cost",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/effects/encore_hit",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/processes/use_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/trigger-rules/actual_hit",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/trigger-rules/on_used_cost_and_cooldown",
+      "status": 404
+    }
+  ],
+  "businessWrites": 0
+}

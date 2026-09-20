@@ -1,0 +1,137 @@
+{
+  "reviewedAt": "2026-09-20",
+  "reviewKind": "萨勒芬妮R伤害与使用组成独立评审",
+  "status": "APPROVED",
+  "scope": {
+    "target": { "skillKey": "seraphine_r", "ownerKey": "champion_seraphine" },
+    "included": [
+      "新增 mana_cost、encore_hit 两个效果",
+      "新增 use_cost_and_cooldown 主动使用登记过程",
+      "新增 actual_hit 敌方英雄实际命中规则",
+      "新增 on_used_cost_and_cooldown 普通主动使用规则"
+    ],
+    "excluded": [
+      "已有首次魅惑效果和规则",
+      "友军命中、敌方命中后的距离延伸",
+      "友方音符及其他被动收益",
+      "RMinSlow/RMaxSlow 移动减速字段",
+      "施放时间冲突的猜测",
+      "战斗运行和实际事件生产",
+      "整技能完成结论"
+    ]
+  },
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v3.mjs": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "01-候选方案.json": "189fc754467fdb132604c3f0dc07a046dce57357ffdb9323d752ad0f895a7e86",
+    "02-冻结请求.json": "0973af1257afd06d12789f2a1417e477da6aaa2f5a2b5e1ad06614381d6f607a",
+    "03-来源摘要.json": "152d973496d43bd6987da06a5c48f7ab10c884ef11f7580247398112f2d63733",
+    "04-写入前现值.json": "4606841c58421fd26ca23a9da0407108d878248cd2d1bb2346f6e9f961b1fa3f"
+  },
+  "sourceHashCheck": {
+    "status": "PASS",
+    "actualMatches": true,
+    "files": [
+      { "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Seraphine.json.gz", "sha256": "5518c28e0aa895ac000e18e7fd05ce06731c65dc9708ccac84bb812f370b4a56" },
+      { "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Seraphine.json", "sha256": "9f9cce0312119116e2dfed1d91c7d87f1b79b42314a188b0d565330e917f6723" },
+      { "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Seraphine.json", "sha256": "0668fcbfe69123e319b07e06e7228ab781f6faa336f4b758b798619d7ca84445" },
+      { "path": "数据参考/全量录入-2026-09/交叉试录/萨勒芬妮R伤害与使用返回/01-固定来源核对.json", "sha256": "9fffa60a508a380130f48274afa1201fd679377b29f128812b59b77fccedbd1d" },
+      { "path": "数据参考/全量录入-2026-09/魅惑状态补齐/主体说明返回/07-独立回读.json", "sha256": "b9ac89a5b4ff39768f016c820e68b07d2f4ff37c314a22cd821b11c83332031e" },
+      { "path": "数据参考/全量录入-2026-09/交叉试录/科加斯W使用登记返回/登记过程与入口/07-独立回读.json", "sha256": "d8bdd7b8b8e1141694cc5fadea91a13475e5069cd9c9f284f278764eb05d9d75" }
+    ]
+  },
+  "baselineCheck": {
+    "status": "PASS",
+    "base": "http://127.0.0.1:8080/api/admin/games/lol",
+    "businessWrites": 0,
+    "auditCount": 30,
+    "newDetail404Routes": [
+      "/skills/seraphine_r/effects/mana_cost",
+      "/skills/seraphine_r/effects/encore_hit",
+      "/skills/seraphine_r/processes/use_cost_and_cooldown",
+      "/skills/seraphine_r/trigger-rules/actual_hit",
+      "/skills/seraphine_r/trigger-rules/on_used_cost_and_cooldown"
+    ],
+    "finding": "04 复用已有首次魅惑母快照，仅增加本批五个新 detail 的404检查，没有重复全量读取或业务写入。"
+  },
+  "requestCheck": {
+    "status": "PASS",
+    "requestCount": 5,
+    "order": [
+      "/skills/seraphine_r/effects -> mana_cost",
+      "/skills/seraphine_r/effects -> encore_hit",
+      "/skills/seraphine_r/processes -> use_cost_and_cooldown",
+      "/skills/seraphine_r/trigger-rules -> actual_hit",
+      "/skills/seraphine_r/trigger-rules -> on_used_cost_and_cooldown"
+    ],
+    "finding": "每个 detailRoute 唯一；先效果/过程，再规则引用。工具非write模式只使用GET，write模式也只允许冻结请求中的POST。"
+  },
+  "componentCheck": {
+    "manaCost": {
+      "status": "PASS",
+      "effectKey": "mana_cost",
+      "target": "SOURCE",
+      "attributeKey": "mana",
+      "operation": "CONSUME",
+      "value": "PARAMETER mana_cost",
+      "parameterValue": 100,
+      "useRule": "SKILL_USED + ACTIVE -> START_PROCESS use_cost_and_cooldown"
+    },
+    "damage": {
+      "status": "PASS",
+      "effectKey": "encore_hit",
+      "formula": "magic_damage",
+      "formulaMeaning": "150/200/250 + 0.4 × 来源总法强",
+      "target": "TARGET",
+      "delivery": "SKILL",
+      "origin": "DIRECT",
+      "critical": "DISALLOWED",
+      "spellShield": "RESULT",
+      "vamp": { "type": "OMNIVAMP", "basis": "POST_DEFENSE_DAMAGE", "efficiency": 1 },
+      "hitRule": "SKILL_HIT + sourceSkillKey=seraphine_r + TARGET_CATEGORY_CHECK CHAMPION + SKILL_HIT_TARGET_IS_ENEMY"
+    },
+    "useProcess": {
+      "status": "PASS",
+      "processKey": "use_cost_and_cooldown",
+      "activation": "ACTIVE",
+      "cooldown": "PARAMETER cooldown_ms at PROCESS_START",
+      "cooldownValuesMs": [160000, 140000, 120000],
+      "step": "IMMEDIATE register_use",
+      "effectBinding": "mana_cost at PROCESS_START",
+      "timeBoundary": "不填 mCastTime 或 spellCastTime；立即步骤只登记使用行为，不解释施放时序。"
+    },
+    "rules": {
+      "actualHit": {
+        "status": "PASS",
+        "event": "SKILL_HIT",
+        "sourceSkillKey": "seraphine_r",
+        "conditions": ["TARGET_CATEGORY_CHECK=CHAMPION", "SKILL_HIT_TARGET_IS_ENEMY"],
+        "action": "EXECUTE_EFFECT encore_hit / CURRENT_TARGET",
+        "firstCharmAbsent": false
+      },
+      "onUsed": {
+        "status": "PASS",
+        "event": "SKILL_USED",
+        "sourceSkillKey": "seraphine_r",
+        "useKind": "ACTIVE",
+        "conditions": [],
+        "action": "START_PROCESS use_cost_and_cooldown / CURRENT_TARGET"
+      }
+    }
+  },
+  "arithmeticCheck": {
+    "status": "PASS",
+    "artifact": "02-现有公式算术核对.json",
+    "cases": 9,
+    "sourceRawCoefficient": 0.40000000596,
+    "recordedCoefficient": 0.4,
+    "maxAbsoluteError": 0.00000298,
+    "allowedError": 0.00001,
+    "baselineSha256": "4606841c58421fd26ca23a9da0407108d878248cd2d1bb2346f6e9f961b1fa3f"
+  },
+  "passiveBoundary": {
+    "status": "PASS",
+    "finding": "固定英文资料中的‘每第三个基础技能施放两次’限定基础技能；R不按该被动规则重复或乘二伤害。已有终极技能分类保持，音符收益及其他被动分支继续单列，不把仅队友排除扩大为自身收益结论。"
+  },
+  "blockingIssues": [],
+  "conclusion": "批准按冻结请求执行5个受保护POST：两效果、一主动使用登记过程、两规则。其余首次魅惑、距离延伸、友军音符、减速字段和施放时间冲突保持独立范围；本批只证明管理组成可保存与回读，不证明战斗运行或整技能完成。"
+}

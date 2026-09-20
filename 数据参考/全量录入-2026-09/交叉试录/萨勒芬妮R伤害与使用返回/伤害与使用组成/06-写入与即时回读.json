@@ -1,0 +1,706 @@
+{
+  "startedAt": "2026-09-20T07:04:58.484Z",
+  "status": "PASS",
+  "businessWritesAttempted": 5,
+  "operations": [
+    {
+      "method": "POST",
+      "route": "/skills/seraphine_r/effects",
+      "response": {
+        "status": 201,
+        "data": {
+          "createdAt": "2026-09-20T07:05:00.473945Z",
+          "description": "本次普通主动使用消耗法力，取值引用已有mana_cost；由使用登记过程在开始时挂接，不以实际命中或首次魅惑为前置。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "炫音返场法力消耗",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "attributeKey": "mana",
+                "operation": "CONSUME"
+              },
+              "lifecycleBehavior": null,
+              "name": "消耗法力",
+              "resultKey": "consume_mana",
+              "resultType": "RESOURCE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "mana_cost"
+                }
+              }
+            }
+          ],
+          "skillKey": "seraphine_r",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-20T07:05:00.473945Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-20T07:05:00.473945Z",
+        "description": "本次普通主动使用消耗法力，取值引用已有mana_cost；由使用登记过程在开始时挂接，不以实际命中或首次魅惑为前置。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "炫音返场法力消耗",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "seraphine_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-20T07:05:00.473945Z"
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/seraphine_r/effects",
+      "response": {
+        "status": 201,
+        "data": {
+          "createdAt": "2026-09-20T07:05:01.832957Z",
+          "description": "本轮敌方英雄一次实际命中的普通直接魔法伤害，引用已核定伤害公式；全能吸血按防御后伤害、效率1登记。魅惑、距离延伸和其他分支分别维护。",
+          "effectKey": "encore_hit",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "炫音返场命中魔法伤害",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "damageTypeKey": "magic",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "vampRules": [
+                  {
+                    "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                    "efficiencyValue": {
+                      "kind": "FIXED",
+                      "value": 1
+                    },
+                    "vampType": "OMNIVAMP"
+                  }
+                ]
+              },
+              "lifecycleBehavior": null,
+              "name": "炫音返场魔法伤害",
+              "resultKey": "damage",
+              "resultType": "DAMAGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": "RESULT",
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "magic_damage",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "skillKey": "seraphine_r",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-20T07:05:01.832957Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-20T07:05:01.832957Z",
+        "description": "本轮敌方英雄一次实际命中的普通直接魔法伤害，引用已核定伤害公式；全能吸血按防御后伤害、效率1登记。魅惑、距离延伸和其他分支分别维护。",
+        "effectKey": "encore_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "炫音返场命中魔法伤害",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "炫音返场魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "magic_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "seraphine_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-20T07:05:01.832957Z"
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/seraphine_r/processes",
+      "response": {
+        "status": 201,
+        "data": {
+          "activationType": "ACTIVE",
+          "cooldown": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cooldown_ms"
+            },
+            "startMoment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            }
+          },
+          "createdAt": "2026-09-20T07:05:03.131333Z",
+          "description": "只登记普通主动使用的法力与基础冷却；立即步骤不表示零施放时长。来源施放时间字段冲突仍待核定，伤害与魅惑由各自实际命中入口处理。",
+          "effectBindings": [
+            {
+              "bindingKey": "mana_cost",
+              "effectKey": "mana_cost",
+              "moment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              },
+              "sortOrder": 10
+            }
+          ],
+          "gameId": "lol",
+          "name": "炫音返场使用登记",
+          "processKey": "use_cost_and_cooldown",
+          "skillKey": "seraphine_r",
+          "sortOrder": 10,
+          "stateOperations": [],
+          "steps": [
+            {
+              "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+              "detail": {},
+              "name": "登记本次使用",
+              "sortOrder": 10,
+              "stepKey": "register_use",
+              "stepType": "IMMEDIATE"
+            }
+          ],
+          "updatedAt": "2026-09-20T07:05:03.131333Z"
+        }
+      },
+      "readback": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "createdAt": "2026-09-20T07:05:03.131333Z",
+        "description": "只登记普通主动使用的法力与基础冷却；立即步骤不表示零施放时长。来源施放时间字段冲突仍待核定，伤害与魅惑由各自实际命中入口处理。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "gameId": "lol",
+        "name": "炫音返场使用登记",
+        "processKey": "use_cost_and_cooldown",
+        "skillKey": "seraphine_r",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+            "detail": {},
+            "name": "登记本次使用",
+            "sortOrder": 10,
+            "stepKey": "register_use",
+            "stepType": "IMMEDIATE"
+          }
+        ],
+        "updatedAt": "2026-09-20T07:05:03.131333Z"
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/seraphine_r/trigger-rules",
+      "response": {
+        "status": 201,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "encore_hit"
+              },
+              "name": "执行命中伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [
+            {
+              "conditions": [
+                {
+                  "conditionKey": "champion_target",
+                  "conditionType": "TARGET_CATEGORY_CHECK",
+                  "detail": {
+                    "categories": [
+                      "CHAMPION"
+                    ]
+                  },
+                  "sortOrder": 10
+                },
+                {
+                  "conditionKey": "enemy_target",
+                  "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                  "detail": {},
+                  "sortOrder": 20
+                }
+              ],
+              "groupKey": "champion_target",
+              "name": "本轮敌方英雄",
+              "sortOrder": 10
+            }
+          ],
+          "description": "接收本技能对敌方英雄的实际命中，只执行一次普通魔法伤害；不生成命中、不处理距离延伸，也不受首次魅惑ABSENT条件限制。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "seraphine_r",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "炫音返场敌方英雄实际命中",
+          "perTargetCooldown": null,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10
+        }
+      },
+      "readback": {
+        "actions": [
+          {
+            "actionKey": "damage",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "encore_hit"
+            },
+            "name": "执行命中伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "detail": {},
+                "sortOrder": 20
+              }
+            ],
+            "groupKey": "champion_target",
+            "name": "本轮敌方英雄",
+            "sortOrder": 10
+          }
+        ],
+        "description": "接收本技能对敌方英雄的实际命中，只执行一次普通魔法伤害；不生成命中、不处理距离延伸，也不受首次魅惑ABSENT条件限制。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "seraphine_r",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "炫音返场敌方英雄实际命中",
+        "perTargetCooldown": null,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/seraphine_r/trigger-rules",
+      "response": {
+        "status": 201,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "start_use_cost",
+              "actionType": "START_PROCESS",
+              "detail": {
+                "processKey": "use_cost_and_cooldown"
+              },
+              "name": "启动消耗与冷却登记",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "普通主动使用本技能时登记法力与基础冷却，不以命中或首次魅惑实例为费用前置；未知施放时序仍单独核定。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "seraphine_r",
+              "useKind": "ACTIVE"
+            },
+            "eventType": "SKILL_USED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "炫音返场普通主动使用",
+          "perTargetCooldown": null,
+          "ruleKey": "on_used_cost_and_cooldown",
+          "sortOrder": 20
+        }
+      },
+      "readback": {
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "use_cost_and_cooldown"
+            },
+            "name": "启动消耗与冷却登记",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "普通主动使用本技能时登记法力与基础冷却，不以命中或首次魅惑实例为费用前置；未知施放时序仍单独核定。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "seraphine_r",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "炫音返场普通主动使用",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used_cost_and_cooldown",
+        "sortOrder": 20
+      }
+    }
+  ],
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v3.mjs": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "01-候选方案.json": "189fc754467fdb132604c3f0dc07a046dce57357ffdb9323d752ad0f895a7e86",
+    "02-冻结请求.json": "0973af1257afd06d12789f2a1417e477da6aaa2f5a2b5e1ad06614381d6f607a",
+    "03-来源摘要.json": "152d973496d43bd6987da06a5c48f7ab10c884ef11f7580247398112f2d63733",
+    "04-写入前现值.json": "4606841c58421fd26ca23a9da0407108d878248cd2d1bb2346f6e9f961b1fa3f"
+  },
+  "pendingRoute": null,
+  "finishedAt": "2026-09-20T07:05:06.322Z",
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_seraphine",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_seraphine/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_seraphine/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_seraphine",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=seraphine_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/parameters/ability_power_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/parameters/charm_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/effects/charm_first_application",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/trigger-rules/apply_charm_on_unblocked_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/mana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/damage-types/magic",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/ability_power",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/statuses/charm",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/effects/mana_cost",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/effects/encore_hit",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/processes/use_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/trigger-rules/actual_hit",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/trigger-rules/on_used_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/effects/mana_cost",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/seraphine_r/effects",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/effects/encore_hit",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/seraphine_r/effects",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/effects/encore_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/processes/use_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/seraphine_r/processes",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/processes/use_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/trigger-rules/actual_hit",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/seraphine_r/trigger-rules",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/trigger-rules/on_used_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/seraphine_r/trigger-rules",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/trigger-rules/on_used_cost_and_cooldown",
+      "status": 200
+    }
+  ]
+}
