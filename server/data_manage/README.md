@@ -197,6 +197,8 @@
 
 技能分类继续用 `skillCategoryKeys: string[]`，空数组表示未分类，关系保存在 `skill_category_relations`。只有冷却变化和技能急速修正结果可携带 `detail.affectedSkillScope`；模式为 `ALL / SKILLS / CATEGORIES`，多个分类按并集匹配。旧 `detail.affectedSkillKeys` 不接受。
 
+冷却变化新增 `REDUCE_REMAINING_RATIO`（按比例减少剩余冷却），复用结果聚合和数值规则，无数据库迁移。最终写保护检查静态固定值、参数全部等级及动作结果修正后的有效比例；效果、参数或规则修改均会复核。具名公式和计算时传入值保持原有不求值边界，管理保存不执行冷却。唯一数值定义见规划真源《系统精简实施说明》的“剩余冷却比例减少增量”。
+
 生命周期随效果保存和回读，摘要提供 `lifecycleEnabled`。前序结果输入仍为 `sourceActionKey / sourceResultKey / outputKind`，对应效果由服务端从更早的执行效果动作推导。过程允许仅声明有效普通冷却；`cooldown` 为空且 `effectBindings` 与 `stateOperations` 都为空时返回 `400.VALIDATION_FAILED`，后两字段的问题码均为 `PROCESS_BEHAVIOR_REQUIRED`。步骤本身不满足该行为要求，冷却参数或公式仍须通过引用校验。
 
 收到护盾修正结果 `SHIELD_RECEIVED_MODIFIER` 使用现有效果数组，明细仅有乘区标识 `modifierZoneKey` 和提高/降低 `operation`。必填数值规则按小数比例解释；父生命周期必填，结果必须持续生效，沿用持续数值读取、层数与重施约束，法术护盾阻挡粒度为空。目标是护盾承受者；共享含义由 planning/master 的《系统精简实施说明》“收到普通护盾修正增量”维护。本次保存与读取不执行护盾结算。

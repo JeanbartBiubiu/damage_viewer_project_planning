@@ -290,8 +290,87 @@ class SkillNumericSemanticsTest {
             List.of(formula("input"), slow, rule("EXECUTE_EFFECT", "effect", true, "RAW_DAMAGE")), inputs));
     }
 
+    @ParameterizedTest
+    @ValueSource(strings = {"0", "0.7", "1"})
+    void remainingCooldownRatioAcceptsInclusiveStaticBoundaries(String value) {
+        assertDoesNotThrow(() -> SkillNumericSemantics.validate(
+            List.of(ratioEffect(fixed(value), "1", null, null)), List.of()));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"-0.01", "1.01"})
+    void remainingCooldownRatioRejectsStaticValuesOutsideInclusiveBounds(String value) {
+        assertIssue("VALUE_RANGE_INVALID", "results[0].valueRule.value",
+            List.of(ratioEffect(fixed(value), "1", null, null)), List.of());
+    }
+
+    @Test
+    void remainingCooldownRatioAppliesEffectMultiplierThenBounds() {
+        assertIssue("VALUE_RANGE_INVALID", "results[0].valueRule.value",
+            List.of(ratioEffect(fixed("0.7"), "2", null, null)), List.of());
+        assertDoesNotThrow(() -> SkillNumericSemantics.validate(
+            List.of(ratioEffect(fixed("0.7"), "2", null, "1")), List.of()));
+        assertDoesNotThrow(() -> SkillNumericSemantics.validate(
+            List.of(ratioEffect(fixed("-0.1"), "1", "0", "1")), List.of()));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"SKILL_LEVEL", "CHARACTER_LEVEL"})
+    void remainingCooldownRatioChecksEveryStaticParameterLevel(String mode) {
+        Aggregate effect = ratioEffect(parameterValue("ratio"), "1", null, null);
+        assertDoesNotThrow(() -> SkillNumericSemantics.validate(List.of(effect),
+            List.of(level("ratio", "DECIMAL", mode, "{\"1\":0,\"2\":0.7,\"3\":1}"))));
+        assertIssue("VALUE_RANGE_INVALID", "results[0].valueRule.value", List.of(effect),
+            List.of(level("ratio", "DECIMAL", mode, "{\"1\":0,\"2\":0.7,\"3\":1.01}")));
+    }
+
+    @Test
+    void remainingCooldownRatioLeavesNamedFormulaAndRuntimeInputUnknown() {
+        Aggregate effect = ratioEffect(formulaValue(), "2", null, null);
+        assertDoesNotThrow(() -> SkillNumericSemantics.validate(
+            List.of(formula("input"), effect), List.of(fixedParameter("input", "DECIMAL", "0.7"))));
+        assertDoesNotThrow(() -> SkillNumericSemantics.validate(
+            List.of(formula("input"), effect), List.of(runtime("input", "DECIMAL"))));
+    }
+
+    @Test
+    void executeEffectResultModifierChecksEffectiveRatioAgainstTriggerRule() {
+        Aggregate effect = ratioEffect(fixed("0.7"), "1", null, null);
+        assertIssue("VALUE_RANGE_INVALID", "actions[0].resultModifiers[0]",
+            List.of(effect, ratioModifierRule("2", null, null)), List.of());
+        assertDoesNotThrow(() -> SkillNumericSemantics.validate(
+            List.of(effect, ratioModifierRule("2", null, "1")), List.of()));
+    }
+
+    @Test
+    void existingCooldownOperationsKeepTheirOriginalNumericHandling() {
+        assertDoesNotThrow(() -> SkillNumericSemantics.validate(List.of(
+            object(SourceType.EFFECT, "reduce", "{\"results\":[{\"resultType\":\"COOLDOWN_CHANGE\",\"detail\":{\"operation\":\"REDUCE\"},\"valueRule\":{\"value\":" + fixed("-5") + "}}]}"),
+            object(SourceType.EFFECT, "increase", "{\"results\":[{\"resultType\":\"COOLDOWN_CHANGE\",\"detail\":{\"operation\":\"INCREASE\"},\"valueRule\":{\"value\":" + fixed("-5") + "}}]}"),
+            object(SourceType.EFFECT, "reset", "{\"results\":[{\"resultType\":\"COOLDOWN_CHANGE\",\"detail\":{\"operation\":\"RESET\"}}]}")
+        ), List.of()));
+    }
+
     private static Aggregate protectionCooldown(String value) {
         return object(SourceType.TRIGGER, "rule", "{\"limits\":{\"perTargetCooldown\":{\"durationValue\":" + value + "}}}");
+    }
+
+    private static Aggregate ratioEffect(String value, String multiplier, String minimum, String maximum) {
+        StringBuilder rule = new StringBuilder("{\"value\":").append(value)
+            .append(",\"fixedMultiplier\":").append(multiplier);
+        if (minimum != null) rule.append(",\"fixedMinValue\":").append(minimum);
+        if (maximum != null) rule.append(",\"fixedMaxValue\":").append(maximum);
+        rule.append("}");
+        return object(SourceType.EFFECT, "effect", "{\"results\":[{\"resultKey\":\"cooldown\",\"resultType\":\"COOLDOWN_CHANGE\",\"detail\":{\"operation\":\"REDUCE_REMAINING_RATIO\"},\"valueRule\":" + rule + "}]}");
+    }
+
+    private static Aggregate ratioModifierRule(String multiplier, String minimum, String maximum) {
+        StringBuilder modifier = new StringBuilder("{\"resultKey\":\"cooldown\"");
+        if (multiplier != null) modifier.append(",\"fixedMultiplier\":").append(multiplier);
+        if (minimum != null) modifier.append(",\"fixedMinValue\":").append(minimum);
+        if (maximum != null) modifier.append(",\"fixedMaxValue\":").append(maximum);
+        modifier.append("}");
+        return object(SourceType.TRIGGER, "rule", "{\"actions\":[{\"actionType\":\"EXECUTE_EFFECT\",\"detail\":{\"effectKey\":\"effect\"},\"resultModifiers\":[" + modifier + "]}]}");
     }
 
     private static Aggregate effect(String value) {
