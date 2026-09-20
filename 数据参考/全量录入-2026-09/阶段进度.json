@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-09-20T13:47:34.170Z",
+  "generatedAt": "2026-09-20T13:58:12.156Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
-  "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。；基兰W冷却回退返回：7次保存、41次独立GET与5类页面通过，有效施放时间仍待核，管理完整8项/开放831项保持，见zileanWCooldownReductionReturn。；系统-16装备技能直达录入已完成，728单测/3项定向页面及两件真实装备往返通过，6条独立回读不变，业务写入0。",
+  "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。；基兰W冷却回退返回：7次保存、41次独立GET与5类页面通过，有效施放时间仍待核，管理完整8项/开放831项保持，见zileanWCooldownReductionReturn。；系统-16装备技能直达录入已完成，728单测/3项定向页面及两件真实装备往返通过，6条独立回读不变，业务写入0。；中娅主体说明1次页面更正、独立13GET及重开通过，装备开放234项保持；百分比穿透候选与两份历史来源的边界另见percentPenetrationSourceContractAudit，尚未批准实施。",
   "heroes": {
     "count": 171,
     "attributes": 1641,
@@ -12635,12 +12635,62 @@
         "item_3065/item_3065_passive",
         "item_3157/item_3157_active"
       ],
-      "remaining": "中娅主体旧说明继续单独核对纠错；本次操作效率修正不折算为数据管理完成。",
+      "remaining": "页面验收发现的中娅主体旧说明已由zhonyasSubjectDescriptionReturn关闭；操作效率修正不折算为数据管理完成。",
       "evidence": {
         "worktree": "damage_web_dev",
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/装备技能直达录入修正/04-证据清单.json",
         "commit": "9189d188a83bda5e47b69f14bc5e2833641a2cf4",
         "sha256": "0e4a94a881035276efaf20ee8bba32ff6fb466164352015b2b106937fde08771"
+      },
+      "runtimeValidation": "未执行"
+    },
+    "zhonyasSubjectDescriptionReturn": {
+      "at": "2026-09-20T13:58:12.156Z",
+      "status": "DESCRIPTION_RETURN_PASS",
+      "equipmentKey": "item_3157",
+      "businessSaves": 1,
+      "independentGETs": 13,
+      "unchangedIncludingTimestamps": 12,
+      "representativePages": 1,
+      "wholeEquipmentComplete": false,
+      "remaining": [
+        "凝滞的不可选取与行动限制"
+      ],
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/中娅主体说明返回/06-证据清单.json",
+        "commit": "d51c5029a44683e894a8af3968196259e3e00dd0",
+        "sha256": "e10e8e162630e3c3f0db0ca8b502a0eadbbbd00fb278a13108455ac62ce6c494"
+      },
+      "runtimeValidation": "未执行"
+    },
+    "percentPenetrationSourceContractAudit": {
+      "at": "2026-09-20T13:58:12.156Z",
+      "status": "SOURCE_VERSION_CONFIRMATION_PENDING",
+      "skills": [
+        "annie_r",
+        "ambessa_r",
+        "zaahen_r"
+      ],
+      "businessWrites": 0,
+      "localGETs": 4,
+      "sourceRevisions": [
+        3749280,
+        3746626
+      ],
+      "sourceScope": "2024年社区维基历史规则，不是16.17同版游戏事实",
+      "codeChanges": 0,
+      "contractApproved": false,
+      "remaining": [
+        "固定16.17通用穿透合并规则的同版依据",
+        "基础直接属性的来源合并和重复贡献排除",
+        "新计算方式、阶段及属性校验约束独立收敛"
+      ],
+      "evidence": {
+        "worktree": "damage_viewer_project_planning",
+        "relativePath": "数据参考/全量录入-2026-09/百分比穿透组合表达返回/06-证据清单.json",
+        "commit": "4c25ef9e",
+        "sha256": "0c0294d5535a492e7561b9d656d424ed2687a0213281ad4edcec6a4b324ad389"
       },
       "runtimeValidation": "未执行"
     }
@@ -13351,6 +13401,18 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/装备技能直达录入修正/04-证据清单.json",
         "commit": "9189d188a83bda5e47b69f14bc5e2833641a2cf4",
         "sha256": "0e4a94a881035276efaf20ee8bba32ff6fb466164352015b2b106937fde08771"
+      },
+      "zhonyasSubjectDescriptionReturn": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/中娅主体说明返回/06-证据清单.json",
+        "commit": "d51c5029a44683e894a8af3968196259e3e00dd0",
+        "sha256": "e10e8e162630e3c3f0db0ca8b502a0eadbbbd00fb278a13108455ac62ce6c494"
+      },
+      "percentPenetrationSourceContractAudit": {
+        "worktree": "damage_viewer_project_planning",
+        "relativePath": "数据参考/全量录入-2026-09/百分比穿透组合表达返回/06-证据清单.json",
+        "commit": "4c25ef9e",
+        "sha256": "0c0294d5535a492e7561b9d656d424ed2687a0213281ad4edcec6a4b324ad389"
       }
     },
     "coverage": {
@@ -44223,14 +44285,15 @@
         "scopeCategory": "可购买普通装备候选",
         "conclusion": "资料待核",
         "conclusionScope": "装备当前1V1数据与机制",
-        "reason": "主动使用启动120秒冷却和2.5秒伤害免疫分支已保存并验收；不可选取、行动限制及战斗运行仍待核。",
+        "reason": "主动使用启动120秒冷却和2.5秒伤害免疫分支已保存并验收，主体旧说明已更正；不可选取与行动限制仍待核。战斗运行未验证，单独记账。",
         "sourcePendingCount": 1,
         "systemPendingCount": 1,
         "evidenceRefs": [
           "equipmentCurrentReadback",
           "equipmentSourceInventory",
           "equipmentEffectReview",
-          "threeEquipmentActiveBranchBackfill"
+          "threeEquipmentActiveBranchBackfill",
+          "zhonyasSubjectDescriptionReturn"
         ]
       },
       {
