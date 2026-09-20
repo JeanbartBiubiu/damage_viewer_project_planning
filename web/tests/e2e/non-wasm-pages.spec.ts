@@ -7348,7 +7348,7 @@ test('source cast resource cost binding retains failed drafts and saves and reop
   diagnostics.assertClean('source cast resource cost binding round trip and retained failures');
 });
 
-test('event counterpart category supports kill, damage directions, legal switches and confirms invalid event cleanup', async ({ page }) => {
+test('event counterpart category supports kill, takedown, damage directions, legal switches and confirms invalid event cleanup', async ({ page }) => {
   const mock = new MockApi();
   seedSkillTriggerCatalog(mock);
   const diagnostics = await prepare(page, mock);
@@ -7398,7 +7398,7 @@ test('event counterpart category supports kill, damage directions, legal switche
   expect(saved().eventSource.eventType).toBe('BASIC_ATTACK_HIT');
   expect(saved().conditionGroups[0].conditions[0].detail).toEqual({ categories: ['MINION', 'NON_EPIC_MONSTER'] });
 
-  const reopened = await reopen();
+  let reopened = await reopen();
   await expect(card(reopened).locator('span').filter({ hasText: /^事件对方类别 \/ 小兵、非史诗野怪$/ })).toBeVisible();
   const assertDirectionHelp = async (eventName: string, help: string) => {
     await chooseTriggerEventType(page, reopened, eventName);
@@ -7414,6 +7414,13 @@ test('event counterpart category supports kill, damage directions, legal switche
   await expect(card(reopened).locator('span').filter({ hasText: /^事件对方类别 \/ 小兵、非史诗野怪$/ })).toBeVisible();
   await chooseTriggerEventType(page, reopened, '来源对象完成击杀');
   await expect(card(reopened).locator('span').filter({ hasText: /^事件对方类别 \/ 小兵、非史诗野怪$/ })).toBeVisible();
+  await assertDirectionHelp('来源对象参与击杀', '参与击杀事件读取本次死亡对象；匹配所选任一类别。');
+  await expect(reopened.getByText(/来源对象被正式记为本次死亡的击杀者或助攻参与者/)).toBeVisible();
+  await saveOpenModal(reopened);
+  expect(saved().eventSource).toEqual({ eventType: 'TAKEDOWN', detail: {} });
+  expect(saved().conditionGroups[0].conditions[0].detail).toEqual({ categories: ['MINION', 'NON_EPIC_MONSTER'] });
+  reopened = await reopen();
+  await expect(reopened.getByText(/来源对象被正式记为本次死亡的击杀者或助攻参与者/)).toBeVisible();
   await chooseSelectOption(page, reopened, '事件类型', '普通攻击发起');
   const cleanup = page.getByRole('dialog').filter({ hasText: '将清除事件对方类别条件' });
   await cleanup.getByRole('button', { name: '取消', exact: true }).click();

@@ -96,11 +96,13 @@ export const SKILL_TRIGGER_FAIL_PROCESS_LAST_MESSAGE = '令过程失败必须保
 export const SKILL_TRIGGER_CYCLE_MESSAGE = '当前关系形成没有保护的循环';
 export const SKILL_TRIGGER_CYCLE_HINT = '可增加每目标冷却、单次过程最大触发次数或调整关系。';
 export const SKILL_TRIGGER_RESULT_EVENT_GRAPH_HINT =
-  '斩杀结果可产生击杀/死亡事件；命中联动应用产生应用命中联动事件；攻击联动应用产生触发攻击联动事件。来源技能只缩小事件匹配范围。';
+  '伤害或斩杀结果可产生击杀、参与击杀和死亡事件；对来源对象自身的结果不产生参与击杀事件。命中联动应用产生应用命中联动事件；攻击联动应用产生触发攻击联动事件。来源技能只缩小事件匹配范围。';
 export const SKILL_TRIGGER_SOURCE_SKILL_FILTER_HINT =
   '空值表示任意技能；选择具体技能只缩小事件匹配范围。';
 export const SKILL_TRIGGER_SOURCE_INITIALIZED_HINT =
   '来源对象的基础属性、挂载技能与装备、初始内部状态准备完毕后触发一次；复活、装备变化或等级变化不会再次触发。该事件不提供事件数值。';
+export const SKILL_TRIGGER_TAKEDOWN_HINT =
+  '来源对象被正式记为本次死亡的击杀者或助攻参与者时触发，每次死亡至多一次；不能用最近造成过伤害代替。当前目标为死亡对象，不提供事件来源对象或事件数值。同一收益使用一个入口，避免与本人击杀规则重复。';
 export const SKILL_TRIGGER_BOOLEAN_EVENT_VALUE_HINT = '否 = 0，是 = 1';
 export const SKILL_TRIGGER_PRIOR_BOOLEAN_OUTPUT_HINT = '以 0/1 供值';
 export const SKILL_TRIGGER_SHAPE_IN_USE_MESSAGE = '该结构仍被条件与触发规则使用';
@@ -110,7 +112,7 @@ export const SKILL_TRIGGER_ADJUST_RULES_BEFORE_EFFECT_HINT = '请先调整条件
 export const SKILL_TRIGGER_SOURCE_EFFECT_LOAD_MESSAGE = '来源效果详情未加载，无法校验前序结果。请重试。';
 
 export const SKILL_TRIGGER_PRODUCED_EVENTS_BY_RESULT = {
-  EXECUTE: ['KILL', 'ENTITY_DIED'],
+  EXECUTE: ['KILL', 'TAKEDOWN', 'ENTITY_DIED'],
   HIT_LINK_APPLICATION: ['HIT_LINK_APPLIED'],
   ATTACK_LINK_APPLICATION: ['ATTACK_LINK_APPLIED']
 } as const;
@@ -220,6 +222,7 @@ export const SKILL_TRIGGER_EVENT_TYPES = [
   'ENTITY_DIED',
   'ENTITY_UNTARGETABLE',
   'KILL',
+  'TAKEDOWN',
   'PROCESS_CANCEL_REQUESTED',
   'SPELL_SHIELD_BLOCKED',
   'HIT_LINK_APPLIED',
@@ -341,6 +344,7 @@ export const SKILL_TRIGGER_EVENT_TYPE_LABELS = {
   ENTITY_DIED: '指定对象死亡',
   ENTITY_UNTARGETABLE: '指定对象变为不可选取',
   KILL: '来源对象完成击杀',
+  TAKEDOWN: '来源对象参与击杀',
   PROCESS_CANCEL_REQUESTED: '指定过程收到主动取消请求',
   SPELL_SHIELD_BLOCKED: '法术护盾成功阻挡',
   HIT_LINK_APPLIED: '应用命中联动',
@@ -490,6 +494,14 @@ export const SKILL_TRIGGER_EVENT_CAPABILITIES: {
     eventType: 'KILL',
     label: SKILL_TRIGGER_EVENT_TYPE_LABELS.KILL,
     currentTargetBinding: '本次被击杀对象。',
+    hasEventSource: false,
+    requiredCatalogs: [],
+    detailFields: []
+  },
+  TAKEDOWN: {
+    eventType: 'TAKEDOWN',
+    label: SKILL_TRIGGER_EVENT_TYPE_LABELS.TAKEDOWN,
+    currentTargetBinding: '本次死亡对象。',
     hasEventSource: false,
     requiredCatalogs: [],
     detailFields: []
@@ -976,6 +988,7 @@ export function createEmptyEventSource(eventType: SkillTriggerEventType): SkillT
     case 'CONTROL_RECEIVED':
       return { eventType, detail: emptyEventDetail() };
     case 'KILL':
+    case 'TAKEDOWN':
       return { eventType, detail: emptyEventDetail() };
   }
 }
@@ -1366,6 +1379,7 @@ export const SKILL_TRIGGER_EVENT_VALUE_CAPABILITIES: {
   ENTITY_DIED: [],
   ENTITY_UNTARGETABLE: [],
   KILL: [],
+  TAKEDOWN: [],
   PROCESS_CANCEL_REQUESTED: [],
   SPELL_SHIELD_BLOCKED: [],
   HIT_LINK_APPLIED: ['LINK_INDEX', 'LINK_COUNT'],
