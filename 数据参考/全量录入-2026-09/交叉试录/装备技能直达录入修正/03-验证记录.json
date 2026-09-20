@@ -1,0 +1,69 @@
+{
+  "at": "2026-09-20T13:45:22.042Z",
+  "status": "PASS",
+  "issue": "系统-16",
+  "change": "装备关联页直接录入选中技能，显示装备来源，返回同一关联窗口并保留筛选，连接或游戏变化清除旧上下文。",
+  "businessWrites": 0,
+  "staticChecks": {
+    "lint": {
+      "status": "PASS",
+      "productionFiles": 141,
+      "note": "最初将新增的现行技能页面导入误报为旧接口引用；仅增加装备页该条精确导入，与现有角色页一致。"
+    },
+    "typecheck": "PASS",
+    "unitTests": {
+      "status": "PASS",
+      "files": 62,
+      "tests": 728
+    },
+    "build": {
+      "status": "PASS",
+      "modules": 1292,
+      "knownWarning": "产物大块提示，构建成功"
+    }
+  },
+  "isolatedBrowser": {
+    "status": "PASS",
+    "tests": 3,
+    "cases": [
+      "原角色检查失败重试、技能往返、迟到隔离",
+      "既有关联两端、顺序、停用与草稿恢复",
+      "装备直达、未保存排序确认、503读取重试、选中技能修改、返回更新后的关联名称、保留筛选及切游戏清除"
+    ],
+    "recovery": "新增用例首轮断言遗漏界面错误码，已改为核对完整错误提示并单独重跑通过；原另外两项通过结果复用。",
+    "mockSkillPUTs": 1,
+    "realBusinessWrites": 0
+  },
+  "realBrowser": {
+    "status": "PASS",
+    "path": "#/equipment",
+    "objects": [
+      {
+        "equipmentKey": "item_3065",
+        "skillKey": "item_3065_passive",
+        "verified": [
+          "来源名称与标识",
+          "单技能定位",
+          "打开已有两项效果",
+          "返回原关联窗口",
+          "原排序10与振奋盔甲筛选保留"
+        ]
+      },
+      {
+        "equipmentKey": "item_3157",
+        "skillKey": "item_3157_active",
+        "verified": [
+          "主动技能定位",
+          "来源名称与标识",
+          "返回同一关联窗口",
+          "原排序10与中娅沙漏筛选保留"
+        ]
+      }
+    ],
+    "diagnosticWarningsOrErrors": 0
+  },
+  "independentGETs": 6,
+  "unchangedIncludingTimestamps": 6,
+  "newFinding": "中娅装备主体仍有“被动与主动效果尚待配置”的旧说明，与已挂载主动过程不一致；作为后续说明纠错候选，不在本次无写入页面检查中修改。",
+  "runtimeValidation": "未执行"
+}
