@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-09-20T13:17:38.149Z",
+  "generatedAt": "2026-09-20T13:47:34.170Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
-  "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。；基兰W冷却回退返回：7次保存、41次独立GET与5类页面通过，有效施放时间仍待核，管理完整8项/开放831项保持，见zileanWCooldownReductionReturn。",
+  "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。；基兰W冷却回退返回：7次保存、41次独立GET与5类页面通过，有效施放时间仍待核，管理完整8项/开放831项保持，见zileanWCooldownReductionReturn。；系统-16装备技能直达录入已完成，728单测/3项定向页面及两件真实装备往返通过，6条独立回读不变，业务写入0。",
   "heroes": {
     "count": 171,
     "attributes": 1641,
@@ -12621,6 +12621,28 @@
         "sha256": "8a559afce5c1a45dcce3c7afeecdf909ec573090e48f734bbf124b2d73fc26f3",
         "commit": "b7d9b2920fe07cde36dc682e9612eb9634eb4a0e"
       }
+    },
+    "equipmentSkillDirectAuthoringFix": {
+      "at": "2026-09-20T13:47:34.170Z",
+      "status": "UI_RETURN_PASS",
+      "issueGroup": "系统-16",
+      "businessWrites": 0,
+      "independentGETs": 6,
+      "unchangedIncludingTimestamps": 6,
+      "unitTests": 728,
+      "targetedBrowserTests": 3,
+      "realBrowserObjects": [
+        "item_3065/item_3065_passive",
+        "item_3157/item_3157_active"
+      ],
+      "remaining": "中娅主体旧说明继续单独核对纠错；本次操作效率修正不折算为数据管理完成。",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/装备技能直达录入修正/04-证据清单.json",
+        "commit": "9189d188a83bda5e47b69f14bc5e2833641a2cf4",
+        "sha256": "0e4a94a881035276efaf20ee8bba32ff6fb466164352015b2b106937fde08771"
+      },
+      "runtimeValidation": "未执行"
     }
   },
   "runtimeValidation": "未执行",
@@ -13323,6 +13345,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/基兰W冷却回退返回/09-证据清单.json",
         "sha256": "8a559afce5c1a45dcce3c7afeecdf909ec573090e48f734bbf124b2d73fc26f3",
         "commit": "b7d9b2920fe07cde36dc682e9612eb9634eb4a0e"
+      },
+      "equipmentSkillDirectAuthoringFix": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/装备技能直达录入修正/04-证据清单.json",
+        "commit": "9189d188a83bda5e47b69f14bc5e2833641a2cf4",
+        "sha256": "0e4a94a881035276efaf20ee8bba32ff6fb466164352015b2b106937fde08771"
       }
     },
     "coverage": {
