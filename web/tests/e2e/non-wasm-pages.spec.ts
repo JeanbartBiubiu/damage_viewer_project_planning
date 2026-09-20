@@ -20,6 +20,65 @@ const GAME_ID = 'demo';
 const GAME_NAME = 'Demo Arena';
 const ADMIN_TOKEN = 'non-wasm-e2e-token';
 
+for (const sample of [
+  { label: '角色', mode: 'CHARACTER_LEVEL', type: 'DECIMAL', values: [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2] },
+  { label: '技能', mode: 'SKILL_LEVEL', type: 'INTEGER', values: [60, 100, 140, 180, 220] }
+] as const) {
+  test(`bulk level entry preserves rejected drafts and persists ${sample.label} values`, async ({ page }) => {
+    const mock = new MockApi();
+    mock.maxLevel = 18;
+    mock.skills = [{ gameId: GAME_ID, skillKey: 'bulk_values', name: '等级录入样例',
+      description: null, maxLevel: 5, status: 'ENABLED', sortOrder: 0, skillCategoryKeys: [],
+      createdAt: CREATED_AT, updatedAt: UPDATED_AT }];
+    const initialValues = Object.fromEntries(sample.values.map((_, index) => [String(index + 1), 0]));
+    mock.skillParameters = [{ gameId: GAME_ID, skillKey: 'bulk_values', parameterKey: 'level_values',
+      name: '已核等级数值', valueType: sample.type, valueMode: sample.mode, fixedValue: null,
+      levelValues: initialValues, description: '保留说明', sortOrder: 10,
+      createdAt: CREATED_AT, updatedAt: UPDATED_AT }];
+    const diagnostics = await prepare(page, mock);
+    await openSkills(page);
+    await skillRow(page, 'bulk_values').getByRole('button', { name: '参数与公式', exact: true }).click();
+    const shell = visibleModal(page, '参数与公式 - 等级录入样例');
+    const row = shell.locator('tr', { hasText: 'level_values' });
+    await row.getByRole('button', { name: '编辑', exact: true }).click();
+    const edit = visibleModal(page, '编辑参数');
+    const bulk = edit.getByLabel('整列等级数值', { exact: true });
+    await bulk.fill('1,,3');
+    await edit.getByRole('button', { name: '应用整列数值', exact: true }).click();
+    await expect(edit.getByRole('spinbutton', { name: '等级1数值', exact: true })).toHaveValue('0');
+    expect(mock.writes).toHaveLength(0);
+    await bulk.fill(sample.values.join('\n'));
+    await edit.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(edit).toBeVisible();
+    expect(mock.writes).toHaveLength(0);
+    await edit.getByRole('button', { name: '应用整列数值', exact: true }).click();
+    for (const [index, value] of sample.values.entries()) {
+      await expect(edit.getByRole('spinbutton', { name: `等级${index + 1}数值`, exact: true })).toHaveValue(String(value));
+    }
+    await edit.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(edit).toBeHidden();
+    expect(mock.writes).toHaveLength(1);
+    expect(mock.writes[0]?.body).toMatchObject({ description: '保留说明', valueType: sample.type,
+      valueMode: sample.mode, levelValues: Object.fromEntries(sample.values.map((value, index) => [String(index + 1), value])) });
+    await row.getByRole('button', { name: '查看', exact: true }).click();
+    const view = visibleModal(page, '查看参数');
+    await expect(view.getByLabel('整列等级数值', { exact: true })).toHaveCount(0);
+    await expect(view.getByRole('spinbutton', { name: `等级${sample.values.length}数值`, exact: true }))
+      .toHaveValue(String(sample.values[sample.values.length - 1]));
+    await view.getByRole('button', { name: '关闭', exact: true }).click();
+    await row.getByRole('button', { name: '编辑', exact: true }).click();
+    const reopened = visibleModal(page, '编辑参数');
+    await expect(reopened.getByLabel('整列等级数值', { exact: true })).toHaveValue('');
+    await reopened.getByLabel('整列等级数值', { exact: true }).fill('4,5,6');
+    await reopened.getByLabel('取值方式', { exact: true }).getByText('固定值', { exact: true }).click();
+    await reopened.getByLabel('取值方式', { exact: true }).getByText(`按${sample.label}等级`, { exact: true }).click();
+    await expect(reopened.getByLabel('整列等级数值', { exact: true })).toHaveValue('');
+    await reopened.getByRole('button', { name: '取消', exact: true }).click();
+    expect(mock.writes).toHaveLength(1);
+    diagnostics.assertClean('bulk level entry');
+  });
+}
+
 type Json = Record<string, unknown>;
 
 type AttributeRow = {

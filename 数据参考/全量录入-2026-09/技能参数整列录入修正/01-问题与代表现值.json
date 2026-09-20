@@ -1,0 +1,138 @@
+{
+  "at": "2026-09-20T09:06:05.059Z",
+  "issue": "系统-05",
+  "evidence": "旧版编辑器仅逐格、固定和等差填充；真实18级非等差参数需逐格维护。盖伦P现为计算时传入，故返回现已核定的内瑟斯P及婕拉Q。",
+  "baseCommit": "40c8ee08",
+  "existingSource": "web/src/pages/admin/skills/SkillParameterEditorModal.tsx",
+  "sourceSHA": "f525e8d1c9a054e34a0acf487b87498a242496a477b53e02d7da0af1b670be42",
+  "representatives": [
+    {
+      "route": "/skills/nasus_p/parameters",
+      "values": [
+        {
+          "createdAt": "2026-09-07T16:24:35.549089Z",
+          "description": "客户端 LifestealTooltip：1～6级10%，7～12级15%，13～18级20%；增加百分点。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 0.1,
+            "2": 0.1,
+            "3": 0.1,
+            "4": 0.1,
+            "5": 0.1,
+            "6": 0.1,
+            "7": 0.15,
+            "8": 0.15,
+            "9": 0.15,
+            "10": 0.15,
+            "11": 0.15,
+            "12": 0.15,
+            "13": 0.2,
+            "14": 0.2,
+            "15": 0.2,
+            "16": 0.2,
+            "17": 0.2,
+            "18": 0.2
+          },
+          "name": "生命偷取增加比例",
+          "parameterKey": "life_steal_ratio",
+          "skillKey": "nasus_p",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T16:24:35.549089Z",
+          "valueMode": "CHARACTER_LEVEL",
+          "valueType": "DECIMAL"
+        }
+      ],
+      "evidence": "本次真实GET"
+    },
+    {
+      "route": "/skills/zyra_q/parameters",
+      "values": [
+        {
+          "createdAt": "2026-09-10T02:20:23.593184Z",
+          "description": "InitialDamage当前消费BaseDamage索引1至5为60/100/140/180/220；索引0虽为60但不作1级。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 60,
+            "2": 100,
+            "3": 140,
+            "4": 180,
+            "5": 220
+          },
+          "name": "本体魔法伤害基础值",
+          "parameterKey": "base_damage",
+          "skillKey": "zyra_q",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-10T02:20:23.593184Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-10T02:20:25.141305Z",
+          "description": "InitialDamage当前消费的mCoefficient=0.65。",
+          "fixedValue": 0.649999976,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "法强倍率",
+          "parameterKey": "ap_ratio",
+          "skillKey": "zyra_q",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-10T02:20:25.141305Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-10T02:20:26.626823Z",
+          "description": "当前根spellCastTime=0.25秒。",
+          "fixedValue": 250,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "施法时间（毫秒）",
+          "parameterKey": "cast_time_ms",
+          "skillKey": "zyra_q",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-10T02:20:26.626823Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:41:41.556451Z",
+          "description": "DDragon16.17.1 Zyra.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 7000,
+            "2": 6500,
+            "3": 6000,
+            "4": 5500,
+            "5": 5000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "zyra_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:41:41.556451Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:41:42.069075Z",
+          "description": "DDragon16.17.1 Zyra.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 55,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "zyra_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-19T03:17:56.662939Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ],
+      "evidence": "数据参考/全量录入-2026-09/交叉试录/婕拉Q管理返回/主体说明/07-独立回读.json"
+    }
+  ],
+  "businessWrites": 0
+}
