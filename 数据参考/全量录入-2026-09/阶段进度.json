@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-20T08:56:01.129Z",
+  "generatedAt": "2026-09-20T09:03:28.625Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -12253,6 +12253,33 @@
         "sha256": "370b57f2713268ea2c5537e131998d60ededbf2d95ce3b4e0f88d3b5ca8c2fc3"
       },
       "runtimeValidation": "未执行"
+    },
+    "kassadinPMagicReductionAudit": {
+      "at": "2026-09-20T09:03:28.625Z",
+      "status": "资料待核",
+      "skillKey": "kassadin_p",
+      "GETs": 16,
+      "businessWrites": 0,
+      "currentComponentCounts": {
+        "parameters": 1,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      },
+      "existingGenericStructureSufficient": true,
+      "remaining": [
+        "防御计算前或后的准确阶段",
+        "跨来源减免的乘区分组依据"
+      ],
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/卡萨丁被动魔法减免补录/03-证据清单.json",
+        "commit": "40c8ee08",
+        "sha256": "cb6f402d7472a25040ff21dda1ba2a6ecdb7dc4c51881d9671aa557bb4796b3d"
+      },
+      "runtimeValidation": "未执行"
     }
   },
   "runtimeValidation": "未执行",
@@ -12907,6 +12934,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/崔丝塔娜被动射程核对/04-证据清单.json",
         "commit": "c4246ed1",
         "sha256": "370b57f2713268ea2c5537e131998d60ededbf2d95ce3b4e0f88d3b5ca8c2fc3"
+      },
+      "kassadinPMagicReductionAudit": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/卡萨丁被动魔法减免补录/03-证据清单.json",
+        "commit": "40c8ee08",
+        "sha256": "cb6f402d7472a25040ff21dda1ba2a6ecdb7dc4c51881d9671aa557bb4796b3d"
       }
     },
     "coverage": {
@@ -12925,8 +12958,8 @@
         "sourceItems": 865,
         "concludedItems": 865,
         "conclusions": {
-          "资料待核": 386,
-          "系统暂缓": 445,
+          "资料待核": 387,
+          "系统暂缓": 444,
           "明确排除": 26,
           "已录入": 8
         },
@@ -23001,11 +23034,11 @@
         "slot": "P",
         "skillKey": "kassadin_p",
         "name": "卡萨丁·虚空之石",
-        "conclusion": "系统暂缓",
+        "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "现有1参数0.1已核，效果与初始化入口仍缺；16次定点GET及来源审查确认通用结构足够，但减免相对防御计算的阶段与跨来源乘区分组依据未明，未创建猜测配置。",
         "pendingCounts": {
-          "source": 0,
+          "source": 1,
           "system": 0,
           "configuration": 1,
           "other": 0
@@ -23014,7 +23047,25 @@
         "candidateSha256": "247eeb25c0f1c0b5448fabd16512d9c7b2632660fc08f3cd67bac0d9335c5ff0",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "kassadinPMagicReductionAudit"
+        ],
+        "historicalPendingCounts": {
+          "source": 0,
+          "system": 0,
+          "configuration": 1,
+          "other": 0
+        },
+        "currentComponentCounts": {
+          "parameters": 1,
+          "formulas": 0,
+          "effects": 0,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0
+        },
+        "remainingBranches": [
+          "防御前后阶段和跨来源分组补证后，录入常驻魔法减免及初始化"
         ]
       },
       {
