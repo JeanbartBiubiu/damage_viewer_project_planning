@@ -1,0 +1,64 @@
+{
+  "at": "2026-09-20T13:49:25.804Z",
+  "status": "SOURCE_VERSION_CONFIRMATION_PENDING",
+  "businessWrites": 0,
+  "codeChanges": 0,
+  "localGETs": 4,
+  "independentReviews": [
+    {
+      "agent": "percent_penetration_contract_audit",
+      "scope": "后端与契约只读分析",
+      "conclusion": "现有两种乘区不能得到草案中的剩余比例组合；建议复用现有表并扩充计算方式和阶段，需要增强依赖校验。",
+      "proposedMode": "REMAINING_RATIO",
+      "proposedStage": "ATTRIBUTE_REMAINING_PERCENT",
+      "approvedForImplementation": false
+    },
+    {
+      "agent": "next_stable_authoring_candidates",
+      "scope": "三个技能固定来源核对",
+      "conclusion": "被动数值与根绑定有据，合并算法在本地来源中没有明确证明，SOP示例不能循环充当游戏证据。"
+    },
+    {
+      "agent": "penetration_versioned_sources",
+      "scope": "历史规则补证",
+      "conclusion": "两份2024年修订明确百分比剩余比例连乘及先百分比后固定；不是16.17同版证明。"
+    }
+  ],
+  "sources": [
+    {
+      "file": "04-护甲穿透历史原文.json",
+      "title": "Armor penetration",
+      "revision": 3749280,
+      "timestamp": "2024-12-07T21:21:52Z",
+      "sha256": "f6064503eb797228132de719d848afc0e8ebcec369dc97f5e0176a89a1faf477",
+      "hasMultiplicative": true,
+      "hasPercentageBeforeFlat": true,
+      "url": "https://leagueoflegends.fandom.com/api.php?action=query&prop=revisions&revids=3749280&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json"
+    },
+    {
+      "file": "05-法术穿透历史原文.json",
+      "title": "Magic penetration",
+      "revision": 3746626,
+      "timestamp": "2024-10-01T13:12:26Z",
+      "sha256": "5899b7205fea5c7d3415a24f979f65409db670e0336182b3993dcb694836fbe4",
+      "hasMultiplicative": true,
+      "hasPercentageBeforeFlat": true,
+      "url": "https://leagueoflegends.fandom.com/api.php?action=query&prop=revisions&revids=3746626&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json"
+    }
+  ],
+  "verification": {
+    "historicalResponses": "主负责人使用PowerShell读取修订API，均HTTP200，核对标题/修订号/时间并保存原文；网页读取工具不可访问，Node直连失败，不作为正文不存在的证据。",
+    "directProbeBeforeRetention": 1,
+    "retainedSourceHTTPGets": 2,
+    "sourceToolFailedReads": 4,
+    "failedDirectNodeFetches": 2,
+    "terminologyCorrection": "Lethality为穿甲或固定护甲穿透，不是致命节奏符文。"
+  },
+  "primaryDecision": "不按尚未证实的16.17组合规则新增效果或改写亚恒现值。保留最小方案候选；基础直接来源合并及属性合法范围也需收敛，暂不采用业务技能键硬编码作为通用属性规则。继续其他真实录入与已证系统缺口。",
+  "remaining": [
+    "16.17保留同一通用穿透组合规则的可追溯证据",
+    "直接装备属性基础b的合并定义与重复贡献排除",
+    "最终管理枚举、阶段与校验矩阵的独立审查"
+  ],
+  "runtimeValidation": "未执行"
+}
