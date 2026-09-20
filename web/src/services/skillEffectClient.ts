@@ -1,5 +1,6 @@
 import { assertNumericUses } from './numericValue';
 import { isNumericValue } from '../types/numericValue';
+import { isValidCooldownReductionRatio } from '../types/cooldownRatio';
 import type { ApiResult } from './apiClient';
 import { encodePathSegment, requestJson } from './apiClient';
 import { skillsPath } from './skillClient';
@@ -9,6 +10,7 @@ import type {
   SkillEffectResult,
   SkillEffectResultType,
   SkillEffectSummary,
+  SkillEffectValueRule,
   UpdateSkillEffectRequest
 } from '../types/skillEffect';
 
@@ -291,12 +293,17 @@ function assertResult(value: unknown, path: string): SkillEffectResult {
     if (!('affectedSkillScope' in detail)) protocolError(`${path}.detail.affectedSkillScope`);
     if ('affectedSkillKeys' in detail) protocolError(`${path}.detail.affectedSkillKeys`);
     assertExactDetailKeys(detail, ['operation', 'affectedSkillScope'], path);
-    assertEnum(detail.operation, new Set(['REDUCE', 'INCREASE', 'RESET']), `${path}.detail.operation`);
+    assertEnum(detail.operation, new Set(['REDUCE', 'INCREASE', 'RESET', 'REDUCE_REMAINING_RATIO']), `${path}.detail.operation`);
     assertAffectedSkillScope(detail.affectedSkillScope, `${path}.detail.affectedSkillScope`);
     if (detail.operation === 'RESET') {
       if (value.valueRule !== null) protocolError(`${path}.valueRule`);
     } else {
       assertValueRule(value.valueRule, `${path}.valueRule`);
+      const rule = value.valueRule as SkillEffectValueRule;
+      if (detail.operation === 'REDUCE_REMAINING_RATIO' && rule.value.kind === 'FIXED'
+        && !isValidCooldownReductionRatio(rule.value.value, rule)) {
+        protocolError(`${path}.valueRule`);
+      }
     }
     return value as SkillEffectResult;
   }

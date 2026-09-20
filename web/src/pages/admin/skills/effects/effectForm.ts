@@ -1,5 +1,6 @@
 import type { SkillParameter } from '../../../../types/skillParameter';
-import { numericIssuePath, numericValueError } from '../numericValueForm';
+import { numericIssuePath, numericValueError, staticNumericValues } from '../numericValueForm';
+import { isValidCooldownReductionRatio } from '../../../../types/cooldownRatio';
 import { numericFormulaKey } from '../../../../types/numericValue';
 import { type NumericValue } from '../../../../types/numericValue';
 import { ApiRequestError } from '../../../../services/apiClient';
@@ -229,7 +230,8 @@ export const RESOURCE_CHANGE_OPERATION_LABELS = {
 export const COOLDOWN_CHANGE_OPERATION_LABELS = {
   REDUCE: '减少',
   INCREASE: '增加',
-  RESET: '重置为可用'
+  RESET: '重置为可用',
+  REDUCE_REMAINING_RATIO: '按比例减少剩余冷却'
 } as const satisfies { [K in CooldownChangeOperation]: string };
 
 export const SKILL_HASTE_MODIFIER_OPERATION_LABELS = {
@@ -325,6 +327,7 @@ export const SKILL_EFFECT_LIFECYCLE_OPERATION_LABELS = {
 } as const satisfies { [K in SkillEffectLifecycleOperation]: string };
 
 export const COOLDOWN_CHANGE_AMOUNT_HINT = '变化量按毫秒解释';
+export const COOLDOWN_REMAINING_RATIO_HINT = '每个受影响技能按自己的当前剩余冷却减少。有效比例为 0 到 1，70% 填 0.7；不按总冷却计算。切换毫秒与比例操作会清除原数值。';
 export const DISABLED_CATALOG_LABEL = '已停用';
 export const DISABLED_PARENT_SKILL_LABEL = '当前技能（已停用）';
 export const INCOMPLETE_CATALOG_MESSAGE = '目录不完整，无法保存未知引用。';
@@ -944,7 +947,7 @@ export function requiresValueRule(
     return false;
   }
   if (resultType === 'COOLDOWN_CHANGE') {
-    return cooldownOperation === 'REDUCE' || cooldownOperation === 'INCREASE';
+    return cooldownOperation === 'REDUCE' || cooldownOperation === 'INCREASE' || cooldownOperation === 'REDUCE_REMAINING_RATIO';
   }
   if (resultType === 'LIFECYCLE_OPERATION') {
     return lifecycleOperation === 'INCREASE'
@@ -1011,6 +1014,9 @@ export function resolveResultStatusKind(
 }
 
 export function cooldownChangeAmountHint(draft: SkillEffectResultDraft): string | null {
+  if (draft.resultType === 'COOLDOWN_CHANGE' && draft.cooldownOperation === 'REDUCE_REMAINING_RATIO') {
+    return COOLDOWN_REMAINING_RATIO_HINT;
+  }
   if (
     draft.resultType === 'COOLDOWN_CHANGE'
     && (draft.cooldownOperation === 'REDUCE' || draft.cooldownOperation === 'INCREASE')
@@ -1027,7 +1033,8 @@ export function applyResultTypeChange(
   const nextCooldown = defaultCooldownOperation(nextType);
   const nextLifecycleOperation = defaultLifecycleOperation(nextType);
   const nextNeeds = requiresValueRule(nextType, nextCooldown, nextLifecycleOperation);
-  const prevNeeds = draftRequiresValueRule(draft);
+  const prevNeeds = draftRequiresValueRule(draft)
+    && !(draft.resultType === 'COOLDOWN_CHANGE' && draft.cooldownOperation === 'REDUCE_REMAINING_RATIO');
   const persistentWithoutValueModes = nextType === 'DAMAGE_IMMUNITY' || nextType === 'SPELL_SHIELD';
   const lifecycleBehavior = isPersistentOnlyResultType(nextType)
     ? {
@@ -1112,7 +1119,8 @@ export function applyCooldownOperationChange(
   nextOperation: CooldownChangeOperation
 ): SkillEffectResultDraft {
   const nextNeeds = requiresValueRule('COOLDOWN_CHANGE', nextOperation);
-  const prevNeeds = draftRequiresValueRule(draft);
+  const sameUnit = (draft.cooldownOperation === 'REDUCE_REMAINING_RATIO') === (nextOperation === 'REDUCE_REMAINING_RATIO');
+  const prevNeeds = draftRequiresValueRule(draft) && sameUnit;
   return clearHiddenResultFields({
     ...draft,
     resultType: 'COOLDOWN_CHANGE',
@@ -2252,6 +2260,13 @@ function validateAndBuildResult(
     });
     if (valueError) fieldErrors.value = valueError;
   }
+  if (draft.resultType === 'COOLDOWN_CHANGE' && draft.cooldownOperation === 'REDUCE_REMAINING_RATIO'
+    && valueRule && !fieldErrors.value) {
+    const values = staticNumericValues(valueRule.value, options.parameters);
+    if (values?.some((value) => !isValidCooldownReductionRatio(value, valueRule))) {
+      fieldErrors.value = '有效冷却减少比例必须在 0 到 1 之间（70% 填 0.7）。';
+    }
+  }
 
   if (
     Object.keys(fieldErrors).length > 0
@@ -2352,7 +2367,7 @@ function validateAndBuildResult(
         valueRule: valueRule!,
         detail: {
           affectedSkillScope: buildAffectedSkillScope(draft),
-          operation: draft.cooldownOperation as 'REDUCE' | 'INCREASE'
+          operation: draft.cooldownOperation as 'REDUCE' | 'INCREASE' | 'REDUCE_REMAINING_RATIO'
         }
       };
     case 'STATUS_OPERATION':
@@ -2715,6 +2730,7 @@ function validateTypeSpecificFields(
         draft.cooldownOperation !== 'REDUCE'
         && draft.cooldownOperation !== 'INCREASE'
         && draft.cooldownOperation !== 'RESET'
+        && draft.cooldownOperation !== 'REDUCE_REMAINING_RATIO'
       ) {
         fieldErrors.cooldownOperation = '请选择操作。';
       }
