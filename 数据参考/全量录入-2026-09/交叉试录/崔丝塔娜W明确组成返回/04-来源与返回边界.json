@@ -1,0 +1,119 @@
+{
+  "at": "2026-09-20T14:14:36.473Z",
+  "status": "BOUNDED_SOURCE_CONFIRMED",
+  "sourceVersion": {
+    "client": "16.17",
+    "official": "16.17.1"
+  },
+  "skillKey": "tristana_w",
+  "rootBinding": {
+    "character": "Characters/Tristana/CharacterRecords/Root",
+    "slotIndex": 1,
+    "root": "Characters/Tristana/Spells/TristanaWAbility/TristanaW",
+    "abilityRoot": "Characters/Tristana/Spells/TristanaWAbility/TristanaW"
+  },
+  "sourceFields": {
+    "damageCalculation": {
+      "mFormulaParts": [
+        {
+          "mDataValue": "BaseDamage",
+          "__type": "NamedDataValueCalculationPart"
+        },
+        {
+          "mStat": 2,
+          "mStatFormula": 2,
+          "mDataValue": "ADRatio",
+          "__type": "StatByNamedDataValueCalculationPart"
+        },
+        {
+          "mDataValue": "APRatio",
+          "__type": "StatByNamedDataValueCalculationPart"
+        }
+      ],
+      "__type": "GameCalculation"
+    },
+    "baseDamage": [
+      35,
+      70,
+      105,
+      140,
+      175,
+      210,
+      245
+    ],
+    "bonusAdRatio": 1,
+    "totalApRatio": 0.5,
+    "slowRaw": -0.4000000059604645,
+    "slowRatioSaved": 0.4,
+    "slowDurationMs": 2000,
+    "castMs": 250,
+    "cooldownMs": [
+      22000,
+      20000,
+      18000,
+      16000,
+      14000
+    ],
+    "mana": [
+      30,
+      35,
+      40,
+      45,
+      50
+    ]
+  },
+  "official": {
+    "zhDescription": "崔丝塔娜朝地面开火，跳跃至目标区域，落地造成伤害并减速附近敌人一小段时间。",
+    "enTooltip": "Tristana launches herself, dealing <magicDamage>{{ landingdamage }} magic damage</magicDamage> and <status>Slowing</status> by {{ slowmod*-100 }}% for {{ slowduration }} seconds upon landing.<br /><br />Champion takedowns and max stack <spellName>Explosive Charge</spellName> detonations on champions refresh this Ability's Cooldown.{{ spellmodifierdescriptionappend }}"
+  },
+  "decisions": [
+    "基伤取索引1至5，AD明确2/2为额外攻击力，AP省略字段复用同构建通用来源的窄映射。",
+    "客户端spellCastTime0.25秒对应原250毫秒；官方资料不提供独立施放字段，不写成两来源共同证明。",
+    "使用入口只启动原cast过程，沿原过程扣费、冷却及延迟，不执行伤害。",
+    "落地伤害与首次减速限定本轮敌方英雄；这是1V1录入范围，不是宣称原技能不能作用其他敌人。",
+    "减速负号按官方slowmod*-100模板转正比例0.4，2秒；首次施加要求当前来源目标不存在该减速生命周期，同次法术护盾明确未阻挡，缺值不默认0。",
+    "普通魔法技能伤害吸血沿已核定通用资格补OMNIVAMP效率1、防御后基准；不以空数组作为自动继承。",
+    "保留原伤害RESULT法术护盾粒度，本次减速另用RESULT及明确未阻挡事件，未证明完整技能交互或运行。",
+    "原own_kill_reset已保存并复用；英雄参与击杀与对英雄满层E爆炸是两个尚未完整表达的分支，不套用普通命中。"
+  ],
+  "remaining": [
+    "英雄参与击杀的完整资格与窗口",
+    "对英雄满层E引爆重置及W参与叠层",
+    "减速重施资格和全技能法术护盾精确交互",
+    "位移、实际落地时间和战斗事件执行另证，不新增本轮运行开发"
+  ],
+  "independentSourceReview": {
+    "agent": "tristana_w_source_return",
+    "businessWrites": 0,
+    "sourceFacts": "根、伤害系数、法力冷却、250ms及40%2秒通过",
+    "scopeClarification": "原来源可作用英雄以外敌人，当前英雄条件只限定本轮1V1记录范围"
+  },
+  "sourceFiles": [
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Tristana.json.gz",
+      "sha256": "83ac2a879e3c6ce2c08f4e3f81294acafa412fa59880cd9a8426df5474972494"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Tristana.json",
+      "sha256": "84fb0ff7f6b1a921e6b13d3dfab5ac4ad48f32f012b9fb912e3bade1ed168b5a"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Tristana.json",
+      "sha256": "2ad512109196fbfa13b18ae21b3b47ba6eab2ce057ab5c198816c8177b7d7162"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/通用公式来源补证/结论与边界.json",
+      "sha256": "5b51fc7b71e411909e42323ca50d9c51566038b61a392023d2668ba5ad3a73a6"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q完整补录/交互来源核定.json",
+      "sha256": "e3bb3619af36e0212d4eacc35e5ec4aa31c0e6882cf7f32df031ee30ef2ea501"
+    }
+  ],
+  "businessWrites": 0
+}

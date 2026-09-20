@@ -1,0 +1,26 @@
+{
+  "changes": [
+    {
+      "skillKey": "tristana_w",
+      "effectKey": "landing_hit",
+      "resultKey": "damage",
+      "route": "/skills/tristana_w/effects/landing_hit",
+      "description": "本轮明确敌方英雄的实际落地魔法伤害，沿原公式读取基础值、额外攻击力与总法强；显式登记防御结算后伤害、效率1的全能吸血资格。保留原结果法术护盾粒度；不将过程结束当命中，减速和重置各自核定。"
+    }
+  ],
+  "sourceFiles": [
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/崔丝塔娜W明确组成返回/04-来源与返回边界.json"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/伤害吸血通用来源复核/来源与未决口径.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q完整补录/交互来源核定.json"
+    }
+  ],
+  "scope": "先等待主动入口及首次减速独立回读，再冻结本次空吸血规则纠错；不改变原伤害公式或护盾粒度。"
+}

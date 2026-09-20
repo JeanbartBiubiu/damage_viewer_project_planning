@@ -1,0 +1,59 @@
+{
+  "schemaVersion": "damage.authoring.independent-review.v1",
+  "status": "APPROVED",
+  "at": "2026-09-20T14:45:00.000Z",
+  "reviewer": "/root/percent_penetration_contract_audit",
+  "scope": {
+    "skillKey": "tristana_w",
+    "apiCallsDuringReview": 0,
+    "networkRequestsDuringReview": 0,
+    "businessWritesDuringReview": 0,
+    "databaseAccess": false,
+    "runtimeBoundary": "本评审只核对冻结说明请求、写前现值、来源摘要和既有07回读边界，不证明宿主/Wasm、重施、助攻、满层E因果、完整护盾交互或战斗运行。"
+  },
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-descriptions-v2.mjs": "f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517",
+    "01-纠错计划.json": "8a83a99b482d804765c524c2a2680d54a010f889958c49f07d39509e96813391",
+    "02-冻结请求.json": "b4685f1834706987223bb97f7630496a8836491896ec63f1bcb201cf57cbc6e6",
+    "03-来源摘要.json": "473eb74caf9136d848e1a51fd74f939313428f24cc2c7a594e04cefe8221c4c3",
+    "04-写入前现值.json": "747d4b41446be17862c54a6e921f16809373f57f2113cb99c571dd94a7e1c5d9"
+  },
+  "fileBinding": {
+    "sha256Program": "node crypto.createHash(sha256)",
+    "sourceSha256Matches03": true,
+    "baselineSha256Matches04": true,
+    "sourceHashesRecomputed": true,
+    "changes": 3,
+    "requests": 3,
+    "writeBeforeAuditGETs": 25,
+    "writeBeforeBusinessWrites": 0
+  },
+  "reviewItems": [
+    {
+      "id": "R1",
+      "result": "PASS",
+      "evidence": "01与02均只有根技能、mana_cost效果、reset_jump效果三项PUT；每个请求字段集合与旧对象一致，逐字段检查确认仅description变化。"
+    },
+    {
+      "id": "R2",
+      "result": "PASS",
+      "evidence": "三项冻结expectedReadback分别等于旧对象叠加新description；maxLevel、状态、排序、生命周期、结果、参数、公式和动作均保持。"
+    },
+    {
+      "id": "R3",
+      "result": "PASS",
+      "evidence": "根说明保留已配置的敌方英雄实际落地伤害、首次减速、普通主动入口及本人击杀重置，并明确助攻、满层E引爆与叠层、减速重施和完整护盾交互仍待核定。"
+    },
+    {
+      "id": "R4",
+      "result": "PASS",
+      "evidence": "来源摘要绑定04-来源与返回边界及07-历史重置分支返回核对；前两批主动入口/首次减速07与伤害吸血07均为PASS且业务写入为0，边界没有扩成完整机制。"
+    },
+    {
+      "id": "R5",
+      "result": "PASS",
+      "evidence": "本评审未发业务HTTP、未访问SQL或全量库，仅现场复算工具和01至04 SHA。"
+    }
+  ],
+  "conclusion": "APPROVED：本批三项说明更新只同步已核定组成和未决边界，不改变任何数值或结构；助攻、满层E因果、重施与完整护盾交互继续明确保持开放。"
+}

@@ -1,0 +1,28 @@
+{
+  "at": "2026-09-20T14:33:21.562Z",
+  "status": "PASS",
+  "formulaCases": 20,
+  "parameterCounts": 8,
+  "parametersChanged": false,
+  "checks": [
+    {
+      "key": "cast_time_ms",
+      "value": 250,
+      "unit": "ms",
+      "source": "client spellCastTime 0.25"
+    },
+    {
+      "key": "slow_ratio",
+      "value": 0.4,
+      "unit": "ratio",
+      "source": "SlowMod -0.40000000596 / tooltip -100"
+    },
+    {
+      "key": "slow_duration_ms",
+      "value": 2000,
+      "unit": "ms",
+      "source": "SlowDuration 2"
+    }
+  ],
+  "existingKillRuleNotReplayed": true
+}

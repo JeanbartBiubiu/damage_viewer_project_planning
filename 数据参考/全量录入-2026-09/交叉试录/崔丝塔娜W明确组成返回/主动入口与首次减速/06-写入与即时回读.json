@@ -1,0 +1,604 @@
+{
+  "startedAt": "2026-09-20T14:25:23.262Z",
+  "status": "PASS",
+  "businessWritesAttempted": 3,
+  "operations": [
+    {
+      "method": "POST",
+      "route": "/skills/tristana_w/effects",
+      "response": {
+        "status": 201,
+        "data": {
+          "createdAt": "2026-09-20T14:25:23.430298Z",
+          "description": "对本轮实际命中的敌方英雄首次施加40%普通移动减速，持续2000毫秒；入口要求同次法术护盾明确未阻挡且当前来源目标没有本效果实例。重施另待核，不以刷新选项证明重复命中行为。",
+          "effectKey": "rocket_jump_slow",
+          "gameId": "lol",
+          "lifecycle": {
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "slow_duration_ms"
+            },
+            "expiryMode": "ALL_AT_ONCE",
+            "firstPeriodicExecution": null,
+            "instanceScope": "SOURCE_TARGET",
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "periodicIntervalValue": null,
+            "reapplicationDurationMode": "REFRESH_ALL",
+            "reapplicationStackMode": "KEEP"
+          },
+          "name": "火箭跳跃首次普通减速",
+          "results": [
+            {
+              "description": "来源字段为负向速度比例，按官方展示模板保存正减速比例0.4；上下界0至1，期限随本效果。",
+              "detail": {
+                "operation": "APPLY",
+                "statusKey": "movement_slow"
+              },
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "periodicExecutionMode": null,
+                "reapplicationValueMode": "REPLACE",
+                "stackValueMode": "SHARED",
+                "valueReadMode": "APPLICATION_SNAPSHOT"
+              },
+              "name": "落地首次普通减速",
+              "resultKey": "slow",
+              "resultType": "STATUS_OPERATION",
+              "sortOrder": 10,
+              "spellShieldBlockScope": "RESULT",
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": 1,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "slow_ratio"
+                }
+              }
+            }
+          ],
+          "skillKey": "tristana_w",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-20T14:25:23.430298Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-20T14:25:23.430298Z",
+        "description": "对本轮实际命中的敌方英雄首次施加40%普通移动减速，持续2000毫秒；入口要求同次法术护盾明确未阻挡且当前来源目标没有本效果实例。重施另待核，不以刷新选项证明重复命中行为。",
+        "effectKey": "rocket_jump_slow",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "slow_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE_TARGET",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "火箭跳跃首次普通减速",
+        "results": [
+          {
+            "description": "来源字段为负向速度比例，按官方展示模板保存正减速比例0.4；上下界0至1，期限随本效果。",
+            "detail": {
+              "operation": "APPLY",
+              "statusKey": "movement_slow"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "落地首次普通减速",
+            "resultKey": "slow",
+            "resultType": "STATUS_OPERATION",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": 1,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "slow_ratio"
+              }
+            }
+          }
+        ],
+        "skillKey": "tristana_w",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-20T14:25:23.430298Z"
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/tristana_w/trigger-rules",
+      "response": {
+        "status": 201,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "start_cast",
+              "actionType": "START_PROCESS",
+              "detail": {
+                "processKey": "cast"
+              },
+              "name": "启动既有施法过程",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "本技能普通主动使用启动已有cast过程，统一登记法力、基础冷却和250毫秒施法延迟；不以过程结束制造落地命中，也不执行重置或减速。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "tristana_w",
+              "useKind": "ACTIVE"
+            },
+            "eventType": "SKILL_USED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "主动使用启动火箭跳跃",
+          "perTargetCooldown": null,
+          "ruleKey": "on_used",
+          "sortOrder": 5
+        }
+      },
+      "readback": {
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "cast"
+            },
+            "name": "启动既有施法过程",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "本技能普通主动使用启动已有cast过程，统一登记法力、基础冷却和250毫秒施法延迟；不以过程结束制造落地命中，也不执行重置或减速。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "tristana_w",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "主动使用启动火箭跳跃",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used",
+        "sortOrder": 5
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/tristana_w/trigger-rules",
+      "response": {
+        "status": 201,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "apply_slow",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "rocket_jump_slow"
+              },
+              "name": "施加本次普通减速",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [
+            {
+              "conditions": [
+                {
+                  "conditionKey": "champion_target",
+                  "conditionType": "TARGET_CATEGORY_CHECK",
+                  "detail": {
+                    "categories": [
+                      "CHAMPION"
+                    ]
+                  },
+                  "sortOrder": 10
+                },
+                {
+                  "conditionKey": "enemy_target",
+                  "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                  "detail": {},
+                  "sortOrder": 20
+                },
+                {
+                  "conditionKey": "not_spell_shield_blocked",
+                  "conditionType": "EVENT_VALUE_COMPARE",
+                  "detail": {
+                    "comparator": "EQ",
+                    "comparisonValue": {
+                      "kind": "FIXED",
+                      "value": 0
+                    },
+                    "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED"
+                  },
+                  "sortOrder": 30
+                },
+                {
+                  "conditionKey": "no_existing_slow",
+                  "conditionType": "LIFECYCLE_CHECK",
+                  "detail": {
+                    "checkKind": "ABSENT",
+                    "comparator": null,
+                    "comparisonValue": null,
+                    "effectKey": "rocket_jump_slow",
+                    "subject": "CURRENT_TARGET"
+                  },
+                  "sortOrder": 40
+                }
+              ],
+              "groupKey": "slow_eligible",
+              "name": "本次普通减速可施加",
+              "sortOrder": 10
+            }
+          ],
+          "description": "同次实际W命中须为本轮明确敌方英雄、法术护盾判定为0，且本来源当前目标没有火箭跳跃减速实例。缺少事件判定不默认0；当前实例已存在时不执行，重施分支待核。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "tristana_w",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "落地未受阻挡时首次减速",
+          "perTargetCooldown": null,
+          "ruleKey": "apply_slow_on_first_unblocked_hit",
+          "sortOrder": 40
+        }
+      },
+      "readback": {
+        "actions": [
+          {
+            "actionKey": "apply_slow",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "rocket_jump_slow"
+            },
+            "name": "施加本次普通减速",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "detail": {},
+                "sortOrder": 20
+              },
+              {
+                "conditionKey": "not_spell_shield_blocked",
+                "conditionType": "EVENT_VALUE_COMPARE",
+                "detail": {
+                  "comparator": "EQ",
+                  "comparisonValue": {
+                    "kind": "FIXED",
+                    "value": 0
+                  },
+                  "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED"
+                },
+                "sortOrder": 30
+              },
+              {
+                "conditionKey": "no_existing_slow",
+                "conditionType": "LIFECYCLE_CHECK",
+                "detail": {
+                  "checkKind": "ABSENT",
+                  "comparator": null,
+                  "comparisonValue": null,
+                  "effectKey": "rocket_jump_slow",
+                  "subject": "CURRENT_TARGET"
+                },
+                "sortOrder": 40
+              }
+            ],
+            "groupKey": "slow_eligible",
+            "name": "本次普通减速可施加",
+            "sortOrder": 10
+          }
+        ],
+        "description": "同次实际W命中须为本轮明确敌方英雄、法术护盾判定为0，且本来源当前目标没有火箭跳跃减速实例。缺少事件判定不默认0；当前实例已存在时不执行，重施分支待核。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "tristana_w",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "落地未受阻挡时首次减速",
+        "perTargetCooldown": null,
+        "ruleKey": "apply_slow_on_first_unblocked_hit",
+        "sortOrder": 40
+      }
+    }
+  ],
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v3.mjs": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "01-候选方案.json": "347a2e601d78e6b8875eb97a9b265edadfd30decd4aea3c00b4549e7a17bfc47",
+    "02-冻结请求.json": "00b73fe99665a25b37ac45ab6038d623e3642e65bb94734e1a6c95a8e03529d6",
+    "03-来源摘要.json": "7265e60135496e9b7b88e84f0c7571698688c8f35b4f9b683fdf7dc1bdeb042a",
+    "04-写入前现值.json": "b9d774fd7e5cff5dddbd754e9425396cd1bc901a7e8ccde4b22170f7f1a15283"
+  },
+  "pendingRoute": null,
+  "finishedAt": "2026-09-20T14:25:28.948Z",
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_tristana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_tristana/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_tristana/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_tristana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=tristana_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/parameters/ad_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/parameters/slow_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/parameters/slow_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/effects/landing_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/effects/reset_jump",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/trigger-rules/own_kill_reset",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/statuses/movement_slow",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/attack_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/ability_power",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/mana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/damage-types/magic",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/effects/rocket_jump_slow",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/trigger-rules/on_used",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/trigger-rules/apply_slow_on_first_unblocked_hit",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/effects/rocket_jump_slow",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/tristana_w/effects",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/effects/rocket_jump_slow",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/trigger-rules/on_used",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/tristana_w/trigger-rules",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/trigger-rules/apply_slow_on_first_unblocked_hit",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/tristana_w/trigger-rules",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/trigger-rules/apply_slow_on_first_unblocked_hit",
+      "status": 200
+    }
+  ]
+}

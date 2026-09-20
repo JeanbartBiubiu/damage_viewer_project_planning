@@ -1,0 +1,43 @@
+{
+  "executionMode": "BROWSER_UI_ONLY",
+  "skillKey": "tristana_w",
+  "ruleKey": "actual_hit",
+  "conditionGroups": [
+    {
+      "groupKey": "champion_target",
+      "name": "本轮敌方英雄",
+      "sortOrder": 10,
+      "conditions": [
+        {
+          "conditionKey": "champion_target",
+          "conditionType": "TARGET_CATEGORY_CHECK",
+          "sortOrder": 10,
+          "detail": {
+            "categories": [
+              "CHAMPION"
+            ]
+          }
+        },
+        {
+          "conditionKey": "enemy_target",
+          "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+          "sortOrder": 20,
+          "detail": {}
+        }
+      ]
+    }
+  ],
+  "sourceFiles": [
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Tristana.json.gz",
+      "sha256": "83ac2a879e3c6ce2c08f4e3f81294acafa412fa59880cd9a8426df5474972494"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Tristana.json",
+      "sha256": "84fb0ff7f6b1a921e6b13d3dfab5ac4ad48f32f012b9fb912e3bade1ed168b5a"
+    }
+  ],
+  "purpose": "在原实际命中伤害规则同组补本轮敌方英雄条件，保留来源、唯一伤害动作、原击杀重置规则与其余所有组成。"
+}

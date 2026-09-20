@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-20T14:31:07.620Z",
+  "status": "PARTIAL_PAGE_RETURN_PASS",
+  "businessSaves": 0,
+  "verifiedPages": [
+    {
+      "name": "普通使用入口",
+      "checks": [
+        "SKILL_USED来源tristana_w",
+        "ACTIVE",
+        "只启动既有cast",
+        "无条件组"
+      ]
+    },
+    {
+      "name": "首次减速入口",
+      "checks": [
+        "同组英雄/明确敌方/同次阻挡0/当前目标无本来源实例",
+        "只执行rocket_jump_slow"
+      ]
+    },
+    {
+      "name": "首次减速效果及结果",
+      "checks": [
+        "SOURCE_TARGET",
+        "单层有期slow_duration_ms",
+        "普通移动减速",
+        "slow_ratio倍率1及0/1上下界",
+        "持续生效/快照/共享",
+        "RESULT法术护盾"
+      ]
+    }
+  ],
+  "notCovered": [
+    "最终伤害吸血更正后的页面",
+    "最新主体说明",
+    "旧cast过程与延迟步骤重开"
+  ]
+}

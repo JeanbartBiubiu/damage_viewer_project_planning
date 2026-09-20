@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "damage.authoring.independent-review.v1",
+  "status": "APPROVED",
+  "at": "2026-09-20T14:08:19.062Z",
+  "reviewer": "/root/percent_penetration_contract_audit",
+  "scope": {
+    "skillKey": "tristana_w",
+    "ruleKey": "actual_hit",
+    "apiCallsDuringReview": 0,
+    "networkRequestsDuringReview": 0,
+    "businessWritesDuringReview": 0,
+    "databaseAccess": false,
+    "runtimeBoundary": "本评审只核对冻结文件、固定中文源和请求差异，不证明浏览器、宿主/Wasm、命中事件生产或战斗运行。"
+  },
+  "approvedFiles": {
+    "tools/authoring/reviewed-hit-scope-ui.mjs": "b9dc44da5ac25728eeeaa13c8108dd6720f7ae70cd9ac4a8a9896f2715f2d287",
+    "01-候选方案.json": "b8ae312fecbf8ee85053aa6ec288fcf5c7e80cdf242331a4a20903786e6e30b6",
+    "02-冻结请求.json": "6b9dd1c24f85434bc301248c93fbedaa6be68f60fb094950a912b6788544a12b",
+    "03-来源摘要.json": "1992f803452f421ed56fab693873eba15ec6a952128e96c0f3f63b6a1267e149",
+    "04-写入前现值.json": "9e5086451d10824ac7756c14bf8e6092b05e78e19f467c0fab08cc418a3d9d52"
+  },
+  "fileBinding": {
+    "sha256Program": "node crypto.createHash(sha256)",
+    "sourceSha256Matches02": true,
+    "baselineSha256Matches02": true,
+    "sourceFilesMatch03": true
+  },
+  "reviewItems": [
+    {
+      "id": "R1",
+      "result": "PASS",
+      "evidence": "01至04与工具原始字节SHA-256已现场复算；02.sourceSha256绑定03，02.baselineSha256绑定04。"
+    },
+    {
+      "id": "R2",
+      "result": "PASS",
+      "evidence": "固定中文16.17.1 TristanaW描述为“落地造成伤害并减速附近敌人”，与本轮敌方英雄范围一致；冻结条件为同组CHAMPION与SKILL_HIT_TARGET_IS_ENEMY。"
+    },
+    {
+      "id": "R3",
+      "result": "PASS",
+      "evidence": "04中tristana_w/actual_hit原conditionGroups为空；02只加入01同一组champion_target，两个条件分别为TARGET_CATEGORY_CHECK/CHAMPION与SKILL_HIT_TARGET_IS_ENEMY/空明细。"
+    },
+    {
+      "id": "R4",
+      "result": "PASS",
+      "evidence": "请求仍为SKILL_HIT且sourceSkillKey=tristana_w；唯一动作仍为EXECUTE_EFFECT/landing_hit；动作、事件来源、名称、说明、排序、冷却限制和其余字段均未变化。未重录own_kill_reset，未改法术护盾、吸血或其他组成。"
+    },
+    {
+      "id": "R5",
+      "result": "PASS",
+      "evidence": "04写前现值businessWrites=0且22条审计请求全部为GET；本次评审未访问业务HTTP、数据库或浏览器。"
+    }
+  ],
+  "conclusion": "APPROVED：崔丝塔娜W实际命中规则只收窄到同组敌方英雄，冻结请求与现值的唯一业务差异为目标类别和敌方目标条件；来源、唯一landing_hit动作、既有own_kill_reset及其他组成均保持。"
+}

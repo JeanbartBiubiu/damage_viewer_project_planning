@@ -1,0 +1,181 @@
+{
+  "at": "2026-09-20T14:05:43.255Z",
+  "status": "PASS",
+  "cases": [
+    {
+      "rank": 1,
+      "bonusAD": 0,
+      "ap": 0,
+      "actual": 70,
+      "expected": 70,
+      "pass": true
+    },
+    {
+      "rank": 1,
+      "bonusAD": 50,
+      "ap": 0,
+      "actual": 120,
+      "expected": 120,
+      "pass": true
+    },
+    {
+      "rank": 1,
+      "bonusAD": 0,
+      "ap": 100,
+      "actual": 120,
+      "expected": 120,
+      "pass": true
+    },
+    {
+      "rank": 1,
+      "bonusAD": 125,
+      "ap": 200,
+      "actual": 295,
+      "expected": 295,
+      "pass": true
+    },
+    {
+      "rank": 2,
+      "bonusAD": 0,
+      "ap": 0,
+      "actual": 105,
+      "expected": 105,
+      "pass": true
+    },
+    {
+      "rank": 2,
+      "bonusAD": 50,
+      "ap": 0,
+      "actual": 155,
+      "expected": 155,
+      "pass": true
+    },
+    {
+      "rank": 2,
+      "bonusAD": 0,
+      "ap": 100,
+      "actual": 155,
+      "expected": 155,
+      "pass": true
+    },
+    {
+      "rank": 2,
+      "bonusAD": 125,
+      "ap": 200,
+      "actual": 330,
+      "expected": 330,
+      "pass": true
+    },
+    {
+      "rank": 3,
+      "bonusAD": 0,
+      "ap": 0,
+      "actual": 140,
+      "expected": 140,
+      "pass": true
+    },
+    {
+      "rank": 3,
+      "bonusAD": 50,
+      "ap": 0,
+      "actual": 190,
+      "expected": 190,
+      "pass": true
+    },
+    {
+      "rank": 3,
+      "bonusAD": 0,
+      "ap": 100,
+      "actual": 190,
+      "expected": 190,
+      "pass": true
+    },
+    {
+      "rank": 3,
+      "bonusAD": 125,
+      "ap": 200,
+      "actual": 365,
+      "expected": 365,
+      "pass": true
+    },
+    {
+      "rank": 4,
+      "bonusAD": 0,
+      "ap": 0,
+      "actual": 175,
+      "expected": 175,
+      "pass": true
+    },
+    {
+      "rank": 4,
+      "bonusAD": 50,
+      "ap": 0,
+      "actual": 225,
+      "expected": 225,
+      "pass": true
+    },
+    {
+      "rank": 4,
+      "bonusAD": 0,
+      "ap": 100,
+      "actual": 225,
+      "expected": 225,
+      "pass": true
+    },
+    {
+      "rank": 4,
+      "bonusAD": 125,
+      "ap": 200,
+      "actual": 400,
+      "expected": 400,
+      "pass": true
+    },
+    {
+      "rank": 5,
+      "bonusAD": 0,
+      "ap": 0,
+      "actual": 210,
+      "expected": 210,
+      "pass": true
+    },
+    {
+      "rank": 5,
+      "bonusAD": 50,
+      "ap": 0,
+      "actual": 260,
+      "expected": 260,
+      "pass": true
+    },
+    {
+      "rank": 5,
+      "bonusAD": 0,
+      "ap": 100,
+      "actual": 260,
+      "expected": 260,
+      "pass": true
+    },
+    {
+      "rank": 5,
+      "bonusAD": 125,
+      "ap": 200,
+      "actual": 435,
+      "expected": 435,
+      "pass": true
+    }
+  ],
+  "businessWrites": 0,
+  "formulaSHA256": "3fde7eb957471994717e9285650a8b1f342bfe8ffae45d0fad9411c308f62c08",
+  "sourceFiles": [
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Tristana.json.gz",
+      "sha256": "83ac2a879e3c6ce2c08f4e3f81294acafa412fa59880cd9a8426df5474972494"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Tristana.json",
+      "sha256": "84fb0ff7f6b1a921e6b13d3dfab5ac4ad48f32f012b9fb912e3bade1ed168b5a"
+    }
+  ],
+  "boundary": "数值核对只证明给定AD/AP口径下当前公式与来源系数一致；AP省略字段映射复用已有通用来源证明，独立源核对另记。"
+}

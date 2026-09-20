@@ -1,0 +1,73 @@
+{
+  "at": "2026-09-20T14:21:01.799Z",
+  "historicalOwnKillEvidence": {
+    "worktree": "damage_web_dev",
+    "relativePath": "数据参考/全量录入-2026-09/交叉试录/崔丝塔娜W击杀英雄重置补录/证据清单.json",
+    "sha256": "30b164b79d46dab98a823c5f57b59a70e3057503c7322cf7b4792fa7fc438f87",
+    "commit": "06c2349dbcbff5eb84db9f85aa5c973a2bd99789"
+  },
+  "currentOwnKillRule": {
+    "actions": [
+      {
+        "actionKey": "reset_jump",
+        "actionType": "EXECUTE_EFFECT",
+        "detail": {
+          "effectKey": "reset_jump"
+        },
+        "name": "重置火箭跳跃冷却",
+        "resultModifiers": [],
+        "runtimeInputBindings": [],
+        "sortOrder": 10,
+        "targetContext": "CURRENT_TARGET"
+      }
+    ],
+    "conditionGroups": [
+      {
+        "conditions": [
+          {
+            "conditionKey": "champion_only",
+            "conditionType": "TARGET_CATEGORY_CHECK",
+            "detail": {
+              "categories": [
+                "CHAMPION"
+              ]
+            },
+            "sortOrder": 10
+          }
+        ],
+        "groupKey": "killed_target",
+        "name": "被击杀对象",
+        "sortOrder": 10
+      }
+    ],
+    "description": "只表达来源对象本人完成英雄击杀时的冷却重置；不表示参与击杀，也不包含满层爆炸分支。",
+    "eventSource": {
+      "detail": {},
+      "eventType": "KILL"
+    },
+    "maxTriggersPerProcess": null,
+    "name": "本人击杀英雄重置火箭跳跃",
+    "perTargetCooldown": null,
+    "ruleKey": "own_kill_reset",
+    "sortOrder": 20
+  },
+  "oldPending": [
+    {
+      "kind": "配置",
+      "component": "减速与E满层/参与击杀重置",
+      "reason": "眩晕等现状态不能代替40%减速。满层E因R击退后才爆炸例外也需统一爆炸事件，不以EARLY_REMOVE代替。本人击杀需要KILL配英雄类别，参与击杀仍待因果来源。"
+    },
+    {
+      "kind": "系统",
+      "component": "击杀英雄类别条件",
+      "reason": "真实API拒绝KILL加TARGET_CATEGORY_CHECK：目标类别只支持SKILL_HIT/BASIC_ATTACK_HIT。需允许KILL按死者类别判断后再保存，不能取消英雄门槛。"
+    }
+  ],
+  "oldExcluded": [
+    {
+      "component": "跳跃路径与附近目标搜索",
+      "reason": "保留当前敌方英雄实际落地命中。"
+    }
+  ],
+  "decision": "本人完成英雄击杀与目标类别能力已由2026-09-10批次关闭；本次只复用，不重复新增或算本批保存。助攻参与和满层E仍开放。"
+}
