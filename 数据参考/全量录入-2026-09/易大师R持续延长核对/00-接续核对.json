@@ -1,0 +1,72 @@
+{
+  "at": "2026-09-20T17:40:33.313Z",
+  "status": "只读核对中，未生成正式写入请求",
+  "precedingCommits": {
+    "web": "0daa1d1626b95e2ffd6d4e68c9731f6da78b2b25",
+    "backend": "4ea351a1cd9a94b7aaa16830427baea14ad3402c",
+    "planning": "96112f1854dc121df316688a85d8fcdc843df7c8"
+  },
+  "currentBaseline": {
+    "path": "../剩余冷却比例表达返回/18-独立回读.json",
+    "sha256": "8e670186febfb2edc31a52813c4e708157e55031cdab73664055b202e8e254fe",
+    "reuse": "直接复用当前易大师R组成、关系和引用，未重新全量GET"
+  },
+  "source": {
+    "version": "客户端16.17、官方16.17.1",
+    "path": "../交叉试录/Cursor/英雄机制第九批/完整候选.json",
+    "sha256": "d4856e5e8914e8a02c8d02a264c1e84acc84171d8733f434db345ef69b28bc0e",
+    "skillKey": "masteryi_r",
+    "activeDurationMs": 7000,
+    "killAssistExtensionMs": 7000,
+    "extensionRequiresActive": true
+  },
+  "questions": [
+    "既有生命周期操作是否支持对已存在实例增加剩余时间而不创建或刷新",
+    "来源自身生命周期条件如何和参与英雄击杀事件准确组合",
+    "独立攻速与移速实例、未核定期限封顶及时点是否妨碍部分延长分支"
+  ],
+  "relatedRefundBaseProbe": {
+    "readOnly": true,
+    "sourceFilesVerified": true,
+    "rows": [
+      {
+        "champion": "Pantheon",
+        "path": "Characters/Pantheon/Spells/PantheonQAbility/PantheonQ",
+        "spellFound": true,
+        "calculationKeys": [
+          "HoldDamageCalc",
+          "TapDamageCalc",
+          "EmpoweredDamageCalc",
+          "{6fc04dc0}",
+          "ExecuteDamageCalcModified"
+        ],
+        "refundCalculationHits": [],
+        "otherCooldownFields": [
+          "cooldownTime",
+          "Cooldown",
+          "mSpellCooldownOrSealedQueueThreshold"
+        ]
+      },
+      {
+        "champion": "Talon",
+        "path": "Characters/Talon/Spells/TalonQAbility/TalonQ",
+        "spellFound": true,
+        "calculationKeys": [
+          "TotalHealing",
+          "LeapDamage",
+          "CriticalDamage"
+        ],
+        "refundCalculationHits": [],
+        "otherCooldownFields": [
+          "cooldownTime",
+          "Cooldown",
+          "mDoesNotConsumeCooldown"
+        ]
+      }
+    ],
+    "conclusion": "潘森Q与泰隆Q根计算表未提供返还基数计算；只能保留未知，不能据此判为总冷却或剩余冷却。没有套用新比例效果。"
+  },
+  "currentGETs": 0,
+  "businessWrites": 0,
+  "runtimeValidation": "未执行"
+}

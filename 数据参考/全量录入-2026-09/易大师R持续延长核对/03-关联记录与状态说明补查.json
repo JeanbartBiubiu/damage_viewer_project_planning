@@ -1,0 +1,52 @@
+{
+  "at": "2026-09-20T17:45:41.459Z",
+  "mode": "固定来源只读补查",
+  "client": {
+    "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/MasterYi.json.gz",
+    "decompressedSha256": "406982f759b8260ea1ebe8f930753dab9e0a626a811889e099b05caebbbfef1c",
+    "records": [
+      {
+        "key": "Characters/MasterYi/Spells/HighlanderAbility",
+        "buff": null,
+        "rootSpell": "Characters/MasterYi/Spells/HighlanderAbility/Highlander",
+        "childSpells": [
+          "Characters/MasterYi/Spells/HighlanderAbility/Highlander",
+          "Characters/MasterYi/Spells/HighlanderAbility/HighlanderSpellPassive"
+        ]
+      },
+      {
+        "key": "Characters/MasterYi/Spells/HighlanderAbility/Highlander",
+        "buff": {
+          "mDescription": "game_buff_tooltip_Highlander",
+          "__type": "BuffData"
+        },
+        "rootSpell": null,
+        "childSpells": null
+      },
+      {
+        "key": "Characters/MasterYi/Spells/HighlanderAbility/HighlanderSpellPassive",
+        "buff": {
+          "mDescription": "game_buff_tooltip_DoubleStrikeReady",
+          "__type": "BuffData"
+        },
+        "rootSpell": null,
+        "childSpells": null
+      }
+    ]
+  },
+  "stringTable": {
+    "path": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+    "compressedSha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+    "decompressedSha256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+    "entries": {
+      "game_buff_tooltip_highlander": "<titleLeft>高原血统</titleLeft><mainText>易的攻击速度和移动速度得到大幅提升，并且免疫减速效果。</mainText><postScriptLeft>来自：@SourceName@</postScriptLeft>",
+      "game_buff_tooltip_doublestrikeready": "<titleLeft>双重打击</titleLeft><mainText>易大师的下一次攻击将进行双重打击。</mainText><postScriptLeft>来自：  @SourceName@</postScriptLeft>"
+    }
+  },
+  "conclusions": [
+    "关联记录只给出脚本名、子技能绑定和状态说明，无封顶或事件队列顺序。",
+    "HighlanderSpellPassive绑定的是双重打击提示，不能仅凭名字推定R被动学习门槛或时序。",
+    "高原血统状态说明再次确认攻击速度、移动速度和减速免疫；不推断持续时间上限。"
+  ],
+  "businessWrites": 0
+}

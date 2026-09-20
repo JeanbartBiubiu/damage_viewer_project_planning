@@ -1,0 +1,102 @@
+{
+  "at": "2026-09-20T17:44:01.153Z",
+  "reviewer": "/root/masteryi_r_duration_return_audit",
+  "conclusion": "现有操作不足，最小修正方案待独立评审",
+  "facts": [
+    {
+      "finding": "生命周期增加、减少、覆盖、消耗操作针对层数；刷新恢复完整持续时间，没有增加当前剩余毫秒的操作。",
+      "references": [
+        "damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectLifecycleOperation.java:3-10",
+        "damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/service/skilltrigger/SkillTriggerCycleValidator.java:452-469"
+      ]
+    },
+    {
+      "finding": "易大师R攻速和移速为两个单层SOURCE生命周期，均7秒、统一到期，主动使用规则同步执行。",
+      "reference": "../剩余冷却比例表达返回/18-独立回读.json"
+    },
+    {
+      "finding": "正式参与击杀事件及死亡对象英雄类别可以准确表示事件部分；自身生命周期存在条件对SOURCE范围填写subject:null。",
+      "references": [
+        "damage_web_dev/web/src/pages/admin/skills/triggers/triggerRuleForm.ts:501-507",
+        "damage_web_dev/web/src/pages/admin/skills/triggers/lifecycleCondition.ts:10-20",
+        "damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/support/authoring/SkillLifecycleConditionSemantics.java:38-51"
+      ]
+    }
+  ],
+  "rootFixedSourceProbe": {
+    "sourcePath": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/MasterYi.json.gz",
+    "decompressedSha256": "406982f759b8260ea1ebe8f930753dab9e0a626a811889e099b05caebbbfef1c",
+    "spellPath": "Characters/MasterYi/Spells/HighlanderAbility/Highlander",
+    "DataValues": [
+      {
+        "name": "RDuration",
+        "values": [
+          7,
+          7,
+          7,
+          7,
+          7,
+          7,
+          7
+        ],
+        "__type": "SpellDataValue"
+      },
+      {
+        "name": "RASBonus",
+        "values": [
+          5,
+          25,
+          45,
+          65,
+          85,
+          105,
+          125
+        ],
+        "__type": "SpellDataValue"
+      },
+      {
+        "name": "RMSBonus",
+        "values": [
+          25,
+          35,
+          45,
+          55,
+          65,
+          75,
+          85
+        ],
+        "__type": "SpellDataValue"
+      },
+      {
+        "name": "RKillAssistExtension",
+        "values": [
+          7,
+          7,
+          7,
+          7,
+          7,
+          7,
+          7
+        ],
+        "__type": "SpellDataValue"
+      },
+      {
+        "name": "RCooldownRefund",
+        "values": [
+          0.699999988079071,
+          0.699999988079071,
+          0.699999988079071,
+          0.699999988079071,
+          0.699999988079071,
+          0.699999988079071,
+          0.699999988079071
+        ],
+        "__type": "SpellDataValue"
+      }
+    ],
+    "spellCalculationKeys": [],
+    "conclusion": "当前根资料确证初始7秒、每次参与击杀延长7秒；未提供封顶或事件临界顺序证据，不能将字段缺失视为无上限。"
+  },
+  "scope": "仅管理表达；未知游戏资格不靠新操作推定，未做宿主或Wasm判断",
+  "businessWrites": 0
+}
