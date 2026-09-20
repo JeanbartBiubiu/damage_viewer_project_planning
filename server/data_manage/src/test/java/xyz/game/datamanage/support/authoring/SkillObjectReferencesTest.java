@@ -152,7 +152,7 @@ class SkillObjectReferencesTest {
                 case HEALTH_THRESHOLD_CROSSED -> "attributeKey thresholdValue.formulaKey";
                 case INTERNAL_STATE_CHANGED -> "stateKey";
                 case SPELL_SHIELD_BLOCKED -> "shieldEffectKey";
-                case SOURCE_INITIALIZED, BASIC_ATTACK_START, BASIC_ATTACK_HIT, CONTROL_RECEIVED, ENTITY_DIED, ENTITY_UNTARGETABLE, KILL -> "";
+                case SOURCE_INITIALIZED, BASIC_ATTACK_START, BASIC_ATTACK_HIT, CONTROL_RECEIVED, ENTITY_DIED, ENTITY_UNTARGETABLE, KILL, TAKEDOWN -> "";
             };
             Set<String> expected = fields.isBlank() ? Set.of() : Arrays.stream(fields.split(" "))
                 .map(field -> "eventSource.detail." + field).collect(Collectors.toSet());

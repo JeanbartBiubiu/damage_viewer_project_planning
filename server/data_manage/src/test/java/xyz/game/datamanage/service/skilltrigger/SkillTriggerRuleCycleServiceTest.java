@@ -440,6 +440,167 @@ class SkillTriggerRuleCycleServiceTest {
     }
 
     @Test
+    void damageAndExecuteProduceTakedownOnlyForTargetWhileKillRemainsWide() {
+        when(mapper.listRules(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            ruleRow("takedown", "takedown", SkillTriggerEventType.TAKEDOWN)
+        ));
+        when(mapper.listActionsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            SkillTriggerRuleTestSupport.executeActionRow("takedown", "deal")
+        ));
+        when(mapper.listEffectActionsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            SkillTriggerRuleTestSupport.effectActionRow("takedown", "deal", EFFECT_KEY)
+        ));
+        when(mapper.listEffectShapes(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            SkillTriggerRuleTestSupport.damageShape(EFFECT_KEY, RESULT_KEY)
+        ));
+        assertCode(
+            "400.TRIGGER_RULE_CYCLE_UNGUARDED",
+            () -> service.create(
+                GAME_ID,
+                SKILL_KEY,
+                emptyEventExecute("takedown", SkillTriggerEventType.TAKEDOWN, "deal", EFFECT_KEY)
+            )
+        );
+
+        when(mapper.listRules(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            ruleRow("takedown_execute", "takedown_execute", SkillTriggerEventType.TAKEDOWN)
+        ));
+        when(mapper.listActionsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            SkillTriggerRuleTestSupport.executeActionRow("takedown_execute", "execute")
+        ));
+        when(mapper.listEffectActionsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            SkillTriggerRuleTestSupport.effectActionRow("takedown_execute", "execute", EFFECT_KEY)
+        ));
+        when(mapper.listEffectShapes(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            new SkillTriggerEffectShapeRow(
+                EFFECT_KEY, RESULT_KEY, SkillEffectResultType.EXECUTE, SkillEffectTarget.TARGET,
+                true, SkillNumericValue.formula("execute_f"), "hp", null, null, null, null, null, null,
+                false, null, null, null, null, null
+            )
+        ));
+        assertCode(
+            "400.TRIGGER_RULE_CYCLE_UNGUARDED",
+            () -> service.create(
+                GAME_ID,
+                SKILL_KEY,
+                emptyEventExecute("takedown_execute", SkillTriggerEventType.TAKEDOWN, "execute", EFFECT_KEY)
+            )
+        );
+
+        when(mapper.listRules(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            ruleRow("takedown_source", "takedown_source", SkillTriggerEventType.TAKEDOWN)
+        ));
+        when(mapper.listActionsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            SkillTriggerRuleTestSupport.executeActionRow("takedown_source", "deal")
+        ));
+        when(mapper.listEffectActionsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            SkillTriggerRuleTestSupport.effectActionRow("takedown_source", "deal", EFFECT_KEY)
+        ));
+        when(mapper.listEffectShapes(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            new SkillTriggerEffectShapeRow(
+                EFFECT_KEY, RESULT_KEY, SkillEffectResultType.DAMAGE, SkillEffectTarget.SOURCE,
+                true, SkillNumericValue.formula("damage_f"), null, null, null, null, null, null, null,
+                false, null, null, null, null, null
+            )
+        ));
+        service.create(
+            GAME_ID,
+            SKILL_KEY,
+            emptyEventExecute("takedown_source", SkillTriggerEventType.TAKEDOWN, "deal", EFFECT_KEY)
+        );
+
+        when(mapper.listRules(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            ruleRow("takedown_source_execute", "takedown_source_execute", SkillTriggerEventType.TAKEDOWN)
+        ));
+        when(mapper.listActionsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            SkillTriggerRuleTestSupport.executeActionRow("takedown_source_execute", "deal")
+        ));
+        when(mapper.listEffectActionsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            SkillTriggerRuleTestSupport.effectActionRow("takedown_source_execute", "deal", EFFECT_KEY)
+        ));
+        when(mapper.listEffectShapes(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            new SkillTriggerEffectShapeRow(
+                EFFECT_KEY, RESULT_KEY, SkillEffectResultType.EXECUTE, SkillEffectTarget.SOURCE,
+                true, SkillNumericValue.formula("execute_f"), "hp", null, null, null, null, null, null,
+                false, null, null, null, null, null
+            )
+        ));
+        service.create(
+            GAME_ID,
+            SKILL_KEY,
+            emptyEventExecute("takedown_source_execute", SkillTriggerEventType.TAKEDOWN, "deal", EFFECT_KEY)
+        );
+
+        when(mapper.listRules(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            ruleRow("kill_source", "kill_source", SkillTriggerEventType.KILL)
+        ));
+        when(mapper.listActionsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            SkillTriggerRuleTestSupport.executeActionRow("kill_source", "deal")
+        ));
+        when(mapper.listEffectActionsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            SkillTriggerRuleTestSupport.effectActionRow("kill_source", "deal", EFFECT_KEY)
+        ));
+        assertCode(
+            "400.TRIGGER_RULE_CYCLE_UNGUARDED",
+            () -> service.create(
+                GAME_ID,
+                SKILL_KEY,
+                emptyEventExecute("kill_source", SkillTriggerEventType.KILL, "deal", EFFECT_KEY)
+            )
+        );
+    }
+
+    @Test
+    void indirectTakedownCycleFromSourceDamageAndTargetExecuteIsRejected() {
+        String takedownRule = "takedown_source_damage";
+        String damageRule = "damage_taken_execute";
+        when(mapper.listRules(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            ruleRow(takedownRule, takedownRule, SkillTriggerEventType.TAKEDOWN),
+            ruleRow(damageRule, damageRule, SkillTriggerEventType.DAMAGE_TAKEN)
+        ));
+        when(mapper.listDamageEventsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            new xyz.game.datamanage.model.skilltrigger.SkillTriggerDamageEventRow(
+                GAME_ID, SKILL_KEY, damageRule, null,
+                xyz.game.datamanage.model.skilltrigger.SkillTriggerDamageDeliveryKind.ANY,
+                xyz.game.datamanage.model.skilltrigger.SkillTriggerDamageOriginKind.ANY
+            )
+        ));
+        when(mapper.listActionsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            SkillTriggerRuleTestSupport.executeActionRow(takedownRule, "damage"),
+            SkillTriggerRuleTestSupport.executeActionRow(damageRule, "execute")
+        ));
+        when(mapper.listEffectActionsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            SkillTriggerRuleTestSupport.effectActionRow(takedownRule, "damage", "source_damage"),
+            SkillTriggerRuleTestSupport.effectActionRow(damageRule, "execute", "target_execute")
+        ));
+        when(mapper.listEffectShapes(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            new SkillTriggerEffectShapeRow(
+                "source_damage", "damage", SkillEffectResultType.DAMAGE, SkillEffectTarget.SOURCE,
+                true, SkillNumericValue.formula("source_damage_f"), null, null, null, null, null, null, null,
+                false, null, null, null, null, null
+            ),
+            new SkillTriggerEffectShapeRow(
+                "target_execute", "execute", SkillEffectResultType.EXECUTE, SkillEffectTarget.TARGET,
+                true, SkillNumericValue.formula("target_execute_f"), "hp", null, null, null, null, null, null,
+                false, null, null, null, null, null
+            )
+        ));
+
+        assertCode(
+            "400.TRIGGER_RULE_CYCLE_UNGUARDED",
+            () -> service.create(
+                GAME_ID,
+                SKILL_KEY,
+                emptyEventExecute(takedownRule, SkillTriggerEventType.TAKEDOWN, "damage", "source_damage")
+            )
+        );
+        assertCode(
+            "400.TRIGGER_RULE_CYCLE_UNGUARDED",
+            () -> service.assertCurrentSkillCycle(GAME_ID, SKILL_KEY)
+        );
+    }
+
+    @Test
     void lifecyclePresenceConditionDoesNotProtectAResultSelfCycle() {
         stubSelfResultCycle("loop");
         when(mapper.findLifecycleScope(GAME_ID, SKILL_KEY, "mark"))

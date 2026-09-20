@@ -117,7 +117,8 @@ class SkillTriggerRuleEventShapeServiceTest {
             SkillTriggerEventType.BASIC_ATTACK_START,
             SkillTriggerEventType.BASIC_ATTACK_HIT,
             SkillTriggerEventType.CONTROL_RECEIVED,
-            SkillTriggerEventType.KILL
+            SkillTriggerEventType.KILL,
+            SkillTriggerEventType.TAKEDOWN
         )) {
             service.create(GAME_ID, SKILL_KEY, emptyEventExecute(type.name().toLowerCase(), type, "deal", EFFECT_KEY));
             ApiException invalid = thrown(() -> service.create(
@@ -136,6 +137,20 @@ class SkillTriggerRuleEventShapeServiceTest {
             ));
             assertField(invalid, "eventSource.detail", "TYPE_MISMATCH");
         }
+
+        ApiException sourceSkill = thrown(() -> service.create(
+            GAME_ID,
+            SKILL_KEY,
+            rule(
+                "takedown_source_skill",
+                new SkillTriggerEventSource(
+                    SkillTriggerEventType.TAKEDOWN,
+                    new SkillTriggerEmptyEventDetail(Set.of(), Set.of("sourceSkillKey"))
+                ),
+                List.of(executeAction("deal_source_skill", EFFECT_KEY))
+            )
+        ));
+        assertField(sourceSkill, "eventSource.detail.sourceSkillKey", "UNKNOWN_FIELD");
     }
 
     @Test
