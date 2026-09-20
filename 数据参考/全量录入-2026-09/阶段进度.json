@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-20T11:29:32.620Z",
+  "generatedAt": "2026-09-20T12:02:47.792Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -12456,6 +12456,91 @@
         "commit": "22874301",
         "sha256": "6c16dca51c5d298bc4d396e4726180ad86b2dfbfa58efd070a2f3b265de90aa3"
       }
+    },
+    "drMundoEPassiveDynamicReturn": {
+      "at": "2026-09-20T11:59:51.573Z",
+      "status": "MANAGEMENT_PASSIVE_BRANCH_RETURN_PASS",
+      "skillKey": "drmundo_e",
+      "sourceVersion": {
+        "client": "16.17",
+        "official": "16.17.1"
+      },
+      "businessSaves": 2,
+      "effectUISaves": 1,
+      "initializationPOSTs": 1,
+      "independentGETs": 63,
+      "effectIndependentGETs": 31,
+      "initializationIndependentGETs": 32,
+      "formulaArithmetic": {
+        "status": "PASS",
+        "cases": 15,
+        "parametersOrFormulaChanged": false,
+        "maxAbsoluteDifference": 0.000007674097901144705,
+        "tolerance": 0.0001
+      },
+      "currentComponentCounts": {
+        "parameters": 10,
+        "formulas": 3,
+        "effects": 2,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 1
+      },
+      "dynamicDependency": {
+        "formulaKey": "passive_bonus_attack_damage",
+        "parameterKeys": [
+          "health_to_ad_ratio",
+          "health_to_ad_scale"
+        ],
+        "attributeOwner": "SOURCE",
+        "attributeKey": "hp",
+        "attributeValueKind": "TOTAL",
+        "meaning": "按当前已学E等级与当时最大生命值读取",
+        "readMode": "MOMENT_EVALUATION",
+        "stackValueMode": "SHARED",
+        "reapplicationValueMode": null,
+        "learnedRanks": [
+          1,
+          5
+        ]
+      },
+      "browser": {
+        "status": "PASS",
+        "representativePages": [
+          "被动效果与结果",
+          "被动攻击力公式",
+          "初始化规则"
+        ],
+        "diagnosticWarningsOrErrors": 0
+      },
+      "cursorReview": {
+        "runId": "run-0eb914f3-3833-496c-bf94-0593fa93094b",
+        "status": "finished",
+        "verdict": "READY",
+        "runDeltaCount": 0,
+        "eventAudit": "PASS"
+      },
+      "auditNotes": [
+        "效果审批路径与散列抄写错误在业务保存前被拦截，修订前03a保留，修订版按真实文件复算。",
+        "Cursor一次内存核对语法错误已只读修复，无文件或业务写入。"
+      ],
+      "wholeSkillComplete": false,
+      "remaining": [
+        "主动强化攻击的伤害加成与已损失生命口径及时点",
+        "攻击覆盖、命中、击杀拍飞与范围资格",
+        "生命消耗、冷却与主动使用入口",
+        "未学习等级0的实际资格不补默认值，宿主事件与结算未执行"
+      ],
+      "newTables": 0,
+      "codeChanges": 0,
+      "runtimeValidation": "未执行",
+      "issueGroup": "系统-21",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/蒙多E常驻攻击力动态依赖核对/06-证据清单.json",
+        "commit": "12574d7b",
+        "sha256": "8c153e1e4ebb5e7cd3d09fbeb5fb16235c40585d7b6010d4825db5c35fcddf25"
+      }
     }
   },
   "runtimeValidation": "未执行",
@@ -13140,6 +13225,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/奥拉夫亚恒常驻属性动态核对/04-证据清单.json",
         "commit": "22874301",
         "sha256": "6c16dca51c5d298bc4d396e4726180ad86b2dfbfa58efd070a2f3b265de90aa3"
+      },
+      "drMundoEPassiveDynamicReturn": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/蒙多E常驻攻击力动态依赖核对/06-证据清单.json",
+        "commit": "12574d7b",
+        "sha256": "8c153e1e4ebb5e7cd3d09fbeb5fb16235c40585d7b6010d4825db5c35fcddf25"
       }
     },
     "coverage": {
@@ -19395,7 +19486,7 @@
         "name": "蒙多医生·大力行医",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有2个待处理分支，其中来源或资料缺口1个、系统缺口1个、配置缺口0个。",
+        "reason": "常驻被动攻击力已改为当前已学E等级与当时最大生命动态读取，并补来源初始化单层实例；2次保存、63次独立GET、15算例及三个代表页面通过。后续总生命变化已有管理表达，不再以缺少变化事件暂缓；主动强化攻击的已损失生命增幅、攻击覆盖与拍飞、费用/冷却等原来源和系统待办仍开放，整技能保持资料待核。",
         "pendingCounts": {
           "source": 1,
           "system": 1,
@@ -19406,8 +19497,30 @@
         "candidateSha256": "85ce89e6cead0c7c6b243643ed75a829349d9c7260973643d089cfa6bbc28028",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "drMundoEPassiveDynamicReturn"
+        ],
+        "completedBranches": [
+          "常驻被动攻击力按当前等级与最大生命读取，来源初始化建立单层实例"
+        ],
+        "currentComponentCounts": {
+          "parameters": 10,
+          "formulas": 3,
+          "effects": 2,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 1
+        },
+        "passiveDynamicReturn": {
+          "formulaKey": "passive_bonus_attack_damage",
+          "readMode": "MOMENT_EVALUATION",
+          "sourceAttribute": "SOURCE.TOTAL hp",
+          "initializationRule": "initialize_passive_bonus_attack_damage",
+          "independentReadback": "PASS",
+          "browser": "PASS",
+          "wholeSkillComplete": false,
+          "runtimeValidation": "未执行"
+        }
       },
       {
         "sourceChampionId": "DrMundo",
