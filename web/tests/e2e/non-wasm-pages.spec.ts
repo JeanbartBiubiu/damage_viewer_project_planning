@@ -5918,6 +5918,80 @@ test.describe('skill management without Wasm', () => {
     diagnostics.assertClean('condition and trigger entry empty state and close');
   });
 
+  for (const event of [
+    { kind: 'SKILL_HIT', label: '命中来源技能' },
+    { kind: 'SKILL_USED', label: '来源技能' }
+  ]) {
+    test(`来源技能目录状态：${event.kind}加载与失败不误报缺失，重试保留草稿`, async ({ page }) => {
+      const mock = new MockApi();
+      seedSkillTriggerCatalog(mock);
+      mock.skills.push({ ...mock.skills[0]!, skillKey: 'source_spell', name: '引用技能' });
+      mock.skillTriggerRules = [{
+        gameId: GAME_ID, skillKey: 'varus_w', ruleKey: 'source_catalog', name: '来源目录规则',
+        description: null, sortOrder: 10,
+        eventSource: { eventType: event.kind, detail: {
+          sourceSkillKey: 'source_spell', ...(event.kind === 'SKILL_USED' ? { useKind: 'ACTIVE' } : {})
+        } },
+        conditionGroups: [], perTargetCooldown: null, maxTriggersPerProcess: null,
+        actions: [{ actionKey: 'apply_damage', name: '造成伤害', actionType: 'EXECUTE_EFFECT', sortOrder: 10,
+          targetContext: 'CURRENT_TARGET', detail: { effectKey: 'on_hit_results' }, runtimeInputBindings: [], resultModifiers: [] }],
+        createdAt: CREATED_AT, updatedAt: UPDATED_AT
+      }];
+      const diagnostics = await prepare(page, mock);
+      await openSkills(page);
+      const shell = await openSkillTriggers(page, 'varus_w', '枯萎箭袋');
+      const first = createDeferred();
+      const retry = createDeferred();
+      let catalogReads = 0;
+      await page.route(`**/api/admin/games/${GAME_ID}/skills`, async (route) => {
+        catalogReads += 1;
+        if (catalogReads === 1) {
+          await first.promise;
+          await route.fulfill({ status: 503, contentType: 'application/json', body: JSON.stringify({
+            error: { code: '503.SKILL_LIST_UNAVAILABLE', message: '技能目录暂不可用' }
+          }) });
+          return;
+        }
+        if (catalogReads === 2) await retry.promise;
+        await route.fallback();
+      });
+      await shell.locator('tr', { hasText: 'source_catalog' }).getByRole('button', { name: '编辑', exact: true }).click();
+      const editor = visibleModal(page, '编辑规则');
+      const source = editor.getByLabel(event.label, { exact: true });
+      try {
+        await expect(source).toContainText('source_spell（目录加载中）');
+        await expect(source).not.toContainText('目录缺失');
+        await expect(editor.getByRole('button', { name: '保存', exact: true })).toBeDisabled();
+        await editor.getByLabel('规则名称', { exact: true }).fill('保留当前草稿');
+        first.resolve();
+        await expect(source).toContainText('source_spell（目录加载失败）');
+        await expect(source).not.toContainText('目录缺失');
+        await expect(editor.getByRole('button', { name: '保存', exact: true })).toBeDisabled();
+        await editor.getByRole('button', { name: '重试', exact: true }).click();
+        await expect(source).toContainText('source_spell（目录加载中）');
+        await expect(editor.getByLabel('规则名称', { exact: true })).toHaveValue('保留当前草稿');
+        retry.resolve();
+        await expect(source).toContainText('引用技能（source_spell）');
+        await expect(editor.getByRole('button', { name: '保存', exact: true })).toBeEnabled();
+        await expect(editor.getByLabel('规则名称', { exact: true })).toHaveValue('保留当前草稿');
+      } finally {
+        first.resolve();
+        retry.resolve();
+      }
+      await editor.getByRole('button', { name: '取消', exact: true }).click();
+      await page.getByRole('dialog').filter({ hasText: '当前修改尚未保存，确定要离开吗？' })
+        .getByRole('button', { name: '确定', exact: true }).click();
+      await expect(editor).toBeHidden();
+      mock.skills = mock.skills.filter((skill) => skill.skillKey !== 'source_spell');
+      await shell.locator('tr', { hasText: 'source_catalog' }).getByRole('button', { name: '编辑', exact: true }).click();
+      await expect(source).toContainText('source_spell（目录缺失）');
+      await expect(source).not.toContainText('目录加载中');
+      expect(mock.writes).toHaveLength(0);
+      expect(catalogReads).toBe(3);
+      diagnostics.assertClean('source skill catalog loading, retry and genuine missing entry');
+    });
+  }
+
   test('configures hit-link and attack-link events with nullable source skills', async ({ page }) => {
     test.setTimeout(90_000);
     const mock = new MockApi();

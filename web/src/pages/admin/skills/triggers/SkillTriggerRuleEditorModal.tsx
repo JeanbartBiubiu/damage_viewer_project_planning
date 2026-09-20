@@ -793,9 +793,14 @@ export function SkillTriggerRuleEditorModal({
         }))
     ];
     if (currentKey && !options.some((item) => item.value === currentKey)) {
+      const catalogLabel = catalogStates.skills === 'ready'
+        ? MISSING_CATALOG_LABEL
+        : catalogStates.skills === 'error'
+          ? '目录加载失败'
+          : '目录加载中';
       options.push({
         value: currentKey,
-        label: `${currentKey}（${MISSING_CATALOG_LABEL}）`,
+        label: `${currentKey}（${catalogLabel}）`,
         disabled: true
       });
     }
