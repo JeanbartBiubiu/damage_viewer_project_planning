@@ -1,0 +1,187 @@
+{
+  "startedAt": "2026-09-20T07:54:46.416Z",
+  "status": "PASS",
+  "executionMode": "BROWSER_UI_ONLY",
+  "businessWritesAttempted": 1,
+  "requestSha256": "1d8375ce4be45fa065b5d5bbe44719236a71343e2edb395645122e5baf593676",
+  "baselineSha256": "4fcfef28115b8cc7abde8a3b52b3098e6c70427d1f5301180d6dcba29204bc8e",
+  "request": {
+    "method": "PUT",
+    "route": "/skills/zyra_q/trigger-rules/actual_hit",
+    "body": {
+      "actions": [
+        {
+          "actionKey": "execute_primary_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "primary_hit"
+          },
+          "name": "执行婕拉·致命棘刺伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "detail": {},
+              "sortOrder": 20
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "description": "只消费已确认的 zyra_q 实际命中事件，对事件中的英雄目标执行primary_hit；不从使用、再次施放、弹跳步骤或过程结束生成命中。英雄类别仅限定本轮范围。 只对根技能本体命中生效，不把植物攻击等同于本次根技能事件。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "zyra_q"
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "婕拉·致命棘刺实际命中",
+      "perTargetCooldown": null,
+      "sortOrder": 10
+    },
+    "expectedReadback": {
+      "actions": [
+        {
+          "actionKey": "execute_primary_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "primary_hit"
+          },
+          "name": "执行婕拉·致命棘刺伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "detail": {},
+              "sortOrder": 20
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "description": "只消费已确认的 zyra_q 实际命中事件，对事件中的英雄目标执行primary_hit；不从使用、再次施放、弹跳步骤或过程结束生成命中。英雄类别仅限定本轮范围。 只对根技能本体命中生效，不把植物攻击等同于本次根技能事件。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "zyra_q",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "婕拉·致命棘刺实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    },
+    "allowedChanges": [
+      "conditionGroups[0].conditions[1]"
+    ]
+  },
+  "response": {
+    "status": null,
+    "note": "原页面PUT响应未捕获，后续GET独立记录，不冒充写入响应"
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/zyra_q/trigger-rules/actual_hit",
+      "status": 200
+    }
+  ],
+  "finishedAt": "2026-09-20T07:55:22.049Z",
+  "readback": {
+    "actions": [
+      {
+        "actionKey": "execute_primary_hit",
+        "actionType": "EXECUTE_EFFECT",
+        "detail": {
+          "effectKey": "primary_hit"
+        },
+        "name": "执行婕拉·致命棘刺伤害",
+        "resultModifiers": [],
+        "runtimeInputBindings": [],
+        "sortOrder": 10,
+        "targetContext": "CURRENT_TARGET"
+      }
+    ],
+    "conditionGroups": [
+      {
+        "conditions": [
+          {
+            "conditionKey": "champion_target",
+            "conditionType": "TARGET_CATEGORY_CHECK",
+            "detail": {
+              "categories": [
+                "CHAMPION"
+              ]
+            },
+            "sortOrder": 10
+          },
+          {
+            "conditionKey": "enemy_target",
+            "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+            "detail": {},
+            "sortOrder": 20
+          }
+        ],
+        "groupKey": "champion_target",
+        "name": "本轮英雄目标",
+        "sortOrder": 10
+      }
+    ],
+    "description": "只消费已确认的 zyra_q 实际命中事件，对事件中的英雄目标执行primary_hit；不从使用、再次施放、弹跳步骤或过程结束生成命中。英雄类别仅限定本轮范围。 只对根技能本体命中生效，不把植物攻击等同于本次根技能事件。",
+    "eventSource": {
+      "detail": {
+        "sourceSkillKey": "zyra_q",
+        "useKind": null
+      },
+      "eventType": "SKILL_HIT"
+    },
+    "maxTriggersPerProcess": null,
+    "name": "婕拉·致命棘刺实际命中",
+    "perTargetCooldown": null,
+    "ruleKey": "actual_hit",
+    "sortOrder": 10
+  }
+}

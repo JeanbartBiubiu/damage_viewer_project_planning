@@ -1,0 +1,59 @@
+{
+  "at": "2026-09-20T07:57:41.838Z",
+  "status": "PASS",
+  "skillKey": "zyra_q",
+  "parameters": {
+    "baseDamage": [
+      60,
+      100,
+      140,
+      180,
+      220
+    ],
+    "apRatioDisplay": "0.64999998",
+    "castTimeMs": 250,
+    "mana": 55,
+    "cooldownMs": [
+      7000,
+      6500,
+      6000,
+      5500,
+      5000
+    ]
+  },
+  "formula": {
+    "key": "magic_damage",
+    "preview": "本体魔法伤害基础值 + (法强倍率 × 施法者.法术强度.最终值)"
+  },
+  "damage": {
+    "effectKey": "primary_hit",
+    "resultKey": "damage",
+    "target": "当前目标",
+    "damage": "魔法伤害 / 技能 / 直接伤害 / 不允许暴击",
+    "vamp": "全能吸血 / 防御后伤害 / 效率1",
+    "spellShield": "整个技能"
+  },
+  "process": {
+    "key": "cast",
+    "delay": "cast_time_ms",
+    "cooldown": "cooldown_ms / 过程开始",
+    "manaBinding": "mana_cost / 过程开始"
+  },
+  "useRule": {
+    "key": "on_used",
+    "event": "自身技能主动使用",
+    "action": "当前目标启动cast"
+  },
+  "hitRule": {
+    "key": "actual_hit",
+    "savedOnce": true,
+    "reopened": true,
+    "group": "原本轮英雄目标组",
+    "conditions": "英雄并且明确敌方",
+    "action": "当前目标执行primary_hit",
+    "sourceLoading": "先目录加载中，后正确技能名"
+  },
+  "businessWrites": 1,
+  "allReopenedDraftsCancelled": true,
+  "runtimeValidation": "未执行"
+}

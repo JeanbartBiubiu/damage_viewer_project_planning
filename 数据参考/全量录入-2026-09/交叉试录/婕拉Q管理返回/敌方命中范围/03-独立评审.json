@@ -1,0 +1,22 @@
+{
+  "at": "2026-09-20T07:52:06.2913960Z",
+  "status": "APPROVED",
+  "reviewer": "/root/annie_passive_cast_qualification",
+  "requestSha256": "1d8375ce4be45fa065b5d5bbe44719236a71343e2edb395645122e5baf593676",
+  "baselineSha256": "4fcfef28115b8cc7abde8a3b52b3098e6c70427d1f5301180d6dcba29204bc8e",
+  "sourceFilesSHA": {
+    "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Zyra.json": "c1ffb17ff4f55221690e58b79a04fc807acff143977fc21db3d1efe0a7e7fe35",
+    "数据参考/全量录入-2026-09/交叉试录/婕拉Q管理返回/01-共享现值.json": "85381519cf72c660a334c5af55db0357e4d10cff7ba6f22f238334579d8deffe"
+  },
+  "approvedFiles": {
+    "01-冻结请求与允许差异.json": "1d8375ce4be45fa065b5d5bbe44719236a71343e2edb395645122e5baf593676",
+    "02-写前保护现值.json": "4fcfef28115b8cc7abde8a3b52b3098e6c70427d1f5301180d6dcba29204bc8e"
+  },
+  "findings": [
+    "唯一业务请求是PUT /skills/zyra_q/trigger-rules/actual_hit；允许差异只有conditionGroups[0].conditions[1]。原champion_target条件、同组名称与排序、execute_primary_hit动作、事件、说明和其他字段均保持。",
+    "新增条件为同组sort20的enemy_target/SKILL_HIT_TARGET_IS_ENEMY，detail为空；请求体没有ruleKey和useKind，expectedReadback保留actual_hit及eventSource.detail.useKind为null。",
+    "02为一次27路径母快照；27条审计均为GET、200、REUSED并引用同一01-共享现值.json，路径唯一，businessWrites为0且newGETs为0。",
+    "固定zh_CN官方Zyra.json的ZyraQ描述明确写明对范围内敌人造成伤害，来源绑定哈希与冻结文件一致。"
+  ],
+  "blockingIssues": []
+}

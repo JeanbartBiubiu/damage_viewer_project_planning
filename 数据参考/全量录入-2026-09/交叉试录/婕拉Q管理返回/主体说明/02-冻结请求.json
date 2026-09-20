@@ -1,0 +1,35 @@
+{
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "requests": [
+    {
+      "method": "PUT",
+      "route": "/skills/zyra_q",
+      "body": {
+        "name": "婕拉·致命棘刺",
+        "description": "地面藤蔓爆发，对范围内敌人造成魔法伤害。本轮1V1管理范围为Q根本体一次敌方英雄命中；已配置本体伤害公式、55法力、250毫秒基础施放与逐级普通冷却，主动使用和实际命中入口分别维护。种子转植物及独立植物攻击链按既定范围排除，现有资料保留；未把植物攻击并入本体伤害。实际碰撞、命中时间与战斗结算尚未执行运行验证。来源：客户端16.17、官方中英文16.17.1。",
+        "maxLevel": 5,
+        "status": "ENABLED",
+        "sortOrder": 1,
+        "skillCategoryKeys": [
+          "common"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:21:27.412699Z",
+        "description": "地面藤蔓爆发，对范围内敌人造成魔法伤害。本轮1V1管理范围为Q根本体一次敌方英雄命中；已配置本体伤害公式、55法力、250毫秒基础施放与逐级普通冷却，主动使用和实际命中入口分别维护。种子转植物及独立植物攻击链按既定范围排除，现有资料保留；未把植物攻击并入本体伤害。实际碰撞、命中时间与战斗结算尚未执行运行验证。来源：客户端16.17、官方中英文16.17.1。",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "婕拉·致命棘刺",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "zyra_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:27.412699Z"
+      }
+    }
+  ],
+  "sourceSha256": "b1c83af889ecd2eeaf4381f84cd5fcf262a67415072c876bae15ffbb18dc56fc",
+  "baselineSha256": "7dcddcc2d3397b75aa5e6f318c9f2247cd9b5d8afc7f97c81dff426a8f2bcefe"
+}

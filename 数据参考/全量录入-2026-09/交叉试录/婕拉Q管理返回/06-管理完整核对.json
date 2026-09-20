@@ -1,0 +1,87 @@
+{
+  "at": "2026-09-20T08:49:40.346Z",
+  "skillKey": "zyra_q",
+  "status": "MANAGEMENT_COMPLETE_FOR_1V1",
+  "sourceVersion": {
+    "client": "16.17",
+    "official": "16.17.1"
+  },
+  "businessWrites": 2,
+  "browserWrites": 1,
+  "protectedAPIWrites": 1,
+  "independentGETs": 45,
+  "readOnlyBaselineGETs": 27,
+  "currentComponentCounts": {
+    "parameters": 5,
+    "formulas": 1,
+    "effects": 2,
+    "processes": 1,
+    "internalStates": 0,
+    "triggerRules": 2
+  },
+  "checks": [
+    {
+      "aspect": "范围和跨技能依赖",
+      "status": "PASS",
+      "evidence": "02-范围与来源结论.json",
+      "meaning": "保留Q根本体一次敌方英雄命中；种子转植物及独立植物攻击沿既定范围排除，不删除已有数据。未发现植物支路改变根InitialDamage。"
+    },
+    {
+      "aspect": "数值与单位",
+      "status": "PASS",
+      "evidence": "03-现有公式算术.json",
+      "meaning": "1至5级基础伤害60/100/140/180/220，法强系数依现值0.649999976，来源总法强；15组实际公式算例通过。55法力、250毫秒基础施放、7/6.5/6/5.5/5秒冷却。"
+    },
+    {
+      "aspect": "结果和目标",
+      "status": "PASS",
+      "evidence": "主体说明/07-独立回读.json",
+      "meaning": "primary_hit对当前目标产生直接魔法技能伤害、不暴击、按防御后伤害计算全能吸血效率1，现有法术护盾范围SKILL保持；mana_cost仅消耗来源法力。"
+    },
+    {
+      "aspect": "主动和命中入口",
+      "status": "PASS",
+      "evidence": "敌方命中范围/06-独立回读.json",
+      "meaning": "主动使用启动cast并在开始登记法力和冷却；actual_hit在同一条件组要求英雄并且明确敌方，执行primary_hit。施法延迟结束不生成命中。"
+    },
+    {
+      "aspect": "关系和代表图",
+      "status": "PASS",
+      "evidence": "敌方命中范围/06-独立回读.json",
+      "meaning": "champion_zyra唯一挂载，代表图entry_16171_zyra_q启用；原角色、属性、关系与图片保持。"
+    },
+    {
+      "aspect": "页面和最新说明",
+      "status": "PASS",
+      "evidence": [
+        "04-既有组成与条件页面.json",
+        "敌方命中范围/07-页面验收.json",
+        "05-主体最终页面.json"
+      ],
+      "meaning": "参数公式、效果结果、过程、两入口及最后主体说明已页面核对；一次条件保存后重开，控制台无错误和警告。"
+    }
+  ],
+  "independentReadbacks": [
+    {
+      "path": "敌方命中范围/06-独立回读.json",
+      "GETs": 27,
+      "unchangedResponsesIncludingTimestamps": 25
+    },
+    {
+      "path": "主体说明/07-独立回读.json",
+      "GETs": 18,
+      "unchangedResponsesIncludingTimestamps": 17
+    }
+  ],
+  "managementComplete": true,
+  "remainingBranches": [],
+  "scopeExclusions": [
+    "种子转植物",
+    "独立植物攻击链"
+  ],
+  "runtimeValidation": "未执行",
+  "runtimeBoundary": "实际碰撞、命中时间、宿主/Wasm、防御、吸血及战斗结算未运行；管理完整不代表这些运行行为已验证。",
+  "newTables": 0,
+  "codeChanges": 0,
+  "goalComplete": false
+}

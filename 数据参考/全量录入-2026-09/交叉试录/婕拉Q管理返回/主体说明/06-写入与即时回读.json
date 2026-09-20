@@ -1,0 +1,157 @@
+{
+  "startedAt": "2026-09-20T08:45:02.154Z",
+  "status": "PASS",
+  "businessWritesAttempted": 1,
+  "operations": [
+    {
+      "route": "/skills/zyra_q",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:21:27.412699Z",
+          "description": "地面藤蔓爆发，对范围内敌人造成魔法伤害。本轮1V1管理范围为Q根本体一次敌方英雄命中；已配置本体伤害公式、55法力、250毫秒基础施放与逐级普通冷却，主动使用和实际命中入口分别维护。种子转植物及独立植物攻击链按既定范围排除，现有资料保留；未把植物攻击并入本体伤害。实际碰撞、命中时间与战斗结算尚未执行运行验证。来源：客户端16.17、官方中英文16.17.1。",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "婕拉·致命棘刺",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "zyra_q",
+          "sortOrder": 1,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-20T08:45:04.329868Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-06T18:21:27.412699Z",
+        "description": "地面藤蔓爆发，对范围内敌人造成魔法伤害。本轮1V1管理范围为Q根本体一次敌方英雄命中；已配置本体伤害公式、55法力、250毫秒基础施放与逐级普通冷却，主动使用和实际命中入口分别维护。种子转植物及独立植物攻击链按既定范围排除，现有资料保留；未把植物攻击并入本体伤害。实际碰撞、命中时间与战斗结算尚未执行运行验证。来源：客户端16.17、官方中英文16.17.1。",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "婕拉·致命棘刺",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "zyra_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-20T08:45:04.329868Z"
+      }
+    }
+  ],
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-descriptions-v2.mjs": "f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517",
+    "01-纠错计划.json": "efd435c92c304415f7df1bdc7f98451feab36c1e7c16d5a820fcb3f613a13ad7",
+    "02-冻结请求.json": "6b2333ec7f71fe7c1581ecacad358b6054c7933540a03a6dcc772be1cfb5a7d1",
+    "03-来源摘要.json": "b1c83af889ecd2eeaf4381f84cd5fcf262a67415072c876bae15ffbb18dc56fc",
+    "04-写入前现值.json": "7dcddcc2d3397b75aa5e6f318c9f2247cd9b5d8afc7f97c81dff426a8f2bcefe"
+  },
+  "pendingRoute": null,
+  "finishedAt": "2026-09-20T08:45:03.548Z",
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/zyra_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_q/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_q/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_q/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_q/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_q/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_q/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_q",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/zyra_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_q",
+      "status": 200
+    }
+  ]
+}
