@@ -1,0 +1,497 @@
+{
+  "at": "2026-09-20T11:12:47.575Z",
+  "status": "PASS",
+  "GETs": 15,
+  "businessWrites": 0,
+  "scope": "冻结后的目标效果、受影响参数/属性/乘区引用及初始化规则定点核对；完整共享基线不重复扫描",
+  "values": {
+    "/skills/olaf_r/effects/passive_armor": {
+      "createdAt": "2026-09-08T17:38:22.86332Z",
+      "description": "独立持续属性；应用、取消与实际触发分别核对。",
+      "effectKey": "passive_armor",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": null,
+        "expiryMode": "EXPLICIT_ONLY",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": null,
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "诸神黄昏被动护甲",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "armor",
+            "modifierZoneKey": "attribute_flat_add",
+            "operation": "INCREASE"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": "REPLACE",
+            "stackValueMode": "SHARED",
+            "valueReadMode": "APPLICATION_SNAPSHOT"
+          },
+          "name": "诸神黄昏被动护甲",
+          "resultKey": "attribute",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "passive_resist"
+            }
+          }
+        }
+      ],
+      "skillKey": "olaf_r",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-08T17:38:22.86332Z"
+    },
+    "/skills/olaf_r": {
+      "createdAt": "2026-09-06T18:19:44.745208Z",
+      "description": "奥拉夫被动获得护甲和魔法抗性提升。他可以激活这个技能来变得免疫控制效果，并且会在他保持攻击时一直持续。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 3,
+      "name": "奥拉夫·诸神黄昏",
+      "skillCategoryKeys": [
+        "ultimate"
+      ],
+      "skillKey": "olaf_r",
+      "sortOrder": 4,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-19T11:29:25.581721Z"
+    },
+    "/skills/olaf_r/effects": [
+      {
+        "createdAt": "2026-09-08T17:38:22.182332Z",
+        "description": "仅施放法力消耗；具体过程单独绑定。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "olaf_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T17:38:22.182332Z"
+      },
+      {
+        "createdAt": "2026-09-08T17:38:22.86332Z",
+        "description": "独立持续属性；应用、取消与实际触发分别核对。",
+        "effectKey": "passive_armor",
+        "gameId": "lol",
+        "lifecycleEnabled": true,
+        "name": "诸神黄昏被动护甲",
+        "resultCount": 1,
+        "skillKey": "olaf_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-08T17:38:22.86332Z"
+      },
+      {
+        "createdAt": "2026-09-08T17:38:23.497186Z",
+        "description": "独立持续属性；应用、取消与实际触发分别核对。",
+        "effectKey": "passive_magic_resistance",
+        "gameId": "lol",
+        "lifecycleEnabled": true,
+        "name": "诸神黄昏被动魔抗",
+        "resultCount": 1,
+        "skillKey": "olaf_r",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-08T17:38:23.497186Z"
+      }
+    ],
+    "/skills/olaf_r/parameters/passive_resist": {
+      "createdAt": "2026-09-08T17:38:16.916343Z",
+      "description": "客户端当前根绑定 DataValues.Resists 取索引1至3。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 10,
+        "2": 15,
+        "3": 20
+      },
+      "name": "被动双抗",
+      "parameterKey": "passive_resist",
+      "skillKey": "olaf_r",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-08T17:38:16.916343Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/attributes/armor": {
+      "attributeKey": "armor",
+      "createdAt": "2026-08-30T16:27:55.143372Z",
+      "description": "角色面板护甲",
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": null,
+      "name": "护甲",
+      "sortOrder": 400,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-30T16:27:55.143372Z",
+      "valueType": "DECIMAL"
+    },
+    "/modifier-zones/attribute_flat_add": {
+      "applicationStage": "ATTRIBUTE_FLAT",
+      "calculationMode": "FLAT_ADD",
+      "createdAt": "2026-09-06T16:50:52.756989Z",
+      "description": "持续属性的固定值增加或减少；同属性同乘区内按方向加算，先于属性比例修正。比例类属性自身以1表示100%，增加0.6表示增加60个百分点，跨来源韧性组合仍待游戏规则核对。",
+      "domain": "ATTRIBUTE",
+      "gameId": "lol",
+      "modifierZoneKey": "attribute_flat_add",
+      "name": "属性固定加算",
+      "sortOrder": 10,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T16:50:52.756989Z"
+    },
+    "/skills/olaf_r/effects/passive_magic_resistance": {
+      "createdAt": "2026-09-08T17:38:23.497186Z",
+      "description": "独立持续属性；应用、取消与实际触发分别核对。",
+      "effectKey": "passive_magic_resistance",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": null,
+        "expiryMode": "EXPLICIT_ONLY",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": null,
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "诸神黄昏被动魔抗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "magic_resistance",
+            "modifierZoneKey": "attribute_flat_add",
+            "operation": "INCREASE"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": "REPLACE",
+            "stackValueMode": "SHARED",
+            "valueReadMode": "APPLICATION_SNAPSHOT"
+          },
+          "name": "诸神黄昏被动魔抗",
+          "resultKey": "attribute",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "passive_resist"
+            }
+          }
+        }
+      ],
+      "skillKey": "olaf_r",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-08T17:38:23.497186Z"
+    },
+    "/attributes/magic_resistance": {
+      "attributeKey": "magic_resistance",
+      "createdAt": "2026-08-30T16:27:55.24073Z",
+      "description": "角色面板魔法抗性",
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": null,
+      "name": "魔法抗性",
+      "sortOrder": 410,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-30T16:27:55.24073Z",
+      "valueType": "DECIMAL"
+    },
+    "/skills/zaahen_r/effects/armor_penetration": {
+      "createdAt": "2026-09-10T02:39:26.195568Z",
+      "description": "自身护甲穿透比例；R主动期间减伤和击杀生存链由事件层接线。",
+      "effectKey": "armor_penetration",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": null,
+        "expiryMode": "EXPLICIT_ONLY",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": null,
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "大赦常驻护甲穿透",
+      "results": [
+        {
+          "description": "只定义自身属性变化，触发条件由事件层接线。",
+          "detail": {
+            "attributeKey": "armor_pen_percent",
+            "modifierZoneKey": "attribute_flat_add",
+            "operation": "INCREASE"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": "REPLACE",
+            "stackValueMode": "SHARED",
+            "valueReadMode": "APPLICATION_SNAPSHOT"
+          },
+          "name": "大赦常驻护甲穿透",
+          "resultKey": "attribute",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "armor_penetration_ratio"
+            }
+          }
+        }
+      ],
+      "skillKey": "zaahen_r",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-10T02:39:26.195568Z"
+    },
+    "/skills/zaahen_r": {
+      "createdAt": "2026-09-06T18:21:18.675855Z",
+      "description": "亚恒升空然后向下戳刺，对敌人造成伤害并治疗自身相当于一部分该造成伤害值的生命值。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 3,
+      "name": "亚恒·大赦",
+      "skillCategoryKeys": [
+        "ultimate"
+      ],
+      "skillKey": "zaahen_r",
+      "sortOrder": 4,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-19T11:30:11.762372Z"
+    },
+    "/skills/zaahen_r/effects": [
+      {
+        "createdAt": "2026-09-10T02:39:26.195568Z",
+        "description": "自身护甲穿透比例；R主动期间减伤和击杀生存链由事件层接线。",
+        "effectKey": "armor_penetration",
+        "gameId": "lol",
+        "lifecycleEnabled": true,
+        "name": "大赦常驻护甲穿透",
+        "resultCount": 1,
+        "skillKey": "zaahen_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-10T02:39:26.195568Z"
+      }
+    ],
+    "/skills/zaahen_r/parameters/armor_penetration_ratio": {
+      "createdAt": "2026-09-10T02:39:10.834147Z",
+      "description": "护甲穿透10/20/30%，比例单位。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 0.100000001,
+        "2": 0.200000003,
+        "3": 0.300000012
+      },
+      "name": "常驻护甲穿透比例",
+      "parameterKey": "armor_penetration_ratio",
+      "skillKey": "zaahen_r",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-10T02:39:10.834147Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "DECIMAL"
+    },
+    "/attributes/armor_pen_percent": {
+      "attributeKey": "armor_pen_percent",
+      "createdAt": "2026-08-22T15:27:35.951829Z",
+      "description": null,
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "百分比护甲穿透",
+      "sortOrder": 210,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-22T15:27:35.951829Z",
+      "valueType": "DECIMAL"
+    },
+    "/skills/olaf_r/trigger-rules/initialize_passive_resists": {
+      "actions": [
+        {
+          "actionKey": "execute_passive_armor",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "passive_armor"
+          },
+          "name": "执行诸神黄昏被动护甲",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "EVENT_SOURCE"
+        },
+        {
+          "actionKey": "execute_passive_magic_resistance",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "passive_magic_resistance"
+          },
+          "name": "执行诸神黄昏被动魔抗",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 20,
+          "targetContext": "EVENT_SOURCE"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "来源对象的基础属性、技能与装备挂载及初始状态准备完成后，按固定顺序执行已有 passive_armor 与 passive_magic_resistance，建立当前技能等级对应的单层常驻自身双抗；来源初始化不表示后续技能升级，主动攻击力、净化免控、持续延长、朝向加速和战斗命中继续暂缓。",
+      "eventSource": {
+        "detail": {},
+        "eventType": "SOURCE_INITIALIZED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "初始化诸神黄昏被动双抗",
+      "perTargetCooldown": null,
+      "ruleKey": "initialize_passive_resists",
+      "sortOrder": 10
+    },
+    "/skills/zaahen_r/trigger-rules/initialize_armor_penetration": {
+      "actions": [
+        {
+          "actionKey": "execute_armor_penetration",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "armor_penetration"
+          },
+          "name": "执行大赦常驻护甲穿透",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "EVENT_SOURCE"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "来源对象的基础属性、技能与装备挂载及初始状态准备完成后，执行已有 armor_penetration，建立当前技能等级对应的单层常驻自身护甲穿透；来源初始化不表示后续技能升级，主动伤害、实际伤害治疗、施放减伤、位移和生存链继续暂缓。",
+      "eventSource": {
+        "detail": {},
+        "eventType": "SOURCE_INITIALIZED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "初始化大赦常驻护甲穿透",
+      "perTargetCooldown": null,
+      "ruleKey": "initialize_armor_penetration",
+      "sortOrder": 10
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/olaf_r/effects/passive_armor",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_r/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_r/parameters/passive_resist",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/armor",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/modifier-zones/attribute_flat_add",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_r/effects/passive_magic_resistance",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/magic_resistance",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zaahen_r/effects/armor_penetration",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zaahen_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zaahen_r/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zaahen_r/parameters/armor_penetration_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/armor_pen_percent",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_r/trigger-rules/initialize_passive_resists",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zaahen_r/trigger-rules/initialize_armor_penetration",
+      "status": 200
+    }
+  ]
+}

@@ -1,0 +1,128 @@
+{
+  "at": "2026-09-20T11:28:10.277Z",
+  "status": "PASS",
+  "files": [
+    {
+      "path": ".gitattributes",
+      "sha256": "705fd4d6451a31d36b3df7de96f83f30ac976c9b4a6d1e51671d8e2f33e2d0da",
+      "bytes": 8
+    },
+    {
+      "path": "01-olaf_r现值.json",
+      "sha256": "8aeb58559e80186526576ddb1119de500e083c234132a0012d375793acf951d5",
+      "bytes": 38086
+    },
+    {
+      "path": "01-zaahen_r现值.json",
+      "sha256": "ff182f2316035814faf38318fece1328db902788233ad40b4f230bf99c9195ce",
+      "bytes": 34915
+    },
+    {
+      "path": "02-来源与最小修正.json",
+      "sha256": "dfe7596a71598261343e59ed9f93e87f6b6d741a44e0e3c7cb08720e6e2339a6",
+      "bytes": 7834
+    },
+    {
+      "path": "03-阶段核对.json",
+      "sha256": "5b71062d2f8af0609a7b4e0fc1cde817aa2dc6551027160e53b93120945bf5bf",
+      "bytes": 839
+    },
+    {
+      "path": "README.md",
+      "sha256": "891f20d6d7e36eb03794b1952c5f644b34d3e41c357b3dcaf6321fae7c393885",
+      "bytes": 1441
+    },
+    {
+      "path": "正式返回/01-冻结请求与允许差异.json",
+      "sha256": "0daa671fa245b11e9ece40b90830a85173229d0b93d6cd1ed9786ffc93fe7f92",
+      "bytes": 15483
+    },
+    {
+      "path": "正式返回/02-写前保护现值.json",
+      "sha256": "0d331cfadcc3fa2b38bde2684bf2a8bf71ec922240935a8d3c2b07b618da7fbe",
+      "bytes": 71949
+    },
+    {
+      "path": "正式返回/03-独立评审.json",
+      "sha256": "5fe2c69c3d7f96a79048da0fff37e04d56897cfb55d01987fca044ea31f1233a",
+      "bytes": 4830
+    },
+    {
+      "path": "正式返回/04-保存前定点核对.json",
+      "sha256": "8c574f1b14bef63192ea326c3042adc835d3dc3210cd3f9193bf6c465be961cc",
+      "bytes": 16410
+    },
+    {
+      "path": "正式返回/05-页面写入与即时回读.json",
+      "sha256": "2e510be4123cf9e17cc5d91bd38c4ef5c5d8b3faf646d8bf8d1bfe69801c4ce1",
+      "bytes": 7982
+    },
+    {
+      "path": "正式返回/06-独立回读.json",
+      "sha256": "ca94c225dbcf598235df99ad9eec17f364763c904cbedd7010e9126a5e4d9e37",
+      "bytes": 92721
+    },
+    {
+      "path": "正式返回/07-页面返回.json",
+      "sha256": "8302910e9641969f4e9ad15756bca140c9eea1de1e124f96e60053d0c51524d4",
+      "bytes": 2814
+    }
+  ],
+  "externalSources": [
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Olaf.json.gz",
+      "sha256": "fb882e8483021bf24d0506a494a8cb5f731fcf1a86a0c9dcde47503938428820"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Olaf.json",
+      "sha256": "9fed79e8e0031423229e7a3f4d3b65a93e5b51dc607535b598e5b3190c5dd7d5"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Zaahen.json.gz",
+      "sha256": "cb025c3ea4217a668ad390e83570a615d6a7be358b22542485e99bbf3d8acff2"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Zaahen.json",
+      "sha256": "8695912927630edc5c975b908633a99f5e1ce4ef7b133ab101c7439f364e6524"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/三项常驻攻速动态读取返回/正式返回/08-冻结对照字段说明.json",
+      "sha256": "f2ea82b4a6c7a9b86b567d7d89a40ab210c8e3572f62eb1723a852049a7f6c4a"
+    }
+  ],
+  "summary": {
+    "at": "2026-09-20T11:28:10.276Z",
+    "status": "MANAGEMENT_COMPONENT_RETURN_PASS",
+    "skills": [
+      "olaf_r",
+      "zaahen_r"
+    ],
+    "changedEffects": 3,
+    "businessSaves": 3,
+    "baselineActualGETs": 65,
+    "uniqueBaselineResponses": 63,
+    "preflightTargetedGETs": 15,
+    "immediateGETs": 3,
+    "independentGETs": 63,
+    "changedDetails": 3,
+    "changedCollections": 2,
+    "unchangedResponsesIncludingTimestamps": 58,
+    "browser": "PASS",
+    "sourceRankRange": [
+      1,
+      3
+    ],
+    "parametersUnchanged": true,
+    "initializationRulesUnchanged": true,
+    "scope": "三项常驻属性的当前等级读取，沿既有属性与乘区保存。主动分支、等级0与跨来源合并不在本批验证范围，并非新增全局排除。",
+    "wholeSkillsComplete": false,
+    "newTables": 0,
+    "codeChanges": 0,
+    "runtimeValidation": "未执行"
+  }
+}
