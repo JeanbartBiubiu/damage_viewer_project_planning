@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-20T07:18:45.187Z",
+  "generatedAt": "2026-09-20T07:33:35.519Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -12145,7 +12145,7 @@
         "triggerRules": 3
       },
       "browser": "参数与公式、两效果子结果、过程、两入口、两处说明重开PASS",
-      "newIssue": "体验-02：来源技能目录未返回时短暂误报缺失",
+      "newIssue": "体验-02来源目录加载前误报已由sourceSkillCatalogMessageFix修正并返回",
       "managementComplete": false,
       "managementCompleteDelta": 0,
       "runtimeValidation": "未执行",
@@ -12155,6 +12155,40 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/萨勒芬妮R伤害与使用返回/05-证据清单.json",
         "commit": "e7bda3a9",
         "sha256": "dd66b027dba6fbc62b37018e3838f8e6ca7ae94a325bdfec151fcd5c7b063a5d"
+      }
+    },
+    "sourceSkillCatalogMessageFix": {
+      "at": "2026-09-20T07:33:35.519Z",
+      "status": "FIXED_AND_RETURNED",
+      "issueGroup": "体验-02",
+      "codeCommit": "369bf3f1",
+      "businessWrites": 0,
+      "backendChanges": 0,
+      "checks": {
+        "lint": "PASS",
+        "typecheck": "PASS",
+        "unitTests": 717,
+        "build": "PASS",
+        "targetedBrowserTests": 3
+      },
+      "before": "命中/主动两种规则均在受控延迟下复现目录缺失误报",
+      "after": "区分加载中、加载失败与成功后真缺失，保存门禁和重试保留草稿不变",
+      "realBrowser": {
+        "skills": [
+          "seraphine_r",
+          "ahri_e"
+        ],
+        "status": "PASS",
+        "ahriObserved": "加载中到正确名称",
+        "errors": 0,
+        "warnings": 0
+      },
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/来源技能目录提示修正/04-证据清单.json",
+        "commit": "369bf3f1",
+        "sha256": "88ee88f29f989fe01732391b16d7ac626b94c249ced13dd5948d0d0278726802"
       }
     }
   },
@@ -12792,6 +12826,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/萨勒芬妮R伤害与使用返回/05-证据清单.json",
         "commit": "e7bda3a9",
         "sha256": "dd66b027dba6fbc62b37018e3838f8e6ca7ae94a325bdfec151fcd5c7b063a5d"
+      },
+      "sourceSkillCatalogMessageFix": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/来源技能目录提示修正/04-证据清单.json",
+        "commit": "369bf3f1",
+        "sha256": "88ee88f29f989fe01732391b16d7ac626b94c249ced13dd5948d0d0278726802"
       }
     },
     "coverage": {
