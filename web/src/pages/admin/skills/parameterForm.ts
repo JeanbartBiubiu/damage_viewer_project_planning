@@ -160,6 +160,53 @@ export function fillArithmeticLevelValues(
   return result;
 }
 
+export type PastedLevelValuesResult =
+  | { ok: true; levelValues: Record<string, string> }
+  | { ok: false; message: string };
+
+const DECIMAL_NUMBER_PATTERN = /^[+-]?(?:(?:\d+(?:\.\d*)?)|(?:\.\d+))(?:[eE][+-]?\d+)?$/u;
+
+/**
+ * 将按等级顺序粘贴的一列文本解析为当前等级草稿。
+ * 这里不把空项、千位分隔符或其他非十进制写法当成有效值，也不修改传入的草稿。
+ */
+export function applyPastedLevelValues(
+  currentValues: Record<string, string>,
+  text: string,
+  minLevel: number,
+  maxLevel: number,
+  valueType: SkillParameterValueType
+): PastedLevelValuesResult {
+  const normalizedText = text.trim();
+  const entries = normalizedText ? normalizedText.split(/\r\n|[\r\n\t,，]/u) : [];
+  const expectedCount = maxLevel - minLevel + 1;
+  if (entries.length !== expectedCount) {
+    return {
+      ok: false,
+      message: `请按 Lv${minLevel} 至 Lv${maxLevel} 的顺序输入 ${expectedCount} 个数值，当前为 ${entries.length} 个。`
+    };
+  }
+
+  const pastedValues: Record<string, string> = {};
+  for (let index = 0; index < entries.length; index += 1) {
+    const level = minLevel + index;
+    const raw = entries[index]!.trim();
+    if (!raw) {
+      return { ok: false, message: `第${index + 1}项（Lv${level}）不能为空。` };
+    }
+    const value = Number(raw);
+    if (!DECIMAL_NUMBER_PATTERN.test(raw) || !Number.isFinite(value)) {
+      return { ok: false, message: `第${index + 1}项（Lv${level}）必须是十进制有限数字。` };
+    }
+    if (valueType === 'INTEGER' && !Number.isInteger(value)) {
+      return { ok: false, message: `第${index + 1}项（Lv${level}）必须是整数。` };
+    }
+    pastedValues[String(level)] = raw;
+  }
+
+  return { ok: true, levelValues: { ...currentValues, ...pastedValues } };
+}
+
 export type BuildLevelValuesResult =
   | { ok: true; levelValues: Record<string, number> }
   | { ok: false; message: string };
