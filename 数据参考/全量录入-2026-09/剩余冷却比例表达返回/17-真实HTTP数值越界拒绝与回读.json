@@ -1,0 +1,183 @@
+{
+  "frozenSha256": "63bdb7f2b440c635741ffda197ee205e43f81bc61bbd63cdd34bbe16cb3c438c",
+  "entries": [
+    {
+      "at": "2026-09-20T17:24:16.398Z",
+      "label": "效果倍率使0.7变为1.4",
+      "method": "PUT",
+      "path": "/skills/masteryi_r/effects/basic_cooldown_refund",
+      "status": 400,
+      "response": {
+        "error": {
+          "code": "400.INVALID_SKILL_NUMERIC_VALUE",
+          "details": {
+            "fieldIssues": [
+              {
+                "code": "VALUE_RANGE_INVALID",
+                "field": "results[0].valueRule.value",
+                "sourceKey": "basic_cooldown_refund",
+                "sourceSkillKey": "masteryi_r",
+                "sourceType": "EFFECT"
+              }
+            ]
+          },
+          "message": "按比例减少剩余冷却的有效比例必须在0到1之间"
+        }
+      },
+      "readStatus": 200,
+      "readBody": {
+        "createdAt": "2026-09-20T17:19:34.552644Z",
+        "description": "每次执行分别减少来源对象Q、W、E当时剩余普通冷却的70%，不减少R或读取总冷却。仅保存R被动明确返还效果；学习门槛和事件时序仍待核，本效果尚未接入触发。",
+        "effectKey": "basic_cooldown_refund",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "参与击杀返还基础技能剩余冷却",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "affectedSkillScope": {
+                "mode": "SKILLS",
+                "skillCategoryKeys": [],
+                "skillKeys": [
+                  "masteryi_q",
+                  "masteryi_w",
+                  "masteryi_e"
+                ]
+              },
+              "operation": "REDUCE_REMAINING_RATIO"
+            },
+            "lifecycleBehavior": null,
+            "name": "按比例减少基础技能剩余冷却",
+            "resultKey": "reduce_remaining",
+            "resultType": "COOLDOWN_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": null,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "basic_cooldown_refund_ratio"
+              }
+            }
+          }
+        ],
+        "skillKey": "masteryi_r",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-20T17:19:34.552644Z"
+      },
+      "unchanged": true
+    },
+    {
+      "at": "2026-09-20T17:24:16.821Z",
+      "label": "被引用参数改成1.1",
+      "method": "PUT",
+      "path": "/skills/masteryi_r/parameters/basic_cooldown_refund_ratio",
+      "status": 400,
+      "response": {
+        "error": {
+          "code": "400.INVALID_SKILL_NUMERIC_VALUE",
+          "details": {
+            "fieldIssues": [
+              {
+                "code": "VALUE_RANGE_INVALID",
+                "field": "results[0].valueRule.value",
+                "sourceKey": "basic_cooldown_refund",
+                "sourceSkillKey": "masteryi_r",
+                "sourceType": "EFFECT"
+              }
+            ]
+          },
+          "message": "按比例减少剩余冷却的有效比例必须在0到1之间"
+        }
+      },
+      "readStatus": 200,
+      "readBody": {
+        "createdAt": "2026-09-09T03:42:39.032903Z",
+        "description": "客户端当前根绑定 DataValues.RCooldownRefund 取索引1至3。",
+        "fixedValue": 0.7,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "参与击杀后普通技能冷却减少比例",
+        "parameterKey": "basic_cooldown_refund_ratio",
+        "skillKey": "masteryi_r",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-09T03:42:39.032903Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      "unchanged": true
+    },
+    {
+      "at": "2026-09-20T17:24:19.382Z",
+      "label": "触发动作倍率使0.7变为1.4",
+      "method": "PUT",
+      "path": "/skills/masteryi_r/trigger-rules/on_used",
+      "status": 400,
+      "response": {
+        "error": {
+          "code": "400.INVALID_SKILL_NUMERIC_VALUE",
+          "details": {
+            "fieldIssues": [
+              {
+                "code": "VALUE_RANGE_INVALID",
+                "field": "actions[2].resultModifiers[0]",
+                "sourceKey": "on_used",
+                "sourceSkillKey": "masteryi_r",
+                "sourceType": "TRIGGER"
+              }
+            ]
+          },
+          "message": "按比例减少剩余冷却的有效比例必须在0到1之间"
+        }
+      },
+      "readStatus": 200,
+      "readBody": {
+        "actions": [
+          {
+            "actionKey": "execute_attack_speed",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "attack_speed"
+            },
+            "name": "执行高原血统额外攻击速度",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          },
+          {
+            "actionKey": "execute_move_speed",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "move_speed"
+            },
+            "name": "执行高原血统额外移动速度",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 20,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "接收 masteryi_r 主动使用；无条件在 CURRENT_TARGET 上依次执行已有 attack_speed 和 move_speed。两个效果结果 target=SOURCE，均使用 duration_ms（7000毫秒）；相关的减速免疫、击杀/助攻延长、普通技能冷却变化、法力消耗和基础冷却留待后续规则补录。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "masteryi_r",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "高原血统主动使用",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used",
+        "sortOrder": 10
+      },
+      "unchanged": true
+    }
+  ]
+}

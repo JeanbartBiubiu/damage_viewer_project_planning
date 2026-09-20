@@ -1,0 +1,60 @@
+{
+  "at": "2026-09-20T17:35:37.750Z",
+  "result": "PASS",
+  "GETs": 49,
+  "businessWrites": 0,
+  "unchangedRoutes": 44,
+  "expectedChangedTargets": 3,
+  "expectedChangedCollections": 2,
+  "counts": {
+    "masteryi_r": {
+      "parameters": 8,
+      "formulas": 0,
+      "effects": 4,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 1
+    },
+    "item_6675_passive": {
+      "parameters": 1,
+      "formulas": 0,
+      "effects": 1,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0
+    }
+  },
+  "parameterChecks": {
+    "masteryiRatio": true,
+    "itemRatio": true,
+    "masteryiReference": {
+      "kind": "PARAMETER",
+      "parameterKey": "basic_cooldown_refund_ratio"
+    },
+    "itemReference": {
+      "kind": "PARAMETER",
+      "parameterKey": "basic_skill_cooldown_reduction_ratio"
+    }
+  },
+  "scopeChecks": {
+    "masteryi": {
+      "mode": "SKILLS",
+      "skillCategoryKeys": [],
+      "skillKeys": [
+        "masteryi_q",
+        "masteryi_w",
+        "masteryi_e"
+      ]
+    },
+    "item": {
+      "mode": "CATEGORIES",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKeys": []
+    }
+  },
+  "noNewTrigger": true,
+  "unexpectedDifferences": [],
+  "runtimeVerified": false
+}

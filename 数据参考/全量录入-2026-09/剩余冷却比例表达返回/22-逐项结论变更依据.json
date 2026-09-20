@@ -1,0 +1,133 @@
+{
+  "at": "2026-09-20T17:30:25.209Z",
+  "currentScope": "管理配置；未执行宿主、Wasm或战斗",
+  "items": [
+    {
+      "key": "masteryi_r",
+      "before": {
+        "sourceChampionId": "MasterYi",
+        "sourceNumericId": "11",
+        "championName": "易",
+        "slot": "R",
+        "skillKey": "masteryi_r",
+        "name": "易·高原血统",
+        "conclusion": "系统暂缓",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有4个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "pendingCounts": {
+          "source": 0,
+          "system": 2,
+          "configuration": 2,
+          "other": 0
+        },
+        "batchKey": "heroNinthBatch",
+        "candidateSha256": "d4856e5e8914e8a02c8d02a264c1e84acc84171d8733f434db345ef69b28bc0e",
+        "evidenceRefs": [
+          "skillFirstStageCurrentReadback",
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联"
+        ]
+      },
+      "after": {
+        "sourceChampionId": "MasterYi",
+        "sourceNumericId": "11",
+        "championName": "易",
+        "slot": "R",
+        "skillKey": "masteryi_r",
+        "name": "易·高原血统",
+        "conclusion": "系统暂缓",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "Q/W/E各自剩余冷却70%效果已保存；其触发学习门槛及时序待核。仍有减速免疫系统分支，以及主动参与击杀延长、Q/W期间暂停两项配置分支，整技能未完成。",
+        "pendingCounts": {
+          "source": 1,
+          "system": 1,
+          "configuration": 2,
+          "other": 0
+        },
+        "batchKey": "heroNinthBatch",
+        "candidateSha256": "d4856e5e8914e8a02c8d02a264c1e84acc84171d8733f434db345ef69b28bc0e",
+        "evidenceRefs": [
+          "skillFirstStageCurrentReadback",
+          "heroSourceInventory",
+          "remainingUltimateCategoryBackfill",
+          "remainingCooldownRatioReturn"
+        ],
+        "completedBranches": [
+          "固定来源主R终极技能分类关联",
+          "Q/W/E分别按当前剩余冷却减少70%的独立效果（未接触发）"
+        ]
+      },
+      "basis": [
+        "历史第九批四个pending分支逐项对照；比例能力已解决，退款分支仍因学习门槛与时序来源待核，改归资料1项。",
+        "减速免疫系统1项、主动延长和Q/W暂停配置2项保留。"
+      ]
+    },
+    {
+      "key": "item_6675",
+      "before": {
+        "sourceItemId": "6675",
+        "sourceEquipmentKey": "item_6675",
+        "currentEquipmentKey": "item_6675",
+        "name": "纳沃利烁刃",
+        "scopeCategory": "可购买普通装备候选",
+        "conclusion": "系统暂缓",
+        "conclusionScope": "装备当前1V1数据与机制",
+        "reason": "来源数值没有明确缺口；仍有1项事件、状态、时序或正确结算能力未完成。",
+        "sourcePendingCount": 0,
+        "systemPendingCount": 1,
+        "evidenceRefs": [
+          "equipmentCurrentReadback",
+          "equipmentSourceInventory",
+          "equipmentEffectReview"
+        ]
+      },
+      "after": {
+        "sourceItemId": "6675",
+        "sourceEquipmentKey": "item_6675",
+        "currentEquipmentKey": "item_6675",
+        "name": "纳沃利烁刃",
+        "scopeCategory": "可购买普通装备候选",
+        "conclusion": "资料待核",
+        "conclusionScope": "装备当前1V1数据与机制",
+        "reason": "15%剩余冷却的比例、普通技能范围、持有者目标已准确保存；精确攻击触发资格仍待同版来源确认，未新增规则，不计完整。",
+        "sourcePendingCount": 1,
+        "systemPendingCount": 0,
+        "evidenceRefs": [
+          "equipmentCurrentReadback",
+          "equipmentSourceInventory",
+          "equipmentEffectReview",
+          "remainingCooldownRatioReturn"
+        ],
+        "completedBranches": [
+          "普通技能分别按当前剩余冷却减少15%的独立效果（未接触发）"
+        ]
+      },
+      "basis": [
+        "历史错误毫秒效果早已撤除，本次新增准确比例效果并重开；原系统1项已关闭。",
+        "21独立核对仍缺攻击资格证据，改为资料1项，不按战斗未验证无限保留系统缺口。"
+      ]
+    }
+  ],
+  "coverageChange": {
+    "skills": {
+      "managementComplete": 8,
+      "openQueue": 831,
+      "conclusionsUnchanged": true
+    },
+    "equipment": {
+      "managementComplete": 53,
+      "openQueue": 234,
+      "before": {
+        "source": 208,
+        "system": 26
+      },
+      "after": {
+        "source": 209,
+        "system": 25
+      }
+    }
+  }
+}

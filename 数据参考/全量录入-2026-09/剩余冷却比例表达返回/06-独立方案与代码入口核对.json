@@ -1,0 +1,25 @@
+{
+  "at": "2026-09-20T16:51:03.572Z",
+  "planReview": {
+    "reviewer": "/root/cooldown_ratio_plan_review",
+    "model": "gpt-5.6-luna",
+    "reasoning": "max",
+    "result": "READY",
+    "sha256": "80b1d9ff27b4dca98c003d78dfcf9ab5bb2ca8b0ec51bbd94f54731538bbe14d"
+  },
+  "backendAudit": {
+    "reviewer": "/root/cooldown_ratio_backend_audit",
+    "conclusion": "JSONB、引用、反序列化、输出和生命周期主链复用；新增静态有效比例及动作修正检查，最终快照覆盖参数/效果/规则修改。",
+    "migrationRequired": false
+  },
+  "scope": {
+    "effects": [
+      "masteryi_r",
+      "item_6675_passive"
+    ],
+    "newRules": 0,
+    "reason": "未核准学习、时序和攻击资格前不强接入口"
+  },
+  "runtimeVerified": false,
+  "businessWrites": 0
+}

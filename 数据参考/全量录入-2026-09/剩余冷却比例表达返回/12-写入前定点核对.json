@@ -1,0 +1,167 @@
+{
+  "at": "2026-09-20T17:17:47.076Z",
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/masteryi_r/effects/basic_cooldown_refund",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_6675_passive/effects/basic_cooldown_reduction",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/masteryi_r/parameters/basic_cooldown_refund_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_6675_passive/parameters/basic_skill_cooldown_reduction_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/masteryi_r/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/masteryi_r/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_6675_passive/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_6675_passive/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_6675_passive",
+      "status": 200
+    }
+  ],
+  "values": {
+    "/skills/masteryi_r/effects/basic_cooldown_refund": {
+      "error": {
+        "code": "404.SKILL_EFFECT_NOT_FOUND",
+        "details": {
+          "effectKey": "basic_cooldown_refund"
+        },
+        "message": "技能效果不存在"
+      }
+    },
+    "/skills/item_6675_passive/effects/basic_cooldown_reduction": {
+      "error": {
+        "code": "404.SKILL_EFFECT_NOT_FOUND",
+        "details": {
+          "effectKey": "basic_cooldown_reduction"
+        },
+        "message": "技能效果不存在"
+      }
+    },
+    "/skills/masteryi_r/parameters/basic_cooldown_refund_ratio": {
+      "createdAt": "2026-09-09T03:42:39.032903Z",
+      "description": "客户端当前根绑定 DataValues.RCooldownRefund 取索引1至3。",
+      "fixedValue": 0.7,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "参与击杀后普通技能冷却减少比例",
+      "parameterKey": "basic_cooldown_refund_ratio",
+      "skillKey": "masteryi_r",
+      "sortOrder": 80,
+      "updatedAt": "2026-09-09T03:42:39.032903Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/item_6675_passive/parameters/basic_skill_cooldown_reduction_ratio": {
+      "createdAt": "2026-09-07T18:20:26.115487Z",
+      "description": "每次攻击使基础技能剩余冷却缩短15%，小数0.15表示15%。",
+      "fixedValue": 0.15,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础技能剩余冷却缩短比例",
+      "parameterKey": "basic_skill_cooldown_reduction_ratio",
+      "skillKey": "item_6675_passive",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T18:20:26.115487Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/masteryi_r/effects": [
+      {
+        "createdAt": "2026-09-09T03:42:39.966536Z",
+        "description": "仅绑定官方基础法力消耗；额外持续法力或真实扣除时点单独记录。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "masteryi_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T03:42:39.966536Z"
+      },
+      {
+        "createdAt": "2026-09-09T03:42:40.71583Z",
+        "description": "仅在高原血统实际激活期间提供额外攻速；击杀延长和Q/W期间暂停另行接线。",
+        "effectKey": "attack_speed",
+        "gameId": "lol",
+        "lifecycleEnabled": true,
+        "name": "高原血统额外攻击速度",
+        "resultCount": 1,
+        "skillKey": "masteryi_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T03:42:40.71583Z"
+      },
+      {
+        "createdAt": "2026-09-09T03:42:42.059198Z",
+        "description": "仅在高原血统实际激活期间提供额外移速；不把空间位移当作该属性。",
+        "effectKey": "move_speed",
+        "gameId": "lol",
+        "lifecycleEnabled": true,
+        "name": "高原血统额外移动速度",
+        "resultCount": 1,
+        "skillKey": "masteryi_r",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T03:42:42.059198Z"
+      }
+    ],
+    "/skills/masteryi_r/trigger-rules": [
+      {
+        "actionCount": 2,
+        "conditionGroupCount": 0,
+        "description": "接收 masteryi_r 主动使用；无条件在 CURRENT_TARGET 上依次执行已有 attack_speed 和 move_speed。两个效果结果 target=SOURCE，均使用 duration_ms（7000毫秒）；相关的减速免疫、击杀/助攻延长、普通技能冷却变化、法力消耗和基础冷却留待后续规则补录。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "高原血统主动使用",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-12T18:00:50.275534Z"
+      }
+    ],
+    "/skills/item_6675_passive/effects": [],
+    "/skills/item_6675_passive/trigger-rules": [],
+    "/skills/item_6675_passive": {
+      "createdAt": "2026-09-07T18:20:25.577116Z",
+      "description": "保存冻结16.17客户端与官方16.17.1确证的每次攻击缩短各基础技能15%剩余冷却比例。当前冷却变化结果按毫秒解释，错误0.15毫秒效果已撤；已有SOURCE结果可指持有者，尚缺各受影响技能剩余冷却比例操作。装备直接属性不重复施加。",
+      "gameId": "lol",
+      "maxLevel": 1,
+      "name": "纳沃利烁刃·超凡入圣",
+      "skillCategoryKeys": [
+        "passive"
+      ],
+      "skillKey": "item_6675_passive",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-07T18:55:51.120373Z"
+    }
+  },
+  "businessWrites": 0
+}

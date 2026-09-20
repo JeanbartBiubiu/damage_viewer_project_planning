@@ -1,0 +1,28 @@
+{
+  "at": "2026-09-20T16:30:13.156Z",
+  "previousTurn": "PROGRESS：参与击杀前后端、数据库与TristanaW返回已提交并通过",
+  "services": {
+    "web": 200,
+    "publicGames": 200
+  },
+  "checks": [
+    {
+      "method": "GET",
+      "path": "/skills/masteryi_r/parameters/basic_cooldown_refund_ratio",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "method": "GET",
+      "path": "/skills/masteryi_r/effects",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "method": "GET",
+      "path": "/skills/masteryi_r/trigger-rules",
+      "status": 200,
+      "unchanged": true
+    }
+  ]
+}

@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-09-20T16:17:34.373Z",
+  "generatedAt": "2026-09-20T17:37:30.135Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
-  "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。；基兰W冷却回退返回：7次保存、41次独立GET与5类页面通过，有效施放时间仍待核，管理完整8项/开放831项保持，见zileanWCooldownReductionReturn。；系统-16装备技能直达录入已完成，728单测/3项定向页面及两件真实装备往返通过，6条独立回读不变，业务写入0。；中娅主体说明1次页面更正、独立13GET及重开通过，装备开放234项保持；百分比穿透候选与两份历史来源的边界另见percentPenetrationSourceContractAudit，尚未批准实施。；崔丝塔娜W明确组成返回8次保存、108次独立GET、20组算例及8类页面通过；复用旧本人击杀入口，整技能仍系统暂缓，管理完整8项/开放831项保持。；正式参与击杀事件已返回崔丝塔娜W：3次页面保存、36次独立GET、4项拒绝验证通过，原4规则数量保持；剩余系统1项、资料1项，整技能未记完整。",
+  "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。；基兰W冷却回退返回：7次保存、41次独立GET与5类页面通过，有效施放时间仍待核，管理完整8项/开放831项保持，见zileanWCooldownReductionReturn。；系统-16装备技能直达录入已完成，728单测/3项定向页面及两件真实装备往返通过，6条独立回读不变，业务写入0。；中娅主体说明1次页面更正、独立13GET及重开通过，装备开放234项保持；百分比穿透候选与两份历史来源的边界另见percentPenetrationSourceContractAudit，尚未批准实施。；崔丝塔娜W明确组成返回8次保存、108次独立GET、20组算例及8类页面通过；复用旧本人击杀入口，整技能仍系统暂缓，管理完整8项/开放831项保持。；正式参与击杀事件已返回崔丝塔娜W：3次页面保存、36次独立GET、4项拒绝验证通过，原4规则数量保持；剩余系统1项、资料1项，整技能未记完整。；剩余冷却比例已返回易大师R和纳沃利：3次页面保存、49次独立GET及3项数值越界拒绝通过，无新表或触发；纳沃利改资料待核，整技能完成数保持。",
   "heroes": {
     "count": 171,
     "attributes": 1641,
@@ -12854,6 +12854,104 @@
         "configuration": 0,
         "other": 0
       }
+    },
+    "remainingCooldownRatioReturn": {
+      "at": "2026-09-20T17:37:30.135Z",
+      "status": "MANAGEMENT_RATIO_AND_EFFECT_RETURN_PASS",
+      "sourceVersion": {
+        "client": "16.17",
+        "official": "16.17.1"
+      },
+      "skillKeys": [
+        "masteryi_r",
+        "item_6675_passive"
+      ],
+      "businessSaves": 3,
+      "saveBreakdown": {
+        "effectCreates": 2,
+        "skillDescriptionUpdates": 1
+      },
+      "independentGETs": 49,
+      "unchangedReadRoutes": 44,
+      "expectedChangedTargets": 3,
+      "expectedChangedCollections": 2,
+      "negativeRequests": {
+        "numericRange": 3,
+        "immutableField": 1,
+        "allStatus": 400,
+        "originalDataUnchanged": true
+      },
+      "componentCounts": {
+        "masteryi_r": {
+          "parameters": 8,
+          "formulas": 0,
+          "effects": 4,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 1
+        },
+        "item_6675_passive": {
+          "parameters": 1,
+          "formulas": 0,
+          "effects": 1,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0
+        }
+      },
+      "newTriggerRules": 0,
+      "ddlChanges": 0,
+      "validation": {
+        "frontendUnitTests": 753,
+        "backendTests": 1030,
+        "isolatedProductionBrowserTests": 1,
+        "realBrowserReopens": 3,
+        "pageWarningsOrErrors": 0
+      },
+      "commits": {
+        "web": "0daa1d1626b95e2ffd6d4e68c9731f6da78b2b25",
+        "backend": "4ea351a1cd9a94b7aaa16830427baea14ad3402c"
+      },
+      "wholeSkillsComplete": false,
+      "remaining": {
+        "masteryi_r": [
+          "减速免疫",
+          "被动学习门槛及时序",
+          "主动参与击杀延长",
+          "Q/W期间暂停"
+        ],
+        "item_6675_passive": [
+          "精确攻击触发资格"
+        ]
+      },
+      "classificationChanges": {
+        "skills": {
+          "managementComplete": 8,
+          "openQueue": 831,
+          "conclusionsUnchanged": true
+        },
+        "equipment": {
+          "managementComplete": 53,
+          "openQueue": 234,
+          "before": {
+            "source": 208,
+            "system": 26
+          },
+          "after": {
+            "source": 209,
+            "system": 25
+          }
+        }
+      },
+      "runtimeValidation": "未执行；未新增宿主或Wasm实现",
+      "evidence": {
+        "worktree": "damage_viewer_project_planning",
+        "relativePath": "数据参考/全量录入-2026-09/剩余冷却比例表达返回/23-证据清单.json",
+        "sha256": "ec9c06af7b417ad4da013e3bc7929ba2a069ccb47d190276fc2d5c047db9593f",
+        "webCommit": "0daa1d1626b95e2ffd6d4e68c9731f6da78b2b25",
+        "backendCommit": "4ea351a1cd9a94b7aaa16830427baea14ad3402c"
+      },
+      "next": "易大师R主动参与击杀延长持续时间，只读核对现有生命周期操作与来源边界"
     }
   },
   "runtimeValidation": "未执行",
@@ -13593,6 +13691,13 @@
         "sha256": "e533eba2856b578d8124ba8143cbf34cdcf0e3e56faba4fa1be56c1f883f89dd",
         "webCommit": "765fcd2eeeb8f6c2ae63c036553304c9b643dc37",
         "backendCommit": "dc77fb4a34d61d1dd092f1db37aa87a78d86bc1a"
+      },
+      "remainingCooldownRatioReturn": {
+        "worktree": "damage_viewer_project_planning",
+        "relativePath": "数据参考/全量录入-2026-09/剩余冷却比例表达返回/23-证据清单.json",
+        "sha256": "ec9c06af7b417ad4da013e3bc7929ba2a069ccb47d190276fc2d5c047db9593f",
+        "webCommit": "0daa1d1626b95e2ffd6d4e68c9731f6da78b2b25",
+        "backendCommit": "4ea351a1cd9a94b7aaa16830427baea14ad3402c"
       }
     },
     "coverage": {
@@ -13630,8 +13735,8 @@
         "conclusions": {
           "已录入": 53,
           "明确排除": 581,
-          "资料待核": 208,
-          "系统暂缓": 26
+          "资料待核": 209,
+          "系统暂缓": 25
         },
         "currentSubjects": 198,
         "currentSkillRelations": 146,
@@ -27167,10 +27272,10 @@
         "name": "易·高原血统",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有4个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "Q/W/E各自剩余冷却70%效果已保存；其触发学习门槛及时序待核。仍有减速免疫系统分支，以及主动参与击杀延长、Q/W期间暂停两项配置分支，整技能未完成。",
         "pendingCounts": {
-          "source": 0,
-          "system": 2,
+          "source": 1,
+          "system": 1,
           "configuration": 2,
           "other": 0
         },
@@ -27179,10 +27284,12 @@
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
-          "remainingUltimateCategoryBackfill"
+          "remainingUltimateCategoryBackfill",
+          "remainingCooldownRatioReturn"
         ],
         "completedBranches": [
-          "固定来源主R终极技能分类关联"
+          "固定来源主R终极技能分类关联",
+          "Q/W/E分别按当前剩余冷却减少70%的独立效果（未接触发）"
         ]
       },
       {
@@ -46557,15 +46664,19 @@
         "currentEquipmentKey": "item_6675",
         "name": "纳沃利烁刃",
         "scopeCategory": "可购买普通装备候选",
-        "conclusion": "系统暂缓",
+        "conclusion": "资料待核",
         "conclusionScope": "装备当前1V1数据与机制",
-        "reason": "来源数值没有明确缺口；仍有1项事件、状态、时序或正确结算能力未完成。",
-        "sourcePendingCount": 0,
-        "systemPendingCount": 1,
+        "reason": "15%剩余冷却的比例、普通技能范围、持有者目标已准确保存；精确攻击触发资格仍待同版来源确认，未新增规则，不计完整。",
+        "sourcePendingCount": 1,
+        "systemPendingCount": 0,
         "evidenceRefs": [
           "equipmentCurrentReadback",
           "equipmentSourceInventory",
-          "equipmentEffectReview"
+          "equipmentEffectReview",
+          "remainingCooldownRatioReturn"
+        ],
+        "completedBranches": [
+          "普通技能分别按当前剩余冷却减少15%的独立效果（未接触发）"
         ]
       },
       {

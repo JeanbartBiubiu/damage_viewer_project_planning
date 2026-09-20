@@ -1,0 +1,93 @@
+{
+  "at": "2026-09-20T17:27:57.551Z",
+  "frontend": {
+    "lint": {
+      "command": "npm run lint",
+      "checkedFiles": 142,
+      "result": "PASS"
+    },
+    "typecheck": {
+      "command": "npm run typecheck",
+      "result": "PASS",
+      "resolved": "扩充冷却枚举后同步先前结果输出查询函数的类型"
+    },
+    "unit": {
+      "command": "npm test",
+      "tests": 753,
+      "files": 63,
+      "result": "PASS"
+    },
+    "build": {
+      "command": "npm run build",
+      "modules": 1293,
+      "result": "PASS",
+      "existingWarning": "产物分块体积提示"
+    },
+    "finalTargetedUnit": {
+      "file": "src/pages/admin/skills/effects/cooldownRatio.test.ts",
+      "tests": 14,
+      "result": "PASS"
+    },
+    "productionBrowser": {
+      "command": "npm run test:e2e:non-wasm -- --grep \"remaining cooldown ratio clears milliseconds\"",
+      "tests": 1,
+      "result": "PASS",
+      "earlierFailure": "首次毫秒提示文本精确匹配与原页面嵌入标签不符；修正断言并将比例长提示独立显示，重新构建和定向页面验收通过。"
+    }
+  },
+  "backend": {
+    "reviewer": "/root/cooldown_ratio_backend_impl",
+    "targetedBeforeFull": 142,
+    "fullTests": 1030,
+    "finalTargeted": 68,
+    "failures": 0,
+    "errors": 0,
+    "notes": "独立实现代理执行；最终生产Java无后续改动，主负责人源码复核见10。",
+    "savedSurefireReports": {
+      "verifiedAt": "2026-09-20T17:34:46.938Z",
+      "reportFiles": 108,
+      "tests": 1030,
+      "failures": 0,
+      "errors": 0,
+      "note": "主负责人统计现有TEST-*.xml；不重复执行测试。"
+    }
+  },
+  "realBrowser": {
+    "businessSaves": 3,
+    "effectCreateAndReopen": [
+      "masteryi_r/basic_cooldown_refund",
+      "item_6675_passive/basic_cooldown_reduction"
+    ],
+    "skillDescriptionSaveAndReopen": [
+      "item_6675_passive"
+    ],
+    "diagnosticWarnings": 0,
+    "diagnosticErrors": 0,
+    "unitSwitchAndInvalidValue": "单独的生产构建页面测试覆盖，不伪称本次正式数据录入有非法提交"
+  },
+  "http": {
+    "validImmediateReadbacks": 3,
+    "numericInvalidRejections": 3,
+    "allNumericInvalidStatus": 400,
+    "allInvalidTargetsUnchanged": true,
+    "earlierImmutableRequestRejection": 1
+  },
+  "schema": {
+    "ddlChanges": 0,
+    "explanation": "沿用效果明细JSONB枚举、受影响技能范围及引用快照校验，无新表或列。未重新扫描实库表数。"
+  },
+  "runtime": {
+    "host": false,
+    "wasm": false,
+    "battle": false
+  },
+  "recoveryNotes": [
+    "首次即时比较遗漏了冻结声明的服务器归属字段；用已保存响应单独核对归属后比较业务字段，未重发写入。",
+    "首次拒绝请求含不可修改effectKey；400且原值未变后重新冻结正确更新体，才验证数值边界。",
+    "窗口关闭动画曾使关闭按钮暂时重复；重新读取页面状态后继续，未重放保存。"
+  ],
+  "commits": {
+    "web": "0daa1d1626b95e2ffd6d4e68c9731f6da78b2b25",
+    "backend": "4ea351a1cd9a94b7aaa16830427baea14ad3402c"
+  }
+}

@@ -1,0 +1,186 @@
+{
+  "at": "2026-09-20T16:36:28.824Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/equipment/item_6675": {
+      "createdAt": "2026-09-06T18:11:26.359523Z",
+      "description": "来源：官方16.17.1装备6675。 原始说明：40%攻击速度\n25%暴击几率\n4%移动速度\n\n超凡入圣\n攻击会使各基础技能的冷却时间缩短15%剩余冷却时间。 被动与主动效果尚待配置。",
+      "equipmentKey": "item_6675",
+      "gameId": "lol",
+      "name": "纳沃利烁刃",
+      "updatedAt": "2026-09-06T18:11:26.359523Z"
+    },
+    "/equipment-skill-relations?equipmentKey=item_6675": {
+      "items": [
+        {
+          "equipmentKey": "item_6675",
+          "equipmentName": "纳沃利烁刃",
+          "gameId": "lol",
+          "skillKey": "item_6675_passive",
+          "skillName": "纳沃利烁刃·超凡入圣",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ],
+      "total": 1
+    },
+    "/equipment/item_6675/attributes": {
+      "attributeValues": {
+        "move_speed_percent": 0.04,
+        "bonus_attack_speed_percent": 0.4,
+        "critical_strike_chance": 0.25
+      },
+      "equipmentKey": "item_6675"
+    },
+    "/equipment/item_6675/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "item_6675",
+        "name": "item_6675"
+      }
+    },
+    "/skills/item_6675_passive": {
+      "createdAt": "2026-09-07T18:20:25.577116Z",
+      "description": "保存冻结16.17客户端与官方16.17.1确证的每次攻击缩短各基础技能15%剩余冷却比例。当前冷却变化结果按毫秒解释，错误0.15毫秒效果已撤；已有SOURCE结果可指持有者，尚缺各受影响技能剩余冷却比例操作。装备直接属性不重复施加。",
+      "gameId": "lol",
+      "maxLevel": 1,
+      "name": "纳沃利烁刃·超凡入圣",
+      "skillCategoryKeys": [
+        "passive"
+      ],
+      "skillKey": "item_6675_passive",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-07T18:55:51.120373Z"
+    },
+    "/skills/item_6675_passive/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "item_6675",
+        "name": "item_6675"
+      }
+    },
+    "/equipment-skill-relations?skillKey=item_6675_passive": {
+      "items": [
+        {
+          "equipmentKey": "item_6675",
+          "equipmentName": "纳沃利烁刃",
+          "gameId": "lol",
+          "skillKey": "item_6675_passive",
+          "skillName": "纳沃利烁刃·超凡入圣",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ],
+      "total": 1
+    },
+    "/skills/item_6675_passive/parameters": [
+      {
+        "createdAt": "2026-09-07T18:20:26.115487Z",
+        "description": "每次攻击使基础技能剩余冷却缩短15%，小数0.15表示15%。",
+        "fixedValue": 0.15,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础技能剩余冷却缩短比例",
+        "parameterKey": "basic_skill_cooldown_reduction_ratio",
+        "skillKey": "item_6675_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:20:26.115487Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    ],
+    "/skills/item_6675_passive/parameters/basic_skill_cooldown_reduction_ratio": {
+      "createdAt": "2026-09-07T18:20:26.115487Z",
+      "description": "每次攻击使基础技能剩余冷却缩短15%，小数0.15表示15%。",
+      "fixedValue": 0.15,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础技能剩余冷却缩短比例",
+      "parameterKey": "basic_skill_cooldown_reduction_ratio",
+      "skillKey": "item_6675_passive",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T18:20:26.115487Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/item_6675_passive/formulas": [],
+    "/skills/item_6675_passive/effects": [],
+    "/skills/item_6675_passive/processes": [],
+    "/skills/item_6675_passive/internal-states": [],
+    "/skills/item_6675_passive/trigger-rules": []
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/equipment/item_6675",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/equipment-skill-relations?equipmentKey=item_6675",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/equipment/item_6675/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/equipment/item_6675/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_6675_passive",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_6675_passive/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/equipment-skill-relations?skillKey=item_6675_passive",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_6675_passive/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_6675_passive/parameters/basic_skill_cooldown_reduction_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_6675_passive/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_6675_passive/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_6675_passive/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_6675_passive/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_6675_passive/trigger-rules",
+      "status": 200
+    }
+  ],
+  "businessWrites": 0
+}

@@ -1,0 +1,132 @@
+{
+  "frozenSha256": "d41645b3e6e7bcb492977ef9b16b093453b1b98e9505e53acb581cd704049eca",
+  "entries": [
+    {
+      "at": "2026-09-20T17:19:48.578Z",
+      "writeMode": "BROWSER_UI",
+      "requestIndex": 0,
+      "readMethod": "GET",
+      "path": "/skills/masteryi_r/effects/basic_cooldown_refund",
+      "status": 200,
+      "body": {
+        "createdAt": "2026-09-20T17:19:34.552644Z",
+        "description": "每次执行分别减少来源对象Q、W、E当时剩余普通冷却的70%，不减少R或读取总冷却。仅保存R被动明确返还效果；学习门槛和事件时序仍待核，本效果尚未接入触发。",
+        "effectKey": "basic_cooldown_refund",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "参与击杀返还基础技能剩余冷却",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "affectedSkillScope": {
+                "mode": "SKILLS",
+                "skillCategoryKeys": [],
+                "skillKeys": [
+                  "masteryi_q",
+                  "masteryi_w",
+                  "masteryi_e"
+                ]
+              },
+              "operation": "REDUCE_REMAINING_RATIO"
+            },
+            "lifecycleBehavior": null,
+            "name": "按比例减少基础技能剩余冷却",
+            "resultKey": "reduce_remaining",
+            "resultType": "COOLDOWN_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": null,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "basic_cooldown_refund_ratio"
+              }
+            }
+          }
+        ],
+        "skillKey": "masteryi_r",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-20T17:19:34.552644Z"
+      },
+      "matched": true
+    },
+    {
+      "at": "2026-09-20T17:22:23.820Z",
+      "writeMode": "BROWSER_UI",
+      "requestIndex": 1,
+      "readMethod": "GET",
+      "path": "/skills/item_6675_passive/effects/basic_cooldown_reduction",
+      "status": 200,
+      "body": {
+        "createdAt": "2026-09-20T17:22:16.937006Z",
+        "description": "每次执行分别减少来源对象各普通技能当时剩余冷却的15%，不作用终极技能或重复施加装备直接属性。仅保存明确比例效果；精确攻击触发资格仍待核，尚未接入触发。",
+        "effectKey": "basic_cooldown_reduction",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "超凡入圣剩余冷却减少",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "affectedSkillScope": {
+                "mode": "CATEGORIES",
+                "skillCategoryKeys": [
+                  "common"
+                ],
+                "skillKeys": []
+              },
+              "operation": "REDUCE_REMAINING_RATIO"
+            },
+            "lifecycleBehavior": null,
+            "name": "按比例减少基础技能剩余冷却",
+            "resultKey": "reduce_remaining",
+            "resultType": "COOLDOWN_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": null,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "basic_skill_cooldown_reduction_ratio"
+              }
+            }
+          }
+        ],
+        "skillKey": "item_6675_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-20T17:22:16.937006Z"
+      },
+      "matched": true
+    },
+    {
+      "at": "2026-09-20T17:25:17.917Z",
+      "writeMode": "BROWSER_UI",
+      "requestIndex": 2,
+      "readMethod": "GET",
+      "path": "/skills/item_6675_passive",
+      "status": 200,
+      "body": {
+        "createdAt": "2026-09-07T18:20:25.577116Z",
+        "description": "冻结16.17客户端与官方16.17.1明确：每次攻击缩短各基础技能15%剩余冷却。已用比例参数0.15和“按比例减少剩余冷却”效果准确表达，作用于持有者的普通技能，不包含终极技能；精确攻击触发资格仍待核，尚未接入规则。装备直接属性不重复施加。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "纳沃利烁刃·超凡入圣",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "item_6675_passive",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-20T17:25:11.362607Z"
+      },
+      "matched": true
+    }
+  ]
+}

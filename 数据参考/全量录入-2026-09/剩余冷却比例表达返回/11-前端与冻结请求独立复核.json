@@ -1,0 +1,17 @@
+{
+  "at": "2026-09-20T17:17:47.076Z",
+  "reviewer": "/root/cooldown_ratio_final_web_review",
+  "conclusion": "READY",
+  "frozenSha256": "d41645b3e6e7bcb492977ef9b16b093453b1b98e9505e53acb581cd704049eca",
+  "findings": [
+    "前端枚举、请求字段和静态比例校验一致；倍率、下界、上界之后校验0至1。",
+    "跨毫秒与比例切换清空值与修饰；范围和目标保留。",
+    "两项效果来源、引用与范围核对通过；不新增触发，不计整技能完成。"
+  ],
+  "executed": {
+    "tests": false,
+    "http": false,
+    "browser": false,
+    "writes": false
+  }
+}

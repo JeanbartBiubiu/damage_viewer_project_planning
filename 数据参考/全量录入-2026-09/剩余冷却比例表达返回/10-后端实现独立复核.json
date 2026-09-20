@@ -1,0 +1,32 @@
+{
+  "at": "2026-09-20T17:06:49.181Z",
+  "reviewer": "/root",
+  "implementationAuthor": "/root/cooldown_ratio_backend_impl",
+  "result": "READY",
+  "scope": "新操作枚举与最终快照的静态数值/动作结果修正校验",
+  "findings": [
+    "known()复用本技能固定参数及全部等级，不改动态绑定和公式求值边界",
+    "结果及动作修正按倍率、最小值、最大值依次处理",
+    "触发规则引用结果定位到对应效果，错误归属触发规则及动作修正路径",
+    "collect先遍历所有对象，随后bindings检查动作，效果出现在规则前后均可取得其数值用途",
+    "原操作均保持，新增操作无SQL约束需要变更"
+  ],
+  "files": [
+    {
+      "path": "server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectCooldownChangeOperation.java",
+      "sha256LF": "85e306f74a2452b17e286435402ebb7e698e7818464d40fa2be804eb1b6dda6f"
+    },
+    {
+      "path": "server/data_manage/src/main/java/xyz/game/datamanage/support/authoring/SkillNumericSemantics.java",
+      "sha256LF": "d84f454c27be13c8501d7968736af9544ab192630314f7d41cc62af282694381"
+    }
+  ],
+  "reportedTests": {
+    "targeted": 142,
+    "full": 1030,
+    "finalTargeted": 68,
+    "failures": 0,
+    "errors": 0
+  },
+  "runtimeVerified": false
+}

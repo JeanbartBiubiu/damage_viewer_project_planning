@@ -1,0 +1,74 @@
+{
+  "frozenSha256": "8f69e6475c61a93420c88289b2a3cf89d548c2c490264fd2cdb3e475a5d63c44",
+  "entries": [
+    {
+      "at": "2026-09-20T17:23:27.412Z",
+      "label": "效果倍率使0.7变为1.4",
+      "method": "PUT",
+      "path": "/skills/masteryi_r/effects/basic_cooldown_refund",
+      "status": 400,
+      "response": {
+        "error": {
+          "code": "400.VALIDATION_FAILED",
+          "details": {
+            "fieldIssues": [
+              {
+                "code": "IMMUTABLE",
+                "field": "effectKey",
+                "message": "效果标识不能修改"
+              }
+            ]
+          },
+          "message": "属性信息不合法"
+        }
+      },
+      "readStatus": 200,
+      "readBody": {
+        "createdAt": "2026-09-20T17:19:34.552644Z",
+        "description": "每次执行分别减少来源对象Q、W、E当时剩余普通冷却的70%，不减少R或读取总冷却。仅保存R被动明确返还效果；学习门槛和事件时序仍待核，本效果尚未接入触发。",
+        "effectKey": "basic_cooldown_refund",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "参与击杀返还基础技能剩余冷却",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "affectedSkillScope": {
+                "mode": "SKILLS",
+                "skillCategoryKeys": [],
+                "skillKeys": [
+                  "masteryi_q",
+                  "masteryi_w",
+                  "masteryi_e"
+                ]
+              },
+              "operation": "REDUCE_REMAINING_RATIO"
+            },
+            "lifecycleBehavior": null,
+            "name": "按比例减少基础技能剩余冷却",
+            "resultKey": "reduce_remaining",
+            "resultType": "COOLDOWN_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": null,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "basic_cooldown_refund_ratio"
+              }
+            }
+          }
+        ],
+        "skillKey": "masteryi_r",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-20T17:19:34.552644Z"
+      },
+      "unchanged": true,
+      "finding": "请求携带不可修改的effectKey，先被IMMUTABLE字段校验拒绝，未到数值校验；即时回读原值未变。"
+    }
+  ]
+}

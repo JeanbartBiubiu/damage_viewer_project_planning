@@ -1,0 +1,65 @@
+{
+  "at": "2026-09-20T17:02:31.639Z",
+  "version": "16.17.1",
+  "official": {
+    "worktree": "damage_viewer_project_planning",
+    "path": "数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+    "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973",
+    "pointer": "data.6675",
+    "item": {
+      "name": "纳沃利烁刃",
+      "description": "<mainText><stats><attention>40%</attention>攻击速度<br><attention>25%</attention>暴击几率<br><attention>4%</attention>移动速度</stats><br><br><passive>超凡入圣</passive><br>攻击会使各基础技能的冷却时间缩短<attention>15%</attention>剩余冷却时间。</mainText>",
+      "colloq": "",
+      "plaintext": "",
+      "from": [
+        "1042",
+        "3086",
+        "1042"
+      ],
+      "image": {
+        "full": "6675.png",
+        "sprite": "item6.png",
+        "group": "item",
+        "x": 240,
+        "y": 96,
+        "w": 48,
+        "h": 48
+      },
+      "gold": {
+        "base": 950,
+        "purchasable": true,
+        "total": 2650,
+        "sell": 1855
+      },
+      "tags": [
+        "CriticalStrike",
+        "AttackSpeed",
+        "NonbootsMovement"
+      ],
+      "maps": {
+        "11": true,
+        "12": true,
+        "22": false,
+        "30": false,
+        "453": true
+      },
+      "stats": {
+        "FlatCritChanceMod": 0.25,
+        "PercentAttackSpeedMod": 0.4,
+        "PercentMovementSpeedMod": 0.04
+      },
+      "effect": {
+        "Effect1Amount": "0.5",
+        "Effect2Amount": "1",
+        "Effect3Amount": "90"
+      },
+      "depth": 3
+    }
+  },
+  "previousReviewedCandidate": {
+    "path": "数据参考/全量录入-2026-09/装备技能实录/Luna第七批/录入候选.json",
+    "sha256": "f6e122824988faa846f9102b50e5cd105f12ae7287f37abd653a7bbe74412aef"
+  },
+  "conclusion": "来源明确15%剩余冷却；复用已核定0.15参数，装备直接属性保留，不采用旧effect字段0.5/1/90。精确攻击触发资格不在本次冻结写入内。",
+  "businessWrites": 0
+}

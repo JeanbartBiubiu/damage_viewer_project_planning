@@ -1,0 +1,274 @@
+{
+  "at": "2026-09-20T17:01:47.581Z",
+  "mode": "BROWSER_UI_ONLY",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "sourceFiles": [
+    {
+      "path": "01-固定版本来源边界.json",
+      "sha256": "e6d7dee664d0336910008195675dec8f55cdf9254e3b711da658dfdb54660ba4"
+    },
+    {
+      "path": "02-易大师R当前共享现值.json",
+      "sha256": "bd2afc09c8665b2562855dc3acc3bb54b52f3f1f6747c6bdb223c3678310611c"
+    },
+    {
+      "path": "05-纳沃利烁刃共享现值.json",
+      "sha256": "5aacb74caaff4739cb69eee9e35d83a51198190f55bed8bbb0badc930ad3ee1c"
+    },
+    {
+      "path": "07-受影响技能范围核对.json",
+      "sha256": "8d28e331555b771817a05f72d4ac7a4d00dd1213d8fdce45d640a29d839319d4"
+    },
+    {
+      "path": "09-纳沃利固定来源补充.json",
+      "sha256": "562acf92c4d0369f5c5be45b74781ae81a934077c24aad9a82d9aa7cbc28c00c"
+    }
+  ],
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/skills/masteryi_r/effects",
+      "detailPath": "/skills/masteryi_r/effects/basic_cooldown_refund",
+      "body": {
+        "effectKey": "basic_cooldown_refund",
+        "name": "参与击杀返还基础技能剩余冷却",
+        "description": "每次执行分别减少来源对象Q、W、E当时剩余普通冷却的70%，不减少R或读取总冷却。仅保存R被动明确返还效果；学习门槛和事件时序仍待核，本效果尚未接入触发。",
+        "sortOrder": 40,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "reduce_remaining",
+            "name": "按比例减少基础技能剩余冷却",
+            "resultType": "COOLDOWN_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "basic_cooldown_refund_ratio"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": null,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "affectedSkillScope": {
+                "mode": "SKILLS",
+                "skillKeys": [
+                  "masteryi_q",
+                  "masteryi_w",
+                  "masteryi_e"
+                ],
+                "skillCategoryKeys": []
+              },
+              "operation": "REDUCE_REMAINING_RATIO"
+            },
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null
+          }
+        ]
+      },
+      "expected": {
+        "effectKey": "basic_cooldown_refund",
+        "name": "参与击杀返还基础技能剩余冷却",
+        "description": "每次执行分别减少来源对象Q、W、E当时剩余普通冷却的70%，不减少R或读取总冷却。仅保存R被动明确返还效果；学习门槛和事件时序仍待核，本效果尚未接入触发。",
+        "sortOrder": 40,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "reduce_remaining",
+            "name": "按比例减少基础技能剩余冷却",
+            "resultType": "COOLDOWN_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "basic_cooldown_refund_ratio"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": null,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "affectedSkillScope": {
+                "mode": "SKILLS",
+                "skillKeys": [
+                  "masteryi_q",
+                  "masteryi_w",
+                  "masteryi_e"
+                ],
+                "skillCategoryKeys": []
+              },
+              "operation": "REDUCE_REMAINING_RATIO"
+            },
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null
+          }
+        ]
+      },
+      "expectedAbsent": true,
+      "serverManagedFields": [
+        "gameId",
+        "skillKey",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/skills/item_6675_passive/effects",
+      "detailPath": "/skills/item_6675_passive/effects/basic_cooldown_reduction",
+      "body": {
+        "effectKey": "basic_cooldown_reduction",
+        "name": "超凡入圣剩余冷却减少",
+        "description": "每次执行分别减少来源对象各普通技能当时剩余冷却的15%，不作用终极技能或重复施加装备直接属性。仅保存明确比例效果；精确攻击触发资格仍待核，尚未接入触发。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "reduce_remaining",
+            "name": "按比例减少基础技能剩余冷却",
+            "resultType": "COOLDOWN_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "basic_skill_cooldown_reduction_ratio"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": null,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "affectedSkillScope": {
+                "mode": "CATEGORIES",
+                "skillKeys": [],
+                "skillCategoryKeys": [
+                  "common"
+                ]
+              },
+              "operation": "REDUCE_REMAINING_RATIO"
+            },
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null
+          }
+        ]
+      },
+      "expected": {
+        "effectKey": "basic_cooldown_reduction",
+        "name": "超凡入圣剩余冷却减少",
+        "description": "每次执行分别减少来源对象各普通技能当时剩余冷却的15%，不作用终极技能或重复施加装备直接属性。仅保存明确比例效果；精确攻击触发资格仍待核，尚未接入触发。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "reduce_remaining",
+            "name": "按比例减少基础技能剩余冷却",
+            "resultType": "COOLDOWN_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "basic_skill_cooldown_reduction_ratio"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": null,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "affectedSkillScope": {
+                "mode": "CATEGORIES",
+                "skillKeys": [],
+                "skillCategoryKeys": [
+                  "common"
+                ]
+              },
+              "operation": "REDUCE_REMAINING_RATIO"
+            },
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null
+          }
+        ]
+      },
+      "expectedAbsent": true,
+      "serverManagedFields": [
+        "gameId",
+        "skillKey",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/item_6675_passive",
+      "before": {
+        "createdAt": "2026-09-07T18:20:25.577116Z",
+        "description": "保存冻结16.17客户端与官方16.17.1确证的每次攻击缩短各基础技能15%剩余冷却比例。当前冷却变化结果按毫秒解释，错误0.15毫秒效果已撤；已有SOURCE结果可指持有者，尚缺各受影响技能剩余冷却比例操作。装备直接属性不重复施加。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "纳沃利烁刃·超凡入圣",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "item_6675_passive",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-07T18:55:51.120373Z"
+      },
+      "body": {
+        "description": "冻结16.17客户端与官方16.17.1明确：每次攻击缩短各基础技能15%剩余冷却。已用比例参数0.15和“按比例减少剩余冷却”效果准确表达，作用于持有者的普通技能，不包含终极技能；精确攻击触发资格仍待核，尚未接入规则。装备直接属性不重复施加。",
+        "maxLevel": 1,
+        "name": "纳沃利烁刃·超凡入圣",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "sortOrder": 0,
+        "status": "ENABLED"
+      },
+      "expected": {
+        "createdAt": "2026-09-07T18:20:25.577116Z",
+        "description": "冻结16.17客户端与官方16.17.1明确：每次攻击缩短各基础技能15%剩余冷却。已用比例参数0.15和“按比例减少剩余冷却”效果准确表达，作用于持有者的普通技能，不包含终极技能；精确攻击触发资格仍待核，尚未接入规则。装备直接属性不重复施加。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "纳沃利烁刃·超凡入圣",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "item_6675_passive",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-07T18:55:51.120373Z"
+      },
+      "allowedChanges": [
+        "description"
+      ]
+    }
+  ],
+  "expectedCounts": {
+    "masteryi_r": {
+      "parameters": 8,
+      "formulas": 0,
+      "effects": 4,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 1
+    },
+    "item_6675_passive": {
+      "parameters": 1,
+      "formulas": 0,
+      "effects": 1,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0
+    }
+  },
+  "protected": "原参数、公式、过程、内部状态、规则、旧效果、主体、属性、图片和关联保持；仅纳沃利技能说明更新",
+  "businessWrites": 0
+}

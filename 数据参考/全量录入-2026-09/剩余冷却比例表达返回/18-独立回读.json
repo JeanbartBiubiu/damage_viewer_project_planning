@@ -1,0 +1,1492 @@
+{
+  "at": "2026-09-20T17:35:37.750Z",
+  "mode": "SEPARATE_GET_ONLY_PROCESS",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "frozenSha256": "d41645b3e6e7bcb492977ef9b16b093453b1b98e9505e53acb581cd704049eca",
+  "sourceBaselineCounts": {
+    "02-易大师R当前共享现值.json": {
+      "expected": 29,
+      "actual": 29
+    },
+    "05-纳沃利烁刃共享现值.json": {
+      "expected": 14,
+      "actual": 14
+    },
+    "07-受影响技能范围核对.json": {
+      "expected": 4,
+      "actual": 4
+    }
+  },
+  "expectedGETs": 49,
+  "actualGETs": 49,
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/masteryi_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_masteryi",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_masteryi/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_masteryi/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/masteryi_r/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_masteryi",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=masteryi_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/masteryi_r/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/masteryi_r/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/masteryi_r/parameters/duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/masteryi_r/parameters/attack_speed_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/masteryi_r/parameters/move_speed_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/masteryi_r/parameters/kill_assist_extension_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/masteryi_r/parameters/basic_cooldown_refund_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/masteryi_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/masteryi_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/masteryi_r/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/masteryi_r/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/masteryi_r/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/masteryi_r/effects/attack_speed",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/masteryi_r/effects/move_speed",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/masteryi_r/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/masteryi_r/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/masteryi_r/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/masteryi_r/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/mana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/bonus_attack_speed_percent",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/modifier-zones/attribute_flat_add",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/move_speed_percent",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/equipment/item_6675",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/equipment-skill-relations?equipmentKey=item_6675",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/equipment/item_6675/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/equipment/item_6675/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_6675_passive",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_6675_passive/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/equipment-skill-relations?skillKey=item_6675_passive",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_6675_passive/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_6675_passive/parameters/basic_skill_cooldown_reduction_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_6675_passive/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_6675_passive/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_6675_passive/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_6675_passive/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_6675_passive/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/masteryi_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/masteryi_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/masteryi_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skill-categories/common",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/masteryi_r/effects/basic_cooldown_refund",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_6675_passive/effects/basic_cooldown_reduction",
+      "status": 200
+    }
+  ],
+  "values": {
+    "/skills/masteryi_r": {
+      "createdAt": "2026-09-06T18:19:23.165075Z",
+      "description": "易以超乎想象的身法进行移动，短时间内提升移动速度和攻击速度，并免疫减速效果。该技能激活期间，易在参与击杀一名敌方英雄的同时，会延长该技能的持续时间。在击杀和助攻后，也会被动地减少易其它技能的冷却时间。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 3,
+      "name": "易·高原血统",
+      "skillCategoryKeys": [
+        "ultimate"
+      ],
+      "skillKey": "masteryi_r",
+      "sortOrder": 4,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-19T11:29:20.085068Z"
+    },
+    "/characters/champion_masteryi": {
+      "characterKey": "champion_masteryi",
+      "createdAt": "2026-09-06T16:25:49.068777Z",
+      "description": "来源：官方 Data Dragon 16.17.1；攻击力成长与攻速来源补证自 CommunityDragon 提取的同补丁客户端 16.17.8104348（非 Riot 官方接口）。本轮仅录角色主体与 1～18 级基础自然成长，不含被动、技能、装备、符文、叠层或形态。技能、图片和机制待录，不能视为完整录入。",
+      "gameId": "lol",
+      "name": "易",
+      "updatedAt": "2026-09-06T16:25:49.068777Z"
+    },
+    "/characters/champion_masteryi/attributes": {
+      "characterKey": "champion_masteryi",
+      "levelValues": {
+        "1": {
+          "move_speed": 355,
+          "hp": 640,
+          "hp_regen": 7.5,
+          "mana": 251,
+          "mana_regen": 7.25,
+          "armor": 33,
+          "magic_resistance": 32,
+          "attack_damage": 65,
+          "attack_speed": 0.679,
+          "attack_range": 175
+        },
+        "2": {
+          "move_speed": 355,
+          "hp": 715.6,
+          "hp_regen": 7.968,
+          "mana": 281.24,
+          "mana_regen": 7.574,
+          "armor": 36.24,
+          "magic_resistance": 33.476,
+          "attack_damage": 66.8,
+          "attack_speed": 0.691222,
+          "attack_range": 175
+        },
+        "3": {
+          "move_speed": 355,
+          "hp": 794.875,
+          "hp_regen": 8.45875,
+          "mana": 312.95,
+          "mana_regen": 7.91375,
+          "armor": 39.6375,
+          "magic_resistance": 35.02375,
+          "attack_damage": 68.6875,
+          "attack_speed": 0.704038,
+          "attack_range": 175
+        },
+        "4": {
+          "move_speed": 355,
+          "hp": 877.825,
+          "hp_regen": 8.97225,
+          "mana": 346.13,
+          "mana_regen": 8.26925,
+          "armor": 43.1925,
+          "magic_resistance": 36.64325,
+          "attack_damage": 70.6625,
+          "attack_speed": 0.717448,
+          "attack_range": 175
+        },
+        "5": {
+          "move_speed": 355,
+          "hp": 964.45,
+          "hp_regen": 9.5085,
+          "mana": 380.78,
+          "mana_regen": 8.6405,
+          "armor": 46.905,
+          "magic_resistance": 38.3345,
+          "attack_damage": 72.725,
+          "attack_speed": 0.731453,
+          "attack_range": 175
+        },
+        "6": {
+          "move_speed": 355,
+          "hp": 1054.75,
+          "hp_regen": 10.0675,
+          "mana": 416.9,
+          "mana_regen": 9.0275,
+          "armor": 50.775,
+          "magic_resistance": 40.0975,
+          "attack_damage": 74.875,
+          "attack_speed": 0.746051,
+          "attack_range": 175
+        },
+        "7": {
+          "move_speed": 355,
+          "hp": 1148.725,
+          "hp_regen": 10.64925,
+          "mana": 454.49,
+          "mana_regen": 9.43025,
+          "armor": 54.8025,
+          "magic_resistance": 41.93225,
+          "attack_damage": 77.1125,
+          "attack_speed": 0.761244,
+          "attack_range": 175
+        },
+        "8": {
+          "move_speed": 355,
+          "hp": 1246.375,
+          "hp_regen": 11.25375,
+          "mana": 493.55,
+          "mana_regen": 9.84875,
+          "armor": 58.9875,
+          "magic_resistance": 43.83875,
+          "attack_damage": 79.4375,
+          "attack_speed": 0.777031,
+          "attack_range": 175
+        },
+        "9": {
+          "move_speed": 355,
+          "hp": 1347.7,
+          "hp_regen": 11.881,
+          "mana": 534.08,
+          "mana_regen": 10.283,
+          "armor": 63.33,
+          "magic_resistance": 45.817,
+          "attack_damage": 81.85,
+          "attack_speed": 0.793412,
+          "attack_range": 175
+        },
+        "10": {
+          "move_speed": 355,
+          "hp": 1452.7,
+          "hp_regen": 12.531,
+          "mana": 576.08,
+          "mana_regen": 10.733,
+          "armor": 67.83,
+          "magic_resistance": 47.867,
+          "attack_damage": 84.35,
+          "attack_speed": 0.810387,
+          "attack_range": 175
+        },
+        "11": {
+          "move_speed": 355,
+          "hp": 1561.375,
+          "hp_regen": 13.20375,
+          "mana": 619.55,
+          "mana_regen": 11.19875,
+          "armor": 72.4875,
+          "magic_resistance": 49.98875,
+          "attack_damage": 86.9375,
+          "attack_speed": 0.827956,
+          "attack_range": 175
+        },
+        "12": {
+          "move_speed": 355,
+          "hp": 1673.725,
+          "hp_regen": 13.89925,
+          "mana": 664.49,
+          "mana_regen": 11.68025,
+          "armor": 77.3025,
+          "magic_resistance": 52.18225,
+          "attack_damage": 89.6125,
+          "attack_speed": 0.846119,
+          "attack_range": 175
+        },
+        "13": {
+          "move_speed": 355,
+          "hp": 1789.75,
+          "hp_regen": 14.6175,
+          "mana": 710.9,
+          "mana_regen": 12.1775,
+          "armor": 82.275,
+          "magic_resistance": 54.4475,
+          "attack_damage": 92.375,
+          "attack_speed": 0.864876,
+          "attack_range": 175
+        },
+        "14": {
+          "move_speed": 355,
+          "hp": 1909.45,
+          "hp_regen": 15.3585,
+          "mana": 758.78,
+          "mana_regen": 12.6905,
+          "armor": 87.405,
+          "magic_resistance": 56.7845,
+          "attack_damage": 95.225,
+          "attack_speed": 0.884228,
+          "attack_range": 175
+        },
+        "15": {
+          "move_speed": 355,
+          "hp": 2032.825,
+          "hp_regen": 16.12225,
+          "mana": 808.13,
+          "mana_regen": 13.21925,
+          "armor": 92.6925,
+          "magic_resistance": 59.19325,
+          "attack_damage": 98.1625,
+          "attack_speed": 0.904173,
+          "attack_range": 175
+        },
+        "16": {
+          "move_speed": 355,
+          "hp": 2159.875,
+          "hp_regen": 16.90875,
+          "mana": 858.95,
+          "mana_regen": 13.76375,
+          "armor": 98.1375,
+          "magic_resistance": 61.67375,
+          "attack_damage": 101.1875,
+          "attack_speed": 0.924713,
+          "attack_range": 175
+        },
+        "17": {
+          "move_speed": 355,
+          "hp": 2290.6,
+          "hp_regen": 17.718,
+          "mana": 911.24,
+          "mana_regen": 14.324,
+          "armor": 103.74,
+          "magic_resistance": 64.226,
+          "attack_damage": 104.3,
+          "attack_speed": 0.945847,
+          "attack_range": 175
+        },
+        "18": {
+          "move_speed": 355,
+          "hp": 2425,
+          "hp_regen": 18.55,
+          "mana": 965,
+          "mana_regen": 14.9,
+          "armor": 109.5,
+          "magic_resistance": 66.85,
+          "attack_damage": 107.5,
+          "attack_speed": 0.967575,
+          "attack_range": 175
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_masteryi/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_champion_masteryi",
+        "name": "champion_masteryi"
+      }
+    },
+    "/skills/masteryi_r/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_masteryi_r",
+        "name": "masteryi_r"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_masteryi": {
+      "items": [
+        {
+          "characterKey": "champion_masteryi",
+          "characterName": "易",
+          "gameId": "lol",
+          "skillKey": "masteryi_p",
+          "skillName": "易·双重打击",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_masteryi",
+          "characterName": "易",
+          "gameId": "lol",
+          "skillKey": "masteryi_q",
+          "skillName": "易·阿尔法突袭",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_masteryi",
+          "characterName": "易",
+          "gameId": "lol",
+          "skillKey": "masteryi_w",
+          "skillName": "易·冥想",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_masteryi",
+          "characterName": "易",
+          "gameId": "lol",
+          "skillKey": "masteryi_e",
+          "skillName": "易·无极剑道",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_masteryi",
+          "characterName": "易",
+          "gameId": "lol",
+          "skillKey": "masteryi_r",
+          "skillName": "易·高原血统",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=masteryi_r": {
+      "items": [
+        {
+          "characterKey": "champion_masteryi",
+          "characterName": "易",
+          "gameId": "lol",
+          "skillKey": "masteryi_r",
+          "skillName": "易·高原血统",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 1
+    },
+    "/skills/masteryi_r/parameters": [
+      {
+        "createdAt": "2026-09-09T03:42:34.642286Z",
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "fixedValue": 404,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "masteryi_r",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T03:42:34.642286Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T03:42:35.527086Z",
+        "description": "客户端当前根绑定 DataValues.RDuration 取索引1至3；按来源显示单位换算为系统比例/毫秒。",
+        "fixedValue": 7000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "高原血统持续时间（毫秒）",
+        "parameterKey": "duration_ms",
+        "skillKey": "masteryi_r",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T03:42:35.527086Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T03:42:36.286651Z",
+        "description": "客户端当前根绑定 DataValues.RASBonus 取索引1至3；按来源显示单位换算为系统比例/毫秒。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.25,
+          "2": 0.45,
+          "3": 0.65
+        },
+        "name": "高原血统额外攻击速度比例",
+        "parameterKey": "attack_speed_ratio",
+        "skillKey": "masteryi_r",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T03:42:36.286651Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T03:42:37.128191Z",
+        "description": "客户端当前根绑定 DataValues.RMSBonus 取索引1至3；按来源显示单位换算为系统比例/毫秒。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.35,
+          "2": 0.45,
+          "3": 0.55
+        },
+        "name": "高原血统额外移动速度比例",
+        "parameterKey": "move_speed_ratio",
+        "skillKey": "masteryi_r",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T03:42:37.128191Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T03:42:38.316682Z",
+        "description": "客户端当前根绑定 DataValues.RKillAssistExtension 取索引1至3；按来源显示单位换算为系统比例/毫秒。",
+        "fixedValue": 7000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "参与击杀延长持续时间（毫秒）",
+        "parameterKey": "kill_assist_extension_ms",
+        "skillKey": "masteryi_r",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-09T03:42:38.316682Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T03:42:39.032903Z",
+        "description": "客户端当前根绑定 DataValues.RCooldownRefund 取索引1至3。",
+        "fixedValue": 0.7,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "参与击杀后普通技能冷却减少比例",
+        "parameterKey": "basic_cooldown_refund_ratio",
+        "skillKey": "masteryi_r",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-09T03:42:39.032903Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T18:00:19.317976Z",
+        "description": "DDragon16.17.1 MasterYi.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 85000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "masteryi_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:19.317976Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:00:19.729247Z",
+        "description": "DDragon16.17.1 MasterYi.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "masteryi_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:19.729247Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/masteryi_r/parameters/cast_time_ms": {
+      "createdAt": "2026-09-09T03:42:34.642286Z",
+      "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+      "fixedValue": 404,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "masteryi_r",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T03:42:34.642286Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/masteryi_r/parameters/duration_ms": {
+      "createdAt": "2026-09-09T03:42:35.527086Z",
+      "description": "客户端当前根绑定 DataValues.RDuration 取索引1至3；按来源显示单位换算为系统比例/毫秒。",
+      "fixedValue": 7000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "高原血统持续时间（毫秒）",
+      "parameterKey": "duration_ms",
+      "skillKey": "masteryi_r",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T03:42:35.527086Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/masteryi_r/parameters/attack_speed_ratio": {
+      "createdAt": "2026-09-09T03:42:36.286651Z",
+      "description": "客户端当前根绑定 DataValues.RASBonus 取索引1至3；按来源显示单位换算为系统比例/毫秒。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 0.25,
+        "2": 0.45,
+        "3": 0.65
+      },
+      "name": "高原血统额外攻击速度比例",
+      "parameterKey": "attack_speed_ratio",
+      "skillKey": "masteryi_r",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T03:42:36.286651Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "DECIMAL"
+    },
+    "/skills/masteryi_r/parameters/move_speed_ratio": {
+      "createdAt": "2026-09-09T03:42:37.128191Z",
+      "description": "客户端当前根绑定 DataValues.RMSBonus 取索引1至3；按来源显示单位换算为系统比例/毫秒。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 0.35,
+        "2": 0.45,
+        "3": 0.55
+      },
+      "name": "高原血统额外移动速度比例",
+      "parameterKey": "move_speed_ratio",
+      "skillKey": "masteryi_r",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-09T03:42:37.128191Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "DECIMAL"
+    },
+    "/skills/masteryi_r/parameters/kill_assist_extension_ms": {
+      "createdAt": "2026-09-09T03:42:38.316682Z",
+      "description": "客户端当前根绑定 DataValues.RKillAssistExtension 取索引1至3；按来源显示单位换算为系统比例/毫秒。",
+      "fixedValue": 7000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "参与击杀延长持续时间（毫秒）",
+      "parameterKey": "kill_assist_extension_ms",
+      "skillKey": "masteryi_r",
+      "sortOrder": 70,
+      "updatedAt": "2026-09-09T03:42:38.316682Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/masteryi_r/parameters/basic_cooldown_refund_ratio": {
+      "createdAt": "2026-09-09T03:42:39.032903Z",
+      "description": "客户端当前根绑定 DataValues.RCooldownRefund 取索引1至3。",
+      "fixedValue": 0.7,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "参与击杀后普通技能冷却减少比例",
+      "parameterKey": "basic_cooldown_refund_ratio",
+      "skillKey": "masteryi_r",
+      "sortOrder": 80,
+      "updatedAt": "2026-09-09T03:42:39.032903Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/masteryi_r/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T18:00:19.317976Z",
+      "description": "DDragon16.17.1 MasterYi.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 85000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "masteryi_r",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T18:00:19.317976Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/masteryi_r/parameters/mana_cost": {
+      "createdAt": "2026-09-07T18:00:19.729247Z",
+      "description": "DDragon16.17.1 MasterYi.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 100,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "masteryi_r",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-07T18:00:19.729247Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/masteryi_r/formulas": [],
+    "/skills/masteryi_r/effects": [
+      {
+        "createdAt": "2026-09-09T03:42:39.966536Z",
+        "description": "仅绑定官方基础法力消耗；额外持续法力或真实扣除时点单独记录。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "masteryi_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T03:42:39.966536Z"
+      },
+      {
+        "createdAt": "2026-09-09T03:42:40.71583Z",
+        "description": "仅在高原血统实际激活期间提供额外攻速；击杀延长和Q/W期间暂停另行接线。",
+        "effectKey": "attack_speed",
+        "gameId": "lol",
+        "lifecycleEnabled": true,
+        "name": "高原血统额外攻击速度",
+        "resultCount": 1,
+        "skillKey": "masteryi_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T03:42:40.71583Z"
+      },
+      {
+        "createdAt": "2026-09-09T03:42:42.059198Z",
+        "description": "仅在高原血统实际激活期间提供额外移速；不把空间位移当作该属性。",
+        "effectKey": "move_speed",
+        "gameId": "lol",
+        "lifecycleEnabled": true,
+        "name": "高原血统额外移动速度",
+        "resultCount": 1,
+        "skillKey": "masteryi_r",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T03:42:42.059198Z"
+      },
+      {
+        "createdAt": "2026-09-20T17:19:34.552644Z",
+        "description": "每次执行分别减少来源对象Q、W、E当时剩余普通冷却的70%，不减少R或读取总冷却。仅保存R被动明确返还效果；学习门槛和事件时序仍待核，本效果尚未接入触发。",
+        "effectKey": "basic_cooldown_refund",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "参与击杀返还基础技能剩余冷却",
+        "resultCount": 1,
+        "skillKey": "masteryi_r",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-20T17:19:34.552644Z"
+      }
+    ],
+    "/skills/masteryi_r/effects/mana_cost": {
+      "createdAt": "2026-09-09T03:42:39.966536Z",
+      "description": "仅绑定官方基础法力消耗；额外持续法力或真实扣除时点单独记录。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "masteryi_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T03:42:39.966536Z"
+    },
+    "/skills/masteryi_r/effects/attack_speed": {
+      "createdAt": "2026-09-09T03:42:40.71583Z",
+      "description": "仅在高原血统实际激活期间提供额外攻速；击杀延长和Q/W期间暂停另行接线。",
+      "effectKey": "attack_speed",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "duration_ms"
+        },
+        "expiryMode": "ALL_AT_ONCE",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "高原血统额外攻击速度",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "bonus_attack_speed_percent",
+            "modifierZoneKey": "attribute_flat_add",
+            "operation": "INCREASE"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": "REPLACE",
+            "stackValueMode": "SHARED",
+            "valueReadMode": "APPLICATION_SNAPSHOT"
+          },
+          "name": "高原血统额外攻击速度",
+          "resultKey": "attribute",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "attack_speed_ratio"
+            }
+          }
+        }
+      ],
+      "skillKey": "masteryi_r",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T03:42:40.71583Z"
+    },
+    "/skills/masteryi_r/effects/move_speed": {
+      "createdAt": "2026-09-09T03:42:42.059198Z",
+      "description": "仅在高原血统实际激活期间提供额外移速；不把空间位移当作该属性。",
+      "effectKey": "move_speed",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "duration_ms"
+        },
+        "expiryMode": "ALL_AT_ONCE",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "高原血统额外移动速度",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "move_speed_percent",
+            "modifierZoneKey": "attribute_flat_add",
+            "operation": "INCREASE"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": "REPLACE",
+            "stackValueMode": "SHARED",
+            "valueReadMode": "APPLICATION_SNAPSHOT"
+          },
+          "name": "高原血统额外移动速度",
+          "resultKey": "attribute",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "move_speed_ratio"
+            }
+          }
+        }
+      ],
+      "skillKey": "masteryi_r",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T03:42:42.059198Z"
+    },
+    "/skills/masteryi_r/processes": [],
+    "/skills/masteryi_r/internal-states": [],
+    "/skills/masteryi_r/trigger-rules": [
+      {
+        "actionCount": 2,
+        "conditionGroupCount": 0,
+        "description": "接收 masteryi_r 主动使用；无条件在 CURRENT_TARGET 上依次执行已有 attack_speed 和 move_speed。两个效果结果 target=SOURCE，均使用 duration_ms（7000毫秒）；相关的减速免疫、击杀/助攻延长、普通技能冷却变化、法力消耗和基础冷却留待后续规则补录。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "高原血统主动使用",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-12T18:00:50.275534Z"
+      }
+    ],
+    "/skills/masteryi_r/trigger-rules/on_used": {
+      "actions": [
+        {
+          "actionKey": "execute_attack_speed",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "attack_speed"
+          },
+          "name": "执行高原血统额外攻击速度",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        },
+        {
+          "actionKey": "execute_move_speed",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "move_speed"
+          },
+          "name": "执行高原血统额外移动速度",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 20,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "接收 masteryi_r 主动使用；无条件在 CURRENT_TARGET 上依次执行已有 attack_speed 和 move_speed。两个效果结果 target=SOURCE，均使用 duration_ms（7000毫秒）；相关的减速免疫、击杀/助攻延长、普通技能冷却变化、法力消耗和基础冷却留待后续规则补录。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "masteryi_r",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "高原血统主动使用",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used",
+      "sortOrder": 10
+    },
+    "/attributes/mana": {
+      "attributeKey": "mana",
+      "createdAt": "2026-08-22T15:27:36.139767Z",
+      "description": null,
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法力值",
+      "sortOrder": 310,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-22T15:27:36.139767Z",
+      "valueType": "DECIMAL"
+    },
+    "/attributes/bonus_attack_speed_percent": {
+      "attributeKey": "bonus_attack_speed_percent",
+      "createdAt": "2026-08-30T16:27:55.439812Z",
+      "description": "以 1 表示 100%；用于记录等级成长和咒能高涨等效果",
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": null,
+      "name": "额外攻击速度比例",
+      "sortOrder": 521,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-30T16:27:55.439812Z",
+      "valueType": "DECIMAL"
+    },
+    "/modifier-zones/attribute_flat_add": {
+      "applicationStage": "ATTRIBUTE_FLAT",
+      "calculationMode": "FLAT_ADD",
+      "createdAt": "2026-09-06T16:50:52.756989Z",
+      "description": "持续属性的固定值增加或减少；同属性同乘区内按方向加算，先于属性比例修正。比例类属性自身以1表示100%，增加0.6表示增加60个百分点，跨来源韧性组合仍待游戏规则核对。",
+      "domain": "ATTRIBUTE",
+      "gameId": "lol",
+      "modifierZoneKey": "attribute_flat_add",
+      "name": "属性固定加算",
+      "sortOrder": 10,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T16:50:52.756989Z"
+    },
+    "/attributes/move_speed_percent": {
+      "attributeKey": "move_speed_percent",
+      "createdAt": "2026-09-06T14:37:34.305529Z",
+      "description": "移动速度加成比例，1 表示 100%，0.04 表示 4%。资料：16.17.1 装备说明。与固定移动速度分别维护。",
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": null,
+      "name": "移动速度加成比例",
+      "sortOrder": 101,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T14:37:34.305529Z",
+      "valueType": "DECIMAL"
+    },
+    "/equipment/item_6675": {
+      "createdAt": "2026-09-06T18:11:26.359523Z",
+      "description": "来源：官方16.17.1装备6675。 原始说明：40%攻击速度\n25%暴击几率\n4%移动速度\n\n超凡入圣\n攻击会使各基础技能的冷却时间缩短15%剩余冷却时间。 被动与主动效果尚待配置。",
+      "equipmentKey": "item_6675",
+      "gameId": "lol",
+      "name": "纳沃利烁刃",
+      "updatedAt": "2026-09-06T18:11:26.359523Z"
+    },
+    "/equipment-skill-relations?equipmentKey=item_6675": {
+      "items": [
+        {
+          "equipmentKey": "item_6675",
+          "equipmentName": "纳沃利烁刃",
+          "gameId": "lol",
+          "skillKey": "item_6675_passive",
+          "skillName": "纳沃利烁刃·超凡入圣",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ],
+      "total": 1
+    },
+    "/equipment/item_6675/attributes": {
+      "attributeValues": {
+        "move_speed_percent": 0.04,
+        "bonus_attack_speed_percent": 0.4,
+        "critical_strike_chance": 0.25
+      },
+      "equipmentKey": "item_6675"
+    },
+    "/equipment/item_6675/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "item_6675",
+        "name": "item_6675"
+      }
+    },
+    "/skills/item_6675_passive": {
+      "createdAt": "2026-09-07T18:20:25.577116Z",
+      "description": "冻结16.17客户端与官方16.17.1明确：每次攻击缩短各基础技能15%剩余冷却。已用比例参数0.15和“按比例减少剩余冷却”效果准确表达，作用于持有者的普通技能，不包含终极技能；精确攻击触发资格仍待核，尚未接入规则。装备直接属性不重复施加。",
+      "gameId": "lol",
+      "maxLevel": 1,
+      "name": "纳沃利烁刃·超凡入圣",
+      "skillCategoryKeys": [
+        "passive"
+      ],
+      "skillKey": "item_6675_passive",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-20T17:25:11.362607Z"
+    },
+    "/skills/item_6675_passive/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "item_6675",
+        "name": "item_6675"
+      }
+    },
+    "/equipment-skill-relations?skillKey=item_6675_passive": {
+      "items": [
+        {
+          "equipmentKey": "item_6675",
+          "equipmentName": "纳沃利烁刃",
+          "gameId": "lol",
+          "skillKey": "item_6675_passive",
+          "skillName": "纳沃利烁刃·超凡入圣",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ],
+      "total": 1
+    },
+    "/skills/item_6675_passive/parameters": [
+      {
+        "createdAt": "2026-09-07T18:20:26.115487Z",
+        "description": "每次攻击使基础技能剩余冷却缩短15%，小数0.15表示15%。",
+        "fixedValue": 0.15,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础技能剩余冷却缩短比例",
+        "parameterKey": "basic_skill_cooldown_reduction_ratio",
+        "skillKey": "item_6675_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:20:26.115487Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    ],
+    "/skills/item_6675_passive/parameters/basic_skill_cooldown_reduction_ratio": {
+      "createdAt": "2026-09-07T18:20:26.115487Z",
+      "description": "每次攻击使基础技能剩余冷却缩短15%，小数0.15表示15%。",
+      "fixedValue": 0.15,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础技能剩余冷却缩短比例",
+      "parameterKey": "basic_skill_cooldown_reduction_ratio",
+      "skillKey": "item_6675_passive",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T18:20:26.115487Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/item_6675_passive/formulas": [],
+    "/skills/item_6675_passive/effects": [
+      {
+        "createdAt": "2026-09-20T17:22:16.937006Z",
+        "description": "每次执行分别减少来源对象各普通技能当时剩余冷却的15%，不作用终极技能或重复施加装备直接属性。仅保存明确比例效果；精确攻击触发资格仍待核，尚未接入触发。",
+        "effectKey": "basic_cooldown_reduction",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "超凡入圣剩余冷却减少",
+        "resultCount": 1,
+        "skillKey": "item_6675_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-20T17:22:16.937006Z"
+      }
+    ],
+    "/skills/item_6675_passive/processes": [],
+    "/skills/item_6675_passive/internal-states": [],
+    "/skills/item_6675_passive/trigger-rules": [],
+    "/skills/masteryi_q": {
+      "createdAt": "2026-09-06T18:19:22.349905Z",
+      "description": "易以肉眼难以发觉的速度穿梭于战场，对多个敌人造成物理伤害，同时处于不可被选取的状态下。阿尔法突袭可以暴击，并对野怪造成额外物理伤害。普通攻击可以减少阿尔法突袭的冷却时间。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "易·阿尔法突袭",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "masteryi_q",
+      "sortOrder": 1,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:19:22.349905Z"
+    },
+    "/skills/masteryi_w": {
+      "createdAt": "2026-09-06T18:19:22.611044Z",
+      "description": "易通过集中念力来活化他的身体，从而回复生命值，并暂时减少所受的伤害。此外，易还会为双重打击充能，并暂停无极剑道和高原血统的持续时长。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "易·冥想",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "masteryi_w",
+      "sortOrder": 2,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:19:22.611044Z"
+    },
+    "/skills/masteryi_e": {
+      "createdAt": "2026-09-06T18:19:22.908878Z",
+      "description": "提供额外真实伤害至普攻（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "易·无极剑道",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "masteryi_e",
+      "sortOrder": 3,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:19:22.908878Z"
+    },
+    "/skill-categories/common": {
+      "createdAt": "2026-08-26T05:59:27.858757Z",
+      "description": null,
+      "gameId": "lol",
+      "name": "普通技能",
+      "skillCategoryKey": "common",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-26T05:59:27.858757Z"
+    },
+    "/skills/masteryi_r/effects/basic_cooldown_refund": {
+      "createdAt": "2026-09-20T17:19:34.552644Z",
+      "description": "每次执行分别减少来源对象Q、W、E当时剩余普通冷却的70%，不减少R或读取总冷却。仅保存R被动明确返还效果；学习门槛和事件时序仍待核，本效果尚未接入触发。",
+      "effectKey": "basic_cooldown_refund",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "参与击杀返还基础技能剩余冷却",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "affectedSkillScope": {
+              "mode": "SKILLS",
+              "skillCategoryKeys": [],
+              "skillKeys": [
+                "masteryi_q",
+                "masteryi_w",
+                "masteryi_e"
+              ]
+            },
+            "operation": "REDUCE_REMAINING_RATIO"
+          },
+          "lifecycleBehavior": null,
+          "name": "按比例减少基础技能剩余冷却",
+          "resultKey": "reduce_remaining",
+          "resultType": "COOLDOWN_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": null,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "basic_cooldown_refund_ratio"
+            }
+          }
+        }
+      ],
+      "skillKey": "masteryi_r",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-20T17:19:34.552644Z"
+    },
+    "/skills/item_6675_passive/effects/basic_cooldown_reduction": {
+      "createdAt": "2026-09-20T17:22:16.937006Z",
+      "description": "每次执行分别减少来源对象各普通技能当时剩余冷却的15%，不作用终极技能或重复施加装备直接属性。仅保存明确比例效果；精确攻击触发资格仍待核，尚未接入触发。",
+      "effectKey": "basic_cooldown_reduction",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "超凡入圣剩余冷却减少",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "affectedSkillScope": {
+              "mode": "CATEGORIES",
+              "skillCategoryKeys": [
+                "common"
+              ],
+              "skillKeys": []
+            },
+            "operation": "REDUCE_REMAINING_RATIO"
+          },
+          "lifecycleBehavior": null,
+          "name": "按比例减少基础技能剩余冷却",
+          "resultKey": "reduce_remaining",
+          "resultType": "COOLDOWN_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": null,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "basic_skill_cooldown_reduction_ratio"
+            }
+          }
+        }
+      ],
+      "skillKey": "item_6675_passive",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-20T17:22:16.937006Z"
+    }
+  },
+  "verification": {
+    "frozenSha256Matches": true,
+    "allStatusesOk": true,
+    "uniqueRequestCount": 49,
+    "baselinePathCount": 47,
+    "detailPathCount": 2,
+    "exactBaselinePathCount": 44,
+    "parameterChecks": {
+      "masteryiRatio": true,
+      "itemRatio": true,
+      "masteryiReference": {
+        "kind": "PARAMETER",
+        "parameterKey": "basic_cooldown_refund_ratio"
+      },
+      "itemReference": {
+        "kind": "PARAMETER",
+        "parameterKey": "basic_skill_cooldown_reduction_ratio"
+      }
+    },
+    "scopeChecks": {
+      "masteryi": {
+        "mode": "SKILLS",
+        "skillCategoryKeys": [],
+        "skillKeys": [
+          "masteryi_q",
+          "masteryi_w",
+          "masteryi_e"
+        ]
+      },
+      "item": {
+        "mode": "CATEGORIES",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKeys": []
+      }
+    },
+    "counts": {
+      "masteryi_r": {
+        "parameters": 8,
+        "formulas": 0,
+        "effects": 4,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 1
+      },
+      "item_6675_passive": {
+        "parameters": 1,
+        "formulas": 0,
+        "effects": 1,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    "expectedCounts": {
+      "masteryi_r": {
+        "parameters": 8,
+        "formulas": 0,
+        "effects": 4,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 1
+      },
+      "item_6675_passive": {
+        "parameters": 1,
+        "formulas": 0,
+        "effects": 1,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    "noNewTrigger": true,
+    "differences": []
+  },
+  "businessWrites": 0
+}
