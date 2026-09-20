@@ -1,0 +1,86 @@
+{
+  "reviewedAt": "2026-09-19T20:18:47.010Z",
+  "reviewKind": "魅惑状态独立写后回读结论",
+  "stage": "PASS_INDEPENDENT_POST_WRITE_READBACK",
+  "target": {
+    "host": "192.168.5.6",
+    "database": "test0221"
+  },
+  "independentHelper": {
+    "path": "C:/project/damage_backend_dev/output/charm-status-preflight/ReadCharmStatusBaseline.java",
+    "sha256": "37d90c90a0b355b4b21c75a53ed8444a476972848d06af4b06bcdfe3c64abbc0",
+    "processExit": 0,
+    "reported": "readOnlyBaseline=PASS SELECTs=9 businessWrites=0",
+    "newProcessAndConnection": true,
+    "selects": 9,
+    "businessWrites": 0,
+    "readOnlyTransaction": true
+  },
+  "artifact": {
+    "path": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/魅惑状态补齐/10-实库独立回读.json",
+    "sha256": "093eafd6804cc90b8df5fc3321eb4c190efbe46964f775e9bf55834837ad3dc2"
+  },
+  "baseline": {
+    "path": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/魅惑状态补齐/03-实库写前结构.json",
+    "sha256": "bf5f9718ab414a4022301586cdb47cee6e7ab518959bcb2250a4b99694baf90b",
+    "tableCount": 27,
+    "statusRows": 4,
+    "skillEffectsRows": 973,
+    "skillObjectReferencesRows": 9356
+  },
+  "comparedFields": {
+    "database": true,
+    "tables": true,
+    "statuses": true,
+    "columns": true,
+    "statusReferences": true,
+    "kindColumnDefinition": true,
+    "skill_effects": true,
+    "skill_object_references": true
+  },
+  "comparisonSummary": {
+    "allPreExistingFieldsUnchanged": true,
+    "statusRowCount": 4,
+    "statusKeys": [
+      "movement_slow",
+      "root",
+      "silence",
+      "vertigo"
+    ],
+    "charmRows": 0,
+    "oldStatusRowsUnchanged": true,
+    "effectsUnchanged": true,
+    "referencesUnchanged": true,
+    "columnsUnchanged": true,
+    "kindColumnDefinitionUnchanged": true
+  },
+  "newConstraint": {
+    "count": 1,
+    "conname": "ck_statuses_kind",
+    "convalidated": "t",
+    "definition": "CHECK (((status_kind)::text = ANY ((ARRAY['STUN'::character varying, 'MOVEMENT_SLOW'::character varying, 'ROOT'::character varying, 'SILENCE'::character varying, 'CHARM'::character varying])::text[])))",
+    "expectedValues": [
+      "STUN",
+      "MOVEMENT_SLOW",
+      "ROOT",
+      "SILENCE",
+      "CHARM"
+    ],
+    "exactValueSetAndValidated": true
+  },
+  "writerJournal": {
+    "path": "C:/project/damage_backend_dev/output/charm-status-preflight/migration-attempt.jsonl",
+    "stageCounts": {
+      "STARTED": 1,
+      "READ_ONLY_BEFORE": 1,
+      "SQL_SUBMITTED": 1,
+      "COMMIT_RETURNED": 1,
+      "IMMEDIATE_READBACK_PASS": 1
+    },
+    "exactlyOneCommitReturned": true,
+    "exactlyOneImmediateReadbackPass": true,
+    "noRecoveryOrReplayStage": true
+  },
+  "result": "独立新进程、新JDBC只读REPEATABLE_READ回读PASS；四条旧状态未新增CHARM行，表、列、状态正文/时间戳、状态引用、973效果摘要、9356引用摘要均保持一致；仅约束允许集合新增CHARM且已验证。",
+  "pass": true
+}

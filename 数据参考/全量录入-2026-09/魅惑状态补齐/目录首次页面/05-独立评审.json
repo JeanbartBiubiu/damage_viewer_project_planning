@@ -1,0 +1,126 @@
+{
+  "reviewedAt": "2026-09-19T20:23:01.987Z",
+  "reviewKind": "魅惑状态目录首次页面独立评审",
+  "status": "APPROVED",
+  "scope": {
+    "target": "只创建一个启用的魅惑状态身份",
+    "excluded": [
+      "不创建技能效果、触发规则或状态引用",
+      "不修改四条旧状态",
+      "不执行页面POST",
+      "不直接调用API"
+    ]
+  },
+  "approvedFiles": {
+    "tools/authoring/reviewed-status-ui-v3.mjs": "563e0955608169adb36592be4d1a9641c18fa5813d691a17e2e25450a9358370",
+    "01-候选方案.json": "a0a1c4c160bd509602afa161003f0ecb0c5fd847c3d6e9d54a303ea969b57066",
+    "02-冻结请求.json": "dd3e9b8b168921e16d246232982acdd6d7d22986e755df724a0ff1f931945701",
+    "03-来源摘要.json": "2740e540d2302352c510c27388c56a4b7fac672a842ec58a31a31811c4f46211",
+    "04-写入前现值.json": "8ff2c941d5e466d1d8a16b773836c995acf2cbc5a1b61476aabcecc6e9dd397c"
+  },
+  "sourceBinding": {
+    "fixedSourcePath": "数据参考/全量录入-2026-09/魅惑状态补齐/02-固定来源核对.json",
+    "fixedSourceSha256": "c9eefca951e5116deed95c7752cb8a953d687752e874c483197edc9e4edab46b",
+    "databaseIndependentReadbackPath": "数据参考/全量录入-2026-09/魅惑状态补齐/10a-实库独立核对结论.json",
+    "databaseIndependentReadbackSha256": "4e517c079b7f425f8b97b107631a17ff97d8e8639b3a63b4adf64b55fd84a3f7",
+    "sourceSummaryVerified": true,
+    "sourceSummaryFinding": "来源文件实际摘要与候选声明一致；CHARM 约束已独立写后回读通过。"
+  },
+  "candidateObject": {
+    "statusKey": "charm",
+    "name": "魅惑",
+    "statusKind": "CHARM",
+    "status": "ENABLED",
+    "sortOrder": 40,
+    "description": "魅惑状态身份：目标被迫接近技能来源；具体期限由效果生命周期维护，本状态不另设强度数值。",
+    "exactBodyKeys": [
+      "description",
+      "name",
+      "sortOrder",
+      "status",
+      "statusKey",
+      "statusKind"
+    ],
+    "onlyNewObject": true
+  },
+  "frozenRequest": {
+    "executionMode": "BROWSER_UI_ONLY",
+    "method": "POST",
+    "route": "/statuses",
+    "detailRoute": "/statuses/charm",
+    "base": "http://127.0.0.1:8080/api/admin/games/lol",
+    "requestBodyMatchesCandidate": true,
+    "plannedBrowserWrites": 1,
+    "actualWritePerformedByThisReview": false
+  },
+  "preflight": {
+    "artifactPath": "数据参考/全量录入-2026-09/魅惑状态补齐/目录首次页面/04-写入前现值.json",
+    "getCount": 6,
+    "audit": [
+      {
+        "method": "GET",
+        "path": "/statuses",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/statuses/vertigo",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/statuses/movement_slow",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/statuses/root",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/statuses/silence",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/statuses/charm",
+        "status": 404
+      }
+    ],
+    "oldStatusCount": 4,
+    "oldStatusKeys": [
+      "vertigo",
+      "movement_slow",
+      "root",
+      "silence"
+    ],
+    "charmAbsentBeforeWrite": true,
+    "businessWrites": 0,
+    "oldValuesAndTimestampsFrozen": true
+  },
+  "toolReview": {
+    "sha256MatchesRequested": true,
+    "browserUiOnly": true,
+    "directHttpWriteMode": false,
+    "preflightReadsListAndEveryExistingDetail": true,
+    "preflightChecksNewDetail404": true,
+    "readbackRequiresWriterPassArtifact": true,
+    "readbackChecksOnlyOneNewObject": true,
+    "readbackChecksOldListAndAllOldDetailsIncludingTimestampsUnchanged": true,
+    "readbackChecksNewDetailAgainstFrozenBody": true,
+    "sourceHashesCheckedBeforeUse": true
+  },
+  "saveBoundary": {
+    "allowedByThisApproval": "主负责人通过真实页面执行一次保存，目标仅为上述单个CHARM状态。",
+    "notIncluded": [
+      "任何效果",
+      "任何触发规则",
+      "任何状态引用",
+      "任何魅惑期限数值写入",
+      "任何旧状态更新或排序调整"
+    ],
+    "postWriteRequirement": "页面保存后必须生成写入与即时回读记录，并按工具readback模式独立核对；本评审不代替页面写入或写后回读。"
+  },
+  "conclusion": "来源、冻结请求、四条旧状态及时间戳前置值、唯一页面保存边界均一致，工具SHA匹配且仅允许一个CHARM ENABLED sortOrder=40对象；批准主负责人进行一次真实页面保存。"
+}

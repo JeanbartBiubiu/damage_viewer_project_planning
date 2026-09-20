@@ -1,0 +1,90 @@
+{
+  "at": "2026-09-20T04:29:22.224Z",
+  "codeScope": "魅惑身份增量，未新增运行实现",
+  "frontend": {
+    "targetedTests": 46,
+    "lint": {
+      "status": "PASS",
+      "productionFiles": 141
+    },
+    "typecheck": "PASS",
+    "unit": {
+      "status": "PASS",
+      "tests": 717,
+      "files": 62
+    },
+    "build": {
+      "status": "PASS",
+      "modules": 1292,
+      "existingWarning": "单块超过500KB提示"
+    },
+    "nonWasm": {
+      "status": "PASS",
+      "tests": 79,
+      "durationMinutes": 10.1,
+      "exitCode": 0
+    }
+  },
+  "backend": {
+    "targetedTests": 61,
+    "full": {
+      "status": "PASS",
+      "suites": 107,
+      "tests": 1013,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "service": {
+      "command": "mvn spring-boot:run",
+      "session": 65196,
+      "pid": 39704,
+      "publicGamesHTTP": 200
+    }
+  },
+  "database": {
+    "migrationExecutions": 1,
+    "immediateReadback": "PASS",
+    "independentReadback": "PASS",
+    "independentSELECTs": 9,
+    "statusDirectoryCreated": 1,
+    "statusDirectoryIndependentGETs": 6
+  },
+  "browser": {
+    "beforeChange": "缺少魅惑选项已复现，未保存",
+    "afterChange": "魅惑目录首次保存与关闭重开PASS，种类和标识不可改",
+    "directory": "PASS"
+  },
+  "goalComplete": false,
+  "codeCommits": {
+    "backend": "19c2c1d8",
+    "frontend": "fc49025a"
+  },
+  "codeIndependentReview": {
+    "status": "PASS",
+    "file": "11-代码独立检查.json",
+    "sha256": "8a72b061d249c9a22278addd6efb8bf9f9689cc19ec3485c46ece13a8481613a"
+  },
+  "skillReturn": {
+    "status": "PASS",
+    "skills": [
+      "ahri_e",
+      "seraphine_r"
+    ],
+    "businessPOSTs": 4,
+    "immediateReadbacks": 4,
+    "independentGETs": 53,
+    "unchangedResponsesIncludingTimestamps": 45,
+    "browser": "两个效果、结果与规则保存后重开PASS",
+    "evidence": "两技能首次施加返回/07-独立回读.json",
+    "browserEvidence": "两技能首次施加返回/08-页面返回.json",
+    "managementComplete": false
+  },
+  "finalReturn": {
+    "businessWrites": 8,
+    "independentHTTPGETs": 118,
+    "browser": "PASS",
+    "evidence": "16-闭环核对.json",
+    "managementComplete": false
+  }
+}

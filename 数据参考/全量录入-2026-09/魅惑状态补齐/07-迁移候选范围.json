@@ -1,0 +1,23 @@
+{
+  "at": "2026-09-19T19:59:15.574Z",
+  "status": "DRAFT_NOT_EXECUTED",
+  "draftPath": "C:\\project\\damage_backend_dev\\output\\charm-status-preflight\\add_charm_status_kind.sql.review",
+  "plannedRepoPath": "db/game_manage/migrations/add_charm_status_kind.sql",
+  "sha256": "0832b2f0464fa586604b68741b5414baeab77c592a544b2d2587da5b9e837c72",
+  "baseline": {
+    "file": "03-实库写前结构.json",
+    "sha256": "bf5f9718ab414a4022301586cdb47cee6e7ab518959bcb2250a4b99694baf90b",
+    "states": 4,
+    "effects": 973,
+    "references": 9356
+  },
+  "change": "仅约束允许集合与注释，原状态正文和时间戳、效果、引用均完整比较。",
+  "oldMigrationUntouched": true,
+  "businessWrites": 0,
+  "runner": {
+    "draftPath": "C:\\project\\damage_backend_dev\\output\\charm-status-preflight\\ApplyCharmStatusKind.java.review",
+    "plannedRepoPath": "tools/authoring/ApplyCharmStatusKind.java",
+    "sha256": "dd51e81639f574575336a130fcd8e5b9193752e82f58e17138773c6fe309726e",
+    "journal": "output/charm-status-preflight/migration-attempt.jsonl"
+  }
+}

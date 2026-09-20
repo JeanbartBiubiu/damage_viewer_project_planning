@@ -1,0 +1,884 @@
+{
+  "at": "2026-09-19T20:47:40.324Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/skills/ahri_e": {
+      "createdAt": "2026-09-06T18:16:14.427185Z",
+      "description": "阿狸献出红唇热吻，对命中的第一个敌人造成伤害并将目标魅惑，并且立刻终止目标的移动技能并使目标无恶意地走向她。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "阿狸·魅惑妖术",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "ahri_e",
+      "sortOrder": 3,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:16:14.427185Z"
+    },
+    "/skills/ahri_e/parameters": [
+      {
+        "createdAt": "2026-09-07T18:52:38.797791Z",
+        "description": "当前spellCastTime与已有mCastTime一致；不代替命中。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "ahri_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T18:52:38.797791Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:52:39.367241Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 80,
+          "2": 120,
+          "3": 160,
+          "4": 200,
+          "5": 240
+        },
+        "name": "基础伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "ahri_e",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-07T18:52:39.367241Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:52:39.90728Z",
+        "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+        "fixedValue": 0.85,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法强倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "ahri_e",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-07T18:52:39.90728Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T18:52:40.538547Z",
+        "description": "客户端当前根绑定 DataValues.CharmDuration 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 1200,
+          "2": 1350,
+          "3": 1500,
+          "4": 1650,
+          "5": 1800
+        },
+        "name": "魅惑时长（毫秒）",
+        "parameterKey": "charm_duration_ms",
+        "skillKey": "ahri_e",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-07T18:52:40.538547Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:52:41.142232Z",
+        "description": "客户端当前根绑定 DataValues.SlowPercent 取索引1至5。",
+        "fixedValue": 0.65,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "魅惑期间移速降低比例",
+        "parameterKey": "charm_slow_ratio",
+        "skillKey": "ahri_e",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-07T18:52:41.142232Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T16:00:05.508573Z",
+        "description": "DDragon16.17.1 Ahri.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 12000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "ahri_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T16:00:05.508573Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:00:05.845251Z",
+        "description": "DDragon16.17.1 Ahri.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 60,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "ahri_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-19T00:53:29.879971Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/ahri_e/parameters/cast_time_ms": {
+      "createdAt": "2026-09-07T18:52:38.797791Z",
+      "description": "当前spellCastTime与已有mCastTime一致；不代替命中。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "ahri_e",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-07T18:52:38.797791Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/ahri_e/parameters/base_damage": {
+      "createdAt": "2026-09-07T18:52:39.367241Z",
+      "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 80,
+        "2": 120,
+        "3": 160,
+        "4": 200,
+        "5": 240
+      },
+      "name": "基础伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "ahri_e",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-07T18:52:39.367241Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/ahri_e/parameters/ap_ratio": {
+      "createdAt": "2026-09-07T18:52:39.90728Z",
+      "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+      "fixedValue": 0.85,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法强倍率",
+      "parameterKey": "ap_ratio",
+      "skillKey": "ahri_e",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-07T18:52:39.90728Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/ahri_e/parameters/charm_duration_ms": {
+      "createdAt": "2026-09-07T18:52:40.538547Z",
+      "description": "客户端当前根绑定 DataValues.CharmDuration 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 1200,
+        "2": 1350,
+        "3": 1500,
+        "4": 1650,
+        "5": 1800
+      },
+      "name": "魅惑时长（毫秒）",
+      "parameterKey": "charm_duration_ms",
+      "skillKey": "ahri_e",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-07T18:52:40.538547Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/ahri_e/parameters/charm_slow_ratio": {
+      "createdAt": "2026-09-07T18:52:41.142232Z",
+      "description": "客户端当前根绑定 DataValues.SlowPercent 取索引1至5。",
+      "fixedValue": 0.65,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "魅惑期间移速降低比例",
+      "parameterKey": "charm_slow_ratio",
+      "skillKey": "ahri_e",
+      "sortOrder": 70,
+      "updatedAt": "2026-09-07T18:52:41.142232Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/ahri_e/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T16:00:05.508573Z",
+      "description": "DDragon16.17.1 Ahri.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 12000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "ahri_e",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T16:00:05.508573Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/ahri_e/parameters/mana_cost": {
+      "createdAt": "2026-09-07T16:00:05.845251Z",
+      "description": "DDragon16.17.1 Ahri.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 60,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "ahri_e",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-19T00:53:29.879971Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/ahri_e/formulas": [
+      {
+        "createdAt": "2026-09-07T18:52:41.871095Z",
+        "description": "当前根TotalDamage：基础伤害+法强倍率×总法强。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "魅惑妖术基础伤害",
+        "skillKey": "ahri_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:52:41.871095Z"
+      }
+    ],
+    "/skills/ahri_e/formulas/damage": {
+      "createdAt": "2026-09-07T18:52:41.871095Z",
+      "description": "当前根TotalDamage：基础伤害+法强倍率×总法强。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "魅惑妖术基础伤害",
+      "skillKey": "ahri_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T18:52:41.871095Z"
+    },
+    "/skills/ahri_e/effects": [
+      {
+        "createdAt": "2026-09-07T18:52:42.496789Z",
+        "description": "仅施放法力消耗；具体过程单独绑定。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "ahri_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:52:42.496789Z"
+      },
+      {
+        "createdAt": "2026-09-07T18:52:43.148014Z",
+        "description": "本轮1V1敌方英雄的一次普通直接魔法技能伤害；实际命中入口已配置，并明确登记防御结算后伤害、效率为1的全能吸血资格。控制、施放和相关技能联动分别维护。",
+        "effectKey": "charm_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "魅惑命中魔法伤害",
+        "resultCount": 1,
+        "skillKey": "ahri_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T00:05:51.566451Z"
+      },
+      {
+        "createdAt": "2026-09-19T20:39:18.74884Z",
+        "description": "本来源当前目标无本魅惑实例时施加一次魅惑，期限引用已有技能等级参数；入口同时要求敌方英雄实际命中且同次命中明确未被法术护盾阻挡。已有实例时不执行，重施字段在本入口不可达。只登记魅惑身份与期限，伴随减速、中止或距离延伸等分支分别维护。",
+        "effectKey": "charm_first_application",
+        "gameId": "lol",
+        "lifecycleEnabled": true,
+        "name": "魅惑妖术首次魅惑",
+        "resultCount": 1,
+        "skillKey": "ahri_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-19T20:39:18.74884Z"
+      }
+    ],
+    "/skills/ahri_e/effects/mana_cost": {
+      "createdAt": "2026-09-07T18:52:42.496789Z",
+      "description": "仅施放法力消耗；具体过程单独绑定。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "ahri_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T18:52:42.496789Z"
+    },
+    "/skills/ahri_e/effects/charm_hit": {
+      "createdAt": "2026-09-07T18:52:43.148014Z",
+      "description": "本轮1V1敌方英雄的一次普通直接魔法技能伤害；实际命中入口已配置，并明确登记防御结算后伤害、效率为1的全能吸血资格。控制、施放和相关技能联动分别维护。",
+      "effectKey": "charm_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "魅惑命中魔法伤害",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": [
+              {
+                "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                "efficiencyValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "vampType": "OMNIVAMP"
+              }
+            ]
+          },
+          "lifecycleBehavior": null,
+          "name": "魅惑命中魔法伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "RESULT",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "ahri_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-19T00:05:51.566451Z"
+    },
+    "/skills/ahri_e/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-07T18:52:43.677738Z",
+        "description": "只绑定法力、基础冷却及施法延迟；不在过程结束时自动造成伤害。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "施放魅惑妖术",
+        "processKey": "cast",
+        "skillKey": "ahri_e",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-07T18:52:43.677738Z"
+      }
+    ],
+    "/skills/ahri_e/processes/cast": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-07T18:52:43.677738Z",
+      "description": "只绑定法力、基础冷却及施法延迟；不在过程结束时自动造成伤害。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "施放魅惑妖术",
+      "processKey": "cast",
+      "skillKey": "ahri_e",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "主技能已核对的施法时间。",
+          "detail": {
+            "delayValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cast_time_ms"
+            }
+          },
+          "name": "施法延迟",
+          "sortOrder": 10,
+          "stepKey": "cast_time",
+          "stepType": "DELAY"
+        }
+      ],
+      "updatedAt": "2026-09-07T18:52:43.677738Z"
+    },
+    "/skills/ahri_e/internal-states": [],
+    "/skills/ahri_e/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "魅惑妖术实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:52:44.23608Z"
+      },
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "主动使用时启动本技能既有施法过程；法力、普通冷却和施法延迟沿用过程配置，实际命中由独立规则处理。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "主动使用启动阿狸·魅惑妖术过程",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T00:41:34.072894Z"
+      },
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "仅当本次实际命中明确为敌方英雄、法术护盾阻挡值为0且当前目标无本来源魅惑实例时施加；缺少阻挡值不得默认0。已有实例的重施未录，伤害、资源及其他分支独立维护。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "无本魅惑实例时施加",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "apply_charm_on_unblocked_hit",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-19T20:39:20.335281Z"
+      }
+    ],
+    "/skills/ahri_e/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "damage",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "charm_hit"
+          },
+          "name": "执行命中伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "ahri_e",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "魅惑妖术实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    },
+    "/skills/ahri_e/trigger-rules/on_used": {
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "actionType": "START_PROCESS",
+          "detail": {
+            "processKey": "cast"
+          },
+          "name": "启动施法过程",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "主动使用时启动本技能既有施法过程；法力、普通冷却和施法延迟沿用过程配置，实际命中由独立规则处理。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "ahri_e",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "主动使用启动阿狸·魅惑妖术过程",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used",
+      "sortOrder": 10
+    },
+    "/skills/ahri_e/effects/charm_first_application": {
+      "createdAt": "2026-09-19T20:39:18.74884Z",
+      "description": "本来源当前目标无本魅惑实例时施加一次魅惑，期限引用已有技能等级参数；入口同时要求敌方英雄实际命中且同次命中明确未被法术护盾阻挡。已有实例时不执行，重施字段在本入口不可达。只登记魅惑身份与期限，伴随减速、中止或距离延伸等分支分别维护。",
+      "effectKey": "charm_first_application",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "charm_duration_ms"
+        },
+        "expiryMode": "ALL_AT_ONCE",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE_TARGET",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "魅惑妖术首次魅惑",
+      "results": [
+        {
+          "description": "施加无强度魅惑并随父效果期限结束，只在本次施加时按当前结果参与法术护盾判断。",
+          "detail": {
+            "operation": "APPLY",
+            "statusKey": "charm"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": null,
+            "stackValueMode": null,
+            "valueReadMode": null
+          },
+          "name": "魅惑妖术魅惑",
+          "resultKey": "charm",
+          "resultType": "STATUS_OPERATION",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "RESULT",
+          "target": "TARGET",
+          "valueRule": null
+        }
+      ],
+      "skillKey": "ahri_e",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-19T20:39:18.74884Z"
+    },
+    "/skills/ahri_e/trigger-rules/apply_charm_on_unblocked_hit": {
+      "actions": [
+        {
+          "actionKey": "apply_charm",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "charm_first_application"
+          },
+          "name": "施加本次魅惑",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "detail": {},
+              "sortOrder": 20
+            },
+            {
+              "conditionKey": "not_spell_shield_blocked",
+              "conditionType": "EVENT_VALUE_COMPARE",
+              "detail": {
+                "comparator": "EQ",
+                "comparisonValue": {
+                  "kind": "FIXED",
+                  "value": 0
+                },
+                "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED"
+              },
+              "sortOrder": 30
+            },
+            {
+              "conditionKey": "own_charm_absent",
+              "conditionType": "LIFECYCLE_CHECK",
+              "detail": {
+                "checkKind": "ABSENT",
+                "comparator": null,
+                "comparisonValue": null,
+                "effectKey": "charm_first_application",
+                "subject": "CURRENT_TARGET"
+              },
+              "sortOrder": 40
+            }
+          ],
+          "groupKey": "charm_eligible",
+          "name": "本次魅惑可施加",
+          "sortOrder": 10
+        }
+      ],
+      "description": "仅当本次实际命中明确为敌方英雄、法术护盾阻挡值为0且当前目标无本来源魅惑实例时施加；缺少阻挡值不得默认0。已有实例的重施未录，伤害、资源及其他分支独立维护。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "ahri_e",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "无本魅惑实例时施加",
+      "perTargetCooldown": null,
+      "ruleKey": "apply_charm_on_unblocked_hit",
+      "sortOrder": 30
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e",
+      "status": 200,
+      "source": "REUSED",
+      "sourcePath": "数据参考/全量录入-2026-09/魅惑状态补齐/两技能首次施加返回/04-写入前现值.json"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters",
+      "status": 200,
+      "source": "REUSED",
+      "sourcePath": "数据参考/全量录入-2026-09/魅惑状态补齐/两技能首次施加返回/04-写入前现值.json"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/cast_time_ms",
+      "status": 200,
+      "source": "REUSED",
+      "sourcePath": "数据参考/全量录入-2026-09/魅惑状态补齐/两技能首次施加返回/04-写入前现值.json"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/base_damage",
+      "status": 200,
+      "source": "REUSED",
+      "sourcePath": "数据参考/全量录入-2026-09/魅惑状态补齐/两技能首次施加返回/04-写入前现值.json"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/ap_ratio",
+      "status": 200,
+      "source": "REUSED",
+      "sourcePath": "数据参考/全量录入-2026-09/魅惑状态补齐/两技能首次施加返回/04-写入前现值.json"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/charm_duration_ms",
+      "status": 200,
+      "source": "REUSED",
+      "sourcePath": "数据参考/全量录入-2026-09/魅惑状态补齐/两技能首次施加返回/04-写入前现值.json"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/charm_slow_ratio",
+      "status": 200,
+      "source": "REUSED",
+      "sourcePath": "数据参考/全量录入-2026-09/魅惑状态补齐/两技能首次施加返回/04-写入前现值.json"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/cooldown_ms",
+      "status": 200,
+      "source": "REUSED",
+      "sourcePath": "数据参考/全量录入-2026-09/魅惑状态补齐/两技能首次施加返回/04-写入前现值.json"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/mana_cost",
+      "status": 200,
+      "source": "REUSED",
+      "sourcePath": "数据参考/全量录入-2026-09/魅惑状态补齐/两技能首次施加返回/04-写入前现值.json"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/formulas",
+      "status": 200,
+      "source": "REUSED",
+      "sourcePath": "数据参考/全量录入-2026-09/魅惑状态补齐/两技能首次施加返回/04-写入前现值.json"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/formulas/damage",
+      "status": 200,
+      "source": "REUSED",
+      "sourcePath": "数据参考/全量录入-2026-09/魅惑状态补齐/两技能首次施加返回/04-写入前现值.json"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/effects/mana_cost",
+      "status": 200,
+      "source": "REUSED",
+      "sourcePath": "数据参考/全量录入-2026-09/魅惑状态补齐/两技能首次施加返回/04-写入前现值.json"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/effects/charm_hit",
+      "status": 200,
+      "source": "REUSED",
+      "sourcePath": "数据参考/全量录入-2026-09/魅惑状态补齐/两技能首次施加返回/04-写入前现值.json"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/processes",
+      "status": 200,
+      "source": "REUSED",
+      "sourcePath": "数据参考/全量录入-2026-09/魅惑状态补齐/两技能首次施加返回/04-写入前现值.json"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/processes/cast",
+      "status": 200,
+      "source": "REUSED",
+      "sourcePath": "数据参考/全量录入-2026-09/魅惑状态补齐/两技能首次施加返回/04-写入前现值.json"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/internal-states",
+      "status": 200,
+      "source": "REUSED",
+      "sourcePath": "数据参考/全量录入-2026-09/魅惑状态补齐/两技能首次施加返回/04-写入前现值.json"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/trigger-rules/actual_hit",
+      "status": 200,
+      "source": "REUSED",
+      "sourcePath": "数据参考/全量录入-2026-09/魅惑状态补齐/两技能首次施加返回/04-写入前现值.json"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/trigger-rules/on_used",
+      "status": 200,
+      "source": "REUSED",
+      "sourcePath": "数据参考/全量录入-2026-09/魅惑状态补齐/两技能首次施加返回/04-写入前现值.json"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/effects",
+      "status": 200,
+      "source": "NEW_GET",
+      "responseSha256": "95b0b9553e8fa0a0171389587eee5bb535bfa3c23de43865de436f591e1c30b4"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/trigger-rules",
+      "status": 200,
+      "source": "NEW_GET",
+      "responseSha256": "a0a96eb4599d20c713db2bb4acfbffd78def8709cc589a14db9fa2461c1e8feb"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/effects/charm_first_application",
+      "status": 200,
+      "source": "REUSED",
+      "sourcePath": "数据参考/全量录入-2026-09/魅惑状态补齐/两技能首次施加返回/07-独立回读.json"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/trigger-rules/apply_charm_on_unblocked_hit",
+      "status": 200,
+      "source": "REUSED",
+      "sourcePath": "数据参考/全量录入-2026-09/魅惑状态补齐/两技能首次施加返回/07-独立回读.json"
+    }
+  ],
+  "businessWrites": 0,
+  "reuse": {
+    "sourcePath": "数据参考/全量录入-2026-09/魅惑状态补齐/两技能首次施加返回/04-写入前现值.json",
+    "sourceSha256": "7611df60729370b303c898ea5c272db513344da342f1460308a4c3b911eaaa0f",
+    "reusedRouteCount": 18,
+    "newGetCount": 2,
+    "newGetRoutes": [
+      "/skills/ahri_e/effects",
+      "/skills/ahri_e/trigger-rules"
+    ],
+    "detailSourcePath": "数据参考/全量录入-2026-09/魅惑状态补齐/两技能首次施加返回/07-独立回读.json",
+    "detailSourceSha256": "34fea1e912c3e8378c8daa029339f01b62b33d6a717f830c14a2cec0a7c8cfef",
+    "detailRoutes": [
+      "/skills/ahri_e/effects/charm_first_application",
+      "/skills/ahri_e/trigger-rules/apply_charm_on_unblocked_hit"
+    ],
+    "fullPrepareReplayed": false
+  }
+}

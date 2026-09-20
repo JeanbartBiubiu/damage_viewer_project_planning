@@ -1,0 +1,146 @@
+{
+  "reviewedAt": "2026-09-20",
+  "reviewKind": "方案独立评审",
+  "status": "IDENTITY_AND_INITIAL_DURATION_READY_SCOPED",
+  "scope": {
+    "included": [
+      "CHARM（魅惑）状态身份",
+      "无强度状态操作 APPLY/REMOVE",
+      "状态与技能效果的现有来源、承受对象和生命周期关联"
+    ],
+    "excluded": [
+      "已批准的首次魅惑持续时间接线以外的其他游戏分支",
+      "伴随移动或移动速度数值",
+      "重施、移动技能中止、免疫、解除和运行时事件"
+    ]
+  },
+  "designSource": {
+    "path": "C:/project/damage_viewer_project_planning/文档记录/详细设计/项目/系统精简实施说明.md",
+    "section": "### 魅惑状态增量",
+    "lines": "461-469",
+    "sha256": "51419cb3cb9b70c31077f29b6fbb958eb08a994c6568f03e0245b49820b694ad",
+    "hashInput": "planning/master shared design section hash"
+  },
+  "evidence": {
+    "candidateSnapshot": {
+      "path": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/魅惑状态补齐/01-候选现值.json",
+      "sourceVersion": "16.17.1",
+      "candidateSkills": ["ahri_e", "seraphine_r"],
+      "requestCount": 37,
+      "businessWrites": 0,
+      "finding": "候选当前值含两项魅惑时长及阿狸E伴随移动比例等技能参数；固定来源已批准首次魅惑身份与持续时间，伴随减速、中止、距离延伸和重施仍不在本次接线。"
+    },
+    "databasePreflight": {
+      "path": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/魅惑状态补齐/03-实库写前结构.json",
+      "database": "test0221",
+      "tableCount": 27,
+      "statusCount": 4,
+      "effectCount": 973,
+      "referenceCount": 9356,
+      "selectCount": 9,
+      "businessWrites": 0,
+      "finding": "status_kind 已为非空 varchar(32)，当前检查约束允许 STUN、MOVEMENT_SLOW、ROOT、SILENCE；状态效果引用已由 skill_object_references 按来源技能和目标状态记录。"
+    },
+    "pageSnapshot": {
+      "path": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/魅惑状态补齐/05-修正前页面.json",
+      "existingKeys": ["vertigo", "movement_slow", "root", "silence"],
+      "businessWrites": 0,
+      "finding": "真实创建下拉只有四种现有身份，缺少魅惑。"
+    }
+  },
+  "codePaths": [
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/status/StatusKind.java",
+      "lines": "3-8",
+      "finding": "当前身份枚举只有 STUN、MOVEMENT_SLOW、ROOT、SILENCE；增加 CHARM 是身份层的必要代码变更。"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/service/skilleffect/SkillEffectService.java",
+      "lines": "1312-1329",
+      "finding": "STATUS_OPERATION 必须提供 statusKey 和 APPLY/REMOVE 操作，并进入状态目录引用集合。"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/service/skilleffect/SkillEffectService.java",
+      "lines": "1333-1375",
+      "finding": "只有 MOVEMENT_SLOW 的 APPLY 进入减速强度、0到1边界和期限校验；其他身份以及所有 REMOVE 统一走 forbidValueRule，因此 CHARM 无需新增专用强度分支。"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/service/skilleffect/SkillEffectService.java",
+      "lines": "1662-1674",
+      "finding": "STATUS_OPERATION APPLY 已属于允许持续生效的结果类型；有限期魅惑可复用父效果生命周期和 PERSISTENT。"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/service/skilleffect/SkillEffectService.java",
+      "lines": "1926-1934, 1950-1956, 2007-2029, 2048-2055",
+      "finding": "非移动减速结果的数值规则会被拒绝；状态种类从锁定的状态目录读取，未知、停用和状态效果引用仍受既有错误与引用保护。"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/db/game_manage/migrations/add_silence_status_kind.sql",
+      "lines": "3-34",
+      "finding": "旧沉默迁移提供锁表、精确旧约束、原状态/效果/引用快照、仅替换检查约束与注释及验证回滚的执行形状；该文件本身必须冻结，不能重放或改写。"
+    }
+  ],
+  "managementAssessment": {
+    "identity": {
+      "conclusion": "可实施",
+      "requiredChange": "在 StatusKind、当前建表检查约束、前端中文目录和严格响应解析中追加 CHARM；不新增表、列、结果类别或默认状态行。",
+      "preservedRules": [
+        "状态种类创建时必填",
+        "创建后不可修改",
+        "启停保留现有身份",
+        "状态引用和删除保护沿用现有事务"
+      ]
+    },
+    "sourceAssociation": {
+      "conclusion": "现有字段足够，不缺状态表来源字段",
+      "reason": "状态身份由 game_id/status_key/status_kind 定义；技能效果通过 detail.statusKey 引用状态，父效果生命周期和 SOURCE_TARGET 实例范围表达技能拥有者与承受对象；魅惑来源就是技能拥有者，不需要另建方向或来源对象字段。skill_object_references 已记录 source_skill_key、source_key、target_key 和 target_type=STATUS。需要区分阿狸E与萨勒芬妮R时，应分别在各自技能效果中引用同一 CHARM 身份并配置各自生命周期实例。"
+    },
+    "effectShape": {
+      "apply": "STATUS_OPERATION + APPLY + valueRule=null",
+      "remove": "STATUS_OPERATION + REMOVE + valueRule=null",
+      "limitedDuration": "父效果提供 durationValue，结果使用 PERSISTENT",
+      "notImplicit": "CHARM 身份表达目标被迫接近魅惑来源；不隐含减速、移动速度、移动技能中止、行动资格或解除运行。"
+    }
+  },
+  "approvedFirstScope": {
+    "sourceVersion": "client16.17 / DDragon16.17.1",
+    "ahri_e": {
+      "charmDurationMs": [1200, 1350, 1500, 1650, 1800],
+      "include": ["CHARM 身份", "首次施加持续时间"],
+      "defer": ["伴随减速联动", "移动技能中止", "重施"]
+    },
+    "seraphine_r": {
+      "charmDurationMs": [1250, 1500, 1750],
+      "include": ["CHARM 身份", "首次施加持续时间"],
+      "defer": ["距离延伸", "重施"]
+    }
+  },
+  "blockingIssues": [
+    {
+      "id": "DEFERRED_GAME_BRANCHES",
+      "scope": "ahri_e / seraphine_r game branches",
+      "severity": "REVIEW",
+      "status": "OPEN",
+      "detail": "首次魅惑身份与持续时间已批准并可先接线；阿狸伴随减速、移动技能中止、重施，萨勒芬妮距离延伸和重施继续单列，不能由 CHARM 名称或本身份推定。"
+    },
+    {
+      "id": "IDENTITY_SCHEMA_BLOCKER",
+      "scope": "CHARM identity management",
+      "severity": "NONE",
+      "status": "CLEAR",
+      "detail": "当前状态身份、状态操作、生命周期、状态引用和保护结构能够承载 CHARM；未发现需要新增状态来源字段或结果类别的必要性。"
+    }
+  ],
+  "migrationAssessment": {
+    "currentBaseline": "以03-实库写前结构.json为唯一执行前基线：test0221、27张表、4条状态、973个效果、9356条引用，旧约束已包含 SILENCE。",
+    "requiredMigrationShape": [
+      "独立审查新的 CHARM 约束迁移与执行器摘要",
+      "锁定 games、statuses、skill_effects、skill_object_references",
+      "校验当前四条状态正文和时间戳、效果及引用计数或完整快照",
+      "事务内仅替换 status_kind 检查约束和注释，不插入状态行",
+      "独立回读确认原数据和引用未变；结果不明时禁止重放"
+    ],
+    "oldMigrationHandling": "add_silence_status_kind.sql 仅作为已冻结执行形状参考；不修改、不重放，也不使用其三状态旧前置条件作为本次基线。"
+  },
+  "conclusion": "CHARM 身份增量在管理层可实施，现有状态身份和 SOURCE_TARGET 来源关联不缺必要字段；先接阿狸E与萨勒芬妮R的首次魅惑身份及已批准持续时间。阿狸减速联动、中止、重施，萨勒芬妮距离延伸和重施全部单列。管理保存不证明行进、控制执行、免疫、解除或战斗运行。"
+}

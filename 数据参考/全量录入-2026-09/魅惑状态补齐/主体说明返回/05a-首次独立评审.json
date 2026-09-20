@@ -1,0 +1,14 @@
+{
+  "at": "2026-09-20T03:57:16.047Z",
+  "status": "REVISE",
+  "reviewedFrozenSha256": "fa5a79a230b09a0219726f5fd59c8d6e05e084953e301ef0cd779386b01e1e28",
+  "rawReview": "**一、阿狸旧伤害范围独立回读**  \nexit: **0**  \n**PASS**  \n（只跑一次；完整 stdout 在原始工具事件，供主负责人写入 07。未重试、未写文件。）\n\n**二、主体说明返回独立审查**  \n**VERDICT: REVISE**  \n**REVIEWED_PLAN_REV:** `aed364a5f098bc253da985169bd8d0729bfa4d2fd9b778fafbb4b5eb36d4caf3`\n\n| 文件 | 原字节 SHA-256 |\n| --- | --- |\n| F `tools/authoring/update-reviewed-descriptions-v2.mjs` | `f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517` |\n| G `tools/authoring/read-reviewed-description-updates.mjs` | `3b9c5c9e391f63175fdaec238a88b482b05c7e76dc00f2acc0eb2cd6eebcb994` |\n| 01 | `aed364a5f098bc253da985169bd8d0729bfa4d2fd9b778fafbb4b5eb36d4caf3` |\n| 02（与给定版本一致） | `fa5a79a230b09a0219726f5fd59c8d6e05e084953e301ef0cd779386b01e1e28` |\n| 03 | `de8c2cb5e6e244527407e9c193ade722a7d72e6390fa82f92d5c88799e5f9afd` |\n| 04 | `b474e3ad28e963f96a1ff3ffda5a489ed3665a08162cdfe513edde6c00867a74` |\n\n**阻塞**  \n`04.audit` 只有 3 条新 GET（`ahri_e/trigger-rules`、`seraphine_r/effects`、`seraphine_r/trigger-rules`），`04.values` 为 37 条完整组成。G 的 `validateBaseline` 要求 audit 与 values 路径一一对应；F 的 `write`/`preflight` 不读 audit，但 05 一旦按当前 04 锁核，事后不能改 04，G 回读会预检失败。批准前在不另发 HTTP 的前提下，把 audit 回填为 37 条成功 GET，并重算 02 的 `baselineSha256`（会改 02/04 原字节 SHA）。\n\n**非阻塞**  \nF 现版 `makeRequests(04.values)` 与 02 字节级一致；03/04 原字节与 02 绑定一致；只改 `ahri_e`、`seraphine_r` 的 `description`，`maxLevel` 5/`common` 与 3/`ultimate` 保留。37 条中 34 条与复用快照一致（`actual_hit` 等于阿狸旧伤害范围 06 `readback`，并与本次回读 `changedDetails` 一致），3 条新列表与旧 04 不同且与对应详情 `ruleKey`/`effectKey`、说明对齐。F 哈希等于 G 锁定写入器。01 组成判断与 04/07/08、固定来源摘要一致（阿狸：伤害公式、法力、基础冷却、施放过程、新魅惑；萨勒芬妮：参数、伤害公式、终极分类、新魅惑；首次魅惑为敌方英雄实际命中、同次护盾阻挡值 0、本来源实例不存在；重施未录）。开场句「发出魅惑飞吻 / 被迫接近」未出现在 02 已摘录官方片段中（仅有「首个敌人」与「终止移动技能…无恶意地走向她」）；Luna 已过，不单独改判定。`04.baselineReuse` 为 F.prepare 默认形状之外的字段，不影响 `makeRequests`。",
+  "runId": "run-0d268c74-5b86-4c14-b3b5-b603d192b327",
+  "resultStatus": "finished",
+  "auditAvailable": true,
+  "runDeltaCount": 0,
+  "toolEventsTruncated": false,
+  "summarySha256": "e1d1dc5134719f4fc6e47eb6d4da20f4fb0c3eac676844a53cb7f85b9bd08e4b",
+  "eventsSha256": "304177508bf2c6f39025d4513a3ad6514cb1ed261af8383b5df35f2b43224ca5",
+  "note": "原评审报告REVIEWED_PLAN_REV误引用01摘要，但表中正确绑定02；原文保留，未批准。"
+}

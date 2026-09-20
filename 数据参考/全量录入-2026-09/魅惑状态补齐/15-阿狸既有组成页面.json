@@ -1,0 +1,48 @@
+{
+  "at": "2026-09-19T20:49:00.010Z",
+  "status": "PASS",
+  "skillKey": "ahri_e",
+  "observations": {
+    "process": {
+      "processKey": "cast",
+      "activation": "主动",
+      "cooldownParameter": "cooldown_ms",
+      "step": "cast_time引用cast_time_ms",
+      "manaBinding": "过程开始挂接mana_cost"
+    },
+    "useRule": {
+      "ruleKey": "on_used",
+      "event": "当前技能主动使用",
+      "action": "启动cast",
+      "targetContext": "CURRENT_TARGET"
+    },
+    "damage": {
+      "effectKey": "charm_hit",
+      "resultKey": "damage",
+      "formulaKey": "damage",
+      "damageType": "魔法伤害",
+      "sourceKind": "技能",
+      "deliveryKind": "直接伤害",
+      "critical": "不允许暴击",
+      "vamp": "全能吸血、防御后伤害、固定数值",
+      "spellShield": "当前结果"
+    },
+    "parameterPage": {
+      "charmDurationValuesMs": [
+        1200,
+        1350,
+        1500,
+        1650,
+        1800
+      ],
+      "castTimeMs": 250,
+      "cooldownMs": 12000,
+      "manaCost": 60,
+      "manaDescription": "具体使用时点由引用过程定义；未再声称尚未接入扣除时点",
+      "readOnlyFieldsDisabled": true
+    }
+  },
+  "allEditorsCancelledWithoutSave": true,
+  "businessWrites": 0,
+  "runtimeValidation": "未执行"
+}

@@ -1,0 +1,301 @@
+{
+  "startedAt": "2026-09-20T04:25:22.599Z",
+  "status": "PASS",
+  "businessWritesAttempted": 2,
+  "operations": [
+    {
+      "route": "/skills/ahri_e",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:16:14.427185Z",
+          "description": "阿狸发出魅惑飞吻，对命中的首个敌人造成魔法伤害并使其被迫接近阿狸。已保存伤害公式、法力消耗、基础冷却和施放过程，以及本来源当前目标无魅惑实例时的首次魅惑身份与期限；首次魅惑只连接敌方英雄实际命中且本次未被法术护盾阻挡的入口。魅惑伴随减速的联动、移动技能中止和已有实例重施仍待核定，不计整技能管理完整。来源：客户端16.17、官方中英文16.17.1。",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "阿狸·魅惑妖术",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "ahri_e",
+          "sortOrder": 3,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-20T04:25:24.26799Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-06T18:16:14.427185Z",
+        "description": "阿狸发出魅惑飞吻，对命中的首个敌人造成魔法伤害并使其被迫接近阿狸。已保存伤害公式、法力消耗、基础冷却和施放过程，以及本来源当前目标无魅惑实例时的首次魅惑身份与期限；首次魅惑只连接敌方英雄实际命中且本次未被法术护盾阻挡的入口。魅惑伴随减速的联动、移动技能中止和已有实例重施仍待核定，不计整技能管理完整。来源：客户端16.17、官方中英文16.17.1。",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "阿狸·魅惑妖术",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "ahri_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-20T04:25:24.26799Z"
+      }
+    },
+    {
+      "route": "/skills/seraphine_r",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:20:14.364885Z",
+          "description": "萨勒芬妮对命中的敌人造成伤害和魅惑，并在命中友方或敌方英雄时延伸技能距离。已保存基础参数、伤害公式、终极技能分类，以及本来源当前目标无魅惑实例时的首次魅惑身份与期限；首次魅惑只连接敌方英雄实际命中且本次未被法术护盾阻挡的入口。伤害结果、使用成本与过程、施放时间冲突、重施及距离延伸仍待完善；仅队友音符不在本轮1V1范围内。不计整技能管理完整。来源：客户端16.17、官方中英文16.17.1。",
+          "gameId": "lol",
+          "maxLevel": 3,
+          "name": "萨勒芬妮·炫音返场",
+          "skillCategoryKeys": [
+            "ultimate"
+          ],
+          "skillKey": "seraphine_r",
+          "sortOrder": 4,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-20T04:25:25.853869Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-06T18:20:14.364885Z",
+        "description": "萨勒芬妮对命中的敌人造成伤害和魅惑，并在命中友方或敌方英雄时延伸技能距离。已保存基础参数、伤害公式、终极技能分类，以及本来源当前目标无魅惑实例时的首次魅惑身份与期限；首次魅惑只连接敌方英雄实际命中且本次未被法术护盾阻挡的入口。伤害结果、使用成本与过程、施放时间冲突、重施及距离延伸仍待完善；仅队友音符不在本轮1V1范围内。不计整技能管理完整。来源：客户端16.17、官方中英文16.17.1。",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "萨勒芬妮·炫音返场",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "seraphine_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-20T04:25:25.853869Z"
+      }
+    }
+  ],
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-descriptions-v2.mjs": "f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517",
+    "01-纠错计划.json": "aed364a5f098bc253da985169bd8d0729bfa4d2fd9b778fafbb4b5eb36d4caf3",
+    "02-冻结请求.json": "44cb847aab4a787927a52b8b8573d71bd125c657a4aa8d436973c2f6bd516b90",
+    "03-来源摘要.json": "de8c2cb5e6e244527407e9c193ade722a7d72e6390fa82f92d5c88799e5f9afd",
+    "04-写入前现值.json": "72ba9e7ebae1817a045e4e6c5fe2fcc25fe543c1b3357d6b59c16befac6710fc"
+  },
+  "pendingRoute": null,
+  "finishedAt": "2026-09-20T04:25:25.668Z",
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/charm_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/charm_slow_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/effects/charm_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/effects/charm_first_application",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/trigger-rules/apply_charm_on_unblocked_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/parameters/ability_power_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/parameters/charm_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/effects/charm_first_application",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r/trigger-rules/apply_charm_on_unblocked_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/ahri_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/seraphine_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/seraphine_r",
+      "status": 200
+    }
+  ]
+}

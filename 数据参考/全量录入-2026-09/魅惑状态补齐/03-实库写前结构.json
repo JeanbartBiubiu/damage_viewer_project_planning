@@ -1,0 +1,146 @@
+{
+  "database" : [ {
+    "name" : "test0221"
+  } ],
+  "tables" : [ {
+    "name" : "attributes"
+  }, {
+    "name" : "character_attributes"
+  }, {
+    "name" : "character_skill_relations"
+  }, {
+    "name" : "characters"
+  }, {
+    "name" : "damage_types"
+  }, {
+    "name" : "equipment"
+  }, {
+    "name" : "equipment_attributes"
+  }, {
+    "name" : "equipment_skill_relations"
+  }, {
+    "name" : "game_level_configs"
+  }, {
+    "name" : "games"
+  }, {
+    "name" : "image_relations"
+  }, {
+    "name" : "images"
+  }, {
+    "name" : "modifier_zones"
+  }, {
+    "name" : "rune_paths"
+  }, {
+    "name" : "rune_skill_relations"
+  }, {
+    "name" : "runes"
+  }, {
+    "name" : "skill_categories"
+  }, {
+    "name" : "skill_category_relations"
+  }, {
+    "name" : "skill_effects"
+  }, {
+    "name" : "skill_formulas"
+  }, {
+    "name" : "skill_internal_states"
+  }, {
+    "name" : "skill_object_references"
+  }, {
+    "name" : "skill_parameters"
+  }, {
+    "name" : "skill_processes"
+  }, {
+    "name" : "skill_trigger_rules"
+  }, {
+    "name" : "skills"
+  }, {
+    "name" : "statuses"
+  } ],
+  "statuses" : [ {
+    "body" : "{\"name\": \"普通移动减速\", \"status\": \"ENABLED\", \"game_id\": \"lol\", \"created_at\": \"2026-09-19T14:37:05.092208+08:00\", \"sort_order\": 10, \"status_key\": \"movement_slow\", \"updated_at\": \"2026-09-19T16:22:48.378088+08:00\", \"description\": \"普通移动减速状态身份；具体减速比例与持续时间由技能效果维护。\", \"status_kind\": \"MOVEMENT_SLOW\"}"
+  }, {
+    "body" : "{\"name\": \"禁锢\", \"status\": \"ENABLED\", \"game_id\": \"lol\", \"created_at\": \"2026-09-19T12:52:01.232803+08:00\", \"sort_order\": 20, \"status_key\": \"root\", \"updated_at\": \"2026-09-19T12:52:01.232803+08:00\", \"description\": \"禁锢状态身份；具体持续时间由技能效果生命周期维护，本状态不另设强度数值。\", \"status_kind\": \"ROOT\"}"
+  }, {
+    "body" : "{\"name\": \"沉默\", \"status\": \"ENABLED\", \"game_id\": \"lol\", \"created_at\": \"2026-09-20T00:42:34.531835+08:00\", \"sort_order\": 30, \"status_key\": \"silence\", \"updated_at\": \"2026-09-20T00:42:34.531835+08:00\", \"description\": \"沉默状态身份；具体持续时间由技能效果生命周期维护，本状态不另设强度数值。\", \"status_kind\": \"SILENCE\"}"
+  }, {
+    "body" : "{\"name\": \"眩晕\", \"status\": \"ENABLED\", \"game_id\": \"lol\", \"created_at\": \"2026-08-28T22:55:06.53067+08:00\", \"sort_order\": 0, \"status_key\": \"vertigo\", \"updated_at\": \"2026-08-28T22:55:06.53067+08:00\", \"description\": null, \"status_kind\": \"STUN\"}"
+  } ],
+  "columns" : [ {
+    "column_name" : "game_id",
+    "is_nullable" : "NO",
+    "column_default" : null
+  }, {
+    "column_name" : "status_key",
+    "is_nullable" : "NO",
+    "column_default" : null
+  }, {
+    "column_name" : "name",
+    "is_nullable" : "NO",
+    "column_default" : null
+  }, {
+    "column_name" : "description",
+    "is_nullable" : "YES",
+    "column_default" : null
+  }, {
+    "column_name" : "status",
+    "is_nullable" : "NO",
+    "column_default" : "'ENABLED'::character varying"
+  }, {
+    "column_name" : "sort_order",
+    "is_nullable" : "NO",
+    "column_default" : "0"
+  }, {
+    "column_name" : "created_at",
+    "is_nullable" : "NO",
+    "column_default" : "now()"
+  }, {
+    "column_name" : "updated_at",
+    "is_nullable" : "NO",
+    "column_default" : "now()"
+  }, {
+    "column_name" : "status_kind",
+    "is_nullable" : "NO",
+    "column_default" : null
+  } ],
+  "kindConstraint" : [ {
+    "conname" : "ck_statuses_kind",
+    "convalidated" : "t",
+    "definition" : "CHECK (((status_kind)::text = ANY ((ARRAY['STUN'::character varying, 'MOVEMENT_SLOW'::character varying, 'ROOT'::character varying, 'SILENCE'::character varying])::text[])))"
+  } ],
+  "statusReferences" : [ {
+    "body" : "{\"game_id\": \"lol\", \"field_path\": \"results[0].detail.statusKey\", \"source_key\": \"silence_first_application\", \"target_key\": \"silence\", \"source_type\": \"EFFECT\", \"target_type\": \"STATUS\", \"target_sub_key\": \"\", \"source_skill_key\": \"chogath_w\", \"target_skill_key\": \"\"}"
+  }, {
+    "body" : "{\"game_id\": \"lol\", \"field_path\": \"results[0].detail.statusKey\", \"source_key\": \"root_control\", \"target_key\": \"root\", \"source_type\": \"EFFECT\", \"target_type\": \"STATUS\", \"target_sub_key\": \"\", \"source_skill_key\": \"ivern_q\", \"target_skill_key\": \"\"}"
+  }, {
+    "body" : "{\"game_id\": \"lol\", \"field_path\": \"results[0].detail.statusKey\", \"source_key\": \"root_control\", \"target_key\": \"root\", \"source_type\": \"EFFECT\", \"target_type\": \"STATUS\", \"target_sub_key\": \"\", \"source_skill_key\": \"lux_q\", \"target_skill_key\": \"\"}"
+  }, {
+    "body" : "{\"game_id\": \"lol\", \"field_path\": \"results[0].detail.statusKey\", \"source_key\": \"silence_first_application\", \"target_key\": \"silence\", \"source_type\": \"EFFECT\", \"target_type\": \"STATUS\", \"target_sub_key\": \"\", \"source_skill_key\": \"malzahar_q\", \"target_skill_key\": \"\"}"
+  }, {
+    "body" : "{\"game_id\": \"lol\", \"field_path\": \"results[0].detail.statusKey\", \"source_key\": \"dark_binding_root\", \"target_key\": \"root\", \"source_type\": \"EFFECT\", \"target_type\": \"STATUS\", \"target_sub_key\": \"\", \"source_skill_key\": \"morgana_q\", \"target_skill_key\": \"\"}"
+  }, {
+    "body" : "{\"game_id\": \"lol\", \"field_path\": \"results[0].detail.statusKey\", \"source_key\": \"corrosive_charge_slow\", \"target_key\": \"movement_slow\", \"source_type\": \"EFFECT\", \"target_type\": \"STATUS\", \"target_sub_key\": \"\", \"source_skill_key\": \"urgot_q\", \"target_skill_key\": \"\"}"
+  }, {
+    "body" : "{\"game_id\": \"lol\", \"field_path\": \"results[0].detail.statusKey\", \"source_key\": \"event_horizon_stun\", \"target_key\": \"vertigo\", \"source_type\": \"EFFECT\", \"target_type\": \"STATUS\", \"target_sub_key\": \"\", \"source_skill_key\": \"veigar_e\", \"target_skill_key\": \"\"}"
+  } ],
+  "skill_effects" : {
+    "rows" : 973,
+    "sha256" : "dbd226dab319068b3323369cce4ee302bbc5a0e709314911d268cf82b2931f0a"
+  },
+  "skill_object_references" : {
+    "rows" : 9356,
+    "sha256" : "7b8086b58be44c0c6cb871c4ca21fda9810bb622cd3e1f9748b7a3b8484622a5"
+  },
+  "kindColumnDefinition" : [ {
+    "column_name" : "status_kind",
+    "data_type" : "character varying",
+    "character_maximum_length" : "32",
+    "is_nullable" : "NO",
+    "column_default" : null
+  } ],
+  "at" : "2026-09-19T19:47:27.824026900Z",
+  "host" : "192.168.5.6",
+  "SELECTs" : 9,
+  "businessWrites" : 0,
+  "readOnlyTransaction" : true
+}

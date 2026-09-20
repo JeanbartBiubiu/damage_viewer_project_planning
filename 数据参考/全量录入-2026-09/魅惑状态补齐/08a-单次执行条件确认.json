@@ -1,0 +1,52 @@
+{
+  "reviewedAt": "2026-09-19T20:13:06.330Z",
+  "reviewKind": "单次迁移执行阶段确认",
+  "stage": "SINGLE_APPLY_ALLOWED_POST_READBACK_PENDING",
+  "scope": {
+    "confirmed": "候选SQL与执行器按固定字节只允许单次执行；独立写后回读由另一执行者在本次COMMIT返回后使用新进程、新JDBC只读连接完成。",
+    "notYetProven": "迁移后的真实数据库约束、原状态正文和时间戳、效果、引用及列定义尚未由独立连接回读证明。",
+    "forbidden": [
+      "本阶段不创建CHARM状态行",
+      "不把写入器同连接即时回读当成独立验收",
+      "不重放DDL",
+      "不修改08评审原件、迁移SQL或执行器字节"
+    ]
+  },
+  "candidateBinding": {
+    "sqlDraftPath": "C:/project/damage_backend_dev/output/charm-status-preflight/add_charm_status_kind.sql.review",
+    "sqlSha256": "0832b2f0464fa586604b68741b5414baeab77c592a544b2d2587da5b9e837c72",
+    "runnerDraftPath": "C:/project/damage_backend_dev/output/charm-status-preflight/ApplyCharmStatusKind.java.review",
+    "runnerSha256": "dd51e81639f574575336a130fcd8e5b9193752e82f58e17138773c6fe309726e",
+    "unchangedReview": "08-迁移独立评审.json 保留原件；本文件只补充阶段区分，不改写08结论或候选字节。"
+  },
+  "postWriteReadbackBinding": {
+    "arrangementPath": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/魅惑状态补齐/09-实库独立回读安排.json",
+    "arrangementSha256": "981a3dc6cda5ba0c93d9c84e5ffed1c371d4b6d0aaff682ba03b56f23ade89ac",
+    "helperPath": "C:/project/damage_backend_dev/output/charm-status-preflight/ReadCharmStatusBaseline.java",
+    "helperSha256": "37d90c90a0b355b4b21c75a53ed8444a476972848d06af4b06bcdfe3c64abbc0",
+    "executor": "另一执行者",
+    "connection": "新Java进程、新JDBC只读连接、REPEATABLE_READ事务，不复用写入器连接",
+    "selectCount": 9,
+    "compare": [
+      "database",
+      "tables",
+      "statuses",
+      "columns",
+      "statusReferences",
+      "skill_effects",
+      "skill_object_references",
+      "kindColumnDefinition"
+    ],
+    "expectedNewConstraint": "CHECK (((status_kind)::text = ANY ((ARRAY['STUN'::character varying, 'MOVEMENT_SLOW'::character varying, 'ROOT'::character varying, 'SILENCE'::character varying, 'CHARM'::character varying])::text[])))",
+    "passGate": "独立回读PASS前不创建CHARM行、不报告迁移验收完成；响应未知先查现值，禁止重放DDL。"
+  },
+  "executionBoundary": {
+    "beforeCommit": "只能确认固定SQL/执行器具备单次执行条件。",
+    "afterCommit": "必须实际运行09绑定的独立只读helper并形成10-实库独立回读.json，之后才能报告迁移验收。",
+    "businessWritesAtReview": 0,
+    "apiOrDatabaseCallsAtReview": 0,
+    "filesCopiedAtReview": false,
+    "migrationExecutedAtReview": false
+  },
+  "conclusion": "本阶段确认SQL与执行器可按绑定SHA单次执行；独立写后回读仍待COMMIT返回后由另一执行者实际完成。"
+}

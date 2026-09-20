@@ -1,0 +1,63 @@
+{
+  "at": "2026-09-19T20:43:52.022Z",
+  "status": "PASS",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "backendCommit": "19c2c1d8",
+  "frontendCommit": "fc49025a",
+  "subjects": [
+    {
+      "skillKey": "ahri_e",
+      "effectKey": "charm_first_application",
+      "effectEditorReopened": true,
+      "durationParameter": "charm_duration_ms",
+      "instanceScope": "SOURCE_TARGET",
+      "result": {
+        "status": "魅惑",
+        "operation": "施加",
+        "target": "当前目标",
+        "moment": "持续生效",
+        "spellShield": "当前结果",
+        "strengthEditorAbsent": true
+      },
+      "ruleEditorReopened": true,
+      "ruleKey": "apply_charm_on_unblocked_hit",
+      "conditions": [
+        "英雄",
+        "明确敌方",
+        "本次命中法术护盾阻挡值等于0",
+        "当前目标本来源魅惑实例不存在"
+      ],
+      "action": "当前目标执行charm_first_application",
+      "cancelledWithoutSave": true
+    },
+    {
+      "skillKey": "seraphine_r",
+      "effectKey": "charm_first_application",
+      "effectEditorReopened": true,
+      "durationParameter": "charm_duration_ms",
+      "instanceScope": "SOURCE_TARGET",
+      "result": {
+        "status": "魅惑",
+        "operation": "施加",
+        "target": "当前目标",
+        "moment": "持续生效",
+        "spellShield": "当前结果",
+        "strengthEditorAbsent": true
+      },
+      "ruleEditorReopened": true,
+      "ruleKey": "apply_charm_on_unblocked_hit",
+      "conditions": [
+        "英雄",
+        "明确敌方",
+        "本次命中法术护盾阻挡值等于0",
+        "当前目标本来源魅惑实例不存在"
+      ],
+      "action": "当前目标执行charm_first_application",
+      "cancelledWithoutSave": true
+    }
+  ],
+  "businessWrites": 0,
+  "consoleErrors": 0,
+  "consoleWarnings": 0,
+  "scope": "真实页面保存后重开与完整回显；不包含战斗运行"
+}

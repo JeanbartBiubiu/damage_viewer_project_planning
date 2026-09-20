@@ -1,0 +1,244 @@
+{
+  "reviewedAt": "2026-09-19T20:34:26.281Z",
+  "reviewKind": "两技能首次魅惑施加独立评审",
+  "status": "APPROVED",
+  "scope": {
+    "targets": [
+      {
+        "skillKey": "ahri_e",
+        "ownerKey": "champion_ahri"
+      },
+      {
+        "skillKey": "seraphine_r",
+        "ownerKey": "champion_seraphine"
+      }
+    ],
+    "included": [
+      "每技能一个 charm_first_application 效果",
+      "每技能一个 apply_charm_on_unblocked_hit 触发规则",
+      "已有 charm_duration_ms 参数引用",
+      "无强度 STATUS_OPERATION、PERSISTENT、RESULT、SOURCE_TARGET",
+      "实际命中、敌方英雄、未被法术护盾阻挡和当前目标无本来源魅惑实例条件"
+    ],
+    "excluded": [
+      "伴随减速",
+      "移动技能中止",
+      "重施或刷新策略",
+      "萨勒芬妮范围延伸与友军音符",
+      "战斗运行和实际事件生产"
+    ]
+  },
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v3.mjs": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "01-候选方案.json": "6a6623619c53cd18d75d2569fbdd8e460bb0e7ebb089ac31b65eac34a1c2de5a",
+    "02-冻结请求.json": "83af6ffe1d15b80ed3844876a0aff0ce49a36bd0fc10d05a6aad465126acdebe",
+    "03-来源摘要.json": "d061d72882ee14478ac4fe4fc8e71a2f628ebd52619023f93ede0f6549a0155e",
+    "04-写入前现值.json": "7611df60729370b303c898ea5c272db513344da342f1460308a4c3b911eaaa0f"
+  },
+  "sourceAndBaselineBinding": {
+    "fixedSourcePath": "数据参考/全量录入-2026-09/魅惑状态补齐/02-固定来源核对.json",
+    "fixedSourceSha256": "c9eefca951e5116deed95c7752cb8a953d687752e874c483197edc9e4edab46b",
+    "sourceSummaryAllHashesMatch": true,
+    "independentDatabaseReadbackPath": "数据参考/全量录入-2026-09/魅惑状态补齐/10a-实库独立核对结论.json",
+    "independentDatabaseReadbackSha256": "4e517c079b7f425f8b97b107631a17ff97d8e8639b3a63b4adf64b55fd84a3f7",
+    "statusUiReadbackPath": "数据参考/全量录入-2026-09/魅惑状态补齐/目录首次页面/07-独立回读.json",
+    "statusUiReadbackSha256": "d6b5344dbce5d9134811c6a6e681cfd052ae2529902e09784ac7119520166fae",
+    "baselineReuse": {
+      "path": "数据参考/全量录入-2026-09/魅惑状态补齐/01-候选现值.json",
+      "sha256": "79e1a77314f8e0bb0a2d0a01b1912424bc98cb5212e88efc02a17f114d413842",
+      "note": "复用原两技能37GET现值，仅补角色、图片关系、新charm引用和四个新对象404。"
+    },
+    "frozenShaRelations": {
+      "sourceShaMatches03": true,
+      "baselineShaMatches04": true
+    }
+  },
+  "durationReuse": {
+    "ahri_e": {
+      "parameterRoute": "/skills/ahri_e/parameters/charm_duration_ms",
+      "valueMode": "SKILL_LEVEL",
+      "levelValuesMs": {
+        "1": 1200,
+        "2": 1350,
+        "3": 1500,
+        "4": 1650,
+        "5": 1800
+      },
+      "candidateUses": "lifecycle.durationValue = PARAMETER charm_duration_ms"
+    },
+    "seraphine_r": {
+      "parameterRoute": "/skills/seraphine_r/parameters/charm_duration_ms",
+      "valueMode": "SKILL_LEVEL",
+      "levelValuesMs": {
+        "1": 1250,
+        "2": 1500,
+        "3": 1750
+      },
+      "candidateUses": "lifecycle.durationValue = PARAMETER charm_duration_ms"
+    },
+    "noNewDurationParameter": true,
+    "noHardcodedDurationInRequests": true
+  },
+  "requestPlan": {
+    "requestCount": 4,
+    "order": [
+      "/skills/ahri_e/effects",
+      "/skills/ahri_e/trigger-rules",
+      "/skills/seraphine_r/effects",
+      "/skills/seraphine_r/trigger-rules"
+    ],
+    "orderFinding": "每个技能均先建立效果，再建立引用该效果的规则；detailRoute唯一，无重复。",
+    "effectRequests": [
+      {
+        "skillKey": "ahri_e",
+        "route": "/skills/ahri_e/effects",
+        "detailRoute": "/skills/ahri_e/effects/charm_first_application",
+        "effectKey": "charm_first_application",
+        "resultCount": 1
+      },
+      {
+        "skillKey": "seraphine_r",
+        "route": "/skills/seraphine_r/effects",
+        "detailRoute": "/skills/seraphine_r/effects/charm_first_application",
+        "effectKey": "charm_first_application",
+        "resultCount": 1
+      }
+    ],
+    "ruleRequests": [
+      {
+        "skillKey": "ahri_e",
+        "route": "/skills/ahri_e/trigger-rules",
+        "detailRoute": "/skills/ahri_e/trigger-rules/apply_charm_on_unblocked_hit",
+        "ruleKey": "apply_charm_on_unblocked_hit"
+      },
+      {
+        "skillKey": "seraphine_r",
+        "route": "/skills/seraphine_r/trigger-rules",
+        "detailRoute": "/skills/seraphine_r/trigger-rules/apply_charm_on_unblocked_hit",
+        "ruleKey": "apply_charm_on_unblocked_hit"
+      }
+    ]
+  },
+  "effectShape": {
+    "lifecycle": {
+      "durationValue": {
+        "kind": "PARAMETER",
+        "parameterKey": "charm_duration_ms"
+      },
+      "maxStacksValue": {
+        "kind": "FIXED",
+        "value": 1
+      },
+      "applicationStacksValue": {
+        "kind": "FIXED",
+        "value": 1
+      },
+      "instanceScope": "SOURCE_TARGET",
+      "reapplicationStackMode": "KEEP",
+      "reapplicationDurationMode": "REFRESH_ALL",
+      "expiryMode": "ALL_AT_ONCE"
+    },
+    "result": {
+      "resultType": "STATUS_OPERATION",
+      "operation": "APPLY",
+      "statusKey": "charm",
+      "target": "TARGET",
+      "valueRule": null,
+      "lifecycleMoment": "PERSISTENT",
+      "spellShieldBlockScope": "RESULT",
+      "strengthValueAbsent": true
+    },
+    "reapplicationBoundary": "重施字段只是现有生命周期结构的必填形状；规则的 CURRENT_TARGET + LIFECYCLE_CHECK ABSENT 入口排除已有本来源魅惑实例，不能据此声称已核对游戏刷新策略。"
+  },
+  "ruleShape": {
+    "event": {
+      "eventType": "SKILL_HIT",
+      "sourceSkillKeys": {
+        "ahri_e": "ahri_e",
+        "seraphine_r": "seraphine_r"
+      },
+      "targetContext": "CURRENT_TARGET"
+    },
+    "conditionGroupCountPerRule": 1,
+    "conditionsInOrder": [
+      {
+        "conditionType": "TARGET_CATEGORY_CHECK",
+        "categories": [
+          "CHAMPION"
+        ]
+      },
+      {
+        "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+        "detail": {}
+      },
+      {
+        "conditionType": "EVENT_VALUE_COMPARE",
+        "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED",
+        "comparator": "EQ",
+        "comparisonValue": 0
+      },
+      {
+        "conditionType": "LIFECYCLE_CHECK",
+        "checkKind": "ABSENT",
+        "subject": "CURRENT_TARGET",
+        "comparator": null,
+        "comparisonValue": null
+      }
+    ],
+    "lifecycleEffectKey": "charm_first_application",
+    "actionCountPerRule": 1,
+    "action": {
+      "actionType": "EXECUTE_EFFECT",
+      "effectKey": "charm_first_application",
+      "targetContext": "CURRENT_TARGET",
+      "runtimeInputBindings": [],
+      "resultModifiers": []
+    },
+    "limits": {
+      "perTargetCooldown": null,
+      "maxTriggersPerProcess": null
+    },
+    "expectedReadbackEventDetail": "SKILL_HIT 返回 sourceSkillKey 与 useKind:null；两个冻结 expectedReadback 均已包含 useKind:null。"
+  },
+  "motherSnapshot": {
+    "path": "数据参考/全量录入-2026-09/魅惑状态补齐/两技能首次施加返回/04-写入前现值.json",
+    "protectedResponseCount": 49,
+    "auditCount": 53,
+    "status200Count": 49,
+    "status404Count": 4,
+    "businessWrites": 0,
+    "addedAuditOnly": [
+      "两角色图片关系补充 GET",
+      "四个新对象 detailRoute 404 GET"
+    ],
+    "finding": "母快照中原37GET现值及原对象详情保持，扩展请求未把旧数据当作可写目标。"
+  },
+  "readbackContract": {
+    "expectedNewObjects": 4,
+    "expectedNewObjectsBySkill": {
+      "ahri_e": 2,
+      "seraphine_r": 2
+    },
+    "expectedChangedCollections": {
+      "ahri_e": [
+        "effects",
+        "trigger-rules"
+      ],
+      "seraphine_r": [
+        "effects",
+        "trigger-rules"
+      ]
+    },
+    "expectedUnchangedExistingCollections": "工具readback逐路由比较所有04.values中未新增请求的完整响应，并比较时间戳。",
+    "triggerDetailUseKind": null,
+    "toolReadbackMode": "只读回读，不重复POST；写入与即时回读记录必须先为PASS。"
+  },
+  "executionBoundary": {
+    "executionMode": "E-v3 受保护 API 写入；主负责人代表页面验收。",
+    "thisReviewBusinessWrites": 0,
+    "thisReviewApiCalls": 0,
+    "writeScope": "两技能各新增一个效果和一条规则，共4个POST；不新增参数、状态行、状态引用或其他机制分支。",
+    "afterWrite": "必须使用工具readback完成四个新对象与原母快照完整回读；本评审不代替写入或战斗运行。"
+  },
+  "conclusion": "来源、37GET复用母快照、49条受保护响应、53条流水、先效果后规则顺序、两技能期限参数引用、无强度持续状态结果、四条件敌方未阻挡首次入口及SKILL_HIT的useKind:null预期均一致，批准按冻结请求执行4个受保护POST；重施、减速、中止、范围延伸和战斗运行继续开放。"
+}

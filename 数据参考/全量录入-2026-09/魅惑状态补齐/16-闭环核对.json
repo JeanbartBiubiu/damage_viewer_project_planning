@@ -1,0 +1,96 @@
+{
+  "at": "2026-09-20T04:29:22.224Z",
+  "status": "FIRST_APPLICATION_RETURN_VERIFIED",
+  "scope": "管理状态身份与已核定首次施加分支，两个技能仍开放",
+  "sourceVersion": {
+    "client": "16.17",
+    "official": "16.17.1"
+  },
+  "codeCommits": {
+    "frontend": "fc49025a",
+    "backend": "19c2c1d8"
+  },
+  "database": {
+    "migrationExecutions": 1,
+    "independentSELECTs": 9,
+    "businessTables": 27,
+    "priorStatusesPreserved": 4,
+    "priorEffectsPreserved": 973,
+    "priorReferencesPreserved": 9356,
+    "newStatusRowsAfterBrowser": 1
+  },
+  "businessWrites": {
+    "total": 8,
+    "browser": 2,
+    "protectedAPI": 6,
+    "statusCreation": 1,
+    "charmEffects": 2,
+    "charmRules": 2,
+    "oldHitScopeCorrection": 1,
+    "subjectDescriptionCorrections": 2
+  },
+  "independentHTTP": {
+    "total": 118,
+    "statusDirectory": 6,
+    "initialApplication": 53,
+    "oldHitScope": 22,
+    "descriptions": 37
+  },
+  "browser": {
+    "status": "PASS",
+    "statusDirectory": "首次保存、关闭重开、不可变字段",
+    "initialApplication": "两技能效果、子结果与四条件规则重开",
+    "oldHitScope": "阿狸原伤害入口同组敌方英雄",
+    "existingAhri": "参数和说明、伤害结果、普通施放过程、主动入口",
+    "subjectDescription": "两技能最新详情说明",
+    "errors": 0,
+    "warnings": 0
+  },
+  "currentCounts": {
+    "ahri_e": {
+      "parameters": 7,
+      "formulas": 1,
+      "effects": 3,
+      "processes": 1,
+      "internalStates": 0,
+      "triggerRules": 3
+    },
+    "seraphine_r": {
+      "parameters": 5,
+      "formulas": 1,
+      "effects": 1,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 1
+    }
+  },
+  "checks": {
+    "frontendUnit": 717,
+    "backendUnit": 1013,
+    "frontendNonWasm": 79,
+    "lint": "PASS",
+    "typecheck": "PASS",
+    "build": "PASS"
+  },
+  "remaining": {
+    "ahri_e": [
+      "魅惑伴随减速的联动与结束条件",
+      "移动技能中止的准确管理表达",
+      "已有本来源魅惑实例时再次施加策略"
+    ],
+    "seraphine_r": [
+      "伤害结果与准确命中入口",
+      "法力消耗及基础冷却普通使用过程",
+      "客户端0与500毫秒施放时间冲突",
+      "魅惑附带移动数值字段含义",
+      "已有本来源魅惑实例时再次施加策略",
+      "英雄命中后的距离延伸表达"
+    ]
+  },
+  "managementComplete": false,
+  "managementCompleteItems": 7,
+  "openSkillItems": 832,
+  "runtimeValidation": "未执行；未新增宿主或Wasm实现",
+  "goalComplete": false,
+  "recovery": "限流后核已落地文件再接手；未重复迁移或业务保存。未批准候选结构问题均在写前修正；原独立评审、修订及批准链保留。"
+}

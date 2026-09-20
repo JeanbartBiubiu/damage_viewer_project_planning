@@ -1,0 +1,50 @@
+{
+  "reviewedAt": "2026-09-20",
+  "reviewKind": "方案现版确认",
+  "status": "CONFIRMED_CURRENT_SCOPE",
+  "references": {
+    "independentReview": {
+      "path": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/魅惑状态补齐/06-方案独立评审.json",
+      "status": "IDENTITY_AND_INITIAL_DURATION_READY_SCOPED"
+    },
+    "designSection": {
+      "path": "C:/project/damage_viewer_project_planning/文档记录/详细设计/项目/系统精简实施说明.md",
+      "section": "### 魅惑状态增量",
+      "sha256": "51419cb3cb9b70c31077f29b6fbb958eb08a994c6568f03e0245b49820b694ad"
+    },
+    "sourceEvidence": {
+      "sha256": "c9eefca951e5116deed95c7752cb8a953d687752e874c483197edc9e4edab46b",
+      "sourceVersion": "client16.17 / DDragon16.17.1"
+    }
+  },
+  "confirmedFacts": {
+    "charmIdentity": "CHARM 表示来源明确的魅惑控制：目标被迫接近魅惑来源。行进算法、行动资格和解除属于运行实现，不在本次管理增量内。",
+    "sourceAssociation": "技能拥有者是魅惑来源；已有 SOURCE_TARGET 实例范围足以保存来源与承受对象关系，不需要新增来源字段、方向字段或重复的接近动作。",
+    "effectShape": "首次施加与移除继续使用无强度 STATUS_OPERATION；有限期结果由父效果生命周期和 PERSISTENT 维护，顶层 valueRule 为空。"
+  },
+  "approvedFirstScope": {
+    "ahri_e": {
+      "charmDurationMs": [1200, 1350, 1500, 1650, 1800],
+      "include": ["CHARM 身份", "首次施加持续时间"]
+    },
+    "seraphine_r": {
+      "charmDurationMs": [1250, 1500, 1750],
+      "include": ["CHARM 身份", "首次施加持续时间"]
+    }
+  },
+  "deferredBranches": [
+    "阿狸E伴随减速联动",
+    "阿狸E移动技能中止",
+    "阿狸E重施",
+    "萨勒芬妮R距离延伸",
+    "萨勒芬妮R重施"
+  ],
+  "blockingIssues": [],
+  "outOfScope": [
+    "新增运行代码、宿主或Wasm",
+    "新API或数据库查询",
+    "具体效果和触发规则正文冻结",
+    "免疫、解除、行进和战斗运行"
+  ],
+  "conclusion": "最新设计和来源证据与06的身份可实施结论一致。CHARM 身份已经包含被迫接近来源的管理语义；SOURCE_TARGET 足够表达来源关联。先接两项首次魅惑身份及固定期限，其余分支继续单列，不用重复动作字段承载同一语义。"
+}
