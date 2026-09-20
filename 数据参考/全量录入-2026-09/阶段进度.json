@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-20T04:31:44.352Z",
+  "generatedAt": "2026-09-20T07:18:45.187Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -12127,6 +12127,35 @@
         "commit": "ff66847b",
         "sha256": "d00c52d1d931ea0dec03f88a94e604de2fa76abb3b78e1bb3c56b30affbfed5f"
       }
+    },
+    "seraphineRDamageAndUseReturn": {
+      "at": "2026-09-20T07:18:45.187Z",
+      "status": "PARTIAL_MANAGEMENT_RETURN_VERIFIED",
+      "skillKey": "seraphine_r",
+      "businessWrites": 7,
+      "protectedAPIWrites": 7,
+      "independentGETs": 50,
+      "arithmeticCases": 9,
+      "currentCounts": {
+        "parameters": 5,
+        "formulas": 1,
+        "effects": 3,
+        "processes": 1,
+        "internalStates": 0,
+        "triggerRules": 3
+      },
+      "browser": "参数与公式、两效果子结果、过程、两入口、两处说明重开PASS",
+      "newIssue": "体验-02：来源技能目录未返回时短暂误报缺失",
+      "managementComplete": false,
+      "managementCompleteDelta": 0,
+      "runtimeValidation": "未执行",
+      "goalComplete": false,
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/萨勒芬妮R伤害与使用返回/05-证据清单.json",
+        "commit": "e7bda3a9",
+        "sha256": "dd66b027dba6fbc62b37018e3838f8e6ca7ae94a325bdfec151fcd5c7b063a5d"
+      }
     }
   },
   "runtimeValidation": "未执行",
@@ -12757,6 +12786,12 @@
         "relativePath": "数据参考/全量录入-2026-09/魅惑状态补齐/17-证据清单.json",
         "commit": "ff66847b",
         "sha256": "d00c52d1d931ea0dec03f88a94e604de2fa76abb3b78e1bb3c56b30affbfed5f"
+      },
+      "seraphineRDamageAndUseReturn": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/萨勒芬妮R伤害与使用返回/05-证据清单.json",
+        "commit": "e7bda3a9",
+        "sha256": "dd66b027dba6fbc62b37018e3838f8e6ca7ae94a325bdfec151fcd5c7b063a5d"
       }
     },
     "coverage": {
@@ -31081,12 +31116,12 @@
         "name": "萨勒芬妮·炫音返场",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "参数、公式、终极分类与首次魅惑身份、期限及四条件入口已保存，独立回读和真实页面返回通过；伤害与普通使用组成继续补录，施放时间冲突、魅惑附带移动数值、重施和距离延伸仍需分别核定。",
+        "reason": "普通敌方英雄实际命中伤害、法力和基础冷却使用登记、首次魅惑及两个新入口已保存，独立回读和代表页面通过；施放时长冲突、魅惑重施、移动数值含义、距离延伸和自身被动依赖继续核定，不计整技能管理完整。",
         "pendingCounts": {
           "source": 3,
           "system": 0,
-          "configuration": 3,
-          "other": 0
+          "configuration": 1,
+          "other": 1
         },
         "batchKey": "heroThirtyThirdBatch",
         "candidateSha256": "841a100c48f51a135dbb6d4457ec5523af2030611cbbac1f2212b388be5a8b4e",
@@ -31094,27 +31129,30 @@
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
           "remainingUltimateCategoryBackfill",
-          "charmStatusIdentityAndReturn"
+          "charmStatusIdentityAndReturn",
+          "seraphineRDamageAndUseReturn"
         ],
         "completedBranches": [
           "固定来源主R终极技能分类关联",
-          "首次魅惑身份、已有时长参数和四条件入口，独立回读及页面返回通过"
+          "首次魅惑身份、已有时长参数和四条件入口，独立回读及页面返回通过",
+          "普通敌方英雄直接魔法伤害与实际命中入口",
+          "法力与基础冷却使用登记及主动入口",
+          "主体与法力参数说明更正、独立回读和页面返回"
         ],
         "currentComponentCounts": {
           "parameters": 5,
           "formulas": 1,
-          "effects": 1,
-          "processes": 0,
+          "effects": 3,
+          "processes": 1,
           "internalStates": 0,
-          "triggerRules": 1
+          "triggerRules": 3
         },
         "remainingBranches": [
-          "伤害结果与准确命中入口",
-          "法力消耗及基础冷却普通使用过程",
           "客户端0与500毫秒施放时间冲突",
           "魅惑附带移动数值字段含义",
           "已有本来源魅惑实例时再次施加策略",
-          "英雄命中后的距离延伸表达"
+          "英雄命中后的距离延伸表达",
+          "其他自身被动依赖核定"
         ],
         "charmFirstApplication": {
           "effectKey": "charm_first_application",
@@ -31131,7 +31169,18 @@
             "basis": "本轮1V1无关；敌我英雄命中距离延伸仍保留核定"
           }
         ],
-        "subjectDescriptionReturn": "PASS"
+        "subjectDescriptionReturn": "PASS",
+        "damageAndUseReturn": {
+          "damageEffect": "encore_hit",
+          "manaEffect": "mana_cost",
+          "process": "use_cost_and_cooldown",
+          "hitRule": "actual_hit",
+          "useRule": "on_used_cost_and_cooldown",
+          "httpReadback": "PASS",
+          "browser": "PASS",
+          "arithmeticCases": 9,
+          "registrationOnly": true
+        }
       },
       {
         "sourceChampionId": "Sett",
