@@ -1,0 +1,77 @@
+{
+  "at": "2026-09-21T08:29:51.584Z",
+  "reviewer": "/root/ammo_management_contract_audit",
+  "scope": "当前管理契约与字段只读审计",
+  "httpRequests": 0,
+  "businessWrites": 0,
+  "filesModifiedByReviewer": false,
+  "codeGraph": "工具未提供、PATH无codegraph；已知路径定点读取",
+  "currentAmmo": {
+    "scope": "SKILL",
+    "requiredDetail": [
+      "initialValue",
+      "maxValue",
+      "recoveryIntervalValue",
+      "recoveryMode"
+    ],
+    "numericKinds": [
+      "FIXED",
+      "PARAMETER",
+      "FORMULA"
+    ],
+    "bounds": {
+      "initial": "非负整数",
+      "max": "正整数",
+      "recoveryInterval": "正数毫秒"
+    },
+    "modes": [
+      "ONE_BY_ONE",
+      "ALL_AT_ONCE"
+    ],
+    "initialMaxCrossCheck": "未见initial<=max交叉校验；本次不直接将缺少校验判为bug，仍须对照截断或拒绝约定"
+  },
+  "defined": [
+    "内部状态先准备、SOURCE_INITIALIZED后触发一次",
+    "CONSUME可绑定过程固定时点",
+    "SKILL_USED是已使用事件，其条件只决定事件后规则匹配，不是施法前许可"
+  ],
+  "openSemantics": [
+    "首次消费启动恢复计时与第二次消费是否保留计时",
+    "恢复后的周期接续、等级或急速变化的读取和进度策略",
+    "消费数量不足的拒绝/截断/失败行为",
+    "首次学习、升级或其他重初始化条件及游戏初始充能"
+  ],
+  "implementationEvidence": [
+    {
+      "root": "backend",
+      "path": "server/data_manage/src/main/java/xyz/game/datamanage/model/skillinternalstate/SkillInternalStateAmmoDetail.java",
+      "line": 13
+    },
+    {
+      "root": "backend",
+      "path": "server/data_manage/src/main/java/xyz/game/datamanage/service/skillinternalstate/SkillInternalStateService.java",
+      "line": 301
+    },
+    {
+      "root": "backend",
+      "path": "server/data_manage/src/main/java/xyz/game/datamanage/support/authoring/SkillNumericSemantics.java",
+      "line": 104
+    },
+    {
+      "root": "backend",
+      "path": "server/data_manage/src/main/java/xyz/game/datamanage/service/skillprocess/SkillProcessService.java",
+      "line": 743
+    },
+    {
+      "root": "planning",
+      "path": "文档记录/详细设计/项目/技能过程内部状态与效果录入详细设计.md",
+      "line": 203
+    },
+    {
+      "root": "planning",
+      "path": "文档记录/详细设计/项目/条件事件与动态输入供值管理详细设计.md",
+      "line": 198
+    }
+  ],
+  "decision": "可记录已证字段，但初值不能由容量代填；完整充能及使用许可仍未闭合，不靠新表或运行开发代替事实。"
+}

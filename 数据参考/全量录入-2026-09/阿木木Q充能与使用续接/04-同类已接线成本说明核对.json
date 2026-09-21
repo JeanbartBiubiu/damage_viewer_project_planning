@@ -1,0 +1,119 @@
+{
+  "at": "2026-09-21T08:31:48.339Z",
+  "getCount": 3,
+  "businessWrites": 0,
+  "rows": [
+    {
+      "route": "/skills/vi_e/effects/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T17:37:38.058194Z",
+        "description": "仅施放法力消耗；具体过程单独绑定。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "施放法力消耗",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "vi_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T17:37:38.058194Z"
+      }
+    },
+    {
+      "route": "/skills/vi_e/processes/cast",
+      "status": 200,
+      "data": {
+        "activationType": "ACTIVE",
+        "cooldown": null,
+        "createdAt": "2026-09-08T17:37:38.672324Z",
+        "description": "仅已确证的施放成本、冷却与独立自益；不生成敌人命中。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "gameId": "lol",
+        "name": "施放透体之劲",
+        "processKey": "cast",
+        "skillKey": "vi_e",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": null,
+            "detail": {},
+            "name": "施放开始",
+            "sortOrder": 10,
+            "stepKey": "start",
+            "stepType": "IMMEDIATE"
+          }
+        ],
+        "updatedAt": "2026-09-08T17:37:38.672324Z"
+      }
+    },
+    {
+      "route": "/skills/vi_e/trigger-rules/on_used",
+      "status": 200,
+      "data": {
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "cast"
+            },
+            "name": "启动透体之劲施法过程",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "接收vi_e主动使用并启动已有cast过程，只处理已保存的法力消耗和立即步骤，不配置普通冷却；两次弹药、恢复时间、1秒静态冷却、强化窗口、普攻替换、伤害、身后范围和法术护盾资格继续暂缓。管理保存不证明宿主已生产该事件。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "vi_e",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "主动使用启动透体之劲施法过程",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used",
+        "sortOrder": 10
+      }
+    }
+  ]
+}

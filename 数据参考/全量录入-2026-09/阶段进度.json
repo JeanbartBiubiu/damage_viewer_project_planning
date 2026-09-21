@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-21T07:25:40.126Z",
+  "generatedAt": "2026-09-21T09:02:54.005Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。；基兰W冷却回退返回：7次保存、41次独立GET与5类页面通过，有效施放时间仍待核，管理完整8项/开放831项保持，见zileanWCooldownReductionReturn。；系统-16装备技能直达录入已完成，728单测/3项定向页面及两件真实装备往返通过，6条独立回读不变，业务写入0。；中娅主体说明1次页面更正、独立13GET及重开通过，装备开放234项保持；百分比穿透候选与两份历史来源的边界另见percentPenetrationSourceContractAudit，尚未批准实施。；崔丝塔娜W明确组成返回8次保存、108次独立GET、20组算例及8类页面通过；复用旧本人击杀入口，整技能仍系统暂缓，管理完整8项/开放831项保持。；正式参与击杀事件已返回崔丝塔娜W：3次页面保存、36次独立GET、4项拒绝验证通过，原4规则数量保持；剩余系统1项、资料1项，整技能未记完整。；剩余冷却比例已返回易大师R和纳沃利：3次页面保存、49次独立GET及3项数值越界拒绝通过，无新表或触发；纳沃利改资料待核，整技能完成数保持。",
@@ -13737,6 +13737,31 @@
       "browser": false,
       "wholeSkillComplete": false,
       "runtime": false
+    },
+    "amumuQCostRegistrationReturn": {
+      "status": "静态冷却说明、成本父子说明及独立法力登记已保存并独立回读；充能和代表页面继续处理",
+      "successfulSaves": 4,
+      "independentGets": 78,
+      "componentsCreated": 2,
+      "numericChanges": 0,
+      "commits": {
+        "descriptionTool": "3626d18fa06914586655b74a9c94ec5eb0e08295",
+        "staticParameter": "0bdfb5b8248010c4d9f083f99623d8b17885c95b",
+        "effectDescriptions": "dc32e25b9d518862b7a71e76a9bb1f320015f8fb",
+        "costUse": "d35c67c1c5e3793850fd92ee1ba0879a3e8daa31"
+      },
+      "evidence": "阿木木Q充能与使用续接/10-独立使用成本返回.json",
+      "currentCounts": {
+        "parameters": 9,
+        "formulas": 1,
+        "effects": 3,
+        "processes": 1,
+        "internalStates": 0,
+        "triggerRules": 3
+      },
+      "browser": false,
+      "wholeSkillComplete": false,
+      "runtime": false
     }
   },
   "runtimeValidation": "未执行",
@@ -17785,14 +17810,15 @@
         "name": "阿木木·绷带牵引",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "同次明确未阻挡时的本体伤害及1000毫秒首次眩晕已保存并独立回读；阻挡/缺值、充能使用、牵引、被动和控制重施继续处理，不计整技能完整。",
+        "reason": "明确未阻挡本体伤害、1000毫秒首次眩晕和已接受普通使用的独立50法力登记均已保存并独立回读；静态间隔与弹药恢复已分开说明，充能、牵引、许可和其他控制资格继续处理。",
         "batchKey": "heroTwentyThirdBatch",
         "candidateSha256": "772528a5abd0ec24285f4db64f7cb03b5c6415a106aa83fbb7ffe40b651d3358",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
           "amumuQFirstStunReturn",
-          "amumuQUnblockedDamageReturn"
+          "amumuQUnblockedDamageReturn",
+          "amumuQCostRegistrationReturn"
         ],
         "historicalPendingCounts": {
           "source": 0,
@@ -17804,14 +17830,14 @@
           "parameters": 9,
           "formulas": 1,
           "effects": 3,
-          "processes": 0,
+          "processes": 1,
           "internalStates": 0,
-          "triggerRules": 2
+          "triggerRules": 3
         },
         "remainingBranches": [
           "伤害与控制的阻挡/缺值分支",
-          "充能消费、恢复及普通使用资格",
-          "牵引与被动关联",
+          "三秒静态间隔、充能初值/消费/恢复及施法前许可",
+          "完整施放时序、牵引与被动关联",
           "已有本来源眩晕实例重施",
           "代表正式页面"
         ],
@@ -17834,6 +17860,15 @@
           "efficiency": 1,
           "httpReadback": "PASS",
           "browser": "待验"
+        },
+        "authoredCostRegistration": {
+          "processKey": "use_cost_registration",
+          "ruleKey": "on_used_cost",
+          "costEffectKey": "mana_cost",
+          "ordinaryCooldown": null,
+          "httpReadback": "PASS",
+          "browser": "待验",
+          "scope": "仅已接受根普通ACTIVE使用成本，未实现充能/静态间隔许可"
         }
       },
       {

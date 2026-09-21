@@ -1,0 +1,153 @@
+{
+  "at": "2026-09-21T08:21:00.039Z",
+  "getCount": 7,
+  "businessWrites": 0,
+  "rows": [
+    {
+      "route": "/skills/amumu_q",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:16:22.658438Z",
+        "description": "阿木木向目标投掷粘稠的绷带，将自己拉向目标，并对目标造成伤害和眩晕效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "阿木木·绷带牵引",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "amumu_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:16:22.658438Z"
+      }
+    },
+    {
+      "route": "/skills/amumu_q/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T14:32:18.678728Z",
+        "description": "客户端根绑定 spell cooldownTime=3秒；等级1至5均为3秒，按毫秒录入。公共参数清单只复用法力消耗。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 3000,
+          "2": 3000,
+          "3": 3000,
+          "4": 3000,
+          "5": 3000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "amumu_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T14:32:18.678728Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/amumu_q/parameters/ammo_recharge_time_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T14:32:25.335637Z",
+        "description": "客户端根绑定 mAmmoRechargeTime 原始数组索引1至5为16/15/14/13/12秒，按毫秒录入；保留充能数据，不创建充能事件。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 16000,
+          "2": 15000,
+          "3": 14000,
+          "4": 13000,
+          "5": 12000
+        },
+        "name": "充能时间（毫秒）",
+        "parameterKey": "ammo_recharge_time_ms",
+        "skillKey": "amumu_q",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-09T14:32:25.335637Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/amumu_q/effects/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T14:32:28.630199Z",
+        "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "施放法力消耗",
+        "results": [
+          {
+            "description": "候选只记录资源变化载荷，实际扣除时点和施放资格未接线。",
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "amumu_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T14:32:28.630199Z"
+      }
+    },
+    {
+      "route": "/skills/amumu_q/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/amumu_q/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/amumu_q/trigger-rules",
+      "status": 200,
+      "data": [
+        {
+          "actionCount": 1,
+          "conditionGroupCount": 1,
+          "description": "同组要求amumu_q本体合资格实际命中敌方英雄且同次法术护盾判定明确为0；缺值或1均不执行，不从本结果空护盾粒度、零伤害或当前护盾状态推定0。不生成命中，不包含牵引、充能与被动。",
+          "eventType": "SKILL_HIT",
+          "maxTriggersPerProcessEnabled": false,
+          "name": "明确未阻挡绷带本体命中伤害",
+          "perTargetCooldownEnabled": false,
+          "ruleKey": "actual_unblocked_hit",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-21T07:15:40.935198Z"
+        },
+        {
+          "actionCount": 1,
+          "conditionGroupCount": 1,
+          "description": "仅接收amumu_q本体合资格实际命中，目标由真实绷带首次敌方碰撞确定；同组要求敌方英雄、同次法术护盾阻挡明确为0及无本来源眩晕实例。缺值不默认0，不从使用或位移结束编造命中；重施、牵引、充能与被动继续单列。",
+          "eventType": "SKILL_HIT",
+          "maxTriggersPerProcessEnabled": false,
+          "name": "绷带命中且无本来源实例时眩晕",
+          "perTargetCooldownEnabled": false,
+          "ruleKey": "apply_stun_on_unblocked_hit",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-21T06:56:42.513362Z"
+        }
+      ]
+    }
+  ]
+}

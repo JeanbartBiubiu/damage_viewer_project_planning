@@ -1,0 +1,25 @@
+{
+  "at": "2026-09-21T08:34:56.351Z",
+  "status": "READY",
+  "reviewer": "/root",
+  "implementationBy": "/root/effect_description_children_tool",
+  "independentFromImplementation": true,
+  "trigger": "阿木木mana_cost父说明和子结果说明均含未接线状态，原v3不能精准修子结果。",
+  "tool": "tools/authoring/update-reviewed-descriptions-v4.mjs",
+  "sha256": "6630730f1e794c64fd73711008e04a22effb1a75f210bf905747e01563794407",
+  "oldToolUnchanged": true,
+  "checks": [
+    "只effect允许按唯一既有resultKey修改说明，父子同一次PUT",
+    "完整克隆基线，保持原结果顺序及全部非说明字段",
+    "拒绝重复、不存在、空数组、额外字段、其他kind越权、无实际变化",
+    "沿用冻结摘要、来源现值、响应先记录、防重放和详情/列表即时与独立对照"
+  ],
+  "tests": {
+    "command": "node --test tools/authoring/update-reviewed-descriptions-v4.test.mjs",
+    "passed": 23,
+    "failed": 0,
+    "network": "全模拟"
+  },
+  "httpRequests": 0,
+  "businessWrites": 0
+}

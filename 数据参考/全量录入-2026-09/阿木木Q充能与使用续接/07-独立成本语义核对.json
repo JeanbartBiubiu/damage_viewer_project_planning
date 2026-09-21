@@ -1,0 +1,14 @@
+{
+  "at": "2026-09-21T08:36:20.685Z",
+  "status": "SEMANTIC_PLAN_ALLOWED_NOT_BATCH_APPROVAL",
+  "reviewer": "/root/ammo_management_contract_audit",
+  "sourceCandidate": "03-独立使用成本候选.json",
+  "decision": "每次已接受根普通使用的50法力可单独登记；普通冷却null、IMMEDIATE只登记、无状态操作，不要求先完成充能。",
+  "checks": [
+    "唯一SKILL_USED ACTIVE -> START_PROCESS，成本仅由过程开始挂接一次，原命中规则不重复消费",
+    "固定来源根每次50法力，未见玩家再次施放阶段；子投射物条目不当作第二次玩家使用",
+    "已有蔚E真实页面确认相同无普通冷却成本登记",
+    "不把事件后条件当施法前许可，保留静态冷却、充能、牵引与受缚资格"
+  ],
+  "businessWrites": 0
+}

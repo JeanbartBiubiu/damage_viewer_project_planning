@@ -1,0 +1,120 @@
+{
+  "at": "2026-09-21T08:28:05.510Z",
+  "sourceVersion": "客户端16.17 / DDragon16.17.1",
+  "sources": [
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Amumu.json.gz",
+      "sha256": "35cc43b24362baa4c5a549aa6522a3e67a63f2dd0e48d2e255d358bbf6048175"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Amumu.json",
+      "sha256": "7c0160c4a6815044235fe9e91d4dd176d21986ed587baeb8dad3d4b23f08c09c"
+    }
+  ],
+  "rootBinding": {
+    "root": "Characters/Amumu/CharacterRecords/Root.spells[0]",
+    "ability": "Characters/Amumu/Spells/BandageTossAbility",
+    "spell": "Characters/Amumu/Spells/BandageTossAbility/BandageToss",
+    "extraSpell": "Characters/Amumu/Spells/BandageTossAbility/SadMummyBandageToss"
+  },
+  "known": {
+    "manaPerRootUse": 50,
+    "staticCooldownMsByRank": [
+      3000,
+      3000,
+      3000,
+      3000,
+      3000
+    ],
+    "clientCooldownNotAffectedByCdr": true,
+    "maxAmmoByRank": [
+      2,
+      2,
+      2,
+      2,
+      2
+    ],
+    "ammoRechargeMsByRank": [
+      16000,
+      15000,
+      14000,
+      13000,
+      12000
+    ],
+    "castTimeMs": 250,
+    "cantCastWhileRooted": true
+  },
+  "sourceFacts": {
+    "officialCost": [
+      50,
+      50,
+      50,
+      50,
+      50
+    ],
+    "officialCooldown": [
+      3,
+      3,
+      3,
+      3,
+      3
+    ],
+    "officialMaxAmmo": "2",
+    "clientRelevantFields": {
+      "spellCastTime": 0.25,
+      "cooldownTime": [
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3
+      ],
+      "Cooldown": {
+        "values": [
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        "{0a3e0478}": 3,
+        "__type": "{0a0eddc9}"
+      },
+      "mMaxAmmo": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "mAmmoRechargeTime": [
+        16,
+        16,
+        15,
+        14,
+        13,
+        12,
+        12
+      ],
+      "mCooldownNotAffectedByCDR": true,
+      "cantCastWhileRooted": true
+    },
+    "abilityChild": "SadMummyBandageToss为同能力子条目，带投射物结构并复用根提示；不把子条目自动当作第二个玩家普通使用。"
+  },
+  "decisions": [
+    "保留原数值与键，补充3秒为不受冷却缩减影响的静态冷却说明，不能当弹药恢复或未经区分的普通冷却入口",
+    "每次已接受根普通使用的50法力可按已成熟弹药技能成本登记流程独立表达；过程普通冷却为空，不负责充能或静态冷却许可",
+    "暂不创建必需初始值的AMMO状态：最大2不等于已证明初始2，恢复读值/周期/消费不足行为尚需共享语义与游戏来源闭合",
+    "牵引与受缚时不可使用保留为实际相关未完成分支，不以技能已使用后的条件冒充施法前许可"
+  ],
+  "numericChangesPlanned": 0,
+  "businessWrites": 0
+}
