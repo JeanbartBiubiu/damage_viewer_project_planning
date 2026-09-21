@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-21T12:39:42.048Z",
+  "generatedAt": "2026-09-21T12:51:59.177Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。；基兰W冷却回退返回：7次保存、41次独立GET与5类页面通过，有效施放时间仍待核，管理完整8项/开放831项保持，见zileanWCooldownReductionReturn。；系统-16装备技能直达录入已完成，728单测/3项定向页面及两件真实装备往返通过，6条独立回读不变，业务写入0。；中娅主体说明1次页面更正、独立13GET及重开通过，装备开放234项保持；百分比穿透候选与两份历史来源的边界另见percentPenetrationSourceContractAudit，尚未批准实施。；崔丝塔娜W明确组成返回8次保存、108次独立GET、20组算例及8类页面通过；复用旧本人击杀入口，整技能仍系统暂缓，管理完整8项/开放831项保持。；正式参与击杀事件已返回崔丝塔娜W：3次页面保存、36次独立GET、4项拒绝验证通过，原4规则数量保持；剩余系统1项、资料1项，整技能未记完整。；剩余冷却比例已返回易大师R和纳沃利：3次页面保存、49次独立GET及3项数值越界拒绝通过，无新表或触发；纳沃利改资料待核，整技能完成数保持。",
@@ -13971,6 +13971,52 @@
       "browser": false,
       "wholeSkillComplete": false,
       "runtime": false
+    },
+    "amumuEROrdinaryAndBodyReturn": {
+      "status": "两项公式说明更正、普通使用与本体组成已保存并独立回读，代表页面待验",
+      "skills": [
+        "amumu_e",
+        "amumu_r"
+      ],
+      "successfulSaves": 12,
+      "formulaDescriptionUpdates": 2,
+      "created": {
+        "effects": 3,
+        "processes": 2,
+        "triggerRules": 5
+      },
+      "independentGETs": 102,
+      "formulaArithmeticCases": 24,
+      "priorCostCleanup": "amumuERCostDescriptionCleanup",
+      "commits": {
+        "formulaDescriptions": "fef2a6e04392776cd479b90f3135d2efac9de735",
+        "components": "9e7421947b3d7ec8ce1ff10adc2bb3c018d7e1c6"
+      },
+      "currentCounts": {
+        "amumu_e": {
+          "parameters": 13,
+          "formulas": 4,
+          "effects": 2,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 2
+        },
+        "amumu_r": {
+          "parameters": 6,
+          "formulas": 1,
+          "effects": 3,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 3
+        }
+      },
+      "evidence": [
+        "阿木木ER普通使用与本体返回/06-公式说明实际返回.json",
+        "阿木木ER普通使用与本体返回/07-普通使用与本体组成实际返回.json"
+      ],
+      "browser": false,
+      "wholeSkillComplete": false,
+      "runtime": false
     }
   },
   "runtimeValidation": "未执行",
@@ -18112,7 +18158,7 @@
         "name": "阿木木·阿木木的愤怒",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有2个待处理分支，其中来源或资料缺口1个、系统缺口1个、配置缺口0个。",
+        "reason": "基础成本与普通冷却登记、明确未阻挡敌方英雄本体魔法伤害及两个入口已保存并独立回读；被动物理减伤与抗性选择器、受击减冷却、完整施法时序和代表页面继续处理，不计整技能管理完成。",
         "pendingCounts": {
           "source": 1,
           "system": 1,
@@ -18124,16 +18170,42 @@
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
-          "amumuERCostDescriptionCleanup"
+          "amumuERCostDescriptionCleanup",
+          "amumuEROrdinaryAndBodyReturn"
         ],
         "currentComponentCounts": {
           "parameters": 13,
           "formulas": 4,
-          "effects": 1,
-          "processes": 0,
+          "effects": 2,
+          "processes": 1,
           "internalStates": 0,
-          "triggerRules": 0
-        }
+          "triggerRules": 2
+        },
+        "authoredUseEntry": {
+          "processKey": "use_cost_and_cooldown",
+          "ruleKey": "on_used_cost_and_cooldown",
+          "costEffectKey": "mana_cost",
+          "httpReadback": "PASS",
+          "browser": "待验"
+        },
+        "authoredDirectHit": {
+          "effectKey": "primary_hit",
+          "ruleKey": "actual_unblocked_hit",
+          "httpReadback": "PASS",
+          "scope": "同次明确未被法术护盾阻挡的敌方英雄合资格本体实际命中",
+          "spellShieldBlockScope": null,
+          "spellShieldMeaning": "入口已要求同次阻挡值为0，结果不重复判定，不是穿盾",
+          "vampType": "OMNIVAMP",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "efficiency": 1,
+          "browser": "待验"
+        },
+        "remainingBranches": [
+          "被动物理减伤与额外抗性选择器",
+          "被攻击后的冷却减少",
+          "完整施法时序",
+          "代表页面验收"
+        ]
       },
       {
         "sourceChampionId": "Amumu",
@@ -18144,7 +18216,7 @@
         "name": "阿木木·木乃伊之咒",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "基础成本冷却和250毫秒施法过程、明确未阻挡本体魔法伤害、1500毫秒首次眩晕与各自入口已保存并独立回读；诅咒联动、重施与完整免控交互、代表页面继续处理，不计整技能管理完成。",
         "pendingCounts": {
           "source": 0,
           "system": 1,
@@ -18157,7 +18229,8 @@
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
           "remainingUltimateCategoryBackfill",
-          "amumuERCostDescriptionCleanup"
+          "amumuERCostDescriptionCleanup",
+          "amumuEROrdinaryAndBodyReturn"
         ],
         "completedBranches": [
           "固定来源主R终极技能分类关联"
@@ -18165,10 +18238,44 @@
         "currentComponentCounts": {
           "parameters": 6,
           "formulas": 1,
-          "effects": 1,
-          "processes": 0,
+          "effects": 3,
+          "processes": 1,
           "internalStates": 0,
-          "triggerRules": 0
+          "triggerRules": 3
+        },
+        "authoredUseEntry": {
+          "processKey": "cast",
+          "ruleKey": "on_used",
+          "costEffectKey": "mana_cost",
+          "httpReadback": "PASS",
+          "browser": "待验"
+        },
+        "authoredDirectHit": {
+          "effectKey": "primary_hit",
+          "ruleKey": "actual_unblocked_hit",
+          "httpReadback": "PASS",
+          "scope": "同次明确未被法术护盾阻挡的敌方英雄合资格本体实际命中",
+          "spellShieldBlockScope": null,
+          "spellShieldMeaning": "入口已要求同次阻挡值为0，结果不重复判定，不是穿盾",
+          "vampType": "OMNIVAMP",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "efficiency": 1,
+          "browser": "待验"
+        },
+        "remainingBranches": [
+          "诅咒与P联动",
+          "重施及完整免控交互",
+          "代表页面验收"
+        ],
+        "authoredFirstStun": {
+          "effectKey": "first_hit_stun",
+          "ruleKey": "apply_stun_on_unblocked_hit",
+          "statusKey": "vertigo",
+          "statusKind": "STUN",
+          "durationParameter": "stun_duration_ms",
+          "milliseconds": 1500,
+          "httpReadback": "PASS",
+          "browser": "待验"
         }
       },
       {
