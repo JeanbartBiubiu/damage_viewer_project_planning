@@ -2773,6 +2773,116 @@ class SkillEffectServiceTest {
         verify(mapper).updateEffect(eq(GAME_ID), eq(SKILL_KEY), eq(EFFECT_KEY), eq("命中结果"), eq(null), eq(10), any(), any());
     }
 
+    @Test
+    void lifecycleOnlyEffectCreatesReadsAndUpdatesWithoutInventingResults() {
+        stubParentAndNewKey();
+        stubEnabledCatalogs();
+        when(skillMapper.findById(GAME_ID, SKILL_KEY)).thenReturn(skill());
+        when(mapper.findEffect(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> savedEffect);
+        when(mapper.findEffectForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> savedEffect);
+
+        SkillEffectDetailResponse created = service.create(GAME_ID, SKILL_KEY, new SkillEffectCreateRequest(
+            EFFECT_KEY, "资格窗口", null, 10, timedLifecycle(), List.of()
+        ));
+        assertEquals("[]", savedEffect.results());
+        assertTrue(created.results().isEmpty());
+        assertEquals(DURATION_FORMULA, created.lifecycle().durationValue().formulaKey());
+        assertEquals(created, service.get(GAME_ID, SKILL_KEY, EFFECT_KEY));
+
+        SkillEffectDetailResponse updated = service.update(GAME_ID, SKILL_KEY, EFFECT_KEY,
+            new SkillEffectUpdateRequest(null, "更新资格窗口", null, 20, timedLifecycle(), List.of()));
+        assertTrue(updated.results().isEmpty());
+        assertEquals(created.lifecycle(), updated.lifecycle());
+        assertEquals("更新资格窗口", updated.name());
+        assertEquals(updated, service.get(GAME_ID, SKILL_KEY, EFFECT_KEY));
+        verify(mapper, org.mockito.Mockito.atLeastOnce()).lockFormulas(eq(GAME_ID), eq(SKILL_KEY),
+            org.mockito.ArgumentMatchers.argThat(keys -> keys.size() == 3
+                && keys.containsAll(Set.of(DURATION_FORMULA, MAX_STACKS_FORMULA, APP_STACKS_FORMULA))));
+    }
+
+    @Test
+    void lifecycleOnlyEffectMayHaveNoNaturalDuration() {
+        stubParentAndNewKey();
+        stubEnabledCatalogs();
+        when(mapper.findEffect(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> savedEffect);
+        SkillEffectLifecycleRequest lifecycle = new SkillEffectLifecycleRequest(
+            null, SkillNumericValue.formula(MAX_STACKS_FORMULA), SkillNumericValue.formula(APP_STACKS_FORMULA),
+            SkillEffectLifecycleInstanceScope.SOURCE_TARGET, SkillEffectLifecycleReapplicationStackMode.KEEP,
+            null, SkillEffectLifecycleExpiryMode.EXPLICIT_ONLY, null, null);
+        SkillEffectDetailResponse created = service.create(GAME_ID, SKILL_KEY, new SkillEffectCreateRequest(
+            EFFECT_KEY, "持续资格", null, 10, lifecycle, List.of()));
+        assertNull(created.lifecycle().durationValue());
+        assertEquals(SkillEffectLifecycleExpiryMode.EXPLICIT_ONLY, created.lifecycle().expiryMode());
+        assertTrue(created.results().isEmpty());
+    }
+
+    @Test
+    void nullResultsAreRejectedByBothServiceEntrypointsEvenWithLifecycle() {
+        for (SkillEffectLifecycleRequest lifecycle : java.util.Arrays.asList(null, timedLifecycle())) {
+            ApiException create = assertThrows(ApiException.class, () -> service.create(GAME_ID, SKILL_KEY,
+                new SkillEffectCreateRequest(EFFECT_KEY, "资格窗口", null, 10, lifecycle, null)));
+            assertField(create, "results", "REQUIRED");
+            ApiException update = assertThrows(ApiException.class, () -> service.update(GAME_ID, SKILL_KEY, EFFECT_KEY,
+                new SkillEffectUpdateRequest(null, "资格窗口", null, 10, lifecycle, null)));
+            assertField(update, "results", "REQUIRED");
+        }
+        verify(mapper, never()).insertEffect(any(), any(), any(), any(), any(), any(), any(), any());
+        verify(mapper, never()).updateEffect(any(), any(), any(), any(), any(), any(), any(), any());
+    }
+
+    @Test
+    void lifecycleOnlyEffectStillRejectsRemovingLifecycleInvalidLifecycleAndUnusedPeriodicSettings() {
+        stubParentAndNewKey();
+        stubEnabledCatalogs();
+        when(mapper.findEffect(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> savedEffect);
+        when(mapper.findEffectForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> savedEffect);
+        service.create(GAME_ID, SKILL_KEY, new SkillEffectCreateRequest(
+            EFFECT_KEY, "资格窗口", null, 10, timedLifecycle(), List.of()));
+        SkillEffectRow before = savedEffect;
+        ApiException empty = assertThrows(ApiException.class, () -> service.update(GAME_ID, SKILL_KEY, EFFECT_KEY,
+            new SkillEffectUpdateRequest(null, "资格窗口", null, 10, null, List.of())));
+        assertField(empty, "results", "REQUIRED");
+
+        SkillEffectLifecycleRequest valid = timedLifecycle();
+        SkillEffectLifecycleRequest invalid = new SkillEffectLifecycleRequest(
+            valid.durationValue(), valid.maxStacksValue(), valid.applicationStacksValue(), null,
+            valid.reapplicationStackMode(), valid.reapplicationDurationMode(), valid.expiryMode(), null, null);
+        SkillEffectLifecycleRequest periodic = new SkillEffectLifecycleRequest(
+            valid.durationValue(), valid.maxStacksValue(), valid.applicationStacksValue(), valid.instanceScope(),
+            valid.reapplicationStackMode(), valid.reapplicationDurationMode(), valid.expiryMode(),
+            SkillNumericValue.formula(PERIODIC_FORMULA), SkillEffectLifecycleFirstPeriodicExecution.AFTER_INTERVAL);
+        for (SkillEffectLifecycleRequest lifecycle : List.of(invalid, periodic)) {
+            String field = lifecycle == invalid ? "lifecycle.instanceScope" : "lifecycle.periodicIntervalValue";
+            ApiException create = assertThrows(ApiException.class, () -> service.create(GAME_ID, SKILL_KEY,
+                new SkillEffectCreateRequest(EFFECT_KEY, "资格窗口", null, 10, lifecycle, List.of())));
+            assertTrue(fieldIssues(create).stream().anyMatch(issue -> field.equals(issue.get("field"))));
+            ApiException update = assertThrows(ApiException.class, () -> service.update(GAME_ID, SKILL_KEY, EFFECT_KEY,
+                new SkillEffectUpdateRequest(null, "资格窗口", null, 10, lifecycle, List.of())));
+            assertTrue(fieldIssues(update).stream().anyMatch(issue -> field.equals(issue.get("field"))));
+        }
+        assertEquals(before, savedEffect);
+        verify(mapper, never()).updateEffect(any(), any(), any(), any(), any(), any(), any(), any());
+    }
+
+    @Test
+    void removingLastReferencedResultToKeepOnlyLifecycleIsRejectedBeforeWrite() {
+        stubParentAndNewKey();
+        stubEnabledCatalogs();
+        when(mapper.findEffect(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> savedEffect);
+        when(mapper.findEffectForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> savedEffect);
+        service.create(GAME_ID, SKILL_KEY, new SkillEffectCreateRequest(EFFECT_KEY, "伤害窗口", null, 10,
+            timedLifecycle(), List.of(damageResultWithBehavior("physical_hit", applicationSnapshot()))));
+        SkillEffectRow before = savedEffect;
+        org.mockito.Mockito.doThrow(new ApiException(org.springframework.http.HttpStatus.CONFLICT,
+            "409.SKILL_EFFECT_IN_USE", "结果仍被引用", Map.of()))
+            .when(triggerRuleService).assertEffectUpdate(eq(GAME_ID), eq(SKILL_KEY), eq(EFFECT_KEY), any(),
+                eq(timedLifecycle()), eq(List.of()), eq(List.of("physical_hit")));
+        assertCode("409.SKILL_EFFECT_IN_USE", () -> service.update(GAME_ID, SKILL_KEY, EFFECT_KEY,
+            new SkillEffectUpdateRequest(null, "资格窗口", null, 10, timedLifecycle(), List.of())));
+        assertEquals(before, savedEffect);
+        verify(mapper, never()).updateEffect(any(), any(), any(), any(), any(), any(), any(), any());
+    }
+
     private int saveAggregate(org.mockito.invocation.InvocationOnMock invocation) {
         savedEffect = new SkillEffectRow(invocation.getArgument(0), invocation.getArgument(1), invocation.getArgument(2),
             invocation.getArgument(3), invocation.getArgument(4), invocation.getArgument(5),

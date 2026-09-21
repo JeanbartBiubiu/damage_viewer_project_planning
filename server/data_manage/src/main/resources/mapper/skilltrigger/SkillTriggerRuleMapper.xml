@@ -468,7 +468,7 @@
     </sql>
 
     <sql id="effectShapeSelect">
-        SELECT r.effect_key,
+        SELECT e.effect_key,
                r.result_key,
                r.result_type,
                r.target,
@@ -500,7 +500,11 @@
                      AND vr.result_key = r.result_key
                ), 0) AS vamp_count,
                cd.operation AS cooldown_operation
-        FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.effectResults"/>) r
+        FROM public.skill_effects e
+        LEFT JOIN (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.effectResults"/>) r
+          ON r.game_id = e.game_id
+         AND r.skill_key = e.skill_key
+         AND r.effect_key = e.effect_key
         LEFT JOIN (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.effectResultValues"/>) v
           ON v.game_id = r.game_id
          AND v.skill_key = r.skill_key
@@ -532,9 +536,9 @@
          AND lo.effect_key = r.effect_key
          AND lo.result_key = r.result_key
         LEFT JOIN (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.effectLifecycles"/>) l
-          ON l.game_id = r.game_id
-         AND l.skill_key = r.skill_key
-         AND l.effect_key = r.effect_key
+          ON l.game_id = e.game_id
+         AND l.skill_key = e.skill_key
+         AND l.effect_key = e.effect_key
         LEFT JOIN (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.effectResultSpellShieldPolicies"/>) sp
           ON sp.game_id = r.game_id
          AND sp.skill_key = r.skill_key
@@ -800,8 +804,8 @@
 
     <select id="listEffectShapes" resultMap="effectShapeRow">
         <include refid="effectShapeSelect"/>
-        WHERE r.game_id = #{gameId} AND r.skill_key = #{skillKey}
-        ORDER BY r.effect_key ASC, r.sort_order ASC, r.result_key ASC
+        WHERE e.game_id = #{gameId} AND e.skill_key = #{skillKey}
+        ORDER BY e.effect_key ASC, r.sort_order ASC, r.result_key ASC
     </select>
 
     <select id="listEffectInteractionValues" resultType="string">

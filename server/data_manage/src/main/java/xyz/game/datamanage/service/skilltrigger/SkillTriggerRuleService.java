@@ -2650,8 +2650,11 @@ public class SkillTriggerRuleService {
         String effectKey,
         String resultKey
     ) {
+        if (resultKey == null) {
+            return null;
+        }
         for (SkillTriggerEffectShapeRow row : effectShapes.getOrDefault(effectKey, List.of())) {
-            if (Objects.equals(row.resultKey(), resultKey)) {
+            if (row.resultKey() != null && row.resultKey().equals(resultKey)) {
                 return row;
             }
         }

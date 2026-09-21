@@ -2,7 +2,6 @@ package xyz.game.datamanage.model.skilleffect;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -23,7 +22,6 @@ public record SkillEffectUpdateRequest(
     @Valid
     SkillEffectLifecycleRequest lifecycle,
     @NotNull(message = "结果列表不能缺失")
-    @NotEmpty(message = "效果至少包含一个结果")
     @Valid
     List<SkillEffectResultRequest> results
 ) {
