@@ -1,0 +1,27 @@
+{
+  "at": "2026-09-21T01:45:41.685Z",
+  "baseEvidence": {
+    "path": "09-证据清单.json",
+    "sha256": "595f0680222df820c329594c9485843bad539d9eb220f24e68acb51422546ffa"
+  },
+  "case": "已有刷新引用时禁止清空目标自然到期期限",
+  "expectedAndActualStatus": 409,
+  "errorCode": "409.SKILL_EFFECT_LIFECYCLE_IN_USE",
+  "reason": "REFRESH_OPERATION_IN_USE",
+  "preflightGETs": 2,
+  "readbackGETs": 2,
+  "targetAndHelperUnchanged": true,
+  "successfulBusinessWrites": 0,
+  "files": [
+    {
+      "path": "10-刷新引用反向保护请求冻结.json",
+      "sha256": "c38a99661ecac325645848f27ba1cf08db1484a00cdb09e6b77aa53f9d7382bd"
+    },
+    {
+      "path": "11-真实HTTP反向保护结果.json",
+      "sha256": "dba85035a0dad78e8adf549015a2b55a8f361550084e6f0074376f046cc6fa1b"
+    }
+  ],
+  "browserVerified": false,
+  "runtimeVerified": false
+}

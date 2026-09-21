@@ -1,0 +1,177 @@
+{
+  "at": "2026-09-21T01:42:46.822Z",
+  "purpose": "现有REFRESH引用真实反向保护验证，预期拒绝并保持原值",
+  "before": {
+    "at": "2026-09-21T01:42:46.729Z",
+    "audit": [
+      {
+        "method": "GET",
+        "path": "/skills/sivir_r/effects/on_the_hunt",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/sivir_r/effects/refresh_on_the_hunt",
+        "status": 200
+      }
+    ],
+    "values": {
+      "/skills/sivir_r/effects/on_the_hunt": {
+        "createdAt": "2026-09-07T17:58:57.283704Z",
+        "description": "独立持续属性。比例属性按百分点加算，1表示100%；不是把面板最终属性乘此比例。",
+        "effectKey": "on_the_hunt",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "buff_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "狩猎自身移速",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "move_speed_percent",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "狩猎自身移速",
+            "resultKey": "attribute",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "move_speed_ratio"
+              }
+            }
+          }
+        ],
+        "skillKey": "sivir_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T17:58:57.283704Z"
+      },
+      "/skills/sivir_r/effects/refresh_on_the_hunt": {
+        "createdAt": "2026-09-21T01:28:50.810908Z",
+        "description": "只将来源对象仍存在的狩猎自身移速实例刷新为完整持续时间，不增加层数或重新施加属性数值。仅保存刷新组成；最近3秒本人伤害资格与参与击杀入口尚未配置，本效果未接入触发。",
+        "effectKey": "refresh_on_the_hunt",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "刷新狩猎完整持续时间",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "operation": "REFRESH",
+              "targetEffectKey": "on_the_hunt"
+            },
+            "lifecycleBehavior": null,
+            "name": "刷新狩猎完整持续时间",
+            "resultKey": "refresh",
+            "resultType": "LIFECYCLE_OPERATION",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": null
+          }
+        ],
+        "skillKey": "sivir_r",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-21T01:28:50.810908Z"
+      }
+    }
+  },
+  "request": {
+    "method": "PUT",
+    "path": "/skills/sivir_r/effects/on_the_hunt",
+    "body": {
+      "name": "狩猎自身移速",
+      "description": "独立持续属性。比例属性按百分点加算，1表示100%；不是把面板最终属性乘此比例。",
+      "sortOrder": 20,
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": null,
+        "expiryMode": "EXPLICIT_ONLY",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": null,
+        "reapplicationStackMode": "KEEP"
+      },
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "move_speed_percent",
+            "modifierZoneKey": "attribute_flat_add",
+            "operation": "INCREASE"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": "REPLACE",
+            "stackValueMode": "SHARED",
+            "valueReadMode": "APPLICATION_SNAPSHOT"
+          },
+          "name": "狩猎自身移速",
+          "resultKey": "attribute",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "move_speed_ratio"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "expected": {
+    "status": 409,
+    "code": "409.SKILL_EFFECT_LIFECYCLE_IN_USE",
+    "field": "lifecycle.durationValue",
+    "reason": "REFRESH_OPERATION_IN_USE",
+    "targetUnchanged": true,
+    "helperUnchanged": true
+  }
+}
