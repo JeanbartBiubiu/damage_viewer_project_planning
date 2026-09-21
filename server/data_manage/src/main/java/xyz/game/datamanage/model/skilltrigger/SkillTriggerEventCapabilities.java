@@ -46,7 +46,7 @@ public final class SkillTriggerEventCapabilities {
             return null;
         }
         return switch (valueKey) {
-            case STEP_EXECUTION_INDEX, RECAST_COUNT, HIT_INDEX, LIFECYCLE_STACKS,
+            case STEP_EXECUTION_INDEX, RECAST_COUNT, HIT_INDEX, SKILL_HIT_FIRST_CONTACT, LIFECYCLE_STACKS,
                 PERIOD_INDEX, STATE_BEFORE, STATE_AFTER,
                 BLOCKED, IMMUNE, KILLED, LINK_INDEX, LINK_COUNT, SKILL_HIT_SPELL_SHIELD_BLOCKED -> SkillTriggerValueDomain.INTEGER;
             case CHARGE_DURATION_MS, REMAINING_MS, ATTRIBUTE_BEFORE, ATTRIBUTE_AFTER,
@@ -81,6 +81,7 @@ public final class SkillTriggerEventCapabilities {
             case SPELL_SHIELD_BLOCKED, TAKEDOWN -> false;
             case BASIC_ATTACK_HIT -> valueKey == SkillTriggerEventValueKey.HIT_INDEX;
             case SKILL_HIT -> valueKey == SkillTriggerEventValueKey.HIT_INDEX
+                || valueKey == SkillTriggerEventValueKey.SKILL_HIT_FIRST_CONTACT
                 || valueKey == SkillTriggerEventValueKey.SKILL_HIT_SPELL_SHIELD_BLOCKED;
             case PROCESS_MOMENT -> processMomentValueAllowed(valueKey, momentType, stepType);
             case LIFECYCLE_MOMENT -> false;

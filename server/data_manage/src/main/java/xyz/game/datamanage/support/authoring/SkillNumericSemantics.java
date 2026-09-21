@@ -158,7 +158,7 @@ public final class SkillNumericSemantics {
                         int c = 0;
                         for (JsonNode condition : group.path("conditions")) {
                             if ("EVENT_VALUE_COMPARE".equals(text(condition, "conditionType"))) {
-                                validateSkillHitShieldValue(a, condition.path("detail"), "conditionGroups[" + g + "].conditions[" + c + "].detail");
+                                validateSkillHitEventValue(a, condition.path("detail"), "conditionGroups[" + g + "].conditions[" + c + "].detail");
                             }
                             switch (text(condition, "conditionType")) {
                                 case "ATTRIBUTE_COMPARE", "STATUS_CHECK", "INTERNAL_STATE_CHECK", "EVENT_VALUE_COMPARE" ->
@@ -307,7 +307,7 @@ public final class SkillNumericSemantics {
                     Parameter p = parameters.get(rule.skillKey() + "/" + key);
                     if (!bound.add(key)) throw invalid(rule, path, "BINDING_DUPLICATE", "同一参数不能重复绑定");
                     if (p == null || !"RUNTIME_INPUT".equals(p.valueMode()) || !required.contains(key)) throw invalid(rule, path, "BINDING_EXTRA", "绑定参数不是该动作需要的计算时输入");
-                    if ("EVENT_VALUE".equals(text(binding, "sourceType"))) validateSkillHitShieldValue(rule, binding.path("detail"), path + ".detail");
+                    if ("EVENT_VALUE".equals(text(binding, "sourceType"))) validateSkillHitEventValue(rule, binding.path("detail"), path + ".detail");
                     if ("SOURCE_CAST_RESOURCE_COST".equals(text(binding, "sourceType"))) {
                         JsonNode detail = binding.path("detail");
                         if (!detail.isObject() || detail.size() != 1 || !detail.path("attributeKey").isTextual()
@@ -457,10 +457,15 @@ public final class SkillNumericSemantics {
             return value != null && value.isNumber() ? value.decimalValue() : null;
         }
 
-        private void validateSkillHitShieldValue(Aggregate rule, JsonNode detail, String path) {
-            if ("SKILL_HIT_SPELL_SHIELD_BLOCKED".equals(text(detail, "eventValueKey"))
-                && !"SKILL_HIT".equals(text(rule.data().path("eventSource"), "eventType"))) {
-                throw invalid(rule, path + ".eventValueKey", "EVENT_VALUE_NOT_AVAILABLE", "技能命中护盾结果只适用于技能命中事件");
+        private void validateSkillHitEventValue(Aggregate rule, JsonNode detail, String path) {
+            String valueKey = text(detail, "eventValueKey");
+            String label = switch (valueKey) {
+                case "SKILL_HIT_SPELL_SHIELD_BLOCKED" -> "技能命中护盾结果";
+                case "SKILL_HIT_FIRST_CONTACT" -> "本次使用首次目标接触";
+                default -> null;
+            };
+            if (label != null && !"SKILL_HIT".equals(text(rule.data().path("eventSource"), "eventType"))) {
+                throw invalid(rule, path + ".eventValueKey", "EVENT_VALUE_NOT_AVAILABLE", label + "只适用于技能命中事件");
             }
         }
 
