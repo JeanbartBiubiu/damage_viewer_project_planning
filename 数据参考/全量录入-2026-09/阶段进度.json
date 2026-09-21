@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-21T12:51:59.177Z",
+  "generatedAt": "2026-09-21T13:13:55.219Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。；基兰W冷却回退返回：7次保存、41次独立GET与5类页面通过，有效施放时间仍待核，管理完整8项/开放831项保持，见zileanWCooldownReductionReturn。；系统-16装备技能直达录入已完成，728单测/3项定向页面及两件真实装备往返通过，6条独立回读不变，业务写入0。；中娅主体说明1次页面更正、独立13GET及重开通过，装备开放234项保持；百分比穿透候选与两份历史来源的边界另见percentPenetrationSourceContractAudit，尚未批准实施。；崔丝塔娜W明确组成返回8次保存、108次独立GET、20组算例及8类页面通过；复用旧本人击杀入口，整技能仍系统暂缓，管理完整8项/开放831项保持。；正式参与击杀事件已返回崔丝塔娜W：3次页面保存、36次独立GET、4项拒绝验证通过，原4规则数量保持；剩余系统1项、资料1项，整技能未记完整。；剩余冷却比例已返回易大师R和纳沃利：3次页面保存、49次独立GET及3项数值越界拒绝通过，无新表或触发；纳沃利改资料待核，整技能完成数保持。",
@@ -14017,6 +14017,37 @@
       "browser": false,
       "wholeSkillComplete": false,
       "runtime": false
+    },
+    "sonaQUnblockedBodyReturn": {
+      "at": "2026-09-21T13:13:55.210Z",
+      "status": "主动初始音波本体伤害已保存并独立回读，乐曲附伤与能量和弦继续处理",
+      "successfulSaves": 2,
+      "independentGETs": 36,
+      "unchangedResponsesIncludingTimestamps": 32,
+      "expectedChangedCollections": 2,
+      "created": {
+        "effects": 1,
+        "triggerRules": 1
+      },
+      "commit": "3917306633bacd4cd585eb4104c5f32fd300c5ff",
+      "readbackSha256": "5f7f00dfdc10a59ef6e95303fa96aac068ad5f22f9fc69a57be3fc922efc05ae",
+      "currentCounts": {
+        "parameters": 12,
+        "formulas": 3,
+        "effects": 2,
+        "processes": 1,
+        "internalStates": 0,
+        "triggerRules": 2
+      },
+      "formulaCases": 15,
+      "numericChanges": 0,
+      "browser": false,
+      "runtime": false,
+      "wholeSkillComplete": false,
+      "skills": [
+        "sona_q"
+      ],
+      "evidence": "娑娜Q本体伤害返回/03-明确未阻挡本体实际返回.json"
     }
   },
   "runtimeValidation": "未执行",
@@ -35043,14 +35074,15 @@
         "name": "娑娜·英勇赞美诗",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "使用消耗与普通冷却登记已保存并独立回读；伤害、治疗、护盾、控制、目标资格或球/乐曲等原有相关组成及代表页面仍待处理，不计整技能管理完成。",
+        "reason": "原成本与冷却入口保持，Q主动最初音波对明确未阻挡敌方英雄的本体魔法伤害及唯一入口已保存并独立回读；乐曲附伤、能量和弦及被动联动、代表页面继续处理，不计整技能管理完成。",
         "batchKey": "heroThirtyThirdBatch",
         "candidateSha256": "841a100c48f51a135dbb6d4457ec5523af2030611cbbac1f2212b388be5a8b4e",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
           "sevenSkillCostCooldownBackfill",
-          "sevenSkillCostDescriptionCorrections"
+          "sevenSkillCostDescriptionCorrections",
+          "sonaQUnblockedBodyReturn"
         ],
         "historicalPendingCounts": {
           "source": 0,
@@ -35059,10 +35091,10 @@
           "other": 0
         },
         "remainingBranches": [
-          "主动伤害与实际命中入口",
-          "乐曲强化普攻资格与能量和弦切换",
-          "实际施法时序与其他尚未核对的原候选组成",
-          "使用登记代表页面验收"
+          "乐曲对自身下一次攻击的附加伤害",
+          "Q能量和弦",
+          "被动联动",
+          "代表页面验收"
         ],
         "remainingBranchesBoundary": "这里只确认消耗与普通冷却登记；既有候选中的其他来源、资格和配置缺口继续保留，当前列举不是一次全技能完成审核。",
         "authoredCostCooldown": {
@@ -35075,12 +35107,23 @@
         "currentComponentCounts": {
           "parameters": 12,
           "formulas": 3,
-          "effects": 1,
+          "effects": 2,
           "processes": 1,
           "internalStates": 0,
-          "triggerRules": 1
+          "triggerRules": 2
         },
-        "costDescriptions": "已改为稳定的数值来源与过程职责说明，去除过时未接线或候选状态"
+        "costDescriptions": "已改为稳定的数值来源与过程职责说明，去除过时未接线或候选状态",
+        "authoredDirectHit": {
+          "effectKey": "primary_hit",
+          "ruleKey": "actual_unblocked_hit",
+          "httpReadback": "PASS",
+          "spellShieldBlockScope": null,
+          "scope": "仅Q主动初始音波，同次法术护盾阻挡值明确为0",
+          "vampType": "OMNIVAMP",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "efficiency": 1,
+          "browser": "待验"
+        }
       },
       {
         "sourceChampionId": "Sona",

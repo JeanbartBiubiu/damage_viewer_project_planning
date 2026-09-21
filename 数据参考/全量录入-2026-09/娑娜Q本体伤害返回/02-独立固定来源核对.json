@@ -1,0 +1,103 @@
+{
+  "at": "2026-09-21T12:56:58.923Z",
+  "status": "SOURCE_CONFIRMED",
+  "reviewer": "/root/sona_q_direct_source",
+  "sourceVersion": {
+    "client": "16.17",
+    "official": "16.17.1"
+  },
+  "files": [
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Sona.json.gz",
+      "sha256": "58c693dc5f9861064506c72c73953623d8c939f2667e3878d5541d597c16685b"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Sona.json",
+      "sha256": "d78dca0182dd1edf43adf92a7925245a84d95bb3c41f2dd5a9a0bae5efa34e70"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Sona.json",
+      "sha256": "ecdaf99377b60b32671ca9d30ebf79bdc91ea3689c50fd97d8d4bbda3f768311"
+    }
+  ],
+  "root": "Characters/Sona/Spells/SonaQAbility/SonaQ.mSpell",
+  "direct": {
+    "baseDataValue": "BaseDamage",
+    "rawBase": [
+      15,
+      50,
+      85,
+      120,
+      155,
+      190,
+      225
+    ],
+    "indices": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "levelBase": [
+      50,
+      85,
+      120,
+      155,
+      190
+    ],
+    "calculation": "TotalDamage",
+    "rawCoefficient": 0.4000000059604645,
+    "normalizedAbilityPowerRatio": 0.4,
+    "damageType": "magic",
+    "enemiesToHit": [
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2
+    ],
+    "targeting": "SelfAoe",
+    "oneVOneBodyHits": 1
+  },
+  "targetBasis": "官方中英文写最近两名敌人，优先英雄和野怪；结合EnemiesToHit=2，表示最多两个不同敌方单位各一次，不把两道音波叠给同一目标。",
+  "separate": {
+    "melodyAttack": {
+      "base": [
+        10,
+        15,
+        20,
+        25,
+        30
+      ],
+      "abilityPowerRatio": 0.1,
+      "auraSeconds": 3,
+      "attackWindowSeconds": 5,
+      "procs": 1
+    },
+    "staccato": {
+      "calculation": "TotalStaccatoDamage",
+      "abilityPowerRatio": 0.3,
+      "boundary": "角色等级基础值与普通能量和弦不同，另行核算和接线"
+    },
+    "powerChord": {
+      "calculation": "SonaPassive.PowerChordDamage",
+      "abilityPowerRatio": 0.2,
+      "maxCount": 3,
+      "accelerandoUltimateCooldownReductionSeconds": 1.5
+    }
+  },
+  "boundaries": [
+    "本体没有额外数值阻塞",
+    "乐曲附加下一次攻击、能量和弦、被动冷却收益不接入本体",
+    "来源不定义宿主运行事件，沿用已有SKILL_HIT与同次未阻挡条件；普通伤害结算不是Q本体命中",
+    "未执行页面或战斗验证"
+  ],
+  "businessWrites": 0,
+  "httpRequests": 0
+}

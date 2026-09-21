@@ -1,0 +1,142 @@
+{
+  "at": "2026-09-21T12:49:16.093Z",
+  "status": "PASS",
+  "cases": [
+    {
+      "rank": 1,
+      "abilityPower": 0,
+      "actual": 50,
+      "expected": 50,
+      "status": "PASS"
+    },
+    {
+      "rank": 1,
+      "abilityPower": 123,
+      "actual": 99.2,
+      "expected": 99.2,
+      "status": "PASS"
+    },
+    {
+      "rank": 1,
+      "abilityPower": 400,
+      "actual": 210,
+      "expected": 210,
+      "status": "PASS"
+    },
+    {
+      "rank": 2,
+      "abilityPower": 0,
+      "actual": 85,
+      "expected": 85,
+      "status": "PASS"
+    },
+    {
+      "rank": 2,
+      "abilityPower": 123,
+      "actual": 134.2,
+      "expected": 134.2,
+      "status": "PASS"
+    },
+    {
+      "rank": 2,
+      "abilityPower": 400,
+      "actual": 245,
+      "expected": 245,
+      "status": "PASS"
+    },
+    {
+      "rank": 3,
+      "abilityPower": 0,
+      "actual": 120,
+      "expected": 120,
+      "status": "PASS"
+    },
+    {
+      "rank": 3,
+      "abilityPower": 123,
+      "actual": 169.2,
+      "expected": 169.2,
+      "status": "PASS"
+    },
+    {
+      "rank": 3,
+      "abilityPower": 400,
+      "actual": 280,
+      "expected": 280,
+      "status": "PASS"
+    },
+    {
+      "rank": 4,
+      "abilityPower": 0,
+      "actual": 155,
+      "expected": 155,
+      "status": "PASS"
+    },
+    {
+      "rank": 4,
+      "abilityPower": 123,
+      "actual": 204.2,
+      "expected": 204.2,
+      "status": "PASS"
+    },
+    {
+      "rank": 4,
+      "abilityPower": 400,
+      "actual": 315,
+      "expected": 315,
+      "status": "PASS"
+    },
+    {
+      "rank": 5,
+      "abilityPower": 0,
+      "actual": 190,
+      "expected": 190,
+      "status": "PASS"
+    },
+    {
+      "rank": 5,
+      "abilityPower": 123,
+      "actual": 239.2,
+      "expected": 239.2,
+      "status": "PASS"
+    },
+    {
+      "rank": 5,
+      "abilityPower": 400,
+      "actual": 350,
+      "expected": 350,
+      "status": "PASS"
+    }
+  ],
+  "caseCount": 15,
+  "formulaKey": "magic_damage",
+  "expression": {
+    "nodeType": "OPERATION",
+    "operands": [
+      {
+        "nodeType": "PARAMETER",
+        "parameterKey": "base_damage"
+      },
+      {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "ability_power_ratio"
+          },
+          {
+            "attributeKey": "ability_power",
+            "attributeOwner": "SOURCE",
+            "attributeValueKind": "TOTAL",
+            "nodeType": "ATTRIBUTE"
+          }
+        ],
+        "operation": "MULTIPLY"
+      }
+    ],
+    "operation": "ADD"
+  },
+  "numericChanges": 0,
+  "businessWrites": 0,
+  "boundary": "仅核当前公式与参数算例；固定来源正确性由独立来源核对确认。不含乐曲攻击附伤、能量和弦或运行命中证明。"
+}
