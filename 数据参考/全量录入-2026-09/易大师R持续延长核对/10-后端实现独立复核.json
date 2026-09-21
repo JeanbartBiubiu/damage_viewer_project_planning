@@ -1,0 +1,20 @@
+{
+  "at": "2026-09-21T00:58:24.703Z",
+  "reviewer": "主负责人独立复核",
+  "result": "REVISE",
+  "findings": [
+    {
+      "severity": "blocking",
+      "field": "SkillNumericSemantics.validateExtendedDuration",
+      "issue": "后端仅检查正负与整数性，缺少与前端一致的最终有限值检查；1e308乘1e308无上界会后端保存但前端无法读取。",
+      "required": "在效果规则及动作修正之后判断最终有效数值有限；显式上界收敛仍允许。"
+    }
+  ],
+  "otherChecks": [
+    "目标自然期限及ALL_AT_ONCE正反向保护有效",
+    "单独统计延长入站引用，保留旧REFRESH保护",
+    "循环图新操作不产生即时生命周期事件",
+    "原始数值允许明确小数倍率换算"
+  ],
+  "businessWrites": 0
+}

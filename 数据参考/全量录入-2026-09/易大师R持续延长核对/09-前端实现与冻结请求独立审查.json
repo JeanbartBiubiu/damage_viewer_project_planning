@@ -1,0 +1,18 @@
+{
+  "at": "2026-09-21T00:58:24.702Z",
+  "reviewer": "/root/duration_extension_frontend_review",
+  "result": "READY",
+  "frozenRequestSha256": "317379a07f1dc3d78c9463ef9e6ff53d8cc9348255db889c2b7f4fb0eddf0a1b",
+  "findings": [
+    "十进制有效值判定与倍率/上下界一致",
+    "静态参数全部等级检查，未知公式和运行参数保留引用",
+    "跨单位和离开延长种类清值，保留目标",
+    "新枚举与严格解析、错误定位、页面提示一致",
+    "07冻结请求字段形状一致"
+  ],
+  "executed": {
+    "tests": false,
+    "http": false,
+    "writes": false
+  }
+}

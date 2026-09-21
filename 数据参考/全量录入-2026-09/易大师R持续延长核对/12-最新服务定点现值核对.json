@@ -1,0 +1,346 @@
+{
+  "at": "2026-09-21T01:02:55.673Z",
+  "purpose": "最新服务启动后的定点核对；浏览器未恢复前不写正式效果",
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/masteryi_r/effects/active_duration_extension",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/masteryi_r/parameters/kill_assist_extension_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/masteryi_r/effects/attack_speed",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/masteryi_r/effects/move_speed",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/masteryi_r/effects/basic_cooldown_refund",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/masteryi_r/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/masteryi_r/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/masteryi_r/trigger-rules/on_used",
+      "status": 200
+    }
+  ],
+  "values": {
+    "/skills/masteryi_r/effects/active_duration_extension": {
+      "error": {
+        "code": "404.SKILL_EFFECT_NOT_FOUND",
+        "details": {
+          "effectKey": "active_duration_extension"
+        },
+        "message": "技能效果不存在"
+      }
+    },
+    "/skills/masteryi_r/parameters/kill_assist_extension_ms": {
+      "createdAt": "2026-09-09T03:42:38.316682Z",
+      "description": "客户端当前根绑定 DataValues.RKillAssistExtension 取索引1至3；按来源显示单位换算为系统比例/毫秒。",
+      "fixedValue": 7000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "参与击杀延长持续时间（毫秒）",
+      "parameterKey": "kill_assist_extension_ms",
+      "skillKey": "masteryi_r",
+      "sortOrder": 70,
+      "updatedAt": "2026-09-09T03:42:38.316682Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/masteryi_r/effects/attack_speed": {
+      "createdAt": "2026-09-09T03:42:40.71583Z",
+      "description": "仅在高原血统实际激活期间提供额外攻速；击杀延长和Q/W期间暂停另行接线。",
+      "effectKey": "attack_speed",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "duration_ms"
+        },
+        "expiryMode": "ALL_AT_ONCE",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "高原血统额外攻击速度",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "bonus_attack_speed_percent",
+            "modifierZoneKey": "attribute_flat_add",
+            "operation": "INCREASE"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": "REPLACE",
+            "stackValueMode": "SHARED",
+            "valueReadMode": "APPLICATION_SNAPSHOT"
+          },
+          "name": "高原血统额外攻击速度",
+          "resultKey": "attribute",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "attack_speed_ratio"
+            }
+          }
+        }
+      ],
+      "skillKey": "masteryi_r",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T03:42:40.71583Z"
+    },
+    "/skills/masteryi_r/effects/move_speed": {
+      "createdAt": "2026-09-09T03:42:42.059198Z",
+      "description": "仅在高原血统实际激活期间提供额外移速；不把空间位移当作该属性。",
+      "effectKey": "move_speed",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "duration_ms"
+        },
+        "expiryMode": "ALL_AT_ONCE",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "高原血统额外移动速度",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "move_speed_percent",
+            "modifierZoneKey": "attribute_flat_add",
+            "operation": "INCREASE"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": "REPLACE",
+            "stackValueMode": "SHARED",
+            "valueReadMode": "APPLICATION_SNAPSHOT"
+          },
+          "name": "高原血统额外移动速度",
+          "resultKey": "attribute",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "move_speed_ratio"
+            }
+          }
+        }
+      ],
+      "skillKey": "masteryi_r",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T03:42:42.059198Z"
+    },
+    "/skills/masteryi_r/effects/basic_cooldown_refund": {
+      "createdAt": "2026-09-20T17:19:34.552644Z",
+      "description": "每次执行分别减少来源对象Q、W、E当时剩余普通冷却的70%，不减少R或读取总冷却。仅保存R被动明确返还效果；学习门槛和事件时序仍待核，本效果尚未接入触发。",
+      "effectKey": "basic_cooldown_refund",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "参与击杀返还基础技能剩余冷却",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "affectedSkillScope": {
+              "mode": "SKILLS",
+              "skillCategoryKeys": [],
+              "skillKeys": [
+                "masteryi_q",
+                "masteryi_w",
+                "masteryi_e"
+              ]
+            },
+            "operation": "REDUCE_REMAINING_RATIO"
+          },
+          "lifecycleBehavior": null,
+          "name": "按比例减少基础技能剩余冷却",
+          "resultKey": "reduce_remaining",
+          "resultType": "COOLDOWN_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": null,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "basic_cooldown_refund_ratio"
+            }
+          }
+        }
+      ],
+      "skillKey": "masteryi_r",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-20T17:19:34.552644Z"
+    },
+    "/skills/masteryi_r/effects": [
+      {
+        "createdAt": "2026-09-09T03:42:39.966536Z",
+        "description": "仅绑定官方基础法力消耗；额外持续法力或真实扣除时点单独记录。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "masteryi_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T03:42:39.966536Z"
+      },
+      {
+        "createdAt": "2026-09-09T03:42:40.71583Z",
+        "description": "仅在高原血统实际激活期间提供额外攻速；击杀延长和Q/W期间暂停另行接线。",
+        "effectKey": "attack_speed",
+        "gameId": "lol",
+        "lifecycleEnabled": true,
+        "name": "高原血统额外攻击速度",
+        "resultCount": 1,
+        "skillKey": "masteryi_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T03:42:40.71583Z"
+      },
+      {
+        "createdAt": "2026-09-09T03:42:42.059198Z",
+        "description": "仅在高原血统实际激活期间提供额外移速；不把空间位移当作该属性。",
+        "effectKey": "move_speed",
+        "gameId": "lol",
+        "lifecycleEnabled": true,
+        "name": "高原血统额外移动速度",
+        "resultCount": 1,
+        "skillKey": "masteryi_r",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T03:42:42.059198Z"
+      },
+      {
+        "createdAt": "2026-09-20T17:19:34.552644Z",
+        "description": "每次执行分别减少来源对象Q、W、E当时剩余普通冷却的70%，不减少R或读取总冷却。仅保存R被动明确返还效果；学习门槛和事件时序仍待核，本效果尚未接入触发。",
+        "effectKey": "basic_cooldown_refund",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "参与击杀返还基础技能剩余冷却",
+        "resultCount": 1,
+        "skillKey": "masteryi_r",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-20T17:19:34.552644Z"
+      }
+    ],
+    "/skills/masteryi_r/trigger-rules": [
+      {
+        "actionCount": 2,
+        "conditionGroupCount": 0,
+        "description": "接收 masteryi_r 主动使用；无条件在 CURRENT_TARGET 上依次执行已有 attack_speed 和 move_speed。两个效果结果 target=SOURCE，均使用 duration_ms（7000毫秒）；相关的减速免疫、击杀/助攻延长、普通技能冷却变化、法力消耗和基础冷却留待后续规则补录。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "高原血统主动使用",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-12T18:00:50.275534Z"
+      }
+    ],
+    "/skills/masteryi_r/trigger-rules/on_used": {
+      "actions": [
+        {
+          "actionKey": "execute_attack_speed",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "attack_speed"
+          },
+          "name": "执行高原血统额外攻击速度",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        },
+        {
+          "actionKey": "execute_move_speed",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "move_speed"
+          },
+          "name": "执行高原血统额外移动速度",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 20,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "接收 masteryi_r 主动使用；无条件在 CURRENT_TARGET 上依次执行已有 attack_speed 和 move_speed。两个效果结果 target=SOURCE，均使用 duration_ms（7000毫秒）；相关的减速免疫、击杀/助攻延长、普通技能冷却变化、法力消耗和基础冷却留待后续规则补录。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "masteryi_r",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "高原血统主动使用",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used",
+      "sortOrder": 10
+    }
+  },
+  "businessWrites": 0
+}

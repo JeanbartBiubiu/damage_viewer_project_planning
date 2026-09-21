@@ -1,0 +1,52 @@
+{
+  "at": "2026-09-21T01:00:14.550Z",
+  "reviewer": "主负责人独立复核",
+  "result": "READY",
+  "resolved": "最终有效值在全部固定修正后检查有限性；无上界超大积拒绝，显式上界7000收敛允许。",
+  "checks": [
+    "自然期限与ALL_AT_ONCE目标正反向限制",
+    "旧REFRESH和层数操作保持",
+    "小数换算后判定非负整数",
+    "参数各等级与执行动作修正覆盖",
+    "循环图无新增即时生命周期事件",
+    "沿用JSONB及引用索引，无DDL"
+  ],
+  "tests": {
+    "workerInitialTargeted": 149,
+    "workerReadModelTargeted": 25,
+    "workerFinalNumeric": 72,
+    "workerFinalLifecycleRegression": 138,
+    "rootFinalCommand": "mvn test",
+    "rootFinalTests": 1038,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "files": [
+    {
+      "path": "server/data_manage/src/main/java/xyz/game/datamanage/mapper/skilleffect/SkillEffectMapper.java",
+      "sha256Lf": "765bbb42046d67a0b6479e70f6ceceb8bed71f7fa587a0a575fd26576eecbb49"
+    },
+    {
+      "path": "server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectLifecycleOperation.java",
+      "sha256Lf": "15de46b1faba5a07d88a9a36c9400cd27d856f164b5f4e60b92cfeba2e0e053c"
+    },
+    {
+      "path": "server/data_manage/src/main/java/xyz/game/datamanage/service/skilleffect/SkillEffectService.java",
+      "sha256Lf": "4f1cd72a782728c0b53254d267e9d87170b22bd2c9db3eba671cedcd451f0dbf"
+    },
+    {
+      "path": "server/data_manage/src/main/java/xyz/game/datamanage/service/skilltrigger/SkillTriggerCycleValidator.java",
+      "sha256Lf": "183705b18f777a24f35ac71e5037287ce79fcd6c7d6a4f0823efd907571c4269"
+    },
+    {
+      "path": "server/data_manage/src/main/java/xyz/game/datamanage/support/authoring/SkillNumericSemantics.java",
+      "sha256Lf": "215621d05f51d5e5d601631e5cdfa4c59979b80a135642d975c23b4dcf0e3411"
+    },
+    {
+      "path": "server/data_manage/src/main/resources/mapper/skilleffect/SkillEffectMapper.xml",
+      "sha256Lf": "21c8c007b6bdb931f55d7f559660b94ce782adeb708f3c4f87d4a45ce4f2d9c3"
+    }
+  ],
+  "businessWrites": 0
+}
