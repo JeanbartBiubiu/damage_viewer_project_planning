@@ -1,0 +1,21 @@
+{
+  "at": "2026-09-21T02:04:05.366Z",
+  "target": {
+    "database": "test0221",
+    "user": "postgres"
+  },
+  "mode": "JDBC只读事务，最终回滚",
+  "queries": 3,
+  "formalWrites": 0,
+  "ddl": 0,
+  "effectChecks": {
+    "results": "CHECK (jsonb_typeof(results) = 'array')",
+    "lifecycle": "CHECK (lifecycle IS NULL OR jsonb_typeof(lifecycle) = 'object')"
+  },
+  "counts": {
+    "effects": 984,
+    "emptyResults": 0,
+    "lifecycleOnly": 0
+  },
+  "conclusion": "实库现有约束允许空数组，无需迁移；当前尚无零结果效果。形状查询的真实零结果证据仍待实现后以回滚夹具检查。"
+}

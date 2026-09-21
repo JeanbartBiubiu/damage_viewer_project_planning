@@ -1,0 +1,330 @@
+{
+  "at": "2026-09-21T02:29:09.576Z",
+  "mode": "独立进程GET-only",
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/api/games",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_r/parameters",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_r/effects",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_r/effects/on_the_hunt",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_r/effects/refresh_on_the_hunt",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_r/trigger-rules",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_r/effects/recent_damage_mark",
+      "status": 404,
+      "unchanged": false
+    }
+  ],
+  "values": {
+    "/skills/sivir_r/parameters": [
+      {
+        "createdAt": "2026-09-07T17:58:53.863203Z",
+        "description": "官方16.17.1与当前根对象cooldownTime索引1起一致。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 120000,
+          "2": 100000,
+          "3": 80000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "sivir_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T17:58:53.863203Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T17:58:54.267272Z",
+        "description": "官方cost与当前manaValues.values索引0起一致；明确0消耗保留。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "sivir_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T17:58:54.267272Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T17:58:54.687152Z",
+        "description": "当前spellCastTime与已有mCastTime一致；不代替命中。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "sivir_r",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T17:58:54.687152Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T17:58:55.137604Z",
+        "description": "客户端当前根绑定 DataValues.MaxMS 取索引1至3。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.2,
+          "2": 0.25,
+          "3": 0.3
+        },
+        "name": "主动移动速度加成比例",
+        "parameterKey": "move_speed_ratio",
+        "skillKey": "sivir_r",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-07T17:58:55.137604Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T17:58:55.545053Z",
+        "description": "客户端当前根绑定 DataValues.UltDuration 取索引1至3。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 8000,
+          "2": 10000,
+          "3": 12000
+        },
+        "name": "狩猎持续（毫秒）",
+        "parameterKey": "buff_duration_ms",
+        "skillKey": "sivir_r",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-07T17:58:55.545053Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T17:58:55.977195Z",
+        "description": "客户端当前根绑定 DataValues.AttackCooldownRefund 取索引1至3。",
+        "fixedValue": 500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "攻击英雄基础技能冷却返还（毫秒）",
+        "parameterKey": "attack_refund_ms",
+        "skillKey": "sivir_r",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-07T17:58:55.977195Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T17:58:56.42366Z",
+        "description": "客户端当前根绑定 DataValues.DamagedMarkerDuration 取索引1至3。",
+        "fixedValue": 3000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "近期伤害参与击杀窗口（毫秒）",
+        "parameterKey": "recent_damage_ms",
+        "skillKey": "sivir_r",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-07T17:58:56.42366Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/sivir_r/effects": [
+      {
+        "createdAt": "2026-09-07T17:58:56.811581Z",
+        "description": "仅施放法力消耗；具体过程单独绑定。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "sivir_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T17:58:56.811581Z"
+      },
+      {
+        "createdAt": "2026-09-07T17:58:57.283704Z",
+        "description": "独立持续属性。比例属性按百分点加算，1表示100%；不是把面板最终属性乘此比例。",
+        "effectKey": "on_the_hunt",
+        "gameId": "lol",
+        "lifecycleEnabled": true,
+        "name": "狩猎自身移速",
+        "resultCount": 1,
+        "skillKey": "sivir_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T17:58:57.283704Z"
+      },
+      {
+        "createdAt": "2026-09-07T17:58:57.713308Z",
+        "description": null,
+        "effectKey": "attack_basic_refund",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "狩猎攻击基础技能冷却返还",
+        "resultCount": 1,
+        "skillKey": "sivir_r",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T17:58:57.713308Z"
+      },
+      {
+        "createdAt": "2026-09-21T01:28:50.810908Z",
+        "description": "只将来源对象仍存在的狩猎自身移速实例刷新为完整持续时间，不增加层数或重新施加属性数值。仅保存刷新组成；最近3秒本人伤害资格与参与击杀入口尚未配置，本效果未接入触发。",
+        "effectKey": "refresh_on_the_hunt",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "刷新狩猎完整持续时间",
+        "resultCount": 1,
+        "skillKey": "sivir_r",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-21T01:28:50.810908Z"
+      }
+    ],
+    "/skills/sivir_r/effects/on_the_hunt": {
+      "createdAt": "2026-09-07T17:58:57.283704Z",
+      "description": "独立持续属性。比例属性按百分点加算，1表示100%；不是把面板最终属性乘此比例。",
+      "effectKey": "on_the_hunt",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "buff_duration_ms"
+        },
+        "expiryMode": "ALL_AT_ONCE",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "狩猎自身移速",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "move_speed_percent",
+            "modifierZoneKey": "attribute_flat_add",
+            "operation": "INCREASE"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": "REPLACE",
+            "stackValueMode": "SHARED",
+            "valueReadMode": "APPLICATION_SNAPSHOT"
+          },
+          "name": "狩猎自身移速",
+          "resultKey": "attribute",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "move_speed_ratio"
+            }
+          }
+        }
+      ],
+      "skillKey": "sivir_r",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-07T17:58:57.283704Z"
+    },
+    "/skills/sivir_r/effects/refresh_on_the_hunt": {
+      "createdAt": "2026-09-21T01:28:50.810908Z",
+      "description": "只将来源对象仍存在的狩猎自身移速实例刷新为完整持续时间，不增加层数或重新施加属性数值。仅保存刷新组成；最近3秒本人伤害资格与参与击杀入口尚未配置，本效果未接入触发。",
+      "effectKey": "refresh_on_the_hunt",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "刷新狩猎完整持续时间",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "operation": "REFRESH",
+            "targetEffectKey": "on_the_hunt"
+          },
+          "lifecycleBehavior": null,
+          "name": "刷新狩猎完整持续时间",
+          "resultKey": "refresh",
+          "resultType": "LIFECYCLE_OPERATION",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": null
+        }
+      ],
+      "skillKey": "sivir_r",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-21T01:28:50.810908Z"
+    },
+    "/skills/sivir_r/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "只接收指定真实事件；不自行生成命中或补造事件。",
+        "eventType": "BASIC_ATTACK_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "狩猎期间攻击英雄返还基础技能冷却",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "active_attack_refund",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T17:59:32.016278Z"
+      }
+    ],
+    "/skills/sivir_r/effects/recent_damage_mark": {
+      "error": {
+        "code": "404.SKILL_EFFECT_NOT_FOUND",
+        "details": {
+          "effectKey": "recent_damage_mark"
+        },
+        "message": "技能效果不存在"
+      }
+    }
+  },
+  "businessWrites": 0,
+  "verification": {
+    "existingRoutesUnchanged": 5,
+    "newMarkerAbsent": true,
+    "GETs": 7
+  }
+}

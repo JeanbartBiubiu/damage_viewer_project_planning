@@ -1,0 +1,36 @@
+{
+  "at": "2026-09-21T02:20:04.446Z",
+  "status": "STATIC_UNIT_AND_ISOLATED_BROWSER_PASS",
+  "workingTree": "C:/project/damage_web_dev",
+  "baseCommit": "8303d335e3349e17f8e3b5916382b67e539c3d19",
+  "verification": {
+    "targeted": {
+      "tests": 74,
+      "files": 2
+    },
+    "lint": {
+      "productionFiles": 143,
+      "status": "PASS"
+    },
+    "typecheck": "PASS",
+    "fullUnit": {
+      "tests": 770,
+      "files": 64
+    },
+    "build": {
+      "modules": 1294,
+      "status": "PASS"
+    },
+    "isolatedBrowser": {
+      "tests": 2,
+      "status": "PASS",
+      "elapsedSeconds": 28.9,
+      "scenarios": [
+        "零结果效果创建/摘要0/重开/关闭生命周期失败并恢复/保存后查看",
+        "既有周期效果创建重开更新"
+      ]
+    },
+    "businessBrowser": "NOT_RUN_CONNECTION_UNAVAILABLE"
+  },
+  "formalWrites": 0
+}

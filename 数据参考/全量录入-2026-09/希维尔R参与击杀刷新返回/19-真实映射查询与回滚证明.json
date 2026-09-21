@@ -1,0 +1,30 @@
+{
+  "at": "2026-09-21T02:25:30.461Z",
+  "status": "PASS",
+  "target": {
+    "database": "test0221",
+    "gameId": "lol",
+    "skillKey": "sivir_r"
+  },
+  "method": "加载实际MyBatis映射，事务内新增随机键临时夹具，finally强制回滚；随后独立连接读取",
+  "mapperSha256": "34836c04b400d5a1459d1da1c4ab456b8d65ded2ee9429d20cf5d403d432067c",
+  "probeSha256": "3a07b1e46c66ff3027722fb16a04df2edca343da0d7c6b219f64e836cb9f749a",
+  "validation": {
+    "shapeRows": 1,
+    "resultKey": null,
+    "resultType": null,
+    "target": null,
+    "value": null,
+    "lifecycle": true,
+    "actualResultViewRows": 0,
+    "summaryResultCount": 0,
+    "existingSivirShapesUnchanged": true,
+    "fixtureRemainingAfterRollback": 0,
+    "allGameEffectsAndReferencesUnchanged": true
+  },
+  "completedProbeRuns": 2,
+  "reasonForSecondRun": "补齐纯实际结果视图零行的直接查询证明",
+  "committedWrites": 0,
+  "formalAuthoringWrites": 0,
+  "boundary": "仅数据库查询形状证明，不是效果服务保存、正式录入或真实页面证明。"
+}

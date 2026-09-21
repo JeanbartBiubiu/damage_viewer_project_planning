@@ -1,0 +1,16 @@
+{
+  "at": "2026-09-21T02:16:20.665Z",
+  "verdict": "READY",
+  "reviewer": "/root/lifecycle_only_plan_review",
+  "model": "gpt-5.6-luna",
+  "reasoning": "max",
+  "reviewedPlanSha256": "12d92fd8cd4ab934cbcb217579b37661883bdfef7d112910ac53ae9ed28fa554",
+  "mustPreserve": [
+    "保留结果数组@NotNull，仅移除@NotEmpty；服务仍拒绝null。",
+    "仅触发效果形状补空结果效果元数据，通用真实结果视图不变。",
+    "结果查找排除null结果标识，原生命周期循环生产边保留。",
+    "最后一个被引用结果的删除及生命周期反向保护保留。"
+  ],
+  "sourceAndBrowserBoundary": "资格与死亡时序未核定，不接线；首次正式数据不绕过真实浏览器。",
+  "evidence": "独立只读评审已返回，无代码、数据或测试写入。"
+}

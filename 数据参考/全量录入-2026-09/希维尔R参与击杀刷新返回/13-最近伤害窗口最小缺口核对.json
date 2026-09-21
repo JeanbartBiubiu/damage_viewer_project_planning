@@ -1,0 +1,50 @@
+{
+  "at": "2026-09-21T02:02:39.047Z",
+  "status": "PLAN_REVIEW_PENDING",
+  "sourceVersion": {
+    "client": "16.17",
+    "ddragon": "16.17.1"
+  },
+  "triggerObject": "sivir_r",
+  "findings": [
+    {
+      "kind": "existing_capability",
+      "text": "内部状态支持TARGET范围；问题不在是否能按目标保存，而是重复开始三秒清理过程缺少旧计时取消或替换的可靠约定。"
+    },
+    {
+      "kind": "minimal_gap",
+      "text": "效果请求与服务、页面强制至少一个结果，不能保存仅生命周期标记。"
+    },
+    {
+      "kind": "query_gap",
+      "text": "触发效果形状以真实结果行起始，零结果效果将丢失生命周期与循环生产边；仅形状查询应保留效果头。"
+    },
+    {
+      "kind": "storage",
+      "text": "schema.sql现有results数组和lifecycle对象约束已支持空数组，不新增表列或迁移；尚未读取实库约束。"
+    },
+    {
+      "kind": "scope",
+      "text": "同来源同目标使用SOURCE_TARGET；TARGET本身不是来源隔离。"
+    },
+    {
+      "kind": "event",
+      "text": "现有事件是DAMAGE_DEALT，伤害承受者是CURRENT_TARGET，ACTUAL_HP_LOSS和SHIELD_ABSORBED均为已有事件值。"
+    }
+  ],
+  "pendingSource": [
+    "护盾吸收伤害是否计入最近伤害资格，不能未经资料确认仅取ACTUAL_HP_LOSS>0。",
+    "参与击杀条件相对于死亡生命周期清理的可见顺序尚未确定，不以同事件条件先于动作的已有约定替代。"
+  ],
+  "plan": {
+    "path": "文档记录/详细设计/项目/系统精简实施说明.md",
+    "section": "仅记录生命周期的效果增量",
+    "sha256": "12d92fd8cd4ab934cbcb217579b37661883bdfef7d112910ac53ae9ed28fa554"
+  },
+  "boundary": {
+    "formalWrites": 0,
+    "browser": "Codex auth token is unavailable",
+    "hostWasmBattle": "not implemented or validated"
+  },
+  "next": "独立方案评审后实现最小修正；首次正式空结果效果仍需真实页面，资格入口继续未接。"
+}
