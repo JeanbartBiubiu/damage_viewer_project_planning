@@ -1,0 +1,72 @@
+{
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "requests": [
+    {
+      "method": "PUT",
+      "route": "/skills/sona_q/parameters/chord_character_level_base_damage",
+      "body": {
+        "name": "Q能量和弦等级基础伤害",
+        "description": "按来源对象角色等级取值：1级30；2至8级每级增加15；9级起每级增加22.5，18级360。固定客户端16.17 TotalStaccatoDamage的等级基础部分，法强项由公式另计。",
+        "valueType": "DECIMAL",
+        "valueMode": "CHARACTER_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 30,
+          "2": 45,
+          "3": 60,
+          "4": 75,
+          "5": 90,
+          "6": 105,
+          "7": 120,
+          "8": 135,
+          "9": 157.5,
+          "10": 180,
+          "11": 202.5,
+          "12": 225,
+          "13": 247.5,
+          "14": 270,
+          "15": 292.5,
+          "16": 315,
+          "17": 337.5,
+          "18": 360
+        },
+        "sortOrder": 80
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-09T18:36:38.574575Z",
+        "description": "按来源对象角色等级取值：1级30；2至8级每级增加15；9级起每级增加22.5，18级360。固定客户端16.17 TotalStaccatoDamage的等级基础部分，法强项由公式另计。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 30,
+          "2": 45,
+          "3": 60,
+          "4": 75,
+          "5": 90,
+          "6": 105,
+          "7": 120,
+          "8": 135,
+          "9": 157.5,
+          "10": 180,
+          "11": 202.5,
+          "12": 225,
+          "13": 247.5,
+          "14": 270,
+          "15": 292.5,
+          "16": 315,
+          "17": 337.5,
+          "18": 360
+        },
+        "name": "Q能量和弦等级基础伤害",
+        "parameterKey": "chord_character_level_base_damage",
+        "skillKey": "sona_q",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-09T18:36:38.574575Z",
+        "valueMode": "CHARACTER_LEVEL",
+        "valueType": "DECIMAL"
+      }
+    }
+  ],
+  "sourceSha256": "f3ed184b979a2f9b2f546a013573178ab78e33f997a65b1043d172a88760a1ca",
+  "baselineSha256": "b0cb2a54d68b838222b12b10de02204ee208ce77b3df3728a251b417bfe8a17b"
+}

@@ -1,0 +1,342 @@
+{
+  "status": "APPROVED",
+  "reviewer": "/root/sona_chord_level_curve",
+  "reviewedAt": "2026-09-21T13:35:55.1413080Z",
+  "businessWrites": 0,
+  "httpRequests": 0,
+  "sqlRequests": 0,
+  "testsRun": 0,
+  "fileWrites": 1,
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-parameters-v2.mjs": "a3eb702ff0cc20461ab01381711f47a6c989328a44baa83368ed12abdf9fe067",
+    "01-纠错计划.json": "c5c0adcb06970b213183079a770a5288becaa50f7b77c07b2142c8fdf37bd750",
+    "02-冻结请求.json": "0e6255d88e98f6c8ef0ddc1921daf71047cfa9016faff6cbc3eac6a1c4517467",
+    "03-来源摘要.json": "f3ed184b979a2f9b2f546a013573178ab78e33f997a65b1043d172a88760a1ca",
+    "04-写入前现值.json": "b0cb2a54d68b838222b12b10de02204ee208ce77b3df3728a251b417bfe8a17b"
+  },
+  "toolIndependentReview": {
+    "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\娑娜Q能量和弦等级补证\\05-工具增量独立复核.json",
+    "sha256": "0e8e2ff0c218c305d47b2b631a561bdc7550ce8c8c90645ccfacdf83e15dfee3",
+    "status": "APPROVED",
+    "businessWrites": 0,
+    "scope": "工具增量及其离线保护；本评审不重复审查工具实现"
+  },
+  "scope": {
+    "requestCount": 1,
+    "method": "PUT",
+    "route": "/skills/sona_q/parameters/chord_character_level_base_damage",
+    "skillKey": "sona_q",
+    "parameterKey": "chord_character_level_base_damage",
+    "onlyTarget": true,
+    "formulaRequests": 0,
+    "newEffects": 0,
+    "newTriggerRules": 0
+  },
+  "requestAudit": {
+    "base": "http://127.0.0.1:8080/api/admin/games/lol",
+    "body": {
+      "name": "Q能量和弦等级基础伤害",
+      "description": "按来源对象角色等级取值：1级30；2至8级每级增加15；9级起每级增加22.5，18级360。固定客户端16.17 TotalStaccatoDamage的等级基础部分，法强项由公式另计。",
+      "valueType": "DECIMAL",
+      "valueMode": "CHARACTER_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 30,
+        "2": 45,
+        "3": 60,
+        "4": 75,
+        "5": 90,
+        "6": 105,
+        "7": 120,
+        "8": 135,
+        "9": 157.5,
+        "10": 180,
+        "11": 202.5,
+        "12": 225,
+        "13": 247.5,
+        "14": 270,
+        "15": 292.5,
+        "16": 315,
+        "17": 337.5,
+        "18": 360
+      },
+      "sortOrder": 80
+    },
+    "expectedReadback": {
+      "createdAt": "2026-09-09T18:36:38.574575Z",
+      "description": "按来源对象角色等级取值：1级30；2至8级每级增加15；9级起每级增加22.5，18级360。固定客户端16.17 TotalStaccatoDamage的等级基础部分，法强项由公式另计。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 30,
+        "2": 45,
+        "3": 60,
+        "4": 75,
+        "5": 90,
+        "6": 105,
+        "7": 120,
+        "8": 135,
+        "9": 157.5,
+        "10": 180,
+        "11": 202.5,
+        "12": 225,
+        "13": 247.5,
+        "14": 270,
+        "15": 292.5,
+        "16": 315,
+        "17": 337.5,
+        "18": 360
+      },
+      "name": "Q能量和弦等级基础伤害",
+      "parameterKey": "chord_character_level_base_damage",
+      "skillKey": "sona_q",
+      "sortOrder": 80,
+      "updatedAt": "2026-09-09T18:36:38.574575Z",
+      "valueMode": "CHARACTER_LEVEL",
+      "valueType": "DECIMAL"
+    },
+    "bodyKeysExact": [
+      "description",
+      "fixedValue",
+      "levelValues",
+      "name",
+      "sortOrder",
+      "valueMode",
+      "valueType"
+    ],
+    "expectedReadbackKeysExact": [
+      "createdAt",
+      "description",
+      "fixedValue",
+      "gameId",
+      "levelValues",
+      "name",
+      "parameterKey",
+      "skillKey",
+      "sortOrder",
+      "updatedAt",
+      "valueMode",
+      "valueType"
+    ],
+    "requestMatchesPlanUpdateFields": true,
+    "levelValuesExact": true,
+    "fixedValueRemainsNull": true,
+    "modeIsCharacterLevel": true,
+    "typeIsDecimal": true,
+    "identityNameAndSortPreserved": true
+  },
+  "curveEvidence": {
+    "path": "数据参考/全量录入-2026-09/娑娜Q能量和弦等级补证/02-断点曲线独立核对.json",
+    "sha256": "09dee8d5786c5c67c0257e15de3ddef469feaf6acfec096477b7563c1047f27d",
+    "status": "STATIC_CURVE_CONFIRMED",
+    "sourceVersion": "16.17",
+    "sourcePath": "Characters/Sona/Spells/SonaQAbility/SonaQ.mSpell.mSpellCalculations.TotalStaccatoDamage",
+    "sourceSha256": "58c693dc5f9861064506c72c73953623d8c939f2667e3878d5541d597c16685b",
+    "raw": {
+      "mLevel1Value": 30,
+      "mInitialBonusPerLevel": 15,
+      "mBreakpoints": [
+        {
+          "mLevel": 9,
+          "mBonusPerLevelAtAndAfter": 22.5
+        }
+      ],
+      "mAdditionalBonusAtThisLevelPresent": false,
+      "mAdditionalBonusAtThisLevelDefault": 0,
+      "apCoefficient": 0.30000001192092896
+    },
+    "levelValues": {
+      "1": 30,
+      "2": 45,
+      "3": 60,
+      "4": 75,
+      "5": 90,
+      "6": 105,
+      "7": 120,
+      "8": 135,
+      "9": 157.5,
+      "10": 180,
+      "11": 202.5,
+      "12": 225,
+      "13": 247.5,
+      "14": 270,
+      "15": 292.5,
+      "16": 315,
+      "17": 337.5,
+      "18": 360
+    },
+    "boundaryEquations": {
+      "8": "30 + 7*15 = 135",
+      "9": "30 + 7*15 + 22.5 = 157.5",
+      "10": "30 + 7*15 + 2*22.5 = 180",
+      "18": "30 + 7*15 + 10*22.5 = 360"
+    },
+    "peerEvidence": [
+      {
+        "path": "数据参考/全量录入-2026-09/装备技能实录/Luna第九批/海妖逐等级核算.json",
+        "sha256": "dd5f7ef1eafad86a7319d46cec758a1928403340c571501fdc34a188f0a6b130"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/约里克Q来源补证与18级治疗补录/独立复核/来源与计划独立复核.md",
+        "sha256": "1392eb9da2c22a705025dce91128db60e168c87ae8b2fae802a8666dcd750abe"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/通用公式来源补证/class-Breakpoint.json",
+        "sha256": "313c6134de8febd0911eb0b63126b1bbb2b7c922d7057806e3ef778c1e523f14"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/通用公式来源补证/class-ByCharLevelBreakpointsCalculationPart.json",
+        "sha256": "0a45050e2ac7a930e0f69b285c3df8cd5d6a3f072182de86541433fb401f6300"
+      }
+    ],
+    "sourceListSha256": "f3ed184b979a2f9b2f546a013573178ab78e33f997a65b1043d172a88760a1ca",
+    "sourceListMatchesPlan": true,
+    "allDeclaredSourceHashesMatchActual": true,
+    "sourceHashChecks": [
+      {
+        "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Sona.json.gz",
+        "sha256": "58c693dc5f9861064506c72c73953623d8c939f2667e3878d5541d597c16685b",
+        "matches": true
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/娑娜Q能量和弦等级补证/00-旧外供参数与现有能力核对.json",
+        "sha256": "e1f296e77a6f5f70110ea243c5fb332e52e8d4ddea34f2796b86e7258dea0cae",
+        "matches": true
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/娑娜Q能量和弦等级补证/01-当前游戏等级设置.json",
+        "sha256": "575c89deaf313edb6f3a4d9fdaa39b03424c20a1010bbe01b7d1980ded6e7570",
+        "matches": true
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/娑娜Q能量和弦等级补证/02-断点曲线独立核对.json",
+        "sha256": "09dee8d5786c5c67c0257e15de3ddef469feaf6acfec096477b7563c1047f27d",
+        "matches": true
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/娑娜Q能量和弦等级补证/03-最小工具修正说明.md",
+        "sha256": "3653b2ecf41e8f65e02ecedeb24c427cbda5f82ef0df645fbbf7b1865e203826",
+        "matches": true
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/娑娜Q能量和弦等级补证/04-同类参数转换验收先例.json",
+        "sha256": "1c1361379bc6f0dd39a905385c4affcec00e961f9d0faac88c14332f094e3f40",
+        "matches": true
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/装备技能实录/Luna第九批/海妖逐等级核算.json",
+        "sha256": "dd5f7ef1eafad86a7319d46cec758a1928403340c571501fdc34a188f0a6b130",
+        "matches": true
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/约里克Q来源补证与18级治疗补录/独立复核/来源与计划独立复核.md",
+        "sha256": "1392eb9da2c22a705025dce91128db60e168c87ae8b2fae802a8666dcd750abe",
+        "matches": true
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/通用公式来源补证/class-Breakpoint.json",
+        "sha256": "313c6134de8febd0911eb0b63126b1bbb2b7c922d7057806e3ef778c1e523f14",
+        "matches": true
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/通用公式来源补证/class-ByCharLevelBreakpointsCalculationPart.json",
+        "sha256": "0a45050e2ac7a930e0f69b285c3df8cd5d6a3f072182de86541433fb401f6300",
+        "matches": true
+      }
+    ]
+  },
+  "baselineAudit": {
+    "path": "数据参考/全量录入-2026-09/交叉试录/娑娜Q能量和弦角色等级参数更正/04-写入前现值.json",
+    "sha256": "b0cb2a54d68b838222b12b10de02204ee208ce77b3df3728a251b417bfe8a17b",
+    "base": "http://127.0.0.1:8080/api/admin/games/lol",
+    "valueCount": 28,
+    "auditCount": 28,
+    "auditMethods": [
+      "GET"
+    ],
+    "businessWrites": 0,
+    "levelConfig": {
+      "gameId": "lol",
+      "minLevel": 1,
+      "maxLevel": 18
+    },
+    "targetBefore": {
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "name": "Q能量和弦等级基础伤害",
+      "parameterKey": "chord_character_level_base_damage",
+      "skillKey": "sona_q",
+      "valueType": "DECIMAL",
+      "sortOrder": 80,
+      "description": "TotalStaccatoDamage有等级断点，完整等级曲线未证，按当前等级值外供。"
+    },
+    "protectedCollections": {
+      "parameters": 12,
+      "formulas": 3,
+      "effects": 2,
+      "processes": 1,
+      "internalStates": 0,
+      "triggerRules": 2
+    },
+    "formulaTree": {
+      "route": "/skills/sona_q/formulas/chord_magic_damage",
+      "formulaKey": "chord_magic_damage",
+      "operation": "ADD",
+      "targetParameterReference": true,
+      "apParameterReference": true,
+      "apParameterFixedValue": 0.3,
+      "targetParameterIsFirstOperand": true,
+      "apProductIsSecondOperand": true
+    },
+    "formulaAndOtherCollectionsProtectedByBaseline": true,
+    "sourceAndBaselineBinding": {
+      "freezeSourceSha256": "f3ed184b979a2f9b2f546a013573178ab78e33f997a65b1043d172a88760a1ca",
+      "actualFreezeSourceSha256": "f3ed184b979a2f9b2f546a013573178ab78e33f997a65b1043d172a88760a1ca",
+      "freezeSourceMatches": true,
+      "freezeBaselineSha256": "b0cb2a54d68b838222b12b10de02204ee208ce77b3df3728a251b417bfe8a17b",
+      "actualFreezeBaselineSha256": "b0cb2a54d68b838222b12b10de02204ee208ce77b3df3728a251b417bfe8a17b",
+      "freezeBaselineMatches": true
+    }
+  },
+  "checks": [
+    {
+      "name": "冻结请求范围唯一且字段完整",
+      "status": "PASS",
+      "evidence": "02仅含1笔PUT，路由唯一指向sona_q/chord_character_level_base_damage；请求体字段完整且未带公式、效果、过程或触发规则写入。"
+    },
+    {
+      "name": "角色等级数值与来源曲线闭合",
+      "status": "PASS",
+      "evidence": "请求体、01更新字段和02-断点曲线独立核对的18个等级值逐项相同；8/9/10/18级边界算式分别为135、157.5、180、360。"
+    },
+    {
+      "name": "参数转换边界",
+      "status": "PASS",
+      "evidence": "04目标现值是RUNTIME_INPUT且fixedValue、levelValues均为null；请求改为CHARACTER_LEVEL，fixedValue仍为null，类型DECIMAL、名称、排序和稳定参数标识保持。"
+    },
+    {
+      "name": "来源散列与冻结绑定",
+      "status": "PASS",
+      "evidence": "01列出的10个来源文件原始字节散列全部匹配；02.sourceSha256等于03实际散列，02.baselineSha256等于04实际散列；断点定义文件名与散列已校正。"
+    },
+    {
+      "name": "等级边界和写前基线",
+      "status": "PASS",
+      "evidence": "04保存28项GET结果，审计28项且方法全为GET、businessWrites为0；/level-config为minLevel=1、maxLevel=18。"
+    },
+    {
+      "name": "公式树及其它组成边界",
+      "status": "PASS",
+      "evidence": "04中的chord_magic_damage仍为目标参数加0.3法强乘积；请求不包含公式路由，参数、公式、效果、过程、内部状态和触发规则基线均已保存。"
+    }
+  ],
+  "findings": [],
+  "conclusion": "APPROVED。该冻结请求只把一个无默认RUNTIME_INPUT参数转为CHARACTER_LEVEL并写入完整1至18级曲线；来源、请求、等级配置和28项GET基线闭合。批准不包含真实PUT、独立回读、页面、战斗运行或整项能量和弦机制完成。",
+  "evidenceBoundary": [
+    "本评审只读取文件、核对结构、逐项比较数值并计算散列；未执行HTTP、SQL或测试。",
+    "业务写入数为0；本次唯一文件写入是本独立评审文件。",
+    "固定原文与同型断点证据支持曲线；不把本参数评审扩展为能量和弦事件、触发规则或整项技能运行证明。",
+    "工具实现及其离线模拟测试沿用planning中的05-工具增量独立复核批准结果，本评审未重复代码审计。"
+  ]
+}
