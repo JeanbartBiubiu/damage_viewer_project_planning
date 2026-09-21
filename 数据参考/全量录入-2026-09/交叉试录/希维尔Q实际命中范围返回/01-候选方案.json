@@ -1,0 +1,59 @@
+{
+  "at": "2026-09-21T04:16:36.202Z",
+  "executionMode": "REVIEWED_API",
+  "skillKey": "sivir_q",
+  "ruleKey": "actual_hit",
+  "conditionGroups": [
+    {
+      "groupKey": "champion_target",
+      "name": "本轮敌方英雄",
+      "sortOrder": 10,
+      "conditions": [
+        {
+          "conditionKey": "champion_target",
+          "conditionType": "TARGET_CATEGORY_CHECK",
+          "sortOrder": 10,
+          "detail": {
+            "categories": [
+              "CHAMPION"
+            ]
+          }
+        },
+        {
+          "conditionKey": "enemy_target",
+          "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+          "sortOrder": 20,
+          "detail": {}
+        }
+      ]
+    }
+  ],
+  "scope": "只补本轮同组敌方英雄条件；保留事件、动作、全部既有组成和刚保存的普通使用入口。",
+  "sourceFiles": [
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/普通使用入口候选续接/04-三项实际命中与交互依据.json",
+      "sha256": "b0f3ea34186aef4921e5aa8121649f0c934565fd2f0c003db16bf9c1e9d7d892"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/普通使用入口候选续接/05-三项伤害表达定点核对.json",
+      "sha256": "6e1f8504a21485c2325cfb3d7480545c39c9df40b2aff27dda26856159e6f918"
+    },
+    {
+      "root": "planning",
+      "path": "文档记录/详细设计/项目/角色技能数据录入标准流程.md",
+      "sha256": "d0af0f1604c1be94e6ec21283e6f1392281f6e5c93fe7b7336dc9a0475520e8e"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/三项普通使用入口返回/07-独立回读.json",
+      "sha256": "66b58fbb721402129ecd640b52e51a3138ca089fa052c71e277610e118313492"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/卢锡安Q实际命中范围返回/09-证据清单.json",
+      "sha256": "af2d2ba3b6c9224043c907d10870b9d8c213eb7609bf5979fb7cf2a8fda50c74"
+    }
+  ]
+}

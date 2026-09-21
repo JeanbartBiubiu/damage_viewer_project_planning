@@ -1,0 +1,314 @@
+{
+  "startedAt": "2026-09-21T04:19:55.978Z",
+  "status": "PASS",
+  "executionMode": "REVIEWED_API",
+  "businessWritesAttempted": 1,
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-hit-scope.mjs": "909e4572b83c1ebc5f89f43b11fd92b5b532aee82972ddff0fad852c51efd049",
+    "01-候选方案.json": "6074139526fbbd2e59b9800bb1db64cb5bdef537aecf516f4fc7bb8672fc181c",
+    "02-冻结请求.json": "c0254f333b1d4269911acf099e13935c4074c6e9d51e3b0d4c4299f3d92abaa8",
+    "03-来源摘要.json": "8f9dde0f5d7efa919040015adc2d047da97d7afbf9590a9079f9773e8dde2424",
+    "04-写入前现值.json": "0ab7f62abc3706597fbf8aea6b2267fa63abcf59f425d6e14e988cb75a6e90a5"
+  },
+  "request": {
+    "method": "PUT",
+    "route": "/skills/sivir_q/trigger-rules/actual_hit",
+    "body": {
+      "actions": [
+        {
+          "actionKey": "damage",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "boomerang_hit"
+          },
+          "name": "执行命中伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "groupKey": "champion_target",
+          "name": "本轮敌方英雄",
+          "sortOrder": 10,
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "sortOrder": 10,
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              }
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "sortOrder": 20,
+              "detail": {}
+            }
+          ]
+        }
+      ],
+      "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "sivir_q"
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "回旋之刃实际命中",
+      "perTargetCooldown": null,
+      "sortOrder": 10
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/sivir_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_q/parameters/ad_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_q/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_q/parameters/crit_scaling",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_q/parameters/one",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_q/parameters/base_cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_q/parameters/cast_speed_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_q/parameters/cast_reduction_cap",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_q/formulas/precrit_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_q/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_q/effects/boomerang_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_q/processes/use_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_q/trigger-rules/on_used_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_q/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/sivir_q/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_q/trigger-rules/actual_hit",
+      "status": 200
+    }
+  ],
+  "responseStatus": 200,
+  "response": {
+    "status": 200,
+    "data": {
+      "actions": [
+        {
+          "actionKey": "damage",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "boomerang_hit"
+          },
+          "name": "执行命中伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "detail": {},
+              "sortOrder": 20
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮敌方英雄",
+          "sortOrder": 10
+        }
+      ],
+      "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "sivir_q",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "回旋之刃实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    }
+  },
+  "readback": {
+    "actions": [
+      {
+        "actionKey": "damage",
+        "actionType": "EXECUTE_EFFECT",
+        "detail": {
+          "effectKey": "boomerang_hit"
+        },
+        "name": "执行命中伤害",
+        "resultModifiers": [],
+        "runtimeInputBindings": [],
+        "sortOrder": 10,
+        "targetContext": "CURRENT_TARGET"
+      }
+    ],
+    "conditionGroups": [
+      {
+        "conditions": [
+          {
+            "conditionKey": "champion_target",
+            "conditionType": "TARGET_CATEGORY_CHECK",
+            "detail": {
+              "categories": [
+                "CHAMPION"
+              ]
+            },
+            "sortOrder": 10
+          },
+          {
+            "conditionKey": "enemy_target",
+            "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+            "detail": {},
+            "sortOrder": 20
+          }
+        ],
+        "groupKey": "champion_target",
+        "name": "本轮敌方英雄",
+        "sortOrder": 10
+      }
+    ],
+    "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+    "eventSource": {
+      "detail": {
+        "sourceSkillKey": "sivir_q",
+        "useKind": null
+      },
+      "eventType": "SKILL_HIT"
+    },
+    "maxTriggersPerProcess": null,
+    "name": "回旋之刃实际命中",
+    "perTargetCooldown": null,
+    "ruleKey": "actual_hit",
+    "sortOrder": 10
+  },
+  "finishedAt": "2026-09-21T04:19:58.546Z"
+}
