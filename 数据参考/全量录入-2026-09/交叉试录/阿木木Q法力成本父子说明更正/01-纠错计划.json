@@ -1,0 +1,51 @@
+{
+  "at": "2026-09-21T08:38:01.095Z",
+  "title": "阿木木Q法力成本父子说明更正",
+  "scope": "只将父及consume_mana子说明改为稳定职责和来源，不改数值、结果键、排序或任何调用关系",
+  "sourceFiles": [
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Amumu.json.gz",
+      "sha256": "35cc43b24362baa4c5a549aa6522a3e67a63f2dd0e48d2e255d358bbf6048175"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Amumu.json",
+      "sha256": "7c0160c4a6815044235fe9e91d4dd176d21986ed587baeb8dad3d4b23f08c09c"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/阿木木Q充能与使用续接/01-根字段与录入取舍.json",
+      "sha256": "147d119fe99ccdd02d95cee30d2943494fffd1dbf4b86057a444a6dda0598003"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/阿木木Q充能与使用续接/06-父子说明工具独立复核.json",
+      "sha256": "367af162cc4720251606f85bb30870443694fa1ef44dfc79016ab9a811af6c5c"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/阿木木Q充能与使用续接/07-独立成本语义核对.json",
+      "sha256": "833714031fcd68845f72f8b8e2e5d50985608519856cd1395862897a02d89a57"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/阿木木Q静态冷却说明更正/07-独立回读.json",
+      "sha256": "0b6ceb5a5ed212e12d47448d5eb58f992e8332d11019103aa7578024de7e9099"
+    }
+  ],
+  "changes": [
+    {
+      "kind": "effect",
+      "skillKey": "amumu_q",
+      "route": "/skills/amumu_q/effects/mana_cost",
+      "description": "定义绷带牵引每次已接受根普通使用的50法力消耗；具体调用由使用登记过程决定，本效果不负责施法许可、三秒静态冷却或弹药恢复。",
+      "resultDescriptions": [
+        {
+          "resultKey": "consume_mana",
+          "description": "被调用时按同技能mana_cost参数消耗来源对象法力；调用时点由过程挂接定义，不负责静态冷却、弹药或命中判断。"
+        }
+      ]
+    }
+  ]
+}

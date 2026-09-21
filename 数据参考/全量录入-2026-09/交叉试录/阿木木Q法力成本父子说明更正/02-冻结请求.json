@@ -1,0 +1,78 @@
+{
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "requests": [
+    {
+      "method": "PUT",
+      "route": "/skills/amumu_q/effects/mana_cost",
+      "body": {
+        "name": "施放法力消耗",
+        "description": "定义绷带牵引每次已接受根普通使用的50法力消耗；具体调用由使用登记过程决定，本效果不负责施法许可、三秒静态冷却或弹药恢复。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "description": "被调用时按同技能mana_cost参数消耗来源对象法力；调用时点由过程挂接定义，不负责静态冷却、弹药或命中判断。",
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-09T14:32:28.630199Z",
+        "description": "定义绷带牵引每次已接受根普通使用的50法力消耗；具体调用由使用登记过程决定，本效果不负责施法许可、三秒静态冷却或弹药恢复。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "施放法力消耗",
+        "results": [
+          {
+            "description": "被调用时按同技能mana_cost参数消耗来源对象法力；调用时点由过程挂接定义，不负责静态冷却、弹药或命中判断。",
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "amumu_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T14:32:28.630199Z"
+      }
+    }
+  ],
+  "sourceSha256": "521b706c78645f475ef90508a89407eaae0bdb075eb393d175466c0950a8afb8",
+  "baselineSha256": "2da65276cf4f10e0b69b77c472a1c2f8ea7d9b6fe3fb8e1bf23276493429f72e"
+}

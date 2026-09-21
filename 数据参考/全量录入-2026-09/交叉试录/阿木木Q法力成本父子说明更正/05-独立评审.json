@@ -1,0 +1,20 @@
+{
+  "at": "2026-09-21T08:41:11.865Z",
+  "status": "APPROVED",
+  "reviewer": "/root/ammo_management_contract_audit",
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-descriptions-v4.mjs": "6630730f1e794c64fd73711008e04a22effb1a75f210bf905747e01563794407",
+    "01-纠错计划.json": "0b1cafb5b61db172bae6a6f1c7eccabe8af6511bf4afcffb22b84a274e9b5650",
+    "02-冻结请求.json": "16460e3e0064e6f59d9b1b9479c848d5a7bb7581d9d55b904b406108e05398c7",
+    "03-来源摘要.json": "521b706c78645f475ef90508a89407eaae0bdb075eb393d175466c0950a8afb8",
+    "04-写入前现值.json": "2da65276cf4f10e0b69b77c472a1c2f8ea7d9b6fe3fb8e1bf23276493429f72e"
+  },
+  "checks": [
+    "唯一PUT只有父与consume_mana子description变化",
+    "50法力、CONSUME/SOURCE、全部值规则与null护盾、生命周期、键及顺序保持",
+    "六源摘要及22GET基线符合并保持前批完整终值",
+    "v4只允许已有唯一结果说明，保留完整保护"
+  ],
+  "businessWrites": 0,
+  "httpRequests": 0
+}
