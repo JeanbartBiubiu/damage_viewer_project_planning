@@ -1,0 +1,70 @@
+{
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "requests": [
+    {
+      "method": "PUT",
+      "route": "/skills/tristana_r/trigger-rules/on_used",
+      "body": {
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "cast"
+            },
+            "name": "启动已有施法过程",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "本技能主动使用时启动现有施放过程，登记法力、普通冷却及已核定的施法延迟；本入口只启动过程，实际伤害与控制分别配置，不在过程结束时生成命中。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "tristana_r",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "毁灭射击主动使用入口",
+        "perTargetCooldown": null,
+        "sortOrder": 5
+      },
+      "expectedReadback": {
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "cast"
+            },
+            "name": "启动已有施法过程",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "本技能主动使用时启动现有施放过程，登记法力、普通冷却及已核定的施法延迟；本入口只启动过程，实际伤害与控制分别配置，不在过程结束时生成命中。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "tristana_r",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "毁灭射击主动使用入口",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used",
+        "sortOrder": 5
+      }
+    }
+  ],
+  "sourceSha256": "b0153704dab355d1555a6eb95ba46fee3ecae98a5d9669098a4d889c1fea5afc",
+  "baselineSha256": "f739188b400e2fefa3f2eaf85640b126f37ff25a8faad431166fb757fa64f19e"
+}

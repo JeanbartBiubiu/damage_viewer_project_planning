@@ -1,0 +1,243 @@
+{
+  "startedAt": "2026-09-21T04:51:37.927Z",
+  "status": "PASS",
+  "businessWritesAttempted": 1,
+  "operations": [
+    {
+      "route": "/skills/tristana_r/trigger-rules/on_used",
+      "method": "PUT",
+      "responseStatus": 200,
+      "response": {
+        "status": 200,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "start_cast",
+              "actionType": "START_PROCESS",
+              "detail": {
+                "processKey": "cast"
+              },
+              "name": "启动已有施法过程",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "本技能主动使用时启动现有施放过程，登记法力、普通冷却及已核定的施法延迟；本入口只启动过程，实际伤害与控制分别配置，不在过程结束时生成命中。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "tristana_r",
+              "useKind": "ACTIVE"
+            },
+            "eventType": "SKILL_USED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "毁灭射击主动使用入口",
+          "perTargetCooldown": null,
+          "ruleKey": "on_used",
+          "sortOrder": 5
+        }
+      },
+      "readback": {
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "cast"
+            },
+            "name": "启动已有施法过程",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "本技能主动使用时启动现有施放过程，登记法力、普通冷却及已核定的施法延迟；本入口只启动过程，实际伤害与控制分别配置，不在过程结束时生成命中。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "tristana_r",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "毁灭射击主动使用入口",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used",
+        "sortOrder": 5
+      },
+      "listRoute": "/skills/tristana_r/trigger-rules",
+      "listReadback": [
+        {
+          "actionCount": 1,
+          "conditionGroupCount": 0,
+          "description": "本技能主动使用时启动现有施放过程，登记法力、普通冷却及已核定的施法延迟；本入口只启动过程，实际伤害与控制分别配置，不在过程结束时生成命中。",
+          "eventType": "SKILL_USED",
+          "maxTriggersPerProcessEnabled": false,
+          "name": "毁灭射击主动使用入口",
+          "perTargetCooldownEnabled": false,
+          "ruleKey": "on_used",
+          "sortOrder": 5,
+          "updatedAt": "2026-09-21T04:51:39.884311Z"
+        },
+        {
+          "actionCount": 1,
+          "conditionGroupCount": 1,
+          "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+          "eventType": "SKILL_HIT",
+          "maxTriggersPerProcessEnabled": false,
+          "name": "毁灭射击实际命中",
+          "perTargetCooldownEnabled": false,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-21T04:20:01.367763Z"
+        }
+      ]
+    }
+  ],
+  "pendingRoute": null,
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-descriptions-v3.mjs": "f6f947b11179b087f9fd4ea9e8fbb35973ba20f3f04b0f097fc5dcdb473125ae",
+    "01-纠错计划.json": "8bd0e7d49dadb12276de7eaf64ce736d903db0a00d3549db7a6c39955c283c08",
+    "02-冻结请求.json": "1c3ea9bd23b939c985cf6232a4fb072cb54f52ecd55100b129d5d8ee08aea4d3",
+    "03-来源摘要.json": "b0153704dab355d1555a6eb95ba46fee3ecae98a5d9669098a4d889c1fea5afc",
+    "04-写入前现值.json": "f739188b400e2fefa3f2eaf85640b126f37ff25a8faad431166fb757fa64f19e"
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/parameters/ad_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/parameters/stun_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/parameters/knockback_distance",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/effects/cannon_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/tristana_r/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/trigger-rules",
+      "status": 200
+    }
+  ],
+  "finishedAt": "2026-09-21T04:51:39.820Z"
+}
