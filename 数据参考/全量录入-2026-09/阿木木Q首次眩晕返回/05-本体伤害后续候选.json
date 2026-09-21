@@ -1,0 +1,116 @@
+{
+  "at": "2026-09-21T06:58:12.202Z",
+  "status": "DRAFT_READY_FOR_FROZEN_REVIEW",
+  "skillKey": "amumu_q",
+  "scope": "独立实际本体命中魔法伤害，复用已有公式及原批次窄映射；不扩成弹药、位移或被动。",
+  "effect": {
+    "description": "本轮1V1本体合资格实际命中敌方英雄时的直接魔法伤害；只复用total_damage已核定数值，不附加被动真伤、不创建牵引或充能事件。",
+    "effectKey": "primary_hit",
+    "lifecycle": null,
+    "name": "绷带牵引本体命中伤害",
+    "results": [
+      {
+        "description": "复用同技能total_damage及既有BaseDamage+0.85×来源总法强窄映射；法术护盾只按本伤害结果粒度配置，牵引与其他分支未接线。",
+        "detail": {
+          "critical": {
+            "mode": "DISALLOWED",
+            "multiplierValue": null
+          },
+          "damageTypeKey": "magic",
+          "deliveryKind": "SKILL",
+          "originKind": "DIRECT",
+          "vampRules": [
+            {
+              "basisOutputKind": "POST_DEFENSE_DAMAGE",
+              "efficiencyValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "vampType": "OMNIVAMP"
+            }
+          ]
+        },
+        "lifecycleBehavior": null,
+        "name": "魔法伤害",
+        "resultKey": "damage",
+        "resultType": "DAMAGE",
+        "sortOrder": 10,
+        "spellShieldBlockScope": "RESULT",
+        "target": "TARGET",
+        "valueRule": {
+          "fixedMaxValue": null,
+          "fixedMinValue": 0,
+          "fixedMultiplier": 1,
+          "value": {
+            "formulaKey": "total_damage",
+            "kind": "FORMULA"
+          }
+        }
+      }
+    ],
+    "sortOrder": 20
+  },
+  "rule": {
+    "ruleKey": "actual_hit",
+    "name": "绷带本体实际命中伤害",
+    "description": "仅消费amumu_q本体首次敌方碰撞所产生的合资格实际命中，限本轮敌方英雄；不从使用、延迟或位移结束生成命中。眩晕由独立受限规则处理，充能、牵引与被动继续单列。",
+    "sortOrder": 10,
+    "eventSource": {
+      "eventType": "SKILL_HIT",
+      "detail": {
+        "sourceSkillKey": "amumu_q"
+      }
+    },
+    "conditionGroups": [
+      {
+        "groupKey": "champion_target",
+        "name": "本轮敌方英雄",
+        "sortOrder": 10,
+        "conditions": [
+          {
+            "conditionKey": "champion_target",
+            "conditionType": "TARGET_CATEGORY_CHECK",
+            "sortOrder": 10,
+            "detail": {
+              "categories": [
+                "CHAMPION"
+              ]
+            }
+          },
+          {
+            "conditionKey": "enemy_target",
+            "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+            "sortOrder": 20,
+            "detail": {}
+          }
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "actionKey": "execute_primary_hit",
+        "name": "执行绷带本体伤害",
+        "actionType": "EXECUTE_EFFECT",
+        "sortOrder": 10,
+        "targetContext": "CURRENT_TARGET",
+        "detail": {
+          "effectKey": "primary_hit"
+        },
+        "runtimeInputBindings": [],
+        "resultModifiers": []
+      }
+    ],
+    "perTargetCooldown": null,
+    "maxTriggersPerProcess": null
+  },
+  "sourceEvidence": "04-既有法强窄映射复核.json",
+  "remaining": [
+    "实际充能消费恢复与使用资格",
+    "牵引位移和被动附加伤害",
+    "控制重施及阻挡/缺值分支",
+    "正式代表页面与运行边界"
+  ],
+  "wholeSkillComplete": false,
+  "businessWrites": 0,
+  "interactionEvidence": "07-本体伤害交互边界.json"
+}

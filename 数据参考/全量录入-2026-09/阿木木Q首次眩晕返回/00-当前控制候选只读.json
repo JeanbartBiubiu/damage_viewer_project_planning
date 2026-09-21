@@ -1,0 +1,169 @@
+{
+  "at": "2026-09-21T06:45:17.120Z",
+  "skillKey": "amumu_q",
+  "components": {
+    "parameters": [
+      {
+        "createdAt": "2026-09-09T14:32:18.678728Z",
+        "description": "客户端根绑定 spell cooldownTime=3秒；等级1至5均为3秒，按毫秒录入。公共参数清单只复用法力消耗。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 3000,
+          "2": 3000,
+          "3": 3000,
+          "4": 3000,
+          "5": 3000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "amumu_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T14:32:18.678728Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T14:32:19.904446Z",
+        "description": "客户端根绑定 spellCastTime=0.25秒，按毫秒录入；只记录施法字段，不表示命中发生时点。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "amumu_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T14:32:19.904446Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T14:32:20.953705Z",
+        "description": "客户端根绑定 DataValues.BaseDamage 取原始数组索引1至5；索引0的45是未采用的占位值，录入70/95/120/145/170。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 95,
+          "3": 120,
+          "4": 145,
+          "5": 170
+        },
+        "name": "基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "amumu_q",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T14:32:20.953705Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T14:32:22.046304Z",
+        "description": "TotalDamage 第二项 StatByCoefficient 原始 mCoefficient=0.8500000238，按窄口径映射来源总法强并归一为0.85。",
+        "fixedValue": 0.85,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法强倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "amumu_q",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T14:32:22.046304Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T14:32:23.136063Z",
+        "description": "客户端根绑定 DataValues.StunDuration 原始数组索引1取1秒，按毫秒录入。",
+        "fixedValue": 1000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "眩晕持续（毫秒）",
+        "parameterKey": "stun_duration_ms",
+        "skillKey": "amumu_q",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T14:32:23.136063Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T14:32:24.304894Z",
+        "description": "当前绑定正文明确“这个技能有2层充能”，层数使用整数；不创建充能过程。",
+        "fixedValue": 2,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "最大充能层数",
+        "parameterKey": "max_charges",
+        "skillKey": "amumu_q",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-09T14:32:24.304894Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T14:32:25.335637Z",
+        "description": "客户端根绑定 mAmmoRechargeTime 原始数组索引1至5为16/15/14/13/12秒，按毫秒录入；保留充能数据，不创建充能事件。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 16000,
+          "2": 15000,
+          "3": 14000,
+          "4": 13000,
+          "5": 12000
+        },
+        "name": "充能时间（毫秒）",
+        "parameterKey": "ammo_recharge_time_ms",
+        "skillKey": "amumu_q",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-09T14:32:25.335637Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T14:32:26.372772Z",
+        "description": "客户端根绑定 DataValues.DashSpeed 原始数组索引1取1800；单位沿客户端字段保留，位移过程未接线。",
+        "fixedValue": 1800,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "绷带移动速度",
+        "parameterKey": "dash_speed",
+        "skillKey": "amumu_q",
+        "sortOrder": 90,
+        "updatedAt": "2026-09-09T14:32:26.372772Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T17:38:32.707906Z",
+        "description": "DDragon16.17.1 Amumu.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 50,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "amumu_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T17:38:32.707906Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "effects": [
+      {
+        "createdAt": "2026-09-09T14:32:28.630199Z",
+        "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "amumu_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T14:32:28.630199Z"
+      }
+    ],
+    "trigger-rules": []
+  },
+  "getCount": 3,
+  "businessWrites": 0
+}

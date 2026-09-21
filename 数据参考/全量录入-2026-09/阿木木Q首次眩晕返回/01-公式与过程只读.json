@@ -1,0 +1,59 @@
+{
+  "at": "2026-09-21T06:47:24.716Z",
+  "getCount": 4,
+  "businessWrites": 0,
+  "components": {
+    "formulas": [
+      {
+        "createdAt": "2026-09-09T14:32:27.499964Z",
+        "description": "TotalDamage = BaseDamage + 0.85×来源总法强；当前只记录数值公式，不创建Q命中、位移或伤害结果。",
+        "formulaKey": "total_damage",
+        "gameId": "lol",
+        "name": "绷带牵引魔法伤害",
+        "skillKey": "amumu_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T14:32:27.499964Z"
+      }
+    ],
+    "processes": [],
+    "internal-states": []
+  },
+  "formulaDetails": [
+    {
+      "createdAt": "2026-09-09T14:32:27.499964Z",
+      "description": "TotalDamage = BaseDamage + 0.85×来源总法强；当前只记录数值公式，不创建Q命中、位移或伤害结果。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "total_damage",
+      "gameId": "lol",
+      "name": "绷带牵引魔法伤害",
+      "skillKey": "amumu_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T14:32:27.499964Z"
+    }
+  ]
+}

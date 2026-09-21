@@ -1,0 +1,70 @@
+{
+  "at": "2026-09-21T06:56:07.746Z",
+  "status": "EXISTING_BOUNDED_MAPPING_REVERIFIED",
+  "previousUnresolvedEvidence": "02-固定来源独立核对.json保留原审查时边界；本文件补查当时未引用的既有映射依据，不改已冻结文件。",
+  "clientSha256": "35cc43b24362baa4c5a549aa6522a3e67a63f2dd0e48d2e255d358bbf6048175",
+  "rootCalculation": {
+    "mSimpleTooltipCalculationDisplay": 6,
+    "tooltipOnly": true,
+    "mFormulaParts": [
+      {
+        "mDataValue": "BaseDamage",
+        "__type": "NamedDataValueCalculationPart"
+      },
+      {
+        "mCoefficient": 0.8500000238418579,
+        "__type": "StatByCoefficientCalculationPart"
+      }
+    ],
+    "__type": "GameCalculation"
+  },
+  "constructorAndInferenceSource": {
+    "root": "planning",
+    "path": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第二十五批/输入包/参考资料/属性默认与边界.json",
+    "sha256": "5b51fc7b71e411909e42323ca50d9c51566038b61a392023d2668ba5ad3a73a6",
+    "originalBatchInput": {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二十三批/Cursor输入版本.json",
+      "field": "sourceFiles[path=参考资料/属性默认与边界.json]",
+      "sameSha256": true
+    }
+  },
+  "reasoning": [
+    "该具体StatByCoefficient类省略mStat、mStatFormula、UseNewStats等字段，符合已批准具体类构造默认，不推广其他类或非默认新属性路径",
+    "同版具名APRatio对象的交叉证据支持mStat0为法强的窄映射，原批次据此保存来源总法强公式",
+    "当前系数等于Math.fround(0.85)，沿用既有0.85参数，不改数值或原表达式"
+  ],
+  "actualStoredExpression": {
+    "nodeType": "OPERATION",
+    "operands": [
+      {
+        "nodeType": "PARAMETER",
+        "parameterKey": "base_damage"
+      },
+      {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "ap_ratio"
+          },
+          {
+            "attributeKey": "ability_power",
+            "attributeOwner": "SOURCE",
+            "attributeValueKind": "TOTAL",
+            "nodeType": "ATTRIBUTE"
+          }
+        ],
+        "operation": "MULTIPLY"
+      }
+    ],
+    "operation": "ADD"
+  },
+  "decision": "可复用当前total_damage作为本体直接魔法伤害数值，后续另行冻结伤害效果与实际命中入口。",
+  "limits": [
+    "同版本具名交叉支持，不是完整属性枚举分派实现证明",
+    "tooltipOnly显示计算树与正式文本用于管理数据依据，不是客户端或战斗实际求值证明",
+    "不推导护盾以外免疫、被动附加真伤、牵引或充能运行"
+  ],
+  "businessWrites": 0
+}

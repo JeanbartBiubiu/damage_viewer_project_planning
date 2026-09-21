@@ -1,0 +1,31 @@
+{
+  "at": "2026-09-21T07:03:44.699Z",
+  "status": "RESULT_LEVEL_DAMAGE_CANDIDATE",
+  "scope": "阿木木Q本体对本轮敌方英雄的一次直接魔法伤害",
+  "fixedSource": "客户端16.17根BandageToss和DDragon16.17.1；伤害及眩晕明确属于首次敌方实际命中。",
+  "spellShield": {
+    "candidate": "RESULT",
+    "meaning": "仅此离散伤害结果参与阻挡，不把本次补录推定为整次施放、牵引或充能已实现。",
+    "auxiliaryEvidence": {
+      "url": "https://leagueoflegends.fandom.com/wiki/Amumu/LoL",
+      "section": "Bandage Toss / Details",
+      "finding": "技能只受法术护盾部分阻挡；页面另指出阻挡后仍可能牵引。",
+      "limit": "该页面显示的旧法力与充能数值早于固定版本，全部不用；仅作交互辅助，不视作16.17客户端执行证明。"
+    },
+    "currentControl": "已保存控制入口只消费同次命中护盾明确0且无本来源实例的分支；缺值不默认为0。"
+  },
+  "vamp": {
+    "vampType": "OMNIVAMP",
+    "basisOutputKind": "POST_DEFENSE_DAMAGE",
+    "efficiency": 1,
+    "evidence": "数据参考/全量录入-2026-09/卢锡安Q实际命中返回/02-普通物理技能伤害交互核对.json",
+    "meaning": "复用已核定默认全能吸血效率；本轮为英雄，不用小兵折减，不添加未经核定的其他吸血种类。"
+  },
+  "unresolved": [
+    "同次命中护盾判定的运行生产与缓存",
+    "牵引与阻挡的最终完整时序",
+    "其他免疫、被动附加真实伤害与充能过程",
+    "真实页面和战斗运行"
+  ],
+  "businessWrites": 0
+}

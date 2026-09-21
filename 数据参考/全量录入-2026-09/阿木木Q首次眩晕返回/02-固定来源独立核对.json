@@ -1,0 +1,70 @@
+{
+  "at": "2026-09-21T06:51:39.504Z",
+  "reviewer": "/root/zyra_e_first_root_source",
+  "model": "gpt-5.6-luna",
+  "reasoning": "max",
+  "status": "STUN_SOURCE_READY_DAMAGE_ATTRIBUTE_MAPPING_NOT_REPROVEN",
+  "files": [
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Amumu.json.gz",
+      "sha256": "35cc43b24362baa4c5a549aa6522a3e67a63f2dd0e48d2e255d358bbf6048175"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Amumu.json",
+      "sha256": "7c0160c4a6815044235fe9e91d4dd176d21986ed587baeb8dad3d4b23f08c09c"
+    }
+  ],
+  "rootBinding": {
+    "root": "Characters/Amumu/CharacterRecords/Root.spells[0]",
+    "ability": "Characters/Amumu/Spells/BandageTossAbility",
+    "spell": "Characters/Amumu/Spells/BandageTossAbility/BandageToss",
+    "extraSpell": "Characters/Amumu/Spells/BandageTossAbility/SadMummyBandageToss"
+  },
+  "stun": {
+    "clientField": "StunDuration",
+    "allValues": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ],
+    "officialEffectIndex": 2,
+    "officialSeconds": [
+      1,
+      1,
+      1,
+      1,
+      1
+    ],
+    "milliseconds": 1000,
+    "currentParameter": "stun_duration_ms",
+    "matches": true
+  },
+  "damage": {
+    "baseDamage": [
+      70,
+      95,
+      120,
+      145,
+      170
+    ],
+    "clientRankStart": 1,
+    "coefficient": 0.8500000238,
+    "existingCoefficient": 0.85,
+    "calculation": "TotalDamage = BaseDamage + StatByCoefficientCalculationPart",
+    "attributeBoundary": "本次代理未从节点直接证明属性名；后续伤害录入需引用既有确定映射或定点补证，不能仅以没有矛盾代替确认。"
+  },
+  "sourceConclusion": "官方明确首个敌方命中眩晕与魔法伤害，并把自身牵引作为同一命中的独立结果；弹药2层及恢复、被动另行处理。",
+  "remaining": [
+    "已有本来源实例重施",
+    "同次护盾阻挡/缺值分支",
+    "牵引、充能使用资格与恢复",
+    "命中几何与战斗运行不属于本轮新增实现"
+  ],
+  "businessWrites": 0
+}
