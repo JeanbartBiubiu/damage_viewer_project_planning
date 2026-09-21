@@ -1,0 +1,141 @@
+{
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "requests": [
+    {
+      "method": "PUT",
+      "route": "/skills/item_3173_passive/formulas/magic_shield_value",
+      "body": {
+        "name": "不懈魔法护盾值",
+        "description": "角色等级基础护盾已由完整等级参数维护，再加0.08倍来源原属性12、公式2的外供值；后者无默认值且真实属性口径仍待核。本公式用于已组成的自身魔法护盾结果。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_level_base_shield"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "shield_amount_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "source_mstat12_formula2_value"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "sortOrder": 10
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-09T10:28:11.355388Z",
+        "description": "角色等级基础护盾已由完整等级参数维护，再加0.08倍来源原属性12、公式2的外供值；后者无默认值且真实属性口径仍待核。本公式用于已组成的自身魔法护盾结果。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_level_base_shield"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "shield_amount_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "source_mstat12_formula2_value"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "magic_shield_value",
+        "gameId": "lol",
+        "name": "不懈魔法护盾值",
+        "skillKey": "item_3173_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-11T13:28:29.965588Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/item_3174_passive/formulas/physical_shield_value",
+      "body": {
+        "name": "耐久物理护盾值",
+        "description": "角色等级基础护盾已由完整等级参数维护，再加0.08倍来源原属性12、公式2的外供值；后者无默认值且真实属性口径仍待核。本公式用于已组成的自身物理护盾结果。镀板减幅另行处理，不进入本公式。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_level_base_shield"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "shield_amount_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "source_mstat12_formula2_value"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "sortOrder": 10
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-09T10:28:23.05178Z",
+        "description": "角色等级基础护盾已由完整等级参数维护，再加0.08倍来源原属性12、公式2的外供值；后者无默认值且真实属性口径仍待核。本公式用于已组成的自身物理护盾结果。镀板减幅另行处理，不进入本公式。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_level_base_shield"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "shield_amount_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "source_mstat12_formula2_value"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "physical_shield_value",
+        "gameId": "lol",
+        "name": "耐久物理护盾值",
+        "skillKey": "item_3174_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-11T13:28:31.215166Z"
+      }
+    }
+  ],
+  "sourceSha256": "c15cf19ebdc65a04f7ae205a345d47baf920fa3b3bb0326eb67e02dc148cad73",
+  "baselineSha256": "71d4558a12484b3ab12b149eea9a576382bd9fa6bf1ccfb7624c70b3e0ffba1b"
+}
