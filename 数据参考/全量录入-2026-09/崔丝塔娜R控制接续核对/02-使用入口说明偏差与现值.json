@@ -1,0 +1,113 @@
+{
+  "at": "2026-09-21T04:40:22.895Z",
+  "status": "CONFIRMED_DESCRIPTION_ONLY_ERROR",
+  "skillKey": "tristana_r",
+  "ruleKey": "on_used",
+  "origin": {
+    "worktree": "damage_web_dev",
+    "commit": "f4a634753eae78f368694de0b60c10c044669015",
+    "relativePath": "数据参考/全量录入-2026-09/交叉试录/三项普通使用入口返回/02-冻结请求.json"
+  },
+  "current": {
+    "/skills/tristana_r/trigger-rules/on_used": {
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "actionType": "START_PROCESS",
+          "detail": {
+            "processKey": "cast"
+          },
+          "name": "启动已有施法过程",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "本技能主动使用时启动现有施放过程，登记法力、普通冷却及已核定的施法延迟；实际伤害和控制仍由原命中规则处理。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "tristana_r",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "毁灭射击主动使用入口",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used",
+      "sortOrder": 5
+    },
+    "/skills/tristana_r/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "damage",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "cannon_hit"
+          },
+          "name": "执行命中伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "detail": {},
+              "sortOrder": 20
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮敌方英雄",
+          "sortOrder": 10
+        }
+      ],
+      "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "tristana_r",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "毁灭射击实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/trigger-rules/actual_hit",
+      "status": 200
+    }
+  ],
+  "businessWrites": 0,
+  "problem": "主负责人在上一批新增使用入口时，把尚未配置的控制分支写成由原命中规则处理；当前原命中规则实际上仅执行伤害。",
+  "proposedDescription": "本技能主动使用时启动现有施放过程，登记法力、普通冷却及已核定的施法延迟；本入口只启动过程，实际伤害与控制分别配置，不在过程结束时生成命中。",
+  "scope": "只更正使用入口的说明，事件、条件、动作、过程和所有技能组成保持。"
+}

@@ -1,0 +1,136 @@
+{
+  "at": "2026-09-21T04:44:34.073Z",
+  "status": "DRAFT_REQUIRES_SEMANTIC_REVIEW_NOT_FROZEN",
+  "scope": "仅明确同次法术护盾未阻挡的首次敌方英雄命中子场景；不表示R控制完整。",
+  "effect": {
+    "description": "仅供本轮明确未被同次法术护盾判定阻挡、且目标没有本来源实例的实际命中入口使用；独立眩晕不表示击退或E联动已配置。",
+    "effectKey": "first_hit_stun",
+    "lifecycle": {
+      "applicationStacksValue": {
+        "kind": "FIXED",
+        "value": 1
+      },
+      "durationValue": {
+        "kind": "PARAMETER",
+        "parameterKey": "stun_duration_ms"
+      },
+      "expiryMode": "ALL_AT_ONCE",
+      "firstPeriodicExecution": null,
+      "instanceScope": "SOURCE_TARGET",
+      "maxStacksValue": {
+        "kind": "FIXED",
+        "value": 1
+      },
+      "periodicIntervalValue": null,
+      "reapplicationDurationMode": "REFRESH_ALL",
+      "reapplicationStackMode": "KEEP"
+    },
+    "name": "毁灭射击首次眩晕",
+    "results": [
+      {
+        "description": "控制资格由受限入口核对；本结果不再次独立判断法术护盾，持续状态随本来源与目标实例到期结束。",
+        "detail": {
+          "operation": "APPLY",
+          "statusKey": "vertigo"
+        },
+        "lifecycleBehavior": {
+          "moment": "PERSISTENT",
+          "periodicExecutionMode": null,
+          "reapplicationValueMode": null,
+          "stackValueMode": null,
+          "valueReadMode": null
+        },
+        "name": "本次毁灭射击眩晕",
+        "resultKey": "stun",
+        "resultType": "STATUS_OPERATION",
+        "sortOrder": 10,
+        "spellShieldBlockScope": null,
+        "target": "TARGET",
+        "valueRule": null
+      }
+    ],
+    "sortOrder": 30
+  },
+  "rule": {
+    "ruleKey": "apply_stun_on_unblocked_hit",
+    "name": "明确未阻挡的首次眩晕",
+    "description": "仅当本技能实际命中明确为敌方英雄、同次法术护盾阻挡值为0且当前目标无本来源眩晕实例时施加；缺值不默认0。阻挡分支、重施、击退与E联动继续独立待核。",
+    "sortOrder": 30,
+    "eventSource": {
+      "eventType": "SKILL_HIT",
+      "detail": {
+        "sourceSkillKey": "tristana_r"
+      }
+    },
+    "conditionGroups": [
+      {
+        "groupKey": "stun_eligible",
+        "name": "本次首次眩晕可施加",
+        "sortOrder": 10,
+        "conditions": [
+          {
+            "conditionKey": "champion_target",
+            "conditionType": "TARGET_CATEGORY_CHECK",
+            "sortOrder": 10,
+            "detail": {
+              "categories": [
+                "CHAMPION"
+              ]
+            }
+          },
+          {
+            "conditionKey": "enemy_target",
+            "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+            "sortOrder": 20,
+            "detail": {}
+          },
+          {
+            "conditionKey": "not_spell_shield_blocked",
+            "conditionType": "EVENT_VALUE_COMPARE",
+            "sortOrder": 30,
+            "detail": {
+              "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED",
+              "comparator": "EQ",
+              "comparisonValue": {
+                "kind": "FIXED",
+                "value": 0
+              }
+            }
+          },
+          {
+            "conditionKey": "own_stun_absent",
+            "conditionType": "LIFECYCLE_CHECK",
+            "sortOrder": 40,
+            "detail": {
+              "effectKey": "first_hit_stun",
+              "subject": "CURRENT_TARGET",
+              "checkKind": "ABSENT",
+              "comparator": null,
+              "comparisonValue": null
+            }
+          }
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "actionKey": "apply_stun",
+        "name": "施加本次眩晕",
+        "actionType": "EXECUTE_EFFECT",
+        "sortOrder": 10,
+        "targetContext": "CURRENT_TARGET",
+        "detail": {
+          "effectKey": "first_hit_stun"
+        },
+        "runtimeInputBindings": [],
+        "resultModifiers": []
+      }
+    ],
+    "perTargetCooldown": null,
+    "maxTriggersPerProcess": null
+  },
+  "contract": "系统精简实施说明的同次法术护盾判定值、既有持续状态及首次施加规则。",
+  "unreachableReapply": "ABSENT入口使必填REFRESH_ALL重施设置在此入口不可达，不将它当作已核定游戏重施语义。",
+  "ordering": "先完成使用入口说明纠错及独立回读，再按实时基线冻结。",
+  "businessWrites": 0
+}

@@ -1,0 +1,87 @@
+{
+  "at": "2026-09-21T04:38:42.783Z",
+  "mode": "GET_ONLY",
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/statuses/vertigo",
+      "status": 200
+    }
+  ],
+  "values": {
+    "/skills/tristana_r/effects": [
+      {
+        "createdAt": "2026-09-07T18:02:27.78408Z",
+        "description": "仅施放法力消耗；具体过程单独绑定。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "tristana_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:02:27.78408Z"
+      },
+      {
+        "createdAt": "2026-09-07T18:02:28.264113Z",
+        "description": "本轮实际命中敌方英雄时执行的普通魔法技能伤害，明确保存防御结算后伤害的全能吸血资格，效率为1。伤害公式、数值、暴击和原法术护盾粒度保持；其他吸血类型、具体法术护盾粒度及技能专属联动仍待核定。",
+        "effectKey": "cannon_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "加农炮弹命中",
+        "resultCount": 1,
+        "skillKey": "tristana_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-21T04:25:16.060969Z"
+      }
+    ],
+    "/skills/tristana_r/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "本技能主动使用时启动现有施放过程，登记法力、普通冷却及已核定的施法延迟；实际伤害和控制仍由原命中规则处理。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "毁灭射击主动使用入口",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used",
+        "sortOrder": 5,
+        "updatedAt": "2026-09-21T04:12:20.826918Z"
+      },
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "毁灭射击实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-21T04:20:01.367763Z"
+      }
+    ],
+    "/statuses/vertigo": {
+      "createdAt": "2026-08-28T14:55:06.53067Z",
+      "description": null,
+      "gameId": "lol",
+      "name": "眩晕",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "statusKey": "vertigo",
+      "statusKind": "STUN",
+      "updatedAt": "2026-08-28T14:55:06.53067Z"
+    }
+  },
+  "businessWrites": 0
+}

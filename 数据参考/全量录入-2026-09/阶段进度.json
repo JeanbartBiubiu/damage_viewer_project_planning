@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-21T04:33:44.959Z",
+  "generatedAt": "2026-09-21T04:54:49.053Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。；基兰W冷却回退返回：7次保存、41次独立GET与5类页面通过，有效施放时间仍待核，管理完整8项/开放831项保持，见zileanWCooldownReductionReturn。；系统-16装备技能直达录入已完成，728单测/3项定向页面及两件真实装备往返通过，6条独立回读不变，业务写入0。；中娅主体说明1次页面更正、独立13GET及重开通过，装备开放234项保持；百分比穿透候选与两份历史来源的边界另见percentPenetrationSourceContractAudit，尚未批准实施。；崔丝塔娜W明确组成返回8次保存、108次独立GET、20组算例及8类页面通过；复用旧本人击杀入口，整技能仍系统暂缓，管理完整8项/开放831项保持。；正式参与击杀事件已返回崔丝塔娜W：3次页面保存、36次独立GET、4项拒绝验证通过，原4规则数量保持；剩余系统1项、资料1项，整技能未记完整。；剩余冷却比例已返回易大师R和纳沃利：3次页面保存、49次独立GET及3项数值越界拒绝通过，无新表或触发；纳沃利改资料待核，整技能完成数保持。",
@@ -13507,6 +13507,30 @@
       "browser": false,
       "managementCompleteIncrement": 0,
       "runtime": false
+    },
+    "triggerRuleDescriptionToolReturn": {
+      "at": "2026-09-21T04:54:49.045Z",
+      "status": "触发规则说明纠错及第三版工具真实返回通过，代表页面待验",
+      "skillKey": "tristana_r",
+      "ruleKey": "on_used",
+      "codeCommit": "2d23ec8ef41af8a02b846dc99570b1c676b090ec",
+      "toolSha256": "f6f947b11179b087f9fd4ea9e8fbb35973ba20f3f04b0f097fc5dcdb473125ae",
+      "offlineTests": 10,
+      "successfulSaves": 1,
+      "immediateDetailReadbacks": 1,
+      "immediateListReadbacks": 1,
+      "independentGets": 21,
+      "unchangedRoutes": 19,
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/崔丝塔娜R使用入口说明纠错/09-证据清单.json",
+        "sha256": "ae2a1e51982f95021a56a68599f9452c5b6c673f18ea46457e95414f56352353",
+        "commit": "deadb9bc3cd68dbe1deb70e217d99d9fac43038f"
+      },
+      "browser": false,
+      "wholeSkillComplete": false,
+      "runtime": false,
+      "problem": "主负责人上一批错误描述控制已由原伤害规则处理，现已仅修正说明，配置保持。"
     }
   },
   "runtimeValidation": "未执行",
@@ -14355,6 +14379,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/十二项施法来源说明纠错/09-证据清单.json",
         "sha256": "51c5ac23de9417340a20ef7b804deb93b3021c26d8746ce25687733a9a3ec77d",
         "commit": "7b477c28c2c44a6d7f3a0ee8cc702df657c477bf"
+      },
+      "triggerRuleDescriptionToolReturn": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/崔丝塔娜R使用入口说明纠错/09-证据清单.json",
+        "sha256": "ae2a1e51982f95021a56a68599f9452c5b6c673f18ea46457e95414f56352353",
+        "commit": "deadb9bc3cd68dbe1deb70e217d99d9fac43038f"
       }
     },
     "coverage": {
@@ -35855,7 +35885,8 @@
           "threeSkillUseEntryReturn",
           "threeSkillHitScopeReturn",
           "threeSkillDamageVampReturn",
-          "castOptionalFieldDescriptionReturn"
+          "castOptionalFieldDescriptionReturn",
+          "triggerRuleDescriptionToolReturn"
         ],
         "completedBranches": [
           "固定来源主R终极技能分类关联",

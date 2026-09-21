@@ -1,0 +1,44 @@
+{
+  "at": "2026-09-21T04:50:04.174Z",
+  "status": "CODE_REVIEWED_OFFLINE_TESTED_REAL_RETURN_PENDING",
+  "problemCase": "tristana_r/on_used说明误称尚未接入的控制已由原规则处理",
+  "change": "新增说明纠错工具第三版，复用原有说明处理并支持触发规则完整字段保护和内建独立回读。",
+  "webCommit": "2d23ec8ef41af8a02b846dc99570b1c676b090ec",
+  "tool": {
+    "path": "tools/authoring/update-reviewed-descriptions-v3.mjs",
+    "sha256": "f6f947b11179b087f9fd4ea9e8fbb35973ba20f3f04b0f097fc5dcdb473125ae"
+  },
+  "implementationAgent": "/root/rule_description_tool_extension",
+  "verification": {
+    "syntax": {
+      "command": "node --check tools/authoring/update-reviewed-descriptions-v3.mjs",
+      "status": "PASS",
+      "executor": "implementationAgent"
+    },
+    "offlineTests": {
+      "command": "node --test tools/authoring/update-reviewed-descriptions-v3.test.mjs",
+      "passed": 10,
+      "failed": 0,
+      "realHttpCalls": 0,
+      "executor": "implementationAgent"
+    },
+    "mainReviewer": {
+      "name": "/root",
+      "checked": [
+        "完整读取最终工具代码",
+        "规则事件/动作/限流保持与null占位规范化",
+        "HTTP状态先持久化和未知写入防重放",
+        "独立回读精确保护规则列表updatedAt及所有原状态",
+        "参数列表完整值和同列表多目标累计",
+        "最终工具sha与离线测试对应版本一致"
+      ]
+    },
+    "diffCheck": "PASS",
+    "oldToolsUnchanged": {
+      "update-reviewed-descriptions-v2.mjs": "f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517",
+      "read-reviewed-description-updates.mjs": "3b9c5c9e391f63175fdaec238a88b482b05c7e76dc00f2acc0eb2cd6eebcb994",
+      "update-reviewed-hit-scope.mjs": "909e4572b83c1ebc5f89f43b11fd92b5b532aee82972ddff0fad852c51efd049"
+    }
+  },
+  "boundary": "本记录不代表真实接口、页面或战斗验证；正式规则返回单独保留证据。"
+}
