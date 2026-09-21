@@ -1,0 +1,122 @@
+{
+  "at": "2026-09-21T03:36:03.971Z",
+  "status": "SOURCE_READY_REQUIRES_SCOPE_RETURN_FIRST",
+  "version": {
+    "client": "16.17",
+    "official": "16.17.1"
+  },
+  "skillKey": "lucian_w",
+  "rootBinding": "Characters/Lucian/Spells/LucianWAbility/LucianW",
+  "officialTooltip": "Lucian fires a shot that explodes at the end of its range or on the first enemy hit, dealing <magicDamage>{{ totaldamage }} magic damage</magicDamage>, briefly revealing enemies and marking them for 6 seconds.<br /><br />When Lucian or an ally damages a marked enemy, Lucian gains <speed>{{ movespeedamount }} Move Speed</speed> for 1 second. Allies triggering this effect will also grant Lucian <attention>Vigilance</attention>.{{ spellmodifierdescriptionappend }}",
+  "client": {
+    "tags": [
+      "Trait_DamageAbility",
+      "Trait_Low_Damage",
+      "Trait_AoE"
+    ],
+    "calculation": {
+      "mFormulaParts": [
+        {
+          "mDataValue": "BaseDamage",
+          "__type": "NamedDataValueCalculationPart"
+        },
+        {
+          "mCoefficient": 0.8999999761581421,
+          "__type": "StatByCoefficientCalculationPart"
+        }
+      ],
+      "__type": "GameCalculation"
+    },
+    "dataValues": [
+      {
+        "name": "BaseDamage",
+        "values": [
+          40,
+          75,
+          110,
+          145,
+          180,
+          215,
+          250
+        ],
+        "__type": "SpellDataValue"
+      },
+      {
+        "name": "MoveSpeedAmount",
+        "values": [
+          55,
+          60,
+          65,
+          70,
+          75,
+          80,
+          85
+        ],
+        "__type": "SpellDataValue"
+      },
+      {
+        "name": "BuffDuration",
+        "values": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "__type": "SpellDataValue"
+      },
+      {
+        "name": "DebuffDuration",
+        "values": [
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6
+        ],
+        "__type": "SpellDataValue"
+      }
+    ]
+  },
+  "currentBaseline": {
+    "worktree": "damage_web_dev",
+    "path": "数据参考/全量录入-2026-09/交叉试录/卢锡安W普通使用入口返回/04-写入前现值.json",
+    "sha256": "f3486d3edd353ad3db0d2f4f1593339059599d94c729383a54ffa55194d0ea44"
+  },
+  "findings": [
+    "原flare_hit为单个无生命周期普通魔法直接技能伤害，数值为75/110/145/180/215加0.9总法强。",
+    "实际命中已存在但无范围条件，必须先补本轮同组敌方英雄并独立回读。",
+    "Riot26.1已复核的通用英雄目标全能吸血效率为1；范围标签不会在英雄目标触发小兵折减。",
+    "原RESULT法术护盾粒度及其他吸血类型没有本次W专属来源，本次保留并单列。"
+  ],
+  "candidate": {
+    "vampType": "OMNIVAMP",
+    "basisOutputKind": "POST_DEFENSE_DAMAGE",
+    "efficiencyValue": {
+      "kind": "FIXED",
+      "value": 1
+    }
+  },
+  "generalSource": {
+    "path": "数据参考/全量录入-2026-09/卢锡安Q实际命中返回/02-普通物理技能伤害交互核对.json",
+    "primaryUrl": "https://www.leagueoflegends.com/en-sg/news/game-updates/patch-26-1-notes/",
+    "use": "仅复用通用效率与既定防御结算后映射，不迁移Q的专属性质。"
+  },
+  "arithmeticOnly": {
+    "sourceTotalAp": 100,
+    "rank1": 165,
+    "rank5": 305,
+    "boundary": "只核配置表达式，不是抗性/护盾/战斗执行证明。"
+  },
+  "remaining": [
+    "6秒标记及本人造成伤害后的1秒移速联动",
+    "W初次伤害与标记生效的先后资格",
+    "被动圣光银弹联动",
+    "代表页面"
+  ],
+  "formalWrites": 0
+}
