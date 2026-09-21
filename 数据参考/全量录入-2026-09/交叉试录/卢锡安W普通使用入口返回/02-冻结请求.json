@@ -1,0 +1,72 @@
+{
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/lucian_w/trigger-rules",
+      "detailRoute": "/skills/lucian_w/trigger-rules/on_used",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "热诚烈弹主动使用入口",
+        "description": "本技能主动使用时启动已有cast过程，登记法力和普通冷却并保留已核定的250毫秒施法延迟；不把过程结束当成实际命中，不在此处直接施加伤害或标记。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "lucian_w",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动已有施法过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used",
+        "name": "热诚烈弹主动使用入口",
+        "description": "本技能主动使用时启动已有cast过程，登记法力和普通冷却并保留已核定的250毫秒施法延迟；不把过程结束当成实际命中，不在此处直接施加伤害或标记。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "lucian_w",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动已有施法过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "sourceSha256": "94101fc0b4b00fd8046be5946cdddf19b8deab60dc3f94f02e45f65d33d52e6c",
+  "baselineSha256": "f3486d3edd353ad3db0d2f4f1593339059599d94c729383a54ffa55194d0ea44"
+}
