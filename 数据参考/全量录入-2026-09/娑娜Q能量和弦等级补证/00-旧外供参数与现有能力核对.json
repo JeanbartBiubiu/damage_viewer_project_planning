@@ -1,0 +1,94 @@
+{
+  "at": "2026-09-21T13:03:27.115Z",
+  "status": "READ_ONLY_CURVE_REVIEW_PENDING",
+  "currentParameter": {
+    "createdAt": "2026-09-09T18:36:38.574575Z",
+    "description": "TotalStaccatoDamage有等级断点，完整等级曲线未证，按当前等级值外供。",
+    "fixedValue": null,
+    "gameId": "lol",
+    "levelValues": null,
+    "name": "Q能量和弦等级基础伤害",
+    "parameterKey": "chord_character_level_base_damage",
+    "skillKey": "sona_q",
+    "sortOrder": 80,
+    "updatedAt": "2026-09-09T18:36:38.574575Z",
+    "valueMode": "RUNTIME_INPUT",
+    "valueType": "DECIMAL"
+  },
+  "currentFormula": {
+    "createdAt": "2026-09-09T18:36:44.660681Z",
+    "description": "TotalStaccatoDamage等级基础值外供，再加0.3×法强。",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "chord_character_level_base_damage"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "chord_ap_ratio"
+            },
+            {
+              "attributeKey": "ability_power",
+              "attributeOwner": "SOURCE",
+              "attributeValueKind": "TOTAL",
+              "nodeType": "ATTRIBUTE"
+            }
+          ],
+          "operation": "MULTIPLY"
+        }
+      ],
+      "operation": "ADD"
+    },
+    "formulaKey": "chord_magic_damage",
+    "gameId": "lol",
+    "name": "Q能量和弦魔法伤害",
+    "skillKey": "sona_q",
+    "sortOrder": 30,
+    "updatedAt": "2026-09-09T18:36:44.660681Z"
+  },
+  "sourceFile": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Sona.json.gz",
+  "sourceSha256": "58c693dc5f9861064506c72c73953623d8c939f2667e3878d5541d597c16685b",
+  "sourcePath": "Characters/Sona/Spells/SonaQAbility/SonaQ.mSpell.mSpellCalculations.TotalStaccatoDamage",
+  "sourceCalculation": {
+    "mFormulaParts": [
+      {
+        "mLevel1Value": 30,
+        "mInitialBonusPerLevel": 15,
+        "mBreakpoints": [
+          {
+            "mLevel": 9,
+            "mBonusPerLevelAtAndAfter": 22.5,
+            "__type": "Breakpoint"
+          }
+        ],
+        "__type": "ByCharLevelBreakpointsCalculationPart"
+      },
+      {
+        "mCoefficient": 0.30000001192092896,
+        "__type": "StatByCoefficientCalculationPart"
+      }
+    ],
+    "__type": "GameCalculation"
+  },
+  "managementCapability": {
+    "backend": "SkillParameterValueMode.CHARACTER_LEVEL及SkillParameterService按游戏等级完整校验",
+    "frontend": "web/src/types/skillParameter.ts包含CHARACTER_LEVEL",
+    "newSchemaRequired": false
+  },
+  "toolGap": {
+    "file": "tools/authoring/update-reviewed-parameters.mjs",
+    "allowedCurrentAndNextModes": [
+      "FIXED",
+      "SKILL_LEVEL"
+    ],
+    "frozenHistoricalTool": true
+  },
+  "next": "独立确认mLevel=9的当级增量和无额外断点值；只有曲线确证后才准备替换无默认运行输入，现阶段不改参数或公式。",
+  "businessWrites": 0,
+  "httpRequests": 0
+}

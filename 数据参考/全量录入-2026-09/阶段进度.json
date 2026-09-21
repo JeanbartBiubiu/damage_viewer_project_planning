@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-21T13:13:55.219Z",
+  "generatedAt": "2026-09-21T13:52:51.110Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。；基兰W冷却回退返回：7次保存、41次独立GET与5类页面通过，有效施放时间仍待核，管理完整8项/开放831项保持，见zileanWCooldownReductionReturn。；系统-16装备技能直达录入已完成，728单测/3项定向页面及两件真实装备往返通过，6条独立回读不变，业务写入0。；中娅主体说明1次页面更正、独立13GET及重开通过，装备开放234项保持；百分比穿透候选与两份历史来源的边界另见percentPenetrationSourceContractAudit，尚未批准实施。；崔丝塔娜W明确组成返回8次保存、108次独立GET、20组算例及8类页面通过；复用旧本人击杀入口，整技能仍系统暂缓，管理完整8项/开放831项保持。；正式参与击杀事件已返回崔丝塔娜W：3次页面保存、36次独立GET、4项拒绝验证通过，原4规则数量保持；剩余系统1项、资料1项，整技能未记完整。；剩余冷却比例已返回易大师R和纳沃利：3次页面保存、49次独立GET及3项数值越界拒绝通过，无新表或触发；纳沃利改资料待核，整技能完成数保持。",
@@ -14048,6 +14048,41 @@
         "sona_q"
       ],
       "evidence": "娑娜Q本体伤害返回/03-明确未阻挡本体实际返回.json"
+    },
+    "sonaQChordLevelParameterReturn": {
+      "status": "旧外供等级基础值已改为完整角色等级参数，公式说明同步，独立回读通过；代表页面待验",
+      "skills": [
+        "sona_q"
+      ],
+      "successfulSaves": 2,
+      "independentGETs": 55,
+      "parameterUpdates": 1,
+      "formulaDescriptionUpdates": 1,
+      "createdComponents": 0,
+      "newTriggerRules": 0,
+      "offlineToolTests": 25,
+      "actualFormulaArithmeticCases": 54,
+      "commits": {
+        "tool": "58a1c45a3d5f22266533165aea313055f0e9bb96",
+        "parameter": "c29b09a368710870d720462329b6ba5a6cc6b136",
+        "formulaDescription": "90f7d0ccdd72328c9913b834716dae892c22fd7e"
+      },
+      "evidence": [
+        "娑娜Q能量和弦等级补证/08-角色等级参数实际返回.json",
+        "娑娜Q能量和弦等级补证/09-公式说明实际返回.json"
+      ],
+      "currentCounts": {
+        "parameters": 12,
+        "formulas": 3,
+        "effects": 2,
+        "processes": 1,
+        "internalStates": 0,
+        "triggerRules": 2
+      },
+      "browser": false,
+      "runtime": false,
+      "wholeSkillComplete": false,
+      "next": "按相同断点证据核对两件升级鞋等级基础护盾，保留原12/2属性输入与触发待办"
     }
   },
   "runtimeValidation": "未执行",
@@ -35074,7 +35109,7 @@
         "name": "娑娜·英勇赞美诗",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "原成本与冷却入口保持，Q主动最初音波对明确未阻挡敌方英雄的本体魔法伤害及唯一入口已保存并独立回读；乐曲附伤、能量和弦及被动联动、代表页面继续处理，不计整技能管理完成。",
+        "reason": "普通使用及明确未阻挡Q主动本体伤害已保存；Q能量和弦原外供等级基础值也已替换为确证1至18级参数，并同步公式说明、独立回读。乐曲附伤、能量和弦实际入口、被动联动及代表页面继续处理，不计整技能管理完成。",
         "batchKey": "heroThirtyThirdBatch",
         "candidateSha256": "841a100c48f51a135dbb6d4457ec5523af2030611cbbac1f2212b388be5a8b4e",
         "evidenceRefs": [
@@ -35082,7 +35117,8 @@
           "heroSourceInventory",
           "sevenSkillCostCooldownBackfill",
           "sevenSkillCostDescriptionCorrections",
-          "sonaQUnblockedBodyReturn"
+          "sonaQUnblockedBodyReturn",
+          "sonaQChordLevelParameterReturn"
         ],
         "historicalPendingCounts": {
           "source": 0,
@@ -35122,6 +35158,21 @@
           "vampType": "OMNIVAMP",
           "basisOutputKind": "POST_DEFENSE_DAMAGE",
           "efficiency": 1,
+          "browser": "待验"
+        },
+        "authoredChordLevelParameter": {
+          "parameterKey": "chord_character_level_base_damage",
+          "valueMode": "CHARACTER_LEVEL",
+          "range": [
+            1,
+            18
+          ],
+          "level1": 30,
+          "level9": 157.5,
+          "level18": 360,
+          "formulaKey": "chord_magic_damage",
+          "httpReadback": "PASS",
+          "triggerRulesAdded": 0,
           "browser": "待验"
         }
       },

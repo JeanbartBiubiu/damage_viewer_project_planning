@@ -1,0 +1,73 @@
+{
+  "at": "2026-09-21T13:19:27.069Z",
+  "status": "STATIC_CURVE_CONFIRMED",
+  "reviewer": "/root/sona_chord_level_curve",
+  "sourceVersion": "16.17",
+  "sourceSha256": "58c693dc5f9861064506c72c73953623d8c939f2667e3878d5541d597c16685b",
+  "sourcePath": "Characters/Sona/Spells/SonaQAbility/SonaQ.mSpell.mSpellCalculations.TotalStaccatoDamage",
+  "raw": {
+    "level1Value": 30,
+    "initialBonusPerLevel": 15,
+    "breakpointLevel": 9,
+    "bonusPerLevelAtAndAfter": 22.5,
+    "additionalBonusFieldPresent": false,
+    "additionalBonusDefault": 0
+  },
+  "levelValues": {
+    "1": 30,
+    "2": 45,
+    "3": 60,
+    "4": 75,
+    "5": 90,
+    "6": 105,
+    "7": 120,
+    "8": 135,
+    "9": 157.5,
+    "10": 180,
+    "11": 202.5,
+    "12": 225,
+    "13": 247.5,
+    "14": 270,
+    "15": 292.5,
+    "16": 315,
+    "17": 337.5,
+    "18": 360
+  },
+  "boundaryEquations": {
+    "8": "30 + 7*15 = 135",
+    "9": "30 + 7*15 + 22.5 = 157.5",
+    "10": "30 + 7*15 + 2*22.5 = 180",
+    "18": "30 + 7*15 + 10*22.5 = 360"
+  },
+  "peerEvidence": [
+    {
+      "path": "数据参考/全量录入-2026-09/装备技能实录/Luna第九批/海妖逐等级核算.json",
+      "sha256": "dd5f7ef1eafad86a7319d46cec758a1928403340c571501fdc34a188f0a6b130"
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/约里克Q来源补证与18级治疗补录/独立复核/来源与计划独立复核.md",
+      "sha256": "1392eb9da2c22a705025dce91128db60e168c87ae8b2fae802a8666dcd750abe"
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/交叉试录/通用公式来源补证/class-Breakpoint.json",
+      "sha256": "313c6134de8febd0911eb0b63126b1bbb2b7c922d7057806e3ef778c1e523f14"
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/交叉试录/通用公式来源补证/class-ByCharLevelBreakpointsCalculationPart.json",
+      "sha256": "0a45050e2ac7a930e0f69b285c3df8cd5d6a3f072182de86541433fb401f6300"
+    }
+  ],
+  "semanticBasis": "已保存海妖和约里克同型独立核算均按断点当级切换增长值；类型定义给出缺省断点附加值0。",
+  "sourceReferenceCorrection": {
+    "finding": "首轮将ByCharLevelBreakpointsCalculationPart文件散列误挂到Breakpoint文件名，主负责人原字节校验在保存前拦截。",
+    "resolvedBy": "/root/sona_chord_level_curve",
+    "correctBreakpointSha256": "313c6134de8febd0911eb0b63126b1bbb2b7c922d7057806e3ef778c1e523f14",
+    "correctCalculationClassSha256": "0a45050e2ac7a930e0f69b285c3df8cd5d6a3f072182de86541433fb401f6300",
+    "formatOrWorktreeDrift": false,
+    "numericConclusionChanged": false,
+    "businessWritesBeforeResolution": 0
+  },
+  "validationBoundary": "固定16.17原文与同型证据的静态确证；没有客户端求值函数或战斗实测，不扩写为能量和弦事件与伤害已运行。",
+  "businessWrites": 0,
+  "httpRequests": 0
+}

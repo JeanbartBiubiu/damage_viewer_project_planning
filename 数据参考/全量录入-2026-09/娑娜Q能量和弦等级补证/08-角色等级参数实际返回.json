@@ -1,0 +1,437 @@
+{
+  "at": "2026-09-21T13:47:24.582Z",
+  "status": "PASS",
+  "successfulSaves": 1,
+  "independentGETs": 28,
+  "unchangedResponsesIncludingTimestamps": 26,
+  "changedDetails": 1,
+  "changedCollections": 1,
+  "commit": "c29b09a368710870d720462329b6ba5a6cc6b136",
+  "toolCommit": "58a1c45a3d5f22266533165aea313055f0e9bb96",
+  "readbackSha256": "56378039df6916913a1f77e095de41cfc10be9b2afe5732b37a83f4f6e5c89de",
+  "actualParameter": {
+    "createdAt": "2026-09-09T18:36:38.574575Z",
+    "description": "按来源对象角色等级取值：1级30；2至8级每级增加15；9级起每级增加22.5，18级360。固定客户端16.17 TotalStaccatoDamage的等级基础部分，法强项由公式另计。",
+    "fixedValue": null,
+    "gameId": "lol",
+    "levelValues": {
+      "1": 30,
+      "2": 45,
+      "3": 60,
+      "4": 75,
+      "5": 90,
+      "6": 105,
+      "7": 120,
+      "8": 135,
+      "9": 157.5,
+      "10": 180,
+      "11": 202.5,
+      "12": 225,
+      "13": 247.5,
+      "14": 270,
+      "15": 292.5,
+      "16": 315,
+      "17": 337.5,
+      "18": 360
+    },
+    "name": "Q能量和弦等级基础伤害",
+    "parameterKey": "chord_character_level_base_damage",
+    "skillKey": "sona_q",
+    "sortOrder": 80,
+    "updatedAt": "2026-09-21T13:40:45.369086Z",
+    "valueMode": "CHARACTER_LEVEL",
+    "valueType": "DECIMAL"
+  },
+  "gameLevelConfig": {
+    "gameId": "lol",
+    "maxLevel": 18,
+    "minLevel": 1
+  },
+  "actualFormulaCaseCount": 54,
+  "actualFormulaCases": [
+    {
+      "level": 1,
+      "abilityPower": 0,
+      "actual": 30,
+      "expected": 30,
+      "status": "PASS"
+    },
+    {
+      "level": 1,
+      "abilityPower": 123,
+      "actual": 66.9,
+      "expected": 66.9,
+      "status": "PASS"
+    },
+    {
+      "level": 1,
+      "abilityPower": 400,
+      "actual": 150,
+      "expected": 150,
+      "status": "PASS"
+    },
+    {
+      "level": 2,
+      "abilityPower": 0,
+      "actual": 45,
+      "expected": 45,
+      "status": "PASS"
+    },
+    {
+      "level": 2,
+      "abilityPower": 123,
+      "actual": 81.9,
+      "expected": 81.9,
+      "status": "PASS"
+    },
+    {
+      "level": 2,
+      "abilityPower": 400,
+      "actual": 165,
+      "expected": 165,
+      "status": "PASS"
+    },
+    {
+      "level": 3,
+      "abilityPower": 0,
+      "actual": 60,
+      "expected": 60,
+      "status": "PASS"
+    },
+    {
+      "level": 3,
+      "abilityPower": 123,
+      "actual": 96.9,
+      "expected": 96.9,
+      "status": "PASS"
+    },
+    {
+      "level": 3,
+      "abilityPower": 400,
+      "actual": 180,
+      "expected": 180,
+      "status": "PASS"
+    },
+    {
+      "level": 4,
+      "abilityPower": 0,
+      "actual": 75,
+      "expected": 75,
+      "status": "PASS"
+    },
+    {
+      "level": 4,
+      "abilityPower": 123,
+      "actual": 111.9,
+      "expected": 111.9,
+      "status": "PASS"
+    },
+    {
+      "level": 4,
+      "abilityPower": 400,
+      "actual": 195,
+      "expected": 195,
+      "status": "PASS"
+    },
+    {
+      "level": 5,
+      "abilityPower": 0,
+      "actual": 90,
+      "expected": 90,
+      "status": "PASS"
+    },
+    {
+      "level": 5,
+      "abilityPower": 123,
+      "actual": 126.9,
+      "expected": 126.9,
+      "status": "PASS"
+    },
+    {
+      "level": 5,
+      "abilityPower": 400,
+      "actual": 210,
+      "expected": 210,
+      "status": "PASS"
+    },
+    {
+      "level": 6,
+      "abilityPower": 0,
+      "actual": 105,
+      "expected": 105,
+      "status": "PASS"
+    },
+    {
+      "level": 6,
+      "abilityPower": 123,
+      "actual": 141.9,
+      "expected": 141.9,
+      "status": "PASS"
+    },
+    {
+      "level": 6,
+      "abilityPower": 400,
+      "actual": 225,
+      "expected": 225,
+      "status": "PASS"
+    },
+    {
+      "level": 7,
+      "abilityPower": 0,
+      "actual": 120,
+      "expected": 120,
+      "status": "PASS"
+    },
+    {
+      "level": 7,
+      "abilityPower": 123,
+      "actual": 156.9,
+      "expected": 156.9,
+      "status": "PASS"
+    },
+    {
+      "level": 7,
+      "abilityPower": 400,
+      "actual": 240,
+      "expected": 240,
+      "status": "PASS"
+    },
+    {
+      "level": 8,
+      "abilityPower": 0,
+      "actual": 135,
+      "expected": 135,
+      "status": "PASS"
+    },
+    {
+      "level": 8,
+      "abilityPower": 123,
+      "actual": 171.9,
+      "expected": 171.9,
+      "status": "PASS"
+    },
+    {
+      "level": 8,
+      "abilityPower": 400,
+      "actual": 255,
+      "expected": 255,
+      "status": "PASS"
+    },
+    {
+      "level": 9,
+      "abilityPower": 0,
+      "actual": 157.5,
+      "expected": 157.5,
+      "status": "PASS"
+    },
+    {
+      "level": 9,
+      "abilityPower": 123,
+      "actual": 194.4,
+      "expected": 194.4,
+      "status": "PASS"
+    },
+    {
+      "level": 9,
+      "abilityPower": 400,
+      "actual": 277.5,
+      "expected": 277.5,
+      "status": "PASS"
+    },
+    {
+      "level": 10,
+      "abilityPower": 0,
+      "actual": 180,
+      "expected": 180,
+      "status": "PASS"
+    },
+    {
+      "level": 10,
+      "abilityPower": 123,
+      "actual": 216.9,
+      "expected": 216.9,
+      "status": "PASS"
+    },
+    {
+      "level": 10,
+      "abilityPower": 400,
+      "actual": 300,
+      "expected": 300,
+      "status": "PASS"
+    },
+    {
+      "level": 11,
+      "abilityPower": 0,
+      "actual": 202.5,
+      "expected": 202.5,
+      "status": "PASS"
+    },
+    {
+      "level": 11,
+      "abilityPower": 123,
+      "actual": 239.4,
+      "expected": 239.4,
+      "status": "PASS"
+    },
+    {
+      "level": 11,
+      "abilityPower": 400,
+      "actual": 322.5,
+      "expected": 322.5,
+      "status": "PASS"
+    },
+    {
+      "level": 12,
+      "abilityPower": 0,
+      "actual": 225,
+      "expected": 225,
+      "status": "PASS"
+    },
+    {
+      "level": 12,
+      "abilityPower": 123,
+      "actual": 261.9,
+      "expected": 261.9,
+      "status": "PASS"
+    },
+    {
+      "level": 12,
+      "abilityPower": 400,
+      "actual": 345,
+      "expected": 345,
+      "status": "PASS"
+    },
+    {
+      "level": 13,
+      "abilityPower": 0,
+      "actual": 247.5,
+      "expected": 247.5,
+      "status": "PASS"
+    },
+    {
+      "level": 13,
+      "abilityPower": 123,
+      "actual": 284.4,
+      "expected": 284.4,
+      "status": "PASS"
+    },
+    {
+      "level": 13,
+      "abilityPower": 400,
+      "actual": 367.5,
+      "expected": 367.5,
+      "status": "PASS"
+    },
+    {
+      "level": 14,
+      "abilityPower": 0,
+      "actual": 270,
+      "expected": 270,
+      "status": "PASS"
+    },
+    {
+      "level": 14,
+      "abilityPower": 123,
+      "actual": 306.9,
+      "expected": 306.9,
+      "status": "PASS"
+    },
+    {
+      "level": 14,
+      "abilityPower": 400,
+      "actual": 390,
+      "expected": 390,
+      "status": "PASS"
+    },
+    {
+      "level": 15,
+      "abilityPower": 0,
+      "actual": 292.5,
+      "expected": 292.5,
+      "status": "PASS"
+    },
+    {
+      "level": 15,
+      "abilityPower": 123,
+      "actual": 329.4,
+      "expected": 329.4,
+      "status": "PASS"
+    },
+    {
+      "level": 15,
+      "abilityPower": 400,
+      "actual": 412.5,
+      "expected": 412.5,
+      "status": "PASS"
+    },
+    {
+      "level": 16,
+      "abilityPower": 0,
+      "actual": 315,
+      "expected": 315,
+      "status": "PASS"
+    },
+    {
+      "level": 16,
+      "abilityPower": 123,
+      "actual": 351.9,
+      "expected": 351.9,
+      "status": "PASS"
+    },
+    {
+      "level": 16,
+      "abilityPower": 400,
+      "actual": 435,
+      "expected": 435,
+      "status": "PASS"
+    },
+    {
+      "level": 17,
+      "abilityPower": 0,
+      "actual": 337.5,
+      "expected": 337.5,
+      "status": "PASS"
+    },
+    {
+      "level": 17,
+      "abilityPower": 123,
+      "actual": 374.4,
+      "expected": 374.4,
+      "status": "PASS"
+    },
+    {
+      "level": 17,
+      "abilityPower": 400,
+      "actual": 457.5,
+      "expected": 457.5,
+      "status": "PASS"
+    },
+    {
+      "level": 18,
+      "abilityPower": 0,
+      "actual": 360,
+      "expected": 360,
+      "status": "PASS"
+    },
+    {
+      "level": 18,
+      "abilityPower": 123,
+      "actual": 396.9,
+      "expected": 396.9,
+      "status": "PASS"
+    },
+    {
+      "level": 18,
+      "abilityPower": 400,
+      "actual": 480,
+      "expected": 480,
+      "status": "PASS"
+    }
+  ],
+  "mathSource": "仅读取独立07报告中的真实接口返回，本次数学核算不另发HTTP",
+  "formulaExpressionChanges": 0,
+  "createdComponents": 0,
+  "browser": false,
+  "runtime": false,
+  "wholeSkillComplete": false
+}
