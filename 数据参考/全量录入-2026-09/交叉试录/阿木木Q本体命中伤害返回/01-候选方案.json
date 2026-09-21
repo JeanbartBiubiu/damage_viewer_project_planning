@@ -1,0 +1,278 @@
+{
+  "schemaVersion": 1,
+  "status": "DRAFT_REQUIRES_INDEPENDENT_REVIEW",
+  "title": "阿木木Q本体实际命中直接魔法伤害返回",
+  "generatedAt": "2026-09-21T07:04:32.317Z",
+  "targets": [
+    {
+      "skillKey": "amumu_q",
+      "ownerKey": "champion_amumu"
+    }
+  ],
+  "scope": "仅复用已核定total_damage公式及实际敌方英雄命中；RESULT级护盾和既有普通伤害OMNIVAMP，不改首次眩晕，不连接充能牵引被动。",
+  "sourceFiles": [
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Amumu.json.gz",
+      "sha256": "35cc43b24362baa4c5a549aa6522a3e67a63f2dd0e48d2e255d358bbf6048175"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Amumu.json",
+      "sha256": "7c0160c4a6815044235fe9e91d4dd176d21986ed587baeb8dad3d4b23f08c09c"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/阿木木Q首次眩晕返回/04-既有法强窄映射复核.json",
+      "sha256": "bc091a1631bf4f5ceb874a0906abd35993e70f23696ed424647efa74fc41caad"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/阿木木Q首次眩晕返回/05-本体伤害后续候选.json",
+      "sha256": "0be7b7ad72b45452325d2dad172c073ad10e1e9a6233f3ddb1207ac9dd1a5890"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/阿木木Q首次眩晕返回/07-本体伤害交互边界.json",
+      "sha256": "1fb03b6fa740acb906d6821cc97bc671d5f5074f1b1c8c9900d87c3cbd826ed3"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第二十五批/输入包/参考资料/属性默认与边界.json",
+      "sha256": "5b51fc7b71e411909e42323ca50d9c51566038b61a392023d2668ba5ad3a73a6"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二十三批/Cursor输入版本.json",
+      "sha256": "0ab4777628d9facd5f4e86745767157b63e2f0cec626cc07ba48b5194e5863d2"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/卢锡安Q实际命中返回/02-普通物理技能伤害交互核对.json",
+      "sha256": "da9a9179b08cc0a30d659a9da6b494d99e0f9a50c53cbda4eb589dbbac0f8ac3"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/阿木木Q明确未阻挡首次眩晕返回/07-独立回读.json",
+      "sha256": "99dda078aff79f49a50dc1529397aae1f6843110d0df033b7cb251fbb8ca21b0"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/婕拉E明确未阻挡首次禁锢返回/04-写入前现值.json",
+      "sha256": "121cf420e5296aef7c4b7eed28856fa94f02787c21d76c1037792e61f9202933"
+    }
+  ],
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/amumu_q/effects",
+      "detailRoute": "/skills/amumu_q/effects/primary_hit",
+      "body": {
+        "description": "本轮1V1本体合资格实际命中敌方英雄时的直接魔法伤害；只复用total_damage已核定数值，不附加被动真伤、不创建牵引或充能事件。",
+        "effectKey": "primary_hit",
+        "lifecycle": null,
+        "name": "绷带牵引本体命中伤害",
+        "results": [
+          {
+            "description": "复用同技能total_damage及既有BaseDamage+0.85×来源总法强窄映射；法术护盾只按本伤害结果粒度配置，牵引与其他分支未接线。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "total_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "sortOrder": 20
+      },
+      "expectedReadback": {
+        "description": "本轮1V1本体合资格实际命中敌方英雄时的直接魔法伤害；只复用total_damage已核定数值，不附加被动真伤、不创建牵引或充能事件。",
+        "effectKey": "primary_hit",
+        "lifecycle": null,
+        "name": "绷带牵引本体命中伤害",
+        "results": [
+          {
+            "description": "复用同技能total_damage及既有BaseDamage+0.85×来源总法强窄映射；法术护盾只按本伤害结果粒度配置，牵引与其他分支未接线。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "total_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/amumu_q/trigger-rules",
+      "detailRoute": "/skills/amumu_q/trigger-rules/actual_hit",
+      "body": {
+        "ruleKey": "actual_hit",
+        "name": "绷带本体实际命中伤害",
+        "description": "仅消费amumu_q本体首次敌方碰撞所产生的合资格实际命中，限本轮敌方英雄；不从使用、延迟或位移结束生成命中。眩晕由独立受限规则处理，充能、牵引与被动继续单列。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "amumu_q"
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "champion_target",
+            "name": "本轮敌方英雄",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "sortOrder": 20,
+                "detail": {}
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "name": "执行绷带本体伤害",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "actual_hit",
+        "name": "绷带本体实际命中伤害",
+        "description": "仅消费amumu_q本体首次敌方碰撞所产生的合资格实际命中，限本轮敌方英雄；不从使用、延迟或位移结束生成命中。眩晕由独立受限规则处理，充能、牵引与被动继续单列。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "amumu_q",
+            "useKind": null
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "champion_target",
+            "name": "本轮敌方英雄",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "sortOrder": 20,
+                "detail": {}
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "name": "执行绷带本体伤害",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ]
+}
