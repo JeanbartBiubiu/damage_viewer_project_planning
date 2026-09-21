@@ -1,0 +1,120 @@
+{
+  "at": "2026-09-21T04:25:08.713Z",
+  "scope": "崔丝塔娜R实录发现同类说明偏差，返回十二项已核对当前根绑定和现值的参数；仅改说明，不改数字、过程或其他组成。",
+  "changes": [
+    {
+      "skillKey": "lucian_e",
+      "kind": "parameter",
+      "route": "/skills/lucian_e/parameters/cast_time_ms",
+      "description": "固定客户端16.17当前角色根绑定的施法字段spellCastTime换算为150毫秒；该技能对象未提供可选施法字段mCastTime。此参数不代替命中或完整移动时长。"
+    },
+    {
+      "skillKey": "tristana_w",
+      "kind": "parameter",
+      "route": "/skills/tristana_w/parameters/cast_time_ms",
+      "description": "固定客户端16.17当前角色根绑定的施法字段spellCastTime换算为250毫秒；该技能对象未提供可选施法字段mCastTime。此参数不代替命中或完整移动时长。"
+    },
+    {
+      "skillKey": "tristana_r",
+      "kind": "parameter",
+      "route": "/skills/tristana_r/parameters/cast_time_ms",
+      "description": "固定客户端16.17当前角色根绑定的施法字段spellCastTime换算为250毫秒；该技能对象未提供可选施法字段mCastTime。此参数不代替命中或完整移动时长。"
+    },
+    {
+      "skillKey": "twitch_q",
+      "kind": "parameter",
+      "route": "/skills/twitch_q/parameters/cast_time_ms",
+      "description": "固定客户端16.17当前角色根绑定的施法字段spellCastTime换算为250毫秒；该技能对象未提供可选施法字段mCastTime。此参数不代替命中或完整移动时长。"
+    },
+    {
+      "skillKey": "twitch_w",
+      "kind": "parameter",
+      "route": "/skills/twitch_w/parameters/cast_time_ms",
+      "description": "固定客户端16.17当前角色根绑定的施法字段spellCastTime换算为250毫秒；该技能对象未提供可选施法字段mCastTime。此参数不代替命中或完整移动时长。"
+    },
+    {
+      "skillKey": "twitch_e",
+      "kind": "parameter",
+      "route": "/skills/twitch_e/parameters/cast_time_ms",
+      "description": "固定客户端16.17当前角色根绑定的施法字段spellCastTime换算为250毫秒；该技能对象未提供可选施法字段mCastTime。此参数不代替命中或完整移动时长。"
+    },
+    {
+      "skillKey": "diana_q",
+      "kind": "parameter",
+      "route": "/skills/diana_q/parameters/cast_time_ms",
+      "description": "固定客户端16.17当前角色根绑定的施法字段spellCastTime换算为250毫秒；该技能对象未提供可选施法字段mCastTime。此参数不代替命中或完整移动时长。"
+    },
+    {
+      "skillKey": "diana_r",
+      "kind": "parameter",
+      "route": "/skills/diana_r/parameters/cast_time_ms",
+      "description": "固定客户端16.17当前角色根绑定的施法字段spellCastTime换算为250毫秒；该技能对象未提供可选施法字段mCastTime。此参数不代替命中或完整移动时长。"
+    },
+    {
+      "skillKey": "veigar_q",
+      "kind": "parameter",
+      "route": "/skills/veigar_q/parameters/cast_time_ms",
+      "description": "固定客户端16.17当前角色根绑定的施法字段spellCastTime换算为250毫秒；该技能对象未提供可选施法字段mCastTime。此参数不代替命中或完整移动时长。"
+    },
+    {
+      "skillKey": "veigar_w",
+      "kind": "parameter",
+      "route": "/skills/veigar_w/parameters/cast_time_ms",
+      "description": "固定客户端16.17当前角色根绑定的施法字段spellCastTime换算为250毫秒；该技能对象未提供可选施法字段mCastTime。此参数不代替命中或完整移动时长。"
+    },
+    {
+      "skillKey": "veigar_e",
+      "kind": "parameter",
+      "route": "/skills/veigar_e/parameters/cast_time_ms",
+      "description": "固定客户端16.17当前角色根绑定的施法字段spellCastTime换算为250毫秒；该技能对象未提供可选施法字段mCastTime。此参数不代替命中或完整移动时长。"
+    },
+    {
+      "skillKey": "veigar_r",
+      "kind": "parameter",
+      "route": "/skills/veigar_r/parameters/cast_time_ms",
+      "description": "固定客户端16.17当前角色根绑定的施法字段spellCastTime换算为250毫秒；该技能对象未提供可选施法字段mCastTime。此参数不代替命中或完整移动时长。"
+    }
+  ],
+  "sourceFiles": [
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/普通使用入口候选续接/06-可选施法字段说明偏差.json",
+      "sha256": "b05a2b2880fa5a044d563b7d5d70513f7b357050347bef86403e898f29039dc9"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/普通使用入口候选续接/07-可选字段说明同类候选.json",
+      "sha256": "d3a5858e4e263704ccf8bc1a78a545044033eff40986aaedd47e0aee10bc869b"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/普通使用入口候选续接/08-同类施法参数现值核对.json",
+      "sha256": "d8575db74257fefa26cc408a33cd66240fb78c502317488507cb737d6ed36b96"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Lucian.json.gz",
+      "sha256": "426dec7ac0ea042d36cbadfe5117bd1faba7cafc73bd0dc6ca0919bf9d736fad"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Tristana.json.gz",
+      "sha256": "83ac2a879e3c6ce2c08f4e3f81294acafa412fa59880cd9a8426df5474972494"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Twitch.json.gz",
+      "sha256": "78a3de6a91ebb859c457415088aa23cce7f62a62c5ed0672b16bdd13c33c7f18"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Diana.json.gz",
+      "sha256": "ab22fa97bbd90d4d738fd9502ea242b072d1097ac76f95708b04b3d5f94c5c5c"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Veigar.json.gz",
+      "sha256": "0bc627d047d3df570c00af13e5f2ff4b09ae7f5ab032672176d54efddd2165dc"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "at": "2026-09-21T04:30:09.235Z",
+  "status": "APPROVED",
+  "reviewer": "/root/cast_field_description_review",
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-descriptions-v2.mjs": "f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517",
+    "01-纠错计划.json": "a9cb2501e05edfb208215f7ba227aaa35a6a3c86ecf98bca59330a56439ca318",
+    "02-冻结请求.json": "176fc7d952f6289421098e06224aeb20f32930f11053dcd144824ab8eac31893",
+    "03-来源摘要.json": "6041587df59198bb97f2f0c5ba5127b1915233e08add3a2f55cd2f1d05cb61da",
+    "04-写入前现值.json": "a82af6795d58ddbf33640472e3732f7b7069df1da1e6f898816511468797d2d6"
+  },
+  "checks": [
+    "8份来源散列一致，5份客户端对应固定16.17索引",
+    "12项当前根绑定mCastTime均不存在；spellCastTime换算与现值一致",
+    "请求只改说明，固定值及其余全部字段保持",
+    "234项完整现值：12目标详情、12参数列表、其余210份响应"
+  ],
+  "staticCheck": {
+    "status": "STATIC_PASS",
+    "exitCode": 0,
+    "httpRequests": 0,
+    "businessWrites": 0
+  },
+  "boundary": "页面、整技能、完整时序与战斗未验收"
+}
