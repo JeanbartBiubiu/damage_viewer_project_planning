@@ -1,0 +1,40 @@
+{
+  "at": "2026-09-21T05:53:50.211Z",
+  "reviewer": "/root/hit_index_management_contract_audit",
+  "mode": "只读静态核对",
+  "definition": {
+    "document": "文档记录/详细设计/项目/条件事件与动态输入供值管理详细设计.md",
+    "lines": [
+      71,
+      235,
+      236,
+      263,
+      273
+    ],
+    "start": 1,
+    "singleHit": "单次步骤或不属于步骤序列的单次命中固定1",
+    "repeatedStep": "重复步骤产生的命中序号等于该步骤本次STEP_EXECUTION_INDEX",
+    "generationImplemented": false,
+    "notDefinedAs": "穿透目标接触先后或按目标计数"
+  },
+  "management": {
+    "eventTypes": [
+      "BASIC_ATTACK_HIT",
+      "SKILL_HIT"
+    ],
+    "valueDomain": "INTEGER",
+    "comparison": "通用比较值允许零/负数/小数，不代表事件实际从零开始",
+    "binding": "只存来源绑定，实际供值和缺值行为不由管理保存执行",
+    "uiDefault": "HIT_INDEX + EQ + Number.NaN，表示比较值未填，不是0/1默认"
+  },
+  "evidence": [
+    "server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerEventCapabilities.java:49",
+    "server/data_manage/src/main/java/xyz/game/datamanage/service/skilltrigger/SkillTriggerRuleService.java:1259",
+    "server/data_manage/src/main/java/xyz/game/datamanage/service/skilltrigger/SkillTriggerRuleService.java:1844",
+    "web/src/pages/admin/skills/triggers/triggerRuleForm.ts:547",
+    "web/src/pages/admin/skills/triggers/triggerRuleForm.ts:1058"
+  ],
+  "legacyDocDifference": "原共享契约comparisonFormulaKey已由现行comparisonValue替换，数值改造不改变HIT_INDEX定义",
+  "businessWrites": 0,
+  "httpRequests": 0
+}

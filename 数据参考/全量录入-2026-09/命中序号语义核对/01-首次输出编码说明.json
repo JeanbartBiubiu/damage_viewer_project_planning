@@ -1,0 +1,9 @@
+{
+  "at": "2026-09-21T05:45:44.454Z",
+  "status": "FIRST_OUTPUT_TEXT_ENCODING_INCOMPLETE",
+  "firstFile": "00-命中序号实库只读引用.json",
+  "reason": "Java标准输出使用平台编码，经UTF-8解码后中文锚点名称损失；数字与只读状态可读，但不把该文件作为完整文本证据。",
+  "recovery": "显式UTF-8输出，保留原始输出字节并复核；这是只读查询复核，不重放任何写入。",
+  "firstBusinessWrites": 0,
+  "firstDDL": 0
+}

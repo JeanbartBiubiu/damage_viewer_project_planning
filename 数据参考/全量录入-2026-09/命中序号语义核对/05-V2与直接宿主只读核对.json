@@ -1,0 +1,48 @@
+{
+  "at": "2026-09-21T05:53:50.212Z",
+  "reviewer": "/root/hit_index_wasm_contract_audit",
+  "mode": "当前V2与直接宿主只读核对",
+  "result": "无HIT_INDEX实际生成、传递或消费链，不把castInstanceId当作命中序号",
+  "findings": [
+    {
+      "path": "wasm/tinygo_engine_v2/internal/runtime/generic_execution.go",
+      "lines": [
+        47,
+        177,
+        658
+      ],
+      "finding": "事件及公式快照没有命中序号；emit_event只构造参与者、事件类型和施放身份"
+    },
+    {
+      "path": "wasm/tinygo_engine_v2/internal/compile/generic.go",
+      "lines": [
+        173,
+        926
+      ],
+      "finding": "请求Payload未进入编译操作；事件公式采用路径白名单，未知hitIndex路径拒绝而非默认0/1"
+    },
+    {
+      "path": "wasm/tinygo_engine_v2/internal/runtime/generic_cast_context.go",
+      "line": 30,
+      "finding": "castInstanceId是施放身份；不是目标接触次序"
+    },
+    {
+      "path": "web/src/engine/genericEngineClient.ts",
+      "line": 134,
+      "finding": "直接宿主仅转交编译/运行请求，无管理HIT_INDEX映射或计数器"
+    }
+  ],
+  "tests": [
+    {
+      "command": "go test -count=1 ./internal/formula -run 'TestCompileGenericFormula(AllowsEventSnapshotPaths|RejectsUnknownEventPath)$'",
+      "exitCode": 0
+    },
+    {
+      "command": "go test -count=1 ./internal/runtime -run 'TestCastInstanceIDMultiOpInheritanceAndDistinctTopLevel$'",
+      "exitCode": 0
+    }
+  ],
+  "testBoundary": "仅原生Go定向检查；不是最终Wasm、浏览器或命中序号运行证明",
+  "filesChanged": 0,
+  "businessWrites": 0
+}

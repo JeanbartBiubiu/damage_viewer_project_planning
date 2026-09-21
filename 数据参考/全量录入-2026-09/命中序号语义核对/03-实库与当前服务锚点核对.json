@@ -1,0 +1,36 @@
+{
+  "at": "2026-09-21T05:46:37.992Z",
+  "status": "PASS",
+  "http": {
+    "method": "GET",
+    "path": "/skills/neeko_e/trigger-rules",
+    "status": 200,
+    "rule": {
+      "actionCount": 1,
+      "conditionGroupCount": 0,
+      "description": "本技能主动使用时启动法力、普通冷却与施法延迟过程；实际命中独立接收，首个目标及强化禁锢资格继续单独核定。",
+      "eventType": "SKILL_USED",
+      "maxTriggersPerProcessEnabled": false,
+      "name": "缠结倒刺普通使用",
+      "perTargetCooldownEnabled": false,
+      "ruleKey": "on_used",
+      "sortOrder": 5,
+      "updatedAt": "2026-09-21T05:29:53.038651Z"
+    }
+  },
+  "databaseAnchor": {
+    "skill_key": "neeko_e",
+    "rule_key": "on_used",
+    "name": "缠结倒刺普通使用",
+    "event_type": "SKILL_USED",
+    "updated_at": "2026-09-21 13:29:53.038651+08"
+  },
+  "equal": [
+    "name",
+    "eventType",
+    "updatedAtMicroseconds"
+  ],
+  "database": "test0221",
+  "databaseReadOnly": true,
+  "businessWrites": 0
+}

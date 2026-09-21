@@ -1,0 +1,73 @@
+{
+  "at": "2026-09-21T06:20:30.982Z",
+  "status": "MANAGEMENT_CODE_VERIFIED_FIRST_REAL_PAGE_PENDING",
+  "commits": {
+    "backend": "1cd1c749e4bcc7d51ffb2a7e116672312db29c3f",
+    "web": "86919d196933d037b34c48168c37287227285581"
+  },
+  "backend": {
+    "targeted": {
+      "command": "mvn -Dtest=SkillTriggerFirstContactValueServiceTest,SkillTriggerSkillHitShieldValueServiceTest,SkillNumericSemanticsTest test",
+      "tests": 144,
+      "failures": 0
+    },
+    "full": {
+      "command": "mvn test",
+      "suites": 110,
+      "tests": 1088,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "firstFullAttempt": "唯一失败为既有事件值矩阵仍期望24项；已更新为25项与技能命中允许集合，最终全量通过。",
+    "reportRoot": "server/data_manage/target/surefire-reports",
+    "finalServiceEvidence": "09-最终服务只读核对.json"
+  },
+  "frontend": {
+    "reportedBy": "/root/first_contact_frontend_implementation",
+    "targeted": {
+      "files": 15,
+      "tests": 299,
+      "passed": true
+    },
+    "full": {
+      "files": 65,
+      "tests": 811,
+      "passed": true
+    },
+    "lint": true,
+    "typecheck": true,
+    "build": true,
+    "buildWarning": "既有大包提示",
+    "isolatedBrowser": {
+      "count": 2,
+      "passed": true,
+      "scope": "首次接触新值与原技能命中护盾事件值，全部模拟API",
+      "entry": "npm run test:e2e:non-wasm",
+      "config": "web/playwright.non-wasm.config.ts",
+      "testFile": "web/tests/e2e/non-wasm-pages.spec.ts",
+      "lastRunReport": "web/output/playwright-non-wasm/.last-run.json",
+      "lastRun": {
+        "status": "passed",
+        "failedTests": []
+      }
+    }
+  },
+  "independentReview": "10-实现独立审查.json",
+  "realBrowser": {
+    "passed": false,
+    "error": "Codex auth token is unavailable",
+    "businessWrites": 0
+  },
+  "database": {
+    "migration": false,
+    "readOnlyEvidence": "02-命中序号实库只读复核.json",
+    "hitIndexReferences": 0,
+    "rules": 310
+  },
+  "runtime": {
+    "hostImplemented": false,
+    "wasmImplemented": false,
+    "battleValidated": false
+  }
+}

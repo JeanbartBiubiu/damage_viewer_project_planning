@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-21T05:33:28.024Z",
+  "generatedAt": "2026-09-21T06:20:30.992Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。；基兰W冷却回退返回：7次保存、41次独立GET与5类页面通过，有效施放时间仍待核，管理完整8项/开放831项保持，见zileanWCooldownReductionReturn。；系统-16装备技能直达录入已完成，728单测/3项定向页面及两件真实装备往返通过，6条独立回读不变，业务写入0。；中娅主体说明1次页面更正、独立13GET及重开通过，装备开放234项保持；百分比穿透候选与两份历史来源的边界另见percentPenetrationSourceContractAudit，尚未批准实施。；崔丝塔娜W明确组成返回8次保存、108次独立GET、20组算例及8类页面通过；复用旧本人击杀入口，整技能仍系统暂缓，管理完整8项/开放831项保持。；正式参与击杀事件已返回崔丝塔娜W：3次页面保存、36次独立GET、4项拒绝验证通过，原4规则数量保持；剩余系统1项、资料1项，整技能未记完整。；剩余冷却比例已返回易大师R和纳沃利：3次页面保存、49次独立GET及3项数值越界拒绝通过，无新表或触发；纳沃利改资料待核，整技能完成数保持。",
@@ -13644,7 +13644,24 @@
       "browser": false,
       "wholeSkillComplete": false,
       "runtime": false,
-      "next": "定点厘清HIT_INDEX的起点、计数维度、重置边界及现有使用；不把实例不存在当作首个接触对象。"
+      "next": "HIT_INDEX已核定从1开始并沿用重复步骤序号；首次目标接触管理增量已实现，妮蔻最短禁锢待新值首次真实页面返回，强化资格继续待核。"
+    },
+    "firstContactValueManagement": {
+      "status": "前后端管理增量与独立审查通过；真实首例页面和妮蔻返回待验",
+      "backendCommit": "1cd1c749e4bcc7d51ffb2a7e116672312db29c3f",
+      "webCommit": "86919d196933d037b34c48168c37287227285581",
+      "evidence": "命中序号语义核对/11-验证与提交记录.json",
+      "planSha256": "fca3b3d4b19f8e45e64d413807696871e25e3b2f95f8a8b5e34a63c69c150b8f",
+      "liveRulesAudited": 310,
+      "liveHitIndexReferences": 0,
+      "backendTests": 1088,
+      "frontendTests": 811,
+      "isolatedPageTests": 2,
+      "firstRealPage": false,
+      "businessWrites": 0,
+      "returnCandidate": "妮蔻E首次接触禁锢返回/01-首次页面专用候选.json",
+      "wholeSkillComplete": false,
+      "runtime": false
     }
   },
   "runtimeValidation": "未执行",
@@ -29753,14 +29770,15 @@
         "name": "妮蔻·缠结倒刺",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "本体直接伤害与普通使用已保存并独立回读；命中序号的起点/维度/重置尚待明确，首个与强化禁锢及代表页面继续处理。",
+        "reason": "本体直接伤害与普通使用已保存并独立回读；既有命中序号为步骤序号，新增首次目标接触管理值已通过检查，最短禁锢待首次真实页面返回；强化资格及代表页面继续处理。",
         "batchKey": "heroFortyFourthBatch",
         "candidateSha256": "0b029b59ead40cd28f3757265fdd7d557f00d347159f02b22d7753f264d7f91c",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
           "eightControlBodyDamageBackfill",
-          "lissandraRootNeekoUseReturn"
+          "lissandraRootNeekoUseReturn",
+          "firstContactValueManagement"
         ],
         "currentComponentCounts": {
           "parameters": 6,
@@ -29771,8 +29789,8 @@
           "triggerRules": 2
         },
         "remainingBranches": [
-          "HIT_INDEX计数起点、计数维度与重置边界",
-          "首个与强化禁锢资格",
+          "首次目标接触新值的真实首例页面及最短禁锢返回",
+          "后续接触的强化资格、阻挡与缺值分支、已有实例重施",
           "代表正式页面"
         ],
         "authoredDirectHit": {
