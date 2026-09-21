@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-21T04:16:09.906Z",
+  "generatedAt": "2026-09-21T04:22:59.446Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。；基兰W冷却回退返回：7次保存、41次独立GET与5类页面通过，有效施放时间仍待核，管理完整8项/开放831项保持，见zileanWCooldownReductionReturn。；系统-16装备技能直达录入已完成，728单测/3项定向页面及两件真实装备往返通过，6条独立回读不变，业务写入0。；中娅主体说明1次页面更正、独立13GET及重开通过，装备开放234项保持；百分比穿透候选与两份历史来源的边界另见percentPenetrationSourceContractAudit，尚未批准实施。；崔丝塔娜W明确组成返回8次保存、108次独立GET、20组算例及8类页面通过；复用旧本人击杀入口，整技能仍系统暂缓，管理完整8项/开放831项保持。；正式参与击杀事件已返回崔丝塔娜W：3次页面保存、36次独立GET、4项拒绝验证通过，原4规则数量保持；剩余系统1项、资料1项，整技能未记完整。；剩余冷却比例已返回易大师R和纳沃利：3次页面保存、49次独立GET及3项数值越界拒绝通过，无新表或触发；纳沃利改资料待核，整技能完成数保持。",
@@ -13410,6 +13410,43 @@
       "browser": false,
       "wholeSkillComplete": false,
       "next": "补三项实际命中的敌方英雄范围，再按新现值处理普通伤害吸血；纠正崔丝塔娜R施法参数来源说明。"
+    },
+    "threeSkillHitScopeReturn": {
+      "at": "2026-09-21T04:22:59.446Z",
+      "status": "三项敌方英雄命中范围已保存并独立回读，代表页面待验",
+      "successfulSaves": 3,
+      "independentGets": 71,
+      "unchangedResponsesBySkill": {
+        "sivir_q": 22,
+        "tristana_r": 19,
+        "xinzhao_e": 24
+      },
+      "evidence": [
+        {
+          "skillKey": "sivir_q",
+          "worktree": "damage_web_dev",
+          "relativePath": "数据参考/全量录入-2026-09/交叉试录/希维尔Q实际命中范围返回/09-证据清单.json",
+          "sha256": "dd381fd6e44cfd08aade2c0dea98b4431eee02528b83c02d31f56b04318136aa",
+          "commit": "bb4c9e3ccca1add3af0e36c7989cbdf79b9116f9"
+        },
+        {
+          "skillKey": "tristana_r",
+          "worktree": "damage_web_dev",
+          "relativePath": "数据参考/全量录入-2026-09/交叉试录/崔丝塔娜R实际命中范围返回/09-证据清单.json",
+          "sha256": "bed1db008fc9e08ce70458d6af86b94b8cc7b153126bc688a909cc7cc985340e",
+          "commit": "bb4c9e3ccca1add3af0e36c7989cbdf79b9116f9"
+        },
+        {
+          "skillKey": "xinzhao_e",
+          "worktree": "damage_web_dev",
+          "relativePath": "数据参考/全量录入-2026-09/交叉试录/赵信E实际命中范围返回/09-证据清单.json",
+          "sha256": "13450d600ce3e8c0136d3bee2908c02500853a02324b1204bf034432d78db71d",
+          "commit": "bb4c9e3ccca1add3af0e36c7989cbdf79b9116f9"
+        }
+      ],
+      "browser": false,
+      "wholeSkillComplete": false,
+      "next": "已按新现值冻结三项普通伤害吸血修正。"
     }
   },
   "runtimeValidation": "未执行",
@@ -14221,6 +14258,31 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/三项普通使用入口返回/09-证据清单.json",
         "sha256": "2fbb84c42a2ae19ddb861727cba59cb04b448e5856ab3cbba876684bec3329ba",
         "commit": "f4a634753eae78f368694de0b60c10c044669015"
+      },
+      "threeSkillHitScopeReturn": {
+        "entries": [
+          {
+            "skillKey": "sivir_q",
+            "worktree": "damage_web_dev",
+            "relativePath": "数据参考/全量录入-2026-09/交叉试录/希维尔Q实际命中范围返回/09-证据清单.json",
+            "sha256": "dd381fd6e44cfd08aade2c0dea98b4431eee02528b83c02d31f56b04318136aa",
+            "commit": "bb4c9e3ccca1add3af0e36c7989cbdf79b9116f9"
+          },
+          {
+            "skillKey": "tristana_r",
+            "worktree": "damage_web_dev",
+            "relativePath": "数据参考/全量录入-2026-09/交叉试录/崔丝塔娜R实际命中范围返回/09-证据清单.json",
+            "sha256": "bed1db008fc9e08ce70458d6af86b94b8cc7b153126bc688a909cc7cc985340e",
+            "commit": "bb4c9e3ccca1add3af0e36c7989cbdf79b9116f9"
+          },
+          {
+            "skillKey": "xinzhao_e",
+            "worktree": "damage_web_dev",
+            "relativePath": "数据参考/全量录入-2026-09/交叉试录/赵信E实际命中范围返回/09-证据清单.json",
+            "sha256": "13450d600ce3e8c0136d3bee2908c02500853a02324b1204bf034432d78db71d",
+            "commit": "bb4c9e3ccca1add3af0e36c7989cbdf79b9116f9"
+          }
+        ]
       }
     },
     "coverage": {
@@ -33623,7 +33685,8 @@
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
           "heroSourceInventory",
-          "threeSkillUseEntryReturn"
+          "threeSkillUseEntryReturn",
+          "threeSkillHitScopeReturn"
         ],
         "historicalPendingCounts": {
           "source": 0,
@@ -33633,11 +33696,12 @@
           "note": "旧分支计数仅存历史；本次按已核定的剩余分支说明推进。"
         },
         "completedBranches": [
-          "本技能普通主动使用入口及来源对象消耗、普通冷却登记"
+          "本技能普通主动使用入口及来源对象消耗、普通冷却登记",
+          "实际命中按同组条件限定本轮敌方英雄"
         ],
         "remainingBranches": [
           "攻速影响施法时长的确切计算；往返与技能被动关联；具体法术护盾拦截粒度及其他吸血类型。",
-          "实际命中敌方英雄范围与普通伤害吸血交互返回",
+          "普通伤害吸血交互返回",
           "代表正式页面验收"
         ],
         "currentCounts": {
@@ -35711,11 +35775,13 @@
           "skillThirdStageCurrentReadback",
           "heroSourceInventory",
           "remainingUltimateCategoryBackfill",
-          "threeSkillUseEntryReturn"
+          "threeSkillUseEntryReturn",
+          "threeSkillHitScopeReturn"
         ],
         "completedBranches": [
           "固定来源主R终极技能分类关联",
-          "本技能普通主动使用入口及来源对象消耗、普通冷却登记"
+          "本技能普通主动使用入口及来源对象消耗、普通冷却登记",
+          "实际命中按同组条件限定本轮敌方英雄"
         ],
         "historicalPendingCounts": {
           "source": 0,
@@ -35726,7 +35792,7 @@
         },
         "remainingBranches": [
           "击退/眩晕及爆炸火花联动仍未接入；不以本次普通伤害补录替代。",
-          "实际命中敌方英雄范围与普通伤害吸血交互返回",
+          "普通伤害吸血交互返回",
           "代表正式页面验收",
           "施法参数说明误称mCastTime存在，待普通说明纠错"
         ],
@@ -38462,7 +38528,8 @@
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
           "heroSourceInventory",
-          "threeSkillUseEntryReturn"
+          "threeSkillUseEntryReturn",
+          "threeSkillHitScopeReturn"
         ],
         "historicalPendingCounts": {
           "source": 0,
@@ -38472,11 +38539,12 @@
           "note": "旧分支计数仅存历史；本次按已核定的剩余分支说明推进。"
         },
         "completedBranches": [
-          "本技能普通主动使用入口及来源对象消耗、普通冷却登记"
+          "本技能普通主动使用入口及来源对象消耗、普通冷却登记",
+          "实际命中按同组条件限定本轮敌方英雄"
         ],
         "remainingBranches": [
           "冲锋路径时序、减速、永久额外攻速输入和自身攻速应用、挑战目标关联仍未接入。",
-          "实际命中敌方英雄范围与普通伤害吸血交互返回",
+          "普通伤害吸血交互返回",
           "代表正式页面验收"
         ],
         "currentCounts": {
