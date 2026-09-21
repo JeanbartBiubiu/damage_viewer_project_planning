@@ -1,0 +1,143 @@
+{
+  "schemaVersion": 1,
+  "status": "DRAFT_REQUIRES_INDEPENDENT_REVIEW",
+  "title": "古拉加斯E剩余冷却返还效果",
+  "generatedAt": "2026-09-21T12:08:53.992Z",
+  "targets": [
+    {
+      "skillKey": "gragas_e",
+      "ownerKey": "champion_gragas"
+    }
+  ],
+  "scope": "仅创建一个未接线的自身E剩余冷却比例效果；不修改既有伤害/普通使用，不创建触发，也不替代首次接触新流程真实页面验收。",
+  "sourceFiles": [
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/古拉加斯E命中冷却返还核对/03-固定来源及当前控制文字核对.json",
+      "sha256": "d3bac179effdb79afda1b43f9da2db6615a5b2f848a73aaabb4e9591f94f9689"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/古拉加斯E命中冷却返还核对/04-历史官方剩余冷却补证.json",
+      "sha256": "3e6bdf346d3c647a2936b48f3383773f85f62184ec670bdbb04c540d0aeb35b1"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/古拉加斯E命中冷却返还核对/05-七项命中范围返回.json",
+      "sha256": "4156bd83c16b586e8de31429e05aa756b41a0d40757def527ce1b450afa9b97d"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/古拉加斯E命中冷却返还核对/06-返还效果与触发边界独立核对.json",
+      "sha256": "bf6e93aced19365984d8abe391aa2a23ce9a4572ef269ba5fd484f482ac8d8ec"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/剩余冷却比例表达返回/08-返回请求冻结.json",
+      "sha256": "d41645b3e6e7bcb492977ef9b16b093453b1b98e9505e53acb581cd704049eca"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/剩余冷却比例表达返回/20-分层验证记录.json",
+      "sha256": "077e275072619907057dab84d860e84c363ec4d7043ee542cfe34862092f7e5f"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/剩余冷却比例表达返回/23-证据清单.json",
+      "sha256": "ec9c06af7b417ad4da013e3bc7929ba2a069ccb47d190276fc2d5c047db9593f"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Gragas.json.gz",
+      "sha256": "00ab98ea8c5af40d605ad574ccbf8a385ad25a81adda79540b554943388c071e"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Gragas.json",
+      "sha256": "7b4225a4717dd889c8d9f703b85192675b4fa03a20c7ae12a23978f0ce509a4d"
+    }
+  ],
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/gragas_e/effects",
+      "detailRoute": "/skills/gragas_e/effects/collision_cooldown_refund",
+      "body": {
+        "effectKey": "collision_cooldown_refund",
+        "name": "肉弹冲击剩余冷却返还",
+        "description": "每次执行减少来源对象肉弹冲击当前剩余普通冷却的40%，不按总冷却计算。仅保存明确返还效果；碰撞首次接触资格与同次法术护盾条件尚未接入触发。",
+        "sortOrder": 30,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "reduce_remaining",
+            "name": "减少肉弹冲击剩余冷却",
+            "resultType": "COOLDOWN_CHANGE",
+            "target": "SOURCE",
+            "description": "本结果仅改变来源对象gragas_e当时剩余普通冷却，不生成碰撞或触发；比例引用既有cooldown_refund_ratio。",
+            "sortOrder": 10,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "cooldown_refund_ratio"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": null,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "affectedSkillScope": {
+                "mode": "SKILLS",
+                "skillKeys": [
+                  "gragas_e"
+                ],
+                "skillCategoryKeys": []
+              },
+              "operation": "REDUCE_REMAINING_RATIO"
+            },
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null
+          }
+        ]
+      },
+      "expectedReadback": {
+        "effectKey": "collision_cooldown_refund",
+        "name": "肉弹冲击剩余冷却返还",
+        "description": "每次执行减少来源对象肉弹冲击当前剩余普通冷却的40%，不按总冷却计算。仅保存明确返还效果；碰撞首次接触资格与同次法术护盾条件尚未接入触发。",
+        "sortOrder": 30,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "reduce_remaining",
+            "name": "减少肉弹冲击剩余冷却",
+            "resultType": "COOLDOWN_CHANGE",
+            "target": "SOURCE",
+            "description": "本结果仅改变来源对象gragas_e当时剩余普通冷却，不生成碰撞或触发；比例引用既有cooldown_refund_ratio。",
+            "sortOrder": 10,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "cooldown_refund_ratio"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": null,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "affectedSkillScope": {
+                "mode": "SKILLS",
+                "skillKeys": [
+                  "gragas_e"
+                ],
+                "skillCategoryKeys": []
+              },
+              "operation": "REDUCE_REMAINING_RATIO"
+            },
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null
+          }
+        ]
+      }
+    }
+  ]
+}

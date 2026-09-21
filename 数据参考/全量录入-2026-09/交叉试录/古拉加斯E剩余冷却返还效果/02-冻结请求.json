@@ -1,0 +1,88 @@
+{
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/gragas_e/effects",
+      "detailRoute": "/skills/gragas_e/effects/collision_cooldown_refund",
+      "body": {
+        "effectKey": "collision_cooldown_refund",
+        "name": "肉弹冲击剩余冷却返还",
+        "description": "每次执行减少来源对象肉弹冲击当前剩余普通冷却的40%，不按总冷却计算。仅保存明确返还效果；碰撞首次接触资格与同次法术护盾条件尚未接入触发。",
+        "sortOrder": 30,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "reduce_remaining",
+            "name": "减少肉弹冲击剩余冷却",
+            "resultType": "COOLDOWN_CHANGE",
+            "target": "SOURCE",
+            "description": "本结果仅改变来源对象gragas_e当时剩余普通冷却，不生成碰撞或触发；比例引用既有cooldown_refund_ratio。",
+            "sortOrder": 10,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "cooldown_refund_ratio"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": null,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "affectedSkillScope": {
+                "mode": "SKILLS",
+                "skillKeys": [
+                  "gragas_e"
+                ],
+                "skillCategoryKeys": []
+              },
+              "operation": "REDUCE_REMAINING_RATIO"
+            },
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null
+          }
+        ]
+      },
+      "expectedReadback": {
+        "effectKey": "collision_cooldown_refund",
+        "name": "肉弹冲击剩余冷却返还",
+        "description": "每次执行减少来源对象肉弹冲击当前剩余普通冷却的40%，不按总冷却计算。仅保存明确返还效果；碰撞首次接触资格与同次法术护盾条件尚未接入触发。",
+        "sortOrder": 30,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "reduce_remaining",
+            "name": "减少肉弹冲击剩余冷却",
+            "resultType": "COOLDOWN_CHANGE",
+            "target": "SOURCE",
+            "description": "本结果仅改变来源对象gragas_e当时剩余普通冷却，不生成碰撞或触发；比例引用既有cooldown_refund_ratio。",
+            "sortOrder": 10,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "cooldown_refund_ratio"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": null,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "affectedSkillScope": {
+                "mode": "SKILLS",
+                "skillKeys": [
+                  "gragas_e"
+                ],
+                "skillCategoryKeys": []
+              },
+              "operation": "REDUCE_REMAINING_RATIO"
+            },
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null
+          }
+        ]
+      }
+    }
+  ],
+  "sourceSha256": "97c21b580ba71b63c8b4997a02c65f68ea22eda0acf659836b7847fd77350145",
+  "baselineSha256": "094f383e741841a1f62076044cbbf65005c26d0c60eb951fb9973c507e9acc13"
+}

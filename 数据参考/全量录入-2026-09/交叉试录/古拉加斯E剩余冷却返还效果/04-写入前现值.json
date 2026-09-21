@@ -1,0 +1,1076 @@
+{
+  "at": "2026-09-21T12:08:55.943Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/skills/gragas_e": {
+      "createdAt": "2026-09-06T18:18:26.898472Z",
+      "description": "古拉加斯向目标区域冲锋，在撞上第一个敌人后，对附近的所有敌方单位造成伤害和晕眩效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "古拉加斯·肉弹冲击",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "gragas_e",
+      "sortOrder": 3,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:18:26.898472Z"
+    },
+    "/characters/champion_gragas": {
+      "characterKey": "champion_gragas",
+      "createdAt": "2026-09-06T16:47:34.178755Z",
+      "description": "官方静态资料16.17.1；仅基础属性与1～18级自然成长，技能、图片和特殊机制待录。",
+      "gameId": "lol",
+      "name": "古拉加斯",
+      "updatedAt": "2026-09-06T16:47:34.178755Z"
+    },
+    "/characters/champion_gragas/attributes": {
+      "characterKey": "champion_gragas",
+      "levelValues": {
+        "1": {
+          "move_speed": 330,
+          "hp": 640,
+          "hp_regen": 5.5,
+          "mana": 400,
+          "mana_regen": 6,
+          "armor": 38,
+          "magic_resistance": 32,
+          "attack_damage": 64,
+          "attack_speed": 0.675,
+          "attack_range": 125
+        },
+        "2": {
+          "move_speed": 330,
+          "hp": 722.8,
+          "hp_regen": 5.86,
+          "mana": 433.84,
+          "mana_regen": 6.576,
+          "armor": 41.6,
+          "magic_resistance": 33.476,
+          "attack_damage": 66.52,
+          "attack_speed": 0.684225,
+          "attack_range": 125
+        },
+        "3": {
+          "move_speed": 330,
+          "hp": 809.625,
+          "hp_regen": 6.2375,
+          "mana": 469.325,
+          "mana_regen": 7.18,
+          "armor": 45.375,
+          "magic_resistance": 35.02375,
+          "attack_damage": 69.1625,
+          "attack_speed": 0.693898,
+          "attack_range": 125
+        },
+        "4": {
+          "move_speed": 330,
+          "hp": 900.475,
+          "hp_regen": 6.6325,
+          "mana": 506.455,
+          "mana_regen": 7.812,
+          "armor": 49.325,
+          "magic_resistance": 36.64325,
+          "attack_damage": 71.9275,
+          "attack_speed": 0.70402,
+          "attack_range": 125
+        },
+        "5": {
+          "move_speed": 330,
+          "hp": 995.35,
+          "hp_regen": 7.045,
+          "mana": 545.23,
+          "mana_regen": 8.472,
+          "armor": 53.45,
+          "magic_resistance": 38.3345,
+          "attack_damage": 74.815,
+          "attack_speed": 0.714591,
+          "attack_range": 125
+        },
+        "6": {
+          "move_speed": 330,
+          "hp": 1094.25,
+          "hp_regen": 7.475,
+          "mana": 585.65,
+          "mana_regen": 9.16,
+          "armor": 57.75,
+          "magic_resistance": 40.0975,
+          "attack_damage": 77.825,
+          "attack_speed": 0.725609,
+          "attack_range": 125
+        },
+        "7": {
+          "move_speed": 330,
+          "hp": 1197.175,
+          "hp_regen": 7.9225,
+          "mana": 627.715,
+          "mana_regen": 9.876,
+          "armor": 62.225,
+          "magic_resistance": 41.93225,
+          "attack_damage": 80.9575,
+          "attack_speed": 0.737077,
+          "attack_range": 125
+        },
+        "8": {
+          "move_speed": 330,
+          "hp": 1304.125,
+          "hp_regen": 8.3875,
+          "mana": 671.425,
+          "mana_regen": 10.62,
+          "armor": 66.875,
+          "magic_resistance": 43.83875,
+          "attack_damage": 84.2125,
+          "attack_speed": 0.748992,
+          "attack_range": 125
+        },
+        "9": {
+          "move_speed": 330,
+          "hp": 1415.1,
+          "hp_regen": 8.87,
+          "mana": 716.78,
+          "mana_regen": 11.392,
+          "armor": 71.7,
+          "magic_resistance": 45.817,
+          "attack_damage": 87.59,
+          "attack_speed": 0.761356,
+          "attack_range": 125
+        },
+        "10": {
+          "move_speed": 330,
+          "hp": 1530.1,
+          "hp_regen": 9.37,
+          "mana": 763.78,
+          "mana_regen": 12.192,
+          "armor": 76.7,
+          "magic_resistance": 47.867,
+          "attack_damage": 91.09,
+          "attack_speed": 0.774169,
+          "attack_range": 125
+        },
+        "11": {
+          "move_speed": 330,
+          "hp": 1649.125,
+          "hp_regen": 9.8875,
+          "mana": 812.425,
+          "mana_regen": 13.02,
+          "armor": 81.875,
+          "magic_resistance": 49.98875,
+          "attack_damage": 94.7125,
+          "attack_speed": 0.78743,
+          "attack_range": 125
+        },
+        "12": {
+          "move_speed": 330,
+          "hp": 1772.175,
+          "hp_regen": 10.4225,
+          "mana": 862.715,
+          "mana_regen": 13.876,
+          "armor": 87.225,
+          "magic_resistance": 52.18225,
+          "attack_damage": 98.4575,
+          "attack_speed": 0.801139,
+          "attack_range": 125
+        },
+        "13": {
+          "move_speed": 330,
+          "hp": 1899.25,
+          "hp_regen": 10.975,
+          "mana": 914.65,
+          "mana_regen": 14.76,
+          "armor": 92.75,
+          "magic_resistance": 54.4475,
+          "attack_damage": 102.325,
+          "attack_speed": 0.815297,
+          "attack_range": 125
+        },
+        "14": {
+          "move_speed": 330,
+          "hp": 2030.35,
+          "hp_regen": 11.545,
+          "mana": 968.23,
+          "mana_regen": 15.672,
+          "armor": 98.45,
+          "magic_resistance": 56.7845,
+          "attack_damage": 106.315,
+          "attack_speed": 0.829903,
+          "attack_range": 125
+        },
+        "15": {
+          "move_speed": 330,
+          "hp": 2165.475,
+          "hp_regen": 12.1325,
+          "mana": 1023.455,
+          "mana_regen": 16.612,
+          "armor": 104.325,
+          "magic_resistance": 59.19325,
+          "attack_damage": 110.4275,
+          "attack_speed": 0.844958,
+          "attack_range": 125
+        },
+        "16": {
+          "move_speed": 330,
+          "hp": 2304.625,
+          "hp_regen": 12.7375,
+          "mana": 1080.325,
+          "mana_regen": 17.58,
+          "armor": 110.375,
+          "magic_resistance": 61.67375,
+          "attack_damage": 114.6625,
+          "attack_speed": 0.860461,
+          "attack_range": 125
+        },
+        "17": {
+          "move_speed": 330,
+          "hp": 2447.8,
+          "hp_regen": 13.36,
+          "mana": 1138.84,
+          "mana_regen": 18.576,
+          "armor": 116.6,
+          "magic_resistance": 64.226,
+          "attack_damage": 119.02,
+          "attack_speed": 0.876413,
+          "attack_range": 125
+        },
+        "18": {
+          "move_speed": 330,
+          "hp": 2595,
+          "hp_regen": 14,
+          "mana": 1199,
+          "mana_regen": 19.6,
+          "armor": 123,
+          "magic_resistance": 66.85,
+          "attack_damage": 123.5,
+          "attack_speed": 0.892813,
+          "attack_range": 125
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_gragas/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_champion_gragas",
+        "name": "champion_gragas"
+      }
+    },
+    "/skills/gragas_e/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_gragas_e",
+        "name": "gragas_e"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_gragas": {
+      "items": [
+        {
+          "characterKey": "champion_gragas",
+          "characterName": "古拉加斯",
+          "gameId": "lol",
+          "skillKey": "gragas_p",
+          "skillName": "古拉加斯·欢乐时光",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_gragas",
+          "characterName": "古拉加斯",
+          "gameId": "lol",
+          "skillKey": "gragas_q",
+          "skillName": "古拉加斯·滚动酒桶",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_gragas",
+          "characterName": "古拉加斯",
+          "gameId": "lol",
+          "skillKey": "gragas_w",
+          "skillName": "古拉加斯·醉酒狂暴",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_gragas",
+          "characterName": "古拉加斯",
+          "gameId": "lol",
+          "skillKey": "gragas_e",
+          "skillName": "古拉加斯·肉弹冲击",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_gragas",
+          "characterName": "古拉加斯",
+          "gameId": "lol",
+          "skillKey": "gragas_r",
+          "skillName": "古拉加斯·爆破酒桶",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=gragas_e": {
+      "items": [
+        {
+          "characterKey": "champion_gragas",
+          "characterName": "古拉加斯",
+          "gameId": "lol",
+          "skillKey": "gragas_e",
+          "skillName": "古拉加斯·肉弹冲击",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        }
+      ],
+      "total": 1
+    },
+    "/skills/gragas_e/parameters": [
+      {
+        "createdAt": "2026-09-09T15:06:14.357012Z",
+        "description": "当前根明确非负施法字段，秒转整数毫秒，不等于命中时点。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "gragas_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T15:06:14.357012Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T15:06:15.371875Z",
+        "description": "当前根DataValues.BaseDamage取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 80,
+          "2": 125,
+          "3": 170,
+          "4": 215,
+          "5": 260
+        },
+        "name": "基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "gragas_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T15:06:15.371875Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T15:06:16.459573Z",
+        "description": "当前根DataValues.APRatio取索引1至5。",
+        "fixedValue": 0.6,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法术强度倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "gragas_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T15:06:16.459573Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T15:06:17.587362Z",
+        "description": "当前根DataValues.StunDuration取索引1至5，秒转为整数毫秒。",
+        "fixedValue": 1000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "控制持续（毫秒）",
+        "parameterKey": "control_duration_ms",
+        "skillKey": "gragas_e",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T15:06:17.587362Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T15:06:18.603665Z",
+        "description": "当前根DataValues.CooldownRefund取索引1至5。",
+        "fixedValue": 0.4,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "命中后冷却缩短比例",
+        "parameterKey": "cooldown_refund_ratio",
+        "skillKey": "gragas_e",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T15:06:18.603665Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T17:38:40.078976Z",
+        "description": "DDragon16.17.1 Gragas.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 14000,
+          "2": 13500,
+          "3": 13000,
+          "4": 12500,
+          "5": 12000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "gragas_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T17:38:40.078976Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T17:38:40.474369Z",
+        "description": "DDragon16.17.1 Gragas.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 50,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "gragas_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-19T02:21:16.451851Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/gragas_e/parameters/cast_time_ms": {
+      "createdAt": "2026-09-09T15:06:14.357012Z",
+      "description": "当前根明确非负施法字段，秒转整数毫秒，不等于命中时点。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "gragas_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T15:06:14.357012Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/gragas_e/parameters/base_damage": {
+      "createdAt": "2026-09-09T15:06:15.371875Z",
+      "description": "当前根DataValues.BaseDamage取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 80,
+        "2": 125,
+        "3": 170,
+        "4": 215,
+        "5": 260
+      },
+      "name": "基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "gragas_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T15:06:15.371875Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/gragas_e/parameters/ap_ratio": {
+      "createdAt": "2026-09-09T15:06:16.459573Z",
+      "description": "当前根DataValues.APRatio取索引1至5。",
+      "fixedValue": 0.6,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法术强度倍率",
+      "parameterKey": "ap_ratio",
+      "skillKey": "gragas_e",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T15:06:16.459573Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/gragas_e/parameters/control_duration_ms": {
+      "createdAt": "2026-09-09T15:06:17.587362Z",
+      "description": "当前根DataValues.StunDuration取索引1至5，秒转为整数毫秒。",
+      "fixedValue": 1000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "控制持续（毫秒）",
+      "parameterKey": "control_duration_ms",
+      "skillKey": "gragas_e",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T15:06:17.587362Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/gragas_e/parameters/cooldown_refund_ratio": {
+      "createdAt": "2026-09-09T15:06:18.603665Z",
+      "description": "当前根DataValues.CooldownRefund取索引1至5。",
+      "fixedValue": 0.4,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "命中后冷却缩短比例",
+      "parameterKey": "cooldown_refund_ratio",
+      "skillKey": "gragas_e",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T15:06:18.603665Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/gragas_e/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T17:38:40.078976Z",
+      "description": "DDragon16.17.1 Gragas.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 14000,
+        "2": 13500,
+        "3": 13000,
+        "4": 12500,
+        "5": 12000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "gragas_e",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T17:38:40.078976Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/gragas_e/parameters/mana_cost": {
+      "createdAt": "2026-09-07T17:38:40.474369Z",
+      "description": "DDragon16.17.1 Gragas.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 50,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "gragas_e",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-19T02:21:16.451851Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/gragas_e/formulas": [
+      {
+        "createdAt": "2026-09-09T15:06:19.688706Z",
+        "description": "TotalDamage按当前树，唯一目标命中保留。",
+        "formulaKey": "magic_damage",
+        "gameId": "lol",
+        "name": "肉弹冲击魔法伤害",
+        "skillKey": "gragas_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T15:06:19.688706Z"
+      }
+    ],
+    "/skills/gragas_e/formulas/magic_damage": {
+      "createdAt": "2026-09-09T15:06:19.688706Z",
+      "description": "TotalDamage按当前树，唯一目标命中保留。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "magic_damage",
+      "gameId": "lol",
+      "name": "肉弹冲击魔法伤害",
+      "skillKey": "gragas_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T15:06:19.688706Z"
+    },
+    "/skills/gragas_e/effects": [
+      {
+        "createdAt": "2026-09-09T15:06:20.899652Z",
+        "description": "本技能普通主动使用时消耗对应技能等级的法力；具体使用时点由引用本效果的过程定义。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "gragas_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T02:21:17.890762Z"
+      },
+      {
+        "createdAt": "2026-09-19T02:00:38.813127Z",
+        "description": "本轮1V1实际命中敌方英雄的一次普通直接魔法技能伤害；仅引用已有伤害公式，不连接控制、位移或其他独立分支。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "古拉加斯·肉弹冲击命中伤害",
+        "resultCount": 1,
+        "skillKey": "gragas_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T02:00:38.813127Z"
+      }
+    ],
+    "/skills/gragas_e/effects/mana_cost": {
+      "createdAt": "2026-09-09T15:06:20.899652Z",
+      "description": "本技能普通主动使用时消耗对应技能等级的法力；具体使用时点由引用本效果的过程定义。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "施放法力消耗",
+          "resultKey": "mana_cost",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "gragas_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-19T02:21:17.890762Z"
+    },
+    "/skills/gragas_e/effects/primary_hit": {
+      "createdAt": "2026-09-19T02:00:38.813127Z",
+      "description": "本轮1V1实际命中敌方英雄的一次普通直接魔法技能伤害；仅引用已有伤害公式，不连接控制、位移或其他独立分支。",
+      "effectKey": "primary_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "古拉加斯·肉弹冲击命中伤害",
+      "results": [
+        {
+          "description": "引用当前技能的 magic_damage 公式；基础数值和法强加成保持现有配置。",
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": [
+              {
+                "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                "efficiencyValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "vampType": "OMNIVAMP"
+              }
+            ]
+          },
+          "lifecycleBehavior": null,
+          "name": "魔法伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "SKILL",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "magic_damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "gragas_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-19T02:00:38.813127Z"
+    },
+    "/skills/gragas_e/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-19T02:11:25.910827Z",
+        "description": "登记本次普通主动使用的基础法力消耗、施法延迟和普通冷却；伤害由独立实际命中规则处理，控制和其他联动另行配置。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "古拉加斯·肉弹冲击施法登记",
+        "processKey": "cast",
+        "skillKey": "gragas_e",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-19T02:11:25.910827Z"
+      }
+    ],
+    "/skills/gragas_e/processes/cast": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-19T02:11:25.910827Z",
+      "description": "登记本次普通主动使用的基础法力消耗、施法延迟和普通冷却；伤害由独立实际命中规则处理，控制和其他联动另行配置。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "古拉加斯·肉弹冲击施法登记",
+      "processKey": "cast",
+      "skillKey": "gragas_e",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "读取当前技能既有施法时间参数；延迟结束不表示发生实际命中。",
+          "detail": {
+            "delayValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cast_time_ms"
+            }
+          },
+          "name": "施法延迟",
+          "sortOrder": 10,
+          "stepKey": "cast_time",
+          "stepType": "DELAY"
+        }
+      ],
+      "updatedAt": "2026-09-19T02:11:25.910827Z"
+    },
+    "/skills/gragas_e/internal-states": [],
+    "/skills/gragas_e/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "只消费已确认的 gragas_e 实际命中事件，对事件中的英雄目标执行primary_hit；不从技能使用或过程结束产生命中。目标类别只筛本轮范围，不产生目标资格。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "古拉加斯·肉弹冲击实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-21T10:57:37.017615Z"
+      },
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "普通主动使用gragas_e时启动cast过程，按既有参数登记法力、基础冷却和施法延迟。实际命中、控制、返还及其他联动不由此入口生成。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "古拉加斯·肉弹冲击普通使用",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T02:11:27.272653Z"
+      }
+    ],
+    "/skills/gragas_e/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "execute_primary_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "primary_hit"
+          },
+          "name": "执行古拉加斯·肉弹冲击伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "detail": {},
+              "sortOrder": 20
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "description": "只消费已确认的 gragas_e 实际命中事件，对事件中的英雄目标执行primary_hit；不从技能使用或过程结束产生命中。目标类别只筛本轮范围，不产生目标资格。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "gragas_e",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "古拉加斯·肉弹冲击实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    },
+    "/skills/gragas_e/trigger-rules/on_used": {
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "actionType": "START_PROCESS",
+          "detail": {
+            "processKey": "cast"
+          },
+          "name": "启动古拉加斯·肉弹冲击施法登记",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "普通主动使用gragas_e时启动cast过程，按既有参数登记法力、基础冷却和施法延迟。实际命中、控制、返还及其他联动不由此入口生成。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "gragas_e",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "古拉加斯·肉弹冲击普通使用",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used",
+      "sortOrder": 20
+    },
+    "/attributes/ability_power": {
+      "attributeKey": "ability_power",
+      "createdAt": "2026-08-30T16:26:39.898635Z",
+      "description": "角色法术强度；基础值为 0，可由装备和效果增加",
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法术强度",
+      "sortOrder": 510,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-30T16:26:39.898635Z",
+      "valueType": "DECIMAL"
+    },
+    "/attributes/mana": {
+      "attributeKey": "mana",
+      "createdAt": "2026-08-22T15:27:36.139767Z",
+      "description": null,
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法力值",
+      "sortOrder": 310,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-22T15:27:36.139767Z",
+      "valueType": "DECIMAL"
+    },
+    "/damage-types/magic": {
+      "createdAt": "2026-08-26T05:59:15.870937Z",
+      "damageTypeKey": "magic",
+      "description": null,
+      "gameId": "lol",
+      "name": "魔法伤害",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-26T05:59:15.870937Z"
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_gragas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_gragas/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_gragas/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_gragas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=gragas_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/parameters/control_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/parameters/cooldown_refund_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/ability_power",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/mana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/damage-types/magic",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/effects/collision_cooldown_refund",
+      "status": 404
+    }
+  ],
+  "businessWrites": 0
+}

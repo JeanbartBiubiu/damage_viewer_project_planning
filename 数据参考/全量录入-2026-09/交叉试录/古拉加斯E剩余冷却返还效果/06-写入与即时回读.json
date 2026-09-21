@@ -1,0 +1,274 @@
+{
+  "startedAt": "2026-09-21T12:31:10.818Z",
+  "status": "PASS",
+  "businessWritesAttempted": 1,
+  "operations": [
+    {
+      "method": "POST",
+      "route": "/skills/gragas_e/effects",
+      "response": {
+        "status": 201,
+        "data": {
+          "createdAt": "2026-09-21T12:31:13.654474Z",
+          "description": "每次执行减少来源对象肉弹冲击当前剩余普通冷却的40%，不按总冷却计算。仅保存明确返还效果；碰撞首次接触资格与同次法术护盾条件尚未接入触发。",
+          "effectKey": "collision_cooldown_refund",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "肉弹冲击剩余冷却返还",
+          "results": [
+            {
+              "description": "本结果仅改变来源对象gragas_e当时剩余普通冷却，不生成碰撞或触发；比例引用既有cooldown_refund_ratio。",
+              "detail": {
+                "affectedSkillScope": {
+                  "mode": "SKILLS",
+                  "skillCategoryKeys": [],
+                  "skillKeys": [
+                    "gragas_e"
+                  ]
+                },
+                "operation": "REDUCE_REMAINING_RATIO"
+              },
+              "lifecycleBehavior": null,
+              "name": "减少肉弹冲击剩余冷却",
+              "resultKey": "reduce_remaining",
+              "resultType": "COOLDOWN_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": null,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "cooldown_refund_ratio"
+                }
+              }
+            }
+          ],
+          "skillKey": "gragas_e",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-21T12:31:13.654474Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-21T12:31:13.654474Z",
+        "description": "每次执行减少来源对象肉弹冲击当前剩余普通冷却的40%，不按总冷却计算。仅保存明确返还效果；碰撞首次接触资格与同次法术护盾条件尚未接入触发。",
+        "effectKey": "collision_cooldown_refund",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "肉弹冲击剩余冷却返还",
+        "results": [
+          {
+            "description": "本结果仅改变来源对象gragas_e当时剩余普通冷却，不生成碰撞或触发；比例引用既有cooldown_refund_ratio。",
+            "detail": {
+              "affectedSkillScope": {
+                "mode": "SKILLS",
+                "skillCategoryKeys": [],
+                "skillKeys": [
+                  "gragas_e"
+                ]
+              },
+              "operation": "REDUCE_REMAINING_RATIO"
+            },
+            "lifecycleBehavior": null,
+            "name": "减少肉弹冲击剩余冷却",
+            "resultKey": "reduce_remaining",
+            "resultType": "COOLDOWN_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": null,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "cooldown_refund_ratio"
+              }
+            }
+          }
+        ],
+        "skillKey": "gragas_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-21T12:31:13.654474Z"
+      }
+    }
+  ],
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v3.mjs": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "01-候选方案.json": "81338aa9055c2359c280b086d6332434bbb382feb0f80602b46db86eb41dc4f6",
+    "02-冻结请求.json": "11d471b5eb581398f048df05dbf06564d8ca081d3894fd7b25b51f151c96f409",
+    "03-来源摘要.json": "97c21b580ba71b63c8b4997a02c65f68ea22eda0acf659836b7847fd77350145",
+    "04-写入前现值.json": "094f383e741841a1f62076044cbbf65005c26d0c60eb951fb9973c507e9acc13"
+  },
+  "pendingRoute": null,
+  "finishedAt": "2026-09-21T12:31:12.710Z",
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_gragas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_gragas/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_gragas/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_gragas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=gragas_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/parameters/control_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/parameters/cooldown_refund_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/ability_power",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/mana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/damage-types/magic",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/effects/collision_cooldown_refund",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/effects/collision_cooldown_refund",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/gragas_e/effects",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/effects/collision_cooldown_refund",
+      "status": 200
+    }
+  ]
+}

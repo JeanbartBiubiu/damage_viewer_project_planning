@@ -1,0 +1,63 @@
+{
+  "status": "APPROVED",
+  "at": "2026-09-21T12:14:28.2837021Z",
+  "reviewer": "/root/gragas_refund_effect_review",
+  "executionMode": "REVIEWED_API",
+  "decision": "批准后续仅按冻结请求执行一次POST创建未接线效果；本评审不执行业务写入。",
+  "scope": "仅创建gragas_e的collision_cooldown_refund效果及其中一个自身E剩余冷却比例结果；不创建触发规则，不修改primary_hit、cast、actual_hit或on_used。",
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v3.mjs": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "01-候选方案.json": "81338aa9055c2359c280b086d6332434bbb382feb0f80602b46db86eb41dc4f6",
+    "02-冻结请求.json": "11d471b5eb581398f048df05dbf06564d8ca081d3894fd7b25b51f151c96f409",
+    "03-来源摘要.json": "97c21b580ba71b63c8b4997a02c65f68ea22eda0acf659836b7847fd77350145",
+    "04-写入前现值.json": "094f383e741841a1f62076044cbbf65005c26d0c60eb951fb9973c507e9acc13"
+  },
+  "checks": [
+    {
+      "name": "工具与冻结文件原字节",
+      "result": "PASS",
+      "detail": "工具SHA、01至04五份批准文件均按当前原字节核对；02中的sourceSha256和baselineSha256分别与当前03、04一致。"
+    },
+    {
+      "name": "候选与冻结正文",
+      "result": "PASS",
+      "detail": "01只有一个目标gragas_e和一个POST请求；02请求集合与01完整一致，正文与expectedReadback一致，未夹带触发规则或其他对象。"
+    },
+    {
+      "name": "效果形状与数值引用",
+      "result": "PASS",
+      "detail": "唯一结果为COOLDOWN_CHANGE，target为SOURCE，operation为REDUCE_REMAINING_RATIO；valueRule引用gragas_e既有cooldown_refund_ratio，当前固定值为0.4，固定倍率为1且上下界为空；affectedSkillScope为SKILLS且skillKeys仅含gragas_e，skillCategoryKeys为空；lifecycle和spellShieldBlockScope均为空。"
+    },
+    {
+      "name": "成熟比例操作来源",
+      "result": "PASS",
+      "detail": "03的9份来源原字节及摘要哈希一致；其中固定16.17比例为0.4、13.22官方历史补证为40% remaining cooldown，规划剩余冷却比例流程20/23已有易大师和纳沃利真实页面效果保存、重开及独立回读，且没有新增触发规则。"
+    },
+    {
+      "name": "写前现值与保护范围",
+      "result": "PASS",
+      "detail": "04的业务写入数为0，新详情collision_cooldown_refund为404；现有gragas_e效果仍仅为mana_cost、primary_hit，过程仍为cast，规则仍仅为actual_hit、on_used，cooldown_refund_ratio仍为0.4。原primary_hit、cast及两条规则不在冻结请求中。"
+    },
+    {
+      "name": "触发边界",
+      "result": "PASS",
+      "detail": "本批准不接入SKILL_HIT、敌方英雄、同次未阻挡或SKILL_HIT_FIRST_CONTACT条件。古拉加斯E首个敌人碰撞后可产生范围命中，不能把每目标命中当作单次返还；首次接触新流程仍待真实页面验收，不以本效果批准替代。"
+    }
+  ],
+  "plannedOperation": {
+    "businessWrites": 1,
+    "method": "POST",
+    "route": "/skills/gragas_e/effects",
+    "detailRoute": "/skills/gragas_e/effects/collision_cooldown_refund",
+    "expectedNewObjects": 1,
+    "expectedChangedCollections": 1
+  },
+  "boundaries": {
+    "trigger": "未创建；首次接触、同次法术护盾未阻挡和碰撞单次资格保持待页面验收，不批准API接线。",
+    "runtime": "未证明宿主、Wasm或战斗运行；REDUCE_REMAINING_RATIO的实际剩余冷却读取与应用仍不由本效果管理保存证明。",
+    "browser": "本评审未执行页面验收。",
+    "businessHTTP": 0,
+    "businessWrites": 0
+  },
+  "blockingFindings": []
+}
