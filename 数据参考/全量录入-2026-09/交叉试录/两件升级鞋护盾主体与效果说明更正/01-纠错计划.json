@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "status": "DRAFT_REQUIRES_INDEPENDENT_REVIEW",
+  "title": "两件升级鞋护盾主体与效果说明更正",
+  "generatedAt": "2026-09-21T14:33:24.597Z",
+  "scope": "仅更正两技能主体与各自护盾效果的四处说明，撤去未证低生命假设并同步已录角色等级基础段。参数、公式、效果结果、生命周期及引用保持，未新增触发规则。",
+  "sourceFiles": [
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+      "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17-zh_CN.json.gz",
+      "sha256": "f4ed06bce504288345ed7761ea1a12612ef5afd6400ebb1f27290204e1f24e20"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+      "sha256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+      "sha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/装备技能实录/第二十批升级鞋/冻结来源.json",
+      "sha256": "3861cdd2d66da43deb99aca9c085c894258f58a21bfdfc967b9feaa71203e649"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/升级鞋护盾等级曲线补证/01-两项固定曲线独立核对.json",
+      "sha256": "4e20db7b39a5c91ebee2e01bc77b535eca1e36185c720a09ad92f6497ea5652e"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/升级鞋护盾等级曲线补证/04-角色等级参数实际返回.json",
+      "sha256": "a90017cfca6aab6590318be9e78d299cb1209fda2f293f385757b8c257914922"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/升级鞋护盾等级曲线补证/05-公式说明与实值核算返回.json",
+      "sha256": "e6804845389bc0160f015fbe159c9721d008351fad6abd29508dc160dd20a7f9"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/升级鞋护盾等级曲线补证/06-同批护盾触发说明核对.json",
+      "sha256": "d9bfff326af435a79591dfa1faf30de909db28c288b86a18ca26644e9884eea8"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/两件升级鞋护盾公式说明更正/07-独立回读.json",
+      "sha256": "3e66e6a1fc0bda2e0e4c30c056c8abcdaf47fb6c061d39c116fb0eb35dcd061a"
+    }
+  ],
+  "changes": [
+    {
+      "kind": "skill",
+      "skillKey": "item_3173_passive",
+      "route": "/skills/item_3173_passive",
+      "description": "在受到来自英雄的魔法伤害后获得自身魔法护盾，持续时间和冷却使用已录参数。基础护盾按完整角色等级参数读取，原属性12、公式2的值仍需无默认外供。护盾结果已保存；触发事件、冷却登记和该属性供值仍待接线。"
+    },
+    {
+      "kind": "effect",
+      "skillKey": "item_3173_passive",
+      "route": "/skills/item_3173_passive/effects/lifeline_magic_shield",
+      "description": "引用现有角色等级基础段与原属性12、公式2的外供值公式建立自身魔法护盾，持续时间引用既有参数。正式来源为受到来自英雄的魔法伤害后获得护盾；触发与冷却仍待接线。"
+    },
+    {
+      "kind": "skill",
+      "skillKey": "item_3174_passive",
+      "route": "/skills/item_3174_passive",
+      "description": "镀板的合资格攻击分量与减伤修正区仍待接线。在受到来自英雄的物理伤害后获得自身物理护盾，持续时间和冷却使用已录参数。基础护盾按完整角色等级参数读取，原属性12、公式2的值仍需无默认外供。护盾结果已保存；触发事件、冷却登记和该属性供值仍待接线。"
+    },
+    {
+      "kind": "effect",
+      "skillKey": "item_3174_passive",
+      "route": "/skills/item_3174_passive/effects/lifeline_physical_shield",
+      "description": "引用现有角色等级基础段与原属性12、公式2的外供值公式建立自身物理护盾，持续时间引用既有参数。正式来源为受到来自英雄的物理伤害后获得护盾；触发与冷却仍待接线。"
+    }
+  ]
+}

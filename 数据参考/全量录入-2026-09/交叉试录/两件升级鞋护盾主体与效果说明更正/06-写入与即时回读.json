@@ -1,0 +1,615 @@
+{
+  "startedAt": "2026-09-21T14:41:26.476Z",
+  "status": "PASS",
+  "businessWritesAttempted": 4,
+  "operations": [
+    {
+      "route": "/skills/item_3173_passive",
+      "method": "PUT",
+      "responseStatus": 200,
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-09T10:28:03.869816Z",
+          "description": "在受到来自英雄的魔法伤害后获得自身魔法护盾，持续时间和冷却使用已录参数。基础护盾按完整角色等级参数读取，原属性12、公式2的值仍需无默认外供。护盾结果已保存；触发事件、冷却登记和该属性供值仍待接线。",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "带链碾碎者·诺克萨斯的不懈",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "item_3173_passive",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-21T14:41:29.522516Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-09T10:28:03.869816Z",
+        "description": "在受到来自英雄的魔法伤害后获得自身魔法护盾，持续时间和冷却使用已录参数。基础护盾按完整角色等级参数读取，原属性12、公式2的值仍需无默认外供。护盾结果已保存；触发事件、冷却登记和该属性供值仍待接线。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "带链碾碎者·诺克萨斯的不懈",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "item_3173_passive",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-21T14:41:29.522516Z"
+      }
+    },
+    {
+      "route": "/skills/item_3173_passive/effects/lifeline_magic_shield",
+      "method": "PUT",
+      "responseStatus": 200,
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-11T13:28:27.440295Z",
+          "description": "引用现有角色等级基础段与原属性12、公式2的外供值公式建立自身魔法护盾，持续时间引用既有参数。正式来源为受到来自英雄的魔法伤害后获得护盾；触发与冷却仍待接线。",
+          "effectKey": "lifeline_magic_shield",
+          "gameId": "lol",
+          "lifecycle": {
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "shield_duration_ms"
+            },
+            "expiryMode": "ALL_AT_ONCE",
+            "firstPeriodicExecution": null,
+            "instanceScope": "SOURCE",
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "periodicIntervalValue": null,
+            "reapplicationDurationMode": "REFRESH_ALL",
+            "reapplicationStackMode": "KEEP"
+          },
+          "name": "诺克萨斯不懈魔法护盾",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "absorbedDamageTypeKey": "magic",
+                "decayMode": "NONE"
+              },
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "periodicExecutionMode": null,
+                "reapplicationValueMode": "REPLACE",
+                "stackValueMode": "SHARED",
+                "valueReadMode": "APPLICATION_SNAPSHOT"
+              },
+              "name": "魔法护盾",
+              "resultKey": "shield",
+              "resultType": "NORMAL_SHIELD",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "magic_shield_value",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "skillKey": "item_3173_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-21T14:41:31.573336Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-11T13:28:27.440295Z",
+        "description": "引用现有角色等级基础段与原属性12、公式2的外供值公式建立自身魔法护盾，持续时间引用既有参数。正式来源为受到来自英雄的魔法伤害后获得护盾；触发与冷却仍待接线。",
+        "effectKey": "lifeline_magic_shield",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "shield_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "诺克萨斯不懈魔法护盾",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "absorbedDamageTypeKey": "magic",
+              "decayMode": "NONE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "魔法护盾",
+            "resultKey": "shield",
+            "resultType": "NORMAL_SHIELD",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "magic_shield_value",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "item_3173_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-21T14:41:31.573336Z"
+      },
+      "listRoute": "/skills/item_3173_passive/effects",
+      "listReadback": [
+        {
+          "createdAt": "2026-09-11T13:28:27.440295Z",
+          "description": "引用现有角色等级基础段与原属性12、公式2的外供值公式建立自身魔法护盾，持续时间引用既有参数。正式来源为受到来自英雄的魔法伤害后获得护盾；触发与冷却仍待接线。",
+          "effectKey": "lifeline_magic_shield",
+          "gameId": "lol",
+          "lifecycleEnabled": true,
+          "name": "诺克萨斯不懈魔法护盾",
+          "resultCount": 1,
+          "skillKey": "item_3173_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-21T14:41:31.573336Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/item_3174_passive",
+      "method": "PUT",
+      "responseStatus": 200,
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-09T10:28:14.413189Z",
+          "description": "镀板的合资格攻击分量与减伤修正区仍待接线。在受到来自英雄的物理伤害后获得自身物理护盾，持续时间和冷却使用已录参数。基础护盾按完整角色等级参数读取，原属性12、公式2的值仍需无默认外供。护盾结果已保存；触发事件、冷却登记和该属性供值仍待接线。",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "装甲战靴·镀板与耐久",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "item_3174_passive",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-21T14:41:33.429271Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-09T10:28:14.413189Z",
+        "description": "镀板的合资格攻击分量与减伤修正区仍待接线。在受到来自英雄的物理伤害后获得自身物理护盾，持续时间和冷却使用已录参数。基础护盾按完整角色等级参数读取，原属性12、公式2的值仍需无默认外供。护盾结果已保存；触发事件、冷却登记和该属性供值仍待接线。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "装甲战靴·镀板与耐久",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "item_3174_passive",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-21T14:41:33.429271Z"
+      }
+    },
+    {
+      "route": "/skills/item_3174_passive/effects/lifeline_physical_shield",
+      "method": "PUT",
+      "responseStatus": 200,
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-11T13:28:28.672006Z",
+          "description": "引用现有角色等级基础段与原属性12、公式2的外供值公式建立自身物理护盾，持续时间引用既有参数。正式来源为受到来自英雄的物理伤害后获得护盾；触发与冷却仍待接线。",
+          "effectKey": "lifeline_physical_shield",
+          "gameId": "lol",
+          "lifecycle": {
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "shield_duration_ms"
+            },
+            "expiryMode": "ALL_AT_ONCE",
+            "firstPeriodicExecution": null,
+            "instanceScope": "SOURCE",
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "periodicIntervalValue": null,
+            "reapplicationDurationMode": "REFRESH_ALL",
+            "reapplicationStackMode": "KEEP"
+          },
+          "name": "诺克萨斯耐久物理护盾",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "absorbedDamageTypeKey": "physics",
+                "decayMode": "NONE"
+              },
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "periodicExecutionMode": null,
+                "reapplicationValueMode": "REPLACE",
+                "stackValueMode": "SHARED",
+                "valueReadMode": "APPLICATION_SNAPSHOT"
+              },
+              "name": "物理护盾",
+              "resultKey": "shield",
+              "resultType": "NORMAL_SHIELD",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "physical_shield_value",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "skillKey": "item_3174_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-21T14:41:35.01289Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-11T13:28:28.672006Z",
+        "description": "引用现有角色等级基础段与原属性12、公式2的外供值公式建立自身物理护盾，持续时间引用既有参数。正式来源为受到来自英雄的物理伤害后获得护盾；触发与冷却仍待接线。",
+        "effectKey": "lifeline_physical_shield",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "shield_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "诺克萨斯耐久物理护盾",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "absorbedDamageTypeKey": "physics",
+              "decayMode": "NONE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "物理护盾",
+            "resultKey": "shield",
+            "resultType": "NORMAL_SHIELD",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "physical_shield_value",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "item_3174_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-21T14:41:35.01289Z"
+      },
+      "listRoute": "/skills/item_3174_passive/effects",
+      "listReadback": [
+        {
+          "createdAt": "2026-09-11T13:28:28.672006Z",
+          "description": "引用现有角色等级基础段与原属性12、公式2的外供值公式建立自身物理护盾，持续时间引用既有参数。正式来源为受到来自英雄的物理伤害后获得护盾；触发与冷却仍待接线。",
+          "effectKey": "lifeline_physical_shield",
+          "gameId": "lol",
+          "lifecycleEnabled": true,
+          "name": "诺克萨斯耐久物理护盾",
+          "resultCount": 1,
+          "skillKey": "item_3174_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-21T14:41:35.01289Z"
+        }
+      ]
+    }
+  ],
+  "pendingRoute": null,
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-descriptions-v4.mjs": "6630730f1e794c64fd73711008e04a22effb1a75f210bf905747e01563794407",
+    "01-纠错计划.json": "1760d9ab3866529380444ac6407cd20842d1c4c74cf4a41868adb7782db059c4",
+    "02-冻结请求.json": "2d0d47efa13f1434dc8556422722b3b6a1da5118854677c687f01c9ccbbe80fd",
+    "03-来源摘要.json": "e241a11063a8c83367cdfd3e796b97607eb9048de8bc5d44da685e81f27a9279",
+    "04-写入前现值.json": "0ac412b3b54c10fba067c87a59cf47dbece45e2d5ff5f047fd57ac702a3c9810"
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/item_3173_passive",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3173_passive/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3173_passive/parameters/shield_cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3173_passive/parameters/shield_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3173_passive/parameters/shield_level1_value",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3173_passive/parameters/shield_amount_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3173_passive/parameters/actual_level_base_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3173_passive/parameters/source_mstat12_formula2_value",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3173_passive/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3173_passive/formulas/magic_shield_value",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3173_passive/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3173_passive/effects/lifeline_magic_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3173_passive/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3173_passive/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3173_passive/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3174_passive",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3174_passive/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3174_passive/parameters/incoming_attack_damage_reduction_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3174_passive/parameters/shield_cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3174_passive/parameters/shield_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3174_passive/parameters/shield_level1_value",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3174_passive/parameters/shield_amount_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3174_passive/parameters/actual_level_base_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3174_passive/parameters/source_mstat12_formula2_value",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3174_passive/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3174_passive/formulas/physical_shield_value",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3174_passive/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3174_passive/effects/lifeline_physical_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3174_passive/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3174_passive/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3174_passive/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3173_passive",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/item_3173_passive",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3173_passive",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3173_passive/effects/lifeline_magic_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3173_passive/effects",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/item_3173_passive/effects/lifeline_magic_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3173_passive/effects/lifeline_magic_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3173_passive/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3174_passive",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/item_3174_passive",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3174_passive",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3174_passive/effects/lifeline_physical_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3174_passive/effects",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/item_3174_passive/effects/lifeline_physical_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3174_passive/effects/lifeline_physical_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3174_passive/effects",
+      "status": 200
+    }
+  ],
+  "finishedAt": "2026-09-21T14:41:33.858Z"
+}
