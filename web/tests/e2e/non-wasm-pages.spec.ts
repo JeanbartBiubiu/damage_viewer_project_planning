@@ -1,4 +1,4 @@
-import { formulaValue, type NumericValue } from '../../src/types/numericValue';
+import { fixedValue, formulaValue, type NumericValue } from '../../src/types/numericValue';
 /**
  * Deterministic browser acceptance for non-calculation data management pages.
  * All Backend responses are route mocks; this file does not claim live database evidence.
@@ -2113,7 +2113,7 @@ class MockApi {
         return;
       }
       const detail = item.detail as { targetEffectKey?: string; operation?: string };
-      if (detail.operation !== 'REFRESH' || !detail.targetEffectKey) {
+      if (!['REFRESH', 'EXTEND_DURATION'].includes(detail.operation ?? '') || !detail.targetEffectKey) {
         return;
       }
       const target = this.skillEffects.find((row) => (
@@ -2128,6 +2128,13 @@ class MockApi {
           field: `results[${index}].detail.targetEffectKey`,
           code: 'TARGET_EFFECT_HAS_NO_DURATION',
           message: '目标效果没有持续时间。'
+        });
+      } else if (detail.operation === 'EXTEND_DURATION' && target?.lifecycle
+        && (target.lifecycle as { expiryMode?: string }).expiryMode !== 'ALL_AT_ONCE') {
+        fieldIssues.push({
+          field: `results[${index}].detail.targetEffectKey`,
+          code: 'TARGET_EFFECT_EXPIRY_MODE_UNSUPPORTED',
+          message: '延长目标必须全部层统一到期。'
         });
       }
     });
@@ -5120,7 +5127,7 @@ test.describe('skill management without Wasm', () => {
     await opResult.getByLabel('结果名称', { exact: true }).fill('消耗印记');
     await chooseSelectOption(page, opResult, '结果种类', '生命周期操作');
     await chooseSelectOption(page, opResult, '目标效果', '专注印记');
-    await chooseSelectOption(page, opResult, '生命周期操作', '消耗');
+    await chooseSelectOption(page, opResult, '生命周期操作', '消耗层数');
     await fillValueRule(page, opResult, '一层');
     await expect(opResult.getByLabel('生命周期时点', { exact: true })).toHaveCount(0);
     await opResult.getByLabel('目标效果', { exact: true }).click();
@@ -7646,4 +7653,75 @@ test('condition group key typing keeps focus and identity through equal-order re
   await reopened.getByRole('button', { name: '取消', exact: true }).click();
   await expect(reopened).toBeHidden();
   diagnostics.assertClean('condition group typing and reorder preserve identity');
+});
+
+test('lifecycle extension clears stack units and recovers from invalid targets before saving and reopening', async ({ page }) => {
+  const mock = new MockApi();
+  seedSkillEffectCatalog(mock);
+  const lifecycle = {
+    durationValue: fixedValue(7000), maxStacksValue: fixedValue(1), applicationStacksValue: fixedValue(1),
+    instanceScope: 'SOURCE', reapplicationStackMode: 'KEEP', reapplicationDurationMode: 'REFRESH_ALL',
+    expiryMode: 'ALL_AT_ONCE', periodicIntervalValue: null, firstPeriodicExecution: null
+  };
+  mock.skillEffects = [
+    { effectKey: 'permanent', name: '永久效果', lifecycle: { ...lifecycle, durationValue: null,
+      expiryMode: 'EXPLICIT_ONLY', reapplicationDurationMode: null } },
+    { effectKey: 'sequential', name: '逐层到期效果', lifecycle: { ...lifecycle, expiryMode: 'ONE_BY_ONE' } },
+    { effectKey: 'active', name: '主动限时效果', lifecycle }
+  ].map((effect) => ({ gameId: GAME_ID, skillKey: 'varus_w', description: null, sortOrder: 0,
+    createdAt: CREATED_AT, updatedAt: UPDATED_AT, results: [], ...effect }));
+  const diagnostics = await prepare(page, mock);
+  await openSkills(page);
+  const shell = await openSkillEffects(page, 'varus_w', '枯萎箭袋');
+  await shell.getByRole('button', { name: '新增效果', exact: true }).click();
+  const create = visibleModal(page, '新增效果');
+  await create.getByLabel('效果标识', { exact: true }).fill('extend_active');
+  await create.getByLabel('效果名称', { exact: true }).fill('延长主动时间');
+  await create.getByRole('button', { name: '新增结果', exact: true }).click();
+  const result = visibleModal(page, '新增结果');
+  await result.getByLabel('结果标识', { exact: true }).fill('extend');
+  await result.getByLabel('结果名称', { exact: true }).fill('增加剩余毫秒');
+  await chooseSelectOption(page, result, '结果种类', '生命周期操作');
+  await chooseSelectOption(page, result, '目标效果', '永久效果');
+  await result.getByLabel('数值固定数值', { exact: true }).fill('2');
+  await result.getByLabel('固定倍率', { exact: true }).fill('3');
+  await chooseSelectOption(page, result, '生命周期操作', '延长剩余时长');
+  await expect(result.getByLabel('数值固定数值', { exact: true })).toHaveValue('');
+  await expect(result.getByLabel('固定倍率', { exact: true })).toHaveValue('1');
+  await expect(result.getByLabel('目标效果', { exact: true })).toContainText('永久效果');
+  await expect(result.getByText(/只延长仍有效且全部层统一到期的目标实例/)).toBeVisible();
+  await result.getByLabel('数值固定数值', { exact: true }).fill('-1');
+  await result.getByRole('button', { name: '保存', exact: true }).click();
+  await expect(result.getByText('有效延长时长必须是非负整数毫秒。', { exact: true })).toBeVisible();
+  await result.getByLabel('数值固定数值', { exact: true }).fill('0.035');
+  await result.getByLabel('固定倍率', { exact: true }).fill('1000');
+  await saveOpenModal(result);
+  await create.getByRole('button', { name: '保存', exact: true }).click();
+  await expect(create.getByText('目标效果没有持续时间。', { exact: true })).toBeVisible();
+  await expect(create.getByLabel('效果名称', { exact: true })).toHaveValue('延长主动时间');
+  expect(mock.skillEffects.some(item => item.effectKey === 'extend_active')).toBe(false);
+  for (const [targetName, error] of [['逐层到期效果', '延长目标必须全部层统一到期。'], ['主动限时效果', null]] as const) {
+    await create.locator('tr', { hasText: 'extend' }).getByRole('button', { name: '编辑', exact: true }).click();
+    const correction = visibleModal(page, '编辑结果');
+    await expect(correction.getByLabel('数值固定数值', { exact: true })).toHaveValue('0.035');
+    await expect(correction.getByLabel('固定倍率', { exact: true })).toHaveValue('1000');
+    await chooseSelectOption(page, correction, '目标效果', targetName);
+    await saveOpenModal(correction);
+    await create.getByRole('button', { name: '保存', exact: true }).click();
+    if (error) await expect(create.getByText(error, { exact: true })).toBeVisible();
+    else await expect(create).toBeHidden();
+  }
+  const saved = mock.skillEffects.find(item => item.effectKey === 'extend_active')!;
+  expect(saved.results[0].detail).toEqual({ operation: 'EXTEND_DURATION', targetEffectKey: 'active' });
+  expect(saved.results[0].valueRule).toMatchObject({ value: fixedValue(0.035), fixedMultiplier: 1000 });
+  await shell.locator('tr', { hasText: 'extend_active' }).getByRole('button', { name: '编辑', exact: true }).click();
+  const edit = visibleModal(page, '编辑效果');
+  await edit.locator('tr', { hasText: 'extend' }).getByRole('button', { name: '编辑', exact: true }).click();
+  const reopened = visibleModal(page, '编辑结果');
+  await expect(reopened.getByLabel('生命周期操作', { exact: true })).toContainText('延长剩余时长');
+  await expect(reopened.getByLabel('目标效果', { exact: true })).toContainText('主动限时效果');
+  await expect(reopened.getByLabel('数值固定数值', { exact: true })).toHaveValue('0.035');
+  await chooseSelectOption(page, reopened, '生命周期操作', '增加层数');
+  await expect(reopened.getByLabel('数值固定数值', { exact: true })).toHaveValue('');
+  diagnostics.assertClean('lifecycle extension units and target failure recovery');
 });
