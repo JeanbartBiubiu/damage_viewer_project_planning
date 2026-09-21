@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-21T03:02:56.588Z",
+  "generatedAt": "2026-09-21T03:17:43.254Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。；基兰W冷却回退返回：7次保存、41次独立GET与5类页面通过，有效施放时间仍待核，管理完整8项/开放831项保持，见zileanWCooldownReductionReturn。；系统-16装备技能直达录入已完成，728单测/3项定向页面及两件真实装备往返通过，6条独立回读不变，业务写入0。；中娅主体说明1次页面更正、独立13GET及重开通过，装备开放234项保持；百分比穿透候选与两份历史来源的边界另见percentPenetrationSourceContractAudit，尚未批准实施。；崔丝塔娜W明确组成返回8次保存、108次独立GET、20组算例及8类页面通过；复用旧本人击杀入口，整技能仍系统暂缓，管理完整8项/开放831项保持。；正式参与击杀事件已返回崔丝塔娜W：3次页面保存、36次独立GET、4项拒绝验证通过，原4规则数量保持；剩余系统1项、资料1项，整技能未记完整。；剩余冷却比例已返回易大师R和纳沃利：3次页面保存、49次独立GET及3项数值越界拒绝通过，无新表或触发；纳沃利改资料待核，整技能完成数保持。",
@@ -13235,6 +13235,29 @@
         "新增登记流程代表页面"
       ],
       "boundary": "立即步骤仅登记成本与普通冷却，不生成命中或宣称零施法时间；整技能与运行未完成。"
+    },
+    "lucianQHitScopeReturn": {
+      "at": "2026-09-21T03:17:43.254Z",
+      "status": "同组敌方英雄范围已保存并独立回读，页面待验",
+      "skillKey": "lucian_q",
+      "successfulSaves": 1,
+      "independentGets": 17,
+      "unchangedRoutes": 15,
+      "changedCollections": 1,
+      "tool": {
+        "path": "tools/authoring/update-reviewed-hit-scope.mjs",
+        "commit": "ed17e878dfe0aeaec7eab6e611fa20036b83491a",
+        "offlineTests": 5
+      },
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/卢锡安Q实际命中范围返回/09-证据清单.json",
+        "sha256": "af2d2ba3b6c9224043c907d10870b9d8c213eb7609bf5979fb7cf2a8fda50c74",
+        "commit": "d2bb1d2fe6f8cc7968da6f48276ef2be29cbbfc7"
+      },
+      "browser": false,
+      "wholeSkillComplete": false,
+      "next": "按已收窄的目标范围继续核对普通物理技能伤害的吸血与法术护盾交互。"
     }
   },
   "runtimeValidation": "未执行",
@@ -14010,6 +14033,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/卢锡安Q使用登记返回/09-证据清单.json",
         "sha256": "d12d6902ee3422714234cfa97353dadfa10165e0f07cf474fab2d67c11d4b277",
         "commit": "9343e69f4c29dd3cc9d4df19a015021e3d010eaa"
+      },
+      "lucianQHitScopeReturn": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/卢锡安Q实际命中范围返回/09-证据清单.json",
+        "sha256": "af2d2ba3b6c9224043c907d10870b9d8c213eb7609bf5979fb7cf2a8fda50c74",
+        "commit": "d2bb1d2fe6f8cc7968da6f48276ef2be29cbbfc7"
       }
     },
     "coverage": {
@@ -26491,13 +26520,14 @@
         "name": "卢锡安·透体圣光",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "普通使用成本与冷却登记过程和入口已补齐，2次保存、26次独立GET通过，原实际命中和伤害保持；实际施法时序、命中范围/吸血资格、被动联动及代表页面仍待处理，不计整技能完整。",
+        "reason": "使用成本与冷却登记已保存；原实际命中已补齐同组敌方英雄条件，1次保存与17次独立GET通过，原伤害和其他组成保持。伤害交互、实际施法时序、被动联动与代表页面仍未完成。",
         "batchKey": "heroThirdBatch",
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
           "heroSourceInventory",
-          "lucianQCostCooldownReturn"
+          "lucianQCostCooldownReturn",
+          "lucianQHitScopeReturn"
         ],
         "historicalPendingCounts": {
           "source": 0,
@@ -26514,10 +26544,10 @@
           "triggerRules": 2
         },
         "remainingBranches": [
+          "原物理伤害的吸血及法术护盾交互资格",
           "实际施法时序与冲突时间字段",
-          "原实际命中范围与伤害吸血资格",
           "圣光银弹联动",
-          "新增登记流程代表页面"
+          "使用登记及范围条件的代表页面"
         ],
         "remainingBranchesBoundary": "定点核对后的实际开放分支替代历史配置计数。",
         "authoredCostCooldown": {
@@ -26526,7 +26556,11 @@
           "httpReadback": "PASS",
           "browser": "待验",
           "castDurationClaim": "未声明，立即步骤只用于使用登记"
-        }
+        },
+        "completedBranches": [
+          "普通使用成本与冷却登记（接口回读通过，页面待验）",
+          "实际命中限定本轮敌方英雄（接口回读通过，页面待验）"
+        ]
       },
       {
         "sourceChampionId": "Lucian",
