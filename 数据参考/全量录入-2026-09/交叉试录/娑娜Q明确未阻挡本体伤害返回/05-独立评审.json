@@ -1,0 +1,155 @@
+{
+  "at": "2026-09-21T13:03:04.4501794Z",
+  "status": "APPROVED",
+  "reviewer": "/root/sona_q_direct_source",
+  "reviewScope": "冻结请求、固定来源和写入前现值的只读独立评审",
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v3.mjs": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "01-候选方案.json": "4a74eb5c4a2f90630d0fc41a09c4f07e4de189071e4aa80aa2c3048095762ebc",
+    "02-冻结请求.json": "046e15b03d64da69d78c8afe16c9cebd02ad4ae0414282c1e015f7b5ae101d37",
+    "03-来源摘要.json": "c8f864e887db9430d2ae1a29a18f475a1b09206f1f1bff40589dd0a293e54cd4",
+    "04-写入前现值.json": "91935795cc171b5a986dc5b1138d9a9f6612c2dbf5c92873ccf82481b3b4c6cd"
+  },
+  "scope": "仅批准娑娜Q主动最初音波对本轮唯一敌方英雄的一次明确未阻挡本体魔法伤害；乐曲下一次攻击附伤、能量和弦、被动收益与原使用成本冷却登记保持独立。",
+  "sourceFiles": [
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Sona.json.gz",
+      "sha256": "58c693dc5f9861064506c72c73953623d8c939f2667e3878d5541d597c16685b"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Sona.json",
+      "sha256": "d78dca0182dd1edf43adf92a7925245a84d95bb3c41f2dd5a9a0bae5efa34e70"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Sona.json",
+      "sha256": "ecdaf99377b60b32671ca9d30ebf79bdc91ea3689c50fd97d8d4bbda3f768311"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/娑娜Q本体伤害返回/00-当前组成一次只读.json",
+      "sha256": "308b6083764c50956789ff7a561686a81a679b145513b80e780c0a4ddd7d683b"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/娑娜Q本体伤害返回/01-现有本体公式核算.json",
+      "sha256": "9568f03fb118e8ab1787643fc2daf39430d822e69a80a86bbd98f3c6fdf1929d"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/娑娜Q本体伤害返回/02-独立固定来源核对.json",
+      "sha256": "4f04ad4211de90ca279a358000b7b15c0cdc88d8093b10584871f067f530eef6"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第二十五批/输入包/参考资料/属性默认与边界.json",
+      "sha256": "5b51fc7b71e411909e42323ca50d9c51566038b61a392023d2668ba5ad3a73a6"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/卢锡安Q实际命中返回/02-普通物理技能伤害交互核对.json",
+      "sha256": "da9a9179b08cc0a30d659a9da6b494d99e0f9a50c53cbda4eb589dbbac0f8ac3"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/阿木木ER普通使用与明确本体返回/07-独立回读.json",
+      "sha256": "e0334259e07e04162372ec10cffc6b6c5956c2ee99d5b541fff001c4396cae0b"
+    }
+  ],
+  "frozenRequest": {
+    "base": "http://127.0.0.1:8080/api/admin/games/lol",
+    "candidateRequestCount": 2,
+    "frozenRequestCount": 2,
+    "requestsEqual": true,
+    "expectedReadbackEqualIgnoringUseKind": true,
+    "sourceSha256": "c8f864e887db9430d2ae1a29a18f475a1b09206f1f1bff40589dd0a293e54cd4",
+    "baselineSha256": "91935795cc171b5a986dc5b1138d9a9f6612c2dbf5c92873ccf82481b3b4c6cd"
+  },
+  "approvedComposition": {
+    "effect": {
+      "method": "POST",
+      "route": "/skills/sona_q/effects",
+      "detailRoute": "/skills/sona_q/effects/primary_hit",
+      "resultCount": 1,
+      "effectKey": "primary_hit",
+      "lifecycle": null,
+      "resultType": "DAMAGE",
+      "target": "TARGET",
+      "formulaKey": "magic_damage",
+      "damageTypeKey": "magic",
+      "deliveryKind": "SKILL",
+      "originKind": "DIRECT",
+      "vampType": "OMNIVAMP",
+      "vampBasisOutputKind": "POST_DEFENSE_DAMAGE",
+      "vampEfficiency": 1,
+      "spellShieldBlockScope": null
+    },
+    "triggerRule": {
+      "method": "POST",
+      "route": "/skills/sona_q/trigger-rules",
+      "detailRoute": "/skills/sona_q/trigger-rules/actual_unblocked_hit",
+      "ruleKey": "actual_unblocked_hit",
+      "eventType": "SKILL_HIT",
+      "sourceSkillKey": "sona_q",
+      "conditionGroupCount": 1,
+      "conditions": [
+        {
+          "conditionKey": "champion_target",
+          "conditionType": "TARGET_CATEGORY_CHECK",
+          "categories": ["CHAMPION"]
+        },
+        {
+          "conditionKey": "enemy_target",
+          "conditionType": "SKILL_HIT_TARGET_IS_ENEMY"
+        },
+        {
+          "conditionKey": "not_spell_shield_blocked",
+          "conditionType": "EVENT_VALUE_COMPARE",
+          "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED",
+          "comparator": "EQ",
+          "comparisonValue": 0
+        }
+      ],
+      "actionCount": 1,
+      "actionType": "EXECUTE_EFFECT",
+      "actionTargetContext": "CURRENT_TARGET",
+      "actionEffectKey": "primary_hit",
+      "perTargetCooldown": null,
+      "maxTriggersPerProcess": null
+    },
+    "newProcessCount": 0,
+    "existingUseRulePreserved": "on_used_cost_and_cooldown"
+  },
+  "baseline": {
+    "auditCount": 36,
+    "status200Count": 34,
+    "newTarget404Count": 2,
+    "newTarget404": [
+      "GET /skills/sona_q/effects/primary_hit",
+      "GET /skills/sona_q/trigger-rules/actual_unblocked_hit"
+    ],
+    "otherNon200Count": 0,
+    "businessWrites": 0,
+    "sourceHashEqual": true,
+    "baselineHashEqual": true
+  },
+  "checks": [
+    "01与02均含两个冻结POST，候选请求与冻结请求逐字段一致；预期回读仅允许SKILL_HIT详情补useKind:null的正常差异。",
+    "02.sourceSha256等于03-来源摘要.json实际SHA256，02.baselineSha256等于04-写入前现值.json实际SHA256。",
+    "03的9项来源声明均为实际散列匹配，固定娑娜客户端与中英文16.17.1资料、独立来源02、15算例01及已成熟阿木木同构回读均在来源清单内。",
+    "primary_hit只有一个DAMAGE结果，引用magic_damage，目标为TARGET，类型为magic/SKILL/DIRECT，OMNIVAMP以POST_DEFENSE_DAMAGE效率1；不生成命中，不结算光环附伤或能量和弦。",
+    "actual_unblocked_hit只有一个SKILL_HIT入口和一个条件组，条件严格为英雄、敌方、同次SKILL_HIT_SPELL_SHIELD_BLOCKED等于0；缺值及1均不执行。",
+    "没有新增过程、生命周期、按目标冷却或重复调用配置；原on_used_cost_and_cooldown使用成本与普通冷却登记保持不变。",
+    "04包含完整36次GET基线：34项既有200、两个新目标404，其他非200为0，业务写入为0。"
+  ],
+  "blockers": [],
+  "businessRequestsByReviewer": 0,
+  "httpRequests": 0,
+  "sqlRequests": 0,
+  "filesModifiedByReviewer": false,
+  "testsRun": 0,
+  "browser": false,
+  "runtime": false
+}

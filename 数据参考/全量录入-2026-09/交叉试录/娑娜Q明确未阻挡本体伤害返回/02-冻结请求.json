@@ -1,0 +1,244 @@
+{
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/sona_q/effects",
+      "detailRoute": "/skills/sona_q/effects/primary_hit",
+      "body": {
+        "description": "专供娑娜Q主动最初音波对本轮唯一敌方英雄的一次合资格实际命中，且同次法术护盾阻挡值明确为0；只结算本体魔法伤害，不重复判定法术护盾。乐曲下一次攻击附伤和能量和弦另外处理。",
+        "effectKey": "primary_hit",
+        "lifecycle": null,
+        "name": "英勇赞美诗明确未阻挡本体伤害",
+        "results": [
+          {
+            "description": "引用本技能magic_damage公式，目标为本次主动音波命中对象；本结果不生成命中，不结算乐曲附伤或能量和弦。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "magic_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "sortOrder": 20
+      },
+      "expectedReadback": {
+        "description": "专供娑娜Q主动最初音波对本轮唯一敌方英雄的一次合资格实际命中，且同次法术护盾阻挡值明确为0；只结算本体魔法伤害，不重复判定法术护盾。乐曲下一次攻击附伤和能量和弦另外处理。",
+        "effectKey": "primary_hit",
+        "lifecycle": null,
+        "name": "英勇赞美诗明确未阻挡本体伤害",
+        "results": [
+          {
+            "description": "引用本技能magic_damage公式，目标为本次主动音波命中对象；本结果不生成命中，不结算乐曲附伤或能量和弦。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "magic_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/sona_q/trigger-rules",
+      "detailRoute": "/skills/sona_q/trigger-rules/actual_unblocked_hit",
+      "body": {
+        "ruleKey": "actual_unblocked_hit",
+        "name": "明确未阻挡英勇赞美诗本体命中伤害",
+        "description": "同组要求sona_q主动最初音波的合资格实际命中敌方英雄且同次法术护盾阻挡值为0；缺值或1均不执行。不从使用、普通攻击附伤或任意伤害结算生成本体命中。",
+        "sortOrder": 20,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "sona_q"
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "champion_target",
+            "name": "本轮明确未阻挡敌方英雄",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "sortOrder": 20,
+                "detail": {}
+              },
+              {
+                "conditionKey": "not_spell_shield_blocked",
+                "conditionType": "EVENT_VALUE_COMPARE",
+                "sortOrder": 30,
+                "detail": {
+                  "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED",
+                  "comparator": "EQ",
+                  "comparisonValue": {
+                    "kind": "FIXED",
+                    "value": 0
+                  }
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "name": "执行英勇赞美诗本体伤害",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "actual_unblocked_hit",
+        "name": "明确未阻挡英勇赞美诗本体命中伤害",
+        "description": "同组要求sona_q主动最初音波的合资格实际命中敌方英雄且同次法术护盾阻挡值为0；缺值或1均不执行。不从使用、普通攻击附伤或任意伤害结算生成本体命中。",
+        "sortOrder": 20,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "sona_q",
+            "useKind": null
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "champion_target",
+            "name": "本轮明确未阻挡敌方英雄",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "sortOrder": 20,
+                "detail": {}
+              },
+              {
+                "conditionKey": "not_spell_shield_blocked",
+                "conditionType": "EVENT_VALUE_COMPARE",
+                "sortOrder": 30,
+                "detail": {
+                  "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED",
+                  "comparator": "EQ",
+                  "comparisonValue": {
+                    "kind": "FIXED",
+                    "value": 0
+                  }
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "name": "执行英勇赞美诗本体伤害",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "sourceSha256": "c8f864e887db9430d2ae1a29a18f475a1b09206f1f1bff40589dd0a293e54cd4",
+  "baselineSha256": "91935795cc171b5a986dc5b1138d9a9f6612c2dbf5c92873ccf82481b3b4c6cd"
+}
