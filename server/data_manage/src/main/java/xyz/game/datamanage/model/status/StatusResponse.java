@@ -7,6 +7,7 @@ public record StatusResponse(
     String statusKey,
     String name,
     String description,
+    StatusKind statusKind,
     StatusRecordStatus status,
     Integer sortOrder,
     OffsetDateTime createdAt,

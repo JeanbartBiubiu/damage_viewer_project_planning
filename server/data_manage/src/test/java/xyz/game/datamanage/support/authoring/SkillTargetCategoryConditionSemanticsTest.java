@@ -25,6 +25,9 @@ class SkillTargetCategoryConditionSemanticsTest {
     void killCategoryCheckReadsTheKilledObjectAsCurrentTarget() {
         assertEquals("本次被击杀对象",
             SkillTriggerEventCapabilities.currentTargetBindings().get(SkillTriggerEventType.KILL));
+        assertEquals("本次死亡对象（来源对象获记击杀或助攻）",
+            SkillTriggerEventCapabilities.currentTargetBindings().get(SkillTriggerEventType.TAKEDOWN));
+        assertFalse(SkillTriggerEventCapabilities.hasEventSource(SkillTriggerEventType.TAKEDOWN));
     }
 
     @Test
@@ -37,7 +40,7 @@ class SkillTargetCategoryConditionSemanticsTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"SKILL_HIT", "BASIC_ATTACK_HIT", "KILL", "DAMAGE_PENDING", "DAMAGE_DEALT", "DAMAGE_TAKEN"})
+    @ValueSource(strings = {"SKILL_HIT", "BASIC_ATTACK_HIT", "KILL", "TAKEDOWN", "DAMAGE_PENDING", "DAMAGE_DEALT", "DAMAGE_TAKEN"})
     void supportedEventOpponentCategoriesNeedNoCatalogOrExecutionReferences(String event) {
         List<Aggregate> objects = List.of(rule(event, "{\"categories\":[\"CHAMPION\",\"EPIC_MONSTER\"]}"));
         assertEquals(List.of(), SkillObjectReferences.extractAndValidate("lol", objects, Set.of()));

@@ -1,0 +1,57 @@
+{
+  "at": "2026-09-19T01:34:47.583Z",
+  "status": "PASS",
+  "reviewer": "主负责人独立于后端实现代理",
+  "files": [
+    {
+      "sha256": "f7e20b017f67e8491accccc6744bfeb1a8cb0751265db5243bde447eebda1570",
+      "path": "server/data_manage/src/main/java/xyz/game/datamanage/model/status/StatusKind.java"
+    },
+    {
+      "sha256": "0b40b6cbfbf3b5ad85738c2926240f0bd7d654fcfee49b841dcfa642cd13f3be",
+      "path": "db/game_manage/schema.sql"
+    },
+    {
+      "sha256": "71ae384612e92e6da88b2c27a68af393814a32cfbfc1f2cd87bf3d697cfdc0cf",
+      "path": "db/game_manage/migrations/add_root_status_kind.sql"
+    },
+    {
+      "sha256": "e1538d15841837834850987210bd9ae40a7b296dbe4532eddce32c8cb6cecc3c",
+      "path": "server/data_manage/src/test/java/xyz/game/datamanage/service/status/StatusServiceTest.java"
+    },
+    {
+      "sha256": "c8138c0f6a0e530c224011205610bac72869a3ae1f83c846780507f27c0eea45",
+      "path": "server/data_manage/src/test/java/xyz/game/datamanage/service/skilleffect/SkillMovementSlowServiceTest.java"
+    },
+    {
+      "sha256": "cc085fa01c0057a6603e0b64eafcea828f5d0e5ab2d8fa0169ebaabb55694763",
+      "path": "server/data_manage/src/test/java/xyz/game/datamanage/db/status/StatusBasicManagementSchemaSqlTest.java"
+    },
+    {
+      "sha256": "881107ab8879242713b423bd45e16770f3158f41230f85e3accc94581fd63458",
+      "path": "server/data_manage/README.md"
+    }
+  ],
+  "executor": {
+    "path": "tools/authoring/ApplyRootStatusKind.java",
+    "sha256": "f51b31b067899eec55cbcc1c78307e3f3362461c5554e8388edabe3a1a8c607a"
+  },
+  "checks": [
+    "生产枚举与当前建表允许集合一致，原状态服务与效果服务字节未变",
+    "原种类不可变、ROOT无强度及持续值模式、护盾限制由既有业务校验和新增用例共同覆盖",
+    "最终迁移与只读实库旧约束原文一致，检查目标/列/唯一原状态/已核定数量；只替换约束和注释",
+    "事务游戏锁与状态/效果/引用表锁覆盖迁移窗口，EXCEPT ALL双向核对原业务行及时间戳",
+    "新脚本与新执行器分别冻结；旧执行器和旧迁移原字节保留",
+    "独立实库检查与迁移即时检查一致，最终服务按正常Maven入口重启并通过5GET"
+  ],
+  "businessRowsWritten": 0,
+  "schemaScriptExecutions": 1,
+  "server": {
+    "port": 8080,
+    "processId": 9032,
+    "startCommand": "mvn spring-boot:run"
+  },
+  "browser": "NOT_RUN_BROWSER_UNAVAILABLE",
+  "runtimeValidation": "未执行",
+  "note": "测试日志归档前只输出凭据模式匹配数量，匹配0；目录属性保留原始证据换行。"
+}

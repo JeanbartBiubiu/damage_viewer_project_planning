@@ -1,0 +1,198 @@
+{
+  "target" : [ {
+    "database" : "test0221"
+  } ],
+  "statusRows" : [ {
+    "body" : "{\"name\": \"眩晕\", \"status\": \"ENABLED\", \"game_id\": \"lol\", \"created_at\": \"2026-08-28T22:55:06.53067+08:00\", \"sort_order\": 0, \"status_key\": \"vertigo\", \"updated_at\": \"2026-08-28T22:55:06.53067+08:00\", \"description\": null, \"status_kind\": \"STUN\"}"
+  } ],
+  "statusConstraints" : [ {
+    "conname" : "ck_statuses_key",
+    "contype" : "c",
+    "convalidated" : "t",
+    "definition" : "CHECK (((status_key)::text ~ '^[a-z][a-z0-9_]{0,63}$'::text))"
+  }, {
+    "conname" : "ck_statuses_kind",
+    "contype" : "c",
+    "convalidated" : "t",
+    "definition" : "CHECK (((status_kind)::text = ANY ((ARRAY['STUN'::character varying, 'MOVEMENT_SLOW'::character varying, 'ROOT'::character varying])::text[])))"
+  }, {
+    "conname" : "ck_statuses_name",
+    "contype" : "c",
+    "convalidated" : "t",
+    "definition" : "CHECK ((btrim((name)::text) <> ''::text))"
+  }, {
+    "conname" : "ck_statuses_sort_order",
+    "contype" : "c",
+    "convalidated" : "t",
+    "definition" : "CHECK ((sort_order >= 0))"
+  }, {
+    "conname" : "ck_statuses_status",
+    "contype" : "c",
+    "convalidated" : "t",
+    "definition" : "CHECK (((status)::text = ANY ((ARRAY['ENABLED'::character varying, 'DISABLED'::character varying])::text[])))"
+  }, {
+    "conname" : "fk_statuses_game",
+    "contype" : "f",
+    "convalidated" : "t",
+    "definition" : "FOREIGN KEY (game_id) REFERENCES games(game_id)"
+  }, {
+    "conname" : "pk_statuses",
+    "contype" : "p",
+    "convalidated" : "t",
+    "definition" : "PRIMARY KEY (game_id, status_key)"
+  }, {
+    "conname" : "statuses_created_at_not_null",
+    "contype" : "n",
+    "convalidated" : "t",
+    "definition" : "NOT NULL created_at"
+  }, {
+    "conname" : "statuses_game_id_not_null",
+    "contype" : "n",
+    "convalidated" : "t",
+    "definition" : "NOT NULL game_id"
+  }, {
+    "conname" : "statuses_name_not_null",
+    "contype" : "n",
+    "convalidated" : "t",
+    "definition" : "NOT NULL name"
+  }, {
+    "conname" : "statuses_sort_order_not_null",
+    "contype" : "n",
+    "convalidated" : "t",
+    "definition" : "NOT NULL sort_order"
+  }, {
+    "conname" : "statuses_status_key_not_null",
+    "contype" : "n",
+    "convalidated" : "t",
+    "definition" : "NOT NULL status_key"
+  }, {
+    "conname" : "statuses_status_kind_not_null",
+    "contype" : "n",
+    "convalidated" : "t",
+    "definition" : "NOT NULL status_kind"
+  }, {
+    "conname" : "statuses_status_not_null",
+    "contype" : "n",
+    "convalidated" : "t",
+    "definition" : "NOT NULL status"
+  }, {
+    "conname" : "statuses_updated_at_not_null",
+    "contype" : "n",
+    "convalidated" : "t",
+    "definition" : "NOT NULL updated_at"
+  } ],
+  "statusColumns" : [ {
+    "column_name" : "game_id",
+    "data_type" : "character varying",
+    "is_nullable" : "NO",
+    "column_default" : null
+  }, {
+    "column_name" : "status_key",
+    "data_type" : "character varying",
+    "is_nullable" : "NO",
+    "column_default" : null
+  }, {
+    "column_name" : "name",
+    "data_type" : "character varying",
+    "is_nullable" : "NO",
+    "column_default" : null
+  }, {
+    "column_name" : "description",
+    "data_type" : "character varying",
+    "is_nullable" : "YES",
+    "column_default" : null
+  }, {
+    "column_name" : "status",
+    "data_type" : "character varying",
+    "is_nullable" : "NO",
+    "column_default" : "'ENABLED'::character varying"
+  }, {
+    "column_name" : "sort_order",
+    "data_type" : "integer",
+    "is_nullable" : "NO",
+    "column_default" : "0"
+  }, {
+    "column_name" : "created_at",
+    "data_type" : "timestamp with time zone",
+    "is_nullable" : "NO",
+    "column_default" : "now()"
+  }, {
+    "column_name" : "updated_at",
+    "data_type" : "timestamp with time zone",
+    "is_nullable" : "NO",
+    "column_default" : "now()"
+  }, {
+    "column_name" : "status_kind",
+    "data_type" : "character varying",
+    "is_nullable" : "NO",
+    "column_default" : null
+  } ],
+  "logicalTables" : [ {
+    "name" : "attributes"
+  }, {
+    "name" : "character_attributes"
+  }, {
+    "name" : "character_skill_relations"
+  }, {
+    "name" : "characters"
+  }, {
+    "name" : "damage_types"
+  }, {
+    "name" : "equipment"
+  }, {
+    "name" : "equipment_attributes"
+  }, {
+    "name" : "equipment_skill_relations"
+  }, {
+    "name" : "game_level_configs"
+  }, {
+    "name" : "games"
+  }, {
+    "name" : "image_relations"
+  }, {
+    "name" : "images"
+  }, {
+    "name" : "modifier_zones"
+  }, {
+    "name" : "rune_paths"
+  }, {
+    "name" : "rune_skill_relations"
+  }, {
+    "name" : "runes"
+  }, {
+    "name" : "skill_categories"
+  }, {
+    "name" : "skill_category_relations"
+  }, {
+    "name" : "skill_effects"
+  }, {
+    "name" : "skill_formulas"
+  }, {
+    "name" : "skill_internal_states"
+  }, {
+    "name" : "skill_object_references"
+  }, {
+    "name" : "skill_parameters"
+  }, {
+    "name" : "skill_processes"
+  }, {
+    "name" : "skill_trigger_rules"
+  }, {
+    "name" : "skills"
+  }, {
+    "name" : "statuses"
+  } ],
+  "skill_effects" : {
+    "rows" : 923,
+    "sha256" : "d15d65936d78302536d71af2a8bf84b56135959540ffc56a2ef9366e607dd063"
+  },
+  "skill_object_references" : {
+    "rows" : 9026,
+    "sha256" : "f81ab9413c9a4b7ab39c61850129b7515bf97a15cc4c15435165828b791098fd"
+  },
+  "at" : "2026-09-19T01:27:15.099709500Z",
+  "businessWrites" : 0,
+  "selects" : 7,
+  "rolledBack" : true,
+  "scriptSHA256" : "bcb7574daca246c033880a8e0673bec277e3d29dc705e968d764a8b6df83b035"
+}

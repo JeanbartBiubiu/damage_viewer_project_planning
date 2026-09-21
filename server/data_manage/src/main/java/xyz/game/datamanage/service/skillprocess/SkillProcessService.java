@@ -391,14 +391,14 @@ public class SkillProcessService {
             effectBindings == null ? List.of() : List.copyOf(effectBindings);
         List<SkillProcessStateOperationRequest> operations =
             stateOperations == null ? List.of() : List.copyOf(stateOperations);
-        if (bindings.isEmpty() && operations.isEmpty()) {
+        if (cooldown == null && bindings.isEmpty() && operations.isEmpty()) {
             throw new ApiException(
                 HttpStatus.BAD_REQUEST,
                 "400.VALIDATION_FAILED",
                 "技能过程不合法",
                 Map.of("fieldIssues", List.of(
-                    fieldIssue("effectBindings", "PROCESS_BEHAVIOR_REQUIRED", "过程至少需要一个效果挂接或内部状态操作"),
-                    fieldIssue("stateOperations", "PROCESS_BEHAVIOR_REQUIRED", "过程至少需要一个效果挂接或内部状态操作")
+                    fieldIssue("effectBindings", "PROCESS_BEHAVIOR_REQUIRED", "过程至少需要普通冷却、效果挂接或内部状态操作之一"),
+                    fieldIssue("stateOperations", "PROCESS_BEHAVIOR_REQUIRED", "过程至少需要普通冷却、效果挂接或内部状态操作之一")
                 ))
             );
         }

@@ -40,6 +40,7 @@ public interface StatusMapper {
         @Param("statusKey") String statusKey,
         @Param("name") String name,
         @Param("description") String description,
+        @Param("statusKind") String statusKind,
         @Param("status") String status,
         @Param("sortOrder") Integer sortOrder
     );

@@ -1,0 +1,96 @@
+{
+  "at": "2026-09-19T01:34:47.585Z",
+  "status": "代码、实库约束及最终服务只读检查通过；首次页面录入待验",
+  "code": [
+    {
+      "sha256": "f7e20b017f67e8491accccc6744bfeb1a8cb0751265db5243bde447eebda1570",
+      "path": "server/data_manage/src/main/java/xyz/game/datamanage/model/status/StatusKind.java"
+    },
+    {
+      "sha256": "0b40b6cbfbf3b5ad85738c2926240f0bd7d654fcfee49b841dcfa642cd13f3be",
+      "path": "db/game_manage/schema.sql"
+    },
+    {
+      "sha256": "71ae384612e92e6da88b2c27a68af393814a32cfbfc1f2cd87bf3d697cfdc0cf",
+      "path": "db/game_manage/migrations/add_root_status_kind.sql"
+    },
+    {
+      "sha256": "e1538d15841837834850987210bd9ae40a7b296dbe4532eddce32c8cb6cecc3c",
+      "path": "server/data_manage/src/test/java/xyz/game/datamanage/service/status/StatusServiceTest.java"
+    },
+    {
+      "sha256": "c8138c0f6a0e530c224011205610bac72869a3ae1f83c846780507f27c0eea45",
+      "path": "server/data_manage/src/test/java/xyz/game/datamanage/service/skilleffect/SkillMovementSlowServiceTest.java"
+    },
+    {
+      "sha256": "cc085fa01c0057a6603e0b64eafcea828f5d0e5ab2d8fa0169ebaabb55694763",
+      "path": "server/data_manage/src/test/java/xyz/game/datamanage/db/status/StatusBasicManagementSchemaSqlTest.java"
+    },
+    {
+      "sha256": "881107ab8879242713b423bd45e16770f3158f41230f85e3accc94581fd63458",
+      "path": "server/data_manage/README.md"
+    }
+  ],
+  "executor": {
+    "path": "tools/authoring/ApplyRootStatusKind.java",
+    "sha256": "f51b31b067899eec55cbcc1c78307e3f3362461c5554e8388edabe3a1a8c607a"
+  },
+  "files": [
+    {
+      "name": ".gitattributes",
+      "sha256": "155348a89d5e749f50d336f8f164a39bf8415179177b36e8b51766f3ab9a16d3"
+    },
+    {
+      "name": "01-实现与测试报告.json",
+      "sha256": "ceca27347ca82e97dfb8d7c88bd8a0814275210223c78baab662160c946977f7"
+    },
+    {
+      "name": "02-执行器独立评审.json",
+      "sha256": "19036e9408b5f985797f083bd5ee05d491b3611bdeede91037538b2a82aa657b"
+    },
+    {
+      "name": "03-实库写前只读.json",
+      "sha256": "417013b8b0b568c51d3db969ebe822c20ea5cbe7905c086817fb04468c2c3da8"
+    },
+    {
+      "name": "04-单次迁移记录.jsonl",
+      "sha256": "600323707dce70d1ef950b705ba0c8ca98348d5469e5e919d58e93681fef1cba"
+    },
+    {
+      "name": "05-实库独立回读.json",
+      "sha256": "ebe2b45c65765d4e26b48fa77b748422b84933708cb67a1089847ca986fee6ca"
+    },
+    {
+      "name": "06-独立实库对比.json",
+      "sha256": "1be836c0b23fd109a1a83847d712a3b2113c75ce7febdfcc06712656e5c2a3f8"
+    },
+    {
+      "name": "07-最终服务只读回读.json",
+      "sha256": "3b6683bf0088aa85146e3f28c43a072a650c68f6908cd75301e8bd4ac3438468"
+    },
+    {
+      "name": "08-主负责人独立代码检查.json",
+      "sha256": "683207b529c7fd7628aaa0184a682680f2800f5964b1f585cc81458b00cb7924"
+    },
+    {
+      "name": "README.md",
+      "sha256": "c4e7122a94feb79d58ff619d861fe1ea7d554c0fe2c7ac7d72d98fe968b425c1"
+    },
+    {
+      "name": "全量测试.log",
+      "sha256": "a0dfbfd104cd18de46811e2ff232514e76653d920f097ec545085afefd31eee1"
+    },
+    {
+      "name": "只读实库检查.java",
+      "sha256": "bcb7574daca246c033880a8e0673bec277e3d29dc705e968d764a8b6df83b035"
+    },
+    {
+      "name": "定向测试.log",
+      "sha256": "ef3a2b0dec64208f58510c3e0654d009315fe1553df12791eba3d9895951e693"
+    },
+    {
+      "name": "最终服务只读检查.mjs",
+      "sha256": "1d01bce98565d87a0db7ad8965f0005a89395bcab4e968a795e992ae19489fd7"
+    }
+  ]
+}

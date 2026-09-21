@@ -727,10 +727,16 @@ class SkillTriggerRuleServiceTest {
 
     @Test
     void capabilitiesTableCoversAllEventsAndRejectsValueReached() {
-        assertEquals(22, SkillTriggerEventType.values().length);
-        assertEquals(22, xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.currentTargetBindings().size());
+        assertEquals(23, SkillTriggerEventType.values().length);
+        assertEquals(23, xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.currentTargetBindings().size());
         assertTrue(xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.hasEventSource(SkillTriggerEventType.SOURCE_INITIALIZED));
         assertTrue(xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.requiresEmptyDetail(SkillTriggerEventType.SOURCE_INITIALIZED));
+        assertTrue(xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.requiresEmptyDetail(SkillTriggerEventType.TAKEDOWN));
+        assertFalse(xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.hasEventSource(SkillTriggerEventType.TAKEDOWN));
+        for (var valueKey : xyz.game.datamanage.model.skilltrigger.SkillTriggerEventValueKey.values()) {
+            assertFalse(xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.eventValueAllowed(
+                SkillTriggerEventType.TAKEDOWN, valueKey, null, null));
+        }
         for (var valueKey : xyz.game.datamanage.model.skilltrigger.SkillTriggerEventValueKey.values()) {
             assertFalse(xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.eventValueAllowed(
                 SkillTriggerEventType.SOURCE_INITIALIZED, valueKey, null, null));
@@ -791,7 +797,7 @@ class SkillTriggerRuleServiceTest {
 
     @Test
     void stage765EventValueMatrixIsSharedByConditionsAndBindings() {
-        assertEquals(24, SkillTriggerEventValueKey.values().length);
+        assertEquals(25, SkillTriggerEventValueKey.values().length);
         Set<SkillTriggerEventValueKey> integerKeys = EnumSet.of(
             SkillTriggerEventValueKey.BLOCKED,
             SkillTriggerEventValueKey.IMMUNE,
@@ -826,7 +832,7 @@ class SkillTriggerRuleServiceTest {
             ),
             SkillTriggerEventType.SPELL_SHIELD_BLOCKED, EnumSet.noneOf(SkillTriggerEventValueKey.class),
             SkillTriggerEventType.BASIC_ATTACK_HIT, EnumSet.of(SkillTriggerEventValueKey.HIT_INDEX),
-            SkillTriggerEventType.SKILL_HIT, EnumSet.of(SkillTriggerEventValueKey.HIT_INDEX, SkillTriggerEventValueKey.SKILL_HIT_SPELL_SHIELD_BLOCKED)
+            SkillTriggerEventType.SKILL_HIT, EnumSet.of(SkillTriggerEventValueKey.HIT_INDEX, SkillTriggerEventValueKey.SKILL_HIT_SPELL_SHIELD_BLOCKED, SkillTriggerEventValueKey.SKILL_HIT_FIRST_CONTACT)
         );
         for (SkillTriggerEventType eventType : SkillTriggerEventType.values()) {
             Set<SkillTriggerEventValueKey> expected = allowed.getOrDefault(

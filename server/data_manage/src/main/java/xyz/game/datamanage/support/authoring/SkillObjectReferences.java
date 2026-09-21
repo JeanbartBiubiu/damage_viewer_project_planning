@@ -166,9 +166,9 @@ public final class SkillObjectReferences {
                         dictionary(detail, dp, "modifierZoneKey", TargetType.MODIFIER_ZONE);
                         dictionary(detail, dp, "damageTypeKey", TargetType.DAMAGE_TYPE);
                     }
-                    case "HEALING_MODIFIER" -> dictionary(detail, dp, "modifierZoneKey", TargetType.MODIFIER_ZONE);
+                    case "HEALING_MODIFIER", "SHIELD_RECEIVED_MODIFIER" -> dictionary(detail, dp, "modifierZoneKey", TargetType.MODIFIER_ZONE);
                     case "DAMAGE_IMMUNITY" -> dictionary(detail, dp, "damageTypeKey", TargetType.DAMAGE_TYPE);
-                    case "DIRECT_HEAL", "SPELL_SHIELD", "HIT_LINK_APPLICATION", "ATTACK_LINK_APPLICATION" -> { }
+                    case "DIRECT_HEAL", "SPELL_SHIELD", "HIT_LINK_APPLICATION", "ATTACK_LINK_APPLICATION", "ATTACK_TIMER_RESET" -> { }
                     default -> throw shape(path, "未知效果结果类型");
                 }
             }
@@ -276,7 +276,7 @@ public final class SkillObjectReferences {
                 }
                 case "INTERNAL_STATE_CHANGED" -> local(detail, path, "stateKey", TargetType.STATE);
                 case "SPELL_SHIELD_BLOCKED" -> local(detail, path, "shieldEffectKey", TargetType.EFFECT);
-                case "SOURCE_INITIALIZED", "BASIC_ATTACK_START", "BASIC_ATTACK_HIT", "CONTROL_RECEIVED", "ENTITY_DIED", "ENTITY_UNTARGETABLE", "KILL" -> { }
+                case "SOURCE_INITIALIZED", "BASIC_ATTACK_START", "BASIC_ATTACK_HIT", "CONTROL_RECEIVED", "ENTITY_DIED", "ENTITY_UNTARGETABLE", "KILL", "TAKEDOWN" -> { }
                 default -> throw shape("eventSource", "未知触发事件类型");
             }
         }
@@ -304,6 +304,7 @@ public final class SkillObjectReferences {
                 }
                 case "TARGET_CATEGORY_CHECK" -> { /* 固定类别不生成引用。 */ }
                 case "EXPLICIT_TARGET_IS_SOURCE" -> { /* 显式目标身份检查不生成引用。 */ }
+                case "SKILL_HIT_TARGET_IS_ENEMY" -> { /* 命中对象敌我关系检查不生成引用。 */ }
                 case "EVENT_VALUE_COMPARE" -> formulas(detail, dp, "comparisonValue");
                 default -> throw shape(path, "未知触发条件类型");
             }

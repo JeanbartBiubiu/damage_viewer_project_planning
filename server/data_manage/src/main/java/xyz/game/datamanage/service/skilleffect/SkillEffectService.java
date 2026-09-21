@@ -31,6 +31,8 @@ import xyz.game.datamanage.mapper.skilleffect.SkillEffectMapper;
 import xyz.game.datamanage.model.skilleffect.SkillEffectAffectedSkillScope;
 import xyz.game.datamanage.model.skilleffect.SkillEffectAttributeChangeDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCatalogLockRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectStatusLockRow;
+import xyz.game.datamanage.model.status.StatusKind;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeOperation;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCriticalMode;
@@ -43,6 +45,7 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectDamageModifierDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDetailResponse;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDirectHealDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectHealingModifierDetail;
+import xyz.game.datamanage.model.skilleffect.SkillEffectShieldReceivedModifierDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectHealthFloorDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectExecuteDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectHasteModifierDetail;
@@ -245,13 +248,39 @@ public class SkillEffectService {
                 removedKeys
             );
         }
-        if (existingLifecycle != null && values.lifecycle() == null
-            && mapper.countLifecycleOperationReferences(gameId, skillKey, effectKey) > 0) {
-            throw lifecycleInUse();
+        long extendDurationReferences = existingLifecycle == null
+            ? 0
+            : mapper.countExtendDurationOperationReferences(gameId, skillKey, effectKey);
+        if (existingLifecycle != null && values.lifecycle() == null) {
+            if (extendDurationReferences > 0) {
+                throw extendDurationInUse(
+                    "lifecycle",
+                    "目标生命周期仍被延长剩余时长操作引用，不能移除生命周期"
+                );
+            }
+            if (mapper.countLifecycleOperationReferences(gameId, skillKey, effectKey) > 0) {
+                throw lifecycleInUse();
+            }
         }
         boolean clearingDuration = existingLifecycle != null
             && existingLifecycle.durationValue() != null
             && (values.lifecycle() == null || values.lifecycle().durationValue() == null);
+        boolean changingExpiryMode = existingLifecycle != null
+            && values.lifecycle() != null
+            && existingLifecycle.expiryMode() == SkillEffectLifecycleExpiryMode.ALL_AT_ONCE
+            && values.lifecycle().expiryMode() != SkillEffectLifecycleExpiryMode.ALL_AT_ONCE;
+        if (extendDurationReferences > 0 && clearingDuration) {
+            throw extendDurationInUse(
+                "lifecycle.durationValue",
+                "目标生命周期仍被延长剩余时长操作引用，不能清空持续时间"
+            );
+        }
+        if (extendDurationReferences > 0 && changingExpiryMode) {
+            throw extendDurationInUse(
+                "lifecycle.expiryMode",
+                "目标生命周期仍被延长剩余时长操作引用，不能改为其他到期方式"
+            );
+        }
         if (clearingDuration
             && mapper.countRefreshOperationReferences(gameId, skillKey, effectKey) > 0) {
             throw refreshInUse();
@@ -368,13 +397,17 @@ public class SkillEffectService {
             throwIfInvalid(issues);
             return null;
         }
+        if (request.results() == null) {
+            issues.add(fieldIssue("results", "REQUIRED", "结果列表不能缺失"));
+        }
+        throwIfInvalid(issues);
         return new ValidatedEffect(
             request.effectKey(),
             request.name(),
             request.description(),
             request.sortOrder(),
             request.lifecycle(),
-            request.results() == null ? List.of() : List.copyOf(request.results())
+            List.copyOf(request.results())
         );
     }
 
@@ -388,6 +421,9 @@ public class SkillEffectService {
         if (request.effectKey() != null) {
             issues.add(fieldIssue("effectKey", "IMMUTABLE", "效果标识不能修改"));
         }
+        if (request.results() == null) {
+            issues.add(fieldIssue("results", "REQUIRED", "结果列表不能缺失"));
+        }
         throwIfInvalid(issues);
         return new ValidatedEffect(
             pathKey,
@@ -395,7 +431,7 @@ public class SkillEffectService {
             request.description(),
             request.sortOrder(),
             request.lifecycle(),
-            request.results() == null ? List.of() : List.copyOf(request.results())
+            List.copyOf(request.results())
         );
     }
 
@@ -409,8 +445,12 @@ public class SkillEffectService {
     ) {
         List<Map<String, String>> issues = new ArrayList<>();
         List<Map<String, String>> bodyIssues = new ArrayList<>();
-        if (results == null || results.isEmpty()) {
-            issues.add(fieldIssue("results", "REQUIRED", "效果至少包含一个结果"));
+        if (results == null) {
+            issues.add(fieldIssue("results", "REQUIRED", "结果列表不能缺失"));
+            throwIfInvalid(issues);
+        }
+        if (results.isEmpty() && lifecycle == null) {
+            issues.add(fieldIssue("results", "REQUIRED", "效果至少配置生命周期或一个结果"));
             throwIfInvalid(issues);
         }
         if (existingScope != null
@@ -422,6 +462,7 @@ public class SkillEffectService {
         validateLifecycle(lifecycle, issues);
         Set<String> seenKeys = new HashSet<>();
         CollectedRefs refs = new CollectedRefs();
+        refs.lifecycle = lifecycle;
         collectLifecycleFormulaRefs(lifecycle, refs);
         boolean hasPeriodic = false;
         boolean hasNaturalEnd = false;
@@ -509,6 +550,8 @@ public class SkillEffectService {
             );
             case DAMAGE_MODIFIER -> validateDamageModifier(result, index, retained, refs, issues);
             case HEALING_MODIFIER -> validateHealingModifier(result, index, retained, refs, issues);
+            case SHIELD_RECEIVED_MODIFIER -> validateShieldReceivedModifier(result, index, retained, refs, issues);
+            case ATTACK_TIMER_RESET -> validateAttackTimerReset(result, index, issues);
             case DAMAGE_IMMUNITY -> validateDamageImmunity(result, index, retained, refs, issues);
             case HEALTH_FLOOR -> validateHealthFloor(result, index, retained, refs, issues);
             case SPELL_SHIELD -> validateSpellShield(result, index, issues);
@@ -528,6 +571,17 @@ public class SkillEffectService {
         forbidValueRule(result, index, issues);
         if (!(result.detail() instanceof SkillEffectSpellShieldDetail)) {
             issues.add(fieldIssue(resultPath(index, "detail"), "TYPE_MISMATCH", "法术护盾结果明细形状不合法"));
+        }
+    }
+
+    private void validateAttackTimerReset(
+        SkillEffectResultRequest result,
+        int index,
+        List<Map<String, String>> issues
+    ) {
+        forbidValueRule(result, index, issues);
+        if (!(result.detail() instanceof xyz.game.datamanage.model.skilleffect.SkillEffectAttackTimerResetDetail)) {
+            issues.add(fieldIssue(resultPath(index, "detail"), "TYPE_MISMATCH", "普攻计时重置明细必须为空对象"));
         }
     }
 
@@ -641,6 +695,25 @@ public class SkillEffectService {
         if (detail.healingKind() == null) {
             issues.add(fieldIssue(resultPath(index, "detail.healingKind"), "REQUIRED", "治疗种类不能为空"));
         }
+    }
+
+    private void validateShieldReceivedModifier(
+        SkillEffectResultRequest result,
+        int index,
+        Map<String, RetainedCatalog> retained,
+        CollectedRefs refs,
+        List<Map<String, String>> issues
+    ) {
+        requireValueRule(result, index, refs, issues);
+        if (!(result.detail() instanceof SkillEffectShieldReceivedModifierDetail detail)) {
+            issues.add(fieldIssue(resultPath(index, "detail"), "TYPE_MISMATCH", "收到护盾修正明细形状不合法"));
+            return;
+        }
+        if (detail.operation() == null) {
+            issues.add(fieldIssue(resultPath(index, "detail.operation"), "REQUIRED", "修正方式不能为空"));
+        }
+        collectModifierZoneRef(result, index, detail.modifierZoneKey(), ModifierZoneDomain.SHIELD,
+            retained, refs, issues, true);
     }
 
     private void validateDamageImmunity(
@@ -1270,7 +1343,9 @@ public class SkillEffectService {
         CollectedRefs refs,
         List<Map<String, String>> issues
     ) {
-        forbidValueRule(result, index, issues);
+        if (result.valueRule() != null) {
+            requireValueRule(result, index, refs, issues);
+        }
         if (!(result.detail() instanceof SkillEffectStatusOperationDetail detail)) {
             issues.add(fieldIssue(resultPath(index, "detail"), "TYPE_MISMATCH", "状态操作结果明细形状不合法"));
             return;
@@ -1289,6 +1364,51 @@ public class SkillEffectService {
             isRetained(retained, result.resultKey(), CatalogKind.STATUS, statusKey)
         ));
         refs.statusKeys.add(statusKey);
+        refs.statusResults.put(index, result);
+    }
+
+    private void validateStatusKinds(CollectedRefs refs, Map<String, StatusKind> statusKinds) {
+        List<Map<String, String>> issues = new ArrayList<>();
+        refs.statusResults.forEach((index, result) -> {
+            SkillEffectStatusOperationDetail detail = (SkillEffectStatusOperationDetail) result.detail();
+            if (statusKinds.get(detail.statusKey()) != StatusKind.MOVEMENT_SLOW
+                || detail.operation() != SkillEffectStatusOperation.APPLY) {
+                forbidValueRule(result, index, issues);
+                return;
+            }
+            SkillEffectValueRuleRequest value = result.valueRule();
+            if (value == null) {
+                issues.add(fieldIssue(resultPath(index, "valueRule"), "REQUIRED", "普通减速施加必须提供强度数值规则"));
+            } else {
+                if (value.fixedMinValue() == null || value.fixedMinValue().compareTo(BigDecimal.ZERO) != 0) {
+                    issues.add(fieldIssue(resultPath(index, "valueRule.fixedMinValue"), "RANGE_INVALID", "减速比例下界必须为0"));
+                }
+                if (value.fixedMaxValue() == null || value.fixedMaxValue().compareTo(BigDecimal.ONE) != 0) {
+                    issues.add(fieldIssue(resultPath(index, "valueRule.fixedMaxValue"), "RANGE_INVALID", "减速比例上界必须为1"));
+                }
+            }
+            if (refs.lifecycle == null || refs.lifecycle.durationValue() == null) {
+                issues.add(fieldIssue("lifecycle.durationValue", "REQUIRED", "普通减速必须有期限生命周期"));
+            }
+            SkillEffectResultLifecycleBehaviorRequest behavior = result.lifecycleBehavior();
+            if (behavior == null) {
+                issues.add(fieldIssue(resultPath(index, "lifecycleBehavior"), "REQUIRED", "普通减速必须声明持续生效行为"));
+                return;
+            }
+            if (behavior.moment() != SkillEffectLifecycleMoment.PERSISTENT) {
+                issues.add(fieldIssue(resultPath(index, "lifecycleBehavior.moment"), "COMBINATION_INVALID", "普通减速必须持续生效"));
+            }
+            if (behavior.valueReadMode() != SkillEffectLifecycleValueReadMode.APPLICATION_SNAPSHOT) {
+                issues.add(fieldIssue(resultPath(index, "lifecycleBehavior.valueReadMode"), "COMBINATION_INVALID", "普通减速必须在施加时读取强度快照"));
+            }
+            if (behavior.stackValueMode() != SkillEffectLifecycleStackValueMode.SHARED) {
+                issues.add(fieldIssue(resultPath(index, "lifecycleBehavior.stackValueMode"), "COMBINATION_INVALID", "普通减速必须共享强度"));
+            }
+            if (behavior.reapplicationValueMode() != SkillEffectLifecycleReapplicationValueMode.REPLACE) {
+                issues.add(fieldIssue(resultPath(index, "lifecycleBehavior.reapplicationValueMode"), "COMBINATION_INVALID", "普通减速重施必须覆盖强度"));
+            }
+        });
+        throwIfInvalid(issues);
     }
 
     private void validateLifecycleOperation(
@@ -1326,6 +1446,7 @@ public class SkillEffectService {
             resultPath(index, "detail.targetEffectKey"),
             targetEffectKey,
             operation == SkillEffectLifecycleOperation.REFRESH,
+            operation == SkillEffectLifecycleOperation.EXTEND_DURATION,
             currentEffectKey != null && currentEffectKey.equals(targetEffectKey)
         ));
         refs.targetEffectKeys.add(targetEffectKey);
@@ -1549,7 +1670,8 @@ public class SkillEffectService {
 
     private static boolean supportsMomentEvaluation(SkillEffectResultRequest result) {
         if (result.resultType() == SkillEffectResultType.DAMAGE_MODIFIER
-            || result.resultType() == SkillEffectResultType.HEALING_MODIFIER) {
+            || result.resultType() == SkillEffectResultType.HEALING_MODIFIER
+            || result.resultType() == SkillEffectResultType.SHIELD_RECEIVED_MODIFIER) {
             return true;
         }
         return result.resultType() == SkillEffectResultType.ATTRIBUTE_CHANGE
@@ -1582,6 +1704,7 @@ public class SkillEffectService {
             || type == SkillEffectResultType.ATTRIBUTE_CHANGE
             || type == SkillEffectResultType.DAMAGE_MODIFIER
             || type == SkillEffectResultType.HEALING_MODIFIER
+            || type == SkillEffectResultType.SHIELD_RECEIVED_MODIFIER
             || type == SkillEffectResultType.DAMAGE_IMMUNITY
             || type == SkillEffectResultType.HEALTH_FLOOR
             || type == SkillEffectResultType.SPELL_SHIELD
@@ -1595,7 +1718,7 @@ public class SkillEffectService {
             ));
             return;
         }
-        if (statusApply
+        if ((statusApply && result.valueRule() == null)
             || type == SkillEffectResultType.DAMAGE_IMMUNITY
             || type == SkillEffectResultType.SPELL_SHIELD) {
             if (behavior.stackValueMode() != null || behavior.reapplicationValueMode() != null) {
@@ -1689,6 +1812,7 @@ public class SkillEffectService {
         SkillEffectResultType type = result.resultType();
         boolean special = type == SkillEffectResultType.DAMAGE_MODIFIER
             || type == SkillEffectResultType.HEALING_MODIFIER
+            || type == SkillEffectResultType.SHIELD_RECEIVED_MODIFIER
             || type == SkillEffectResultType.DAMAGE_IMMUNITY
             || type == SkillEffectResultType.HEALTH_FLOOR
             || type == SkillEffectResultType.SPELL_SHIELD
@@ -1768,8 +1892,10 @@ public class SkillEffectService {
         int index,
         List<Map<String, String>> issues
     ) {
-        if (result.resultType() == SkillEffectResultType.STATUS_OPERATION
-            || result.resultType() == SkillEffectResultType.DAMAGE_IMMUNITY
+        if (result.resultType() == SkillEffectResultType.STATUS_OPERATION) {
+            return; // 状态数值规则在锁定目录种类后校验。
+        }
+        if (result.resultType() == SkillEffectResultType.DAMAGE_IMMUNITY
             || result.resultType() == SkillEffectResultType.SPELL_SHIELD) {
             forbidValueRule(result, index, issues);
             return;
@@ -1859,7 +1985,14 @@ public class SkillEffectService {
             refs.skillCategoryKeys,
             keys -> mapper.lockSkillCategories(gameId, keys)
         );
-        Map<String, String> statuses = lockCatalog(refs.statusKeys, keys -> mapper.lockStatuses(gameId, keys));
+        Map<String, String> statuses = new HashMap<>();
+        Map<String, StatusKind> statusKinds = new HashMap<>();
+        if (!refs.statusKeys.isEmpty()) {
+            for (SkillEffectStatusLockRow row : mapper.lockStatuses(gameId, refs.statusKeys)) {
+                statuses.put(row.refKey(), row.status());
+                statusKinds.put(row.refKey(), row.statusKind());
+            }
+        }
         Map<String, SkillEffectModifierZoneLockRow> modifierZones = lockModifierZones(
             gameId,
             refs.modifierZoneKeys
@@ -1931,6 +2064,7 @@ public class SkillEffectService {
             );
         }
 
+        validateStatusKinds(refs, statusKinds);
         List<Map<String, String>> disabled = new ArrayList<>();
         addDisabled(disabled, refs.damageTypes, damageTypes, "DAMAGE_TYPE_DISABLED", "不能新增停用伤害类型引用");
         addDisabled(
@@ -2257,6 +2391,18 @@ public class SkillEffectService {
         );
     }
 
+    private static ApiException extendDurationInUse(String field, String message) {
+        return new ApiException(
+            HttpStatus.CONFLICT,
+            "409.SKILL_EFFECT_LIFECYCLE_IN_USE",
+            message,
+            Map.of(
+                "fieldIssues",
+                List.of(fieldIssue(field, "EXTEND_DURATION_OPERATION_IN_USE", message))
+            )
+        );
+    }
+
     private static ApiException conflict(String code, String message, String field) {
         return new ApiException(
             HttpStatus.CONFLICT,
@@ -2434,6 +2580,22 @@ public class SkillEffectService {
             if (ref.refresh() && lifecycle.durationValue() == null) {
                 issues.add(fieldIssue(ref.path(), "TARGET_EFFECT_HAS_NO_DURATION", "刷新目标没有自然到期"));
             }
+            if (ref.extendDuration()) {
+                if (lifecycle.durationValue() == null) {
+                    issues.add(fieldIssue(
+                        ref.path(),
+                        "TARGET_EFFECT_HAS_NO_DURATION",
+                        "延长剩余时长目标没有自然到期"
+                    ));
+                }
+                if (lifecycle.expiryMode() != SkillEffectLifecycleExpiryMode.ALL_AT_ONCE) {
+                    issues.add(fieldIssue(
+                        ref.path(),
+                        "TARGET_EFFECT_EXPIRY_MODE_UNSUPPORTED",
+                        "延长剩余时长只允许全部层统一到期"
+                    ));
+                }
+            }
         }
     }
 
@@ -2448,6 +2610,8 @@ public class SkillEffectService {
     }
 
     private static final class CollectedRefs {
+        private SkillEffectLifecycleRequest lifecycle;
+        private final Map<Integer, SkillEffectResultRequest> statusResults = new LinkedHashMap<>();
         private final List<CatalogRef> formulas = new ArrayList<>();
         private final List<CatalogRef> dynamicFormulas = new ArrayList<>();
         private final List<CatalogRef> interactionFormulas = new ArrayList<>();
@@ -2481,7 +2645,13 @@ public class SkillEffectService {
     ) {
     }
 
-    private record TargetEffectRef(String path, String key, boolean refresh, boolean selfReference) {
+    private record TargetEffectRef(
+        String path,
+        String key,
+        boolean refresh,
+        boolean extendDuration,
+        boolean selfReference
+    ) {
     }
 
     private record RetainedCatalog(

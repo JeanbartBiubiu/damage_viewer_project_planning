@@ -37,6 +37,8 @@ public final class SkillEffectResultRequestDeserializer extends JsonDeserializer
                 case LIFECYCLE_OPERATION -> SkillEffectLifecycleOperationDetail.class;
                 case DAMAGE_MODIFIER -> SkillEffectDamageModifierDetail.class;
                 case HEALING_MODIFIER -> SkillEffectHealingModifierDetail.class;
+                case SHIELD_RECEIVED_MODIFIER -> SkillEffectShieldReceivedModifierDetail.class;
+                case ATTACK_TIMER_RESET -> SkillEffectAttackTimerResetDetail.class;
                 case DAMAGE_IMMUNITY -> SkillEffectDamageImmunityDetail.class;
                 case HEALTH_FLOOR -> SkillEffectHealthFloorDetail.class;
                 case SPELL_SHIELD -> SkillEffectSpellShieldDetail.class;

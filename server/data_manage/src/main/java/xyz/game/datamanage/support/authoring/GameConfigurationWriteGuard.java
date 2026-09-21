@@ -96,6 +96,7 @@ public class GameConfigurationWriteGuard {
         SkillLifecycleConditionSemantics.validate(aggregates);
         SkillTargetCategoryConditionSemantics.validate(aggregates);
         SkillExplicitTargetIsSourceConditionSemantics.validate(aggregates);
+        SkillHitTargetIsEnemyConditionSemantics.validate(aggregates);
         numericSemantics.validate(gameId, aggregates);
         jdbc.update("DELETE FROM public.skill_object_references WHERE game_id = ?", gameId);
         if (!references.isEmpty()) {

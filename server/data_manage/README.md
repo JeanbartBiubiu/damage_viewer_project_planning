@@ -67,6 +67,8 @@
 
 ### 直接生命周期条件
 
+效果的结果数组仍为必填；合法生命周期可以配合空数组保存，仅记录生命周期实例。缺失或为空值的结果数组、无生命周期且无结果、无周期结果却配置周期均被拒绝。真实结果读取保持零条；触发规则内部形状读取保留效果及生命周期元数据，用于生命周期事件、动态输入和循环校验，不生成结果标识、数值输出或伤害依赖。移除被引用结果与生命周期仍受原引用保护，不需要数据库迁移。共享定义见规划真源《系统精简实施说明》的“仅记录生命周期的效果增量”。
+
 触发条件支持 `LIFECYCLE_CHECK`，明细为 `effectKey`、`subject`、`checkKind`、`comparator`、`comparisonValue`。仅引用当前技能已经配置生命周期的效果；`PRESENT` 和 `ABSENT` 不允许比较符或比较值，`STACKS_COMPARE` 必须提供两者，固定值及静态参数全部等级均为非负整数，直接或经公式引用计算时参数均被拒绝。
 
 条件复用效果的实例范围，`SKILL`、`SOURCE` 的主体为空，`TARGET`、`SOURCE_TARGET` 必须指定承受对象；后者来源固定为当前技能拥有者。没有事件来源对象的事件不能选择 `EVENT_SOURCE`。实例范围仍不可修改，提交前复核既有条件的主体适配；删除被引用效果或移除其生命周期沿用 409 引用保护。
@@ -92,6 +94,12 @@
 `EXPLICIT_TARGET_IS_SOURCE` 只允许用于 `SKILL_USED`，条件明细严格为 `{}`。它表示在目标回退前，事件确实携带显式目标且该目标与技能拥有者为同一对象；没有显式目标时固定不匹配，不能把无目标施法回退到来源对象误判为自施。
 
 该条件不保存对象标识，不产生目录、公式、数值、执行或循环引用。管理端保存和事务提交前都会检查空明细及事件适配；本模块只保存、校验和回读条件，不产生显式目标快照，也不执行条件。现有触发规则聚合即可承载此条件，不增加表或数据库迁移。
+
+### 技能命中敌方对象
+
+管理接口支持 `SKILL_HIT_TARGET_IS_ENEMY`（技能命中敌方对象），复用现有触发规则聚合。空明细解析、技能命中事件适配、最终配置校验及引用扫描均已接入，不需要数据库迁移。共享语义以规划 `master` 的《条件事件与动态输入供值管理详细设计》第6.7节为准；本模块不生产敌我关系，也不执行条件。
+
+定向检查包含 `SkillTriggerSkillHitTargetIsEnemyConditionServiceTest` 与 `SkillHitTargetIsEnemyConditionSemanticsTest`，并回归既有显式自施条件、整体写入校验与引用检查；68项定向和994项全量测试通过。正常重启后20项原配置响应含时间戳不变。娜美R已通过真实页面单次保存、关闭重开和另次32项独立GET，原成本规则保持；这是管理读写证据，未执行敌我关系或战斗求值。
 
 ### 技能命中护盾结果
 
@@ -170,26 +178,48 @@
 
 管理接口统一位于 `/api/admin/games/{gameId}`。五类技能对象按完整对象保存，没有独立的结果、步骤、动作、绑定或模式选项写接口。
 
+参与击杀事件 `TAKEDOWN` 使用现有触发聚合和引用保护。共享含义见规划真源《条件事件与动态输入供值管理详细设计》第5.4节；空明细、事件能力、类别条件与循环检查统一处理。已有test0221库使用 [参与击杀事件追加迁移](../../db/game_manage/migrations/takedown_event.sql) 和 `tools/authoring/ApplyTakedownEvent.java` 单次执行器，已独立核对只扩大事件约束，原规则、效果、引用及27表保持。存在执行流水时不得重放，先独立只读核对现状；新库使用当前schema。管理保存不生产战斗事件。
+
 | 资源路径 | 当前边界 |
 | --- | --- |
 | `/attributes` | 列表、详情、新建、全量修改和启停；不提供 DELETE |
 | `/characters`、`/equipment` | 角色和装备分别管理，保留各自完整属性配置 |
 | `/skill-categories`、`/damage-types` | 单层技能分类与伤害类型，均支持列表、详情、新建、全量修改和删除 |
-| `/modifier-zones` | 属性、伤害、治疗三个业务域的乘区管理 |
-| `/statuses` | 状态基本资料；稳定标识不可改，名称按去首尾空格、不区分大小写唯一，停用项仍参与唯一校验 |
+| `/modifier-zones` | 属性、伤害、治疗、护盾四个业务域的乘区管理 |
+| `/statuses` | 状态基本资料；稳定标识与状态种类不可改，名称按去首尾空格、不区分大小写唯一，停用项仍参与唯一校验 |
 | `/runes`、`/rune-paths` | 符文身份及分组完整布局管理，按上文唯一契约保存；不提供启停 |
 | `/skills` | 技能基本资料；`skillKey` 在同游戏唯一且不可改，名称可重复，`maxLevel >= 1` |
 | `/skills/{skillKey}/parameters` | 参数四种取值方式：FIXED、SKILL_LEVEL、CHARACTER_LEVEL、RUNTIME_INPUT |
 | `/skills/{skillKey}/formulas` | 表达式节点 OPERATION、PARAMETER、ATTRIBUTE；深度最多 32、节点最多 256，不执行公式 |
 | `/skills/{skillKey}/effects` | 效果及完整结果、可选生命周期；已有结果的 `resultType` 不可改 |
 | `/skills/{skillKey}/internal-states` | 五种内部状态完整读写；既有种类和范围不可改 |
-| `/skills/{skillKey}/processes` | 完整过程读写；效果挂接和内部状态操作不能同时为空 |
+| `/skills/{skillKey}/processes` | 完整过程读写；普通冷却、效果挂接和内部状态操作至少具备一项 |
 | `/skills/{skillKey}/trigger-rules` | 完整事件、条件、动作和动态输入配置；`ruleKey` 创建后不可改 |
 | `/images` | 图片列表、详情、新建、全量修改和启停 |
 
 技能分类继续用 `skillCategoryKeys: string[]`，空数组表示未分类，关系保存在 `skill_category_relations`。只有冷却变化和技能急速修正结果可携带 `detail.affectedSkillScope`；模式为 `ALL / SKILLS / CATEGORIES`，多个分类按并集匹配。旧 `detail.affectedSkillKeys` 不接受。
 
-生命周期随效果保存和回读，摘要提供 `lifecycleEnabled`。前序结果输入仍为 `sourceActionKey / sourceResultKey / outputKind`，对应效果由服务端从更早的执行效果动作推导。过程的 `effectBindings` 与 `stateOperations` 同时为空时返回 `400.VALIDATION_FAILED`，两字段的问题码均为 `PROCESS_BEHAVIOR_REQUIRED`。
+冷却变化新增 `REDUCE_REMAINING_RATIO`（按比例减少剩余冷却），复用结果聚合和数值规则，无数据库迁移。最终写保护检查静态固定值、参数全部等级及动作结果修正后的有效比例；效果、参数或规则修改均会复核。具名公式和计算时传入值保持原有不求值边界，管理保存不执行冷却。唯一数值定义见规划真源《系统精简实施说明》的“剩余冷却比例减少增量”。
+
+生命周期随效果保存和回读，摘要提供 `lifecycleEnabled`。前序结果输入仍为 `sourceActionKey / sourceResultKey / outputKind`，对应效果由服务端从更早的执行效果动作推导。过程允许仅声明有效普通冷却；`cooldown` 为空且 `effectBindings` 与 `stateOperations` 都为空时返回 `400.VALIDATION_FAILED`，后两字段的问题码均为 `PROCESS_BEHAVIOR_REQUIRED`。步骤本身不满足该行为要求，冷却参数或公式仍须通过引用校验。
+
+生命周期操作结果中的 `EXTEND_DURATION` 表示延长目标实例的当前剩余毫秒数。它只能引用同一技能内、不是当前效果、具有期限且采用全部层统一到期的目标；保存时只校验配置，不创建实例、不改变层数或产生满层和提前移除事件。增加值会在固定倍率、上下界修正后检查为有限的非负整数；具名公式和计算时传入值保留到执行时再检查。
+
+收到护盾修正结果 `SHIELD_RECEIVED_MODIFIER` 使用现有效果数组，明细仅有乘区标识 `modifierZoneKey` 和提高/降低 `operation`。必填数值规则按小数比例解释；父生命周期必填，结果必须持续生效，沿用持续数值读取、层数与重施约束，法术护盾阻挡粒度为空。目标是护盾承受者；共享含义由 planning/master 的《系统精简实施说明》“收到普通护盾修正增量”维护。本次保存与读取不执行护盾结算。
+
+护盾范围 `SHIELD` 仅允许比例加算 `RATIO_ADD` 和护盾结果阶段 `SHIELD_RESULT`。新结果纳入乘区与数值引用保护、最终事务复核和聚合读取，无新增业务表。[护盾乘区追加迁移](../../db/game_manage/migrations/add_shield_modifier_zone.sql)已在核定原库单次执行，扩大三条检查约束，原乘区、效果、引用及时间戳保持；提交结果不明时先只读核对，不能重放。新库直接使用当前建表脚本。
+
+普攻计时重置结果 `ATTACK_TIMER_RESET` 继续使用现有效果聚合；明细必须为空对象，数值规则与法术护盾粒度均为空，只允许即时或既有生命周期离散时点。它没有数值输出或字典引用；无生命周期结果仍参与现有结果可用事件与循环检查，不新增攻击或命中事件。无需数据库迁移，不改历史拆表迁移。共享含义由 planning/master《系统精简实施说明》“普攻计时重置增量”维护；管理保存不执行攻击计时。
+
+状态身份及普通减速强度的共享定义见[系统精简实施说明第四单元](../../文档记录/详细设计/项目/系统精简实施说明.md#第四单元状态身份与普通减速强度)。状态种类通过请求、列表和详情完整回读；效果保存锁定状态目录后校验减速数值、期限和持续行为，触发动作不能在减速数值规则外再次修正强度。原有引用提取与动态输入检查继续覆盖顶层数值规则。这里只保存配置，未实现跨来源取强或战斗移动速度计算。
+
+当前建表脚本的状态种类列非空且无默认值。[普通减速身份迁移](../../db/game_manage/migrations/status_kinds_and_slow_strength.sql)严格核对唯一眩晕及其引用，在单事务内回填且保留原正文与时间戳，现值不符或重复执行均拒绝。该迁移已在原库执行并冻结，后续增量不得重放。历史 `compatibility/status_basic_management_migration.sql` 保留原八列基线，不在新结构上重放，也不改写历史字节。真实接口及页面验收仍须基于最终服务另行完成。
+
+状态目录增加 `ROOT`（禁锢），沿用新建必填、创建后种类不可改的规则。禁锢施加和移除均不允许强度数值；本次三个原对象通过父效果的有期限生命周期保存禁锢时长，结果为 `PERSISTENT`（持续生效），数值读取、层数数值、重施数值及周期模式均为空。持续目标状态的法术护盾粒度仍只允许 `RESULT`（当前结果）或空值。共享含义见上述第四单元的“禁锢状态增量”；当前不执行禁锢、韧性、解除或移动技能交互。
+
+已执行普通减速迁移的原库使用[禁锢追加迁移](../../db/game_manage/migrations/add_root_status_kind.sql)，不重放或改写旧迁移与 `ApplyStatusKinds.java`。执行方先核对目标连接及已审查脚本的摘要；脚本验证 `test0221`、旧种类约束、非空且无默认值的列和唯一已核定状态，锁定游戏、状态、效果与引用，在单事务内只扩大检查约束并更新注释。前后完整比较原状态含时间戳、效果和引用；重复执行、结构或现值漂移均报错回滚，不新增状态记录。脚本提交结果未知时先独立只读核对，不能直接重试。新库直接使用当前建表脚本；真实页面首次建立禁锢目录前不通过接口预先录入。
+
+禁锢定向检查：`mvn "-Dtest=StatusServiceTest,SkillMovementSlowServiceTest,StatusBasicManagementSchemaSqlTest" test`。这些服务与静态 SQL 检查不代表实库迁移、页面补录或战斗运行通过。
 
 ### 技能挂载与代表图片
 
@@ -253,3 +283,21 @@ mvn "-Dtest=LegacyCombatDataCleanupDbContractSqlTest,SkillParameterFormulaManage
 [verify-aggregate-api.mjs](../../tools/authoring/verify-aggregate-api.mjs) 用于将管理接口回读与迁移前快照比较；[verify-aggregate-crud.mjs](../../tools/authoring/verify-aggregate-crud.mjs) 是本轮复制演练服务的新增、修改、删除与引用保护验收工具，运行前核对其固定目标和隔离测试标识。
 
 静态 SQL 检查、单测、复制库迁移、真实 HTTP 和浏览器验收分别提供不同层面的证据；单测通过或应用启动成功不能替代原库迁移和真实页面验收。发现旧明细表查询错误时，应核对实际数据库是否已迁移、服务是否使用当前编译产物，不要重新创建已吸收的旧表。
+
+沉默状态增量：目录追加 `SILENCE`（沉默），创建后种类不可改；施加和移除均复用无强度状态操作，期限由技能效果生命周期维护，当前结果法术护盾粒度沿用既有规则。共享含义见规划真源《系统精简实施说明》的“沉默状态增量”，不实现施法限制、引导中断或解除结算。
+
+已核定的原库使用 [add_silence_status_kind.sql](../../db/game_manage/migrations/add_silence_status_kind.sql) 追加种类约束；[ApplySilenceStatusKind.java](../../tools/authoring/ApplySilenceStatusKind.java) 固定主机、数据库和已审查SQL摘要，并用新建流水拒绝重放。它仅修改约束与注释，核对原三条状态含时间戳、970个效果和9331条引用，再比较事务前后原数据。执行结果不明时先独立只读恢复，不能直接重试；旧迁移和旧执行工具保持原字节。首次新增沉默目录使用最终服务的真实页面。
+
+魅惑状态增量：目录增加 `CHARM`（魅惑），无强度状态操作、种类不可改和来源与承受对象实例关联沿用既有结构。具体移动速度、中止与重施分别依据来源；共享定义以规划真源《系统精简实施说明》的“魅惑状态增量”为准，本模块不执行魅惑行动控制。
+
+已有test0221库的魅惑种类约束使用 [本次追加SQL](../../db/game_manage/migrations/add_charm_status_kind.sql) 与 `tools/authoring/ApplyCharmStatusKind.java` 单次执行器。先按当前基线预检和独立批准摘要，执行日志为 `output/charm-status-preflight/migration-attempt.jsonl`，存在任何尝试记录都先查现状；不得重放旧状态迁移。写后另启只读连接确认四条原状态、效果、引用和27表保留，再通过页面建立魅惑目录。
+
+### 首次目标接触判定
+
+事件值 `SKILL_HIT_FIRST_CONTACT`（本次使用首次目标接触）复用事件值比较与动态绑定，只允许技能命中事件，保存与事务最终配置复核均检查。整数来源可绑定整数或十进制参数；管理明细不接受实际值或默认值字段，无数据库迁移。实际0/1、完整接触历史、使用归属及缺值边界以规划真源《系统精简实施说明》的“首次目标接触判定增量”为准。本模块不生成接触记录，既有HIT_INDEX仍表示从1开始的单次或重复步骤命中序号。
+
+### 击飞状态增量
+
+状态种类增加击飞（`AIRBORNE`），复用现有无强度状态施加和移除；创建后种类不可改，引用保护及事件关系仍按状态标识处理。具体生命周期以来源为准，不为整个种类额外限定持续生效或有限期限。唯一共享含义见规划真源《系统精简实施说明》的“击飞状态增量”。
+
+已有 test0221 库使用 [约束增量](../../db/game_manage/migrations/add_airborne_status_kind.sql) 与 [单次执行器](../../tools/authoring/ApplyAirborneStatusKind.java)。执行器核对独立批准的文件散列、完整只读基线和固定目标，先建尝试记录再执行；已有记录或提交结果不明时先独立核对，不能重放。仅追加约束与注释，不创建状态条目。首次新增击飞目录与科加斯Q返回须经真实页面；隔离模拟页面不代替该项验收。

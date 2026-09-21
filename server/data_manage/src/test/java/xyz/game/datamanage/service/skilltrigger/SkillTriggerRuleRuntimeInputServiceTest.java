@@ -152,6 +152,25 @@ class SkillTriggerRuleRuntimeInputServiceTest {
     }
 
     @Test
+    void rejectsExtraResultModifiersForValuedStatusResults() {
+        when(mapper.listEffectShapes(GAME_ID, SKILL_KEY)).thenReturn(List.of(new SkillTriggerEffectShapeRow(
+            EFFECT_KEY, RESULT_KEY, SkillEffectResultType.STATUS_OPERATION, SkillEffectTarget.TARGET,
+            true, xyz.game.datamanage.model.value.SkillNumericValue.fixed(new BigDecimal("0.3")),
+            null, null, "movement_slow", xyz.game.datamanage.model.skilleffect.SkillEffectStatusOperation.APPLY,
+            xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleMoment.PERSISTENT, null, null,
+            true, null, null, null, null, null)));
+        SkillTriggerAction action = new SkillTriggerAction("apply", "施加减速", SkillTriggerActionType.EXECUTE_EFFECT,
+            0, SkillTriggerTargetContext.CURRENT_TARGET, new SkillTriggerExecuteEffectActionDetail(EFFECT_KEY),
+            List.of(), List.of(new SkillTriggerResultModifier(RESULT_KEY, new BigDecimal("2"), null, null)));
+        ApiException error = thrown(() -> service.create(GAME_ID, SKILL_KEY, new SkillTriggerRuleCreateRequest(
+            "slow", "减速", null, 0,
+            new SkillTriggerEventSource(SkillTriggerEventType.BASIC_ATTACK_HIT, new SkillTriggerEmptyEventDetail()),
+            List.of(), List.of(action), null, null)));
+        assertField(error, "actions[0].resultModifiers[0].resultKey", "REFERENCE_TYPE_MISMATCH");
+        verify(mapper, never()).insertRule(any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any());
+    }
+
+    @Test
     void fourSourcesRoundTripAndPriorResultMustBeEarlierImmediateExecuteEffect() {
         when(mapper.lockParameters(eq(GAME_ID), eq(SKILL_KEY), any())).thenReturn(List.of(
             runtimeParam("ratio", SkillParameterValueType.DECIMAL)

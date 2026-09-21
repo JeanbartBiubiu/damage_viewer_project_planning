@@ -20,7 +20,7 @@ class ModifierZoneManagementDbContractSqlTest {
         String effects = tableBody(sql, "public.skill_effects");
 
         assertTrue(zones.contains("primary key (game_id, modifier_zone_key)"));
-        assertTrue(zones.contains("domain in ('attribute', 'damage', 'healing')"));
+        assertTrue(zones.contains("domain in ('attribute', 'damage', 'healing', 'shield')"));
         assertTrue(zones.contains("calculation_mode in ('flat_add', 'ratio_add')"));
         assertTrue(zones.contains("damage_pre_defense"));
         assertTrue(zones.contains("damage_post_defense"));
@@ -34,7 +34,7 @@ class ModifierZoneManagementDbContractSqlTest {
         }
         String mapper = read("server/data_manage/src/main/resources/mapper/modifierzone/ModifierZoneMapper.xml");
         String readModel = read("server/data_manage/src/main/resources/mapper/authoring/AuthoringReadModel.xml");
-        for (String fragment : new String[] {"effectAttributeChangeDetails", "effectDamageModifierDetails", "effectHealingModifierDetails"}) {
+        for (String fragment : new String[] {"effectAttributeChangeDetails", "effectDamageModifierDetails", "effectHealingModifierDetails", "effectShieldReceivedModifierDetails"}) {
             assertTrue(mapper.contains("AuthoringReadModel." + fragment));
             assertTrue(readModel.contains("<sql id=\"" + fragment + "\">"));
         }

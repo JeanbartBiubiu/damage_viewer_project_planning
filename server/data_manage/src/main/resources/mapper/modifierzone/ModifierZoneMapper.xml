@@ -90,6 +90,12 @@
         WHERE game_id = #{gameId} AND modifier_zone_key = #{modifierZoneKey}
     </select>
 
+    <select id="countShieldReceivedReferences" resultType="long">
+        SELECT COUNT(1)
+        FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.effectShieldReceivedModifierDetails"/>)
+        WHERE game_id = #{gameId} AND modifier_zone_key = #{modifierZoneKey}
+    </select>
+
     <insert id="insert">
         INSERT INTO public.modifier_zones (
             game_id, modifier_zone_key, name, domain, calculation_mode,
