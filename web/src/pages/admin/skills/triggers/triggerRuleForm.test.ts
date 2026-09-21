@@ -504,6 +504,7 @@ describe('trigger event member set and capability table', () => {
       'CHARGE_DURATION_MS',
       'RECAST_COUNT',
       'HIT_INDEX',
+      'SKILL_HIT_FIRST_CONTACT',
       'SKILL_HIT_SPELL_SHIELD_BLOCKED',
       'LIFECYCLE_STACKS',
       'PERIOD_INDEX',
@@ -539,7 +540,7 @@ describe('trigger event member set and capability table', () => {
     expect(allowedEventValuesFor(createEmptyEventSource('TAKEDOWN'))).toEqual([]);
     expect(allowedEventValuesFor(createEmptyEventSource('SKILL_USED'))).toEqual([]);
     expect(allowedEventValuesFor(createEmptyEventSource('BASIC_ATTACK_HIT'))).toEqual(['HIT_INDEX']);
-    expect(allowedEventValuesFor(createEmptyEventSource('SKILL_HIT'))).toEqual(['HIT_INDEX', 'SKILL_HIT_SPELL_SHIELD_BLOCKED']);
+    expect(allowedEventValuesFor(createEmptyEventSource('SKILL_HIT'))).toEqual(['HIT_INDEX', 'SKILL_HIT_FIRST_CONTACT', 'SKILL_HIT_SPELL_SHIELD_BLOCKED']);
     expect(allowedEventValuesFor(createEmptyEventSource('RESULT_AVAILABLE'))).toEqual([]);
     expect(allowedEventValuesFor(createEmptyEventSource('DAMAGE_TAKEN'))).toEqual([
       'RAW_DAMAGE',
