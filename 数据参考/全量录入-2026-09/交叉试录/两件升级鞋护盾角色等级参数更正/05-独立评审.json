@@ -1,0 +1,376 @@
+{
+  "status": "APPROVED",
+  "reviewer": "/root/upgraded_boot_shield_curve",
+  "reviewedAt": "2026-09-21T14:06:11.2692816Z",
+  "businessWrites": 0,
+  "httpRequests": 0,
+  "sqlRequests": 0,
+  "testsRun": 0,
+  "fileWrites": 1,
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-parameters-v2.mjs": "a3eb702ff0cc20461ab01381711f47a6c989328a44baa83368ed12abdf9fe067",
+    "01-纠错计划.json": "0ebd86cdf718ea6b63353cfbf85f2cabdc973d6fea6fa1f128b4cdbc4657afa2",
+    "02-冻结请求.json": "be7457140482539a617b03b4329451927254b10c90f747710db1cab561d8157c",
+    "03-来源摘要.json": "c15cf19ebdc65a04f7ae205a345d47baf920fa3b3bb0326eb67e02dc148cad73",
+    "04-写入前现值.json": "cb1a460c345fc950eef42a563333547750547623e8dfbff04bd2d61e62a81e53"
+  },
+  "scope": {
+    "requestCount": 2,
+    "methods": [
+      "PUT"
+    ],
+    "routes": [
+      "/skills/item_3173_passive/parameters/actual_level_base_shield",
+      "/skills/item_3174_passive/parameters/actual_level_base_shield"
+    ],
+    "onlyTargetParameter": "actual_level_base_shield",
+    "levelRange": {
+      "min": 1,
+      "max": 18
+    },
+    "protectedOutsideScope": [
+      "source_mstat12_formula2_value",
+      "shield_amount_ratio",
+      "magic_shield_value",
+      "physical_shield_value",
+      "护盾效果、过程、内部状态、触发规则"
+    ]
+  },
+  "requestAudit": {
+    "base": "http://127.0.0.1:8080/api/admin/games/lol",
+    "sourceSha256": "c15cf19ebdc65a04f7ae205a345d47baf920fa3b3bb0326eb67e02dc148cad73",
+    "baselineSha256": "cb1a460c345fc950eef42a563333547750547623e8dfbff04bd2d61e62a81e53",
+    "sourceShaMatchesApprovedFile": true,
+    "baselineShaMatchesApprovedFile": true,
+    "onlyTwoPutTargets": true,
+    "levelValues": {
+      "1": 90,
+      "2": 90,
+      "3": 90,
+      "4": 90,
+      "5": 90,
+      "6": 90,
+      "7": 90,
+      "8": 90,
+      "9": 100,
+      "10": 110,
+      "11": 120,
+      "12": 130,
+      "13": 140,
+      "14": 150,
+      "15": 160,
+      "16": 170,
+      "17": 180,
+      "18": 190
+    },
+    "requests": [
+      {
+        "method": "PUT",
+        "route": "/skills/item_3173_passive/parameters/actual_level_base_shield",
+        "bodyKeysExact": [
+          "description",
+          "fixedValue",
+          "levelValues",
+          "name",
+          "sortOrder",
+          "valueMode",
+          "valueType"
+        ],
+        "expectedReadbackKeysExact": [
+          "createdAt",
+          "description",
+          "fixedValue",
+          "gameId",
+          "levelValues",
+          "name",
+          "parameterKey",
+          "skillKey",
+          "sortOrder",
+          "updatedAt",
+          "valueMode",
+          "valueType"
+        ],
+        "bodyExact": true,
+        "expectedReadbackMatchesBody": true,
+        "levelValuesExact": true,
+        "valueType": "DECIMAL",
+        "valueMode": "CHARACTER_LEVEL",
+        "fixedValue": null,
+        "name": "角色等级基础护盾",
+        "sortOrder": 70,
+        "identityPreserved": true
+      },
+      {
+        "method": "PUT",
+        "route": "/skills/item_3174_passive/parameters/actual_level_base_shield",
+        "bodyKeysExact": [
+          "description",
+          "fixedValue",
+          "levelValues",
+          "name",
+          "sortOrder",
+          "valueMode",
+          "valueType"
+        ],
+        "expectedReadbackKeysExact": [
+          "createdAt",
+          "description",
+          "fixedValue",
+          "gameId",
+          "levelValues",
+          "name",
+          "parameterKey",
+          "skillKey",
+          "sortOrder",
+          "updatedAt",
+          "valueMode",
+          "valueType"
+        ],
+        "bodyExact": true,
+        "expectedReadbackMatchesBody": true,
+        "levelValuesExact": true,
+        "valueType": "DECIMAL",
+        "valueMode": "CHARACTER_LEVEL",
+        "fixedValue": null,
+        "name": "角色等级基础护盾",
+        "sortOrder": 80,
+        "identityPreserved": true
+      }
+    ]
+  },
+  "sourceAudit": {
+    "summaryPath": "03-来源摘要.json",
+    "planSourceListMatchesSummary": true,
+    "sourceCount": 14,
+    "allDeclaredSourceHashesMatchActual": true,
+    "hashChecks": [
+      {
+        "path": "数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+        "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973",
+        "matches": true
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17-zh_CN.json.gz",
+        "sha256": "f4ed06bce504288345ed7761ea1a12612ef5afd6400ebb1f27290204e1f24e20",
+        "matches": true
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+        "sha256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7",
+        "matches": true
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+        "sha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+        "matches": true
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/装备技能实录/第二十批升级鞋/冻结来源.json",
+        "sha256": "3861cdd2d66da43deb99aca9c085c894258f58a21bfdfc967b9feaa71203e649",
+        "matches": true
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/升级鞋护盾等级曲线补证/00-当前组成一次只读.json",
+        "sha256": "a77615c5a4b96433c4992ebfa3351849586dc1897b6a4f277aafb4e62f405b2c",
+        "matches": true
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/升级鞋护盾等级曲线补证/01-两项固定曲线独立核对.json",
+        "sha256": "4e20db7b39a5c91ebee2e01bc77b535eca1e36185c720a09ad92f6497ea5652e",
+        "matches": true
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/娑娜Q能量和弦等级补证/02-断点曲线独立核对.json",
+        "sha256": "09dee8d5786c5c67c0257e15de3ddef469feaf6acfec096477b7563c1047f27d",
+        "matches": true
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/娑娜Q能量和弦等级补证/04-同类参数转换验收先例.json",
+        "sha256": "1c1361379bc6f0dd39a905385c4affcec00e961f9d0faac88c14332f094e3f40",
+        "matches": true
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/娑娜Q能量和弦等级补证/08-角色等级参数实际返回.json",
+        "sha256": "d3257d9cbd0ddf56ba85f433a8e8181cb005b9978f5f124041885231338e6522",
+        "matches": true
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/装备技能实录/Luna第九批/海妖逐等级核算.json",
+        "sha256": "dd5f7ef1eafad86a7319d46cec758a1928403340c571501fdc34a188f0a6b130",
+        "matches": true
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/约里克Q来源补证与18级治疗补录/独立复核/来源与计划独立复核.md",
+        "sha256": "1392eb9da2c22a705025dce91128db60e168c87ae8b2fae802a8666dcd750abe",
+        "matches": true
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/通用公式来源补证/class-Breakpoint.json",
+        "sha256": "313c6134de8febd0911eb0b63126b1bbb2b7c922d7057806e3ef778c1e523f14",
+        "matches": true
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/通用公式来源补证/class-ByCharLevelBreakpointsCalculationPart.json",
+        "sha256": "0a45050e2ac7a930e0f69b285c3df8cd5d6a3f072182de86541433fb401f6300",
+        "matches": true
+      }
+    ],
+    "curveEvidence": {
+      "path": "数据参考/全量录入-2026-09/升级鞋护盾等级曲线补证/01-两项固定曲线独立核对.json",
+      "sha256": "4e20db7b39a5c91ebee2e01bc77b535eca1e36185c720a09ad92f6497ea5652e",
+      "status": "STATIC_CURVE_CONFIRMED",
+      "sourceVersion": {
+        "client": "16.17",
+        "official": "16.17.1"
+      },
+      "objects": [
+        {
+          "equipmentKey": "item_3173",
+          "skillKey": "item_3173_passive",
+          "rawPath": "Items/3173",
+          "rawSha256": "d846f39cf9b4ced5214109ebb18a78cdfbc8fcc89b4c106915622e8a253ea80a",
+          "tooltipKey": "Item_3173_Tooltip",
+          "level1Value": 90,
+          "breakpointLevel": 9,
+          "bonusPerLevelAtAndAfter": 10,
+          "mInitialBonusPerLevelDefault": 0,
+          "mAdditionalBonusAtThisLevelDefault": 0
+        },
+        {
+          "equipmentKey": "item_3174",
+          "skillKey": "item_3174_passive",
+          "rawPath": "Items/3174",
+          "rawSha256": "e7a6c29796bbbb8582ef75b80c877cbcfd6683390d8001c5c6aef95eea362317",
+          "tooltipKey": "Item_3174_Tooltip",
+          "level1Value": 90,
+          "breakpointLevel": 9,
+          "bonusPerLevelAtAndAfter": 10,
+          "mInitialBonusPerLevelDefault": 0,
+          "mAdditionalBonusAtThisLevelDefault": 0
+        }
+      ],
+      "levelValuesExact": true,
+      "boundaries": {
+        "1": 90,
+        "8": 90,
+        "9": 100,
+        "10": 110,
+        "18": 190
+      },
+      "remainingInput": "source_mstat12_formula2_value保持无默认运行输入，不推断属性含义。"
+    }
+  },
+  "baselineAudit": {
+    "path": "04-写入前现值.json",
+    "sha256": "cb1a460c345fc950eef42a563333547750547623e8dfbff04bd2d61e62a81e53",
+    "capturedValueCount": 32,
+    "auditCount": 32,
+    "auditMethods": [
+      "GET"
+    ],
+    "statusCounts": {
+      "200": 32
+    },
+    "businessWrites": 0,
+    "levelConfig": {
+      "gameId": "lol",
+      "minLevel": 1,
+      "maxLevel": 18
+    },
+    "targetBefore": {
+      "item_3173_passive": {
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL",
+        "fixedValue": null,
+        "levelValues": null,
+        "parameterKey": "actual_level_base_shield",
+        "sortOrder": 70
+      },
+      "item_3174_passive": {
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL",
+        "fixedValue": null,
+        "levelValues": null,
+        "parameterKey": "actual_level_base_shield",
+        "sortOrder": 80
+      }
+    },
+    "sourceInputBefore": {
+      "item_3173_passive": {
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL",
+        "fixedValue": null,
+        "levelValues": null,
+        "parameterKey": "source_mstat12_formula2_value"
+      },
+      "item_3174_passive": {
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL",
+        "fixedValue": null,
+        "levelValues": null,
+        "parameterKey": "source_mstat12_formula2_value"
+      }
+    },
+    "ratioAndFormulaPresent": true,
+    "nonTargetCollectionsRead": [
+      "formulas",
+      "formula details",
+      "effects",
+      "processes",
+      "internal-states",
+      "trigger-rules"
+    ]
+  },
+  "toolEvidence": {
+    "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\娑娜Q能量和弦等级补证\\05-工具增量独立复核.json",
+    "sha256": "0e8e2ff0c218c305d47b2b631a561bdc7550ce8c8c90645ccfacdf83e15dfee3",
+    "status": "APPROVED",
+    "scope": "工具增量沿用既有独立审查；本评审不重复代码审计。",
+    "lockedToolSha256": "a3eb702ff0cc20461ab01381711f47a6c989328a44baa83368ed12abdf9fe067"
+  },
+  "checks": [
+    {
+      "name": "冻结请求仅包含两项目标参数",
+      "status": "PASS",
+      "evidence": "02-冻结请求仅有2笔PUT，分别唯一指向item_3173_passive和item_3174_passive的actual_level_base_shield；没有其它参数、公式或组成写入。"
+    },
+    {
+      "name": "请求字段和稳定标识",
+      "status": "PASS",
+      "evidence": "两笔请求均保持parameterKey、skillKey、DECIMAL类型和原排序70/80；名称改为角色等级基础护盾，fixedValue仍为null，valueMode改为CHARACTER_LEVEL。"
+    },
+    {
+      "name": "两项18级曲线逐项闭合",
+      "status": "PASS",
+      "evidence": "请求体、expectedReadback、01更新内容和曲线来源的18个等级值逐项一致；1/8/9/10/18级边界为90、90、100、110、190。"
+    },
+    {
+      "name": "14项来源散列闭合",
+      "status": "PASS",
+      "evidence": "03来源摘要与01来源列表完全一致，14项均存在且实际字节SHA256匹配；客户端16.17、官方16.17.1、冻结包、两个对象原字节和两个类型缺省值均闭合。"
+    },
+    {
+      "name": "请求与来源及写前基线绑定",
+      "status": "PASS",
+      "evidence": "02.sourceSha256等于03实际SHA，02.baselineSha256等于04实际SHA；04保存32项GET、32项200响应，/level-config为1至18，businessWrites为0。"
+    },
+    {
+      "name": "原属性输入及既有公式边界",
+      "status": "PASS",
+      "evidence": "04中两项source_mstat12_formula2_value仍为DECIMAL、RUNTIME_INPUT、fixedValue=null、levelValues=null；0.08系数和两棵护盾公式均已读取，冻结请求未触及。"
+    },
+    {
+      "name": "工具锁定证据",
+      "status": "PASS",
+      "evidence": "沿用planning中已批准的参数纠错v2工具独立审查及工具SHA；本次仅核对锁定SHA，不重复代码审计或测试。"
+    }
+  ],
+  "findings": [],
+  "conclusion": "APPROVED。两笔冻结PUT仅把两项已确证的无默认RUNTIME_INPUT基础护盾参数转换为CHARACTER_LEVEL并写入完整1至18级曲线；请求字段、来源14项、客户端对象、类型缺省值、等级配置和32项GET写前基线闭合。批准不包含真实PUT、写后独立回读、页面、触发、冷却、原12/2属性语义或战斗运行证明。",
+  "evidenceBoundary": [
+    "本评审只读取并比较01至04、14项来源文件和既有工具审查证据，计算本地字节SHA；未执行HTTP、SQL或测试。",
+    "本次唯一文件写入是05-独立评审.json，业务写入数为0。",
+    "完整曲线只用于actual_level_base_shield；source_mstat12_formula2_value仍保持无默认运行输入，不推断其属性含义。",
+    "不改变0.08系数、公式树、护盾效果、过程、内部状态、触发规则、镀板参数、冷却或取得条件。"
+  ]
+}
