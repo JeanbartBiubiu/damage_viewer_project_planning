@@ -16,7 +16,8 @@ const catalog: EffectFormCatalog = {
     { statusKey: 'slow_named_stun', statusKind: 'STUN', status: 'ENABLED' },
     { statusKey: 'root_control', statusKind: 'ROOT', status: 'ENABLED' },
     { statusKey: 'silence_control', statusKind: 'SILENCE', status: 'ENABLED' },
-    { statusKey: 'charm_control', statusKind: 'CHARM', status: 'ENABLED' }
+    { statusKey: 'charm_control', statusKind: 'CHARM', status: 'ENABLED' },
+    { statusKey: 'airborne_control', statusKind: 'AIRBORNE', status: 'ENABLED' }
   ]
 };
 const parameter: SkillParameter = {
@@ -117,6 +118,7 @@ describe('普通移动减速往返与状态目录', () => {
       applyStatusSelection(configured, 'root_control', 'ROOT'),
       applyStatusSelection(configured, 'silence_control', 'SILENCE'),
       applyStatusSelection(configured, 'charm_control', 'CHARM'),
+      applyStatusSelection(configured, 'airborne_control', 'AIRBORNE'),
       applyStatusSelection(configured, 'arbitrary_control_key', 'MOVEMENT_SLOW', 'REMOVE')
     ]) {
       expect(isValueRuleVisible(next)).toBe(false);
@@ -129,7 +131,8 @@ describe('普通移动减速往返与状态目录', () => {
       'arbitrary_control_key', 'MOVEMENT_SLOW').spellShieldBlockScope).toBe('');
   });
 
-  it.each([['ROOT', 'root_control'], ['SILENCE', 'silence_control'], ['CHARM', 'charm_control']] as const)(
+  it.each([['ROOT', 'root_control'], ['SILENCE', 'silence_control'], ['CHARM', 'charm_control'],
+    ['AIRBORNE', 'airborne_control']] as const)(
     '%s复用无强度持续状态，保存和复制保留期限与当前结果法术护盾粒度', (kind, statusKey) => {
     const source = effect();
     source.results[0] = {
@@ -157,6 +160,35 @@ describe('普通移动减速往返与状态目录', () => {
     const cleared = validateSkillEffectDraft(draft, options);
     if (!cleared.ok) throw new Error(JSON.stringify(cleared));
     expect(buildUpdateSkillEffectRequest(cleared.normalized).results[0].spellShieldBlockScope).toBeNull();
+  });
+
+  it('减速切换击飞清除强度与取值模式，施加和移除请求都不携带强度', () => {
+    const draft = skillEffectToDraft(effect());
+    draft.results[0] = applyStatusSelection(draft.results[0], 'airborne_control', 'AIRBORNE');
+    expect(draft.results[0]).toMatchObject({
+      value: null, fixedMultiplier: '', fixedMinValue: '', fixedMaxValue: '',
+      lifecycleBehavior: { moment: 'PERSISTENT', valueReadMode: '', stackValueMode: '',
+        reapplicationValueMode: '', periodicExecutionMode: '' }
+    });
+    const before = structuredClone(draft);
+    const failed = validateSkillEffectDraft(draft, { ...options, catalogLoadState: { statuses: 'failed' } });
+    expect(failed.ok).toBe(false);
+    if (!failed.ok) expect(failed.resultErrors[0].fieldErrors.statusKey).toBeTruthy();
+    expect(draft).toEqual(before);
+
+    for (const operation of ['APPLY', 'REMOVE'] as const) {
+      const current = structuredClone(draft);
+      current.results[0] = applyStatusSelection(current.results[0], 'airborne_control', 'AIRBORNE', operation);
+      current.results[0].lifecycleBehavior.moment = operation === 'APPLY' ? 'PERSISTENT' : 'APPLICATION';
+      current.results[0].spellShieldBlockScope = '';
+      const validation = validateSkillEffectDraft(current, options);
+      if (!validation.ok) throw new Error(JSON.stringify(validation));
+      expect(buildUpdateSkillEffectRequest(validation.normalized).results[0]).toMatchObject({
+        detail: { statusKey: 'airborne_control', operation }, valueRule: null,
+        lifecycleBehavior: { moment: operation === 'APPLY' ? 'PERSISTENT' : 'APPLICATION',
+          valueReadMode: null, stackValueMode: null, reapplicationValueMode: null, periodicExecutionMode: null }
+      });
+    }
   });
 
   it('保留停用状态的合法旧引用，新复制不可引入停用状态', () => {
