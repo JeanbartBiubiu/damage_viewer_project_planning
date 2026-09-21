@@ -76,8 +76,16 @@ public final class SkillNumericSemantics {
                         String path = "results[" + i++ + "]";
                         boolean current = "PERSISTENT".equals(text(r.path("lifecycleBehavior"), "moment"))
                             && "MOMENT_EVALUATION".equals(text(r.path("lifecycleBehavior"), "valueReadMode"));
+                        String lifecycleOperation = text(r.path("detail"), "operation");
+                        boolean extendDuration = "LIFECYCLE_OPERATION".equals(text(r, "resultType"))
+                            && "EXTEND_DURATION".equals(lifecycleOperation);
                         Use valueUse = use(a, r.path("valueRule"), path + ".valueRule", "value",
-                            "LIFECYCLE_OPERATION".equals(text(r, "resultType")) ? Bound.INTEGER : Bound.ANY, current);
+                            "LIFECYCLE_OPERATION".equals(text(r, "resultType")) && !extendDuration
+                                ? Bound.INTEGER : Bound.ANY,
+                            current);
+                        if (extendDuration) {
+                            validateExtendedDuration(a, valueUse, r.path("valueRule"), path + ".valueRule.value");
+                        }
                         if ("COOLDOWN_CHANGE".equals(text(r, "resultType"))
                             && SkillEffectCooldownChangeOperation.REDUCE_REMAINING_RATIO.name()
                                 .equals(text(r.path("detail"), "operation"))) {
@@ -349,6 +357,19 @@ public final class SkillNumericSemantics {
                         "actions[" + actionIndex + "].resultModifiers[" + modifierIndex + "]"
                     );
                 }
+                if (result != null
+                    && "LIFECYCLE_OPERATION".equals(text(result, "resultType"))
+                    && "EXTEND_DURATION".equals(text(result.path("detail"), "operation"))) {
+                    String valuePath = "results[" + resultIndex + "].valueRule.value";
+                    Use valueUse = findUse(effect, valuePath);
+                    validateExtendedDuration(
+                        rule,
+                        valueUse,
+                        result.path("valueRule"),
+                        modifier,
+                        "actions[" + actionIndex + "].resultModifiers[" + modifierIndex + "]"
+                    );
+                }
                 modifierIndex++;
             }
         }
@@ -383,6 +404,39 @@ public final class SkillNumericSemantics {
                 if (modifier != null) effective = applyFixedRule(effective, modifier);
                 if (effective.compareTo(BigDecimal.ZERO) < 0 || effective.compareTo(BigDecimal.ONE) > 0) {
                     throw invalid(source, errorPath, "VALUE_RANGE_INVALID", "按比例减少剩余冷却的有效比例必须在0到1之间");
+                }
+            }
+        }
+
+        private void validateExtendedDuration(
+            Aggregate source,
+            Use valueUse,
+            JsonNode valueRule,
+            String errorPath
+        ) {
+            validateExtendedDuration(source, valueUse, valueRule, null, errorPath);
+        }
+
+        private void validateExtendedDuration(
+            Aggregate source,
+            Use valueUse,
+            JsonNode valueRule,
+            JsonNode modifier,
+            String errorPath
+        ) {
+            StaticValues known = known(valueUse);
+            if (known == null) return; // 具名公式和计算时传入值留给执行时验证。
+            for (BigDecimal value : known.values().values()) {
+                BigDecimal effective = applyFixedRule(value, valueRule);
+                if (modifier != null) effective = applyFixedRule(effective, modifier);
+                if (!Double.isFinite(effective.doubleValue())) {
+                    throw invalid(source, errorPath, "VALUE_RANGE_INVALID", "延长剩余时长的有效增加毫秒数超出可保存范围");
+                }
+                if (effective.signum() < 0) {
+                    throw invalid(source, errorPath, "VALUE_RANGE_INVALID", "延长剩余时长的有效增加毫秒数不能小于零");
+                }
+                if (effective.stripTrailingZeros().scale() > 0) {
+                    throw invalid(source, errorPath, "VALUE_TYPE_MISMATCH", "延长剩余时长的有效增加毫秒数必须为整数");
                 }
             }
         }

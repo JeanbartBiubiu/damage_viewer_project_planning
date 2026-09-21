@@ -201,6 +201,8 @@
 
 生命周期随效果保存和回读，摘要提供 `lifecycleEnabled`。前序结果输入仍为 `sourceActionKey / sourceResultKey / outputKind`，对应效果由服务端从更早的执行效果动作推导。过程允许仅声明有效普通冷却；`cooldown` 为空且 `effectBindings` 与 `stateOperations` 都为空时返回 `400.VALIDATION_FAILED`，后两字段的问题码均为 `PROCESS_BEHAVIOR_REQUIRED`。步骤本身不满足该行为要求，冷却参数或公式仍须通过引用校验。
 
+生命周期操作结果中的 `EXTEND_DURATION` 表示延长目标实例的当前剩余毫秒数。它只能引用同一技能内、不是当前效果、具有期限且采用全部层统一到期的目标；保存时只校验配置，不创建实例、不改变层数或产生满层和提前移除事件。增加值会在固定倍率、上下界修正后检查为有限的非负整数；具名公式和计算时传入值保留到执行时再检查。
+
 收到护盾修正结果 `SHIELD_RECEIVED_MODIFIER` 使用现有效果数组，明细仅有乘区标识 `modifierZoneKey` 和提高/降低 `operation`。必填数值规则按小数比例解释；父生命周期必填，结果必须持续生效，沿用持续数值读取、层数与重施约束，法术护盾阻挡粒度为空。目标是护盾承受者；共享含义由 planning/master 的《系统精简实施说明》“收到普通护盾修正增量”维护。本次保存与读取不执行护盾结算。
 
 护盾范围 `SHIELD` 仅允许比例加算 `RATIO_ADD` 和护盾结果阶段 `SHIELD_RESULT`。新结果纳入乘区与数值引用保护、最终事务复核和聚合读取，无新增业务表。[护盾乘区追加迁移](../../db/game_manage/migrations/add_shield_modifier_zone.sql)已在核定原库单次执行，扩大三条检查约束，原乘区、效果、引用及时间戳保持；提交结果不明时先只读核对，不能重放。新库直接使用当前建表脚本。

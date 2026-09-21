@@ -264,6 +264,16 @@
           AND r #>> '{detail,operation}' = 'REFRESH'
     </select>
 
+    <select id="countExtendDurationOperationReferences" resultType="long">
+        SELECT COUNT(1)
+        FROM public.skill_effects e
+        CROSS JOIN LATERAL jsonb_array_elements(e.results) r
+        WHERE e.game_id = #{gameId} AND e.skill_key = #{skillKey}
+          AND r ->> 'resultType' = 'LIFECYCLE_OPERATION'
+          AND r #>> '{detail,targetEffectKey}' = #{targetEffectKey}
+          AND r #>> '{detail,operation}' = 'EXTEND_DURATION'
+    </select>
+
     <select id="lockEffects" resultType="string">
         SELECT effect_key
         FROM public.skill_effects

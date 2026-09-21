@@ -248,13 +248,39 @@ public class SkillEffectService {
                 removedKeys
             );
         }
-        if (existingLifecycle != null && values.lifecycle() == null
-            && mapper.countLifecycleOperationReferences(gameId, skillKey, effectKey) > 0) {
-            throw lifecycleInUse();
+        long extendDurationReferences = existingLifecycle == null
+            ? 0
+            : mapper.countExtendDurationOperationReferences(gameId, skillKey, effectKey);
+        if (existingLifecycle != null && values.lifecycle() == null) {
+            if (extendDurationReferences > 0) {
+                throw extendDurationInUse(
+                    "lifecycle",
+                    "目标生命周期仍被延长剩余时长操作引用，不能移除生命周期"
+                );
+            }
+            if (mapper.countLifecycleOperationReferences(gameId, skillKey, effectKey) > 0) {
+                throw lifecycleInUse();
+            }
         }
         boolean clearingDuration = existingLifecycle != null
             && existingLifecycle.durationValue() != null
             && (values.lifecycle() == null || values.lifecycle().durationValue() == null);
+        boolean changingExpiryMode = existingLifecycle != null
+            && values.lifecycle() != null
+            && existingLifecycle.expiryMode() == SkillEffectLifecycleExpiryMode.ALL_AT_ONCE
+            && values.lifecycle().expiryMode() != SkillEffectLifecycleExpiryMode.ALL_AT_ONCE;
+        if (extendDurationReferences > 0 && clearingDuration) {
+            throw extendDurationInUse(
+                "lifecycle.durationValue",
+                "目标生命周期仍被延长剩余时长操作引用，不能清空持续时间"
+            );
+        }
+        if (extendDurationReferences > 0 && changingExpiryMode) {
+            throw extendDurationInUse(
+                "lifecycle.expiryMode",
+                "目标生命周期仍被延长剩余时长操作引用，不能改为其他到期方式"
+            );
+        }
         if (clearingDuration
             && mapper.countRefreshOperationReferences(gameId, skillKey, effectKey) > 0) {
             throw refreshInUse();
@@ -1409,6 +1435,7 @@ public class SkillEffectService {
             resultPath(index, "detail.targetEffectKey"),
             targetEffectKey,
             operation == SkillEffectLifecycleOperation.REFRESH,
+            operation == SkillEffectLifecycleOperation.EXTEND_DURATION,
             currentEffectKey != null && currentEffectKey.equals(targetEffectKey)
         ));
         refs.targetEffectKeys.add(targetEffectKey);
@@ -2353,6 +2380,18 @@ public class SkillEffectService {
         );
     }
 
+    private static ApiException extendDurationInUse(String field, String message) {
+        return new ApiException(
+            HttpStatus.CONFLICT,
+            "409.SKILL_EFFECT_LIFECYCLE_IN_USE",
+            message,
+            Map.of(
+                "fieldIssues",
+                List.of(fieldIssue(field, "EXTEND_DURATION_OPERATION_IN_USE", message))
+            )
+        );
+    }
+
     private static ApiException conflict(String code, String message, String field) {
         return new ApiException(
             HttpStatus.CONFLICT,
@@ -2530,6 +2569,22 @@ public class SkillEffectService {
             if (ref.refresh() && lifecycle.durationValue() == null) {
                 issues.add(fieldIssue(ref.path(), "TARGET_EFFECT_HAS_NO_DURATION", "刷新目标没有自然到期"));
             }
+            if (ref.extendDuration()) {
+                if (lifecycle.durationValue() == null) {
+                    issues.add(fieldIssue(
+                        ref.path(),
+                        "TARGET_EFFECT_HAS_NO_DURATION",
+                        "延长剩余时长目标没有自然到期"
+                    ));
+                }
+                if (lifecycle.expiryMode() != SkillEffectLifecycleExpiryMode.ALL_AT_ONCE) {
+                    issues.add(fieldIssue(
+                        ref.path(),
+                        "TARGET_EFFECT_EXPIRY_MODE_UNSUPPORTED",
+                        "延长剩余时长只允许全部层统一到期"
+                    ));
+                }
+            }
         }
     }
 
@@ -2579,7 +2634,13 @@ public class SkillEffectService {
     ) {
     }
 
-    private record TargetEffectRef(String path, String key, boolean refresh, boolean selfReference) {
+    private record TargetEffectRef(
+        String path,
+        String key,
+        boolean refresh,
+        boolean extendDuration,
+        boolean selfReference
+    ) {
     }
 
     private record RetainedCatalog(

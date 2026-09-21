@@ -2230,6 +2230,97 @@ class SkillEffectServiceTest {
     }
 
     @Test
+    void extendDurationRequiresTimedAllAtOnceTargetAndReadsBack() {
+        stubParentAndNewKey();
+        stubEnabledCatalogs();
+        when(mapper.lockEffects(eq(GAME_ID), eq(SKILL_KEY), anyCollection()))
+            .thenReturn(List.of(TARGET_EFFECT_KEY));
+        when(mapper.lockLifecycles(eq(GAME_ID), eq(SKILL_KEY), anyCollection()))
+            .thenReturn(List.of(lifecycleRowFor(TARGET_EFFECT_KEY, SkillEffectLifecycleExpiryMode.ALL_AT_ONCE)));
+        when(mapper.findEffect(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> savedEffect);
+
+        SkillEffectDetailResponse created = service.create(
+            GAME_ID,
+            SKILL_KEY,
+            new SkillEffectCreateRequest(
+                EFFECT_KEY,
+                "延长剩余时长",
+                null,
+                10,
+                timedLifecycle(),
+                List.of(lifecycleOpResult(
+                    "extend_mark",
+                    SkillEffectLifecycleOperation.EXTEND_DURATION,
+                    TARGET_EFFECT_KEY,
+                    valueRule(),
+                    applicationSnapshot()
+                ))
+            )
+        );
+
+        assertEquals(SkillEffectLifecycleOperation.EXTEND_DURATION,
+            ((SkillEffectLifecycleOperationDetail) created.results().getFirst().detail()).operation());
+        assertEquals(TARGET_EFFECT_KEY,
+            ((SkillEffectLifecycleOperationDetail) created.results().getFirst().detail()).targetEffectKey());
+
+        when(mapper.lockLifecycles(eq(GAME_ID), eq(SKILL_KEY), anyCollection()))
+            .thenReturn(List.of(lifecycleRowWithoutDuration(TARGET_EFFECT_KEY)));
+        ApiException noDuration = assertThrows(
+            ApiException.class,
+            () -> service.create(
+                GAME_ID,
+                SKILL_KEY,
+                new SkillEffectCreateRequest(
+                    "extend_no_duration",
+                    "延长剩余时长",
+                    null,
+                    10,
+                    timedLifecycle(),
+                    List.of(lifecycleOpResult(
+                        "extend_mark",
+                        SkillEffectLifecycleOperation.EXTEND_DURATION,
+                        TARGET_EFFECT_KEY,
+                        valueRule(),
+                        applicationSnapshot()
+                    ))
+                )
+            )
+        );
+        assertEquals("400.INVALID_SKILL_EFFECT_REFERENCE", noDuration.getCode());
+        assertField(noDuration, "results[0].detail.targetEffectKey", "TARGET_EFFECT_HAS_NO_DURATION");
+
+        when(mapper.lockLifecycles(eq(GAME_ID), eq(SKILL_KEY), anyCollection()))
+            .thenReturn(List.of(lifecycleRowFor(TARGET_EFFECT_KEY, SkillEffectLifecycleExpiryMode.ONE_BY_ONE)));
+        ApiException wrongExpiry = assertThrows(
+            ApiException.class,
+            () -> service.create(
+                GAME_ID,
+                SKILL_KEY,
+                new SkillEffectCreateRequest(
+                    "extend_wrong_expiry",
+                    "延长剩余时长",
+                    null,
+                    10,
+                    timedLifecycle(),
+                    List.of(lifecycleOpResult(
+                        "extend_mark",
+                        SkillEffectLifecycleOperation.EXTEND_DURATION,
+                        TARGET_EFFECT_KEY,
+                        valueRule(),
+                        applicationSnapshot()
+                    ))
+                )
+            )
+        );
+        assertEquals("400.INVALID_SKILL_EFFECT_REFERENCE", wrongExpiry.getCode());
+        assertField(
+            wrongExpiry,
+            "results[0].detail.targetEffectKey",
+            "TARGET_EFFECT_EXPIRY_MODE_UNSUPPORTED"
+        );
+    }
+
+    @Test
     void deletePrefersProcessBindingOverLifecycleReference() {
         when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
         when(mapper.findEffectForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> fixtureRow(true));
@@ -2300,6 +2391,77 @@ class SkillEffectServiceTest {
         );
         assertEquals("409.SKILL_EFFECT_LIFECYCLE_IN_USE", refresh.getCode());
         assertField(refresh, "lifecycle.durationValue", "REFRESH_OPERATION_IN_USE");
+    }
+
+    @Test
+    void extendDurationProtectsTargetDurationAndExpiryOnReverseUpdate() {
+        when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
+        when(mapper.findEffectForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> fixtureRow(true));
+        fixture.put("listResultsForUpdate", List.of(
+            resultRow("physical_hit", SkillEffectResultType.DAMAGE)
+        ));
+        fixture.put("findLifecycleForUpdate", lifecycleRow());
+        when(mapper.countLifecycleOperationReferences(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(0L);
+        when(mapper.countRefreshOperationReferences(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(0L);
+        when(mapper.countExtendDurationOperationReferences(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(1L);
+
+        ApiException duration = assertThrows(
+            ApiException.class,
+            () -> service.update(
+                GAME_ID,
+                SKILL_KEY,
+                EFFECT_KEY,
+                new SkillEffectUpdateRequest(
+                    null,
+                    "命中结果",
+                    null,
+                    10,
+                    new SkillEffectLifecycleRequest(
+                        null,
+                        SkillNumericValue.formula(MAX_STACKS_FORMULA),
+                        SkillNumericValue.formula(APP_STACKS_FORMULA),
+                        SkillEffectLifecycleInstanceScope.TARGET,
+                        SkillEffectLifecycleReapplicationStackMode.KEEP,
+                        null,
+                        SkillEffectLifecycleExpiryMode.EXPLICIT_ONLY,
+                        null,
+                        null
+                    ),
+                    List.of(damageResult("physical_hit"))
+                )
+            )
+        );
+        assertEquals("409.SKILL_EFFECT_LIFECYCLE_IN_USE", duration.getCode());
+        assertField(duration, "lifecycle.durationValue", "EXTEND_DURATION_OPERATION_IN_USE");
+
+        ApiException expiry = assertThrows(
+            ApiException.class,
+            () -> service.update(
+                GAME_ID,
+                SKILL_KEY,
+                EFFECT_KEY,
+                new SkillEffectUpdateRequest(
+                    null,
+                    "命中结果",
+                    null,
+                    10,
+                    new SkillEffectLifecycleRequest(
+                        SkillNumericValue.formula(DURATION_FORMULA),
+                        SkillNumericValue.formula(MAX_STACKS_FORMULA),
+                        SkillNumericValue.formula(APP_STACKS_FORMULA),
+                        SkillEffectLifecycleInstanceScope.TARGET,
+                        SkillEffectLifecycleReapplicationStackMode.KEEP,
+                        SkillEffectLifecycleReapplicationDurationMode.KEEP_REMAINING,
+                        SkillEffectLifecycleExpiryMode.ONE_BY_ONE,
+                        null,
+                        null
+                    ),
+                    List.of(damageResult("physical_hit"))
+                )
+            )
+        );
+        assertEquals("409.SKILL_EFFECT_LIFECYCLE_IN_USE", expiry.getCode());
+        assertField(expiry, "lifecycle.expiryMode", "EXTEND_DURATION_OPERATION_IN_USE");
     }
 
     @Test
@@ -3283,17 +3445,24 @@ class SkillEffectServiceTest {
     }
 
     private static SkillEffectLifecycleRow lifecycleRow() {
+        return lifecycleRowFor(EFFECT_KEY, SkillEffectLifecycleExpiryMode.ALL_AT_ONCE);
+    }
+
+    private static SkillEffectLifecycleRow lifecycleRowFor(
+        String effectKey,
+        SkillEffectLifecycleExpiryMode expiryMode
+    ) {
         return new SkillEffectLifecycleRow(
             GAME_ID,
             SKILL_KEY,
-            EFFECT_KEY,
+            effectKey,
             SkillNumericValue.formula(DURATION_FORMULA),
             SkillNumericValue.formula(MAX_STACKS_FORMULA),
             SkillNumericValue.formula(APP_STACKS_FORMULA),
             SkillEffectLifecycleInstanceScope.TARGET,
             SkillEffectLifecycleReapplicationStackMode.INCREASE,
             SkillEffectLifecycleReapplicationDurationMode.REFRESH_ALL,
-            SkillEffectLifecycleExpiryMode.ALL_AT_ONCE,
+            expiryMode,
             null,
             null
         );
