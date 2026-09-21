@@ -1,0 +1,21 @@
+{
+  "at": "2026-09-21T08:58:06.751Z",
+  "status": "APPROVED",
+  "reviewer": "/root/ammo_management_contract_audit",
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v3.mjs": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "01-候选方案.json": "de9c03f2b66ab0b26ed1b53000be3dcfa00e73e09ad2adc06fc28a07c4c3be80",
+    "02-冻结请求.json": "ca13589c14f003f171d59dad595e9dd9d78f20c145133d659eadcea075f24056",
+    "03-来源摘要.json": "42dae6eff4d0f0f9ee2495a00bcbec3cab3f9221b4431443ef28b6b27d02e897",
+    "04-写入前现值.json": "d770c907626d676ae6ccde5249e0b6eac4d78b84685dde90cfc89edf050b7632"
+  },
+  "checks": [
+    "七源摘要匹配，32现值和2新404符合",
+    "普通冷却null、立即步骤仅法力登记、过程开始唯一成本挂接、无状态操作",
+    "本技能ACTIVE无条件START_PROCESS，未再次直接执行成本",
+    "原22技能响应与前批独立终值一致，控制/伤害/参数/父子说明完整保护",
+    "未宣称充能、静态间隔、施法许可或完整施放时序已实现"
+  ],
+  "businessWrites": 0,
+  "httpRequests": 0
+}

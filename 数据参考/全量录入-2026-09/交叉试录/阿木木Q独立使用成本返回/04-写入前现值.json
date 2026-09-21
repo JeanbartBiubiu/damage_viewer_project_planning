@@ -1,0 +1,1239 @@
+{
+  "at": "2026-09-21T08:54:23.643Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/skills/amumu_q": {
+      "createdAt": "2026-09-06T18:16:22.658438Z",
+      "description": "阿木木向目标投掷粘稠的绷带，将自己拉向目标，并对目标造成伤害和眩晕效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "阿木木·绷带牵引",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "amumu_q",
+      "sortOrder": 1,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:16:22.658438Z"
+    },
+    "/characters/champion_amumu": {
+      "characterKey": "champion_amumu",
+      "createdAt": "2026-09-06T17:03:51.430254Z",
+      "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+      "gameId": "lol",
+      "name": "阿木木",
+      "updatedAt": "2026-09-06T17:03:51.430254Z"
+    },
+    "/characters/champion_amumu/attributes": {
+      "characterKey": "champion_amumu",
+      "levelValues": {
+        "1": {
+          "move_speed": 335,
+          "hp": 685,
+          "hp_regen": 9,
+          "mana": 285,
+          "mana_regen": 7.4,
+          "armor": 33,
+          "magic_resistance": 32,
+          "attack_damage": 57,
+          "attack_speed": 0.736,
+          "attack_range": 125
+        },
+        "2": {
+          "move_speed": 335,
+          "hp": 752.68,
+          "hp_regen": 9.612,
+          "mana": 313.8,
+          "mana_regen": 7.796,
+          "armor": 35.88,
+          "magic_resistance": 33.476,
+          "attack_damage": 59.736,
+          "attack_speed": 0.746014,
+          "attack_range": 125
+        },
+        "3": {
+          "move_speed": 335,
+          "hp": 823.65,
+          "hp_regen": 10.25375,
+          "mana": 344,
+          "mana_regen": 8.21125,
+          "armor": 38.9,
+          "magic_resistance": 35.02375,
+          "attack_damage": 62.605,
+          "attack_speed": 0.756515,
+          "attack_range": 125
+        },
+        "4": {
+          "move_speed": 335,
+          "hp": 897.91,
+          "hp_regen": 10.92525,
+          "mana": 375.6,
+          "mana_regen": 8.64575,
+          "armor": 42.06,
+          "magic_resistance": 36.64325,
+          "attack_damage": 65.607,
+          "attack_speed": 0.767503,
+          "attack_range": 125
+        },
+        "5": {
+          "move_speed": 335,
+          "hp": 975.46,
+          "hp_regen": 11.6265,
+          "mana": 408.6,
+          "mana_regen": 9.0995,
+          "armor": 45.36,
+          "magic_resistance": 38.3345,
+          "attack_damage": 68.742,
+          "attack_speed": 0.778977,
+          "attack_range": 125
+        },
+        "6": {
+          "move_speed": 335,
+          "hp": 1056.3,
+          "hp_regen": 12.3575,
+          "mana": 443,
+          "mana_regen": 9.5725,
+          "armor": 48.8,
+          "magic_resistance": 40.0975,
+          "attack_damage": 72.01,
+          "attack_speed": 0.790938,
+          "attack_range": 125
+        },
+        "7": {
+          "move_speed": 335,
+          "hp": 1140.43,
+          "hp_regen": 13.11825,
+          "mana": 478.8,
+          "mana_regen": 10.06475,
+          "armor": 52.38,
+          "magic_resistance": 41.93225,
+          "attack_damage": 75.411,
+          "attack_speed": 0.803386,
+          "attack_range": 125
+        },
+        "8": {
+          "move_speed": 335,
+          "hp": 1227.85,
+          "hp_regen": 13.90875,
+          "mana": 516,
+          "mana_regen": 10.57625,
+          "armor": 56.1,
+          "magic_resistance": 43.83875,
+          "attack_damage": 78.945,
+          "attack_speed": 0.816321,
+          "attack_range": 125
+        },
+        "9": {
+          "move_speed": 335,
+          "hp": 1318.56,
+          "hp_regen": 14.729,
+          "mana": 554.6,
+          "mana_regen": 11.107,
+          "armor": 59.96,
+          "magic_resistance": 45.817,
+          "attack_damage": 82.612,
+          "attack_speed": 0.829743,
+          "attack_range": 125
+        },
+        "10": {
+          "move_speed": 335,
+          "hp": 1412.56,
+          "hp_regen": 15.579,
+          "mana": 594.6,
+          "mana_regen": 11.657,
+          "armor": 63.96,
+          "magic_resistance": 47.867,
+          "attack_damage": 86.412,
+          "attack_speed": 0.843651,
+          "attack_range": 125
+        },
+        "11": {
+          "move_speed": 335,
+          "hp": 1509.85,
+          "hp_regen": 16.45875,
+          "mana": 636,
+          "mana_regen": 12.22625,
+          "armor": 68.1,
+          "magic_resistance": 49.98875,
+          "attack_damage": 90.345,
+          "attack_speed": 0.858046,
+          "attack_range": 125
+        },
+        "12": {
+          "move_speed": 335,
+          "hp": 1610.43,
+          "hp_regen": 17.36825,
+          "mana": 678.8,
+          "mana_regen": 12.81475,
+          "armor": 72.38,
+          "magic_resistance": 52.18225,
+          "attack_damage": 94.411,
+          "attack_speed": 0.872928,
+          "attack_range": 125
+        },
+        "13": {
+          "move_speed": 335,
+          "hp": 1714.3,
+          "hp_regen": 18.3075,
+          "mana": 723,
+          "mana_regen": 13.4225,
+          "armor": 76.8,
+          "magic_resistance": 54.4475,
+          "attack_damage": 98.61,
+          "attack_speed": 0.888297,
+          "attack_range": 125
+        },
+        "14": {
+          "move_speed": 335,
+          "hp": 1821.46,
+          "hp_regen": 19.2765,
+          "mana": 768.6,
+          "mana_regen": 14.0495,
+          "armor": 81.36,
+          "magic_resistance": 56.7845,
+          "attack_damage": 102.942,
+          "attack_speed": 0.904153,
+          "attack_range": 125
+        },
+        "15": {
+          "move_speed": 335,
+          "hp": 1931.91,
+          "hp_regen": 20.27525,
+          "mana": 815.6,
+          "mana_regen": 14.69575,
+          "armor": 86.06,
+          "magic_resistance": 59.19325,
+          "attack_damage": 107.407,
+          "attack_speed": 0.920495,
+          "attack_range": 125
+        },
+        "16": {
+          "move_speed": 335,
+          "hp": 2045.65,
+          "hp_regen": 21.30375,
+          "mana": 864,
+          "mana_regen": 15.36125,
+          "armor": 90.9,
+          "magic_resistance": 61.67375,
+          "attack_damage": 112.005,
+          "attack_speed": 0.937324,
+          "attack_range": 125
+        },
+        "17": {
+          "move_speed": 335,
+          "hp": 2162.68,
+          "hp_regen": 22.362,
+          "mana": 913.8,
+          "mana_regen": 16.046,
+          "armor": 95.88,
+          "magic_resistance": 64.226,
+          "attack_damage": 116.736,
+          "attack_speed": 0.95464,
+          "attack_range": 125
+        },
+        "18": {
+          "move_speed": 335,
+          "hp": 2283,
+          "hp_regen": 23.45,
+          "mana": 965,
+          "mana_regen": 16.75,
+          "armor": 101,
+          "magic_resistance": 66.85,
+          "attack_damage": 121.6,
+          "attack_speed": 0.972443,
+          "attack_range": 125
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_amumu/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_champion_amumu",
+        "name": "champion_amumu"
+      }
+    },
+    "/skills/amumu_q/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_amumu_q",
+        "name": "amumu_q"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_amumu": {
+      "items": [
+        {
+          "characterKey": "champion_amumu",
+          "characterName": "阿木木",
+          "gameId": "lol",
+          "skillKey": "amumu_p",
+          "skillName": "阿木木·诅咒之触",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_amumu",
+          "characterName": "阿木木",
+          "gameId": "lol",
+          "skillKey": "amumu_q",
+          "skillName": "阿木木·绷带牵引",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_amumu",
+          "characterName": "阿木木",
+          "gameId": "lol",
+          "skillKey": "amumu_w",
+          "skillName": "阿木木·绝望光环",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_amumu",
+          "characterName": "阿木木",
+          "gameId": "lol",
+          "skillKey": "amumu_e",
+          "skillName": "阿木木·阿木木的愤怒",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_amumu",
+          "characterName": "阿木木",
+          "gameId": "lol",
+          "skillKey": "amumu_r",
+          "skillName": "阿木木·木乃伊之咒",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=amumu_q": {
+      "items": [
+        {
+          "characterKey": "champion_amumu",
+          "characterName": "阿木木",
+          "gameId": "lol",
+          "skillKey": "amumu_q",
+          "skillName": "阿木木·绷带牵引",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        }
+      ],
+      "total": 1
+    },
+    "/skills/amumu_q/parameters": [
+      {
+        "createdAt": "2026-09-09T14:32:18.678728Z",
+        "description": "固定客户端16.17根BandageToss的cooldownTime与Cooldown.values各等级均为3秒，且mCooldownNotAffectedByCDR明确为true，表示该冷却不受冷却缩减影响。保留3000毫秒原值；这是静态冷却，不是16/15/14/13/12秒的弹药恢复时间，不据此建立未区分急速的普通冷却过程。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 3000,
+          "2": 3000,
+          "3": 3000,
+          "4": 3000,
+          "5": 3000
+        },
+        "name": "基础静态冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "amumu_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-21T08:35:01.637376Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T14:32:19.904446Z",
+        "description": "客户端根绑定 spellCastTime=0.25秒，按毫秒录入；只记录施法字段，不表示命中发生时点。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "amumu_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T14:32:19.904446Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T14:32:20.953705Z",
+        "description": "客户端根绑定 DataValues.BaseDamage 取原始数组索引1至5；索引0的45是未采用的占位值，录入70/95/120/145/170。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 95,
+          "3": 120,
+          "4": 145,
+          "5": 170
+        },
+        "name": "基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "amumu_q",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T14:32:20.953705Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T14:32:22.046304Z",
+        "description": "TotalDamage 第二项 StatByCoefficient 原始 mCoefficient=0.8500000238，按窄口径映射来源总法强并归一为0.85。",
+        "fixedValue": 0.85,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法强倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "amumu_q",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T14:32:22.046304Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T14:32:23.136063Z",
+        "description": "客户端根绑定 DataValues.StunDuration 原始数组索引1取1秒，按毫秒录入。",
+        "fixedValue": 1000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "眩晕持续（毫秒）",
+        "parameterKey": "stun_duration_ms",
+        "skillKey": "amumu_q",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T14:32:23.136063Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T14:32:24.304894Z",
+        "description": "当前绑定正文明确“这个技能有2层充能”，层数使用整数；不创建充能过程。",
+        "fixedValue": 2,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "最大充能层数",
+        "parameterKey": "max_charges",
+        "skillKey": "amumu_q",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-09T14:32:24.304894Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T14:32:25.335637Z",
+        "description": "客户端根绑定 mAmmoRechargeTime 原始数组索引1至5为16/15/14/13/12秒，按毫秒录入；保留充能数据，不创建充能事件。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 16000,
+          "2": 15000,
+          "3": 14000,
+          "4": 13000,
+          "5": 12000
+        },
+        "name": "充能时间（毫秒）",
+        "parameterKey": "ammo_recharge_time_ms",
+        "skillKey": "amumu_q",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-09T14:32:25.335637Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T14:32:26.372772Z",
+        "description": "客户端根绑定 DataValues.DashSpeed 原始数组索引1取1800；单位沿客户端字段保留，位移过程未接线。",
+        "fixedValue": 1800,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "绷带移动速度",
+        "parameterKey": "dash_speed",
+        "skillKey": "amumu_q",
+        "sortOrder": 90,
+        "updatedAt": "2026-09-09T14:32:26.372772Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T17:38:32.707906Z",
+        "description": "DDragon16.17.1 Amumu.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 50,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "amumu_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T17:38:32.707906Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/amumu_q/parameters/cooldown_ms": {
+      "createdAt": "2026-09-09T14:32:18.678728Z",
+      "description": "固定客户端16.17根BandageToss的cooldownTime与Cooldown.values各等级均为3秒，且mCooldownNotAffectedByCDR明确为true，表示该冷却不受冷却缩减影响。保留3000毫秒原值；这是静态冷却，不是16/15/14/13/12秒的弹药恢复时间，不据此建立未区分急速的普通冷却过程。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 3000,
+        "2": 3000,
+        "3": 3000,
+        "4": 3000,
+        "5": 3000
+      },
+      "name": "基础静态冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "amumu_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-21T08:35:01.637376Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/amumu_q/parameters/cast_time_ms": {
+      "createdAt": "2026-09-09T14:32:19.904446Z",
+      "description": "客户端根绑定 spellCastTime=0.25秒，按毫秒录入；只记录施法字段，不表示命中发生时点。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "amumu_q",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T14:32:19.904446Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/amumu_q/parameters/base_damage": {
+      "createdAt": "2026-09-09T14:32:20.953705Z",
+      "description": "客户端根绑定 DataValues.BaseDamage 取原始数组索引1至5；索引0的45是未采用的占位值，录入70/95/120/145/170。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 70,
+        "2": 95,
+        "3": 120,
+        "4": 145,
+        "5": 170
+      },
+      "name": "基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "amumu_q",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T14:32:20.953705Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/amumu_q/parameters/ap_ratio": {
+      "createdAt": "2026-09-09T14:32:22.046304Z",
+      "description": "TotalDamage 第二项 StatByCoefficient 原始 mCoefficient=0.8500000238，按窄口径映射来源总法强并归一为0.85。",
+      "fixedValue": 0.85,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法强倍率",
+      "parameterKey": "ap_ratio",
+      "skillKey": "amumu_q",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T14:32:22.046304Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/amumu_q/parameters/stun_duration_ms": {
+      "createdAt": "2026-09-09T14:32:23.136063Z",
+      "description": "客户端根绑定 DataValues.StunDuration 原始数组索引1取1秒，按毫秒录入。",
+      "fixedValue": 1000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "眩晕持续（毫秒）",
+      "parameterKey": "stun_duration_ms",
+      "skillKey": "amumu_q",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-09T14:32:23.136063Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/amumu_q/parameters/max_charges": {
+      "createdAt": "2026-09-09T14:32:24.304894Z",
+      "description": "当前绑定正文明确“这个技能有2层充能”，层数使用整数；不创建充能过程。",
+      "fixedValue": 2,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "最大充能层数",
+      "parameterKey": "max_charges",
+      "skillKey": "amumu_q",
+      "sortOrder": 70,
+      "updatedAt": "2026-09-09T14:32:24.304894Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/amumu_q/parameters/ammo_recharge_time_ms": {
+      "createdAt": "2026-09-09T14:32:25.335637Z",
+      "description": "客户端根绑定 mAmmoRechargeTime 原始数组索引1至5为16/15/14/13/12秒，按毫秒录入；保留充能数据，不创建充能事件。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 16000,
+        "2": 15000,
+        "3": 14000,
+        "4": 13000,
+        "5": 12000
+      },
+      "name": "充能时间（毫秒）",
+      "parameterKey": "ammo_recharge_time_ms",
+      "skillKey": "amumu_q",
+      "sortOrder": 80,
+      "updatedAt": "2026-09-09T14:32:25.335637Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/amumu_q/parameters/dash_speed": {
+      "createdAt": "2026-09-09T14:32:26.372772Z",
+      "description": "客户端根绑定 DataValues.DashSpeed 原始数组索引1取1800；单位沿客户端字段保留，位移过程未接线。",
+      "fixedValue": 1800,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "绷带移动速度",
+      "parameterKey": "dash_speed",
+      "skillKey": "amumu_q",
+      "sortOrder": 90,
+      "updatedAt": "2026-09-09T14:32:26.372772Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/amumu_q/parameters/mana_cost": {
+      "createdAt": "2026-09-07T17:38:32.707906Z",
+      "description": "DDragon16.17.1 Amumu.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 50,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "amumu_q",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-07T17:38:32.707906Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/amumu_q/formulas": [
+      {
+        "createdAt": "2026-09-09T14:32:27.499964Z",
+        "description": "TotalDamage = BaseDamage + 0.85×来源总法强；当前只记录数值公式，不创建Q命中、位移或伤害结果。",
+        "formulaKey": "total_damage",
+        "gameId": "lol",
+        "name": "绷带牵引魔法伤害",
+        "skillKey": "amumu_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T14:32:27.499964Z"
+      }
+    ],
+    "/skills/amumu_q/formulas/total_damage": {
+      "createdAt": "2026-09-09T14:32:27.499964Z",
+      "description": "TotalDamage = BaseDamage + 0.85×来源总法强；当前只记录数值公式，不创建Q命中、位移或伤害结果。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "total_damage",
+      "gameId": "lol",
+      "name": "绷带牵引魔法伤害",
+      "skillKey": "amumu_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T14:32:27.499964Z"
+    },
+    "/skills/amumu_q/effects": [
+      {
+        "createdAt": "2026-09-09T14:32:28.630199Z",
+        "description": "定义绷带牵引每次已接受根普通使用的50法力消耗；具体调用由使用登记过程决定，本效果不负责施法许可、三秒静态冷却或弹药恢复。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "amumu_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-21T08:41:16.66754Z"
+      },
+      {
+        "createdAt": "2026-09-21T07:15:39.198676Z",
+        "description": "专供同次amumu_q本体合资格命中法术护盾结果明确为0的敌方英雄入口；本结果不再次护盾判定，不表达穿盾或被阻挡时伤害。牵引、充能及被动另行处理。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "绷带明确未阻挡本体伤害",
+        "resultCount": 1,
+        "skillKey": "amumu_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-21T07:15:39.198676Z"
+      },
+      {
+        "createdAt": "2026-09-21T06:56:40.979917Z",
+        "description": "仅供阿木木Q本体合资格实际命中敌方英雄、同次法术护盾判定明确未阻挡且无本来源眩晕实例的入口；不实现牵引、充能消费恢复或被动结算。",
+        "effectKey": "first_hit_stun",
+        "gameId": "lol",
+        "lifecycleEnabled": true,
+        "name": "绷带牵引首次施加眩晕",
+        "resultCount": 1,
+        "skillKey": "amumu_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-21T06:56:40.979917Z"
+      }
+    ],
+    "/skills/amumu_q/effects/mana_cost": {
+      "createdAt": "2026-09-09T14:32:28.630199Z",
+      "description": "定义绷带牵引每次已接受根普通使用的50法力消耗；具体调用由使用登记过程决定，本效果不负责施法许可、三秒静态冷却或弹药恢复。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": "被调用时按同技能mana_cost参数消耗来源对象法力；调用时点由过程挂接定义，不负责静态冷却、弹药或命中判断。",
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "amumu_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-21T08:41:16.66754Z"
+    },
+    "/skills/amumu_q/effects/primary_hit": {
+      "createdAt": "2026-09-21T07:15:39.198676Z",
+      "description": "专供同次amumu_q本体合资格命中法术护盾结果明确为0的敌方英雄入口；本结果不再次护盾判定，不表达穿盾或被阻挡时伤害。牵引、充能及被动另行处理。",
+      "effectKey": "primary_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "绷带明确未阻挡本体伤害",
+      "results": [
+        {
+          "description": "仅在受限入口已确认同次命中未阻挡时，引用total_damage；不从空护盾粒度反推未阻挡。",
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": [
+              {
+                "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                "efficiencyValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "vampType": "OMNIVAMP"
+              }
+            ]
+          },
+          "lifecycleBehavior": null,
+          "name": "魔法伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "total_damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "amumu_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-21T07:15:39.198676Z"
+    },
+    "/skills/amumu_q/effects/first_hit_stun": {
+      "createdAt": "2026-09-21T06:56:40.979917Z",
+      "description": "仅供阿木木Q本体合资格实际命中敌方英雄、同次法术护盾判定明确未阻挡且无本来源眩晕实例的入口；不实现牵引、充能消费恢复或被动结算。",
+      "effectKey": "first_hit_stun",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "stun_duration_ms"
+        },
+        "expiryMode": "ALL_AT_ONCE",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE_TARGET",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "绷带牵引首次施加眩晕",
+      "results": [
+        {
+          "description": "控制资格由受限入口核对；本结果不再次独立判断法术护盾，持续状态随本来源与目标实例到期结束。",
+          "detail": {
+            "operation": "APPLY",
+            "statusKey": "vertigo"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": null,
+            "stackValueMode": null,
+            "valueReadMode": null
+          },
+          "name": "本次绷带牵引眩晕",
+          "resultKey": "stun",
+          "resultType": "STATUS_OPERATION",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "TARGET",
+          "valueRule": null
+        }
+      ],
+      "skillKey": "amumu_q",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-21T06:56:40.979917Z"
+    },
+    "/skills/amumu_q/processes": [],
+    "/skills/amumu_q/internal-states": [],
+    "/skills/amumu_q/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "同组要求amumu_q本体合资格实际命中敌方英雄且同次法术护盾判定明确为0；缺值或1均不执行，不从本结果空护盾粒度、零伤害或当前护盾状态推定0。不生成命中，不包含牵引、充能与被动。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "明确未阻挡绷带本体命中伤害",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_unblocked_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-21T07:15:40.935198Z"
+      },
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "仅接收amumu_q本体合资格实际命中，目标由真实绷带首次敌方碰撞确定；同组要求敌方英雄、同次法术护盾阻挡明确为0及无本来源眩晕实例。缺值不默认0，不从使用或位移结束编造命中；重施、牵引、充能与被动继续单列。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "绷带命中且无本来源实例时眩晕",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "apply_stun_on_unblocked_hit",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-21T06:56:42.513362Z"
+      }
+    ],
+    "/skills/amumu_q/trigger-rules/actual_unblocked_hit": {
+      "actions": [
+        {
+          "actionKey": "execute_primary_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "primary_hit"
+          },
+          "name": "执行绷带本体伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "detail": {},
+              "sortOrder": 20
+            },
+            {
+              "conditionKey": "not_spell_shield_blocked",
+              "conditionType": "EVENT_VALUE_COMPARE",
+              "detail": {
+                "comparator": "EQ",
+                "comparisonValue": {
+                  "kind": "FIXED",
+                  "value": 0
+                },
+                "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED"
+              },
+              "sortOrder": 30
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮明确未阻挡敌方英雄",
+          "sortOrder": 10
+        }
+      ],
+      "description": "同组要求amumu_q本体合资格实际命中敌方英雄且同次法术护盾判定明确为0；缺值或1均不执行，不从本结果空护盾粒度、零伤害或当前护盾状态推定0。不生成命中，不包含牵引、充能与被动。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "amumu_q",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "明确未阻挡绷带本体命中伤害",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_unblocked_hit",
+      "sortOrder": 10
+    },
+    "/skills/amumu_q/trigger-rules/apply_stun_on_unblocked_hit": {
+      "actions": [
+        {
+          "actionKey": "apply_stun",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "first_hit_stun"
+          },
+          "name": "施加本次眩晕",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "detail": {},
+              "sortOrder": 20
+            },
+            {
+              "conditionKey": "not_spell_shield_blocked",
+              "conditionType": "EVENT_VALUE_COMPARE",
+              "detail": {
+                "comparator": "EQ",
+                "comparisonValue": {
+                  "kind": "FIXED",
+                  "value": 0
+                },
+                "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED"
+              },
+              "sortOrder": 30
+            },
+            {
+              "conditionKey": "own_stun_absent",
+              "conditionType": "LIFECYCLE_CHECK",
+              "detail": {
+                "checkKind": "ABSENT",
+                "comparator": null,
+                "comparisonValue": null,
+                "effectKey": "first_hit_stun",
+                "subject": "CURRENT_TARGET"
+              },
+              "sortOrder": 40
+            }
+          ],
+          "groupKey": "stun_eligible",
+          "name": "本次首次眩晕可施加",
+          "sortOrder": 10
+        }
+      ],
+      "description": "仅接收amumu_q本体合资格实际命中，目标由真实绷带首次敌方碰撞确定；同组要求敌方英雄、同次法术护盾阻挡明确为0及无本来源眩晕实例。缺值不默认0，不从使用或位移结束编造命中；重施、牵引、充能与被动继续单列。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "amumu_q",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "绷带命中且无本来源实例时眩晕",
+      "perTargetCooldown": null,
+      "ruleKey": "apply_stun_on_unblocked_hit",
+      "sortOrder": 30
+    },
+    "/attributes/ability_power": {
+      "attributeKey": "ability_power",
+      "createdAt": "2026-08-30T16:26:39.898635Z",
+      "description": "角色法术强度；基础值为 0，可由装备和效果增加",
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法术强度",
+      "sortOrder": 510,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-30T16:26:39.898635Z",
+      "valueType": "DECIMAL"
+    },
+    "/attributes/mana": {
+      "attributeKey": "mana",
+      "createdAt": "2026-08-22T15:27:36.139767Z",
+      "description": null,
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法力值",
+      "sortOrder": 310,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-22T15:27:36.139767Z",
+      "valueType": "DECIMAL"
+    },
+    "/damage-types/magic": {
+      "createdAt": "2026-08-26T05:59:15.870937Z",
+      "damageTypeKey": "magic",
+      "description": null,
+      "gameId": "lol",
+      "name": "魔法伤害",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-26T05:59:15.870937Z"
+    },
+    "/statuses/vertigo": {
+      "createdAt": "2026-08-28T14:55:06.53067Z",
+      "description": null,
+      "gameId": "lol",
+      "name": "眩晕",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "statusKey": "vertigo",
+      "statusKind": "STUN",
+      "updatedAt": "2026-08-28T14:55:06.53067Z"
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_amumu",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_amumu/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_amumu/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_amumu",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=amumu_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/parameters/stun_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/parameters/max_charges",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/parameters/ammo_recharge_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/parameters/dash_speed",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/formulas/total_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/effects/first_hit_stun",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/trigger-rules/actual_unblocked_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/trigger-rules/apply_stun_on_unblocked_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/ability_power",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/mana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/damage-types/magic",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/statuses/vertigo",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/processes/use_cost_registration",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/trigger-rules/on_used_cost",
+      "status": 404
+    }
+  ],
+  "businessWrites": 0
+}

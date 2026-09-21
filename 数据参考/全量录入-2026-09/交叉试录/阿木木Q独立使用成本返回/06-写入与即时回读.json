@@ -1,0 +1,360 @@
+{
+  "startedAt": "2026-09-21T08:58:10.259Z",
+  "status": "PASS",
+  "businessWritesAttempted": 2,
+  "operations": [
+    {
+      "method": "POST",
+      "route": "/skills/amumu_q/processes",
+      "response": {
+        "status": 201,
+        "data": {
+          "activationType": "ACTIVE",
+          "cooldown": null,
+          "createdAt": "2026-09-21T08:58:12.634732Z",
+          "description": "仅在已接受的根技能普通主动使用时登记50法力消耗；普通冷却为空，立即步骤只完成成本登记，不表示施法时间为零、不产生命中。三秒静态间隔、充能消费恢复、牵引和施法前资格继续单列。",
+          "effectBindings": [
+            {
+              "bindingKey": "mana_cost",
+              "effectKey": "mana_cost",
+              "moment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              },
+              "sortOrder": 10
+            }
+          ],
+          "gameId": "lol",
+          "name": "绷带牵引使用法力登记",
+          "processKey": "use_cost_registration",
+          "skillKey": "amumu_q",
+          "sortOrder": 10,
+          "stateOperations": [],
+          "steps": [
+            {
+              "description": "只登记本次根主动使用的法力成本，不代表完整施法或命中时序。",
+              "detail": {},
+              "name": "登记本次使用",
+              "sortOrder": 10,
+              "stepKey": "register_use",
+              "stepType": "IMMEDIATE"
+            }
+          ],
+          "updatedAt": "2026-09-21T08:58:12.634732Z"
+        }
+      },
+      "readback": {
+        "activationType": "ACTIVE",
+        "cooldown": null,
+        "createdAt": "2026-09-21T08:58:12.634732Z",
+        "description": "仅在已接受的根技能普通主动使用时登记50法力消耗；普通冷却为空，立即步骤只完成成本登记，不表示施法时间为零、不产生命中。三秒静态间隔、充能消费恢复、牵引和施法前资格继续单列。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "gameId": "lol",
+        "name": "绷带牵引使用法力登记",
+        "processKey": "use_cost_registration",
+        "skillKey": "amumu_q",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "只登记本次根主动使用的法力成本，不代表完整施法或命中时序。",
+            "detail": {},
+            "name": "登记本次使用",
+            "sortOrder": 10,
+            "stepKey": "register_use",
+            "stepType": "IMMEDIATE"
+          }
+        ],
+        "updatedAt": "2026-09-21T08:58:12.634732Z"
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/amumu_q/trigger-rules",
+      "response": {
+        "status": 201,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "start_cast",
+              "actionType": "START_PROCESS",
+              "detail": {
+                "processKey": "use_cost_registration"
+              },
+              "name": "登记本次根使用法力",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "只接收amumu_q一次已接受的根普通主动使用，启动成本登记过程；不把子条目或命中再视为普通使用，也不以事件后规则充当施法前许可。三秒静态冷却、弹药和牵引未接线。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "amumu_q",
+              "useKind": "ACTIVE"
+            },
+            "eventType": "SKILL_USED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "绷带普通使用登记法力",
+          "perTargetCooldown": null,
+          "ruleKey": "on_used_cost",
+          "sortOrder": 5
+        }
+      },
+      "readback": {
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "use_cost_registration"
+            },
+            "name": "登记本次根使用法力",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "只接收amumu_q一次已接受的根普通主动使用，启动成本登记过程；不把子条目或命中再视为普通使用，也不以事件后规则充当施法前许可。三秒静态冷却、弹药和牵引未接线。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "amumu_q",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "绷带普通使用登记法力",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used_cost",
+        "sortOrder": 5
+      }
+    }
+  ],
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v3.mjs": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "01-候选方案.json": "de9c03f2b66ab0b26ed1b53000be3dcfa00e73e09ad2adc06fc28a07c4c3be80",
+    "02-冻结请求.json": "ca13589c14f003f171d59dad595e9dd9d78f20c145133d659eadcea075f24056",
+    "03-来源摘要.json": "42dae6eff4d0f0f9ee2495a00bcbec3cab3f9221b4431443ef28b6b27d02e897",
+    "04-写入前现值.json": "d770c907626d676ae6ccde5249e0b6eac4d78b84685dde90cfc89edf050b7632"
+  },
+  "pendingRoute": null,
+  "finishedAt": "2026-09-21T08:58:13.365Z",
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_amumu",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_amumu/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_amumu/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_amumu",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=amumu_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/parameters/stun_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/parameters/max_charges",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/parameters/ammo_recharge_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/parameters/dash_speed",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/formulas/total_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/effects/first_hit_stun",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/trigger-rules/actual_unblocked_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/trigger-rules/apply_stun_on_unblocked_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/ability_power",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/mana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/damage-types/magic",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/statuses/vertigo",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/processes/use_cost_registration",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/trigger-rules/on_used_cost",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/processes/use_cost_registration",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/amumu_q/processes",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/processes/use_cost_registration",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/trigger-rules/on_used_cost",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/amumu_q/trigger-rules",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/trigger-rules/on_used_cost",
+      "status": 200
+    }
+  ]
+}
