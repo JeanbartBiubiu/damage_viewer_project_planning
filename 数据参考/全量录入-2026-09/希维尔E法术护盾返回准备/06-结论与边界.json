@@ -1,0 +1,43 @@
+{
+  "at": "2026-09-21T02:41:17.873Z",
+  "status": "DESCRIPTION_CORRECTED_API_PASS_BROWSER_PENDING",
+  "sourceVersion": {
+    "client": "16.17",
+    "official": "16.17.1"
+  },
+  "successfulSaves": 1,
+  "writePreflightGets": 4,
+  "immediateReadbacks": 1,
+  "independent": {
+    "gets": 13,
+    "changedTargets": 1,
+    "unchangedRoutes": 12
+  },
+  "counts": {
+    "parameters": 5,
+    "formulas": 1,
+    "effects": 2,
+    "processes": 1,
+    "internalStates": 0,
+    "triggerRules": 1
+  },
+  "finding": "原主体仍称数值机制待补证，并限定敌方单体技能；固定英文资料为下一来袭敌方技能，现有自身护盾和成功格挡治疗已有正式配置。",
+  "correction": "主体说明准确区分已核定数值/已存组成和未完成入口/联动。",
+  "remaining": [
+    "普通使用入口",
+    "实际施放时序",
+    "成功格挡的敏锐疾行联动",
+    "代表页面验收"
+  ],
+  "boundary": {
+    "newMechanisms": false,
+    "newRules": 0,
+    "browser": false,
+    "wholeSkillComplete": false,
+    "host": false,
+    "wasm": false,
+    "battle": false
+  },
+  "requestFile": "02-主体说明更正冻结.json",
+  "doNotReplay": "04-单次更正与即时回读.json 已保存，返回应先读取当前现值。"
+}

@@ -1,0 +1,104 @@
+{
+  "at": "2026-09-21T02:39:08.879Z",
+  "scope": "仅更正已核定但主体仍宣称未补证的过时说明",
+  "sourceVersion": {
+    "client": "16.17",
+    "official": "16.17.1"
+  },
+  "official": {
+    "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Sivir.json",
+    "sha256": "0d958a138bfb8750ee6c7100e5e5f376e4d4ad7538919fbbce4f4e82e637afdc",
+    "spellId": "SivirE",
+    "description": "Creates a magical barrier that blocks a single enemy ability cast on Sivir. She receives health and a burst of movement speed if a spell is blocked.",
+    "tooltip": "Sivir creates a magical barrier for {{ spellshieldduration }} seconds that blocks the next incoming enemy Ability. If an ability is blocked, Sivir restores <healing>{{ totalheal }} health</healing> and triggers Fleet of Foot.{{ spellmodifierdescriptionappend }}",
+    "cooldown": [
+      24,
+      22.5,
+      21,
+      19.5,
+      18
+    ],
+    "cost": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "client": {
+    "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Sivir.json.gz",
+    "decompressedSha256": "907ed34214d296da277036ba3c96e73dfa1d4d7f9031aac76715073639a8bbee",
+    "rootBinding": "Characters/Sivir/Spells/SivirEAbility/SivirE",
+    "dataValues": [
+      {
+        "name": "HealRatio",
+        "values": [
+          0.550000011920929,
+          0.6000000238418579,
+          0.6499999761581421,
+          0.699999988079071,
+          0.75,
+          0.800000011920929,
+          0.8500000238418579
+        ],
+        "__type": "SpellDataValue"
+      },
+      {
+        "name": "SpellShieldDuration",
+        "values": [
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5
+        ],
+        "__type": "SpellDataValue"
+      },
+      {
+        "name": "HealAPRatio",
+        "values": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "__type": "SpellDataValue"
+      }
+    ],
+    "calculation": {
+      "mFormulaParts": [
+        {
+          "mStat": 2,
+          "mDataValue": "HealRatio",
+          "__type": "StatByNamedDataValueCalculationPart"
+        },
+        {
+          "mDataValue": "HealAPRatio",
+          "__type": "StatByNamedDataValueCalculationPart"
+        }
+      ],
+      "__type": "GameCalculation"
+    }
+  },
+  "snapshot": "01-共享现值.json",
+  "current": {
+    "effects": 2,
+    "processes": 1,
+    "rules": 1,
+    "passiveRules": 0
+  },
+  "remaining": [
+    "普通使用入口",
+    "缺少明确字段语义的实际施放时序",
+    "敏锐疾行联动",
+    "代表页面"
+  ],
+  "decision": "仅PUT主体说明，其他字段和全部已有组成保持；不修改旧cast即时步骤，不推定零施放时间。",
+  "formalWrites": 0
+}

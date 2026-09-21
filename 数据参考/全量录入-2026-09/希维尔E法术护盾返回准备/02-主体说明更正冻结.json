@@ -1,0 +1,29 @@
+{
+  "at": "2026-09-21T02:39:08.879Z",
+  "status": "READY_SINGLE_EXISTING_FLOW_DESCRIPTION_UPDATE",
+  "request": {
+    "method": "PUT",
+    "path": "/skills/sivir_e",
+    "body": {
+      "name": "希维尔·法术护盾",
+      "maxLevel": 5,
+      "status": "ENABLED",
+      "sortOrder": 3,
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "description": "主动为自身建立1500毫秒法术护盾，阻挡下一次来袭敌方技能；成功格挡后回复生命并触发敏锐疾行。固定16.17客户端与16.17.1官方资料已核定治疗量为总攻击力×0.6/0.65/0.7/0.75/0.8＋总法术强度×0.5，基础冷却为24000/22500/21000/19500/18000毫秒，法力消耗明确为0。当前已保存自身护盾、成功格挡治疗及移除护盾效果、成功格挡入口和cast过程；普通使用入口、实际施放时序与敏锐疾行联动仍待补齐，尚未完成整技能管理配置或战斗运行验证。"
+    }
+  },
+  "requestBodySha256": "f806a3396ab2333d333154614a8c3aca83b8cd7b9f584cce3659821f60cee2f3",
+  "baseline": "01-共享现值.json",
+  "baselineSha256": "6848eefdd759a25497fbe0f574676131fb51908bb3389907c133f4184007546c",
+  "preflight": [
+    "/skills/sivir_e",
+    "/skills/sivir_e/effects",
+    "/skills/sivir_e/trigger-rules",
+    "/skills/sivir_p/trigger-rules"
+  ],
+  "preserve": "除主体description和服务更新时间之外所有字段与基线响应保持",
+  "browser": "成熟主体更新接口复用；本次代表页面连接未恢复，不宣称页面验收"
+}

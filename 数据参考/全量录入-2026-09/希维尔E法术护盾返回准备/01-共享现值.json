@@ -1,0 +1,460 @@
+{
+  "at": "2026-09-21T02:37:15.898Z",
+  "mode": "GET-only",
+  "values": {
+    "/skills/sivir_e": {
+      "createdAt": "2026-09-06T18:20:23.758686Z",
+      "description": "制造一层法术屏障，来格挡一次对着希维尔施放的敌方单体技能。如果希维尔成功格挡了一次技能，那么就会回复生命值并获得爆发性的移动速度加成。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "希维尔·法术护盾",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "sivir_e",
+      "sortOrder": 3,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:20:23.758686Z"
+    },
+    "/skills/sivir_e/parameters": [
+      {
+        "createdAt": "2026-09-07T17:57:31.423767Z",
+        "description": "官方16.17.1与当前根对象cooldownTime索引1起一致。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 24000,
+          "2": 22500,
+          "3": 21000,
+          "4": 19500,
+          "5": 18000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "sivir_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T17:57:31.423767Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T17:57:31.868568Z",
+        "description": "官方明确0；主对象没有法力消耗字段。",
+        "fixedValue": 0,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "sivir_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T17:57:31.868568Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T17:57:32.273359Z",
+        "description": "客户端当前根绑定 DataValues.SpellShieldDuration 取索引1至5。",
+        "fixedValue": 1500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法术护盾持续（毫秒）",
+        "parameterKey": "shield_duration_ms",
+        "skillKey": "sivir_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T17:57:32.273359Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T17:57:32.718894Z",
+        "description": "客户端当前根绑定 DataValues.HealRatio 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.6,
+          "2": 0.65,
+          "3": 0.7,
+          "4": 0.75,
+          "5": 0.8
+        },
+        "name": "治疗总攻击力倍率",
+        "parameterKey": "heal_total_ad_ratio",
+        "skillKey": "sivir_e",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-07T17:57:32.718894Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T17:57:33.147881Z",
+        "description": "客户端当前根绑定 DataValues.HealAPRatio 取索引1至5。",
+        "fixedValue": 0.5,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "治疗法术强度倍率",
+        "parameterKey": "heal_ap_ratio",
+        "skillKey": "sivir_e",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-07T17:57:33.147881Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    ],
+    "/skills/sivir_e/formulas": [
+      {
+        "createdAt": "2026-09-07T17:57:33.53236Z",
+        "description": "TotalHeal完整计算：总AD×0.6/0.65/0.7/0.75/0.8+AP×0.5。",
+        "formulaKey": "block_heal",
+        "gameId": "lol",
+        "name": "成功格挡回复生命",
+        "skillKey": "sivir_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T17:57:33.53236Z"
+      }
+    ],
+    "/skills/sivir_e/effects": [
+      {
+        "createdAt": "2026-09-07T17:57:33.98195Z",
+        "description": "仅成功格挡敌方技能后执行；不是施放或护盾自然结束时治疗。",
+        "effectKey": "block_heal",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "成功格挡治疗",
+        "resultCount": 2,
+        "skillKey": "sivir_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:54:01.718629Z"
+      },
+      {
+        "createdAt": "2026-09-07T18:03:13.093679Z",
+        "description": "来源自身单层法术护盾，持续1500毫秒，成功阻挡消耗。阻挡粒度沿来袭技能结果的spellShieldBlockScope，不把盾当伤害吸收数值。",
+        "effectKey": "spell_shield",
+        "gameId": "lol",
+        "lifecycleEnabled": true,
+        "name": "希维尔法术护盾",
+        "resultCount": 1,
+        "skillKey": "sivir_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T18:03:13.093679Z"
+      }
+    ],
+    "/skills/sivir_e/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-07T18:03:53.304883Z",
+        "description": "法力和冷却始于主动施放；效果只作用自身，不将过程结束当作敌人命中。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "施放法术护盾",
+        "processKey": "cast",
+        "skillKey": "sivir_e",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-07T18:03:53.304883Z"
+      }
+    ],
+    "/skills/sivir_e/internal-states": [],
+    "/skills/sivir_e/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "只接收指定真实事件；不自行生成命中或补造事件。",
+        "eventType": "SPELL_SHIELD_BLOCKED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "法术护盾成功格挡后治疗",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "successful_spell_block",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:06:53.665806Z"
+      }
+    ],
+    "/skills/sivir_e/effects/block_heal": {
+      "createdAt": "2026-09-07T17:57:33.98195Z",
+      "description": "仅成功格挡敌方技能后执行；不是施放或护盾自然结束时治疗。",
+      "effectKey": "block_heal",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "成功格挡治疗",
+      "results": [
+        {
+          "description": null,
+          "detail": {},
+          "lifecycleBehavior": null,
+          "name": "回复生命",
+          "resultKey": "heal",
+          "resultType": "DIRECT_HEAL",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "block_heal",
+              "kind": "FORMULA"
+            }
+          }
+        },
+        {
+          "description": "只在法术护盾成功格挡后移除来源自身的本技能护盾。",
+          "detail": {
+            "operation": "REMOVE",
+            "targetEffectKey": "spell_shield"
+          },
+          "lifecycleBehavior": null,
+          "name": "移除已成功格挡的法术护盾",
+          "resultKey": "remove_spell_shield",
+          "resultType": "LIFECYCLE_OPERATION",
+          "sortOrder": 20,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": null
+        }
+      ],
+      "skillKey": "sivir_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T18:54:01.718629Z"
+    },
+    "/skills/sivir_e/effects/spell_shield": {
+      "createdAt": "2026-09-07T18:03:13.093679Z",
+      "description": "来源自身单层法术护盾，持续1500毫秒，成功阻挡消耗。阻挡粒度沿来袭技能结果的spellShieldBlockScope，不把盾当伤害吸收数值。",
+      "effectKey": "spell_shield",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "shield_duration_ms"
+        },
+        "expiryMode": "ALL_AT_ONCE",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "希维尔法术护盾",
+      "results": [
+        {
+          "description": null,
+          "detail": {},
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": null,
+            "stackValueMode": null,
+            "valueReadMode": null
+          },
+          "name": "格挡下一次敌方技能",
+          "resultKey": "shield",
+          "resultType": "SPELL_SHIELD",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": null
+        }
+      ],
+      "skillKey": "sivir_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-07T18:03:13.093679Z"
+    },
+    "/skills/sivir_e/processes/cast": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-07T18:03:53.304883Z",
+      "description": "法力和冷却始于主动施放；效果只作用自身，不将过程结束当作敌人命中。",
+      "effectBindings": [
+        {
+          "bindingKey": "spell_shield",
+          "effectKey": "spell_shield",
+          "moment": {
+            "momentType": "STEP_EXECUTION",
+            "stepKey": "activate"
+          },
+          "sortOrder": 20
+        }
+      ],
+      "gameId": "lol",
+      "name": "施放法术护盾",
+      "processKey": "cast",
+      "skillKey": "sivir_e",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": null,
+          "detail": {},
+          "name": "启用自身效果",
+          "sortOrder": 10,
+          "stepKey": "activate",
+          "stepType": "IMMEDIATE"
+        }
+      ],
+      "updatedAt": "2026-09-07T18:03:53.304883Z"
+    },
+    "/skills/sivir_e/trigger-rules/successful_spell_block": {
+      "actions": [
+        {
+          "actionKey": "action_1",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "block_heal"
+          },
+          "name": "执行block_heal",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "只接收指定真实事件；不自行生成命中或补造事件。",
+      "eventSource": {
+        "detail": {
+          "shieldEffectKey": "spell_shield"
+        },
+        "eventType": "SPELL_SHIELD_BLOCKED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "法术护盾成功格挡后治疗",
+      "perTargetCooldown": null,
+      "ruleKey": "successful_spell_block",
+      "sortOrder": 10
+    },
+    "/skills/sivir_e/formulas/block_heal": {
+      "createdAt": "2026-09-07T17:57:33.53236Z",
+      "description": "TotalHeal完整计算：总AD×0.6/0.65/0.7/0.75/0.8+AP×0.5。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "heal_total_ad_ratio"
+              },
+              {
+                "attributeKey": "attack_damage",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "heal_ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "block_heal",
+      "gameId": "lol",
+      "name": "成功格挡回复生命",
+      "skillKey": "sivir_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T17:57:33.53236Z"
+    },
+    "/skills/sivir_p/trigger-rules": []
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/sivir_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_e/effects/block_heal",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_e/effects/spell_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_e/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_e/trigger-rules/successful_spell_block",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_e/formulas/block_heal",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_p/trigger-rules",
+      "status": 200
+    }
+  ],
+  "businessWrites": 0
+}
