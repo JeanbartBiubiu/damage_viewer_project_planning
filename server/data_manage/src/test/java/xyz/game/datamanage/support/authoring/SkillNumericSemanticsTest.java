@@ -334,6 +334,56 @@ class SkillNumericSemanticsTest {
     }
 
     @Test
+    void extendDurationChecksEffectiveWholeMillisecondsAfterFixedRule() {
+        assertDoesNotThrow(() -> SkillNumericSemantics.validate(
+            List.of(extendedDurationEffect(fixed("0"), "1", null, null)), List.of()));
+        assertDoesNotThrow(() -> SkillNumericSemantics.validate(
+            List.of(extendedDurationEffect(fixed("0.5"), "1000", null, null)), List.of()));
+        assertDoesNotThrow(() -> SkillNumericSemantics.validate(
+            List.of(extendedDurationEffect(fixed("0.035"), "1000", null, null)), List.of()));
+        assertIssue("VALUE_RANGE_INVALID", "results[0].valueRule.value",
+            List.of(extendedDurationEffect(fixed("-1"), "1", null, null)), List.of());
+        assertIssue("VALUE_TYPE_MISMATCH", "results[0].valueRule.value",
+            List.of(extendedDurationEffect(fixed("0.5"), "1", null, null)), List.of());
+        assertIssue("VALUE_TYPE_MISMATCH", "results[0].valueRule.value",
+            List.of(extendedDurationEffect(fixed("1.0000000000000002"), "1", null, null)), List.of());
+        assertDoesNotThrow(() -> SkillNumericSemantics.validate(
+            List.of(extendedDurationEffect(fixed("-0.5"), "1", "0", null)), List.of()));
+        assertDoesNotThrow(() -> SkillNumericSemantics.validate(
+            List.of(extendedDurationEffect(fixed("1e308"), "1e308", null, "7000")), List.of()));
+        assertIssue("VALUE_RANGE_INVALID", "results[0].valueRule.value",
+            List.of(extendedDurationEffect(fixed("1e308"), "1e308", null, null)), List.of());
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"SKILL_LEVEL", "CHARACTER_LEVEL"})
+    void extendDurationChecksEveryStaticParameterLevel(String mode) {
+        Aggregate effect = extendedDurationEffect(parameterValue("duration"), "1000", null, null);
+        assertDoesNotThrow(() -> SkillNumericSemantics.validate(List.of(effect),
+            List.of(level("duration", "DECIMAL", mode, "{\"1\":0,\"2\":0.5,\"3\":1}"))));
+        assertIssue("VALUE_TYPE_MISMATCH", "results[0].valueRule.value", List.of(effect),
+            List.of(level("duration", "DECIMAL", mode, "{\"1\":0,\"2\":0.0005}")));
+    }
+
+    @Test
+    void extendDurationLeavesNamedFormulaAndRuntimeInputUnknown() {
+        Aggregate effect = extendedDurationEffect(formulaValue(), "1000", null, null);
+        assertDoesNotThrow(() -> SkillNumericSemantics.validate(
+            List.of(formula("input"), effect), List.of(fixedParameter("input", "DECIMAL", "0.5"))));
+        assertDoesNotThrow(() -> SkillNumericSemantics.validate(
+            List.of(formula("input"), effect), List.of(runtime("input", "DECIMAL"))));
+    }
+
+    @Test
+    void executeEffectResultModifierChecksEffectiveExtendedDuration() {
+        Aggregate effect = extendedDurationEffect(fixed("0.5"), "1000", null, null);
+        assertDoesNotThrow(() -> SkillNumericSemantics.validate(
+            List.of(effect, extendedDurationModifierRule("2", null, null)), List.of()));
+        assertIssue("VALUE_TYPE_MISMATCH", "actions[0].resultModifiers[0]",
+            List.of(effect, extendedDurationModifierRule("1.001", null, null)), List.of());
+    }
+
+    @Test
     void executeEffectResultModifierChecksEffectiveRatioAgainstTriggerRule() {
         Aggregate effect = ratioEffect(fixed("0.7"), "1", null, null);
         assertIssue("VALUE_RANGE_INVALID", "actions[0].resultModifiers[0]",
@@ -362,6 +412,24 @@ class SkillNumericSemanticsTest {
         if (maximum != null) rule.append(",\"fixedMaxValue\":").append(maximum);
         rule.append("}");
         return object(SourceType.EFFECT, "effect", "{\"results\":[{\"resultKey\":\"cooldown\",\"resultType\":\"COOLDOWN_CHANGE\",\"detail\":{\"operation\":\"REDUCE_REMAINING_RATIO\"},\"valueRule\":" + rule + "}]}");
+    }
+
+    private static Aggregate extendedDurationEffect(String value, String multiplier, String minimum, String maximum) {
+        StringBuilder rule = new StringBuilder("{\"value\":").append(value)
+            .append(",\"fixedMultiplier\":").append(multiplier);
+        if (minimum != null) rule.append(",\"fixedMinValue\":").append(minimum);
+        if (maximum != null) rule.append(",\"fixedMaxValue\":").append(maximum);
+        rule.append("}");
+        return object(SourceType.EFFECT, "effect", "{\"results\":[{\"resultKey\":\"extend\",\"resultType\":\"LIFECYCLE_OPERATION\",\"detail\":{\"targetEffectKey\":\"mark\",\"operation\":\"EXTEND_DURATION\"},\"valueRule\":" + rule + "}]}");
+    }
+
+    private static Aggregate extendedDurationModifierRule(String multiplier, String minimum, String maximum) {
+        StringBuilder modifier = new StringBuilder("{\"resultKey\":\"extend\"");
+        if (multiplier != null) modifier.append(",\"fixedMultiplier\":").append(multiplier);
+        if (minimum != null) modifier.append(",\"fixedMinValue\":").append(minimum);
+        if (maximum != null) modifier.append(",\"fixedMaxValue\":").append(maximum);
+        modifier.append("}");
+        return object(SourceType.TRIGGER, "rule", "{\"actions\":[{\"actionType\":\"EXECUTE_EFFECT\",\"detail\":{\"effectKey\":\"effect\"},\"resultModifiers\":[" + modifier + "]}]}");
     }
 
     private static Aggregate ratioModifierRule(String multiplier, String minimum, String maximum) {

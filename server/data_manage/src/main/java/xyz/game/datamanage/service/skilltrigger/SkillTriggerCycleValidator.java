@@ -451,7 +451,9 @@ public class SkillTriggerCycleValidator {
             }
             case LIFECYCLE_OPERATION -> {
                 if (row.lifecycleTargetEffectKey() != null && row.lifecycleOperation() != null) {
-                    if (row.lifecycleOperation() == SkillEffectLifecycleOperation.INCREASE
+                    if (row.lifecycleOperation() == SkillEffectLifecycleOperation.EXTEND_DURATION) {
+                        // 延长剩余时长只改变现有实例期限，不产生满层或提前移除事件。
+                    } else if (row.lifecycleOperation() == SkillEffectLifecycleOperation.INCREASE
                         || row.lifecycleOperation() == SkillEffectLifecycleOperation.SET) {
                         produced.add(ProducedEvent.lifecycle(
                             row.lifecycleTargetEffectKey(),

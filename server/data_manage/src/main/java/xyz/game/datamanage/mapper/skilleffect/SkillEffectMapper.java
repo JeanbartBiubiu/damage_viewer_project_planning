@@ -135,6 +135,12 @@ public interface SkillEffectMapper {
         @Param("targetEffectKey") String targetEffectKey
     );
 
+    long countExtendDurationOperationReferences(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("targetEffectKey") String targetEffectKey
+    );
+
     List<String> lockEffects(
         @Param("gameId") String gameId,
         @Param("skillKey") String skillKey,

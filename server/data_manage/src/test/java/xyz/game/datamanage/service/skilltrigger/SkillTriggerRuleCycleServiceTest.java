@@ -551,6 +551,38 @@ class SkillTriggerRuleCycleServiceTest {
     }
 
     @Test
+    void extendDurationOperationDoesNotProduceLifecycleEdges() {
+        when(mapper.listEffectShapes(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            lifecycleOpShape("op", "mark", SkillEffectLifecycleOperation.EXTEND_DURATION),
+            SkillTriggerRuleTestSupport.lifecycleShape(
+                "mark", "mark_result", "duration_f", null, SkillEffectLifecycleExpiryMode.ALL_AT_ONCE
+            )
+        ));
+        when(mapper.listRules(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            ruleRow("life", "life", SkillTriggerEventType.LIFECYCLE_MOMENT)
+        ));
+        when(mapper.listProcessEventsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of());
+        when(mapper.listLifecycleEventsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            new SkillTriggerLifecycleEventRow(
+                GAME_ID, SKILL_KEY, "life", "mark", SkillTriggerLifecycleEventMoment.FULL_STACKS
+            )
+        ));
+        when(mapper.listActionsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            SkillTriggerRuleTestSupport.executeActionRow("life", "apply")
+        ));
+        when(mapper.listEffectActionsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            SkillTriggerRuleTestSupport.effectActionRow("life", "apply", "op")
+        ));
+        when(mapper.listProcessActionsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of());
+
+        service.create(
+            GAME_ID,
+            SKILL_KEY,
+            rule("life", lifecycleFullStacks("mark"), List.of(executeAction("apply", "op")))
+        );
+    }
+
+    @Test
     void indirectTakedownCycleFromSourceDamageAndTargetExecuteIsRejected() {
         String takedownRule = "takedown_source_damage";
         String damageRule = "damage_taken_execute";
@@ -680,9 +712,17 @@ class SkillTriggerRuleCycleServiceTest {
     }
 
     private static SkillTriggerEffectShapeRow lifecycleOpShape(String effectKey, String targetEffectKey) {
+        return lifecycleOpShape(effectKey, targetEffectKey, SkillEffectLifecycleOperation.INCREASE);
+    }
+
+    private static SkillTriggerEffectShapeRow lifecycleOpShape(
+        String effectKey,
+        String targetEffectKey,
+        SkillEffectLifecycleOperation operation
+    ) {
         return new SkillTriggerEffectShapeRow(
             effectKey, "op", SkillEffectResultType.LIFECYCLE_OPERATION, SkillEffectTarget.TARGET,
-            false, null, null, null, null, null, null, targetEffectKey, SkillEffectLifecycleOperation.INCREASE,
+            false, null, null, null, null, null, null, targetEffectKey, operation,
             false, null, null, null, null, null
         );
     }
