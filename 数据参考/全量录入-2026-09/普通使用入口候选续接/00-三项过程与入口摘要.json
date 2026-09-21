@@ -1,0 +1,114 @@
+{
+  "at": "2026-09-21T03:52:55.190Z",
+  "mode": "GET-only",
+  "values": {
+    "/skills/sivir_q/processes": [],
+    "/skills/sivir_q/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "回旋之刃实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T17:58:50.068645Z"
+      }
+    ],
+    "/skills/tristana_r/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-07T18:02:30.002836Z",
+        "description": "只绑定法力、基础冷却及施法延迟；不在过程结束时自动造成伤害。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "施放毁灭射击",
+        "processKey": "cast",
+        "skillKey": "tristana_r",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-07T18:02:30.002836Z"
+      }
+    ],
+    "/skills/tristana_r/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "毁灭射击实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:02:31.315841Z"
+      }
+    ],
+    "/skills/xinzhao_e/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-08T14:39:24.366382Z",
+        "description": "仅表达施放开始的已确证成本与冷却；即时步骤不等于完整施法时长，也不生成命中。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "施放无畏冲锋",
+        "processKey": "cast",
+        "skillKey": "xinzhao_e",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-08T14:39:24.366382Z"
+      }
+    ],
+    "/skills/xinzhao_e/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "只接受所列真实事件；规则不自行生成命中。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "无畏冲锋实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_charge_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T14:39:24.972948Z"
+      }
+    ]
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/sivir_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e/trigger-rules",
+      "status": 200
+    }
+  ],
+  "businessWrites": 0
+}
