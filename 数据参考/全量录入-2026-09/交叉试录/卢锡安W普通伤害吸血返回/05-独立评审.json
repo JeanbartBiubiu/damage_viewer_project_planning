@@ -1,0 +1,21 @@
+{
+  "status": "APPROVED",
+  "at": "2026-09-21T03:48:22.906Z",
+  "reviewer": "/root/lucian_w_vamp_review",
+  "mode": "静态只读独立审查",
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-damage-vamp-v2.mjs": "c9d393c50673c49c5903ef0f77f84b537bfc52094d527be855a9e183e9fe8cfe",
+    "01-纠错计划.json": "fdb611f9e93877b0032825a3d211277df085758b26ba96141f3bada6f458d99f",
+    "02-冻结请求.json": "ebf0cd5b540f7f8c0f8f44fdec44f76dd201a2673cc091e8fdd95ec171336b56",
+    "03-来源摘要.json": "0d1fbadb4c8d15f40fb400474dac5b0bb8d795bd01b488dc461fc81026f4e029",
+    "04-写入前现值.json": "da3622986bd9049dbcd2e7642bda28c07e8bf5172c4fd6dccdea1a50dbdae5e2"
+  },
+  "checks": [
+    "只补父说明与OMNIVAMP规则",
+    "完整原数值/公式/暴击/护盾粒度保持",
+    "22GET新基线保护on_used和实际命中范围",
+    "唯一直接调用且过程不挂接伤害",
+    "四份来源散列匹配，范围独立回读PASS"
+  ],
+  "boundary": "其他吸血与专属护盾粒度、标记加速、被动和页面未验"
+}

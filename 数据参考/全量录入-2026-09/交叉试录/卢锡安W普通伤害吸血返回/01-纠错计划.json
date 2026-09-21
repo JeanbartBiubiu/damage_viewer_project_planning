@@ -1,0 +1,37 @@
+{
+  "at": "2026-09-21T03:45:25.320Z",
+  "scope": "范围已独立回读后，只补flare_hit普通魔法技能伤害全能吸血及父说明。",
+  "changes": [
+    {
+      "skillKey": "lucian_w",
+      "effectKey": "flare_hit",
+      "resultKey": "damage",
+      "route": "/skills/lucian_w/effects/flare_hit",
+      "damageTypeKey": "magic",
+      "scopeRuleKey": "actual_hit",
+      "description": "本轮实际命中敌方英雄时执行的普通魔法技能伤害，已明确保存防御结算后伤害的全能吸血资格，效率为1。伤害公式、数值、暴击和原法术护盾粒度保持；标记与加速、被动联动及专属法术护盾粒度来源仍待处理。"
+    }
+  ],
+  "sourceFiles": [
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/卢锡安共享组成接续核对/03-W伤害交互来源与范围前提.json",
+      "sha256": "149e56952e037d4d1d21cc4829d092f79f80e56324eb804dbc3ddf1a15998856"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/卢锡安Q实际命中返回/02-普通物理技能伤害交互核对.json",
+      "sha256": "da9a9179b08cc0a30d659a9da6b494d99e0f9a50c53cbda4eb589dbbac0f8ac3"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/卢锡安W实际命中范围返回/07-独立回读.json",
+      "sha256": "5eccc02351e3a1991060e57616f35ccf1eb8b1418a6500cff2fbafc079a52442"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q完整补录/交互来源核定.json",
+      "sha256": "e3bb3619af36e0212d4eacc35e5ec4aa31c0e6882cf7f32df031ee30ef2ea501"
+    }
+  ]
+}
