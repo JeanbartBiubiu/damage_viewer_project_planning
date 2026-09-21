@@ -24,6 +24,743 @@
       "netAttributeCountChangeSince20260906": 0,
       "evidence": "英雄属性统计复核-2026-09-18/01-只读核对.json",
       "boundary": "当前角色范围、全部属性键数与等级覆盖已核对，伊泽瑞尔六个历史保留属性逐值一致；本次未重新核算全部英雄属性数值，不代表技能机制或战斗运行完成。"
+    },
+    "priorityScope": {
+      "selectedAt": "2026-09-21T16:04:46.411Z",
+      "decisionDate": "2026-09-22",
+      "status": "已选定40名优先英雄；数据录入保持暂停，功能迭代后按用户明确恢复继续",
+      "purpose": "从已有录入中收敛代表样本，先将40名英雄范围内数据补齐，不再横向铺开其余英雄",
+      "sourceLedgerGeneratedAt": "2026-09-21T14:53:14.771Z",
+      "selectionCriteria": [
+        "复用已保存与独立回读的主体、属性、参数、公式及组成",
+        "包含现有8个已达到管理完整的技能所属英雄，形成返回原英雄补全的起点",
+        "覆盖普通伤害、攻击强化、条件控制、资源消费、施放阶段、护盾治疗和跨技能联动",
+        "保留少量能暴露共性缺口的进阶英雄，不引入完整变形或独立召唤物作为新范围"
+      ],
+      "completionBoundary": "每名英雄本轮1V1范围内的主体、完整等级属性、关系、图片及P/Q/W/E/R相关分支完成管理配置、独立回读和适当页面验收；原明确排除分支保留依据。战斗运行单独计，不在本轮新增宿主或Wasm。",
+      "nonSelectedPolicy": "未入选英雄暂时后置，保留原数据、逐项结论及来源；不批量删除，不改为明确排除。装备和符文原清单保持，本次只收敛英雄优先范围。",
+      "progressRule": "后续进度按此处稳定英雄标识筛选inventoryConclusions.skills及characters实时统计；下方selectionSnapshot仅为选定当日快照，不另设累计进度真源。",
+      "selectionSnapshot": {
+        "ledgerGeneratedAt": "2026-09-21T14:53:14.771Z",
+        "heroCount": 40,
+        "sourceSkillSlots": 200,
+        "conclusions": {
+          "系统暂缓": 102,
+          "资料待核": 84,
+          "明确排除": 6,
+          "已录入": 8
+        },
+        "wholeHeroManagementComplete": 0,
+        "openSkillSlots": 186,
+        "scopeReviewNote": "账本当前已有6个整槽排除，其余历史支路排除仍按各对象证据执行。恢复前定点校准基兰P、泰隆E、婕拉植物等旧聚合结论，不由本次选择直接改分类。"
+      },
+      "executionRule": "每次集中完成一名或少量相互关联英雄；遇到共性阻塞时仅切换同批独立分支，不同时重新展开40名。批次是建议顺序，具体先后按依赖调整。",
+      "batches": [
+        {
+          "order": 1,
+          "name": "先形成完整样例",
+          "heroes": [
+            {
+              "sourceChampionId": "Garen",
+              "characterKey": "champion_garen",
+              "name": "盖伦",
+              "representativeMechanisms": "物理与真实伤害、持续伤害、减伤和脱战回复",
+              "selectionBasis": "R已完整；先收尾P/Q/W/E的回复、沉默、减伤和旋转伤害",
+              "skillKeys": [
+                "garen_p",
+                "garen_q",
+                "garen_w",
+                "garen_e",
+                "garen_r"
+              ],
+              "sourceBatchKeys": [
+                "heroSixthBatch"
+              ]
+            },
+            {
+              "sourceChampionId": "Corki",
+              "characterKey": "champion_corki",
+              "name": "库奇",
+              "representativeMechanisms": "混合伤害、弹药与强化弹",
+              "selectionBasis": "Q已完整；复用其余静态组成，补P和R弹药逻辑",
+              "skillKeys": [
+                "corki_p",
+                "corki_q",
+                "corki_w",
+                "corki_e",
+                "corki_r"
+              ],
+              "sourceBatchKeys": [
+                "heroThirtySecondBatch"
+              ]
+            },
+            {
+              "sourceChampionId": "TwistedFate",
+              "characterKey": "champion_twistedfate",
+              "name": "崔斯特",
+              "representativeMechanisms": "选牌、下一次攻击消费与周期强化",
+              "selectionBasis": "Q已完整；P经济已排除，W选牌和E强化优先",
+              "skillKeys": [
+                "twistedfate_p",
+                "twistedfate_q",
+                "twistedfate_w",
+                "twistedfate_e",
+                "twistedfate_r"
+              ],
+              "sourceBatchKeys": [
+                "heroFortiethBatch"
+              ]
+            },
+            {
+              "sourceChampionId": "Nasus",
+              "characterKey": "champion_nasus",
+              "name": "内瑟斯",
+              "representativeMechanisms": "永久叠层、生命偷取、双重减速与强化窗口",
+              "selectionBasis": "P已完整；Q初始层数及击杀增长不由默认值替代",
+              "skillKeys": [
+                "nasus_p",
+                "nasus_q",
+                "nasus_w",
+                "nasus_e",
+                "nasus_r"
+              ],
+              "sourceBatchKeys": [
+                "nasusFirstBatch"
+              ]
+            },
+            {
+              "sourceChampionId": "Olaf",
+              "characterKey": "champion_olaf",
+              "name": "奥拉夫",
+              "representativeMechanisms": "低生命增益、自身护盾、真实伤害与控制免疫",
+              "selectionBasis": "W已完整；P/Q/E/R剩余资格逐项补齐",
+              "skillKeys": [
+                "olaf_p",
+                "olaf_q",
+                "olaf_w",
+                "olaf_e",
+                "olaf_r"
+              ],
+              "sourceBatchKeys": [
+                "heroSeventhBatch"
+              ]
+            },
+            {
+              "sourceChampionId": "Soraka",
+              "characterKey": "champion_soraka",
+              "name": "索拉卡",
+              "representativeMechanisms": "生命条件治疗、持续回复、沉默转禁锢",
+              "selectionBasis": "R已完整；P/W沿用排除，集中补Q/E",
+              "skillKeys": [
+                "soraka_p",
+                "soraka_q",
+                "soraka_w",
+                "soraka_e",
+                "soraka_r"
+              ],
+              "sourceBatchKeys": [
+                "heroThirtyThirdBatch"
+              ]
+            },
+            {
+              "sourceChampionId": "Tristana",
+              "characterKey": "champion_tristana",
+              "name": "崔丝塔娜",
+              "representativeMechanisms": "攻击叠层引爆、参与击杀重置与击退",
+              "selectionBasis": "Q已完整，W参与击杀已返回；优先补E/W/R关联",
+              "skillKeys": [
+                "tristana_p",
+                "tristana_q",
+                "tristana_w",
+                "tristana_e",
+                "tristana_r"
+              ],
+              "sourceBatchKeys": [
+                "heroThirdBatch"
+              ]
+            },
+            {
+              "sourceChampionId": "Zyra",
+              "characterKey": "champion_zyra",
+              "name": "婕拉",
+              "representativeMechanisms": "基础范围伤害、穿透禁锢与延迟击飞",
+              "selectionBasis": "Q已完整、E禁锢已有返回；独立植物链继续沿用原范围边界",
+              "skillKeys": [
+                "zyra_p",
+                "zyra_q",
+                "zyra_w",
+                "zyra_e",
+                "zyra_r"
+              ],
+              "sourceBatchKeys": [
+                "heroFortyFifthBatch"
+              ]
+            },
+            {
+              "sourceChampionId": "Malphite",
+              "characterKey": "champion_malphite",
+              "name": "墨菲特",
+              "representativeMechanisms": "护甲收益、被动护盾、攻速削减与击飞",
+              "selectionBasis": "Q/E/R已有本体与使用组成；控制和防御联动待补",
+              "skillKeys": [
+                "malphite_p",
+                "malphite_q",
+                "malphite_w",
+                "malphite_e",
+                "malphite_r"
+              ],
+              "sourceBatchKeys": [
+                "heroSecondBatch"
+              ]
+            },
+            {
+              "sourceChampionId": "Lux",
+              "characterKey": "champion_lux",
+              "name": "拉克丝",
+              "representativeMechanisms": "标记引爆、再次施放、往返护盾",
+              "selectionBasis": "Q禁锢已有返回；继续补启明、E两阶段和护盾资格",
+              "skillKeys": [
+                "lux_p",
+                "lux_q",
+                "lux_w",
+                "lux_e",
+                "lux_r"
+              ],
+              "sourceBatchKeys": [
+                "luxFirstBatch"
+              ]
+            }
+          ]
+        },
+        {
+          "order": 2,
+          "name": "命中与控制联动",
+          "heroes": [
+            {
+              "sourceChampionId": "Ezreal",
+              "characterKey": "ez",
+              "name": "伊泽瑞尔",
+              "representativeMechanisms": "攻击特效、命中减冷却与标记消费",
+              "selectionBasis": "沿用ez和ez_p至ez_r；复用既有与第五十批组成",
+              "skillKeys": [
+                "ez_p",
+                "ez_q",
+                "ez_w",
+                "ez_e",
+                "ez_r"
+              ],
+              "sourceBatchKeys": [
+                "heroFiftiethBatch"
+              ]
+            },
+            {
+              "sourceChampionId": "Annie",
+              "characterKey": "champion_annie",
+              "name": "安妮",
+              "representativeMechanisms": "跨技能层数、击杀退款、自施护盾和反伤",
+              "selectionBasis": "W伤害、自施E已返回；P联动和Q退款待补，独立提伯斯链沿用原边界",
+              "skillKeys": [
+                "annie_p",
+                "annie_q",
+                "annie_w",
+                "annie_e",
+                "annie_r"
+              ],
+              "sourceBatchKeys": [
+                "heroSecondBatch"
+              ]
+            },
+            {
+              "sourceChampionId": "Brand",
+              "characterKey": "champion_brand",
+              "name": "布兰德",
+              "representativeMechanisms": "持续灼烧、层数阈值和已有状态改变技能行为",
+              "selectionBasis": "Q/E伤害及使用已有组成；P灼烧与控制条件优先",
+              "skillKeys": [
+                "brand_p",
+                "brand_q",
+                "brand_w",
+                "brand_e",
+                "brand_r"
+              ],
+              "sourceBatchKeys": [
+                "heroSecondBatch"
+              ]
+            },
+            {
+              "sourceChampionId": "Ahri",
+              "characterKey": "champion_ahri",
+              "name": "阿狸",
+              "representativeMechanisms": "往返不同伤害类型、魅惑与多次施放",
+              "selectionBasis": "E首次魅惑已返回；补伴随减速及Q/R联动",
+              "skillKeys": [
+                "ahri_p",
+                "ahri_q",
+                "ahri_w",
+                "ahri_e",
+                "ahri_r"
+              ],
+              "sourceBatchKeys": [
+                "heroFourthBatch"
+              ]
+            },
+            {
+              "sourceChampionId": "Morgana",
+              "characterKey": "champion_morgana",
+              "name": "莫甘娜",
+              "representativeMechanisms": "禁锢、周期伤害、魔法护盾存续与控制免疫",
+              "selectionBasis": "Q首次禁锢、自施E已有返回；重施与伤害治疗返还待补",
+              "skillKeys": [
+                "morgana_p",
+                "morgana_q",
+                "morgana_w",
+                "morgana_e",
+                "morgana_r"
+              ],
+              "sourceBatchKeys": [
+                "heroThirtyFirstBatch"
+              ]
+            },
+            {
+              "sourceChampionId": "Neeko",
+              "characterKey": "champion_neeko",
+              "name": "妮蔻",
+              "representativeMechanisms": "首次目标接触、后续强化与重复伤害",
+              "selectionBasis": "E首次接触管理能力已实现待正式返回；P沿用排除",
+              "skillKeys": [
+                "neeko_p",
+                "neeko_q",
+                "neeko_w",
+                "neeko_e",
+                "neeko_r"
+              ],
+              "sourceBatchKeys": [
+                "heroFortyFourthBatch"
+              ]
+            },
+            {
+              "sourceChampionId": "Lissandra",
+              "characterKey": "champion_lissandra",
+              "name": "丽桑卓",
+              "representativeMechanisms": "自身与敌方目标分支、再次施放、禁锢与凝滞",
+              "selectionBasis": "Q/W/E已有命中或控制组成；R自身治疗和目标分支待补",
+              "skillKeys": [
+                "lissandra_p",
+                "lissandra_q",
+                "lissandra_w",
+                "lissandra_e",
+                "lissandra_r"
+              ],
+              "sourceBatchKeys": [
+                "heroSixteenthBatch"
+              ]
+            },
+            {
+              "sourceChampionId": "Chogath",
+              "characterKey": "champion_chogath",
+              "name": "科加斯",
+              "representativeMechanisms": "沉默、击飞、强化攻击与成长层数",
+              "selectionBasis": "W沉默已返回；Q击飞能力已实现待正式页面",
+              "skillKeys": [
+                "chogath_p",
+                "chogath_q",
+                "chogath_w",
+                "chogath_e",
+                "chogath_r"
+              ],
+              "sourceBatchKeys": [
+                "heroTwentiethBatch"
+              ]
+            },
+            {
+              "sourceChampionId": "Amumu",
+              "characterKey": "champion_amumu",
+              "name": "阿木木",
+              "representativeMechanisms": "弹药、持续消耗、固定减伤与被攻击减冷却",
+              "selectionBasis": "Q/E/R本体与部分控制已返回；充能初值/恢复、诅咒联动待补",
+              "skillKeys": [
+                "amumu_p",
+                "amumu_q",
+                "amumu_w",
+                "amumu_e",
+                "amumu_r"
+              ],
+              "sourceBatchKeys": [
+                "heroTwentyThirdBatch"
+              ]
+            },
+            {
+              "sourceChampionId": "Varus",
+              "characterKey": "champion_varus",
+              "name": "韦鲁斯",
+              "representativeMechanisms": "蓄力、跨技能引爆层数、生命比例与治疗削减",
+              "selectionBasis": "第十批组成已保存；优先Q/W共用层数与强化消费",
+              "skillKeys": [
+                "varus_p",
+                "varus_q",
+                "varus_w",
+                "varus_e",
+                "varus_r"
+              ],
+              "sourceBatchKeys": [
+                "heroTenthBatch"
+              ]
+            }
+          ]
+        },
+        {
+          "order": 3,
+          "name": "攻击强化与特殊资源",
+          "heroes": [
+            {
+              "sourceChampionId": "Ashe",
+              "characterKey": "champion_ashe",
+              "name": "艾希",
+              "representativeMechanisms": "特殊暴击、攻击层数、减速与距离眩晕",
+              "selectionBasis": "已有参数及伤害组成；E纯视野沿用排除",
+              "skillKeys": [
+                "ashe_p",
+                "ashe_q",
+                "ashe_w",
+                "ashe_e",
+                "ashe_r"
+              ],
+              "sourceBatchKeys": [
+                "heroFiftiethBatch"
+              ]
+            },
+            {
+              "sourceChampionId": "Jax",
+              "characterKey": "champion_jax",
+              "name": "贾克斯",
+              "representativeMechanisms": "叠层攻速、闪避、提前释放与第三击",
+              "selectionBasis": "第六批组成已保存；优先W攻击强化及E两阶段",
+              "skillKeys": [
+                "jax_p",
+                "jax_q",
+                "jax_w",
+                "jax_e",
+                "jax_r"
+              ],
+              "sourceBatchKeys": [
+                "heroSixthBatch"
+              ]
+            },
+            {
+              "sourceChampionId": "MasterYi",
+              "characterKey": "champion_masteryi",
+              "name": "易大师",
+              "representativeMechanisms": "连续打击、引导、冷却返还与期限暂停延长",
+              "selectionBasis": "R剩余冷却比例效果已返回；延长首次页面、暂停及触发待补",
+              "skillKeys": [
+                "masteryi_p",
+                "masteryi_q",
+                "masteryi_w",
+                "masteryi_e",
+                "masteryi_r"
+              ],
+              "sourceBatchKeys": [
+                "heroNinthBatch"
+              ]
+            },
+            {
+              "sourceChampionId": "Talon",
+              "characterKey": "champion_talon",
+              "name": "泰隆",
+              "representativeMechanisms": "近远距离分支、流血叠层与攻击重置",
+              "selectionBasis": "Q重置已返回；补层数引爆、距离分支和使用资格",
+              "skillKeys": [
+                "talon_p",
+                "talon_q",
+                "talon_w",
+                "talon_e",
+                "talon_r"
+              ],
+              "sourceBatchKeys": [
+                "heroNinthBatch"
+              ]
+            },
+            {
+              "sourceChampionId": "Renekton",
+              "characterKey": "champion_renekton",
+              "name": "雷克顿",
+              "representativeMechanisms": "怒气门槛、强化消费、破盾与再次施放",
+              "selectionBasis": "第六批组成已保存；补资源生成、强化判定与消费",
+              "skillKeys": [
+                "renekton_p",
+                "renekton_q",
+                "renekton_w",
+                "renekton_e",
+                "renekton_r"
+              ],
+              "sourceBatchKeys": [
+                "heroSixthBatch"
+              ]
+            },
+            {
+              "sourceChampionId": "Sett",
+              "characterKey": "champion_sett",
+              "name": "瑟提",
+              "representativeMechanisms": "受伤积累资源、消费快照、衰减护盾与分区伤害",
+              "selectionBasis": "已有多项本体组成；补豪意和两拳窗口",
+              "skillKeys": [
+                "sett_p",
+                "sett_q",
+                "sett_w",
+                "sett_e",
+                "sett_r"
+              ],
+              "sourceBatchKeys": [
+                "heroFifthBatch"
+              ]
+            },
+            {
+              "sourceChampionId": "Vi",
+              "characterKey": "champion_vi",
+              "name": "蔚",
+              "representativeMechanisms": "蓄力释放、储存次数、第三击与护盾触发",
+              "selectionBasis": "第七批组成已保存；蔚Q可检验成本与冷却登记时点",
+              "skillKeys": [
+                "vi_p",
+                "vi_q",
+                "vi_w",
+                "vi_e",
+                "vi_r"
+              ],
+              "sourceBatchKeys": [
+                "heroSeventhBatch"
+              ]
+            },
+            {
+              "sourceChampionId": "Akali",
+              "characterKey": "champion_akali",
+              "name": "阿卡丽",
+              "representativeMechanisms": "能量消耗、标记、再次施放和分段伤害",
+              "selectionBasis": "Q本体与能量成本已返回；E/R阶段和被动联动待补",
+              "skillKeys": [
+                "akali_p",
+                "akali_q",
+                "akali_w",
+                "akali_e",
+                "akali_r"
+              ],
+              "sourceBatchKeys": [
+                "heroThirteenthBatch"
+              ]
+            },
+            {
+              "sourceChampionId": "Rumble",
+              "characterKey": "champion_rumble",
+              "name": "兰博",
+              "representativeMechanisms": "热量区间、强化、过热禁用与弹药",
+              "selectionBasis": "静态间隔已更正；热量、初始弹药和恢复继续核定",
+              "skillKeys": [
+                "rumble_p",
+                "rumble_q",
+                "rumble_w",
+                "rumble_e",
+                "rumble_r"
+              ],
+              "sourceBatchKeys": [
+                "heroSeventeenthBatch"
+              ]
+            },
+            {
+              "sourceChampionId": "Vladimir",
+              "characterKey": "champion_vladimir",
+              "name": "弗拉基米尔",
+              "representativeMechanisms": "生命消耗、属性互转、蓄力与延迟治疗",
+              "selectionBasis": "第十七批明确组成已保存；补资源采样与避免属性自循环",
+              "skillKeys": [
+                "vladimir_p",
+                "vladimir_q",
+                "vladimir_w",
+                "vladimir_e",
+                "vladimir_r"
+              ],
+              "sourceBatchKeys": [
+                "heroSeventeenthBatch"
+              ]
+            }
+          ]
+        },
+        {
+          "order": 4,
+          "name": "时间窗与自身收益",
+          "heroes": [
+            {
+              "sourceChampionId": "Kassadin",
+              "characterKey": "champion_kassadin",
+              "name": "卡萨丁",
+              "representativeMechanisms": "叠层法力费用、魔法护盾与引导打断",
+              "selectionBasis": "Q伤害和使用已返回；目标引导打断是已记录管理缺口",
+              "skillKeys": [
+                "kassadin_p",
+                "kassadin_q",
+                "kassadin_w",
+                "kassadin_e",
+                "kassadin_r"
+              ],
+              "sourceBatchKeys": [
+                "heroThirteenthBatch"
+              ]
+            },
+            {
+              "sourceChampionId": "KogMaw",
+              "characterKey": "champion_kogmaw",
+              "name": "克格莫",
+              "representativeMechanisms": "最大生命比例伤害、双抗削减、递增费用与死亡后伤害",
+              "selectionBasis": "Q攻速和本体已返回；其余资格和数值采样待补",
+              "skillKeys": [
+                "kogmaw_p",
+                "kogmaw_q",
+                "kogmaw_w",
+                "kogmaw_e",
+                "kogmaw_r"
+              ],
+              "sourceBatchKeys": [
+                "heroTenthBatch"
+              ]
+            },
+            {
+              "sourceChampionId": "MissFortune",
+              "characterKey": "champion_missfortune",
+              "name": "厄运小姐",
+              "representativeMechanisms": "更换目标收益、引导多波伤害与暴击资格",
+              "selectionBasis": "第二批组成已保存；只处理本轮1V1相关命中与波次",
+              "skillKeys": [
+                "missfortune_p",
+                "missfortune_q",
+                "missfortune_w",
+                "missfortune_e",
+                "missfortune_r"
+              ],
+              "sourceBatchKeys": [
+                "heroSecondBatch"
+              ]
+            },
+            {
+              "sourceChampionId": "Sivir",
+              "characterKey": "champion_sivir",
+              "name": "希维尔",
+              "representativeMechanisms": "法术护盾消费、往返命中、最近伤害窗口与刷新",
+              "selectionBasis": "已有格挡和刷新组成；资格标记首次页面及入口待补",
+              "skillKeys": [
+                "sivir_p",
+                "sivir_q",
+                "sivir_w",
+                "sivir_e",
+                "sivir_r"
+              ],
+              "sourceBatchKeys": [
+                "heroThirdBatch"
+              ]
+            },
+            {
+              "sourceChampionId": "Sona",
+              "characterKey": "champion_sona",
+              "name": "娑娜",
+              "representativeMechanisms": "角色等级曲线、乐曲切换与下一次攻击强化",
+              "selectionBasis": "Q本体和能量和弦等级参数已返回；自身光环与P联动待补",
+              "skillKeys": [
+                "sona_p",
+                "sona_q",
+                "sona_w",
+                "sona_e",
+                "sona_r"
+              ],
+              "sourceBatchKeys": [
+                "heroThirtyThirdBatch"
+              ]
+            },
+            {
+              "sourceChampionId": "Zilean",
+              "characterKey": "champion_zilean",
+              "name": "基兰",
+              "representativeMechanisms": "延迟爆炸、同技能重施、冷却回退与复活",
+              "selectionBasis": "W冷却回退已返回；Q双炸弹和R死亡触发仍开放",
+              "skillKeys": [
+                "zilean_p",
+                "zilean_q",
+                "zilean_w",
+                "zilean_e",
+                "zilean_r"
+              ],
+              "sourceBatchKeys": [
+                "heroThirtyFourthBatch"
+              ]
+            },
+            {
+              "sourceChampionId": "Lulu",
+              "characterKey": "champion_lulu",
+              "name": "璐璐",
+              "representativeMechanisms": "敌我分支、控制变形、临时生命与自身增益",
+              "selectionBasis": "W/R自施已有返回；对敌分支和临时生命到期处理待补",
+              "skillKeys": [
+                "lulu_p",
+                "lulu_q",
+                "lulu_w",
+                "lulu_e",
+                "lulu_r"
+              ],
+              "sourceBatchKeys": [
+                "heroThirtyFirstBatch"
+              ]
+            },
+            {
+              "sourceChampionId": "Janna",
+              "characterKey": "champion_janna",
+              "name": "迦娜",
+              "representativeMechanisms": "蓄力、衰减护盾、护盾存续增益与持续治疗",
+              "selectionBasis": "自施E已有返回；攻击力增益与护盾存续绑定待补",
+              "skillKeys": [
+                "janna_p",
+                "janna_q",
+                "janna_w",
+                "janna_e",
+                "janna_r"
+              ],
+              "sourceBatchKeys": [
+                "heroThirtyFirstBatch"
+              ]
+            },
+            {
+              "sourceChampionId": "Seraphine",
+              "characterKey": "champion_seraphine",
+              "name": "萨勒芬妮",
+              "representativeMechanisms": "重复施放、按已有控制升级及已有护盾条件",
+              "selectionBasis": "R伤害和首次魅惑已返回；P重复与E控制升级待补",
+              "skillKeys": [
+                "seraphine_p",
+                "seraphine_q",
+                "seraphine_w",
+                "seraphine_e",
+                "seraphine_r"
+              ],
+              "sourceBatchKeys": [
+                "heroThirtyThirdBatch"
+              ]
+            },
+            {
+              "sourceChampionId": "Veigar",
+              "characterKey": "champion_veigar",
+              "name": "维迦",
+              "representativeMechanisms": "永久属性增长、冷却关联与缺失生命增伤",
+              "selectionBasis": "Q基础命中已有返回；R连续曲线与生命采样仍待核",
+              "skillKeys": [
+                "veigar_p",
+                "veigar_q",
+                "veigar_w",
+                "veigar_e",
+                "veigar_r"
+              ],
+              "sourceBatchKeys": [
+                "heroFourthBatch"
+              ]
+            }
+          ]
+        }
+      ]
     }
   },
   "skills": {
