@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-21T02:57:07.738Z",
+  "generatedAt": "2026-09-21T03:02:56.588Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。；基兰W冷却回退返回：7次保存、41次独立GET与5类页面通过，有效施放时间仍待核，管理完整8项/开放831项保持，见zileanWCooldownReductionReturn。；系统-16装备技能直达录入已完成，728单测/3项定向页面及两件真实装备往返通过，6条独立回读不变，业务写入0。；中娅主体说明1次页面更正、独立13GET及重开通过，装备开放234项保持；百分比穿透候选与两份历史来源的边界另见percentPenetrationSourceContractAudit，尚未批准实施。；崔丝塔娜W明确组成返回8次保存、108次独立GET、20组算例及8类页面通过；复用旧本人击杀入口，整技能仍系统暂缓，管理完整8项/开放831项保持。；正式参与击杀事件已返回崔丝塔娜W：3次页面保存、36次独立GET、4项拒绝验证通过，原4规则数量保持；剩余系统1项、资料1项，整技能未记完整。；剩余冷却比例已返回易大师R和纳沃利：3次页面保存、49次独立GET及3项数值越界拒绝通过，无新表或触发；纳沃利改资料待核，整技能完成数保持。",
@@ -13189,6 +13189,52 @@
         "实际施放消耗只供明确来源技能的SKILL_HIT；尚无同一准确结果上下文"
       ],
       "next": "先核定法力和冷却返还基数，指定结果供值缺口归入共享表达；其他成熟流程继续录入。"
+    },
+    "lucianQCostCooldownReturn": {
+      "at": "2026-09-21T03:02:56.588Z",
+      "status": "使用登记与主动入口已保存，完整施法/伤害交互和页面仍开放",
+      "skillKey": "lucian_q",
+      "sourceVersion": {
+        "client": "16.17",
+        "official": "16.17.1"
+      },
+      "successfulSaves": 2,
+      "createdObjects": [
+        "processes/use_cost_and_cooldown",
+        "trigger-rules/on_used_cost_and_cooldown"
+      ],
+      "reads": {
+        "initialDiscovery": 12,
+        "protectedPreparation": 26,
+        "writePhase": 30,
+        "independent": 26
+      },
+      "validation": {
+        "unchangedRoutes": 22,
+        "changedCollections": 2,
+        "newDetails": 2,
+        "currentCounts": {
+          "parameters": 4,
+          "formulas": 1,
+          "effects": 2,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 2
+        }
+      },
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/卢锡安Q使用登记返回/09-证据清单.json",
+        "sha256": "d12d6902ee3422714234cfa97353dadfa10165e0f07cf474fab2d67c11d4b277",
+        "commit": "9343e69f4c29dd3cc9d4df19a015021e3d010eaa"
+      },
+      "remaining": [
+        "实际施法时序与冲突时间字段",
+        "原实际命中范围与伤害吸血资格",
+        "圣光银弹联动",
+        "新增登记流程代表页面"
+      ],
+      "boundary": "立即步骤仅登记成本与普通冷却，不生成命中或宣称零施法时间；整技能与运行未完成。"
     }
   },
   "runtimeValidation": "未执行",
@@ -13958,6 +14004,12 @@
         "worktree": "damage_viewer_project_planning",
         "relativePath": "数据参考/全量录入-2026-09/安妮Q击杀退款返回准备/03-证据清单.json",
         "sha256": "c77506c7fe1e996c93be66605ae289b27a5efeb6d134d887b335944d943745cb"
+      },
+      "lucianQCostCooldownReturn": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/卢锡安Q使用登记返回/09-证据清单.json",
+        "sha256": "d12d6902ee3422714234cfa97353dadfa10165e0f07cf474fab2d67c11d4b277",
+        "commit": "9343e69f4c29dd3cc9d4df19a015021e3d010eaa"
       }
     },
     "coverage": {
@@ -26439,19 +26491,42 @@
         "name": "卢锡安·透体圣光",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
-        "pendingCounts": {
+        "reason": "普通使用成本与冷却登记过程和入口已补齐，2次保存、26次独立GET通过，原实际命中和伤害保持；实际施法时序、命中范围/吸血资格、被动联动及代表页面仍待处理，不计整技能完整。",
+        "batchKey": "heroThirdBatch",
+        "candidateSha256": null,
+        "evidenceRefs": [
+          "skillThirdStageCurrentReadback",
+          "heroSourceInventory",
+          "lucianQCostCooldownReturn"
+        ],
+        "historicalPendingCounts": {
           "source": 0,
           "system": 0,
           "configuration": 1,
           "other": 0
         },
-        "batchKey": "heroThirdBatch",
-        "candidateSha256": null,
-        "evidenceRefs": [
-          "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+        "currentComponentCounts": {
+          "parameters": 4,
+          "formulas": 1,
+          "effects": 2,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 2
+        },
+        "remainingBranches": [
+          "实际施法时序与冲突时间字段",
+          "原实际命中范围与伤害吸血资格",
+          "圣光银弹联动",
+          "新增登记流程代表页面"
+        ],
+        "remainingBranchesBoundary": "定点核对后的实际开放分支替代历史配置计数。",
+        "authoredCostCooldown": {
+          "processKey": "use_cost_and_cooldown",
+          "ruleKey": "on_used_cost_and_cooldown",
+          "httpReadback": "PASS",
+          "browser": "待验",
+          "castDurationClaim": "未声明，立即步骤只用于使用登记"
+        }
       },
       {
         "sourceChampionId": "Lucian",
