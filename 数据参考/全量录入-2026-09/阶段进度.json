@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-21T04:54:49.053Z",
+  "generatedAt": "2026-09-21T05:00:25.083Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。；基兰W冷却回退返回：7次保存、41次独立GET与5类页面通过，有效施放时间仍待核，管理完整8项/开放831项保持，见zileanWCooldownReductionReturn。；系统-16装备技能直达录入已完成，728单测/3项定向页面及两件真实装备往返通过，6条独立回读不变，业务写入0。；中娅主体说明1次页面更正、独立13GET及重开通过，装备开放234项保持；百分比穿透候选与两份历史来源的边界另见percentPenetrationSourceContractAudit，尚未批准实施。；崔丝塔娜W明确组成返回8次保存、108次独立GET、20组算例及8类页面通过；复用旧本人击杀入口，整技能仍系统暂缓，管理完整8项/开放831项保持。；正式参与击杀事件已返回崔丝塔娜W：3次页面保存、36次独立GET、4项拒绝验证通过，原4规则数量保持；剩余系统1项、资料1项，整技能未记完整。；剩余冷却比例已返回易大师R和纳沃利：3次页面保存、49次独立GET及3项数值越界拒绝通过，无新表或触发；纳沃利改资料待核，整技能完成数保持。",
@@ -13531,6 +13531,43 @@
       "wholeSkillComplete": false,
       "runtime": false,
       "problem": "主负责人上一批错误描述控制已由原伤害规则处理，现已仅修正说明，配置保持。"
+    },
+    "tristanaRFirstUnblockedStunReturn": {
+      "at": "2026-09-21T05:00:25.075Z",
+      "status": "明确未阻挡的首次眩晕已保存并独立回读，代表页面待验",
+      "skillKey": "tristana_r",
+      "successfulSaves": 2,
+      "independentGets": 34,
+      "unchangedRoutes": 30,
+      "currentCounts": {
+        "parameters": 8,
+        "formulas": 1,
+        "effects": 3,
+        "processes": 1,
+        "internalStates": 0,
+        "triggerRules": 3
+      },
+      "source": {
+        "client": "16.17",
+        "ddragon": "16.17.1",
+        "independentStunContext": "https://www.leagueoflegends.com/en-us/news/game-updates/patch-14-19-notes/"
+      },
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/崔丝塔娜R明确未阻挡首次眩晕返回/09-证据清单.json",
+        "sha256": "15f77e1b814e4c5156e4cdb22d68e80209f3ee06b8bc546d5cd1621e21b5fc27",
+        "commit": "e1d4c8b6b2e9d062e21252d01b6a6b004823091b"
+      },
+      "scope": "只保存同次护盾判定明确为0且当前目标无本来源实例的敌方英雄实际命中首次眩晕。",
+      "remaining": [
+        "法术护盾判定为1或缺值时的R眩晕交互",
+        "已有实例的重复施加策略",
+        "击退位移、结束与地形关系",
+        "R与E层数/爆炸/原有到期的接续"
+      ],
+      "browser": false,
+      "wholeSkillComplete": false,
+      "runtimeValidation": "未执行"
     }
   },
   "runtimeValidation": "未执行",
@@ -14385,6 +14422,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/崔丝塔娜R使用入口说明纠错/09-证据清单.json",
         "sha256": "ae2a1e51982f95021a56a68599f9452c5b6c673f18ea46457e95414f56352353",
         "commit": "deadb9bc3cd68dbe1deb70e217d99d9fac43038f"
+      },
+      "tristanaRFirstUnblockedStunReturn": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/崔丝塔娜R明确未阻挡首次眩晕返回/09-证据清单.json",
+        "sha256": "15f77e1b814e4c5156e4cdb22d68e80209f3ee06b8bc546d5cd1621e21b5fc27",
+        "commit": "e1d4c8b6b2e9d062e21252d01b6a6b004823091b"
       }
     },
     "coverage": {
@@ -35875,7 +35918,7 @@
         "name": "崔丝塔娜·毁灭射击",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "普通使用、敌方英雄命中范围及普通伤害全能吸血已保存并独立回读；技能专属联动及代表页面仍待完成。",
+        "reason": "使用入口、敌方英雄实际伤害与全能吸血、明确未阻挡的首次眩晕均已保存并独立回读；击退、E联动、阻挡与重施分支及代表页面继续处理。",
         "batchKey": "heroThirdBatch",
         "candidateSha256": null,
         "evidenceRefs": [
@@ -35886,13 +35929,15 @@
           "threeSkillHitScopeReturn",
           "threeSkillDamageVampReturn",
           "castOptionalFieldDescriptionReturn",
-          "triggerRuleDescriptionToolReturn"
+          "triggerRuleDescriptionToolReturn",
+          "tristanaRFirstUnblockedStunReturn"
         ],
         "completedBranches": [
           "固定来源主R终极技能分类关联",
           "本技能普通主动使用入口及来源对象消耗、普通冷却登记",
           "实际命中按同组条件限定本轮敌方英雄",
-          "敌方英雄目标普通伤害的防御结算后全能吸血资格，效率1"
+          "敌方英雄目标普通伤害的防御结算后全能吸血资格，效率1",
+          "同次法术护盾判定明确为0且无本来源实例的敌方英雄首次眩晕"
         ],
         "historicalPendingCounts": {
           "source": 0,
@@ -35902,16 +35947,20 @@
           "note": "旧分支计数仅存历史；本次按已核定的剩余分支说明推进。"
         },
         "remainingBranches": [
-          "击退/眩晕及爆炸火花联动仍未接入；不以本次普通伤害补录替代。",
+          "法术护盾判定为1或缺值时的R眩晕交互",
+          "已有实例的重复施加策略",
+          "击退位移、结束与地形关系",
+          "R与E层数/爆炸/原有到期的接续",
+          "其他吸血类型与原法术护盾粒度的具体交互来源",
           "代表正式页面验收"
         ],
         "currentCounts": {
           "parameters": 8,
           "formulas": 1,
-          "effects": 2,
+          "effects": 3,
           "processes": 1,
           "internalStates": 0,
-          "triggerRules": 2
+          "triggerRules": 3
         },
         "managementComplete": false
       },

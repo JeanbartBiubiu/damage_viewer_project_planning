@@ -1,0 +1,37 @@
+{
+  "at": "2026-09-21T05:00:25.075Z",
+  "status": "明确未阻挡的首次眩晕已保存并独立回读，代表页面待验",
+  "skillKey": "tristana_r",
+  "successfulSaves": 2,
+  "independentGets": 34,
+  "unchangedRoutes": 30,
+  "currentCounts": {
+    "parameters": 8,
+    "formulas": 1,
+    "effects": 3,
+    "processes": 1,
+    "internalStates": 0,
+    "triggerRules": 3
+  },
+  "source": {
+    "client": "16.17",
+    "ddragon": "16.17.1",
+    "independentStunContext": "https://www.leagueoflegends.com/en-us/news/game-updates/patch-14-19-notes/"
+  },
+  "evidence": {
+    "worktree": "damage_web_dev",
+    "relativePath": "数据参考/全量录入-2026-09/交叉试录/崔丝塔娜R明确未阻挡首次眩晕返回/09-证据清单.json",
+    "sha256": "15f77e1b814e4c5156e4cdb22d68e80209f3ee06b8bc546d5cd1621e21b5fc27",
+    "commit": "e1d4c8b6b2e9d062e21252d01b6a6b004823091b"
+  },
+  "scope": "只保存同次护盾判定明确为0且当前目标无本来源实例的敌方英雄实际命中首次眩晕。",
+  "remaining": [
+    "法术护盾判定为1或缺值时的R眩晕交互",
+    "已有实例的重复施加策略",
+    "击退位移、结束与地形关系",
+    "R与E层数/爆炸/原有到期的接续"
+  ],
+  "browser": false,
+  "wholeSkillComplete": false,
+  "runtimeValidation": "未执行"
+}
