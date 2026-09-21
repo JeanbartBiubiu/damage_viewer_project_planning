@@ -35,3 +35,5 @@ v3 必须由独立执行者运行 `node tools/authoring/update-reviewed-descript
 `append-reviewed-ultimate-categories.mjs` 用于已按固定客户端角色绑定及明确终极标记核定的主技能，只把空分类补为 `ultimate`。已有该分类则复用，其他非空分类另列核对，不能直接覆盖；数值、说明及所有其他根字段保持。`prepare` 共享一次目标根及分类目录基线，冻结来源摘要和完整请求；独立批准工具及01至04摘要后，`write` 按准确的 `DAMAGE_APPROVED_BATCH_SHA` 写入，独立执行者再运行 `readback`。该工具不读取或改动全部技能组成，也不将分类保存计为整技能完成。来源能力集合没有固定Q/W/E/R顺序，应按主技能根引用唯一匹配；缺少终极标记不能由R槽位推断。
 
 魅惑目录首次页面录入使用 `reviewed-status-ui-v3.mjs`，仅扩充已支持种类为魅惑；仍只有准备、写前核对与独立回读三种只读模式，实际保存由页面完成。v2及更早工具原字节保持冻结。
+
+公式名称与说明更正使用 `update-reviewed-formula-labels.mjs`。每项计划严格包含 `skillKey / formulaKey / route / updates`，只接受既有公式详情；更新仅允许 `name` 与 `description`，至少一项实际变化。名称须去首尾空白且非空、最多100字符；说明可为null，非空时须去首尾空白且最多2000字符。完整复制原表达式和排序，公式标识、参数与属性引用均不改。公式列表按详情去掉expression核对；实际改名可移动本行，其他行字段和相对顺序保持，单改说明不得重排。沿用冻结批准、防重放、即时及独立回读四阶段；离线保护检查：`node --test tools/authoring/update-reviewed-formula-labels.test.mjs`。
