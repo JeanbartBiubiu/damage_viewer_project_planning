@@ -1,0 +1,64 @@
+{
+  "at": "2026-09-21T03:19:59.994Z",
+  "status": "OMNIVAMP_COMPONENT_READY",
+  "reviewer": "/root/lucian_q_damage_source",
+  "version": {
+    "client": "16.17",
+    "official": "16.17.1"
+  },
+  "skillKey": "lucian_q",
+  "effectKey": "beam_hit",
+  "resultKey": "damage",
+  "qualification": {
+    "damageTypeKey": "physics",
+    "deliveryKind": "SKILL",
+    "originKind": "DIRECT",
+    "tags": [
+      "Trait_DamageAbility",
+      "Trait_SignatureSpell",
+      "Trait_Target_Directional",
+      "Trait_Melee_SmallWindup",
+      "Trait_AoE"
+    ],
+    "currentScope": "同组CHAMPION与SKILL_HIT_TARGET_IS_ENEMY，已独立17GET验证"
+  },
+  "candidate": {
+    "vampType": "OMNIVAMP",
+    "basisOutputKind": "POST_DEFENSE_DAMAGE",
+    "efficiencyValue": {
+      "kind": "FIXED",
+      "value": 1
+    }
+  },
+  "sources": [
+    {
+      "url": "https://www.leagueoflegends.com/en-sg/news/game-updates/patch-26-1-notes/",
+      "section": "Omnivamp",
+      "access": "主负责人与独立代理均读取官方正文",
+      "meaning": "默认效率100%；仅宠物、持续和范围技能对小兵的效率33%。本轮目标是敌方英雄，不使用小兵折减。"
+    },
+    {
+      "url": "https://www.leagueoflegends.com/en-au/news/game-updates/league-of-legends-patch-26-4-notes/",
+      "section": "Lee Sin与Summoner Spells",
+      "meaning": "李青改为全能吸血及惩戒/点燃例外，不能推成卢锡安专属事实。"
+    },
+    {
+      "worktree": "damage_web_dev",
+      "path": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q完整补录/交互来源核定.json",
+      "meaning": "沿用防御结算后伤害的既有管理映射，不称为护盾和过量伤害的战斗证明。"
+    }
+  ],
+  "preserve": [
+    "所有数值与公式",
+    "暴击策略",
+    "现有spellShieldBlockScope RESULT",
+    "使用成本与普通冷却",
+    "已校正实际命中范围"
+  ],
+  "unresolved": [
+    "LIFE_STEAL/PHYSICAL_VAMP/SPELL_VAMP缺少足够卢锡安Q16.17专属证据，不顺手补入。",
+    "法术护盾粒度没有卢锡安Q专属来源，本次保持RESULT，不擅改SKILL。",
+    "实际施法时序与被动联动保持待核。"
+  ],
+  "businessWrites": 0
+}

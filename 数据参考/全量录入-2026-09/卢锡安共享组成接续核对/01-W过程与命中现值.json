@@ -1,0 +1,233 @@
+{
+  "at": "2026-09-21T03:30:36.343Z",
+  "mode": "GET-only",
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/lucian_w/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lucian_w/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lucian_w/trigger-rules/actual_hit",
+      "status": 200
+    }
+  ],
+  "values": {
+    "/skills/lucian_w/parameters": [
+      {
+        "createdAt": "2026-09-07T17:58:24.993258Z",
+        "description": "官方16.17.1与当前根对象cooldownTime索引1起一致。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 14000,
+          "2": 13000,
+          "3": 12000,
+          "4": 11000,
+          "5": 10000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "lucian_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T17:58:24.993258Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T17:58:25.456773Z",
+        "description": "官方cost与当前manaValues.values索引0起一致；明确0消耗保留。",
+        "fixedValue": 60,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "lucian_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T17:58:25.456773Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T17:58:25.854166Z",
+        "description": "当前spellCastTime与已有mCastTime一致；不代替命中。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "lucian_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T17:58:25.854166Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T17:58:26.40718Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 75,
+          "2": 110,
+          "3": 145,
+          "4": 180,
+          "5": 215
+        },
+        "name": "基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "lucian_w",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-07T17:58:26.40718Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T17:58:27.276201Z",
+        "description": "客户端 TotalDamage.mFormulaParts[1] 默认法术强度系数；按当前浮点设计值归一。",
+        "fixedValue": 0.9,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法强倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "lucian_w",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-07T17:58:27.276201Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T17:58:27.795635Z",
+        "description": "客户端当前根绑定 DataValues.MoveSpeedAmount 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 65,
+          "3": 70,
+          "4": 75,
+          "5": 80
+        },
+        "name": "触发标记后的移动速度",
+        "parameterKey": "move_speed",
+        "skillKey": "lucian_w",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-07T17:58:27.795635Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T17:58:28.262911Z",
+        "description": "客户端当前根绑定 DataValues.BuffDuration 取索引1至5。",
+        "fixedValue": 1000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "移动速度持续（毫秒）",
+        "parameterKey": "speed_duration_ms",
+        "skillKey": "lucian_w",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-07T17:58:28.262911Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T17:58:28.662474Z",
+        "description": "客户端当前根绑定 DataValues.DebuffDuration 取索引1至5。",
+        "fixedValue": 6000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "目标标记持续（毫秒）",
+        "parameterKey": "mark_duration_ms",
+        "skillKey": "lucian_w",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-07T17:58:28.662474Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/lucian_w/processes/cast": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-07T17:58:31.068514Z",
+      "description": "只绑定法力、基础冷却及施法延迟；不在过程结束时自动造成伤害。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "施放热诚烈弹",
+      "processKey": "cast",
+      "skillKey": "lucian_w",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "主技能已核对的施法时间。",
+          "detail": {
+            "delayValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cast_time_ms"
+            }
+          },
+          "name": "施法延迟",
+          "sortOrder": 10,
+          "stepKey": "cast_time",
+          "stepType": "DELAY"
+        }
+      ],
+      "updatedAt": "2026-09-07T17:58:31.068514Z"
+    },
+    "/skills/lucian_w/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "damage",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "flare_hit"
+          },
+          "name": "执行命中伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "lucian_w",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "热诚烈弹实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    }
+  }
+}

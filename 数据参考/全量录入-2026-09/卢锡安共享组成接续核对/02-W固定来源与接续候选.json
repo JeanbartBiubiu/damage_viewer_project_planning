@@ -1,0 +1,62 @@
+{
+  "at": "2026-09-21T03:31:48.332Z",
+  "status": "READY_FOR_SINGLE_USE_ENTRY_PREPARATION",
+  "fixedVersion": {
+    "client": "16.17",
+    "official": "16.17.1"
+  },
+  "rootBinding": "Characters/Lucian/Spells/LucianWAbility/LucianW",
+  "official": {
+    "spellId": "LucianW",
+    "cooldown": [
+      14,
+      13,
+      12,
+      11,
+      10
+    ],
+    "cost": [
+      60,
+      60,
+      60,
+      60,
+      60
+    ],
+    "tooltip": "Lucian fires a shot that explodes at the end of its range or on the first enemy hit, dealing <magicDamage>{{ totaldamage }} magic damage</magicDamage>, briefly revealing enemies and marking them for 6 seconds.<br /><br />When Lucian or an ally damages a marked enemy, Lucian gains <speed>{{ movespeedamount }} Move Speed</speed> for 1 second. Allies triggering this effect will also grant Lucian <attention>Vigilance</attention>.{{ spellmodifierdescriptionappend }}"
+  },
+  "client": {
+    "spellCastTime": 0.25,
+    "mCastTime": 0.25,
+    "cooldownTime": [
+      15,
+      14,
+      13,
+      12,
+      11,
+      10,
+      10
+    ],
+    "manaValues": [
+      60,
+      60,
+      60,
+      60,
+      60,
+      60
+    ],
+    "tags": [
+      "Trait_DamageAbility",
+      "Trait_Low_Damage",
+      "Trait_AoE"
+    ]
+  },
+  "current": "已有cast过程绑定法力、冷却及250毫秒延迟；现有唯一规则为actual_hit，尚无普通使用入口。",
+  "candidate": "新增SKILL_USED(sourceSkillKey=lucian_w,useKind=ACTIVE) -> START_PROCESS cast；不改原过程和实际命中。",
+  "pending": [
+    "实际命中范围和全能吸血修正",
+    "6秒标记与本人伤害后的1秒移速联动",
+    "被动联动和代表页面"
+  ],
+  "scopeExcluded": "纯视野与仅队友分支按既有1V1范围后置或排除，不扩大为当前已完成声明。",
+  "formalWrites": 0
+}

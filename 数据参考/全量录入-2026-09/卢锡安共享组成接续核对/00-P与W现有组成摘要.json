@@ -1,0 +1,134 @@
+{
+  "at": "2026-09-21T03:26:31.150Z",
+  "mode": "GET-only",
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/lucian_p/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lucian_p/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lucian_p/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lucian_w/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lucian_w/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lucian_w/trigger-rules",
+      "status": 200
+    }
+  ],
+  "values": {
+    "/skills/lucian_p/effects": [
+      {
+        "createdAt": "2026-09-07T17:58:19.991603Z",
+        "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+        "effectKey": "second_shot",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "第二发射击伤害",
+        "resultCount": 1,
+        "skillKey": "lucian_p",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T17:58:19.991603Z"
+      },
+      {
+        "createdAt": "2026-09-07T18:03:47.62656Z",
+        "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+        "effectKey": "vigilance_bonus",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "警惕一次额外伤害",
+        "resultCount": 1,
+        "skillKey": "lucian_p",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T18:03:47.62656Z"
+      }
+    ],
+    "/skills/lucian_p/internal-states": [],
+    "/skills/lucian_p/trigger-rules": [],
+    "/skills/lucian_w/effects": [
+      {
+        "createdAt": "2026-09-07T17:58:29.516608Z",
+        "description": "仅施放法力消耗；具体过程单独绑定。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "lucian_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T17:58:29.516608Z"
+      },
+      {
+        "createdAt": "2026-09-07T17:58:29.949317Z",
+        "description": "独立持续属性。比例属性按百分点加算，1表示100%；不是把面板最终属性乘此比例。",
+        "effectKey": "mark_speed",
+        "gameId": "lol",
+        "lifecycleEnabled": true,
+        "name": "标记触发自身加速",
+        "resultCount": 1,
+        "skillKey": "lucian_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T17:58:29.949317Z"
+      },
+      {
+        "createdAt": "2026-09-07T17:58:30.580082Z",
+        "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+        "effectKey": "flare_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "热诚烈弹命中",
+        "resultCount": 1,
+        "skillKey": "lucian_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T17:58:30.580082Z"
+      }
+    ],
+    "/skills/lucian_w/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-07T17:58:31.068514Z",
+        "description": "只绑定法力、基础冷却及施法延迟；不在过程结束时自动造成伤害。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "施放热诚烈弹",
+        "processKey": "cast",
+        "skillKey": "lucian_w",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-07T17:58:31.068514Z"
+      }
+    ],
+    "/skills/lucian_w/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "热诚烈弹实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T17:58:31.50369Z"
+      }
+    ]
+  }
+}
