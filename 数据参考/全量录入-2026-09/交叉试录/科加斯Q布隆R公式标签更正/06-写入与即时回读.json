@@ -1,0 +1,444 @@
+{
+  "startedAt": "2026-09-21T10:16:16.846Z",
+  "status": "PASS",
+  "businessWritesAttempted": 2,
+  "operations": [
+    {
+      "route": "/skills/chogath_q/formulas/magic_damage",
+      "method": "PUT",
+      "responseStatus": 200,
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-09T12:47:24.832226Z",
+          "description": "固定客户端16.17根TotalDamageTooltip对应BaseDamage加1倍来源总法术强度，官方16.17.1正文明确为本体魔法伤害；本公式只定义数值，具体执行由合资格命中入口与效果引用决定。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "attributeKey": "ability_power",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          "formulaKey": "magic_damage",
+          "gameId": "lol",
+          "name": "破裂魔法伤害",
+          "skillKey": "chogath_q",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-21T10:16:19.415054Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-09T12:47:24.832226Z",
+        "description": "固定客户端16.17根TotalDamageTooltip对应BaseDamage加1倍来源总法术强度，官方16.17.1正文明确为本体魔法伤害；本公式只定义数值，具体执行由合资格命中入口与效果引用决定。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "magic_damage",
+        "gameId": "lol",
+        "name": "破裂魔法伤害",
+        "skillKey": "chogath_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-21T10:16:19.415054Z"
+      },
+      "listRoute": "/skills/chogath_q/formulas",
+      "listReadback": [
+        {
+          "createdAt": "2026-09-09T12:47:24.832226Z",
+          "description": "固定客户端16.17根TotalDamageTooltip对应BaseDamage加1倍来源总法术强度，官方16.17.1正文明确为本体魔法伤害；本公式只定义数值，具体执行由合资格命中入口与效果引用决定。",
+          "formulaKey": "magic_damage",
+          "gameId": "lol",
+          "name": "破裂魔法伤害",
+          "skillKey": "chogath_q",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-21T10:16:19.415054Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/braum_r/formulas/magic_damage",
+      "method": "PUT",
+      "responseStatus": 200,
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-09T19:29:42.876513Z",
+          "description": "固定客户端16.17根TotalDamage对应BaseDamage加0.6倍来源总法术强度；官方16.17.1正文中路径及附近命中敌人的本体魔法伤害共用此式，首目标区别只涉及击飞时长。本公式定义数值，具体执行由合资格命中入口与效果引用决定。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ability_power_ratio"
+                  },
+                  {
+                    "attributeKey": "ability_power",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          "formulaKey": "magic_damage",
+          "gameId": "lol",
+          "name": "冰川裂隙魔法伤害",
+          "skillKey": "braum_r",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-21T10:16:21.145239Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-09T19:29:42.876513Z",
+        "description": "固定客户端16.17根TotalDamage对应BaseDamage加0.6倍来源总法术强度；官方16.17.1正文中路径及附近命中敌人的本体魔法伤害共用此式，首目标区别只涉及击飞时长。本公式定义数值，具体执行由合资格命中入口与效果引用决定。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ability_power_ratio"
+                },
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "magic_damage",
+        "gameId": "lol",
+        "name": "冰川裂隙魔法伤害",
+        "skillKey": "braum_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-21T10:16:21.145239Z"
+      },
+      "listRoute": "/skills/braum_r/formulas",
+      "listReadback": [
+        {
+          "createdAt": "2026-09-09T19:29:42.876513Z",
+          "description": "固定客户端16.17根TotalDamage对应BaseDamage加0.6倍来源总法术强度；官方16.17.1正文中路径及附近命中敌人的本体魔法伤害共用此式，首目标区别只涉及击飞时长。本公式定义数值，具体执行由合资格命中入口与效果引用决定。",
+          "formulaKey": "magic_damage",
+          "gameId": "lol",
+          "name": "冰川裂隙魔法伤害",
+          "skillKey": "braum_r",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-21T10:16:21.145239Z"
+        }
+      ]
+    }
+  ],
+  "pendingRoute": null,
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-formula-labels.mjs": "73ecbb48cf02032e31afc0e1a39c407c4559e2bffbc6d27d2dbef8dec69b4eb9",
+    "01-纠错计划.json": "99c360138f59b6d3aff7f05d23f3b5de6c9ab120aadc8ec35ffab47c51fd265f",
+    "02-冻结请求.json": "5c8c28cae0482fb051083a3fe254ff8930371820c9c8b5d53b33ba965c4b5722",
+    "03-来源摘要.json": "5d5f8e093697eaabad07fa30037bf469401f53014abeb9d7e93b658c645af48c",
+    "04-写入前现值.json": "912b05aaaa1a64c64f3ffe43020f1fbb21ef42ddf756a237a6b6756f7f4e1542"
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/parameters/knockup_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/parameters/slow_percent_points",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/parameters/slow_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/processes/use_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/trigger-rules/on_used_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/parameters/ability_power_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/parameters/minimum_knockup_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/parameters/maximum_knockup_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/parameters/slow_zone_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/parameters/slow_percent_points",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/parameters/slow_debuff_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/processes/use_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/trigger-rules/on_used_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/chogath_q/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/formulas",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/braum_r/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/formulas",
+      "status": 200
+    }
+  ],
+  "finishedAt": "2026-09-21T10:16:20.089Z"
+}
