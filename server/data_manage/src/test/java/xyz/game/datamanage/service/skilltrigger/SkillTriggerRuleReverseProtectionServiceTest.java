@@ -117,7 +117,7 @@ class SkillTriggerRuleReverseProtectionServiceTest {
             new SkillTriggerReferenceHit("on_hit", "results", RESULT_REMOVED, "in use")
         ));
         ApiException result = thrown(() -> service.assertEffectUpdate(
-            GAME_ID, SKILL_KEY, EFFECT_KEY, lifecycleRow(), lifecycleRequest(), List.of(damageResult()), List.of(RESULT_REMOVED)
+            GAME_ID, SKILL_KEY, EFFECT_KEY, lifecycleRow(), lifecycleRequest(), List.of(), List.of(RESULT_REMOVED)
         ));
         assertEquals("409.SKILL_EFFECT_IN_USE", result.getCode());
         assertField(result, "results", "TRIGGER_RULE_RESULT_IN_USE");

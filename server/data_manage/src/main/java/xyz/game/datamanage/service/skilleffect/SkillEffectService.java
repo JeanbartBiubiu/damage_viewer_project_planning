@@ -397,13 +397,17 @@ public class SkillEffectService {
             throwIfInvalid(issues);
             return null;
         }
+        if (request.results() == null) {
+            issues.add(fieldIssue("results", "REQUIRED", "结果列表不能缺失"));
+        }
+        throwIfInvalid(issues);
         return new ValidatedEffect(
             request.effectKey(),
             request.name(),
             request.description(),
             request.sortOrder(),
             request.lifecycle(),
-            request.results() == null ? List.of() : List.copyOf(request.results())
+            List.copyOf(request.results())
         );
     }
 
@@ -417,6 +421,9 @@ public class SkillEffectService {
         if (request.effectKey() != null) {
             issues.add(fieldIssue("effectKey", "IMMUTABLE", "效果标识不能修改"));
         }
+        if (request.results() == null) {
+            issues.add(fieldIssue("results", "REQUIRED", "结果列表不能缺失"));
+        }
         throwIfInvalid(issues);
         return new ValidatedEffect(
             pathKey,
@@ -424,7 +431,7 @@ public class SkillEffectService {
             request.description(),
             request.sortOrder(),
             request.lifecycle(),
-            request.results() == null ? List.of() : List.copyOf(request.results())
+            List.copyOf(request.results())
         );
     }
 
@@ -438,8 +445,12 @@ public class SkillEffectService {
     ) {
         List<Map<String, String>> issues = new ArrayList<>();
         List<Map<String, String>> bodyIssues = new ArrayList<>();
-        if (results == null || results.isEmpty()) {
-            issues.add(fieldIssue("results", "REQUIRED", "效果至少包含一个结果"));
+        if (results == null) {
+            issues.add(fieldIssue("results", "REQUIRED", "结果列表不能缺失"));
+            throwIfInvalid(issues);
+        }
+        if (results.isEmpty() && lifecycle == null) {
+            issues.add(fieldIssue("results", "REQUIRED", "效果至少配置生命周期或一个结果"));
             throwIfInvalid(issues);
         }
         if (existingScope != null
