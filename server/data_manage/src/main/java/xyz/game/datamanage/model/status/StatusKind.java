@@ -5,5 +5,6 @@ public enum StatusKind {
     MOVEMENT_SLOW,
     ROOT,
     SILENCE,
-    CHARM
+    CHARM,
+    AIRBORNE
 }
