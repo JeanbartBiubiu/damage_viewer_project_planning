@@ -1,0 +1,18 @@
+{
+  "at": "2026-09-21T03:13:32.033Z",
+  "status": "PASS",
+  "command": "node --test tools/authoring/update-reviewed-hit-scope.test.mjs",
+  "tests": 5,
+  "failures": 0,
+  "network": "全部fetch由离线夹具替换，未访问业务API",
+  "scenarios": [
+    "缺独立批准和冻结文件漂移都禁止PUT",
+    "保护现值漂移禁止PUT且不建立06",
+    "现值未变但已有06也拒绝重放",
+    "仅一次PUT，完整回读与再次执行拒绝",
+    "保存响应损坏记录实际200及尝试，再次执行不重复写入"
+  ],
+  "oldToolUnchangedSha256": "b9dc44da5ac25728eeeaa13c8108dd6720f7ae70cd9ac4a8a9896f2715f2d287",
+  "newToolSha256": "909e4572b83c1ebc5f89f43b11fd92b5b532aee82972ddff0fad852c51efd049",
+  "testSha256": "f5d6d15c291b54f04002843158ed58efdab98902be32cd4691e8da4dfe0458bd"
+}
