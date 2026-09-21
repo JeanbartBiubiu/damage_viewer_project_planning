@@ -1,0 +1,47 @@
+{
+  "at": "2026-09-21T10:49:00.399Z",
+  "status": "APPROVED",
+  "reviewer": "/root/seven_hit_scope_review",
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-hit-scope-v2.mjs": "9b1a8fa46a08a417d513223292557e547308a3dc1c3251f02a45eabfb73c1670",
+    "01-候选方案.json": "b56798e7e536260bf8309a481599c42216fc9ca63f18220e2f7e7af1bc7c5435",
+    "02-冻结请求.json": "f3c918db51628eab9ec11833dc99b7f13effba061d254b401c2665087a6475ce",
+    "03-来源摘要.json": "22ea45d22b39b6303aa0f04df2f3e0a022aa5abf8a59ea0c42272fda7fb8aa69",
+    "04-写入前现值.json": "a40d0465cdfcf87f03f1420038d8453793ef968e61ea234b7b465c1250bd0883"
+  },
+  "decision": "批准后续仅按冻结请求执行一次PUT；本评审不执行业务写入。",
+  "scope": "仅在 gragas_e/actual_hit 既有单一CHAMPION条件组末尾追加SKILL_HIT_TARGET_IS_ENEMY；保留组标识、组名、排序、原条件、SKILL_HIT事件、动作及全部其他字段。",
+  "checks": {
+    "sourceFiles": 13,
+    "sourceHashesVerified": true,
+    "candidateMatchesFrozenConditionGroups": true,
+    "frozenBodyMatchesExpectedReadback": true,
+    "originalRuleFieldsUnchanged": true,
+    "baselineResponses": 20,
+    "baselineResponsesAllGET200": true,
+    "baselineBusinessWrites": 0,
+    "plannedGETs": 20,
+    "expectedUnchangedResponsesIncludingTimestamps": 18,
+    "plannedPUTs": 1,
+    "expectedChangedCollections": 1,
+    "expectedChangedDetails": 1,
+    "oldConditionGroups": 1,
+    "oldConditionsInGroup": 1,
+    "newConditionsInGroup": 2,
+    "eventType": "SKILL_HIT",
+    "sourceSkillKey": "gragas_e",
+    "ruleKey": "actual_hit"
+  },
+  "hashes": {
+    "toolSha256": "9b1a8fa46a08a417d513223292557e547308a3dc1c3251f02a45eabfb73c1670",
+    "sourceSha256": "22ea45d22b39b6303aa0f04df2f3e0a022aa5abf8a59ea0c42272fda7fb8aa69",
+    "baselineSha256": "a40d0465cdfcf87f03f1420038d8453793ef968e61ea234b7b465c1250bd0883",
+    "frozenRequestSha256": "f3c918db51628eab9ec11833dc99b7f13effba061d254b401c2665087a6475ce"
+  },
+  "validationLimits": {
+    "http": "本评审未调用业务接口；GET证据来自冻结04。",
+    "browser": "未执行页面验收。",
+    "runtime": "固定来源和管理冻结不证明宿主、Wasm或战斗运行时已经生产SKILL_HIT。"
+  },
+  "blockingFindings": []
+}

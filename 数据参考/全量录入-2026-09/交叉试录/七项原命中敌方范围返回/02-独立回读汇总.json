@@ -1,0 +1,732 @@
+{
+  "at": "2026-09-21T11:11:30.937Z",
+  "status": "PASS",
+  "reviewer": "/root/seven_hit_scope_review",
+  "tool": {
+    "path": "tools/authoring/update-reviewed-hit-scope-v2.mjs",
+    "sha256": "9b1a8fa46a08a417d513223292557e547308a3dc1c3251f02a45eabfb73c1670"
+  },
+  "execution": {
+    "mode": "readback",
+    "runsPerBatch": 1,
+    "businessWrites": 0,
+    "writeReplays": 0,
+    "rawStdoutSaved": true
+  },
+  "items": [
+    {
+      "skillKey": "kennen_q",
+      "status": "PASS",
+      "at": "2026-09-21T10:59:34.734Z",
+      "readbackFile": "kennen_q/07-独立回读.json",
+      "readbackFileSha256": "d9902a701a473d9f2bd2c9098322199f472a5bbb353e77bdbe5b03af7a864743",
+      "approvedReviewFileSha256": "03708c1280d0a5006df614acf0d1cd01121ad9cb81cbc3a63879b95f18c41dd4",
+      "frozenRequestSha256": "29dfbfa0a3c6c57491c93e160911d780989593ce189f2d6801d00720dc1f8502",
+      "baselineSha256": "eb63a9060628623199e67ea23aeb3b19acadd32f80fa05278dc5f40e2c7caf6e",
+      "actualGETs": 18,
+      "unchangedResponsesIncludingTimestamps": 16,
+      "businessWrites": 0,
+      "expectedChangedCollections": 1,
+      "changedDetailRoutes": [
+        "/skills/kennen_q/trigger-rules/actual_hit"
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "detail": {},
+              "sortOrder": 20
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "oldConditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "kennen_q",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "actions": [
+        {
+          "actionKey": "execute_primary_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "primary_hit"
+          },
+          "name": "执行凯南·奥义！千鸟伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "preservation": {
+        "expectedReadbackMatchesFrozen": true,
+        "eventSourcePreserved": true,
+        "actionsPreserved": true,
+        "allOtherRuleFieldsPreserved": true,
+        "oldEventType": "SKILL_HIT",
+        "actualEventType": "SKILL_HIT",
+        "oldActionCount": 1,
+        "actualActionCount": 1
+      },
+      "audit": {
+        "count": 18,
+        "allGET": true,
+        "all200": true,
+        "matchesFrozenBaseline": true
+      },
+      "rawStdoutStored": true
+    },
+    {
+      "skillKey": "teemo_q",
+      "status": "PASS",
+      "at": "2026-09-21T10:59:34.936Z",
+      "readbackFile": "teemo_q/07-独立回读.json",
+      "readbackFileSha256": "86c249c5c50d2b6c371779e2d049bd83e9053bee7b78486361a2946df5b5bc29",
+      "approvedReviewFileSha256": "74e28f98eabb63d90f4043a77fe44702a94dd28991233aaf7bc43ed71d9b5425",
+      "frozenRequestSha256": "1b2db76afd51575cd2b162b2fc8cee152c35a29d44b24e72ab86041c1a32c732",
+      "baselineSha256": "c1e36cbdecd69438d7e4875f11c5904740184b10d63601dafae3a9765c9904d6",
+      "actualGETs": 19,
+      "unchangedResponsesIncludingTimestamps": 17,
+      "businessWrites": 0,
+      "expectedChangedCollections": 1,
+      "changedDetailRoutes": [
+        "/skills/teemo_q/trigger-rules/actual_hit"
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "detail": {},
+              "sortOrder": 20
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "oldConditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "teemo_q",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "actions": [
+        {
+          "actionKey": "execute_primary_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "primary_hit"
+          },
+          "name": "执行提莫·致盲吹箭伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "preservation": {
+        "expectedReadbackMatchesFrozen": true,
+        "eventSourcePreserved": true,
+        "actionsPreserved": true,
+        "allOtherRuleFieldsPreserved": true,
+        "oldEventType": "SKILL_HIT",
+        "actualEventType": "SKILL_HIT",
+        "oldActionCount": 1,
+        "actualActionCount": 1
+      },
+      "audit": {
+        "count": 19,
+        "allGET": true,
+        "all200": true,
+        "matchesFrozenBaseline": true
+      },
+      "rawStdoutStored": true
+    },
+    {
+      "skillKey": "gragas_e",
+      "status": "PASS",
+      "at": "2026-09-21T10:59:35.106Z",
+      "readbackFile": "gragas_e/07-独立回读.json",
+      "readbackFileSha256": "97904afcdce8c9d23456164f3ae1e8232ea2e66e05fe168dcfaf1f19785678a8",
+      "approvedReviewFileSha256": "b4bf03b070d00003894f9d9d04c557dbdc2093e9b754d9653d4fd02b116456ac",
+      "frozenRequestSha256": "f3c918db51628eab9ec11833dc99b7f13effba061d254b401c2665087a6475ce",
+      "baselineSha256": "a40d0465cdfcf87f03f1420038d8453793ef968e61ea234b7b465c1250bd0883",
+      "actualGETs": 20,
+      "unchangedResponsesIncludingTimestamps": 18,
+      "businessWrites": 0,
+      "expectedChangedCollections": 1,
+      "changedDetailRoutes": [
+        "/skills/gragas_e/trigger-rules/actual_hit"
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "detail": {},
+              "sortOrder": 20
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "oldConditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "gragas_e",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "actions": [
+        {
+          "actionKey": "execute_primary_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "primary_hit"
+          },
+          "name": "执行古拉加斯·肉弹冲击伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "preservation": {
+        "expectedReadbackMatchesFrozen": true,
+        "eventSourcePreserved": true,
+        "actionsPreserved": true,
+        "allOtherRuleFieldsPreserved": true,
+        "oldEventType": "SKILL_HIT",
+        "actualEventType": "SKILL_HIT",
+        "oldActionCount": 1,
+        "actualActionCount": 1
+      },
+      "audit": {
+        "count": 20,
+        "allGET": true,
+        "all200": true,
+        "matchesFrozenBaseline": true
+      },
+      "rawStdoutStored": true
+    },
+    {
+      "skillKey": "gragas_r",
+      "status": "PASS",
+      "at": "2026-09-21T10:59:35.241Z",
+      "readbackFile": "gragas_r/07-独立回读.json",
+      "readbackFileSha256": "6a191bf9887e2b0639fcbd390773d3b1d382cfb1d4b2c84bba19855edff0255e",
+      "approvedReviewFileSha256": "eb0020e7452897df5d5dd045a0acd85be867cbe352814c402122a19a943b0640",
+      "frozenRequestSha256": "0a885615019729cce60b4487fd06f5579e03ca52c833102e0594643058693d27",
+      "baselineSha256": "7bb5b4796dd67c5aa0b4dc738710534446d1a1357d0d5e6b045a0629087d3481",
+      "actualGETs": 19,
+      "unchangedResponsesIncludingTimestamps": 17,
+      "businessWrites": 0,
+      "expectedChangedCollections": 1,
+      "changedDetailRoutes": [
+        "/skills/gragas_r/trigger-rules/actual_hit"
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "detail": {},
+              "sortOrder": 20
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "oldConditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "gragas_r",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "actions": [
+        {
+          "actionKey": "execute_primary_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "primary_hit"
+          },
+          "name": "执行古拉加斯·爆破酒桶伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "preservation": {
+        "expectedReadbackMatchesFrozen": true,
+        "eventSourcePreserved": true,
+        "actionsPreserved": true,
+        "allOtherRuleFieldsPreserved": true,
+        "oldEventType": "SKILL_HIT",
+        "actualEventType": "SKILL_HIT",
+        "oldActionCount": 1,
+        "actualActionCount": 1
+      },
+      "audit": {
+        "count": 19,
+        "allGET": true,
+        "all200": true,
+        "matchesFrozenBaseline": true
+      },
+      "rawStdoutStored": true
+    },
+    {
+      "skillKey": "lissandra_q",
+      "status": "PASS",
+      "at": "2026-09-21T10:59:35.435Z",
+      "readbackFile": "lissandra_q/07-独立回读.json",
+      "readbackFileSha256": "5d8e1ac0eed231a27c324d1b7d8206c25678b86c9b2cd74d4813bd2e3fa510f8",
+      "approvedReviewFileSha256": "4047683387d7e431d11266067dc24d8cfcf7b58910e9d0ed080efd7b1923ca99",
+      "frozenRequestSha256": "e67416ca5da33e1b07a7a59f4fac45c65b640f891563c06784c36230299f405b",
+      "baselineSha256": "9794b9d2ab4053f852c435e80f2800029583e8ce784bff72ef1ee98c3648fc99",
+      "actualGETs": 20,
+      "unchangedResponsesIncludingTimestamps": 18,
+      "businessWrites": 0,
+      "expectedChangedCollections": 1,
+      "changedDetailRoutes": [
+        "/skills/lissandra_q/trigger-rules/actual_hit"
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "detail": {},
+              "sortOrder": 20
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "oldConditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "lissandra_q",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "actions": [
+        {
+          "actionKey": "execute_primary_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "primary_hit"
+          },
+          "name": "执行丽桑卓·寒冰碎片伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "preservation": {
+        "expectedReadbackMatchesFrozen": true,
+        "eventSourcePreserved": true,
+        "actionsPreserved": true,
+        "allOtherRuleFieldsPreserved": true,
+        "oldEventType": "SKILL_HIT",
+        "actualEventType": "SKILL_HIT",
+        "oldActionCount": 1,
+        "actualActionCount": 1
+      },
+      "audit": {
+        "count": 20,
+        "allGET": true,
+        "all200": true,
+        "matchesFrozenBaseline": true
+      },
+      "rawStdoutStored": true
+    },
+    {
+      "skillKey": "lissandra_w",
+      "status": "PASS",
+      "at": "2026-09-21T10:59:35.585Z",
+      "readbackFile": "lissandra_w/07-独立回读.json",
+      "readbackFileSha256": "be26cfe0d098c33ba8c047d3ff10da4348f785523e0a03e1aa8c628f8354e80a",
+      "approvedReviewFileSha256": "d3c1682f74e9cb9ef50d148e7f6125c9965c3f7f1dfcfb009095663d7a315a33",
+      "frozenRequestSha256": "6d40e4d4cd117511e882c1f6731515de8635262a650810b48c7bf639fe7f0101",
+      "baselineSha256": "c03a095a6df9a8b93e99123f167fb6b8d50e3dccf651974430eb719eb1394276",
+      "actualGETs": 21,
+      "unchangedResponsesIncludingTimestamps": 19,
+      "businessWrites": 0,
+      "expectedChangedCollections": 1,
+      "changedDetailRoutes": [
+        "/skills/lissandra_w/trigger-rules/actual_hit"
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "detail": {},
+              "sortOrder": 20
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "oldConditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "lissandra_w",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "actions": [
+        {
+          "actionKey": "execute_primary_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "primary_hit"
+          },
+          "name": "执行丽桑卓·冰霜之环伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "preservation": {
+        "expectedReadbackMatchesFrozen": true,
+        "eventSourcePreserved": true,
+        "actionsPreserved": true,
+        "allOtherRuleFieldsPreserved": true,
+        "oldEventType": "SKILL_HIT",
+        "actualEventType": "SKILL_HIT",
+        "oldActionCount": 1,
+        "actualActionCount": 1
+      },
+      "audit": {
+        "count": 21,
+        "allGET": true,
+        "all200": true,
+        "matchesFrozenBaseline": true
+      },
+      "rawStdoutStored": true
+    },
+    {
+      "skillKey": "lissandra_e",
+      "status": "PASS",
+      "at": "2026-09-21T10:59:35.576Z",
+      "readbackFile": "lissandra_e/07-独立回读.json",
+      "readbackFileSha256": "357bf1248894f877153e96138aef6a558055ba5f68d8136bf45a80cae26af12f",
+      "approvedReviewFileSha256": "3df637bb971f76d985e841264c3a9d04d556363a52139f0cf626d372d76d825f",
+      "frozenRequestSha256": "ac5c172d52cf7780031ffd582f2fb2f826e32753b410d7e78d8c847487f9f917",
+      "baselineSha256": "0591e92f8213871fb73c685809e747c70475d5508b5f24e75ab884352cec6fe0",
+      "actualGETs": 16,
+      "unchangedResponsesIncludingTimestamps": 14,
+      "businessWrites": 0,
+      "expectedChangedCollections": 1,
+      "changedDetailRoutes": [
+        "/skills/lissandra_e/trigger-rules/actual_hit"
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "detail": {},
+              "sortOrder": 20
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "oldConditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "lissandra_e",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "actions": [
+        {
+          "actionKey": "execute_primary_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "primary_hit"
+          },
+          "name": "执行丽桑卓·冰川之径伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "preservation": {
+        "expectedReadbackMatchesFrozen": true,
+        "eventSourcePreserved": true,
+        "actionsPreserved": true,
+        "allOtherRuleFieldsPreserved": true,
+        "oldEventType": "SKILL_HIT",
+        "actualEventType": "SKILL_HIT",
+        "oldActionCount": 1,
+        "actualActionCount": 1
+      },
+      "audit": {
+        "count": 16,
+        "allGET": true,
+        "all200": true,
+        "matchesFrozenBaseline": true
+      },
+      "rawStdoutStored": true
+    }
+  ],
+  "totals": {
+    "batches": 7,
+    "pass": 7,
+    "actualGETs": 133,
+    "unchangedResponsesIncludingTimestamps": 119,
+    "businessWrites": 0,
+    "expectedChangedCollections": 7,
+    "allGET": true,
+    "all200": true,
+    "allBaselineAuditsMatch": true,
+    "allExpectedReadbacksMatch": true,
+    "allEventSourcesPreserved": true,
+    "allActionsPreserved": true,
+    "allOtherRuleFieldsPreserved": true
+  },
+  "validationLimits": {
+    "http": "每项仅执行一次现有readback；实际业务请求全部为工具审计中的GET。",
+    "browser": "未执行页面验收。",
+    "runtime": "独立接口回读不证明宿主、Wasm或战斗运行时已经生产SKILL_HIT。"
+  },
+  "blockingFindings": []
+}

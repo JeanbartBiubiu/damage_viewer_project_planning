@@ -1,0 +1,654 @@
+{
+  "at": "2026-09-21T10:40:38.248Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/skills/teemo_q": {
+      "createdAt": "2026-09-06T18:20:38.025025Z",
+      "description": "用一团强力的毒液来侵蚀一名敌人的视野，对目标单位造成伤害并使目标致盲一段时间。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "提莫·致盲吹箭",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "teemo_q",
+      "sortOrder": 1,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:20:38.025025Z"
+    },
+    "/skills/teemo_q/parameters": [
+      {
+        "createdAt": "2026-09-10T02:17:45.666971Z",
+        "description": "BaseDamage索引1至5为80/125/170/215/260；索引0=35不作1级。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 80,
+          "2": 125,
+          "3": 170,
+          "4": 215,
+          "5": 260
+        },
+        "name": "基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "teemo_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-10T02:17:45.666971Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-10T02:17:47.356123Z",
+        "description": "来自CalculatedDamage第二个分支APRatio。",
+        "fixedValue": 0.699999988,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法强伤害倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "teemo_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-10T02:17:47.356123Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-10T02:17:49.053928Z",
+        "description": "BlindDuration索引1至5为2/2.25/2.5/2.75/3秒；转换为整数毫秒。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 2000,
+          "2": 2250,
+          "3": 2500,
+          "4": 2750,
+          "5": 3000
+        },
+        "name": "致盲持续时间（毫秒）",
+        "parameterKey": "blind_duration_ms",
+        "skillKey": "teemo_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-10T02:17:49.053928Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-10T02:17:50.92716Z",
+        "description": "当前根spellCastTime=0.25秒。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "teemo_q",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-10T02:17:50.92716Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T02:05:04.810383Z",
+        "description": "DDragon16.17.1 Teemo.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 7000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "teemo_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:04.810383Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T02:05:06.170466Z",
+        "description": "DDragon16.17.1 Teemo.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 75,
+          "3": 80,
+          "4": 85,
+          "5": 90
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "teemo_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-19T02:21:14.918235Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/teemo_q/parameters/base_damage": {
+      "createdAt": "2026-09-10T02:17:45.666971Z",
+      "description": "BaseDamage索引1至5为80/125/170/215/260；索引0=35不作1级。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 80,
+        "2": 125,
+        "3": 170,
+        "4": 215,
+        "5": 260
+      },
+      "name": "基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "teemo_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-10T02:17:45.666971Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/teemo_q/parameters/ap_ratio": {
+      "createdAt": "2026-09-10T02:17:47.356123Z",
+      "description": "来自CalculatedDamage第二个分支APRatio。",
+      "fixedValue": 0.699999988,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法强伤害倍率",
+      "parameterKey": "ap_ratio",
+      "skillKey": "teemo_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-10T02:17:47.356123Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/teemo_q/parameters/blind_duration_ms": {
+      "createdAt": "2026-09-10T02:17:49.053928Z",
+      "description": "BlindDuration索引1至5为2/2.25/2.5/2.75/3秒；转换为整数毫秒。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 2000,
+        "2": 2250,
+        "3": 2500,
+        "4": 2750,
+        "5": 3000
+      },
+      "name": "致盲持续时间（毫秒）",
+      "parameterKey": "blind_duration_ms",
+      "skillKey": "teemo_q",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-10T02:17:49.053928Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/teemo_q/parameters/cast_time_ms": {
+      "createdAt": "2026-09-10T02:17:50.92716Z",
+      "description": "当前根spellCastTime=0.25秒。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "teemo_q",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-10T02:17:50.92716Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/teemo_q/parameters/cooldown_ms": {
+      "createdAt": "2026-09-08T02:05:04.810383Z",
+      "description": "DDragon16.17.1 Teemo.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 7000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "teemo_q",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-08T02:05:04.810383Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/teemo_q/parameters/mana_cost": {
+      "createdAt": "2026-09-08T02:05:06.170466Z",
+      "description": "DDragon16.17.1 Teemo.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 70,
+        "2": 75,
+        "3": 80,
+        "4": 85,
+        "5": 90
+      },
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "teemo_q",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-19T02:21:14.918235Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/teemo_q/formulas": [
+      {
+        "createdAt": "2026-09-10T02:17:52.815135Z",
+        "description": "CalculatedDamage=BaseDamage+APRatio×法强。",
+        "formulaKey": "magic_damage",
+        "gameId": "lol",
+        "name": "致盲吹箭魔法伤害",
+        "skillKey": "teemo_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-10T02:17:52.815135Z"
+      }
+    ],
+    "/skills/teemo_q/formulas/magic_damage": {
+      "createdAt": "2026-09-10T02:17:52.815135Z",
+      "description": "CalculatedDamage=BaseDamage+APRatio×法强。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "magic_damage",
+      "gameId": "lol",
+      "name": "致盲吹箭魔法伤害",
+      "skillKey": "teemo_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-10T02:17:52.815135Z"
+    },
+    "/skills/teemo_q/effects": [
+      {
+        "createdAt": "2026-09-19T02:00:35.644311Z",
+        "description": "本轮1V1实际命中敌方英雄的一次普通直接魔法技能伤害；仅引用已有伤害公式，不连接控制、位移或其他独立分支。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "提莫·致盲吹箭命中伤害",
+        "resultCount": 1,
+        "skillKey": "teemo_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T02:00:35.644311Z"
+      },
+      {
+        "createdAt": "2026-09-10T02:17:54.480004Z",
+        "description": "复用冻结公共法力参数；仅记录基础消耗。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "teemo_q",
+        "sortOrder": 900,
+        "updatedAt": "2026-09-10T02:17:54.480004Z"
+      }
+    ],
+    "/skills/teemo_q/effects/primary_hit": {
+      "createdAt": "2026-09-19T02:00:35.644311Z",
+      "description": "本轮1V1实际命中敌方英雄的一次普通直接魔法技能伤害；仅引用已有伤害公式，不连接控制、位移或其他独立分支。",
+      "effectKey": "primary_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "提莫·致盲吹箭命中伤害",
+      "results": [
+        {
+          "description": "引用当前技能的 magic_damage 公式；基础数值和法强加成保持现有配置。",
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": [
+              {
+                "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                "efficiencyValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "vampType": "OMNIVAMP"
+              }
+            ]
+          },
+          "lifecycleBehavior": null,
+          "name": "魔法伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "SKILL",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "magic_damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "teemo_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-19T02:00:35.644311Z"
+    },
+    "/skills/teemo_q/effects/mana_cost": {
+      "createdAt": "2026-09-10T02:17:54.480004Z",
+      "description": "复用冻结公共法力参数；仅记录基础消耗。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": "不表示战斗事件已经接线。",
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "施放资源消耗",
+          "resultKey": "consume_resource",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "teemo_q",
+      "sortOrder": 900,
+      "updatedAt": "2026-09-10T02:17:54.480004Z"
+    },
+    "/skills/teemo_q/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-19T02:11:22.911249Z",
+        "description": "登记本次普通主动使用的基础法力消耗、施法延迟和普通冷却；伤害由独立实际命中规则处理，控制和其他联动另行配置。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "提莫·致盲吹箭施法登记",
+        "processKey": "cast",
+        "skillKey": "teemo_q",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-19T02:11:22.911249Z"
+      }
+    ],
+    "/skills/teemo_q/processes/cast": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-19T02:11:22.911249Z",
+      "description": "登记本次普通主动使用的基础法力消耗、施法延迟和普通冷却；伤害由独立实际命中规则处理，控制和其他联动另行配置。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "提莫·致盲吹箭施法登记",
+      "processKey": "cast",
+      "skillKey": "teemo_q",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "读取当前技能既有施法时间参数；延迟结束不表示发生实际命中。",
+          "detail": {
+            "delayValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cast_time_ms"
+            }
+          },
+          "name": "施法延迟",
+          "sortOrder": 10,
+          "stepKey": "cast_time",
+          "stepType": "DELAY"
+        }
+      ],
+      "updatedAt": "2026-09-19T02:11:22.911249Z"
+    },
+    "/skills/teemo_q/internal-states": [],
+    "/skills/teemo_q/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "只消费已确认的 teemo_q 实际命中事件，对事件中的英雄目标执行primary_hit；不从技能使用或过程结束产生命中。目标类别只筛本轮范围，不产生目标资格。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "提莫·致盲吹箭实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T02:00:36.992107Z"
+      },
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "普通主动使用teemo_q时启动cast过程，按既有参数登记法力、基础冷却和施法延迟。实际命中、控制、返还及其他联动不由此入口生成。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "提莫·致盲吹箭普通使用",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T02:11:24.305776Z"
+      }
+    ],
+    "/skills/teemo_q/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "execute_primary_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "primary_hit"
+          },
+          "name": "执行提莫·致盲吹箭伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "description": "只消费已确认的 teemo_q 实际命中事件，对事件中的英雄目标执行primary_hit；不从技能使用或过程结束产生命中。目标类别只筛本轮范围，不产生目标资格。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "teemo_q",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "提莫·致盲吹箭实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    },
+    "/skills/teemo_q/trigger-rules/on_used": {
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "actionType": "START_PROCESS",
+          "detail": {
+            "processKey": "cast"
+          },
+          "name": "启动提莫·致盲吹箭施法登记",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "普通主动使用teemo_q时启动cast过程，按既有参数登记法力、基础冷却和施法延迟。实际命中、控制、返还及其他联动不由此入口生成。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "teemo_q",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "提莫·致盲吹箭普通使用",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used",
+      "sortOrder": 20
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/parameters/blind_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/trigger-rules/on_used",
+      "status": 200
+    }
+  ],
+  "businessWrites": 0
+}

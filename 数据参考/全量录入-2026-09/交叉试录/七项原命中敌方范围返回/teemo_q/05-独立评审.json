@@ -1,0 +1,47 @@
+{
+  "at": "2026-09-21T10:49:00.399Z",
+  "status": "APPROVED",
+  "reviewer": "/root/seven_hit_scope_review",
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-hit-scope-v2.mjs": "9b1a8fa46a08a417d513223292557e547308a3dc1c3251f02a45eabfb73c1670",
+    "01-候选方案.json": "a0c69e14906a78001375a772d572eb1f7542cffd3888c6e6d55e7e4069b8eef2",
+    "02-冻结请求.json": "1b2db76afd51575cd2b162b2fc8cee152c35a29d44b24e72ab86041c1a32c732",
+    "03-来源摘要.json": "22ea45d22b39b6303aa0f04df2f3e0a022aa5abf8a59ea0c42272fda7fb8aa69",
+    "04-写入前现值.json": "c1e36cbdecd69438d7e4875f11c5904740184b10d63601dafae3a9765c9904d6"
+  },
+  "decision": "批准后续仅按冻结请求执行一次PUT；本评审不执行业务写入。",
+  "scope": "仅在 teemo_q/actual_hit 既有单一CHAMPION条件组末尾追加SKILL_HIT_TARGET_IS_ENEMY；保留组标识、组名、排序、原条件、SKILL_HIT事件、动作及全部其他字段。",
+  "checks": {
+    "sourceFiles": 13,
+    "sourceHashesVerified": true,
+    "candidateMatchesFrozenConditionGroups": true,
+    "frozenBodyMatchesExpectedReadback": true,
+    "originalRuleFieldsUnchanged": true,
+    "baselineResponses": 19,
+    "baselineResponsesAllGET200": true,
+    "baselineBusinessWrites": 0,
+    "plannedGETs": 19,
+    "expectedUnchangedResponsesIncludingTimestamps": 17,
+    "plannedPUTs": 1,
+    "expectedChangedCollections": 1,
+    "expectedChangedDetails": 1,
+    "oldConditionGroups": 1,
+    "oldConditionsInGroup": 1,
+    "newConditionsInGroup": 2,
+    "eventType": "SKILL_HIT",
+    "sourceSkillKey": "teemo_q",
+    "ruleKey": "actual_hit"
+  },
+  "hashes": {
+    "toolSha256": "9b1a8fa46a08a417d513223292557e547308a3dc1c3251f02a45eabfb73c1670",
+    "sourceSha256": "22ea45d22b39b6303aa0f04df2f3e0a022aa5abf8a59ea0c42272fda7fb8aa69",
+    "baselineSha256": "c1e36cbdecd69438d7e4875f11c5904740184b10d63601dafae3a9765c9904d6",
+    "frozenRequestSha256": "1b2db76afd51575cd2b162b2fc8cee152c35a29d44b24e72ab86041c1a32c732"
+  },
+  "validationLimits": {
+    "http": "本评审未调用业务接口；GET证据来自冻结04。",
+    "browser": "未执行页面验收。",
+    "runtime": "固定来源和管理冻结不证明宿主、Wasm或战斗运行时已经生产SKILL_HIT。"
+  },
+  "blockingFindings": []
+}

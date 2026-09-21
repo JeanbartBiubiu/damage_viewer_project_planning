@@ -1,0 +1,820 @@
+{
+  "at": "2026-09-21T10:40:42.117Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/skills/lissandra_w": {
+      "createdAt": "2026-09-06T18:19:12.755851Z",
+      "description": "将周围的敌人冻在原地，造成魔法伤害和束缚效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "丽桑卓·冰霜之环",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "lissandra_w",
+      "sortOrder": 2,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:19:12.755851Z"
+    },
+    "/skills/lissandra_w/parameters": [
+      {
+        "createdAt": "2026-09-09T10:36:33.074555Z",
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "lissandra_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T10:36:33.074555Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T10:36:34.068488Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 105,
+          "3": 140,
+          "4": 175,
+          "5": 210
+        },
+        "name": "冰霜之环基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "lissandra_w",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-21T05:22:35.226572Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T10:36:35.119537Z",
+        "description": "官方16.17.1 W的effect[2]明确为1.25/1.35/1.45/1.55/1.65秒，与客户端16.17当前根SnareDuration索引1至5的单精度值一致；按官方精度换算为整数毫秒。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 1250,
+          "2": 1350,
+          "3": 1450,
+          "4": 1550,
+          "5": 1650
+        },
+        "name": "禁锢持续（毫秒）",
+        "parameterKey": "snare_duration_ms",
+        "skillKey": "lissandra_w",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-21T05:22:33.651268Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T10:36:36.122585Z",
+        "description": "TotalDamage树直接给出0.7。",
+        "fixedValue": 0.7,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法强倍率",
+        "parameterKey": "ap_ratio_constant",
+        "skillKey": "lissandra_w",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T10:36:36.122585Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T17:38:48.652975Z",
+        "description": "DDragon16.17.1 Lissandra.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 10000,
+          "2": 9500,
+          "3": 9000,
+          "4": 8500,
+          "5": 8000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "lissandra_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T17:38:48.652975Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T17:38:48.964763Z",
+        "description": "DDragon16.17.1 Lissandra.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 40,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "lissandra_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-19T02:21:25.413748Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/lissandra_w/parameters/cast_time_ms": {
+      "createdAt": "2026-09-09T10:36:33.074555Z",
+      "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "lissandra_w",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T10:36:33.074555Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/lissandra_w/parameters/base_damage": {
+      "createdAt": "2026-09-09T10:36:34.068488Z",
+      "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 70,
+        "2": 105,
+        "3": 140,
+        "4": 175,
+        "5": 210
+      },
+      "name": "冰霜之环基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "lissandra_w",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-21T05:22:35.226572Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/lissandra_w/parameters/snare_duration_ms": {
+      "createdAt": "2026-09-09T10:36:35.119537Z",
+      "description": "官方16.17.1 W的effect[2]明确为1.25/1.35/1.45/1.55/1.65秒，与客户端16.17当前根SnareDuration索引1至5的单精度值一致；按官方精度换算为整数毫秒。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 1250,
+        "2": 1350,
+        "3": 1450,
+        "4": 1550,
+        "5": 1650
+      },
+      "name": "禁锢持续（毫秒）",
+      "parameterKey": "snare_duration_ms",
+      "skillKey": "lissandra_w",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-21T05:22:33.651268Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/lissandra_w/parameters/ap_ratio_constant": {
+      "createdAt": "2026-09-09T10:36:36.122585Z",
+      "description": "TotalDamage树直接给出0.7。",
+      "fixedValue": 0.7,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法强倍率",
+      "parameterKey": "ap_ratio_constant",
+      "skillKey": "lissandra_w",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-09T10:36:36.122585Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/lissandra_w/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T17:38:48.652975Z",
+      "description": "DDragon16.17.1 Lissandra.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 10000,
+        "2": 9500,
+        "3": 9000,
+        "4": 8500,
+        "5": 8000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "lissandra_w",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T17:38:48.652975Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/lissandra_w/parameters/mana_cost": {
+      "createdAt": "2026-09-07T17:38:48.964763Z",
+      "description": "DDragon16.17.1 Lissandra.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 40,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "lissandra_w",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-19T02:21:25.413748Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/lissandra_w/formulas": [
+      {
+        "createdAt": "2026-09-09T10:36:37.272625Z",
+        "description": "TotalDamage = BaseDamage + 0.7×法强。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "冰脉驱役魔法伤害",
+        "skillKey": "lissandra_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T10:36:37.272625Z"
+      }
+    ],
+    "/skills/lissandra_w/formulas/damage": {
+      "createdAt": "2026-09-09T10:36:37.272625Z",
+      "description": "TotalDamage = BaseDamage + 0.7×法强。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio_constant"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "冰脉驱役魔法伤害",
+      "skillKey": "lissandra_w",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T10:36:37.272625Z"
+    },
+    "/skills/lissandra_w/effects": [
+      {
+        "createdAt": "2026-09-09T10:36:38.399957Z",
+        "description": "本技能普通主动使用时消耗对应技能等级的法力；具体使用时点由引用本效果的过程定义。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "lissandra_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T02:21:26.684445Z"
+      },
+      {
+        "createdAt": "2026-09-19T02:00:48.189279Z",
+        "description": "本轮1V1实际命中敌方英雄的一次普通直接魔法技能伤害；仅引用已有伤害公式，不连接控制、位移或其他独立分支。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "丽桑卓·冰霜之环命中伤害",
+        "resultCount": 1,
+        "skillKey": "lissandra_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T02:00:48.189279Z"
+      },
+      {
+        "createdAt": "2026-09-21T05:29:48.456217Z",
+        "description": "仅供本技能明确未被同次法术护盾判定阻挡、且目标没有本来源实例的敌方英雄实际命中入口使用；重复施加与阻挡分支分别待核。",
+        "effectKey": "first_hit_root",
+        "gameId": "lol",
+        "lifecycleEnabled": true,
+        "name": "冰霜之环首次禁锢",
+        "resultCount": 1,
+        "skillKey": "lissandra_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-21T05:29:48.456217Z"
+      }
+    ],
+    "/skills/lissandra_w/effects/mana_cost": {
+      "createdAt": "2026-09-09T10:36:38.399957Z",
+      "description": "本技能普通主动使用时消耗对应技能等级的法力；具体使用时点由引用本效果的过程定义。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "lissandra_w",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-19T02:21:26.684445Z"
+    },
+    "/skills/lissandra_w/effects/primary_hit": {
+      "createdAt": "2026-09-19T02:00:48.189279Z",
+      "description": "本轮1V1实际命中敌方英雄的一次普通直接魔法技能伤害；仅引用已有伤害公式，不连接控制、位移或其他独立分支。",
+      "effectKey": "primary_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "丽桑卓·冰霜之环命中伤害",
+      "results": [
+        {
+          "description": "引用当前技能的 damage 公式；基础数值和法强加成保持现有配置。",
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": [
+              {
+                "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                "efficiencyValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "vampType": "OMNIVAMP"
+              }
+            ]
+          },
+          "lifecycleBehavior": null,
+          "name": "魔法伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "SKILL",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "lissandra_w",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-19T02:00:48.189279Z"
+    },
+    "/skills/lissandra_w/effects/first_hit_root": {
+      "createdAt": "2026-09-21T05:29:48.456217Z",
+      "description": "仅供本技能明确未被同次法术护盾判定阻挡、且目标没有本来源实例的敌方英雄实际命中入口使用；重复施加与阻挡分支分别待核。",
+      "effectKey": "first_hit_root",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "snare_duration_ms"
+        },
+        "expiryMode": "ALL_AT_ONCE",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE_TARGET",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "冰霜之环首次禁锢",
+      "results": [
+        {
+          "description": "控制资格由受限入口核对；本结果不再次独立判断法术护盾，持续状态随本来源与目标实例到期结束。",
+          "detail": {
+            "operation": "APPLY",
+            "statusKey": "root"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": null,
+            "stackValueMode": null,
+            "valueReadMode": null
+          },
+          "name": "本次冰霜之环禁锢",
+          "resultKey": "root",
+          "resultType": "STATUS_OPERATION",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "TARGET",
+          "valueRule": null
+        }
+      ],
+      "skillKey": "lissandra_w",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-21T05:29:48.456217Z"
+    },
+    "/skills/lissandra_w/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-19T02:11:34.990965Z",
+        "description": "登记本次普通主动使用的基础法力消耗、施法延迟和普通冷却；伤害由独立实际命中规则处理，控制和其他联动另行配置。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "丽桑卓·冰霜之环施法登记",
+        "processKey": "cast",
+        "skillKey": "lissandra_w",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-19T02:11:34.990965Z"
+      }
+    ],
+    "/skills/lissandra_w/processes/cast": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-19T02:11:34.990965Z",
+      "description": "登记本次普通主动使用的基础法力消耗、施法延迟和普通冷却；伤害由独立实际命中规则处理，控制和其他联动另行配置。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "丽桑卓·冰霜之环施法登记",
+      "processKey": "cast",
+      "skillKey": "lissandra_w",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "读取当前技能既有施法时间参数；延迟结束不表示发生实际命中。",
+          "detail": {
+            "delayValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cast_time_ms"
+            }
+          },
+          "name": "施法延迟",
+          "sortOrder": 10,
+          "stepKey": "cast_time",
+          "stepType": "DELAY"
+        }
+      ],
+      "updatedAt": "2026-09-19T02:11:34.990965Z"
+    },
+    "/skills/lissandra_w/internal-states": [],
+    "/skills/lissandra_w/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "只消费已确认的 lissandra_w 实际命中事件，对事件中的英雄目标执行primary_hit；不从技能使用或过程结束产生命中。目标类别只筛本轮范围，不产生目标资格。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "丽桑卓·冰霜之环实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T02:00:49.498082Z"
+      },
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "普通主动使用lissandra_w时启动cast过程，按既有参数登记法力、基础冷却和施法延迟。实际命中、控制、返还及其他联动不由此入口生成。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "丽桑卓·冰霜之环普通使用",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T02:11:36.32498Z"
+      },
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "只接收本技能实际命中；同组检查敌方英雄、同次法术护盾判定明确为0及当前目标无本来源禁锢实例。缺值不默认0；阻挡分支与已有实例重施继续待核。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "明确未阻挡的首次禁锢",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "apply_root_on_unblocked_hit",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-21T05:29:49.903953Z"
+      }
+    ],
+    "/skills/lissandra_w/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "execute_primary_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "primary_hit"
+          },
+          "name": "执行丽桑卓·冰霜之环伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "description": "只消费已确认的 lissandra_w 实际命中事件，对事件中的英雄目标执行primary_hit；不从技能使用或过程结束产生命中。目标类别只筛本轮范围，不产生目标资格。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "lissandra_w",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "丽桑卓·冰霜之环实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    },
+    "/skills/lissandra_w/trigger-rules/on_used": {
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "actionType": "START_PROCESS",
+          "detail": {
+            "processKey": "cast"
+          },
+          "name": "启动丽桑卓·冰霜之环施法登记",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "普通主动使用lissandra_w时启动cast过程，按既有参数登记法力、基础冷却和施法延迟。实际命中、控制、返还及其他联动不由此入口生成。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "lissandra_w",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "丽桑卓·冰霜之环普通使用",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used",
+      "sortOrder": 20
+    },
+    "/skills/lissandra_w/trigger-rules/apply_root_on_unblocked_hit": {
+      "actions": [
+        {
+          "actionKey": "apply_root",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "first_hit_root"
+          },
+          "name": "施加本次禁锢",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "detail": {},
+              "sortOrder": 20
+            },
+            {
+              "conditionKey": "not_spell_shield_blocked",
+              "conditionType": "EVENT_VALUE_COMPARE",
+              "detail": {
+                "comparator": "EQ",
+                "comparisonValue": {
+                  "kind": "FIXED",
+                  "value": 0
+                },
+                "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED"
+              },
+              "sortOrder": 30
+            },
+            {
+              "conditionKey": "own_root_absent",
+              "conditionType": "LIFECYCLE_CHECK",
+              "detail": {
+                "checkKind": "ABSENT",
+                "comparator": null,
+                "comparisonValue": null,
+                "effectKey": "first_hit_root",
+                "subject": "CURRENT_TARGET"
+              },
+              "sortOrder": 40
+            }
+          ],
+          "groupKey": "root_eligible",
+          "name": "本次首次禁锢可施加",
+          "sortOrder": 10
+        }
+      ],
+      "description": "只接收本技能实际命中；同组检查敌方英雄、同次法术护盾判定明确为0及当前目标无本来源禁锢实例。缺值不默认0；阻挡分支与已有实例重施继续待核。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "lissandra_w",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "明确未阻挡的首次禁锢",
+      "perTargetCooldown": null,
+      "ruleKey": "apply_root_on_unblocked_hit",
+      "sortOrder": 30
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/parameters/snare_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/parameters/ap_ratio_constant",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/effects/first_hit_root",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/trigger-rules/apply_root_on_unblocked_hit",
+      "status": 200
+    }
+  ],
+  "businessWrites": 0
+}

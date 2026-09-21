@@ -1,0 +1,274 @@
+{
+  "startedAt": "2026-09-21T10:57:48.688Z",
+  "status": "PASS",
+  "executionMode": "REVIEWED_API",
+  "businessWritesAttempted": 1,
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-hit-scope-v2.mjs": "9b1a8fa46a08a417d513223292557e547308a3dc1c3251f02a45eabfb73c1670",
+    "01-候选方案.json": "082745d20766fdc3f068245c50bce101b386818f02e62b4d51c5a9bb7ced4f44",
+    "02-冻结请求.json": "ac5c172d52cf7780031ffd582f2fb2f826e32753b410d7e78d8c847487f9f917",
+    "03-来源摘要.json": "22ea45d22b39b6303aa0f04df2f3e0a022aa5abf8a59ea0c42272fda7fb8aa69",
+    "04-写入前现值.json": "0591e92f8213871fb73c685809e747c70475d5508b5f24e75ab884352cec6fe0"
+  },
+  "request": {
+    "method": "PUT",
+    "route": "/skills/lissandra_e/trigger-rules/actual_hit",
+    "body": {
+      "actions": [
+        {
+          "actionKey": "execute_primary_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "primary_hit"
+          },
+          "name": "执行丽桑卓·冰川之径伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "sortOrder": 20,
+              "detail": {}
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "description": "只消费已确认的 lissandra_e 实际命中事件，对事件中的英雄目标执行primary_hit；不从技能使用或过程结束产生命中。目标类别只筛本轮范围，不产生目标资格。 仅对应冰爪的实际命中，不把再次施放传送当成命中。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "lissandra_e"
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "丽桑卓·冰川之径实际命中",
+      "perTargetCooldown": null,
+      "sortOrder": 10
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_e/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_e/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_e/parameters/ap_ratio_constant",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_e/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_e/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_e/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/lissandra_e/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_e/trigger-rules/actual_hit",
+      "status": 200
+    }
+  ],
+  "responseStatus": 200,
+  "response": {
+    "status": 200,
+    "data": {
+      "actions": [
+        {
+          "actionKey": "execute_primary_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "primary_hit"
+          },
+          "name": "执行丽桑卓·冰川之径伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "detail": {},
+              "sortOrder": 20
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "description": "只消费已确认的 lissandra_e 实际命中事件，对事件中的英雄目标执行primary_hit；不从技能使用或过程结束产生命中。目标类别只筛本轮范围，不产生目标资格。 仅对应冰爪的实际命中，不把再次施放传送当成命中。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "lissandra_e",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "丽桑卓·冰川之径实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    }
+  },
+  "readback": {
+    "actions": [
+      {
+        "actionKey": "execute_primary_hit",
+        "actionType": "EXECUTE_EFFECT",
+        "detail": {
+          "effectKey": "primary_hit"
+        },
+        "name": "执行丽桑卓·冰川之径伤害",
+        "resultModifiers": [],
+        "runtimeInputBindings": [],
+        "sortOrder": 10,
+        "targetContext": "CURRENT_TARGET"
+      }
+    ],
+    "conditionGroups": [
+      {
+        "conditions": [
+          {
+            "conditionKey": "champion_target",
+            "conditionType": "TARGET_CATEGORY_CHECK",
+            "detail": {
+              "categories": [
+                "CHAMPION"
+              ]
+            },
+            "sortOrder": 10
+          },
+          {
+            "conditionKey": "enemy_target",
+            "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+            "detail": {},
+            "sortOrder": 20
+          }
+        ],
+        "groupKey": "champion_target",
+        "name": "本轮英雄目标",
+        "sortOrder": 10
+      }
+    ],
+    "description": "只消费已确认的 lissandra_e 实际命中事件，对事件中的英雄目标执行primary_hit；不从技能使用或过程结束产生命中。目标类别只筛本轮范围，不产生目标资格。 仅对应冰爪的实际命中，不把再次施放传送当成命中。",
+    "eventSource": {
+      "detail": {
+        "sourceSkillKey": "lissandra_e",
+        "useKind": null
+      },
+      "eventType": "SKILL_HIT"
+    },
+    "maxTriggersPerProcess": null,
+    "name": "丽桑卓·冰川之径实际命中",
+    "perTargetCooldown": null,
+    "ruleKey": "actual_hit",
+    "sortOrder": 10
+  },
+  "finishedAt": "2026-09-21T10:57:50.422Z"
+}

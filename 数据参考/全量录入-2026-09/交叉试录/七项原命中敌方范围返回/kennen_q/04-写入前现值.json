@@ -1,0 +1,621 @@
+{
+  "at": "2026-09-21T10:40:37.365Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/skills/kennen_q": {
+      "createdAt": "2026-09-06T18:18:58.644217Z",
+      "description": "凯南向目标区域投掷手里剑，对第一个目标造成伤害并附加【忍法！雷缚印】。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "凯南·奥义！千鸟",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "kennen_q",
+      "sortOrder": 1,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:18:58.644217Z"
+    },
+    "/skills/kennen_q/parameters": [
+      {
+        "createdAt": "2026-09-09T06:39:16.319375Z",
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "fixedValue": 175,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "kennen_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T06:39:16.319375Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T06:39:17.235552Z",
+        "description": "官方资源类型为能量；官方cost与当前manaValues逐级一致，字段名不改变资源身份。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 55,
+          "3": 50,
+          "4": 45,
+          "5": 40
+        },
+        "name": "基础能量消耗",
+        "parameterKey": "energy_cost",
+        "skillKey": "kennen_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T06:39:17.235552Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T06:39:18.136486Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 75,
+          "2": 125,
+          "3": 175,
+          "4": 225,
+          "5": 275
+        },
+        "name": "基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "kennen_q",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T06:39:18.136486Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T06:39:19.110139Z",
+        "description": "当前原计算树显式常数；只用于此数学表达式。",
+        "fixedValue": 0.75,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "千鸟伤害固定系数",
+        "parameterKey": "calculation_constant_1",
+        "skillKey": "kennen_q",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T06:39:19.110139Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T17:38:46.759183Z",
+        "description": "DDragon16.17.1 Kennen.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 7000,
+          "2": 6250,
+          "3": 5500,
+          "4": 4750,
+          "5": 4000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "kennen_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T17:38:46.759183Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/kennen_q/parameters/cast_time_ms": {
+      "createdAt": "2026-09-09T06:39:16.319375Z",
+      "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+      "fixedValue": 175,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "kennen_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T06:39:16.319375Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/kennen_q/parameters/energy_cost": {
+      "createdAt": "2026-09-09T06:39:17.235552Z",
+      "description": "官方资源类型为能量；官方cost与当前manaValues逐级一致，字段名不改变资源身份。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 60,
+        "2": 55,
+        "3": 50,
+        "4": 45,
+        "5": 40
+      },
+      "name": "基础能量消耗",
+      "parameterKey": "energy_cost",
+      "skillKey": "kennen_q",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T06:39:17.235552Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/kennen_q/parameters/base_damage": {
+      "createdAt": "2026-09-09T06:39:18.136486Z",
+      "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 75,
+        "2": 125,
+        "3": 175,
+        "4": 225,
+        "5": 275
+      },
+      "name": "基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "kennen_q",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T06:39:18.136486Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/kennen_q/parameters/calculation_constant_1": {
+      "createdAt": "2026-09-09T06:39:19.110139Z",
+      "description": "当前原计算树显式常数；只用于此数学表达式。",
+      "fixedValue": 0.75,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "千鸟伤害固定系数",
+      "parameterKey": "calculation_constant_1",
+      "skillKey": "kennen_q",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T06:39:19.110139Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/kennen_q/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T17:38:46.759183Z",
+      "description": "DDragon16.17.1 Kennen.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 7000,
+        "2": 6250,
+        "3": 5500,
+        "4": 4750,
+        "5": 4000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "kennen_q",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T17:38:46.759183Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/kennen_q/formulas": [
+      {
+        "createdAt": "2026-09-09T06:39:20.235091Z",
+        "description": "第一个实际命中敌人的魔法伤害；印记依赖另接。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "千鸟伤害",
+        "skillKey": "kennen_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T06:39:20.235091Z"
+      }
+    ],
+    "/skills/kennen_q/formulas/damage": {
+      "createdAt": "2026-09-09T06:39:20.235091Z",
+      "description": "第一个实际命中敌人的魔法伤害；印记依赖另接。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "calculation_constant_1"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "千鸟伤害",
+      "skillKey": "kennen_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T06:39:20.235091Z"
+    },
+    "/skills/kennen_q/effects": [
+      {
+        "createdAt": "2026-09-09T06:39:21.253791Z",
+        "description": "只保存基础能量消耗。；仅独立效果，没有默认施放、命中或初始化触发。",
+        "effectKey": "energy_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放能量消耗",
+        "resultCount": 1,
+        "skillKey": "kennen_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T06:39:21.253791Z"
+      },
+      {
+        "createdAt": "2026-09-19T02:00:31.833385Z",
+        "description": "本轮1V1实际命中敌方英雄的一次普通直接魔法技能伤害；仅引用已有伤害公式，不连接控制、位移或其他独立分支。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "凯南·奥义！千鸟命中伤害",
+        "resultCount": 1,
+        "skillKey": "kennen_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T02:00:31.833385Z"
+      }
+    ],
+    "/skills/kennen_q/effects/energy_cost": {
+      "createdAt": "2026-09-09T06:39:21.253791Z",
+      "description": "只保存基础能量消耗。；仅独立效果，没有默认施放、命中或初始化触发。",
+      "effectKey": "energy_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放能量消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "energy",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "施放能量消耗",
+          "resultKey": "resource",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "energy_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "kennen_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T06:39:21.253791Z"
+    },
+    "/skills/kennen_q/effects/primary_hit": {
+      "createdAt": "2026-09-19T02:00:31.833385Z",
+      "description": "本轮1V1实际命中敌方英雄的一次普通直接魔法技能伤害；仅引用已有伤害公式，不连接控制、位移或其他独立分支。",
+      "effectKey": "primary_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "凯南·奥义！千鸟命中伤害",
+      "results": [
+        {
+          "description": "引用当前技能的 damage 公式；基础数值和法强加成保持现有配置。",
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": [
+              {
+                "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                "efficiencyValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "vampType": "OMNIVAMP"
+              }
+            ]
+          },
+          "lifecycleBehavior": null,
+          "name": "魔法伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "SKILL",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "kennen_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-19T02:00:31.833385Z"
+    },
+    "/skills/kennen_q/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-19T02:11:19.767477Z",
+        "description": "登记本次普通主动使用的基础能量消耗、施法延迟和普通冷却；伤害由独立实际命中规则处理，控制和其他联动另行配置。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "凯南·奥义！千鸟施法登记",
+        "processKey": "cast",
+        "skillKey": "kennen_q",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-19T02:11:19.767477Z"
+      }
+    ],
+    "/skills/kennen_q/processes/cast": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-19T02:11:19.767477Z",
+      "description": "登记本次普通主动使用的基础能量消耗、施法延迟和普通冷却；伤害由独立实际命中规则处理，控制和其他联动另行配置。",
+      "effectBindings": [
+        {
+          "bindingKey": "energy_cost",
+          "effectKey": "energy_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "凯南·奥义！千鸟施法登记",
+      "processKey": "cast",
+      "skillKey": "kennen_q",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "读取当前技能既有施法时间参数；延迟结束不表示发生实际命中。",
+          "detail": {
+            "delayValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cast_time_ms"
+            }
+          },
+          "name": "施法延迟",
+          "sortOrder": 10,
+          "stepKey": "cast_time",
+          "stepType": "DELAY"
+        }
+      ],
+      "updatedAt": "2026-09-19T02:11:19.767477Z"
+    },
+    "/skills/kennen_q/internal-states": [],
+    "/skills/kennen_q/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "只消费已确认的 kennen_q 实际命中事件，对事件中的英雄目标执行primary_hit；不从技能使用或过程结束产生命中。目标类别只筛本轮范围，不产生目标资格。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "凯南·奥义！千鸟实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T02:00:33.233825Z"
+      },
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "普通主动使用kennen_q时启动cast过程，按既有参数登记能量、基础冷却和施法延迟。实际命中、控制、返还及其他联动不由此入口生成。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "凯南·奥义！千鸟普通使用",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T02:11:21.151789Z"
+      }
+    ],
+    "/skills/kennen_q/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "execute_primary_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "primary_hit"
+          },
+          "name": "执行凯南·奥义！千鸟伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "description": "只消费已确认的 kennen_q 实际命中事件，对事件中的英雄目标执行primary_hit；不从技能使用或过程结束产生命中。目标类别只筛本轮范围，不产生目标资格。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "kennen_q",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "凯南·奥义！千鸟实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    },
+    "/skills/kennen_q/trigger-rules/on_used": {
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "actionType": "START_PROCESS",
+          "detail": {
+            "processKey": "cast"
+          },
+          "name": "启动凯南·奥义！千鸟施法登记",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "普通主动使用kennen_q时启动cast过程，按既有参数登记能量、基础冷却和施法延迟。实际命中、控制、返还及其他联动不由此入口生成。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "kennen_q",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "凯南·奥义！千鸟普通使用",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used",
+      "sortOrder": 20
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q/parameters/energy_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q/parameters/calculation_constant_1",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q/effects/energy_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q/trigger-rules/on_used",
+      "status": 200
+    }
+  ],
+  "businessWrites": 0
+}

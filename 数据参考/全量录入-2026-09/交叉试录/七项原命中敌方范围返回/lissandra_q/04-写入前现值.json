@@ -1,0 +1,699 @@
+{
+  "at": "2026-09-21T10:40:41.124Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/skills/lissandra_q": {
+      "createdAt": "2026-09-06T18:19:12.518594Z",
+      "description": "掷出一杆冰矛，冰矛会在命中敌人时碎裂，造成魔法伤害和减速效果。碎裂会穿过目标，对被冰矛命中的其他敌人造成等量伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "丽桑卓·寒冰碎片",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "lissandra_q",
+      "sortOrder": 1,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:19:12.518594Z"
+    },
+    "/skills/lissandra_q/parameters": [
+      {
+        "createdAt": "2026-09-09T10:36:24.488765Z",
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "lissandra_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T10:36:24.488765Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T10:36:25.785966Z",
+        "description": "客户端当前根绑定 DataValues.damage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 80,
+          "2": 115,
+          "3": 150,
+          "4": 185,
+          "5": 220
+        },
+        "name": "寒冰碎片基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "lissandra_q",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T10:36:25.785966Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T10:36:26.943772Z",
+        "description": "客户端当前根绑定 DataValues.slowDuration 取索引1至5；单位秒转毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "fixedValue": 1500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "减速持续（毫秒）",
+        "parameterKey": "slow_duration_ms",
+        "skillKey": "lissandra_q",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T10:36:26.943772Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T10:36:27.990766Z",
+        "description": "客户端当前根绑定 DataValues.slowPercentage；原始值为负移速修正，当前正文占位为 @slowPercentage*-100@%，转为正的20至36百分数点。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 20,
+          "2": 24,
+          "3": 28,
+          "4": 32,
+          "5": 36
+        },
+        "name": "减速百分数点",
+        "parameterKey": "slow_percent",
+        "skillKey": "lissandra_q",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T10:36:27.990766Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T10:36:29.061317Z",
+        "description": "TotalDamage树直接给出0.75。",
+        "fixedValue": 0.75,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法强倍率",
+        "parameterKey": "ap_ratio_constant",
+        "skillKey": "lissandra_q",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-09T10:36:29.061317Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T17:38:47.906811Z",
+        "description": "DDragon16.17.1 Lissandra.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 7000,
+          "2": 6000,
+          "3": 5000,
+          "4": 4000,
+          "5": 3000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "lissandra_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T17:38:47.906811Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T17:38:48.271351Z",
+        "description": "DDragon16.17.1 Lissandra.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 55,
+          "2": 60,
+          "3": 65,
+          "4": 70,
+          "5": 75
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "lissandra_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-19T02:21:22.551932Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/lissandra_q/parameters/cast_time_ms": {
+      "createdAt": "2026-09-09T10:36:24.488765Z",
+      "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "lissandra_q",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T10:36:24.488765Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/lissandra_q/parameters/base_damage": {
+      "createdAt": "2026-09-09T10:36:25.785966Z",
+      "description": "客户端当前根绑定 DataValues.damage 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 80,
+        "2": 115,
+        "3": 150,
+        "4": 185,
+        "5": 220
+      },
+      "name": "寒冰碎片基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "lissandra_q",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T10:36:25.785966Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/lissandra_q/parameters/slow_duration_ms": {
+      "createdAt": "2026-09-09T10:36:26.943772Z",
+      "description": "客户端当前根绑定 DataValues.slowDuration 取索引1至5；单位秒转毫秒；按来源显示单位换算为系统比例/毫秒。",
+      "fixedValue": 1500,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "减速持续（毫秒）",
+      "parameterKey": "slow_duration_ms",
+      "skillKey": "lissandra_q",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T10:36:26.943772Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/lissandra_q/parameters/slow_percent": {
+      "createdAt": "2026-09-09T10:36:27.990766Z",
+      "description": "客户端当前根绑定 DataValues.slowPercentage；原始值为负移速修正，当前正文占位为 @slowPercentage*-100@%，转为正的20至36百分数点。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 20,
+        "2": 24,
+        "3": 28,
+        "4": 32,
+        "5": 36
+      },
+      "name": "减速百分数点",
+      "parameterKey": "slow_percent",
+      "skillKey": "lissandra_q",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-09T10:36:27.990766Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "DECIMAL"
+    },
+    "/skills/lissandra_q/parameters/ap_ratio_constant": {
+      "createdAt": "2026-09-09T10:36:29.061317Z",
+      "description": "TotalDamage树直接给出0.75。",
+      "fixedValue": 0.75,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法强倍率",
+      "parameterKey": "ap_ratio_constant",
+      "skillKey": "lissandra_q",
+      "sortOrder": 70,
+      "updatedAt": "2026-09-09T10:36:29.061317Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/lissandra_q/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T17:38:47.906811Z",
+      "description": "DDragon16.17.1 Lissandra.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 7000,
+        "2": 6000,
+        "3": 5000,
+        "4": 4000,
+        "5": 3000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "lissandra_q",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T17:38:47.906811Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/lissandra_q/parameters/mana_cost": {
+      "createdAt": "2026-09-07T17:38:48.271351Z",
+      "description": "DDragon16.17.1 Lissandra.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 55,
+        "2": 60,
+        "3": 65,
+        "4": 70,
+        "5": 75
+      },
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "lissandra_q",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-19T02:21:22.551932Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/lissandra_q/formulas": [
+      {
+        "createdAt": "2026-09-09T10:36:30.425475Z",
+        "description": "TotalDamage = damage + 0.75×法强。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "寒冰碎片魔法伤害",
+        "skillKey": "lissandra_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T10:36:30.425475Z"
+      }
+    ],
+    "/skills/lissandra_q/formulas/damage": {
+      "createdAt": "2026-09-09T10:36:30.425475Z",
+      "description": "TotalDamage = damage + 0.75×法强。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio_constant"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "寒冰碎片魔法伤害",
+      "skillKey": "lissandra_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T10:36:30.425475Z"
+    },
+    "/skills/lissandra_q/effects": [
+      {
+        "createdAt": "2026-09-09T10:36:31.612447Z",
+        "description": "本技能普通主动使用时消耗对应技能等级的法力；具体使用时点由引用本效果的过程定义。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "lissandra_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T02:21:23.84745Z"
+      },
+      {
+        "createdAt": "2026-09-19T02:00:45.055511Z",
+        "description": "本轮1V1实际命中敌方英雄的一次普通直接魔法技能伤害；仅引用已有伤害公式，不连接控制、位移或其他独立分支。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "丽桑卓·寒冰碎片命中伤害",
+        "resultCount": 1,
+        "skillKey": "lissandra_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T02:00:45.055511Z"
+      }
+    ],
+    "/skills/lissandra_q/effects/mana_cost": {
+      "createdAt": "2026-09-09T10:36:31.612447Z",
+      "description": "本技能普通主动使用时消耗对应技能等级的法力；具体使用时点由引用本效果的过程定义。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "lissandra_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-19T02:21:23.84745Z"
+    },
+    "/skills/lissandra_q/effects/primary_hit": {
+      "createdAt": "2026-09-19T02:00:45.055511Z",
+      "description": "本轮1V1实际命中敌方英雄的一次普通直接魔法技能伤害；仅引用已有伤害公式，不连接控制、位移或其他独立分支。",
+      "effectKey": "primary_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "丽桑卓·寒冰碎片命中伤害",
+      "results": [
+        {
+          "description": "引用当前技能的 damage 公式；基础数值和法强加成保持现有配置。",
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": [
+              {
+                "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                "efficiencyValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "vampType": "OMNIVAMP"
+              }
+            ]
+          },
+          "lifecycleBehavior": null,
+          "name": "魔法伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "SKILL",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "lissandra_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-19T02:00:45.055511Z"
+    },
+    "/skills/lissandra_q/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-19T02:11:31.914403Z",
+        "description": "登记本次普通主动使用的基础法力消耗、施法延迟和普通冷却；伤害由独立实际命中规则处理，控制和其他联动另行配置。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "丽桑卓·寒冰碎片施法登记",
+        "processKey": "cast",
+        "skillKey": "lissandra_q",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-19T02:11:31.914403Z"
+      }
+    ],
+    "/skills/lissandra_q/processes/cast": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-19T02:11:31.914403Z",
+      "description": "登记本次普通主动使用的基础法力消耗、施法延迟和普通冷却；伤害由独立实际命中规则处理，控制和其他联动另行配置。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "丽桑卓·寒冰碎片施法登记",
+      "processKey": "cast",
+      "skillKey": "lissandra_q",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "读取当前技能既有施法时间参数；延迟结束不表示发生实际命中。",
+          "detail": {
+            "delayValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cast_time_ms"
+            }
+          },
+          "name": "施法延迟",
+          "sortOrder": 10,
+          "stepKey": "cast_time",
+          "stepType": "DELAY"
+        }
+      ],
+      "updatedAt": "2026-09-19T02:11:31.914403Z"
+    },
+    "/skills/lissandra_q/internal-states": [],
+    "/skills/lissandra_q/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "只消费已确认的 lissandra_q 实际命中事件，对事件中的英雄目标执行primary_hit；不从技能使用或过程结束产生命中。目标类别只筛本轮范围，不产生目标资格。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "丽桑卓·寒冰碎片实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T02:00:46.40493Z"
+      },
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "普通主动使用lissandra_q时启动cast过程，按既有参数登记法力、基础冷却和施法延迟。实际命中、控制、返还及其他联动不由此入口生成。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "丽桑卓·寒冰碎片普通使用",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T02:11:33.337162Z"
+      }
+    ],
+    "/skills/lissandra_q/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "execute_primary_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "primary_hit"
+          },
+          "name": "执行丽桑卓·寒冰碎片伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "description": "只消费已确认的 lissandra_q 实际命中事件，对事件中的英雄目标执行primary_hit；不从技能使用或过程结束产生命中。目标类别只筛本轮范围，不产生目标资格。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "lissandra_q",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "丽桑卓·寒冰碎片实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    },
+    "/skills/lissandra_q/trigger-rules/on_used": {
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "actionType": "START_PROCESS",
+          "detail": {
+            "processKey": "cast"
+          },
+          "name": "启动丽桑卓·寒冰碎片施法登记",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "普通主动使用lissandra_q时启动cast过程，按既有参数登记法力、基础冷却和施法延迟。实际命中、控制、返还及其他联动不由此入口生成。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "lissandra_q",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "丽桑卓·寒冰碎片普通使用",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used",
+      "sortOrder": 20
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/parameters/slow_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/parameters/slow_percent",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/parameters/ap_ratio_constant",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/trigger-rules/on_used",
+      "status": 200
+    }
+  ],
+  "businessWrites": 0
+}

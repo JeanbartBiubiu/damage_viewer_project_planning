@@ -1,0 +1,47 @@
+{
+  "at": "2026-09-21T10:49:00.399Z",
+  "status": "APPROVED",
+  "reviewer": "/root/seven_hit_scope_review",
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-hit-scope-v2.mjs": "9b1a8fa46a08a417d513223292557e547308a3dc1c3251f02a45eabfb73c1670",
+    "01-候选方案.json": "cd5507c54fae3f1680f9fda65c705f9b78cc2bf38bd9e8ca6929e994894c8daf",
+    "02-冻结请求.json": "e67416ca5da33e1b07a7a59f4fac45c65b640f891563c06784c36230299f405b",
+    "03-来源摘要.json": "22ea45d22b39b6303aa0f04df2f3e0a022aa5abf8a59ea0c42272fda7fb8aa69",
+    "04-写入前现值.json": "9794b9d2ab4053f852c435e80f2800029583e8ce784bff72ef1ee98c3648fc99"
+  },
+  "decision": "批准后续仅按冻结请求执行一次PUT；本评审不执行业务写入。",
+  "scope": "仅在 lissandra_q/actual_hit 既有单一CHAMPION条件组末尾追加SKILL_HIT_TARGET_IS_ENEMY；保留组标识、组名、排序、原条件、SKILL_HIT事件、动作及全部其他字段。",
+  "checks": {
+    "sourceFiles": 13,
+    "sourceHashesVerified": true,
+    "candidateMatchesFrozenConditionGroups": true,
+    "frozenBodyMatchesExpectedReadback": true,
+    "originalRuleFieldsUnchanged": true,
+    "baselineResponses": 20,
+    "baselineResponsesAllGET200": true,
+    "baselineBusinessWrites": 0,
+    "plannedGETs": 20,
+    "expectedUnchangedResponsesIncludingTimestamps": 18,
+    "plannedPUTs": 1,
+    "expectedChangedCollections": 1,
+    "expectedChangedDetails": 1,
+    "oldConditionGroups": 1,
+    "oldConditionsInGroup": 1,
+    "newConditionsInGroup": 2,
+    "eventType": "SKILL_HIT",
+    "sourceSkillKey": "lissandra_q",
+    "ruleKey": "actual_hit"
+  },
+  "hashes": {
+    "toolSha256": "9b1a8fa46a08a417d513223292557e547308a3dc1c3251f02a45eabfb73c1670",
+    "sourceSha256": "22ea45d22b39b6303aa0f04df2f3e0a022aa5abf8a59ea0c42272fda7fb8aa69",
+    "baselineSha256": "9794b9d2ab4053f852c435e80f2800029583e8ce784bff72ef1ee98c3648fc99",
+    "frozenRequestSha256": "e67416ca5da33e1b07a7a59f4fac45c65b640f891563c06784c36230299f405b"
+  },
+  "validationLimits": {
+    "http": "本评审未调用业务接口；GET证据来自冻结04。",
+    "browser": "未执行页面验收。",
+    "runtime": "固定来源和管理冻结不证明宿主、Wasm或战斗运行时已经生产SKILL_HIT。"
+  },
+  "blockingFindings": []
+}
