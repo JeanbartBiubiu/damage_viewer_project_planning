@@ -1,0 +1,811 @@
+{
+  "startedAt": "2026-09-21T05:29:46.500Z",
+  "status": "PASS",
+  "businessWritesAttempted": 4,
+  "operations": [
+    {
+      "method": "POST",
+      "route": "/skills/lissandra_w/effects",
+      "response": {
+        "status": 201,
+        "data": {
+          "createdAt": "2026-09-21T05:29:48.456217Z",
+          "description": "仅供本技能明确未被同次法术护盾判定阻挡、且目标没有本来源实例的敌方英雄实际命中入口使用；重复施加与阻挡分支分别待核。",
+          "effectKey": "first_hit_root",
+          "gameId": "lol",
+          "lifecycle": {
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "snare_duration_ms"
+            },
+            "expiryMode": "ALL_AT_ONCE",
+            "firstPeriodicExecution": null,
+            "instanceScope": "SOURCE_TARGET",
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "periodicIntervalValue": null,
+            "reapplicationDurationMode": "REFRESH_ALL",
+            "reapplicationStackMode": "KEEP"
+          },
+          "name": "冰霜之环首次禁锢",
+          "results": [
+            {
+              "description": "控制资格由受限入口核对；本结果不再次独立判断法术护盾，持续状态随本来源与目标实例到期结束。",
+              "detail": {
+                "operation": "APPLY",
+                "statusKey": "root"
+              },
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "periodicExecutionMode": null,
+                "reapplicationValueMode": null,
+                "stackValueMode": null,
+                "valueReadMode": null
+              },
+              "name": "本次冰霜之环禁锢",
+              "resultKey": "root",
+              "resultType": "STATUS_OPERATION",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "TARGET",
+              "valueRule": null
+            }
+          ],
+          "skillKey": "lissandra_w",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-21T05:29:48.456217Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-21T05:29:48.456217Z",
+        "description": "仅供本技能明确未被同次法术护盾判定阻挡、且目标没有本来源实例的敌方英雄实际命中入口使用；重复施加与阻挡分支分别待核。",
+        "effectKey": "first_hit_root",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "snare_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE_TARGET",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "冰霜之环首次禁锢",
+        "results": [
+          {
+            "description": "控制资格由受限入口核对；本结果不再次独立判断法术护盾，持续状态随本来源与目标实例到期结束。",
+            "detail": {
+              "operation": "APPLY",
+              "statusKey": "root"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": null,
+              "stackValueMode": null,
+              "valueReadMode": null
+            },
+            "name": "本次冰霜之环禁锢",
+            "resultKey": "root",
+            "resultType": "STATUS_OPERATION",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "TARGET",
+            "valueRule": null
+          }
+        ],
+        "skillKey": "lissandra_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-21T05:29:48.456217Z"
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/lissandra_w/trigger-rules",
+      "response": {
+        "status": 201,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "apply_root",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "first_hit_root"
+              },
+              "name": "施加本次禁锢",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [
+            {
+              "conditions": [
+                {
+                  "conditionKey": "champion_target",
+                  "conditionType": "TARGET_CATEGORY_CHECK",
+                  "detail": {
+                    "categories": [
+                      "CHAMPION"
+                    ]
+                  },
+                  "sortOrder": 10
+                },
+                {
+                  "conditionKey": "enemy_target",
+                  "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                  "detail": {},
+                  "sortOrder": 20
+                },
+                {
+                  "conditionKey": "not_spell_shield_blocked",
+                  "conditionType": "EVENT_VALUE_COMPARE",
+                  "detail": {
+                    "comparator": "EQ",
+                    "comparisonValue": {
+                      "kind": "FIXED",
+                      "value": 0
+                    },
+                    "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED"
+                  },
+                  "sortOrder": 30
+                },
+                {
+                  "conditionKey": "own_root_absent",
+                  "conditionType": "LIFECYCLE_CHECK",
+                  "detail": {
+                    "checkKind": "ABSENT",
+                    "comparator": null,
+                    "comparisonValue": null,
+                    "effectKey": "first_hit_root",
+                    "subject": "CURRENT_TARGET"
+                  },
+                  "sortOrder": 40
+                }
+              ],
+              "groupKey": "root_eligible",
+              "name": "本次首次禁锢可施加",
+              "sortOrder": 10
+            }
+          ],
+          "description": "只接收本技能实际命中；同组检查敌方英雄、同次法术护盾判定明确为0及当前目标无本来源禁锢实例。缺值不默认0；阻挡分支与已有实例重施继续待核。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "lissandra_w",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "明确未阻挡的首次禁锢",
+          "perTargetCooldown": null,
+          "ruleKey": "apply_root_on_unblocked_hit",
+          "sortOrder": 30
+        }
+      },
+      "readback": {
+        "actions": [
+          {
+            "actionKey": "apply_root",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "first_hit_root"
+            },
+            "name": "施加本次禁锢",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "detail": {},
+                "sortOrder": 20
+              },
+              {
+                "conditionKey": "not_spell_shield_blocked",
+                "conditionType": "EVENT_VALUE_COMPARE",
+                "detail": {
+                  "comparator": "EQ",
+                  "comparisonValue": {
+                    "kind": "FIXED",
+                    "value": 0
+                  },
+                  "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED"
+                },
+                "sortOrder": 30
+              },
+              {
+                "conditionKey": "own_root_absent",
+                "conditionType": "LIFECYCLE_CHECK",
+                "detail": {
+                  "checkKind": "ABSENT",
+                  "comparator": null,
+                  "comparisonValue": null,
+                  "effectKey": "first_hit_root",
+                  "subject": "CURRENT_TARGET"
+                },
+                "sortOrder": 40
+              }
+            ],
+            "groupKey": "root_eligible",
+            "name": "本次首次禁锢可施加",
+            "sortOrder": 10
+          }
+        ],
+        "description": "只接收本技能实际命中；同组检查敌方英雄、同次法术护盾判定明确为0及当前目标无本来源禁锢实例。缺值不默认0；阻挡分支与已有实例重施继续待核。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "lissandra_w",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "明确未阻挡的首次禁锢",
+        "perTargetCooldown": null,
+        "ruleKey": "apply_root_on_unblocked_hit",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/neeko_e/processes",
+      "response": {
+        "status": 201,
+        "data": {
+          "activationType": "ACTIVE",
+          "cooldown": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cooldown_ms"
+            },
+            "startMoment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            }
+          },
+          "createdAt": "2026-09-21T05:29:51.612635Z",
+          "description": "只登记本次施放法力、普通冷却及当前根字段支持的250毫秒施法延迟；不在过程结束时生成实际命中或禁锢。",
+          "effectBindings": [
+            {
+              "bindingKey": "mana_cost",
+              "effectKey": "mana_cost",
+              "moment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              },
+              "sortOrder": 10
+            }
+          ],
+          "gameId": "lol",
+          "name": "施放缠结倒刺",
+          "processKey": "cast",
+          "skillKey": "neeko_e",
+          "sortOrder": 10,
+          "stateOperations": [],
+          "steps": [
+            {
+              "description": "当前主技能spellCastTime为0.25秒；不表示弹道完成或命中。",
+              "detail": {
+                "delayValue": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "cast_time_ms"
+                }
+              },
+              "name": "施法延迟",
+              "sortOrder": 10,
+              "stepKey": "cast_time",
+              "stepType": "DELAY"
+            }
+          ],
+          "updatedAt": "2026-09-21T05:29:51.612635Z"
+        }
+      },
+      "readback": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "createdAt": "2026-09-21T05:29:51.612635Z",
+        "description": "只登记本次施放法力、普通冷却及当前根字段支持的250毫秒施法延迟；不在过程结束时生成实际命中或禁锢。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "gameId": "lol",
+        "name": "施放缠结倒刺",
+        "processKey": "cast",
+        "skillKey": "neeko_e",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "当前主技能spellCastTime为0.25秒；不表示弹道完成或命中。",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            },
+            "name": "施法延迟",
+            "sortOrder": 10,
+            "stepKey": "cast_time",
+            "stepType": "DELAY"
+          }
+        ],
+        "updatedAt": "2026-09-21T05:29:51.612635Z"
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/neeko_e/trigger-rules",
+      "response": {
+        "status": 201,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "start_cast",
+              "actionType": "START_PROCESS",
+              "detail": {
+                "processKey": "cast"
+              },
+              "name": "启动已有施法过程",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "本技能主动使用时启动法力、普通冷却与施法延迟过程；实际命中独立接收，首个目标及强化禁锢资格继续单独核定。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "neeko_e",
+              "useKind": "ACTIVE"
+            },
+            "eventType": "SKILL_USED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "缠结倒刺普通使用",
+          "perTargetCooldown": null,
+          "ruleKey": "on_used",
+          "sortOrder": 5
+        }
+      },
+      "readback": {
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "cast"
+            },
+            "name": "启动已有施法过程",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "本技能主动使用时启动法力、普通冷却与施法延迟过程；实际命中独立接收，首个目标及强化禁锢资格继续单独核定。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "neeko_e",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "缠结倒刺普通使用",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used",
+        "sortOrder": 5
+      }
+    }
+  ],
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v3.mjs": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "01-候选方案.json": "19dc23101cd9ad871977b4ebba967d5103ab00b05fff13f58442555cf2c9c539",
+    "02-冻结请求.json": "88f7412946b094487a70547d9498ad1558dc0769991d0b1eec52edc65a8983c9",
+    "03-来源摘要.json": "03468907b4624a78b8a596e75bca8677af2d931fa587fce7cd59c9d65663772b",
+    "04-写入前现值.json": "d6ce1f0dd397cde33f0ccb9fdf5294def49a99289a253891fd708cf5fe6cac71"
+  },
+  "pendingRoute": null,
+  "finishedAt": "2026-09-21T05:29:52.790Z",
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_lissandra",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_lissandra/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_lissandra/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_lissandra",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=lissandra_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/parameters/snare_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/parameters/ap_ratio_constant",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_neeko",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_neeko/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_neeko/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_neeko",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=neeko_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/parameters/damage_base",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/parameters/min_root_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/formulas/first_target_root_duration",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/statuses/root",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/ability_power",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/mana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/damage-types/magic",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/effects/first_hit_root",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/trigger-rules/apply_root_on_unblocked_hit",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/processes/cast",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/trigger-rules/on_used",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/effects/first_hit_root",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/lissandra_w/effects",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/effects/first_hit_root",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/trigger-rules/apply_root_on_unblocked_hit",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/lissandra_w/trigger-rules",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/trigger-rules/apply_root_on_unblocked_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/processes/cast",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/neeko_e/processes",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/trigger-rules/on_used",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/neeko_e/trigger-rules",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/trigger-rules/on_used",
+      "status": 200
+    }
+  ]
+}
