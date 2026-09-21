@@ -1,0 +1,358 @@
+{
+  "at": "2026-09-21T14:32:46.719Z",
+  "status": "READY_FOR_DESCRIPTION_ONLY_REPAIR",
+  "sourceVersion": {
+    "client": "16.17",
+    "ddragon": "16.17.1"
+  },
+  "sourceFiles": [
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+      "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17-zh_CN.json.gz",
+      "sha256": "f4ed06bce504288345ed7761ea1a12612ef5afd6400ebb1f27290204e1f24e20"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+      "sha256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+      "sha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e"
+    }
+  ],
+  "objects": [
+    {
+      "skillKey": "item_3173_passive",
+      "officialRichDescription": "<mainText><stats><attention>25</attention>魔法抗性<br><attention>45</attention>移动速度<br><attention>30%</attention>韧性</stats><br><br><passive>诺克萨斯的不懈</passive>(0秒)<br>在受到来自英雄的魔法伤害后，获得一个持续5秒的<shield>0</shield><magicDamage>魔法</magicDamage><shield>护盾</shield>。</mainText>",
+      "tooltipBinding": {
+        "path": "mItemDataClient.mTooltipData.mLocKeys.keyTooltip",
+        "key": "Item_3173_Tooltip",
+        "text": "<passive>诺克萨斯的不懈</passive>{{ Item_Cooldown }}<br>在受到来自英雄的魔法伤害后，获得一个持续@ShieldDuration@秒的<shield>@ShieldAmountCalc@</shield><magicDamage>魔法</magicDamage><shield>护盾</shield>。"
+      },
+      "beforeRootDescription": "保留冷却15秒、护盾持续5秒，以及护盾计算树的1级节点90和原属性12、公式2输入乘0.08。等级断点求值算法未证，基础段和原属性值继续由运行时显式提供，不使用默认值。自身魔法护盾结果已组成；低生命触发、冷却消费和运行时供值仍待接线。",
+      "beforeEffectDescription": "使用现有运行时基础盾加0.08倍运行时属性输入公式建立5秒自身魔法护盾；低生命触发和冷却由后续事件接线。",
+      "existingRuleCount": 0
+    },
+    {
+      "skillKey": "item_3174_passive",
+      "officialRichDescription": "<mainText><stats><attention>35</attention>护甲<br><attention>45</attention>移动速度</stats><br><br><passive>镀板</passive><br>使即将到来的攻击伤害降低10%。<br><br><passive>诺克萨斯的耐久</passive> (0秒)<br>在受到来自英雄的物理伤害后，获得一个持续5秒的<shield>0</shield><physicalDamage>物理</physicalDamage><shield>护盾</shield>。</mainText>",
+      "tooltipBinding": {
+        "path": "mItemDataClient.mTooltipData.mLocKeys.keyTooltip",
+        "key": "Item_3174_Tooltip",
+        "text": "<passive>镀板</passive><br>使即将到来的攻击伤害降低@DamageReduction*100@%。<br><br><passive>诺克萨斯的耐久</passive> {{ Item_Cooldown }}<br>在受到来自英雄的物理伤害后，获得一个持续@ShieldDuration@秒的<shield>@ShieldAmountCalc@</shield><physicalDamage>物理</physicalDamage><shield>护盾</shield>。"
+      },
+      "beforeRootDescription": "保留镀板即将到来的攻击伤害降低10%参数，合资格攻击分量与减伤乘区待接。保留诺克萨斯耐久15秒冷却、5秒护盾，以及运行时基础盾加原属性12、公式2输入乘0.08。等级断点仍不猜值。自身物理护盾结果已组成；低生命触发、冷却消费、运行时供值和镀板减伤仍待接线。",
+      "beforeEffectDescription": "使用现有运行时基础盾加0.08倍运行时属性输入公式建立5秒自身物理护盾；低生命触发和冷却由后续事件接线。",
+      "existingRuleCount": 0
+    }
+  ],
+  "peerAudit": {
+    "at": "2026-09-21T14:19:48.338Z",
+    "businessWrites": 0,
+    "values": {
+      "/skills/item_3040_passive": {
+        "createdAt": "2026-09-09T03:38:53.443064Z",
+        "description": "敬畏按当前额外法力值的2%动态提供法术强度，并在来源初始化时建立常驻效果。救主灵刃在待处理伤害使持有者生命值从不低于最大生命值30%降到低于30%时，先获得最大法力值18%的3秒普通护盾；同一持有者冷却90秒。管理配置已接线，战斗运行时未验证。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "炽天使之拥·敬畏与救主灵刃",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "item_3040_passive",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-12T10:46:09.324495Z"
+      },
+      "/skills/item_3040_passive/effects": [
+        {
+          "createdAt": "2026-09-11T13:28:24.402094Z",
+          "description": "以来源最大法力值的18%建立持续3秒的自身普通护盾；由伤前生命阈值规则触发。管理数据已接线，战斗运行时未验证。",
+          "effectKey": "lifeline_shield",
+          "gameId": "lol",
+          "lifecycleEnabled": true,
+          "name": "救主灵刃自身护盾",
+          "resultCount": 1,
+          "skillKey": "item_3040_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-12T07:14:24.81439Z"
+        },
+        {
+          "createdAt": "2026-09-12T10:46:06.012851Z",
+          "description": "来源初始化时建立按当前额外法力值动态读取的2%法术强度；外部显式移除。",
+          "effectKey": "ap_from_bonus_mana",
+          "gameId": "lol",
+          "lifecycleEnabled": true,
+          "name": "敬畏额外法力转法术强度",
+          "resultCount": 1,
+          "skillKey": "item_3040_passive",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-12T10:46:06.012851Z"
+        }
+      ],
+      "/skills/item_3040_passive/effects/lifeline_shield": {
+        "createdAt": "2026-09-11T13:28:24.402094Z",
+        "description": "以来源最大法力值的18%建立持续3秒的自身普通护盾；由伤前生命阈值规则触发。管理数据已接线，战斗运行时未验证。",
+        "effectKey": "lifeline_shield",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "lifeline_shield_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "救主灵刃自身护盾",
+        "results": [
+          {
+            "description": "吸收任意伤害，数值为来源最大法力值的18%。",
+            "detail": {
+              "absorbedDamageTypeKey": null,
+              "decayMode": "NONE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "救主灵刃护盾",
+            "resultKey": "shield",
+            "resultType": "NORMAL_SHIELD",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "lifeline_shield_value",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "item_3040_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-12T07:14:24.81439Z"
+      },
+      "/skills/item_3040_passive/effects/ap_from_bonus_mana": {
+        "createdAt": "2026-09-12T10:46:06.012851Z",
+        "description": "来源初始化时建立按当前额外法力值动态读取的2%法术强度；外部显式移除。",
+        "effectKey": "ap_from_bonus_mana",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": null,
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "敬畏额外法力转法术强度",
+        "results": [
+          {
+            "description": "每1点额外法力提供0.02点法术强度；按当前时点动态读取。",
+            "detail": {
+              "attributeKey": "ability_power",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": null,
+              "stackValueMode": "SHARED",
+              "valueReadMode": "MOMENT_EVALUATION"
+            },
+            "name": "额外法力提供的法术强度",
+            "resultKey": "ap_from_bonus_mana",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "ap_from_bonus_mana",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "item_3040_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-12T10:46:06.012851Z"
+      },
+      "/skills/item_3121_passive": {
+        "createdAt": "2026-09-09T05:09:42.316904Z",
+        "description": "保留原资源缩放生命和定身、近战减速英雄产生的100加4.5%当前法力护盾。单挑不启用附近多名敌人的强化。自身普通护盾结果已组成；定身或近战减速资格和8秒冷却消费仍待接线，敬畏的原资源输入继续由运行时提供。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "末日寒冬·敬畏与永续",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "item_3121_passive",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-11T13:28:33.74837Z"
+      },
+      "/skills/item_3121_passive/effects": [
+        {
+          "createdAt": "2026-09-11T13:28:26.155656Z",
+          "description": "使用现有100加4.5%当前法力公式建立3秒自身普通护盾；定身或近战减速资格、冷却和运行时输入由后续事件接线。",
+          "effectKey": "everlasting_shield",
+          "gameId": "lol",
+          "lifecycleEnabled": true,
+          "name": "永续自身护盾",
+          "resultCount": 1,
+          "skillKey": "item_3121_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-11T13:28:26.155656Z"
+        }
+      ],
+      "/skills/item_3121_passive/effects/everlasting_shield": {
+        "createdAt": "2026-09-11T13:28:26.155656Z",
+        "description": "使用现有100加4.5%当前法力公式建立3秒自身普通护盾；定身或近战减速资格、冷却和运行时输入由后续事件接线。",
+        "effectKey": "everlasting_shield",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "shield_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "永续自身护盾",
+        "results": [
+          {
+            "description": "单挑只使用未按附近多名敌人增强的基础护盾公式。",
+            "detail": {
+              "absorbedDamageTypeKey": null,
+              "decayMode": "NONE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "永续护盾",
+            "resultKey": "shield",
+            "resultType": "NORMAL_SHIELD",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "shield_value",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "item_3121_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-11T13:28:26.155656Z"
+      }
+    },
+    "audit": [
+      {
+        "method": "GET",
+        "path": "/skills/item_3040_passive",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/item_3040_passive/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/item_3040_passive/effects/lifeline_shield",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/item_3040_passive/effects/ap_from_bonus_mana",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/item_3121_passive",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/item_3121_passive/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/item_3121_passive/effects/everlasting_shield",
+        "status": 200
+      }
+    ]
+  },
+  "conclusion": "两件升级鞋的正式富文本及当前客户端正文分别写受到来自英雄的魔法或物理伤害后获得护盾，旧父说明的低生命触发没有来源支持。当前均无触发规则，未发现已执行的错误低生命逻辑。本批仅纠正四处说明并同步已返回的等级基础段；不更改效果标识、数值、生命周期、引用或子结果。",
+  "sameClassConclusion": "炽天使之拥已有真实伤前生命阈值分支；末日寒冬已有定身或近战减速资格说明。7次定点GET确认两者当前文字与各自已核来源边界一致，不扩大更正。",
+  "remaining": [
+    "受到伤害的正式事件及作用方资格仍待管理接线",
+    "冷却登记仍待接线",
+    "原属性12、公式2仍需无默认外供，不替换为总生命或额外生命",
+    "装甲战靴镀板合资格攻击分量及减伤修正区仍待接线",
+    "代表页面尚未验收"
+  ],
+  "businessWrites": 0
+}

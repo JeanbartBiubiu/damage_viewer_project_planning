@@ -1,0 +1,147 @@
+{
+  "at": "2026-09-21T13:59:17.542Z",
+  "status": "STATIC_CURVE_CONFIRMED",
+  "reviewer": "/root/upgraded_boot_shield_curve",
+  "leadCheck": "四份原料SHA、冻结包SHA、两对象与已验证客户端原料逐字段一致、两个类型缺省值0已核对",
+  "sourceVersion": {
+    "client": "16.17",
+    "official": "16.17.1"
+  },
+  "frozenPackage": {
+    "path": "数据参考/全量录入-2026-09/装备技能实录/第二十批升级鞋/冻结来源.json",
+    "sha256": "3861cdd2d66da43deb99aca9c085c894258f58a21bfdfc967b9feaa71203e649"
+  },
+  "sourceFiles": [
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+      "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17-zh_CN.json.gz",
+      "sha256": "f4ed06bce504288345ed7761ea1a12612ef5afd6400ebb1f27290204e1f24e20"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+      "sha256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+      "sha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e"
+    }
+  ],
+  "objects": [
+    {
+      "equipmentKey": "item_3173",
+      "skillKey": "item_3173_passive",
+      "rawPath": "Items/3173",
+      "declaredRawSha256": "d846f39cf9b4ced5214109ebb18a78cdfbc8fcc89b4c106915622e8a253ea80a",
+      "rawJsonSha256": "d846f39cf9b4ced5214109ebb18a78cdfbc8fcc89b4c106915622e8a253ea80a",
+      "canonicalJsonSha256": "1dca893f2610e443a2a05af7ad99d4a829d024d49425915e2ae726ebad2d378f",
+      "rawMatchesVerifiedClientFile": true,
+      "calculation": {
+        "mFormulaParts": [
+          {
+            "mLevel1Value": 90,
+            "mBreakpoints": [
+              {
+                "mLevel": 9,
+                "mBonusPerLevelAtAndAfter": 10,
+                "__type": "Breakpoint"
+              }
+            ],
+            "__type": "ByCharLevelBreakpointsCalculationPart"
+          },
+          {
+            "mStat": 12,
+            "mStatFormula": 2,
+            "mDataValue": "ShieldAmount",
+            "__type": "StatByNamedDataValueCalculationPart"
+          }
+        ],
+        "__type": "GameCalculation"
+      },
+      "bindings": [
+        {
+          "path": "mItemDataClient.mTooltipData.mLocKeys.keyTooltip",
+          "key": "Item_3173_Tooltip",
+          "text": "<passive>诺克萨斯的不懈</passive>{{ Item_Cooldown }}<br>在受到来自英雄的魔法伤害后，获得一个持续@ShieldDuration@秒的<shield>@ShieldAmountCalc@</shield><magicDamage>魔法</magicDamage><shield>护盾</shield>。"
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3174",
+      "skillKey": "item_3174_passive",
+      "rawPath": "Items/3174",
+      "declaredRawSha256": "e7a6c29796bbbb8582ef75b80c877cbcfd6683390d8001c5c6aef95eea362317",
+      "rawJsonSha256": "e7a6c29796bbbb8582ef75b80c877cbcfd6683390d8001c5c6aef95eea362317",
+      "canonicalJsonSha256": "fa0eb59765f3fa8fec301fd02e0e0139cde98c3b8d98a16e07180e24772c6b36",
+      "rawMatchesVerifiedClientFile": true,
+      "calculation": {
+        "mFormulaParts": [
+          {
+            "mLevel1Value": 90,
+            "mBreakpoints": [
+              {
+                "mLevel": 9,
+                "mBonusPerLevelAtAndAfter": 10,
+                "__type": "Breakpoint"
+              }
+            ],
+            "__type": "ByCharLevelBreakpointsCalculationPart"
+          },
+          {
+            "mStat": 12,
+            "mStatFormula": 2,
+            "mDataValue": "ShieldAmount",
+            "__type": "StatByNamedDataValueCalculationPart"
+          }
+        ],
+        "__type": "GameCalculation"
+      },
+      "bindings": [
+        {
+          "path": "mItemDataClient.mTooltipData.mLocKeys.keyTooltip",
+          "key": "Item_3174_Tooltip",
+          "text": "<passive>镀板</passive><br>使即将到来的攻击伤害降低@DamageReduction*100@%。<br><br><passive>诺克萨斯的耐久</passive> {{ Item_Cooldown }}<br>在受到来自英雄的物理伤害后，获得一个持续@ShieldDuration@秒的<shield>@ShieldAmountCalc@</shield><physicalDamage>物理</physicalDamage><shield>护盾</shield>。"
+        }
+      ]
+    }
+  ],
+  "levelValues": {
+    "1": 90,
+    "2": 90,
+    "3": 90,
+    "4": 90,
+    "5": 90,
+    "6": 90,
+    "7": 90,
+    "8": 90,
+    "9": 100,
+    "10": 110,
+    "11": 120,
+    "12": 130,
+    "13": 140,
+    "14": 150,
+    "15": 160,
+    "16": 170,
+    "17": 180,
+    "18": 190
+  },
+  "boundaries": {
+    "1": 90,
+    "8": 90,
+    "9": 100,
+    "10": 110,
+    "18": 190
+  },
+  "defaultInitialBonus": 0,
+  "defaultAdditionalBonusAtBreakpoint": 0,
+  "remainingInput": "source_mstat12_formula2_value保持无默认的运行输入，不推断其为生命属性；完整盾量仍需该项实际值。",
+  "scope": "只替换基础护盾等级参数并同步公式旧说明，不改变现有护盾效果、0.08系数、镀板、触发、冷却或取得条件。",
+  "validationBoundary": "静态来源和同型断点确证；没有客户端求值或战斗验证。",
+  "businessWrites": 0
+}

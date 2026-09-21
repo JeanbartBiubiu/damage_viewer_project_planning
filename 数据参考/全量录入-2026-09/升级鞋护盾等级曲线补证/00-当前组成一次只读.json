@@ -1,0 +1,396 @@
+{
+  "at": "2026-09-21T13:43:36.159Z",
+  "businessWrites": 0,
+  "skills": {
+    "item_3173_passive": {
+      "parameters": [
+        {
+          "createdAt": "2026-09-09T10:28:04.937197Z",
+          "description": "客户端Cooldown=15秒，按毫秒保存为15000。官方正文(0秒)不是实际冷却。",
+          "fixedValue": 15000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "不懈冷却",
+          "parameterKey": "shield_cooldown_ms",
+          "skillKey": "item_3173_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T10:28:04.937197Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T10:28:05.925581Z",
+          "description": "客户端ShieldDuration=5秒，按毫秒保存为5000。不创建护盾过程。",
+          "fixedValue": 5000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "护盾持续",
+          "parameterKey": "shield_duration_ms",
+          "skillKey": "item_3173_passive",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T10:28:05.925581Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T10:28:06.997648Z",
+          "description": "ShieldAmountCalc的ByCharLevelBreakpoints.mLevel1Value=90。只保存原节点，不作为运行时基础盾默认值，也不用它推18。",
+          "fixedValue": 90,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "护盾1级节点",
+          "parameterKey": "shield_level1_value",
+          "skillKey": "item_3173_passive",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T10:28:06.997648Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T10:28:08.176294Z",
+          "description": "客户端ShieldAmount=0.08，绑定mStat=12且mStatFormula=2。属性口径待核。",
+          "fixedValue": 0.08,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "护盾mStat12系数",
+          "parameterKey": "shield_amount_ratio",
+          "skillKey": "item_3173_passive",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T10:28:08.176294Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T10:28:09.207496Z",
+          "description": "无默认值。不把1级节点90或未知等级端点当作基础盾默认。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "当前等级基础护盾输入",
+          "parameterKey": "actual_level_base_shield",
+          "skillKey": "item_3173_passive",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T10:28:09.207496Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T10:28:10.223147Z",
+          "description": "无默认值。保留原12/2实际输入，不按其他对象mStat12/0映射SOURCE.hp.TOTAL。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "来源mStat12/formula2输入",
+          "parameterKey": "source_mstat12_formula2_value",
+          "skillKey": "item_3173_passive",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-09T10:28:10.223147Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        }
+      ],
+      "formulas": [
+        {
+          "createdAt": "2026-09-09T10:28:11.355388Z",
+          "description": "当前等级基础护盾输入加0.08倍来源原属性12、公式2输入；数值口径继续由运行时显式提供，本公式用于已组成的自身魔法护盾结果。",
+          "formulaKey": "magic_shield_value",
+          "gameId": "lol",
+          "name": "不懈魔法护盾值",
+          "skillKey": "item_3173_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-11T13:28:29.965588Z"
+        }
+      ],
+      "effects": [
+        {
+          "createdAt": "2026-09-11T13:28:27.440295Z",
+          "description": "使用现有运行时基础盾加0.08倍运行时属性输入公式建立5秒自身魔法护盾；低生命触发和冷却由后续事件接线。",
+          "effectKey": "lifeline_magic_shield",
+          "gameId": "lol",
+          "lifecycleEnabled": true,
+          "name": "诺克萨斯不懈魔法护盾",
+          "resultCount": 1,
+          "skillKey": "item_3173_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-11T13:28:27.440295Z"
+        }
+      ],
+      "processes": [],
+      "internal-states": [],
+      "trigger-rules": []
+    },
+    "item_3174_passive": {
+      "parameters": [
+        {
+          "createdAt": "2026-09-09T10:28:15.472785Z",
+          "description": "客户端DamageReduction=0.1；中文绑定即将到来的攻击伤害降低10%。只保留减幅参数，不套直通公式，不合资格攻击分量与减伤乘区待接。",
+          "fixedValue": 0.1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "镀板攻击伤害降低比例",
+          "parameterKey": "incoming_attack_damage_reduction_ratio",
+          "skillKey": "item_3174_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T10:28:15.472785Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T10:28:16.520878Z",
+          "description": "客户端Cooldown=15秒，按毫秒保存为15000。官方正文(0秒)不是实际冷却。",
+          "fixedValue": 15000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "耐久冷却",
+          "parameterKey": "shield_cooldown_ms",
+          "skillKey": "item_3174_passive",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T10:28:16.520878Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T10:28:17.679319Z",
+          "description": "客户端ShieldDuration=5秒，按毫秒保存为5000。不创建护盾过程。",
+          "fixedValue": 5000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "护盾持续",
+          "parameterKey": "shield_duration_ms",
+          "skillKey": "item_3174_passive",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T10:28:17.679319Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T10:28:18.76328Z",
+          "description": "ShieldAmountCalc的mLevel1Value=90。只保存原节点，不作为运行时基础盾默认值，也不用它推18。",
+          "fixedValue": 90,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "护盾1级节点",
+          "parameterKey": "shield_level1_value",
+          "skillKey": "item_3174_passive",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T10:28:18.76328Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T10:28:19.821082Z",
+          "description": "客户端ShieldAmount=0.08，绑定mStat=12且mStatFormula=2。属性口径待核。",
+          "fixedValue": 0.08,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "护盾mStat12系数",
+          "parameterKey": "shield_amount_ratio",
+          "skillKey": "item_3174_passive",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T10:28:19.821082Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T10:28:20.925928Z",
+          "description": "无默认值。不把1级节点90或未知等级端点当作基础盾默认。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "当前等级基础护盾输入",
+          "parameterKey": "actual_level_base_shield",
+          "skillKey": "item_3174_passive",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-09T10:28:20.925928Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T10:28:21.899595Z",
+          "description": "无默认值。保留原12/2实际输入，不按其他对象mStat12/0映射SOURCE.hp.TOTAL。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "来源mStat12/formula2输入",
+          "parameterKey": "source_mstat12_formula2_value",
+          "skillKey": "item_3174_passive",
+          "sortOrder": 90,
+          "updatedAt": "2026-09-09T10:28:21.899595Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        }
+      ],
+      "formulas": [
+        {
+          "createdAt": "2026-09-09T10:28:23.05178Z",
+          "description": "当前等级基础护盾输入加0.08倍来源原属性12、公式2输入；数值口径继续由运行时显式提供，本公式用于已组成的自身物理护盾结果，镀板10%减幅不进入本公式。",
+          "formulaKey": "physical_shield_value",
+          "gameId": "lol",
+          "name": "耐久物理护盾值",
+          "skillKey": "item_3174_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-11T13:28:31.215166Z"
+        }
+      ],
+      "effects": [
+        {
+          "createdAt": "2026-09-11T13:28:28.672006Z",
+          "description": "使用现有运行时基础盾加0.08倍运行时属性输入公式建立5秒自身物理护盾；低生命触发和冷却由后续事件接线。",
+          "effectKey": "lifeline_physical_shield",
+          "gameId": "lol",
+          "lifecycleEnabled": true,
+          "name": "诺克萨斯耐久物理护盾",
+          "resultCount": 1,
+          "skillKey": "item_3174_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-11T13:28:28.672006Z"
+        }
+      ],
+      "processes": [],
+      "internal-states": [],
+      "trigger-rules": []
+    }
+  },
+  "details": {
+    "/skills/item_3173_passive/formulas/magic_shield_value": {
+      "createdAt": "2026-09-09T10:28:11.355388Z",
+      "description": "当前等级基础护盾输入加0.08倍来源原属性12、公式2输入；数值口径继续由运行时显式提供，本公式用于已组成的自身魔法护盾结果。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_level_base_shield"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "shield_amount_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "source_mstat12_formula2_value"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "magic_shield_value",
+      "gameId": "lol",
+      "name": "不懈魔法护盾值",
+      "skillKey": "item_3173_passive",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-11T13:28:29.965588Z"
+    },
+    "/skills/item_3174_passive/formulas/physical_shield_value": {
+      "createdAt": "2026-09-09T10:28:23.05178Z",
+      "description": "当前等级基础护盾输入加0.08倍来源原属性12、公式2输入；数值口径继续由运行时显式提供，本公式用于已组成的自身物理护盾结果，镀板10%减幅不进入本公式。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_level_base_shield"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "shield_amount_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "source_mstat12_formula2_value"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "physical_shield_value",
+      "gameId": "lol",
+      "name": "耐久物理护盾值",
+      "skillKey": "item_3174_passive",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-11T13:28:31.215166Z"
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "route": "/skills/item_3173_passive/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3173_passive/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3173_passive/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3173_passive/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3173_passive/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3173_passive/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3173_passive/formulas/magic_shield_value",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3174_passive/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3174_passive/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3174_passive/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3174_passive/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3174_passive/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3174_passive/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3174_passive/formulas/physical_shield_value",
+      "status": 200
+    }
+  ]
+}

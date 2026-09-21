@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-21T13:52:51.110Z",
+  "generatedAt": "2026-09-21T14:53:14.771Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。；基兰W冷却回退返回：7次保存、41次独立GET与5类页面通过，有效施放时间仍待核，管理完整8项/开放831项保持，见zileanWCooldownReductionReturn。；系统-16装备技能直达录入已完成，728单测/3项定向页面及两件真实装备往返通过，6条独立回读不变，业务写入0。；中娅主体说明1次页面更正、独立13GET及重开通过，装备开放234项保持；百分比穿透候选与两份历史来源的边界另见percentPenetrationSourceContractAudit，尚未批准实施。；崔丝塔娜W明确组成返回8次保存、108次独立GET、20组算例及8类页面通过；复用旧本人击杀入口，整技能仍系统暂缓，管理完整8项/开放831项保持。；正式参与击杀事件已返回崔丝塔娜W：3次页面保存、36次独立GET、4项拒绝验证通过，原4规则数量保持；剩余系统1项、资料1项，整技能未记完整。；剩余冷却比例已返回易大师R和纳沃利：3次页面保存、49次独立GET及3项数值越界拒绝通过，无新表或触发；纳沃利改资料待核，整技能完成数保持。",
@@ -14082,7 +14082,57 @@
       "browser": false,
       "runtime": false,
       "wholeSkillComplete": false,
-      "next": "按相同断点证据核对两件升级鞋等级基础护盾，保留原12/2属性输入与触发待办"
+      "next": "两件升级鞋相同断点返回已完成，见upgradedBootShieldLevelAndDescriptionReturn；按用户要求本次收尾后暂停录入。"
+    },
+    "upgradedBootShieldLevelAndDescriptionReturn": {
+      "status": "两件升级鞋完整等级基础段与说明返回完成，独立回读及代表页面通过；整件机制仍开放，按用户要求收尾后暂停录入",
+      "skills": [
+        "item_3173_passive",
+        "item_3174_passive"
+      ],
+      "successfulSaves": 8,
+      "independentGETs": 94,
+      "parameterUpdates": 2,
+      "formulaDescriptionUpdates": 2,
+      "rootAndEffectDescriptionUpdates": 4,
+      "createdComponents": 0,
+      "newTriggerRules": 0,
+      "actualFormulaArithmeticCases": 108,
+      "peerReadOnlyGETs": 7,
+      "commits": {
+        "parameters": "1a30dd0054510855d4fc6a9493dbf77dfde58433",
+        "formulaDescriptions": "a121fdc26dbb338958e8bc00243aa8706d04c645",
+        "rootAndEffectDescriptions": "2405e0b02b8b61d68611b7b6cb749cd4aeb8acf4"
+      },
+      "evidence": [
+        "升级鞋护盾等级曲线补证/04-角色等级参数实际返回.json",
+        "升级鞋护盾等级曲线补证/05-公式说明与实值核算返回.json",
+        "升级鞋护盾等级曲线补证/06-同批护盾触发说明核对.json",
+        "升级鞋护盾等级曲线补证/07-主体与效果说明实际返回.json",
+        "升级鞋护盾等级曲线补证/08-两件装备代表页面验收.json"
+      ],
+      "currentCounts": {
+        "item_3173_passive": {
+          "parameters": 6,
+          "formulas": 1,
+          "effects": 1,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0
+        },
+        "item_3174_passive": {
+          "parameters": 7,
+          "formulas": 1,
+          "effects": 1,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0
+        }
+      },
+      "browser": true,
+      "runtime": false,
+      "wholeEquipmentComplete": false,
+      "next": "用户于2026-09-21要求当前装备收尾后暂停；先据现有问题记录迭代功能，再明确恢复录入。"
     }
   },
   "runtimeValidation": "未执行",
@@ -46569,14 +46619,38 @@
         "scopeCategory": "特殊升级或使用后形态",
         "conclusion": "资料待核",
         "conclusionScope": "装备当前1V1数据与机制",
-        "reason": "仍有1项来源数值、范围、模式、取得方式或机制事实待核，不能猜值或直接排除。",
+        "reason": "完整18级基础护盾参数及公式、主体、效果说明已返回，独立回读与代表页面通过；原属性12、公式2的真实口径仍待核，触发与冷却接线继续开放，不计整件管理完成。",
         "sourcePendingCount": 1,
         "systemPendingCount": 0,
         "evidenceRefs": [
           "equipmentCurrentReadback",
           "equipmentSourceInventory",
-          "equipmentEffectReview"
-        ]
+          "equipmentEffectReview",
+          "upgradedBootShieldLevelAndDescriptionReturn"
+        ],
+        "currentComponentCounts": {
+          "parameters": 6,
+          "formulas": 1,
+          "effects": 1,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0
+        },
+        "remainingBranches": [
+          "原属性12、公式2的真实口径及无默认供值",
+          "来自英雄对应伤害后触发与冷却登记"
+        ],
+        "authoredShieldLevelReturn": {
+          "httpReadback": "PASS",
+          "browser": "PASS",
+          "levelParameterKey": "actual_level_base_shield",
+          "valueMode": "CHARACTER_LEVEL",
+          "levelRange": [
+            1,
+            18
+          ],
+          "newTriggerRules": 0
+        }
       },
       {
         "sourceItemId": "3174",
@@ -46586,14 +46660,39 @@
         "scopeCategory": "特殊升级或使用后形态",
         "conclusion": "资料待核",
         "conclusionScope": "装备当前1V1数据与机制",
-        "reason": "仍有1项来源数值、范围、模式、取得方式或机制事实待核，不能猜值或直接排除。",
+        "reason": "完整18级基础护盾参数及公式、主体、效果说明已返回，独立回读与代表页面通过；原属性12、公式2的真实口径仍待核，触发与冷却接线继续开放，不计整件管理完成。镀板合资格攻击分量与减伤修正区另待处理。",
         "sourcePendingCount": 1,
         "systemPendingCount": 0,
         "evidenceRefs": [
           "equipmentCurrentReadback",
           "equipmentSourceInventory",
-          "equipmentEffectReview"
-        ]
+          "equipmentEffectReview",
+          "upgradedBootShieldLevelAndDescriptionReturn"
+        ],
+        "currentComponentCounts": {
+          "parameters": 7,
+          "formulas": 1,
+          "effects": 1,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0
+        },
+        "remainingBranches": [
+          "原属性12、公式2的真实口径及无默认供值",
+          "来自英雄对应伤害后触发与冷却登记",
+          "镀板合资格攻击分量与减伤修正区"
+        ],
+        "authoredShieldLevelReturn": {
+          "httpReadback": "PASS",
+          "browser": "PASS",
+          "levelParameterKey": "actual_level_base_shield",
+          "valueMode": "CHARACTER_LEVEL",
+          "levelRange": [
+            1,
+            18
+          ],
+          "newTriggerRules": 0
+        }
       },
       {
         "sourceItemId": "3175",
