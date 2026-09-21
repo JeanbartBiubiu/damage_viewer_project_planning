@@ -268,6 +268,41 @@ class SkillNumericSemanticsTest {
         });
     }
 
+    @ParameterizedTest
+    @ValueSource(strings = {"INTEGER", "DECIMAL"})
+    void firstContactBindingKeepsIntegerDomainAndNeedsExplicitBinding(String type) {
+        Aggregate effect = effect(parameterValue("input"));
+        List<Parameter> parameters = List.of(runtime("input", type));
+        assertDoesNotThrow(() -> SkillNumericSemantics.validate(
+            List.of(effect, rule("EXECUTE_EFFECT", "effect", true, "SKILL_HIT_FIRST_CONTACT")), parameters));
+        assertIssue("BINDING_MISSING", "actions[0].runtimeInputBindings",
+            List.of(effect, rule("EXECUTE_EFFECT", "effect", false, "SKILL_HIT_FIRST_CONTACT")), parameters);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"SKILL_HIT", "BASIC_ATTACK_HIT", "SKILL_USED", "DAMAGE_DEALT"})
+    void finalSnapshotChecksFirstContactConditionAndBindingEvent(String eventType) {
+        Aggregate condition = object(SourceType.TRIGGER, "rule", """
+            {"eventSource":{"eventType":"%s","detail":{}},
+             "conditionGroups":[{"conditions":[{"conditionType":"EVENT_VALUE_COMPARE",
+               "detail":{"eventValueKey":"SKILL_HIT_FIRST_CONTACT","comparator":"EQ",
+                         "comparisonValue":{"kind":"FIXED","value":1}}}]}]}
+            """.formatted(eventType));
+        Aggregate binding = rule("EXECUTE_EFFECT", "effect", true, "SKILL_HIT_FIRST_CONTACT");
+        ((ObjectNode) binding.data().path("eventSource")).put("eventType", eventType);
+        List<Aggregate> boundObjects = List.of(effect(parameterValue("input")), binding);
+        List<Parameter> parameters = List.of(runtime("input", "INTEGER"));
+        if ("SKILL_HIT".equals(eventType)) {
+            assertDoesNotThrow(() -> SkillNumericSemantics.validate(List.of(condition), List.of()));
+            assertDoesNotThrow(() -> SkillNumericSemantics.validate(boundObjects, parameters));
+        } else {
+            assertIssue("EVENT_VALUE_NOT_AVAILABLE", "conditionGroups[0].conditions[0].detail.eventValueKey",
+                List.of(condition), List.of());
+            assertIssue("EVENT_VALUE_NOT_AVAILABLE", "actions[0].runtimeInputBindings[0].detail.eventValueKey",
+                boundObjects, parameters);
+        }
+    }
+
     private static Aggregate object(SourceType type, String key, String json) {
         return new Aggregate(type, SKILL, key, AggregateJson.tree(json));
     }

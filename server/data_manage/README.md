@@ -291,3 +291,7 @@ mvn "-Dtest=LegacyCombatDataCleanupDbContractSqlTest,SkillParameterFormulaManage
 魅惑状态增量：目录增加 `CHARM`（魅惑），无强度状态操作、种类不可改和来源与承受对象实例关联沿用既有结构。具体移动速度、中止与重施分别依据来源；共享定义以规划真源《系统精简实施说明》的“魅惑状态增量”为准，本模块不执行魅惑行动控制。
 
 已有test0221库的魅惑种类约束使用 [本次追加SQL](../../db/game_manage/migrations/add_charm_status_kind.sql) 与 `tools/authoring/ApplyCharmStatusKind.java` 单次执行器。先按当前基线预检和独立批准摘要，执行日志为 `output/charm-status-preflight/migration-attempt.jsonl`，存在任何尝试记录都先查现状；不得重放旧状态迁移。写后另启只读连接确认四条原状态、效果、引用和27表保留，再通过页面建立魅惑目录。
+
+### 首次目标接触判定
+
+事件值 `SKILL_HIT_FIRST_CONTACT`（本次使用首次目标接触）复用事件值比较与动态绑定，只允许技能命中事件，保存与事务最终配置复核均检查。整数来源可绑定整数或十进制参数；管理明细不接受实际值或默认值字段，无数据库迁移。实际0/1、完整接触历史、使用归属及缺值边界以规划真源《系统精简实施说明》的“首次目标接触判定增量”为准。本模块不生成接触记录，既有HIT_INDEX仍表示从1开始的单次或重复步骤命中序号。
