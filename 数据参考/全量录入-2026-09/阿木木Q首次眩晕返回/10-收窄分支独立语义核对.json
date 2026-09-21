@@ -1,0 +1,12 @@
+{
+  "at": "2026-09-21T07:12:07.861Z",
+  "status": "SEMANTIC_PLAN_ALLOWED_NOT_BATCH_APPROVAL",
+  "reviewer": "/root/zyra_frozen_return_review",
+  "requiredPreconditions": [
+    "同一次实际命中明确护盾判定0，1和缺值不匹配，不能从结果null反推0",
+    "新效果仅由受限入口调用，没有其他规则或过程绕过",
+    "null只表示已确认未阻挡分支不再护盾处理，不表达穿盾或被阻挡分支"
+  ],
+  "decision": "已完成判定的未阻挡分支作为输入前提，已核数值可保存；具体批次仍需重新冻结核对。",
+  "businessWrites": 0
+}

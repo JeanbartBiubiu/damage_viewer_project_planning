@@ -1,0 +1,28 @@
+{
+  "at": "2026-09-21T07:10:49.773Z",
+  "status": "FULL_DAMAGE_BLOCKING_NOT_CONFIRMED_FOR_FIXED_VERSION",
+  "rejectedBatch": {
+    "worktree": "damage_web_dev",
+    "path": "数据参考/全量录入-2026-09/交叉试录/阿木木Q本体命中伤害返回",
+    "freezeSha256": "32fbf189c9150e59b2b3de58e519adbc62e05cf14a3af7a08e3a73cc141f97fe"
+  },
+  "sources": [
+    {
+      "url": "https://www.mobafire.com/league-of-legends/build/8-13-amumu-guide-503228",
+      "section": "Bandage Toss / Details",
+      "shortQuote": "will prevent damage and stun but wont abort",
+      "meaning": "旧攻略明确声称法术护盾阻挡伤害及眩晕，牵引不停止。",
+      "limit": "标题8.13且页面明确未更新当前赛季；不作为客户端16.17完整阻挡分支的充分依据。"
+    },
+    {
+      "url": "https://wiki.leagueoflegends.com/en-us/Amumu",
+      "access": "robots.txt拒绝，未取得页面正文，不绕过限制。"
+    },
+    {
+      "url": "https://leagueoflegends.fandom.com/wiki/Amumu/LoL",
+      "limit": "旧页面部分阻挡与牵引说明不足以单独确定哪个结果被挡；旧数值不使用。"
+    }
+  ],
+  "decision": "保留原RESULT候选为未批准，业务写入0。评审更窄的明确未阻挡分支，0条件以外继续开放，不直接将原无条件请求改null。",
+  "businessWrites": 0
+}
