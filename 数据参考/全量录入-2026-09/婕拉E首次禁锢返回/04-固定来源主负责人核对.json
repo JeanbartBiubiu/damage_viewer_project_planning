@@ -1,0 +1,68 @@
+{
+  "at": "2026-09-21T06:34:15.405Z",
+  "reviewer": "/root",
+  "status": "SOURCE_CONFIRMED_FOR_FIRST_APPLICATION_ONLY",
+  "version": "客户端16.17 / DDragon16.17.1",
+  "files": [
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Zyra.json.gz",
+      "sha256": "94e23123ef2c5c00314b79d216fc055ac84411778f425924ce273e2a79c809ef"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Zyra.json",
+      "sha256": "4dea8c9a2d09d6cfb24bac8dec60651ac64b3745d561d2dca516f9951b284a57"
+    }
+  ],
+  "binding": {
+    "rootSpellIndex": 2,
+    "rootSpell": "Characters/Zyra/Spells/ZyraEAbility/ZyraE",
+    "ability": "Characters/Zyra/Spells/ZyraEAbility",
+    "abilityRootSpell": "Characters/Zyra/Spells/ZyraEAbility/ZyraE",
+    "spellScript": "ZyraE"
+  },
+  "duration": {
+    "clientField": "ZyraE.mSpell.DataValues[name=RootDuration].values",
+    "allValues": [
+      0.75,
+      1,
+      1.25,
+      1.5,
+      1.75,
+      2,
+      2.25
+    ],
+    "rankIndexStart": 1,
+    "officialField": "data.Zyra.spells[2].effect[5]",
+    "officialValues": [
+      1,
+      1.25,
+      1.5,
+      1.75,
+      2
+    ],
+    "officialEffectBurn": "1/1.25/1.5/1.75/2",
+    "milliseconds": [
+      1000,
+      1250,
+      1500,
+      1750,
+      2000
+    ],
+    "existingParameterMatches": true
+  },
+  "enemyAndIndependentRoot": {
+    "officialDescription": "Zyra sends forth vines through the ground to ensnare her target, dealing damage and rooting enemies they come across. If cast near a seed, Grasping Roots grows a Vine Lasher, whose short range attacks reduce enemy Move Speed.",
+    "officialTooltip": "Zyra sends vines forward, <status>Rooting</status> for {{ rootduration }} second(s) and dealing <magicDamage>{{ totaldamage }} magic damage</magicDamage>. <br /><br />If this Ability passes near a <keywordMajor>Seed</keywordMajor>, the <keywordMajor>Seed</keywordMajor> grows into a Vine Lasher that deals <magicDamage>{{ spell.zyrap:plantdamage }} magic damage</magicDamage> and lasts {{ spell.zyrap:plantduration }} seconds. Vine Lashers have 400 range, and their Attacks <status>Slow</status> by {{ slowamountplantattack }}% for {{ slowdurationplantattack }} seconds. The <status>Slow</status> from multiple Vine Lashers stacks up to {{ maxslowstacks }} times.{{ spellmodifierdescriptionappend }}",
+    "conclusion": "本体沿途对敌方造成伤害并禁锢；靠近种子才生成植物是另一个明确条件分支。首次禁锢不需要先存在种子，不以植物攻击代替本体事件。"
+  },
+  "remaining": [
+    "已存在本来源禁锢时刷新/叠加等重施语义未由该固定正文明确",
+    "法术护盾阻挡/缺值分支不从当前资料反推",
+    "种子植物细节沿原边界保留，不扩大本次首个实例分支",
+    "不解码7183标志猜敌我，不使用模式覆盖或子植物攻击参数"
+  ],
+  "wholeSkillComplete": false,
+  "businessWrites": 0
+}

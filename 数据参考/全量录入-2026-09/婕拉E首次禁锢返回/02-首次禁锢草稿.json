@@ -1,0 +1,167 @@
+{
+  "at": "2026-09-21T06:28:06.858Z",
+  "status": "DRAFT_READY_FOR_MATURE_API_RETURN",
+  "skillKey": "zyra_e",
+  "scope": "只返回本体实际命中且无本来源实例时的首次禁锢，不表示沿途首个接触。",
+  "effect": {
+    "description": "仅供婕拉E本体实际命中敌方英雄、同次法术护盾结果明确未阻挡且无本来源禁锢实例的入口；不表示首个沿途目标，不连接植物攻击、种子联动或已有实例重施。",
+    "effectKey": "first_hit_root",
+    "lifecycle": {
+      "applicationStacksValue": {
+        "kind": "FIXED",
+        "value": 1
+      },
+      "durationValue": {
+        "kind": "PARAMETER",
+        "parameterKey": "root_duration_ms"
+      },
+      "expiryMode": "ALL_AT_ONCE",
+      "firstPeriodicExecution": null,
+      "instanceScope": "SOURCE_TARGET",
+      "maxStacksValue": {
+        "kind": "FIXED",
+        "value": 1
+      },
+      "periodicIntervalValue": null,
+      "reapplicationDurationMode": "REFRESH_ALL",
+      "reapplicationStackMode": "KEEP"
+    },
+    "name": "缠绕之根首次施加禁锢",
+    "results": [
+      {
+        "description": "控制资格由受限入口核对；本结果不再次独立判断法术护盾，持续状态随本来源与目标实例到期结束。",
+        "detail": {
+          "operation": "APPLY",
+          "statusKey": "root"
+        },
+        "lifecycleBehavior": {
+          "moment": "PERSISTENT",
+          "periodicExecutionMode": null,
+          "reapplicationValueMode": null,
+          "stackValueMode": null,
+          "valueReadMode": null
+        },
+        "name": "本次缠绕之根禁锢",
+        "resultKey": "root",
+        "resultType": "STATUS_OPERATION",
+        "sortOrder": 10,
+        "spellShieldBlockScope": null,
+        "target": "TARGET",
+        "valueRule": null
+      }
+    ],
+    "sortOrder": 30
+  },
+  "rule": {
+    "ruleKey": "apply_root_on_unblocked_hit",
+    "name": "本体命中且无本来源实例时禁锢",
+    "description": "只接收zyra_e本体真实命中；同组要求敌方英雄、同次法术护盾阻挡明确为0以及无本来源禁锢实例。缺值不默认0，不要求首次沿途接触；植物、种子与已有实例重施单列。",
+    "sortOrder": 30,
+    "eventSource": {
+      "eventType": "SKILL_HIT",
+      "detail": {
+        "sourceSkillKey": "zyra_e"
+      }
+    },
+    "conditionGroups": [
+      {
+        "groupKey": "root_eligible",
+        "name": "本体命中可首次施加",
+        "sortOrder": 10,
+        "conditions": [
+          {
+            "conditionKey": "champion_target",
+            "conditionType": "TARGET_CATEGORY_CHECK",
+            "sortOrder": 10,
+            "detail": {
+              "categories": [
+                "CHAMPION"
+              ]
+            }
+          },
+          {
+            "conditionKey": "enemy_target",
+            "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+            "sortOrder": 20,
+            "detail": {}
+          },
+          {
+            "conditionKey": "not_spell_shield_blocked",
+            "conditionType": "EVENT_VALUE_COMPARE",
+            "sortOrder": 30,
+            "detail": {
+              "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED",
+              "comparator": "EQ",
+              "comparisonValue": {
+                "kind": "FIXED",
+                "value": 0
+              }
+            }
+          },
+          {
+            "conditionKey": "own_root_absent",
+            "conditionType": "LIFECYCLE_CHECK",
+            "sortOrder": 40,
+            "detail": {
+              "effectKey": "first_hit_root",
+              "subject": "CURRENT_TARGET",
+              "checkKind": "ABSENT",
+              "comparator": null,
+              "comparisonValue": null
+            }
+          }
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "actionKey": "apply_root",
+        "name": "施加本次禁锢",
+        "actionType": "EXECUTE_EFFECT",
+        "sortOrder": 10,
+        "targetContext": "CURRENT_TARGET",
+        "detail": {
+          "effectKey": "first_hit_root"
+        },
+        "runtimeInputBindings": [],
+        "resultModifiers": []
+      }
+    ],
+    "perTargetCooldown": null,
+    "maxTriggersPerProcess": null
+  },
+  "existingParameter": {
+    "key": "root_duration_ms",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "levelValues": {
+      "1": 1000,
+      "2": 1250,
+      "3": 1500,
+      "4": 1750,
+      "5": 2000
+    }
+  },
+  "existingControlStatus": {
+    "key": "root",
+    "kind": "ROOT",
+    "status": "ENABLED"
+  },
+  "preserve": [
+    "原本体伤害结果、SKILL法术护盾粒度与OMNIVAMP资格",
+    "已有法力、普通冷却与250毫秒过程",
+    "全部参数、公式、图片、关系和原时间戳"
+  ],
+  "remaining": [
+    "已存在本来源禁锢时的重施",
+    "阻挡与缺值分支",
+    "种子与植物依既有范围结论处理",
+    "代表正式页面"
+  ],
+  "wholeSkillComplete": false,
+  "businessWrites": 0,
+  "sourceEvidence": [
+    "04-固定来源主负责人核对.json",
+    "05-固定来源独立核对.json"
+  ]
+}

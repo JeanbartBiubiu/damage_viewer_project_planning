@@ -1,0 +1,21 @@
+{
+  "at": "2026-09-21T06:30:34.127Z",
+  "trigger": "婕拉E实际命中已有一个英雄条件组，旧范围工具仅允许空条件组。",
+  "tool": "tools/authoring/update-reviewed-hit-scope-v2.mjs",
+  "sha256": "9b1a8fa46a08a417d513223292557e547308a3dc1c3251f02a45eabfb73c1670",
+  "oldToolSha256": "909e4572b83c1ebc5f89f43b11fd92b5b532aee82972ddff0fad852c51efd049",
+  "reviewer": "/root",
+  "status": "READY",
+  "independentFromImplementation": true,
+  "allowedDifference": "空组沿旧模式；单一英雄组仅同组追加enemy_target，原组、原条件及其他规则字段保持。",
+  "protection": "冻结源/工具/请求与全组成现值；只读预检；06写尝试独占建立；未知写结果不重放；即时整条回读及独立组成对照。",
+  "tests": {
+    "reportedBy": "/root/hit_scope_tool_v2",
+    "command": "node --test tools/authoring/update-reviewed-hit-scope-v2.test.mjs",
+    "passed": 23,
+    "failed": 0,
+    "network": "全部模拟"
+  },
+  "businessWrites": 0,
+  "reviewBoundary": "工具静态独立审查与离线验证，不替代当前具体冻结批次评审。"
+}

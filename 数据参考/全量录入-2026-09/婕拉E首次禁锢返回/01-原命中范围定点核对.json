@@ -1,0 +1,139 @@
+{
+  "at": "2026-09-21T06:25:30.745Z",
+  "rows": [
+    {
+      "route": "/skills/zyra_e/effects/primary_hit",
+      "status": 200,
+      "body": {
+        "createdAt": "2026-09-19T02:59:11.191676Z",
+        "description": "本轮1V1根技能本体实际命中敌方英雄的直接魔法伤害；本效果不计算植物攻击，种子和植物沿既有范围结论另行处理。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "婕拉·缠绕之根命中伤害",
+        "results": [
+          {
+            "description": "引用同技能 magic_damage 公式，保持现有基础值及属性加成口径。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "SKILL",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "magic_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "zyra_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T02:59:11.191676Z"
+      }
+    },
+    {
+      "route": "/skills/zyra_e/trigger-rules/actual_hit",
+      "status": 200,
+      "body": {
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "name": "执行婕拉·缠绕之根伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              }
+            ],
+            "groupKey": "champion_target",
+            "name": "本轮英雄目标",
+            "sortOrder": 10
+          }
+        ],
+        "description": "只消费已确认的 zyra_e 实际命中事件，对事件中的英雄目标执行primary_hit；不从使用、再次施放、弹跳步骤或过程结束生成命中。英雄类别仅限定本轮范围。 只对根技能本体命中生效，不把植物攻击等同于本次根技能事件。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "zyra_e",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "婕拉·缠绕之根实际命中",
+        "perTargetCooldown": null,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10
+      }
+    }
+  ],
+  "problem": "原actual_hit说明称本体命中敌方英雄，但同组只保存英雄类别，缺明确敌方条件。",
+  "currentAuthoringPath": "已有英雄条件组，同组追加明确敌方条件；不得丢弃或重命名原组、原条件及其他规则字段。",
+  "toolBoundary": "旧update-reviewed-hit-scope只支持空条件组；保持旧已批准工具字节，另派生有界v2后复用成熟业务流程。",
+  "originalDamagePreservation": {
+    "scope": "SKILL",
+    "detail": {
+      "critical": {
+        "mode": "DISALLOWED",
+        "multiplierValue": null
+      },
+      "damageTypeKey": "magic",
+      "deliveryKind": "SKILL",
+      "originKind": "DIRECT",
+      "vampRules": [
+        {
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "efficiencyValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "vampType": "OMNIVAMP"
+        }
+      ]
+    }
+  },
+  "plannedBusinessWrites": 1,
+  "businessWrites": 0
+}

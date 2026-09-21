@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-21T06:20:30.992Z",
+  "generatedAt": "2026-09-21T06:50:49.583Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。；基兰W冷却回退返回：7次保存、41次独立GET与5类页面通过，有效施放时间仍待核，管理完整8项/开放831项保持，见zileanWCooldownReductionReturn。；系统-16装备技能直达录入已完成，728单测/3项定向页面及两件真实装备往返通过，6条独立回读不变，业务写入0。；中娅主体说明1次页面更正、独立13GET及重开通过，装备开放234项保持；百分比穿透候选与两份历史来源的边界另见percentPenetrationSourceContractAudit，尚未批准实施。；崔丝塔娜W明确组成返回8次保存、108次独立GET、20组算例及8类页面通过；复用旧本人击杀入口，整技能仍系统暂缓，管理完整8项/开放831项保持。；正式参与击杀事件已返回崔丝塔娜W：3次页面保存、36次独立GET、4项拒绝验证通过，原4规则数量保持；剩余系统1项、资料1项，整技能未记完整。；剩余冷却比例已返回易大师R和纳沃利：3次页面保存、49次独立GET及3项数值越界拒绝通过，无新表或触发；纳沃利改资料待核，整技能完成数保持。",
@@ -13662,6 +13662,38 @@
       "returnCandidate": "妮蔻E首次接触禁锢返回/01-首次页面专用候选.json",
       "wholeSkillComplete": false,
       "runtime": false
+    },
+    "zyraEHitScopeReturn": {
+      "status": "原英雄组已补敌方条件，保存及独立回读通过；代表页面待验",
+      "businessSaves": 1,
+      "independentGets": 19,
+      "unchangedResponsesIncludingTimestamps": 17,
+      "webCommit": "d7bbcc2a3facf7d41a165dc4150013a6aa0aa17e",
+      "toolCommit": "6c21770aca73f81c0afdcc15ddd8487a35a57892",
+      "evidence": "婕拉E首次禁锢返回/07-原命中范围返回.json",
+      "browser": false,
+      "wholeSkillComplete": false,
+      "runtime": false
+    },
+    "zyraEFirstRootReturn": {
+      "status": "本体首次禁锢与原伤害敌方范围均已保存并独立回读，代表页面待验",
+      "successfulSaves": 2,
+      "independentGets": 31,
+      "unchangedResponsesIncludingTimestamps": 27,
+      "newDetails": 2,
+      "webCommit": "4d327d101ed6f3bb7c653e5fabe180e4680b16e2",
+      "evidence": "婕拉E首次禁锢返回/08-首次禁锢返回.json",
+      "currentCounts": {
+        "parameters": 6,
+        "formulas": 1,
+        "effects": 3,
+        "processes": 1,
+        "internalStates": 0,
+        "triggerRules": 3
+      },
+      "browser": false,
+      "wholeSkillComplete": false,
+      "runtime": false
     }
   },
   "runtimeValidation": "未执行",
@@ -14554,8 +14586,8 @@
         "conclusions": {
           "已录入": 8,
           "明确排除": 26,
-          "资料待核": 389,
-          "系统暂缓": 442
+          "资料待核": 390,
+          "系统暂缓": 441
         },
         "matchedInScopeItems": 855,
         "excludedChampionSlots": 10,
@@ -40553,15 +40585,9 @@
         "slot": "E",
         "skillKey": "zyra_e",
         "name": "婕拉·缠绕之根",
-        "conclusion": "系统暂缓",
+        "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "普通主动使用入口已登记基础法力与普通冷却，复用既有250毫秒根施法参数；禁锢、种子和植物分支按原范围结论处理、代表页面验收继续处理，不计整技能管理完成。",
-        "pendingCounts": {
-          "source": 0,
-          "system": 1,
-          "configuration": 0,
-          "other": 0
-        },
+        "reason": "本体明确未阻挡且无本来源实例时的首次禁锢、原伤害规则敌方范围均已保存并独立回读；已有实例重施及其他资格、种子植物原范围结论和代表页面继续处理，不计整技能完整。",
         "batchKey": "heroFortyFifthBatch",
         "candidateSha256": "db51da6ae6ba0ab2e5008be49cf667642313e8d56e6499c42e4224bca0130ecb",
         "evidenceRefs": [
@@ -40569,20 +40595,23 @@
           "heroSourceInventory",
           "eightNextDirectMagicHitBackfill",
           "sevenNextOrdinaryUseBackfill",
-          "sevenNextUseDescriptionCleanup"
+          "sevenNextUseDescriptionCleanup",
+          "zyraEHitScopeReturn",
+          "zyraEFirstRootReturn"
         ],
         "currentComponentCounts": {
           "parameters": 6,
           "formulas": 1,
-          "effects": 2,
+          "effects": 3,
           "processes": 1,
           "internalStates": 0,
-          "triggerRules": 2
+          "triggerRules": 3
         },
         "remainingBranches": [
-          "禁锢",
+          "已有本来源禁锢实例时的重施来源",
+          "法术护盾阻挡与缺值分支",
           "种子和植物分支按原范围结论处理",
-          "代表页面验收"
+          "代表正式页面"
         ],
         "authoredDirectHit": {
           "effectKey": "primary_hit",
@@ -40592,7 +40621,8 @@
           "vampType": "OMNIVAMP",
           "basisOutputKind": "POST_DEFENSE_DAMAGE",
           "efficiency": 1,
-          "browser": "待验"
+          "browser": "待验",
+          "enemyScope": "原英雄组内已追加明确敌方，独立回读通过；本次代表页面待验"
         },
         "authoredUseEntry": {
           "processKey": "cast",
@@ -40607,6 +40637,21 @@
           "changedDescriptions": 1,
           "numericAndProcessChanges": 0,
           "browser": "待验"
+        },
+        "historicalPendingCounts": {
+          "source": 0,
+          "system": 1,
+          "configuration": 0,
+          "other": 0
+        },
+        "authoredRootFirstApplication": {
+          "effectKey": "first_hit_root",
+          "ruleKey": "apply_root_on_unblocked_hit",
+          "durationParameterKey": "root_duration_ms",
+          "httpReadback": "PASS",
+          "browser": "待验",
+          "conditions": "同组敌方英雄、同次护盾明确0、当前目标无本来源实例；不要求首次沿途接触",
+          "reapplication": "待核，当前入口不接已有实例"
         }
       },
       {

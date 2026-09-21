@@ -1,0 +1,40 @@
+{
+  "at": "2026-09-21T06:34:44.182Z",
+  "reviewer": "/root/zyra_e_first_root_source",
+  "model": "gpt-5.6-luna",
+  "reasoning": "max",
+  "status": "READY_FOR_FIRST_ROOT_AND_ENEMY_SCOPE",
+  "clientSha256": "94e23123ef2c5c00314b79d216fc055ac84411778f425924ce273e2a79c809ef",
+  "officialSha256": "4dea8c9a2d09d6cfb24bac8dec60651ac64b3745d561d2dca516f9951b284a57",
+  "rootBinding": "Characters/Zyra/CharacterRecords/Root.spells[2] -> Characters/Zyra/Spells/ZyraEAbility/ZyraE",
+  "durationSeconds": [
+    1,
+    1.25,
+    1.5,
+    1.75,
+    2
+  ],
+  "durationMilliseconds": [
+    1000,
+    1250,
+    1500,
+    1750,
+    2000
+  ],
+  "clientRankStart": 1,
+  "officialEffectIndex": 5,
+  "findings": [
+    "根技能本体伤害与禁锢对象明确为敌人；英雄条件是本轮1V1范围限制",
+    "种子生成植物是另一个条件分支，不是本体禁锢前置",
+    "固定文件未发现需引入的模式覆盖",
+    "四条件草稿、SOURCE_TARGET、ROOT及原root_duration_ms参数一致"
+  ],
+  "remaining": [
+    "已有实例重施",
+    "法术护盾阻挡或缺值分支",
+    "种子植物路径按原范围处理",
+    "正式代表页面与运行证明"
+  ],
+  "businessWrites": 0,
+  "filesModifiedByReviewer": false
+}
