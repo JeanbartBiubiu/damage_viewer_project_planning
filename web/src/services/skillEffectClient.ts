@@ -1,6 +1,7 @@
 import { assertNumericUses } from './numericValue';
 import { isNumericValue } from '../types/numericValue';
 import { isValidCooldownReductionRatio } from '../types/cooldownRatio';
+import { isValidLifecycleExtensionDuration } from '../types/lifecycleExtension';
 import type { ApiResult } from './apiClient';
 import { encodePathSegment, requestJson } from './apiClient';
 import { skillsPath } from './skillClient';
@@ -338,13 +339,18 @@ function assertResult(value: unknown, path: string): SkillEffectResult {
     assertString(detail.targetEffectKey, `${path}.detail.targetEffectKey`);
     const operation = assertEnum(
       detail.operation,
-      new Set(['INCREASE', 'DECREASE', 'SET', 'REFRESH', 'CONSUME', 'REMOVE']),
+      new Set(['INCREASE', 'DECREASE', 'SET', 'REFRESH', 'EXTEND_DURATION', 'CONSUME', 'REMOVE']),
       `${path}.detail.operation`
     );
     if (operation === 'REFRESH' || operation === 'REMOVE') {
       if (value.valueRule !== null) protocolError(`${path}.valueRule`);
     } else {
       assertValueRule(value.valueRule, `${path}.valueRule`);
+      const rule = value.valueRule as SkillEffectValueRule;
+      if (operation === 'EXTEND_DURATION' && rule.value.kind === 'FIXED'
+        && !isValidLifecycleExtensionDuration(rule.value.value, rule)) {
+        protocolError(`${path}.valueRule`);
+      }
     }
     return value as SkillEffectResult;
   }

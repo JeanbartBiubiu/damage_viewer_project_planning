@@ -95,6 +95,7 @@ export type SkillEffectLifecycleOperation =
   | 'DECREASE'
   | 'SET'
   | 'REFRESH'
+  | 'EXTEND_DURATION'
   | 'CONSUME'
   | 'REMOVE';
 
@@ -204,7 +205,7 @@ export type SkillEffectStatusOperationDetail = {
 
 export type SkillEffectLifecycleAdjustDetail = {
   targetEffectKey: string;
-  operation: 'INCREASE' | 'DECREASE' | 'SET' | 'CONSUME';
+  operation: 'INCREASE' | 'DECREASE' | 'SET' | 'CONSUME' | 'EXTEND_DURATION';
 };
 
 export type SkillEffectLifecycleRefreshRemoveDetail = {

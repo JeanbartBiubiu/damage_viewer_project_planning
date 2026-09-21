@@ -1,6 +1,7 @@
 import type { SkillParameter } from '../../../../types/skillParameter';
 import { numericIssuePath, numericValueError, staticNumericValues } from '../numericValueForm';
 import { isValidCooldownReductionRatio } from '../../../../types/cooldownRatio';
+import { isValidLifecycleExtensionDuration } from '../../../../types/lifecycleExtension';
 import { numericFormulaKey } from '../../../../types/numericValue';
 import { type NumericValue } from '../../../../types/numericValue';
 import { ApiRequestError } from '../../../../services/apiClient';
@@ -318,13 +319,16 @@ export const SKILL_EFFECT_PERIODIC_EXECUTION_MODE_LABELS = {
 } as const satisfies { [K in SkillEffectPeriodicExecutionMode]: string };
 
 export const SKILL_EFFECT_LIFECYCLE_OPERATION_LABELS = {
-  INCREASE: '增加',
-  DECREASE: '减少',
-  SET: '覆盖',
-  REFRESH: '刷新',
-  CONSUME: '消耗',
-  REMOVE: '移除'
+  INCREASE: '增加层数',
+  DECREASE: '减少层数',
+  SET: '覆盖层数',
+  REFRESH: '刷新完整时长',
+  EXTEND_DURATION: '延长剩余时长',
+  CONSUME: '消耗层数',
+  REMOVE: '移除实例'
 } as const satisfies { [K in SkillEffectLifecycleOperation]: string };
+
+export const LIFECYCLE_EXTENSION_HINT = '增加量按毫秒填写，只延长仍有效且全部层统一到期的目标实例；不刷新完整时长，不改变层数或周期。目标期限与到期方式在保存时核对。';
 
 export const COOLDOWN_CHANGE_AMOUNT_HINT = '变化量按毫秒解释';
 export const COOLDOWN_REMAINING_RATIO_HINT = '每个受影响技能按自己的当前剩余冷却减少。有效比例为 0 到 1，70% 填 0.7；不按总冷却计算。切换毫秒与比例操作会清除原数值。';
@@ -341,6 +345,7 @@ export const SKILL_EFFECT_LIFECYCLE_OPERATIONS = [
   'DECREASE',
   'SET',
   'REFRESH',
+  'EXTEND_DURATION',
   'CONSUME',
   'REMOVE'
 ] as const satisfies readonly SkillEffectLifecycleOperation[];
@@ -953,6 +958,7 @@ export function requiresValueRule(
     return lifecycleOperation === 'INCREASE'
       || lifecycleOperation === 'DECREASE'
       || lifecycleOperation === 'SET'
+      || lifecycleOperation === 'EXTEND_DURATION'
       || lifecycleOperation === 'CONSUME';
   }
   return (
@@ -1034,7 +1040,8 @@ export function applyResultTypeChange(
   const nextLifecycleOperation = defaultLifecycleOperation(nextType);
   const nextNeeds = requiresValueRule(nextType, nextCooldown, nextLifecycleOperation);
   const prevNeeds = draftRequiresValueRule(draft)
-    && !(draft.resultType === 'COOLDOWN_CHANGE' && draft.cooldownOperation === 'REDUCE_REMAINING_RATIO');
+    && !(draft.resultType === 'COOLDOWN_CHANGE' && draft.cooldownOperation === 'REDUCE_REMAINING_RATIO')
+    && !(draft.resultType === 'LIFECYCLE_OPERATION' && draft.lifecycleOperation === 'EXTEND_DURATION');
   const persistentWithoutValueModes = nextType === 'DAMAGE_IMMUNITY' || nextType === 'SPELL_SHIELD';
   const lifecycleBehavior = isPersistentOnlyResultType(nextType)
     ? {
@@ -1137,7 +1144,8 @@ export function applyLifecycleOperationChange(
   nextOperation: SkillEffectLifecycleOperation
 ): SkillEffectResultDraft {
   const nextNeeds = requiresValueRule('LIFECYCLE_OPERATION', '', nextOperation);
-  const prevNeeds = draftRequiresValueRule(draft);
+  const sameUnit = (draft.lifecycleOperation === 'EXTEND_DURATION') === (nextOperation === 'EXTEND_DURATION');
+  const prevNeeds = draftRequiresValueRule(draft) && sameUnit;
   return clearHiddenResultFields({
     ...draft,
     resultType: 'LIFECYCLE_OPERATION',
@@ -2254,7 +2262,7 @@ function validateAndBuildResult(
   const lifecycleBehavior = validateAndBuildLifecycleBehavior(draft, fieldErrors, context, needsValueRule);
   if (needsValueRule && !fieldErrors.value) {
     const valueError = numericValueError(draft.value, { ...options.catalog, parameters: options.parameters }, {
-      integer: draft.resultType === 'LIFECYCLE_OPERATION',
+      integer: draft.resultType === 'LIFECYCLE_OPERATION' && draft.lifecycleOperation !== 'EXTEND_DURATION',
       allowRuntimeInput: draft.lifecycleBehavior.valueReadMode !== 'MOMENT_EVALUATION',
       parametersState: options.parametersLoadState, formulasState: options.catalogLoadState?.formulas
     });
@@ -2265,6 +2273,13 @@ function validateAndBuildResult(
     const values = staticNumericValues(valueRule.value, options.parameters);
     if (values?.some((value) => !isValidCooldownReductionRatio(value, valueRule))) {
       fieldErrors.value = '有效冷却减少比例必须在 0 到 1 之间（70% 填 0.7）。';
+    }
+  }
+  if (draft.resultType === 'LIFECYCLE_OPERATION' && draft.lifecycleOperation === 'EXTEND_DURATION'
+    && valueRule && !fieldErrors.value) {
+    const values = staticNumericValues(valueRule.value, options.parameters);
+    if (values?.some((value) => !isValidLifecycleExtensionDuration(value, valueRule))) {
+      fieldErrors.value = '有效延长时长必须是非负整数毫秒。';
     }
   }
 
@@ -2401,7 +2416,7 @@ function validateAndBuildResult(
         valueRule: valueRule!,
         detail: {
           targetEffectKey: draft.targetEffectKey.trim(),
-          operation: draft.lifecycleOperation as 'INCREASE' | 'DECREASE' | 'SET' | 'CONSUME'
+          operation: draft.lifecycleOperation as 'INCREASE' | 'DECREASE' | 'SET' | 'CONSUME' | 'EXTEND_DURATION'
         }
       };
     case 'DAMAGE_MODIFIER':
@@ -2542,7 +2557,9 @@ function validateValueRule(
     return null;
   }
 
-  const valueError = numericValueError(value, {}, { integer: draft.resultType === 'LIFECYCLE_OPERATION' });
+  const valueError = numericValueError(value, {}, {
+    integer: draft.resultType === 'LIFECYCLE_OPERATION' && draft.lifecycleOperation !== 'EXTEND_DURATION'
+  });
   if (valueError) fieldErrors.value = valueError;
 
   let fixedMultiplier: number | null = null;
