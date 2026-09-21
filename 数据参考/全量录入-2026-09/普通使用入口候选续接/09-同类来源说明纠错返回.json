@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-21T04:33:44.949Z",
+  "status": "同类说明已纠正并独立回读，代表页面待验",
+  "problem": "可选来源字段缺失却生成两字段一致的说明",
+  "originalCase": "tristana_r/cast_time_ms",
+  "correctedSkills": [
+    "lucian_e",
+    "tristana_w",
+    "tristana_r",
+    "twitch_q",
+    "twitch_w",
+    "twitch_e",
+    "diana_q",
+    "diana_r",
+    "veigar_q",
+    "veigar_w",
+    "veigar_e",
+    "veigar_r"
+  ],
+  "successfulSaves": 12,
+  "independentGets": 234,
+  "unchangedResponses": 210,
+  "changedLists": 12,
+  "changedDetails": 12,
+  "evidence": {
+    "worktree": "damage_web_dev",
+    "relativePath": "数据参考/全量录入-2026-09/交叉试录/十二项施法来源说明纠错/09-证据清单.json",
+    "sha256": "51c5ac23de9417340a20ef7b804deb93b3021c26d8746ce25687733a9a3ec77d",
+    "commit": "7b477c28c2c44a6d7f3a0ee8cc702df657c477bf"
+  },
+  "sop": {
+    "relativePath": "文档记录/详细设计/项目/角色技能数据录入标准流程.md",
+    "change": "只描述实际存在并核对的来源字段，明确可选缺失，分开字段数值和完整时序。"
+  },
+  "storage": "仅更正参数说明字段，现有结构可表达；未改数值、过程或历史脚本。",
+  "browser": false,
+  "managementCompleteIncrement": 0,
+  "runtime": false
+}

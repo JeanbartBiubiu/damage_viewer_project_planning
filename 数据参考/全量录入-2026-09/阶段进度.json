@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-21T04:27:27.035Z",
+  "generatedAt": "2026-09-21T04:33:44.959Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。；基兰W冷却回退返回：7次保存、41次独立GET与5类页面通过，有效施放时间仍待核，管理完整8项/开放831项保持，见zileanWCooldownReductionReturn。；系统-16装备技能直达录入已完成，728单测/3项定向页面及两件真实装备往返通过，6条独立回读不变，业务写入0。；中娅主体说明1次页面更正、独立13GET及重开通过，装备开放234项保持；百分比穿透候选与两份历史来源的边界另见percentPenetrationSourceContractAudit，尚未批准实施。；崔丝塔娜W明确组成返回8次保存、108次独立GET、20组算例及8类页面通过；复用旧本人击杀入口，整技能仍系统暂缓，管理完整8项/开放831项保持。；正式参与击杀事件已返回崔丝塔娜W：3次页面保存、36次独立GET、4项拒绝验证通过，原4规则数量保持；剩余系统1项、资料1项，整技能未记完整。；剩余冷却比例已返回易大师R和纳沃利：3次页面保存、49次独立GET及3项数值越界拒绝通过，无新表或触发；纳沃利改资料待核，整技能完成数保持。",
@@ -13468,6 +13468,45 @@
       "browser": false,
       "wholeSkillComplete": false,
       "next": "处理十二项同类施法来源说明偏差，再继续技能专属联动。"
+    },
+    "castOptionalFieldDescriptionReturn": {
+      "at": "2026-09-21T04:33:44.949Z",
+      "status": "同类说明已纠正并独立回读，代表页面待验",
+      "problem": "可选来源字段缺失却生成两字段一致的说明",
+      "originalCase": "tristana_r/cast_time_ms",
+      "correctedSkills": [
+        "lucian_e",
+        "tristana_w",
+        "tristana_r",
+        "twitch_q",
+        "twitch_w",
+        "twitch_e",
+        "diana_q",
+        "diana_r",
+        "veigar_q",
+        "veigar_w",
+        "veigar_e",
+        "veigar_r"
+      ],
+      "successfulSaves": 12,
+      "independentGets": 234,
+      "unchangedResponses": 210,
+      "changedLists": 12,
+      "changedDetails": 12,
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/十二项施法来源说明纠错/09-证据清单.json",
+        "sha256": "51c5ac23de9417340a20ef7b804deb93b3021c26d8746ce25687733a9a3ec77d",
+        "commit": "7b477c28c2c44a6d7f3a0ee8cc702df657c477bf"
+      },
+      "sop": {
+        "relativePath": "文档记录/详细设计/项目/角色技能数据录入标准流程.md",
+        "change": "只描述实际存在并核对的来源字段，明确可选缺失，分开字段数值和完整时序。"
+      },
+      "storage": "仅更正参数说明字段，现有结构可表达；未改数值、过程或历史脚本。",
+      "browser": false,
+      "managementCompleteIncrement": 0,
+      "runtime": false
     }
   },
   "runtimeValidation": "未执行",
@@ -14310,6 +14349,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/三项普通伤害吸血返回/09-证据清单.json",
         "sha256": "27e4f7272189cfdb1f5b54a1cb5a3a2668a67547110206325a6997d4f85eeb1b",
         "commit": "2aee860d6ec2e61ec3b7cdf9cea08e60313a0f65"
+      },
+      "castOptionalFieldDescriptionReturn": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/十二项施法来源说明纠错/09-证据清单.json",
+        "sha256": "51c5ac23de9417340a20ef7b804deb93b3021c26d8746ce25687733a9a3ec77d",
+        "commit": "7b477c28c2c44a6d7f3a0ee8cc702df657c477bf"
       }
     },
     "coverage": {
@@ -20249,7 +20294,8 @@
           "heroSourceInventory",
           "eightSkillsTenDamageVampCorrection",
           "sixExistingCastUseEntryBackfill",
-          "fiveConnectedUseDescriptionCleanup"
+          "fiveConnectedUseDescriptionCleanup",
+          "castOptionalFieldDescriptionReturn"
         ],
         "currentComponentCounts": {
           "parameters": 6,
@@ -20388,7 +20434,8 @@
           "skillThirdStageCurrentReadback",
           "heroSourceInventory",
           "sixHeroCastProcessEntryBackfillSecond",
-          "remainingUltimateCategoryBackfill"
+          "remainingUltimateCategoryBackfill",
+          "castOptionalFieldDescriptionReturn"
         ],
         "completedBranches": [
           "固定来源主R终极技能分类关联"
@@ -26901,7 +26948,8 @@
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
           "heroSourceInventory",
-          "sixHeroCastProcessEntryBackfillSecond"
+          "sixHeroCastProcessEntryBackfillSecond",
+          "castOptionalFieldDescriptionReturn"
         ]
       },
       {
@@ -35729,7 +35777,8 @@
           "heroSourceInventory",
           "tristanaWOwnKillResetBackfill",
           "tristanaWExplicitComponentsReturn",
-          "takedownEventReturn"
+          "takedownEventReturn",
+          "castOptionalFieldDescriptionReturn"
         ],
         "historicalPendingCounts": {
           "source": 0,
@@ -35805,7 +35854,8 @@
           "remainingUltimateCategoryBackfill",
           "threeSkillUseEntryReturn",
           "threeSkillHitScopeReturn",
-          "threeSkillDamageVampReturn"
+          "threeSkillDamageVampReturn",
+          "castOptionalFieldDescriptionReturn"
         ],
         "completedBranches": [
           "固定来源主R终极技能分类关联",
@@ -35822,8 +35872,7 @@
         },
         "remainingBranches": [
           "击退/眩晕及爆炸火花联动仍未接入；不以本次普通伤害补录替代。",
-          "代表正式页面验收",
-          "施法参数说明误称mCastTime存在，待普通说明纠错"
+          "代表正式页面验收"
         ],
         "currentCounts": {
           "parameters": 8,
@@ -36296,7 +36345,8 @@
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
           "heroSourceInventory",
-          "sixHeroCastProcessEntryBackfillThird"
+          "sixHeroCastProcessEntryBackfillThird",
+          "castOptionalFieldDescriptionReturn"
         ]
       },
       {
@@ -36320,7 +36370,8 @@
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
           "heroSourceInventory",
-          "sixHeroCastProcessEntryBackfillSecond"
+          "sixHeroCastProcessEntryBackfillSecond",
+          "castOptionalFieldDescriptionReturn"
         ]
       },
       {
@@ -36344,7 +36395,8 @@
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
           "heroSourceInventory",
-          "sixHeroCastProcessEntryBackfillThird"
+          "sixHeroCastProcessEntryBackfillThird",
+          "castOptionalFieldDescriptionReturn"
         ]
       },
       {
@@ -36935,7 +36987,8 @@
           "skillThirdStageCurrentReadback",
           "heroSourceInventory",
           "fourExistingDamageVampCorrection",
-          "sixExistingCastUseEntryBackfill"
+          "sixExistingCastUseEntryBackfill",
+          "castOptionalFieldDescriptionReturn"
         ],
         "currentComponentCounts": {
           "parameters": 5,
@@ -36985,7 +37038,8 @@
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
           "heroSourceInventory",
-          "fourExistingDamageVampCorrection"
+          "fourExistingDamageVampCorrection",
+          "castOptionalFieldDescriptionReturn"
         ],
         "currentComponentCounts": {
           "parameters": 6,
@@ -37025,7 +37079,8 @@
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
           "heroSourceInventory",
-          "sixHeroCastProcessEntryBackfillThird"
+          "sixHeroCastProcessEntryBackfillThird",
+          "castOptionalFieldDescriptionReturn"
         ]
       },
       {
@@ -37052,7 +37107,8 @@
           "sixHeroCastProcessEntryBackfillThird",
           "eightSkillsTenDamageVampCorrection",
           "sevenUltimateCategoryBackfill",
-          "veigarRManagementReturnAudit"
+          "veigarRManagementReturnAudit",
+          "castOptionalFieldDescriptionReturn"
         ],
         "currentComponentCounts": {
           "parameters": 7,

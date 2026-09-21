@@ -1,0 +1,22 @@
+{
+  "at": "2026-09-21T04:18:07.877Z",
+  "issue": "可选来源字段缺失时，固定说明仍声称该字段与主字段一致",
+  "case": {
+    "skillKey": "tristana_r",
+    "parameterKey": "cast_time_ms",
+    "actualDescription": "当前spellCastTime与已有mCastTime一致；不代替命中。",
+    "spellCastTime": 0.25,
+    "mCastTime": null
+  },
+  "expected": "说明只列实际存在并已核对的字段；可选字段未提供时明确缺失，不生成一致性结论。",
+  "rootCause": "旧候选脚本条件只在mCastTime存在时比较数值，但生成的说明不区分缺失。",
+  "occurrences": [
+    "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第三批/英雄候选.mjs:13",
+    "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第四批/英雄候选.mjs:13",
+    "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第十二批/英雄机制.mjs:13"
+  ],
+  "impact": "影响来源说明的准确性；本例250毫秒数值本身有当前spellCastTime支持。该静态重复不等于所有已录参数均错误。",
+  "repair": "复用普通说明纠错工具定点修正实库现值；原已执行候选脚本保持历史字节，SOP增加可选来源字段说明规则。同类对象接续时按当前根绑定复核。",
+  "status": "现值与来源已核对，候选说明已准备，尚未正式写入。",
+  "businessWrites": 0
+}
