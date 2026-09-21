@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-21T05:27:41.674Z",
+  "generatedAt": "2026-09-21T05:33:28.024Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。；基兰W冷却回退返回：7次保存、41次独立GET与5类页面通过，有效施放时间仍待核，管理完整8项/开放831项保持，见zileanWCooldownReductionReturn。；系统-16装备技能直达录入已完成，728单测/3项定向页面及两件真实装备往返通过，6条独立回读不变，业务写入0。；中娅主体说明1次页面更正、独立13GET及重开通过，装备开放234项保持；百分比穿透候选与两份历史来源的边界另见percentPenetrationSourceContractAudit，尚未批准实施。；崔丝塔娜W明确组成返回8次保存、108次独立GET、20组算例及8类页面通过；复用旧本人击杀入口，整技能仍系统暂缓，管理完整8项/开放831项保持。；正式参与击杀事件已返回崔丝塔娜W：3次页面保存、36次独立GET、4项拒绝验证通过，原4规则数量保持；剩余系统1项、资料1项，整技能未记完整。；剩余冷却比例已返回易大师R和纳沃利：3次页面保存、49次独立GET及3项数值越界拒绝通过，无新表或触发；纳沃利改资料待核，整技能完成数保持。",
@@ -13610,6 +13610,41 @@
       "browser": false,
       "wholeSkillComplete": false,
       "runtime": false
+    },
+    "lissandraRootNeekoUseReturn": {
+      "at": "2026-09-21T05:33:28.016Z",
+      "status": "丽桑卓首次禁锢和妮蔻普通使用已保存并独立回读，代表页面待验",
+      "successfulSaves": 4,
+      "independentGets": 57,
+      "unchangedRoutes": 49,
+      "currentCounts": {
+        "lissandra_w": {
+          "parameters": 6,
+          "formulas": 1,
+          "effects": 3,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 3
+        },
+        "neeko_e": {
+          "parameters": 6,
+          "formulas": 2,
+          "effects": 2,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 2
+        }
+      },
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/丽桑卓W禁锢与妮蔻E使用返回/09-证据清单.json",
+        "sha256": "3c14c2c8a032e3fb2c79836fbd22e7c0ae31b401143114267334ffe55f14ebe7",
+        "commit": "5c8dd26f650becdf45581026143a7c0ac8259576"
+      },
+      "browser": false,
+      "wholeSkillComplete": false,
+      "runtime": false,
+      "next": "定点厘清HIT_INDEX的起点、计数维度、重置边界及现有使用；不把实例不存在当作首个接触对象。"
     }
   },
   "runtimeValidation": "未执行",
@@ -14476,6 +14511,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/丽桑卓W参数归一与名称返回/09-证据清单.json",
         "sha256": "f3155dc9e2ba457226a8922ffd0466acc1dff3030647f52368beb58a2c61993f",
         "commit": "23e23ddfc21c0cf3a01855d947f953bb67828c7f"
+      },
+      "lissandraRootNeekoUseReturn": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/丽桑卓W禁锢与妮蔻E使用返回/09-证据清单.json",
+        "sha256": "3c14c2c8a032e3fb2c79836fbd22e7c0ae31b401143114267334ffe55f14ebe7",
+        "commit": "5c8dd26f650becdf45581026143a7c0ac8259576"
       }
     },
     "coverage": {
@@ -26676,13 +26717,7 @@
         "name": "丽桑卓·冰霜之环",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "普通使用过程和入口已接通基础资源、冷却及施法延迟，原直接伤害与实际命中完整保留并独立回读；禁锢、代表页面验收继续处理，不计整技能管理完成。",
-        "pendingCounts": {
-          "source": 0,
-          "system": 1,
-          "configuration": 0,
-          "other": 0
-        },
+        "reason": "伤害与普通使用保持，期限和名称已纠正，明确未阻挡的首次禁锢已保存并独立回读；阻挡或缺值分支、已有实例重施及代表页面仍开放。",
         "batchKey": "heroSixteenthBatch",
         "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
         "evidenceRefs": [
@@ -26691,19 +26726,21 @@
           "sevenDirectMagicHitBackfill",
           "sixFollowupUseProcessBackfill",
           "fiveOrdinaryUseDescriptionCleanup",
-          "lissandraWParameterNormalizationReturn"
+          "lissandraWParameterNormalizationReturn",
+          "lissandraRootNeekoUseReturn"
         ],
         "currentComponentCounts": {
           "parameters": 6,
           "formulas": 1,
-          "effects": 2,
+          "effects": 3,
           "processes": 1,
           "internalStates": 0,
-          "triggerRules": 2
+          "triggerRules": 3
         },
         "remainingBranches": [
-          "禁锢",
-          "代表页面验收"
+          "同次护盾判定1或缺值分支",
+          "已有本来源实例的重施语义",
+          "代表正式页面"
         ],
         "authoredDirectHit": {
           "effectKey": "primary_hit",
@@ -26727,7 +26764,19 @@
           "changedDescriptions": 2,
           "numericAndProcessChanges": 0,
           "browser": "待验"
-        }
+        },
+        "historicalPendingCounts": {
+          "source": 0,
+          "system": 1,
+          "configuration": 0,
+          "other": 0,
+          "note": "原盘点计数仅存历史，当前剩余范围以逐分支说明为准。"
+        },
+        "managementComplete": false,
+        "completedBranches": [
+          "官方明确精度的禁锢期限归一与伤害参数名称纠错",
+          "明确同次未阻挡且无本来源实例的敌方英雄首次禁锢"
+        ]
       },
       {
         "sourceChampionId": "Lissandra",
@@ -29704,32 +29753,27 @@
         "name": "妮蔻·缠结倒刺",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "本体直接伤害效果与实际命中入口已独立回读；首个与强化禁锢资格、普通使用、代表页面验收继续处理，不计整技能管理完成。",
-        "pendingCounts": {
-          "source": 0,
-          "system": 1,
-          "configuration": 0,
-          "other": 0
-        },
+        "reason": "本体直接伤害与普通使用已保存并独立回读；命中序号的起点/维度/重置尚待明确，首个与强化禁锢及代表页面继续处理。",
         "batchKey": "heroFortyFourthBatch",
         "candidateSha256": "0b029b59ead40cd28f3757265fdd7d557f00d347159f02b22d7753f264d7f91c",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
-          "eightControlBodyDamageBackfill"
+          "eightControlBodyDamageBackfill",
+          "lissandraRootNeekoUseReturn"
         ],
         "currentComponentCounts": {
           "parameters": 6,
           "formulas": 2,
           "effects": 2,
-          "processes": 0,
+          "processes": 1,
           "internalStates": 0,
-          "triggerRules": 1
+          "triggerRules": 2
         },
         "remainingBranches": [
+          "HIT_INDEX计数起点、计数维度与重置边界",
           "首个与强化禁锢资格",
-          "普通使用",
-          "代表页面验收"
+          "代表正式页面"
         ],
         "authoredDirectHit": {
           "effectKey": "primary_hit",
@@ -29739,6 +29783,25 @@
           "vampType": "OMNIVAMP",
           "basisOutputKind": "POST_DEFENSE_DAMAGE",
           "efficiency": 1,
+          "browser": "待验"
+        },
+        "historicalPendingCounts": {
+          "source": 0,
+          "system": 1,
+          "configuration": 0,
+          "other": 0,
+          "note": "原盘点计数仅存历史，当前剩余范围以逐分支说明为准。"
+        },
+        "managementComplete": false,
+        "completedBranches": [
+          "普通使用来源法力、普通冷却与250毫秒根施法延迟"
+        ],
+        "authoredUseEntry": {
+          "processKey": "cast",
+          "ruleKey": "on_used",
+          "costEffectKey": "mana_cost",
+          "castTimeMs": 250,
+          "httpReadback": "PASS",
           "browser": "待验"
         }
       },
