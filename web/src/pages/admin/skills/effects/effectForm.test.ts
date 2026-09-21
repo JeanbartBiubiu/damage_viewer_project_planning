@@ -757,14 +757,14 @@ describe('skill effect form validation', () => {
     expect(SKILL_EFFECT_KEY_PATTERN.test('1damage')).toBe(false);
   });
 
-  it('requires at least one result and unique result keys', () => {
+  it('requires a result without lifecycle and unique result keys', () => {
     const empty = validateSkillEffectDraft(validEffectDraft([]), {
       includeEffectKey: true,
       catalog: CATALOG
     });
     expect(empty.ok).toBe(false);
     if (empty.ok) throw new Error('expected invalid');
-    expect(empty.fieldErrors.results).toBe('至少需要一个结果。');
+    expect(empty.fieldErrors.results).toBe('未启用生命周期时至少需要一个结果。');
 
     const duplicated = validateSkillEffectDraft(
       validEffectDraft([
@@ -1377,6 +1377,32 @@ function lifecycleEnabledDraft(
 }
 
 describe('skill effect lifecycle drafts', () => {
+  it('creates and updates lifecycle-only effects without inventing a result', () => {
+    const draft = lifecycleEnabledDraft([]);
+    const normalized = expectValid(draft);
+    expect(buildCreateSkillEffectRequest(normalized)).toMatchObject({ lifecycle: validLifecycle(), results: [] });
+    const effect: SkillEffect = { ...EFFECT, lifecycle: validLifecycle(), results: [] };
+    expect(buildUpdateSkillEffectRequest(expectValid(skillEffectToDraft(effect), false)))
+      .toMatchObject({ lifecycle: validLifecycle(), results: [] });
+    expect(listLifecycleTargetOptions({ ...CATALOG, effects: [{ effectKey: 'only_mark', lifecycleEnabled: true }] }, '', ''))
+      .toEqual([{ key: 'only_mark', status: 'ENABLED', source: 'enabled' }]);
+  });
+
+  it('retains lifecycle validation and recovers after disabling lifecycle with no results', () => {
+    const draft = lifecycleEnabledDraft([]);
+    const invalid = validateSkillEffectDraft({ ...draft, lifecycle: { ...draft.lifecycle, maxStacksValue: null } },
+      { includeEffectKey: true, catalog: CATALOG });
+    expect(invalid.ok).toBe(false);
+    if (!invalid.ok) expect(invalid.fieldErrors.maxStacksValue).toBeTruthy();
+    const disabled = disableLifecycleDraft(draft);
+    expect(disabled.results).toEqual([]);
+    expect(disabled.name).toBe(draft.name);
+    const validation = validateSkillEffectDraft(disabled, { includeEffectKey: true, catalog: CATALOG });
+    expect(validation.ok).toBe(false);
+    if (!validation.ok) expect(validation.fieldErrors.results).toBe('未启用生命周期时至少需要一个结果。');
+    expectValid({ ...enableLifecycleDraft(disabled), lifecycle: draft.lifecycle });
+  });
+
   it('converts null lifecycle and enabled lifecycle without rewriting instance scope', () => {
     const empty = skillEffectToDraft(EFFECT);
     expect(empty.lifecycleEnabled).toBe(false);

@@ -7725,3 +7725,56 @@ test('lifecycle extension clears stack units and recovers from invalid targets b
   await expect(reopened.getByLabel('数值固定数值', { exact: true })).toHaveValue('');
   diagnostics.assertClean('lifecycle extension units and target failure recovery');
 });
+
+test('lifecycle-only effect saves and reopens with zero results and recovers after disabling lifecycle', async ({ page }) => {
+  const mock = new MockApi();
+  seedSkillEffectCatalog(mock);
+  const diagnostics = await prepare(page, mock);
+  await openSkills(page);
+  const shell = await openSkillEffects(page, 'varus_w', '枯萎箭袋');
+  await shell.getByRole('button', { name: '新增效果', exact: true }).click();
+  const create = visibleModal(page, '新增效果');
+  await create.getByLabel('效果标识', { exact: true }).fill('recent_damage_mark');
+  await create.getByLabel('效果名称', { exact: true }).fill('最近伤害资格标记');
+  await create.getByRole('button', { name: '保存', exact: true }).click();
+  await expect(create.getByText('未启用生命周期时至少需要一个结果。', { exact: true })).toBeVisible();
+  expect(mock.writes).toHaveLength(0);
+
+  const fillLifecycle = async (modal: Locator, setScope: boolean) => {
+    await modal.getByLabel('生命周期', { exact: true }).click();
+    await chooseSelectOption(page, modal, '持续时间取值', '持续时间');
+    await chooseSelectOption(page, modal, '最大层数取值', '一层');
+    await chooseSelectOption(page, modal, '每次施加层数取值', '一层');
+    if (setScope) await chooseSelectOption(page, modal, '实例范围', '按来源与承受对象');
+    await chooseSelectOption(page, modal, '重复层数', '保留层数');
+    await chooseSelectOption(page, modal, '重复持续', '刷新全部时间');
+    await chooseSelectOption(page, modal, '到期方式', '一次全部到期');
+  };
+  await fillLifecycle(create, true);
+  await expect(create.getByText('仅记录生命周期，不产生数值或状态结果。', { exact: true })).toBeVisible();
+  await saveOpenModal(create);
+  const row = shell.locator('tr', { hasText: 'recent_damage_mark' });
+  await expect(row.locator('td').nth(3)).toHaveText('0');
+  await expect(row.getByText('有生命周期', { exact: true })).toBeVisible();
+  expect(mock.writes[0].body).toMatchObject({ results: [], lifecycle: { instanceScope: 'SOURCE_TARGET' } });
+
+  await row.getByRole('button', { name: '编辑', exact: true }).click();
+  const edit = visibleModal(page, '编辑效果');
+  await expect(edit.getByText('仅记录生命周期，不产生数值或状态结果。', { exact: true })).toBeVisible();
+  await expect(edit.getByLabel('实例范围', { exact: true })).toBeDisabled();
+  await edit.getByLabel('生命周期', { exact: true }).click();
+  await visibleModal(page, '关闭生命周期').getByRole('button', { name: '确认', exact: true }).click();
+  await edit.getByRole('button', { name: '保存', exact: true }).click();
+  await expect(edit.getByText('未启用生命周期时至少需要一个结果。', { exact: true })).toBeVisible();
+  await expect(edit.getByLabel('效果名称', { exact: true })).toHaveValue('最近伤害资格标记');
+  expect(mock.writes).toHaveLength(1);
+  await fillLifecycle(edit, false);
+  await saveOpenModal(edit);
+  expect(mock.writes).toHaveLength(2);
+  expect(mock.writes[1].body).toMatchObject({ results: [], lifecycle: { instanceScope: 'SOURCE_TARGET' } });
+  await row.getByRole('button', { name: '查看', exact: true }).click();
+  const view = visibleModal(page, '查看效果');
+  await expect(view.getByText('仅记录生命周期，不产生数值或状态结果。', { exact: true })).toBeVisible();
+  await expect(view.getByText('暂无结果', { exact: true })).toBeVisible();
+  diagnostics.assertClean('lifecycle-only zero results save reopen and disable recovery');
+});

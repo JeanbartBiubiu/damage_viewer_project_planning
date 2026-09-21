@@ -112,6 +112,16 @@ const persistentStatusDetail: SkillEffect = {
   results: [persistentStatusResult]
 };
 
+describe('仅记录生命周期的效果响应', () => {
+  it('保留合法空结果数组与生命周期，不生成结果占位项', () => {
+    const marker = { ...persistentStatusDetail, results: [] };
+    expect(parseSkillEffect(marker)).toEqual(marker);
+    expect(() => parseSkillEffect({ ...marker, results: null })).toThrow(SkillEffectProtocolError);
+    const { results: _results, ...missingResults } = marker;
+    expect(() => parseSkillEffect(missingResults)).toThrow(SkillEffectProtocolError);
+  });
+});
+
 describe('普通减速响应解析', () => {
   function slowEffect(): SkillEffect {
     return { ...structuredClone(persistentStatusDetail), results: [{ ...structuredClone(persistentStatusResult),

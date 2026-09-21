@@ -1890,8 +1890,8 @@ export function validateSkillEffectDraft(
   const sortOrder = options.skipEffectMetadataValidation
     ? null
     : parseNonNegativeInteger(prepared.sortOrder, fieldErrors, 'sortOrder');
-  if (prepared.results.length === 0) {
-    fieldErrors.results = '至少需要一个结果。';
+  if (prepared.results.length === 0 && !prepared.lifecycleEnabled) {
+    fieldErrors.results = '未启用生命周期时至少需要一个结果。';
   }
 
   const hasPeriodic = hasPeriodicResults(prepared);
@@ -1906,7 +1906,7 @@ export function validateSkillEffectDraft(
 
   const seenKeys = new Map<string, number>();
   const builtResults: SkillEffectResultRequest[] = [];
-  let allResultsValid = prepared.results.length > 0;
+  let allResultsValid = true;
   const parentEffectKey = options.catalog?.parentEffectKey?.trim() || effectKey;
   const hasDuration = Boolean(prepared.lifecycle.durationValue);
 

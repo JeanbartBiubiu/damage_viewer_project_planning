@@ -1345,6 +1345,9 @@ export function SkillEffectEditorModal({
               ) : null}
             </div>
             {errors.results ? <Alert type="error" content={errors.results} style={{ marginBottom: 12 }} /> : null}
+            {draft.lifecycleEnabled && draft.results.length === 0 ? (
+              <Alert type="info" content="仅记录生命周期，不产生数值或状态结果。" style={{ marginBottom: 12 }} />
+            ) : null}
             <Table
               className="data-table-shell"
               loading={loadingDetail}
