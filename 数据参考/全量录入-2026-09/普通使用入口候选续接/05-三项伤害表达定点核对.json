@@ -1,0 +1,535 @@
+{
+  "at": "2026-09-21T04:13:45.458Z",
+  "mode": "主负责人固定来源与已冻结现值静态核对",
+  "source": [
+    {
+      "skillKey": "sivir_q",
+      "root": "Characters/Sivir/Spells/SivirQAbility/SivirQ",
+      "calculation": {
+        "TotalDamage": {
+          "mMultiplier": {
+            "mSubparts": [
+              {
+                "mNumber": 1,
+                "__type": "NumberCalculationPart"
+              },
+              {
+                "mPart1": {
+                  "mStat": 8,
+                  "mDataValue": "CritRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                },
+                "mPart2": {
+                  "mSubparts": [
+                    {
+                      "mStat": 9,
+                      "mCoefficient": 1,
+                      "__type": "StatByCoefficientCalculationPart"
+                    },
+                    {
+                      "mNumber": -1,
+                      "__type": "NumberCalculationPart"
+                    }
+                  ],
+                  "__type": "SumOfSubPartsCalculationPart"
+                },
+                "__type": "ProductOfSubPartsCalculationPart"
+              }
+            ],
+            "__type": "SumOfSubPartsCalculationPart"
+          },
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mDataValue": "ADRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "APRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "PreCritDamage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mDataValue": "ADRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.6000000238418579,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "CritScaling": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mStat": 8,
+              "mDataValue": "CritRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "__type": "GameCalculation"
+        }
+      },
+      "stored": {
+        "/skills/sivir_q/formulas/precrit_damage": {
+          "createdAt": "2026-09-07T17:58:48.317705Z",
+          "description": "PreCritDamage：基础+0.7额外AD+0.6AP。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "base_damage"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "ad_ratio"
+                      },
+                      {
+                        "attributeKey": "attack_damage",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "BONUS",
+                        "nodeType": "ATTRIBUTE"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "attributeKey": "ability_power",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          "formulaKey": "precrit_damage",
+          "gameId": "lol",
+          "name": "暴击属性折算前单次伤害",
+          "skillKey": "sivir_q",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T17:58:48.317705Z"
+        },
+        "/skills/sivir_q/formulas/damage": {
+          "createdAt": "2026-09-07T17:58:48.767234Z",
+          "description": "TotalDamage完整乘区=基础量×[1+暴击率×0.4×(总暴击倍率−1)]，不是随机暴击。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "base_damage"
+                      },
+                      {
+                        "nodeType": "OPERATION",
+                        "operands": [
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "ad_ratio"
+                          },
+                          {
+                            "attributeKey": "attack_damage",
+                            "attributeOwner": "SOURCE",
+                            "attributeValueKind": "BONUS",
+                            "nodeType": "ATTRIBUTE"
+                          }
+                        ],
+                        "operation": "MULTIPLY"
+                      }
+                    ],
+                    "operation": "ADD"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "ap_ratio"
+                      },
+                      {
+                        "attributeKey": "ability_power",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "TOTAL",
+                        "nodeType": "ATTRIBUTE"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "one"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "OPERATION",
+                        "operands": [
+                          {
+                            "attributeKey": "critical_strike_chance",
+                            "attributeOwner": "SOURCE",
+                            "attributeValueKind": "TOTAL",
+                            "nodeType": "ATTRIBUTE"
+                          },
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "crit_scaling"
+                          }
+                        ],
+                        "operation": "MULTIPLY"
+                      },
+                      {
+                        "nodeType": "OPERATION",
+                        "operands": [
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "one"
+                          },
+                          {
+                            "attributeKey": "critical_strike_damage_bonus_percent",
+                            "attributeOwner": "SOURCE",
+                            "attributeValueKind": "TOTAL",
+                            "nodeType": "ATTRIBUTE"
+                          }
+                        ],
+                        "operation": "ADD"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              }
+            ],
+            "operation": "MULTIPLY"
+          },
+          "formulaKey": "damage",
+          "gameId": "lol",
+          "name": "回旋之刃单次伤害",
+          "skillKey": "sivir_q",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-07T17:58:48.767234Z"
+        }
+      }
+    },
+    {
+      "skillKey": "tristana_r",
+      "root": "Characters/Tristana/Spells/TristanaRAbility/TristanaR",
+      "calculation": {
+        "DamageCalc": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mCoefficient": 0.699999988079071,
+              "__type": "StatByCoefficientCalculationPart"
+            },
+            {
+              "mDataValue": "APRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "stored": {
+        "/skills/tristana_r/formulas/damage": {
+          "createdAt": "2026-09-07T18:02:27.370387Z",
+          "description": "当前DamageCalc基础225/275/325+0.7额外AD+1AP。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "base_damage"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "ad_ratio"
+                      },
+                      {
+                        "attributeKey": "attack_damage",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "BONUS",
+                        "nodeType": "ATTRIBUTE"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "attributeKey": "ability_power",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          "formulaKey": "damage",
+          "gameId": "lol",
+          "name": "毁灭射击魔法伤害",
+          "skillKey": "tristana_r",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T18:02:27.370387Z"
+        }
+      }
+    },
+    {
+      "skillKey": "xinzhao_e",
+      "root": "Characters/XinZhao/Spells/XinZhaoEAbility/XinZhaoE",
+      "calculation": {
+        "ChargeDamage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "APRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "stored": {
+        "/skills/xinzhao_e/formulas/charge_damage": {
+          "createdAt": "2026-09-08T14:39:21.229427Z",
+          "description": "50/75/100/125/150+1.2法强。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "attributeKey": "ability_power",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          "formulaKey": "charge_damage",
+          "gameId": "lol",
+          "name": "无畏冲锋魔法伤害",
+          "skillKey": "xinzhao_e",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-08T14:39:21.229427Z"
+        },
+        "/skills/xinzhao_e/formulas/attack_speed_bonus": {
+          "createdAt": "2026-09-08T14:39:21.804229Z",
+          "description": "38/46/54/62/70% + 永久额外攻速比例÷5 + 每点法强0.1%；所有项统一比例单位。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "base_attack_speed_ratio"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "permanent_bonus_attack_speed_ratio"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "permanent_attack_speed_divisor"
+                      }
+                    ],
+                    "operation": "DIVIDE"
+                  }
+                ],
+                "operation": "ADD"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_attack_speed_ratio"
+                  },
+                  {
+                    "attributeKey": "ability_power",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          "formulaKey": "attack_speed_bonus",
+          "gameId": "lol",
+          "name": "无畏冲锋获得的额外攻速",
+          "skillKey": "xinzhao_e",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-08T14:39:21.804229Z"
+        }
+      }
+    }
+  ],
+  "attributeBasis": {
+    "sivirClientCritDamageMultiplier": 2,
+    "extraCritAttribute": {
+      "attributeKey": "critical_strike_damage_bonus_percent",
+      "createdAt": "2026-09-06T14:37:27.711233Z",
+      "description": "暴击伤害倍率的额外加成，0.4 表示增加 40 个百分点，不表示最终暴击倍率。资料：16.17.1 装备说明；具体伤害适用范围由效果规则维护。",
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": null,
+      "name": "额外暴击伤害比例",
+      "sortOrder": 531,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T14:37:27.711233Z",
+      "valueType": "DECIMAL"
+    }
+  },
+  "checks": [
+    "希维尔Q基础数组索引1..5；攻击力节点mStat=2/mStatFormula=2沿用已核定额外AD映射；AP沿用总法强。",
+    "希维尔Q暴击属性乘区1+暴击率×0.4×(总暴击倍率−1)，当前角色根基础倍率2及额外暴伤属性映射为1+额外暴伤，非随机暴击。",
+    "崔丝塔娜R基础数组225/275/325+0.7额外AD+总AP。",
+    "赵信E基础数组50/75/100/125/150+1.2总AP。"
+  ],
+  "arithmetic": {
+    "inputs": {
+      "bonusAd": 100,
+      "totalAp": 100,
+      "criticalChance": 0.5,
+      "extraCriticalDamage": 0.4
+    },
+    "results": [
+      {
+        "skillKey": "sivir_q",
+        "rank": 1,
+        "expected": 243.2,
+        "actual": 243.20000000000002
+      },
+      {
+        "skillKey": "sivir_q",
+        "rank": 5,
+        "expected": 371.2,
+        "actual": 371.2
+      },
+      {
+        "skillKey": "tristana_r",
+        "rank": 1,
+        "expected": 395,
+        "actual": 395
+      },
+      {
+        "skillKey": "tristana_r",
+        "rank": 3,
+        "expected": 495,
+        "actual": 495
+      },
+      {
+        "skillKey": "xinzhao_e",
+        "rank": 1,
+        "expected": 170,
+        "actual": 170
+      },
+      {
+        "skillKey": "xinzhao_e",
+        "rank": 5,
+        "expected": 270,
+        "actual": 270
+      }
+    ]
+  },
+  "result": "本次未发现需改伤害公式的偏差；普通命中范围和吸血批次继续保护现有公式。",
+  "boundary": "只核固定来源树、管理表达与算术，不构成防御/护盾/宿主/Wasm战斗执行证据。",
+  "agentAttempt": "Luna Max执行前限流失败，无结果，无写入；由主负责人接手。",
+  "businessWrites": 0
+}

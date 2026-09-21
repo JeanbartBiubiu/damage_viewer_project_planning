@@ -1,0 +1,31 @@
+{
+  "generatedAt": "2026-09-21T04:02:25.683Z",
+  "sourceVersion": {
+    "client": "16.17",
+    "ddragon": "16.17.1"
+  },
+  "businessWrites": 0,
+  "decisions": [
+    {
+      "skillKey": "sivir_q",
+      "action": "追加消耗冷却登记过程和普通使用入口",
+      "facts": "法力55/60/65/70/75，冷却10000/9500/9000/8500/8000毫秒；复用现有来源对象法力消耗效果。",
+      "timing": "客户端基础施法250毫秒，同时存在攻速缩短系数与上限；当前计算树不含其消费公式。因此只登记成本，不配置固定完整施法时长。"
+    },
+    {
+      "skillKey": "tristana_r",
+      "action": "追加普通使用入口，启动现有cast过程",
+      "facts": "法力100，冷却100000毫秒，当前根绑定spellCastTime为0.25秒；现有过程只绑定法力、冷却与250毫秒延迟。",
+      "timing": "当前根绑定mCastTime缺失。既有施法参数说明中“与已有mCastTime一致”不能作为双字段证据，本次依据明确存在的spellCastTime字段。"
+    },
+    {
+      "skillKey": "xinzhao_e",
+      "action": "追加普通使用入口，启动现有cast过程",
+      "facts": "法力60，冷却11000毫秒；现有过程只登记法力与冷却。",
+      "timing": "spellCastTime为0不能推出完整冲锋时长为0；本次不配置冲锋时长。"
+    }
+  ],
+  "preserved": "各技能既有实际命中规则、伤害、状态和其他组成全部保护；普通使用入口不制造命中。",
+  "managementComplete": false,
+  "browser": "成熟流程接口复用；正式代表页面待连接恢复后核对。"
+}

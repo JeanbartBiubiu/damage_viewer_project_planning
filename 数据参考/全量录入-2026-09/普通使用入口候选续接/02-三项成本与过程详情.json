@@ -1,0 +1,702 @@
+{
+  "at": "2026-09-21T03:56:35.613Z",
+  "mode": "GET-only",
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/sivir_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e/processes/cast",
+      "status": 200
+    }
+  ],
+  "values": {
+    "/skills/sivir_q/parameters": [
+      {
+        "createdAt": "2026-09-07T17:58:43.761475Z",
+        "description": "官方16.17.1与当前根对象cooldownTime索引1起一致。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 10000,
+          "2": 9500,
+          "3": 9000,
+          "4": 8500,
+          "5": 8000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "sivir_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T17:58:43.761475Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T17:58:44.221195Z",
+        "description": "官方cost与当前manaValues.values索引0起一致；明确0消耗保留。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 55,
+          "2": 60,
+          "3": 65,
+          "4": 70,
+          "5": 75
+        },
+        "name": "法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "sivir_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T17:58:44.221195Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T17:58:44.622963Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 85,
+          "3": 110,
+          "4": 135,
+          "5": 160
+        },
+        "name": "基础伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "sivir_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T17:58:44.622963Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T17:58:45.138979Z",
+        "description": "客户端当前根绑定 DataValues.ADRatio 取索引1至5。",
+        "fixedValue": 0.7,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "攻击力倍率",
+        "parameterKey": "ad_ratio",
+        "skillKey": "sivir_q",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-07T17:58:45.138979Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T17:58:45.691291Z",
+        "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+        "fixedValue": 0.6,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法术强度倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "sivir_q",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-07T17:58:45.691291Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T17:58:46.152916Z",
+        "description": "客户端当前根绑定 DataValues.CritRatio 取索引1至5。",
+        "fixedValue": 0.4,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "暴击属性折算系数",
+        "parameterKey": "crit_scaling",
+        "skillKey": "sivir_q",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-07T17:58:46.152916Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T17:58:46.61323Z",
+        "description": "当前完整暴击计算树有1与−1常数；角色根暴击倍率2减1为1。",
+        "fixedValue": 1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "倍率单位值",
+        "parameterKey": "one",
+        "skillKey": "sivir_q",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-07T17:58:46.61323Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T17:58:47.058263Z",
+        "description": "客户端当前根绑定 DataValues.QBaseCastTime 取索引1至5。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础施法时长（毫秒）",
+        "parameterKey": "base_cast_time_ms",
+        "skillKey": "sivir_q",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-07T17:58:47.058263Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T17:58:47.474868Z",
+        "description": "客户端当前根绑定 DataValues.QAttackSpeedCastReductionPercent 取索引1至5。",
+        "fixedValue": 0.5,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "额外攻速施法缩短系数",
+        "parameterKey": "cast_speed_ratio",
+        "skillKey": "sivir_q",
+        "sortOrder": 90,
+        "updatedAt": "2026-09-07T17:58:47.474868Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T17:58:47.877619Z",
+        "description": "客户端当前根绑定 DataValues.QAttackSpeedCastReductionMax 取索引1至5。",
+        "fixedValue": 0.6,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法缩短上限比例",
+        "parameterKey": "cast_reduction_cap",
+        "skillKey": "sivir_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T17:58:47.877619Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    ],
+    "/skills/sivir_q/effects/mana_cost": {
+      "createdAt": "2026-09-07T17:58:49.1855Z",
+      "description": "仅施放法力消耗；具体过程单独绑定。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "sivir_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T17:58:49.1855Z"
+    },
+    "/skills/tristana_r/parameters": [
+      {
+        "createdAt": "2026-09-07T18:02:23.890382Z",
+        "description": "官方16.17.1与当前根对象cooldownTime索引1起一致。",
+        "fixedValue": 100000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "tristana_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:02:23.890382Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:02:24.342576Z",
+        "description": "官方cost与当前manaValues.values索引0起一致；明确0消耗保留。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "tristana_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T18:02:24.342576Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:02:24.741974Z",
+        "description": "当前spellCastTime与已有mCastTime一致；不代替命中。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "tristana_r",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T18:02:24.741974Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:02:25.17468Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至3。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 225,
+          "2": 275,
+          "3": 325
+        },
+        "name": "基础伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "tristana_r",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-07T18:02:25.17468Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:02:25.622567Z",
+        "description": "完整DamageCalc中明确攻击力系数。",
+        "fixedValue": 0.7,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "攻击力倍率",
+        "parameterKey": "ad_ratio",
+        "skillKey": "tristana_r",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-07T18:02:25.622567Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T18:02:26.056858Z",
+        "description": "客户端当前根绑定 DataValues.APRatio 取索引1至3。",
+        "fixedValue": 1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法术强度倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "tristana_r",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-07T18:02:26.056858Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:02:26.479847Z",
+        "description": "客户端当前根绑定 DataValues.StunDuration 取索引1至3。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 400,
+          "2": 550,
+          "3": 700
+        },
+        "name": "命中眩晕时长（毫秒）",
+        "parameterKey": "stun_duration_ms",
+        "skillKey": "tristana_r",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-07T18:06:16.715027Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:02:26.969769Z",
+        "description": "客户端当前根绑定 DataValues.KnockbackDistance 取索引1至3。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 600,
+          "2": 800,
+          "3": 1000
+        },
+        "name": "击退距离",
+        "parameterKey": "knockback_distance",
+        "skillKey": "tristana_r",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-07T18:02:26.969769Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/tristana_r/effects/mana_cost": {
+      "createdAt": "2026-09-07T18:02:27.78408Z",
+      "description": "仅施放法力消耗；具体过程单独绑定。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "tristana_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T18:02:27.78408Z"
+    },
+    "/skills/tristana_r/processes/cast": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-07T18:02:30.002836Z",
+      "description": "只绑定法力、基础冷却及施法延迟；不在过程结束时自动造成伤害。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "施放毁灭射击",
+      "processKey": "cast",
+      "skillKey": "tristana_r",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "主技能已核对的施法时间。",
+          "detail": {
+            "delayValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cast_time_ms"
+            }
+          },
+          "name": "施法延迟",
+          "sortOrder": 10,
+          "stepKey": "cast_time",
+          "stepType": "DELAY"
+        }
+      ],
+      "updatedAt": "2026-09-07T18:02:30.002836Z"
+    },
+    "/skills/xinzhao_e/parameters": [
+      {
+        "createdAt": "2026-09-08T14:39:15.854386Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 50,
+          "2": 75,
+          "3": 100,
+          "4": 125,
+          "5": 150
+        },
+        "name": "冲锋基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "xinzhao_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-08T14:39:15.854386Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T14:39:16.446166Z",
+        "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+        "fixedValue": 1.2,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "冲锋法术强度倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "xinzhao_e",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-08T14:39:16.446166Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-08T14:39:17.046904Z",
+        "description": "客户端当前根绑定 DataValues.ASMod 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.38,
+          "2": 0.46,
+          "3": 0.54,
+          "4": 0.62,
+          "5": 0.7
+        },
+        "name": "冲锋基础额外攻速比例",
+        "parameterKey": "base_attack_speed_ratio",
+        "skillKey": "xinzhao_e",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-08T14:39:17.046904Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-08T14:39:17.636154Z",
+        "description": "客户端当前根绑定 DataValues.APToASRatio 取索引1至5。",
+        "fixedValue": 0.001,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "每点法强增加的额外攻速比例",
+        "parameterKey": "ap_attack_speed_ratio",
+        "skillKey": "xinzhao_e",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-08T14:39:17.636154Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-08T14:39:18.248755Z",
+        "description": "客户端当前根绑定 DataValues.PermanentASToASRatio 取索引1至5。",
+        "fixedValue": 5,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "永久额外攻速换算除数",
+        "parameterKey": "permanent_attack_speed_divisor",
+        "skillKey": "xinzhao_e",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-08T14:39:18.248755Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T14:39:18.79381Z",
+        "description": "客户端当前根绑定 DataValues.ASDuration 取索引1至5。",
+        "fixedValue": 5000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "冲锋攻速持续（毫秒）",
+        "parameterKey": "attack_speed_duration_ms",
+        "skillKey": "xinzhao_e",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-08T14:39:18.79381Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T14:39:19.441216Z",
+        "description": "客户端当前根绑定 DataValues.SlowDuration 取索引1至5。",
+        "fixedValue": 500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "冲锋减速持续（毫秒）",
+        "parameterKey": "slow_duration_ms",
+        "skillKey": "xinzhao_e",
+        "sortOrder": 90,
+        "updatedAt": "2026-09-08T14:39:19.441216Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T14:39:19.993797Z",
+        "description": "客户端当前根绑定 DataValues.SlowAmount 取索引1至5。",
+        "fixedValue": 0.3,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "冲锋减速比例",
+        "parameterKey": "slow_ratio",
+        "skillKey": "xinzhao_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T14:39:19.993797Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-08T02:06:11.949827Z",
+        "description": "DDragon16.17.1 XinZhao.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 11000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "xinzhao_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:06:11.949827Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T02:06:12.438111Z",
+        "description": "DDragon16.17.1 XinZhao.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 60,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "xinzhao_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:06:12.438111Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T14:39:20.692938Z",
+        "description": "按1表示100%；仅永久额外攻速，不包含本次E、临时技能和其他临时增益。不得绑定普通bonus_attack_speed_percent，否则把临时攻速反复计入自身。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "自身永久额外攻速比例",
+        "parameterKey": "permanent_bonus_attack_speed_ratio",
+        "skillKey": "xinzhao_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T14:39:20.692938Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    ],
+    "/skills/xinzhao_e/effects/mana_cost": {
+      "createdAt": "2026-09-08T14:39:22.517209Z",
+      "description": "仅施放法力消耗；具体过程单独绑定。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "xinzhao_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-08T14:39:22.517209Z"
+    },
+    "/skills/xinzhao_e/processes/cast": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-08T14:39:24.366382Z",
+      "description": "仅表达施放开始的已确证成本与冷却；即时步骤不等于完整施法时长，也不生成命中。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "施放无畏冲锋",
+      "processKey": "cast",
+      "skillKey": "xinzhao_e",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": null,
+          "detail": {},
+          "name": "施放开始",
+          "sortOrder": 10,
+          "stepKey": "start",
+          "stepType": "IMMEDIATE"
+        }
+      ],
+      "updatedAt": "2026-09-08T14:39:24.366382Z"
+    }
+  },
+  "businessWrites": 0
+}

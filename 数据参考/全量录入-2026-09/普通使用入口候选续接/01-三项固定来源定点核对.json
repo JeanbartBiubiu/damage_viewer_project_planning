@@ -1,0 +1,838 @@
+{
+  "at": "2026-09-21T03:55:50.736Z",
+  "mode": "LOCAL_SOURCE_ONLY",
+  "candidates": [
+    {
+      "champion": "Sivir",
+      "skill": "sivir_q",
+      "slot": 0,
+      "sourceVersion": "16.17.1",
+      "officialPath": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\en_US\\champion\\Sivir.json",
+      "officialSha256": "0d958a138bfb8750ee6c7100e5e5f376e4d4ad7538919fbbce4f4e82e637afdc",
+      "clientPath": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\客户端原文\\Sivir.json.gz",
+      "clientSha256": "f8048ba433c2931222180255fc86b1a202361539b69880e6d19e294ff4d8f445",
+      "rootBinding": "Characters/Sivir/Spells/SivirQAbility/SivirQ",
+      "official": {
+        "id": "SivirQ",
+        "name": "Boomerang Blade",
+        "description": "Sivir hurls her crossblade like a boomerang, dealing damage each way.",
+        "tooltip": "Sivir hurls her crossblade like a boomerang, dealing <physicalDamage>{{ totaldamage }}</physicalDamage> to all enemies it cuts through. Hitting non-champions reduces the damage to subsequent targets, down to a minimum of {{ falloffminimum*100 }}%.{{ spellmodifierdescriptionappend }}",
+        "leveltip": {
+          "label": [
+            "Damage",
+            "Cooldown",
+            "Mana Cost"
+          ],
+          "effect": [
+            "{{ basedamage }} -> {{ basedamageNL }}",
+            "{{ cooldown }} -> {{ cooldownNL }}",
+            "{{ cost }} -> {{ costNL }}"
+          ]
+        },
+        "maxrank": 5,
+        "cooldown": [
+          10,
+          9.5,
+          9,
+          8.5,
+          8
+        ],
+        "cooldownBurn": "10/9.5/9/8.5/8",
+        "cost": [
+          55,
+          60,
+          65,
+          70,
+          75
+        ],
+        "costBurn": "55/60/65/70/75",
+        "datavalues": {},
+        "effect": [
+          null,
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        ],
+        "effectBurn": [
+          null,
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        "vars": [],
+        "costType": " {{ abilityresourcename }}",
+        "maxammo": "-1",
+        "range": [
+          1200,
+          1200,
+          1200,
+          1200,
+          1200
+        ],
+        "rangeBurn": "1200",
+        "image": {
+          "full": "SivirQ.png",
+          "sprite": "spell13.png",
+          "group": "spell",
+          "x": 192,
+          "y": 48,
+          "w": 48,
+          "h": 48
+        },
+        "resource": "{{ cost }} {{ abilityresourcename }}"
+      },
+      "clientFields": {
+        "spellCastTime": 0.25,
+        "mCastTime": 0.25,
+        "cooldownTime": [
+          10,
+          10,
+          9.5,
+          9,
+          8.5,
+          8,
+          8
+        ],
+        "manaValues": {
+          "values": [
+            55,
+            60,
+            65,
+            70,
+            75,
+            70
+          ],
+          "__type": "{630af303}"
+        },
+        "ammo": null,
+        "tags": [
+          "Trait_DamageAbility",
+          "Trait_Ranged_Piercing",
+          "Trait_AoE"
+        ],
+        "data": [
+          {
+            "name": "BaseDamage",
+            "values": [
+              35,
+              60,
+              85,
+              110,
+              135,
+              160,
+              185
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "ADRatio",
+            "values": [
+              0.699999988079071,
+              0.699999988079071,
+              0.699999988079071,
+              0.699999988079071,
+              0.699999988079071,
+              0.699999988079071,
+              0.699999988079071
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "FallOffRatio",
+            "values": [
+              0.15000000596046448,
+              0.15000000596046448,
+              0.15000000596046448,
+              0.15000000596046448,
+              0.15000000596046448,
+              0.15000000596046448,
+              0.15000000596046448
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "FallOffMinimum",
+            "values": [
+              0.4000000059604645,
+              0.4000000059604645,
+              0.4000000059604645,
+              0.4000000059604645,
+              0.4000000059604645,
+              0.4000000059604645,
+              0.4000000059604645
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "QAttackSpeedCastReductionPercent",
+            "values": [
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              0.5
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "QBaseCastTime",
+            "values": [
+              0.25,
+              0.25,
+              0.25,
+              0.25,
+              0.25,
+              0.25,
+              0.25
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "QAttackSpeedCastReductionMax",
+            "values": [
+              0.6000000238418579,
+              0.6000000238418579,
+              0.6000000238418579,
+              0.6000000238418579,
+              0.6000000238418579,
+              0.6000000238418579,
+              0.6000000238418579
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "CritRatio",
+            "values": [
+              0.4000000059604645,
+              0.4000000059604645,
+              0.4000000059604645,
+              0.4000000059604645,
+              0.4000000059604645,
+              0.4000000059604645,
+              0.4000000059604645
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "APRatio",
+            "values": [
+              0.6000000238418579,
+              0.6000000238418579,
+              0.6000000238418579,
+              0.6000000238418579,
+              0.6000000238418579,
+              0.6000000238418579,
+              0.6000000238418579
+            ],
+            "__type": "SpellDataValue"
+          }
+        ]
+      }
+    },
+    {
+      "champion": "Tristana",
+      "skill": "tristana_r",
+      "slot": 3,
+      "sourceVersion": "16.17.1",
+      "officialPath": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\en_US\\champion\\Tristana.json",
+      "officialSha256": "2ad512109196fbfa13b18ae21b3b47ba6eab2ce057ab5c198816c8177b7d7162",
+      "clientPath": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\客户端原文\\Tristana.json.gz",
+      "clientSha256": "83ac2a879e3c6ce2c08f4e3f81294acafa412fa59880cd9a8426df5474972494",
+      "rootBinding": "Characters/Tristana/Spells/TristanaRAbility/TristanaR",
+      "official": {
+        "id": "TristanaR",
+        "name": "Buster Shot",
+        "description": "Tristana loads a massive cannonball into her weapon and fires it at an enemy unit. This deals Magic Damage and knocks the target back. If the target is carrying the Explosive Charge bomb, the bomb detonation radius is doubled.",
+        "tooltip": "Tristana fires a massive cannonball, dealing <magicDamage>{{ damagecalc }} magic damage</magicDamage> to the target, <status>Knocking Back</status> and <status>Stunning</status> them and surrounding enemies for {{ stunduration }} seconds.{{ spellmodifierdescriptionappend }}",
+        "leveltip": {
+          "label": [
+            "Damage",
+            "Knockback Distance",
+            "Stun Duration:"
+          ],
+          "effect": [
+            "{{ basedamage }} -> {{ basedamageNL }}",
+            "{{ knockbackdistance }} -> {{ knockbackdistanceNL }}",
+            "{{ stunduration }} -> {{ stundurationNL }}"
+          ]
+        },
+        "maxrank": 3,
+        "cooldown": [
+          100,
+          100,
+          100
+        ],
+        "cooldownBurn": "100",
+        "cost": [
+          100,
+          100,
+          100
+        ],
+        "costBurn": "100",
+        "datavalues": {},
+        "effect": [
+          null,
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "effectBurn": [
+          null,
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        "vars": [],
+        "costType": " {{ abilityresourcename }}",
+        "maxammo": "-1",
+        "range": [
+          550,
+          550,
+          550
+        ],
+        "rangeBurn": "550",
+        "image": {
+          "full": "TristanaR.png",
+          "sprite": "spell14.png",
+          "group": "spell",
+          "x": 144,
+          "y": 144,
+          "w": 48,
+          "h": 48
+        },
+        "resource": "{{ cost }} {{ abilityresourcename }}"
+      },
+      "clientFields": {
+        "spellCastTime": 0.25,
+        "mCastTime": null,
+        "cooldownTime": [
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100
+        ],
+        "manaValues": {
+          "values": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ],
+          "{0a3e0478}": 100,
+          "__type": "{630af303}"
+        },
+        "ammo": null,
+        "tags": [
+          "Trait_Ultimate",
+          "Trait_ImmobilizingCCSpell",
+          "Trait_DamageAbility",
+          "Trait_KnockBack"
+        ],
+        "data": [
+          {
+            "name": "BaseDamage",
+            "values": [
+              175,
+              225,
+              275,
+              325,
+              375,
+              425,
+              475
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "KnockbackDistance",
+            "values": [
+              400,
+              600,
+              800,
+              1000,
+              1200,
+              1400,
+              1600
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "KnockbackArea",
+            "values": [
+              200,
+              200,
+              200,
+              200,
+              200,
+              200,
+              200
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "StunDuration",
+            "values": [
+              0.25,
+              0.4000000059604645,
+              0.550000011920929,
+              0.699999988079071,
+              0.8500000238418579,
+              1,
+              1.149999976158142
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "APRatio",
+            "values": [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            "__type": "SpellDataValue"
+          }
+        ]
+      }
+    },
+    {
+      "champion": "XinZhao",
+      "skill": "xinzhao_e",
+      "slot": 2,
+      "sourceVersion": "16.17.1",
+      "officialPath": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\en_US\\champion\\XinZhao.json",
+      "officialSha256": "b18ef2e6a8f216336536491771b586bfafe81b4ffb0822e4a0b25281b978e0e2",
+      "clientPath": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\客户端原文\\XinZhao.json.gz",
+      "clientSha256": "9841b349f54ea710d0b2774d764c12ef43853df3898371f884f8d947769e6d4c",
+      "rootBinding": "Characters/XinZhao/Spells/XinZhaoEAbility/XinZhaoE",
+      "official": {
+        "id": "XinZhaoE",
+        "name": "Audacious Charge",
+        "description": "Xin Zhao charges to an enemy, gaining increased Attack Speed and dealing damage to all enemies in the area, slowing them briefly. This Ability gains increased range against Challenged targets.",
+        "tooltip": "Xin Zhao charges an enemy, dealing <magicDamage>{{ chargedamage }} magic damage</magicDamage> to nearby enemies and <status>Slowing</status> them by {{ slowamount }}% for {{ slowduration }} seconds.<br /><br />Xin Zhao grants himself <attackSpeed>{{ f1 }}% (%i:scaleAS%%i:scaleAP%) Attack Speed</attackSpeed> for {{ asduration }} seconds.<br /><br />This Ability's range is increased on enemies that are <keywordMajor>Challenged</keywordMajor>.<br />{{ spellmodifierdescriptionappend }}",
+        "leveltip": {
+          "label": [
+            "Damage",
+            "Attack Speed"
+          ],
+          "effect": [
+            "{{ basedamage }} -> {{ basedamageNL }}",
+            "{{ asmod*100.000000 }}% -> {{ asmodnl*100.000000 }}%"
+          ]
+        },
+        "maxrank": 5,
+        "cooldown": [
+          11,
+          11,
+          11,
+          11,
+          11
+        ],
+        "cooldownBurn": "11",
+        "cost": [
+          60,
+          60,
+          60,
+          60,
+          60
+        ],
+        "costBurn": "60",
+        "datavalues": {},
+        "effect": [
+          null,
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            250,
+            250,
+            250,
+            250,
+            250
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        ],
+        "effectBurn": [
+          null,
+          "0",
+          "0",
+          "0",
+          "0",
+          "250",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        "vars": [],
+        "costType": " {{ abilityresourcename }}",
+        "maxammo": "-1",
+        "range": [
+          650,
+          650,
+          650,
+          650,
+          650
+        ],
+        "rangeBurn": "650",
+        "image": {
+          "full": "XinZhaoE.png",
+          "sprite": "spell16.png",
+          "group": "spell",
+          "x": 96,
+          "y": 144,
+          "w": 48,
+          "h": 48
+        },
+        "resource": "{{ cost }} {{ abilityresourcename }}"
+      },
+      "clientFields": {
+        "spellCastTime": 0,
+        "mCastTime": null,
+        "cooldownTime": [
+          11,
+          11,
+          11,
+          11,
+          11,
+          11,
+          11
+        ],
+        "manaValues": {
+          "values": [
+            60,
+            60,
+            60,
+            60,
+            60,
+            60
+          ],
+          "{0a3e0478}": 60,
+          "__type": "{630af303}"
+        },
+        "ammo": null,
+        "tags": [
+          "PositiveEffect_MoveBlock",
+          "Trait_DamageAbility"
+        ],
+        "data": [
+          {
+            "name": "APRatio",
+            "values": [
+              1.2000000476837158,
+              1.2000000476837158,
+              1.2000000476837158,
+              1.2000000476837158,
+              1.2000000476837158,
+              1.2000000476837158,
+              1.2000000476837158
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "ASMod",
+            "values": [
+              0.3799999952316284,
+              0.3799999952316284,
+              0.46000000834465027,
+              0.5400000214576721,
+              0.6200000047683716,
+              0.699999988079071,
+              0.7799999713897705
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "BaseDamage",
+            "values": [
+              25,
+              50,
+              75,
+              100,
+              125,
+              150,
+              175
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "ASDuration",
+            "values": [
+              5,
+              5,
+              5,
+              5,
+              5,
+              5,
+              5
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "SlowDuration",
+            "values": [
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              0.5
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "SlowAmount",
+            "values": [
+              30,
+              30,
+              30,
+              30,
+              30,
+              30,
+              30
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "APToASRatio",
+            "values": [
+              0.0010000000474974513,
+              0.0010000000474974513,
+              0.0010000000474974513,
+              0.0010000000474974513,
+              0.0010000000474974513,
+              0.0010000000474974513,
+              0.0010000000474974513
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "PermanentASToASRatio",
+            "values": [
+              5,
+              5,
+              5,
+              5,
+              5,
+              5,
+              5
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "AoERadius",
+            "values": [
+              250,
+              250,
+              250,
+              250,
+              250,
+              250,
+              250
+            ],
+            "__type": "SpellDataValue"
+          }
+        ]
+      }
+    }
+  ],
+  "businessWrites": 0
+}

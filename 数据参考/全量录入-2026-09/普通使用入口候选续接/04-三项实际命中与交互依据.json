@@ -1,0 +1,47 @@
+{
+  "at": "2026-09-21T04:05:27.938Z",
+  "status": "SOURCE_MAPPING_REVIEWED_LOCALLY_REQUIRES_FROZEN_REVIEW",
+  "sourceVersion": {
+    "client": "16.17",
+    "ddragon": "16.17.1"
+  },
+  "scope": "本轮1V1敌方英雄；每次只接收真实技能命中，不以使用或过程完成代替。",
+  "rules": [
+    {
+      "skillKey": "sivir_q",
+      "ruleKey": "actual_hit",
+      "effectKey": "boomerang_hit",
+      "damageTypeKey": "physics",
+      "basis": "官方明确往返各造成物理伤害；现有规则表示一次实际命中，范围缩窄后仍可逐次消费真实往返命中。非英雄引发的后续目标衰减不在本轮1V1范围，不凭此生成第二次命中。",
+      "remaining": "攻速影响施法时长的确切计算；往返与技能被动关联；具体法术护盾拦截粒度及其他吸血类型。"
+    },
+    {
+      "skillKey": "tristana_r",
+      "ruleKey": "actual_hit",
+      "effectKey": "cannon_hit",
+      "damageTypeKey": "magic",
+      "basis": "官方说明对敌方目标造成魔法伤害并击退/眩晕；现有规则仅直接伤害。",
+      "remaining": "击退/眩晕及爆炸火花联动仍未接入；不以本次普通伤害补录替代。"
+    },
+    {
+      "skillKey": "xinzhao_e",
+      "ruleKey": "actual_charge_hit",
+      "effectKey": "charge_hit",
+      "damageTypeKey": "magic",
+      "basis": "官方说明冲向敌人并对附近敌人造成魔法伤害；现有规则只接收真实冲锋命中。",
+      "remaining": "冲锋路径时序、减速、永久额外攻速输入和自身攻速应用、挑战目标关联仍未接入。"
+    }
+  ],
+  "ordinaryVamp": {
+    "mapping": "普通直接技能伤害对敌方英雄，防御结算后伤害的全能吸血资格，效率1。",
+    "sources": [
+      "https://www.leagueoflegends.com/en-sg/news/game-updates/patch-26-1-notes/",
+      "https://www.leagueoflegends.com/en-au/news/game-updates/league-of-legends-patch-26-4-notes/"
+    ],
+    "reusedEvidence": "damage_web_dev/数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q完整补录/交互来源核定.json",
+    "boundary": "不新增其他吸血枚举；保留原法术护盾粒度与伤害公式，不推断护盾/过量伤害的战斗结算。"
+  },
+  "order": "先独立回读普通使用入口，再补命中敌方英雄条件并独立回读，最后冻结对应伤害吸血修正。",
+  "browser": "代表正式页面待工具连接恢复；不计整技能完成。",
+  "businessWrites": 0
+}
