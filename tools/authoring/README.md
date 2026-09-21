@@ -14,6 +14,8 @@ v3 必须由独立执行者运行 `node tools/authoring/update-reviewed-descript
 
 参数字段纠错使用 `update-reviewed-parameters.mjs` 的 `prepare / preflight / write / readback`。`01-纠错计划.json` 中每个 `changes` 项只含 `skillKey`、`parameterKey`、`route` 和 `updates`；最后一项仅接受 `name / description / valueType / valueMode / fixedValue / levelValues / sortOrder` 七个可编辑字段，至少一项实际变化。工具从完整现值合入明示更新，不自动舍入、填值或修改标识和元数据；名称与非空说明须事先去除首尾空格，清空说明用 `null`。首版只修改原值与目标值均为 `FIXED`（固定值）或 `SKILL_LEVEL`（技能等级）的参数，等级图必须完整覆盖技能 `maxLevel`；只接受原生有限数值，`INTEGER`（整数）要求安全整数。固定值与等级图互斥，切换模式须在计划中明确清空旧字段。来源声明、全技能现值、独立批准、冻结摘要、独占06、防重放及解析前响应记录沿用说明工具保护；独立回读精确核对即时详情、完整参数列表、创建时间和所有其他响应。离线检查：`node --test tools/authoring/update-reviewed-parameters.test.mjs`，全部请求均为模拟。
 
+角色等级值更正使用 `update-reviewed-parameters-v2.mjs` 的相同四阶段命令。保留原七字段和固定值、技能等级校验，新增角色等级完整图：读取并冻结 `GET /level-config` 的游戏等级上下界，准备、写前核对和独立回读均保护该响应，逐笔写入前也重核。等级表须完整覆盖实际范围，不能使用技能最高等级或写死18；整数、有限数值和固定值互斥规则继续适用。无默认的计算时输入只允许转为已确证的角色等级值；不支持转入计算时输入，也不自动为未知曲线生成数值。配置缺失、畸形或漂移时不得写入。旧版工具及旧批次保持原字节；新工具的离线保护检查使用 `node --test tools/authoring/update-reviewed-parameters-v2.test.mjs`，全部网络请求为模拟。
+
 参数列表按排序值和名称排列；只有计划明示且实际修改名称或排序值时，才允许该目标行移动，其他行的完整字段及相对顺序保持。中文名称排序沿用数据库结果，即时回读记录最终完整列表，独立回读仍精确比较该列表。
 
 独立回读核对完整目标、预期集合变化和原响应（含时间戳）。参数列表包含完整参数值，不能照效果摘要删掉字段来比较；同一列表多个目标行按各自标识核对，列表与详情的说明及更新时间必须一致。原始工具输出须完整保留；若报告另加封装，汇总程序先取封装中的原始输出再解析，不改动原报告或重新发请求来适配报告格式。
