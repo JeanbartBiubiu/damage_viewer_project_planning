@@ -1,5 +1,6 @@
 import type { ApiResult } from './apiClient';
 import { encodePathSegment, requestJson } from './apiClient';
+import { isStatusKind } from '../types/status';
 import type {
   CreateStatusRequest,
   GameStatus,
@@ -7,6 +8,18 @@ import type {
   StatusListResponse,
   UpdateStatusRequest
 } from '../types/status';
+
+export function parseStatus(value: unknown): GameStatus {
+  if (typeof value !== 'object' || value === null || Array.isArray(value)
+    || !isStatusKind((value as Record<string, unknown>).statusKind)) {
+    throw new Error('状态响应缺少合法的状态种类。');
+  }
+  return value as GameStatus;
+}
+
+function parseStatusResult(result: ApiResult<unknown>): ApiResult<GameStatus> {
+  return { ...result, data: parseStatus(result.data) };
+}
 
 function statusesPath(gameId: string, statusKey?: string): string {
   const base = `/api/admin/games/${encodePathSegment(gameId)}/statuses`;
@@ -32,7 +45,10 @@ export function listStatuses(
     apiBaseUrl,
     withQuery(statusesPath(gameId), query),
     { token }
-  );
+  ).then((result) => {
+    if (!Array.isArray(result.data?.items)) throw new Error('状态目录响应不完整。');
+    return { ...result, data: { ...result.data, items: result.data.items.map(parseStatus) } };
+  });
 }
 
 export function getStatus(
@@ -41,7 +57,7 @@ export function getStatus(
   statusKey: string,
   token: string
 ): Promise<ApiResult<GameStatus>> {
-  return requestJson<GameStatus>(apiBaseUrl, statusesPath(gameId, statusKey), { token });
+  return requestJson<unknown>(apiBaseUrl, statusesPath(gameId, statusKey), { token }).then(parseStatusResult);
 }
 
 export function createStatus(
@@ -54,7 +70,7 @@ export function createStatus(
     method: 'POST',
     token,
     body: JSON.stringify(body)
-  });
+  }).then(parseStatusResult);
 }
 
 export function updateStatus(
@@ -68,7 +84,7 @@ export function updateStatus(
     method: 'PUT',
     token,
     body: JSON.stringify(body)
-  });
+  }).then(parseStatusResult);
 }
 
 export function deleteStatus(

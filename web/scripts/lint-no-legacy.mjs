@@ -14,6 +14,10 @@ const APPROVED_INDEPENDENT_SKILL_LINES = [
     text: "import { SkillManagementPage } from '../skills/SkillManagementPage';"
   },
   {
+    file: 'src/pages/admin/equipment/EquipmentManagementPage.tsx',
+    text: "import { SkillManagementPage } from '../skills/SkillManagementPage';"
+  },
+  {
     file: 'src/services/skillClient.ts',
     text: 'const base = `/api/admin/games/${encodePathSegment(gameId)}/skills`;'
   },

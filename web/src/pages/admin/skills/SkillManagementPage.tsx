@@ -40,10 +40,11 @@ export type SkillManagementPageProps = {
   onDirtyChange: (dirty: boolean) => void;
   focus?: {
     skillKey: string;
-    characterKey: string;
-    characterName: string;
+    sourceKind: 'character' | 'equipment';
+    sourceKey: string;
+    sourceName: string;
     onReturn: () => void;
-    returnLabel?: string;
+    returnLabel: string;
   };
 };
 
@@ -114,7 +115,19 @@ export function SkillManagementPage({
   const [triggerRuleTarget, setTriggerRuleTarget] = useState<TriggerRuleTarget | null>(null);
   const skillRequestSerial = useRef(0);
   const categoryRequestSerial = useRef(0);
+  const statusRequestSerial = useRef(0);
+  const [statusConnection, setStatusConnection] = useState({ apiBaseUrl, selectedGameId, adminToken });
   const [pageGameId, setPageGameId] = useState(selectedGameId);
+
+  if (statusConnection.apiBaseUrl !== apiBaseUrl
+    || statusConnection.selectedGameId !== selectedGameId
+    || statusConnection.adminToken !== adminToken) {
+    setStatusConnection({ apiBaseUrl, selectedGameId, adminToken });
+    statusRequestSerial.current += 1;
+    setStatusTarget(null);
+    setStatusError(null);
+    setStatusUpdatingKey(null);
+  }
 
   if (pageGameId !== selectedGameId) {
     setPageGameId(selectedGameId);
@@ -224,6 +237,7 @@ export function SkillManagementPage({
 
   useEffect(() => { void loadSkills(appliedQuery); }, [appliedQuery, loadSkills]);
   useEffect(() => { void loadCategories(); }, [loadCategories]);
+  useEffect(() => () => { statusRequestSerial.current += 1; }, []);
   useEffect(() => { setCurrentPage(1); }, [apiBaseUrl, selectedGameId, adminToken, focusedSkillKey]);
 
   const lastPage = Math.max(1, Math.ceil(items.length / pageSize));
@@ -277,24 +291,28 @@ export function SkillManagementPage({
       return;
     }
     const { skill, nextStatus } = statusTarget;
+    const serial = ++statusRequestSerial.current;
     const action = nextStatus === 'ENABLED' ? '启用' : '停用';
     setStatusUpdatingKey(skill.skillKey);
     setStatusError(null);
     try {
+      const current = await loadFocusedSkill(apiBaseUrl, selectedGameId, skill.skillKey, token);
+      if (statusRequestSerial.current !== serial) return;
       const result = await updateSkill(
         apiBaseUrl,
         selectedGameId,
         skill.skillKey,
         token,
-        statusRequest(skill, nextStatus)
+        statusRequest(current, nextStatus)
       );
+      if (statusRequestSerial.current !== serial) return;
       setStatusTarget(null);
       setNotice(`技能「${result.data.name}」已${action}。`);
       await loadSkills(appliedQuery);
     } catch (error) {
-      setStatusError(getErrorMessage(error));
+      if (statusRequestSerial.current === serial) setStatusError(getErrorMessage(error));
     } finally {
-      setStatusUpdatingKey(null);
+      if (statusRequestSerial.current === serial) setStatusUpdatingKey(null);
     }
   };
 
@@ -427,7 +445,7 @@ export function SkillManagementPage({
         title={focus ? `技能录入${items[0] ? ` · ${items[0].name}` : ''}` : '技能管理'}
         actions={
           <Space>
-            {focus ? <Button type="primary" onClick={focus.onReturn}>{focus.returnLabel ?? '返回角色技能'}</Button> : null}
+            {focus ? <Button type="primary" onClick={focus.onReturn}>{focus.returnLabel}</Button> : null}
             <Button
               loading={loading}
               disabled={!selectedGameId || !adminToken.trim()}
@@ -461,7 +479,7 @@ export function SkillManagementPage({
         ) : null}
         {notice ? <Alert type="success" content={notice} className="workspace-alert" /> : null}
 
-        {focus ? <Alert type="info" content={`来自角色：${focus.characterName}（${focus.characterKey}）。正在录入下方这一项技能；完成后${focus.returnLabel ?? '返回角色技能'}可继续核对。`} style={{ marginBottom: 16 }} /> : null}
+        {focus ? <Alert type="info" content={`来自${focus.sourceKind === 'character' ? '角色' : '装备'}：${focus.sourceName}（${focus.sourceKey}）。正在录入下方这一项技能；完成后${focus.returnLabel}可继续核对。`} style={{ marginBottom: 16 }} /> : null}
 
         {!focus ? <div style={{ display: 'grid', gridTemplateColumns: 'minmax(220px, 1fr) minmax(220px, auto) auto', gap: 12, alignItems: 'end', marginBottom: 16 }}>
           <label style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>

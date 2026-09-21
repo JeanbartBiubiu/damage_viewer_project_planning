@@ -1,5 +1,7 @@
 import { assertNumericUses } from './numericValue';
 import { isNumericValue } from '../types/numericValue';
+import { isValidCooldownReductionRatio } from '../types/cooldownRatio';
+import { isValidLifecycleExtensionDuration } from '../types/lifecycleExtension';
 import type { ApiResult } from './apiClient';
 import { encodePathSegment, requestJson } from './apiClient';
 import { skillsPath } from './skillClient';
@@ -9,6 +11,7 @@ import type {
   SkillEffectResult,
   SkillEffectResultType,
   SkillEffectSummary,
+  SkillEffectValueRule,
   UpdateSkillEffectRequest
 } from '../types/skillEffect';
 
@@ -23,6 +26,8 @@ const RESULT_TYPES = new Set<SkillEffectResultType>([
   'LIFECYCLE_OPERATION',
   'DAMAGE_MODIFIER',
   'HEALING_MODIFIER',
+  'SHIELD_RECEIVED_MODIFIER',
+  'ATTACK_TIMER_RESET',
   'DAMAGE_IMMUNITY',
   'HEALTH_FLOOR',
   'SPELL_SHIELD',
@@ -223,6 +228,31 @@ function assertResult(value: unknown, path: string): SkillEffectResult {
     }
   }
 
+  if (resultType === 'ATTACK_TIMER_RESET') {
+    assertExactDetailKeys(detail, [], path);
+    if (value.valueRule !== null) protocolError(`${path}.valueRule`);
+    const behavior = value.lifecycleBehavior;
+    if (isRecord(behavior)) {
+      assertExactKeys(behavior, [
+        'moment', 'valueReadMode', 'stackValueMode', 'reapplicationValueMode', 'periodicExecutionMode'
+      ], `${path}.lifecycleBehavior`);
+      assertEnum(behavior.moment, new Set([
+        'APPLICATION', 'FULL_STACKS', 'PERIODIC', 'NATURAL_END', 'EARLY_REMOVE'
+      ]), `${path}.lifecycleBehavior.moment`);
+      if (behavior.valueReadMode !== null || behavior.stackValueMode !== null
+        || behavior.reapplicationValueMode !== null) {
+        protocolError(`${path}.lifecycleBehavior`);
+      }
+      if (behavior.moment === 'PERIODIC') {
+        assertEnum(behavior.periodicExecutionMode, new Set([
+          'ONCE_PER_INSTANCE', 'ONCE_PER_ACTIVE_STACK'
+        ]), `${path}.lifecycleBehavior.periodicExecutionMode`);
+      } else if (behavior.periodicExecutionMode !== null) {
+        protocolError(`${path}.lifecycleBehavior.periodicExecutionMode`);
+      }
+    }
+    return value as SkillEffectResult;
+  }
   if (resultType === 'SPELL_SHIELD') {
     if (value.valueRule !== null) protocolError(`${path}.valueRule`);
     if (Object.keys(detail).length !== 0) protocolError(`${path}.detail`);
@@ -231,9 +261,22 @@ function assertResult(value: unknown, path: string): SkillEffectResult {
   }
 
   if (resultType === 'STATUS_OPERATION') {
-    if (value.valueRule !== null) protocolError(`${path}.valueRule`);
+    assertExactDetailKeys(detail, ['statusKey', 'operation'], path);
     assertString(detail.statusKey, `${path}.detail.statusKey`);
     assertEnum(detail.operation, new Set(['APPLY', 'REMOVE']), `${path}.detail.operation`);
+    if (value.valueRule !== null) {
+      if (detail.operation !== 'APPLY') protocolError(`${path}.valueRule`);
+      assertValueRule(value.valueRule, `${path}.valueRule`);
+      const rule = value.valueRule as Record<string, unknown>;
+      if (rule.fixedMinValue !== 0) protocolError(`${path}.valueRule.fixedMinValue`);
+      if (rule.fixedMaxValue !== 1) protocolError(`${path}.valueRule.fixedMaxValue`);
+      const behavior = value.lifecycleBehavior;
+      if (!isRecord(behavior) || behavior.moment !== 'PERSISTENT'
+        || behavior.valueReadMode !== 'APPLICATION_SNAPSHOT' || behavior.stackValueMode !== 'SHARED'
+        || behavior.reapplicationValueMode !== 'REPLACE' || behavior.periodicExecutionMode !== null) {
+        protocolError(`${path}.lifecycleBehavior`);
+      }
+    }
     return value as SkillEffectResult;
   }
   if (resultType === 'DAMAGE_IMMUNITY') {
@@ -251,12 +294,17 @@ function assertResult(value: unknown, path: string): SkillEffectResult {
     if (!('affectedSkillScope' in detail)) protocolError(`${path}.detail.affectedSkillScope`);
     if ('affectedSkillKeys' in detail) protocolError(`${path}.detail.affectedSkillKeys`);
     assertExactDetailKeys(detail, ['operation', 'affectedSkillScope'], path);
-    assertEnum(detail.operation, new Set(['REDUCE', 'INCREASE', 'RESET']), `${path}.detail.operation`);
+    assertEnum(detail.operation, new Set(['REDUCE', 'INCREASE', 'RESET', 'REDUCE_REMAINING_RATIO']), `${path}.detail.operation`);
     assertAffectedSkillScope(detail.affectedSkillScope, `${path}.detail.affectedSkillScope`);
     if (detail.operation === 'RESET') {
       if (value.valueRule !== null) protocolError(`${path}.valueRule`);
     } else {
       assertValueRule(value.valueRule, `${path}.valueRule`);
+      const rule = value.valueRule as SkillEffectValueRule;
+      if (detail.operation === 'REDUCE_REMAINING_RATIO' && rule.value.kind === 'FIXED'
+        && !isValidCooldownReductionRatio(rule.value.value, rule)) {
+        protocolError(`${path}.valueRule`);
+      }
     }
     return value as SkillEffectResult;
   }
@@ -291,13 +339,18 @@ function assertResult(value: unknown, path: string): SkillEffectResult {
     assertString(detail.targetEffectKey, `${path}.detail.targetEffectKey`);
     const operation = assertEnum(
       detail.operation,
-      new Set(['INCREASE', 'DECREASE', 'SET', 'REFRESH', 'CONSUME', 'REMOVE']),
+      new Set(['INCREASE', 'DECREASE', 'SET', 'REFRESH', 'EXTEND_DURATION', 'CONSUME', 'REMOVE']),
       `${path}.detail.operation`
     );
     if (operation === 'REFRESH' || operation === 'REMOVE') {
       if (value.valueRule !== null) protocolError(`${path}.valueRule`);
     } else {
       assertValueRule(value.valueRule, `${path}.valueRule`);
+      const rule = value.valueRule as SkillEffectValueRule;
+      if (operation === 'EXTEND_DURATION' && rule.value.kind === 'FIXED'
+        && !isValidLifecycleExtensionDuration(rule.value.value, rule)) {
+        protocolError(`${path}.valueRule`);
+      }
     }
     return value as SkillEffectResult;
   }
@@ -345,6 +398,23 @@ function assertResult(value: unknown, path: string): SkillEffectResult {
       assertEnum(detail.originKind, DAMAGE_FILTER_ORIGIN_KINDS, `${path}.detail.originKind`);
       assertEnum(detail.criticalFilter, CRITICAL_FILTERS, `${path}.detail.criticalFilter`);
       break;
+    case 'SHIELD_RECEIVED_MODIFIER': {
+      assertExactDetailKeys(detail, ['modifierZoneKey', 'operation'], path);
+      assertString(detail.modifierZoneKey, path + '.detail.modifierZoneKey');
+      assertEnum(detail.operation, MODIFIER_OPERATIONS, path + '.detail.operation');
+      if (!persistent) protocolError(path + '.lifecycleBehavior');
+      const behavior = value.lifecycleBehavior;
+      if (!isRecord(behavior)) protocolError(path + '.lifecycleBehavior');
+      assertEnum(behavior.valueReadMode, new Set(['APPLICATION_SNAPSHOT', 'MOMENT_EVALUATION']), `${path}.lifecycleBehavior.valueReadMode`);
+      assertEnum(behavior.stackValueMode, new Set(['SHARED', 'PER_STACK']), `${path}.lifecycleBehavior.stackValueMode`);
+      if (behavior.periodicExecutionMode !== null) protocolError(`${path}.lifecycleBehavior.periodicExecutionMode`);
+      if (behavior.valueReadMode === 'MOMENT_EVALUATION' || behavior.stackValueMode === 'PER_STACK') {
+        if (behavior.reapplicationValueMode !== null) protocolError(`${path}.lifecycleBehavior.reapplicationValueMode`);
+      } else {
+        assertEnum(behavior.reapplicationValueMode, new Set(['KEEP', 'REPLACE', 'ADD']), `${path}.lifecycleBehavior.reapplicationValueMode`);
+      }
+      break;
+    }
     case 'HEALING_MODIFIER':
       assertEnum(detail.direction, HEALING_MODIFIER_DIRECTIONS, `${path}.detail.direction`);
       assertEnum(detail.operation, MODIFIER_OPERATIONS, `${path}.detail.operation`);
@@ -384,10 +454,34 @@ export function parseSkillEffect(value: unknown): SkillEffect {
   assertNullableString(value.description, 'effect.description');
   assertNumber(value.sortOrder, 'effect.sortOrder');
   if (value.lifecycle !== null && !isRecord(value.lifecycle)) protocolError('effect.lifecycle');
+  value.results.forEach((item, index) => {
+    if (!isRecord(item) || item.resultType !== 'ATTACK_TIMER_RESET') return;
+    const behavior = item.lifecycleBehavior;
+    if ((value.lifecycle === null) !== (behavior === null)) {
+      protocolError(`effect.results[${index}].lifecycleBehavior`);
+    }
+    if (!isRecord(behavior) || !isRecord(value.lifecycle)) return;
+    if (behavior.moment === 'NATURAL_END' && !isNumericValue(value.lifecycle.durationValue)) {
+      protocolError('effect.lifecycle.durationValue');
+    }
+    if (behavior.moment === 'PERIODIC'
+      && (!isNumericValue(value.lifecycle.periodicIntervalValue) || value.lifecycle.firstPeriodicExecution == null)) {
+      protocolError('effect.lifecycle.periodicIntervalValue');
+    }
+    if (behavior.moment === 'PERIODIC') {
+      assertEnum(value.lifecycle.firstPeriodicExecution, new Set(['IMMEDIATE', 'AFTER_INTERVAL']),
+        'effect.lifecycle.firstPeriodicExecution');
+    }
+  });
+  if (value.results.some((item) => isRecord(item) && item.resultType === 'STATUS_OPERATION' && item.valueRule !== null)
+    && (!isRecord(value.lifecycle) || !isNumericValue(value.lifecycle.durationValue))) {
+    protocolError('effect.lifecycle.durationValue');
+  }
   if (
     value.results.some((item) => (
       isRecord(item)
-      && (item.resultType === 'SPELL_SHIELD' || item.resultType === 'SKILL_HASTE_MODIFIER')
+      && (item.resultType === 'SPELL_SHIELD' || item.resultType === 'SKILL_HASTE_MODIFIER'
+        || item.resultType === 'SHIELD_RECEIVED_MODIFIER')
     ))
     && value.lifecycle === null
   ) {

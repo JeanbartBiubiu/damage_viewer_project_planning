@@ -40,6 +40,7 @@ import {
   allowedEventValuesFor,
   bindingSummary,
   createEmptyBinding,
+  eventValueHint,
   eventValueOptionLabel,
   evaluateBindingCompleteness,
   filterPriorResultOutputsForParameter,
@@ -635,7 +636,7 @@ export function SkillTriggerRuntimeInputBindingEditorModal({
           ) : null}
 
           {current.sourceType === 'EVENT_VALUE' ? (
-            <Form.Item label="当前事件值" required>
+            <Form.Item label="当前事件值" required extra={eventValueHint(current.detail.eventValueKey)}>
               <Select
                 aria-label="绑定事件值"
                 value={current.detail.eventValueKey}

@@ -184,7 +184,7 @@ export function SkillProcessEditorModal({
   const [internalStatesError, setInternalStatesError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [loadingDetail, setLoadingDetail] = useState(false);
-  const [detailReady, setDetailReady] = useState(mode === 'create');
+  const [detailReady, setDetailReady] = useState(false);
   const [formulas, setFormulas] = useState<SkillFormulaSummary[]>([]);
   const { parameters, parametersLoadState } = useNumericParameters(apiBaseUrl, selectedGameId, skill.skillKey, adminToken, visible, catalogRevision);
   const [effects, setEffects] = useState<SkillEffectSummary[]>([]);
@@ -227,7 +227,7 @@ export function SkillProcessEditorModal({
     setInternalStatesError(null);
     setSaving(false);
     setLoadingDetail(false);
-    setDetailReady(mode === 'create');
+    setDetailReady(false);
     setFormulas([]);
     setEffects([]);
     setInternalStates([]);
@@ -373,6 +373,7 @@ export function SkillProcessEditorModal({
       setLoadingDetail(false);
       return;
     }
+    setDetailReady(false);
     setLoadingDetail(true);
     setLoadError(null);
     try {
@@ -905,6 +906,8 @@ export function SkillProcessEditorModal({
           ) : null}
           {stepDeleteError ? <Alert type="error" content={stepDeleteError} /> : null}
 
+          {mode === 'create' || (detailReady && !loadingDetail) ? (
+          <Space direction="vertical" size="medium" style={{ width: '100%' }}>
           <Form layout="vertical">
             <Form.Item
               label="过程标识"
@@ -1128,6 +1131,8 @@ export function SkillProcessEditorModal({
               noDataElement={<Empty description="暂无内部状态操作" />}
             />
           </section>
+          </Space>
+          ) : !loadError ? <Alert type="info" content="正在加载过程详情…" /> : null}
         </Space>
       </Modal>
 

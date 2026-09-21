@@ -129,7 +129,7 @@ export const STATE_OPERATION_LABELS = {
 export const MILLISECOND_FORMULA_HINT = '时长按毫秒解释';
 export const POSITIVE_INTEGER_FORMULA_HINT = '未来按正整数解释';
 export const EMPOWERED_STEP_EXECUTION_HINT = '普通攻击命中时执行';
-export const PROCESS_BEHAVIOR_REQUIRED_MESSAGE = '至少需要一个效果挂接或内部状态操作。';
+export const PROCESS_BEHAVIOR_REQUIRED_MESSAGE = '至少需要普通冷却、效果挂接或内部状态操作之一。';
 export const INCOMPLETE_CATALOG_MESSAGE = '目录不完整，无法保存未知引用。';
 export const MISSING_CATALOG_LABEL = '目录缺失';
 
@@ -889,7 +889,7 @@ export function validateSkillProcessDraft(
     }
   }
 
-  if (sorted.effectBindings.length === 0 && sorted.stateOperations.length === 0) {
+  if (!sorted.cooldownEnabled && sorted.effectBindings.length === 0 && sorted.stateOperations.length === 0) {
     fieldErrors.effectBindings = PROCESS_BEHAVIOR_REQUIRED_MESSAGE;
     fieldErrors.stateOperations = PROCESS_BEHAVIOR_REQUIRED_MESSAGE;
   }

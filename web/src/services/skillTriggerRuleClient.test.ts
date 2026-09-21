@@ -103,6 +103,35 @@ describe('skillTriggerRuleClient', () => {
     vi.restoreAllMocks();
   });
 
+  it('更新参与击杀规则并按原稳定标识读取空明细', async () => {
+    const takedown: SkillTriggerRuleDetail = {
+      ...detail,
+      ruleKey: 'own_kill_reset',
+      eventSource: { eventType: 'TAKEDOWN', detail: {} }
+    };
+    const calls: unknown[] = [];
+    vi.stubGlobal('fetch', vi.fn(async (_input: RequestInfo | URL, init?: RequestInit) => {
+      calls.push(init?.body ? JSON.parse(String(init.body)) : null);
+      return jsonResponse(200, takedown);
+    }));
+    const { ruleKey, ...body } = takedown;
+    const updated = await updateSkillTriggerRule('http://localhost:8080', 'lol', 'tristana_w', ruleKey, 'local-entry', body);
+    const loaded = await getSkillTriggerRule('http://localhost:8080', 'lol', 'tristana_w', ruleKey, 'local-entry');
+    expect(calls).toEqual([body, null]);
+    expect(updated.data).toEqual(takedown);
+    expect(loaded.data).toEqual(takedown);
+    expect(parseSkillTriggerRuleSummary({ ...summary, eventType: 'TAKEDOWN' }).eventType).toBe('TAKEDOWN');
+  });
+
+  it.each([undefined, null, [], '', 0, true, { sourceSkillKey: null }, { subject: 'SOURCE' }])(
+    '拒绝参与击杀非空或非对象明细 %j', (eventDetail) => {
+      expect(() => parseSkillTriggerRuleDetail({
+        ...detail,
+        eventSource: { eventType: 'TAKEDOWN', detail: eventDetail }
+      })).toThrow(/detail\.eventSource\.detail/);
+    }
+  );
+
   it('saves and reads initialization rules with empty details and event-source actions', async () => {
     const initialized: SkillTriggerRuleDetail = {
       ...detail,
@@ -619,6 +648,88 @@ describe('显式目标为来源对象响应', () => {
       expect(() => parseSkillTriggerRuleDetail(withExplicitSelfTarget(conditionDetail))).toThrow(SkillTriggerRuleProtocolError);
     }
   );
+});
+
+describe('技能命中敌方对象响应', () => {
+  const response = (conditionDetail: unknown, eventType = 'SKILL_HIT') => ({
+    ...detail,
+    eventSource: {
+      eventType,
+      detail: eventType === 'SKILL_USED'
+        ? { sourceSkillKey: 'nami_r', useKind: 'ACTIVE' }
+        : eventType === 'SKILL_HIT' ? { sourceSkillKey: 'nami_r' } : {}
+    },
+    conditionGroups: [{ groupKey: 'enemy', name: '敌方命中', sortOrder: 0, conditions: [{
+      conditionKey: 'enemy_target', conditionType: 'SKILL_HIT_TARGET_IS_ENEMY', sortOrder: 0, detail: conditionDetail
+    }] }]
+  });
+
+  it('精确读取空对象，不要求数值比较字段', () => {
+    expect(parseSkillTriggerRuleDetail(response({})).conditionGroups[0].conditions[0]).toMatchObject({
+      conditionType: 'SKILL_HIT_TARGET_IS_ENEMY', detail: {}
+    });
+  });
+
+  it.each([undefined, null, [], true, 0, 'enemy', { enemy: true }, { targetKey: null }, { comparisonValue: null }])(
+    '拒绝缺失、非对象和额外字段 %j', (value) => {
+      expect(() => parseSkillTriggerRuleDetail(response(value))).toThrow(SkillTriggerRuleProtocolError);
+    }
+  );
+
+  it.each(['SKILL_USED', 'BASIC_ATTACK_HIT', 'SOURCE_INITIALIZED'])('拒绝不合法事件组合 %s', (eventType) => {
+    expect(() => parseSkillTriggerRuleDetail(response({}, eventType))).toThrow(SkillTriggerRuleProtocolError);
+  });
+});
+
+describe('首次目标接触事件值响应', () => {
+  const valueKey = 'SKILL_HIT_FIRST_CONTACT';
+  const conditionDetail = { eventValueKey: valueKey, comparator: 'EQ', comparisonValue: { kind: 'FIXED', value: 1 } };
+  const response = (condition: unknown = conditionDetail, binding: unknown = { eventValueKey: valueKey }) => ({
+    ...detail,
+    eventSource: { eventType: 'SKILL_HIT', detail: { sourceSkillKey: 'contact_skill' } },
+    conditionGroups: [{ groupKey: 'contact', name: '首次接触', sortOrder: 0, conditions: [{
+      conditionKey: 'first', conditionType: 'EVENT_VALUE_COMPARE', sortOrder: 0, detail: condition
+    }] }],
+    actions: [{ ...detail.actions[0], runtimeInputBindings: [{
+      bindingKey: 'contact', parameterKey: 'first_contact', sourceType: 'EVENT_VALUE', detail: binding
+    }] }]
+  });
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
+    vi.restoreAllMocks();
+  });
+
+  it('创建、更新与读取时保留条件和动态绑定', async () => {
+    const parsed = parseSkillTriggerRuleDetail(response());
+    const calls: unknown[] = [];
+    vi.stubGlobal('fetch', vi.fn(async (_input: RequestInfo | URL, init?: RequestInit) => {
+      calls.push(init?.body ? JSON.parse(String(init.body)) : null);
+      return jsonResponse(init?.method === 'POST' ? 201 : 200, parsed);
+    }));
+    const { ruleKey, ...update } = parsed;
+    const created = await createSkillTriggerRule('http://localhost:8080', 'demo', 'contact_skill', 'test-token', parsed);
+    const updated = await updateSkillTriggerRule('http://localhost:8080', 'demo', 'contact_skill', ruleKey, 'test-token', update);
+    const loaded = await getSkillTriggerRule('http://localhost:8080', 'demo', 'contact_skill', ruleKey, 'test-token');
+    expect(calls).toEqual([parsed, update, null]);
+    for (const result of [created, updated, loaded]) {
+      expect(result.data.conditionGroups[0].conditions[0].detail).toEqual(conditionDetail);
+      expect(result.data.actions[0].runtimeInputBindings[0].detail).toEqual({ eventValueKey: valueKey });
+    }
+  });
+
+  it.each([undefined, null, 1, [valueKey], 'SKILL_HIT_FIRST', 'skill_hit_first_contact'])('双路径拒绝非法事件值 %j', (eventValueKey) => {
+    expect(() => parseSkillTriggerRuleDetail(response({ ...conditionDetail, eventValueKey }))).toThrow(SkillTriggerRuleProtocolError);
+    expect(() => parseSkillTriggerRuleDetail(response(conditionDetail, { eventValueKey }))).toThrow(SkillTriggerRuleProtocolError);
+  });
+
+  it('拒绝客户端自填实际值或缺省值，缺少比较取值时不补 0 或 1', () => {
+    for (const extra of [{ value: 1 }, { defaultValue: 0 }]) {
+      expect(() => parseSkillTriggerRuleDetail(response({ ...conditionDetail, ...extra }))).toThrow(SkillTriggerRuleProtocolError);
+      expect(() => parseSkillTriggerRuleDetail(response(conditionDetail, { eventValueKey: valueKey, ...extra }))).toThrow(SkillTriggerRuleProtocolError);
+    }
+    expect(() => parseSkillTriggerRuleDetail(response({ eventValueKey: valueKey, comparator: 'EQ' }))).toThrow(SkillTriggerRuleProtocolError);
+  });
 });
 
 describe('技能命中法术护盾事件值响应', () => {

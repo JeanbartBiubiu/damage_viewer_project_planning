@@ -75,6 +75,7 @@ import {
   SKILL_EFFECT_HEALING_MODIFIER_DIRECTION_LABELS,
   SKILL_EFFECT_LIFECYCLE_MOMENT_LABELS,
   SKILL_EFFECT_LIFECYCLE_OPERATION_LABELS,
+  LIFECYCLE_EXTENSION_HINT,
   SKILL_EFFECT_MODIFIER_OPERATION_LABELS,
   SKILL_EFFECT_LIFECYCLE_OPERATIONS,
   SKILL_EFFECT_NORMAL_SHIELD_DECAY_MODE_LABELS,
@@ -129,6 +130,9 @@ import {
   usesAffectedSkillScope,
   validateSkillEffectDraft,
   valueFormulaLabelFor,
+  isMovementSlowApply,
+  applyStatusSelection,
+  resolveResultStatusKind,
   type CatalogRefOption,
   type EffectCatalogLoadState,
   type EffectFormCatalog,
@@ -366,7 +370,9 @@ export function SkillEffectResultEditorModal({
   const existingResult = draft.originalResultType !== null;
   const showValueRule = isValueRuleVisible(draft);
   const cooldownHint = cooldownChangeAmountHint(draft);
-  const valueFormulaLabel = valueFormulaLabelFor(draft.resultType);
+  const ratioCooldown = draft.resultType === 'COOLDOWN_CHANGE' && draft.cooldownOperation === 'REDUCE_REMAINING_RATIO';
+  const slowApply = isMovementSlowApply(draft);
+  const valueFormulaLabel = draft.resultType === 'STATUS_OPERATION' ? '减速比例' : valueFormulaLabelFor(draft.resultType);
 
   const resetCatalogs = useCallback(() => {
     damageTypeSerial.current += 1;
@@ -622,6 +628,11 @@ export function SkillEffectResultEditorModal({
     visible
   ]);
 
+  useEffect(() => {
+    if (!visible || catalogLoadState.statuses !== 'ready') return;
+    setDraft((current) => resolveResultStatusKind(current, statuses));
+  }, [visible, resultDraft, draft.statusKey, draft.resultType, catalogLoadState.statuses, statuses]);
+
   const catalog = useMemo<EffectFormCatalog>(() => ({
     parentSkillKey: parentSkill.skillKey,
     parentEffectKey: parentDraft.effectKey.trim(),
@@ -846,30 +857,31 @@ export function SkillEffectResultEditorModal({
         || draft.resultType === 'NORMAL_SHIELD'
         || draft.resultType === 'DAMAGE_MODIFIER'
         || draft.resultType === 'DAMAGE_IMMUNITY')
-      && catalogLoading.damageTypes
+      && (catalogLoading.damageTypes || catalogLoadState.damageTypes === undefined)
     ) return true;
     if (
       (draft.resultType === 'ATTRIBUTE_CHANGE'
         || draft.resultType === 'RESOURCE_CHANGE'
         || draft.resultType === 'HEALTH_FLOOR'
         || draft.resultType === 'EXECUTE')
-      && catalogLoading.attributes
+      && (catalogLoading.attributes || catalogLoadState.attributes === undefined)
     ) {
       return true;
     }
-    if (isModifierZoneRequired(draft) && catalogLoading.modifierZones) return true;
-    if (usesAffectedSkillScope(draft.resultType) && catalogLoading.skills) return true;
+    if (isModifierZoneRequired(draft) && (catalogLoading.modifierZones || catalogLoadState.modifierZones === undefined)) return true;
+    if (usesAffectedSkillScope(draft.resultType) && (catalogLoading.skills || catalogLoadState.skills === undefined)) return true;
     if (
       usesAffectedSkillScope(draft.resultType)
       && draft.affectedSkillScope.mode === 'CATEGORIES'
-      && catalogLoading.skillCategories
+      && (catalogLoading.skillCategories || catalogLoadState.skillCategories === undefined)
     ) return true;
-    if (draft.resultType === 'STATUS_OPERATION' && catalogLoading.statuses) return true;
+    if (draft.resultType === 'STATUS_OPERATION' && (catalogLoading.statuses || catalogLoadState.statuses === undefined)) return true;
     if (draft.resultType === 'LIFECYCLE_OPERATION' && effectsLoadState !== 'ready' && effectsLoadState !== 'failed') {
       return effectsLoadState === undefined;
     }
     return false;
   }, [
+    catalogLoadState,
     catalogLoading.attributes,
     catalogLoading.damageTypes,
     catalogLoading.modifierZones,
@@ -1160,9 +1172,13 @@ export function SkillEffectResultEditorModal({
             }
           />
         ) : null}
-        {unknownBlocking ? <Alert type="error" content={INCOMPLETE_CATALOG_MESSAGE} /> : null}
-        {isPersistentOnlyResultType(draft.resultType) && !parentDraft.lifecycleEnabled ? (
+        {requiredCatalogLoading ? <Alert type="info" content="正在加载引用目录…" /> : null}
+        {unknownBlocking && !requiredCatalogLoading ? <Alert type="error" content={INCOMPLETE_CATALOG_MESSAGE} /> : null}
+        {(isPersistentOnlyResultType(draft.resultType) || slowApply) && !parentDraft.lifecycleEnabled ? (
           <Alert type="error" content="该结果需要先启用父效果生命周期。" />
+        ) : null}
+        {slowApply && parentDraft.lifecycleEnabled && !hasDuration ? (
+          <Alert type="error" content="普通移动减速需要父效果填写持续时间。请先在父效果中配置，再保存减速结果。" />
         ) : null}
         <Form layout="vertical">
           <Form.Item
@@ -1261,8 +1277,15 @@ export function SkillEffectResultEditorModal({
             />
           </Form.Item>
 
+          {draft.resultType === 'ATTACK_TIMER_RESET' ? (
+            <Alert type="info" content="将作用对象普通攻击间隔的剩余等待归零；不会直接发起攻击，也不改变技能冷却。" />
+          ) : null}
           {showValueRule ? (
             <>
+              {ratioCooldown && cooldownHint ? <Alert type="info" content={cooldownHint} /> : null}
+              {draft.resultType === 'LIFECYCLE_OPERATION' && draft.lifecycleOperation === 'EXTEND_DURATION'
+                ? <Alert type="info" content={LIFECYCLE_EXTENSION_HINT} /> : null}
+              {slowApply ? <Alert type="info" content="0.3 表示 30% 减速；百分数点参数使用固定倍率 0.01。上下界固定为 0 和 1。" /> : null}
               {draft.resultType === 'EXECUTE' ? (
                 <Alert type="info" content={EXECUTE_RESULT_HINT} />
               ) : null}
@@ -1284,7 +1307,7 @@ export function SkillEffectResultEditorModal({
                   disabled={readOnly} />
               </Form.Item>
               <Form.Item
-                label={cooldownHint ? `固定倍率（${cooldownHint}）` : '固定倍率'}
+                label={cooldownHint && !ratioCooldown ? `固定倍率（${cooldownHint}）` : '固定倍率'}
                 required
                 validateStatus={errors.fixedMultiplier ? 'error' : undefined}
                 help={errors.fixedMultiplier}
@@ -1309,7 +1332,7 @@ export function SkillEffectResultEditorModal({
                 <InputNumber
                   aria-label="固定最小值"
                   value={draft.fixedMinValue.trim() ? Number(draft.fixedMinValue) : undefined}
-                  disabled={readOnly}
+                  disabled={readOnly || slowApply}
                   style={{ width: '100%' }}
                   onChange={(value) => patchDraft({
                     ...draft,
@@ -1325,7 +1348,7 @@ export function SkillEffectResultEditorModal({
                 <InputNumber
                   aria-label="固定最大值"
                   value={draft.fixedMaxValue.trim() ? Number(draft.fixedMaxValue) : undefined}
-                  disabled={readOnly}
+                  disabled={readOnly || slowApply}
                   style={{ width: '100%' }}
                   onChange={(value) => patchDraft({
                     ...draft,
@@ -1675,6 +1698,24 @@ export function SkillEffectResultEditorModal({
             </>
           ) : null}
 
+          {draft.resultType === 'SHIELD_RECEIVED_MODIFIER' ? (
+            <>
+              <Alert type="info" content="修正作用对象本次收到的普通护盾量；不创建护盾，不改变既有剩余量或法术护盾次数。" />
+              {renderModifierZoneField()}
+              <Form.Item label="修正方式" required
+                validateStatus={errors.modifierOperation ? 'error' : undefined}
+                help={errors.modifierOperation}>
+                <Radio.Group aria-label="收到护盾修正方式" value={draft.modifierOperation}
+                  disabled={readOnly}
+                  onChange={(value) => patchDraft({ ...draft, modifierOperation: value as SkillEffectModifierOperation })}>
+                  {Object.entries(SKILL_EFFECT_MODIFIER_OPERATION_LABELS).map(([value, label]) => (
+                    <Radio key={value} value={value}>{label}</Radio>
+                  ))}
+                </Radio.Group>
+              </Form.Item>
+            </>
+          ) : null}
+
           {draft.resultType === 'HEALING_MODIFIER' ? (
             <>
               {renderModifierZoneField()}
@@ -1957,7 +1998,12 @@ export function SkillEffectResultEditorModal({
                   disabled={readOnly}
                   options={toSelectOptions(statusOptions, statusNames)}
                   placeholder="请选择状态"
-                  onChange={(value) => patchDraft({ ...draft, statusKey: String(value ?? '') })}
+                  onChange={(value) => {
+                    const key = String(value ?? '');
+                    patchDraftWithSpellShieldCleanup(applyStatusSelection(
+                      draft, key, statuses.find((item) => item.statusKey === key)?.statusKind ?? null
+                    ));
+                  }}
                 />
               </Form.Item>
               <Form.Item
@@ -1970,10 +2016,9 @@ export function SkillEffectResultEditorModal({
                   aria-label="状态操作"
                   value={draft.statusOperation}
                   disabled={readOnly}
-                  onChange={(value) => patchDraftWithSpellShieldCleanup({
-                    ...draft,
-                    statusOperation: value as StatusOperation
-                  })}
+                  onChange={(value) => patchDraftWithSpellShieldCleanup(applyStatusSelection(
+                    draft, draft.statusKey, draft.statusKind, value as StatusOperation
+                  ))}
                 >
                   {Object.entries(STATUS_OPERATION_LABELS).map(([value, label]) => (
                     <Radio key={value} value={value}>{label}</Radio>
@@ -2020,7 +2065,7 @@ export function SkillEffectResultEditorModal({
                 <Select
                   aria-label="生命周期时点"
                   value={draft.lifecycleBehavior.moment || undefined}
-                  disabled={readOnly || isPersistentOnlyResultType(draft.resultType)}
+                  disabled={readOnly || slowApply || isPersistentOnlyResultType(draft.resultType)}
                   options={allowedMoments.map((value) => ({
                     value,
                     label: SKILL_EFFECT_LIFECYCLE_MOMENT_LABELS[value]
@@ -2070,7 +2115,7 @@ export function SkillEffectResultEditorModal({
                   <Radio.Group
                     aria-label="层数值方式"
                     value={draft.lifecycleBehavior.stackValueMode}
-                    disabled={readOnly || isSharedOnlyPersistentResult(draft) || isFixedPersistentSnapshotResult(draft)}
+                    disabled={readOnly || slowApply || isSharedOnlyPersistentResult(draft) || isFixedPersistentSnapshotResult(draft)}
                     onChange={(value) => patchDraft(
                       applyStackValueModeChange(draft, value as SkillEffectStackValueMode)
                     )}
@@ -2103,7 +2148,7 @@ export function SkillEffectResultEditorModal({
                   <Radio.Group
                     aria-label="重复值方式"
                     value={draft.lifecycleBehavior.reapplicationValueMode}
-                    disabled={readOnly || isFixedPersistentSnapshotResult(draft)}
+                    disabled={readOnly || slowApply || isFixedPersistentSnapshotResult(draft)}
                     onChange={(value) => patchDraft({
                       ...draft,
                       lifecycleBehavior: {
@@ -2116,6 +2161,7 @@ export function SkillEffectResultEditorModal({
                       .filter(([value]) => !(
                         (isSharedOnlyPersistentResult(draft) && value === 'ADD')
                         || (isFixedPersistentSnapshotResult(draft) && value !== 'KEEP')
+                        || (slowApply && value !== 'REPLACE')
                       ))
                       .map(([value, label]) => (
                         <Radio key={value} value={value}>{label}</Radio>

@@ -10,7 +10,7 @@ import {
   Table
 } from '@arco-design/web-react';
 import type { TableColumnProps } from '@arco-design/web-react';
-import { useEffect, useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 import type { Attribute } from '../../../../types/attribute';
 import type { SkillEffect, SkillEffectSummary } from '../../../../types/skillEffect';
 import type { SkillInternalState } from '../../../../types/skillInternalState';
@@ -36,7 +36,8 @@ import {
   bindingSummary,
   createEmptyActionDraft,
   evaluateBindingCompleteness,
-  hasNumericValueRule,
+  canModifyResultValue,
+  resultModifierTargetError,
   switchActionType,
   targetContextOptionsForEvent,
   validateResultModifier,
@@ -124,10 +125,10 @@ export function SkillTriggerActionEditorModal({
     : null;
   const completeness = evaluateBindingCompleteness(reachableParameters, current.runtimeInputBindings);
   const numericResults = selectedEffect
-    ? selectedEffect.results.filter(hasNumericValueRule)
+    ? selectedEffect.results.filter(canModifyResultValue)
     : [];
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!visible) return;
     setCurrent(draft ?? createEmptyActionDraft(existingKeys));
     setBindingEditor(null);
@@ -164,6 +165,11 @@ export function SkillTriggerActionEditorModal({
   const confirm = () => {
     if (current.actionType === 'EXECUTE_EFFECT') {
       for (const modifier of current.resultModifiers) {
+        const targetError = resultModifierTargetError(selectedEffect, modifier.resultKey);
+        if (targetError) {
+          setLocalError(targetError);
+          return;
+        }
         const error = validateResultModifier(modifier);
         if (error) {
           setLocalError(error);
@@ -172,6 +178,19 @@ export function SkillTriggerActionEditorModal({
       }
     }
     onConfirm(current);
+  };
+
+  const retrySelectedEffect = async () => {
+    if (current.actionType !== 'EXECUTE_EFFECT' || !onEnsureEffect) return;
+    setResolvingTarget(true);
+    try {
+      const loaded = await onEnsureEffect(current.detail.effectKey);
+      setLocalError(loaded ? null : '效果详情加载失败，请重试。');
+    } catch {
+      setLocalError('效果详情加载失败，请重试。');
+    } finally {
+      setResolvingTarget(false);
+    }
   };
 
   const bindingColumns: TableColumnProps[] = [
@@ -224,7 +243,11 @@ export function SkillTriggerActionEditorModal({
         }
       >
         <Space direction="vertical" size="medium" style={{ width: '100%' }}>
-          {localError ? <Alert type="error" content={localError} /> : null}
+          {localError ? <Alert type="error" content={localError}
+            action={current.actionType === 'EXECUTE_EFFECT' && !selectedEffect && onEnsureEffect
+              ? <Button size="mini" loading={resolvingTarget} disabled={disabled}
+                  onClick={() => void retrySelectedEffect()}>重试效果详情</Button>
+              : undefined} /> : null}
           <Alert type="info" content={actionSummary(current)} />
           <Form layout="vertical">
             <Form.Item label="动作种类" required>

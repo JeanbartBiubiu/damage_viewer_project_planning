@@ -1,12 +1,13 @@
 export type ModifierZoneStatus = 'ENABLED' | 'DISABLED';
-export type ModifierZoneDomain = 'ATTRIBUTE' | 'DAMAGE' | 'HEALING';
+export type ModifierZoneDomain = 'ATTRIBUTE' | 'DAMAGE' | 'HEALING' | 'SHIELD';
 export type ModifierZoneCalculationMode = 'FLAT_ADD' | 'RATIO_ADD';
 export type ModifierZoneApplicationStage =
   | 'ATTRIBUTE_FLAT'
   | 'ATTRIBUTE_PERCENT'
   | 'DAMAGE_PRE_DEFENSE'
   | 'DAMAGE_POST_DEFENSE'
-  | 'HEALING_RESULT';
+  | 'HEALING_RESULT'
+  | 'SHIELD_RESULT';
 
 export type ModifierZone = {
   gameId: string;

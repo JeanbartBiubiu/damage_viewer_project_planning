@@ -1,5 +1,7 @@
 import type { SkillParameter } from '../../../../types/skillParameter';
-import { numericIssuePath, numericValueError } from '../numericValueForm';
+import { numericIssuePath, numericValueError, staticNumericValues } from '../numericValueForm';
+import { isValidCooldownReductionRatio } from '../../../../types/cooldownRatio';
+import { isValidLifecycleExtensionDuration } from '../../../../types/lifecycleExtension';
 import { numericFormulaKey } from '../../../../types/numericValue';
 import { type NumericValue } from '../../../../types/numericValue';
 import { ApiRequestError } from '../../../../services/apiClient';
@@ -60,7 +62,7 @@ import type {
   StatusOperation,
   UpdateSkillEffectRequest
 } from '../../../../types/skillEffect';
-import type { GameStatus } from '../../../../types/status';
+import { isStatusKind, type StatusKind, type GameStatus } from '../../../../types/status';
 
 export const SKILL_EFFECT_KEY_PATTERN = /^[a-z][a-z0-9_]{0,63}$/;
 
@@ -75,6 +77,8 @@ export const SKILL_EFFECT_RESULT_TYPES = [
   'LIFECYCLE_OPERATION',
   'DAMAGE_MODIFIER',
   'HEALING_MODIFIER',
+  'SHIELD_RECEIVED_MODIFIER',
+  'ATTACK_TIMER_RESET',
   'DAMAGE_IMMUNITY',
   'HEALTH_FLOOR',
   'SPELL_SHIELD',
@@ -95,6 +99,8 @@ export const SKILL_EFFECT_RESULT_TYPE_LABELS = {
   LIFECYCLE_OPERATION: '生命周期操作',
   DAMAGE_MODIFIER: '伤害修正',
   HEALING_MODIFIER: '治疗修正',
+  SHIELD_RECEIVED_MODIFIER: '收到护盾修正',
+  ATTACK_TIMER_RESET: '普攻计时重置',
   DAMAGE_IMMUNITY: '伤害免疫',
   HEALTH_FLOOR: '生命下限',
   SPELL_SHIELD: '法术护盾',
@@ -105,7 +111,7 @@ export const SKILL_EFFECT_RESULT_TYPE_LABELS = {
 } as const satisfies { [K in SkillEffectResultType]: string };
 
 export function valueFormulaLabelFor(resultType: SkillEffectResultType): string {
-  if (resultType === 'DAMAGE_MODIFIER' || resultType === 'HEALING_MODIFIER') {
+  if (resultType === 'DAMAGE_MODIFIER' || resultType === 'HEALING_MODIFIER' || resultType === 'SHIELD_RECEIVED_MODIFIER') {
     return '修正比例公式';
   }
   if (resultType === 'HEALTH_FLOOR') return '生命下限公式';
@@ -225,7 +231,8 @@ export const RESOURCE_CHANGE_OPERATION_LABELS = {
 export const COOLDOWN_CHANGE_OPERATION_LABELS = {
   REDUCE: '减少',
   INCREASE: '增加',
-  RESET: '重置为可用'
+  RESET: '重置为可用',
+  REDUCE_REMAINING_RATIO: '按比例减少剩余冷却'
 } as const satisfies { [K in CooldownChangeOperation]: string };
 
 export const SKILL_HASTE_MODIFIER_OPERATION_LABELS = {
@@ -312,15 +319,19 @@ export const SKILL_EFFECT_PERIODIC_EXECUTION_MODE_LABELS = {
 } as const satisfies { [K in SkillEffectPeriodicExecutionMode]: string };
 
 export const SKILL_EFFECT_LIFECYCLE_OPERATION_LABELS = {
-  INCREASE: '增加',
-  DECREASE: '减少',
-  SET: '覆盖',
-  REFRESH: '刷新',
-  CONSUME: '消耗',
-  REMOVE: '移除'
+  INCREASE: '增加层数',
+  DECREASE: '减少层数',
+  SET: '覆盖层数',
+  REFRESH: '刷新完整时长',
+  EXTEND_DURATION: '延长剩余时长',
+  CONSUME: '消耗层数',
+  REMOVE: '移除实例'
 } as const satisfies { [K in SkillEffectLifecycleOperation]: string };
 
+export const LIFECYCLE_EXTENSION_HINT = '增加量按毫秒填写，只延长仍有效且全部层统一到期的目标实例；不刷新完整时长，不改变层数或周期。目标期限与到期方式在保存时核对。';
+
 export const COOLDOWN_CHANGE_AMOUNT_HINT = '变化量按毫秒解释';
+export const COOLDOWN_REMAINING_RATIO_HINT = '每个受影响技能按自己的当前剩余冷却减少。有效比例为 0 到 1，70% 填 0.7；不按总冷却计算。切换毫秒与比例操作会清除原数值。';
 export const DISABLED_CATALOG_LABEL = '已停用';
 export const DISABLED_PARENT_SKILL_LABEL = '当前技能（已停用）';
 export const INCOMPLETE_CATALOG_MESSAGE = '目录不完整，无法保存未知引用。';
@@ -334,6 +345,7 @@ export const SKILL_EFFECT_LIFECYCLE_OPERATIONS = [
   'DECREASE',
   'SET',
   'REFRESH',
+  'EXTEND_DURATION',
   'CONSUME',
   'REMOVE'
 ] as const satisfies readonly SkillEffectLifecycleOperation[];
@@ -404,6 +416,7 @@ export type SkillEffectResultDraft = {
   cooldownOperation: CooldownChangeOperation | '';
   skillHasteOperation: SkillEffectModifierOperation | '';
   statusKey: string;
+  statusKind: StatusKind | null;
   statusOperation: StatusOperation | '';
   targetEffectKey: string;
   lifecycleOperation: SkillEffectLifecycleOperation | '';
@@ -549,7 +562,7 @@ export type EffectFormCatalog = {
   attributes: ReadonlyArray<Pick<Attribute, 'attributeKey' | 'status'>>;
   skills: ReadonlyArray<Pick<Skill, 'skillKey' | 'status'>>;
   skillCategories: ReadonlyArray<Pick<SkillCategory, 'skillCategoryKey' | 'status'>>;
-  statuses: ReadonlyArray<Pick<GameStatus, 'statusKey' | 'status'>>;
+  statuses: ReadonlyArray<Pick<GameStatus, 'statusKey' | 'status' | 'statusKind'>>;
   modifierZones?: ReadonlyArray<Pick<ModifierZone, 'modifierZoneKey' | 'domain' | 'status'>>;
 };
 
@@ -732,7 +745,7 @@ export function createEmptyResultDraft(
     absorbedDamageTypeKey: '',
     shieldDecayMode: resultType === 'NORMAL_SHIELD' ? 'NONE' : '',
     modifierDirection: resultType === 'DAMAGE_MODIFIER' ? 'TAKEN' : '',
-    modifierOperation:
+    modifierOperation: resultType === 'SHIELD_RECEIVED_MODIFIER' ? 'INCREASE' :
       resultType === 'DAMAGE_MODIFIER' || resultType === 'HEALING_MODIFIER'
         ? 'DECREASE'
         : '',
@@ -751,6 +764,7 @@ export function createEmptyResultDraft(
     cooldownOperation: defaultCooldownOperation(resultType),
     skillHasteOperation: defaultSkillHasteOperation(resultType),
     statusKey: '',
+    statusKind: null,
     statusOperation: resultType === 'STATUS_OPERATION' ? 'APPLY' : '',
     targetEffectKey: '',
     lifecycleOperation: defaultLifecycleOperation(resultType),
@@ -881,6 +895,11 @@ export function skillEffectResultToDraft(result: SkillEffectResult): SkillEffect
       draft.originalDamageTypeKey = result.detail.damageTypeKey;
       draft.originalModifierZoneKey = result.detail.modifierZoneKey;
       break;
+    case 'SHIELD_RECEIVED_MODIFIER':
+      draft.modifierZoneKey = result.detail.modifierZoneKey;
+      draft.modifierOperation = result.detail.operation;
+      draft.originalModifierZoneKey = result.detail.modifierZoneKey;
+      break;
     case 'HEALING_MODIFIER':
       draft.modifierZoneKey = result.detail.modifierZoneKey;
       draft.healingModifierDirection = result.detail.direction;
@@ -904,6 +923,7 @@ export function skillEffectResultToDraft(result: SkillEffectResult): SkillEffect
       break;
     case 'DIRECT_HEAL':
     case 'SPELL_SHIELD':
+    case 'ATTACK_TIMER_RESET':
     case 'HIT_LINK_APPLICATION':
     case 'ATTACK_LINK_APPLICATION':
       break;
@@ -918,10 +938,12 @@ export function skillEffectResultToDraft(result: SkillEffectResult): SkillEffect
 export function requiresValueRule(
   resultType: SkillEffectResultType,
   cooldownOperation: CooldownChangeOperation | '' = '',
-  lifecycleOperation: SkillEffectLifecycleOperation | '' = ''
+  lifecycleOperation: SkillEffectLifecycleOperation | '' = '',
+  statusKind: StatusKind | null = null,
+  statusOperation: StatusOperation | '' = ''
 ): boolean {
   if (resultType === 'STATUS_OPERATION') {
-    return false;
+    return statusKind === 'MOVEMENT_SLOW' && statusOperation === 'APPLY';
   }
   if (resultType === 'DAMAGE_IMMUNITY') {
     return false;
@@ -930,12 +952,13 @@ export function requiresValueRule(
     return false;
   }
   if (resultType === 'COOLDOWN_CHANGE') {
-    return cooldownOperation === 'REDUCE' || cooldownOperation === 'INCREASE';
+    return cooldownOperation === 'REDUCE' || cooldownOperation === 'INCREASE' || cooldownOperation === 'REDUCE_REMAINING_RATIO';
   }
   if (resultType === 'LIFECYCLE_OPERATION') {
     return lifecycleOperation === 'INCREASE'
       || lifecycleOperation === 'DECREASE'
       || lifecycleOperation === 'SET'
+      || lifecycleOperation === 'EXTEND_DURATION'
       || lifecycleOperation === 'CONSUME';
   }
   return (
@@ -946,6 +969,7 @@ export function requiresValueRule(
     || resultType === 'RESOURCE_CHANGE'
     || resultType === 'DAMAGE_MODIFIER'
     || resultType === 'HEALING_MODIFIER'
+    || resultType === 'SHIELD_RECEIVED_MODIFIER'
     || resultType === 'HEALTH_FLOOR'
     || resultType === 'EXECUTE'
     || resultType === 'HIT_LINK_APPLICATION'
@@ -955,10 +979,50 @@ export function requiresValueRule(
 }
 
 export function isValueRuleVisible(draft: SkillEffectResultDraft): boolean {
-  return requiresValueRule(draft.resultType, draft.cooldownOperation, draft.lifecycleOperation);
+  return draftRequiresValueRule(draft);
+}
+
+export function isMovementSlowApply(draft: SkillEffectResultDraft): boolean {
+  return draft.resultType === 'STATUS_OPERATION' && draft.statusKind === 'MOVEMENT_SLOW'
+    && draft.statusOperation === 'APPLY';
+}
+
+function draftRequiresValueRule(draft: SkillEffectResultDraft): boolean {
+  // 目录尚未确认种类时，保留响应里已读的数值，不猜测状态身份。
+  return requiresValueRule(draft.resultType, draft.cooldownOperation, draft.lifecycleOperation, draft.statusKind, draft.statusOperation)
+    || (draft.resultType === 'STATUS_OPERATION' && draft.statusOperation === 'APPLY'
+      && draft.statusKey.trim() !== '' && draft.statusKind === null && draft.value !== null);
+}
+
+export function applyStatusSelection(
+  draft: SkillEffectResultDraft, statusKey: string, statusKind: StatusKind | null,
+  operation: StatusOperation | '' = draft.statusOperation
+): SkillEffectResultDraft {
+  const next = { ...draft, statusKey, statusKind, statusOperation: operation };
+  if (isMovementSlowApply(next) && !isMovementSlowApply(draft)) {
+    next.fixedMultiplier ||= '1';
+    next.fixedMinValue = '0';
+    next.fixedMaxValue = '1';
+    next.spellShieldBlockScope = next.target === 'TARGET' && next.spellShieldBlockScope === 'RESULT' ? 'RESULT' : '';
+    next.lifecycleBehavior = { moment: 'PERSISTENT', valueReadMode: 'APPLICATION_SNAPSHOT',
+      stackValueMode: 'SHARED', reapplicationValueMode: 'REPLACE', periodicExecutionMode: '' };
+  }
+  return clearHiddenResultFields(next);
+}
+
+export function resolveResultStatusKind(
+  draft: SkillEffectResultDraft, statuses: EffectFormCatalog['statuses']
+): SkillEffectResultDraft {
+  if (draft.resultType !== 'STATUS_OPERATION') return draft;
+  const kind = statuses.find((item) => item.statusKey === draft.statusKey)?.statusKind;
+  const statusKind = isStatusKind(kind) ? kind : null;
+  return draft.statusKind === statusKind ? draft : { ...draft, statusKind };
 }
 
 export function cooldownChangeAmountHint(draft: SkillEffectResultDraft): string | null {
+  if (draft.resultType === 'COOLDOWN_CHANGE' && draft.cooldownOperation === 'REDUCE_REMAINING_RATIO') {
+    return COOLDOWN_REMAINING_RATIO_HINT;
+  }
   if (
     draft.resultType === 'COOLDOWN_CHANGE'
     && (draft.cooldownOperation === 'REDUCE' || draft.cooldownOperation === 'INCREASE')
@@ -975,7 +1039,9 @@ export function applyResultTypeChange(
   const nextCooldown = defaultCooldownOperation(nextType);
   const nextLifecycleOperation = defaultLifecycleOperation(nextType);
   const nextNeeds = requiresValueRule(nextType, nextCooldown, nextLifecycleOperation);
-  const prevNeeds = requiresValueRule(draft.resultType, draft.cooldownOperation, draft.lifecycleOperation);
+  const prevNeeds = draftRequiresValueRule(draft)
+    && !(draft.resultType === 'COOLDOWN_CHANGE' && draft.cooldownOperation === 'REDUCE_REMAINING_RATIO')
+    && !(draft.resultType === 'LIFECYCLE_OPERATION' && draft.lifecycleOperation === 'EXTEND_DURATION');
   const persistentWithoutValueModes = nextType === 'DAMAGE_IMMUNITY' || nextType === 'SPELL_SHIELD';
   const lifecycleBehavior = isPersistentOnlyResultType(nextType)
     ? {
@@ -1003,10 +1069,11 @@ export function applyResultTypeChange(
     absorbedDamageTypeKey: '',
     shieldDecayMode: nextType === 'NORMAL_SHIELD' ? 'NONE' : '',
     modifierDirection: nextType === 'DAMAGE_MODIFIER' ? 'TAKEN' : '',
-    modifierOperation:
+    modifierOperation: nextType === 'SHIELD_RECEIVED_MODIFIER' ? 'INCREASE' :
       nextType === 'DAMAGE_MODIFIER' || nextType === 'HEALING_MODIFIER'
         ? 'DECREASE'
         : '',
+    modifierZoneKey: '',
     damageFilterDeliveryKind:
       nextType === 'DAMAGE_MODIFIER' || nextType === 'DAMAGE_IMMUNITY' ? 'ANY' : '',
     damageFilterOriginKind:
@@ -1021,6 +1088,7 @@ export function applyResultTypeChange(
     cooldownOperation: nextCooldown,
     skillHasteOperation: defaultSkillHasteOperation(nextType),
     statusKey: '',
+    statusKind: null,
     statusOperation: nextType === 'STATUS_OPERATION' ? 'APPLY' : '',
     targetEffectKey: '',
     lifecycleOperation: nextLifecycleOperation,
@@ -1058,7 +1126,8 @@ export function applyCooldownOperationChange(
   nextOperation: CooldownChangeOperation
 ): SkillEffectResultDraft {
   const nextNeeds = requiresValueRule('COOLDOWN_CHANGE', nextOperation);
-  const prevNeeds = requiresValueRule(draft.resultType, draft.cooldownOperation, draft.lifecycleOperation);
+  const sameUnit = (draft.cooldownOperation === 'REDUCE_REMAINING_RATIO') === (nextOperation === 'REDUCE_REMAINING_RATIO');
+  const prevNeeds = draftRequiresValueRule(draft) && sameUnit;
   return clearHiddenResultFields({
     ...draft,
     resultType: 'COOLDOWN_CHANGE',
@@ -1075,7 +1144,8 @@ export function applyLifecycleOperationChange(
   nextOperation: SkillEffectLifecycleOperation
 ): SkillEffectResultDraft {
   const nextNeeds = requiresValueRule('LIFECYCLE_OPERATION', '', nextOperation);
-  const prevNeeds = requiresValueRule(draft.resultType, draft.cooldownOperation, draft.lifecycleOperation);
+  const sameUnit = (draft.lifecycleOperation === 'EXTEND_DURATION') === (nextOperation === 'EXTEND_DURATION');
+  const prevNeeds = draftRequiresValueRule(draft) && sameUnit;
   return clearHiddenResultFields({
     ...draft,
     resultType: 'LIFECYCLE_OPERATION',
@@ -1114,7 +1184,7 @@ export function applyStackValueModeChange(
 }
 
 export function clearHiddenResultFields(draft: SkillEffectResultDraft): SkillEffectResultDraft {
-  const needsValue = requiresValueRule(draft.resultType, draft.cooldownOperation, draft.lifecycleOperation);
+  const needsValue = draftRequiresValueRule(draft);
   return clearHiddenLifecycleBehaviorFields({
     ...draft,
     value: needsValue ? draft.value : null,
@@ -1146,7 +1216,8 @@ export function clearHiddenResultFields(draft: SkillEffectResultDraft): SkillEff
       draft.resultType === 'NORMAL_SHIELD' ? draft.shieldDecayMode || 'NONE' : '',
     modifierDirection:
       draft.resultType === 'DAMAGE_MODIFIER' ? draft.modifierDirection || 'TAKEN' : '',
-    modifierOperation:
+    modifierOperation: draft.resultType === 'SHIELD_RECEIVED_MODIFIER'
+      ? draft.modifierOperation || 'INCREASE' :
       draft.resultType === 'DAMAGE_MODIFIER' || draft.resultType === 'HEALING_MODIFIER'
         ? draft.modifierOperation || 'DECREASE'
         : '',
@@ -1183,6 +1254,7 @@ export function clearHiddenResultFields(draft: SkillEffectResultDraft): SkillEff
     skillHasteOperation:
       draft.resultType === 'SKILL_HASTE_MODIFIER' ? draft.skillHasteOperation || 'INCREASE' : '',
     statusKey: draft.resultType === 'STATUS_OPERATION' ? draft.statusKey : '',
+    statusKind: draft.resultType === 'STATUS_OPERATION' ? draft.statusKind : null,
     statusOperation: draft.resultType === 'STATUS_OPERATION' ? draft.statusOperation || 'APPLY' : '',
     targetEffectKey: draft.resultType === 'LIFECYCLE_OPERATION' ? draft.targetEffectKey : '',
     lifecycleOperation:
@@ -1198,7 +1270,12 @@ export function clearHiddenLifecycleBehaviorFields(
 ): SkillEffectResultDraft {
   const behavior = draft.lifecycleBehavior ?? createEmptyLifecycleBehaviorDraft();
   const moment = isPersistentOnlyResultType(draft.resultType) ? 'PERSISTENT' : behavior.moment;
-  const needsValue = requiresValueRule(draft.resultType, draft.cooldownOperation, draft.lifecycleOperation);
+  const needsValue = draftRequiresValueRule(draft);
+  // 保留已读行为交给校验，避免把未知状态或非法减速数据静默修复。
+  if (isMovementSlowApply(draft) || (draft.resultType === 'STATUS_OPERATION' && draft.statusKind === null && needsValue)) {
+    return { ...draft, modifierZoneKey: '',
+      spellShieldBlockScope: draft.target === 'TARGET' ? draft.spellShieldBlockScope : '' };
+  }
   const momentEvaluationAllowed = moment === 'PERSISTENT' && supportsMomentEvaluation(draft);
   const snapshotOnly = moment === 'APPLICATION' || (moment === 'PERSISTENT' && !momentEvaluationAllowed);
   const showValueRead = needsValue && moment !== '';
@@ -1217,6 +1294,7 @@ export function clearHiddenLifecycleBehaviorFields(
     && valueReadMode !== 'MOMENT_EVALUATION';
   const keepModifierZone = draft.resultType === 'DAMAGE_MODIFIER'
     || draft.resultType === 'HEALING_MODIFIER'
+    || draft.resultType === 'SHIELD_RECEIVED_MODIFIER'
     || (
       draft.resultType === 'ATTRIBUTE_CHANGE'
       && moment === 'PERSISTENT'
@@ -1400,10 +1478,12 @@ export function isPersistentMomentAllowed(draft: SkillEffectResultDraft): boolea
 }
 
 export function isPersistentNumericResult(draft: SkillEffectResultDraft): boolean {
-  return draft.resultType === 'NORMAL_SHIELD'
+  return (draft.resultType === 'STATUS_OPERATION' && draftRequiresValueRule(draft))
+    || draft.resultType === 'NORMAL_SHIELD'
     || draft.resultType === 'ATTRIBUTE_CHANGE'
     || draft.resultType === 'DAMAGE_MODIFIER'
     || draft.resultType === 'HEALING_MODIFIER'
+    || draft.resultType === 'SHIELD_RECEIVED_MODIFIER'
     || draft.resultType === 'HEALTH_FLOOR'
     || draft.resultType === 'SKILL_HASTE_MODIFIER';
 }
@@ -1411,6 +1491,7 @@ export function isPersistentNumericResult(draft: SkillEffectResultDraft): boolea
 export function isPersistentOnlyResultType(resultType: SkillEffectResultType): boolean {
   return resultType === 'DAMAGE_MODIFIER'
     || resultType === 'HEALING_MODIFIER'
+    || resultType === 'SHIELD_RECEIVED_MODIFIER'
     || resultType === 'DAMAGE_IMMUNITY'
     || resultType === 'HEALTH_FLOOR'
     || resultType === 'SPELL_SHIELD'
@@ -1514,6 +1595,7 @@ export function isReapplicationValueModeVisible(draft: SkillEffectResultDraft): 
 export function supportsMomentEvaluation(draft: SkillEffectResultDraft): boolean {
   return draft.resultType === 'DAMAGE_MODIFIER'
     || draft.resultType === 'HEALING_MODIFIER'
+    || draft.resultType === 'SHIELD_RECEIVED_MODIFIER'
     || (
       draft.resultType === 'ATTRIBUTE_CHANGE'
       && draft.attributeOperation !== ''
@@ -1524,6 +1606,7 @@ export function supportsMomentEvaluation(draft: SkillEffectResultDraft): boolean
 export function modifierZoneDomainForDraft(draft: SkillEffectResultDraft): ModifierZoneDomain | null {
   if (draft.resultType === 'DAMAGE_MODIFIER') return 'DAMAGE';
   if (draft.resultType === 'HEALING_MODIFIER') return 'HEALING';
+  if (draft.resultType === 'SHIELD_RECEIVED_MODIFIER') return 'SHIELD';
   if (
     draft.resultType === 'ATTRIBUTE_CHANGE'
     && draft.lifecycleBehavior.moment === 'PERSISTENT'
@@ -1551,7 +1634,7 @@ export function listAllowedLifecycleMoments(
   draft: SkillEffectResultDraft,
   hasDuration: boolean
 ): SkillEffectLifecycleMoment[] {
-  if (isPersistentOnlyResultType(draft.resultType)) {
+  if (isPersistentOnlyResultType(draft.resultType) || isMovementSlowApply(draft)) {
     return ['PERSISTENT'];
   }
   const moments: SkillEffectLifecycleMoment[] = ['APPLICATION'];
@@ -1591,6 +1674,7 @@ export function normalizeEffectDraftForDirtyComparison(draft: SkillEffectDraft):
     ...draft,
     results: draft.results.map((result) => ({
       ...result,
+      statusKind: null,
       affectedSkillScope: usesAffectedSkillScope(result.resultType)
         ? {
             mode: result.affectedSkillScope.mode,
@@ -1773,7 +1857,10 @@ export function validateSkillEffectDraft(
 ): SkillEffectFormValidation {
   const prepared = clearHiddenLifecycleFields({
     ...draft,
-    results: draft.results.map((item) => clearHiddenResultFields(item))
+    results: draft.results.map((item) => clearHiddenResultFields(
+      options.catalogLoadState?.statuses === 'ready' && options.catalog
+        ? resolveResultStatusKind(item, options.catalog.statuses) : item
+    ))
   });
   const fieldErrors: SkillEffectDraftErrors = {};
   const resultErrors: SkillEffectResultIndexError[] = [];
@@ -1803,8 +1890,8 @@ export function validateSkillEffectDraft(
   const sortOrder = options.skipEffectMetadataValidation
     ? null
     : parseNonNegativeInteger(prepared.sortOrder, fieldErrors, 'sortOrder');
-  if (prepared.results.length === 0) {
-    fieldErrors.results = '至少需要一个结果。';
+  if (prepared.results.length === 0 && !prepared.lifecycleEnabled) {
+    fieldErrors.results = '未启用生命周期时至少需要一个结果。';
   }
 
   const hasPeriodic = hasPeriodicResults(prepared);
@@ -1819,7 +1906,7 @@ export function validateSkillEffectDraft(
 
   const seenKeys = new Map<string, number>();
   const builtResults: SkillEffectResultRequest[] = [];
-  let allResultsValid = prepared.results.length > 0;
+  let allResultsValid = true;
   const parentEffectKey = options.catalog?.parentEffectKey?.trim() || effectKey;
   const hasDuration = Boolean(prepared.lifecycle.durationValue);
 
@@ -2171,15 +2258,29 @@ function validateAndBuildResult(
   const sortOrder = parseNonNegativeInteger(draft.sortOrder, fieldErrors, 'sortOrder');
   const valueRule = validateValueRule(draft, fieldErrors);
   validateTypeSpecificFields(draft, options, fieldErrors, context);
-  const needsValueRule = requiresValueRule(draft.resultType, draft.cooldownOperation, draft.lifecycleOperation);
+  const needsValueRule = draftRequiresValueRule(draft);
   const lifecycleBehavior = validateAndBuildLifecycleBehavior(draft, fieldErrors, context, needsValueRule);
   if (needsValueRule && !fieldErrors.value) {
     const valueError = numericValueError(draft.value, { ...options.catalog, parameters: options.parameters }, {
-      integer: draft.resultType === 'LIFECYCLE_OPERATION',
+      integer: draft.resultType === 'LIFECYCLE_OPERATION' && draft.lifecycleOperation !== 'EXTEND_DURATION',
       allowRuntimeInput: draft.lifecycleBehavior.valueReadMode !== 'MOMENT_EVALUATION',
       parametersState: options.parametersLoadState, formulasState: options.catalogLoadState?.formulas
     });
     if (valueError) fieldErrors.value = valueError;
+  }
+  if (draft.resultType === 'COOLDOWN_CHANGE' && draft.cooldownOperation === 'REDUCE_REMAINING_RATIO'
+    && valueRule && !fieldErrors.value) {
+    const values = staticNumericValues(valueRule.value, options.parameters);
+    if (values?.some((value) => !isValidCooldownReductionRatio(value, valueRule))) {
+      fieldErrors.value = '有效冷却减少比例必须在 0 到 1 之间（70% 填 0.7）。';
+    }
+  }
+  if (draft.resultType === 'LIFECYCLE_OPERATION' && draft.lifecycleOperation === 'EXTEND_DURATION'
+    && valueRule && !fieldErrors.value) {
+    const values = staticNumericValues(valueRule.value, options.parameters);
+    if (values?.some((value) => !isValidLifecycleExtensionDuration(value, valueRule))) {
+      fieldErrors.value = '有效延长时长必须是非负整数毫秒。';
+    }
   }
 
   if (
@@ -2281,14 +2382,14 @@ function validateAndBuildResult(
         valueRule: valueRule!,
         detail: {
           affectedSkillScope: buildAffectedSkillScope(draft),
-          operation: draft.cooldownOperation as 'REDUCE' | 'INCREASE'
+          operation: draft.cooldownOperation as 'REDUCE' | 'INCREASE' | 'REDUCE_REMAINING_RATIO'
         }
       };
     case 'STATUS_OPERATION':
       return {
         ...base,
         resultType: 'STATUS_OPERATION',
-        valueRule: null,
+        valueRule,
         detail: {
           statusKey: draft.statusKey.trim(),
           operation: draft.statusOperation as StatusOperation
@@ -2315,7 +2416,7 @@ function validateAndBuildResult(
         valueRule: valueRule!,
         detail: {
           targetEffectKey: draft.targetEffectKey.trim(),
-          operation: draft.lifecycleOperation as 'INCREASE' | 'DECREASE' | 'SET' | 'CONSUME'
+          operation: draft.lifecycleOperation as 'INCREASE' | 'DECREASE' | 'SET' | 'CONSUME' | 'EXTEND_DURATION'
         }
       };
     case 'DAMAGE_MODIFIER':
@@ -2331,6 +2432,16 @@ function validateAndBuildResult(
           deliveryKind: draft.damageFilterDeliveryKind as SkillEffectDamageFilterDeliveryKind,
           originKind: draft.damageFilterOriginKind as SkillEffectDamageFilterOriginKind,
           criticalFilter: draft.criticalFilter as SkillEffectCriticalFilter
+        }
+      };
+    case 'SHIELD_RECEIVED_MODIFIER':
+      return {
+        ...base,
+        resultType: 'SHIELD_RECEIVED_MODIFIER',
+        valueRule: valueRule!,
+        detail: {
+          modifierZoneKey: draft.modifierZoneKey.trim(),
+          operation: draft.modifierOperation as SkillEffectModifierOperation
         }
       };
     case 'HEALING_MODIFIER':
@@ -2369,6 +2480,13 @@ function validateAndBuildResult(
       return {
         ...base,
         resultType: 'SPELL_SHIELD',
+        valueRule: null,
+        detail: {}
+      };
+    case 'ATTACK_TIMER_RESET':
+      return {
+        ...base,
+        resultType: 'ATTACK_TIMER_RESET',
         valueRule: null,
         detail: {}
       };
@@ -2416,7 +2534,7 @@ function validateValueRule(
   draft: SkillEffectResultDraft,
   fieldErrors: SkillEffectResultDraftErrors
 ): SkillEffectValueRule | null {
-  const needed = requiresValueRule(draft.resultType, draft.cooldownOperation, draft.lifecycleOperation);
+  const needed = draftRequiresValueRule(draft);
   const value = draft.value;
   const multiplierRaw = draft.fixedMultiplier.trim();
   const minRaw = draft.fixedMinValue.trim();
@@ -2439,7 +2557,9 @@ function validateValueRule(
     return null;
   }
 
-  const valueError = numericValueError(value, {}, { integer: draft.resultType === 'LIFECYCLE_OPERATION' });
+  const valueError = numericValueError(value, {}, {
+    integer: draft.resultType === 'LIFECYCLE_OPERATION' && draft.lifecycleOperation !== 'EXTEND_DURATION'
+  });
   if (valueError) fieldErrors.value = valueError;
 
   let fixedMultiplier: number | null = null;
@@ -2456,6 +2576,10 @@ function validateValueRule(
 
   const fixedMinValue = parseOptionalDecimal(minRaw, fieldErrors, 'fixedMinValue', '固定最小值');
   const fixedMaxValue = parseOptionalDecimal(maxRaw, fieldErrors, 'fixedMaxValue', '固定最大值');
+  if (isMovementSlowApply(draft)) {
+    if (fixedMinValue !== 0) fieldErrors.fixedMinValue = '减速比例的固定最小值必须为 0。';
+    if (fixedMaxValue !== 1) fieldErrors.fixedMaxValue = '减速比例的固定最大值必须为 1。';
+  }
   if (
     fixedMinValue !== null
     && fixedMaxValue !== null
@@ -2623,10 +2747,11 @@ function validateTypeSpecificFields(
         draft.cooldownOperation !== 'REDUCE'
         && draft.cooldownOperation !== 'INCREASE'
         && draft.cooldownOperation !== 'RESET'
+        && draft.cooldownOperation !== 'REDUCE_REMAINING_RATIO'
       ) {
         fieldErrors.cooldownOperation = '请选择操作。';
       }
-      if (requiresValueRule(draft.resultType, draft.cooldownOperation, draft.lifecycleOperation)) {
+      if (draftRequiresValueRule(draft)) {
         validateCatalogRef(options, 'formulas', draft.value, draft.value, fieldErrors, 'value', { allowDisabled: true });
       }
       break;
@@ -2646,6 +2771,21 @@ function validateTypeSpecificFields(
         fieldErrors.statusOperation = '请选择操作。';
       }
       validateCatalogRef(options, 'statuses', draft.statusKey, draft.originalStatusKey, fieldErrors, 'statusKey');
+      if (!isStatusKind(draft.statusKind) || options.catalogLoadState?.statuses === 'failed') {
+        fieldErrors.statusKey ||= '状态种类尚未确认，请重新加载状态目录。';
+      }
+      if (isMovementSlowApply(draft)) {
+        if (!context.lifecycleEnabled || !context.hasDuration) {
+          fieldErrors.lifecycleBehavior = '普通移动减速需要启用有持续时间的父效果生命周期。';
+        }
+        const behavior = draft.lifecycleBehavior;
+        if (behavior.moment !== 'PERSISTENT') fieldErrors.moment = '普通移动减速只能持续生效。';
+        if (behavior.valueReadMode !== 'APPLICATION_SNAPSHOT') fieldErrors.valueReadMode = '普通移动减速必须使用施加时留存。';
+        if (behavior.stackValueMode !== 'SHARED') fieldErrors.stackValueMode = '普通移动减速必须整个实例共享数值。';
+        if (behavior.reapplicationValueMode !== 'REPLACE') fieldErrors.reapplicationValueMode = '普通移动减速的重复值必须覆盖。';
+        if (behavior.periodicExecutionMode) fieldErrors.periodicExecutionMode = '普通移动减速不能周期执行。';
+        validateCatalogRef(options, 'formulas', draft.value, draft.value, fieldErrors, 'value', { allowDisabled: true });
+      }
       break;
     case 'LIFECYCLE_OPERATION':
       requireNonEmpty(draft.targetEffectKey, fieldErrors, 'targetEffectKey', '请选择目标效果。');
@@ -2653,7 +2793,7 @@ function validateTypeSpecificFields(
         fieldErrors.lifecycleOperation = '请选择操作。';
       }
       validateLifecycleTarget(draft, options, fieldErrors, context.parentEffectKey);
-      if (requiresValueRule(draft.resultType, draft.cooldownOperation, draft.lifecycleOperation)) {
+      if (draftRequiresValueRule(draft)) {
         validateCatalogRef(options, 'formulas', draft.value, draft.value, fieldErrors, 'value', { allowDisabled: true });
       }
       break;
@@ -2685,6 +2825,13 @@ function validateTypeSpecificFields(
         'value',
         { allowDisabled: true }
       );
+      break;
+    case 'SHIELD_RECEIVED_MODIFIER':
+      if (draft.modifierOperation !== 'INCREASE' && draft.modifierOperation !== 'DECREASE') {
+        fieldErrors.modifierOperation = '请选择修正方式。';
+      }
+      validateModifierZoneRef(draft, options, fieldErrors, 'SHIELD');
+      validateCatalogRef(options, 'formulas', draft.value, draft.value, fieldErrors, 'value', { allowDisabled: true });
       break;
     case 'HEALING_MODIFIER':
       if (
@@ -2781,6 +2928,11 @@ function validateTypeSpecificFields(
       );
       if (draft.modifierZoneKey.trim()) {
         fieldErrors.modifierZoneKey = '该结果不能选择乘区。';
+      }
+      break;
+    case 'ATTACK_TIMER_RESET':
+      if (draft.modifierZoneKey.trim()) {
+        fieldErrors.modifierZoneKey = '普攻计时重置不能选择乘区。';
       }
       break;
     default: {
@@ -3245,6 +3397,11 @@ function validateCatalogRef(
   if (!trimmed) {
     return;
   }
+  if (kind === 'statuses' && options.catalogLoadState?.statuses !== 'ready') {
+    fieldErrors[field] = options.catalogLoadState?.statuses === 'failed'
+      ? INCOMPLETE_CATALOG_MESSAGE : '状态目录尚未加载完成，请等待或重试。';
+    return;
+  }
   if (options.catalogLoadState?.[kind] === 'failed') {
     fieldErrors[field] = INCOMPLETE_CATALOG_MESSAGE;
     return;
@@ -3428,6 +3585,13 @@ function cloneResultRequest(result: SkillEffectResultRequest): SkillEffectResult
         valueRule: { ...result.valueRule },
         detail: { ...result.detail }
       };
+    case 'SHIELD_RECEIVED_MODIFIER':
+      return {
+        ...result,
+        lifecycleBehavior,
+        valueRule: { ...result.valueRule },
+        detail: { ...result.detail }
+      };
     case 'HEALTH_FLOOR':
       return {
         ...result,
@@ -3453,6 +3617,7 @@ function cloneResultRequest(result: SkillEffectResultRequest): SkillEffectResult
         detail: { ...result.detail }
       };
     case 'SPELL_SHIELD':
+    case 'ATTACK_TIMER_RESET':
       return { ...result, lifecycleBehavior, valueRule: null, detail: {} };
     case 'ATTRIBUTE_CHANGE':
       return {
@@ -3500,7 +3665,8 @@ function cloneResultRequest(result: SkillEffectResultRequest): SkillEffectResult
         }
       };
     case 'STATUS_OPERATION':
-      return { ...result, lifecycleBehavior, valueRule: null, detail: { ...result.detail } };
+      return { ...result, lifecycleBehavior, valueRule: result.valueRule
+        ? { ...result.valueRule, value: { ...result.valueRule.value } } : null, detail: { ...result.detail } };
     case 'LIFECYCLE_OPERATION':
       if (result.valueRule === null) {
         return { ...result, lifecycleBehavior, valueRule: null, detail: { ...result.detail } };
@@ -3563,7 +3729,7 @@ function mapResultIssueField(
     if (resultType === 'SKILL_HASTE_MODIFIER') return 'skillHasteOperation';
     if (resultType === 'STATUS_OPERATION') return 'statusOperation';
     if (resultType === 'LIFECYCLE_OPERATION') return 'lifecycleOperation';
-    if (resultType === 'DAMAGE_MODIFIER' || resultType === 'HEALING_MODIFIER') {
+    if (resultType === 'DAMAGE_MODIFIER' || resultType === 'HEALING_MODIFIER' || resultType === 'SHIELD_RECEIVED_MODIFIER') {
       return 'modifierOperation';
     }
     return 'detail';

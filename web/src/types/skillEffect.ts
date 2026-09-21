@@ -10,6 +10,8 @@ export type SkillEffectResultType =
   | 'LIFECYCLE_OPERATION'
   | 'DAMAGE_MODIFIER'
   | 'HEALING_MODIFIER'
+  | 'SHIELD_RECEIVED_MODIFIER'
+  | 'ATTACK_TIMER_RESET'
   | 'DAMAGE_IMMUNITY'
   | 'HEALTH_FLOOR'
   | 'SPELL_SHIELD'
@@ -56,9 +58,8 @@ export type SkillEffectCriticalPolicy = {
 };
 
 /**
- * 暂存的技能侧吸血结构。
- * 后续设计应以来源对象的吸血属性和游戏级结算规则为主；这里不应要求每个技能重复配置，
- * 最终只保留确有必要的伤害例外或效率修正。全局规则冻结前保持现有接口无损读写。
+ * 当前伤害结果的显式吸血资格、结算依据与效率。
+ * 空数组表示没有吸血规则，不会继承默认资格；按已核定来源填写适用规则。
  */
 export type SkillEffectVampRule = {
   vampType: SkillEffectVampType;
@@ -68,7 +69,7 @@ export type SkillEffectVampRule = {
 
 export type AttributeChangeOperation = 'INCREASE' | 'DECREASE' | 'SET';
 export type ResourceChangeOperation = 'RESTORE' | 'CONSUME' | 'REFUND';
-export type CooldownChangeOperation = 'REDUCE' | 'INCREASE' | 'RESET';
+export type CooldownChangeOperation = 'REDUCE' | 'INCREASE' | 'RESET' | 'REDUCE_REMAINING_RATIO';
 export type StatusOperation = 'APPLY' | 'REMOVE';
 
 export type SkillEffectLifecycleInstanceScope = 'SKILL' | 'SOURCE' | 'TARGET' | 'SOURCE_TARGET';
@@ -94,6 +95,7 @@ export type SkillEffectLifecycleOperation =
   | 'DECREASE'
   | 'SET'
   | 'REFRESH'
+  | 'EXTEND_DURATION'
   | 'CONSUME'
   | 'REMOVE';
 
@@ -147,6 +149,11 @@ export type SkillEffectHealingModifierDetail = {
   healingKind: SkillEffectHealingKind;
 };
 
+export type SkillEffectShieldReceivedModifierDetail = {
+  modifierZoneKey: string;
+  operation: SkillEffectModifierOperation;
+};
+
 export type SkillEffectDamageImmunityDetail = {
   damageTypeKey: string | null;
   deliveryKind: SkillEffectDamageFilterDeliveryKind;
@@ -178,7 +185,7 @@ export type SkillEffectResourceChangeDetail = {
 
 export type SkillEffectCooldownAdjustDetail = {
   affectedSkillScope: SkillEffectAffectedSkillScope;
-  operation: 'REDUCE' | 'INCREASE';
+  operation: 'REDUCE' | 'INCREASE' | 'REDUCE_REMAINING_RATIO';
 };
 
 export type SkillEffectCooldownResetDetail = {
@@ -198,7 +205,7 @@ export type SkillEffectStatusOperationDetail = {
 
 export type SkillEffectLifecycleAdjustDetail = {
   targetEffectKey: string;
-  operation: 'INCREASE' | 'DECREASE' | 'SET' | 'CONSUME';
+  operation: 'INCREASE' | 'DECREASE' | 'SET' | 'CONSUME' | 'EXTEND_DURATION';
 };
 
 export type SkillEffectLifecycleRefreshRemoveDetail = {
@@ -268,7 +275,7 @@ export type SkillEffectCooldownChangeResult =
 
 export type SkillEffectStatusOperationResult = SkillEffectResultBase & {
   resultType: 'STATUS_OPERATION';
-  valueRule: null;
+  valueRule: SkillEffectValueRule | null;
   detail: SkillEffectStatusOperationDetail;
 };
 
@@ -300,6 +307,12 @@ export type SkillEffectHealingModifierResult = SkillEffectResultBase & {
   detail: SkillEffectHealingModifierDetail;
 };
 
+export type SkillEffectShieldReceivedModifierResult = SkillEffectResultBase & {
+  resultType: 'SHIELD_RECEIVED_MODIFIER';
+  valueRule: SkillEffectValueRule;
+  detail: SkillEffectShieldReceivedModifierDetail;
+};
+
 export type SkillEffectDamageImmunityResult = SkillEffectResultBase & {
   resultType: 'DAMAGE_IMMUNITY';
   valueRule: null;
@@ -314,6 +327,12 @@ export type SkillEffectHealthFloorResult = SkillEffectResultBase & {
 
 export type SkillEffectSpellShieldResult = SkillEffectResultBase & {
   resultType: 'SPELL_SHIELD';
+  valueRule: null;
+  detail: SkillEffectEmptyDetail;
+};
+
+export type SkillEffectAttackTimerResetResult = SkillEffectResultBase & {
+  resultType: 'ATTACK_TIMER_RESET';
   valueRule: null;
   detail: SkillEffectEmptyDetail;
 };
@@ -353,9 +372,11 @@ export type SkillEffectResult =
   | SkillEffectLifecycleOperationResult
   | SkillEffectDamageModifierResult
   | SkillEffectHealingModifierResult
+  | SkillEffectShieldReceivedModifierResult
   | SkillEffectDamageImmunityResult
   | SkillEffectHealthFloorResult
   | SkillEffectSpellShieldResult
+  | SkillEffectAttackTimerResetResult
   | SkillEffectExecuteResult
   | SkillEffectHitLinkApplicationResult
   | SkillEffectAttackLinkApplicationResult
